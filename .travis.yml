@@ -1,0 +1,4 @@
+language: objective-c
+osx_image: xcode9.2
+xcode_workspace: Maccy.xcworkspace
+xcode_scheme: MaccyTests
