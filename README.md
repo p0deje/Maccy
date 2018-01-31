@@ -36,4 +36,4 @@ $ defaults write org.p0deje.Maccy historySize 100 # default is 999
 
 ## License
 
-[MIT][LICENSE]
+[MIT](./LICENSE)
