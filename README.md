@@ -4,16 +4,19 @@
 
 ## About
 
-Maccy is a simple clipboard manager for macOS inspired by [Parcellite](http://parcellite.sourceforge.net).
+Maccy is a simple clipboard manager for macOS. It keeps the history of what you copy
+and lets you easily navigate, search and use previous clipboard contents.
 
 There are dozens of similar applications out there, so why build another?
-
-* learn Swift
-* get acquainted with macOS application development
+Over the past years since I moved from Linux to macOS, I struggled to find
+a clipboard manager that is as free and simple as [Parcellite](http://parcellite.sourceforge.net).
+Also, I wanted to learn Swift and get acquainted with macOS application development.
 
 ## Features
 
-* lightweight application using standard macOS menu
+* open source and free
+* lightweight
+* uses standard macOS menu
 * search-as-you-type
 
 ## Usage
