@@ -1,6 +1,6 @@
 import Cocoa
 
-class MenuItem: NSMenuItem {
+class HistoryMenuItem: NSMenuItem {
   private let showMaxLength = 50
 
   private var fullTitle: String?

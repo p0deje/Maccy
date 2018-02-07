@@ -1,85 +1,61 @@
-import Cocoa
+import AppKit
 
-class Menu {
-  private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-  private let imageName = "StatusBarMenuImage"
-  private let menu = MGKMenuWithFilter(title: "Maccy")!
-
-  private let history: History
-  private let clipboard: Clipboard
-
-  private var clearItem: NSMenuItem {
-    let item = NSMenuItem(title: "Clear", action: #selector(clear), keyEquivalent: "c")
-    item.target = self
-    return item
+// Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
+class Menu: NSMenu {
+  required init(coder decoder: NSCoder) {
+    super.init(coder: decoder)
   }
 
-  private var aboutItem: NSMenuItem {
-    let item = NSMenuItem(title: "About", action: #selector(openAbout), keyEquivalent: "")
-    item.target = self
-    return item
+  override init(title: String) {
+    super.init(title: title)
+
+    let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: 20, height: 21))
+    headerItemView.title = title
+
+    let headerItem = NSMenuItem()
+    headerItem.title = title
+    headerItem.view = headerItemView
+
+    addItem(headerItem)
   }
 
-  init(history: History, clipboard: Clipboard) {
-    self.history = history
-    self.clipboard = clipboard
-  }
+  func updateFilter(filter: String) {
+    for item in items[1...(items.count - 1)] {
+      item.isHidden = !validateItemWithFilter(item, filter)
+    }
 
-  func start() {
-    statusItem.button!.image = NSImage(named: NSImage.Name(rawValue: imageName))
-    statusItem.menu = menu
+    if highlightedItem == nil || highlightedItem?.isHidden == true {
+      var itemToHighlight: NSMenuItem?
+      for item in items[1...(items.count - 1)] {
+        if !item.isHidden && item.isEnabled {
+          itemToHighlight = item
+          break
+        }
+      }
 
-    refresh()
-
-    clipboard.onNewCopy(history.add)
-    clipboard.onNewCopy({ (_ string: String) -> Void in self.refresh() })
-    clipboard.startListening()
-  }
-
-  func popUp() {
-    refresh()
-    menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
-  }
-
-  private func refresh() {
-    let filterItem = menu.item(at: 0)
-    menu.removeAllItems()
-    menu.addItem(filterItem!)
-    populateItems()
-    populateFooter()
-  }
-
-  private func populateItems() {
-    for entry in history.all() {
-      menu.addItem(historyItem(entry))
+      if itemToHighlight != nil {
+        let highlightItemSelector = NSSelectorFromString("highlightItem:")
+        perform(highlightItemSelector, with: itemToHighlight)
+      }
     }
   }
 
-  private func populateFooter() {
-    menu.addItem(NSMenuItem.separator())
-    menu.addItem(clearItem)
-    menu.addItem(aboutItem)
-    menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q"))
-  }
+  func validateItemWithFilter(_ item: NSMenuItem, _ filter: String) -> Bool {
+    if filter.isEmpty {
+      return true
+    }
 
-  private func addItem(_ string: String) {
-    menu.insertItem(historyItem(string), at: 0)
-  }
+    if item.isSeparatorItem || !item.isEnabled {
+      return false
+    }
 
-  private func historyItem(_ title: String) -> MenuItem {
-    return MenuItem(title: title, clipboard: clipboard)
-  }
+    let range = item.title.range(
+      of: filter,
+      options: .caseInsensitive,
+      range: nil,
+      locale: nil
+    )
 
-  @objc
-  func clear(_ sender: NSMenuItem) {
-    history.clear()
-    menu.removeAllItems()
-    populateFooter()
-  }
-
-  @objc
-  func openAbout(_ sender: NSMenuItem) {
-    NSApp.activate(ignoringOtherApps: true)
-    NSApp.orderFrontStandardAboutPanel(nil)
+    return (range != nil)
   }
 }

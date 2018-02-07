@@ -1,4 +1,4 @@
-import Foundation
+import AppKit
 
 class History {
   private var storageKey = "history"
@@ -9,8 +9,9 @@ class History {
   }
 
   func all() -> [String] {
-    let savedHistory = UserDefaults.standard.array(forKey: storageKey)
-    guard savedHistory != nil else { return [] }
+    guard let savedHistory = UserDefaults.standard.array(forKey: storageKey) else {
+      return []
+    }
 
     var history = savedHistory as! [String]
     let maxSize = UserDefaults.standard.integer(forKey: sizeKey)
