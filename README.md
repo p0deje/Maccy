@@ -1,6 +1,6 @@
 # Maccy.app [![Travis builds](https://travis-ci.org/p0deje/Maccy.svg?branch=master)](https://travis-ci.org/p0deje/Maccy)
 
-![Maccy.app](https://user-images.githubusercontent.com/665846/35605511-5a443776-0673-11e8-8d30-a0293a49332b.gif)
+![Maccy.app](https://user-images.githubusercontent.com/665846/36135303-8c4f80ae-10b4-11e8-9940-978e228cb6bd.gif)
 
 ## About
 
