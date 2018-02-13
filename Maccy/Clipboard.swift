@@ -37,9 +37,10 @@ class Clipboard {
       return
     }
 
-    let lastItem = pasteboard.string(forType: NSPasteboard.PasteboardType.string)
-    for hook in hooks {
-      hook(lastItem!)
+    if let lastItem = pasteboard.string(forType: NSPasteboard.PasteboardType.string) {
+      for hook in hooks {
+        hook(lastItem)
+      }
     }
 
     changeCount = pasteboard.changeCount
