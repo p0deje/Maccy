@@ -11,6 +11,8 @@
 		BF35139313DA8AD935BC6942 /* Pods_Maccy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E384E9DB5B6F2F61505B414 /* Pods_Maccy.framework */; };
 		DA026EE61E56E3010067A5E2 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DA026EE51E56E3010067A5E2 /* Credits.html */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
+		DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */; };
+		DA1EDE452045B68700479723 /* MenuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE442045B68700479723 /* MenuTests.swift */; };
 		DA246D611E56C9EA001E40F3 /* Application.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA246D601E56C9EA001E40F3 /* Application.xib */; };
 		DA2C752A2029FD6B0090965D /* FilterMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2C75292029FD6B0090965D /* FilterMenuItemView.swift */; };
 		DA2C752C2029FE990090965D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2C752B2029FE990090965D /* Menu.swift */; };
@@ -66,6 +68,8 @@
 		BCB91AA0421F8C0B66C03E68 /* Pods-MaccyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaccyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MaccyTests/Pods-MaccyTests.release.xcconfig"; sourceTree = "<group>"; };
 		DA026EE51E56E3010067A5E2 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
 		DA0EF1871E444B2A00E58577 /* Clipboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
+		DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMenuItemTests.swift; sourceTree = "<group>"; };
+		DA1EDE442045B68700479723 /* MenuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTests.swift; sourceTree = "<group>"; };
 		DA246D601E56C9EA001E40F3 /* Application.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Application.xib; sourceTree = "<group>"; };
 		DA2C75292029FD6B0090965D /* FilterMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterMenuItemView.swift; sourceTree = "<group>"; };
 		DA2C752B2029FE990090965D /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
@@ -131,6 +135,8 @@
 			children = (
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
+				DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */,
+				DA1EDE442045B68700479723 /* MenuTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
 			);
 			path = MaccyTests;
@@ -163,12 +169,12 @@
 				DA6373971E4AB9BB00263391 /* Assets.xcassets */,
 				DAEE38461E3DBEB100DD2966 /* AppDelegate.swift */,
 				DA0EF1871E444B2A00E58577 /* Clipboard.swift */,
+				DA2C75292029FD6B0090965D /* FilterMenuItemView.swift */,
 				DAEE38531E3DD6F100DD2966 /* History.swift */,
+				DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */,
 				DAF176C5202AA56B00C5FD0D /* Keys.swift */,
 				DA2C752B2029FE990090965D /* Menu.swift */,
-				DA2C75292029FD6B0090965D /* FilterMenuItemView.swift */,
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
-				DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */,
 				DAEE384D1E3DBEB100DD2966 /* Info.plist */,
 				DA026EE51E56E3010067A5E2 /* Credits.html */,
 			);
@@ -391,6 +397,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */,
+				DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */,
+				DA1EDE452045B68700479723 /* MenuTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

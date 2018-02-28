@@ -40,7 +40,7 @@ class Menu: NSMenu {
     }
   }
 
-  func validateItemWithFilter(_ item: NSMenuItem, _ filter: String) -> Bool {
+  private func validateItemWithFilter(_ item: NSMenuItem, _ filter: String) -> Bool {
     if filter.isEmpty {
       return true
     }

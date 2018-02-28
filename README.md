@@ -34,7 +34,7 @@ $ defaults write org.p0deje.Maccy historySize 100 # default is 999
 - [ ] allow to customize keyboard shortcut
 - [x] ~~add preferences window~~ use `defaults`
 - [x] ~~automatically start at login~~ just add Maccy to your "Login Items"
-- [ ] add more unit tests
+- [x] add more unit tests
 - [ ] add UI tests
 
 ## License
