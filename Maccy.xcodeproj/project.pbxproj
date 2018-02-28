@@ -10,6 +10,7 @@
 		3D51B497E78562155A76D9C5 /* Pods_MaccyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 53E557A0AB4A09372DB9C529 /* Pods_MaccyTests.framework */; };
 		BF35139313DA8AD935BC6942 /* Pods_Maccy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E384E9DB5B6F2F61505B414 /* Pods_Maccy.framework */; };
 		DA026EE61E56E3010067A5E2 /* Credits.html in Resources */ = {isa = PBXBuildFile; fileRef = DA026EE51E56E3010067A5E2 /* Credits.html */; };
+		DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EE7B8204657830025FC60 /* MaccyUITests.swift */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
 		DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */; };
 		DA1EDE452045B68700479723 /* MenuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE442045B68700479723 /* MenuTests.swift */; };
@@ -28,6 +29,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		DA0EE7BB204657840025FC60 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = DAEE383B1E3DBEB100DD2966 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = DAEE38421E3DBEB100DD2966;
+			remoteInfo = Maccy;
+		};
 		DA360DB51E3DF137005C6F6B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = DAEE383B1E3DBEB100DD2966 /* Project object */;
@@ -67,6 +75,9 @@
 		8070C4331414C9D54E247DE2 /* Pods-Maccy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maccy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Maccy/Pods-Maccy.debug.xcconfig"; sourceTree = "<group>"; };
 		BCB91AA0421F8C0B66C03E68 /* Pods-MaccyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaccyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MaccyTests/Pods-MaccyTests.release.xcconfig"; sourceTree = "<group>"; };
 		DA026EE51E56E3010067A5E2 /* Credits.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = Credits.html; sourceTree = "<group>"; };
+		DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		DA0EE7B8204657830025FC60 /* MaccyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaccyUITests.swift; sourceTree = "<group>"; };
+		DA0EE7BA204657840025FC60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA0EF1871E444B2A00E58577 /* Clipboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
 		DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMenuItemTests.swift; sourceTree = "<group>"; };
 		DA1EDE442045B68700479723 /* MenuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTests.swift; sourceTree = "<group>"; };
@@ -89,6 +100,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		DA0EE7B3204657830025FC60 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA360DAD1E3DF137005C6F6B /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -130,6 +148,15 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		DA0EE7B7204657830025FC60 /* MaccyUITests */ = {
+			isa = PBXGroup;
+			children = (
+				DA0EE7B8204657830025FC60 /* MaccyUITests.swift */,
+				DA0EE7BA204657840025FC60 /* Info.plist */,
+			);
+			path = MaccyUITests;
+			sourceTree = "<group>";
+		};
 		DA360DB11E3DF137005C6F6B /* MaccyTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -147,6 +174,7 @@
 			children = (
 				DAEE38451E3DBEB100DD2966 /* Maccy */,
 				DA360DB11E3DF137005C6F6B /* MaccyTests */,
+				DA0EE7B7204657830025FC60 /* MaccyUITests */,
 				DAEE38441E3DBEB100DD2966 /* Products */,
 				C2D16D1C2EE365D52E1EE446 /* Frameworks */,
 				B448BC1DF14922465B623F3B /* Pods */,
@@ -158,6 +186,7 @@
 			children = (
 				DAEE38431E3DBEB100DD2966 /* Maccy.app */,
 				DA360DB01E3DF137005C6F6B /* MaccyTests.xctest */,
+				DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -184,6 +213,24 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		DA0EE7B5204657830025FC60 /* MaccyUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DA0EE7BF204657840025FC60 /* Build configuration list for PBXNativeTarget "MaccyUITests" */;
+			buildPhases = (
+				DA0EE7B2204657830025FC60 /* Sources */,
+				DA0EE7B3204657830025FC60 /* Frameworks */,
+				DA0EE7B4204657830025FC60 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				DA0EE7BC204657840025FC60 /* PBXTargetDependency */,
+			);
+			name = MaccyUITests;
+			productName = MaccyUITests;
+			productReference = DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
 		DA360DAF1E3DF137005C6F6B /* MaccyTests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA360DB71E3DF137005C6F6B /* Build configuration list for PBXNativeTarget "MaccyTests" */;
@@ -237,6 +284,11 @@
 				LastUpgradeCheck = 0920;
 				ORGANIZATIONNAME = p0deje;
 				TargetAttributes = {
+					DA0EE7B5204657830025FC60 = {
+						CreatedOnToolsVersion = 9.2;
+						ProvisioningStyle = Automatic;
+						TestTargetID = DAEE38421E3DBEB100DD2966;
+					};
 					DA360DAF1E3DF137005C6F6B = {
 						CreatedOnToolsVersion = 8.2.1;
 						LastSwiftMigration = 0920;
@@ -265,11 +317,19 @@
 			targets = (
 				DAEE38421E3DBEB100DD2966 /* Maccy */,
 				DA360DAF1E3DF137005C6F6B /* MaccyTests */,
+				DA0EE7B5204657830025FC60 /* MaccyUITests */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		DA0EE7B4204657830025FC60 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA360DAE1E3DF137005C6F6B /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -392,6 +452,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		DA0EE7B2204657830025FC60 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DA360DAC1E3DF137005C6F6B /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -421,6 +489,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		DA0EE7BC204657840025FC60 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = DAEE38421E3DBEB100DD2966 /* Maccy */;
+			targetProxy = DA0EE7BB204657840025FC60 /* PBXContainerItemProxy */;
+		};
 		DA360DB61E3DF137005C6F6B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = DAEE38421E3DBEB100DD2966 /* Maccy */;
@@ -429,6 +502,46 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		DA0EE7BD204657840025FC60 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = MaccyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.MaccyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_TARGET_NAME = Maccy;
+			};
+			name = Debug;
+		};
+		DA0EE7BE204657840025FC60 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				INFOPLIST_FILE = MaccyUITests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.MaccyUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 4.0;
+				TEST_TARGET_NAME = Maccy;
+			};
+			name = Release;
+		};
 		DA360DB81E3DF137005C6F6B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 52647E410DB1165660963FBC /* Pods-MaccyTests.debug.xcconfig */;
@@ -609,6 +722,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		DA0EE7BF204657840025FC60 /* Build configuration list for PBXNativeTarget "MaccyUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				DA0EE7BD204657840025FC60 /* Debug */,
+				DA0EE7BE204657840025FC60 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		DA360DB71E3DF137005C6F6B /* Build configuration list for PBXNativeTarget "MaccyTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

@@ -35,7 +35,7 @@ $ defaults write org.p0deje.Maccy historySize 100 # default is 999
 - [x] ~~add preferences window~~ use `defaults`
 - [x] ~~automatically start at login~~ just add Maccy to your "Login Items"
 - [x] add more unit tests
-- [ ] add UI tests
+- [x] add UI tests
 
 ## License
 

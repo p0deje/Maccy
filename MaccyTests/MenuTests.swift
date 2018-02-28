@@ -4,6 +4,7 @@ import XCTest
 // Somehow highlighted item is always nil, so highlighting tests fail.
 class MenuTests: XCTestCase {
   let clipboard = Clipboard()
+  var menu: Menu!
   
   lazy var menuItems: [HistoryMenuItem] = [
     HistoryMenuItem(title: "foo", clipboard: clipboard),
@@ -11,13 +12,14 @@ class MenuTests: XCTestCase {
     HistoryMenuItem(title: "baz", clipboard: clipboard)
   ]
   
-  lazy var menu: Menu = { [unowned self] in
-    let menu = Menu()
+  override func setUp() {
+    super.setUp()
+    
+    menu = Menu()
     for menuItem in menuItems {
       menu.addItem(menuItem)
     }
-    return menu
-  }()
+  }
 
   func testSearchWithExactMatch() {
     menu.updateFilter(filter: "foo")
