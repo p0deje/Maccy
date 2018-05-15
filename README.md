@@ -25,17 +25,21 @@ Also, I wanted to learn Swift and get acquainted with macOS application developm
 
 ## Customization
 
+### Popup Hotkey
+
+```bash
+$ defaults write org.p0deje.Maccy hotKey control+option+m # default is command+shift+c
+```
+
+### History Size
+
 ```bash
 $ defaults write org.p0deje.Maccy historySize 100 # default is 999
 ```
 
-## To Do
+### Automatically Start at Login
 
-- [ ] allow to customize keyboard shortcut
-- [x] ~~add preferences window~~ use `defaults`
-- [x] ~~automatically start at login~~ just add Maccy to your "Login Items"
-- [x] add more unit tests
-- [x] add UI tests
+Just add Maccy to your "Login items".
 
 ## License
 

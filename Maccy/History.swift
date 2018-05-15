@@ -1,8 +1,8 @@
 import AppKit
 
 class History {
-  private var storageKey = "history"
-  private var sizeKey = "historySize"
+  private let storageKey = "history"
+  private let sizeKey = "historySize"
 
   init() {
     UserDefaults.standard.register(defaults: [sizeKey: 999])
