@@ -8,7 +8,7 @@ class Maccy {
   private let clipboard: Clipboard
 
   private var clearItem: NSMenuItem {
-    let item = NSMenuItem(title: "Clear", action: #selector(clear), keyEquivalent: "c")
+    let item = NSMenuItem(title: "Clear", action: #selector(clear), keyEquivalent: "")
     item.target = self
     return item
   }
