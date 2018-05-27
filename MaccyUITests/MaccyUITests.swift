@@ -9,6 +9,14 @@ class MaccyUITests: XCTestCase {
   let copy2 = UUID().uuidString
   let copy3 = UUID().uuidString
 
+  var statusItem: XCUIElement {
+    return app.statusItems.firstMatch
+  }
+  
+  var statusItemCoordinates: XCUICoordinate {
+    return statusItem.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+  }
+  
   var popUpEvents: [CGEvent] {
     let eventDown = CGEvent(keyboardEventSource: nil, virtualKey: UInt16(kVK_ANSI_C), keyDown: true)!
     eventDown.flags = [CGEventFlags.maskCommand, CGEventFlags.maskShift]
@@ -32,47 +40,77 @@ class MaccyUITests: XCTestCase {
   }
 
   func testSearchAndCopy() {
-    popUp()
+    popUpWithHotkey()
     app.typeText(copy1)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy1)
 
-    popUp()
+    popUpWithHotkey()
     app.typeText(copy3)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
 
-    popUp()
+    popUpWithHotkey()
     app.typeText(copy2)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
   }
 
   func testSelectWithArrowKeysAndCopy() {
-    popUp()
+    popUpWithHotkey()
     typeKey(.downArrow)
     typeKey(.downArrow)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
 
-    popUp()
+    popUpWithHotkey()
     typeKey(.downArrow)
     typeKey(.downArrow)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
 
-    popUp()
+    popUpWithHotkey()
     typeKey(.downArrow)
     typeKey(.downArrow)
     typeKey(.downArrow)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy1)
   }
+  
+  func testCloseWithMouseAndSelectWithArrowKeys() {
+    for _ in 1...2 {
+      popUpWithMouse()
+      typeKey(.downArrow)
+      typeKey(.downArrow)
+      hoverTitleField()
+      hideWithMouse()
+    }
 
-  private func popUp() {
+    popUpWithMouse()
+    typeKey(.downArrow)
+    typeKey(.downArrow)
+    typeKey(.enter)
+    
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+  }
+
+  private func popUpWithHotkey() {
     for event in popUpEvents {
       event.post(tap: CGEventTapLocation.cghidEventTap)
     }
+  }
+  
+  private func popUpWithMouse() {
+    statusItem.click()
+  }
+  
+  private func hoverTitleField() {
+    statusItemCoordinates.withOffset(CGVector(dx: 20, dy: 40)).hover()
+  }
+  
+  private func hideWithMouse() {
+    statusItemCoordinates.withOffset(CGVector(dx: -40, dy: 40)).click()
+    sleep(1)
   }
 
   private func copyToClipboard(_ content: String) {
