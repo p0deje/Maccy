@@ -37,6 +37,12 @@ $ defaults write org.p0deje.Maccy hotKey control+option+m # default is command+s
 $ defaults write org.p0deje.Maccy historySize 100 # default is 999
 ```
 
+### Show/Hide Icon in Status Bar
+
+```bash
+defaults write org.p0deje.Maccy showInStatusBar false # default is true
+```
+
 ### Automatically Start at Login
 
 Just add Maccy to your "Login items".

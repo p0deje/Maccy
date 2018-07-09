@@ -3,6 +3,7 @@ import Cocoa
 class Maccy {
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
   private let menu = Menu(title: "Maccy")
+  private let showInStatusBar = "showInStatusBar"
 
   private let history: History
   private let clipboard: Clipboard
@@ -22,11 +23,15 @@ class Maccy {
   init(history: History, clipboard: Clipboard) {
     self.history = history
     self.clipboard = clipboard
+    
+    UserDefaults.standard.register(defaults: [showInStatusBar: true])
   }
 
   func start() {
-    statusItem.button!.image = NSImage(named: NSImage.Name(rawValue: "StatusBarMenuImage"))
-    statusItem.menu = menu
+    if UserDefaults.standard.bool(forKey: showInStatusBar) {
+      statusItem.button!.image = NSImage(named: NSImage.Name(rawValue: "StatusBarMenuImage"))
+      statusItem.menu = menu
+    }
 
     refresh()
 
