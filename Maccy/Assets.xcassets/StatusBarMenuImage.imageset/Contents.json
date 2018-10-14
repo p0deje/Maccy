@@ -2,11 +2,34 @@
   "images" : [
     {
       "idiom" : "mac",
+      "filename" : "clipboard-paste-button-1.png",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "mac",
+      "filename" : "clipboard-paste-button-3.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
       "filename" : "clipboard-paste-button.png",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "mac",
+      "filename" : "clipboard-paste-button-4.png",
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "dark"
+        }
+      ],
       "scale" : "2x"
     }
   ],

@@ -51,6 +51,11 @@ final class HotKeysController {
 	// MARK: - Registration
 
 	static func register(_ hotKey: HotKey) {
+        // Don't register an already registered HotKey
+        if hotKeys.values.first(where: { $0.identifier == hotKey.identifier }) != nil {
+            return
+        }
+
 		// Increment the count which will become out next ID
 		hotKeysCount += 1
 

@@ -1,4 +1,4 @@
-platform :osx, '10.12'
+platform :osx, '10.14'
 
 target 'Maccy' do
   use_frameworks!

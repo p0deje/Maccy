@@ -50,7 +50,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     field.font = NSFont.menuFont(ofSize: 13)
     field.textColor = NSColor.disabledControlTextColor
     field.cell!.usesSingleLineMode = true
-    field.cell!.lineBreakMode = NSParagraphStyle.LineBreakMode.byTruncatingHead
+    field.cell!.lineBreakMode = NSLineBreakMode.byTruncatingHead
     return field
   }()
 
@@ -109,7 +109,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
   }
 
-  override func controlTextDidChange(_ obj: Notification) {
+  func controlTextDidChange(_ obj: Notification) {
     updateVisibility()
     fireNotification()
   }
@@ -142,7 +142,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       target: self,
       argument: nil,
       order: 0,
-      modes: [RunLoopMode.eventTrackingRunLoopMode]
+      modes: [RunLoop.Mode.eventTracking]
     )
 
     updateVisibility()

@@ -8,7 +8,7 @@
 
 Simple global shortcuts in macOS. HotKey wraps the Carbon APIs for dealing with global hot keys to make it easy to use in Swift.
 
-**HotKey, along with [Color](https://github.com/soffes/Color), were created for use in [Contrast](https://usecontrast.com),a macOS app for checking designs for accessible color combinations.**
+**HotKey, along with [Color](https://github.com/soffes/Color), were created for use in [Contrast](https://usecontrast.com), a macOS app for checking designs for accessible color combinations.**
 
 ## Installation
 
@@ -39,7 +39,7 @@ pod 'HotKey'
 
 ## Usage
 
-Simply initlaize a `HotKey` with a key and modifiers:
+Simply initialize a `HotKey` with a key and modifiers:
 
 ```swift
 // Setup hot key for ⌥⌘R

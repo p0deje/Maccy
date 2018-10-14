@@ -29,7 +29,7 @@ class Maccy {
 
   func start() {
     if UserDefaults.standard.bool(forKey: showInStatusBar) {
-      statusItem.button!.image = NSImage(named: NSImage.Name(rawValue: "StatusBarMenuImage"))
+      statusItem.button!.image = NSImage(named: "StatusBarMenuImage")
       statusItem.menu = menu
     }
 
