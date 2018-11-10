@@ -1,6 +1,7 @@
 import Cocoa
 
 class Maccy {
+  private let about = About()
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
   private let menu = Menu(title: "Maccy")
   private let showInStatusBar = "showInStatusBar"
@@ -15,8 +16,8 @@ class Maccy {
   }
 
   private var aboutItem: NSMenuItem {
-    let item = NSMenuItem(title: "About", action: #selector(openAbout), keyEquivalent: "")
-    item.target = self
+    let item = NSMenuItem(title: "About", action: #selector(about.openAbout), keyEquivalent: "")
+    item.target = about
     return item
   }
 
@@ -82,11 +83,5 @@ class Maccy {
     history.clear()
     menu.removeAllItems()
     populateFooter()
-  }
-
-  @objc
-  func openAbout(_ sender: NSMenuItem) {
-    NSApp.activate(ignoringOtherApps: true)
-    NSApp.orderFrontStandardAboutPanel(nil)
   }
 }
