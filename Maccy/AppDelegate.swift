@@ -5,7 +5,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   let clipboard = Clipboard()
   let history = History()
   let hotKey = GlobalHotKey()
-  
+
   var maccy: Maccy {
     return Maccy(history: history, clipboard: clipboard)
   }

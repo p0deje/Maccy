@@ -23,7 +23,7 @@ class Maccy {
   init(history: History, clipboard: Clipboard) {
     self.history = history
     self.clipboard = clipboard
-    
+
     UserDefaults.standard.register(defaults: [showInStatusBar: true])
   }
 
@@ -37,6 +37,9 @@ class Maccy {
 
     clipboard.onNewCopy(history.add)
     clipboard.onNewCopy({ (_ string: String) -> Void in self.refresh() })
+    clipboard.onRemovedCopy(history.removeLast)
+    clipboard.onRemovedCopy({ self.refresh() })
+
     clipboard.startListening()
   }
 

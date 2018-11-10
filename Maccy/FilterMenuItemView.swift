@@ -125,8 +125,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   @objc
   func fireNotification() {
     if let item = self.enclosingMenuItem {
-      if let menu = item.menu {
-        (menu as! Menu).updateFilter(filter: queryField.stringValue)
+      if let menu = item.menu as? Menu {
+        menu.updateFilter(filter: queryField.stringValue)
       }
     }
   }
@@ -195,4 +195,3 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     return false
   }
 }
-

@@ -8,29 +8,29 @@ class GlobalHotKey {
 
   private let hotKeyStore = "hotKey"
   private let defaultKeyBinding = "command+shift+c"
-  private var hotKey: HotKey? = nil
-  
+  private var hotKey: HotKey?
+
   init() {
     UserDefaults.standard.register(defaults: [hotKeyStore: defaultKeyBinding])
     registerHotKey()
   }
-  
+
   private func registerHotKey() {
     guard let keybindingString = UserDefaults.standard.string(forKey: hotKeyStore) else {
       return
     }
     var keysList = keybindingString.split(separator: "+")
-    
+
     guard let keyString = keysList.popLast() else {
       return
     }
     guard let key = Key(string: String(keyString)) else {
       return
     }
-    
+
     var modifiers: NSEvent.ModifierFlags = []
     for keyString in keysList {
-      switch (keyString) {
+      switch keyString {
       case "command":
         modifiers.insert(.command)
       case "control":
@@ -42,7 +42,7 @@ class GlobalHotKey {
       default: ()
       }
     }
-    
+
     hotKey = HotKey(key: key, modifiers: modifiers)
   }
 }

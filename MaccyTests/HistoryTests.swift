@@ -43,8 +43,8 @@ class HistoryTests: XCTestCase {
   }
 
   func testMaxSize() {
-    for i in 0...10 {
-      history.add(String(i))
+    for index in 0...10 {
+      history.add(String(index))
     }
 
     XCTAssertEqual(history.all().count, 10)
@@ -53,13 +53,20 @@ class HistoryTests: XCTestCase {
   }
 
   func testMaxSizeIsChanged() {
-    for i in 0...10 {
-      history.add(String(i))
+    for index in 0...10 {
+      history.add(String(index))
     }
     UserDefaults.standard.set(5, forKey: "historySize")
 
     XCTAssertEqual(history.all().count, 5)
     XCTAssertTrue(history.all().contains("10"))
     XCTAssertFalse(history.all().contains("5"))
+  }
+
+  func testRemovingLast() {
+    history.add("foo")
+    history.add("bar")
+    history.removeLast()
+    XCTAssertEqual(history.all(), ["bar"])
   }
 }

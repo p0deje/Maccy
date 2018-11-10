@@ -98,10 +98,12 @@ class MaccyUITests: XCTestCase {
     for event in popUpEvents {
       event.post(tap: CGEventTapLocation.cghidEventTap)
     }
+    sleep(1) // give Maccy some time to popup
   }
   
   private func popUpWithMouse() {
     statusItem.click()
+    sleep(1) // give Maccy some time to popup
   }
   
   private func hoverTitleField() {

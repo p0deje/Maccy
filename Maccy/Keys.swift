@@ -32,9 +32,9 @@ class Keys {
     Key.f16,
     Key.f17,
     Key.f18,
-    Key.f19,
+    Key.f19
   ]
-  
+
   static func shouldPassThrough(_ key: Key) -> Bool {
     return keysToSkip.contains(key)
   }

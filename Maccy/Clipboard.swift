@@ -1,21 +1,28 @@
 import AppKit
 
 class Clipboard {
-  typealias Hook = (String) -> Void
+  typealias OnNewCopyHook = (String) -> Void
+  typealias OnRemovedCopyHook = () -> Void
 
   private let pasteboard = NSPasteboard.general
   private let timerInterval = 1.0
 
   private var changeCount: Int
-  private var hooks: [Hook]
+  private var onNewCopyHooks: [OnNewCopyHook]
+  private var onRemovedCopyHooks: [OnRemovedCopyHook]
 
   init() {
     changeCount = pasteboard.changeCount
-    hooks = []
+    onNewCopyHooks = []
+    onRemovedCopyHooks = []
   }
 
-  func onNewCopy(_ hook: @escaping Hook) {
-    hooks.append(hook)
+  func onNewCopy(_ hook: @escaping OnNewCopyHook) {
+    onNewCopyHooks.append(hook)
+  }
+
+  func onRemovedCopy(_ hook: @escaping OnRemovedCopyHook) {
+    onRemovedCopyHooks.append(hook)
   }
 
   func startListening() {
@@ -38,8 +45,12 @@ class Clipboard {
     }
 
     if let lastItem = pasteboard.string(forType: NSPasteboard.PasteboardType.string) {
-      for hook in hooks {
+      for hook in onNewCopyHooks {
         hook(lastItem)
+      }
+    } else {
+      for hook in onRemovedCopyHooks {
+        hook()
       }
     }
 

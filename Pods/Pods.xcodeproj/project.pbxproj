@@ -44,7 +44,7 @@
 
 /* Begin PBXFileReference section */
 		07055F35E68A5B9A507F418B60F26DD2 /* Pods-Maccy.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Maccy.modulemap"; sourceTree = "<group>"; };
-		0BC7B84A2F2446B220DD9D028D8C7B0E /* Pods_Maccy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Maccy.framework; path = "Pods-Maccy.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BC7B84A2F2446B220DD9D028D8C7B0E /* Pods_Maccy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Maccy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BFB3D52C5622C4B454CBED8C490E1ED /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0F476B296688E8A2611661B3A916D2EE /* Pods-MaccyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.release.xcconfig"; sourceTree = "<group>"; };
 		1571A769B9AABB30B0C55BE1A64F0C13 /* Pods-MaccyTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MaccyTests-acknowledgements.plist"; sourceTree = "<group>"; };
@@ -67,18 +67,18 @@
 		842F2E2BDD1488EBA79F5A8A4D4CA617 /* Pods-Maccy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.release.xcconfig"; sourceTree = "<group>"; };
 		8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Maccy-umbrella.h"; sourceTree = "<group>"; };
 		8D39631FB04B4152E1F10899B5242E79 /* Pods-MaccyTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MaccyTests-dummy.m"; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
 		9EAA781EBF58462A49778917F670B39E /* Pods-MaccyTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MaccyTests-umbrella.h"; sourceTree = "<group>"; };
 		A6AB35A0CC7D0EC7FAC38086EA585D1E /* Appkit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Appkit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Appkit.framework; sourceTree = DEVELOPER_DIR; };
 		A70FC6B2DCC7D84D23DF023C6014274E /* Pods-MaccyTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MaccyTests.modulemap"; sourceTree = "<group>"; };
 		ABF74A7E6F917D1AEA551BDA094E7531 /* HotKey-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HotKey-prefix.pch"; sourceTree = "<group>"; };
 		ACA4FF7011117549B1002928323C971C /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = DEVELOPER_DIR; };
-		AEFDEF78D3F4333621BDE9EE0FE4E7F7 /* HotKey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = HotKey.framework; path = HotKey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AEFDEF78D3F4333621BDE9EE0FE4E7F7 /* HotKey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HotKey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFDBFC39A102F89D13F7659FEB469FDD /* NSEventModifierFlags+HotKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSEventModifierFlags+HotKey.swift"; path = "Sources/HotKey/NSEventModifierFlags+HotKey.swift"; sourceTree = "<group>"; };
 		C07CFD521DA671921D73AA482491B21C /* KeyCombo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyCombo.swift; path = Sources/HotKey/KeyCombo.swift; sourceTree = "<group>"; };
 		C81CC8267FE4E5F1759651B9A5E218FA /* Pods-Maccy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.debug.xcconfig"; sourceTree = "<group>"; };
 		CE827E26782B0FDC57B2904F15F6E3EA /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		CEC9551F114DD3FCF16C0972C6E69FDF /* Pods_MaccyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_MaccyTests.framework; path = "Pods-MaccyTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		CEC9551F114DD3FCF16C0972C6E69FDF /* Pods_MaccyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MaccyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F025444AAF44C9486E85600CAA5DAA37 /* HotKey-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HotKey-umbrella.h"; sourceTree = "<group>"; };
 		F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Maccy-dummy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,7 +123,6 @@
 				AFDBFC39A102F89D13F7659FEB469FDD /* NSEventModifierFlags+HotKey.swift */,
 				DA311EE4F975697BF127D86FDBFF5EA1 /* Support Files */,
 			);
-			name = HotKey;
 			path = HotKey;
 			sourceTree = "<group>";
 		};
@@ -323,7 +322,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 0930;
+				LastUpgradeCheck = 1010;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -446,6 +445,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SYMROOT = "${SRCROOT}/../build";
 			};
 			name = Release;
