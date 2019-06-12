@@ -8,7 +8,9 @@ class Menu: NSMenu {
 
   override init(title: String) {
     super.init(title: title)
+  }
 
+  func addSearchItem(){
     let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: 20, height: 21))
     headerItemView.title = title
 

@@ -6,8 +6,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   let history = History()
   let hotKey = GlobalHotKey()
 
-  var maccy: Maccy {
-    return Maccy(history: history, clipboard: clipboard)
+  var maccy:Maccy
+
+  override init(){
+    self.maccy=Maccy(history: history, clipboard: clipboard)
+    super.init()
   }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {

@@ -34,7 +34,9 @@ class Maccy {
       statusItem.menu = menu
     }
 
-    refresh()
+    menu.addSearchItem()
+    populateItems()
+    populateFooter()
 
     clipboard.onNewCopy(history.add)
     clipboard.onNewCopy({ (_ string: String) -> Void in self.refresh() })
@@ -45,21 +47,20 @@ class Maccy {
   }
 
   func popUp() {
-    refresh()
-    menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+    menu.popUp(positioning: menu.item(at: 1), at: NSEvent.mouseLocation, in: nil)
   }
 
+
   private func refresh() {
-    let filterItem = menu.item(at: 0)
     menu.removeAllItems()
-    menu.addItem(filterItem!)
+    menu.addSearchItem()
     populateItems()
     populateFooter()
   }
 
   private func populateItems() {
-    for entry in history.all() {
-      menu.addItem(historyItem(entry))
+    for (index, entry) in history.all().enumerated() {
+      menu.addItem(historyItem(entry, index: String(index + 1)))
     }
   }
 
@@ -70,12 +71,13 @@ class Maccy {
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q"))
   }
 
-  private func addItem(_ string: String) {
-    menu.insertItem(historyItem(string), at: 0)
+
+  private func historyItem(_ title: String,index:String) -> HistoryMenuItem {
+    return HistoryMenuItem(title: title,hotKey: index,onSelected: onSelectItem)
   }
 
-  private func historyItem(_ title: String) -> HistoryMenuItem {
-    return HistoryMenuItem(title: title, clipboard: clipboard)
+  func onSelectItem(item:HistoryMenuItem){
+    clipboard.copy(String(item.fullTitle ?? ""))
   }
 
   @objc
