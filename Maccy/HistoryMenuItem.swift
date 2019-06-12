@@ -1,21 +1,30 @@
 import Cocoa
 
 class HistoryMenuItem: NSMenuItem {
+  typealias Callback = (HistoryMenuItem) -> Void
+
   private let showMaxLength = 50
 
-  private var fullTitle: String?
-  private var clipboard: Clipboard?
+  public var fullTitle: String?
+  private var onSelected: [Callback] = []
 
   required init(coder: NSCoder) {
     super.init(coder: coder)
   }
 
-  init(title: String, clipboard: Clipboard) {
-    super.init(title: title, action: #selector(copy(_:)), keyEquivalent: "")
+  init(title: String, hotKey: String, onSelected: @escaping Callback) {
+    super.init(title: title, action: #selector(onSelect(_:)), keyEquivalent: hotKey)
+    self.onSelected = [onSelected]
     self.target = self
     self.fullTitle = title
-    self.clipboard = clipboard
     self.title = humanizedTitle(title)
+  }
+
+  @objc
+  func onSelect(_ sender: NSMenuItem) {
+    for hook in onSelected {
+      hook(self)
+    }
   }
 
   private func humanizedTitle(_ title: String) -> String {
@@ -26,10 +35,5 @@ class HistoryMenuItem: NSMenuItem {
     } else {
       return trimmedTitle
     }
-  }
-
-  @objc
-  func copy(_ sender: NSMenuItem) {
-    clipboard!.copy(self.fullTitle!)
   }
 }

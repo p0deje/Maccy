@@ -3,6 +3,7 @@ import AppKit
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
 class Menu: NSMenu {
   private let lastCopiedItemIndexDelta = 5
+  public let maxHotKey = 9
 
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
@@ -10,7 +11,9 @@ class Menu: NSMenu {
 
   override init(title: String) {
     super.init(title: title)
+  }
 
+  func addSearchItem() {
     let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: 20, height: 21))
     headerItemView.title = title
 
@@ -22,9 +25,19 @@ class Menu: NSMenu {
   }
 
   func updateFilter(filter: String) {
+    var index = 0
     for item in items[1...(items.count - 1)] {
       item.isHidden = !validateItemWithFilter(item, filter)
+      if !isSystemItem(item: item) {
+        if !item.isHidden && index < maxHotKey {
+          index += 1
+          item.keyEquivalent = String(index)
+        } else {
+          item.keyEquivalent = ""
+        }
+      }
     }
+
     var itemToHighlight: NSMenuItem?
     for item in items[1...(items.count - 1)] {
       if !item.isHidden && item.isEnabled {
@@ -56,7 +69,7 @@ class Menu: NSMenu {
       let highlightItemSelector = NSSelectorFromString("highlightItem:")
       perform(highlightItemSelector, with: itemToHighlight)
 
-      if itemToHighlight.isSeparatorItem || !itemToHighlight.isEnabled || itemToHighlight.isHidden  {
+      if itemToHighlight.isSeparatorItem || !itemToHighlight.isEnabled || itemToHighlight.isHidden {
         selectPrevious()
       }
     }
@@ -79,11 +92,11 @@ class Menu: NSMenu {
   }
 
   private func validateItemWithFilter(_ item: NSMenuItem, _ filter: String) -> Bool {
-    if filter.isEmpty {
+    if filter.isEmpty || item.isSeparatorItem || isSystemItem(item: item) {
       return true
     }
 
-    if item.isSeparatorItem || !item.isEnabled {
+    if !item.isEnabled {
       return false
     }
 
@@ -95,5 +108,14 @@ class Menu: NSMenu {
     )
 
     return (range != nil)
+  }
+
+  private func isSystemItem(item: NSMenuItem) -> Bool {
+    switch item.title {
+    case "Clear", "About", "Quit":
+      return true
+    default:
+      return false
+    }
   }
 }
