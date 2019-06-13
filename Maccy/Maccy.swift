@@ -79,8 +79,10 @@ class Maccy {
 
   @objc
   func clear(_ sender: NSMenuItem) {
+    let filterItem = menu.item(at: 0)
     history.clear()
     menu.removeAllItems()
+    menu.addItem(filterItem!)
     populateFooter()
   }
 }
