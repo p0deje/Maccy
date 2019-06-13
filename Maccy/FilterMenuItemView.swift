@@ -54,6 +54,10 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     return field
   }()
 
+  lazy private var customMenu: Menu? = { [unowned self] in
+    return enclosingMenuItem?.menu as? Menu
+  }()
+
   required init?(coder decoder: NSCoder) {
     super.init(coder: decoder)
   }
@@ -124,10 +128,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
   @objc
   func fireNotification() {
-    if let item = self.enclosingMenuItem {
-      if let menu = item.menu as? Menu {
-        menu.updateFilter(filter: queryField.stringValue)
-      }
+    if let menu = customMenu {
+      menu.updateFilter(filter: queryField.stringValue)
     }
   }
 
@@ -177,6 +179,23 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
           setQuery(String(query.dropLast()))
         }
         return true
+      }
+
+      if key == Key.return || key == Key.upArrow || key == Key.downArrow {
+        if let menu = customMenu {
+          switch key {
+            case .return:
+              menu.select()
+            case .upArrow:
+              menu.selectPrevious()
+            case .downArrow:
+              menu.selectNext()
+            default: ()
+          }
+          return true
+        }
+
+        return false
       }
 
       let modifierFlags = event.modifierFlags
