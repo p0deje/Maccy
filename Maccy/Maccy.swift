@@ -45,8 +45,7 @@ class Maccy {
   }
 
   func popUp() {
-    refresh()
-    menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+    menu.popUp(positioning: menu.item(at: 1), at: NSEvent.mouseLocation, in: nil)
   }
 
   private func refresh() {
@@ -74,8 +73,8 @@ class Maccy {
     return HistoryMenuItem(title: title,hotKey: index,onSelected: onSelectItem)
   }
 
-  private func historyItem(_ title: String) -> HistoryMenuItem {
-    return HistoryMenuItem(title: title, clipboard: clipboard)
+  func onSelectItem(item:HistoryMenuItem){
+    clipboard.copy(String(item.fullTitle ?? ""))
   }
 
   @objc
