@@ -1,5 +1,5 @@
-language: objective-c
-osx_image: xcode10.1
+os: osx
+osx_image: xcode10.2
 xcode_workspace: Maccy.xcworkspace
 xcode_scheme: MaccyTests
 script: xcodebuild clean build test -scheme Maccy -workspace Maccy.xcworkspace
