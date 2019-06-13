@@ -3,19 +3,33 @@ import Cocoa
 class HistoryMenuItem: NSMenuItem {
   private let showMaxLength = 50
 
-  private var fullTitle: String?
-  private var clipboard: Clipboard?
+  public var fullTitle: String?
+
+  typealias callback = (HistoryMenuItem) -> Void
+
+  private var onSelected: [callback]
 
   required init(coder: NSCoder) {
+    self.onSelected=[]
     super.init(coder: coder)
   }
 
-  init(title: String, clipboard: Clipboard) {
-    super.init(title: title, action: #selector(copy(_:)), keyEquivalent: "")
+
+  init(title: String, hotKey:String,onSelected:@escaping (_ item:HistoryMenuItem)->Void){
+    self.onSelected=[onSelected]
+    super.init(title: title, action: #selector(onSelect(_:)), keyEquivalent: hotKey)
+    self.keyEquivalentModifierMask=[]
     self.target = self
+
     self.fullTitle = title
-    self.clipboard = clipboard
     self.title = humanizedTitle(title)
+  }
+
+  @objc
+  func onSelect(_ sender: NSMenuItem) {
+    for hook in onSelected{
+      hook(self)
+    }
   }
 
   private func humanizedTitle(_ title: String) -> String {
@@ -28,8 +42,4 @@ class HistoryMenuItem: NSMenuItem {
     }
   }
 
-  @objc
-  func copy(_ sender: NSMenuItem) {
-    clipboard!.copy(self.fullTitle!)
-  }
 }

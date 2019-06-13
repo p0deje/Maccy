@@ -8,7 +8,9 @@ class Menu: NSMenu {
 
   override init(title: String) {
     super.init(title: title)
+  }
 
+  func addSearchItem(){
     let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: 20, height: 21))
     headerItemView.title = title
 
@@ -20,8 +22,15 @@ class Menu: NSMenu {
   }
 
   func updateFilter(filter: String) {
+    var i = 0;
     for item in items[1...(items.count - 1)] {
       item.isHidden = !validateItemWithFilter(item, filter)
+      if !item.isHidden {
+        i = i + 1
+        item.keyEquivalent = String(i)
+      } else {
+        item.keyEquivalent = ""
+      }
     }
 
     if highlightedItem == nil || highlightedItem?.isHidden == true {
@@ -41,11 +50,11 @@ class Menu: NSMenu {
   }
 
   private func validateItemWithFilter(_ item: NSMenuItem, _ filter: String) -> Bool {
-    if filter.isEmpty {
+    if filter.isEmpty || item.isSeparatorItem{
       return true
     }
 
-    if item.isSeparatorItem || !item.isEnabled {
+    if !item.isEnabled {
       return false
     }
 
