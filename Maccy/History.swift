@@ -25,7 +25,7 @@ class History {
     var history = all()
     let maxSize = UserDefaults.standard.integer(forKey: sizeKey)
 
-    if let index = history.index(of: string) {
+    if let index = history.firstIndex(of: string) {
       history.remove(at: index)
     } else if history.count == maxSize {
       history.remove(at: maxSize - 1)
