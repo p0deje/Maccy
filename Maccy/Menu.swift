@@ -27,12 +27,14 @@ class Menu: NSMenu {
     var i = 0;
     for item in items[1...(items.count - 1)] {
       item.isHidden = !validateItemWithFilter(item, filter)
-      if !item.isHidden {
-        i = i + 1
-        item.keyEquivalent = String(i)
-      } else {
-        item.keyEquivalent = ""
-      }
+        if !isSystemItem(item: item) {
+            if !item.isHidden {
+                i = i + 1
+                item.keyEquivalent = String(i)
+            } else {
+                item.keyEquivalent = ""
+            }
+        }
     }
     var itemToHighlight: NSMenuItem?
     for item in items[1...(items.count - 1)] {
@@ -91,6 +93,9 @@ class Menu: NSMenu {
     if filter.isEmpty || item.isSeparatorItem{
       return true
     }
+    if isSystemItem(item: item) {
+      return true
+    }
 
     if !item.isEnabled {
       return false
@@ -105,4 +110,13 @@ class Menu: NSMenu {
 
     return (range != nil)
   }
+
+  private func isSystemItem(item: NSMenuItem) -> Bool {
+    switch item.title {
+    case "Clear", "About", "Quit":
+      return true;
+    default: return false
+    }
+  }
+
 }
