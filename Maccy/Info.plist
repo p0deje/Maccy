@@ -27,8 +27,8 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2018 Alex Rodionov. All rights reserved.</string>
+	<string>Copyright © 2019 Alex Rodionov. All rights reserved.</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.3.3</string>
+	<string>0.3.4</string>
 </dict>
 </plist>

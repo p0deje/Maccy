@@ -2,6 +2,8 @@ import AppKit
 
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
 class Menu: NSMenu {
+  private let lastCopiedItemIndexDelta = 5
+
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
   }
@@ -32,19 +34,55 @@ class Menu: NSMenu {
         item.keyEquivalent = ""
       }
     }
-
-    if highlightedItem == nil || highlightedItem?.isHidden == true {
-      var itemToHighlight: NSMenuItem?
-      for item in items[1...(items.count - 1)] {
-        if !item.isHidden && item.isEnabled {
-          itemToHighlight = item
-          break
-        }
+    var itemToHighlight: NSMenuItem?
+    for item in items[1...(items.count - 1)] {
+      if !item.isHidden && item.isEnabled {
+        itemToHighlight = item
+        break
       }
+    }
 
-      if itemToHighlight != nil {
-        let highlightItemSelector = NSSelectorFromString("highlightItem:")
-        perform(highlightItemSelector, with: itemToHighlight)
+    if itemToHighlight != nil {
+      let highlightItemSelector = NSSelectorFromString("highlightItem:")
+      perform(highlightItemSelector, with: itemToHighlight)
+    }
+  }
+
+  func select() {
+    if let item = highlightedItem {
+      performActionForItem(at: index(of: item))
+      cancelTracking()
+    }
+  }
+
+  func selectPrevious() {
+    var indexToHighlight = items.count - lastCopiedItemIndexDelta
+    if let item = highlightedItem {
+      indexToHighlight = index(of: item) - 1
+    }
+
+    if let itemToHighlight = self.item(at: indexToHighlight) {
+      let highlightItemSelector = NSSelectorFromString("highlightItem:")
+      perform(highlightItemSelector, with: itemToHighlight)
+
+      if itemToHighlight.isSeparatorItem || !itemToHighlight.isEnabled || itemToHighlight.isHidden  {
+        selectPrevious()
+      }
+    }
+  }
+
+  func selectNext() {
+    var indexToHighlight = 1
+    if let item = highlightedItem {
+      indexToHighlight = index(of: item) + 1
+    }
+
+    if let itemToHighlight = self.item(at: indexToHighlight) {
+      let highlightItemSelector = NSSelectorFromString("highlightItem:")
+      perform(highlightItemSelector, with: itemToHighlight)
+
+      if itemToHighlight.isSeparatorItem || !itemToHighlight.isEnabled || itemToHighlight.isHidden {
+        selectNext()
       }
     }
   }
