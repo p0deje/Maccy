@@ -18,7 +18,7 @@ class HistoryMenuItem: NSMenuItem {
   init(title: String, hotKey:String,onSelected:@escaping (_ item:HistoryMenuItem)->Void){
     self.onSelected=[onSelected]
     super.init(title: title, action: #selector(onSelect(_:)), keyEquivalent: hotKey)
-    self.keyEquivalentModifierMask=[]
+//    self.keyEquivalentModifierMask=[]
     self.target = self
 
     self.fullTitle = title

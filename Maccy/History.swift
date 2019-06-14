@@ -5,7 +5,7 @@ class History {
   private let sizeKey = "historySize"
 
   init() {
-    UserDefaults.standard.register(defaults: [sizeKey: 9])
+    UserDefaults.standard.register(defaults: [sizeKey: 999])
   }
 
   func all() -> [String] {

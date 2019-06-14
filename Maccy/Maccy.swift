@@ -57,7 +57,11 @@ class Maccy {
 
   private func populateItems() {
     for (index, entry) in history.all().enumerated() {
-      menu.addItem(historyItem(entry, index: String(index + 1)))
+      var hotKey = ""
+      if index < menu.maxHotKey {
+        hotKey = String(index + 1)
+      }
+      menu.addItem(historyItem(entry, index: hotKey))
     }
   }
 

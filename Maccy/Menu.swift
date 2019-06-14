@@ -3,6 +3,7 @@ import AppKit
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
 class Menu: NSMenu {
   private let lastCopiedItemIndexDelta = 5
+  public let maxHotKey = 9
 
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
@@ -28,7 +29,7 @@ class Menu: NSMenu {
     for item in items[1...(items.count - 1)] {
       item.isHidden = !validateItemWithFilter(item, filter)
         if !isSystemItem(item: item) {
-            if !item.isHidden {
+            if !item.isHidden && i < maxHotKey {
                 i = i + 1
                 item.keyEquivalent = String(i)
             } else {
