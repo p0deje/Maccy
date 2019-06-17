@@ -168,49 +168,66 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       return false
     }
 
-    if let key = Key(carbonKeyCode: UInt32(event.keyCode)) {
-      if Keys.shouldPassThrough(key) {
-        return false
-      }
+    return processKeyDownEvent(event)
+  }
 
-      let query = queryField.stringValue
-      if key == Key.delete {
-        if query.isEmpty == false {
-          setQuery(String(query.dropLast()))
-        }
+  private func processKeyDownEvent(_ event: NSEvent) -> Bool {
+    guard let key = Key(carbonKeyCode: UInt32(event.keyCode)) else {
+      return false
+    }
+
+    if Keys.shouldPassThrough(key) {
+      return false
+    }
+
+    if key == Key.delete {
+      processDeleteKey(queryField.stringValue)
+      return true
+    }
+
+    if key == Key.return || key == Key.upArrow || key == Key.downArrow {
+      if let menu = customMenu {
+        processSelectionKey(menu: menu, key: key)
         return true
       }
 
-      if key == Key.return || key == Key.upArrow || key == Key.downArrow {
-        if let menu = customMenu {
-          switch key {
-            case .return:
-              menu.select()
-            case .upArrow:
-              menu.selectPrevious()
-            case .downArrow:
-              menu.selectNext()
-            default: ()
-          }
-          return true
-        }
+      return false
+    }
 
-        return false
-      }
+    let modifierFlags = event.modifierFlags
+    if modifierFlags.contains(.command) || modifierFlags.contains(.control) || modifierFlags.contains(.option) {
+      return false
+    }
 
-      let modifierFlags = event.modifierFlags
-      if modifierFlags.contains(.command) || modifierFlags.contains(.control) || modifierFlags.contains(.option) {
-        return false
-      }
-
-      if let chars = event.charactersIgnoringModifiers {
-        if chars.count == 1 {
-          setQuery("\(query)\(chars)")
-          return true
-        }
+    if let chars = event.charactersIgnoringModifiers {
+      if chars.count == 1 {
+        appendSearchField(chars)
+        return true
       }
     }
 
     return false
+  }
+
+  private func processDeleteKey(_ query: String) {
+    if query.isEmpty == false {
+      setQuery(String(query.dropLast()))
+    }
+  }
+
+  private func processSelectionKey(menu: Menu, key: Key) {
+    switch key {
+    case .return:
+      menu.select()
+    case .upArrow:
+      menu.selectPrevious()
+    case .downArrow:
+      menu.selectNext()
+    default: ()
+    }
+  }
+
+  private func appendSearchField(_ chars: String) {
+    setQuery("\(queryField.stringValue)\(chars)")
   }
 }
