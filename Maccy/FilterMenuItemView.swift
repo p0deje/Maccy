@@ -15,9 +15,9 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   ]
 
   private let layoutConstraints = [
-    "|-(==21)-[titleField]-[queryField]-(==10)-|",
-    "V:|[queryField]-(==1)-|",
-    "V:|[titleField]-(==1)-|"
+    "|-[titleField]-[queryField]-(==10)-|",
+    "V:|-(==5)-[titleField]-(==2)-|",
+    "V:|[queryField]-(==3)-|"
   ]
 
   private var eventHandler: EventHandlerRef?

@@ -14,7 +14,7 @@ class Menu: NSMenu {
   }
 
   func addSearchItem() {
-    let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: 20, height: 21))
+    let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: 20, height: 29))
     headerItemView.title = title
 
     let headerItem = NSMenuItem()
