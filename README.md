@@ -1,6 +1,6 @@
-# Maccy.app [![Travis builds](https://travis-ci.org/p0deje/Maccy.svg?branch=master)](https://travis-ci.org/p0deje/Maccy)
+# Maccy.app
 
-![Maccy.app](https://user-images.githubusercontent.com/665846/36135303-8c4f80ae-10b4-11e8-9940-978e228cb6bd.gif)
+![Maccy.app](Maccy/Assets.xcassets/Demo.dataset/demo.gif)
 
 ## About
 
@@ -46,6 +46,10 @@ defaults write org.p0deje.Maccy showInStatusBar false # default is true
 ### Automatically Start at Login
 
 Just add Maccy to your "Login items".
+
+## CI
+
+[![Travis builds](https://travis-ci.org/p0deje/Maccy.svg?branch=master)](https://travis-ci.org/p0deje/Maccy)
 
 ## License
 
