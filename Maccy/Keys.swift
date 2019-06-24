@@ -8,7 +8,6 @@ class Keys {
     Key.end,
     Key.leftArrow,
     Key.rightArrow,
-    Key.space,
     Key.escape,
     Key.tab,
     Key.f1,
