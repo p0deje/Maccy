@@ -139,15 +139,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
 
     queryField.stringValue = newQuery
-    RunLoop.current.perform(
-      #selector(fireNotification),
-      target: self,
-      argument: nil,
-      order: 0,
-      modes: [RunLoop.Mode.eventTracking]
-    )
-
     updateVisibility()
+    fireNotification()
   }
 
   private func updateVisibility() {
@@ -175,13 +168,18 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     guard let key = Key(carbonKeyCode: UInt32(event.keyCode)) else {
       return false
     }
+    let modifierFlags = event.modifierFlags
 
     if Keys.shouldPassThrough(key) {
       return false
     }
 
     if key == Key.delete {
-      processDeleteKey(queryField.stringValue)
+      if modifierFlags.contains(.command) {
+        setQuery("")
+      } else {
+        processDeleteKey(queryField.stringValue)
+      }
       return true
     }
 
@@ -194,7 +192,6 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       return false
     }
 
-    let modifierFlags = event.modifierFlags
     if modifierFlags.contains(.command) || modifierFlags.contains(.control) || modifierFlags.contains(.option) {
       return false
     }
