@@ -19,6 +19,14 @@ Also, I wanted to learn Swift and get acquainted with macOS application developm
 * uses standard macOS menu
 * search-as-you-type
 
+## Install
+
+Download the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):
+
+```bash
+brew cask install maccy
+```
+
 ## Usage
 
 ⌘+⇧+C.
