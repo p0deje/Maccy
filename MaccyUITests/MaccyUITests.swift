@@ -19,10 +19,10 @@ class MaccyUITests: XCTestCase {
   
   var popUpEvents: [CGEvent] {
     let eventDown = CGEvent(keyboardEventSource: nil, virtualKey: UInt16(kVK_ANSI_C), keyDown: true)!
-    eventDown.flags = [CGEventFlags.maskCommand, CGEventFlags.maskShift]
+    eventDown.flags = [.maskCommand, .maskShift]
 
     let eventUp = CGEvent(keyboardEventSource: nil, virtualKey: UInt16(kVK_ANSI_C), keyDown: false)!
-    eventUp.flags = [CGEventFlags.maskCommand, CGEventFlags.maskShift]
+    eventUp.flags = [.maskCommand, .maskShift]
 
     return [eventDown, eventUp]
   }
@@ -59,18 +59,15 @@ class MaccyUITests: XCTestCase {
   func testSelectWithArrowKeysAndCopy() {
     popUpWithHotkey()
     typeKey(.downArrow)
-    typeKey(.downArrow)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
 
     popUpWithHotkey()
     typeKey(.downArrow)
-    typeKey(.downArrow)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
 
     popUpWithHotkey()
-    typeKey(.downArrow)
     typeKey(.downArrow)
     typeKey(.downArrow)
     typeKey(.enter)
@@ -96,7 +93,7 @@ class MaccyUITests: XCTestCase {
 
   private func popUpWithHotkey() {
     for event in popUpEvents {
-      event.post(tap: CGEventTapLocation.cghidEventTap)
+      event.post(tap: .cghidEventTap)
     }
     sleep(1) // give Maccy some time to popup
   }

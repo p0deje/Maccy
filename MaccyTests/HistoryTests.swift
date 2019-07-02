@@ -63,10 +63,10 @@ class HistoryTests: XCTestCase {
     XCTAssertFalse(history.all().contains("5"))
   }
 
-  func testRemovingLast() {
+  func testRemovingRecent() {
     history.add("foo")
     history.add("bar")
-    history.removeLast()
-    XCTAssertEqual(history.all(), ["bar"])
+    history.removeRecent()
+    XCTAssertEqual(history.all(), ["foo"])
   }
 }

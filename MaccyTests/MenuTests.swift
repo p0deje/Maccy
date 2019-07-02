@@ -7,15 +7,16 @@ class MenuTests: XCTestCase {
   var menu: Menu!
 
   lazy var menuItems: [HistoryMenuItem] = [
-    HistoryMenuItem(title: "foo", clipboard: clipboard),
-    HistoryMenuItem(title: "bar", clipboard: clipboard),
-    HistoryMenuItem(title: "baz", clipboard: clipboard)
+    HistoryMenuItem(title: "foo", hotKey: "", onSelected: { _ in }),
+    HistoryMenuItem(title: "bar", hotKey: "", onSelected: { _ in }),
+    HistoryMenuItem(title: "baz", hotKey: "", onSelected: { _ in })
   ]
 
   override func setUp() {
     super.setUp()
 
     menu = Menu()
+    menu.addSearchItem()
     for menuItem in menuItems {
       menu.addItem(menuItem)
     }
@@ -53,7 +54,7 @@ class MenuTests: XCTestCase {
     let separator = NSMenuItem.separator()
     menu.addItem(separator)
     menu.updateFilter(filter: "xyz")
-    XCTAssertEqual(separator.isHidden, true)
+    XCTAssertEqual(separator.isHidden, false)
   }
 
   func testDisabledItem() {
