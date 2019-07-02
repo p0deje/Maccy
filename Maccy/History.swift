@@ -35,10 +35,10 @@ class History {
     UserDefaults.standard.set(newContents, forKey: storageKey)
   }
 
-  func removeLast() {
+  func removeRecent() {
     var history = all()
     if !history.isEmpty {
-      history.removeLast()
+      history.removeFirst()
       UserDefaults.standard.set(history, forKey: storageKey)
     }
   }

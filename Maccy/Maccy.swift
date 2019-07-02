@@ -40,7 +40,7 @@ class Maccy {
 
     clipboard.onNewCopy(history.add)
     clipboard.onNewCopy({ (_ string: String) -> Void in self.refresh() })
-    clipboard.onRemovedCopy(history.removeLast)
+    clipboard.onRemovedCopy(history.removeRecent)
     clipboard.onRemovedCopy({ self.refresh() })
 
     clipboard.startListening()
