@@ -78,13 +78,11 @@ class MaccyUITests: XCTestCase {
     for _ in 1...2 {
       popUpWithMouse()
       typeKey(.downArrow)
-      typeKey(.downArrow)
       hoverTitleField()
       hideWithMouse()
     }
 
     popUpWithMouse()
-    typeKey(.downArrow)
     typeKey(.downArrow)
     typeKey(.enter)
     

@@ -47,7 +47,7 @@ class Maccy {
   }
 
   func popUp() {
-    menu.popUp(positioning: menu.item(at: 1), at: NSEvent.mouseLocation, in: nil)
+    menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
   }
 
   private func refresh() {

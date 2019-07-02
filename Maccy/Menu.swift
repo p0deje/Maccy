@@ -1,9 +1,9 @@
 import AppKit
 
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
-class Menu: NSMenu {
-  private let lastCopiedItemIndexDelta = 5
+class Menu: NSMenu, NSMenuDelegate {
   public let maxHotKey = 9
+  private let lastCopiedItemIndexDelta = 5
 
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
@@ -11,6 +11,12 @@ class Menu: NSMenu {
 
   override init(title: String) {
     super.init(title: title)
+    self.delegate = self
+  }
+
+  func menuWillOpen(_ menu: NSMenu) {
+    let highlightItemSelector = NSSelectorFromString("highlightItem:")
+    perform(highlightItemSelector, with: item(at: 1))
   }
 
   func addSearchItem() {
