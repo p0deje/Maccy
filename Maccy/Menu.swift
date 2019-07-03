@@ -15,8 +15,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuWillOpen(_ menu: NSMenu) {
-    let highlightItemSelector = NSSelectorFromString("highlightItem:")
-    perform(highlightItemSelector, with: item(at: 1))
+    highlight(highlightableItems(items).first)
   }
 
   func addSearchItem() {
@@ -26,6 +25,7 @@ class Menu: NSMenu, NSMenuDelegate {
     let headerItem = NSMenuItem()
     headerItem.title = title
     headerItem.view = headerItemView
+    headerItem.isEnabled = false
 
     addItem(headerItem)
   }
@@ -33,7 +33,15 @@ class Menu: NSMenu, NSMenuDelegate {
   func updateFilter(filter: String) {
     var index = 0
     for item in items[1...(items.count - 1)] {
-      item.isHidden = !validateItemWithFilter(item, filter)
+      let itemMatchesFilter = validateItemWithFilter(item, filter)
+
+      if itemMatchesFilter {
+        item.isHidden = false
+        highlight(item)
+      } else {
+        item.isHidden = true
+      }
+
       if !isSystemItem(item: item) {
         if !item.isHidden && index < maxHotKey {
           index += 1
@@ -42,19 +50,6 @@ class Menu: NSMenu, NSMenuDelegate {
           item.keyEquivalent = ""
         }
       }
-    }
-
-    var itemToHighlight: NSMenuItem?
-    for item in items[1...(items.count - 1)] {
-      if !item.isHidden && item.isEnabled {
-        itemToHighlight = item
-        break
-      }
-    }
-
-    if itemToHighlight != nil {
-      let highlightItemSelector = NSSelectorFromString("highlightItem:")
-      perform(highlightItemSelector, with: itemToHighlight)
     }
   }
 
@@ -66,35 +61,43 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func selectPrevious() {
-    var indexToHighlight = items.count - lastCopiedItemIndexDelta
-    if let item = highlightedItem {
-      indexToHighlight = index(of: item) - 1
-    }
-
-    if let itemToHighlight = self.item(at: indexToHighlight) {
-      let highlightItemSelector = NSSelectorFromString("highlightItem:")
-      perform(highlightItemSelector, with: itemToHighlight)
-
-      if itemToHighlight.isSeparatorItem || !itemToHighlight.isEnabled || itemToHighlight.isHidden {
-        selectPrevious()
-      }
+    if !highlightNext(items.reversed()) {
+      highlight(highlightableItems(items).last) // start from the end after reaching the first item
     }
   }
 
   func selectNext() {
-    var indexToHighlight = 1
-    if let item = highlightedItem {
-      indexToHighlight = index(of: item) + 1
+    if !highlightNext(items) {
+      highlight(highlightableItems(items).first) // start from the beginning after reaching the last item
     }
+  }
 
-    if let itemToHighlight = self.item(at: indexToHighlight) {
-      let highlightItemSelector = NSSelectorFromString("highlightItem:")
-      perform(highlightItemSelector, with: itemToHighlight)
-
-      if itemToHighlight.isSeparatorItem || !itemToHighlight.isEnabled || itemToHighlight.isHidden {
-        selectNext()
+  private func highlightNext(_ items: [NSMenuItem]) -> Bool {
+    let highlightableItems = self.highlightableItems(items)
+    let currentHighlightedItem = highlightedItem ?? highlightableItems.first
+    var itemsIterator = highlightableItems.makeIterator()
+    while let item = itemsIterator.next() {
+      if item == currentHighlightedItem {
+        if let itemToHighlight = itemsIterator.next() {
+          highlight(itemToHighlight)
+          return true
+        }
       }
     }
+    return false
+  }
+
+  private func highlightableItems(_ items: [NSMenuItem]) -> [NSMenuItem] {
+    return items.filter { !$0.isSeparatorItem && $0.isEnabled && !$0.isHidden }
+  }
+
+  private func highlight(_ itemToHighlight: NSMenuItem?) {
+    guard itemToHighlight != nil else {
+      return
+    }
+
+    let highlightItemSelector = NSSelectorFromString("highlightItem:")
+    perform(highlightItemSelector, with: itemToHighlight)
   }
 
   private func validateItemWithFilter(_ item: NSMenuItem, _ filter: String) -> Bool {
