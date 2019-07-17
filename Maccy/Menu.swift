@@ -36,7 +36,6 @@ class Menu: NSMenu, NSMenuDelegate {
 
       if itemMatchesFilter {
         item.isHidden = false
-        highlight(item)
       } else {
         item.isHidden = true
       }
@@ -50,6 +49,8 @@ class Menu: NSMenu, NSMenuDelegate {
         }
       }
     }
+
+    highlight(highlightableItems(items).first)
   }
 
   func select() {
