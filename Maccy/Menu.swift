@@ -80,7 +80,6 @@ class Menu: NSMenu, NSMenuDelegate {
     highlight(highlightableItems(items).last)
   }
 
-
   private func highlightNext(_ items: [NSMenuItem]) -> Bool {
     let highlightableItems = self.highlightableItems(items)
     let currentHighlightedItem = highlightedItem ?? highlightableItems.first

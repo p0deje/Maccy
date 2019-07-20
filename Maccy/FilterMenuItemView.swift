@@ -55,7 +55,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }()
 
   lazy private var customMenu: Menu? = { [unowned self] in
-    return enclosingMenuItem?.menu as? Menu
+    return self.enclosingMenuItem?.menu as? Menu
   }()
 
   required init?(coder decoder: NSCoder) {
