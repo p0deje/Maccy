@@ -185,7 +185,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
     if key == Key.return || key == Key.upArrow || key == Key.downArrow {
       if let menu = customMenu {
-        processSelectionKey(menu: menu, key: key)
+        processSelectionKey(menu: menu, key: key, modifierFlags: modifierFlags)
         return true
       }
 
@@ -212,14 +212,22 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
   }
 
-  private func processSelectionKey(menu: Menu, key: Key) {
+  private func processSelectionKey(menu: Menu, key: Key, modifierFlags: NSEvent.ModifierFlags) {
     switch key {
     case .return:
       menu.select()
     case .upArrow:
-      menu.selectPrevious()
+      if modifierFlags.contains(.command) {
+        menu.selectFirst()
+      } else {
+        menu.selectPrevious()
+      }
     case .downArrow:
-      menu.selectNext()
+      if modifierFlags.contains(.command) {
+        menu.selectLast()
+      } else {
+        menu.selectNext()
+      }
     default: ()
     }
   }

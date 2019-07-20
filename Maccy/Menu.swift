@@ -62,15 +62,24 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func selectPrevious() {
     if !highlightNext(items.reversed()) {
-      highlight(highlightableItems(items).last) // start from the end after reaching the first item
+      selectLast() // start from the end after reaching the first item
     }
   }
 
   func selectNext() {
     if !highlightNext(items) {
-      highlight(highlightableItems(items).first) // start from the beginning after reaching the last item
+      selectFirst() // start from the beginning after reaching the last item
     }
   }
+
+  func selectFirst() {
+    highlight(highlightableItems(items).first)
+  }
+
+  func selectLast() {
+    highlight(highlightableItems(items).last)
+  }
+
 
   private func highlightNext(_ items: [NSMenuItem]) -> Bool {
     let highlightableItems = self.highlightableItems(items)

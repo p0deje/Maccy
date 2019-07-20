@@ -56,7 +56,7 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
   }
 
-  func testSelectWithArrowKeysAndCopy() {
+  func testSelectWithDownArrowKeysAndCopy() {
     popUpWithHotkey()
     typeKey(.downArrow)
     typeKey(.enter)
@@ -72,8 +72,46 @@ class MaccyUITests: XCTestCase {
     typeKey(.downArrow)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy1)
+
+    popUpWithHotkey()
+    typeKey(.downArrow, [.command])
+    typeKey(.downArrow)
+    typeKey(.downArrow)
+    typeKey(.enter)
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
   }
-  
+
+  func testSelectWithUpArrowKeysAndCopy() {
+    popUpWithHotkey()
+    typeKey(.downArrow)
+    typeKey(.downArrow)
+    typeKey(.upArrow)
+    typeKey(.enter)
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+
+    popUpWithHotkey()
+    typeKey(.downArrow)
+    typeKey(.downArrow)
+    typeKey(.upArrow)
+    typeKey(.enter)
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
+
+    popUpWithHotkey()
+    typeKey(.downArrow)
+    typeKey(.downArrow)
+    typeKey(.downArrow)
+    typeKey(.upArrow)
+    typeKey(.enter)
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy1)
+
+    popUpWithHotkey()
+    typeKey(.upArrow)
+    typeKey(.upArrow, [.command])
+    typeKey(.downArrow)
+    typeKey(.enter)
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
+  }
+
   func testCloseWithMouseAndSelectWithArrowKeys() {
     for _ in 1...2 {
       popUpWithMouse()
@@ -116,8 +154,8 @@ class MaccyUITests: XCTestCase {
     sleep(3) // make sure Maccy knows about new item
   }
 
-  private func typeKey(_ key: XCUIKeyboardKey) {
-    app.typeKey(key, modifierFlags: [])
+  private func typeKey(_ key: XCUIKeyboardKey, _ modifierFlags: XCUIElement.KeyModifierFlags = []) {
+    app.typeKey(key, modifierFlags: modifierFlags)
     sleep(1) // give Maccy some time to process key
   }
 }
