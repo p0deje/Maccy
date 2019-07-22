@@ -34,9 +34,7 @@ class Maccy {
       statusItem.menu = menu
     }
 
-    menu.addSearchItem()
-    populateItems()
-    populateFooter()
+    refresh()
 
     clipboard.onNewCopy(history.add)
     clipboard.onNewCopy({ (_ string: String) -> Void in self.refresh() })
@@ -51,7 +49,7 @@ class Maccy {
   }
 
   private func refresh() {
-    menu.removeAllItems()
+    menu.allItems.removeAll()
     menu.addSearchItem()
     populateItems()
     populateFooter()
@@ -84,10 +82,7 @@ class Maccy {
 
   @objc
   func clear(_ sender: NSMenuItem) {
-    let filterItem = menu.item(at: 0)
     history.clear()
-    menu.removeAllItems()
-    menu.addItem(filterItem!)
-    populateFooter()
+    refresh()
   }
 }

@@ -207,7 +207,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }
 
   private func processDeleteKey(_ query: String) {
-    if query.isEmpty == false {
+    if !query.isEmpty {
       setQuery(String(query.dropLast()))
     }
   }

@@ -12,11 +12,11 @@ class MaccyUITests: XCTestCase {
   var statusItem: XCUIElement {
     return app.statusItems.firstMatch
   }
-  
+
   var statusItemCoordinates: XCUICoordinate {
     return statusItem.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
   }
-  
+
   var popUpEvents: [CGEvent] {
     let eventDown = CGEvent(keyboardEventSource: nil, virtualKey: UInt16(kVK_ANSI_C), keyDown: true)!
     eventDown.flags = [.maskCommand, .maskShift]
@@ -33,7 +33,6 @@ class MaccyUITests: XCTestCase {
     app.launch()
 
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-    copyToClipboard("foo") // the first item is not copied for some reason
     copyToClipboard(copy1)
     copyToClipboard(copy2)
     copyToClipboard(copy3)
@@ -123,7 +122,7 @@ class MaccyUITests: XCTestCase {
     popUpWithMouse()
     typeKey(.downArrow)
     typeKey(.enter)
-    
+
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
   }
 
@@ -133,16 +132,16 @@ class MaccyUITests: XCTestCase {
     }
     sleep(1) // give Maccy some time to popup
   }
-  
+
   private func popUpWithMouse() {
     statusItem.click()
     sleep(1) // give Maccy some time to popup
   }
-  
+
   private func hoverTitleField() {
     statusItemCoordinates.withOffset(CGVector(dx: 20, dy: 40)).hover()
   }
-  
+
   private func hideWithMouse() {
     statusItemCoordinates.withOffset(CGVector(dx: -40, dy: 40)).click()
     sleep(1)

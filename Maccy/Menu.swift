@@ -3,6 +3,7 @@ import AppKit
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
 class Menu: NSMenu, NSMenuDelegate {
   public let maxHotKey = 9
+  public var allItems: [NSMenuItem] = []
 
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
@@ -14,7 +15,13 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuWillOpen(_ menu: NSMenu) {
+    self.items = allItems
     highlight(highlightableItems(items).first)
+  }
+
+  override func addItem(_ newItem: NSMenuItem) {
+    allItems.append(newItem)
+    super.addItem(newItem)
   }
 
   func addSearchItem() {
@@ -30,23 +37,13 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func updateFilter(filter: String) {
-    var index = 0
-    for item in items[1...(items.count - 1)] {
-      let itemMatchesFilter = validateItemWithFilter(item, filter)
+    self.items = allItems.filter { itemMatchesFilter($0, filter) }
 
-      if itemMatchesFilter {
-        item.isHidden = false
-      } else {
-        item.isHidden = true
-      }
-
-      if !isSystemItem(item: item) {
-        if !item.isHidden && index < maxHotKey {
-          index += 1
-          item.keyEquivalent = String(index)
-        } else {
-          item.keyEquivalent = ""
-        }
+    for (index, item) in items.enumerated() {
+      if !isSystemItem(item: item) && index <= maxHotKey {
+        item.keyEquivalent = String(index)
+      } else if !item.keyEquivalent.isEmpty {
+        item.keyEquivalent = ""
       }
     }
 
@@ -96,7 +93,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func highlightableItems(_ items: [NSMenuItem]) -> [NSMenuItem] {
-    return items.filter { !$0.isSeparatorItem && $0.isEnabled && !$0.isHidden }
+    return items.filter { !$0.isSeparatorItem && $0.isEnabled }
   }
 
   private func highlight(_ itemToHighlight: NSMenuItem?) {
@@ -112,13 +109,9 @@ class Menu: NSMenu, NSMenuDelegate {
     perform(highlightItemSelector, with: itemToHighlight)
   }
 
-  private func validateItemWithFilter(_ item: NSMenuItem, _ filter: String) -> Bool {
-    if filter.isEmpty || item.isSeparatorItem || isSystemItem(item: item) {
+  private func itemMatchesFilter(_ item: NSMenuItem, _ filter: String) -> Bool {
+    if filter.isEmpty || !item.isEnabled || item.isSeparatorItem || isSystemItem(item: item) {
       return true
-    }
-
-    if !item.isEnabled {
-      return false
     }
 
     let range = item.title.range(
@@ -132,7 +125,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func isSystemItem(item: NSMenuItem) -> Bool {
-    let items = self.items.split(whereSeparator: { $0.isSeparatorItem })
+    let items = self.allItems.split(whereSeparator: { $0.isSeparatorItem })
     return items.count > 1 && items[1].contains(item)
   }
 }

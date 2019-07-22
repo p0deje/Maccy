@@ -24,42 +24,34 @@ class MenuTests: XCTestCase {
 
   func testSearchWithExactMatch() {
     menu.updateFilter(filter: "foo")
-    XCTAssertEqual(menuItems[0].isHidden, false)
-    XCTAssertEqual(menuItems[1].isHidden, true)
-    XCTAssertEqual(menuItems[2].isHidden, true)
+    XCTAssertEqual(menu.items, [menu.items[0], menuItems[0]])
   }
 
   func testSearchWithPartialMatch() {
     menu.updateFilter(filter: "ba")
-    XCTAssertEqual(menuItems[0].isHidden, true)
-    XCTAssertEqual(menuItems[1].isHidden, false)
-    XCTAssertEqual(menuItems[2].isHidden, false)
+    XCTAssertEqual(menu.items, [menu.items[0], menuItems[1], menuItems[2]])
   }
 
   func testSearchWithNoMatch() {
     menu.updateFilter(filter: "xyz")
-    XCTAssertEqual(menuItems[0].isHidden, true)
-    XCTAssertEqual(menuItems[1].isHidden, true)
-    XCTAssertEqual(menuItems[2].isHidden, true)
+    XCTAssertEqual(menu.items, [menu.items[0]])
   }
 
   func testSearchWithEmpty() {
     menu.updateFilter(filter: "")
-    XCTAssertEqual(menuItems[0].isHidden, false)
-    XCTAssertEqual(menuItems[1].isHidden, false)
-    XCTAssertEqual(menuItems[2].isHidden, false)
+   XCTAssertEqual(menu.items, [menu.items[0]] + menuItems)
   }
 
   func testSeparator() {
     let separator = NSMenuItem.separator()
     menu.addItem(separator)
     menu.updateFilter(filter: "xyz")
-    XCTAssertEqual(separator.isHidden, false)
+    XCTAssertTrue(menu.items.contains(separator))
   }
 
-  func testDisabledItem() {
-    menuItems[0].isEnabled = false
+  func testSearchIsKept() {
+    let search = menu.items[0]
     menu.updateFilter(filter: "foo")
-    XCTAssertEqual(menuItems[0].isHidden, true)
+    XCTAssertTrue(menu.items.contains(search))
   }
 }
