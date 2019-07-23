@@ -3,7 +3,7 @@ osx_image: xcode11
 xcode_workspace: Maccy.xcworkspace
 xcode_scheme: MaccyTests
 install:
-  - brew install swiftlint
+  - brew upgrade swiftlint
 script:
   - swiftlint
   - xcodebuild clean build test -scheme Maccy -workspace Maccy.xcworkspace
