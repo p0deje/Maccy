@@ -1,5 +1,9 @@
 os: osx
-osx_image: xcode10.2
+osx_image: xcode11
 xcode_workspace: Maccy.xcworkspace
 xcode_scheme: MaccyTests
-script: xcodebuild clean build test -scheme Maccy -workspace Maccy.xcworkspace
+install:
+  - brew install swiftlint
+script:
+  - swiftlint
+  - xcodebuild clean build test -scheme Maccy -workspace Maccy.xcworkspace
