@@ -16,6 +16,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func menuWillOpen(_ menu: NSMenu) {
     self.items = allItems
+    setKeyEquivalents(items)
     highlight(highlightableItems(items).first)
   }
 
@@ -38,14 +39,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func updateFilter(filter: String) {
     self.items = allItems.filter { itemMatchesFilter($0, filter) }
-
-    for (index, item) in items.enumerated() {
-      if !isSystemItem(item: item) && index <= maxHotKey {
-        item.keyEquivalent = String(index)
-      } else if !item.keyEquivalent.isEmpty {
-        item.keyEquivalent = ""
-      }
-    }
+    setKeyEquivalents(items)
 
     // do not highlight system items on search
     let highlightable = highlightableItems(items).filter { !isSystemItem(item: $0) }.first
@@ -59,28 +53,28 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  func selectPrevious() {
-    if !highlightNext(items.reversed()) {
-      selectLast() // start from the end after reaching the first item
+  func selectPrevious(alt: Bool) {
+    if !highlightNext(items.reversed(), alt: alt) {
+      selectLast(alt: alt) // start from the end after reaching the first item
     }
   }
 
-  func selectNext() {
-    if !highlightNext(items) {
-      selectFirst() // start from the beginning after reaching the last item
+  func selectNext(alt: Bool) {
+    if !highlightNext(items, alt: alt) {
+      selectFirst(alt: alt) // start from the beginning after reaching the last item
     }
   }
 
-  func selectFirst() {
-    highlight(highlightableItems(items).first)
+  func selectFirst(alt: Bool = false) {
+    highlight(highlightableItems(items, alt: alt).first)
   }
 
-  func selectLast() {
-    highlight(highlightableItems(items).last)
+  func selectLast(alt: Bool = false) {
+    highlight(highlightableItems(items, alt: alt).last)
   }
 
-  private func highlightNext(_ items: [NSMenuItem]) -> Bool {
-    let highlightableItems = self.highlightableItems(items)
+  private func highlightNext(_ items: [NSMenuItem], alt: Bool) -> Bool {
+    let highlightableItems = self.highlightableItems(items, alt: alt)
     let currentHighlightedItem = highlightedItem ?? highlightableItems.first
     var itemsIterator = highlightableItems.makeIterator()
     while let item = itemsIterator.next() {
@@ -94,8 +88,8 @@ class Menu: NSMenu, NSMenuDelegate {
     return false
   }
 
-  private func highlightableItems(_ items: [NSMenuItem]) -> [NSMenuItem] {
-    return items.filter { !$0.isSeparatorItem && $0.isEnabled }
+  private func highlightableItems(_ items: [NSMenuItem], alt: Bool = false) -> [NSMenuItem] {
+    return items.filter { !$0.isSeparatorItem && $0.isEnabled && $0.isAlternate == alt }
   }
 
   private func highlight(_ itemToHighlight: NSMenuItem?) {
@@ -124,6 +118,31 @@ class Menu: NSMenu, NSMenuDelegate {
     )
 
     return (range != nil)
+  }
+
+  private func setKeyEquivalents(_ items: [NSMenuItem]) {
+    let mainItems = items.filter { !$0.isAlternate && !isSystemItem(item: $0) }
+    let altItems = items.filter { $0.isAlternate }
+
+    var index = 0
+    for item in mainItems {
+      if index <= maxHotKey {
+        item.keyEquivalent = String(index)
+        index += 1
+      } else if !item.keyEquivalent.isEmpty {
+        item.keyEquivalent = ""
+      }
+    }
+
+    index = 1
+    for item in altItems {
+      if index <= maxHotKey {
+        item.keyEquivalent = String(index)
+        index += 1
+      } else if !item.keyEquivalent.isEmpty {
+        item.keyEquivalent = ""
+      }
+    }
   }
 
   private func isSystemItem(item: NSMenuItem) -> Bool {

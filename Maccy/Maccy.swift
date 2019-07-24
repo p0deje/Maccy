@@ -56,12 +56,9 @@ class Maccy {
   }
 
   private func populateItems() {
-    for (index, entry) in history.all().enumerated() {
-      var hotKey = ""
-      if index < menu.maxHotKey {
-        hotKey = String(index + 1)
-      }
-      menu.addItem(historyItem(entry, index: hotKey))
+    for entry in history.all() {
+      addSearchItem(entry)
+      addAltSearchItem(entry)
     }
   }
 
@@ -72,12 +69,28 @@ class Maccy {
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q"))
   }
 
-  private func historyItem(_ title: String, index: String) -> HistoryMenuItem {
-    return HistoryMenuItem(title: title, hotKey: index, onSelected: onSelectItem)
+  private func addSearchItem(_ entry: String) {
+    let menuItem = HistoryMenuItem(title: entry, onSelected: copy(_:))
+    menu.addItem(menuItem)
   }
 
-  func onSelectItem(item: HistoryMenuItem) {
-    clipboard.copy(String(item.fullTitle ?? ""))
+  private func addAltSearchItem(_ entry: String) {
+    let menuItem = HistoryMenuItem(title: entry, onSelected: { item in
+      self.copy(item)
+      self.clipboard.paste()
+    })
+    menuItem.keyEquivalentModifierMask = [.option]
+    menuItem.isHidden = true
+    menuItem.isAlternate = true
+    menu.addItem(menuItem)
+  }
+
+  private func copy(_ item: HistoryMenuItem) {
+    guard let title = item.fullTitle else {
+      return
+    }
+
+    clipboard.copy(title)
   }
 
   @objc

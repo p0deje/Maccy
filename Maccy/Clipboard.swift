@@ -1,4 +1,5 @@
 import AppKit
+import Carbon
 
 class Clipboard {
   typealias OnNewCopyHook = (String) -> Void
@@ -36,6 +37,24 @@ class Clipboard {
   func copy(_ string: String) {
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
     pasteboard.setString(string, forType: NSPasteboard.PasteboardType.string)
+  }
+
+  // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
+  func paste() {
+    DispatchQueue.main.async {
+      let vCode = UInt16(kVK_ANSI_V)
+      let source = CGEventSource(stateID: .combinedSessionState)
+      // Disable local keyboard events while pasting
+      source?.setLocalEventsFilterDuringSuppressionState([.permitLocalMouseEvents, .permitSystemDefinedEvents],
+                                                         state: .eventSuppressionStateSuppressionInterval)
+
+      let keyVDown = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: true)
+      let keyVUp = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: false)
+      keyVDown?.flags = .maskCommand
+      keyVUp?.flags = .maskCommand
+      keyVDown?.post(tap: .cgAnnotatedSessionEventTap)
+      keyVUp?.post(tap: .cgAnnotatedSessionEventTap)
+    }
   }
 
   @objc

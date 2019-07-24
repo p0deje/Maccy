@@ -40,17 +40,17 @@ class MaccyUITests: XCTestCase {
 
   func testSearchAndCopy() {
     popUpWithHotkey()
-    app.typeText(copy1)
+    typeText(copy1)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy1)
 
     popUpWithHotkey()
-    app.typeText(copy3)
+    typeText(copy3)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
 
     popUpWithHotkey()
-    app.typeText(copy2)
+    typeText(copy2)
     typeKey(.enter)
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
   }
@@ -151,6 +151,12 @@ class MaccyUITests: XCTestCase {
     pasteboard.clearContents()
     pasteboard.setString(content, forType: NSPasteboard.PasteboardType.string)
     sleep(3) // make sure Maccy knows about new item
+  }
+
+  private func typeText(_ text: String) {
+    for char in text {
+      app.typeText(String(char))
+    }
   }
 
   private func typeKey(_ key: XCUIKeyboardKey, _ modifierFlags: XCUIElement.KeyModifierFlags = []) {

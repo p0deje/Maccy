@@ -18,6 +18,7 @@ Also, I wanted to learn Swift and get acquainted with macOS application developm
 * lightweight
 * uses standard macOS menu
 * search-as-you-type
+* automatic pasting (select with ⌥ key pressed)
 
 ## Install
 

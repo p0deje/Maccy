@@ -7,9 +7,9 @@ class MenuTests: XCTestCase {
   var menu: Menu!
 
   lazy var menuItems: [HistoryMenuItem] = [
-    HistoryMenuItem(title: "foo", hotKey: "", onSelected: { _ in }),
-    HistoryMenuItem(title: "bar", hotKey: "", onSelected: { _ in }),
-    HistoryMenuItem(title: "baz", hotKey: "", onSelected: { _ in })
+    HistoryMenuItem(title: "foo", onSelected: { _ in }),
+    HistoryMenuItem(title: "bar", onSelected: { _ in }),
+    HistoryMenuItem(title: "baz", onSelected: { _ in })
   ]
 
   override func setUp() {

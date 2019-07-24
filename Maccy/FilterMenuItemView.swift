@@ -220,13 +220,13 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       if modifierFlags.contains(.command) {
         menu.selectFirst()
       } else {
-        menu.selectPrevious()
+        menu.selectPrevious(alt: modifierFlags.contains(.option))
       }
     case .downArrow:
       if modifierFlags.contains(.command) {
         menu.selectLast()
       } else {
-        menu.selectNext()
+        menu.selectNext(alt: modifierFlags.contains(.option))
       }
     default: ()
     }
