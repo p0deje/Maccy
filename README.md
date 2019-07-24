@@ -36,13 +36,13 @@ brew cask install maccy
 ### Popup Hotkey
 
 ```bash
-$ defaults write org.p0deje.Maccy hotKey control+option+m # default is command+shift+c
+defaults write org.p0deje.Maccy hotKey control+option+m # default is command+shift+c
 ```
 
 ### History Size
 
 ```bash
-$ defaults write org.p0deje.Maccy historySize 100 # default is 999
+defaults write org.p0deje.Maccy historySize 100 # default is 999
 ```
 
 ### Show/Hide Icon in Status Bar
@@ -54,6 +54,17 @@ defaults write org.p0deje.Maccy showInStatusBar false # default is true
 ### Automatically Start at Login
 
 Just add Maccy to your "Login items".
+
+## Update
+
+Download and reinstall the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):
+
+```bash
+brew update
+brew cask upgrade maccy
+killall Maccy # closes the app if is running
+open /Applications/Maccy.app # opens the new version
+```
 
 ## CI
 
