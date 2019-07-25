@@ -47,7 +47,9 @@ class Menu: NSMenu, NSMenuDelegate {
       }
     }
 
-    highlight(highlightableItems(items).first)
+    // do not highlight system items on search
+    let highlightable = highlightableItems(items).filter { !isSystemItem(item: $0) }.first
+    highlight(highlightable)
   }
 
   func select() {
