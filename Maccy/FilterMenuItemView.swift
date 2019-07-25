@@ -16,7 +16,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
   private let layoutConstraints = [
     "|-[titleField]-[queryField]-(==10)-|",
-    "V:|-(==5)-[titleField]-(==2)-|",
+    "V:|-(==3)-[titleField]-(==3)-|",
     "V:|[queryField]-(==3)-|"
   ]
 
@@ -30,7 +30,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     field.isEditable = false
     field.isEnabled = false
     field.drawsBackground = false
-    field.font = NSFont.menuFont(ofSize: 13)
+    field.font = NSFont.menuFont(ofSize: 15)
     field.textColor = NSColor.disabledControlTextColor
     field.cell!.usesSingleLineMode = true
     return field
@@ -44,7 +44,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     field.isEditable = true
     field.isEnabled = true
     field.isBezeled = true
-    field.isHidden = true
+    field.isHidden = false
+    field.placeholderString = "type to search..."
     field.bezelStyle = NSTextField.BezelStyle.roundedBezel
     field.delegate = self
     field.font = NSFont.menuFont(ofSize: 13)
@@ -114,7 +115,6 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }
 
   func controlTextDidChange(_ obj: Notification) {
-    updateVisibility()
     fireNotification()
   }
 
@@ -139,12 +139,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
 
     queryField.stringValue = newQuery
-    updateVisibility()
     fireNotification()
-  }
-
-  private func updateVisibility() {
-    queryField.isHidden = queryField.stringValue.isEmpty
   }
 
   private func processInterceptedEvent(_ eventRef: EventRef) -> Bool {

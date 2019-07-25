@@ -12,6 +12,7 @@ class Menu: NSMenu, NSMenuDelegate {
   override init(title: String) {
     super.init(title: title)
     self.delegate = self
+    self.minimumWidth = 220
   }
 
   func menuWillOpen(_ menu: NSMenu) {
