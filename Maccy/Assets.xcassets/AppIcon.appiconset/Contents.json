@@ -3,61 +3,61 @@
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button.png",
+      "filename" : "AppIcon-16w.png",
       "scale" : "1x"
     },
     {
       "size" : "16x16",
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-1.png",
+      "filename" : "AppIcon-32w.png",
       "scale" : "2x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-2.png",
+      "filename" : "AppIcon-32w-1.png",
       "scale" : "1x"
     },
     {
       "size" : "32x32",
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-3.png",
+      "filename" : "AppIcon-64w.png",
       "scale" : "2x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-4.png",
+      "filename" : "AppIcon-128w.png",
       "scale" : "1x"
     },
     {
       "size" : "128x128",
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-10.png",
+      "filename" : "AppIcon-256w.png",
       "scale" : "2x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-8.png",
+      "filename" : "AppIcon-256w-1.png",
       "scale" : "1x"
     },
     {
       "size" : "256x256",
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-9.png",
+      "filename" : "AppIcon-512w.png",
       "scale" : "2x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-6.png",
+      "filename" : "AppIcon-512w-1.png",
       "scale" : "1x"
     },
     {
       "size" : "512x512",
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-1024.png",
+      "filename" : "AppIcon-1024w.png",
       "scale" : "2x"
     }
   ],

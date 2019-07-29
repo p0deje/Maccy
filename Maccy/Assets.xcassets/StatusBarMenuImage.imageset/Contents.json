@@ -2,12 +2,12 @@
   "images" : [
     {
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-1.png",
+      "filename" : "DarkMenuBar-16w.png",
       "scale" : "1x"
     },
     {
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-3.png",
+      "filename" : "LightMenuBar-16w.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
@@ -18,12 +18,12 @@
     },
     {
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button.png",
+      "filename" : "DarkMenuBar-32w.png",
       "scale" : "2x"
     },
     {
       "idiom" : "mac",
-      "filename" : "clipboard-paste-button-4.png",
+      "filename" : "LightMenuBar-32w.png",
       "appearances" : [
         {
           "appearance" : "luminosity",
