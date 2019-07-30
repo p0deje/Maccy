@@ -2,15 +2,21 @@ PODS:
   - HotKey (0.1.1)
 
 DEPENDENCIES:
-  - HotKey
+  - HotKey (from `https://github.com/p0deje/HotKey.git`, branch `more-aliases`)
 
-SPEC REPOS:
-  https://github.com/cocoapods/specs.git:
-    - HotKey
+EXTERNAL SOURCES:
+  HotKey:
+    :branch: more-aliases
+    :git: https://github.com/p0deje/HotKey.git
+
+CHECKOUT OPTIONS:
+  HotKey:
+    :commit: 5c6def0090da331ebbdcae24058faf3132be2ea3
+    :git: https://github.com/p0deje/HotKey.git
 
 SPEC CHECKSUMS:
   HotKey: 0be143fd015544a63c51be6dc2066dbf455ced72
 
-PODFILE CHECKSUM: 23fcc829e8b3ae8119f5b1aea739305ea03a0306
+PODFILE CHECKSUM: 3a9017144020af00cd02740de8ecc8555cca0027
 
 COCOAPODS: 1.5.2

@@ -154,10 +154,10 @@ public enum Key {
 		case "minus", "-": self = .minus
 		case "eight", "8": self = .eight
 		case "zero", "0": self = .zero
-		case "rightBracket": self = .rightBracket
+		case "rightBracket", "]": self = .rightBracket
 		case "o": self = .o
 		case "u": self = .u
-		case "leftBracket": self = .leftBracket
+		case "leftBracket", "[": self = .leftBracket
 		case "i": self = .i
 		case "p": self = .p
 		case "l": self = .l
@@ -171,7 +171,7 @@ public enum Key {
 		case "n": self = .n
 		case "m": self = .m
 		case "period", ".": self = .period
-		case "grave": self = .grave
+		case "grave", "`": self = .grave
 		case "keypaddecimal": self = .keypadDecimal
 		case "keypadmultiply": self = .keypadMultiply
 		case "keypadplus": self = .keypadPlus

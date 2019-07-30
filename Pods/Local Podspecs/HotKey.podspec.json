@@ -1,0 +1,25 @@
+{
+  "name": "HotKey",
+  "version": "0.1.1",
+  "authors": {
+    "Sam Soffes": "sam@soff.es"
+  },
+  "homepage": "https://github.com/soffes/HotKey",
+  "summary": "Simple global shortcuts in macOS.",
+  "source": {
+    "git": "https://github.com/soffes/HotKey.git",
+    "tag": "v0.1.1"
+  },
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "platforms": {
+    "osx": "10.9"
+  },
+  "frameworks": [
+    "Appkit",
+    "Carbon"
+  ],
+  "source_files": "Sources/HotKey/**/*.{h,m,swift}"
+}
