@@ -1,24 +1,20 @@
-# Maccy.app
+<div align="center">
+  <img width="100px" src="https://p0deje.github.io/Maccy/img/maccy/Logo.svg" alt="Logo" />
+  <h1>
+    <a href="https://p0deje.github.io/Maccy/">Maccy</a>
+  </h1>
+</div>
 
-![Maccy.app](Maccy/Assets.xcassets/Demo.dataset/demo.gif)
-
-## About
-
-Maccy is a simple clipboard manager for macOS. It keeps the history of what you copy
+Maccy is a lightweight clipboard manager for macOS. It keeps the history of what you copy
 and lets you easily navigate, search and use previous clipboard contents.
-
-There are dozens of similar applications out there, so why build another?
-Over the past years since I moved from Linux to macOS, I struggled to find
-a clipboard manager that is as free and simple as [Parcellite](http://parcellite.sourceforge.net).
-Also, I wanted to learn Swift and get acquainted with macOS application development.
 
 ## Features
 
-* open source and free
-* lightweight
-* uses standard macOS menu
-* search-as-you-type
-* automatic pasting (select with ⌥ key pressed)
+* Lightweight and fast
+* Keyboard-first
+* Secure and private
+* Native UI
+* Open source and free
 
 ## Install
 
@@ -30,7 +26,10 @@ brew cask install maccy
 
 ## Usage
 
-⌘+⇧+C.
+1. ⌘+⇧+C to popup Maccy or click on its icon in menu bar.
+2. Type what you want to find.
+3. To select the history item you want to copy, press Enter, or click the item, or use ⌘+n shortcut.
+4. To select the history item and paste, press ⌥+Enter, or ⌥+click the item, or use ⌥+n shortcut.
 
 ## Customization
 
@@ -66,6 +65,15 @@ brew cask upgrade maccy
 killall Maccy # closes the app if is running
 open /Applications/Maccy.app # opens the new version
 ```
+
+## Why Yet Another Clipboard Manager
+
+There are dozens of similar applications out there, so why build another?
+Over the past years since I moved from Linux to macOS, I struggled to find
+a clipboard manager that is as free and simple as [Parcellite](http://parcellite.sourceforge.net),
+but I couldn't. So I've decided to build one.
+
+Also, I wanted to learn Swift and get acquainted with macOS application development.
 
 ## CI
 
