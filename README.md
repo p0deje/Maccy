@@ -8,6 +8,25 @@
 Maccy is a lightweight clipboard manager for macOS. It keeps the history of what you copy
 and lets you easily navigate, search and use previous clipboard contents.
 
+<!-- vim-markdown-toc Marked -->
+
+* [Features](#features)
+* [Install](#install)
+* [Usage](#usage)
+* [Customization](#customization)
+  * [Automatically Start at Login](#automatically-start-at-login)
+  * [Change Default Settings](#change-default-settings)
+    * [Popup Hotkey](#popup-hotkey)
+    * [History Size](#history-size)
+    * [Show/Hide Icon in Status Bar](#show/hide-icon-in-status-bar)
+    * [Automatically Paste by Default](#automatically-paste-by-default)
+* [Update](#update)
+* [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
+* [CI](#ci)
+* [License](#license)
+
+<!-- vim-markdown-toc -->
+
 ## Features
 
 * Lightweight and fast
@@ -33,29 +52,33 @@ brew cask install maccy
 
 ## Customization
 
-### Popup Hotkey
+### Automatically Start at Login
+
+Just add Maccy to your "Login items".
+
+### Change Default Settings
+
+To change default settings, use the following commands from Terminal.
+
+#### Popup Hotkey
 
 ```bash
 defaults write org.p0deje.Maccy hotKey control+option+m # default is command+shift+c
 ```
 
-### History Size
+#### History Size
 
 ```bash
 defaults write org.p0deje.Maccy historySize 100 # default is 999
 ```
 
-### Show/Hide Icon in Status Bar
+#### Show/Hide Icon in Status Bar
 
 ```bash
 defaults write org.p0deje.Maccy showInStatusBar false # default is true
 ```
 
-### Automatically Start at Login
-
-Just add Maccy to your "Login items".
-
-### Automatically Paste by Default
+#### Automatically Paste by Default
 
 ```bash
 defaults write org.p0deje.Maccy pasteByDefault true # default is false
