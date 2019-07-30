@@ -55,6 +55,12 @@ defaults write org.p0deje.Maccy showInStatusBar false # default is true
 
 Just add Maccy to your "Login items".
 
+### Automatically Paste by Default
+
+```bash
+defaults write org.p0deje.Maccy pasteByDefault true # default is false
+```
+
 ## Update
 
 Download and reinstall the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):

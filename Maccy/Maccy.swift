@@ -4,7 +4,9 @@ class Maccy {
   private let about = About()
   private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
   private let menu = Menu(title: "Maccy")
+
   private let showInStatusBar = "showInStatusBar"
+  private let pasteByDefault = "pasteByDefault"
 
   private let history: History
   private let clipboard: Clipboard
@@ -25,7 +27,7 @@ class Maccy {
     self.history = history
     self.clipboard = clipboard
 
-    UserDefaults.standard.register(defaults: [showInStatusBar: true])
+    UserDefaults.standard.register(defaults: [showInStatusBar: true, pasteByDefault: false])
   }
 
   func start() {
@@ -56,9 +58,15 @@ class Maccy {
   }
 
   private func populateItems() {
+    let pasteByDefault = UserDefaults.standard.bool(forKey: self.pasteByDefault)
     for entry in history.all() {
-      addSearchItem(entry)
-      addAltSearchItem(entry)
+      if pasteByDefault {
+        addPasteSearchItem(entry, alt: false)
+        addCopySearchItem(entry, alt: true)
+      } else {
+        addCopySearchItem(entry, alt: false)
+        addPasteSearchItem(entry, alt: true)
+      }
     }
   }
 
@@ -69,20 +77,29 @@ class Maccy {
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q"))
   }
 
-  private func addSearchItem(_ entry: String) {
+  private func addCopySearchItem(_ entry: String, alt: Bool) {
     let menuItem = HistoryMenuItem(title: entry, onSelected: copy(_:))
+    if alt {
+      alternate(menuItem)
+    }
     menu.addItem(menuItem)
   }
 
-  private func addAltSearchItem(_ entry: String) {
+  private func addPasteSearchItem(_ entry: String, alt: Bool) {
     let menuItem = HistoryMenuItem(title: entry, onSelected: { item in
       self.copy(item)
       self.clipboard.paste()
     })
+    if alt {
+      alternate(menuItem)
+    }
+    menu.addItem(menuItem)
+  }
+
+  private func alternate(_ menuItem: HistoryMenuItem) {
     menuItem.keyEquivalentModifierMask = [.option]
     menuItem.isHidden = true
     menuItem.isAlternate = true
-    menu.addItem(menuItem)
   }
 
   private func copy(_ item: HistoryMenuItem) {
