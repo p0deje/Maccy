@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="482px" height="482px" viewBox="0 0 482 482" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 56.2 (81672) - https://sketch.com -->
+    <title>Logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FF93F9" offset="0%"></stop>
+            <stop stop-color="#FF9C5A" offset="100%"></stop>
+        </linearGradient>
+        <circle id="path-2" cx="237" cy="237" r="237"></circle>
+        <filter x="-1.5%" y="-1.1%" width="103.0%" height="103.0%" filterUnits="objectBoundingBox" id="filter-3">
+            <feOffset dx="0" dy="2" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="2" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-4">
+            <stop stop-color="#FFFFFF" stop-opacity="0.5" offset="0%"></stop>
+            <stop stop-color="#000000" stop-opacity="0.5" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Logo" transform="translate(4.000000, 2.000000)">
+            <g id="Background">
+                <use fill="black" fill-opacity="1" filter="url(#filter-3)" xlink:href="#path-2"></use>
+                <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            </g>
+            <g id="Icon" transform="translate(157.000000, 23.000000)" stroke="#FFFFFF" stroke-width="11">
+                <ellipse id="OuterVane" fill="#44D7B6" cx="80" cy="159.5" rx="74.5" ry="154"></ellipse>
+                <ellipse id="InnerVane" fill="#32C5FF" cx="81" cy="160" rx="47.5" ry="106.5"></ellipse>
+                <path d="M44,400 L80,378" id="LowerLeftAfterfeather" stroke-linecap="round" transform="translate(62.000000, 389.000000) scale(-1, 1) translate(-62.000000, -389.000000) "></path>
+                <path d="M80,399 L116,377" id="LowerRightAfterfeather" stroke-linecap="round"></path>
+                <path d="M81,367 L117,345" id="HigherLeftAfterfeather" fill="url(#linearGradient-4)" stroke-linecap="round"></path>
+                <path d="M79.4116613,54.5282486 L79.5,427.471751" id="Rachies" stroke-linecap="round"></path>
+                <path d="M80,193 L111,172" id="LowerBarb" stroke-linecap="round"></path>
+                <path d="M101.52381,156 L122.47619,141.535714" id="HigherBarb" stroke-linecap="round"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -5,7 +5,7 @@
 
 html {
   height: 100%;
-  font-size: 16px;
+  font-size: 20px;
   line-height: 1.15;
   -webkit-text-size-adjust: 100%;
   -ms-text-size-adjust: 100%;
@@ -64,8 +64,8 @@ button {
   border-radius: 0; }
 
 h1, h2, h3, h4, h5, h6 {
-  margin-bottom: 0.5em;
-  margin-top: 0.5em;
+  /* margin-bottom: 0.5em; */
+  /* margin-top: 0.5em; */
   line-height: 1.3;
   color: #303030; }
 
@@ -134,13 +134,14 @@ pre {
       .heading--big {
         font-size: 1.8em; } }
   .heading--accent, .text--04__big_text {
-    font-size: 3em; }
+    font-size: 5em;
+    margin-bottom: 10px; }
     @media (max-width: 768px) {
       .heading--accent, .text--04__big_text {
-        font-size: 2.5em; } }
+        font-size: 4.5em; } }
     @media (max-width: 500px) {
       .heading--accent, .text--04__big_text {
-        font-size: 2em; } }
+        font-size: 4em; } }
 
 .heading__accent_word {
   position: relative; }
@@ -1387,9 +1388,7 @@ button.button {
     .buttons-set__item {
       width: 100%;
       margin-left: 0;
-      margin-right: 0; }
-      .buttons-set__item .button {
-        width: 100%; } }
+      margin-right: 0; } }
 
 .buttons-set__info {
   opacity: 0.5;
@@ -2513,19 +2512,11 @@ button.button {
   justify-content: space-between;
   align-items: center;
   flex-wrap: wrap;
-  padding-top: 120px;
+  /* padding-top: 120px; */
   padding-bottom: 10px; }
-  @media (max-width: 1400px) {
-    .header-07__container, .header-23__container, .header-24__container, .header-25__container, .header-58__container {
-      padding-top: 80px;
-      padding-bottom: 120px; } }
   @media (max-width: 1020px) {
     .header-07__container, .header-23__container, .header-24__container, .header-25__container, .header-58__container {
-      display: block;
-      padding-top: 50px; } }
-  @media (max-width: 400px) {
-    .header-07__container, .header-23__container, .header-24__container, .header-25__container, .header-58__container {
-      padding-top: 20px; } }
+      display: block; } }
 
 .header-07__left, .header-23__left, .header-24__left, .header-25__left, .header-58__left {
   position: relative;
@@ -2539,7 +2530,17 @@ button.button {
       width: 100%;
       margin-left: auto;
       margin-right: auto;
-      text-align: center; } }
+      text-align: center;
+      padding-top: 0px;
+      padding-bottom: 0px; } }
+
+.header-25__left_content img {
+  max-width: 5em;
+  padding: 20px 10px 0 0;
+  float: left; }
+  @media (max-width: 1020px) {
+    .header-25__left_content img {
+      float: unset; } }
 
 .header-07__text, .header-23__text, .header-24__text, .header-25__text, .header-58__text {
   max-width: 80%; }
@@ -3507,7 +3508,7 @@ button.button {
   max-width: 100%; }
 
 .photos-03 {
-  padding-top: 70px;
+  /* padding-top: 70px; */
   padding-bottom: 70px; }
 
 .photos-03__title_box {
@@ -8337,7 +8338,7 @@ button.button {
   text-decoration: none; }
 
 .testimonials-01 {
-  padding: 10px 0 100px;
+  padding: 10px 0 10px;
   text-align: center; }
   @media (max-width: 800px) {
     .testimonials-01 .slider__arrow {
@@ -8370,8 +8371,14 @@ button.button {
       .testimonials-01 .slider__box:after {
         content: ""; } }
 
+.testimonials-01__container {
+  display: flex;
+  max-width: 90%;
+  justify-content: center; }
+
 @media (max-width: 800px) {
   .testimonials-01__container {
+    display: block;
     padding-left: 0;
     padding-right: 0; } }
 
@@ -8382,6 +8389,7 @@ button.button {
   max-width: 580px;
   margin-bottom: 20px;
   margin-top: 20px;
+  margin-right: 20px;
   border-radius: 10px;
   box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2), 0 5px 15px 0 rgba(37, 44, 97, 0.15);
   background-color: white;
@@ -8877,17 +8885,14 @@ button.button {
   opacity: 0.6; }
 
 .footer-01 {
-  background-color: #F6F6F6; }
+   }
 
 .footer-01__wrapper {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
-  padding: 40px 0 60px; }
-  @media (max-width: 750px) {
-    .footer-01__wrapper {
-      display: block; } }
+  padding: 0px 0 20px; }
 
 .footer-01__logo_link {
   display: block;
@@ -10303,7 +10308,7 @@ button.button {
     text-decoration: underline; }
 
 .features-01 {
-  padding: 70px 0 40px; }
+  padding: 40px 0 40px; }
 
 .features-01__title_box {
   text-align: center; }
