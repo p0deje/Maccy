@@ -268,7 +268,7 @@ pre {
   min-height: 44px;
   border-radius: 4px;
   box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2), 0 5px 15px 0 rgba(37, 44, 97, 0.15);
-  font-size: 14px;
+  font-size: 20px;
   font-weight: 700;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -454,8 +454,8 @@ button.button {
   top: 50%;
   left: 15px;
   transform: translateY(-50%);
-  height: 16px;
-  width: 16px; }
+  height: 20px;
+  width: 20px; }
   .button__system_icon svg,
   .button__chrome_icon svg {
     height: 100%; }
