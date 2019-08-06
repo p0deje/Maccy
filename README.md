@@ -106,7 +106,7 @@ Also, I wanted to learn Swift and get acquainted with macOS application developm
 
 ## CI
 
-[![Travis builds](https://travis-ci.org/p0deje/Maccy.svg?branch=master)](https://travis-ci.org/p0deje/Maccy)
+[![Build Status](https://app.bitrise.io/app/716921b669780314/status.svg?token=3pMiCb5dpFzlO-7jTYtO3Q&branch=master)](https://app.bitrise.io/app/716921b669780314)
 
 ## License
 
