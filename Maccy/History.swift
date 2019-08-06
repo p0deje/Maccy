@@ -1,11 +1,21 @@
 import AppKit
 
 class History {
-  private let storageKey = "history"
   private let sizeKey = "historySize"
+
+  private var storageKey: String {
+    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
+      return "historyUITests"
+    } else {
+      return "history"
+    }
+  }
 
   init() {
     UserDefaults.standard.register(defaults: [sizeKey: 999])
+    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
+      clear()
+    }
   }
 
   func all() -> [String] {

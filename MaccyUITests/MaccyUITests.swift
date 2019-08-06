@@ -7,14 +7,9 @@ class MaccyUITests: XCTestCase {
 
   let copy1 = UUID().uuidString
   let copy2 = UUID().uuidString
-  let copy3 = UUID().uuidString
 
   var statusItem: XCUIElement {
     return app.statusItems.firstMatch
-  }
-
-  var statusItemCoordinates: XCUICoordinate {
-    return statusItem.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
   }
 
   var popUpEvents: [CGEvent] {
@@ -30,99 +25,83 @@ class MaccyUITests: XCTestCase {
   override func setUp() {
     super.setUp()
     continueAfterFailure = false
+    app.launchArguments.append("ui-testing")
     app.launch()
 
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-    copyToClipboard(copy1)
     copyToClipboard(copy2)
-    copyToClipboard(copy3)
+    copyToClipboard(copy1)
   }
 
-  func testSearchAndCopy() {
-    popUpWithHotkey()
-    typeText(copy1)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy1)
-
-    popUpWithHotkey()
-    typeText(copy3)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
-
-    popUpWithHotkey()
-    typeText(copy2)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+  override func tearDown() {
+    super.tearDown()
+    app.terminate()
   }
 
-  func testSelectWithDownArrowKeysAndCopy() {
+  func testPopupWithHotkey() {
     popUpWithHotkey()
-    typeKey(.downArrow)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
-
-    popUpWithHotkey()
-    typeKey(.downArrow)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
-
-    popUpWithHotkey()
-    typeKey(.downArrow)
-    typeKey(.downArrow)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy1)
-
-    popUpWithHotkey()
-    typeKey(.downArrow, [.command])
-    typeKey(.downArrow)
-    typeKey(.downArrow)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
+    XCTAssertTrue(app.menuItems[copy1].exists)
+    XCTAssertTrue(app.menuItems[copy2].exists)
   }
 
-  func testSelectWithUpArrowKeysAndCopy() {
-    popUpWithHotkey()
-    typeKey(.downArrow)
-    typeKey(.downArrow)
-    typeKey(.upArrow)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
-
-    popUpWithHotkey()
-    typeKey(.downArrow)
-    typeKey(.downArrow)
-    typeKey(.upArrow)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
-
-    popUpWithHotkey()
-    typeKey(.downArrow)
-    typeKey(.downArrow)
-    typeKey(.downArrow)
-    typeKey(.upArrow)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy1)
-
-    popUpWithHotkey()
-    typeKey(.upArrow)
-    typeKey(.upArrow, [.command])
-    typeKey(.downArrow)
-    typeKey(.enter)
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy3)
-  }
-
-  func testCloseWithMouseAndSelectWithArrowKeys() {
-    for _ in 1...2 {
-      popUpWithMouse()
-      typeKey(.downArrow)
-      hoverTitleField()
-      hideWithMouse()
-    }
-
+  func testPopupWithMenubar() {
     popUpWithMouse()
-    typeKey(.downArrow)
-    typeKey(.enter)
+    XCTAssertTrue(app.menuItems[copy1].exists)
+    XCTAssertTrue(app.menuItems[copy2].exists)
+  }
 
+  func testSearch() {
+    popUpWithHotkey()
+    app.typeText(copy1)
+    XCTAssertTrue(app.menuItems[copy1].exists)
+    XCTAssertFalse(app.menuItems[copy2].exists)
+  }
+
+  func testCopyWithClick() {
+    popUpWithHotkey()
+    app.menuItems.matching(identifier: copy2).element(boundBy: 0).click()
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+  }
+
+  func testCopyWithEnter() {
+    popUpWithHotkey()
+    app.menuItems.matching(identifier: copy2).element(boundBy: 0).hover()
+    app.typeKey(.enter, modifierFlags: [])
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+  }
+
+  func testDownArrow() {
+    popUpWithHotkey()
+    app.typeKey(.downArrow, modifierFlags: [])
+    app.typeKey(.enter, modifierFlags: [])
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+  }
+
+  func testCommandDownArrow() {
+    popUpWithHotkey()
+    app.typeKey(.downArrow, modifierFlags: [.command]) // "Quit"
+    app.typeKey(.downArrow, modifierFlags: []) // copy1
+    app.typeKey(.downArrow, modifierFlags: []) // copy2
+    app.typeKey(.enter, modifierFlags: [])
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+  }
+
+  func testUpArrow() {
+    popUpWithHotkey()
+    app.typeKey(.upArrow, modifierFlags: []) // "Quit"
+    app.typeKey(.upArrow, modifierFlags: []) // "About"
+    app.typeKey(.upArrow, modifierFlags: []) // "Clear"
+    app.typeKey(.upArrow, modifierFlags: [])
+    app.typeKey(.enter, modifierFlags: [])
+    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+  }
+
+  func testCommandUpArrow() {
+    popUpWithHotkey()
+    app.typeKey(.upArrow, modifierFlags: []) // "Quit"
+    app.typeKey(.upArrow, modifierFlags: [.command]) // copy1
+    app.typeKey(.downArrow, modifierFlags: [])
+    app.typeKey(.enter, modifierFlags: [])
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
   }
 
@@ -138,29 +117,9 @@ class MaccyUITests: XCTestCase {
     sleep(1) // give Maccy some time to popup
   }
 
-  private func hoverTitleField() {
-    statusItemCoordinates.withOffset(CGVector(dx: 20, dy: 40)).hover()
-  }
-
-  private func hideWithMouse() {
-    statusItemCoordinates.withOffset(CGVector(dx: -40, dy: 40)).click()
-    sleep(1)
-  }
-
   private func copyToClipboard(_ content: String) {
     pasteboard.clearContents()
     pasteboard.setString(content, forType: NSPasteboard.PasteboardType.string)
     sleep(3) // make sure Maccy knows about new item
-  }
-
-  private func typeText(_ text: String) {
-    for char in text {
-      app.typeText(String(char))
-    }
-  }
-
-  private func typeKey(_ key: XCUIKeyboardKey, _ modifierFlags: XCUIElement.KeyModifierFlags = []) {
-    app.typeKey(key, modifierFlags: modifierFlags)
-    sleep(1) // give Maccy some time to process key
   }
 }
