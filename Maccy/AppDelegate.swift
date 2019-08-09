@@ -16,4 +16,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     maccy.start()
     hotKey.handler = { self.maccy.popUp() }
   }
+  func applicationShouldHandleReopen(_ sender: NSApplication,
+                                   hasVisibleWindows flag: Bool) -> Bool {
+    maccy.statusItem.isVisible = true
+    return true
+  }
 }

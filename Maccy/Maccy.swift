@@ -2,14 +2,26 @@ import Cocoa
 
 class Maccy {
   private let about = About()
-  private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+  let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
   private let menu = Menu(title: "Maccy")
 
-  private let showInStatusBar = "showInStatusBar"
   private let pasteByDefault = "pasteByDefault"
 
   private let history: History
   private let clipboard: Clipboard
+    
+  private var pasteByDefaultItem: NSMenuItem {
+    let pasteByDefault = UserDefaults.standard.bool(forKey: self.pasteByDefault)
+    let item = NSMenuItem(title: "Paste by Default", action: #selector(togglePasteByDefault), keyEquivalent: "")
+    item.target = self
+    item.indentationLevel = 1
+    if pasteByDefault {
+      item.state = .on
+    } else {
+      item.state = .off
+    }
+    return item
+  }
 
   private var clearItem: NSMenuItem {
     let item = NSMenuItem(title: "Clear", action: #selector(clear), keyEquivalent: "")
@@ -27,14 +39,13 @@ class Maccy {
     self.history = history
     self.clipboard = clipboard
 
-    UserDefaults.standard.register(defaults: [showInStatusBar: true, pasteByDefault: false])
+    UserDefaults.standard.register(defaults: [pasteByDefault: false])
   }
 
   func start() {
-    if UserDefaults.standard.bool(forKey: showInStatusBar) {
-      statusItem.button!.image = NSImage(named: "StatusBarMenuImage")
-      statusItem.menu = menu
-    }
+    statusItem.button!.image = NSImage(named: "StatusBarMenuImage")
+    statusItem.menu = menu
+    statusItem.behavior = .removalAllowed
 
     refresh()
 
@@ -74,6 +85,10 @@ class Maccy {
     menu.addItem(NSMenuItem.separator())
     menu.addItem(clearItem)
     menu.addItem(aboutItem)
+    menu.addItem(NSMenuItem.separator())
+    menu.addItem(NSMenuItem(title: "Settings", action: nil, keyEquivalent: ""))
+    menu.addItem(pasteByDefaultItem)
+    menu.addItem(NSMenuItem.separator())
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q"))
   }
 
@@ -113,6 +128,18 @@ class Maccy {
   @objc
   func clear(_ sender: NSMenuItem) {
     history.clear()
+    refresh()
+  }
+    
+  @objc func togglePasteByDefault(_ sender: NSMenuItem) {
+    let pasteState = UserDefaults.standard.bool(forKey: self.pasteByDefault)
+    if pasteState {
+      UserDefaults.standard.set(false, forKey: pasteByDefault)
+      sender.state = .off
+    } else {
+      UserDefaults.standard.set(true, forKey: pasteByDefault)
+      sender.state = .on
+    }
     refresh()
   }
 }
