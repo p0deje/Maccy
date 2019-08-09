@@ -18,7 +18,7 @@ and lets you easily navigate, search and use previous clipboard contents.
   * [Change Default Settings](#change-default-settings)
     * [Popup Hotkey](#popup-hotkey)
     * [History Size](#history-size)
-    * [Show/Hide Icon in Status Bar](#show/hide-icon-in-status-bar)
+    * [Hide Icon in Status Bar](#hide-icon-in-status-bar)
     * [Automatically Paste by Default](#automatically-paste-by-default)
 * [Update](#update)
 * [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
@@ -39,13 +39,13 @@ and lets you easily navigate, search and use previous clipboard contents.
 
 Download the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):
 
-```bash
+```sh
 brew cask install maccy
 ```
 
 ## Usage
 
-1. ⌘+⇧+C to popup Maccy or click on its icon in menu bar.
+1. <kbd>⌘</kbd>+<kbd>⇧</kbd>+<kbd>C</kbd> to popup Maccy or click on its icon in menu bar.
 2. Type what you want to find.
 3. To select the history item you want to copy, press Enter, or click the item, or use ⌘+n shortcut.
 4. To select the history item and paste, press ⌥+Enter, or ⌥+click the item, or use ⌥+n shortcut.
@@ -62,33 +62,31 @@ To change default settings, use the following commands from Terminal.
 
 #### Popup Hotkey
 
-```bash
+```powershell
 defaults write org.p0deje.Maccy hotKey control+option+m # default is command+shift+c
 ```
 
 #### History Size
 
-```bash
+```powershell
 defaults write org.p0deje.Maccy historySize 100 # default is 999
 ```
 
-#### Show/Hide Icon in Status Bar
+#### Hide Icon in Status Bar
 
-```bash
-defaults write org.p0deje.Maccy showInStatusBar false # default is true
-```
+1. Drag it away from status bar holding <kbd>⌘</kbd> until you see a cross.
+2. Let it go.
+> To recover the icon, open `Maccy` when it's already running.
 
 #### Automatically Paste by Default
 
-```bash
-defaults write org.p0deje.Maccy pasteByDefault true # default is false
-```
+You can change this behavior right in the popup.
 
 ## Update
 
 Download and reinstall the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):
 
-```bash
+```powershell
 brew update
 brew cask upgrade maccy
 killall Maccy # closes the app if is running
