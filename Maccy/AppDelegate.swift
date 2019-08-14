@@ -16,4 +16,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     maccy.start()
     hotKey.handler = { self.maccy.popUp() }
   }
+  func applicationShouldHandleReopen(_ sender: NSApplication,
+                                     hasVisibleWindows flag: Bool) -> Bool {
+    maccy.statusItem.isVisible = true
+    UserDefaults.standard.removeObject(forKey: "showInStatusBar")
+    return true
+  }
 }

@@ -18,7 +18,7 @@ and lets you easily navigate, search and use previous clipboard contents.
   * [Change Default Settings](#change-default-settings)
     * [Popup Hotkey](#popup-hotkey)
     * [History Size](#history-size)
-    * [Show/Hide Icon in Status Bar](#show/hide-icon-in-status-bar)
+    * [Hide Icon in Status Bar](#hide-icon-in-status-bar)
     * [Automatically Paste by Default](#automatically-paste-by-default)
 * [Update](#update)
 * [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
@@ -72,17 +72,15 @@ defaults write org.p0deje.Maccy hotKey control+option+m # default is command+shi
 defaults write org.p0deje.Maccy historySize 100 # default is 999
 ```
 
-#### Show/Hide Icon in Status Bar
+#### Hide Icon in Status Bar
 
-```bash
-defaults write org.p0deje.Maccy showInStatusBar false # default is true
-```
+1. Drag it away from status bar holding <kbd>⌘</kbd> until you see a cross.
+2. Let it go.
+> To recover the icon, open `Maccy` when it's already running.
 
 #### Automatically Paste by Default
 
-```bash
-defaults write org.p0deje.Maccy pasteByDefault true # default is false
-```
+You can change this behavior using `Preferences` right in the popup.
 
 ## Update
 
