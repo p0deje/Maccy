@@ -424,8 +424,7 @@ pre {
     .button--white-bg .button__system_icon svg * {
       fill: #00396B; }
   .button--large {
-    padding: 16px 30px;
-    min-height: 52px; }
+    min-height: 51px; }
   .button--small {
     padding: 6px 10px;
     min-height: 32px; }
@@ -2534,12 +2533,12 @@ button.button {
       padding-top: 0px;
       padding-bottom: 0px; } }
 
-.header-25__left_content img {
+.header-25__left_content img:not(.producthunt) {
   max-width: 5em;
   padding: 20px 10px 0 0;
   float: left; }
   @media (max-width: 1020px) {
-    .header-25__left_content img {
+    .header-25__left_content img:not(.producthunt) {
       float: unset; } }
 
 .header-07__text, .header-23__text, .header-24__text, .header-25__text, .header-58__text {
@@ -12575,3 +12574,6 @@ a.pswp__share--download:hover {
 .pswp__bg {
   transition: none !important;
   background-color: rgba(0, 0, 0, 0.8); }
+
+.producthunt {
+  height: 51px; }
