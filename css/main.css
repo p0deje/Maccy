@@ -441,7 +441,7 @@ pre {
   .button.state-show-success-tick {
     border-color: #4BCA81; }
   .button--vendor-logo {
-    padding-left: 65px; }
+    padding-left: 60px; }
 
 button.button {
   padding-top: 11px;
@@ -453,7 +453,7 @@ button.button {
   top: 50%;
   left: 15px;
   transform: translateY(-50%);
-  height: 20px;
+  height: 30px;
   width: 20px; }
   .button__system_icon svg,
   .button__chrome_icon svg {
