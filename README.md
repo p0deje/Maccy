@@ -6,7 +6,7 @@
 </div>
 
 Maccy is a lightweight clipboard manager for macOS. It keeps the history of what you copy
-and lets you easily navigate, search and use previous clipboard contents.
+and lets you quickly navigate, search, and use previous clipboard contents.
 
 <!-- vim-markdown-toc Marked -->
 
@@ -39,16 +39,16 @@ and lets you easily navigate, search and use previous clipboard contents.
 
 Download the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):
 
-```bash
+```sh
 brew cask install maccy
 ```
 
 ## Usage
 
-1. ⌘+⇧+C to popup Maccy or click on its icon in menu bar.
+1. <kbd>COMMAND (⌘)</kbd> + <kbd>SHIFT (⇧)</kbd> + <kbd>C</kbd> to popup Maccy or click on its icon in the menu bar.
 2. Type what you want to find.
-3. To select the history item you want to copy, press Enter, or click the item, or use ⌘+n shortcut.
-4. To select the history item and paste, press ⌥+Enter, or ⌥+click the item, or use ⌥+n shortcut.
+3. To select the history item you wish to copy, press <kbd>ENTER</kbd>, or click the item, or use <kbd>COMMAND (⌘)</kbd> + `n` shortcut.
+4. To choose the history item and paste, press <kbd>ALT (⌥)</kbd> + <kbd>ENTER</kbd>, or <kbd>ALT (⌥)</kbd> + <kbd>CLICK</kbd> the item, or use <kbd>ALT (⌥)</kbd> + `n` shortcut.
 
 ## Customization
 
@@ -62,36 +62,40 @@ To change default settings, use the following commands from Terminal.
 
 #### Popup Hotkey
 
-```bash
+```sh
 defaults write org.p0deje.Maccy hotKey control+option+m # default is command+shift+c
 ```
 
 #### History Size
 
-```bash
+```sh
 defaults write org.p0deje.Maccy historySize 100 # default is 999
 ```
 
 #### Show/Hide Icon in Status Bar
 
-```bash
+```sh
 defaults write org.p0deje.Maccy showInStatusBar false # default is true
 ```
 
 #### Automatically Paste by Default
 
-```bash
+Select and paste in one go.
+
+```sh
 defaults write org.p0deje.Maccy pasteByDefault true # default is false
 ```
+
+> Make sure you quit the app and restart it after changing the options here.
 
 ## Update
 
 Download and reinstall the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):
 
-```bash
+```sh
 brew update
 brew cask upgrade maccy
-killall Maccy # closes the app if is running
+killall Maccy # closes the app if it is running
 open /Applications/Maccy.app # opens the new version
 ```
 
