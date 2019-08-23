@@ -12,58 +12,11 @@ class Maccy {
   private let clipboard: Clipboard
 
   private var clearItem: NSMenuItem {
-    let item = NSMenuItem(title: "Clear", action: #selector(clear), keyEquivalent: "⌦")
-    item.keyEquivalentModifierMask = .control
+    let item = NSMenuItem(title: "Clear", action: #selector(clear), keyEquivalent: "")
     item.target = self
     return item
   }
-  
-  private var prefItem: NSMenuItem {
-    let item = NSMenuItem(title: "Preferences", action: nil, keyEquivalent: "")
-    let prefMenu = NSMenu()
-    prefMenu.addItem(pasteByDefaultItem)
-    prefMenu.addItem(NSMenuItem.separator())
-    prefMenu.addItem(historySizeItem)
-    prefMenu.addItem(hotKeyItem)
-    prefMenu.addItem(howToItem)
-    item.submenu = prefMenu
-    item.target = self
-    return item
-  }
-  
-  private var pasteByDefaultItem: NSMenuItem {
-    let item = NSMenuItem(title: "Paste by Default", action: #selector(togglePasteByDefault), keyEquivalent: "")
-    item.target = self
-    if UserDefaults.standard.bool(forKey: pasteByDefault) {
-      item.state = .on
-    } else {
-      item.state = .off
-    }
-    return item
-  }
-  private var howToItem: NSMenuItem {
-    let item = NSMenuItem()
-    item.title = "How to configure?"
-    item.action = #selector(openHowToConfig)
-    item.indentationLevel = 1
-    item.target = self
-    return item
-  }
-  private var historySizeItem: NSMenuItem {
-    let historySize = UserDefaults.standard.integer(forKey: "historySize")
-    let item = NSMenuItem()
-    item.title = "History Size: " + String(historySize)
-    item.target = self
-    return item
-  }
-  private var hotKeyItem: NSMenuItem {
-    let hotKey = UserDefaults.standard.string(forKey: "hotKey")
-    let item = NSMenuItem()
-    item.title = "Hotkey: " + hotKey!
-    item.target = self
-    return item
-  }
-  
+
   private var aboutItem: NSMenuItem {
     let item = NSMenuItem(title: "About", action: #selector(about.openAbout), keyEquivalent: "")
     item.target = about
@@ -123,7 +76,6 @@ class Maccy {
   private func populateFooter() {
     menu.addItem(NSMenuItem.separator())
     menu.addItem(clearItem)
-    menu.addItem(prefItem)
     menu.addItem(aboutItem)
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q"))
   }
@@ -165,22 +117,5 @@ class Maccy {
   func clear(_ sender: NSMenuItem) {
     history.clear()
     refresh()
-  }
-  
-  @objc
-  func togglePasteByDefault(_ sender: NSMenuItem) {
-    let pasteState = UserDefaults.standard.bool(forKey: pasteByDefault)
-    UserDefaults.standard.set(!pasteState, forKey: pasteByDefault)
-    if pasteState {
-      sender.state = .off
-    } else {
-      sender.state = .on
-    }
-    refresh()
-  }
-  
-  @objc
-  func openHowToConfig(_ sender: NSMenuItem) {
-    NSWorkspace.shared.open(URL(string: "https://github.com/p0deje/Maccy#customization")!)
   }
 }

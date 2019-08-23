@@ -80,7 +80,9 @@ defaults write org.p0deje.Maccy historySize 100 # default is 999
 
 #### Automatically Paste by Default
 
-You can change this behavior using `Preferences` right in the popup.
+```bash
+defaults write org.p0deje.Maccy pasteByDefault true # default is false
+```
 
 ## Update
 
