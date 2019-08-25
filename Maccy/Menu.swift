@@ -5,6 +5,8 @@ class Menu: NSMenu, NSMenuDelegate {
   public let maxHotKey = 9
   public var allItems: [NSMenuItem] = []
 
+  private let menuWidth = 300
+
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
   }
@@ -12,7 +14,7 @@ class Menu: NSMenu, NSMenuDelegate {
   override init(title: String) {
     super.init(title: title)
     self.delegate = self
-    self.minimumWidth = 220
+    self.minimumWidth = CGFloat(menuWidth)
   }
 
   func menuWillOpen(_ menu: NSMenu) {
@@ -27,7 +29,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func addSearchItem() {
-    let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: 20, height: 29))
+    let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: menuWidth, height: 29))
     headerItemView.title = title
 
     let headerItem = NSMenuItem()
