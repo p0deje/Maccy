@@ -63,9 +63,11 @@ class Clipboard {
       return
     }
 
-    if let lastItem = pasteboard.string(forType: NSPasteboard.PasteboardType.string) {
-      for hook in onNewCopyHooks {
-        hook(lastItem)
+    if let lastItem = pasteboard.pasteboardItems?.last {
+      if let lastItemString = lastItem.string(forType: .string) {
+        for hook in onNewCopyHooks {
+          hook(lastItemString)
+        }
       }
     } else {
       for hook in onRemovedCopyHooks {
