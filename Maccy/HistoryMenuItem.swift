@@ -17,6 +17,7 @@ class HistoryMenuItem: NSMenuItem {
     self.onSelected = [onSelected]
     self.target = self
     self.fullTitle = title
+    self.toolTip = fullTitle
     self.title = humanizedTitle(title)
   }
 
