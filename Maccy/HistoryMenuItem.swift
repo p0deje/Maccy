@@ -19,6 +19,7 @@ class HistoryMenuItem: NSMenuItem {
     self.fullTitle = title
     self.toolTip = fullTitle
     self.title = humanizedTitle(title)
+    self.image = ColorImage.from(title)
   }
 
   @objc
