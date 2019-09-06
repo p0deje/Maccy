@@ -60,21 +60,27 @@ class MaccyUITests: XCTestCase {
   func testCopyWithClick() {
     popUpWithHotkey()
     app.menuItems.matching(identifier: copy2).element(boundBy: 0).click()
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+    XCTAssertEqual(pasteboard.string(forType: .string), copy2)
   }
 
   func testCopyWithEnter() {
     popUpWithHotkey()
     app.menuItems.matching(identifier: copy2).element(boundBy: 0).hover()
     app.typeKey(.enter, modifierFlags: [])
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+    XCTAssertEqual(pasteboard.string(forType: .string), copy2)
+  }
+
+  func testCopyWithCommandShortcut() {
+    popUpWithHotkey()
+    app.typeKey("2", modifierFlags: [.command])
+    XCTAssertEqual(pasteboard.string(forType: .string), copy2)
   }
 
   func testDownArrow() {
     popUpWithHotkey()
     app.typeKey(.downArrow, modifierFlags: [])
     app.typeKey(.enter, modifierFlags: [])
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+    XCTAssertEqual(pasteboard.string(forType: .string), copy2)
   }
 
   func testCommandDownArrow() {
@@ -83,7 +89,7 @@ class MaccyUITests: XCTestCase {
     app.typeKey(.downArrow, modifierFlags: []) // copy1
     app.typeKey(.downArrow, modifierFlags: []) // copy2
     app.typeKey(.enter, modifierFlags: [])
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
+    XCTAssertEqual(pasteboard.string(forType: .string), copy2)
   }
 
   func testUpArrow() {
