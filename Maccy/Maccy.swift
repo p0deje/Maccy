@@ -26,6 +26,7 @@ class Maccy {
   init(history: History, clipboard: Clipboard) {
     self.history = history
     self.clipboard = clipboard
+    menu.history = history
 
     UserDefaults.standard.register(defaults: [showInStatusBar: true, pasteByDefault: false])
   }

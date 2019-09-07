@@ -8,7 +8,7 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.title, title)
     XCTAssertEqual(menuItem.title.count, 49)
     XCTAssertEqual(menuItem.fullTitle, title)
-    XCTAssertEqual(menuItem.toolTip, title)
+    XCTAssertEqual(menuItem.toolTip, tooltip(title))
   }
 
   func testTitleOfMaxLength() {
@@ -17,7 +17,7 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.title, title)
     XCTAssertEqual(menuItem.title.count, 50)
     XCTAssertEqual(menuItem.fullTitle, title)
-    XCTAssertEqual(menuItem.toolTip, title)
+    XCTAssertEqual(menuItem.toolTip, tooltip(title))
   }
 
   func testTitleLongerThanMaxLength() {
@@ -26,7 +26,7 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.title, "\(title)...")
     XCTAssertEqual(menuItem.title.count, 54)
     XCTAssertEqual(menuItem.fullTitle, title)
-    XCTAssertEqual(menuItem.toolTip, title)
+    XCTAssertEqual(menuItem.toolTip, tooltip(title))
   }
 
   func testTitleWithWhitespaces() {
@@ -34,6 +34,13 @@ class HistoryMenuItemTests: XCTestCase {
     let menuItem = HistoryMenuItem(title: title, onSelected: { _ in })
     XCTAssertEqual(menuItem.title, "foo")
     XCTAssertEqual(menuItem.fullTitle, title)
-    XCTAssertEqual(menuItem.toolTip, title)
+    XCTAssertEqual(menuItem.toolTip, tooltip(title))
+  }
+
+  private func tooltip(_ title: String) -> String {
+    return """
+           \(title)\n
+           Press ⌥+⌫ to delete.
+           """
   }
 }

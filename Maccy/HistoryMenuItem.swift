@@ -17,9 +17,12 @@ class HistoryMenuItem: NSMenuItem {
     self.onSelected = [onSelected]
     self.target = self
     self.fullTitle = title
-    self.toolTip = fullTitle
     self.title = humanizedTitle(title)
     self.image = ColorImage.from(title)
+    self.toolTip = """
+                   \(title)\n
+                   Press ⌥+⌫ to delete.
+                   """
   }
 
   @objc

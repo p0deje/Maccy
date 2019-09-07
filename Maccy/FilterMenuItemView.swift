@@ -172,6 +172,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     if key == Key.delete {
       if modifierFlags.contains(.command) {
         setQuery("")
+      } else if modifierFlags.contains(.option) {
+        customMenu?.delete()
       } else {
         processDeleteKey(queryField.stringValue)
       }

@@ -4,6 +4,7 @@ import AppKit
 class Menu: NSMenu, NSMenuDelegate {
   public let maxHotKey = 9
   public var allItems: [NSMenuItem] = []
+  public var history: History?
 
   private let menuWidth = 300
 
@@ -26,6 +27,11 @@ class Menu: NSMenu, NSMenuDelegate {
   override func addItem(_ newItem: NSMenuItem) {
     allItems.append(newItem)
     super.addItem(newItem)
+  }
+
+  override func removeItem(at index: Int) {
+    allItems.remove(at: index)
+    super.removeItem(at: index)
   }
 
   func addSearchItem() {
@@ -74,6 +80,30 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func selectLast(alt: Bool = false) {
     highlight(highlightableItems(items, alt: alt).last)
+  }
+
+  func delete() {
+    guard let itemToRemove = highlightedItem else {
+      return
+    }
+
+    if !isSystemItem(item: itemToRemove) {
+      if let historyItemToRemove = itemToRemove as? HistoryMenuItem {
+        if let fullTitle = historyItemToRemove.fullTitle {
+          if let index = items.firstIndex(of: itemToRemove) {
+            print("before: \(items.map({ $0.title }))")
+            print("before: \(allItems.map({ $0.title }))")
+            removeItem(at: index) // alternate
+            removeItem(at: index - 1)
+            print("after: \(items.map({ $0.title }))")
+            print("after: \(allItems.map({ $0.title }))")
+            history?.remove(fullTitle)
+            setKeyEquivalents(items)
+            highlight(items[index])
+          }
+        }
+      }
+    }
   }
 
   private func highlightNext(_ items: [NSMenuItem], alt: Bool) -> Bool {

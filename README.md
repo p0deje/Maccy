@@ -49,6 +49,8 @@ brew cask install maccy
 2. Type what you want to find.
 3. To select the history item you wish to copy, press <kbd>ENTER</kbd>, or click the item, or use <kbd>COMMAND (⌘)</kbd> + `n` shortcut.
 4. To choose the history item and paste, press <kbd>ALT (⌥)</kbd> + <kbd>ENTER</kbd>, or <kbd>ALT (⌥)</kbd> + <kbd>CLICK</kbd> the item, or use <kbd>ALT (⌥)</kbd> + `n` shortcut.
+5. To delete the history item, press <kbd>ALT (⌥)</kbd> + <kbd>DELETE (⌫)</kbd>.
+6. To see the full text of the history item, wait a couple of seconds for tooltip.
 
 ## Customization
 

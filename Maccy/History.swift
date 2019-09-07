@@ -32,17 +32,30 @@ class History {
   }
 
   func add(_ string: String) {
+    remove(string)
+
     var history = all()
     let maxSize = UserDefaults.standard.integer(forKey: sizeKey)
 
-    if let index = history.firstIndex(of: string) {
-      history.remove(at: index)
-    } else if history.count == maxSize {
+    if history.count == maxSize {
       history.remove(at: maxSize - 1)
     }
 
     let newContents = [string] + history
     UserDefaults.standard.set(newContents, forKey: storageKey)
+  }
+
+  func remove(_ string: String?) {
+    guard let itemToRemove = string else {
+      return
+    }
+
+    var history = all()
+    if let index = history.firstIndex(of: itemToRemove) {
+      history.remove(at: index)
+    }
+
+    UserDefaults.standard.set(history, forKey: storageKey)
   }
 
   func removeRecent() {

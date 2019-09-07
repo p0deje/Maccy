@@ -111,6 +111,12 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
   }
 
+  func testDeleteEntry() {
+    popUpWithHotkey()
+    app.typeKey(.delete, modifierFlags: [.option])
+    XCTAssertFalse(app.menuItems[copy1].exists)
+  }
+
   private func popUpWithHotkey() {
     for event in popUpEvents {
       event.post(tap: .cghidEventTap)
