@@ -1,14 +1,6 @@
-//
-//  CarbonKeyCombo.swift
-//  HotKey
-//
-//  Created by Sam Soffes on 7/21/17.
-//  Copyright © 2017 Sam Soffes. All rights reserved.
-//
-
 import AppKit
 
-public struct KeyCombo {
+public struct KeyCombo: Equatable {
 
 	// MARK: - Properties
 
@@ -39,7 +31,6 @@ public struct KeyCombo {
 		return carbonKeyCode >= 0
 	}
 
-
 	// MARK: - Initializers
 
 	public init(carbonKeyCode: UInt32, carbonModifiers: UInt32 = 0) {
@@ -52,14 +43,12 @@ public struct KeyCombo {
 		self.carbonModifiers = modifiers.carbonFlags
 	}
 
-
 	// MARK: - Converting Keys
 
 	public static func carbonKeyCodeToString(_ carbonKeyCode: UInt32) -> String? {
 		return nil
 	}
 }
-
 
 extension KeyCombo {
 	public var dictionary: [String: Any] {
@@ -80,9 +69,14 @@ extension KeyCombo {
 	}
 }
 
+extension KeyCombo: CustomStringConvertible {
+    public var description: String {
+        var output = modifiers.description
 
-extension KeyCombo: Equatable {
-	public static func == (lhs: KeyCombo, rhs: KeyCombo) -> Bool {
-		return lhs.carbonKeyCode == rhs.carbonKeyCode && lhs.carbonModifiers == rhs.carbonModifiers
-	}
+        if let keyDescription = key?.description {
+            output += keyDescription
+        }
+
+        return output
+    }
 }

@@ -1,11 +1,3 @@
-//
-//  NSEventModifierFlags+HotKey.swift
-//  HotKey
-//
-//  Created by Sam Soffes on 7/21/17.
-//  Copyright © 2017 Sam Soffes. All rights reserved.
-//
-
 import AppKit
 import Carbon
 
@@ -51,4 +43,28 @@ extension NSEvent.ModifierFlags {
 			insert(.shift)
 		}
 	}
+}
+
+extension NSEvent.ModifierFlags: CustomStringConvertible {
+    public var description: String {
+        var output = ""
+
+        if contains(.control) {
+            output += Key.control.description
+        }
+
+        if contains(.option) {
+            output += Key.option.description
+        }
+
+        if contains(.shift) {
+            output += Key.shift.description
+        }
+
+        if contains(.command) {
+            output += Key.command.description
+        }
+
+        return output
+    }
 }

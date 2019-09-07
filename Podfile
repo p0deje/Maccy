@@ -3,8 +3,8 @@ platform :osx, '10.14'
 target 'Maccy' do
   use_frameworks!
 
-  pod 'HotKey', git: 'https://github.com/p0deje/HotKey.git', branch: 'more-aliases'
-  pod 'SwiftHEXColors'
+  pod 'HotKey', '>= 0.1.2'
+  pod 'SwiftHEXColors', '~> 1.3'
 
   target 'MaccyTests' do
     inherit! :search_paths

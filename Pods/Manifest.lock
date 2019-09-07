@@ -1,29 +1,20 @@
 PODS:
-  - HotKey (0.1.1)
+  - HotKey (0.1.2)
   - SwiftHEXColors (1.2.0)
 
 DEPENDENCIES:
-  - HotKey (from `https://github.com/p0deje/HotKey.git`, branch `more-aliases`)
+  - HotKey (>= 0.1.2)
   - SwiftHEXColors
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
+    - HotKey
     - SwiftHEXColors
 
-EXTERNAL SOURCES:
-  HotKey:
-    :branch: more-aliases
-    :git: https://github.com/p0deje/HotKey.git
-
-CHECKOUT OPTIONS:
-  HotKey:
-    :commit: 5c6def0090da331ebbdcae24058faf3132be2ea3
-    :git: https://github.com/p0deje/HotKey.git
-
 SPEC CHECKSUMS:
-  HotKey: 0be143fd015544a63c51be6dc2066dbf455ced72
+  HotKey: ad59450195936c10992438c4210f673de5aee43e
   SwiftHEXColors: a4ebe93a70890a9fa124e205dd785cc7552273b4
 
-PODFILE CHECKSUM: 866cc37dfc28f33a47ce46a2b21ecff49594ae73
+PODFILE CHECKSUM: 7044fc9787ba9dcf0006e69334c57a73a05b8191
 
 COCOAPODS: 1.5.2

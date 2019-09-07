@@ -1,11 +1,3 @@
-//
-//  HotKey.swift
-//  HotKey
-//
-//  Created by Sam Soffes on 7/21/17.
-//  Copyright © 2017 Sam Soffes. All rights reserved.
-//
-
 import AppKit
 import Carbon
 
@@ -15,7 +7,6 @@ public final class HotKey {
 
 	public typealias Handler = () -> Void
 
-	
 	// MARK: - Properties
 
 	let identifier = UUID()
@@ -32,7 +23,6 @@ public final class HotKey {
             }
         }
     }
-
 
 	// MARK: - Initializers
 

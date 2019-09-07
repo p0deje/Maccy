@@ -1,11 +1,3 @@
-//
-//  HotKeysController.swift
-//  HotKey
-//
-//  Created by Sam Soffes on 7/21/17.
-//  Copyright © 2017 Sam Soffes. All rights reserved.
-//
-
 import Carbon
 
 final class HotKeysController {
@@ -24,7 +16,6 @@ final class HotKeysController {
 			self.carbonHotKeyID = carbonHotKeyID
 		}
 	}
-
 
 	// MARK: - Properties
 
@@ -46,7 +37,6 @@ final class HotKeysController {
 	]
 
 	private static var eventHandler: EventHandlerRef?
-
 
 	// MARK: - Registration
 
@@ -189,7 +179,6 @@ final class HotKeysController {
 		return nil
 	}
 }
-
 
 private func hotKeyEventHandler(eventHandlerCall: EventHandlerCallRef?, event: EventRef?, userData: UnsafeMutableRawPointer?) -> OSStatus {
 	return HotKeysController.handleCarbonEvent(event)

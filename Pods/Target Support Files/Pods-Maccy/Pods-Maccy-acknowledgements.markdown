@@ -3,7 +3,7 @@ This application makes use of the following third party libraries:
 
 ## HotKey
 
-Copyright (c) 2017 Sam Soffes, http://soff.es
+Copyright (c) 2017–2019 Sam Soffes, http://soff.es
 
 Permission is hereby granted, free of charge, to any person obtaining
 a copy of this software and associated documentation files (the
