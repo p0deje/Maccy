@@ -20,6 +20,7 @@ and lets you quickly navigate, search, and use previous clipboard contents.
     * [History Size](#history-size)
     * [Show/Hide Icon in Status Bar](#show/hide-icon-in-status-bar)
     * [Automatically Paste by Default](#automatically-paste-by-default)
+    * [Enable/Disable Fuzzy Search](#enable/disable-fuzzy-search)
 * [Update](#update)
 * [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
 * [CI](#ci)
@@ -86,6 +87,12 @@ Select and paste in one go.
 
 ```sh
 defaults write org.p0deje.Maccy pasteByDefault true # default is false
+```
+
+#### Enable/Disable Fuzzy Search
+
+```sh
+defaults write org.p0deje.Maccy fuzzySearch true # default is false
 ```
 
 > Make sure you quit the app and restart it after changing the options here.

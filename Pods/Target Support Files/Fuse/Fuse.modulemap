@@ -1,0 +1,6 @@
+framework module Fuse {
+  umbrella header "Fuse-umbrella.h"
+
+  export *
+  module * { export * }
+}

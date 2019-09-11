@@ -7,6 +7,7 @@ class Menu: NSMenu, NSMenuDelegate {
   public var history: History?
 
   private let menuWidth = 300
+  private let search = Search()
 
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
@@ -47,12 +48,24 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func updateFilter(filter: String) {
-    self.items = allItems.filter { itemMatchesFilter($0, filter) }
-    setKeyEquivalents(items)
+    let oldAllItems = allItems
 
-    // do not highlight system items on search
-    let highlightable = highlightableItems(items).filter { !isSystemItem(item: $0) }.first
-    highlight(highlightable)
+    let searchItem = allItems.first
+    let results = search.search(string: filter, within: searchableItems())
+    let systemItems = allItems.filter({ isSystemItem(item: $0) })
+
+    allItems.removeAll()
+    items.removeAll()
+
+    items = [searchItem!]
+    items += results
+    items += [NSMenuItem.separator()]
+    items += systemItems
+
+    allItems = oldAllItems
+
+    setKeyEquivalents(items)
+    highlight(results.first)
   }
 
   func select() {
@@ -91,12 +104,8 @@ class Menu: NSMenu, NSMenuDelegate {
       if let historyItemToRemove = itemToRemove as? HistoryMenuItem {
         if let fullTitle = historyItemToRemove.fullTitle {
           if let index = items.firstIndex(of: itemToRemove) {
-            print("before: \(items.map({ $0.title }))")
-            print("before: \(allItems.map({ $0.title }))")
             removeItem(at: index) // alternate
             removeItem(at: index - 1)
-            print("after: \(items.map({ $0.title }))")
-            print("after: \(allItems.map({ $0.title }))")
             history?.remove(fullTitle)
             setKeyEquivalents(items)
             highlight(items[index])
@@ -136,21 +145,6 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func itemMatchesFilter(_ item: NSMenuItem, _ filter: String) -> Bool {
-    if filter.isEmpty || !item.isEnabled || item.isSeparatorItem || isSystemItem(item: item) {
-      return true
-    }
-
-    let range = item.title.range(
-      of: filter,
-      options: .caseInsensitive,
-      range: nil,
-      locale: nil
-    )
-
-    return (range != nil)
-  }
-
   private func setKeyEquivalents(_ items: [NSMenuItem]) {
     let mainItems = items.filter { !$0.isAlternate && !isSystemItem(item: $0) }
     let altItems = items.filter { $0.isAlternate }
@@ -176,8 +170,12 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
+  private func searchableItems() -> [NSMenuItem] {
+    return allItems.filter({ $0.isEnabled && !$0.isSeparatorItem && !isSystemItem(item: $0) })
+  }
+
   private func isSystemItem(item: NSMenuItem) -> Bool {
-    let items = self.allItems.split(whereSeparator: { $0.isSeparatorItem })
+    let items = allItems.split(whereSeparator: { $0.isSeparatorItem })
     return items.count > 1 && items[1].contains(item)
   }
 }

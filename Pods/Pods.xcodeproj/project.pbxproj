@@ -8,101 +8,132 @@
 
 /* Begin PBXBuildFile section */
 		17FFF197A9CFD71E6010F227C39D48B3 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2F8C300EF6092B57883A1C7EF8C305 /* AppKit.framework */; };
-		31ABB36DA5941B3697B8A74FF5F29833 /* SwiftHEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D503D504426100941ABAF1158557CC4 /* SwiftHEXColors.swift */; };
-		376600012D78BBD1A6A1350E2C0E1763 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = ED7D58B29076CB79462F949EF30828DF /* Key.swift */; };
-		39BFDA341F7C59FA42511DBA95046264 /* SwiftHEXColors-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 68EF6FFC33245C5ADAA43A9065B844C4 /* SwiftHEXColors-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		401C3D04D259233BEAB50F753F44EF54 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8FD8886CC38D67E037D70FB319A23251 /* HotKey.swift */; };
-		4F05668B9EB744A2EA80944CD56D6FD9 /* KeyCombo.swift in Sources */ = {isa = PBXBuildFile; fileRef = EFFA66352E45B08E3B0311EDC187BBA4 /* KeyCombo.swift */; };
-		5FDD26A50E274A822DB8D0E12F973D3E /* HotKey-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2F4C6C3D29A9E46D52DB7507DBD730CC /* HotKey-dummy.m */; };
+		187BD9D1BC38A05D4893ADEA4DD7EF37 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
+		23D86BED094740817D411AE0B18C2B4F /* String+Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BFFDCE73501085D4402A41BB4FD51F2 /* String+Fuse.swift */; };
+		376600012D78BBD1A6A1350E2C0E1763 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1F9F526159E1EF11F2D3BAF0AA1C23C9 /* Key.swift */; };
+		401C3D04D259233BEAB50F753F44EF54 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 241A32CA8339B760B25F177E74508419 /* HotKey.swift */; };
+		4238665A53D9FE404717ABB69F2D0B47 /* Pods-Maccy-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */; };
+		46FFD2C3A00BBBD6731AA80E1B44A801 /* SwiftHEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4C263DACB3F7F3BC8AF2998DBAE53C70 /* SwiftHEXColors.swift */; };
+		4F05668B9EB744A2EA80944CD56D6FD9 /* KeyCombo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 580AACA7F284EF4CF1ECABB3C7C00CF5 /* KeyCombo.swift */; };
+		55EB91E6679C337B7460BEAAEAF1D1BC /* SwiftHEXColors-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B0871C2356844392D15F9A81056F5E32 /* SwiftHEXColors-dummy.m */; };
+		5694BF7EB997C802B20912A8AA5D5E83 /* Fuse-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4DFD7F320A0A658F66DD0B5AC92519F8 /* Fuse-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5FDD26A50E274A822DB8D0E12F973D3E /* HotKey-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 901A4EBAC3F277B78D00F6008EDD2492 /* HotKey-dummy.m */; };
+		763F09681D7C3F4EC3A2935BB2201CB9 /* FuseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA206477784B0190DD4F156931392C0A /* FuseUtilities.swift */; };
+		87590D06B8269B0B89B6553A6B6DE0FD /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
+		8B66824BD520B3BB94610920A95F7FB5 /* Fuse-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 5B9A991A28DC36F181E5F39665725712 /* Fuse-dummy.m */; };
+		9409E86224645A70E9C22ACC88893BC9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
 		9B3BD5BAE2B774AE4A61A94B993AC0B1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
+		A241CF860D22C60C2AC39812AE6A74D9 /* Pods-Maccy-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		A2C39440DD24C687D4FC9595A0EF65FD /* Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9A65A6E94B1724FF39FC91C73AEAA0AD /* Fuse.swift */; };
 		B11BBD1A14F7D2B6FEE87AC820CD0ACA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
-		B401867272D84298ED1281CD038DACD2 /* HotKeysController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1D9FDBB2B21C43D11CF615130AEC5C5 /* HotKeysController.swift */; };
+		B401867272D84298ED1281CD038DACD2 /* HotKeysController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2DE937EE69809D15E100757B2F55B9F6 /* HotKeysController.swift */; };
+		C14AE82C9C5DBA52EC24A3BB95841AF6 /* SwiftHEXColors-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 908AC2301BE9471FA1574973606EF701 /* SwiftHEXColors-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		C6552168E7328AA8A0981D19AE60A343 /* Pods-MaccyTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D39631FB04B4152E1F10899B5242E79 /* Pods-MaccyTests-dummy.m */; };
-		C91E9A7A7229509CB30B374F071B44A1 /* Pods-Maccy-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */; };
-		CBB89E548F6C24016E9E712636251C57 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
-		CF99025939F6CDEC20531D7BB34176A5 /* Pods-Maccy-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		D3D5CABBDFC2020367E4E517CC2007A2 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
 		D734B3640C594D4A12D75F9699AB29C0 /* Pods-MaccyTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAA781EBF58462A49778917F670B39E /* Pods-MaccyTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E0DF452F06CFFF0532471B8E1E80F20B /* SwiftHEXColors-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = EAC453228B407F702C86B186D7909B16 /* SwiftHEXColors-dummy.m */; };
-		E0E5B9A249DABC6DC93A498FC5FB12B3 /* NSEventModifierFlags+HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0C104DD08D040E4097B76F68D6D8AF1D /* NSEventModifierFlags+HotKey.swift */; };
+		E0E5B9A249DABC6DC93A498FC5FB12B3 /* NSEventModifierFlags+HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = EED61B7EA136E9B4E26442D74E6DCFE0 /* NSEventModifierFlags+HotKey.swift */; };
 		E4293514358ECEB2A4DCB20791597BC7 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFD5252F022A90AF2AAF9338C3F6AE6 /* Carbon.framework */; };
-		E7E905CEE708C219A30A8B214D467482 /* HotKey-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8D22673740BF2EFCC6BF38B1D5325B16 /* HotKey-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E7E905CEE708C219A30A8B214D467482 /* HotKey-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BB13637F7D0F6E76BB07E0EE2D5F6E1E /* HotKey-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		BB449C9FD5F30939FDBC37144B826E4C /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 6738134D0369902FEB2EB00616BD9FFC;
-			remoteInfo = "Pods-Maccy";
-		};
-		E128CEE107417436A99CDC75066BA5D9 /* PBXContainerItemProxy */ = {
+		39F1E9E369BB4E9824C0EF70767CD48D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = CD7CA7613D1AE9B77775DCDC34F87472;
 			remoteInfo = HotKey;
 		};
-		FE72ACDD7DE590D4CA46C858D623C9B3 /* PBXContainerItemProxy */ = {
+		5E35B8CB95F9D4F6855EF120B0FCF5BC /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 8A09702CD3493B85ADDCB5E7557B0C01;
+			remoteGlobalIDString = B210C317C9A41B4278DC7B70C2295570;
 			remoteInfo = SwiftHEXColors;
+		};
+		BB449C9FD5F30939FDBC37144B826E4C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = A847E196CFDD70A7EB91A4DE2AD797A2;
+			remoteInfo = "Pods-Maccy";
+		};
+		CBE058FF307BD290B09A6A6E45B289CE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B8CD3B3EDB42EEABB2D487F8706AF6BB;
+			remoteInfo = Fuse;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		01B263B27016D74C03E8AA1737C4CF24 /* HotKey.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = HotKey.xcconfig; sourceTree = "<group>"; };
 		07055F35E68A5B9A507F418B60F26DD2 /* Pods-Maccy.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Maccy.modulemap"; sourceTree = "<group>"; };
+		0B96793331D73EA78DE156E84B2B4948 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0BFB3D52C5622C4B454CBED8C490E1ED /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0C104DD08D040E4097B76F68D6D8AF1D /* NSEventModifierFlags+HotKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSEventModifierFlags+HotKey.swift"; path = "Sources/HotKey/NSEventModifierFlags+HotKey.swift"; sourceTree = "<group>"; };
 		0F476B296688E8A2611661B3A916D2EE /* Pods-MaccyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.release.xcconfig"; sourceTree = "<group>"; };
+		144048C5B0B5518E4EBE24870441AD6C /* Fuse.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Fuse.modulemap; sourceTree = "<group>"; };
 		1571A769B9AABB30B0C55BE1A64F0C13 /* Pods-MaccyTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MaccyTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		158687138ADACBA036E897622CC2799F /* Pods-MaccyTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MaccyTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		1C577A483309C912FE04E19AAD8E638A /* Pods_Maccy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Maccy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		16345A9E7BBD280136F5D995CA587D16 /* HotKey-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HotKey-prefix.pch"; sourceTree = "<group>"; };
+		1F9F526159E1EF11F2D3BAF0AA1C23C9 /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Sources/HotKey/Key.swift; sourceTree = "<group>"; };
 		20A49FDE62881F505AE64E73C378F4BA /* Pods-Maccy-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Maccy-acknowledgements.plist"; sourceTree = "<group>"; };
-		2F4C6C3D29A9E46D52DB7507DBD730CC /* HotKey-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "HotKey-dummy.m"; sourceTree = "<group>"; };
+		22B15AE76F34C0CD4D3B76FCDFF5A238 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		241A32CA8339B760B25F177E74508419 /* HotKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HotKey.swift; path = Sources/HotKey/HotKey.swift; sourceTree = "<group>"; };
+		2DE937EE69809D15E100757B2F55B9F6 /* HotKeysController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HotKeysController.swift; path = Sources/HotKey/HotKeysController.swift; sourceTree = "<group>"; };
+		2E1F0201C90909ADD863735B4E189C3F /* Pods_MaccyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_MaccyTests.framework; path = "Pods-MaccyTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2FFD5252F022A90AF2AAF9338C3F6AE6 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = DEVELOPER_DIR; };
-		4D503D504426100941ABAF1158557CC4 /* SwiftHEXColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftHEXColors.swift; path = Sources/SwiftHEXColors/SwiftHEXColors.swift; sourceTree = "<group>"; };
-		592BEE61A9EF4038D78455649FE3CA8E /* Pods_MaccyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MaccyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		326D3BA4CA392B27A75676333F099AFE /* SwiftHEXColors.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftHEXColors.xcconfig; sourceTree = "<group>"; };
+		3459967FB547AAE3DF1870DB576C1022 /* SwiftHEXColors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftHEXColors.framework; path = SwiftHEXColors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		393CC99A44293B4416CA32512ED7BF65 /* HotKey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = HotKey.framework; path = HotKey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4BD764C1CCDFD68A9CDAADAA9081D3A1 /* Fuse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Fuse.framework; path = Fuse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C263DACB3F7F3BC8AF2998DBAE53C70 /* SwiftHEXColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftHEXColors.swift; path = Sources/SwiftHEXColors/SwiftHEXColors.swift; sourceTree = "<group>"; };
+		4DFD7F320A0A658F66DD0B5AC92519F8 /* Fuse-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-umbrella.h"; sourceTree = "<group>"; };
+		580AACA7F284EF4CF1ECABB3C7C00CF5 /* KeyCombo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyCombo.swift; path = Sources/HotKey/KeyCombo.swift; sourceTree = "<group>"; };
 		59B6F79B0890AA54C08D00FA203EB975 /* Pods-MaccyTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MaccyTests-resources.sh"; sourceTree = "<group>"; };
+		59DAAA33569A396C30D5E2E3A6B80FBB /* SwiftHEXColors-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-prefix.pch"; sourceTree = "<group>"; };
+		5B9A991A28DC36F181E5F39665725712 /* Fuse-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Fuse-dummy.m"; sourceTree = "<group>"; };
 		625F3788691A8D38F5095EC7016440B3 /* Pods-Maccy-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Maccy-resources.sh"; sourceTree = "<group>"; };
-		63D22A721E12D5B83E0A8D379E6212C3 /* SwiftHEXColors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftHEXColors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		646F8907D003901F4B3C461225185FC6 /* HotKey.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = HotKey.modulemap; sourceTree = "<group>"; };
 		65E5832A125E94E9167EA00856FA2157 /* Pods-Maccy-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Maccy-acknowledgements.markdown"; sourceTree = "<group>"; };
-		68EF6FFC33245C5ADAA43A9065B844C4 /* SwiftHEXColors-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-umbrella.h"; sourceTree = "<group>"; };
 		6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		71289A3B191F2066B0117390ECF69CAD /* Pods-Maccy-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Maccy-frameworks.sh"; sourceTree = "<group>"; };
+		7BFFDCE73501085D4402A41BB4FD51F2 /* String+Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Fuse.swift"; path = "Fuse/Classes/String+Fuse.swift"; sourceTree = "<group>"; };
 		7D289DA5B10DD46D3E60ECD480C85DF3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7EE89300126F633ACA5000A02F79FE81 /* Pods-MaccyTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MaccyTests-frameworks.sh"; sourceTree = "<group>"; };
 		816A486C9685FABD159B44C33ED0EF6C /* Pods-MaccyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		842F2E2BDD1488EBA79F5A8A4D4CA617 /* Pods-Maccy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.release.xcconfig"; sourceTree = "<group>"; };
 		8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Maccy-umbrella.h"; sourceTree = "<group>"; };
-		8CBB423CC68AD0CD5B831C079D996101 /* HotKey.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = HotKey.xcconfig; sourceTree = "<group>"; };
-		8D22673740BF2EFCC6BF38B1D5325B16 /* HotKey-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HotKey-umbrella.h"; sourceTree = "<group>"; };
 		8D39631FB04B4152E1F10899B5242E79 /* Pods-MaccyTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MaccyTests-dummy.m"; sourceTree = "<group>"; };
-		8FD8886CC38D67E037D70FB319A23251 /* HotKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HotKey.swift; path = Sources/HotKey/HotKey.swift; sourceTree = "<group>"; };
-		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		991D59533525F8452C1B4B7FCEEE920E /* SwiftHEXColors.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftHEXColors.xcconfig; sourceTree = "<group>"; };
+		901A4EBAC3F277B78D00F6008EDD2492 /* HotKey-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "HotKey-dummy.m"; sourceTree = "<group>"; };
+		908AC2301BE9471FA1574973606EF701 /* SwiftHEXColors-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-umbrella.h"; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		97763607472E4327D4D746F15AA4F58D /* Fuse-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-prefix.pch"; sourceTree = "<group>"; };
+		9A65A6E94B1724FF39FC91C73AEAA0AD /* Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Fuse.swift; path = Fuse/Classes/Fuse.swift; sourceTree = "<group>"; };
 		9EAA781EBF58462A49778917F670B39E /* Pods-MaccyTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MaccyTests-umbrella.h"; sourceTree = "<group>"; };
 		A70FC6B2DCC7D84D23DF023C6014274E /* Pods-MaccyTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MaccyTests.modulemap"; sourceTree = "<group>"; };
-		B189A6497015F3DB6A66C9B9C91292A3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		A7F355D625DBCB639DC73442CED6D4EC /* Fuse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fuse.xcconfig; sourceTree = "<group>"; };
+		B0871C2356844392D15F9A81056F5E32 /* SwiftHEXColors-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftHEXColors-dummy.m"; sourceTree = "<group>"; };
+		BB13637F7D0F6E76BB07E0EE2D5F6E1E /* HotKey-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HotKey-umbrella.h"; sourceTree = "<group>"; };
 		C81CC8267FE4E5F1759651B9A5E218FA /* Pods-Maccy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.debug.xcconfig"; sourceTree = "<group>"; };
-		CD61FFEA79F19FBD84241A1EDA389E4D /* HotKey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = HotKey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D6F886C19FB0360E96E8B10E8120E8BB /* HotKey-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HotKey-prefix.pch"; sourceTree = "<group>"; };
-		DDAEC904B5DB4F9AD8E9E0399D8D8C5D /* SwiftHEXColors.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftHEXColors.modulemap; sourceTree = "<group>"; };
-		E1D9FDBB2B21C43D11CF615130AEC5C5 /* HotKeysController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HotKeysController.swift; path = Sources/HotKey/HotKeysController.swift; sourceTree = "<group>"; };
-		E4C9036F207993A050C0A2E203F444EC /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		EAC453228B407F702C86B186D7909B16 /* SwiftHEXColors-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftHEXColors-dummy.m"; sourceTree = "<group>"; };
-		ECD7D009657B2D081623321C4AB942C8 /* SwiftHEXColors-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-prefix.pch"; sourceTree = "<group>"; };
-		ED7D58B29076CB79462F949EF30828DF /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Sources/HotKey/Key.swift; sourceTree = "<group>"; };
+		CA206477784B0190DD4F156931392C0A /* FuseUtilities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FuseUtilities.swift; path = Fuse/Classes/FuseUtilities.swift; sourceTree = "<group>"; };
+		CDE9741F44050527AB3988D36B035E2D /* SwiftHEXColors.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftHEXColors.modulemap; sourceTree = "<group>"; };
+		CE8F3818A8B3D5B3206434A2E2EDDA29 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E26F725FE0BBA58B5B5790306FD7BC2A /* HotKey.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = HotKey.modulemap; sourceTree = "<group>"; };
 		EE2F8C300EF6092B57883A1C7EF8C305 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/AppKit.framework; sourceTree = DEVELOPER_DIR; };
-		EFFA66352E45B08E3B0311EDC187BBA4 /* KeyCombo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyCombo.swift; path = Sources/HotKey/KeyCombo.swift; sourceTree = "<group>"; };
+		EED61B7EA136E9B4E26442D74E6DCFE0 /* NSEventModifierFlags+HotKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSEventModifierFlags+HotKey.swift"; path = "Sources/HotKey/NSEventModifierFlags+HotKey.swift"; sourceTree = "<group>"; };
+		F1E99248DB5F69BD2118A3AAB2748055 /* Pods_Maccy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Maccy.framework; path = "Pods-Maccy.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Maccy-dummy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4ABEE8B4A039CB6E4072E9532634C6A3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				87590D06B8269B0B89B6553A6B6DE0FD /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		626C5897990204B4F2104CFE29E89CDE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -111,19 +142,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		67BE87BE996F2920F10ED41FCC0C985E /* Frameworks */ = {
+		8C599F6C3E31AB07E7AF7B2C9D332E08 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CBB89E548F6C24016E9E712636251C57 /* Cocoa.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		9C539663A72B693EA948359CF665F40E /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				D3D5CABBDFC2020367E4E517CC2007A2 /* Cocoa.framework in Frameworks */,
+				9409E86224645A70E9C22ACC88893BC9 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -137,20 +160,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		E3DABA0244EB72B53EE7F43B52DDF034 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				187BD9D1BC38A05D4893ADEA4DD7EF37 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0BD01D4D722BA015228269CE0A4301F3 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				CD61FFEA79F19FBD84241A1EDA389E4D /* HotKey.framework */,
-				1C577A483309C912FE04E19AAD8E638A /* Pods_Maccy.framework */,
-				592BEE61A9EF4038D78455649FE3CA8E /* Pods_MaccyTests.framework */,
-				63D22A721E12D5B83E0A8D379E6212C3 /* SwiftHEXColors.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		1F56FAB1848BE50135C67D0A5B678E4F /* Pods-Maccy */ = {
 			isa = PBXGroup;
 			children = (
@@ -169,6 +189,18 @@
 			path = "Target Support Files/Pods-Maccy";
 			sourceTree = "<group>";
 		};
+		21D2D0A79327A45D74C327C23CBB4EEC /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4BD764C1CCDFD68A9CDAADAA9081D3A1 /* Fuse.framework */,
+				393CC99A44293B4416CA32512ED7BF65 /* HotKey.framework */,
+				F1E99248DB5F69BD2118A3AAB2748055 /* Pods_Maccy.framework */,
+				2E1F0201C90909ADD863735B4E189C3F /* Pods_MaccyTests.framework */,
+				3459967FB547AAE3DF1870DB576C1022 /* SwiftHEXColors.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		4476E2ACA5DA1C3752829A600908ED9D /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,19 +208,6 @@
 				89D06CD1148346BC17AD6D75190C1482 /* Pods-MaccyTests */,
 			);
 			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
-		4B3974FF412D8EE181217F3F50F20C12 /* HotKey */ = {
-			isa = PBXGroup;
-			children = (
-				8FD8886CC38D67E037D70FB319A23251 /* HotKey.swift */,
-				E1D9FDBB2B21C43D11CF615130AEC5C5 /* HotKeysController.swift */,
-				ED7D58B29076CB79462F949EF30828DF /* Key.swift */,
-				EFFA66352E45B08E3B0311EDC187BBA4 /* KeyCombo.swift */,
-				0C104DD08D040E4097B76F68D6D8AF1D /* NSEventModifierFlags+HotKey.swift */,
-				DA2602CC6CA19B1B74303315C0E76013 /* Support Files */,
-			);
-			path = HotKey;
 			sourceTree = "<group>";
 		};
 		4C62A5451104A602B7EA823FEC3E97C3 /* OS X */ = {
@@ -201,13 +220,32 @@
 			name = "OS X";
 			sourceTree = "<group>";
 		};
-		7728B85795F0F1DCCCCD0F66E86A9CE6 /* Pods */ = {
+		6C71A6F1D7F230F5CD09CF3C94AA8BEE /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				4B3974FF412D8EE181217F3F50F20C12 /* HotKey */,
-				C79A5D4C25ACDA19ED3F970FFD519294 /* SwiftHEXColors */,
+				E26F725FE0BBA58B5B5790306FD7BC2A /* HotKey.modulemap */,
+				01B263B27016D74C03E8AA1737C4CF24 /* HotKey.xcconfig */,
+				901A4EBAC3F277B78D00F6008EDD2492 /* HotKey-dummy.m */,
+				16345A9E7BBD280136F5D995CA587D16 /* HotKey-prefix.pch */,
+				BB13637F7D0F6E76BB07E0EE2D5F6E1E /* HotKey-umbrella.h */,
+				0B96793331D73EA78DE156E84B2B4948 /* Info.plist */,
 			);
-			name = Pods;
+			name = "Support Files";
+			path = "../Target Support Files/HotKey";
+			sourceTree = "<group>";
+		};
+		7326FED5F9AFEB44BE2B92134298BC2D /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				22B15AE76F34C0CD4D3B76FCDFF5A238 /* Info.plist */,
+				CDE9741F44050527AB3988D36B035E2D /* SwiftHEXColors.modulemap */,
+				326D3BA4CA392B27A75676333F099AFE /* SwiftHEXColors.xcconfig */,
+				B0871C2356844392D15F9A81056F5E32 /* SwiftHEXColors-dummy.m */,
+				59DAAA33569A396C30D5E2E3A6B80FBB /* SwiftHEXColors-prefix.pch */,
+				908AC2301BE9471FA1574973606EF701 /* SwiftHEXColors-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/SwiftHEXColors";
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -215,8 +253,8 @@
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				96D996393384F21972E2DD81788EE22C /* Frameworks */,
-				7728B85795F0F1DCCCCD0F66E86A9CE6 /* Pods */,
-				0BD01D4D722BA015228269CE0A4301F3 /* Products */,
+				9F5CA5EFE5F947C79B97AB8A624AD54F /* Pods */,
+				21D2D0A79327A45D74C327C23CBB4EEC /* Products */,
 				4476E2ACA5DA1C3752829A600908ED9D /* Targets Support Files */,
 			);
 			sourceTree = "<group>";
@@ -239,6 +277,32 @@
 			path = "Target Support Files/Pods-MaccyTests";
 			sourceTree = "<group>";
 		};
+		91CC8A20247AF0BB2583802D0D752E3B /* Fuse */ = {
+			isa = PBXGroup;
+			children = (
+				9A65A6E94B1724FF39FC91C73AEAA0AD /* Fuse.swift */,
+				CA206477784B0190DD4F156931392C0A /* FuseUtilities.swift */,
+				7BFFDCE73501085D4402A41BB4FD51F2 /* String+Fuse.swift */,
+				92EC2BF7D4D87BFB7978FB77592976DC /* Support Files */,
+			);
+			name = Fuse;
+			path = Fuse;
+			sourceTree = "<group>";
+		};
+		92EC2BF7D4D87BFB7978FB77592976DC /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				144048C5B0B5518E4EBE24870441AD6C /* Fuse.modulemap */,
+				A7F355D625DBCB639DC73442CED6D4EC /* Fuse.xcconfig */,
+				5B9A991A28DC36F181E5F39665725712 /* Fuse-dummy.m */,
+				97763607472E4327D4D746F15AA4F58D /* Fuse-prefix.pch */,
+				4DFD7F320A0A658F66DD0B5AC92519F8 /* Fuse-umbrella.h */,
+				CE8F3818A8B3D5B3206434A2E2EDDA29 /* Info.plist */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Fuse";
+			sourceTree = "<group>";
+		};
 		96D996393384F21972E2DD81788EE22C /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -247,41 +311,38 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		C79A5D4C25ACDA19ED3F970FFD519294 /* SwiftHEXColors */ = {
+		98143415FDB7BE59F8818A2BD10DEEC5 /* SwiftHEXColors */ = {
 			isa = PBXGroup;
 			children = (
-				4D503D504426100941ABAF1158557CC4 /* SwiftHEXColors.swift */,
-				F2988BB6CC0789CA1E18D02100024A75 /* Support Files */,
+				4C263DACB3F7F3BC8AF2998DBAE53C70 /* SwiftHEXColors.swift */,
+				7326FED5F9AFEB44BE2B92134298BC2D /* Support Files */,
 			);
+			name = SwiftHEXColors;
 			path = SwiftHEXColors;
 			sourceTree = "<group>";
 		};
-		DA2602CC6CA19B1B74303315C0E76013 /* Support Files */ = {
+		9F5CA5EFE5F947C79B97AB8A624AD54F /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				646F8907D003901F4B3C461225185FC6 /* HotKey.modulemap */,
-				8CBB423CC68AD0CD5B831C079D996101 /* HotKey.xcconfig */,
-				2F4C6C3D29A9E46D52DB7507DBD730CC /* HotKey-dummy.m */,
-				D6F886C19FB0360E96E8B10E8120E8BB /* HotKey-prefix.pch */,
-				8D22673740BF2EFCC6BF38B1D5325B16 /* HotKey-umbrella.h */,
-				B189A6497015F3DB6A66C9B9C91292A3 /* Info.plist */,
+				91CC8A20247AF0BB2583802D0D752E3B /* Fuse */,
+				ACF792DF36F459E97F049777053F0774 /* HotKey */,
+				98143415FDB7BE59F8818A2BD10DEEC5 /* SwiftHEXColors */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/HotKey";
+			name = Pods;
 			sourceTree = "<group>";
 		};
-		F2988BB6CC0789CA1E18D02100024A75 /* Support Files */ = {
+		ACF792DF36F459E97F049777053F0774 /* HotKey */ = {
 			isa = PBXGroup;
 			children = (
-				E4C9036F207993A050C0A2E203F444EC /* Info.plist */,
-				DDAEC904B5DB4F9AD8E9E0399D8D8C5D /* SwiftHEXColors.modulemap */,
-				991D59533525F8452C1B4B7FCEEE920E /* SwiftHEXColors.xcconfig */,
-				EAC453228B407F702C86B186D7909B16 /* SwiftHEXColors-dummy.m */,
-				ECD7D009657B2D081623321C4AB942C8 /* SwiftHEXColors-prefix.pch */,
-				68EF6FFC33245C5ADAA43A9065B844C4 /* SwiftHEXColors-umbrella.h */,
+				241A32CA8339B760B25F177E74508419 /* HotKey.swift */,
+				2DE937EE69809D15E100757B2F55B9F6 /* HotKeysController.swift */,
+				1F9F526159E1EF11F2D3BAF0AA1C23C9 /* Key.swift */,
+				580AACA7F284EF4CF1ECABB3C7C00CF5 /* KeyCombo.swift */,
+				EED61B7EA136E9B4E26442D74E6DCFE0 /* NSEventModifierFlags+HotKey.swift */,
+				6C71A6F1D7F230F5CD09CF3C94AA8BEE /* Support Files */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/SwiftHEXColors";
+			name = HotKey;
+			path = HotKey;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -295,11 +356,11 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B218248E39750FF0CA773B29C35DC071 /* Headers */ = {
+		8002F196DBCBD3C18C02A11F5EEE6543 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39BFDA341F7C59FA42511DBA95046264 /* SwiftHEXColors-umbrella.h in Headers */,
+				C14AE82C9C5DBA52EC24A3BB95841AF6 /* SwiftHEXColors-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -311,11 +372,19 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		ED7F1D3F39C68DC7D897C12354199524 /* Headers */ = {
+		EF915F26D356D8646E7A5F32B05ED231 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				CF99025939F6CDEC20531D7BB34176A5 /* Pods-Maccy-umbrella.h in Headers */,
+				5694BF7EB997C802B20912A8AA5D5E83 /* Fuse-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EFC2357EDC020C1D9B53E5D7B81A2F9E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A241CF860D22C60C2AC39812AE6A74D9 /* Pods-Maccy-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -337,35 +406,36 @@
 			);
 			name = "Pods-MaccyTests";
 			productName = "Pods-MaccyTests";
-			productReference = 592BEE61A9EF4038D78455649FE3CA8E /* Pods_MaccyTests.framework */;
+			productReference = 2E1F0201C90909ADD863735B4E189C3F /* Pods_MaccyTests.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		6738134D0369902FEB2EB00616BD9FFC /* Pods-Maccy */ = {
+		A847E196CFDD70A7EB91A4DE2AD797A2 /* Pods-Maccy */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A7B49C561E22A9DD51842659B4E4DA0A /* Build configuration list for PBXNativeTarget "Pods-Maccy" */;
+			buildConfigurationList = B08E7FAE50983316A1BAA5BD7F52B6A7 /* Build configuration list for PBXNativeTarget "Pods-Maccy" */;
 			buildPhases = (
-				C609202ECB772B72D54DA575BAE18135 /* Sources */,
-				67BE87BE996F2920F10ED41FCC0C985E /* Frameworks */,
-				ED7F1D3F39C68DC7D897C12354199524 /* Headers */,
+				9FAFF04696FB3CDEDEC666676D939BDA /* Sources */,
+				8C599F6C3E31AB07E7AF7B2C9D332E08 /* Frameworks */,
+				EFC2357EDC020C1D9B53E5D7B81A2F9E /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				10E64E8EEC7D482546D4932A0D93D11D /* PBXTargetDependency */,
-				40BD74537D8314D78AE1B834D4E532EC /* PBXTargetDependency */,
+				28CE3458A549D1C715908086980BDDC3 /* PBXTargetDependency */,
+				79EB5846640DD5BB0A0EA5D7ECD8AA48 /* PBXTargetDependency */,
+				C270E444AFD4FF1081770851A202CE9D /* PBXTargetDependency */,
 			);
 			name = "Pods-Maccy";
 			productName = "Pods-Maccy";
-			productReference = 1C577A483309C912FE04E19AAD8E638A /* Pods_Maccy.framework */;
+			productReference = F1E99248DB5F69BD2118A3AAB2748055 /* Pods_Maccy.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		8A09702CD3493B85ADDCB5E7557B0C01 /* SwiftHEXColors */ = {
+		B210C317C9A41B4278DC7B70C2295570 /* SwiftHEXColors */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = DCA64E85A7922902BE5B65EDB20CAF55 /* Build configuration list for PBXNativeTarget "SwiftHEXColors" */;
+			buildConfigurationList = 18D27F2E1589C0E17C6285D6A9FC656C /* Build configuration list for PBXNativeTarget "SwiftHEXColors" */;
 			buildPhases = (
-				CD7CD75043B00474A4F0FF5BC5F7613C /* Sources */,
-				9C539663A72B693EA948359CF665F40E /* Frameworks */,
-				B218248E39750FF0CA773B29C35DC071 /* Headers */,
+				2F50A72EAE804217C7077DF2CAF5DE32 /* Sources */,
+				4ABEE8B4A039CB6E4072E9532634C6A3 /* Frameworks */,
+				8002F196DBCBD3C18C02A11F5EEE6543 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -373,7 +443,24 @@
 			);
 			name = SwiftHEXColors;
 			productName = SwiftHEXColors;
-			productReference = 63D22A721E12D5B83E0A8D379E6212C3 /* SwiftHEXColors.framework */;
+			productReference = 3459967FB547AAE3DF1870DB576C1022 /* SwiftHEXColors.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		B8CD3B3EDB42EEABB2D487F8706AF6BB /* Fuse */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 0E0B582D8D2B0C67CCE334212F4831C7 /* Build configuration list for PBXNativeTarget "Fuse" */;
+			buildPhases = (
+				CE6A9DB733C0885B27A6A1F49380149F /* Sources */,
+				E3DABA0244EB72B53EE7F43B52DDF034 /* Frameworks */,
+				EF915F26D356D8646E7A5F32B05ED231 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Fuse;
+			productName = Fuse;
+			productReference = 4BD764C1CCDFD68A9CDAADAA9081D3A1 /* Fuse.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 		CD7CA7613D1AE9B77775DCDC34F87472 /* HotKey */ = {
@@ -390,7 +477,7 @@
 			);
 			name = HotKey;
 			productName = HotKey;
-			productReference = CD61FFEA79F19FBD84241A1EDA389E4D /* HotKey.framework */;
+			productReference = 393CC99A44293B4416CA32512ED7BF65 /* HotKey.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
@@ -400,35 +487,44 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0930;
-				LastUpgradeCheck = 1030;
+				LastUpgradeCheck = 0930;
 			};
 			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = en;
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 			);
 			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
-			productRefGroup = 0BD01D4D722BA015228269CE0A4301F3 /* Products */;
+			productRefGroup = 21D2D0A79327A45D74C327C23CBB4EEC /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
+				B8CD3B3EDB42EEABB2D487F8706AF6BB /* Fuse */,
 				CD7CA7613D1AE9B77775DCDC34F87472 /* HotKey */,
-				6738134D0369902FEB2EB00616BD9FFC /* Pods-Maccy */,
+				A847E196CFDD70A7EB91A4DE2AD797A2 /* Pods-Maccy */,
 				399250C55E06A335126C4E4E28EE5AE8 /* Pods-MaccyTests */,
-				8A09702CD3493B85ADDCB5E7557B0C01 /* SwiftHEXColors */,
+				B210C317C9A41B4278DC7B70C2295570 /* SwiftHEXColors */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXSourcesBuildPhase section */
-		C609202ECB772B72D54DA575BAE18135 /* Sources */ = {
+		2F50A72EAE804217C7077DF2CAF5DE32 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C91E9A7A7229509CB30B374F071B44A1 /* Pods-Maccy-dummy.m in Sources */,
+				55EB91E6679C337B7460BEAAEAF1D1BC /* SwiftHEXColors-dummy.m in Sources */,
+				46FFD2C3A00BBBD6731AA80E1B44A801 /* SwiftHEXColors.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9FAFF04696FB3CDEDEC666676D939BDA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4238665A53D9FE404717ABB69F2D0B47 /* Pods-Maccy-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -440,12 +536,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		CD7CD75043B00474A4F0FF5BC5F7613C /* Sources */ = {
+		CE6A9DB733C0885B27A6A1F49380149F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				E0DF452F06CFFF0532471B8E1E80F20B /* SwiftHEXColors-dummy.m in Sources */,
-				31ABB36DA5941B3697B8A74FF5F29833 /* SwiftHEXColors.swift in Sources */,
+				8B66824BD520B3BB94610920A95F7FB5 /* Fuse-dummy.m in Sources */,
+				A2C39440DD24C687D4FC9595A0EF65FD /* Fuse.swift in Sources */,
+				763F09681D7C3F4EC3A2935BB2201CB9 /* FuseUtilities.swift in Sources */,
+				23D86BED094740817D411AE0B18C2B4F /* String+Fuse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -465,22 +563,28 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		10E64E8EEC7D482546D4932A0D93D11D /* PBXTargetDependency */ = {
+		28CE3458A549D1C715908086980BDDC3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = Fuse;
+			target = B8CD3B3EDB42EEABB2D487F8706AF6BB /* Fuse */;
+			targetProxy = CBE058FF307BD290B09A6A6E45B289CE /* PBXContainerItemProxy */;
+		};
+		79EB5846640DD5BB0A0EA5D7ECD8AA48 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = HotKey;
 			target = CD7CA7613D1AE9B77775DCDC34F87472 /* HotKey */;
-			targetProxy = E128CEE107417436A99CDC75066BA5D9 /* PBXContainerItemProxy */;
+			targetProxy = 39F1E9E369BB4E9824C0EF70767CD48D /* PBXContainerItemProxy */;
 		};
-		40BD74537D8314D78AE1B834D4E532EC /* PBXTargetDependency */ = {
+		C270E444AFD4FF1081770851A202CE9D /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftHEXColors;
-			target = 8A09702CD3493B85ADDCB5E7557B0C01 /* SwiftHEXColors */;
-			targetProxy = FE72ACDD7DE590D4CA46C858D623C9B3 /* PBXContainerItemProxy */;
+			target = B210C317C9A41B4278DC7B70C2295570 /* SwiftHEXColors */;
+			targetProxy = 5E35B8CB95F9D4F6855EF120B0FCF5BC /* PBXContainerItemProxy */;
 		};
 		CC1FC0634915F2088DBCCEAFB2E29FE7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-Maccy";
-			target = 6738134D0369902FEB2EB00616BD9FFC /* Pods-Maccy */;
+			target = A847E196CFDD70A7EB91A4DE2AD797A2 /* Pods-Maccy */;
 			targetProxy = BB449C9FD5F30939FDBC37144B826E4C /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -488,7 +592,7 @@
 /* Begin XCBuildConfiguration section */
 		04159E4A9FD3C852BE70EE342DDC4679 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8CBB423CC68AD0CD5B831C079D996101 /* HotKey.xcconfig */;
+			baseConfigurationReference = 01B263B27016D74C03E8AA1737C4CF24 /* HotKey.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -519,9 +623,46 @@
 			};
 			name = Release;
 		};
+		086A2A43A8FC97FF839B9BF55146D5FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = C81CC8267FE4E5F1759651B9A5E218FA /* Pods-Maccy.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Target Support Files/Pods-Maccy/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MODULEMAP_FILE = "Target Support Files/Pods-Maccy/Pods-Maccy.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
 		1BFE67977280852703578A334197046B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8CBB423CC68AD0CD5B831C079D996101 /* HotKey.xcconfig */;
+			baseConfigurationReference = 01B263B27016D74C03E8AA1737C4CF24 /* HotKey.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -556,7 +697,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -607,8 +747,41 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
 				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		2FF491695E12627B3F06E3B9564497F2 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7F355D625DBCB639DC73442CED6D4EC /* Fuse.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/Fuse/Fuse-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Fuse/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Fuse/Fuse.modulemap";
+				PRODUCT_MODULE_NAME = Fuse;
+				PRODUCT_NAME = Fuse;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 4.1.2;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
@@ -647,9 +820,9 @@
 			};
 			name = Debug;
 		};
-		4104415D5E57F14A80FD440326FB0F61 /* Debug */ = {
+		3E99872F09BFA38B3A2706299FFD200E /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 991D59533525F8452C1B4B7FCEEE920E /* SwiftHEXColors.xcconfig */;
+			baseConfigurationReference = 326D3BA4CA392B27A75676333F099AFE /* SwiftHEXColors.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -715,7 +888,41 @@
 			};
 			name = Release;
 		};
-		5796EF80F4D30E501C42FC4578F1B7CF /* Release */ = {
+		5FD4D83D6B81D8443539BE3AE0CA9AB6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A7F355D625DBCB639DC73442CED6D4EC /* Fuse.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/Fuse/Fuse-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Fuse/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Fuse/Fuse.modulemap";
+				PRODUCT_MODULE_NAME = Fuse;
+				PRODUCT_NAME = Fuse;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 4.1.2;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		81ADD222244CA0B9144A26E0666B9B2E /* Release */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 842F2E2BDD1488EBA79F5A8A4D4CA617 /* Pods-Maccy.release.xcconfig */;
 			buildSettings = {
@@ -751,44 +958,10 @@
 			};
 			name = Release;
 		};
-		62B692560C97E8DFF4B43731B2675899 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 991D59533525F8452C1B4B7FCEEE920E /* SwiftHEXColors.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftHEXColors/SwiftHEXColors-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftHEXColors/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				MODULEMAP_FILE = "Target Support Files/SwiftHEXColors/SwiftHEXColors.modulemap";
-				PRODUCT_MODULE_NAME = SwiftHEXColors;
-				PRODUCT_NAME = SwiftHEXColors;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		822B7102BBE44F4B911960928BE7992D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
@@ -848,12 +1021,10 @@
 			};
 			name = Debug;
 		};
-		D5EAB498A760733439DBC4C2F23DC1F6 /* Debug */ = {
+		E1FE5EE079DA0F617068A733A9C72762 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C81CC8267FE4E5F1759651B9A5E218FA /* Pods-Maccy.debug.xcconfig */;
+			baseConfigurationReference = 326D3BA4CA392B27A75676333F099AFE /* SwiftHEXColors.xcconfig */;
 			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -865,29 +1036,45 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "Target Support Files/Pods-Maccy/Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftHEXColors/SwiftHEXColors-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftHEXColors/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MODULEMAP_FILE = "Target Support Files/Pods-Maccy/Pods-Maccy.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MODULEMAP_FILE = "Target Support Files/SwiftHEXColors/SwiftHEXColors.modulemap";
+				PRODUCT_MODULE_NAME = SwiftHEXColors;
+				PRODUCT_NAME = SwiftHEXColors;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
-			name = Debug;
+			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		0E0B582D8D2B0C67CCE334212F4831C7 /* Build configuration list for PBXNativeTarget "Fuse" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				5FD4D83D6B81D8443539BE3AE0CA9AB6 /* Debug */,
+				2FF491695E12627B3F06E3B9564497F2 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		18D27F2E1589C0E17C6285D6A9FC656C /* Build configuration list for PBXNativeTarget "SwiftHEXColors" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				3E99872F09BFA38B3A2706299FFD200E /* Debug */,
+				E1FE5EE079DA0F617068A733A9C72762 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -906,20 +1093,11 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A7B49C561E22A9DD51842659B4E4DA0A /* Build configuration list for PBXNativeTarget "Pods-Maccy" */ = {
+		B08E7FAE50983316A1BAA5BD7F52B6A7 /* Build configuration list for PBXNativeTarget "Pods-Maccy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D5EAB498A760733439DBC4C2F23DC1F6 /* Debug */,
-				5796EF80F4D30E501C42FC4578F1B7CF /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		DCA64E85A7922902BE5B65EDB20CAF55 /* Build configuration list for PBXNativeTarget "SwiftHEXColors" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				4104415D5E57F14A80FD440326FB0F61 /* Debug */,
-				62B692560C97E8DFF4B43731B2675899 /* Release */,
+				086A2A43A8FC97FF839B9BF55146D5FE /* Debug */,
+				81ADD222244CA0B9144A26E0666B9B2E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

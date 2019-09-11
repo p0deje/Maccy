@@ -22,31 +22,10 @@ class MenuTests: XCTestCase {
     }
   }
 
-  func testSearchWithExactMatch() {
-    menu.updateFilter(filter: "foo")
-    XCTAssertEqual(menu.items, [menu.items[0], menuItems[0]])
-  }
-
-  func testSearchWithPartialMatch() {
-    menu.updateFilter(filter: "ba")
-    XCTAssertEqual(menu.items, [menu.items[0], menuItems[1], menuItems[2]])
-  }
-
-  func testSearchWithNoMatch() {
-    menu.updateFilter(filter: "xyz")
-    XCTAssertEqual(menu.items, [menu.items[0]])
-  }
-
-  func testSearchWithEmpty() {
-    menu.updateFilter(filter: "")
-   XCTAssertEqual(menu.items, [menu.items[0]] + menuItems)
-  }
-
   func testSeparator() {
-    let separator = NSMenuItem.separator()
-    menu.addItem(separator)
+    menu.addItem(NSMenuItem.separator())
     menu.updateFilter(filter: "xyz")
-    XCTAssertTrue(menu.items.contains(separator))
+    XCTAssertTrue(menu.items.contains(where: { $0.isSeparatorItem }))
   }
 
   func testSearchIsKept() {
