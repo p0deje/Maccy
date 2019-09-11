@@ -30,9 +30,9 @@ class Menu: NSMenu, NSMenuDelegate {
     super.addItem(newItem)
   }
 
-  override func removeItem(at index: Int) {
-    allItems.remove(at: index)
-    super.removeItem(at: index)
+  override func removeItem(_ item: NSMenuItem) {
+    allItems.removeAll(where: { $0 == item })
+    super.removeItem(item)
   }
 
   func addSearchItem() {
@@ -53,9 +53,6 @@ class Menu: NSMenu, NSMenuDelegate {
     let searchItem = allItems.first
     let results = search.search(string: filter, within: searchableItems())
     let systemItems = allItems.filter({ isSystemItem(item: $0) })
-
-    allItems.removeAll()
-    items.removeAll()
 
     items = [searchItem!]
     items += results
@@ -103,12 +100,13 @@ class Menu: NSMenu, NSMenuDelegate {
     if !isSystemItem(item: itemToRemove) {
       if let historyItemToRemove = itemToRemove as? HistoryMenuItem {
         if let fullTitle = historyItemToRemove.fullTitle {
-          if let index = items.firstIndex(of: itemToRemove) {
-            removeItem(at: index) // alternate
-            removeItem(at: index - 1)
+          let historyItemToRemoveIndex = index(of: historyItemToRemove)
+          if let alternateItemToRemove = item(at: historyItemToRemoveIndex - 1) {
+            removeItem(alternateItemToRemove)
+            removeItem(historyItemToRemove)
             history?.remove(fullTitle)
             setKeyEquivalents(items)
-            highlight(items[index])
+            highlight(items[historyItemToRemoveIndex])
           }
         }
       }

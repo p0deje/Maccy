@@ -115,6 +115,21 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     app.typeKey(.delete, modifierFlags: [.option])
     XCTAssertFalse(app.menuItems[copy1].exists)
+
+    app.typeKey(.escape, modifierFlags: [])
+    popUpWithHotkey()
+    XCTAssertFalse(app.menuItems[copy1].exists)
+  }
+
+  func testDeleteEntryDuringSearch() {
+    popUpWithHotkey()
+    app.typeText(copy2)
+    app.typeKey(.delete, modifierFlags: [.option])
+    XCTAssertFalse(app.menuItems[copy2].exists)
+
+    app.typeKey(.escape, modifierFlags: [])
+    popUpWithHotkey()
+    XCTAssertFalse(app.menuItems[copy2].exists)
   }
 
   private func popUpWithHotkey() {
