@@ -7,6 +7,7 @@ class Maccy {
 
   private let showInStatusBar = "showInStatusBar"
   private let pasteByDefault = "pasteByDefault"
+  private let saratovSeparator = "enableSaratovSeparator"
 
   private let history: History
   private let clipboard: Clipboard
@@ -28,7 +29,7 @@ class Maccy {
     self.clipboard = clipboard
     menu.history = history
 
-    UserDefaults.standard.register(defaults: [showInStatusBar: true, pasteByDefault: false])
+    UserDefaults.standard.register(defaults: [showInStatusBar: true, pasteByDefault: false, saratovSeparator: false])
   }
 
   func start() {
@@ -74,6 +75,9 @@ class Maccy {
   private func populateFooter() {
     menu.addItem(NSMenuItem.separator())
     menu.addItem(clearItem)
+    if UserDefaults.standard.bool(forKey: saratovSeparator) {
+      menu.addItem(NSMenuItem.separator())
+    }
     menu.addItem(aboutItem)
     menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q"))
   }

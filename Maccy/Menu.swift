@@ -173,7 +173,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func isSystemItem(item: NSMenuItem) -> Bool {
-    let items = allItems.split(whereSeparator: { $0.isSeparatorItem })
+    let items = allItems.split(maxSplits: 1, omittingEmptySubsequences: true, whereSeparator: { $0.isSeparatorItem })
     return items.count > 1 && items[1].contains(item)
   }
 }
