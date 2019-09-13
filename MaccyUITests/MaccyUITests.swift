@@ -8,10 +8,6 @@ class MaccyUITests: XCTestCase {
   let copy1 = UUID().uuidString
   let copy2 = UUID().uuidString
 
-  var statusItem: XCUIElement {
-    return app.statusItems.firstMatch
-  }
-
   var popUpEvents: [CGEvent] {
     let eventDown = CGEvent(keyboardEventSource: nil, virtualKey: UInt16(kVK_ANSI_C), keyDown: true)!
     eventDown.flags = [.maskCommand, .maskShift]
@@ -59,13 +55,13 @@ class MaccyUITests: XCTestCase {
 
   func testCopyWithClick() {
     popUpWithHotkey()
-    app.menuItems.matching(identifier: copy2).element(boundBy: 0).click()
+    app.menuItems.matching(identifier: copy2).firstMatch.click()
     XCTAssertEqual(pasteboard.string(forType: .string), copy2)
   }
 
   func testCopyWithEnter() {
     popUpWithHotkey()
-    app.menuItems.matching(identifier: copy2).element(boundBy: 0).hover()
+    app.menuItems.matching(identifier: copy2).firstMatch.hover()
     app.typeKey(.enter, modifierFlags: [])
     XCTAssertEqual(pasteboard.string(forType: .string), copy2)
   }
@@ -136,17 +132,23 @@ class MaccyUITests: XCTestCase {
     for event in popUpEvents {
       event.post(tap: .cghidEventTap)
     }
-    sleep(1) // give Maccy some time to popup
+    waitUntilPoppedUp()
   }
 
   private func popUpWithMouse() {
-    statusItem.click()
-    sleep(1) // give Maccy some time to popup
+    app.statusItems.firstMatch.click()
+    waitUntilPoppedUp()
+  }
+
+  private func waitUntilPoppedUp() {
+    if !app.menuItems.firstMatch.waitForExistence(timeout: 3) {
+      XCTFail()
+    }
   }
 
   private func copyToClipboard(_ content: String) {
     pasteboard.clearContents()
     pasteboard.setString(content, forType: NSPasteboard.PasteboardType.string)
-    sleep(3) // make sure Maccy knows about new item
+    usleep(1500000) // default interval for Maccy to check clipboard is 1 second
   }
 }
