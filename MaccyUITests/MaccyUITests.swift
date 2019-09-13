@@ -142,7 +142,7 @@ class MaccyUITests: XCTestCase {
 
   private func waitUntilPoppedUp() {
     if !app.menuItems.firstMatch.waitForExistence(timeout: 3) {
-      XCTFail()
+      XCTFail("Maccy did not pop up")
     }
   }
 
