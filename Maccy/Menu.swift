@@ -20,7 +20,12 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuWillOpen(_ menu: NSMenu) {
-    self.items = allItems
+    removeAllItems()
+
+    let oldAllItems = allItems
+    oldAllItems.forEach(addItem(_:))
+    allItems = oldAllItems
+
     setKeyEquivalents(items)
     highlight(highlightableItems(items).first)
   }
@@ -48,16 +53,18 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func updateFilter(filter: String) {
+    removeAllItems()
+
     let oldAllItems = allItems
 
     let searchItem = allItems.first
     let results = search.search(string: filter, within: searchableItems())
     let systemItems = allItems.filter({ isSystemItem(item: $0) })
 
-    items = [searchItem!]
-    items += results
-    items += [NSMenuItem.separator()]
-    items += systemItems
+    addItem(searchItem!)
+    results.forEach(addItem(_:))
+    addItem(NSMenuItem.separator())
+    systemItems.forEach(addItem(_:))
 
     allItems = oldAllItems
 
