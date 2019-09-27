@@ -128,16 +128,18 @@ class MaccyUITests: XCTestCase {
     XCTAssertFalse(app.menuItems[copy2].exists)
   }
 
-  func testRemoveIconFromMenubar() {
-    removeMenubarIcon()
-    expectation(for: NSPredicate(format: "isHittable = 0"), evaluatedWith: app.statusItems.firstMatch)
+  func testRemoveAndRestoreMenubarIcon() {
+    let statusItem = app.statusItems.firstMatch
+    let dragFrom = statusItem.coordinate(withNormalizedOffset: CGVector.zero)
+    let dragTo = statusItem.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 10))
+    XCUIElement.perform(withKeyModifiers: .command, block: {
+      dragFrom.click(forDuration: 1, thenDragTo: dragTo)
+    })
+    expectation(for: NSPredicate(format: "isHittable = 0"), evaluatedWith: statusItem)
     waitForExpectations(timeout: 3)
-  }
 
-  func testRestoreIconInMenubar() {
-    removeMenubarIcon()
     app.launch()
-    expectation(for: NSPredicate(format: "isHittable = 1"), evaluatedWith: app.statusItems.firstMatch)
+    expectation(for: NSPredicate(format: "isHittable = 1"), evaluatedWith: statusItem)
     waitForExpectations(timeout: 3)
   }
 
@@ -163,14 +165,5 @@ class MaccyUITests: XCTestCase {
     pasteboard.clearContents()
     pasteboard.setString(content, forType: NSPasteboard.PasteboardType.string)
     usleep(1500000) // default interval for Maccy to check clipboard is 1 second
-  }
-
-  private func removeMenubarIcon() {
-    XCUIElement.perform(withKeyModifiers: .command, block: {
-      let statusItem = app.statusItems.firstMatch
-      let dragFrom = statusItem.coordinate(withNormalizedOffset: CGVector.zero)
-      let dragTo = statusItem.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 10))
-      dragFrom.click(forDuration: 1, thenDragTo: dragTo)
-    })
   }
 }
