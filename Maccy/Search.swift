@@ -14,7 +14,8 @@ class Search {
       return within
     }
 
-    if UserDefaults.standard.bool(forKey: fuzzySearchPref) {
+    if UserDefaults.standard.bool(forKey: fuzzySearchPref)
+      && !ProcessInfo.processInfo.arguments.contains("ui-testing") {
       return fuzzySearch(string: string, within: within)
     } else {
       return simpleSearch(string: string, within: within)

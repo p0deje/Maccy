@@ -2,7 +2,7 @@ import Cocoa
 
 class Maccy: NSObject {
   @objc let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-  
+
   private let about = About()
   private let menu = Menu(title: "Maccy")
 
