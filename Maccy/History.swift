@@ -12,7 +12,7 @@ class History {
   }
 
   init() {
-    UserDefaults.standard.register(defaults: [sizeKey: 999])
+    UserDefaults.standard.register(defaults: [sizeKey: 200])
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
       clear()
     }

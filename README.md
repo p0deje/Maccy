@@ -72,7 +72,7 @@ defaults write org.p0deje.Maccy hotKey control+option+m # default is command+shi
 #### History Size
 
 ```sh
-defaults write org.p0deje.Maccy historySize 100 # default is 999
+defaults write org.p0deje.Maccy historySize 100 # default is 200
 ```
 
 #### Show/Hide Icon in Status Bar
@@ -101,6 +101,8 @@ defaults write org.p0deje.Maccy fuzzySearch true # default is false
 ```
 
 > Make sure you quit the app and restart it after changing the options here.
+
+> Note that enabling fuzzy search will slow down when searching through the long history items list (200+). 
 
 ## Update
 
