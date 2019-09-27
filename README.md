@@ -77,6 +77,11 @@ defaults write org.p0deje.Maccy historySize 100 # default is 999
 
 #### Show/Hide Icon in Status Bar
 
+To hide you can simply drag the icon away from the status bar with <kbd>COMMAND (⌘)</kbd> pressed.
+To recover the icon, re-open Maccy while it's already running.
+
+You can also control visibility using configuration:
+
 ```sh
 defaults write org.p0deje.Maccy showInStatusBar false # default is true
 ```

@@ -1,13 +1,21 @@
 import Cocoa
 
-class Maccy {
+class Maccy: NSObject {
+  @objc let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+  
   private let about = About()
-  private let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
   private let menu = Menu(title: "Maccy")
 
-  private let showInStatusBar = "showInStatusBar"
   private let pasteByDefault = "pasteByDefault"
   private let saratovSeparator = "enableSaratovSeparator"
+
+  private var showInStatusBar: String {
+    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
+      return "showInStatusBarUITests"
+    } else {
+      return "showInStatusBar"
+    }
+  }
 
   private let history: History
   private let clipboard: Clipboard
@@ -24,18 +32,29 @@ class Maccy {
     return item
   }
 
+  private var observation: NSKeyValueObservation?
+
   init(history: History, clipboard: Clipboard) {
     self.history = history
     self.clipboard = clipboard
-    menu.history = history
+    super.init()
 
+    menu.history = history
     UserDefaults.standard.register(defaults: [showInStatusBar: true, pasteByDefault: false, saratovSeparator: false])
+    observation = observe(\.statusItem.isVisible, options: [.new], changeHandler: { _, change in
+      UserDefaults.standard.set(change.newValue!, forKey: self.showInStatusBar)
+    })
   }
 
   func start() {
-    if UserDefaults.standard.bool(forKey: showInStatusBar) {
-      statusItem.button!.image = NSImage(named: "StatusBarMenuImage")
-      statusItem.menu = menu
+    statusItem.button?.image = NSImage(named: "StatusBarMenuImage")
+    statusItem.menu = menu
+    statusItem.behavior = .removalAllowed
+
+    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
+      statusItem.isVisible = true
+    } else {
+      statusItem.isVisible = UserDefaults.standard.bool(forKey: showInStatusBar)
     }
 
     refresh()
