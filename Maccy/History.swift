@@ -11,6 +11,8 @@ class History {
     }
   }
 
+  private let ignoreEventsKey = "ignoreEvents"
+
   init() {
     UserDefaults.standard.register(defaults: [sizeKey: 200])
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
@@ -32,6 +34,10 @@ class History {
   }
 
   func add(_ string: String) {
+    if UserDefaults.standard.bool(forKey: ignoreEventsKey) {
+        return
+    }
+
     remove(string)
 
     var history = all()
