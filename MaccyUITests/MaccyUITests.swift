@@ -128,7 +128,7 @@ class MaccyUITests: XCTestCase {
     XCTAssertFalse(app.menuItems[copy2].exists)
   }
 
-  func testRemoveAndRestoreMenubarIcon() {
+  func testHideAndShowMenubarIcon() {
     let statusItem = app.statusItems.firstMatch
     let dragFrom = statusItem.coordinate(withNormalizedOffset: CGVector.zero)
     let dragTo = statusItem.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 10))
