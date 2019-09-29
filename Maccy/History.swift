@@ -31,23 +31,9 @@ class History {
     return savedHistory
   }
 
-  func isBlank(_ string: String) -> Bool {
-    if string.count == 0 {
-      return true
-    }
-
-    if let first = string.first {
-      if first == "\n" {
-        return true
-      }
-    }
-
-    return false
-  }
-
   func add(_ string: String) {
-    if isBlank(string) {
-        return
+    if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+      return
     }
 
     remove(string)
