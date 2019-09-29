@@ -35,7 +35,7 @@ class History {
 
   func add(_ string: String) {
     if UserDefaults.standard.bool(forKey: ignoreEventsKey) {
-        return
+      return
     }
 
     remove(string)
