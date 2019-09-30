@@ -32,6 +32,10 @@ class History {
   }
 
   func add(_ string: String) {
+    if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+      return
+    }
+
     remove(string)
 
     var history = all()
