@@ -2,6 +2,7 @@ import AppKit
 
 class History {
   private let sizeKey = "historySize"
+  private let ignoreEventsKey = "ignoreEvents"
 
   private var storageKey: String {
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
@@ -12,7 +13,7 @@ class History {
   }
 
   init() {
-    UserDefaults.standard.register(defaults: [sizeKey: 200])
+    UserDefaults.standard.register(defaults: [sizeKey: 200, ignoreEventsKey: false])
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
       clear()
     }
@@ -32,6 +33,10 @@ class History {
   }
 
   func add(_ string: String) {
+    if UserDefaults.standard.bool(forKey: ignoreEventsKey) {
+      return
+    }
+
     if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
       return
     }

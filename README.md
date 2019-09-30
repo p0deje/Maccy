@@ -104,6 +104,16 @@ defaults write org.p0deje.Maccy fuzzySearch true # default is false
 
 > Note that enabling fuzzy search will slow down when searching through the long history items list (200+). 
 
+#### Ignore Copied Items
+
+You can tell Maccy to ignore all copied items:
+
+```sh
+defaults write org.p0deje.Maccy ignoreEvents true # default is false
+```
+
+This is useful if you have some workflow for copying sensitive data. You can set `ignoreEvents` to true, copy the data and set `ignoreEvents` back to false.
+
 ## Update
 
 Download and reinstall the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):

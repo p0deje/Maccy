@@ -17,6 +17,7 @@ class HistoryTests: XCTestCase {
     super.tearDown()
     UserDefaults.standard.set(savedHistory, forKey: "history")
     UserDefaults.standard.set(historySize, forKey: "historySize")
+    UserDefaults.standard.set(false, forKey: "ignoreEvents")
   }
 
   func testDefaultIsEmpty() {
@@ -42,6 +43,12 @@ class HistoryTests: XCTestCase {
     history.add(" foo")
     history.add("\n bar")
     XCTAssertEqual(history.all(), ["\n bar", " foo"])
+  }
+
+  func testIgnore() {
+    UserDefaults.standard.set(true, forKey: "ignoreEvents")
+    history.add("foo")
+    XCTAssertEqual(history.all(), [])
   }
 
   func testClearing() {
