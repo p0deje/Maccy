@@ -36,6 +36,14 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.all(), ["foo", "bar"])
   }
 
+  func testAddingBlank() {
+    history.add(" ")
+    history.add("\n")
+    history.add(" foo")
+    history.add("\n bar")
+    XCTAssertEqual(history.all(), ["\n bar", " foo"])
+  }
+
   func testClearing() {
     history.add("foo")
     history.clear()
