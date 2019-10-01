@@ -33,7 +33,7 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func humanizedTitle(_ title: String) -> String {
-    let trimmedTitle = title.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
+    let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
     if trimmedTitle.count > showMaxLength {
       let index = trimmedTitle.index(trimmedTitle.startIndex, offsetBy: showMaxLength)
       return "\(trimmedTitle[...index])..."

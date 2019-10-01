@@ -2,22 +2,23 @@ import XCTest
 @testable import Maccy
 
 class HistoryTests: XCTestCase {
-  let savedHistory = UserDefaults.standard.array(forKey: "history")
-  let historySize = UserDefaults.standard.integer(forKey: "historySize")
-
+  let savedIgnoreEvents = UserDefaults.standard.ignoreEvents
+  let savedSize = UserDefaults.standard.size
+  let savedStorage = UserDefaults.standard.storage
   let history = History()
 
   override func setUp() {
     super.setUp()
-    UserDefaults.standard.set([], forKey: "history")
-    UserDefaults.standard.set(10, forKey: "historySize")
+    UserDefaults.standard.ignoreEvents = false
+    UserDefaults.standard.size = 10
+    UserDefaults.standard.storage = []
   }
 
   override func tearDown() {
     super.tearDown()
-    UserDefaults.standard.set(savedHistory, forKey: "history")
-    UserDefaults.standard.set(historySize, forKey: "historySize")
-    UserDefaults.standard.set(false, forKey: "ignoreEvents")
+    UserDefaults.standard.ignoreEvents = savedIgnoreEvents
+    UserDefaults.standard.size = savedSize
+    UserDefaults.standard.storage = savedStorage
   }
 
   func testDefaultIsEmpty() {
@@ -71,7 +72,7 @@ class HistoryTests: XCTestCase {
     for index in 0...10 {
       history.add(String(index))
     }
-    UserDefaults.standard.set(5, forKey: "historySize")
+    UserDefaults.standard.size = 5
 
     XCTAssertEqual(history.all().count, 5)
     XCTAssertTrue(history.all().contains("10"))

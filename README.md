@@ -61,7 +61,7 @@ Just add Maccy to your "Login items".
 
 ### Change Default Settings
 
-To change default settings, use the following commands from Terminal.
+To change default settings, use the following commands in Terminal.
 
 #### Popup Hotkey
 
@@ -86,6 +86,8 @@ You can also control visibility using configuration:
 defaults write org.p0deje.Maccy showInStatusBar false # default is true
 ```
 
+> Don't forget to restart Maccy after using `defaults` command!
+
 #### Automatically Paste by Default
 
 Select and paste in one go.
@@ -99,8 +101,6 @@ defaults write org.p0deje.Maccy pasteByDefault true # default is false
 ```sh
 defaults write org.p0deje.Maccy fuzzySearch true # default is false
 ```
-
-> Make sure you quit the app and restart it after changing the options here.
 
 > Note that enabling fuzzy search will slow down when searching through the long history items list (200+). 
 

@@ -2,20 +2,16 @@ import Cocoa
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
-  let clipboard = Clipboard()
-  let history = History()
-  let hotKey = GlobalHotKey()
+  private let clipboard = Clipboard()
+  private let history = History()
 
-  var maccy: Maccy
-
-  override init() {
-    maccy = Maccy(history: history, clipboard: clipboard)
-    super.init()
-  }
+  private var hotKey: GlobalHotKey!
+  private var maccy: Maccy!
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
+    maccy = Maccy(history: history, clipboard: clipboard)
     maccy.start()
-    hotKey.handler = { self.maccy.popUp() }
+    hotKey = GlobalHotKey({ self.maccy.popUp() })
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {

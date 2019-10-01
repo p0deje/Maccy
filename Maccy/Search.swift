@@ -2,20 +2,14 @@ import AppKit
 import Fuse
 
 class Search {
-  private let fuzzySearchPref = "fuzzySearch"
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
-
-  init() {
-    UserDefaults.standard.register(defaults: [fuzzySearchPref: false])
-  }
 
   func search(string: String, within: [NSMenuItem]) -> [NSMenuItem] {
     guard !string.isEmpty else {
       return within
     }
 
-    if UserDefaults.standard.bool(forKey: fuzzySearchPref)
-      && !ProcessInfo.processInfo.arguments.contains("ui-testing") {
+    if UserDefaults.standard.fuzzySearch {
       return fuzzySearch(string: string, within: within)
     } else {
       return simpleSearch(string: string, within: within)

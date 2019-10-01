@@ -14,6 +14,8 @@
 		DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */; };
 		DA1EDE452045B68700479723 /* MenuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE442045B68700479723 /* MenuTests.swift */; };
 		DA246D611E56C9EA001E40F3 /* Application.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA246D601E56C9EA001E40F3 /* Application.xib */; };
+		DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */; };
+		DA2B0AF42343104600EFAD72 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */; };
 		DA2C752A2029FD6B0090965D /* FilterMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2C75292029FD6B0090965D /* FilterMenuItemView.swift */; };
 		DA2C752C2029FE990090965D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2C752B2029FE990090965D /* Menu.swift */; };
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
@@ -85,6 +87,8 @@
 		DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMenuItemTests.swift; sourceTree = "<group>"; };
 		DA1EDE442045B68700479723 /* MenuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTests.swift; sourceTree = "<group>"; };
 		DA246D601E56C9EA001E40F3 /* Application.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Application.xib; sourceTree = "<group>"; };
+		DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Configuration.swift"; sourceTree = "<group>"; };
+		DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
 		DA2C75292029FD6B0090965D /* FilterMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterMenuItemView.swift; sourceTree = "<group>"; };
 		DA2C752B2029FE990090965D /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		DA360DB01E3DF137005C6F6B /* MaccyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -170,6 +174,7 @@
 		DA360DB11E3DF137005C6F6B /* MaccyTests */ = {
 			isa = PBXGroup;
 			children = (
+				DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */,
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				DAE2850123225BD90080E394 /* ColorImageTests.swift */,
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
@@ -217,9 +222,10 @@
 				DAEE38531E3DD6F100DD2966 /* History.swift */,
 				DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */,
 				DAF176C5202AA56B00C5FD0D /* Keys.swift */,
+				DA8953B81E446A4E00884EAB /* Maccy.swift */,
 				DA2C752B2029FE990090965D /* Menu.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
-				DA8953B81E446A4E00884EAB /* Maccy.swift */,
+				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
 				DAEE384D1E3DBEB100DD2966 /* Info.plist */,
 			);
 			path = Maccy;
@@ -439,6 +445,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */,
+				DA2B0AF42343104600EFAD72 /* UserDefaultsTests.swift in Sources */,
 				DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */,
 				DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */,
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
@@ -455,6 +462,7 @@
 				DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */,
 				DAF176C6202AA56B00C5FD0D /* Keys.swift in Sources */,
 				DAEE38541E3DD6F100DD2966 /* History.swift in Sources */,
+				DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */,
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,

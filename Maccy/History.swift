@@ -1,30 +1,17 @@
 import AppKit
 
 class History {
-  private let sizeKey = "historySize"
-  private let ignoreEventsKey = "ignoreEvents"
-
-  private var storageKey: String {
-    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
-      return "historyUITests"
-    } else {
-      return "history"
-    }
-  }
-
   init() {
-    UserDefaults.standard.register(defaults: [sizeKey: 200, ignoreEventsKey: false])
+    UserDefaults.standard.register(defaults: [UserDefaults.Keys.size: UserDefaults.Values.size])
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
       clear()
     }
   }
 
   func all() -> [String] {
-    guard var savedHistory = UserDefaults.standard.array(forKey: storageKey) as? [String] else {
-      return []
-    }
+    var savedHistory = UserDefaults.standard.storage
+    let maxSize = UserDefaults.standard.size
 
-    let maxSize = UserDefaults.standard.integer(forKey: sizeKey)
     while savedHistory.count > maxSize {
       savedHistory.remove(at: maxSize - 1)
     }
@@ -33,7 +20,7 @@ class History {
   }
 
   func add(_ string: String) {
-    if UserDefaults.standard.bool(forKey: ignoreEventsKey) {
+    if UserDefaults.standard.ignoreEvents {
       return
     }
 
@@ -44,14 +31,14 @@ class History {
     remove(string)
 
     var history = all()
-    let maxSize = UserDefaults.standard.integer(forKey: sizeKey)
+    let maxSize = UserDefaults.standard.size
 
     if history.count == maxSize {
       history.remove(at: maxSize - 1)
     }
 
     let newContents = [string] + history
-    UserDefaults.standard.set(newContents, forKey: storageKey)
+    UserDefaults.standard.storage = newContents
   }
 
   func remove(_ string: String?) {
@@ -64,18 +51,18 @@ class History {
       history.remove(at: index)
     }
 
-    UserDefaults.standard.set(history, forKey: storageKey)
+    UserDefaults.standard.storage = history
   }
 
   func removeRecent() {
     var history = all()
     if !history.isEmpty {
       history.removeFirst()
-      UserDefaults.standard.set(history, forKey: storageKey)
+      UserDefaults.standard.storage = history
     }
   }
 
   func clear() {
-    UserDefaults.standard.set([], forKey: storageKey)
+    UserDefaults.standard.storage = []
   }
 }

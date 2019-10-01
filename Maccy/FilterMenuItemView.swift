@@ -3,10 +3,9 @@ import Carbon
 import HotKey
 
 class FilterMenuItemView: NSView, NSTextFieldDelegate {
-  @objc
-  var title: String {
+  @objc public var title: String {
     get { return titleField.stringValue }
-    set(newTitle) { titleField.stringValue = newTitle }
+    set { titleField.stringValue = newValue }
   }
 
   private let eventSpecs = [

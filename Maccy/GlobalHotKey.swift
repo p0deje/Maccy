@@ -1,31 +1,34 @@
 import HotKey
 
 class GlobalHotKey {
-  var handler: HotKey.Handler? {
-    get { return hotKey?.keyDownHandler }
-    set(newHandler) { hotKey?.keyDownHandler = newHandler }
-  }
-
-  private let hotKeyStore = "hotKey"
-  private let defaultKeyBinding = "command+shift+c"
   private var hotKey: HotKey?
+  private var handler: HotKey.Handler
+  private var hotKeyPrefObserver: NSKeyValueObservation?
 
-  init() {
-    UserDefaults.standard.register(defaults: [hotKeyStore: defaultKeyBinding])
-    registerHotKey()
+  init(_ handler: @escaping HotKey.Handler) {
+    UserDefaults.standard.register(defaults: [UserDefaults.Keys.hotKey: UserDefaults.Values.hotKey])
+
+    self.handler = handler
+    hotKeyPrefObserver = UserDefaults.standard.observe(\.hotKey, options: [.initial, .new], changeHandler: { _, _ in
+      if let (key, modifiers) = self.parseHotKey() {
+        self.hotKey = HotKey(key: key, modifiers: modifiers)
+        self.hotKey?.keyDownHandler = self.handler
+      }
+    })
   }
 
-  private func registerHotKey() {
-    guard let keybindingString = UserDefaults.standard.string(forKey: hotKeyStore) else {
-      return
-    }
-    var keysList = keybindingString.split(separator: "+")
+  deinit {
+    hotKeyPrefObserver?.invalidate()
+  }
+
+  private func parseHotKey() -> (Key, NSEvent.ModifierFlags)? {
+    var keysList = UserDefaults.standard.hotKey.split(separator: "+")
 
     guard let keyString = keysList.popLast() else {
-      return
+      return nil
     }
     guard let key = Key(string: String(keyString)) else {
-      return
+      return nil
     }
 
     var modifiers: NSEvent.ModifierFlags = []
@@ -43,6 +46,6 @@ class GlobalHotKey {
       }
     }
 
-    hotKey = HotKey(key: key, modifiers: modifiers)
+    return (key, modifiers)
   }
 }

@@ -1,22 +1,10 @@
 import Cocoa
 
 class Maccy: NSObject {
-  @objc let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+  @objc public let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
   private let about = About()
   private let menu = Menu(title: "Maccy")
-
-  private let pasteByDefault = "pasteByDefault"
-  private let saratovSeparator = "enableSaratovSeparator"
-
-  private var showInStatusBar: String {
-    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
-      return "showInStatusBarUITests"
-    } else {
-      return "showInStatusBar"
-    }
-  }
-
   private let history: History
   private let clipboard: Clipboard
 
@@ -32,30 +20,30 @@ class Maccy: NSObject {
     return item
   }
 
-  private var observation: NSKeyValueObservation?
+  private var statusItemVisibilityObserver: NSKeyValueObservation?
 
   init(history: History, clipboard: Clipboard) {
+    UserDefaults.standard.register(defaults: [UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar])
+
     self.history = history
     self.clipboard = clipboard
+    menu.history = history
     super.init()
 
-    menu.history = history
-    UserDefaults.standard.register(defaults: [showInStatusBar: true, pasteByDefault: false, saratovSeparator: false])
-    observation = observe(\.statusItem.isVisible, options: [.new], changeHandler: { _, change in
-      UserDefaults.standard.set(change.newValue!, forKey: self.showInStatusBar)
+    statusItemVisibilityObserver = observe(\.statusItem.isVisible, options: .new, changeHandler: { _, change in
+      UserDefaults.standard.showInStatusBar = change.newValue!
     })
+  }
+
+  deinit {
+    statusItemVisibilityObserver?.invalidate()
   }
 
   func start() {
     statusItem.button?.image = NSImage(named: "StatusBarMenuImage")
     statusItem.menu = menu
     statusItem.behavior = .removalAllowed
-
-    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
-      statusItem.isVisible = true
-    } else {
-      statusItem.isVisible = UserDefaults.standard.bool(forKey: showInStatusBar)
-    }
+    statusItem.isVisible = UserDefaults.standard.showInStatusBar
 
     refresh()
 
@@ -79,7 +67,7 @@ class Maccy: NSObject {
   }
 
   private func populateItems() {
-    let pasteByDefault = UserDefaults.standard.bool(forKey: self.pasteByDefault)
+    let pasteByDefault = UserDefaults.standard.pasteByDefault
     for entry in history.all() {
       if pasteByDefault {
         addPasteSearchItem(entry, alt: false)
@@ -94,7 +82,7 @@ class Maccy: NSObject {
   private func populateFooter() {
     menu.addItem(NSMenuItem.separator())
     menu.addItem(clearItem)
-    if UserDefaults.standard.bool(forKey: saratovSeparator) {
+    if UserDefaults.standard.saratovSeparator {
       menu.addItem(NSMenuItem.separator())
     }
     menu.addItem(aboutItem)
