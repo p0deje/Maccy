@@ -40,7 +40,7 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.ignoreEvents) }
   }
 
-  public var pasteByDefault: Bool {
+  @objc dynamic public var pasteByDefault: Bool {
     get { bool(forKey: Keys.pasteByDefault) }
     set { set(newValue, forKey: Keys.pasteByDefault) }
   }

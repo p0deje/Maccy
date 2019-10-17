@@ -4,21 +4,18 @@ import XCTest
 // Somehow highlighted item is always nil, so highlighting tests fail.
 class MenuTests: XCTestCase {
   let clipboard = Clipboard()
-  var menu: Menu!
+  let history = History()
+  let menuItems = ["foo", "bar", "baz"]
 
-  lazy var menuItems: [HistoryMenuItem] = [
-    HistoryMenuItem(title: "foo", onSelected: { _ in }),
-    HistoryMenuItem(title: "bar", onSelected: { _ in }),
-    HistoryMenuItem(title: "baz", onSelected: { _ in })
-  ]
+  var menu: Menu!
 
   override func setUp() {
     super.setUp()
 
-    menu = Menu()
-    menu.addSearchItem()
+    menu = Menu(history: history, clipboard: clipboard)
+    menu.addItem(NSMenuItem(title: "Search", action: nil, keyEquivalent: ""))
     for menuItem in menuItems {
-      menu.addItem(menuItem)
+      menu.prepend(menuItem)
     }
   }
 

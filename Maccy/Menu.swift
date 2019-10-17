@@ -3,73 +3,82 @@ import AppKit
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
 class Menu: NSMenu, NSMenuDelegate {
   public let maxHotKey = 9
-  public var allItems: [NSMenuItem] = []
-  public var history: History?
+  public let menuWidth = 300
 
-  private let menuWidth = 300
   private let search = Search()
+
+  private var clipboard: Clipboard!
+  private var history: History!
+  private var historyItems: [HistoryMenuItem] = []
 
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
   }
 
-  override init(title: String) {
-    super.init(title: title)
+  init(history: History, clipboard: Clipboard) {
+    super.init(title: "Maccy")
+    self.history = history
+    self.clipboard = clipboard
     self.delegate = self
     self.minimumWidth = CGFloat(menuWidth)
   }
 
   func menuWillOpen(_ menu: NSMenu) {
-    removeAllItems()
-
-    let oldAllItems = allItems
-    oldAllItems.forEach(addItem(_:))
-    allItems = oldAllItems
-
-    setKeyEquivalents(items)
-    highlight(highlightableItems(items).first)
+    setKeyEquivalents(historyItems)
+    highlight(historyItems.first)
   }
 
-  override func addItem(_ newItem: NSMenuItem) {
-    allItems.append(newItem)
-    super.addItem(newItem)
+  func prepend(_ entry: String) {
+    removeDuplicateItems(entry)
+
+    let copyHistoryItem = HistoryMenuItem(title: entry, onSelected: copy(_:))
+    let pasteHistoryItem = HistoryMenuItem(title: entry, onSelected: copyAndPaste(_:))
+
+    if UserDefaults.standard.pasteByDefault {
+      alternate(copyHistoryItem)
+      prependHistoryItems(pasteHistoryItem, copyHistoryItem)
+    } else {
+      alternate(pasteHistoryItem)
+      prependHistoryItems(copyHistoryItem, pasteHistoryItem)
+    }
+
+    if historyItems.count > (UserDefaults.standard.size * 2) {
+      removeLastHistoryItem()
+    }
   }
 
-  override func removeItem(_ item: NSMenuItem) {
-    allItems.removeAll(where: { $0 == item })
-    super.removeItem(item)
-  }
-
-  func addSearchItem() {
-    let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: menuWidth, height: 29))
-    headerItemView.title = title
-
-    let headerItem = NSMenuItem()
-    headerItem.title = title
-    headerItem.view = headerItemView
-    headerItem.isEnabled = false
-
-    addItem(headerItem)
+  func clear() {
+    historyItems.removeAll()
   }
 
   func updateFilter(filter: String) {
-    removeAllItems()
+    let results = search.search(string: filter, within: historyItems)
 
-    let oldAllItems = allItems
+    // First, remove items that don't match search.
+    for item in historyItems {
+      if items.contains(item) && !results.contains(item) {
+        removeItem(item)
+      }
+    }
 
-    let searchItem = allItems.first
-    let results = search.search(string: filter, within: searchableItems())
-    let systemItems = allItems.filter({ isSystemItem(item: $0) })
+    // Second, update order of items to match search results order.
+    results.reversed().forEach({ item in
+      if items.contains(item) {
+        removeItem(item)
+      }
+      insertItem(item, at: 1)
+    })
 
-    addItem(searchItem!)
-    results.forEach(addItem(_:))
-    addItem(NSMenuItem.separator())
-    systemItems.forEach(addItem(_:))
-
-    allItems = oldAllItems
-
-    setKeyEquivalents(items)
+    setKeyEquivalents(results)
     highlight(results.first)
+  }
+
+  func removeRecent() {
+    if !historyItems.isEmpty {
+      historyItems.removeFirst(2)
+      removeItem(at: 1)
+      removeItem(at: 1)
+    }
   }
 
   func select() {
@@ -104,18 +113,18 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    if !isSystemItem(item: itemToRemove) {
-      if let historyItemToRemove = itemToRemove as? HistoryMenuItem {
-        if let fullTitle = historyItemToRemove.fullTitle {
-          let historyItemToRemoveIndex = index(of: historyItemToRemove)
-          if let alternateItemToRemove = item(at: historyItemToRemoveIndex - 1) {
-            removeItem(alternateItemToRemove)
-            removeItem(historyItemToRemove)
-            history?.remove(fullTitle)
-            setKeyEquivalents(items)
-            highlight(items[historyItemToRemoveIndex])
-          }
-        }
+    if let historyItemToRemove = itemToRemove as? HistoryMenuItem {
+      if let fullTitle = historyItemToRemove.fullTitle {
+        historyItems.removeAll(where: { $0.fullTitle == fullTitle })
+
+        let historyItemToRemoveIndex = index(of: historyItemToRemove)
+        removeItem(at: historyItemToRemoveIndex) // main item
+        removeItem(at: historyItemToRemoveIndex - 1) // alt item
+
+        history?.remove(fullTitle)
+
+        setKeyEquivalents(historyItems)
+        highlight(items[historyItemToRemoveIndex])
       }
     }
   }
@@ -150,37 +159,58 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func setKeyEquivalents(_ items: [NSMenuItem]) {
-    let mainItems = items.filter { !$0.isAlternate && !isSystemItem(item: $0) }
-    let altItems = items.filter { $0.isAlternate }
-
-    var index = 0
-    for item in mainItems {
-      if index <= maxHotKey {
-        item.keyEquivalent = String(index)
-        index += 1
+  private func setKeyEquivalents(_ items: [HistoryMenuItem]) {
+    var hotKey = 1
+    for item in items.filter({ !$0.isAlternate }) {
+      if hotKey <= maxHotKey {
+        self.items[index(of: item)].keyEquivalent = String(hotKey)
+        self.items[index(of: item) + 1].keyEquivalent = String(hotKey)
+        hotKey += 1
       } else if !item.keyEquivalent.isEmpty {
-        item.keyEquivalent = ""
-      }
-    }
-
-    index = 1
-    for item in altItems {
-      if index <= maxHotKey {
-        item.keyEquivalent = String(index)
-        index += 1
-      } else if !item.keyEquivalent.isEmpty {
-        item.keyEquivalent = ""
+        self.items[index(of: item)].keyEquivalent = ""
+        self.items[index(of: item) + 1].keyEquivalent = ""
       }
     }
   }
 
-  private func searchableItems() -> [NSMenuItem] {
-    return allItems.filter({ $0.isEnabled && !$0.isSeparatorItem && !isSystemItem(item: $0) })
+  private func prependHistoryItems(_ firstItem: HistoryMenuItem, _ secondItem: HistoryMenuItem) {
+    historyItems.insert(contentsOf: [firstItem, secondItem], at: 0)
+    insertItem(secondItem, at: 1)
+    insertItem(firstItem, at: 1)
   }
 
-  private func isSystemItem(item: NSMenuItem) -> Bool {
-    let items = allItems.split(maxSplits: 1, omittingEmptySubsequences: true, whereSeparator: { $0.isSeparatorItem })
-    return items.count > 1 && items[1].contains(item)
+  private func removeDuplicateItems(_ entry: String) {
+    historyItems.removeAll(where: { $0.fullTitle == entry })
+    items.forEach({ item in
+      if let historyItem = item as? HistoryMenuItem {
+        if historyItem.fullTitle == entry {
+          removeItem(item)
+        }
+      }
+    })
+  }
+
+  private func removeLastHistoryItem() {
+    let altItem = historyItems.removeLast()
+    let mainItem = historyItems.removeLast()
+    removeItem(altItem)
+    removeItem(mainItem)
+  }
+
+  private func alternate(_ item: HistoryMenuItem) {
+    item.keyEquivalentModifierMask = [.option]
+    item.isHidden = true
+    item.isAlternate = true
+  }
+
+  private func copy(_ item: HistoryMenuItem) {
+    if let title = item.fullTitle {
+      clipboard.copy(title)
+    }
+  }
+
+  private func copyAndPaste(_ item: HistoryMenuItem) {
+    copy(item)
+    clipboard.paste()
   }
 }

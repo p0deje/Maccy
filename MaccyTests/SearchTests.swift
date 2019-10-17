@@ -4,10 +4,10 @@ import XCTest
 class SearchTests: XCTestCase {
   let savedFuzzySearch = UserDefaults.standard.bool(forKey: "fuzzySearch")
 
-  let items = [
-    NSMenuItem(title: "foo bar baz", action: nil, keyEquivalent: ""),
-    NSMenuItem(title: "foo bar zaz", action: nil, keyEquivalent: ""),
-    NSMenuItem(title: "xxx yyy zzz", action: nil, keyEquivalent: "")
+  let items: Search.Searchable = [
+    HistoryMenuItem(title: "foo bar baz", onSelected: { _ in }),
+    HistoryMenuItem(title: "foo bar zaz", onSelected: { _ in }),
+    HistoryMenuItem(title: "xxx yyy zzz", onSelected: { _ in })
   ]
 
   override func tearDown() {
@@ -39,7 +39,7 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
-  private func search(_ string: String) -> [NSMenuItem] {
+  private func search(_ string: String) -> Search.Searchable {
     return Search().search(string: string, within: items)
   }
 }

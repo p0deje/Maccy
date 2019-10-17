@@ -4,9 +4,11 @@ class Maccy: NSObject {
   @objc public let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
   private let about = About()
-  private let menu = Menu(title: "Maccy")
-  private let history: History
-  private let clipboard: Clipboard
+  private let clipboard = Clipboard()
+  private let history = History()
+  private let quitItem = NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q")
+
+  private var menu: Menu!
 
   private var clearItem: NSMenuItem {
     let item = NSMenuItem(title: "Clear", action: #selector(clear), keyEquivalent: "")
@@ -20,63 +22,66 @@ class Maccy: NSObject {
     return item
   }
 
+  private var pasteByDefaultObserver: NSKeyValueObservation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
-  init(history: History, clipboard: Clipboard) {
+  override init() {
     UserDefaults.standard.register(defaults: [UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar])
-
-    self.history = history
-    self.clipboard = clipboard
-    menu.history = history
     super.init()
+
+    pasteByDefaultObserver = UserDefaults.standard.observe(\.pasteByDefault, options: .new, changeHandler: { _, _ in
+      self.menu.clear()
+      self.populateItems()
+    })
 
     statusItemVisibilityObserver = observe(\.statusItem.isVisible, options: .new, changeHandler: { _, change in
       UserDefaults.standard.showInStatusBar = change.newValue!
     })
+
+    menu = Menu(history: history, clipboard: clipboard)
+    start()
   }
 
   deinit {
+    pasteByDefaultObserver?.invalidate()
     statusItemVisibilityObserver?.invalidate()
-  }
-
-  func start() {
-    statusItem.button?.image = NSImage(named: "StatusBarMenuImage")
-    statusItem.menu = menu
-    statusItem.behavior = .removalAllowed
-    statusItem.isVisible = UserDefaults.standard.showInStatusBar
-
-    refresh()
-
-    clipboard.onNewCopy(history.add)
-    clipboard.onNewCopy({ (_ string: String) -> Void in self.refresh() })
-    clipboard.onRemovedCopy(history.removeRecent)
-    clipboard.onRemovedCopy({ self.refresh() })
-
-    clipboard.startListening()
   }
 
   func popUp() {
     menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
   }
 
-  private func refresh() {
-    menu.allItems.removeAll()
-    menu.addSearchItem()
+  private func start() {
+    statusItem.button?.image = NSImage(named: "StatusBarMenuImage")
+    statusItem.menu = menu
+    statusItem.behavior = .removalAllowed
+    statusItem.isVisible = UserDefaults.standard.showInStatusBar
+
+    clipboard.onNewCopy(history.add)
+    clipboard.onNewCopy(menu.prepend)
+    clipboard.onRemovedCopy(history.removeRecent)
+    clipboard.onRemovedCopy(menu.removeRecent)
+    clipboard.startListening()
+
+    populateHeader()
     populateItems()
     populateFooter()
   }
 
+  private func populateHeader() {
+    let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: menu.menuWidth, height: 29))
+    headerItemView.title = "Maccy"
+
+    let headerItem = NSMenuItem()
+    headerItem.title = "Maccy"
+    headerItem.view = headerItemView
+    headerItem.isEnabled = false
+
+    menu.addItem(headerItem)
+  }
+
   private func populateItems() {
-    let pasteByDefault = UserDefaults.standard.pasteByDefault
-    for entry in history.all() {
-      if pasteByDefault {
-        addPasteSearchItem(entry, alt: false)
-        addCopySearchItem(entry, alt: true)
-      } else {
-        addCopySearchItem(entry, alt: false)
-        addPasteSearchItem(entry, alt: true)
-      }
-    }
+    history.all().reversed().forEach(menu.prepend)
   }
 
   private func populateFooter() {
@@ -86,45 +91,12 @@ class Maccy: NSObject {
       menu.addItem(NSMenuItem.separator())
     }
     menu.addItem(aboutItem)
-    menu.addItem(NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q"))
-  }
-
-  private func addCopySearchItem(_ entry: String, alt: Bool) {
-    let menuItem = HistoryMenuItem(title: entry, onSelected: copy(_:))
-    if alt {
-      alternate(menuItem)
-    }
-    menu.addItem(menuItem)
-  }
-
-  private func addPasteSearchItem(_ entry: String, alt: Bool) {
-    let menuItem = HistoryMenuItem(title: entry, onSelected: { item in
-      self.copy(item)
-      self.clipboard.paste()
-    })
-    if alt {
-      alternate(menuItem)
-    }
-    menu.addItem(menuItem)
-  }
-
-  private func alternate(_ menuItem: HistoryMenuItem) {
-    menuItem.keyEquivalentModifierMask = [.option]
-    menuItem.isHidden = true
-    menuItem.isAlternate = true
-  }
-
-  private func copy(_ item: HistoryMenuItem) {
-    guard let title = item.fullTitle else {
-      return
-    }
-
-    clipboard.copy(title)
+    menu.addItem(quitItem)
   }
 
   @objc
   func clear(_ sender: NSMenuItem) {
     history.clear()
-    refresh()
+    menu.clear()
   }
 }
