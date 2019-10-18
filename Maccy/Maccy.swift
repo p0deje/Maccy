@@ -27,6 +27,7 @@ class Maccy: NSObject {
 
   override init() {
     UserDefaults.standard.register(defaults: [UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar])
+    UserDefaults.standard.register(defaults: [UserDefaults.Keys.showSearch: UserDefaults.Values.showSearch])
     super.init()
 
     pasteByDefaultObserver = UserDefaults.standard.observe(\.pasteByDefault, options: .new, changeHandler: { _, _ in
@@ -63,7 +64,7 @@ class Maccy: NSObject {
     clipboard.onRemovedCopy(menu.removeRecent)
     clipboard.startListening()
 
-    populateHeader()
+    if UserDefaults.standard.showSearch { populateHeader() }
     populateItems()
     populateFooter()
   }

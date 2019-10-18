@@ -175,8 +175,13 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func prependHistoryItems(_ firstItem: HistoryMenuItem, _ secondItem: HistoryMenuItem) {
     historyItems.insert(contentsOf: [firstItem, secondItem], at: 0)
-    insertItem(secondItem, at: 1)
-    insertItem(firstItem, at: 1)
+    if UserDefaults.standard.showSearch {
+        insertItem(secondItem, at: 1)
+        insertItem(firstItem, at: 1)
+    } else {
+        insertItem(secondItem, at: 0)
+        insertItem(firstItem, at: 0)
+    }
   }
 
   private func removeDuplicateItems(_ entry: String) {

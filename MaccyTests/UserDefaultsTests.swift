@@ -10,6 +10,7 @@ class UserDefaultsTests: XCTestCase {
   let savedShowInStatusBar = UserDefaults.standard.showInStatusBar
   let savedSize = UserDefaults.standard.size
   let savedStorage = UserDefaults.standard.storage
+  let savedShowSearch = UserDefaults.standard.showSearch
 
   override func setUp() {
     super.setUp()
@@ -22,6 +23,7 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.showInStatusBar)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.size)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.storage)
+    UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.showSearch)
   }
 
   override func tearDown() {
@@ -35,6 +37,7 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.set(savedShowInStatusBar, forKey: UserDefaults.Keys.showInStatusBar)
     UserDefaults.standard.set(savedSize, forKey: UserDefaults.Keys.size)
     UserDefaults.standard.set(savedStorage, forKey: UserDefaults.Keys.storage)
+    UserDefaults.standard.set(savedShowSearch, forKey: UserDefaults.Keys.showSearch)
   }
 
   func testDefaultValues() {
@@ -46,6 +49,7 @@ class UserDefaultsTests: XCTestCase {
     XCTAssertEqual(UserDefaults.standard.showInStatusBar, true)
     XCTAssertEqual(UserDefaults.standard.size, 200)
     XCTAssertEqual(UserDefaults.standard.storage, [])
+    XCTAssertEqual(UserDefaults.standard.showSearch, true)
   }
 
   func testChanging() {
@@ -57,6 +61,7 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.showInStatusBar = false
     UserDefaults.standard.size = 100
     UserDefaults.standard.storage = ["foo"]
+    UserDefaults.standard.showSearch = true
 
     XCTAssertEqual(UserDefaults.standard.bool(forKey: UserDefaults.Keys.fuzzySearch), true)
     XCTAssertEqual(UserDefaults.standard.string(forKey: UserDefaults.Keys.hotKey), "command+shift+a")
@@ -66,5 +71,6 @@ class UserDefaultsTests: XCTestCase {
     XCTAssertEqual(UserDefaults.standard.bool(forKey: UserDefaults.Keys.showInStatusBar), false)
     XCTAssertEqual(UserDefaults.standard.integer(forKey: UserDefaults.Keys.size), 100)
     XCTAssertEqual(UserDefaults.standard.array(forKey: UserDefaults.Keys.storage) as? [String], ["foo"])
+    XCTAssertEqual(UserDefaults.standard.bool(forKey: UserDefaults.Keys.showSearch), true)
   }
 }

@@ -8,6 +8,7 @@ extension UserDefaults {
     static let pasteByDefault = "pasteByDefault"
     static let saratovSeparator = "enableSaratovSeparator"
     static let size = "historySize"
+    static let showSearch = "showSearch"
 
     static var showInStatusBar: String {
       ProcessInfo.processInfo.arguments.contains("ui-testing") ? "showInStatusBarUITests" : "showInStatusBar"
@@ -23,6 +24,7 @@ extension UserDefaults {
     static let showInStatusBar = true
     static let size = 200
     static let storage: [String] = []
+    static let showSearch = true
   }
 
   public var fuzzySearch: Bool {
@@ -63,5 +65,10 @@ extension UserDefaults {
   public var storage: [String] {
     get { array(forKey: Keys.storage) as? [String] ?? Values.storage }
     set { set(newValue, forKey: Keys.storage) }
+  }
+
+  public var showSearch: Bool {
+    get { bool(forKey: Keys.showSearch) }
+    set { set(newValue, forKey: Keys.showSearch) }
   }
 }

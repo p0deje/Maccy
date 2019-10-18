@@ -88,6 +88,14 @@ defaults write org.p0deje.Maccy showInStatusBar false # default is true
 
 > Don't forget to restart Maccy after using `defaults` command!
 
+#### Enable/Disable Search Field
+
+```sh
+defaults write org.p0deje.Maccy showSearch false # default is true
+```
+
+> Don't forget to restart Maccy after using `defaults` command!
+
 #### Automatically Paste by Default
 
 Select and paste in one go.
