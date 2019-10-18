@@ -40,6 +40,17 @@ class MaccyUITests: XCTestCase {
     XCTAssertTrue(app.menuItems[copy2].exists)
   }
 
+  func testCloseWithHotkey() {
+    popUpWithHotkey()
+    let historyItem = app.menuItems[copy1]
+    expectation(for: NSPredicate(format: "exists = 0"), evaluatedWith: historyItem)
+
+    for event in popUpEvents {
+      event.post(tap: .cghidEventTap)
+    }
+    waitForExpectations(timeout: 3)
+  }
+
   func testPopupWithMenubar() {
     popUpWithMouse()
     XCTAssertTrue(app.menuItems[copy1].exists)
