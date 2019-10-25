@@ -1,4 +1,5 @@
 import Cocoa
+import LaunchAtLogin
 
 class Maccy: NSObject {
   @objc public let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -6,22 +7,7 @@ class Maccy: NSObject {
   private let about = About()
   private let clipboard = Clipboard()
   private let history = History()
-  private let quitItem = NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q")
-
   private var menu: Menu!
-
-  private var clearItem: NSMenuItem {
-    let item = NSMenuItem(title: "Clear", action: #selector(clear), keyEquivalent: "")
-    item.target = self
-    return item
-  }
-
-  private var aboutItem: NSMenuItem {
-    let item = NSMenuItem(title: "About", action: #selector(about.openAbout), keyEquivalent: "")
-    item.target = about
-    return item
-  }
-
   private var pasteByDefaultObserver: NSKeyValueObservation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
@@ -85,18 +71,60 @@ class Maccy: NSObject {
   }
 
   private func populateFooter() {
-    menu.addItem(NSMenuItem.separator())
-    menu.addItem(clearItem)
-    if UserDefaults.standard.saratovSeparator {
-      menu.addItem(NSMenuItem.separator())
+    typealias MenuItem = (tag: MenuTag, isChecked: Bool, key: String)
+    let footerItems: [MenuItem?] = [
+      (.separator, false, ""),
+      (.clear, false, ""),
+      (.launchAtLogin, LaunchAtLogin.isEnabled, ""),
+      UserDefaults.standard.saratovSeparator ? (.separator, false, ""): nil,
+      (.about, false, ""),
+      (.quit, false, "q")
+    ]
+    footerItems
+      .compactMap({ $0 })
+      .map({ item ->  NSMenuItem in
+      if item.tag == .separator {
+        return NSMenuItem.separator()
+      }
+      let menuItem = NSMenuItem(title: item.tag.string, action: #selector(menuItemAction), keyEquivalent: item.key)
+      menuItem.tag = item.tag.rawValue
+      menuItem.state = item.isChecked ? .on: .off
+      return menuItem
+    }).forEach({
+      $0.target = self
+      menu.addItem($0)
+    })
+  }
+}
+
+// MARK: - Menu actions
+
+extension Maccy {
+  @objc
+  func menuItemAction(_ sender: NSMenuItem) {
+    if let tag = MenuTag(rawValue: sender.tag) {
+      switch tag {
+      case .about:
+        about.openAbout(sender)
+      case .clear:
+        clear()
+      case .launchAtLogin:
+        toggleLaunchAtLogin(sender)
+      case .quit:
+        NSApp.stop(sender)
+      default:
+        break
+      }
     }
-    menu.addItem(aboutItem)
-    menu.addItem(quitItem)
   }
 
-  @objc
-  func clear(_ sender: NSMenuItem) {
+  private func clear() {
     history.clear()
     menu.clear()
+  }
+    
+  private func toggleLaunchAtLogin(_ sender: NSMenuItem) {
+    sender.state = (sender.state == .off) ? .on: .off
+    LaunchAtLogin.isEnabled = sender.state == .on
   }
 }
