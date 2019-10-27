@@ -6,7 +6,6 @@ enum MenuTag: Int {
   case launchAtLogin = 102
   case about = 103
   case quit = 104
-  
   var string: String {
     switch self {
     case .clear:

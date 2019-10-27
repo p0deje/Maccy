@@ -71,8 +71,7 @@ class Maccy: NSObject {
   }
 
   private func populateFooter() {
-    typealias MenuItem = (tag: MenuTag, isChecked: Bool, key: String)
-    let footerItems: [MenuItem?] = [
+    let footerItems: [(tag: MenuTag, isChecked: Bool, key: String)?] = [
       (.separator, false, ""),
       (.clear, false, ""),
       (.launchAtLogin, LaunchAtLogin.isEnabled, ""),
@@ -122,7 +121,7 @@ extension Maccy {
     history.clear()
     menu.clear()
   }
-    
+
   private func toggleLaunchAtLogin(_ sender: NSMenuItem) {
     sender.state = (sender.state == .off) ? .on: .off
     LaunchAtLogin.isEnabled = sender.state == .on
