@@ -162,7 +162,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     guard let key = Key(carbonKeyCode: UInt32(event.keyCode)) else {
       return false
     }
-    let modifierFlags = event.modifierFlags
+    let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
 
     if Keys.shouldPassThrough(key) {
       return false
@@ -180,11 +180,12 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
 
     if key == Key.return || key == Key.keypadEnter || key == Key.upArrow || key == Key.downArrow {
-      if let menu = customMenu {
-        processSelectionKey(menu: menu, key: key, modifierFlags: modifierFlags)
-        return true
-      }
+      processSelectionKey(menu: customMenu, key: key, modifierFlags: modifierFlags)
+      return true
+    }
 
+    if key == GlobalHotKey.key && modifierFlags == GlobalHotKey.modifierFlags {
+      customMenu?.cancelTracking()
       return false
     }
 
@@ -208,21 +209,21 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
   }
 
-  private func processSelectionKey(menu: Menu, key: Key, modifierFlags: NSEvent.ModifierFlags) {
+  private func processSelectionKey(menu: Menu?, key: Key, modifierFlags: NSEvent.ModifierFlags) {
     switch key {
     case .return, .keypadEnter:
-      menu.select()
+      menu?.select()
     case .upArrow:
       if modifierFlags.contains(.command) {
-        menu.selectFirst()
+        menu?.selectFirst()
       } else {
-        menu.selectPrevious(alt: modifierFlags.contains(.option))
+        menu?.selectPrevious(alt: modifierFlags.contains(.option))
       }
     case .downArrow:
       if modifierFlags.contains(.command) {
-        menu.selectLast()
+        menu?.selectLast()
       } else {
-        menu.selectNext(alt: modifierFlags.contains(.option))
+        menu?.selectNext(alt: modifierFlags.contains(.option))
       }
     default: ()
     }

@@ -1,7 +1,10 @@
 import HotKey
 
 class GlobalHotKey {
-  private var hotKey: HotKey?
+  static public var key: Key?
+  static public var modifierFlags: NSEvent.ModifierFlags?
+
+  private var hotKey: HotKey!
   private var handler: HotKey.Handler
   private var hotKeyPrefObserver: NSKeyValueObservation?
 
@@ -12,7 +15,11 @@ class GlobalHotKey {
     hotKeyPrefObserver = UserDefaults.standard.observe(\.hotKey, options: [.initial, .new], changeHandler: { _, _ in
       if let (key, modifiers) = self.parseHotKey() {
         self.hotKey = HotKey(key: key, modifiers: modifiers)
-        self.hotKey?.keyDownHandler = self.handler
+        self.hotKey.keyDownHandler = {
+          self.hotKey.isPaused = true
+          self.handler()
+          self.hotKey.isPaused = false
+        }
       }
     })
   }
@@ -45,6 +52,9 @@ class GlobalHotKey {
       default: ()
       }
     }
+
+    GlobalHotKey.key = key
+    GlobalHotKey.modifierFlags = modifiers
 
     return (key, modifiers)
   }

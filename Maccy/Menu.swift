@@ -70,6 +70,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func clear() {
+    historyItems.forEach(removeItem(_:))
     historyItems.removeAll()
   }
 

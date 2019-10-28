@@ -21,6 +21,7 @@ and lets you quickly navigate, search, and use previous clipboard contents.
     * [Show/Hide Icon in Status Bar](#show/hide-icon-in-status-bar)
     * [Automatically Paste by Default](#automatically-paste-by-default)
     * [Enable/Disable Fuzzy Search](#enable/disable-fuzzy-search)
+    * [Ignore Copied Items](#ignore-copied-items)
 * [Update](#update)
 * [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
 * [CI](#ci)
@@ -102,7 +103,7 @@ defaults write org.p0deje.Maccy pasteByDefault true # default is false
 defaults write org.p0deje.Maccy fuzzySearch true # default is false
 ```
 
-> Note that enabling fuzzy search will slow down when searching through the long history items list (200+). 
+> Note that enabling fuzzy search will slow down when searching through the long history items list (200+).
 
 #### Ignore Copied Items
 
@@ -119,10 +120,8 @@ This is useful if you have some workflow for copying sensitive data. You can set
 Download and reinstall the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):
 
 ```sh
-brew update
 brew cask upgrade maccy
-killall Maccy # closes the app if it is running
-open /Applications/Maccy.app # opens the new version
+open -a Maccy
 ```
 
 ## Why Yet Another Clipboard Manager
