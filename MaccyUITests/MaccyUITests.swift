@@ -139,6 +139,14 @@ class MaccyUITests: XCTestCase {
     XCTAssertFalse(app.menuItems[copy2].exists)
   }
 
+  func testClear() {
+    popUpWithHotkey()
+    app.menuItems["Clear"].click()
+    popUpWithHotkey()
+    XCTAssertFalse(app.menuItems[copy1].exists)
+    XCTAssertFalse(app.menuItems[copy2].exists)
+  }
+
   // Temporarily disable the test as it is flaky.
   //
   // func testHideAndShowMenubarIcon() {
