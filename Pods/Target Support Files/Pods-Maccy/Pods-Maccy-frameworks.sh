@@ -163,11 +163,13 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Fuse/Fuse.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/HotKey/HotKey.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/LoginServiceKit/LoginServiceKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftHEXColors/SwiftHEXColors.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Fuse/Fuse.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/HotKey/HotKey.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/LoginServiceKit/LoginServiceKit.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftHEXColors/SwiftHEXColors.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

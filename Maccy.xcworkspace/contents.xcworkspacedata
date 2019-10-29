@@ -14,12 +14,6 @@
       location = "group:Podfile.lock">
    </FileRef>
    <FileRef
-      location = "group:Carthage-input.xcfilelist">
-   </FileRef>
-   <FileRef
-      location = "group:Carthage-output.xcfilelist">
-   </FileRef>
-   <FileRef
       location = "group:README.md">
    </FileRef>
    <FileRef

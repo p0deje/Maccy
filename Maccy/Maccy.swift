@@ -1,5 +1,5 @@
 import Cocoa
-import LaunchAtLogin
+import LoginServiceKit
 
 class Maccy: NSObject {
   @objc public let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -74,7 +74,7 @@ class Maccy: NSObject {
     let footerItems: [(tag: MenuTag, isChecked: Bool, key: String)?] = [
       (.separator, false, ""),
       (.clear, false, ""),
-      (.launchAtLogin, LaunchAtLogin.isEnabled, ""),
+      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), ""),
       UserDefaults.standard.saratovSeparator ? (.separator, false, ""): nil,
       (.about, false, ""),
       (.quit, false, "q")
@@ -123,7 +123,13 @@ extension Maccy {
   }
 
   private func toggleLaunchAtLogin(_ sender: NSMenuItem) {
-    sender.state = (sender.state == .off) ? .on: .off
-    LaunchAtLogin.isEnabled = sender.state == .on
+    if sender.state == .off {
+      LoginServiceKit.addLoginItems()
+      sender.state = .on
+    }
+    else {
+      LoginServiceKit.removeLoginItems()
+      sender.state = .off
+    }
   }
 }

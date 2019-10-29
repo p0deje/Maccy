@@ -1,0 +1,23 @@
+{
+  "name": "LoginServiceKit",
+  "version": "2.1.0",
+  "summary": "Easy manage loigin items in MacOSX",
+  "license": {
+    "type": "apache2",
+    "file": "LICENSE"
+  },
+  "homepage": "https://github.com/Clipy/LoginServiceKit",
+  "authors": {
+    "Econa77": "s.f.1992.ip@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Clipy/LoginServiceKit.git",
+    "tag": "v2.1.0"
+  },
+  "platforms": {
+    "osx": "10.10"
+  },
+  "swift_versions": "5.0",
+  "source_files": "Lib/LoginServiceKit/*.swift",
+  "swift_version": "5.0"
+}
