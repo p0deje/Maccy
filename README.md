@@ -58,7 +58,7 @@ brew cask install maccy
 
 ### Automatically Start at Login
 
-Just add Maccy to your "Login items".
+Click on the Maccy meny bar icon and select the "Launch at login" option.
 
 ### Change Default Settings
 
