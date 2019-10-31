@@ -126,8 +126,7 @@ extension Maccy {
     if sender.state == .off {
       LoginServiceKit.addLoginItems()
       sender.state = .on
-    }
-    else {
+    } else {
       LoginServiceKit.removeLoginItems()
       sender.state = .off
     }

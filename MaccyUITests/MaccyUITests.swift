@@ -104,6 +104,7 @@ class MaccyUITests: XCTestCase {
     app.typeKey(.upArrow, modifierFlags: []) // "Quit"
     app.typeKey(.upArrow, modifierFlags: []) // "About"
     app.typeKey(.upArrow, modifierFlags: []) // "Clear"
+    app.typeKey(.upArrow, modifierFlags: []) // Login at launch
     app.typeKey(.upArrow, modifierFlags: [])
     app.typeKey(.enter, modifierFlags: [])
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)
@@ -145,6 +146,12 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     XCTAssertFalse(app.menuItems[copy1].exists)
     XCTAssertFalse(app.menuItems[copy2].exists)
+  }
+
+  func testLoginAtLaunch() {
+    popUpWithHotkey()
+    let label = "Launch at login"
+    XCTAssertTrue(app.menuItems[label].exists)
   }
 
   // Temporarily disable the test as it is flaky.
