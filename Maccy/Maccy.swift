@@ -22,12 +22,26 @@ class Maccy: NSObject {
     return item
   }
 
+  private var filterMenuRect: NSRect {
+    return NSRect(x: 0, y: 0, width: menu.menuWidth, height: UserDefaults.standard.hideSearch ? 1 : 29)
+  }
+
+  private var hideSearchObserver: NSKeyValueObservation?
   private var pasteByDefaultObserver: NSKeyValueObservation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
   override init() {
     UserDefaults.standard.register(defaults: [UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar])
     super.init()
+
+    hideSearchObserver = UserDefaults.standard.observe(\.hideSearch, options: .new, changeHandler: { _, _ in
+      self.menu.clear()
+      self.menu.removeAllItems()
+
+      self.populateHeader()
+      self.populateItems()
+      self.populateFooter()
+    })
 
     pasteByDefaultObserver = UserDefaults.standard.observe(\.pasteByDefault, options: .new, changeHandler: { _, _ in
       self.menu.clear()
@@ -43,6 +57,7 @@ class Maccy: NSObject {
   }
 
   deinit {
+    hideSearchObserver?.invalidate()
     pasteByDefaultObserver?.invalidate()
     statusItemVisibilityObserver?.invalidate()
   }
@@ -69,7 +84,7 @@ class Maccy: NSObject {
   }
 
   private func populateHeader() {
-    let headerItemView = FilterMenuItemView(frame: NSRect(x: 0, y: 0, width: menu.menuWidth, height: 29))
+    let headerItemView = FilterMenuItemView(frame: filterMenuRect)
     headerItemView.title = "Maccy"
 
     let headerItem = NSMenuItem()
