@@ -104,6 +104,7 @@ class MaccyUITests: XCTestCase {
     app.typeKey(.upArrow, modifierFlags: []) // "Quit"
     app.typeKey(.upArrow, modifierFlags: []) // "About"
     app.typeKey(.upArrow, modifierFlags: []) // "Clear"
+    app.typeKey(.upArrow, modifierFlags: []) // "Launch at login"
     app.typeKey(.upArrow, modifierFlags: [])
     app.typeKey(.enter, modifierFlags: [])
     XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), copy2)

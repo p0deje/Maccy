@@ -5,6 +5,7 @@ target 'Maccy' do
 
   pod 'Fuse', '~> 1.2'
   pod 'HotKey', '>= 0.1.2'
+  pod 'LoginServiceKit', git: 'https://github.com/Clipy/LoginServiceKit.git'
   pod 'SwiftHEXColors', '~> 1.3'
 
   target 'MaccyTests' do

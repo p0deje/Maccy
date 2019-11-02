@@ -22,7 +22,7 @@ and lets you quickly navigate, search, and use previous clipboard contents.
     * [Automatically Paste by Default](#automatically-paste-by-default)
     * [Enable/Disable Fuzzy Search](#enable/disable-fuzzy-search)
     * [Ignore Copied Items](#ignore-copied-items)
-    * [Show/Hide Search](#show/hide-search)
+    * [Show/Hide Search Field](#show/hide-search-field)
 * [Update](#update)
 * [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
 * [CI](#ci)
@@ -59,7 +59,7 @@ brew cask install maccy
 
 ### Automatically Start at Login
 
-Just add Maccy to your "Login items".
+Select the "Launch at login" option or add Maccy to your "Login items".
 
 ### Change Default Settings
 

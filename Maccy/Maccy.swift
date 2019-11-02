@@ -1,4 +1,5 @@
 import Cocoa
+import LoginServiceKit
 
 class Maccy: NSObject {
   @objc public let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -6,20 +7,37 @@ class Maccy: NSObject {
   private let about = About()
   private let clipboard = Clipboard()
   private let history = History()
-  private let quitItem = NSMenuItem(title: "Quit", action: #selector(NSApp.stop), keyEquivalent: "q")
-
   private var menu: Menu!
 
-  private var clearItem: NSMenuItem {
-    let item = NSMenuItem(title: "Clear", action: #selector(clear), keyEquivalent: "")
-    item.target = self
-    return item
-  }
+  private var footerItems: [NSMenuItem] {
+    var footerItems: [(tag: MenuTag, isChecked: Bool, key: String)] = [
+      (.separator, false, ""),
+      (.clear, false, ""),
+      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), "")
+    ]
 
-  private var aboutItem: NSMenuItem {
-    let item = NSMenuItem(title: "About", action: #selector(about.openAbout), keyEquivalent: "")
-    item.target = about
-    return item
+    if UserDefaults.standard.saratovSeparator {
+      footerItems.append((.separator, false, ""))
+    }
+
+    footerItems += [
+      (.about, false, ""),
+      (.quit, false, "q")
+    ]
+
+    return footerItems.map({ item -> NSMenuItem in
+      if item.tag == .separator {
+        return NSMenuItem.separator()
+      } else {
+        let menuItem = NSMenuItem(title: item.tag.string,
+                                  action: #selector(menuItemAction),
+                                  keyEquivalent: item.key)
+        menuItem.tag = item.tag.rawValue
+        menuItem.state = item.isChecked ? .on: .off
+        menuItem.target = self
+        return menuItem
+      }
+    })
   }
 
   private var filterMenuRect: NSRect {
@@ -100,18 +118,41 @@ class Maccy: NSObject {
   }
 
   private func populateFooter() {
-    menu.addItem(NSMenuItem.separator())
-    menu.addItem(clearItem)
-    if UserDefaults.standard.saratovSeparator {
-      menu.addItem(NSMenuItem.separator())
+    for item in footerItems {
+      menu.addItem(item)
     }
-    menu.addItem(aboutItem)
-    menu.addItem(quitItem)
   }
 
   @objc
-  func clear(_ sender: NSMenuItem) {
+  func menuItemAction(_ sender: NSMenuItem) {
+    if let tag = MenuTag(rawValue: sender.tag) {
+      switch tag {
+      case .about:
+        about.openAbout(sender)
+      case .clear:
+        clear()
+      case .launchAtLogin:
+        toggleLaunchAtLogin(sender)
+      case .quit:
+        NSApp.stop(sender)
+      default:
+        break
+      }
+    }
+  }
+
+  private func clear() {
     history.clear()
     menu.clear()
+  }
+
+  private func toggleLaunchAtLogin(_ sender: NSMenuItem) {
+    if sender.state == .off {
+      LoginServiceKit.addLoginItems()
+      sender.state = .on
+    } else {
+      LoginServiceKit.removeLoginItems()
+      sender.state = .off
+    }
   }
 }
