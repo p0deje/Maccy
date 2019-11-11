@@ -1,7 +1,7 @@
 <div align="center">
-  <img width="100px" src="https://p0deje.github.io/Maccy/img/maccy/Logo.svg" alt="Logo" />
+  <img width="100px" src="https://maccy.app/img/maccy/Logo.svg" alt="Logo" />
   <h1>
-    <a href="https://p0deje.github.io/Maccy/">Maccy</a>
+    <a href="https://maccy.app/">Maccy</a>
   </h1>
 </div>
 
