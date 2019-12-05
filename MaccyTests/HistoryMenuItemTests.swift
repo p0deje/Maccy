@@ -39,7 +39,7 @@ class HistoryMenuItemTests: XCTestCase {
 
   private func tooltip(_ title: String) -> String {
     return """
-           \(title)\n
+           \(title)\n \n
            Press ⌥+⌫ to delete.
            """
   }

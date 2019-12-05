@@ -20,7 +20,7 @@ class HistoryMenuItem: NSMenuItem {
     self.title = humanizedTitle(title)
     self.image = ColorImage.from(title)
     self.toolTip = """
-                   \(title)\n
+                   \(title)\n \n
                    Press ⌥+⌫ to delete.
                    """
   }
