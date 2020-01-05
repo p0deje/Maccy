@@ -171,12 +171,10 @@ class Menu: NSMenu, NSMenuDelegate {
     // Second, add key eqvuivalents up to max.
     // Both main and alternate item should have the same key equivalent.
     var hotKey = 1
-    for item in items {
-      if hotKey <= maxHotKey {
-        item.keyEquivalent = String(hotKey)
-        if item.isAlternate {
-          hotKey += 1
-        }
+    for item in items where hotKey <= maxHotKey {
+      item.keyEquivalent = String(hotKey)
+      if item.isAlternate {
+        hotKey += 1
       }
     }
   }
