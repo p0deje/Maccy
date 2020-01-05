@@ -22,7 +22,8 @@ and lets you quickly navigate, search, and use previous clipboard contents.
     * [Automatically Paste by Default](#automatically-paste-by-default)
     * [Enable/Disable Fuzzy Search](#enable/disable-fuzzy-search)
     * [Ignore Copied Items](#ignore-copied-items)
-    * [Show/Hide Search Field](#show/hide-search-field)
+    * [Show/Hide Search Field](#show/hide-search)
+    * [Show/Hide Title](#show/hide-title)
 * [Update](#update)
 * [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
 * [CI](#ci)
@@ -117,10 +118,16 @@ defaults write org.p0deje.Maccy ignoreEvents true # default is false
 
 This is useful if you have some workflow for copying sensitive data. You can set `ignoreEvents` to true, copy the data and set `ignoreEvents` back to false.
 
-#### Show/Hide Search Field
+#### Show/Hide Search
 
 ```sh
 defaults write org.p0deje.Maccy hideSearch true # default is false
+```
+
+#### Show/Hide Title
+
+```sh
+defaults write org.p0deje.Maccy hideTitle true # default is false
 ```
 
 ## Update

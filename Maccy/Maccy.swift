@@ -45,6 +45,7 @@ class Maccy: NSObject {
   }
 
   private var hideSearchObserver: NSKeyValueObservation?
+  private var hideTitleObserver: NSKeyValueObservation?
   private var pasteByDefaultObserver: NSKeyValueObservation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
@@ -53,17 +54,13 @@ class Maccy: NSObject {
     super.init()
 
     hideSearchObserver = UserDefaults.standard.observe(\.hideSearch, options: .new, changeHandler: { _, _ in
-      self.menu.clear()
-      self.menu.removeAllItems()
-
-      self.populateHeader()
-      self.populateItems()
-      self.populateFooter()
+      self.rebuild()
     })
-
+    hideTitleObserver = UserDefaults.standard.observe(\.hideTitle, options: .new, changeHandler: { _, _ in
+      self.rebuild()
+    })
     pasteByDefaultObserver = UserDefaults.standard.observe(\.pasteByDefault, options: .new, changeHandler: { _, _ in
-      self.menu.clear()
-      self.populateItems()
+      self.rebuild()
     })
 
     statusItemVisibilityObserver = observe(\.statusItem.isVisible, options: .new, changeHandler: { _, change in
@@ -76,6 +73,7 @@ class Maccy: NSObject {
 
   deinit {
     hideSearchObserver?.invalidate()
+    hideTitleObserver?.invalidate()
     pasteByDefaultObserver?.invalidate()
     statusItemVisibilityObserver?.invalidate()
   }
@@ -154,5 +152,14 @@ class Maccy: NSObject {
       LoginServiceKit.removeLoginItems()
       sender.state = .off
     }
+  }
+
+  private func rebuild() {
+    menu.clear()
+    menu.removeAllItems()
+
+    populateHeader()
+    populateItems()
+    populateFooter()
   }
 }

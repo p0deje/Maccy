@@ -4,6 +4,7 @@ extension UserDefaults {
   public struct Keys {
     static let fuzzySearch = "fuzzySearch"
     static let hideSearch = "hideSearch"
+    static let hideTitle = "hideTitle"
     static let hotKey = "hotKey"
     static let ignoreEvents = "ignoreEvents"
     static let pasteByDefault = "pasteByDefault"
@@ -34,6 +35,11 @@ extension UserDefaults {
   @objc dynamic public var hideSearch: Bool {
     get { bool(forKey: Keys.hideSearch) }
     set { set(newValue, forKey: Keys.hideSearch) }
+  }
+
+  @objc dynamic public var hideTitle: Bool {
+    get { bool(forKey: Keys.hideTitle) }
+    set { set(newValue, forKey: Keys.hideTitle) }
   }
 
   @objc dynamic public var hotKey: String {

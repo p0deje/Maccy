@@ -13,11 +13,16 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyRepeat))
   ]
 
-  private let layoutConstraints = [
-    "|-[titleField]-[queryField]-(==10)-|",
-    "V:|-(==3)-[titleField]-(==3)-|",
-    "V:|[queryField]-(==3)-|"
-  ]
+  private var layoutConstraints: [String] {
+    var constraints = ["V:|[queryField]-(==3)-|"]
+    if UserDefaults.standard.hideTitle {
+      constraints.append("|-(==10)-[queryField]-(==10)-|")
+    } else {
+      constraints.append("|-[titleField]-[queryField]-(==10)-|")
+      constraints.append("V:|-(==3)-[titleField]-(==3)-|")
+    }
+    return constraints
+  }
 
   private var eventHandler: EventHandlerRef?
 
@@ -66,7 +71,9 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     super.init(frame: frameRect)
     self.autoresizingMask = .width
 
-    addSubview(titleField)
+    if !UserDefaults.standard.hideTitle {
+      addSubview(titleField)
+    }
     addSubview(queryField)
 
     let views = ["titleField": titleField, "queryField": queryField]
