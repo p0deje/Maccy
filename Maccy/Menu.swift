@@ -155,8 +155,10 @@ class Menu: NSMenu, NSMenuDelegate {
     // when it has more items that can fit into the screen height
     // and scrolling items are added to the top and bottom of menu
     perform(highlightItemSelector, with: items.first)
-    if itemToHighlight != nil {
-      perform(highlightItemSelector, with: itemToHighlight)
+    if let item = itemToHighlight {
+      if items.contains(item) {
+        perform(highlightItemSelector, with: item)
+      }
     }
   }
 
