@@ -41,6 +41,8 @@ class Clipboard {
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
   func paste() {
+    checkAccessibilityPermissions()
+
     DispatchQueue.main.async {
       let vCode = UInt16(kVK_ANSI_V)
       let source = CGEventSource(stateID: .combinedSessionState)
@@ -76,5 +78,10 @@ class Clipboard {
     }
 
     changeCount = pasteboard.changeCount
+  }
+
+  private func checkAccessibilityPermissions() {
+    let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue(): true]
+    AXIsProcessTrustedWithOptions(options)
   }
 }
