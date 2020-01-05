@@ -83,6 +83,13 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(pasteboard.string(forType: .string), copy2)
   }
 
+  func testSearchAndCopyWithCommandShortcut() {
+    popUpWithHotkey()
+    app.typeText(copy2)
+    app.typeKey("1", modifierFlags: [.command])
+    XCTAssertEqual(pasteboard.string(forType: .string), copy2)
+  }
+
   func testDownArrow() {
     popUpWithHotkey()
     app.typeKey(.downArrow, modifierFlags: [])

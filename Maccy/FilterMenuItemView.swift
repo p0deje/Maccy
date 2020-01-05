@@ -85,6 +85,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     super.viewDidMoveToWindow()
 
     if window != nil {
+      setQuery("")
+      
       if let dispatcher = GetEventDispatcherTarget() {
         // Create pointer to our event processer.
         let eventProcessorPointer = UnsafeMutablePointer<Any>.allocate(capacity: 1)
@@ -109,14 +111,15 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       }
     } else {
       RemoveEventHandler(eventHandler)
-      setQuery("")
     }
   }
 
+  // Process query when search field was focused (i.e. user clicked on it).
   func controlTextDidChange(_ obj: Notification) {
     fireNotification()
   }
 
+  // Switch to main window if Tab is pressed when search is focused.
   func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
     if commandSelector == #selector(insertTab(_:)) {
       window?.makeFirstResponder(window)
@@ -125,11 +128,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     return false
   }
 
-  @objc
-  func fireNotification() {
-    if let menu = customMenu {
-      menu.updateFilter(filter: queryField.stringValue)
-    }
+  private func fireNotification() {
+    customMenu?.updateFilter(filter: queryField.stringValue)
   }
 
   private func setQuery(_ newQuery: String) {

@@ -160,16 +160,21 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func setKeyEquivalents(_ items: [HistoryMenuItem]) {
+  private func setKeyEquivalents(_ items: [NSMenuItem]) {
+    // First, clear all existing key equivalents.
+    for item in historyItems {
+      item.keyEquivalent = ""
+    }
+
+    // Second, add key eqvuivalents up to max.
+    // Both main and alternate item should have the same key equivalent.
     var hotKey = 1
-    for item in items.filter({ !$0.isAlternate }) {
+    for item in items {
       if hotKey <= maxHotKey {
-        self.items[index(of: item)].keyEquivalent = String(hotKey)
-        self.items[index(of: item) + 1].keyEquivalent = String(hotKey)
-        hotKey += 1
-      } else if !item.keyEquivalent.isEmpty {
-        self.items[index(of: item)].keyEquivalent = ""
-        self.items[index(of: item) + 1].keyEquivalent = ""
+        item.keyEquivalent = String(hotKey)
+        if item.isAlternate {
+          hotKey += 1
+        }
       }
     }
   }
