@@ -29,6 +29,6 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2020 Alex Rodionov.</string>
 	<key>CFBundleShortVersionString</key>
-	<string>0.8.0</string>
+	<string>0.8.1</string>
 </dict>
 </plist>
