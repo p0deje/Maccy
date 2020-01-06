@@ -121,6 +121,14 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
   }
 
+  override func draw(_ dirtyRect: NSRect) {
+    super.draw(dirtyRect)
+    if NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast {
+      NSColor(named: "MenuColor")?.setFill()
+      dirtyRect.fill()
+    }
+  }
+
   // Process query when search field was focused (i.e. user clicked on it).
   func controlTextDidChange(_ obj: Notification) {
     fireNotification()
