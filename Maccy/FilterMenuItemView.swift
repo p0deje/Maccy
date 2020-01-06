@@ -123,7 +123,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
   override func draw(_ dirtyRect: NSRect) {
     super.draw(dirtyRect)
-    if NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast {
+    if NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast ||
+       NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
       NSColor(named: "MenuColor")?.setFill()
       dirtyRect.fill()
     }

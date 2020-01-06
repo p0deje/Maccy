@@ -7,8 +7,13 @@
     {
       "idiom" : "universal",
       "color" : {
-        "platform" : "osx",
-        "reference" : "systemPurpleColor"
+        "color-space" : "display-p3",
+        "components" : {
+          "red" : "0.965",
+          "alpha" : "1.000",
+          "blue" : "0.965",
+          "green" : "0.965"
+        }
       }
     },
     {
@@ -20,8 +25,13 @@
         }
       ],
       "color" : {
-        "platform" : "osx",
-        "reference" : "systemPurpleColor"
+        "color-space" : "display-p3",
+        "components" : {
+          "red" : "0.216",
+          "alpha" : "1.000",
+          "blue" : "0.216",
+          "green" : "0.216"
+        }
       }
     },
     {
