@@ -92,8 +92,6 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     super.viewDidMoveToWindow()
 
     if window != nil {
-      setQuery("")
-
       if let dispatcher = GetEventDispatcherTarget() {
         // Create pointer to our event processer.
         let eventProcessorPointer = UnsafeMutablePointer<Any>.allocate(capacity: 1)
@@ -118,6 +116,9 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       }
     } else {
       RemoveEventHandler(eventHandler)
+      DispatchQueue.main.async {
+        self.setQuery("")
+      }
     }
   }
 
