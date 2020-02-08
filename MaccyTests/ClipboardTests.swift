@@ -4,6 +4,7 @@ import XCTest
 class ClipboardTests: XCTestCase {
   let clipboard = Clipboard()
   let pasteboard = NSPasteboard.general
+  let transientType = NSPasteboard.PasteboardType(rawValue: "org.nspasteboard.TransientType")
 
   func testChangesListenerAndAddHooks() {
     let hookExpectation = expectation(description: "Hook is called")
@@ -13,27 +14,29 @@ class ClipboardTests: XCTestCase {
     })
     clipboard.startListening()
 
-    pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-    pasteboard.setString("bar", forType: NSPasteboard.PasteboardType.string)
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString("bar", forType: .string)
 
-    waitForExpectations(timeout: 5)
+    waitForExpectations(timeout: 2)
   }
 
-  func testChangesListenerAndRemoveHooks() {
+  func testIgnoredCopies() {
     let hookExpectation = expectation(description: "Hook is called")
+    hookExpectation.isInverted = true
 
-    clipboard.onRemovedCopy(hookExpectation.fulfill)
+    clipboard.onNewCopy({ (_: String) -> Void in
+      hookExpectation.fulfill()
+    })
     clipboard.startListening()
 
-    pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-    pasteboard.setString("bar", forType: NSPasteboard.PasteboardType.string)
-    pasteboard.clearContents()
+    pasteboard.declareTypes([.string, transientType], owner: nil)
+    pasteboard.setString("bar", forType: .string)
 
-    waitForExpectations(timeout: 5)
+    waitForExpectations(timeout: 2)
   }
 
   func testCopy() {
     clipboard.copy("foo")
-    XCTAssertEqual(pasteboard.string(forType: NSPasteboard.PasteboardType.string), "foo")
+    XCTAssertEqual(pasteboard.string(forType: .string), "foo")
   }
 }
