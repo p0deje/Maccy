@@ -3,6 +3,7 @@ import Foundation
 extension UserDefaults {
   public struct Keys {
     static let fuzzySearch = "fuzzySearch"
+    static let hideFooter = "hideFooter"
     static let hideSearch = "hideSearch"
     static let hideTitle = "hideTitle"
     static let hotKey = "hotKey"
@@ -30,6 +31,11 @@ extension UserDefaults {
   public var fuzzySearch: Bool {
     get { ProcessInfo.processInfo.arguments.contains("ui-testing") ? false : bool(forKey: Keys.fuzzySearch) }
     set { set(newValue, forKey: Keys.fuzzySearch) }
+  }
+
+  @objc dynamic public var hideFooter: Bool {
+    get { bool(forKey: Keys.hideFooter) }
+    set { set(newValue, forKey: Keys.hideFooter) }
   }
 
   @objc dynamic public var hideSearch: Bool {

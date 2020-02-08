@@ -44,6 +44,7 @@ class Maccy: NSObject {
     return NSRect(x: 0, y: 0, width: menu.menuWidth, height: UserDefaults.standard.hideSearch ? 1 : 29)
   }
 
+  private var hideFooterObserver: NSKeyValueObservation?
   private var hideSearchObserver: NSKeyValueObservation?
   private var hideTitleObserver: NSKeyValueObservation?
   private var pasteByDefaultObserver: NSKeyValueObservation?
@@ -53,6 +54,9 @@ class Maccy: NSObject {
     UserDefaults.standard.register(defaults: [UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar])
     super.init()
 
+    hideFooterObserver = UserDefaults.standard.observe(\.hideFooter, options: .new, changeHandler: { _, _ in
+      self.rebuild()
+    })
     hideSearchObserver = UserDefaults.standard.observe(\.hideSearch, options: .new, changeHandler: { _, _ in
       self.rebuild()
     })
@@ -72,6 +76,7 @@ class Maccy: NSObject {
   }
 
   deinit {
+    hideFooterObserver?.invalidate()
     hideSearchObserver?.invalidate()
     hideTitleObserver?.invalidate()
     pasteByDefaultObserver?.invalidate()
@@ -116,6 +121,10 @@ class Maccy: NSObject {
   }
 
   private func populateFooter() {
+    guard !UserDefaults.standard.hideFooter else {
+      return
+    }
+
     for item in footerItems {
       menu.addItem(item)
     }
