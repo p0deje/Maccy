@@ -84,7 +84,13 @@ class Maccy: NSObject {
   }
 
   func popUp() {
-    menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+    if UserDefaults.standard.popupPosition == "center", let screen = NSScreen.main {
+      let topLeftX = (screen.frame.width - menu.size.width) / 2
+      let topLeftY = (screen.frame.height + menu.size.height) / 2
+      menu.popUp(positioning: nil, at: NSPoint(x: topLeftX, y: topLeftY), in: nil)
+    } else {
+      menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+    }
   }
 
   private func start() {

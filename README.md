@@ -24,6 +24,7 @@ and lets you quickly navigate, search, and use previous clipboard contents.
     * [Ignore Copied Items](#ignore-copied-items)
     * [Show/Hide Search Field](#show/hide-search)
     * [Show/Hide Title](#show/hide-title)
+    * [Popup Position](#popup-position)
 * [Update](#update)
 * [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
 * [CI](#ci)
@@ -128,6 +129,14 @@ defaults write org.p0deje.Maccy hideSearch true # default is false
 
 ```sh
 defaults write org.p0deje.Maccy hideTitle true # default is false
+```
+
+#### Popup Position
+
+By default Maccy will popup at cursor position. You can change it to be always centered on the screen. 
+
+```sh
+defaults write org.p0deje.Maccy popupPosition center # default is cursor
 ```
 
 ## Update

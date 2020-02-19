@@ -9,6 +9,7 @@ extension UserDefaults {
     static let hotKey = "hotKey"
     static let ignoreEvents = "ignoreEvents"
     static let pasteByDefault = "pasteByDefault"
+    static let popupPosition = "popupPosition"
     static let saratovSeparator = "enableSaratovSeparator"
     static let size = "historySize"
 
@@ -23,6 +24,7 @@ extension UserDefaults {
 
   public struct Values {
     static let hotKey = "command+shift+c"
+    static let popupPosition = "cursor"
     static let showInStatusBar = true
     static let size = 200
     static let storage: [String] = []
@@ -61,6 +63,11 @@ extension UserDefaults {
   @objc dynamic public var pasteByDefault: Bool {
     get { bool(forKey: Keys.pasteByDefault) }
     set { set(newValue, forKey: Keys.pasteByDefault) }
+  }
+
+  public var popupPosition: String {
+    get { string(forKey: Keys.popupPosition) ?? Values.popupPosition }
+    set { set(newValue, forKey: Keys.popupPosition) }
   }
 
   public var saratovSeparator: Bool {
