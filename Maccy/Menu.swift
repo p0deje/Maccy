@@ -48,7 +48,11 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func clear() {
-    historyItems.forEach(removeItem(_:))
+    historyItems.forEach({ item in
+      if items.contains(item) {
+        removeItem(item)
+      }
+    })
     historyItems.removeAll()
   }
 
