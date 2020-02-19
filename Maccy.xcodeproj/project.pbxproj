@@ -176,13 +176,13 @@
 		DA360DB11E3DF137005C6F6B /* MaccyTests */ = {
 			isa = PBXGroup;
 			children = (
-				DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */,
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				DAE2850123225BD90080E394 /* ColorImageTests.swift */,
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
 				DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */,
 				DA1EDE442045B68700479723 /* MenuTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
+				DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
 			);
 			path = MaccyTests;
