@@ -101,8 +101,6 @@ class Maccy: NSObject {
 
     clipboard.onNewCopy(history.add)
     clipboard.onNewCopy(menu.prepend)
-    clipboard.onRemovedCopy(history.removeRecent)
-    clipboard.onRemovedCopy(menu.removeRecent)
     clipboard.startListening()
 
     populateHeader()

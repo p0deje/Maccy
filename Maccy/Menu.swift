@@ -78,14 +78,6 @@ class Menu: NSMenu, NSMenuDelegate {
     highlight(results.first)
   }
 
-  func removeRecent() {
-    if !historyItems.isEmpty {
-      historyItems.removeFirst(2)
-      removeItem(at: 1)
-      removeItem(at: 1)
-    }
-  }
-
   func select() {
     if let item = highlightedItem {
       performActionForItem(at: index(of: item))

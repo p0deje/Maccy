@@ -53,13 +53,6 @@ class History {
 
     UserDefaults.standard.storage = history
   }
-
-  func removeRecent() {
-    var history = all()
-    if !history.isEmpty {
-      history.removeFirst()
-      UserDefaults.standard.storage = history
-    }
   }
 
   func clear() {
