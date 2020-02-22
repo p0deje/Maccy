@@ -25,8 +25,10 @@ class History {
       return
     }
 
-    if let existingHistoryItem = all.first(where: { $0.value == string }) {
-      all.removeAll(where: { $0 == existingHistoryItem })
+    if let existingHistoryItemIndex = all.firstIndex(where: { $0.value == string }) {
+      let existingHistoryItem = all[existingHistoryItemIndex]
+      existingHistoryItem.lastCopiedAt = Date()
+      all.remove(at: existingHistoryItemIndex)
       all = [existingHistoryItem] + all
     } else {
       if all.count == UserDefaults.standard.size {

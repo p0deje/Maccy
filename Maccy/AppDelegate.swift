@@ -23,7 +23,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         UserDefaults.standard.storage = oldStorage.map({ HistoryItem(value: $0) })
         UserDefaults.standard.migrations["2020-02-22-introduce-history-item"] = true
       }
-      UserDefaults.standard.migrations["2020-02-22-introduce-history-item"] = true
+    }
+
+    if UserDefaults.standard.migrations["2020-02-22-history-item-add-copied-at"] != true {
+      UserDefaults.standard.storage = UserDefaults.standard.storage.map({ item in
+        let migratedItem = item
+        migratedItem.firstCopiedAt = Date()
+        migratedItem.lastCopiedAt = Date()
+        return migratedItem
+      })
+      UserDefaults.standard.migrations["2020-02-22-history-item-add-copied-at"] = true
     }
   }
 }

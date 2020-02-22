@@ -6,6 +6,7 @@ class Menu: NSMenu, NSMenuDelegate {
   public let menuWidth = 300
 
   private let search = Search()
+  private let sorter = Sorter()
 
   private var clipboard: Clipboard!
   private var history: History!
@@ -24,26 +25,24 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuWillOpen(_ menu: NSMenu) {
+    buildItems(history.all)
     setKeyEquivalents(historyItems)
     highlight(historyItems.first)
   }
 
-  func prepend(_ entry: String) {
-    removeDuplicateItems(entry)
+  func buildItems(_ allItems: [HistoryItem]) {
+    clear()
+    for item in sorter.sort(allItems) {
+      let copyHistoryItem = HistoryMenuItem(item: item, onSelected: copy(_:))
+      let pasteHistoryItem = HistoryMenuItem(item: item, onSelected: copyAndPaste(_:))
 
-    let copyHistoryItem = HistoryMenuItem(title: entry, onSelected: copy(_:))
-    let pasteHistoryItem = HistoryMenuItem(title: entry, onSelected: copyAndPaste(_:))
-
-    if UserDefaults.standard.pasteByDefault {
-      alternate(copyHistoryItem)
-      prependHistoryItems(pasteHistoryItem, copyHistoryItem)
-    } else {
-      alternate(pasteHistoryItem)
-      prependHistoryItems(copyHistoryItem, pasteHistoryItem)
-    }
-
-    if historyItems.count > (UserDefaults.standard.size * 2) {
-      removeLastHistoryItem()
+      if UserDefaults.standard.pasteByDefault {
+        alternate(copyHistoryItem)
+        prependHistoryItems(pasteHistoryItem, copyHistoryItem)
+      } else {
+        alternate(pasteHistoryItem)
+        prependHistoryItems(copyHistoryItem, pasteHistoryItem)
+      }
     }
   }
 
@@ -111,18 +110,15 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     if let historyItemToRemove = itemToRemove as? HistoryMenuItem {
-      if let fullTitle = historyItemToRemove.fullTitle {
-        historyItems.removeAll(where: { $0.fullTitle == fullTitle })
+      historyItems.removeAll(where: { $0 == historyItemToRemove })
+      history.remove(historyItemToRemove.item.value)
 
-        let historyItemToRemoveIndex = index(of: historyItemToRemove)
-        removeItem(at: historyItemToRemoveIndex) // main item
-        removeItem(at: historyItemToRemoveIndex - 1) // alt item
+      let historyItemToRemoveIndex = index(of: historyItemToRemove)
+      removeItem(at: historyItemToRemoveIndex) // main item
+      removeItem(at: historyItemToRemoveIndex - 1) // alt item
 
-        history?.remove(fullTitle)
-
-        setKeyEquivalents(historyItems)
-        highlight(items[historyItemToRemoveIndex])
-      }
+      setKeyEquivalents(historyItems)
+      highlight(items[historyItemToRemoveIndex])
     }
   }
 
@@ -181,17 +177,6 @@ class Menu: NSMenu, NSMenuDelegate {
     insertItem(firstItem, at: 1)
   }
 
-  private func removeDuplicateItems(_ entry: String) {
-    historyItems.removeAll(where: { $0.fullTitle == entry })
-    items.forEach({ item in
-      if let historyItem = item as? HistoryMenuItem {
-        if historyItem.fullTitle == entry {
-          removeItem(item)
-        }
-      }
-    })
-  }
-
   private func removeLastHistoryItem() {
     let altItem = historyItems.removeLast()
     let mainItem = historyItems.removeLast()
@@ -206,9 +191,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func copy(_ item: HistoryMenuItem) {
-    if let title = item.fullTitle {
-      clipboard.copy(title)
-    }
+    clipboard.copy(item.item.value)
   }
 
   private func copyAndPaste(_ item: HistoryMenuItem) {

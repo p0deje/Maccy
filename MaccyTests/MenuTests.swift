@@ -5,18 +5,16 @@ import XCTest
 class MenuTests: XCTestCase {
   let clipboard = Clipboard()
   let history = History()
-  let menuItems = ["foo", "bar", "baz"]
+  let historyItems = [HistoryItem(value: "foo"), HistoryItem(value: "bar"), HistoryItem(value: "baz")]
 
   var menu: Menu!
 
   override func setUp() {
     super.setUp()
 
+    history.all = historyItems
     menu = Menu(history: history, clipboard: clipboard)
     menu.addItem(NSMenuItem(title: "Search", action: nil, keyEquivalent: ""))
-    for menuItem in menuItems {
-      menu.prepend(menuItem)
-    }
   }
 
   func testSeparator() {

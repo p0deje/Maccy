@@ -25,6 +25,8 @@
 		DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */; };
 		DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5F464F2020E4DF00425C11 /* Carbon.framework */; };
 		DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA6373971E4AB9BB00263391 /* Assets.xcassets */; };
+		DA696BCE240177E800DE80CF /* Sorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA696BCD240177E800DE80CF /* Sorter.swift */; };
+		DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA696BD12401EEE900DE80CF /* SorterTests.swift */; };
 		DA6DA786236D605B0062CCC6 /* MenuTag.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6DA785236D605B0062CCC6 /* MenuTag.swift */; };
 		DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */; };
 		DA8953B91E446A4E00884EAB /* Maccy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8953B81E446A4E00884EAB /* Maccy.swift */; };
@@ -102,6 +104,8 @@
 		DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryMenuItem.swift; sourceTree = "<group>"; };
 		DA5F464F2020E4DF00425C11 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		DA6373971E4AB9BB00263391 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DA696BCD240177E800DE80CF /* Sorter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sorter.swift; sourceTree = "<group>"; };
+		DA696BD12401EEE900DE80CF /* SorterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SorterTests.swift; sourceTree = "<group>"; };
 		DA6DA785236D605B0062CCC6 /* MenuTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTag.swift; sourceTree = "<group>"; };
 		DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotKey.swift; sourceTree = "<group>"; };
 		DA8953B81E446A4E00884EAB /* Maccy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Maccy.swift; sourceTree = "<group>"; };
@@ -184,6 +188,7 @@
 				DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */,
 				DA1EDE442045B68700479723 /* MenuTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
+				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
 				DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
 			);
@@ -231,6 +236,7 @@
 				DA2C752B2029FE990090965D /* Menu.swift */,
 				DA6DA785236D605B0062CCC6 /* MenuTag.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
+				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
 				DAEE384D1E3DBEB100DD2966 /* Info.plist */,
 			);
@@ -458,6 +464,7 @@
 				DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */,
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
 				DA1EDE452045B68700479723 /* MenuTests.swift in Sources */,
+				DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -474,6 +481,7 @@
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
 				DA6DA786236D605B0062CCC6 /* MenuTag.swift in Sources */,
+				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,
 				DA544BB623FF548A000BBF19 /* HistoryItem.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
 				DA2C752C2029FE990090965D /* Menu.swift in Sources */,

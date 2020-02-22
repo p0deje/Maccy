@@ -100,11 +100,9 @@ class Maccy: NSObject {
     statusItem.isVisible = UserDefaults.standard.showInStatusBar
 
     clipboard.onNewCopy(history.add)
-    clipboard.onNewCopy(menu.prepend)
     clipboard.startListening()
 
     populateHeader()
-    populateItems()
     populateFooter()
   }
 
@@ -118,12 +116,6 @@ class Maccy: NSObject {
     headerItem.isEnabled = false
 
     menu.addItem(headerItem)
-  }
-
-  private func populateItems() {
-    history.all.reversed().forEach { item in
-      menu.prepend(item.value)
-    }
   }
 
   private func populateFooter() {
@@ -174,7 +166,6 @@ class Maccy: NSObject {
     menu.removeAllItems()
 
     populateHeader()
-    populateItems()
     populateFooter()
   }
 }

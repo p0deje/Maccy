@@ -3,24 +3,24 @@ import Cocoa
 class HistoryMenuItem: NSMenuItem {
   typealias Callback = (HistoryMenuItem) -> Void
 
-  private let showMaxLength = 50
+  public var item: HistoryItem!
 
-  public var fullTitle: String?
+  private let showMaxLength = 50
   private var onSelected: [Callback] = []
 
   required init(coder: NSCoder) {
     super.init(coder: coder)
   }
 
-  init(title: String, onSelected: @escaping Callback) {
-    super.init(title: title, action: #selector(onSelect(_:)), keyEquivalent: "")
+  init(item: HistoryItem, onSelected: @escaping Callback) {
+    super.init(title: item.value, action: #selector(onSelect(_:)), keyEquivalent: "")
+    self.item = item
     self.onSelected = [onSelected]
     self.target = self
-    self.fullTitle = title
     self.title = humanizedTitle(title)
-    self.image = ColorImage.from(title)
+    self.image = ColorImage.from(item.value)
     self.toolTip = """
-                   \(title)\n \n
+                   \(item.value)\n \n
                    Press ⌥+⌫ to delete.
                    """
   }
