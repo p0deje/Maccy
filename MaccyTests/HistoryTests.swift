@@ -22,20 +22,20 @@ class HistoryTests: XCTestCase {
   }
 
   func testDefaultIsEmpty() {
-    XCTAssertEqual(history.all(), [])
+    XCTAssertEqual(history.all, [])
   }
 
   func testAdding() {
     history.add("foo")
     history.add("bar")
-    XCTAssertEqual(history.all(), ["bar", "foo"])
+    XCTAssertEqual(history.all, [HistoryItem(value: "bar"), HistoryItem(value: "foo")])
   }
 
   func testAddingSame() {
     history.add("foo")
     history.add("bar")
     history.add("foo")
-    XCTAssertEqual(history.all(), ["foo", "bar"])
+    XCTAssertEqual(history.all, [HistoryItem(value: "foo"), HistoryItem(value: "bar")])
   }
 
   func testAddingBlank() {
@@ -43,19 +43,19 @@ class HistoryTests: XCTestCase {
     history.add("\n")
     history.add(" foo")
     history.add("\n bar")
-    XCTAssertEqual(history.all(), ["\n bar", " foo"])
+    XCTAssertEqual(history.all, [HistoryItem(value: "\n bar"), HistoryItem(value: " foo")])
   }
 
   func testIgnore() {
     UserDefaults.standard.set(true, forKey: "ignoreEvents")
     history.add("foo")
-    XCTAssertEqual(history.all(), [])
+    XCTAssertEqual(history.all, [])
   }
 
   func testClearing() {
     history.add("foo")
     history.clear()
-    XCTAssertEqual(history.all(), [])
+    XCTAssertEqual(history.all, [])
   }
 
   func testMaxSize() {
@@ -63,9 +63,9 @@ class HistoryTests: XCTestCase {
       history.add(String(index))
     }
 
-    XCTAssertEqual(history.all().count, 10)
-    XCTAssertTrue(history.all().contains("10"))
-    XCTAssertFalse(history.all().contains("0"))
+    XCTAssertEqual(history.all.count, 10)
+    XCTAssertTrue(history.all.contains(HistoryItem(value: "10")))
+    XCTAssertFalse(history.all.contains(HistoryItem(value: "0")))
   }
 
   func testMaxSizeIsChanged() {
@@ -74,22 +74,15 @@ class HistoryTests: XCTestCase {
     }
     UserDefaults.standard.size = 5
 
-    XCTAssertEqual(history.all().count, 5)
-    XCTAssertTrue(history.all().contains("10"))
-    XCTAssertFalse(history.all().contains("5"))
+    XCTAssertEqual(history.all.count, 5)
+    XCTAssertTrue(history.all.contains(HistoryItem(value: "10")))
+    XCTAssertFalse(history.all.contains(HistoryItem(value: "5")))
   }
 
   func testRemoving() {
     history.add("foo")
     history.add("bar")
     history.remove("foo")
-    XCTAssertEqual(history.all(), ["bar"])
-  }
-
-  func testRemovingRecent() {
-    history.add("foo")
-    history.add("bar")
-    history.removeRecent()
-    XCTAssertEqual(history.all(), ["foo"])
+    XCTAssertEqual(history.all, [HistoryItem(value: "bar")])
   }
 }

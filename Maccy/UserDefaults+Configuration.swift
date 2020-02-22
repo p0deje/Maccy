@@ -8,6 +8,7 @@ extension UserDefaults {
     static let hideTitle = "hideTitle"
     static let hotKey = "hotKey"
     static let ignoreEvents = "ignoreEvents"
+    static let migrations = "migrations"
     static let pasteByDefault = "pasteByDefault"
     static let popupPosition = "popupPosition"
     static let saratovSeparator = "enableSaratovSeparator"
@@ -24,10 +25,11 @@ extension UserDefaults {
 
   public struct Values {
     static let hotKey = "command+shift+c"
+    static let migrations: [String: Bool] = [:]
     static let popupPosition = "cursor"
     static let showInStatusBar = true
     static let size = 200
-    static let storage: [String] = []
+    static let storage: [HistoryItem] = []
   }
 
   public var fuzzySearch: Bool {
@@ -60,6 +62,11 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.ignoreEvents) }
   }
 
+  public var migrations: [String: Bool] {
+    get { dictionary(forKey: Keys.migrations) as? [String: Bool] ?? Values.migrations }
+    set { set(newValue, forKey: Keys.migrations) }
+  }
+
   @objc dynamic public var pasteByDefault: Bool {
     get { bool(forKey: Keys.pasteByDefault) }
     set { set(newValue, forKey: Keys.pasteByDefault) }
@@ -85,8 +92,17 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.size) }
   }
 
-  public var storage: [String] {
-    get { array(forKey: Keys.storage) as? [String] ?? Values.storage }
-    set { set(newValue, forKey: Keys.storage) }
+  // swiftlint:disable force_try
+  public var storage: [HistoryItem] {
+    get {
+      if let storedArray = UserDefaults.standard.object(forKey: Keys.storage) as? Data {
+        return try! PropertyListDecoder().decode([HistoryItem].self, from: storedArray)
+      } else {
+        return Values.storage
+      }
+    }
+
+    set { set(try! PropertyListEncoder().encode(newValue), forKey: Keys.storage) }
   }
+  // swiftlint:enable force_try
 }

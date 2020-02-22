@@ -1,6 +1,17 @@
 import AppKit
 
 class History {
+  public var all: [HistoryItem] {
+    get {
+      while UserDefaults.standard.storage.count > UserDefaults.standard.size {
+        UserDefaults.standard.storage.removeLast()
+      }
+      return UserDefaults.standard.storage
+    }
+
+    set { UserDefaults.standard.storage = newValue }
+  }
+
   init() {
     UserDefaults.standard.register(defaults: [UserDefaults.Keys.size: UserDefaults.Values.size])
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
@@ -8,54 +19,28 @@ class History {
     }
   }
 
-  func all() -> [String] {
-    var savedHistory = UserDefaults.standard.storage
-    let maxSize = UserDefaults.standard.size
-
-    while savedHistory.count > maxSize {
-      savedHistory.remove(at: maxSize - 1)
-    }
-
-    return savedHistory
-  }
-
   func add(_ string: String) {
-    if UserDefaults.standard.ignoreEvents {
+    if UserDefaults.standard.ignoreEvents ||
+       string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
       return
     }
 
-    if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-      return
+    if let existingHistoryItem = all.first(where: { $0.value == string }) {
+      all.removeAll(where: { $0 == existingHistoryItem })
+      all = [existingHistoryItem] + all
+    } else {
+      if all.count == UserDefaults.standard.size {
+        all.removeLast()
+      }
+      all = [HistoryItem(value: string)] + all
     }
-
-    remove(string)
-
-    var history = all()
-    let maxSize = UserDefaults.standard.size
-
-    if history.count == maxSize {
-      history.remove(at: maxSize - 1)
-    }
-
-    let newContents = [string] + history
-    UserDefaults.standard.storage = newContents
   }
 
-  func remove(_ string: String?) {
-    guard let itemToRemove = string else {
-      return
-    }
-
-    var history = all()
-    if let index = history.firstIndex(of: itemToRemove) {
-      history.remove(at: index)
-    }
-
-    UserDefaults.standard.storage = history
-  }
+  func remove(_ string: String) {
+    all.removeAll(where: { $0.value == string })
   }
 
   func clear() {
-    UserDefaults.standard.storage = []
+    all = []
   }
 }

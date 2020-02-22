@@ -121,7 +121,9 @@ class Maccy: NSObject {
   }
 
   private func populateItems() {
-    history.all().reversed().forEach(menu.prepend)
+    history.all.reversed().forEach { item in
+      menu.prepend(item.value)
+    }
   }
 
   private func populateFooter() {

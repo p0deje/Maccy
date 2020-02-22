@@ -27,14 +27,14 @@ class UserDefaultsTests: XCTestCase {
   override func tearDown() {
     super.tearDown()
 
-    UserDefaults.standard.set(savedFuzzySearch, forKey: UserDefaults.Keys.fuzzySearch)
-    UserDefaults.standard.set(savedHotKey, forKey: UserDefaults.Keys.hotKey)
-    UserDefaults.standard.set(savedIgnoreEvents, forKey: UserDefaults.Keys.ignoreEvents)
-    UserDefaults.standard.set(savedPasteByDefault, forKey: UserDefaults.Keys.pasteByDefault)
-    UserDefaults.standard.set(savedSaratovSeparator, forKey: UserDefaults.Keys.saratovSeparator)
-    UserDefaults.standard.set(savedShowInStatusBar, forKey: UserDefaults.Keys.showInStatusBar)
-    UserDefaults.standard.set(savedSize, forKey: UserDefaults.Keys.size)
-    UserDefaults.standard.set(savedStorage, forKey: UserDefaults.Keys.storage)
+    UserDefaults.standard.fuzzySearch = savedFuzzySearch
+    UserDefaults.standard.hotKey = savedHotKey
+    UserDefaults.standard.ignoreEvents = savedIgnoreEvents
+    UserDefaults.standard.pasteByDefault = savedPasteByDefault
+    UserDefaults.standard.saratovSeparator = savedSaratovSeparator
+    UserDefaults.standard.showInStatusBar = savedShowInStatusBar
+    UserDefaults.standard.size = savedSize
+    UserDefaults.standard.storage = savedStorage
   }
 
   func testDefaultValues() {
@@ -56,15 +56,15 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.saratovSeparator = true
     UserDefaults.standard.showInStatusBar = false
     UserDefaults.standard.size = 100
-    UserDefaults.standard.storage = ["foo"]
+    UserDefaults.standard.storage = [HistoryItem(value: "foo")]
 
-    XCTAssertEqual(UserDefaults.standard.bool(forKey: UserDefaults.Keys.fuzzySearch), true)
-    XCTAssertEqual(UserDefaults.standard.string(forKey: UserDefaults.Keys.hotKey), "command+shift+a")
-    XCTAssertEqual(UserDefaults.standard.bool(forKey: UserDefaults.Keys.ignoreEvents), true)
-    XCTAssertEqual(UserDefaults.standard.bool(forKey: UserDefaults.Keys.pasteByDefault), true)
-    XCTAssertEqual(UserDefaults.standard.bool(forKey: UserDefaults.Keys.saratovSeparator), true)
-    XCTAssertEqual(UserDefaults.standard.bool(forKey: UserDefaults.Keys.showInStatusBar), false)
-    XCTAssertEqual(UserDefaults.standard.integer(forKey: UserDefaults.Keys.size), 100)
-    XCTAssertEqual(UserDefaults.standard.array(forKey: UserDefaults.Keys.storage) as? [String], ["foo"])
+    XCTAssertEqual(UserDefaults.standard.fuzzySearch, true)
+    XCTAssertEqual(UserDefaults.standard.hotKey, "command+shift+a")
+    XCTAssertEqual(UserDefaults.standard.ignoreEvents, true)
+    XCTAssertEqual(UserDefaults.standard.pasteByDefault, true)
+    XCTAssertEqual(UserDefaults.standard.saratovSeparator, true)
+    XCTAssertEqual(UserDefaults.standard.showInStatusBar, false)
+    XCTAssertEqual(UserDefaults.standard.size, 100)
+    XCTAssertEqual(UserDefaults.standard.storage, [HistoryItem(value: "foo")])
   }
 }
