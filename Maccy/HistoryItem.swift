@@ -5,6 +5,7 @@ public class HistoryItem: Equatable, Codable {
   public var firstCopiedAt: Date!
   public var lastCopiedAt: Date!
   public var numberOfCopies: Int!
+  public var pin: String?
 
   public static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
     return lhs.value == rhs.value

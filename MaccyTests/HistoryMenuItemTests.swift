@@ -33,10 +33,35 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.toolTip, tooltip(title))
   }
 
+  func testUnpinnedByDefault() {
+    let menuItem = HistoryMenuItem(item: HistoryItem(value: "foo"), onSelected: { _ in })
+    XCTAssertNil(menuItem.item.pin)
+    XCTAssertFalse(menuItem.isPinned)
+    XCTAssertNotEqual(menuItem.state, .on)
+  }
+
+  func testPin() {
+    let menuItem = HistoryMenuItem(item: HistoryItem(value: "foo"), onSelected: { _ in })
+    menuItem.pin("a")
+    XCTAssertEqual(menuItem.item.pin, "a")
+    XCTAssertTrue(menuItem.isPinned)
+    XCTAssertEqual(menuItem.state, .on)
+  }
+
+  func testUnpin() {
+    let menuItem = HistoryMenuItem(item: HistoryItem(value: "foo"), onSelected: { _ in })
+    menuItem.pin("a")
+    menuItem.unpin()
+    XCTAssertNil(menuItem.item.pin)
+    XCTAssertFalse(menuItem.isPinned)
+    XCTAssertNotEqual(menuItem.state, .on)
+  }
+
   private func tooltip(_ title: String) -> String {
     return """
            \(title)\n \n
            Press ⌥+⌫ to delete.
+           Press ⌥+p to (un)pin.
            """
   }
 }

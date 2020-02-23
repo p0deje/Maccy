@@ -186,13 +186,13 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
 
     if key == Key.delete {
-      if modifierFlags.contains(.command) {
-        setQuery("")
-      } else if modifierFlags.contains(.option) {
-        customMenu?.delete()
-      } else {
-        processDeleteKey(queryField.stringValue)
-      }
+      processDeleteKey(menu: customMenu, key: key, modifierFlags: modifierFlags)
+      return true
+    }
+
+    if key == Key.p && modifierFlags.contains(.option) {
+      customMenu?.pinOrUnpin()
+      queryField.stringValue = "" // clear search field just in case
       return true
     }
 
@@ -220,9 +220,15 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     return false
   }
 
-  private func processDeleteKey(_ query: String) {
-    if !query.isEmpty {
-      setQuery(String(query.dropLast()))
+  private func processDeleteKey(menu: Menu?, key: Key, modifierFlags: NSEvent.ModifierFlags) {
+    if modifierFlags.contains(.command) {
+      setQuery("")
+    } else if modifierFlags.contains(.option) {
+      menu?.delete()
+    } else {
+      if !queryField.stringValue.isEmpty {
+        setQuery(String(queryField.stringValue.dropLast()))
+      }
     }
   }
 

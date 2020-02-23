@@ -63,6 +63,7 @@ class MaccyUITests: XCTestCase {
   func testSearch() {
     popUpWithHotkey()
     app.typeText(copy1)
+    XCTAssertEqual(app.textFields.firstMatch.value as? String, copy1)
     XCTAssertTrue(app.menuItems[copy1].exists)
     XCTAssertFalse(app.menuItems[copy2].exists)
   }
@@ -167,6 +168,34 @@ class MaccyUITests: XCTestCase {
     XCTAssertFalse(app.menuItems[copy2].exists)
   }
 
+  func testPin() {
+    popUpWithHotkey()
+    app.typeKey(.downArrow, modifierFlags: [])
+    app.typeKey("p", modifierFlags: [.option])
+    XCTAssertEqual(visibleMenuItemTitles()[1...2], [copy2, copy1])
+
+    app.typeKey(.escape, modifierFlags: [])
+    popUpWithHotkey()
+    XCTAssertEqual(visibleMenuItemTitles()[1...2], [copy2, copy1])
+    XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
+  }
+
+  func testPinDuringSearch() {
+    popUpWithHotkey()
+    app.typeText(copy2)
+    app.typeKey("p", modifierFlags: [.option])
+    XCTAssertEqual(app.textFields.firstMatch.value as? String, "")
+    XCTAssertEqual(visibleMenuItemTitles()[1...2], [copy2, copy1])
+  }
+
+  func testUnpin() {
+    popUpWithHotkey()
+    app.typeKey(.downArrow, modifierFlags: [])
+    app.typeKey("p", modifierFlags: [.option]) // pin
+    app.typeKey("p", modifierFlags: [.option]) // unpin
+    XCTAssertEqual(visibleMenuItemTitles()[1...2], [copy1, copy2])
+  }
+
   // Temporarily disable the test as it is flaky.
   //
   // func testHideAndShowMenubarIcon() {
@@ -208,12 +237,7 @@ class MaccyUITests: XCTestCase {
     usleep(1500000) // default interval for Maccy to check clipboard is 1 second
   }
 
-  private func uniqueMenuItemTitles() -> [String] {
-    let itemTitles = app.menuItems.allElementsBoundByIndex.map({ $0.title })
-    var uniqueTitles: [String] = []
-    for itemTitle in itemTitles where !uniqueTitles.contains(itemTitle) {
-      uniqueTitles.append(itemTitle)
-    }
-    return uniqueTitles
+  private func visibleMenuItemTitles() -> [String] {
+    return app.menuItems.allElementsBoundByIndex.filter({ $0.isHittable }).map({ $0.title })
   }
 }

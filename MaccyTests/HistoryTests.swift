@@ -35,9 +35,9 @@ class HistoryTests: XCTestCase {
     history.add("foo")
     history.add("bar")
     history.add("foo")
-    XCTAssertEqual(history.all, [HistoryItem(value: "foo"), HistoryItem(value: "bar")])
-    XCTAssertTrue(history.all[0].lastCopiedAt > history.all[0].firstCopiedAt)
-    XCTAssertEqual(history.all[0].numberOfCopies, 2)
+    XCTAssertEqual(history.all, [HistoryItem(value: "bar"), HistoryItem(value: "foo")])
+    XCTAssertTrue(history.all[1].lastCopiedAt > history.all[1].firstCopiedAt)
+    XCTAssertEqual(history.all[1].numberOfCopies, 2)
   }
 
   func testAddingBlank() {
@@ -52,6 +52,17 @@ class HistoryTests: XCTestCase {
     UserDefaults.standard.set(true, forKey: "ignoreEvents")
     history.add("foo")
     XCTAssertEqual(history.all, [])
+  }
+
+  func testUpdate() {
+    history.add("foo")
+    let historyItem = history.all[0]
+
+    historyItem.numberOfCopies = 0
+    XCTAssertEqual(history.all[0].numberOfCopies, 1)
+
+    history.update(historyItem)
+    XCTAssertEqual(history.all[0].numberOfCopies, 0)
   }
 
   func testClearing() {

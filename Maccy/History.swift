@@ -25,12 +25,10 @@ class History {
       return
     }
 
-    if let existingHistoryItemIndex = all.firstIndex(where: { $0.value == string }) {
-      let existingHistoryItem = all[existingHistoryItemIndex]
+    if let existingHistoryItem = all.first(where: { $0.value == string }) {
       existingHistoryItem.lastCopiedAt = Date()
       existingHistoryItem.numberOfCopies += 1
-      all.remove(at: existingHistoryItemIndex)
-      all = [existingHistoryItem] + all
+      update(existingHistoryItem)
     } else {
       if all.count == UserDefaults.standard.size {
         all.removeLast()
@@ -39,11 +37,18 @@ class History {
     }
   }
 
+  func update(_ item: HistoryItem) {
+    if let itemIndex = all.firstIndex(of: item) {
+      all.remove(at: itemIndex)
+      all.insert(item, at: itemIndex)
+    }
+  }
+
   func remove(_ string: String) {
     all.removeAll(where: { $0.value == string })
   }
 
   func clear() {
-    all = []
+    all.removeAll()
   }
 }

@@ -29,4 +29,11 @@ class SorterTests: XCTestCase {
     let sorter = Sorter(by: "numberOfCopies")
     XCTAssertEqual(sorter.sort([item1, item2, item3]), [item3, item2, item1])
   }
+
+  func testSortByPin() {
+    item1.pin = "a"
+    item3.pin = "b"
+    let sorter = Sorter(by: "lastCopiedAt")
+    XCTAssertEqual(sorter.sort([item1, item2, item3]), [item2, item3, item1])
+  }
 }

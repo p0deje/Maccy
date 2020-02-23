@@ -6,6 +6,10 @@ class Menu: NSMenu, NSMenuDelegate {
   public let menuWidth = 300
 
   private let search = Search()
+  private let availablePins = Set([
+    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+    "m", "n", "o", "r", "s", "t", "u", "v", "w", "x", "y", "z"
+  ])
 
   private var clipboard: Clipboard!
   private var history: History!
@@ -26,7 +30,7 @@ class Menu: NSMenu, NSMenuDelegate {
   func menuWillOpen(_ menu: NSMenu) {
     buildItems(history.all)
     setKeyEquivalents(historyItems)
-    highlight(historyItems.first)
+    highlight(historyItems.first(where: { !$0.isPinned }))
   }
 
   func buildItems(_ allItems: [HistoryItem]) {
@@ -121,6 +125,29 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
+  func pinOrUnpin() {
+    guard let altItemToPin = highlightedItem as? HistoryMenuItem else {
+      return
+    }
+
+    let altItemToPinIndex = index(of: altItemToPin)
+    if let mainItemToPin = item(at: altItemToPinIndex - 1) as? HistoryMenuItem {
+      if altItemToPin.isPinned {
+        mainItemToPin.unpin()
+        altItemToPin.unpin()
+      } else {
+        let pin = randomAvailablePin()
+        mainItemToPin.pin(pin)
+        altItemToPin.pin(pin)
+      }
+    }
+
+    history.update(altItemToPin.item)
+    buildItems(history.all)
+    setKeyEquivalents(historyItems)
+    highlight(historyItems.first(where: { $0.item == altItemToPin.item }))
+  }
+
   private func highlightNext(_ items: [NSMenuItem], alt: Bool) -> Bool {
     let highlightableItems = self.highlightableItems(items, alt: alt)
     let currentHighlightedItem = highlightedItem ?? highlightableItems.first
@@ -153,16 +180,16 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func setKeyEquivalents(_ items: [NSMenuItem]) {
+  private func setKeyEquivalents(_ items: [HistoryMenuItem]) {
     // First, clear all existing key equivalents.
-    for item in historyItems {
+    for item in historyItems where !item.isPinned {
       item.keyEquivalent = ""
     }
 
     // Second, add key eqvuivalents up to max.
     // Both main and alternate item should have the same key equivalent.
     var hotKey = 1
-    for item in items where hotKey <= maxHotKey {
+    for item in items where hotKey <= maxHotKey && !item.isPinned {
       item.keyEquivalent = String(hotKey)
       if item.isAlternate {
         hotKey += 1
@@ -187,6 +214,11 @@ class Menu: NSMenu, NSMenuDelegate {
     item.keyEquivalentModifierMask = [.option]
     item.isHidden = true
     item.isAlternate = true
+  }
+
+  private func randomAvailablePin() -> String {
+    let assignedPins = Set(historyItems.map({ $0.keyEquivalent }))
+    return availablePins.subtracting(assignedPins).randomElement() ?? ""
   }
 
   private func copy(_ item: HistoryMenuItem) {
