@@ -17,6 +17,12 @@
       location = "group:README.md">
    </FileRef>
    <FileRef
+      location = "group:appcast.xml">
+   </FileRef>
+   <FileRef
+      location = "group:bitrise.yml">
+   </FileRef>
+   <FileRef
       location = "group:Pods/Pods.xcodeproj">
    </FileRef>
 </Workspace>

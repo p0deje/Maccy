@@ -2,18 +2,21 @@ PODS:
   - Fuse (1.2.0)
   - HotKey (0.1.2)
   - LoginServiceKit (2.1.0)
+  - Sparkle (1.21.3)
   - SwiftHEXColors (1.3.0)
 
 DEPENDENCIES:
   - Fuse (~> 1.2)
   - HotKey (>= 0.1.2)
   - LoginServiceKit (from `https://github.com/Clipy/LoginServiceKit.git`)
+  - Sparkle (~> 1.21)
   - SwiftHEXColors (~> 1.3)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Fuse
     - HotKey
+    - Sparkle
     - SwiftHEXColors
 
 EXTERNAL SOURCES:
@@ -29,8 +32,9 @@ SPEC CHECKSUMS:
   Fuse: 287bd95a5c8dbfe6c41af519eaf48856aa1a28f6
   HotKey: ad59450195936c10992438c4210f673de5aee43e
   LoginServiceKit: 889b5d83f237eb22d93f22fb0a210a0a99d89510
+  Sparkle: 3f75576db8b0265adef36c43249d747f22d0b708
   SwiftHEXColors: 15ab5242cc2efeab548c4c74793b173b78dbae1c
 
-PODFILE CHECKSUM: d401a2acb92e674d6aaf164b581651d34350f9bf
+PODFILE CHECKSUM: 0ef07466941fc7cb57e04a20b37d206b89ce1862
 
 COCOAPODS: 1.5.2

@@ -4,6 +4,7 @@ enum MenuTag: Int {
   case launchAtLogin = 102
   case about = 103
   case quit = 104
+  case checkForUpdates = 105
 
   var string: String {
     switch self {
@@ -15,6 +16,8 @@ enum MenuTag: Int {
       return "About"
     case .quit:
       return "Quit"
+    case .checkForUpdates:
+      return "Check for updates"
     default:
       return ""
     }

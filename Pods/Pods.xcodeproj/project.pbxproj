@@ -9,34 +9,34 @@
 /* Begin PBXBuildFile section */
 		17FFF197A9CFD71E6010F227C39D48B3 /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EE2F8C300EF6092B57883A1C7EF8C305 /* AppKit.framework */; };
 		187BD9D1BC38A05D4893ADEA4DD7EF37 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
-		23D86BED094740817D411AE0B18C2B4F /* String+Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60F6BC0F283D8D3A085DB2F0A8A3B3C5 /* String+Fuse.swift */; };
-		289D91501A65590C3033FAF1C929F70B /* SwiftHEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7D7CF9BC9FCD453CCC363B717EC6DC9 /* SwiftHEXColors.swift */; };
-		376600012D78BBD1A6A1350E2C0E1763 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1919E4516F9C79D03AF1D98CB5FCDDC6 /* Key.swift */; };
+		23D86BED094740817D411AE0B18C2B4F /* String+Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = CE988C9BFDB12BCD09E56C0BDDB91E7C /* String+Fuse.swift */; };
+		289D91501A65590C3033FAF1C929F70B /* SwiftHEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5DD22890457F88B39F4A2365C9754668 /* SwiftHEXColors.swift */; };
+		376600012D78BBD1A6A1350E2C0E1763 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B15CE748333F6B0DAA7C482E4810C5D /* Key.swift */; };
 		3DAF621C8C16B931FF7985A61B6BFD0F /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
-		401C3D04D259233BEAB50F753F44EF54 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52D7B203C7C9872D7CF2B95BB3A04EC4 /* HotKey.swift */; };
+		401C3D04D259233BEAB50F753F44EF54 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = D8428AE1975894C76F94DD4C8FE64089 /* HotKey.swift */; };
 		4E4A0F7786BE5C3DCBC3D957AB20BBD4 /* Pods-Maccy-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4F05668B9EB744A2EA80944CD56D6FD9 /* KeyCombo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5B216942CF72D1AE431F3DCF8E58B299 /* KeyCombo.swift */; };
-		5694BF7EB997C802B20912A8AA5D5E83 /* Fuse-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 0509A27647558A528CDA55220CE12B33 /* Fuse-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5FDD26A50E274A822DB8D0E12F973D3E /* HotKey-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FE43D0DC25DBDBEB222819F02C128BD9 /* HotKey-dummy.m */; };
+		4F05668B9EB744A2EA80944CD56D6FD9 /* KeyCombo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 97BFD52B61A04C49824960B848644BC1 /* KeyCombo.swift */; };
+		5694BF7EB997C802B20912A8AA5D5E83 /* Fuse-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 2E8B914020F9A5917AA7CD1D192141D7 /* Fuse-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		5FDD26A50E274A822DB8D0E12F973D3E /* HotKey-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7F568F0D5EB36297A362235ECE68D462 /* HotKey-dummy.m */; };
 		6E1EC4312854028D9AA73A2419652154 /* Pods-Maccy-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */; };
-		75C530321B7F736B7FBD3B4DA6A52A25 /* LoginServiceKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DDD51E406C8C9216B5CB4B922F93EA38 /* LoginServiceKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		763F09681D7C3F4EC3A2935BB2201CB9 /* FuseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 940BC1808191187181AAD29E823E29FB /* FuseUtilities.swift */; };
-		85BF1E64B92BAB94470B27D0E101A468 /* SwiftHEXColors-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DB83C65916FA65B41C2686CE1A70ECC /* SwiftHEXColors-dummy.m */; };
-		8B66824BD520B3BB94610920A95F7FB5 /* Fuse-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B782CBEE525FBB3266440AEED24AD477 /* Fuse-dummy.m */; };
-		96AB3DEB08683A6D28FC4058F2767BDF /* LoginServiceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC7491C8496F18B26C85F6D725643BDD /* LoginServiceKit.swift */; };
+		75C530321B7F736B7FBD3B4DA6A52A25 /* LoginServiceKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DCF8F442C5B43A3CE3C4380CB077B78C /* LoginServiceKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		763F09681D7C3F4EC3A2935BB2201CB9 /* FuseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8191FD4C176AD3730DF9120B498BC4BA /* FuseUtilities.swift */; };
+		85BF1E64B92BAB94470B27D0E101A468 /* SwiftHEXColors-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 7E9134167601A395701F867D3E80EF64 /* SwiftHEXColors-dummy.m */; };
+		8B66824BD520B3BB94610920A95F7FB5 /* Fuse-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 865C9E2C26221DF68540D29AAB697F03 /* Fuse-dummy.m */; };
+		96AB3DEB08683A6D28FC4058F2767BDF /* LoginServiceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 55FFB0C6B3222B1E38CCE1AC4646CFD8 /* LoginServiceKit.swift */; };
 		9B3BD5BAE2B774AE4A61A94B993AC0B1 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
-		A2C39440DD24C687D4FC9595A0EF65FD /* Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 903E2CE41C7B53C998B97EE55DDB504B /* Fuse.swift */; };
+		A2C39440DD24C687D4FC9595A0EF65FD /* Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2056082C5A13BABFAE34274901A0096B /* Fuse.swift */; };
 		A2F8EFC3ACEB78074E23D63E62DFDCE6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
-		AAF0D65B9FF9B907ACBA18C0D9D2B5C5 /* SwiftHEXColors-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 5B7ABC84C5B60B801F35A1814FE9A366 /* SwiftHEXColors-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		AAF0D65B9FF9B907ACBA18C0D9D2B5C5 /* SwiftHEXColors-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 76DF2ABC6CE0759C1944D39A5D0892D7 /* SwiftHEXColors-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		B11BBD1A14F7D2B6FEE87AC820CD0ACA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
-		B401867272D84298ED1281CD038DACD2 /* HotKeysController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 967567D4090F380C0627F98BD6B0BEFD /* HotKeysController.swift */; };
+		B401867272D84298ED1281CD038DACD2 /* HotKeysController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1F39F95CB04ED6B1CA3AC5458901536 /* HotKeysController.swift */; };
 		C6552168E7328AA8A0981D19AE60A343 /* Pods-MaccyTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D39631FB04B4152E1F10899B5242E79 /* Pods-MaccyTests-dummy.m */; };
 		D734B3640C594D4A12D75F9699AB29C0 /* Pods-MaccyTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAA781EBF58462A49778917F670B39E /* Pods-MaccyTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E0E5B9A249DABC6DC93A498FC5FB12B3 /* NSEventModifierFlags+HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8F976A741F3A35797B3EC49977CD803A /* NSEventModifierFlags+HotKey.swift */; };
+		E0E5B9A249DABC6DC93A498FC5FB12B3 /* NSEventModifierFlags+HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A6345AD232B7FD7BBAACF12E60F4614 /* NSEventModifierFlags+HotKey.swift */; };
 		E4293514358ECEB2A4DCB20791597BC7 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FFD5252F022A90AF2AAF9338C3F6AE6 /* Carbon.framework */; };
-		E7E905CEE708C219A30A8B214D467482 /* HotKey-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 03235070B78C3C69537B08C1392DBB74 /* HotKey-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E7E905CEE708C219A30A8B214D467482 /* HotKey-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A228D7BFF5DEC0A74F44BC1C25E78E83 /* HotKey-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		EAA11791D1B680484A14B16B306498B5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */; };
-		F1C5526700C84132B27211E15405EE71 /* LoginServiceKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 2633738B8E246373072996C28640E209 /* LoginServiceKit-dummy.m */; };
+		F1C5526700C84132B27211E15405EE71 /* LoginServiceKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = B1B5148955DEC5E0C33263FF2E9C4DB6 /* LoginServiceKit-dummy.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -78,70 +78,89 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		03235070B78C3C69537B08C1392DBB74 /* HotKey-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HotKey-umbrella.h"; sourceTree = "<group>"; };
-		03E1C8D032ED744321AC3BEC6F42EB0A /* HotKey.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = HotKey.modulemap; sourceTree = "<group>"; };
-		0509A27647558A528CDA55220CE12B33 /* Fuse-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-umbrella.h"; sourceTree = "<group>"; };
 		07055F35E68A5B9A507F418B60F26DD2 /* Pods-Maccy.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Maccy.modulemap"; sourceTree = "<group>"; };
-		0BE664A9A3A2E0E64ADF370E308FF561 /* LoginServiceKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = LoginServiceKit.modulemap; sourceTree = "<group>"; };
 		0BFB3D52C5622C4B454CBED8C490E1ED /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		0D73A6E8BF61A516C25F7A83CFB55E68 /* HotKey.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = HotKey.xcconfig; sourceTree = "<group>"; };
 		0F476B296688E8A2611661B3A916D2EE /* Pods-MaccyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.release.xcconfig"; sourceTree = "<group>"; };
 		1571A769B9AABB30B0C55BE1A64F0C13 /* Pods-MaccyTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MaccyTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		158687138ADACBA036E897622CC2799F /* Pods-MaccyTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MaccyTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		1919E4516F9C79D03AF1D98CB5FCDDC6 /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Sources/HotKey/Key.swift; sourceTree = "<group>"; };
-		1DA619142F908EF1BC133AB6A636FD94 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		1B976435750DA5ACAEB825BD77117178 /* SPUDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloader.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloader.h; sourceTree = "<group>"; };
+		1DF5D663AADD50DE42D426623F0B7340 /* SPUDownloadData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloadData.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloadData.h; sourceTree = "<group>"; };
+		2056082C5A13BABFAE34274901A0096B /* Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Fuse.swift; path = Fuse/Classes/Fuse.swift; sourceTree = "<group>"; };
 		20A49FDE62881F505AE64E73C378F4BA /* Pods-Maccy-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Maccy-acknowledgements.plist"; sourceTree = "<group>"; };
-		2633738B8E246373072996C28640E209 /* LoginServiceKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "LoginServiceKit-dummy.m"; sourceTree = "<group>"; };
-		2B79DFB4C5EED97F6C2B60050D5E32D2 /* SwiftHEXColors-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-prefix.pch"; sourceTree = "<group>"; };
+		2678B1CEB3E875642F5A06D57D9FC9AF /* SUExport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUExport.h; path = Sparkle.framework/Versions/A/Headers/SUExport.h; sourceTree = "<group>"; };
+		29DE26A229816CE39E23B530408D589C /* HotKey-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HotKey-prefix.pch"; sourceTree = "<group>"; };
+		2A6345AD232B7FD7BBAACF12E60F4614 /* NSEventModifierFlags+HotKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSEventModifierFlags+HotKey.swift"; path = "Sources/HotKey/NSEventModifierFlags+HotKey.swift"; sourceTree = "<group>"; };
+		2D45DAE3661E962DA25342384815C268 /* SUUpdater.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUUpdater.h; path = Sparkle.framework/Versions/A/Headers/SUUpdater.h; sourceTree = "<group>"; };
+		2E8B914020F9A5917AA7CD1D192141D7 /* Fuse-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-umbrella.h"; sourceTree = "<group>"; };
 		2FFD5252F022A90AF2AAF9338C3F6AE6 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = DEVELOPER_DIR; };
-		30390E386140DF5D82BEEF3CAC3CFD99 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		35BB54634AC33EFA48DA1A358ACC6683 /* Fuse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fuse.xcconfig; sourceTree = "<group>"; };
-		37B01444F4E8D73411D532F884A74AC3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		3DB83C65916FA65B41C2686CE1A70ECC /* SwiftHEXColors-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftHEXColors-dummy.m"; sourceTree = "<group>"; };
-		4C28E3EB96A8D04A052BFC9DD9129A87 /* SwiftHEXColors.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftHEXColors.modulemap; sourceTree = "<group>"; };
-		52D7B203C7C9872D7CF2B95BB3A04EC4 /* HotKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HotKey.swift; path = Sources/HotKey/HotKey.swift; sourceTree = "<group>"; };
+		34E3189140BB75F783C3A15CE8D598C1 /* LoginServiceKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-prefix.pch"; sourceTree = "<group>"; };
+		3913466F457FBE80A28750E29C819AB9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3F89FB76DC99FF100EEAB0AC36CFDA33 /* SUUpdaterDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUUpdaterDelegate.h; path = Sparkle.framework/Versions/A/Headers/SUUpdaterDelegate.h; sourceTree = "<group>"; };
+		4BCCCCB7BBF97209AE5B35C3F3182B22 /* SUAppcast.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUAppcast.h; path = Sparkle.framework/Versions/A/Headers/SUAppcast.h; sourceTree = "<group>"; };
+		4EFECE0D517F3A7BF2DC8F57CC10A345 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
+		52BE7DF84C0C4D83C3DF49A9A3B5DABB /* SUAppcastItem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUAppcastItem.h; path = Sparkle.framework/Versions/A/Headers/SUAppcastItem.h; sourceTree = "<group>"; };
+		545174EF1C818E7BB36C4030D17AB44F /* SPUURLRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUURLRequest.h; path = Sparkle.framework/Versions/A/Headers/SPUURLRequest.h; sourceTree = "<group>"; };
+		54B3AEA188E9A38AEC1C773F917C2119 /* SPUDownloaderDeprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderDeprecated.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderDeprecated.h; sourceTree = "<group>"; };
+		55FFB0C6B3222B1E38CCE1AC4646CFD8 /* LoginServiceKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LoginServiceKit.swift; path = Lib/LoginServiceKit/LoginServiceKit.swift; sourceTree = "<group>"; };
 		59B6F79B0890AA54C08D00FA203EB975 /* Pods-MaccyTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MaccyTests-resources.sh"; sourceTree = "<group>"; };
-		5B216942CF72D1AE431F3DCF8E58B299 /* KeyCombo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyCombo.swift; path = Sources/HotKey/KeyCombo.swift; sourceTree = "<group>"; };
-		5B7ABC84C5B60B801F35A1814FE9A366 /* SwiftHEXColors-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-umbrella.h"; sourceTree = "<group>"; };
-		60F6BC0F283D8D3A085DB2F0A8A3B3C5 /* String+Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Fuse.swift"; path = "Fuse/Classes/String+Fuse.swift"; sourceTree = "<group>"; };
+		5B15CE748333F6B0DAA7C482E4810C5D /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Sources/HotKey/Key.swift; sourceTree = "<group>"; };
+		5DD22890457F88B39F4A2365C9754668 /* SwiftHEXColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftHEXColors.swift; path = Sources/SwiftHEXColors/SwiftHEXColors.swift; sourceTree = "<group>"; };
+		5E6903BCDB1E4C78641690726FC4DB25 /* SwiftHEXColors-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-prefix.pch"; sourceTree = "<group>"; };
 		625F3788691A8D38F5095EC7016440B3 /* Pods-Maccy-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Maccy-resources.sh"; sourceTree = "<group>"; };
 		65E5832A125E94E9167EA00856FA2157 /* Pods-Maccy-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Maccy-acknowledgements.markdown"; sourceTree = "<group>"; };
 		6CDF07E03AFAC8F6C767555E8154D891 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
 		71289A3B191F2066B0117390ECF69CAD /* Pods-Maccy-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Maccy-frameworks.sh"; sourceTree = "<group>"; };
+		76064A26A2BDD7B105DA485114167E0D /* LoginServiceKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LoginServiceKit.xcconfig; sourceTree = "<group>"; };
+		76DF2ABC6CE0759C1944D39A5D0892D7 /* SwiftHEXColors-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-umbrella.h"; sourceTree = "<group>"; };
 		7D289DA5B10DD46D3E60ECD480C85DF3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7E9134167601A395701F867D3E80EF64 /* SwiftHEXColors-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftHEXColors-dummy.m"; sourceTree = "<group>"; };
 		7EE89300126F633ACA5000A02F79FE81 /* Pods-MaccyTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MaccyTests-frameworks.sh"; sourceTree = "<group>"; };
+		7F568F0D5EB36297A362235ECE68D462 /* HotKey-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "HotKey-dummy.m"; sourceTree = "<group>"; };
 		816A486C9685FABD159B44C33ED0EF6C /* Pods-MaccyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8191FD4C176AD3730DF9120B498BC4BA /* FuseUtilities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FuseUtilities.swift; path = Fuse/Classes/FuseUtilities.swift; sourceTree = "<group>"; };
+		82BA4068D5A49061700C130DAE770145 /* LoginServiceKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = LoginServiceKit.modulemap; sourceTree = "<group>"; };
 		842F2E2BDD1488EBA79F5A8A4D4CA617 /* Pods-Maccy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.release.xcconfig"; sourceTree = "<group>"; };
+		84B14CA0C52F440A2AD72E83F0D37F3C /* SUVersionDisplayProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUVersionDisplayProtocol.h; path = Sparkle.framework/Versions/A/Headers/SUVersionDisplayProtocol.h; sourceTree = "<group>"; };
 		8558A9863A25B74E723EC56C44E5E61F /* Pods_Maccy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Maccy.framework; path = "Pods-Maccy.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		88BD42420A0C61BC901DD4C5C08A9F00 /* LoginServiceKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-prefix.pch"; sourceTree = "<group>"; };
+		865C9E2C26221DF68540D29AAB697F03 /* Fuse-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Fuse-dummy.m"; sourceTree = "<group>"; };
+		871E2A145C2C4A8F063A55629FC42200 /* SUVersionComparisonProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUVersionComparisonProtocol.h; path = Sparkle.framework/Versions/A/Headers/SUVersionComparisonProtocol.h; sourceTree = "<group>"; };
+		889FC70F54C25D77B90590EFFFC1B28D /* SUErrors.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUErrors.h; path = Sparkle.framework/Versions/A/Headers/SUErrors.h; sourceTree = "<group>"; };
+		8967FED9A7F95D5E36A8E2C215D71CB2 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8B9453FC23C5C61B9010674AE0ACBF7B /* Fuse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Fuse.framework; path = Fuse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Maccy-umbrella.h"; sourceTree = "<group>"; };
 		8D39631FB04B4152E1F10899B5242E79 /* Pods-MaccyTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MaccyTests-dummy.m"; sourceTree = "<group>"; };
-		8F976A741F3A35797B3EC49977CD803A /* NSEventModifierFlags+HotKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSEventModifierFlags+HotKey.swift"; path = "Sources/HotKey/NSEventModifierFlags+HotKey.swift"; sourceTree = "<group>"; };
-		903E2CE41C7B53C998B97EE55DDB504B /* Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Fuse.swift; path = Fuse/Classes/Fuse.swift; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		940BC1808191187181AAD29E823E29FB /* FuseUtilities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FuseUtilities.swift; path = Fuse/Classes/FuseUtilities.swift; sourceTree = "<group>"; };
-		967567D4090F380C0627F98BD6B0BEFD /* HotKeysController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HotKeysController.swift; path = Sources/HotKey/HotKeysController.swift; sourceTree = "<group>"; };
+		97BFD52B61A04C49824960B848644BC1 /* KeyCombo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyCombo.swift; path = Sources/HotKey/KeyCombo.swift; sourceTree = "<group>"; };
+		980515DBC13550237A4FBCDE537ED61A /* Sparkle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Sparkle.h; path = Sparkle.framework/Versions/A/Headers/Sparkle.h; sourceTree = "<group>"; };
 		9EAA781EBF58462A49778917F670B39E /* Pods-MaccyTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MaccyTests-umbrella.h"; sourceTree = "<group>"; };
+		A228D7BFF5DEC0A74F44BC1C25E78E83 /* HotKey-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HotKey-umbrella.h"; sourceTree = "<group>"; };
 		A70FC6B2DCC7D84D23DF023C6014274E /* Pods-MaccyTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MaccyTests.modulemap"; sourceTree = "<group>"; };
-		AC7491C8496F18B26C85F6D725643BDD /* LoginServiceKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LoginServiceKit.swift; path = Lib/LoginServiceKit/LoginServiceKit.swift; sourceTree = "<group>"; };
-		B782CBEE525FBB3266440AEED24AD477 /* Fuse-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Fuse-dummy.m"; sourceTree = "<group>"; };
-		B8DD63CF6CC9BD8F7D1B3A9390677330 /* Fuse.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Fuse.modulemap; sourceTree = "<group>"; };
-		BE7CDAABC7F8FD1BA99A5899F6A1B1EA /* SwiftHEXColors.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftHEXColors.xcconfig; sourceTree = "<group>"; };
-		C2A5856E425737EAA70059A7F737E158 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		B1B5148955DEC5E0C33263FF2E9C4DB6 /* LoginServiceKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "LoginServiceKit-dummy.m"; sourceTree = "<group>"; };
+		B94CCF3C6E591FD9A7FFE88BF401CA96 /* SUCodeSigningVerifier.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUCodeSigningVerifier.h; path = Sparkle.framework/Versions/A/Headers/SUCodeSigningVerifier.h; sourceTree = "<group>"; };
+		BC2C9D718E2287F523F5EDE5A1C1D3E2 /* SPUDownloaderSession.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderSession.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderSession.h; sourceTree = "<group>"; };
+		BDB82D1A20CD1D35F6A26585672F56E1 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BF501C6676B0F217A609B38F55C5D06A /* SwiftHEXColors.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftHEXColors.xcconfig; sourceTree = "<group>"; };
 		C81CC8267FE4E5F1759651B9A5E218FA /* Pods-Maccy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.debug.xcconfig"; sourceTree = "<group>"; };
-		DDD51E406C8C9216B5CB4B922F93EA38 /* LoginServiceKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-umbrella.h"; sourceTree = "<group>"; };
+		CB061FE89D4FEF7360A360B53A119D7E /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CE988C9BFDB12BCD09E56C0BDDB91E7C /* String+Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Fuse.swift"; path = "Fuse/Classes/String+Fuse.swift"; sourceTree = "<group>"; };
+		D28A13FF83633AC8EB556A3BC611BC35 /* Fuse.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Fuse.modulemap; sourceTree = "<group>"; };
+		D4F09D19BBC662A4F7A2469B94B9C862 /* Fuse-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-prefix.pch"; sourceTree = "<group>"; };
+		D8428AE1975894C76F94DD4C8FE64089 /* HotKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HotKey.swift; path = Sources/HotKey/HotKey.swift; sourceTree = "<group>"; };
+		DADC72679BB59655AB41F13E86D1AD68 /* SPUDownloaderDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderDelegate.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderDelegate.h; sourceTree = "<group>"; };
+		DCA9C4140BEE553D14A6D3EB59F60D6C /* HotKey.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = HotKey.xcconfig; sourceTree = "<group>"; };
+		DCF8F442C5B43A3CE3C4380CB077B78C /* LoginServiceKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-umbrella.h"; sourceTree = "<group>"; };
 		E1836248CFFAD68ECF68A3E1728C96EC /* LoginServiceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = LoginServiceKit.framework; path = LoginServiceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E1F39F95CB04ED6B1CA3AC5458901536 /* HotKeysController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HotKeysController.swift; path = Sources/HotKey/HotKeysController.swift; sourceTree = "<group>"; };
+		E4AFBA4B048EADFD08D224E3F7BD6FA8 /* SPUDownloaderProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderProtocol.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderProtocol.h; sourceTree = "<group>"; };
 		E6D8E39D3F1ADC7FE208211E4FC0B6CC /* Pods_MaccyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_MaccyTests.framework; path = "Pods-MaccyTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		E9A5F0E673E8D9EF8C74289CD06D13CD /* SUStandardVersionComparator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUStandardVersionComparator.h; path = Sparkle.framework/Versions/A/Headers/SUStandardVersionComparator.h; sourceTree = "<group>"; };
 		EE2F8C300EF6092B57883A1C7EF8C305 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/AppKit.framework; sourceTree = DEVELOPER_DIR; };
-		F02314F7006E39E3ABE6B638AE17948D /* HotKey-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "HotKey-prefix.pch"; sourceTree = "<group>"; };
-		F28D47727D0AF4D7113301C0CFE58183 /* Fuse-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-prefix.pch"; sourceTree = "<group>"; };
-		F7D7CF9BC9FCD453CCC363B717EC6DC9 /* SwiftHEXColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftHEXColors.swift; path = Sources/SwiftHEXColors/SwiftHEXColors.swift; sourceTree = "<group>"; };
+		F7C8AD1EC6BBE9F7CD97F6E4BE5A56F5 /* SwiftHEXColors.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftHEXColors.modulemap; sourceTree = "<group>"; };
 		F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Maccy-dummy.m"; sourceTree = "<group>"; };
+		F93D8400380A2D88474F296E0DBB2B8E /* Fuse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fuse.xcconfig; sourceTree = "<group>"; };
 		FBBBEC88E08AA1573B304562290ACBBD /* HotKey.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = HotKey.framework; path = HotKey.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		FC3574282E49A69769AF49956C57381C /* SwiftHEXColors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftHEXColors.framework; path = SwiftHEXColors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		FE43D0DC25DBDBEB222819F02C128BD9 /* HotKey-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "HotKey-dummy.m"; sourceTree = "<group>"; };
-		FE761CCE729EB4F2619604A90DAB42AE /* LoginServiceKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LoginServiceKit.xcconfig; sourceTree = "<group>"; };
+		FF32A723DF7F81961F7C8A5A68D4AFA5 /* HotKey.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = HotKey.modulemap; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,15 +217,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0671821F7F50E89602A1E5456AB491C8 /* Support Files */ = {
+		1A050FA6D19A94AF41186ACAE53BE56E /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				37B01444F4E8D73411D532F884A74AC3 /* Info.plist */,
-				0BE664A9A3A2E0E64ADF370E308FF561 /* LoginServiceKit.modulemap */,
-				FE761CCE729EB4F2619604A90DAB42AE /* LoginServiceKit.xcconfig */,
-				2633738B8E246373072996C28640E209 /* LoginServiceKit-dummy.m */,
-				88BD42420A0C61BC901DD4C5C08A9F00 /* LoginServiceKit-prefix.pch */,
-				DDD51E406C8C9216B5CB4B922F93EA38 /* LoginServiceKit-umbrella.h */,
+				CB061FE89D4FEF7360A360B53A119D7E /* Info.plist */,
+				82BA4068D5A49061700C130DAE770145 /* LoginServiceKit.modulemap */,
+				76064A26A2BDD7B105DA485114167E0D /* LoginServiceKit.xcconfig */,
+				B1B5148955DEC5E0C33263FF2E9C4DB6 /* LoginServiceKit-dummy.m */,
+				34E3189140BB75F783C3A15CE8D598C1 /* LoginServiceKit-prefix.pch */,
+				DCF8F442C5B43A3CE3C4380CB077B78C /* LoginServiceKit-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/LoginServiceKit";
@@ -230,34 +249,6 @@
 			path = "Target Support Files/Pods-Maccy";
 			sourceTree = "<group>";
 		};
-		2C841665C3C4AFB40D9DBC876D916671 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				03E1C8D032ED744321AC3BEC6F42EB0A /* HotKey.modulemap */,
-				0D73A6E8BF61A516C25F7A83CFB55E68 /* HotKey.xcconfig */,
-				FE43D0DC25DBDBEB222819F02C128BD9 /* HotKey-dummy.m */,
-				F02314F7006E39E3ABE6B638AE17948D /* HotKey-prefix.pch */,
-				03235070B78C3C69537B08C1392DBB74 /* HotKey-umbrella.h */,
-				30390E386140DF5D82BEEF3CAC3CFD99 /* Info.plist */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/HotKey";
-			sourceTree = "<group>";
-		};
-		3071775AEE445B71CA0BEAF7DC251851 /* HotKey */ = {
-			isa = PBXGroup;
-			children = (
-				52D7B203C7C9872D7CF2B95BB3A04EC4 /* HotKey.swift */,
-				967567D4090F380C0627F98BD6B0BEFD /* HotKeysController.swift */,
-				1919E4516F9C79D03AF1D98CB5FCDDC6 /* Key.swift */,
-				5B216942CF72D1AE431F3DCF8E58B299 /* KeyCombo.swift */,
-				8F976A741F3A35797B3EC49977CD803A /* NSEventModifierFlags+HotKey.swift */,
-				2C841665C3C4AFB40D9DBC876D916671 /* Support Files */,
-			);
-			name = HotKey;
-			path = HotKey;
-			sourceTree = "<group>";
-		};
 		4476E2ACA5DA1C3752829A600908ED9D /* Targets Support Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -277,28 +268,30 @@
 			name = "OS X";
 			sourceTree = "<group>";
 		};
-		55B495802EC695A3367103F315C37A45 /* SwiftHEXColors */ = {
+		650DB5CAE04737F75B0ECC5D94BCF0D9 /* HotKey */ = {
 			isa = PBXGroup;
 			children = (
-				F7D7CF9BC9FCD453CCC363B717EC6DC9 /* SwiftHEXColors.swift */,
-				6910D4578D7872C3113A93A1A92B0ABF /* Support Files */,
+				D8428AE1975894C76F94DD4C8FE64089 /* HotKey.swift */,
+				E1F39F95CB04ED6B1CA3AC5458901536 /* HotKeysController.swift */,
+				5B15CE748333F6B0DAA7C482E4810C5D /* Key.swift */,
+				97BFD52B61A04C49824960B848644BC1 /* KeyCombo.swift */,
+				2A6345AD232B7FD7BBAACF12E60F4614 /* NSEventModifierFlags+HotKey.swift */,
+				9C25964583CC317853444FD98F4D1010 /* Support Files */,
 			);
-			name = SwiftHEXColors;
-			path = SwiftHEXColors;
+			name = HotKey;
+			path = HotKey;
 			sourceTree = "<group>";
 		};
-		6910D4578D7872C3113A93A1A92B0ABF /* Support Files */ = {
+		750B7649A75F2E73834030572DDCEF6D /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				1DA619142F908EF1BC133AB6A636FD94 /* Info.plist */,
-				4C28E3EB96A8D04A052BFC9DD9129A87 /* SwiftHEXColors.modulemap */,
-				BE7CDAABC7F8FD1BA99A5899F6A1B1EA /* SwiftHEXColors.xcconfig */,
-				3DB83C65916FA65B41C2686CE1A70ECC /* SwiftHEXColors-dummy.m */,
-				2B79DFB4C5EED97F6C2B60050D5E32D2 /* SwiftHEXColors-prefix.pch */,
-				5B7ABC84C5B60B801F35A1814FE9A366 /* SwiftHEXColors-umbrella.h */,
+				ABF249589F98E40D1D6F600014E749E5 /* Fuse */,
+				650DB5CAE04737F75B0ECC5D94BCF0D9 /* HotKey */,
+				CB34644AC128637F77DC13E31590C821 /* LoginServiceKit */,
+				C79A755DF45C34B5F5BCBE701E556245 /* Sparkle */,
+				FD8589932C5623C48F384510FD49257D /* SwiftHEXColors */,
 			);
-			name = "Support Files";
-			path = "../Target Support Files/SwiftHEXColors";
+			name = Pods;
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -306,7 +299,7 @@
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				96D996393384F21972E2DD81788EE22C /* Frameworks */,
-				EDD312ECCE9403AD57C1852576CE22AD /* Pods */,
+				750B7649A75F2E73834030572DDCEF6D /* Pods */,
 				E7A6029064C2CD74FCE5A288065030BF /* Products */,
 				4476E2ACA5DA1C3752829A600908ED9D /* Targets Support Files */,
 			);
@@ -338,40 +331,89 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		DAD6A8314018103176237612E82172C8 /* Support Files */ = {
+		9C25964583CC317853444FD98F4D1010 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				B8DD63CF6CC9BD8F7D1B3A9390677330 /* Fuse.modulemap */,
-				35BB54634AC33EFA48DA1A358ACC6683 /* Fuse.xcconfig */,
-				B782CBEE525FBB3266440AEED24AD477 /* Fuse-dummy.m */,
-				F28D47727D0AF4D7113301C0CFE58183 /* Fuse-prefix.pch */,
-				0509A27647558A528CDA55220CE12B33 /* Fuse-umbrella.h */,
-				C2A5856E425737EAA70059A7F737E158 /* Info.plist */,
+				FF32A723DF7F81961F7C8A5A68D4AFA5 /* HotKey.modulemap */,
+				DCA9C4140BEE553D14A6D3EB59F60D6C /* HotKey.xcconfig */,
+				7F568F0D5EB36297A362235ECE68D462 /* HotKey-dummy.m */,
+				29DE26A229816CE39E23B530408D589C /* HotKey-prefix.pch */,
+				A228D7BFF5DEC0A74F44BC1C25E78E83 /* HotKey-umbrella.h */,
+				BDB82D1A20CD1D35F6A26585672F56E1 /* Info.plist */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/Fuse";
+			path = "../Target Support Files/HotKey";
 			sourceTree = "<group>";
 		};
-		DC29BE1B6E98D1428CD53E382DF145B2 /* LoginServiceKit */ = {
+		ABF249589F98E40D1D6F600014E749E5 /* Fuse */ = {
 			isa = PBXGroup;
 			children = (
-				AC7491C8496F18B26C85F6D725643BDD /* LoginServiceKit.swift */,
-				0671821F7F50E89602A1E5456AB491C8 /* Support Files */,
+				2056082C5A13BABFAE34274901A0096B /* Fuse.swift */,
+				8191FD4C176AD3730DF9120B498BC4BA /* FuseUtilities.swift */,
+				CE988C9BFDB12BCD09E56C0BDDB91E7C /* String+Fuse.swift */,
+				ED6561A9B03889ECB149D1FAEF4CFDDC /* Support Files */,
+			);
+			name = Fuse;
+			path = Fuse;
+			sourceTree = "<group>";
+		};
+		C79A755DF45C34B5F5BCBE701E556245 /* Sparkle */ = {
+			isa = PBXGroup;
+			children = (
+				980515DBC13550237A4FBCDE537ED61A /* Sparkle.h */,
+				1DF5D663AADD50DE42D426623F0B7340 /* SPUDownloadData.h */,
+				1B976435750DA5ACAEB825BD77117178 /* SPUDownloader.h */,
+				DADC72679BB59655AB41F13E86D1AD68 /* SPUDownloaderDelegate.h */,
+				54B3AEA188E9A38AEC1C773F917C2119 /* SPUDownloaderDeprecated.h */,
+				E4AFBA4B048EADFD08D224E3F7BD6FA8 /* SPUDownloaderProtocol.h */,
+				BC2C9D718E2287F523F5EDE5A1C1D3E2 /* SPUDownloaderSession.h */,
+				545174EF1C818E7BB36C4030D17AB44F /* SPUURLRequest.h */,
+				4BCCCCB7BBF97209AE5B35C3F3182B22 /* SUAppcast.h */,
+				52BE7DF84C0C4D83C3DF49A9A3B5DABB /* SUAppcastItem.h */,
+				B94CCF3C6E591FD9A7FFE88BF401CA96 /* SUCodeSigningVerifier.h */,
+				889FC70F54C25D77B90590EFFFC1B28D /* SUErrors.h */,
+				2678B1CEB3E875642F5A06D57D9FC9AF /* SUExport.h */,
+				E9A5F0E673E8D9EF8C74289CD06D13CD /* SUStandardVersionComparator.h */,
+				2D45DAE3661E962DA25342384815C268 /* SUUpdater.h */,
+				3F89FB76DC99FF100EEAB0AC36CFDA33 /* SUUpdaterDelegate.h */,
+				871E2A145C2C4A8F063A55629FC42200 /* SUVersionComparisonProtocol.h */,
+				84B14CA0C52F440A2AD72E83F0D37F3C /* SUVersionDisplayProtocol.h */,
+				DE60FE9BA7D11B41B6DB043CCC854FFE /* Frameworks */,
+			);
+			name = Sparkle;
+			path = Sparkle;
+			sourceTree = "<group>";
+		};
+		CB34644AC128637F77DC13E31590C821 /* LoginServiceKit */ = {
+			isa = PBXGroup;
+			children = (
+				55FFB0C6B3222B1E38CCE1AC4646CFD8 /* LoginServiceKit.swift */,
+				1A050FA6D19A94AF41186ACAE53BE56E /* Support Files */,
 			);
 			name = LoginServiceKit;
 			path = LoginServiceKit;
 			sourceTree = "<group>";
 		};
-		E286A053D52713F0E9BD9BEF43580BF1 /* Fuse */ = {
+		DB471F7F740A2DB79194B5C2C9B9A3F7 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				903E2CE41C7B53C998B97EE55DDB504B /* Fuse.swift */,
-				940BC1808191187181AAD29E823E29FB /* FuseUtilities.swift */,
-				60F6BC0F283D8D3A085DB2F0A8A3B3C5 /* String+Fuse.swift */,
-				DAD6A8314018103176237612E82172C8 /* Support Files */,
+				3913466F457FBE80A28750E29C819AB9 /* Info.plist */,
+				F7C8AD1EC6BBE9F7CD97F6E4BE5A56F5 /* SwiftHEXColors.modulemap */,
+				BF501C6676B0F217A609B38F55C5D06A /* SwiftHEXColors.xcconfig */,
+				7E9134167601A395701F867D3E80EF64 /* SwiftHEXColors-dummy.m */,
+				5E6903BCDB1E4C78641690726FC4DB25 /* SwiftHEXColors-prefix.pch */,
+				76DF2ABC6CE0759C1944D39A5D0892D7 /* SwiftHEXColors-umbrella.h */,
 			);
-			name = Fuse;
-			path = Fuse;
+			name = "Support Files";
+			path = "../Target Support Files/SwiftHEXColors";
+			sourceTree = "<group>";
+		};
+		DE60FE9BA7D11B41B6DB043CCC854FFE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				4EFECE0D517F3A7BF2DC8F57CC10A345 /* Sparkle.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		E7A6029064C2CD74FCE5A288065030BF /* Products */ = {
@@ -387,15 +429,28 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		EDD312ECCE9403AD57C1852576CE22AD /* Pods */ = {
+		ED6561A9B03889ECB149D1FAEF4CFDDC /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				E286A053D52713F0E9BD9BEF43580BF1 /* Fuse */,
-				3071775AEE445B71CA0BEAF7DC251851 /* HotKey */,
-				DC29BE1B6E98D1428CD53E382DF145B2 /* LoginServiceKit */,
-				55B495802EC695A3367103F315C37A45 /* SwiftHEXColors */,
+				D28A13FF83633AC8EB556A3BC611BC35 /* Fuse.modulemap */,
+				F93D8400380A2D88474F296E0DBB2B8E /* Fuse.xcconfig */,
+				865C9E2C26221DF68540D29AAB697F03 /* Fuse-dummy.m */,
+				D4F09D19BBC662A4F7A2469B94B9C862 /* Fuse-prefix.pch */,
+				2E8B914020F9A5917AA7CD1D192141D7 /* Fuse-umbrella.h */,
+				8967FED9A7F95D5E36A8E2C215D71CB2 /* Info.plist */,
 			);
-			name = Pods;
+			name = "Support Files";
+			path = "../Target Support Files/Fuse";
+			sourceTree = "<group>";
+		};
+		FD8589932C5623C48F384510FD49257D /* SwiftHEXColors */ = {
+			isa = PBXGroup;
+			children = (
+				5DD22890457F88B39F4A2365C9754668 /* SwiftHEXColors.swift */,
+				DB471F7F740A2DB79194B5C2C9B9A3F7 /* Support Files */,
+			);
+			name = SwiftHEXColors;
+			path = SwiftHEXColors;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -687,7 +742,7 @@
 /* Begin XCBuildConfiguration section */
 		04159E4A9FD3C852BE70EE342DDC4679 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D73A6E8BF61A516C25F7A83CFB55E68 /* HotKey.xcconfig */;
+			baseConfigurationReference = DCA9C4140BEE553D14A6D3EB59F60D6C /* HotKey.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -720,7 +775,7 @@
 		};
 		1BFE67977280852703578A334197046B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0D73A6E8BF61A516C25F7A83CFB55E68 /* HotKey.xcconfig */;
+			baseConfigurationReference = DCA9C4140BEE553D14A6D3EB59F60D6C /* HotKey.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -847,7 +902,7 @@
 		};
 		2DBCECDCEC0AC5C5EAA607C5F70C7CB1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE761CCE729EB4F2619604A90DAB42AE /* LoginServiceKit.xcconfig */;
+			baseConfigurationReference = 76064A26A2BDD7B105DA485114167E0D /* LoginServiceKit.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -881,7 +936,7 @@
 		};
 		2FF491695E12627B3F06E3B9564497F2 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35BB54634AC33EFA48DA1A358ACC6683 /* Fuse.xcconfig */;
+			baseConfigurationReference = F93D8400380A2D88474F296E0DBB2B8E /* Fuse.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -985,7 +1040,7 @@
 		};
 		5FD4D83D6B81D8443539BE3AE0CA9AB6 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 35BB54634AC33EFA48DA1A358ACC6683 /* Fuse.xcconfig */;
+			baseConfigurationReference = F93D8400380A2D88474F296E0DBB2B8E /* Fuse.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1019,7 +1074,7 @@
 		};
 		67ADF17BB7E791D9E2EEC9BBAE124B18 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = FE761CCE729EB4F2619604A90DAB42AE /* LoginServiceKit.xcconfig */;
+			baseConfigurationReference = 76064A26A2BDD7B105DA485114167E0D /* LoginServiceKit.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1153,7 +1208,7 @@
 		};
 		B81AB6DB50BFC40BCC104B6F853CB0B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE7CDAABC7F8FD1BA99A5899F6A1B1EA /* SwiftHEXColors.xcconfig */;
+			baseConfigurationReference = BF501C6676B0F217A609B38F55C5D06A /* SwiftHEXColors.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1186,7 +1241,7 @@
 		};
 		E5F8FDCBBA014EA3948B1E5B45629401 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = BE7CDAABC7F8FD1BA99A5899F6A1B1EA /* SwiftHEXColors.xcconfig */;
+			baseConfigurationReference = BF501C6676B0F217A609B38F55C5D06A /* SwiftHEXColors.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";

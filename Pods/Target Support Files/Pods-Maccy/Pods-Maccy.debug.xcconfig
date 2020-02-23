@@ -1,10 +1,10 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
 CODE_SIGN_IDENTITY =
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Fuse" "${PODS_CONFIGURATION_BUILD_DIR}/HotKey" "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Sparkle" "${PODS_CONFIGURATION_BUILD_DIR}/Fuse" "${PODS_CONFIGURATION_BUILD_DIR}/HotKey" "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/../Frameworks' '@loader_path/Frameworks'
+LD_RUNPATH_SEARCH_PATHS = @loader_path/../Frameworks $(inherited) '@executable_path/../Frameworks' '@loader_path/Frameworks'
 OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Fuse/Fuse.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/HotKey/HotKey.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit/LoginServiceKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors/SwiftHEXColors.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "Fuse" -framework "HotKey" -framework "LoginServiceKit" -framework "SwiftHEXColors"
+OTHER_LDFLAGS = $(inherited) -framework "Fuse" -framework "HotKey" -framework "LoginServiceKit" -framework "Sparkle" -framework "SwiftHEXColors"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

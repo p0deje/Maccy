@@ -146,12 +146,16 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Fuse/Fuse.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/HotKey/HotKey.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/LoginServiceKit/LoginServiceKit.framework"
+  install_framework "${PODS_ROOT}/Sparkle/Sparkle.framework"
+  install_dsym "${PODS_ROOT}/Sparkle/Sparkle.framework.dSYM"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftHEXColors/SwiftHEXColors.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Fuse/Fuse.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/HotKey/HotKey.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/LoginServiceKit/LoginServiceKit.framework"
+  install_framework "${PODS_ROOT}/Sparkle/Sparkle.framework"
+  install_dsym "${PODS_ROOT}/Sparkle/Sparkle.framework.dSYM"
   install_framework "${BUILT_PRODUCTS_DIR}/SwiftHEXColors/SwiftHEXColors.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then

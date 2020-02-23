@@ -1,5 +1,6 @@
 import Cocoa
 import LoginServiceKit
+import Sparkle
 
 class Maccy: NSObject {
   @objc public let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
@@ -13,6 +14,7 @@ class Maccy: NSObject {
     var footerItems: [(tag: MenuTag, isChecked: Bool, key: String)] = [
       (.separator, false, ""),
       (.clear, false, ""),
+      (.checkForUpdates, false, ""),
       (.launchAtLogin, LoginServiceKit.isExistLoginItems(), "")
     ]
 
@@ -140,6 +142,8 @@ class Maccy: NSObject {
         toggleLaunchAtLogin(sender)
       case .quit:
         NSApp.stop(sender)
+      case .checkForUpdates:
+        SUUpdater.shared()?.checkForUpdates(self)
       default:
         break
       }
