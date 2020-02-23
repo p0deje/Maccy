@@ -13,6 +13,7 @@ extension UserDefaults {
     static let popupPosition = "popupPosition"
     static let saratovSeparator = "enableSaratovSeparator"
     static let size = "historySize"
+    static let sortBy = "sortBy"
 
     static var showInStatusBar: String {
       ProcessInfo.processInfo.arguments.contains("ui-testing") ? "showInStatusBarUITests" : "showInStatusBar"
@@ -29,6 +30,7 @@ extension UserDefaults {
     static let popupPosition = "cursor"
     static let showInStatusBar = true
     static let size = 200
+    static let sortBy = "lastCopiedAt"
     static let storage: [HistoryItem] = []
   }
 
@@ -90,6 +92,11 @@ extension UserDefaults {
   public var size: Int {
     get { integer(forKey: Keys.size) }
     set { set(newValue, forKey: Keys.size) }
+  }
+
+  public var sortBy: String {
+    get { string(forKey: Keys.sortBy) ?? Values.sortBy }
+    set { set(newValue, forKey: Keys.sortBy) }
   }
 
   // swiftlint:disable force_try

@@ -6,7 +6,6 @@ class Menu: NSMenu, NSMenuDelegate {
   public let menuWidth = 300
 
   private let search = Search()
-  private let sorter = Sorter()
 
   private var clipboard: Clipboard!
   private var history: History!
@@ -32,7 +31,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func buildItems(_ allItems: [HistoryItem]) {
     clear()
-    for item in sorter.sort(allItems) {
+    for item in Sorter(by: UserDefaults.standard.sortBy).sort(allItems) {
       let copyHistoryItem = HistoryMenuItem(item: item, onSelected: copy(_:))
       let pasteHistoryItem = HistoryMenuItem(item: item, onSelected: copyAndPaste(_:))
 

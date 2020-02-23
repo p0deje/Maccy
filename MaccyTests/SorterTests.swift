@@ -11,9 +11,14 @@ class SorterTests: XCTestCase {
   let item3 = HistoryItem(value: "baz",
                           firstCopiedAt: Date(timeIntervalSinceNow: -200),
                           lastCopiedAt: Date(timeIntervalSinceNow: -200))
-  let sorter = Sorter()
 
   func testSortByLastCopiedAt() {
+    let sorter = Sorter(by: "lastCopiedAt")
     XCTAssertEqual(sorter.sort([item1, item2, item3]), [item2, item3, item1])
+  }
+
+  func testSortByFirstCopiedAt() {
+    let sorter = Sorter(by: "firstCopiedAt")
+    XCTAssertEqual(sorter.sort([item1, item2, item3]), [item2, item1, item3])
   }
 }

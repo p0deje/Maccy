@@ -25,6 +25,7 @@ and lets you quickly navigate, search, and use previous clipboard contents.
     * [Show/Hide Search Field](#show/hide-search)
     * [Show/Hide Title](#show/hide-title)
     * [Popup Position](#popup-position)
+    * [Sorting](#sorting)
 * [Update](#update)
 * [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
 * [CI](#ci)
@@ -137,6 +138,20 @@ By default Maccy will popup at cursor position. You can change it to be always c
 
 ```sh
 defaults write org.p0deje.Maccy popupPosition center # default is cursor
+```
+
+#### Sorting
+
+By default Maccy will sort the history by the date of the last time item was copied.
+
+```sh
+defaults write org.p0deje.Maccy sortBy lastCopiedAt # default
+```
+
+You can change the sorting algorithm so that it sorts by the first time item was copied:
+
+```sh
+defaults write org.p0deje.Maccy sortBy firstCopiedAt
 ```
 
 ## Update

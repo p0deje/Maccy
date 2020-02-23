@@ -8,6 +8,8 @@ class MaccyUITests: XCTestCase {
   let copy1 = UUID().uuidString
   let copy2 = UUID().uuidString
 
+  var sortBy = "lastCopiedAt"
+
   var popUpEvents: [CGEvent] {
     let eventDown = CGEvent(keyboardEventSource: nil, virtualKey: UInt16(kVK_ANSI_C), keyDown: true)!
     eventDown.flags = [.maskCommand, .maskShift]
@@ -22,6 +24,7 @@ class MaccyUITests: XCTestCase {
     super.setUp()
     continueAfterFailure = false
     app.launchArguments.append("ui-testing")
+    app.launchArguments.append(contentsOf: ["sortBy", sortBy])
     app.launch()
 
     pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
@@ -203,5 +206,14 @@ class MaccyUITests: XCTestCase {
     pasteboard.clearContents()
     pasteboard.setString(content, forType: NSPasteboard.PasteboardType.string)
     usleep(1500000) // default interval for Maccy to check clipboard is 1 second
+  }
+
+  private func uniqueMenuItemTitles() -> [String] {
+    let itemTitles = app.menuItems.allElementsBoundByIndex.map({ $0.title })
+    var uniqueTitles: [String] = []
+    for itemTitle in itemTitles where !uniqueTitles.contains(itemTitle) {
+      uniqueTitles.append(itemTitle)
+    }
+    return uniqueTitles
   }
 }
