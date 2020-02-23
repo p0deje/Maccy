@@ -154,6 +154,12 @@ You can change the sorting algorithm so that it sorts by the first time item was
 defaults write org.p0deje.Maccy sortBy firstCopiedAt
 ```
 
+You can also change the sorting algorithm so that it sorts by the total number item was copied:
+
+```sh
+defaults write org.p0deje.Maccy sortBy numberOfCopies
+```
+
 ## Update
 
 Download and reinstall the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):

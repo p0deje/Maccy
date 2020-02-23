@@ -28,6 +28,7 @@ class History {
     if let existingHistoryItemIndex = all.firstIndex(where: { $0.value == string }) {
       let existingHistoryItem = all[existingHistoryItemIndex]
       existingHistoryItem.lastCopiedAt = Date()
+      existingHistoryItem.numberOfCopies += 1
       all.remove(at: existingHistoryItemIndex)
       all = [existingHistoryItem] + all
     } else {

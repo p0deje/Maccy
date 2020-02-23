@@ -34,5 +34,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       })
       UserDefaults.standard.migrations["2020-02-22-history-item-add-copied-at"] = true
     }
+
+    if UserDefaults.standard.migrations["2020-02-22-history-item-add-number-of-copies"] != true {
+      UserDefaults.standard.storage = UserDefaults.standard.storage.map({ item in
+        let migratedItem = item
+        migratedItem.numberOfCopies = 1
+        return migratedItem
+      })
+      UserDefaults.standard.migrations["2020-02-22-history-item-add-number-of-copies"] = true
+    }
   }
 }

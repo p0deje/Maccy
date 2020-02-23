@@ -13,6 +13,8 @@ class Sorter {
       switch by {
       case "firstCopiedAt":
         return lhs.firstCopiedAt < rhs.firstCopiedAt
+      case "numberOfCopies":
+        return lhs.numberOfCopies < rhs.numberOfCopies
       default:
         return lhs.lastCopiedAt < rhs.lastCopiedAt
       }

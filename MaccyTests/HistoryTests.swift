@@ -37,6 +37,7 @@ class HistoryTests: XCTestCase {
     history.add("foo")
     XCTAssertEqual(history.all, [HistoryItem(value: "foo"), HistoryItem(value: "bar")])
     XCTAssertTrue(history.all[0].lastCopiedAt > history.all[0].firstCopiedAt)
+    XCTAssertEqual(history.all[0].numberOfCopies, 2)
   }
 
   func testAddingBlank() {
