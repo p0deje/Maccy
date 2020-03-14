@@ -7,6 +7,8 @@ class HistoryMenuItem: NSMenuItem {
   public var item: HistoryItem!
 
   private let showMaxLength = 50
+  private let imageMaxWidth: CGFloat = 340.0
+
   private var onSelected: [Callback] = []
 
   required init(coder: NSCoder) {
@@ -14,18 +16,20 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   init(item: HistoryItem, onSelected: @escaping Callback) {
-    super.init(title: item.value, action: #selector(onSelect(_:)), keyEquivalent: "")
+    UserDefaults.standard.register(defaults: [UserDefaults.Keys.imageMaxHeight: UserDefaults.Values.imageMaxHeight])
+
+    super.init(title: "", action: #selector(onSelect(_:)), keyEquivalent: "")
+
     self.item = item
     self.onSelected = [onSelected]
     self.onStateImage = NSImage(named: "PinImage")
     self.target = self
-    self.title = humanizedTitle(title)
-    self.image = ColorImage.from(item.value)
-    self.toolTip = """
-                   \(item.value)\n \n
-                   Press ⌥+⌫ to delete.
-                   Press ⌥+p to (un)pin.
-                   """
+
+    if item.type == .image {
+      loadImage(item)
+    } else {
+      loadString(item)
+    }
 
     if let itemPin = item.pin {
       pin(itemPin)
@@ -51,6 +55,39 @@ class HistoryMenuItem: NSMenuItem {
     self.isPinned = false
     self.keyEquivalent = ""
     self.state = .off
+  }
+
+  private func loadImage(_ item: HistoryItem) {
+    if let image = NSImage(data: item.value) {
+      if image.size.width > imageMaxWidth {
+        image.size.height = image.size.height / (image.size.width / imageMaxWidth)
+        image.size.width = imageMaxWidth
+      }
+
+      let imageMaxHeight = CGFloat(UserDefaults.standard.imageMaxHeight)
+      if image.size.height > imageMaxHeight {
+        image.size.width = image.size.width / (image.size.height / imageMaxHeight)
+        image.size.height = imageMaxHeight
+      }
+
+      self.image = image
+      self.toolTip = """
+                     Press ⌥+⌫ to delete.
+                     Press ⌥+p to (un)pin.
+                     """
+    }
+  }
+
+  private func loadString(_ item: HistoryItem) {
+    if let title = String(data: item.value, encoding: .utf8) {
+      self.title = humanizedTitle(title)
+      self.image = ColorImage.from(title)
+      self.toolTip = """
+                     \(title)\n \n
+                     Press ⌥+⌫ to delete.
+                     Press ⌥+p to (un)pin.
+                     """
+    }
   }
 
   private func humanizedTitle(_ title: String) -> String {

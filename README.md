@@ -26,6 +26,7 @@ and lets you quickly navigate, search, and use previous clipboard contents.
     * [Show/Hide Title](#show/hide-title)
     * [Popup Position](#popup-position)
     * [Sorting](#sorting)
+    * [Max Image Height](#max-image-height)
 * [Update](#update)
 * [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
 * [CI](#ci)
@@ -159,6 +160,12 @@ You can also change the sorting algorithm so that it sorts by the total number i
 
 ```sh
 defaults write org.p0deje.Maccy sortBy numberOfCopies
+```
+
+#### Max Image Height
+
+```sh
+defaults write org.p0deje.Maccy imageMaxHeight 100 # default is 40
 ```
 
 ## Update

@@ -114,7 +114,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
     if let historyItemToRemove = itemToRemove as? HistoryMenuItem {
       historyItems.removeAll(where: { $0 == historyItemToRemove })
-      history.remove(historyItemToRemove.item.value)
+      history.remove(historyItemToRemove.item)
 
       let historyItemToRemoveIndex = index(of: historyItemToRemove)
       removeItem(at: historyItemToRemoveIndex) // main item
@@ -222,7 +222,11 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func copy(_ item: HistoryMenuItem) {
-    clipboard.copy(item.item.value)
+    if item.item.type == .image {
+      clipboard.copy(item.item.value, .tiff)
+    } else {
+      clipboard.copy(item.item.value, .string)
+    }
   }
 
   private func copyAndPaste(_ item: HistoryMenuItem) {

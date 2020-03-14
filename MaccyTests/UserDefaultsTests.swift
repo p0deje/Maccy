@@ -49,6 +49,8 @@ class UserDefaultsTests: XCTestCase {
   }
 
   func testChanging() {
+    let item = HistoryItem(value: "foo".data(using: .utf8)!)
+
     UserDefaults.standard.fuzzySearch = true
     UserDefaults.standard.hotKey = "command+shift+a"
     UserDefaults.standard.ignoreEvents = true
@@ -56,7 +58,7 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.saratovSeparator = true
     UserDefaults.standard.showInStatusBar = false
     UserDefaults.standard.size = 100
-    UserDefaults.standard.storage = [HistoryItem(value: "foo")]
+    UserDefaults.standard.storage = [item]
 
     XCTAssertEqual(UserDefaults.standard.fuzzySearch, true)
     XCTAssertEqual(UserDefaults.standard.hotKey, "command+shift+a")
@@ -65,6 +67,6 @@ class UserDefaultsTests: XCTestCase {
     XCTAssertEqual(UserDefaults.standard.saratovSeparator, true)
     XCTAssertEqual(UserDefaults.standard.showInStatusBar, false)
     XCTAssertEqual(UserDefaults.standard.size, 100)
-    XCTAssertEqual(UserDefaults.standard.storage, [HistoryItem(value: "foo")])
+    XCTAssertEqual(UserDefaults.standard.storage, [item])
   }
 }

@@ -5,9 +5,9 @@ class SearchTests: XCTestCase {
   let savedFuzzySearch = UserDefaults.standard.bool(forKey: "fuzzySearch")
 
   let items: Search.Searchable = [
-    HistoryMenuItem(item: HistoryItem(value: "foo bar baz"), onSelected: { _ in }),
-    HistoryMenuItem(item: HistoryItem(value: "foo bar zaz"), onSelected: { _ in }),
-    HistoryMenuItem(item: HistoryItem(value: "xxx yyy zzz"), onSelected: { _ in })
+    historyMenuItem("foo bar baz"),
+    historyMenuItem("foo bar zaz"),
+    historyMenuItem("xxx yyy zzz")
   ]
 
   override func tearDown() {
@@ -37,6 +37,10 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("yyy"), [items[2]])
     XCTAssertEqual(search("fbb"), [items[0], items[1]])
     XCTAssertEqual(search("m"), [])
+  }
+
+  private class func historyMenuItem(_ value: String) -> HistoryMenuItem {
+    return HistoryMenuItem(item: HistoryItem(value: value.data(using: .utf8)!), onSelected: { _ in })
   }
 
   private func search(_ string: String) -> Search.Searchable {

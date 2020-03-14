@@ -19,7 +19,10 @@ class Search {
   }
 
   private func fuzzySearch(string: String, within: Searchable) -> Searchable {
-    let searchResults = within.map({ (score: fuse.search(string, in: $0.item.value)?.score, object: $0) })
+    let searchResults = within.map({ historyItem in
+      let itemString = String(data: historyItem.item.value, encoding: .utf8) ?? ""
+      return (score: self.fuse.search(string, in: itemString)?.score, object: historyItem)
+    } as (HistoryMenuItem) -> (score: Double?, object: HistoryMenuItem))
     let matchedResults = searchResults.filter({ $0.score != nil })
     let sortedResults = matchedResults.sorted(by: { ($0.score ?? 0) < ($1.score ?? 0) })
     return sortedResults.map({ $0.object })
@@ -27,7 +30,8 @@ class Search {
 
   private func simpleSearch(string: String, within: Searchable) -> Searchable {
     return within.filter({ item in
-      let range = item.item.value.range(
+      let value = String(data: item.item.value, encoding: .utf8) ?? ""
+      let range = value.range(
         of: string,
         options: .caseInsensitive,
         range: nil,

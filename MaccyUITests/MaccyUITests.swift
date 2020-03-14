@@ -8,6 +8,10 @@ class MaccyUITests: XCTestCase {
   let copy1 = UUID().uuidString
   let copy2 = UUID().uuidString
 
+  // https://hetima.github.io/fucking_nsimage_syntax
+  let image1 = NSImage(named: "NSAddTemplate")!
+  let image2 = NSImage(named: "NSBluetoothTemplate")!
+
   var sortBy = "lastCopiedAt"
 
   var popUpEvents: [CGEvent] {
@@ -95,6 +99,14 @@ class MaccyUITests: XCTestCase {
     app.typeText(copy2)
     app.typeKey("1", modifierFlags: [.command])
     XCTAssertEqual(pasteboard.string(forType: .string), copy2)
+  }
+
+  func testCopyImage() {
+    copyToClipboard(image2)
+    copyToClipboard(image1)
+    popUpWithHotkey()
+    visibleMenuItems()[2].click()
+    XCTAssertEqual(pasteboard.data(forType: .tiff)!.count, image2.tiffRepresentation!.count)
   }
 
   func testDownArrow() {
@@ -247,11 +259,21 @@ class MaccyUITests: XCTestCase {
 
   private func copyToClipboard(_ content: String) {
     pasteboard.clearContents()
-    pasteboard.setString(content, forType: NSPasteboard.PasteboardType.string)
+    pasteboard.setString(content, forType: .string)
+    usleep(1500000) // default interval for Maccy to check clipboard is 1 second
+  }
+
+  private func copyToClipboard(_ content: NSImage) {
+    pasteboard.clearContents()
+    pasteboard.setData(content.tiffRepresentation, forType: .tiff)
     usleep(1500000) // default interval for Maccy to check clipboard is 1 second
   }
 
   private func visibleMenuItemTitles() -> [String] {
-    return app.menuItems.allElementsBoundByIndex.filter({ $0.isHittable }).map({ $0.title })
+    return visibleMenuItems().map({ $0.title })
+  }
+
+  private func visibleMenuItems() -> [XCUIElement] {
+    return app.menuItems.allElementsBoundByIndex.filter({ $0.isHittable })
   }
 }

@@ -2,7 +2,7 @@ import AppKit
 import Carbon
 
 class Clipboard {
-  typealias OnNewCopyHook = (String) -> Void
+  typealias OnNewCopyHook = (HistoryItem) -> Void
 
   private let pasteboard = NSPasteboard.general
   private let timerInterval = 1.0
@@ -38,9 +38,9 @@ class Clipboard {
                          repeats: true)
   }
 
-  func copy(_ string: String) {
-    pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
-    pasteboard.setString(string, forType: NSPasteboard.PasteboardType.string)
+  func copy(_ data: Data, _ type: NSPasteboard.PasteboardType) {
+    pasteboard.declareTypes([type], owner: nil)
+    pasteboard.setData(data, forType: type)
   }
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
@@ -78,8 +78,18 @@ class Clipboard {
     // See https://github.com/p0deje/Maccy/issues/78.
     pasteboard.pasteboardItems?.forEach({ item in
       if !shouldIgnore(item.types) {
-        if let itemString = item.string(forType: .string) {
-          onNewCopyHooks.forEach({ $0(itemString) })
+        if item.types.contains(.tiff) {
+          if let data = item.data(forType: .tiff) {
+            let historyItem = HistoryItem(value: data)
+            historyItem.type = .image
+            onNewCopyHooks.forEach({ $0(historyItem) })
+          }
+        } else {
+          if let data = item.data(forType: .string) {
+            let historyItem = HistoryItem(value: data)
+            historyItem.type = .string
+            onNewCopyHooks.forEach({ $0(historyItem) })
+          }
         }
       }
     })

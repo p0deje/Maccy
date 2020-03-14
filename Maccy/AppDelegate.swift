@@ -20,7 +20,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private func migrateUserDefaults() {
     if UserDefaults.standard.migrations["2020-02-22-introduce-history-item"] != true {
       if let oldStorage = UserDefaults.standard.array(forKey: UserDefaults.Keys.storage) as? [String] {
-        UserDefaults.standard.storage = oldStorage.map({ HistoryItem(value: $0) })
+        UserDefaults.standard.storage = oldStorage.compactMap({ item in
+          if let data = item.data(using: .utf8) {
+            return HistoryItem(value: data)
+          } else {
+            return nil
+          }
+        })
         UserDefaults.standard.migrations["2020-02-22-introduce-history-item"] = true
       }
     }

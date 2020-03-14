@@ -19,13 +19,18 @@ class History {
     }
   }
 
-  func add(_ string: String) {
-    if UserDefaults.standard.ignoreEvents ||
-       string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+  func add(_ item: HistoryItem) {
+    if UserDefaults.standard.ignoreEvents {
       return
     }
 
-    if let existingHistoryItem = all.first(where: { $0.value == string }) {
+    if item.type == .string, let string = String(data: item.value, encoding: .utf8) {
+      if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+        return
+      }
+    }
+
+    if let existingHistoryItem = all.first(where: { $0 == item }) {
       existingHistoryItem.lastCopiedAt = Date()
       existingHistoryItem.numberOfCopies += 1
       update(existingHistoryItem)
@@ -33,7 +38,7 @@ class History {
       if all.count == UserDefaults.standard.size {
         all.removeLast()
       }
-      all = [HistoryItem(value: string)] + all
+      all = [item] + all
     }
   }
 
@@ -44,8 +49,8 @@ class History {
     }
   }
 
-  func remove(_ string: String) {
-    all.removeAll(where: { $0.value == string })
+  func remove(_ item: HistoryItem) {
+    all.removeAll(where: { $0 == item })
   }
 
   func clear() {

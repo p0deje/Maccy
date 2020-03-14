@@ -26,36 +26,36 @@ class HistoryTests: XCTestCase {
   }
 
   func testAdding() {
-    history.add("foo")
-    history.add("bar")
-    XCTAssertEqual(history.all, [HistoryItem(value: "bar"), HistoryItem(value: "foo")])
+    history.add(historyItem("foo"))
+    history.add(historyItem("bar"))
+    XCTAssertEqual(history.all, [historyItem("bar"), historyItem("foo")])
   }
 
   func testAddingSame() {
-    history.add("foo")
-    history.add("bar")
-    history.add("foo")
-    XCTAssertEqual(history.all, [HistoryItem(value: "bar"), HistoryItem(value: "foo")])
+    history.add(historyItem("foo"))
+    history.add(historyItem("bar"))
+    history.add(historyItem("foo"))
+    XCTAssertEqual(history.all, [historyItem("bar"), historyItem("foo")])
     XCTAssertTrue(history.all[1].lastCopiedAt > history.all[1].firstCopiedAt)
     XCTAssertEqual(history.all[1].numberOfCopies, 2)
   }
 
   func testAddingBlank() {
-    history.add(" ")
-    history.add("\n")
-    history.add(" foo")
-    history.add("\n bar")
-    XCTAssertEqual(history.all, [HistoryItem(value: "\n bar"), HistoryItem(value: " foo")])
+    history.add(historyItem(" "))
+    history.add(historyItem("\n"))
+    history.add(historyItem(" foo"))
+    history.add(historyItem("\n bar"))
+    XCTAssertEqual(history.all, [historyItem("\n bar"), historyItem(" foo")])
   }
 
   func testIgnore() {
     UserDefaults.standard.set(true, forKey: "ignoreEvents")
-    history.add("foo")
+    history.add(historyItem("foo"))
     XCTAssertEqual(history.all, [])
   }
 
   func testUpdate() {
-    history.add("foo")
+    history.add(historyItem("foo"))
     let historyItem = history.all[0]
 
     historyItem.numberOfCopies = 0
@@ -66,36 +66,48 @@ class HistoryTests: XCTestCase {
   }
 
   func testClearing() {
-    history.add("foo")
+    history.add(historyItem("foo"))
     history.clear()
     XCTAssertEqual(history.all, [])
   }
 
   func testMaxSize() {
     for index in 0...10 {
-      history.add(String(index))
+      history.add(historyItem(String(index)))
     }
 
     XCTAssertEqual(history.all.count, 10)
-    XCTAssertTrue(history.all.contains(HistoryItem(value: "10")))
-    XCTAssertFalse(history.all.contains(HistoryItem(value: "0")))
+    XCTAssertTrue(history.all.contains(historyItem("10")))
+    XCTAssertFalse(history.all.contains(historyItem("0")))
   }
 
   func testMaxSizeIsChanged() {
     for index in 0...10 {
-      history.add(String(index))
+      history.add(historyItem(String(index)))
     }
     UserDefaults.standard.size = 5
 
     XCTAssertEqual(history.all.count, 5)
-    XCTAssertTrue(history.all.contains(HistoryItem(value: "10")))
-    XCTAssertFalse(history.all.contains(HistoryItem(value: "5")))
+    XCTAssertTrue(history.all.contains(historyItem("10")))
+    XCTAssertFalse(history.all.contains(historyItem("5")))
   }
 
   func testRemoving() {
-    history.add("foo")
-    history.add("bar")
-    history.remove("foo")
-    XCTAssertEqual(history.all, [HistoryItem(value: "bar")])
+    history.add(historyItem("foo"))
+    history.add(historyItem("bar"))
+    history.remove(historyItem("foo"))
+    XCTAssertEqual(history.all, [historyItem("bar")])
+  }
+
+  private func historyItem(_ value: String) -> HistoryItem {
+    let item = HistoryItem(value: value.data(using: .utf8)!)
+    item.type = .string
+    return item
+  }
+
+  private func historyItem(_ value: NSImage) -> HistoryItem {
+    let item = HistoryItem(value: value.tiffRepresentation!)
+    item.type = .image
+    return item
   }
 }

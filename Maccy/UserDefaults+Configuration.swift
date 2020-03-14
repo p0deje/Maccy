@@ -8,6 +8,7 @@ extension UserDefaults {
     static let hideTitle = "hideTitle"
     static let hotKey = "hotKey"
     static let ignoreEvents = "ignoreEvents"
+    static let imageMaxHeight = "imageMaxHeight"
     static let migrations = "migrations"
     static let pasteByDefault = "pasteByDefault"
     static let popupPosition = "popupPosition"
@@ -26,6 +27,7 @@ extension UserDefaults {
 
   public struct Values {
     static let hotKey = "command+shift+c"
+    static let imageMaxHeight = 40.0
     static let migrations: [String: Bool] = [:]
     static let popupPosition = "cursor"
     static let showInStatusBar = true
@@ -62,6 +64,11 @@ extension UserDefaults {
   public var ignoreEvents: Bool {
     get { bool(forKey: Keys.ignoreEvents) }
     set { set(newValue, forKey: Keys.ignoreEvents) }
+  }
+
+  public var imageMaxHeight: Float {
+    get { float(forKey: Keys.imageMaxHeight) }
+    set { set(newValue, forKey: Keys.imageMaxHeight) }
   }
 
   public var migrations: [String: Bool] {

@@ -9,7 +9,7 @@ class ClipboardTests: XCTestCase {
   func testChangesListenerAndAddHooks() {
     let hookExpectation = expectation(description: "Hook is called")
 
-    clipboard.onNewCopy({ (_: String) -> Void in
+    clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
     clipboard.startListening()
@@ -24,7 +24,7 @@ class ClipboardTests: XCTestCase {
     let hookExpectation = expectation(description: "Hook is called")
     hookExpectation.isInverted = true
 
-    clipboard.onNewCopy({ (_: String) -> Void in
+    clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
     clipboard.startListening()
@@ -35,8 +35,14 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testCopy() {
-    clipboard.copy("foo")
+  func testCopyString() {
+    clipboard.copy("foo".data(using: .utf8)!, .string)
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
+  }
+
+  func testCopyImage() {
+    let data = NSImage(named: "NSInfo")?.tiffRepresentation
+    clipboard.copy(data!, .tiff)
+    XCTAssertEqual(pasteboard.data(forType: .tiff), data)
   }
 }
