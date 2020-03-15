@@ -8,7 +8,7 @@
 Maccy is a lightweight clipboard manager for macOS. It keeps the history of what you copy
 and lets you quickly navigate, search, and use previous clipboard contents.
 
-<!-- vim-markdown-toc Marked -->
+<!-- vim-markdown-toc GFM -->
 
 * [Features](#features)
 * [Install](#install)
@@ -18,12 +18,12 @@ and lets you quickly navigate, search, and use previous clipboard contents.
   * [Change Default Settings](#change-default-settings)
     * [Popup Hotkey](#popup-hotkey)
     * [History Size](#history-size)
-    * [Show/Hide Icon in Status Bar](#show/hide-icon-in-status-bar)
+    * [Show/Hide Icon in Status Bar](#showhide-icon-in-status-bar)
     * [Automatically Paste by Default](#automatically-paste-by-default)
-    * [Enable/Disable Fuzzy Search](#enable/disable-fuzzy-search)
+    * [Enable/Disable Fuzzy Search](#enabledisable-fuzzy-search)
     * [Ignore Copied Items](#ignore-copied-items)
-    * [Show/Hide Search Field](#show/hide-search)
-    * [Show/Hide Title](#show/hide-title)
+    * [Show/Hide Search](#showhide-search)
+    * [Show/Hide Title](#showhide-title)
     * [Popup Position](#popup-position)
     * [Sorting](#sorting)
     * [Max Image Height](#max-image-height)
@@ -136,7 +136,7 @@ defaults write org.p0deje.Maccy hideTitle true # default is false
 
 #### Popup Position
 
-By default Maccy will popup at cursor position. You can change it to be always centered on the screen. 
+By default Maccy will popup at cursor position. You can change it to be always centered on the screen.
 
 ```sh
 defaults write org.p0deje.Maccy popupPosition center # default is cursor
