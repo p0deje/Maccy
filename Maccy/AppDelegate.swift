@@ -1,9 +1,16 @@
 import Cocoa
+import Sparkle
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
   private var hotKey: GlobalHotKey!
   private var maccy: Maccy!
+
+  func applicationWillFinishLaunching(_ notification: Notification) {
+    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
+      SUUpdater.shared()?.automaticallyChecksForUpdates = false
+    }
+  }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
