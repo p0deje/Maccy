@@ -40,9 +40,17 @@ class ClipboardTests: XCTestCase {
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
   }
 
-  func testCopyImage() {
+  func testCopyTiffImage() {
     let data = NSImage(named: "NSInfo")?.tiffRepresentation
     clipboard.copy(data!, .tiff)
     XCTAssertEqual(pasteboard.data(forType: .tiff), data)
+  }
+  
+  func testCopyPngImage() {
+    let cgImage = NSImage(named: "NSInfo")?.cgImage(forProposedRect: nil, context: nil, hints: nil)
+    let imageRep = NSBitmapImageRep(cgImage: cgImage!)
+    let data = imageRep.representation(using: .png, properties: [:])
+    clipboard.copy(data!, .png)
+    XCTAssertEqual(pasteboard.data(forType: .png), data)
   }
 }
