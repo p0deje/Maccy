@@ -45,7 +45,7 @@ class ClipboardTests: XCTestCase {
     clipboard.copy(data!, .tiff)
     XCTAssertEqual(pasteboard.data(forType: .tiff), data)
   }
-  
+
   func testCopyPngImage() {
     let cgImage = NSImage(named: "NSInfo")?.cgImage(forProposedRect: nil, context: nil, hints: nil)
     let imageRep = NSBitmapImageRep(cgImage: cgImage!)
