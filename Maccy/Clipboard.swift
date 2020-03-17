@@ -82,12 +82,14 @@ class Clipboard {
           if let data = item.data(forType: .tiff) {
             let historyItem = HistoryItem(value: data)
             historyItem.type = .image
+            historyItem.imageType = .tiff
             onNewCopyHooks.forEach({ $0(historyItem) })
           }
         } else if item.types.contains(.png) {
           if let data = item.data(forType: .png) {
             let historyItem = HistoryItem(value: data)
             historyItem.type = .image
+            historyItem.imageType = .png
             onNewCopyHooks.forEach({ $0(historyItem) })
           }
         } else {

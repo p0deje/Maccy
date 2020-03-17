@@ -6,15 +6,32 @@ public class HistoryItem: Equatable, Codable {
     case image
   }
 
+  public enum ImageTypes: String, Codable {
+    case png
+    case tiff
+  }
+
   public let value: Data!
   public var firstCopiedAt: Date!
   public var lastCopiedAt: Date!
   public var numberOfCopies: Int!
   public var pin: String?
   public var type: Types!
+  public var imageType: ImageTypes?
 
   public static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
     return lhs.value == rhs.value
+  }
+
+  public func getPasteboardType() -> NSPasteboard.PasteboardType {
+    if self.type == .image {
+      switch self.imageType {
+      case .tiff: return .tiff
+      case .png: return .png
+      default: return .tiff
+      }
+    }
+    return .string
   }
 
   init(value: Data) {
