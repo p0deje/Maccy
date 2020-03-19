@@ -60,7 +60,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     if UserDefaults.standard.migrations["2020-03-18-store-pasteboard-type"] != true {
       UserDefaults.standard.storage = UserDefaults.standard.storage.map({ item in
         let migratedItem = item
-        if let _ = NSImage(data: item.value) {
+        if NSImage(data: item.value) != nil {
           migratedItem.types = [.tiff]
         } else {
           migratedItem.types = [.string]

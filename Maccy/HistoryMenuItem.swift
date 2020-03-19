@@ -8,7 +8,6 @@ class HistoryMenuItem: NSMenuItem {
 
   private let showMaxLength = 50
   private let imageMaxWidth: CGFloat = 340.0
-  
   private let showImagesForTypes: [NSPasteboard.PasteboardType] = [.png, .tiff]
 
   private var onSelected: [Callback] = []
