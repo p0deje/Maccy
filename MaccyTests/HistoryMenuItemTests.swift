@@ -95,13 +95,13 @@ class HistoryMenuItemTests: XCTestCase {
 
   private func historyMenuItem(_ value: String) -> HistoryMenuItem {
     let item = HistoryItem(value: value.data(using: .utf8)!)
-    item.type = .string
+    item.types = [.string]
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 
   private func historyMenuItem(_ value: NSImage) -> HistoryMenuItem {
     let item = HistoryItem(value: value.tiffRepresentation!)
-    item.type = .image
+    item.types = [.tiff]
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 

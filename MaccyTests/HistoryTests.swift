@@ -101,13 +101,13 @@ class HistoryTests: XCTestCase {
 
   private func historyItem(_ value: String) -> HistoryItem {
     let item = HistoryItem(value: value.data(using: .utf8)!)
-    item.type = .string
+    item.types = [.string]
     return item
   }
 
   private func historyItem(_ value: NSImage) -> HistoryItem {
     let item = HistoryItem(value: value.tiffRepresentation!)
-    item.type = .image
+    item.types = [.tiff]
     return item
   }
 }
