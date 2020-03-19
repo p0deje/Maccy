@@ -56,5 +56,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       })
       UserDefaults.standard.migrations["2020-02-22-history-item-add-number-of-copies"] = true
     }
+
+    if UserDefaults.standard.migrations["2020-03-18-store-pasteboard-type"] != true {
+      UserDefaults.standard.storage = UserDefaults.standard.storage.map({ item in
+        let migratedItem = item
+        if let _ = NSImage(data: item.value) {
+          migratedItem.types = [.tiff]
+        } else {
+          migratedItem.types = [.string]
+        }
+        return migratedItem
+      })
+      UserDefaults.standard.migrations["2020-03-18-store-pasteboard-type"] = true
+    }
   }
 }

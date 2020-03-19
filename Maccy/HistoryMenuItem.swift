@@ -8,6 +8,8 @@ class HistoryMenuItem: NSMenuItem {
 
   private let showMaxLength = 50
   private let imageMaxWidth: CGFloat = 340.0
+  
+  private let showImagesForTypes: [NSPasteboard.PasteboardType] = [.png, .tiff]
 
   private var onSelected: [Callback] = []
 
@@ -25,7 +27,7 @@ class HistoryMenuItem: NSMenuItem {
     self.onStateImage = NSImage(named: "PinImage")
     self.target = self
 
-    if item.type == .image {
+    if item.types.contains(where: showImagesForTypes.contains) {
       loadImage(item)
     } else {
       loadString(item)

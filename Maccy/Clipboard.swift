@@ -6,6 +6,7 @@ class Clipboard {
 
   private let pasteboard = NSPasteboard.general
   private let timerInterval = 1.0
+  private let supportedTypes: [NSPasteboard.PasteboardType] = [.tiff, .png, .string]
 
   // See http://nspasteboard.org for more details.
   private let ignoredTypes: Set = [
@@ -78,25 +79,13 @@ class Clipboard {
     // See https://github.com/p0deje/Maccy/issues/78.
     pasteboard.pasteboardItems?.forEach({ item in
       if !shouldIgnore(item.types) {
-        if item.types.contains(.tiff) {
-          if let data = item.data(forType: .tiff) {
-            let historyItem = HistoryItem(value: data)
-            historyItem.type = .image
-            historyItem.imageType = .tiff
-            onNewCopyHooks.forEach({ $0(historyItem) })
-          }
-        } else if item.types.contains(.png) {
-          if let data = item.data(forType: .png) {
-            let historyItem = HistoryItem(value: data)
-            historyItem.type = .image
-            historyItem.imageType = .png
-            onNewCopyHooks.forEach({ $0(historyItem) })
-          }
-        } else {
-          if let data = item.data(forType: .string) {
-            let historyItem = HistoryItem(value: data)
-            historyItem.type = .string
-            onNewCopyHooks.forEach({ $0(historyItem) })
+        for type in supportedTypes {
+          if item.types.contains(type) {
+            if let data = item.data(forType: type) {
+              let historyItem = HistoryItem(value: data)
+              historyItem.types = item.types
+              onNewCopyHooks.forEach({ $0(historyItem) })
+            }
           }
         }
       }
