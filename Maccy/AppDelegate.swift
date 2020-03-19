@@ -61,9 +61,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       UserDefaults.standard.storage = UserDefaults.standard.storage.map({ item in
         let migratedItem = item
         if NSImage(data: item.value) != nil {
-          migratedItem.types = [.tiff]
+          migratedItem.type = .tiff
         } else {
-          migratedItem.types = [.string]
+          migratedItem.type = .string
         }
         return migratedItem
       })

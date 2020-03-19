@@ -26,7 +26,7 @@ class HistoryMenuItem: NSMenuItem {
     self.onStateImage = NSImage(named: "PinImage")
     self.target = self
 
-    if item.types.contains(where: showImagesForTypes.contains) {
+    if showImagesForTypes.contains(item.type) {
       loadImage(item)
     } else {
       loadString(item)

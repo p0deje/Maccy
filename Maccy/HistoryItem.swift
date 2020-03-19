@@ -8,6 +8,21 @@ public class HistoryItem: Equatable, Codable {
   public var pin: String?
   public var types: [NSPasteboard.PasteboardType] = []
 
+  public var type: NSPasteboard.PasteboardType {
+    get {
+      if types.contains(.tiff) {
+        return .tiff
+      }
+      if types.contains(.png) {
+        return .png
+      }
+      return .string
+    }
+    set(value) {
+      types = [value]
+    }
+  }
+
   private enum CodingKeys: String, CodingKey {
     case value
     case firstCopiedAt
@@ -26,12 +41,6 @@ public class HistoryItem: Equatable, Codable {
     self.firstCopiedAt = Date()
     self.lastCopiedAt = firstCopiedAt
     self.numberOfCopies = 1
-  }
-
-  public func getPasteboardType() -> NSPasteboard.PasteboardType {
-    if types.contains(.tiff) { return .tiff }
-    if types.contains(.png) { return .png }
-    return .string
   }
 
   public func encode(to encoder: Encoder) throws {
