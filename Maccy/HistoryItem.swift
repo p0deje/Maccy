@@ -1,27 +1,13 @@
 import AppKit
 
 public class HistoryItem: Equatable, Codable {
-  public let value: Data!
+  @available(*, deprecated, message: "Use typesWithData to control HistoryItem values")
+  public var value: Data?
   public var firstCopiedAt: Date!
   public var lastCopiedAt: Date!
   public var numberOfCopies: Int!
   public var pin: String?
-  public var types: [NSPasteboard.PasteboardType] = []
-
-  public var type: NSPasteboard.PasteboardType {
-    get {
-      if types.contains(.tiff) {
-        return .tiff
-      }
-      if types.contains(.png) {
-        return .png
-      }
-      return .string
-    }
-    set(value) {
-      types = [value]
-    }
-  }
+  public var typesWithData: [NSPasteboard.PasteboardType: Data] = [:]
 
   private enum CodingKeys: String, CodingKey {
     case value
@@ -29,15 +15,15 @@ public class HistoryItem: Equatable, Codable {
     case lastCopiedAt
     case numberOfCopies
     case pin
-    case types
+    case typesWithData
   }
 
   public static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
-    return lhs.value == rhs.value
+    lhs.typesWithData == rhs.typesWithData
   }
 
-  init(value: Data) {
-    self.value = value
+  init(typesWithData: [NSPasteboard.PasteboardType: Data]) {
+    self.typesWithData = typesWithData
     self.firstCopiedAt = Date()
     self.lastCopiedAt = firstCopiedAt
     self.numberOfCopies = 1
@@ -45,28 +31,34 @@ public class HistoryItem: Equatable, Codable {
 
   public func encode(to encoder: Encoder) throws {
     var values = encoder.container(keyedBy: CodingKeys.self)
-    try values.encode(value, forKey: .value)
+    try values.encodeIfPresent(value, forKey: .value)
     try values.encode(firstCopiedAt, forKey: .firstCopiedAt)
     try values.encode(lastCopiedAt, forKey: .lastCopiedAt)
     try values.encode(numberOfCopies, forKey: .numberOfCopies)
     try values.encode(pin, forKey: .pin)
-    try values.encode(types.map({ $0.rawValue }), forKey: .types)
+    var rawTypeWithData: [String: Data] = [:]
+    for (type, data) in typesWithData {
+      rawTypeWithData[type.rawValue] = data
+    }
+    try values.encode(rawTypeWithData, forKey: .typesWithData)
   }
 
   public required init(from decoder: Decoder) throws {
     let values = try decoder.container(keyedBy: CodingKeys.self)
-    value = try values.decode(Data.self, forKey: .value)
+    value = try values.decodeIfPresent(Data.self, forKey: .value)
     firstCopiedAt = try values.decode(Date.self, forKey: .firstCopiedAt)
     lastCopiedAt = try values.decode(Date.self, forKey: .lastCopiedAt)
     numberOfCopies = try values.decode(Int.self, forKey: .numberOfCopies)
     pin = try values.decodeIfPresent(String.self, forKey: .pin)
     // Backwards compatibility because migrations are executed after storage initialization
-    let rawTypes = try values.decodeIfPresent([String].self, forKey: .types) ?? []
-    types = rawTypes.map({ NSPasteboard.PasteboardType.init(rawValue: $0) })
+    let rawTypes: [String: Data] = try values.decodeIfPresent([String: Data].self, forKey: .typesWithData) ?? [:]
+    for (rawType, data) in rawTypes {
+      typesWithData[NSPasteboard.PasteboardType.init(rawValue: rawType)] = data
+    }
   }
 
-  convenience init(value: Data, firstCopiedAt: Date, lastCopiedAt: Date, numberOfCopies: Int) {
-    self.init(value: value)
+  convenience init(typesWithData: [NSPasteboard.PasteboardType: Data], firstCopiedAt: Date, lastCopiedAt: Date, numberOfCopies: Int) {
+    self.init(typesWithData: typesWithData)
 
     self.firstCopiedAt = firstCopiedAt
     self.lastCopiedAt = lastCopiedAt

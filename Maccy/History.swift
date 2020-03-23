@@ -24,7 +24,7 @@ class History {
       return
     }
 
-    if item.type == .string, let string = String(data: item.value, encoding: .utf8) {
+    if item.typesWithData[.string] != nil, let string = String(data: item.typesWithData[.string]!, encoding: .utf8) {
       if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
         return
       }

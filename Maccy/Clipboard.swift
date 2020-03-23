@@ -6,7 +6,7 @@ class Clipboard {
 
   private let pasteboard = NSPasteboard.general
   private let timerInterval = 1.0
-  private let supportedTypes: [NSPasteboard.PasteboardType] = [.tiff, .png, .string]
+  private let supportedTypes: [NSPasteboard.PasteboardType] = [.tiff, .png, .string, .fileURL]
 
   // See http://nspasteboard.org for more details.
   private let ignoredTypes: Set = [
@@ -39,9 +39,11 @@ class Clipboard {
                          repeats: true)
   }
 
-  func copy(_ data: Data, _ type: NSPasteboard.PasteboardType) {
-    pasteboard.declareTypes([type], owner: nil)
-    pasteboard.setData(data, forType: type)
+  func copy(_ typesWithData: [NSPasteboard.PasteboardType: Data]) {
+    pasteboard.declareTypes(Array(typesWithData.keys), owner: nil)
+    for (type, data) in typesWithData {
+      pasteboard.setData(data, forType: type)
+    }
   }
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
@@ -79,14 +81,18 @@ class Clipboard {
     // See https://github.com/p0deje/Maccy/issues/78.
     pasteboard.pasteboardItems?.forEach({ item in
       if !shouldIgnore(item.types) {
-        for type in supportedTypes {
-          if item.types.contains(type) {
+        let historyItem = HistoryItem(typesWithData: [:])
+        var shouldExecuteHooks = false
+        if item.types.contains(where: supportedTypes.contains) {
+          for type in item.types {
             if let data = item.data(forType: type) {
-              let historyItem = HistoryItem(value: data)
-              historyItem.types = item.types
-              onNewCopyHooks.forEach({ $0(historyItem) })
+              historyItem.typesWithData[type] = data
+              shouldExecuteHooks = true
             }
           }
+        }
+        if shouldExecuteHooks {
+          onNewCopyHooks.forEach({ $0(historyItem) })
         }
       }
     })

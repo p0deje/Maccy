@@ -40,7 +40,7 @@ class SearchTests: XCTestCase {
   }
 
   private class func historyMenuItem(_ value: String) -> HistoryMenuItem {
-    return HistoryMenuItem(item: HistoryItem(value: value.data(using: .utf8)!), onSelected: { _ in })
+    return HistoryMenuItem(item: HistoryItem(typesWithData: [.string: value.data(using: .utf8)!]), onSelected: { _ in })
   }
 
   private func search(_ string: String) -> Search.Searchable {

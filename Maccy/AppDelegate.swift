@@ -29,7 +29,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       if let oldStorage = UserDefaults.standard.array(forKey: UserDefaults.Keys.storage) as? [String] {
         UserDefaults.standard.storage = oldStorage.compactMap({ item in
           if let data = item.data(using: .utf8) {
-            return HistoryItem(value: data)
+            return HistoryItem(typesWithData: [.string: data])
           } else {
             return nil
           }
@@ -60,10 +60,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     if UserDefaults.standard.migrations["2020-03-18-store-pasteboard-type"] != true {
       UserDefaults.standard.storage = UserDefaults.standard.storage.map({ item in
         let migratedItem = item
-        if NSImage(data: item.value) != nil {
-          migratedItem.type = .tiff
+        if item.value != nil && NSImage(data: item.value!) != nil {
+          migratedItem.typesWithData = [.tiff: item.value!]
         } else {
-          migratedItem.type = .string
+          migratedItem.typesWithData = [.string: item.value!]
         }
         return migratedItem
       })

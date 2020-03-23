@@ -94,14 +94,12 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   private func historyMenuItem(_ value: String) -> HistoryMenuItem {
-    let item = HistoryItem(value: value.data(using: .utf8)!)
-    item.type = .string
+    let item = HistoryItem(typesWithData: [.string: value.data(using: .utf8)!])
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 
   private func historyMenuItem(_ value: NSImage) -> HistoryMenuItem {
-    let item = HistoryItem(value: value.tiffRepresentation!)
-    item.type = .tiff
+    let item = HistoryItem(typesWithData: [.tiff: value.tiffRepresentation!])
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 

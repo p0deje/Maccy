@@ -8,7 +8,7 @@ class HistoryMenuItem: NSMenuItem {
 
   private let showMaxLength = 50
   private let imageMaxWidth: CGFloat = 340.0
-  private let showImagesForTypes: [NSPasteboard.PasteboardType] = [.png, .tiff]
+  private let showImagesForTypes: [NSPasteboard.PasteboardType] = [.png, .tiff, .fileURL]
 
   private var onSelected: [Callback] = []
 
@@ -26,7 +26,8 @@ class HistoryMenuItem: NSMenuItem {
     self.onStateImage = NSImage(named: "PinImage")
     self.target = self
 
-    if showImagesForTypes.contains(item.type) {
+    print(item.typesWithData)
+    if showImagesForTypes.contains(where: item.typesWithData.keys.contains) {
       loadImage(item)
     } else {
       loadString(item)
@@ -59,28 +60,46 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadImage(_ item: HistoryItem) {
-    if let image = NSImage(data: item.value) {
-      if image.size.width > imageMaxWidth {
-        image.size.height = image.size.height / (image.size.width / imageMaxWidth)
-        image.size.width = imageMaxWidth
+    print(item.typesWithData)
+    guard let image: NSImage = {
+      if let data = (item.typesWithData[.tiff] ?? item.typesWithData[.png]) {
+        return NSImage(data: data)
+      } else if let fileURL = item.typesWithData[.fileURL] {
+        // TODO: PinImage -> FileImage
+        return NSImage(contentsOf: URL(dataRepresentation: fileURL, relativeTo: nil)!)
+      } else if let appleIcon = item.typesWithData[NSPasteboard.PasteboardType("com.apple.icns")] {
+        return NSImage(data: appleIcon)
+      } else {
+        // TODO: PinImage -> FileImage
+        return NSImage(named: "PinImage")
       }
-
-      let imageMaxHeight = CGFloat(UserDefaults.standard.imageMaxHeight)
-      if image.size.height > imageMaxHeight {
-        image.size.width = image.size.width / (image.size.height / imageMaxHeight)
-        image.size.height = imageMaxHeight
-      }
-
-      self.image = image
-      self.toolTip = """
-                     Press ⌥+⌫ to delete.
-                     Press ⌥+p to (un)pin.
-                     """
+    }() else {
+      return loadString(item)
     }
+
+    if image.size.width > imageMaxWidth {
+      image.size.height = image.size.height / (image.size.width / imageMaxWidth)
+      image.size.width = imageMaxWidth
+    }
+
+    let imageMaxHeight = CGFloat(UserDefaults.standard.imageMaxHeight)
+    if image.size.height > imageMaxHeight {
+      image.size.width = image.size.width / (image.size.height / imageMaxHeight)
+      image.size.height = imageMaxHeight
+    }
+
+    self.image = image
+    if item.typesWithData[.fileURL] != nil, let path = String(data: item.typesWithData[.fileURL]!, encoding: .utf8) {
+      self.title = path
+    }
+    self.toolTip = """
+                   Press ⌥+⌫ to delete.
+                   Press ⌥+p to (un)pin.
+                   """
   }
 
   private func loadString(_ item: HistoryItem) {
-    if let title = String(data: item.value, encoding: .utf8) {
+    if let title = String(data: (item.typesWithData[.string] ?? item.typesWithData.first!.value)!, encoding: .utf8) {
       self.title = humanizedTitle(title)
       self.image = ColorImage.from(title)
       self.toolTip = """
