@@ -142,6 +142,12 @@ By default Maccy will popup at cursor position. You can change it to be always c
 defaults write org.p0deje.Maccy popupPosition center # default is cursor
 ```
 
+You can also change it to popup at location of icon in status bar:
+
+```sh
+defaults write org.p0deje.Maccy popupPosition statusItem
+```
+
 #### Sorting
 
 By default Maccy will sort the history by the date of the last time item was copied.
