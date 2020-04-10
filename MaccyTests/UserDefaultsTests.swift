@@ -49,7 +49,7 @@ class UserDefaultsTests: XCTestCase {
   }
 
   func testChanging() {
-    let item = HistoryItem(value: "foo".data(using: .utf8)!)
+    let item = HistoryItemOld(value: "foo".data(using: .utf8)!)
 
     UserDefaults.standard.fuzzySearch = true
     UserDefaults.standard.hotKey = "command+shift+a"

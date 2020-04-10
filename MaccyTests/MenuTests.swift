@@ -1,24 +1,30 @@
 import XCTest
 @testable import Maccy
 
-// Somehow highlighted item is always nil, so highlighting tests fail.
 class MenuTests: XCTestCase {
   let clipboard = Clipboard()
   let history = History()
-  let historyItems = [
-    HistoryItem(value: "foo".data(using: .utf8)!),
-    HistoryItem(value: "bar".data(using: .utf8)!),
-    HistoryItem(value: "baz".data(using: .utf8)!)
-  ]
 
   var menu: Menu!
 
   override func setUp() {
+    CoreDataManager.inMemory = true
     super.setUp()
 
-    history.all = historyItems
+    let historyItems: [HistoryItem] = [
+      HistoryItem(contents: [HistoryItemContent(type: "", value: "foo".data(using: .utf8)!)]),
+      HistoryItem(contents: [HistoryItemContent(type: "", value: "bar".data(using: .utf8)!)]),
+      HistoryItem(contents: [HistoryItemContent(type: "", value: "baz".data(using: .utf8)!)])
+    ]
+    historyItems.forEach(history.add(_:))
+
     menu = Menu(history: history, clipboard: clipboard)
     menu.addItem(NSMenuItem(title: "Search", action: nil, keyEquivalent: ""))
+  }
+
+  override func tearDown() {
+    super.tearDown()
+    CoreDataManager.inMemory = false
   }
 
   func testSeparator() {
@@ -31,5 +37,12 @@ class MenuTests: XCTestCase {
     let search = menu.items[0]
     menu.updateFilter(filter: "foo")
     XCTAssertTrue(menu.items.contains(search))
+  }
+
+  private func historyItem(_ value: String) -> HistoryItem {
+    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+                                     value: value.data(using: .utf8)!)
+    let item = HistoryItem(contents: [content])
+    return item
   }
 }

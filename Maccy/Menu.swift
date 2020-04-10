@@ -222,11 +222,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func copy(_ item: HistoryMenuItem) {
-    if item.item.type == .image {
-      clipboard.copy(item.item.value, .tiff)
-    } else {
-      clipboard.copy(item.item.value, .string)
-    }
+    clipboard.copy(item.item)
   }
 
   private func copyAndPaste(_ item: HistoryMenuItem) {

@@ -6,11 +6,13 @@ class HistoryMenuItemTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
+    CoreDataManager.inMemory = true
     UserDefaults.standard.imageMaxHeight = 40
   }
 
   override func tearDown() {
     super.tearDown()
+    CoreDataManager.inMemory = false
     UserDefaults.standard.imageMaxHeight = savedImageMaxHeight
   }
 
@@ -18,6 +20,7 @@ class HistoryMenuItemTests: XCTestCase {
     let title = "foo"
     let menuItem = historyMenuItem(title)
     XCTAssertEqual(menuItem.title, title)
+    XCTAssertEqual(menuItem.value, title)
     XCTAssertEqual(menuItem.toolTip, tooltip(title))
     XCTAssertNil(menuItem.image)
   }
@@ -26,6 +29,7 @@ class HistoryMenuItemTests: XCTestCase {
     let title = String(repeating: "a", count: 49)
     let menuItem = historyMenuItem(title)
     XCTAssertEqual(menuItem.title, title)
+    XCTAssertEqual(menuItem.value, title)
     XCTAssertEqual(menuItem.title.count, 49)
     XCTAssertEqual(menuItem.toolTip, tooltip(title))
   }
@@ -34,15 +38,18 @@ class HistoryMenuItemTests: XCTestCase {
     let title = String(repeating: "a", count: 50)
     let menuItem = historyMenuItem(title)
     XCTAssertEqual(menuItem.title, title)
+    XCTAssertEqual(menuItem.value, title)
     XCTAssertEqual(menuItem.title.count, 50)
     XCTAssertEqual(menuItem.toolTip, tooltip(title))
   }
 
   func testTitleLongerThanMaxLength() {
+    let trimmedTitle = String(repeating: "a", count: 50)
     let title = String(repeating: "a", count: 51)
     let menuItem = historyMenuItem(title)
-    XCTAssertEqual(menuItem.title, "\(title)...")
-    XCTAssertEqual(menuItem.title.count, 54)
+    XCTAssertEqual(menuItem.title, "\(trimmedTitle)...")
+    XCTAssertEqual(menuItem.value, title)
+    XCTAssertEqual(menuItem.title.count, 53)
     XCTAssertEqual(menuItem.toolTip, tooltip(title))
   }
 
@@ -50,6 +57,7 @@ class HistoryMenuItemTests: XCTestCase {
     let title = "   foo   "
     let menuItem = historyMenuItem(title)
     XCTAssertEqual(menuItem.title, "foo")
+    XCTAssertEqual(menuItem.value, title)
     XCTAssertEqual(menuItem.toolTip, tooltip(title))
   }
 
@@ -57,6 +65,7 @@ class HistoryMenuItemTests: XCTestCase {
     let image = NSImage(named: "NSBluetoothTemplate")!
     let menuItem = historyMenuItem(image)
     XCTAssertEqual(menuItem.title, "")
+    XCTAssertEqual(menuItem.value, "")
     XCTAssertEqual(menuItem.toolTip, tooltip(nil))
     XCTAssertNotNil(menuItem.image)
     XCTAssertEqual(menuItem.image!.size, image.size)
@@ -94,14 +103,16 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   private func historyMenuItem(_ value: String) -> HistoryMenuItem {
-    let item = HistoryItem(value: value.data(using: .utf8)!)
-    item.type = .string
+    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+                                     value: value.data(using: .utf8)!)
+    let item = HistoryItem(contents: [content])
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 
   private func historyMenuItem(_ value: NSImage) -> HistoryMenuItem {
-    let item = HistoryItem(value: value.tiffRepresentation!)
-    item.type = .image
+    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.tiff.rawValue,
+                                     value: value.tiffRepresentation!)
+    let item = HistoryItem(contents: [content])
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 

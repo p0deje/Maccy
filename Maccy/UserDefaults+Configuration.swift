@@ -33,7 +33,7 @@ extension UserDefaults {
     static let showInStatusBar = true
     static let size = 200
     static let sortBy = "lastCopiedAt"
-    static let storage: [HistoryItem] = []
+    static let storage: [HistoryItemOld] = []
   }
 
   public var fuzzySearch: Bool {
@@ -107,10 +107,10 @@ extension UserDefaults {
   }
 
   // swiftlint:disable force_try
-  public var storage: [HistoryItem] {
+  public var storage: [HistoryItemOld] {
     get {
       if let storedArray = UserDefaults.standard.object(forKey: Keys.storage) as? Data {
-        return try! PropertyListDecoder().decode([HistoryItem].self, from: storedArray)
+        return try! PropertyListDecoder().decode([HistoryItemOld].self, from: storedArray)
       } else {
         return Values.storage
       }

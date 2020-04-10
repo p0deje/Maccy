@@ -2,14 +2,11 @@ import AppKit
 
 class History {
   public var all: [HistoryItem] {
-    get {
-      while UserDefaults.standard.storage.count > UserDefaults.standard.size {
-        UserDefaults.standard.storage.removeLast()
-      }
-      return UserDefaults.standard.storage
+    var items = HistoryItem.all()
+    while items.count > UserDefaults.standard.size {
+      remove(items.removeLast())
     }
-
-    set { UserDefaults.standard.storage = newValue }
+    return items
   }
 
   init() {
@@ -20,40 +17,34 @@ class History {
   }
 
   func add(_ item: HistoryItem) {
-    if UserDefaults.standard.ignoreEvents {
-      return
-    }
-
-    if item.type == .string, let string = String(data: item.value, encoding: .utf8) {
-      if string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-        return
-      }
-    }
-
-    if let existingHistoryItem = all.first(where: { $0 == item }) {
-      existingHistoryItem.lastCopiedAt = Date()
+    if let existingHistoryItem = findDuplicateItem(item) {
+      existingHistoryItem.lastCopiedAt = item.firstCopiedAt
       existingHistoryItem.numberOfCopies += 1
-      update(existingHistoryItem)
-    } else {
-      if all.count == UserDefaults.standard.size {
-        all.removeLast()
-      }
-      all = [item] + all
+      remove(item)
     }
+
+    CoreDataManager.shared.saveContext()
   }
 
   func update(_ item: HistoryItem) {
-    if let itemIndex = all.firstIndex(of: item) {
-      all.remove(at: itemIndex)
-      all.insert(item, at: itemIndex)
-    }
+    CoreDataManager.shared.saveContext()
   }
 
   func remove(_ item: HistoryItem) {
-    all.removeAll(where: { $0 == item })
+    CoreDataManager.shared.viewContext.delete(item)
+    CoreDataManager.shared.saveContext()
   }
 
   func clear() {
-    all.removeAll()
+    all.forEach(remove(_:))
+  }
+
+  private func findDuplicateItem(_ item: HistoryItem) -> HistoryItem? {
+    let duplicates = all.filter({ $0 == item })
+    if duplicates.count > 1 {
+      return duplicates.last
+    } else {
+      return nil
+    }
   }
 }

@@ -2,21 +2,27 @@ import XCTest
 @testable import Maccy
 
 class SearchTests: XCTestCase {
-  let savedFuzzySearch = UserDefaults.standard.bool(forKey: "fuzzySearch")
+  let savedFuzzySearch = UserDefaults.standard.fuzzySearch
+  var items: Search.Searchable!
 
-  let items: Search.Searchable = [
-    historyMenuItem("foo bar baz"),
-    historyMenuItem("foo bar zaz"),
-    historyMenuItem("xxx yyy zzz")
-  ]
+  override func setUp() {
+    CoreDataManager.inMemory = true
+    super.setUp()
+    items = [
+      historyMenuItem("foo bar baz"),
+      historyMenuItem("foo bar zaz"),
+      historyMenuItem("xxx yyy zzz")
+    ]
+  }
 
   override func tearDown() {
     super.tearDown()
-    UserDefaults.standard.set(savedFuzzySearch, forKey: "fuzzySearch")
+    CoreDataManager.inMemory = false
+    UserDefaults.standard.fuzzySearch = savedFuzzySearch
   }
 
   func testSimpleSearch() {
-    UserDefaults.standard.set(false, forKey: "fuzzySearch")
+    UserDefaults.standard.fuzzySearch = false
 
     XCTAssertEqual(search(""), items)
     XCTAssertEqual(search("z"), items)
@@ -28,7 +34,7 @@ class SearchTests: XCTestCase {
   }
 
   func testFuzzySearch() {
-    UserDefaults.standard.set(true, forKey: "fuzzySearch")
+    UserDefaults.standard.fuzzySearch = true
 
     XCTAssertEqual(search(""), items)
     XCTAssertEqual(search("z"), [items[1], items[2], items[0]])
@@ -39,8 +45,11 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
-  private class func historyMenuItem(_ value: String) -> HistoryMenuItem {
-    return HistoryMenuItem(item: HistoryItem(value: value.data(using: .utf8)!), onSelected: { _ in })
+  private func historyMenuItem(_ value: String) -> HistoryMenuItem {
+    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+                                     value: value.data(using: .utf8)!)
+    let item = HistoryItem(contents: [content])
+    return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 
   private func search(_ string: String) -> Search.Searchable {
