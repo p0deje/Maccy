@@ -107,7 +107,7 @@ class HistoryMenuItem: NSMenuItem {
                    Press ⌥+p to (un)pin.
                    """
 
-    if self.shouldSetTitle && item.typesWithData[.fileURL] != nil {
+    if self.shouldDisplayTitle && item.typesWithData[.fileURL] != nil {
       let fileURL = item.typesWithData[.fileURL]!
       if let url = URL(dataRepresentation: fileURL, relativeTo: nil) {
         let pathInfo = humanizedPath(url)
