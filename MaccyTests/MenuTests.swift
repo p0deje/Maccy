@@ -6,9 +6,9 @@ class MenuTests: XCTestCase {
   let clipboard = Clipboard()
   let history = History()
   let historyItems = [
-    HistoryItem(value: "foo".data(using: .utf8)!),
-    HistoryItem(value: "bar".data(using: .utf8)!),
-    HistoryItem(value: "baz".data(using: .utf8)!)
+    HistoryItem(typesWithData: [.string: "foo".data(using: .utf8)!]),
+    HistoryItem(typesWithData: [.string: "bar".data(using: .utf8)!]),
+    HistoryItem(typesWithData: [.string: "baz".data(using: .utf8)!])
   ]
 
   var menu: Menu!

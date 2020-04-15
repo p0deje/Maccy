@@ -57,7 +57,12 @@ public class HistoryItem: Equatable, Codable {
     }
   }
 
-  convenience init(typesWithData: [NSPasteboard.PasteboardType: Data], firstCopiedAt: Date, lastCopiedAt: Date, numberOfCopies: Int) {
+  convenience init(
+    typesWithData: [NSPasteboard.PasteboardType: Data],
+    firstCopiedAt: Date,
+    lastCopiedAt: Date,
+    numberOfCopies: Int
+  ) {
     self.init(typesWithData: typesWithData)
 
     self.firstCopiedAt = firstCopiedAt

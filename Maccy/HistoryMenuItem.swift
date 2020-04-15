@@ -11,6 +11,7 @@ class HistoryMenuItem: NSMenuItem {
   private let showImagesForTypes: [NSPasteboard.PasteboardType] = [.png, .tiff, .fileURL]
 
   private var onSelected: [Callback] = []
+  private var shouldDisplayTitle: Bool = false
 
   required init(coder: NSCoder) {
     super.init(coder: coder)
@@ -26,7 +27,6 @@ class HistoryMenuItem: NSMenuItem {
     self.onStateImage = NSImage(named: "PinImage")
     self.target = self
 
-    print(item.typesWithData)
     if showImagesForTypes.contains(where: item.typesWithData.keys.contains) {
       loadImage(item)
     } else {
@@ -59,21 +59,34 @@ class HistoryMenuItem: NSMenuItem {
     self.state = .off
   }
 
+  private func getImageFromItem(_ item: HistoryItem) -> NSImage? {
+    if let data = (item.typesWithData[.tiff] ?? item.typesWithData[.png]) {
+      self.shouldDisplayTitle = false
+      return NSImage(data: data)
+    }
+
+    var possibleImage: NSImage?
+
+    if let fileURL = item.typesWithData[.fileURL], let url = URL(dataRepresentation: fileURL, relativeTo: nil) {
+      possibleImage = NSImage(contentsOf: url)
+      self.shouldDisplayTitle = false
+    }
+
+    if possibleImage == nil, let appleIcon = item.typesWithData[NSPasteboard.PasteboardType("com.apple.icns")] {
+      possibleImage = NSImage(data: appleIcon)
+      self.shouldDisplayTitle = true
+    }
+
+    if possibleImage == nil {
+      possibleImage = NSImage(named: "PinImage")
+      self.shouldDisplayTitle = true
+    }
+
+    return possibleImage
+  }
+
   private func loadImage(_ item: HistoryItem) {
-    print(item.typesWithData)
-    guard let image: NSImage = {
-      if let data = (item.typesWithData[.tiff] ?? item.typesWithData[.png]) {
-        return NSImage(data: data)
-      } else if let fileURL = item.typesWithData[.fileURL] {
-        // TODO: PinImage -> FileImage
-        return NSImage(contentsOf: URL(dataRepresentation: fileURL, relativeTo: nil)!)
-      } else if let appleIcon = item.typesWithData[NSPasteboard.PasteboardType("com.apple.icns")] {
-        return NSImage(data: appleIcon)
-      } else {
-        // TODO: PinImage -> FileImage
-        return NSImage(named: "PinImage")
-      }
-    }() else {
+    guard let image: NSImage = getImageFromItem(item) else {
       return loadString(item)
     }
 
@@ -89,13 +102,25 @@ class HistoryMenuItem: NSMenuItem {
     }
 
     self.image = image
-    if item.typesWithData[.fileURL] != nil, let path = String(data: item.typesWithData[.fileURL]!, encoding: .utf8) {
-      self.title = path
-    }
     self.toolTip = """
                    Press ⌥+⌫ to delete.
                    Press ⌥+p to (un)pin.
                    """
+
+    if self.shouldSetTitle && item.typesWithData[.fileURL] != nil {
+      let fileURL = item.typesWithData[.fileURL]!
+      if let url = URL(dataRepresentation: fileURL, relativeTo: nil) {
+        let pathInfo = humanizedPath(url)
+        self.title = pathInfo.title
+        if let tooltipDir = pathInfo.tooltip {
+          self.toolTip = """
+                         File located in \(tooltipDir)\n \n
+                         Press ⌥+⌫ to delete.
+                         Press ⌥+p to (un)pin.
+                         """
+        }
+      }
+    }
   }
 
   private func loadString(_ item: HistoryItem) {
@@ -117,6 +142,27 @@ class HistoryMenuItem: NSMenuItem {
       return "\(trimmedTitle[...index])..."
     } else {
       return trimmedTitle
+    }
+  }
+
+  private struct HumanizedPathInfo {
+    var title: String
+    var tooltip: String?
+  }
+
+  private func humanizedPath(_ url: URL) -> HumanizedPathInfo {
+    if url.path.count > showMaxLength {
+      let shortUrl = url.pathComponents.dropFirst().dropLast(1).reduce(
+          into: URL(fileURLWithPath: url.pathComponents.first!)
+      ) { url, dir in
+        let shortDir = String(dir[...dir.index(dir.startIndex, offsetBy: 0)])
+        url.appendPathComponent(shortDir, isDirectory: true)
+      }.appendingPathComponent(url.lastPathComponent)
+      let fullDir = url.deletingLastPathComponent().path
+
+      return HumanizedPathInfo(title: shortUrl.path, tooltip: fullDir)
+    } else {
+      return HumanizedPathInfo(title: url.path)
     }
   }
 }

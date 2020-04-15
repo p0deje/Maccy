@@ -2,15 +2,15 @@ import XCTest
 @testable import Maccy
 
 class SorterTests: XCTestCase {
-  let item1 = HistoryItem(value: "foo".data(using: .utf8)!,
+  let item1 = HistoryItem(typesWithData: [.string: "foo".data(using: .utf8)!],
                           firstCopiedAt: Date(timeIntervalSinceNow: -300),
                           lastCopiedAt: Date(timeIntervalSinceNow: -100),
                           numberOfCopies: 3)
-  let item2 = HistoryItem(value: "bar".data(using: .utf8)!,
+  let item2 = HistoryItem(typesWithData: [.string: "bar".data(using: .utf8)!],
                           firstCopiedAt: Date(timeIntervalSinceNow: -400),
                           lastCopiedAt: Date(timeIntervalSinceNow: -300),
                           numberOfCopies: 2)
-  let item3 = HistoryItem(value: "baz".data(using: .utf8)!,
+  let item3 = HistoryItem(typesWithData: [.string: "baz".data(using: .utf8)!],
                           firstCopiedAt: Date(timeIntervalSinceNow: -200),
                           lastCopiedAt: Date(timeIntervalSinceNow: -200),
                           numberOfCopies: 1)
