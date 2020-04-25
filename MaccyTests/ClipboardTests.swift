@@ -9,8 +9,10 @@ class ClipboardTests: XCTestCase {
   let tiffType = NSPasteboard.PasteboardType.tiff
   let stringType = NSPasteboard.PasteboardType.string
   let transientType = NSPasteboard.PasteboardType(rawValue: "org.nspasteboard.TransientType")
+  let customType = NSPasteboard.PasteboardType(rawValue: "org.maccy.ConfidentialType")
 
   let savedIgnoreEvents = UserDefaults.standard.ignoreEvents
+  let savedIgnoredPasteboardTypes = UserDefaults.standard.ignoredPasteboardTypes
 
   override func setUp() {
     super.setUp()
@@ -22,6 +24,7 @@ class ClipboardTests: XCTestCase {
     super.setUp()
     CoreDataManager.inMemory = false
     UserDefaults.standard.ignoreEvents = savedIgnoreEvents
+    UserDefaults.standard.ignoredPasteboardTypes = savedIgnoredPasteboardTypes
   }
 
   func testChangesListenerAndAddHooks() {
@@ -61,6 +64,7 @@ class ClipboardTests: XCTestCase {
 
   func testIgnoreEventsIsEnabled() {
     UserDefaults.standard.ignoreEvents = true
+
     let hookExpectation = expectation(description: "Hook is called")
     hookExpectation.isInverted = true
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
@@ -80,6 +84,20 @@ class ClipboardTests: XCTestCase {
     })
     clipboard.startListening()
     pasteboard.declareTypes([.string, transientType], owner: nil)
+    pasteboard.setString("bar", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testIgnoreCustomTypes() {
+    UserDefaults.standard.ignoredPasteboardTypes = [customType.rawValue]
+
+    let hookExpectation = expectation(description: "Hook is called")
+    hookExpectation.isInverted = true
+    clipboard.onNewCopy({ (_: HistoryItem) -> Void in
+      hookExpectation.fulfill()
+    })
+    clipboard.startListening()
+    pasteboard.declareTypes([.string, customType], owner: nil)
     pasteboard.setString("bar", forType: .string)
     waitForExpectations(timeout: 2)
   }

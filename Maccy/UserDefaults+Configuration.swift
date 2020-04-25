@@ -8,6 +8,7 @@ extension UserDefaults {
     static let hideTitle = "hideTitle"
     static let hotKey = "hotKey"
     static let ignoreEvents = "ignoreEvents"
+    static let ignoredPasteboardTypes = "ignoredPasteboardTypes"
     static let imageMaxHeight = "imageMaxHeight"
     static let migrations = "migrations"
     static let pasteByDefault = "pasteByDefault"
@@ -27,6 +28,7 @@ extension UserDefaults {
 
   public struct Values {
     static let hotKey = "command+shift+c"
+    static let ignoredPasteboardTypes: [String] = []
     static let imageMaxHeight = 40.0
     static let migrations: [String: Bool] = [:]
     static let popupPosition = "cursor"
@@ -64,6 +66,11 @@ extension UserDefaults {
   public var ignoreEvents: Bool {
     get { bool(forKey: Keys.ignoreEvents) }
     set { set(newValue, forKey: Keys.ignoreEvents) }
+  }
+
+  public var ignoredPasteboardTypes: Set<String> {
+    get { Set(array(forKey: Keys.ignoredPasteboardTypes) as? [String] ?? Values.ignoredPasteboardTypes) }
+    set { set(Array(newValue), forKey: Keys.ignoredPasteboardTypes) }
   }
 
   public var imageMaxHeight: Float {

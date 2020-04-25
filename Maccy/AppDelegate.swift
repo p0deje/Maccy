@@ -28,6 +28,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     CoreDataManager.shared.saveContext()
   }
 
+  // swiftlint:disable function_body_length
   private func migrateUserDefaults() {
     if UserDefaults.standard.migrations["2020-02-22-introduce-history-item"] != true {
       if let oldStorage = UserDefaults.standard.array(forKey: UserDefaults.Keys.storage) as? [String] {
@@ -78,5 +79,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       CoreDataManager.shared.saveContext()
       UserDefaults.standard.migrations["2020-04-18-switch-storage-to-core-data"] = true
     }
+
+    if UserDefaults.standard.migrations["2020-04-25-allow-custom-ignored-types"] != true {
+      UserDefaults.standard.ignoredPasteboardTypes = [
+        "de.petermaurer.TransientPasteboardType",
+        "com.typeit4me.clipping",
+        "Pasteboard generator type",
+        "com.agilebits.onepassword"
+      ]
+      UserDefaults.standard.migrations["2020-04-25-allow-custom-ignored-types"] = true
+    }
   }
+  // swiftlint:enable function_body_length
 }
