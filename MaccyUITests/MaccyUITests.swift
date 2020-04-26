@@ -234,6 +234,20 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(visibleMenuItemTitles()[1...2], [copy1, copy2])
   }
 
+  func testClearSearchWithCommandDelete() {
+    popUpWithHotkey()
+    app.typeText("foo bar")
+    app.typeKey(.delete, modifierFlags: [.command])
+    XCTAssertEqual(app.textFields.firstMatch.value as? String, "")
+  }
+
+  func testRemoveLastWordFromSearchWithControlW() {
+    popUpWithHotkey()
+    app.typeText("foo bar")
+    app.typeKey("w", modifierFlags: [.control])
+    XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo ")
+  }
+
   // Temporarily disable the test as it is flaky.
   //
   // func testHideAndShowMenubarIcon() {

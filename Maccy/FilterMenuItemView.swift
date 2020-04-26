@@ -175,6 +175,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     return processKeyDownEvent(event)
   }
 
+  // swiftlint:disable cyclomatic_complexity
   private func processKeyDownEvent(_ event: NSEvent) -> Bool {
     guard let key = Key(carbonKeyCode: UInt32(event.keyCode)) else {
       return false
@@ -185,25 +186,31 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       return false
     }
 
-    if key == Key.delete {
+    switch key {
+    case Key.delete:
       processDeleteKey(menu: customMenu, key: key, modifierFlags: modifierFlags)
       return true
-    }
-
-    if key == Key.p && modifierFlags.contains(.option) {
-      customMenu?.pinOrUnpin()
-      queryField.stringValue = "" // clear search field just in case
-      return true
-    }
-
-    if key == Key.return || key == Key.keypadEnter || key == Key.upArrow || key == Key.downArrow {
+    case Key.w:
+      if modifierFlags.contains(.control) {
+        removeLastWordInSearchField()
+        return true
+      }
+    case Key.p:
+      if modifierFlags.contains(.option) {
+        customMenu?.pinOrUnpin()
+        queryField.stringValue = "" // clear search field just in case
+        return true
+      }
+    case Key.return, Key.keypadEnter, Key.upArrow, Key.downArrow:
       processSelectionKey(menu: customMenu, key: key, modifierFlags: modifierFlags)
       return true
-    }
-
-    if key == GlobalHotKey.key && modifierFlags == GlobalHotKey.modifierFlags {
-      customMenu?.cancelTracking()
-      return false
+    case GlobalHotKey.key:
+      if modifierFlags == GlobalHotKey.modifierFlags {
+        customMenu?.cancelTracking()
+        return false
+      }
+    default:
+      break
     }
 
     if modifierFlags.contains(.command) || modifierFlags.contains(.control) || modifierFlags.contains(.option) {
@@ -219,6 +226,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
     return false
   }
+  // swiftlint:enable cyclomatic_complexity
 
   private func processDeleteKey(menu: Menu?, key: Key, modifierFlags: NSEvent.ModifierFlags) {
     if modifierFlags.contains(.command) {
@@ -254,5 +262,16 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
   private func appendSearchField(_ chars: String) {
     setQuery("\(queryField.stringValue)\(chars)")
+  }
+
+  private func removeLastWordInSearchField() {
+    let searchValue = queryField.stringValue
+    let newValue = searchValue.split(separator: " ").dropLast().joined(separator: " ")
+
+    if newValue.isEmpty {
+      setQuery("")
+    } else {
+      setQuery("\(newValue) ")
+    }
   }
 }
