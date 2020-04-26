@@ -173,10 +173,11 @@ class MaccyUITests: XCTestCase {
 
   func testClear() {
     popUpWithHotkey()
+    pin(copy2)
     app.menuItems["Clear"].click()
     popUpWithHotkey()
     XCTAssertFalse(app.menuItems[copy1].exists)
-    XCTAssertFalse(app.menuItems[copy2].exists)
+    XCTAssertTrue(app.menuItems[copy2].exists)
     for item in app.menuItems.allElementsBoundByIndex {
       XCTAssertFalse(item.isSelected)
     }
@@ -191,10 +192,22 @@ class MaccyUITests: XCTestCase {
     XCTAssertFalse(app.menuItems[copy2].exists)
   }
 
+  func testClearAll() {
+    popUpWithHotkey()
+    pin(copy2)
+    app.menuItems["Clear"].firstMatch.hover()
+    app.typeKey(.enter, modifierFlags: [.option])
+    popUpWithHotkey()
+    XCTAssertFalse(app.menuItems[copy1].exists)
+    XCTAssertFalse(app.menuItems[copy2].exists)
+    for item in app.menuItems.allElementsBoundByIndex {
+      XCTAssertFalse(item.isSelected)
+    }
+  }
+
   func testPin() {
     popUpWithHotkey()
-    app.menuItems[copy2].firstMatch.hover()
-    app.typeKey("p", modifierFlags: [.option])
+    pin(copy2)
     XCTAssertEqual(visibleMenuItemTitles()[1...2], [copy2, copy1])
     XCTAssertTrue(app.menuItems[copy2].firstMatch.isSelected)
 
@@ -215,8 +228,7 @@ class MaccyUITests: XCTestCase {
 
   func testUnpin() {
     popUpWithHotkey()
-    app.menuItems[copy2].firstMatch.hover()
-    app.typeKey("p", modifierFlags: [.option]) // pin
+    pin(copy2)
     app.typeKey("p", modifierFlags: [.option]) // unpin
     XCTAssertTrue(app.menuItems[copy2].firstMatch.isSelected)
     XCTAssertEqual(visibleMenuItemTitles()[1...2], [copy1, copy2])
@@ -275,5 +287,10 @@ class MaccyUITests: XCTestCase {
 
   private func visibleMenuItems() -> [XCUIElement] {
     return app.menuItems.allElementsBoundByIndex.filter({ $0.isHittable })
+  }
+
+  private func pin(_ title: String) {
+    app.menuItems[title].firstMatch.hover()
+    app.typeKey("p", modifierFlags: [.option])
   }
 }

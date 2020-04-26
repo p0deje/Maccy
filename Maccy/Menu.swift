@@ -34,7 +34,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func buildItems(_ allItems: [HistoryItem]) {
-    clear()
+    clearAll()
     for item in Sorter(by: UserDefaults.standard.sortBy).sort(allItems) {
       let copyHistoryItem = HistoryMenuItem(item: item, onSelected: copy(_:))
       let pasteHistoryItem = HistoryMenuItem(item: item, onSelected: copyAndPaste(_:))
@@ -49,13 +49,12 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  func clear() {
-    historyItems.forEach({ item in
-      if items.contains(item) {
-        removeItem(item)
-      }
-    })
-    historyItems.removeAll()
+  func clearAll() {
+    clear(historyItems)
+  }
+
+  func clearUnpinned() {
+    clear(historyItems.filter({ !$0.isPinned }))
   }
 
   func updateFilter(filter: String) {
@@ -228,5 +227,15 @@ class Menu: NSMenu, NSMenuDelegate {
   private func copyAndPaste(_ item: HistoryMenuItem) {
     copy(item)
     clipboard.paste()
+  }
+
+  private func clear(_ itemsToClear: [HistoryMenuItem]) {
+    itemsToClear.forEach({ item in
+      if items.contains(item) {
+        removeItem(item)
+      }
+
+      historyItems.removeAll(where: { $0 == item})
+    })
   }
 }

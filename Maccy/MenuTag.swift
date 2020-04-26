@@ -5,11 +5,14 @@ enum MenuTag: Int {
   case about = 103
   case quit = 104
   case checkForUpdates = 105
+  case clearAll = 106
 
   var string: String {
     switch self {
     case .clear:
       return "Clear"
+    case .clearAll:
+      return "Clear all"
     case .launchAtLogin:
       return "Launch at login"
     case .about:

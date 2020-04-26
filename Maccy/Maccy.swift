@@ -11,20 +11,21 @@ class Maccy: NSObject {
   private var menu: Menu!
 
   private var footerItems: [NSMenuItem] {
-    var footerItems: [(tag: MenuTag, isChecked: Bool, key: String)] = [
-      (.separator, false, ""),
-      (.clear, false, ""),
-      (.checkForUpdates, false, ""),
-      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), "")
+    var footerItems: [(tag: MenuTag, isChecked: Bool, isAlternate: Bool, key: String, tooltip: String)] = [
+      (.separator, false, false, "", ""),
+      (.clear, false, false, "", "Clear unpinned items.\nSelect with ⌥ to clear all."),
+      (.clearAll, false, true, "", "Clear all items."),
+      (.checkForUpdates, false, false, "", "Check for updates now."),
+      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), false, "", "Automatically launch at login.")
     ]
 
     if UserDefaults.standard.saratovSeparator {
-      footerItems.append((.separator, false, ""))
+      footerItems.append((.separator, false, false, "", ""))
     }
 
     footerItems += [
-      (.about, false, ""),
-      (.quit, false, "q")
+      (.about, false, false, "", "Read more about applicaiton."),
+      (.quit, false, false, "q", "Quit application.")
     ]
 
     return footerItems.map({ item -> NSMenuItem in
@@ -36,7 +37,12 @@ class Maccy: NSObject {
                                   keyEquivalent: item.key)
         menuItem.tag = item.tag.rawValue
         menuItem.state = item.isChecked ? .on: .off
+        if item.isAlternate {
+          menuItem.isAlternate = true
+          menuItem.keyEquivalentModifierMask = [.option]
+        }
         menuItem.target = self
+        menuItem.toolTip = item.tooltip
         return menuItem
       }
     })
@@ -144,7 +150,9 @@ class Maccy: NSObject {
       case .about:
         about.openAbout(sender)
       case .clear:
-        clear()
+        clearUnpinned()
+      case .clearAll:
+        clearAll()
       case .launchAtLogin:
         toggleLaunchAtLogin(sender)
       case .quit:
@@ -157,9 +165,14 @@ class Maccy: NSObject {
     }
   }
 
-  private func clear() {
+  private func clearUnpinned() {
+    history.all.filter({ $0.pin == nil }).forEach(history.remove(_:))
+    menu.clearUnpinned()
+  }
+
+  private func clearAll() {
     history.clear()
-    menu.clear()
+    menu.clearAll()
   }
 
   private func toggleLaunchAtLogin(_ sender: NSMenuItem) {
@@ -173,7 +186,7 @@ class Maccy: NSObject {
   }
 
   private func rebuild() {
-    menu.clear()
+    menu.clearAll()
     menu.removeAllItems()
 
     populateHeader()
