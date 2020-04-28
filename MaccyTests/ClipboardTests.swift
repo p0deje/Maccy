@@ -6,10 +6,11 @@ class ClipboardTests: XCTestCase {
   let pasteboard = NSPasteboard.general
   let image = NSImage(named: "NSInfo")!
 
+  let customType = NSPasteboard.PasteboardType(rawValue: "org.maccy.ConfidentialType")
   let tiffType = NSPasteboard.PasteboardType.tiff
   let stringType = NSPasteboard.PasteboardType.string
   let transientType = NSPasteboard.PasteboardType(rawValue: "org.nspasteboard.TransientType")
-  let customType = NSPasteboard.PasteboardType(rawValue: "org.maccy.ConfidentialType")
+  let unknownType = NSPasteboard.PasteboardType(rawValue: "com.apple.AnnotationKit.AnnotationItem")
 
   let savedIgnoreEvents = UserDefaults.standard.ignoreEvents
   let savedIgnoredPasteboardTypes = UserDefaults.standard.ignoredPasteboardTypes
@@ -99,6 +100,18 @@ class ClipboardTests: XCTestCase {
     clipboard.startListening()
     pasteboard.declareTypes([.string, customType], owner: nil)
     pasteboard.setString("bar", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testIgnoreCopiesWithUknownTypes() {
+    let hookExpectation = expectation(description: "Hook is called")
+    hookExpectation.isInverted = true
+    clipboard.onNewCopy({ (_: HistoryItem) -> Void in
+      hookExpectation.fulfill()
+    })
+    clipboard.startListening()
+    pasteboard.declareTypes([unknownType], owner: nil)
+    pasteboard.setString(" ", forType: unknownType)
     waitForExpectations(timeout: 2)
   }
 
