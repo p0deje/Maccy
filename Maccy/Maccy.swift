@@ -13,10 +13,10 @@ class Maccy: NSObject {
   private var footerItems: [NSMenuItem] {
     var footerItems: [(tag: MenuTag, isChecked: Bool, isAlternate: Bool, key: String, tooltip: String)] = [
       (.separator, false, false, "", ""),
-      (.clear, false, false, "", "Clear unpinned items.\nSelect with ⌥ to clear all."),
-      (.clearAll, false, true, "", "Clear all items."),
-      (.checkForUpdates, false, false, "", "Check for updates now."),
-      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), false, "", "Automatically launch at login.")
+      (.clear, false, false, "", NSLocalizedString("Clear unpinned items.\nSelect with ⌥ to clear all.", comment: "")),
+      (.clearAll, false, true, "", NSLocalizedString("Clear all items.", comment: "")),
+      (.checkForUpdates, false, false, "", NSLocalizedString("Check for updates now.", comment: "")),
+      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), false, "", NSLocalizedString("Automatically launch at login.", comment: ""))
     ]
 
     if UserDefaults.standard.saratovSeparator {
@@ -24,8 +24,8 @@ class Maccy: NSObject {
     }
 
     footerItems += [
-      (.about, false, false, "", "Read more about applicaiton."),
-      (.quit, false, false, "q", "Quit application.")
+      (.about, false, false, "", NSLocalizedString("Read more about application.", comment: "")),
+      (.quit, false, false, "q", NSLocalizedString("Quit application.", comment: ""))
     ]
 
     return footerItems.map({ item -> NSMenuItem in
