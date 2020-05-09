@@ -24,7 +24,7 @@ class Maccy: NSObject {
     }
 
     footerItems += [
-      (.about, false, false, "", NSLocalizedString("Read more about applicaiton.", comment: "")),
+      (.about, false, false, "", NSLocalizedString("Read more about application.", comment: "")),
       (.quit, false, false, "q", NSLocalizedString("Quit application.", comment: ""))
     ]
 
