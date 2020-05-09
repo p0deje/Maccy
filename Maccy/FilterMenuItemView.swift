@@ -49,7 +49,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     field.isEnabled = true
     field.isBezeled = true
     field.isHidden = false
-    field.placeholderString = NSLocalizedString("type to search...", comment: "")
+    field.placeholderString = NSLocalizedString("search_placeholder", comment: "")
     field.bezelStyle = NSTextField.BezelStyle.roundedBezel
     field.delegate = self
     field.font = NSFont.menuFont(ofSize: 13)

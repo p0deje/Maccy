@@ -12,17 +12,17 @@ enum MenuTag: Int {
   var string: String {
     switch self {
     case .clear:
-      return NSLocalizedString("Clear", comment: "")
+      return NSLocalizedString("clear", comment: "")
     case .clearAll:
-      return NSLocalizedString("Clear all", comment: "")
+      return NSLocalizedString("clear_all", comment: "")
     case .launchAtLogin:
-      return NSLocalizedString("Launch at login", comment: "")
+      return NSLocalizedString("launch_at_login", comment: "")
     case .about:
-      return NSLocalizedString("About", comment: "")
+      return NSLocalizedString("about", comment: "")
     case .quit:
-      return NSLocalizedString("Quit", comment: "")
+      return NSLocalizedString("quit", comment: "")
     case .checkForUpdates:
-      return NSLocalizedString("Check for updates", comment: "")
+      return NSLocalizedString("check_for_updates", comment: "")
     default:
       return ""
     }

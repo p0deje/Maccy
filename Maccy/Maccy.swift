@@ -13,10 +13,10 @@ class Maccy: NSObject {
   private var footerItems: [NSMenuItem] {
     var footerItems: [(tag: MenuTag, isChecked: Bool, isAlternate: Bool, key: String, tooltip: String)] = [
       (.separator, false, false, "", ""),
-      (.clear, false, false, "", NSLocalizedString("Clear unpinned items.\nSelect with ⌥ to clear all.", comment: "")),
-      (.clearAll, false, true, "", NSLocalizedString("Clear all items.", comment: "")),
-      (.checkForUpdates, false, false, "", NSLocalizedString("Check for updates now.", comment: "")),
-      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), false, "", NSLocalizedString("Automatically launch at login.", comment: ""))
+      (.clear, false, false, "", NSLocalizedString("clear_tooltip", comment: "")),
+      (.clearAll, false, true, "", NSLocalizedString("clear_all_tooltip", comment: "")),
+      (.checkForUpdates, false, false, "", NSLocalizedString("check_for_updates_tooltip", comment: "")),
+      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), false, "", NSLocalizedString("launch_at_login_tooltip", comment: ""))
     ]
 
     if UserDefaults.standard.saratovSeparator {
@@ -24,8 +24,8 @@ class Maccy: NSObject {
     }
 
     footerItems += [
-      (.about, false, false, "", NSLocalizedString("Read more about application.", comment: "")),
-      (.quit, false, false, "q", NSLocalizedString("Quit application.", comment: ""))
+      (.about, false, false, "", NSLocalizedString("about_tooltip", comment: "")),
+      (.quit, false, false, "q", NSLocalizedString("quit_tooltip", comment: ""))
     ]
 
     return footerItems.map({ item -> NSMenuItem in

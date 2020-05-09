@@ -117,6 +117,7 @@
 		DA6DA785236D605B0062CCC6 /* MenuTag.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTag.swift; sourceTree = "<group>"; };
 		DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotKey.swift; sourceTree = "<group>"; };
 		DA8953B81E446A4E00884EAB /* Maccy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Maccy.swift; sourceTree = "<group>"; };
+		DAA2BDCE24676CA7007FE090 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAAEB195219694AE00A7883C /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		DAB65DFC2440AD63000AECA8 /* Storage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Storage.xcdatamodel; sourceTree = "<group>"; };
 		DAB65DFE2440AE29000AECA8 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
@@ -235,6 +236,7 @@
 				DA246D601E56C9EA001E40F3 /* Application.xib */,
 				DA6373971E4AB9BB00263391 /* Assets.xcassets */,
 				DAEE384D1E3DBEB100DD2966 /* Info.plist */,
+				4762D6992467226100B3A2BA /* Localizable.strings */,
 				DAB65DFB2440AD63000AECA8 /* Storage.xcdatamodeld */,
 				DAAEB195219694AE00A7883C /* About.swift */,
 				DAEE38461E3DBEB100DD2966 /* AppDelegate.swift */,
@@ -255,7 +257,6 @@
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
-				4762D6992467226100B3A2BA /* Localizable.strings */,
 			);
 			path = Maccy;
 			sourceTree = "<group>";
@@ -359,8 +360,9 @@
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 				es,
+				ru,
+				Base,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
@@ -541,6 +543,7 @@
 			children = (
 				4762D6982467226100B3A2BA /* en */,
 				4762D69A2467226400B3A2BA /* es */,
+				DAA2BDCE24676CA7007FE090 /* ru */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
