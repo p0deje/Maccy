@@ -1,0 +1,14 @@
+"search_placeholder" = "type to search...";
+"history_item_tooltip" = "Press ⌥+⌫ to delete.\nPress ⌥+p to (un)pin.";
+"clear_tooltip" = "Clear unpinned items.\nSelect with ⌥ to clear all.";
+"clear_all_tooltip" = "Clear all items.";
+"check_for_updates_tooltip" = "Check for updates now.";
+"launch_at_login_tooltip" = "Automatically launch at login.";
+"about_tooltip" = "Read more about application.";
+"quit_tooltip" = "Quit application.";
+"clear" = "Clear";
+"clear_all" = "Clear all";
+"launch_at_login" = "Launch at login";
+"about" = "About";
+"quit" = "Quit";
+"check_for_updates" = "Check for updates";
