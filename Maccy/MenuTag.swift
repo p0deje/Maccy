@@ -1,3 +1,5 @@
+import Cocoa
+
 enum MenuTag: Int {
   case separator = 100
   case clear = 101
@@ -10,17 +12,17 @@ enum MenuTag: Int {
   var string: String {
     switch self {
     case .clear:
-      return "Clear"
+      return NSLocalizedString("Clear", comment: "")
     case .clearAll:
-      return "Clear all"
+      return NSLocalizedString("Clear all", comment: "")
     case .launchAtLogin:
-      return "Launch at login"
+      return NSLocalizedString("Launch at login", comment: "")
     case .about:
-      return "About"
+      return NSLocalizedString("About", comment: "")
     case .quit:
-      return "Quit"
+      return NSLocalizedString("Quit", comment: "")
     case .checkForUpdates:
-      return "Check for updates"
+      return NSLocalizedString("Check for updates", comment: "")
     default:
       return ""
     }

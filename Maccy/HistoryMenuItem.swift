@@ -77,10 +77,7 @@ class HistoryMenuItem: NSMenuItem {
         }
 
         self.image = image
-        self.toolTip = """
-                       Press ⌥+⌫ to delete.
-                       Press ⌥+p to (un)pin.
-                       """
+        self.toolTip = NSLocalizedString("Press ⌥+⌫ to delete.\nPress ⌥+p to (un)pin.", comment: "")
       }
     }
   }
@@ -91,11 +88,7 @@ class HistoryMenuItem: NSMenuItem {
         self.value = title
         self.title = humanizedTitle(title)
         self.image = ColorImage.from(title)
-        self.toolTip = """
-                       \(title)\n \n
-                       Press ⌥+⌫ to delete.
-                       Press ⌥+p to (un)pin.
-                       """
+        self.toolTip = "\(title)\n \n\(NSLocalizedString("Press ⌥+⌫ to delete.\nPress ⌥+p to (un)pin.", comment: ""))"
       }
     }
   }
