@@ -16,7 +16,8 @@ class Maccy: NSObject {
       (.clear, false, false, "", NSLocalizedString("clear_tooltip", comment: "")),
       (.clearAll, false, true, "", NSLocalizedString("clear_all_tooltip", comment: "")),
       (.checkForUpdates, false, false, "", NSLocalizedString("check_for_updates_tooltip", comment: "")),
-      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), false, "", NSLocalizedString("launch_at_login_tooltip", comment: ""))
+      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), false, "",
+        NSLocalizedString("launch_at_login_tooltip", comment: ""))
     ]
 
     if UserDefaults.standard.saratovSeparator {
