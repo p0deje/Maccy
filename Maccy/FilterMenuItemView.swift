@@ -1,6 +1,6 @@
 import AppKit
 import Carbon
-import HotKey
+import Sauce
 
 class FilterMenuItemView: NSView, NSTextFieldDelegate {
   @objc public var title: String {
@@ -177,7 +177,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
   // swiftlint:disable cyclomatic_complexity
   private func processKeyDownEvent(_ event: NSEvent) -> Bool {
-    guard let key = Key(carbonKeyCode: UInt32(event.keyCode)) else {
+    guard let key = Key(QWERTYKeyCode: Int(event.keyCode)) else {
       return false
     }
     let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)

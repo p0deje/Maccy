@@ -1,24 +1,29 @@
-import HotKey
+import Magnet
+import Sauce
 
 class GlobalHotKey {
+  typealias Handler = () -> Void
+
   static public var key: Key?
   static public var modifierFlags: NSEvent.ModifierFlags?
 
   private var hotKey: HotKey!
-  private var handler: HotKey.Handler
+  private var handler: Handler
   private var hotKeyPrefObserver: NSKeyValueObservation?
 
-  init(_ handler: @escaping HotKey.Handler) {
+  init(_ handler: @escaping Handler) {
     UserDefaults.standard.register(defaults: [UserDefaults.Keys.hotKey: UserDefaults.Values.hotKey])
 
     self.handler = handler
     hotKeyPrefObserver = UserDefaults.standard.observe(\.hotKey, options: [.initial, .new], changeHandler: { _, _ in
       if let (key, modifiers) = self.parseHotKey() {
-        self.hotKey = HotKey(key: key, modifiers: modifiers)
-        self.hotKey.keyDownHandler = {
-          self.hotKey.isPaused = true
-          self.handler()
-          self.hotKey.isPaused = false
+        if let keyCombo = KeyCombo(key: key, cocoaModifiers: modifiers) {
+          self.hotKey = HotKey(identifier: UserDefaults.standard.hotKey, keyCombo: keyCombo) { hotKey in
+            hotKey.unregister()
+            self.handler()
+            hotKey.register()
+          }
+          self.hotKey.register()
         }
       }
     })
@@ -34,7 +39,7 @@ class GlobalHotKey {
     guard let keyString = keysList.popLast() else {
       return nil
     }
-    guard let key = Key(string: String(keyString)) else {
+    guard let key = Key(character: String(keyString)) else {
       return nil
     }
 

@@ -1,4 +1,4 @@
-import HotKey
+import Sauce
 
 class Keys {
   private static let keysToSkip = [
