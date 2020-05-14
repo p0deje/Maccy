@@ -47,6 +47,11 @@ class Menu: NSMenu, NSMenuDelegate {
         prependHistoryItems(copyHistoryItem, pasteHistoryItem)
       }
     }
+
+    while items.count > UserDefaults.standard.menuSize {
+      let item = historyItems.removeLast()
+      removeItem(item)
+    }
   }
 
   func clearAll() {
@@ -74,6 +79,11 @@ class Menu: NSMenu, NSMenuDelegate {
       }
       insertItem(item, at: 1)
     })
+
+    while items.count > UserDefaults.standard.menuSize {
+      let item = historyItems.removeLast()
+      removeItem(item)
+    }
 
     setKeyEquivalents(results)
     highlight(results.first)

@@ -15,6 +15,7 @@ extension UserDefaults {
     static let popupPosition = "popupPosition"
     static let saratovSeparator = "enableSaratovSeparator"
     static let size = "historySize"
+    static let menuSize= "menuSize"
     static let sortBy = "sortBy"
 
     static var showInStatusBar: String {
@@ -34,6 +35,7 @@ extension UserDefaults {
     static let popupPosition = "cursor"
     static let showInStatusBar = true
     static let size = 200
+    static let menuSize = 200
     static let sortBy = "lastCopiedAt"
     static let storage: [HistoryItemOld] = []
   }
@@ -106,6 +108,11 @@ extension UserDefaults {
   public var size: Int {
     get { integer(forKey: Keys.size) }
     set { set(newValue, forKey: Keys.size) }
+  }
+
+  public var menuSize: Int {
+    get { integer(forKey: Keys.menuSize) }
+    set { set(newValue, forKey: Keys.menuSize) }
   }
 
   public var sortBy: String {
