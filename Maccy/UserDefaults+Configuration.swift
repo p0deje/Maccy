@@ -15,7 +15,7 @@ extension UserDefaults {
     static let popupPosition = "popupPosition"
     static let saratovSeparator = "enableSaratovSeparator"
     static let size = "historySize"
-    static let menuSize= "menuSize"
+    static let menuSize = "menuSize"
     static let sortBy = "sortBy"
 
     static var showInStatusBar: String {
