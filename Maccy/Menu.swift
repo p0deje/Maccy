@@ -49,8 +49,7 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     while items.count > UserDefaults.standard.menuSize {
-      let item = historyItems.removeLast()
-      removeItem(item)
+      removeItem(historyItems.last)
     }
   }
 
@@ -81,8 +80,7 @@ class Menu: NSMenu, NSMenuDelegate {
     })
 
     while items.count > UserDefaults.standard.menuSize {
-      let item = historyItems.removeLast()
-      removeItem(item)
+      removeItem(historyItems.last)
     }
 
     setKeyEquivalents(results)
