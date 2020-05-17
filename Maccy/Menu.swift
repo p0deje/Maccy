@@ -48,8 +48,11 @@ class Menu: NSMenu, NSMenuDelegate {
       }
     }
 
+    // Remove items until menuSize limit is met
     while items.count > UserDefaults.standard.menuSize {
-      removeItem(historyItems.last)
+      if let item = historyItems.last {
+        removeItem(item)
+      }
     }
   }
 
@@ -79,8 +82,11 @@ class Menu: NSMenu, NSMenuDelegate {
       insertItem(item, at: 1)
     })
 
+    // Remove items until menuSize limit is met
     while items.count > UserDefaults.standard.menuSize {
-      removeItem(historyItems.last)
+      if let item = historyItems.last {
+        removeItem(item)
+      }
     }
 
     setKeyEquivalents(results)
