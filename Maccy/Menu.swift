@@ -47,8 +47,9 @@ class Menu: NSMenu, NSMenuDelegate {
         prependHistoryItems(copyHistoryItem, pasteHistoryItem)
       }
 
-      if items.count >= UserDefaults.standard.maxMenuItems * 2
+      if items.count >= UserDefaults.standard.maxMenuItems * 2 {
         break
+      }
     }
   }
 
@@ -182,7 +183,7 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func setKeyEquivalents(_ items: [HistoryMenuItem]) {
+  private func setKeyEquivalents(_ items: ArraySlice<HistoryMenuItem>) {
     // First, clear all existing key equivalents.
     for item in historyItems where !item.isPinned {
       item.keyEquivalent = ""
