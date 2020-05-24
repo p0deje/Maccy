@@ -62,7 +62,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func updateFilter(filter: String) {
-    let results = search.search(string: filter, within: historyItems).prefix(UserDefaults.standard.maxMenuItems * 2)
+    let results = Array(search.search(string: filter, within: historyItems).prefix(UserDefaults.standard.maxMenuItems * 2))
 
     // First, remove items that don't match search.
     for item in historyItems {
@@ -183,7 +183,7 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func setKeyEquivalents(_ items: ArraySlice<HistoryMenuItem>) {
+  private func setKeyEquivalents(_ items: [HistoryMenuItem]) {
     // First, clear all existing key equivalents.
     for item in historyItems where !item.isPinned {
       item.keyEquivalent = ""
