@@ -20,6 +20,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   init(history: History, clipboard: Clipboard) {
+    UserDefaults.standard.register(defaults: [UserDefaults.Keys.maxMenuItems: UserDefaults.Values.maxMenuItems])
     super.init(title: "Maccy")
     self.history = history
     self.clipboard = clipboard
