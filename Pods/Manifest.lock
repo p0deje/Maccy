@@ -1,44 +1,57 @@
 PODS:
   - Fuse (1.2.0)
+  - KeyHolder (4.0.0):
+    - Magnet (~> 3.2)
   - LoginServiceKit (2.1.0)
-  - Magnet (3.0.4):
-    - Sauce (~> 2.0.1)
-  - Sauce (2.0.2)
+  - Magnet (3.2.0):
+    - Sauce (~> 2.1)
+  - Preferences (1.0.1)
+  - Sauce (2.1.0)
   - Sparkle (1.21.3)
   - SwiftHEXColors (1.3.0)
 
 DEPENDENCIES:
   - Fuse (~> 1.2)
+  - KeyHolder (from `https://github.com/Clipy/KeyHolder.git`)
   - LoginServiceKit (from `https://github.com/Clipy/LoginServiceKit.git`)
-  - Magnet (~> 3.0)
+  - Magnet (~> 3.2)
+  - Preferences (~> 1.0)
   - Sparkle (~> 1.21)
   - SwiftHEXColors (~> 1.3)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Fuse
     - Magnet
+    - Preferences
     - Sauce
     - Sparkle
     - SwiftHEXColors
 
 EXTERNAL SOURCES:
+  KeyHolder:
+    :git: https://github.com/Clipy/KeyHolder.git
   LoginServiceKit:
     :git: https://github.com/Clipy/LoginServiceKit.git
 
 CHECKOUT OPTIONS:
+  KeyHolder:
+    :commit: f7987c830bc2df7c8398d976ef3c35415a294347
+    :git: https://github.com/Clipy/KeyHolder.git
   LoginServiceKit:
     :commit: 01b162248760b5fed4c7bffebee37eb92351b41b
     :git: https://github.com/Clipy/LoginServiceKit.git
 
 SPEC CHECKSUMS:
   Fuse: 287bd95a5c8dbfe6c41af519eaf48856aa1a28f6
+  KeyHolder: b734300e1da5928f284ce62e8a1547781f07e861
   LoginServiceKit: 889b5d83f237eb22d93f22fb0a210a0a99d89510
-  Magnet: 8dc7e50ac27575b11780fe52115d52055d01cf17
-  Sauce: 46716849891b07f6623e5dceca179691b76ae53e
+  Magnet: 8316a30fe91fdc6f2816ec0f04e20c72e341ca2e
+  Preferences: a5afbe0ae3e6bd886328b1960f4998e65d58f2c4
+  Sauce: a4075a04b6041e7a0c992a952cc79f7a0ebdb8e3
   Sparkle: 3f75576db8b0265adef36c43249d747f22d0b708
   SwiftHEXColors: 15ab5242cc2efeab548c4c74793b173b78dbae1c
 
-PODFILE CHECKSUM: 6f0331c5965395bbbce23cd9a375f6db9b509892
+PODFILE CHECKSUM: 888536210006ee8636eae3be8c8bc6cf75c61b6e
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.5.2

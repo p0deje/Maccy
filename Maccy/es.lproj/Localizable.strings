@@ -2,13 +2,10 @@
 "history_item_tooltip" = "Presiona ⌥+⌫ para borrar.\nPresiona ⌥+p para fijar / soltar.";
 "clear_tooltip" = "Limpiar elementos no fijados.\nSelecciona con ⌥ para limpiarlos todos.";
 "clear_all_tooltip" = "Limpiar todo.";
-"check_for_updates_tooltip" = "Buscar actualizaciones.";
-"launch_at_login_tooltip" = "Abrir al iniciar sesión.";
 "about_tooltip" = "Leer más sobre la aplicación.";
 "quit_tooltip" = "Cerrar aplicación.";
 "clear" = "Limpiar";
 "clear_all" = "Limpiar todo";
-"launch_at_login" = "Abrir al iniciar sesión";
 "about" = "Acerca de…";
 "quit" = "Salir";
-"check_for_updates" = "Buscar actualizaciones";
+"preferences" = "Preferencias...";

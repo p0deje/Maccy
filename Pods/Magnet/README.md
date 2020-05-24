@@ -22,6 +22,9 @@ pod 'Magnet'
 github "Clipy/Magnet"
 ```
 
+## Upgrading from Magnet v2.x to v3.x
+See [Upgrading from Magnet v2.x](/Documentation/Upgrading_Magnet_2.md)
+
 ## Example
 ### Register Normal hotkey
 Add `⌘ + Control + B` hotkey.
@@ -35,7 +38,7 @@ if let keyCombo = KeyCombo(key: .b, cocoaModifiers: [.command, .control]]) {
 
 Or you can use closures.
 ```swift
-if let keyCombo = KeyCombo(key: .b, carbonModifiers: [.command, .control]) {
+if let keyCombo = KeyCombo(key: .b, cocoaModifiers: [.command, .control]) {
     let hotKey = HotKey(identifier: "CommandControlB", keyCombo: keyCombo) { hotKey in
         // Called when ⌘ + Control + B is pressed
     }
@@ -95,13 +98,6 @@ hotKey.unregister() // or HotKeyCenter.shared.unregister(with: hotKey)
 ## How to Build
 1. Move to the project root directory
 2. Install dependency library with `carthage` or `git submodule`
-3. `carthage checkout --use-submodules` or `git submodule init && git submodule update`
+3. `carthage checkout --use-submodules` or `git submodule update --init --recursive`
 4. Open `Magnet.xcworkspace` on Xcode.
 5. build.
-
-### Contributing
-1. Fork it ( https://github.com/Clipy/Magnet/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create a new Pull Request

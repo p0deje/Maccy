@@ -1,5 +1,6 @@
 import Cocoa
 import LoginServiceKit
+import Preferences
 import Sparkle
 
 class Maccy: NSObject {
@@ -9,15 +10,22 @@ class Maccy: NSObject {
   private let clipboard = Clipboard()
   private let history = History()
   private var menu: Menu!
+  private var window: NSWindow!
+
+  private lazy var preferencesWindowController = PreferencesWindowController(
+    preferencePanes: [
+      GeneralPreferenceViewController(),
+      AppearancePreferenceViewController(),
+      AdvancedPreferenceViewController()
+    ]
+  )
 
   private var footerItems: [NSMenuItem] {
     var footerItems: [(tag: MenuTag, isChecked: Bool, isAlternate: Bool, key: String, tooltip: String)] = [
       (.separator, false, false, "", ""),
       (.clear, false, false, "", NSLocalizedString("clear_tooltip", comment: "")),
       (.clearAll, false, true, "", NSLocalizedString("clear_all_tooltip", comment: "")),
-      (.checkForUpdates, false, false, "", NSLocalizedString("check_for_updates_tooltip", comment: "")),
-      (.launchAtLogin, LoginServiceKit.isExistLoginItems(), false, "",
-        NSLocalizedString("launch_at_login_tooltip", comment: ""))
+      (.preferences, false, false, ",", ""),
     ]
 
     if UserDefaults.standard.saratovSeparator {
@@ -154,12 +162,10 @@ class Maccy: NSObject {
         clearUnpinned()
       case .clearAll:
         clearAll()
-      case .launchAtLogin:
-        toggleLaunchAtLogin(sender)
       case .quit:
         NSApp.stop(sender)
-      case .checkForUpdates:
-        SUUpdater.shared()?.checkForUpdates(self)
+      case .preferences:
+        preferencesWindowController.show()
       default:
         break
       }
@@ -174,16 +180,6 @@ class Maccy: NSObject {
   private func clearAll() {
     history.clear()
     menu.clearAll()
-  }
-
-  private func toggleLaunchAtLogin(_ sender: NSMenuItem) {
-    if sender.state == .off {
-      LoginServiceKit.addLoginItems()
-      sender.state = .on
-    } else {
-      LoginServiceKit.removeLoginItems()
-      sender.state = .off
-    }
   }
 
   private func rebuild() {

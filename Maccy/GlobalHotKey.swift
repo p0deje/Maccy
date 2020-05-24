@@ -16,6 +16,9 @@ class GlobalHotKey {
 
     self.handler = handler
     hotKeyPrefObserver = UserDefaults.standard.observe(\.hotKey, options: [.initial, .new], changeHandler: { _, _ in
+      // Ensure old shortcut stops working.
+      self.hotKey?.unregister()
+
       if let (key, modifiers) = self.parseHotKey() {
         if let keyCombo = KeyCombo(key: key, cocoaModifiers: modifiers) {
           self.hotKey = HotKey(identifier: UserDefaults.standard.hotKey, keyCombo: keyCombo) { hotKey in
@@ -39,7 +42,7 @@ class GlobalHotKey {
     guard let keyString = keysList.popLast() else {
       return nil
     }
-    guard let key = Key(character: String(keyString)) else {
+    guard let key = Key(character: String(keyString), virtualKeyCode: nil) else {
       return nil
     }
 

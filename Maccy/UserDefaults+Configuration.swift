@@ -73,8 +73,8 @@ extension UserDefaults {
     set { set(Array(newValue), forKey: Keys.ignoredPasteboardTypes) }
   }
 
-  public var imageMaxHeight: Float {
-    get { float(forKey: Keys.imageMaxHeight) }
+  public var imageMaxHeight: Int {
+    get { integer(forKey: Keys.imageMaxHeight) }
     set { set(newValue, forKey: Keys.imageMaxHeight) }
   }
 

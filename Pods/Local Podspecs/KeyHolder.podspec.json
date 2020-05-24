@@ -1,0 +1,30 @@
+{
+  "name": "KeyHolder",
+  "version": "4.0.0",
+  "summary": "Record shortcuts in macOS, like Alfred app.",
+  "license": {
+    "type": "MIT",
+    "file": "LICENSE"
+  },
+  "homepage": "https://github.com/Clipy/KeyHolder",
+  "authors": {
+    "Econa77": "f.s.1992.ip@gmail.com"
+  },
+  "source": {
+    "git": "https://github.com/Clipy/KeyHolder.git",
+    "tag": "v4.0.0"
+  },
+  "platforms": {
+    "osx": "10.10"
+  },
+  "source_files": "Lib/KeyHolder/**/*.swift",
+  "frameworks": [
+    "Carbon",
+    "Cocoa"
+  ],
+  "dependencies": {
+    "Magnet": [
+      "~> 3.2"
+    ]
+  }
+}

@@ -106,13 +106,16 @@ extension KeyboardLayout {
         let source = InputSource(source: TISCopyCurrentKeyboardLayoutInputSource().takeUnretainedValue())
         self.currentASCIICapableInputSouce = InputSource(source: TISCopyCurrentASCIICapableKeyboardInputSource().takeUnretainedValue())
         guard source != currentKeyboardLayoutInputSource else { return }
+        let previousKeyboardLayoutInputSource = currentKeyboardLayoutInputSource
         self.currentKeyboardLayoutInputSource = source
         guard mappedKeyCodes[source] == nil else {
             notificationCenter.post(name: .SauceSelectedKeyboardInputSourceChanged, object: nil)
+            notifyKeyCodesChangedIfNeeded(previous: previousKeyboardLayoutInputSource, current: source)
             return
         }
         mappingKeyCodes(with: source)
         notificationCenter.post(name: .SauceSelectedKeyboardInputSourceChanged, object: nil)
+        notifyKeyCodesChangedIfNeeded(previous: previousKeyboardLayoutInputSource, current: source)
     }
 
     @objc func enabledKeyboardInputSourcesChanged() {
@@ -120,6 +123,13 @@ extension KeyboardLayout {
         mappingInputSources()
         mappingKeyCodes(with: currentKeyboardLayoutInputSource)
         notificationCenter.post(name: .SauceEnabledKeyboardInputSoucesChanged, object: nil)
+    }
+
+    private func notifyKeyCodesChangedIfNeeded(previous: InputSource, current: InputSource) {
+        guard let previousKeyCodes = mappedKeyCodes[previous] else { return }
+        guard let currentKeyCodes = mappedKeyCodes[current] else { return }
+        guard previousKeyCodes != currentKeyCodes else { return }
+        notificationCenter.post(name: .SauceSelectedKeyboardKeyCodesChanged, object: nil)
     }
 }
 
@@ -137,7 +147,8 @@ private extension KeyboardLayout {
         var keyCodes = [Key: CGKeyCode]()
         for i in 0..<128 {
             guard let character = character(with: data, keyCode: i, carbonModifiers: 0) else { continue }
-            guard let key = Key(character: character) else { continue }
+            guard let key = Key(character: character, virtualKeyCode: i) else { continue }
+            guard keyCodes[key] == nil else { continue }
             keyCodes[key] = CGKeyCode(i)
         }
         mappedKeyCodes[source] = keyCodes

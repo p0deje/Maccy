@@ -1,10 +1,10 @@
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Fuse" "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit" "${PODS_CONFIGURATION_BUILD_DIR}/Magnet" "${PODS_CONFIGURATION_BUILD_DIR}/Sauce" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors" "${PODS_ROOT}/Sparkle"
+CODE_SIGN_IDENTITY =
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Fuse" "${PODS_CONFIGURATION_BUILD_DIR}/KeyHolder" "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit" "${PODS_CONFIGURATION_BUILD_DIR}/Magnet" "${PODS_CONFIGURATION_BUILD_DIR}/Preferences" "${PODS_CONFIGURATION_BUILD_DIR}/Sauce" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors" "${PODS_ROOT}/Sparkle"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
-HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Fuse/Fuse.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit/LoginServiceKit.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Magnet/Magnet.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/Sauce/Sauce.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors/SwiftHEXColors.framework/Headers"
-LD_RUNPATH_SEARCH_PATHS = $(inherited) @loader_path/../Frameworks
-OTHER_LDFLAGS = $(inherited) -framework "Carbon" -framework "Cocoa" -framework "Fuse" -framework "LoginServiceKit" -framework "Magnet" -framework "Sauce" -framework "Sparkle" -framework "SwiftHEXColors"
+LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/../Frameworks' '@loader_path/../Frameworks'
+OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Fuse/Fuse.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/KeyHolder/KeyHolder.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit/LoginServiceKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Magnet/Magnet.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Preferences/Preferences.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Sauce/Sauce.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors/SwiftHEXColors.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -framework "Sparkle"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
 PODS_ROOT = ${SRCROOT}/Pods
-USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES

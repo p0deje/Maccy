@@ -18,13 +18,12 @@ public final class HotKeyCenter {
 
     private var hotKeys = [String: HotKey]()
     private var hotKeyCount: UInt32 = 0
-    private var tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
-    private var multiModifiers = false
-    private var lastHandledEventTimeStamp: TimeInterval?
+    private let modifierEventHandler: ModifierEventHandler
     private let notificationCenter: NotificationCenter
 
     // MARK: - Initialize
-    init(notificationCenter: NotificationCenter = .default) {
+    init(modifierEventHandler: ModifierEventHandler = .init(), notificationCenter: NotificationCenter = .default) {
+        self.modifierEventHandler = modifierEventHandler
         self.notificationCenter = notificationCenter
         installHotKeyPressedEventHandler()
         installModifiersChangedEventHandlerIfNeeded()
@@ -46,8 +45,9 @@ public extension HotKeyCenter {
 
         hotKeys[hotKey.identifier] = hotKey
         guard !hotKey.keyCombo.doubledModifiers else { return true }
-        // Normal macOS shortcut
         /*
+         *  Normal macOS shortcut
+         *
          *  Discussion:
          *    When registering a hotkey, a KeyCode that conforms to the
          *    keyboard layout at the time of registration is registered.
@@ -67,7 +67,7 @@ public extension HotKeyCenter {
                                         GetEventDispatcherTarget(),
                                         0,
                                         &carbonHotKey)
-        if error != 0 {
+        guard error == noErr else {
             unregister(with: hotKey)
             return false
         }
@@ -120,11 +120,11 @@ private extension HotKeyCenter {
         pressedEventType.eventClass = OSType(kEventClassKeyboard)
         pressedEventType.eventKind = OSType(kEventHotKeyPressed)
         InstallEventHandler(GetEventDispatcherTarget(), { _, inEvent, _ -> OSStatus in
-            return HotKeyCenter.shared.sendCarbonEvent(inEvent!)
+            return HotKeyCenter.shared.sendPressedKeyboardEvent(inEvent!)
         }, 1, &pressedEventType, nil, nil)
     }
 
-    func sendCarbonEvent(_ event: EventRef) -> OSStatus {
+    func sendPressedKeyboardEvent(_ event: EventRef) -> OSStatus {
         assert(Int(GetEventClass(event)) == kEventClassKeyboard, "Unknown event class")
 
         var hotKeyId = EventHotKeyID()
@@ -136,23 +136,17 @@ private extension HotKeyCenter {
                                       nil,
                                       &hotKeyId)
 
-        if error != 0 { return error }
-
+        guard error == noErr else { return error }
         assert(hotKeyId.signature == UTGetOSTypeFromString("Magnet" as CFString), "Invalid hot key id")
 
         let hotKey = hotKeys.values.first(where: { $0.hotKeyId == hotKeyId.id })
         switch GetEventKind(event) {
         case EventParamName(kEventHotKeyPressed):
-            hotKeyDown(hotKey)
+            hotKey?.invoke()
         default:
             assert(false, "Unknown event kind")
         }
         return noErr
-    }
-
-    func hotKeyDown(_ hotKey: HotKey?) {
-        guard let hotKey = hotKey else { return }
-        hotKey.invoke()
     }
 }
 
@@ -160,61 +154,17 @@ private extension HotKeyCenter {
 private extension HotKeyCenter {
     func installModifiersChangedEventHandlerIfNeeded() {
         NSEvent.addGlobalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
-            self?.sendModifiersChangeEvent(event)
+            self?.modifierEventHandler.handleModifiersEvent(with: event.modifierFlags, timestamp: event.timestamp)
         }
         NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { [weak self] event -> NSEvent? in
-            self?.sendModifiersChangeEvent(event)
+            self?.modifierEventHandler.handleModifiersEvent(with: event.modifierFlags, timestamp: event.timestamp)
             return event
         }
-    }
-
-    func sendModifiersChangeEvent(_ event: NSEvent) {
-        guard lastHandledEventTimeStamp != event.timestamp else { return }
-        lastHandledEventTimeStamp = event.timestamp
-
-        let modifierFlags = event.modifierFlags
-        let commandTapped = modifierFlags.contains(.command)
-        let shiftTapped = modifierFlags.contains(.shift)
-        let controlTapped = modifierFlags.contains(.control)
-        let optionTapped = modifierFlags.contains(.option)
-        let modifiersCount = [commandTapped, optionTapped, shiftTapped, controlTapped].trueCount
-        guard modifiersCount != 0 else { return }
-        guard modifiersCount == 1 else {
-            multiModifiers = true
-            return
+        modifierEventHandler.doubleTapped = { [weak self] tappedModifierFlags in
+            self?.hotKeys.values
+                .filter { $0.keyCombo.doubledModifiers }
+                .filter { $0.keyCombo.modifiers == tappedModifierFlags.carbonModifiers() }
+                .forEach { $0.invoke() }
         }
-        guard !multiModifiers else {
-            multiModifiers = false
-            return
-        }
-        if (tappedModifierKey.contains(.command) && commandTapped) ||
-            (tappedModifierKey.contains(.shift) && shiftTapped)    ||
-            (tappedModifierKey.contains(.control) && controlTapped) ||
-            (tappedModifierKey.contains(.option) && optionTapped) {
-            doubleTapped(with: tappedModifierKey.carbonModifiers())
-            tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
-        } else {
-            if commandTapped {
-                tappedModifierKey = .command
-            } else if shiftTapped {
-                tappedModifierKey = .shift
-            } else if controlTapped {
-                tappedModifierKey = .control
-            } else if optionTapped {
-                tappedModifierKey = .option
-            } else {
-                tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
-            }
-        }
-        // Clean Flag
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: { [weak self] in
-            self?.tappedModifierKey = NSEvent.ModifierFlags(rawValue: 0)
-        })
-    }
-
-    func doubleTapped(with key: Int) {
-        hotKeys.values
-            .filter { $0.keyCombo.doubledModifiers && $0.keyCombo.modifiers == key }
-            .forEach { $0.invoke() }
     }
 }

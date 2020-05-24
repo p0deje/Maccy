@@ -12,7 +12,7 @@ import Foundation
 import Carbon
 
 // swiftlint:disable file_length function_body_length type_body_length identifier_name
-public enum Key {
+public enum Key: String, Codable, Equatable {
     case a
     case s
     case d
@@ -120,9 +120,14 @@ public enum Key {
     case keypadComma
     case eisu
     case kana
+    case atSign
+    case caret
+    case colon
+    /* keycodes for ISO keyboard only */
+    case section
 
     // MARK: - Initiazlie
-    public init?(character: String) {
+    public init?(character: String, virtualKeyCode: Int?) {
         let lowercasedString = character.lowercased()
         switch lowercasedString {
         case "a": self = .a
@@ -142,94 +147,184 @@ public enum Key {
         case "r": self = .r
         case "y": self = .y
         case "t": self = .t
-        case "1", "one": self = .one
-        case "2", "two": self = .two
-        case "3", "three": self = .three
-        case "4", "four": self = .four
-        case "6", "six": self = .six
-        case "5", "five": self = .five
-        case "equal", "=": self = .equal
-        case "9", "nine": self = .nine
-        case "7", "seven": self = .seven
-        case "minus", "-": self = .minus
-        case "8", "eight": self = .eight
-        case "0", "zero": self = .zero
-        case "rightbracket", "]": self = .rightBracket
+        case "1" where virtualKeyCode != kVK_ANSI_Keypad1,
+             "one" where virtualKeyCode != kVK_ANSI_Keypad1: self = .one
+        case "2" where virtualKeyCode != kVK_ANSI_Keypad2,
+             "two" where virtualKeyCode != kVK_ANSI_Keypad2: self = .two
+        case "3" where virtualKeyCode != kVK_ANSI_Keypad3,
+             "three" where virtualKeyCode != kVK_ANSI_Keypad3: self = .three
+        case "4" where virtualKeyCode != kVK_ANSI_Keypad4,
+             "four" where virtualKeyCode != kVK_ANSI_Keypad4: self = .four
+        case "6" where virtualKeyCode != kVK_ANSI_Keypad6,
+             "six" where virtualKeyCode != kVK_ANSI_Keypad6: self = .six
+        case "5" where virtualKeyCode != kVK_ANSI_Keypad5,
+             "five" where virtualKeyCode != kVK_ANSI_Keypad5: self = .five
+        case "equal" where virtualKeyCode != kVK_ANSI_KeypadEquals,
+             "=" where virtualKeyCode != kVK_ANSI_KeypadEquals: self = .equal
+        case "9" where virtualKeyCode != kVK_ANSI_Keypad9,
+             "nine" where virtualKeyCode != kVK_ANSI_Keypad9: self = .nine
+        case "7" where virtualKeyCode != kVK_ANSI_Keypad7,
+             "seven" where virtualKeyCode != kVK_ANSI_Keypad7: self = .seven
+        case "minus" where virtualKeyCode != kVK_ANSI_KeypadMinus,
+             "-" where virtualKeyCode != kVK_ANSI_KeypadMinus: self = .minus
+        case "8" where virtualKeyCode != kVK_ANSI_Keypad8,
+             "eight" where virtualKeyCode != kVK_ANSI_Keypad8: self = .eight
+        case "0" where virtualKeyCode != kVK_ANSI_Keypad0,
+             "zero" where virtualKeyCode != kVK_ANSI_Keypad0: self = .zero
+        case "rightbracket",
+             "]": self = .rightBracket
         case "o": self = .o
         case "u": self = .u
-        case "leftbracket", "[": self = .leftBracket
+        case "leftbracket",
+             "[": self = .leftBracket
         case "i": self = .i
         case "p": self = .p
         case "l": self = .l
         case "j": self = .j
-        case "quote", "'": self = .quote
+        case "quote",
+             "'": self = .quote
         case "k": self = .k
-        case "semicolon", ";": self = .semicolon
-        case "backslash", "\\": self = .backslash
-        case "comma", ",": self = .comma
-        case "slash", "/": self = .slash
+        case "semicolon",
+             ";": self = .semicolon
+        case "backslash",
+             "\\": self = .backslash
+        case "comma",
+             "," where virtualKeyCode != kVK_JIS_KeypadComma: self = .comma
+        case "slash" where virtualKeyCode != kVK_ANSI_KeypadDivide,
+             "/" where virtualKeyCode != kVK_ANSI_KeypadDivide: self = .slash
         case "n": self = .n
         case "m": self = .m
-        case "period", ".": self = .period
-        case "grave", "`": self = .grave
-        case "keypaddecimal": self = .keypadDecimal
-        case "keypadmultiply": self = .keypadMultiply
-        case "keypadplus": self = .keypadPlus
-        case "keypadclear": self = .keypadClear
-        case "keypaddivide": self = .keypadDivide
-        case "keypadenter": self = .keypadEnter
-        case "keypadminus": self = .keypadMinus
-        case "keypadequals": self = .keypadEquals
-        case "keypad0", "keypadzero": self = .keypadZero
-        case "keypad1", "keypadone": self = .keypadOne
-        case "keypad2", "keypadtwo": self = .keypadTwo
-        case "keypad3", "keypadthree": self = .keypadThree
-        case "keypad4", "keypadfour": self = .keypadFour
-        case "keypad5", "keypadfive": self = .keypadFive
-        case "keypad6", "keypadsix": self = .keypadSix
-        case "keypad7", "keypadseven": self = .keypadSeven
-        case "keypad8", "keypadeight": self = .keypadEight
-        case "keypad9", "keypadnine": self = .keypadNine
-        case "return", SpecialKeyCode.return.character.lowercased(): self = .return
-        case "tab", SpecialKeyCode.tab.character.lowercased(): self = .tab
-        case "space", SpecialKeyCode.space.character.lowercased(): self = .space
-        case "delete", SpecialKeyCode.delete.character.lowercased(): self = .delete
-        case "escape", SpecialKeyCode.escape.character.lowercased(): self = .escape
-        case "f17", SpecialKeyCode.f17.character.lowercased(): self = .f17
-        case "f18", SpecialKeyCode.f18.character.lowercased(): self = .f18
-        case "f19", SpecialKeyCode.f19.character.lowercased(): self = .f19
-        case "f20", SpecialKeyCode.f20.character.lowercased(): self = .f20
-        case "f5", SpecialKeyCode.f5.character.lowercased(): self = .f5
-        case "f6", SpecialKeyCode.f6.character.lowercased(): self = .f6
-        case "f7", SpecialKeyCode.f7.character.lowercased(): self = .f7
-        case "f3", SpecialKeyCode.f3.character.lowercased(): self = .f3
-        case "f8", SpecialKeyCode.f8.character.lowercased(): self = .f8
-        case "f9", SpecialKeyCode.f9.character.lowercased(): self = .f9
-        case "f11", SpecialKeyCode.f11.character.lowercased(): self = .f11
-        case "f13", SpecialKeyCode.f13.character.lowercased(): self = .f13
-        case "f16", SpecialKeyCode.f16.character.lowercased(): self = .f16
-        case "f14", SpecialKeyCode.f14.character.lowercased(): self = .f14
-        case "f10", SpecialKeyCode.f10.character.lowercased(): self = .f10
-        case "f12", SpecialKeyCode.f12.character.lowercased(): self = .f12
-        case "f15", SpecialKeyCode.f15.character.lowercased(): self = .f15
-        case "help", SpecialKeyCode.help.character.lowercased(): self = .help
-        case "home", SpecialKeyCode.home.character.lowercased(): self = .home
-        case "pageup", SpecialKeyCode.pageUp.character.lowercased(): self = .pageUp
-        case "forwarddelete", SpecialKeyCode.forwardDelete.character.lowercased(): self = .forwardDelete
-        case "f4", SpecialKeyCode.f4.character.lowercased(): self = .f4
-        case "end", SpecialKeyCode.end.character.lowercased(): self = .end
-        case "f2", SpecialKeyCode.f2.character.lowercased(): self = .f2
-        case "pagedown", SpecialKeyCode.pageDown.character.lowercased(): self = .pageDown
-        case "f1", SpecialKeyCode.f1.character.lowercased(): self = .f1
-        case "leftarrow", SpecialKeyCode.leftArrow.character.lowercased(): self = .leftArrow
-        case "rightarrow", SpecialKeyCode.rightArrow.character.lowercased(): self = .rightArrow
-        case "downarrow", SpecialKeyCode.downArrow.character.lowercased(): self = .downArrow
-        case "uparrow", SpecialKeyCode.upArrow.character.lowercased(): self = .upArrow
-        case "¥", SpecialKeyCode.yen.character.lowercased(): self = .yen
-        case "_", SpecialKeyCode.underscore.character.lowercased(): self = .underscore
-        // .keypadComma is omitted because it is not recognizable by a character string.
-        case "英数", SpecialKeyCode.eisu.character.lowercased(): self = .eisu
-        case "かな", SpecialKeyCode.kana.character.lowercased(): self = .kana
+        case "period",
+             "." where virtualKeyCode != kVK_ANSI_KeypadDecimal: self = .period
+        case "grave",
+             "`": self = .grave
+        case "keypaddecimal",
+             "." where virtualKeyCode == kVK_ANSI_KeypadDecimal: self = .keypadDecimal
+        case "keypadmultiply",
+             "*": self = .keypadMultiply
+        case "keypadplus",
+             "+": self = .keypadPlus
+        case "keypadclear",
+             SpecialKeyCode.keypadClear.character.lowercased(): self = .keypadClear
+        case "keypaddivide",
+             "/" where virtualKeyCode == kVK_ANSI_KeypadDivide: self = .keypadDivide
+        case "keypadenter",
+             SpecialKeyCode.keypadEnter.character.lowercased(): self = .keypadEnter
+        case "keypadminus",
+             "-" where virtualKeyCode == kVK_ANSI_KeypadMinus: self = .keypadMinus
+        case "keypadequals",
+             "=" where virtualKeyCode == kVK_ANSI_KeypadEquals: self = .keypadEquals
+        case "keypad0",
+             "keypadzero",
+             "0" where virtualKeyCode == kVK_ANSI_Keypad0: self = .keypadZero
+        case "keypad1",
+             "keypadone",
+             "1" where virtualKeyCode == kVK_ANSI_Keypad1: self = .keypadOne
+        case "keypad2",
+             "keypadtwo",
+             "2" where virtualKeyCode == kVK_ANSI_Keypad2: self = .keypadTwo
+        case "keypad3",
+             "keypadthree",
+             "3" where virtualKeyCode == kVK_ANSI_Keypad3: self = .keypadThree
+        case "keypad4",
+             "keypadfour",
+             "4" where virtualKeyCode == kVK_ANSI_Keypad4: self = .keypadFour
+        case "keypad5",
+             "keypadfive",
+             "5" where virtualKeyCode == kVK_ANSI_Keypad5: self = .keypadFive
+        case "keypad6",
+             "keypadsix",
+             "6" where virtualKeyCode == kVK_ANSI_Keypad6: self = .keypadSix
+        case "keypad7",
+             "keypadseven",
+             "7" where virtualKeyCode == kVK_ANSI_Keypad7: self = .keypadSeven
+        case "keypad8",
+             "keypadeight",
+             "8" where virtualKeyCode == kVK_ANSI_Keypad8: self = .keypadEight
+        case "keypad9",
+             "keypadnine",
+             "9" where virtualKeyCode == kVK_ANSI_Keypad9: self = .keypadNine
+        case "return",
+             SpecialKeyCode.return.character.lowercased(): self = .return
+        case "tab",
+             SpecialKeyCode.tab.character.lowercased(): self = .tab
+        case "space",
+             SpecialKeyCode.space.character.lowercased(): self = .space
+        case "delete",
+             SpecialKeyCode.delete.character.lowercased(): self = .delete
+        case "escape",
+             SpecialKeyCode.escape.character.lowercased(): self = .escape
+        case "f17",
+             SpecialKeyCode.f17.character.lowercased(): self = .f17
+        case "f18",
+             SpecialKeyCode.f18.character.lowercased(): self = .f18
+        case "f19",
+             SpecialKeyCode.f19.character.lowercased(): self = .f19
+        case "f20",
+             SpecialKeyCode.f20.character.lowercased(): self = .f20
+        case "f5",
+             SpecialKeyCode.f5.character.lowercased(): self = .f5
+        case "f6",
+             SpecialKeyCode.f6.character.lowercased(): self = .f6
+        case "f7",
+             SpecialKeyCode.f7.character.lowercased(): self = .f7
+        case "f3",
+             SpecialKeyCode.f3.character.lowercased(): self = .f3
+        case "f8",
+             SpecialKeyCode.f8.character.lowercased(): self = .f8
+        case "f9",
+             SpecialKeyCode.f9.character.lowercased(): self = .f9
+        case "f11",
+             SpecialKeyCode.f11.character.lowercased(): self = .f11
+        case "f13",
+             SpecialKeyCode.f13.character.lowercased(): self = .f13
+        case "f16",
+             SpecialKeyCode.f16.character.lowercased(): self = .f16
+        case "f14",
+             SpecialKeyCode.f14.character.lowercased(): self = .f14
+        case "f10",
+             SpecialKeyCode.f10.character.lowercased(): self = .f10
+        case "f12",
+             SpecialKeyCode.f12.character.lowercased(): self = .f12
+        case "f15",
+             SpecialKeyCode.f15.character.lowercased(): self = .f15
+        case "help",
+             SpecialKeyCode.help.character.lowercased(): self = .help
+        case "home",
+             SpecialKeyCode.home.character.lowercased(): self = .home
+        case "pageup",
+             SpecialKeyCode.pageUp.character.lowercased(): self = .pageUp
+        case "forwarddelete",
+             SpecialKeyCode.forwardDelete.character.lowercased(): self = .forwardDelete
+        case "f4",
+             SpecialKeyCode.f4.character.lowercased(): self = .f4
+        case "end",
+             SpecialKeyCode.end.character.lowercased(): self = .end
+        case "f2",
+             SpecialKeyCode.f2.character.lowercased(): self = .f2
+        case "pagedown",
+             SpecialKeyCode.pageDown.character.lowercased(): self = .pageDown
+        case "f1",
+             SpecialKeyCode.f1.character.lowercased(): self = .f1
+        case "leftarrow",
+             SpecialKeyCode.leftArrow.character.lowercased(): self = .leftArrow
+        case "rightarrow",
+             SpecialKeyCode.rightArrow.character.lowercased(): self = .rightArrow
+        case "downarrow",
+             SpecialKeyCode.downArrow.character.lowercased(): self = .downArrow
+        case "uparrow",
+             SpecialKeyCode.upArrow.character.lowercased(): self = .upArrow
+        case "¥": self = .yen
+        case "_": self = .underscore
+        case "," where virtualKeyCode == kVK_JIS_KeypadComma: self = .keypadComma
+        case "英数",
+             SpecialKeyCode.eisu.character.lowercased(): self = .eisu
+        case "かな",
+             SpecialKeyCode.kana.character.lowercased(): self = .kana
+        case "@": self = .atSign
+        case "^": self = .caret
+        case ":": self = .colon
+        case "§": self = .section
         default: return nil
         }
     }
@@ -341,6 +436,9 @@ public enum Key {
         case kVK_JIS_KeypadComma: self = .keypadComma
         case kVK_JIS_Eisu: self = .eisu
         case kVK_JIS_Kana: self = .kana
+        // .atSign, .caret, .colon is excluded because it uses a duplicate keycode on JIS keyboard only.
+        // For example, .atSign is applied to kVK_ANSI_LeftBracket on a JIS keyboard.
+        case kVK_ISO_Section: self = .section
         default: return nil
         }
     }
@@ -453,14 +551,11 @@ public enum Key {
         case .keypadComma: return CGKeyCode(kVK_JIS_KeypadComma)
         case .eisu: return CGKeyCode(kVK_JIS_Eisu)
         case .kana: return CGKeyCode(kVK_JIS_Kana)
+        case .atSign: return CGKeyCode(kVK_ANSI_LeftBracket)
+        case .caret: return CGKeyCode(kVK_ANSI_Equal)
+        case .colon: return CGKeyCode(kVK_ANSI_Quote)
+        case .section: return CGKeyCode(kVK_ISO_Section)
         }
     }
 
-}
-
-// MARK: - Equatable
-extension Key: Equatable {
-    public static func == (lhs: Key, rhs: Key) -> Bool {
-        return lhs.QWERTYKeyCode == rhs.QWERTYKeyCode
-    }
 }

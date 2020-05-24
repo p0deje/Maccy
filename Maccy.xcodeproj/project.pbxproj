@@ -10,9 +10,16 @@
 		2B63F3A3615AE0AF9FB59464 /* Pods_Maccy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70AE2EB056543A975B593A01 /* Pods_Maccy.framework */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
 		86D6CB87BA4B18A71E7BB66F /* Pods_MaccyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 975F85A311398775317C1FCB /* Pods_MaccyTests.framework */; };
+		DA043DE1247D171C00488756 /* AppearancePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */; };
+		DA043DE2247D171C00488756 /* AppearancePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA043DE0247D171C00488756 /* AppearancePreferenceViewController.xib */; };
 		DA0950F0244AA1A90008414C /* HistoryItemOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0950EF244AA1A90008414C /* HistoryItemOld.swift */; };
 		DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EE7B8204657830025FC60 /* MaccyUITests.swift */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
+		DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */; };
+		DA181171247B405B00066D55 /* GeneralPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA18116F247B405B00066D55 /* GeneralPreferenceViewController.xib */; };
+		DA181174247B409A00066D55 /* AdvancedPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */; };
+		DA181175247B409A00066D55 /* AdvancedPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA181173247B409A00066D55 /* AdvancedPreferenceViewController.xib */; };
+		DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */; };
 		DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */; };
 		DA1EDE452045B68700479723 /* MenuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE442045B68700479723 /* MenuTests.swift */; };
 		DA246D611E56C9EA001E40F3 /* Application.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA246D601E56C9EA001E40F3 /* Application.xib */; };
@@ -92,11 +99,18 @@
 		975F85A311398775317C1FCB /* Pods_MaccyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MaccyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		9E6B74E2D3DF3AFC5D46D00A /* Pods-MaccyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaccyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MaccyTests/Pods-MaccyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D6F6959144733C6AFB9C2610 /* Pods-Maccy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maccy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Maccy/Pods-Maccy.debug.xcconfig"; sourceTree = "<group>"; };
+		DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearancePreferenceViewController.swift; sourceTree = "<group>"; };
+		DA043DE0247D171C00488756 /* AppearancePreferenceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppearancePreferenceViewController.xib; sourceTree = "<group>"; };
 		DA0950EF244AA1A90008414C /* HistoryItemOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemOld.swift; sourceTree = "<group>"; };
 		DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0EE7B8204657830025FC60 /* MaccyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaccyUITests.swift; sourceTree = "<group>"; };
 		DA0EE7BA204657840025FC60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA0EF1871E444B2A00E58577 /* Clipboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
+		DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferenceViewController.swift; sourceTree = "<group>"; };
+		DA18116F247B405B00066D55 /* GeneralPreferenceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GeneralPreferenceViewController.xib; sourceTree = "<group>"; };
+		DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPreferenceViewController.swift; sourceTree = "<group>"; };
+		DA181173247B409A00066D55 /* AdvancedPreferenceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvancedPreferenceViewController.xib; sourceTree = "<group>"; };
+		DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreferencePane.Identifier+Panes.swift"; sourceTree = "<group>"; };
 		DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMenuItemTests.swift; sourceTree = "<group>"; };
 		DA1EDE442045B68700479723 /* MenuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTests.swift; sourceTree = "<group>"; };
 		DA246D601E56C9EA001E40F3 /* Application.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Application.xib; sourceTree = "<group>"; };
@@ -192,6 +206,20 @@
 			path = MaccyUITests;
 			sourceTree = "<group>";
 		};
+		DA181178247D150B00066D55 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */,
+				DA181173247B409A00066D55 /* AdvancedPreferenceViewController.xib */,
+				DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */,
+				DA043DE0247D171C00488756 /* AppearancePreferenceViewController.xib */,
+				DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */,
+				DA18116F247B405B00066D55 /* GeneralPreferenceViewController.xib */,
+				DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
 		DA360DB11E3DF137005C6F6B /* MaccyTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -233,6 +261,7 @@
 		DAEE38451E3DBEB100DD2966 /* Maccy */ = {
 			isa = PBXGroup;
 			children = (
+				DA181178247D150B00066D55 /* Preferences */,
 				DA246D601E56C9EA001E40F3 /* Application.xib */,
 				DA6373971E4AB9BB00263391 /* Assets.xcassets */,
 				DAEE384D1E3DBEB100DD2966 /* Info.plist */,
@@ -395,8 +424,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA181171247B405B00066D55 /* GeneralPreferenceViewController.xib in Resources */,
 				DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */,
 				4762D6972467226100B3A2BA /* Localizable.strings in Resources */,
+				DA043DE2247D171C00488756 /* AppearancePreferenceViewController.xib in Resources */,
+				DA181175247B409A00066D55 /* AdvancedPreferenceViewController.xib in Resources */,
 				DA246D611E56C9EA001E40F3 /* Application.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -446,10 +478,12 @@
 			files = (
 			);
 			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-Maccy/Pods-Maccy-frameworks.sh",
+				"${SRCROOT}/Pods/Target Support Files/Pods-Maccy/Pods-Maccy-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Fuse/Fuse.framework",
+				"${BUILT_PRODUCTS_DIR}/KeyHolder/KeyHolder.framework",
 				"${BUILT_PRODUCTS_DIR}/LoginServiceKit/LoginServiceKit.framework",
 				"${BUILT_PRODUCTS_DIR}/Magnet/Magnet.framework",
+				"${BUILT_PRODUCTS_DIR}/Preferences/Preferences.framework",
 				"${BUILT_PRODUCTS_DIR}/Sauce/Sauce.framework",
 				"${PODS_ROOT}/Sparkle/Sparkle.framework",
 				"${PODS_ROOT}/Sparkle/Sparkle.framework.dSYM",
@@ -458,8 +492,10 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fuse.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeyHolder.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LoginServiceKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Magnet.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Preferences.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sauce.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sparkle.framework",
 				"${DWARF_DSYM_FOLDER_PATH}/Sparkle.framework.dSYM",
@@ -467,7 +503,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-Maccy/Pods-Maccy-frameworks.sh\"\n";
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Maccy/Pods-Maccy-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -502,12 +538,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA2C752A2029FD6B0090965D /* FilterMenuItemView.swift in Sources */,
+				DA043DE1247D171C00488756 /* AppearancePreferenceViewController.swift in Sources */,
 				DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */,
 				DAF176C6202AA56B00C5FD0D /* Keys.swift in Sources */,
 				DAEE38541E3DD6F100DD2966 /* History.swift in Sources */,
 				DAB65DFF2440AE29000AECA8 /* CoreDataManager.swift in Sources */,
 				DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */,
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
+				DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
 				DA0950F0244AA1A90008414C /* HistoryItemOld.swift in Sources */,
 				DA6DA786236D605B0062CCC6 /* MenuTag.swift in Sources */,
@@ -515,10 +553,12 @@
 				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
 				DA2C752C2029FE990090965D /* Menu.swift in Sources */,
+				DA181174247B409A00066D55 /* AdvancedPreferenceViewController.swift in Sources */,
 				DA8953B91E446A4E00884EAB /* Maccy.swift in Sources */,
 				DAB65E0B2440B078000AECA8 /* HistoryItem.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
+				DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */,
 				DAE28500232257D20080E394 /* ColorImage.swift in Sources */,
 				DAB65DFD2440AD63000AECA8 /* Storage.xcdatamodeld in Sources */,
 			);
