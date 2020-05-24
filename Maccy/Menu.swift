@@ -46,11 +46,9 @@ class Menu: NSMenu, NSMenuDelegate {
         alternate(pasteHistoryItem)
         prependHistoryItems(copyHistoryItem, pasteHistoryItem)
       }
-    }
 
-    // Remove items until menuSize limit is met
-    while items.count > (UserDefaults.standard.menuSize * 2) {
-      removeLastHistoryItem()
+      if items.count >= UserDefaults.standard.maxMenuItems * 2
+        break
     }
   }
 
@@ -63,7 +61,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func updateFilter(filter: String) {
-    let results = search.search(string: filter, within: historyItems)
+    let results = search.search(string: filter, within: historyItems).prefix(UserDefaults.standard.maxMenuItems * 2)
 
     // First, remove items that don't match search.
     for item in historyItems {
@@ -79,11 +77,6 @@ class Menu: NSMenu, NSMenuDelegate {
       }
       insertItem(item, at: 1)
     })
-
-    // Remove items until menuSize limit is met
-    while items.count > (UserDefaults.standard.menuSize * 2) {
-      removeLastHistoryItem()
-    }
 
     setKeyEquivalents(results)
     highlight(results.first)

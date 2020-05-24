@@ -13,7 +13,7 @@ class History {
   init() {
     UserDefaults.standard.register(defaults: [
       UserDefaults.Keys.size: UserDefaults.Values.size,
-      UserDefaults.Keys.menuSize: UserDefaults.Values.menuSize
+      UserDefaults.Keys.maxMenuItems: UserDefaults.Values.maxMenuItems
     ])
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
       clear()
