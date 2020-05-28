@@ -47,10 +47,12 @@ class Menu: NSMenu, NSMenuDelegate {
         alternate(pasteHistoryItem)
         prependHistoryItems(copyHistoryItem, pasteHistoryItem)
       }
-
-      if items.count >= UserDefaults.standard.maxMenuItems * 2 {
-        break
-      }
+    }
+    
+    for historyItem in historyItems.reversed() {
+        if items.count > UserDefaults.standard.maxMenuItems * 2 + 7 {
+            removeItem(historyItem)
+        }
     }
   }
 
