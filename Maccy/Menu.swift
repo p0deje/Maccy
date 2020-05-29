@@ -36,6 +36,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func buildItems(_ allItems: [HistoryItem]) {
     clearAll()
+    let menuSizeLimit = items.count + UserDefaults.standard.maxMenuItems * 2
     for item in Sorter(by: UserDefaults.standard.sortBy).sort(allItems) {
       let copyHistoryItem = HistoryMenuItem(item: item, onSelected: copy(_:))
       let pasteHistoryItem = HistoryMenuItem(item: item, onSelected: copyAndPaste(_:))
@@ -50,7 +51,7 @@ class Menu: NSMenu, NSMenuDelegate {
     }
     
     for historyItem in historyItems.reversed() {
-        if items.count > UserDefaults.standard.maxMenuItems * 2 + 7 {
+        if items.count > menuSizeLimit {
             removeItem(historyItem)
         }
     }
