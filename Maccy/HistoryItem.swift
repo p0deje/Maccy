@@ -22,6 +22,10 @@ class HistoryItem: NSManagedObject {
     }
   }
 
+  public static func unpinned() -> [HistoryItem] {
+    all().filter({ $0.pin == nil })
+  }
+
   public static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
     let lhsContents = lhs.getContents()
     let rhsContents = rhs.getContents()

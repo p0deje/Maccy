@@ -71,6 +71,26 @@ class HistoryTests: XCTestCase {
     XCTAssertFalse(history.all.contains(items[0]))
   }
 
+  func testMaxSizeIgnoresPinned() {
+    var items: [HistoryItem] = []
+
+    let item = historyItem("0")
+    item.pin = "A"
+    items.append(item)
+    history.add(item)
+
+    for index in 1...11 {
+      let item = historyItem(String(index))
+      items.append(item)
+      history.add(item)
+    }
+
+    XCTAssertEqual(history.all.count, 11)
+    XCTAssertTrue(history.all.contains(items[10]))
+    XCTAssertTrue(history.all.contains(items[0]))
+    XCTAssertFalse(history.all.contains(items[1]))
+  }
+
   func testMaxSizeIsChanged() {
     var items: [HistoryItem] = []
     for index in 0...10 {

@@ -2,11 +2,12 @@ import AppKit
 
 class History {
   public var all: [HistoryItem] {
-    var items = HistoryItem.all()
-    while items.count > UserDefaults.standard.size {
-      remove(items.removeLast())
+    var unpinned = HistoryItem.unpinned()
+    while unpinned.count > UserDefaults.standard.size {
+      remove(unpinned.removeLast())
     }
-    return items
+
+    return HistoryItem.all()
   }
 
   init() {
