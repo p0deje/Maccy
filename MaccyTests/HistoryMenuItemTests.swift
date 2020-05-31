@@ -102,6 +102,11 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertNotEqual(menuItem.state, .on)
   }
 
+  func testTooltipLongerThanMax() {
+    let menuItem = historyMenuItem(String(repeating: "a", count: 5_001))
+    XCTAssertEqual(menuItem.toolTip, tooltip("\(String(repeating: "a", count: 5_000))..."))
+  }
+
   private func historyMenuItem(_ value: String) -> HistoryMenuItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value.data(using: .utf8)!)

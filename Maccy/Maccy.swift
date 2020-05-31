@@ -25,7 +25,7 @@ class Maccy: NSObject {
       (.separator, false, false, "", ""),
       (.clear, false, false, "", NSLocalizedString("clear_tooltip", comment: "")),
       (.clearAll, false, true, "", NSLocalizedString("clear_all_tooltip", comment: "")),
-      (.preferences, false, false, ",", ""),
+      (.preferences, false, false, ",", "")
     ]
 
     if UserDefaults.standard.saratovSeparator {

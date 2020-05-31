@@ -8,6 +8,7 @@ class HistoryMenuItem: NSMenuItem {
   public var value = ""
 
   private let showMaxLength = 50
+  private let tooltipMaxLength = 5_000
   private let imageMaxWidth: CGFloat = 340.0
 
   private var onSelected: [Callback] = []
@@ -86,9 +87,13 @@ class HistoryMenuItem: NSMenuItem {
     if let content = content(item, [.string]) {
       if let title = String(data: content.value, encoding: .utf8) {
         self.value = title
-        self.title = humanizedTitle(title)
+        self.title = trimmedString(title.trimmingCharacters(in: .whitespacesAndNewlines),
+                                  showMaxLength)
         self.image = ColorImage.from(title)
-        self.toolTip = "\(title)\n \n\n\(NSLocalizedString("history_item_tooltip", comment: ""))"
+        self.toolTip = [
+          trimmedString(title, tooltipMaxLength),
+          NSLocalizedString("history_item_tooltip", comment: "")
+        ].joined(separator: "\n \n\n")
       }
     }
   }
@@ -100,13 +105,12 @@ class HistoryMenuItem: NSMenuItem {
     })
   }
 
-  private func humanizedTitle(_ title: String) -> String {
-    let trimmedTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
-    if trimmedTitle.count > showMaxLength {
-      let index = trimmedTitle.index(trimmedTitle.startIndex, offsetBy: showMaxLength - 1)
-      return "\(trimmedTitle[...index])..."
-    } else {
-      return trimmedTitle
+  private func trimmedString(_ string: String, _ maxLength: Int) -> String {
+    guard string.count > maxLength else {
+      return string
     }
+
+    let index = string.index(string.startIndex, offsetBy: maxLength - 1)
+    return "\(string[...index])..."
   }
 }
