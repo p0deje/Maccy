@@ -11,14 +11,14 @@
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
 		86D6CB87BA4B18A71E7BB66F /* Pods_MaccyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 975F85A311398775317C1FCB /* Pods_MaccyTests.framework */; };
 		DA043DE1247D171C00488756 /* AppearancePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */; };
-		DA043DE2247D171C00488756 /* AppearancePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA043DE0247D171C00488756 /* AppearancePreferenceViewController.xib */; };
+		DA05E7CC2483EF83005CB8AA /* GeneralPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */; };
+		DA05E7D22483F70B005CB8AA /* AppearancePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7D42483F70B005CB8AA /* AppearancePreferenceViewController.xib */; };
+		DA05E7D72483F988005CB8AA /* AdvancedPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7D92483F988005CB8AA /* AdvancedPreferenceViewController.xib */; };
 		DA0950F0244AA1A90008414C /* HistoryItemOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0950EF244AA1A90008414C /* HistoryItemOld.swift */; };
 		DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EE7B8204657830025FC60 /* MaccyUITests.swift */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
 		DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */; };
-		DA181171247B405B00066D55 /* GeneralPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA18116F247B405B00066D55 /* GeneralPreferenceViewController.xib */; };
 		DA181174247B409A00066D55 /* AdvancedPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */; };
-		DA181175247B409A00066D55 /* AdvancedPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA181173247B409A00066D55 /* AdvancedPreferenceViewController.xib */; };
 		DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */; };
 		DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */; };
 		DA1EDE452045B68700479723 /* MenuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE442045B68700479723 /* MenuTests.swift */; };
@@ -100,16 +100,19 @@
 		9E6B74E2D3DF3AFC5D46D00A /* Pods-MaccyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaccyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MaccyTests/Pods-MaccyTests.debug.xcconfig"; sourceTree = "<group>"; };
 		D6F6959144733C6AFB9C2610 /* Pods-Maccy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maccy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Maccy/Pods-Maccy.debug.xcconfig"; sourceTree = "<group>"; };
 		DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearancePreferenceViewController.swift; sourceTree = "<group>"; };
-		DA043DE0247D171C00488756 /* AppearancePreferenceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AppearancePreferenceViewController.xib; sourceTree = "<group>"; };
+		DA05E7D02483EF8F005CB8AA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
+		DA05E7D12483F1B9005CB8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GeneralPreferenceViewController.xib; sourceTree = "<group>"; };
+		DA05E7D32483F70B005CB8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AppearancePreferenceViewController.xib; sourceTree = "<group>"; };
+		DA05E7D62483F711005CB8AA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
+		DA05E7D82483F988005CB8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AdvancedPreferenceViewController.xib; sourceTree = "<group>"; };
+		DA05E7E12483FA08005CB8AA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
 		DA0950EF244AA1A90008414C /* HistoryItemOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemOld.swift; sourceTree = "<group>"; };
 		DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0EE7B8204657830025FC60 /* MaccyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaccyUITests.swift; sourceTree = "<group>"; };
 		DA0EE7BA204657840025FC60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA0EF1871E444B2A00E58577 /* Clipboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
 		DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferenceViewController.swift; sourceTree = "<group>"; };
-		DA18116F247B405B00066D55 /* GeneralPreferenceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = GeneralPreferenceViewController.xib; sourceTree = "<group>"; };
 		DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPreferenceViewController.swift; sourceTree = "<group>"; };
-		DA181173247B409A00066D55 /* AdvancedPreferenceViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = AdvancedPreferenceViewController.xib; sourceTree = "<group>"; };
 		DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreferencePane.Identifier+Panes.swift"; sourceTree = "<group>"; };
 		DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMenuItemTests.swift; sourceTree = "<group>"; };
 		DA1EDE442045B68700479723 /* MenuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTests.swift; sourceTree = "<group>"; };
@@ -210,11 +213,11 @@
 			isa = PBXGroup;
 			children = (
 				DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */,
-				DA181173247B409A00066D55 /* AdvancedPreferenceViewController.xib */,
+				DA05E7D92483F988005CB8AA /* AdvancedPreferenceViewController.xib */,
 				DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */,
-				DA043DE0247D171C00488756 /* AppearancePreferenceViewController.xib */,
+				DA05E7D42483F70B005CB8AA /* AppearancePreferenceViewController.xib */,
 				DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */,
-				DA18116F247B405B00066D55 /* GeneralPreferenceViewController.xib */,
+				DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */,
 				DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */,
 			);
 			path = Preferences;
@@ -424,11 +427,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA181171247B405B00066D55 /* GeneralPreferenceViewController.xib in Resources */,
+				DA05E7CC2483EF83005CB8AA /* GeneralPreferenceViewController.xib in Resources */,
 				DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */,
 				4762D6972467226100B3A2BA /* Localizable.strings in Resources */,
-				DA043DE2247D171C00488756 /* AppearancePreferenceViewController.xib in Resources */,
-				DA181175247B409A00066D55 /* AdvancedPreferenceViewController.xib in Resources */,
+				DA05E7D22483F70B005CB8AA /* AppearancePreferenceViewController.xib in Resources */,
+				DA05E7D72483F988005CB8AA /* AdvancedPreferenceViewController.xib in Resources */,
 				DA246D611E56C9EA001E40F3 /* Application.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -588,6 +591,33 @@
 				DAA2BDCE24676CA7007FE090 /* ru */,
 			);
 			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA05E7D02483EF8F005CB8AA /* ru */,
+				DA05E7D12483F1B9005CB8AA /* Base */,
+			);
+			name = GeneralPreferenceViewController.xib;
+			sourceTree = "<group>";
+		};
+		DA05E7D42483F70B005CB8AA /* AppearancePreferenceViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA05E7D32483F70B005CB8AA /* Base */,
+				DA05E7D62483F711005CB8AA /* ru */,
+			);
+			name = AppearancePreferenceViewController.xib;
+			sourceTree = "<group>";
+		};
+		DA05E7D92483F988005CB8AA /* AdvancedPreferenceViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DA05E7D82483F988005CB8AA /* Base */,
+				DA05E7E12483FA08005CB8AA /* ru */,
+			);
+			name = AdvancedPreferenceViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

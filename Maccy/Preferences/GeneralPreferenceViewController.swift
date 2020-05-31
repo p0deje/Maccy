@@ -7,7 +7,7 @@ import Sparkle
 
 class GeneralPreferenceViewController: NSViewController, PreferencePane {
   public let preferencePaneIdentifier = PreferencePane.Identifier.general
-  public let preferencePaneTitle = "General"
+  public let preferencePaneTitle = NSLocalizedString("preferences_general", comment: "")
   public let toolbarItemIcon = NSImage(named: NSImage.preferencesGeneralName)!
 
   override var nibName: NSNib.Name? { "GeneralPreferenceViewController" }
@@ -61,10 +61,10 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   }
 
   @IBAction func sortByChanged(_ sender: NSPopUpButton) {
-    switch sender.title {
-    case "Number of copies":
+    switch sender.selectedTag() {
+    case 2:
       UserDefaults.standard.sortBy = "numberOfCopies"
-    case "Time of first copy":
+    case 1:
       UserDefaults.standard.sortBy = "firstCopiedAt"
     default:
       UserDefaults.standard.sortBy = "lastCopiedAt"
@@ -131,11 +131,11 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   private func populateSortBy() {
     switch UserDefaults.standard.sortBy {
     case "numberOfCopies":
-      sortByButton.selectItem(withTitle: "Number of copies")
+      sortByButton.selectItem(withTag: 2)
     case "firstCopiedAt":
-      sortByButton.selectItem(withTitle: "Time of first copy")
+      sortByButton.selectItem(withTag: 1)
     default:
-      sortByButton.selectItem(withTitle: "Time of last copy")
+      sortByButton.selectItem(withTag: 0)
     }
   }
 }

@@ -3,7 +3,7 @@ import Preferences
 
 class AppearancePreferenceViewController: NSViewController, PreferencePane {
   public let preferencePaneIdentifier = PreferencePane.Identifier.appearance
-  public let preferencePaneTitle = "Appearance"
+  public let preferencePaneTitle = NSLocalizedString("preferences_appearance", comment: "")
   public let toolbarItemIcon = NSImage(named: NSImage.colorPanelName)!
 
   override var nibName: NSNib.Name? { "AppearancePreferenceViewController" }
@@ -27,11 +27,11 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   }
 
   @IBAction func popupPositionChanged(_ sender: NSPopUpButton) {
-    switch sender.title {
-    case "Screen center":
-      UserDefaults.standard.popupPosition = "center"
-    case "Menu icon":
+    switch sender.selectedTag() {
+    case 2:
       UserDefaults.standard.popupPosition = "statusItem"
+    case 1:
+      UserDefaults.standard.popupPosition = "center"
     default:
       UserDefaults.standard.popupPosition = "cursor"
     }
@@ -62,12 +62,12 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
 
   private func populatePopupPosition() {
     switch UserDefaults.standard.popupPosition {
-    case "center":
-      popupAtButton.selectItem(withTitle: "Screen center")
     case "statusItem":
-      popupAtButton.selectItem(withTitle: "Menu icon")
+      popupAtButton.selectItem(withTag: 2)
+    case "center":
+      popupAtButton.selectItem(withTag: 1)
     default:
-      popupAtButton.selectItem(withTitle: "Cursor")
+      popupAtButton.selectItem(withTag: 0)
     }
   }
 

@@ -3,7 +3,7 @@ import Preferences
 
 class AdvancedPreferenceViewController: NSViewController, NSTableViewDataSource, PreferencePane {
   public let preferencePaneIdentifier = PreferencePane.Identifier.advanced
-  public let preferencePaneTitle = "Advanced"
+  public let preferencePaneTitle = NSLocalizedString("preferences_advanced", comment: "")
   public let toolbarItemIcon = NSImage(named: NSImage.advancedName)!
 
   override var nibName: NSNib.Name? { "AdvancedPreferenceViewController" }

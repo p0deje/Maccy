@@ -9,3 +9,6 @@
 "about" = "О приложении";
 "quit" = "Завершить";
 "preferences" = "Настройки...";
+"preferences_advanced" = "Дополнения";
+"preferences_appearance" = "Внешний Вид";
+"preferences_general" = "Основные";

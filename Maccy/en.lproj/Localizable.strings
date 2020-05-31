@@ -9,3 +9,6 @@
 "about" = "About";
 "quit" = "Quit";
 "preferences" = "Preferences...";
+"preferences_advanced" = "Advanced";
+"preferences_appearance" = "Appearance";
+"preferences_general" = "General";

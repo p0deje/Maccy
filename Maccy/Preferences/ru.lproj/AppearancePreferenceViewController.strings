@@ -1,0 +1,36 @@
+
+/* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
+"0h4-CZ-fwT.title" = "Иконки в меню";
+
+/* Class = "NSMenuItem"; title = "Cursor"; ObjectID = "Ccp-5J-8nw"; */
+"Ccp-5J-8nw.title" = "Курсора";
+
+/* Class = "NSButtonCell"; title = "Show footer"; ObjectID = "ClZ-IS-YKz"; */
+"ClZ-IS-YKz.title" = "Показывать нижний колонтитул";
+
+/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
+"KJb-2z-C5c.title" = "Центра экрана";
+
+/* Class = "NSTextFieldCell"; title = "Image height:"; ObjectID = "MKb-cW-gpg"; */
+"MKb-cW-gpg.title" = "Высота изображений:";
+
+/* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
+"Pud-2o-NKc.title" = "Показывать иконку в меню";
+
+/* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
+"R7Y-UN-Edt.title" = "Всплывать у:";
+
+/* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
+"bIP-Mi-SeJ.title" = "Максимальная высота предпросмотра изображений: {imageHeight}.\nПо умолчанию: 40.\nСовет: Поставьте 16 для схожести с текстовыми записями.";
+
+/* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
+"ePT-qq-kg9.title" = "Показывать название перед поиском";
+
+/* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
+"mWx-zi-OAv.title" = "Показывать поле поиска";
+
+/* Class = "NSTextFieldCell"; title = "Requires restart."; ObjectID = "pxj-T0-3K0"; */
+"pxj-T0-3K0.title" = "Требуется перезапуск.";
+
+/* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
+"tpV-rp-2HY.title" = "Изменить место для появления всплывающего окна.\nПо умолчанию: Курсор.";
