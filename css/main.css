@@ -2570,6 +2570,9 @@ button.button {
   @media (max-width: 600px) {
     .header-07__img, .header-23__img, .header-24__img, .header-25__img, .header-58__img {
       max-height: 300px; } }
+  @media (min-width: 1100px) {
+    .header-25__img {
+      max-width: 80%; } }
 
 .header-08, .header-59 {
   position: relative;
