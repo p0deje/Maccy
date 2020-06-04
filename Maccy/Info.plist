@@ -29,7 +29,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2020 Alex Rodionov.</string>
 	<key>CFBundleVersion</key>
-	<string>0.9.0</string>
+	<string>0.10.0</string>
 	<key>SUFeedURL</key>
 	<string>https://raw.githubusercontent.com/p0deje/Maccy/master/appcast.xml</string>
 </dict>
