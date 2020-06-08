@@ -344,6 +344,7 @@
 				DAE61D9E1EDC4A3C0016A3DE /* Embed Frameworks */,
 				DAE61DA01EDC4A5E0016A3DE /* CopyFiles */,
 				8AE38A873EFDB3F38D55B774 /* [CP] Embed Pods Frameworks */,
+				DA6D71522489A95E008992E3 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -361,7 +362,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 1140;
+				LastUpgradeCheck = 1150;
 				ORGANIZATIONNAME = p0deje;
 				TargetAttributes = {
 					DA0EE7B5204657830025FC60 = {
@@ -508,6 +509,23 @@
 			shellPath = /bin/sh;
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Maccy/Pods-Maccy-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
+		};
+		DA6D71522489A95E008992E3 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "LOCATION=\"${BUILT_PRODUCTS_DIR}\"/\"${FRAMEWORKS_FOLDER_PATH}\"\nIDENTITY=${EXPANDED_CODE_SIGN_IDENTITY_NAME}\n\ncodesign --verbose --force --deep -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A/Resources/AutoUpdate.app\"\ncodesign --verbose --force -o runtime --sign \"$IDENTITY\" \"$LOCATION/Sparkle.framework/Versions/A\"\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -842,10 +860,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "Mac Developer";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MN3X4648SC;
+				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = Maccy/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
