@@ -3,7 +3,7 @@ platform :osx, '10.14'
 target 'Maccy' do
   use_frameworks!
 
-  pod 'Fuse', '~> 1.2'
+  pod 'Fuse', '~> 1.4'
   pod 'KeyHolder', git: 'https://github.com/Clipy/KeyHolder.git'
   pod 'LoginServiceKit', git: 'https://github.com/Clipy/LoginServiceKit.git'
   pod 'Magnet', '~> 3.2'

@@ -1257,40 +1257,6 @@
 			};
 			name = Release;
 		};
-		2FF491695E12627B3F06E3B9564497F2 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2969C5B004DFE55016A48980B2EB3A5 /* Fuse.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/Fuse/Fuse-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Fuse/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Fuse/Fuse.modulemap";
-				PRODUCT_MODULE_NAME = Fuse;
-				PRODUCT_NAME = Fuse;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 4.1.2;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
 		35B703D6E108278A36988A2DDF909DE3 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 816A486C9685FABD159B44C33ED0EF6C /* Pods-MaccyTests.debug.xcconfig */;
@@ -1463,6 +1429,40 @@
 			};
 			name = Release;
 		};
+		48FCE2235B374C051FB325FAD3B2084B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2969C5B004DFE55016A48980B2EB3A5 /* Fuse.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/Fuse/Fuse-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Fuse/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Fuse/Fuse.modulemap";
+				PRODUCT_MODULE_NAME = Fuse;
+				PRODUCT_NAME = Fuse;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
 		5852CF5EB00EED4CB157836B4573EAC4 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = EB3CC77AC8CE2B2A7E4EBDE738358630 /* SwiftHEXColors.xcconfig */;
@@ -1491,40 +1491,6 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		5FD4D83D6B81D8443539BE3AE0CA9AB6 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B2969C5B004DFE55016A48980B2EB3A5 /* Fuse.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/Fuse/Fuse-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Fuse/Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Fuse/Fuse.modulemap";
-				PRODUCT_MODULE_NAME = Fuse;
-				PRODUCT_NAME = Fuse;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 4.1.2;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1656,6 +1622,40 @@
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
+		};
+		754DE495EB11F5D38DC5A4D061B4A0AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = B2969C5B004DFE55016A48980B2EB3A5 /* Fuse.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/Fuse/Fuse-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Fuse/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Fuse/Fuse.modulemap";
+				PRODUCT_MODULE_NAME = Fuse;
+				PRODUCT_NAME = Fuse;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
 		};
 		85735F85A74EC2EAEE8FA8111BD13B9E /* Debug */ = {
 			isa = XCBuildConfiguration;
@@ -1908,8 +1908,8 @@
 		0E0B582D8D2B0C67CCE334212F4831C7 /* Build configuration list for PBXNativeTarget "Fuse" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				5FD4D83D6B81D8443539BE3AE0CA9AB6 /* Debug */,
-				2FF491695E12627B3F06E3B9564497F2 /* Release */,
+				754DE495EB11F5D38DC5A4D061B4A0AF /* Debug */,
+				48FCE2235B374C051FB325FAD3B2084B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
