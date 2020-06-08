@@ -21,20 +21,20 @@ class Maccy: NSObject {
   )
 
   private var footerItems: [NSMenuItem] {
-    var footerItems: [(tag: MenuTag, isChecked: Bool, isAlternate: Bool, key: String, tooltip: String)] = [
-      (.separator, false, false, "", ""),
-      (.clear, false, false, "", NSLocalizedString("clear_tooltip", comment: "")),
-      (.clearAll, false, true, "", NSLocalizedString("clear_all_tooltip", comment: "")),
-      (.preferences, false, false, ",", "")
+    var footerItems: [(tag: MenuTag, isAlternate: Bool, key: String, tooltip: String)] = [
+      (.separator, false, "", ""),
+      (.clear, false, "", NSLocalizedString("clear_tooltip", comment: "")),
+      (.clearAll, true, "", NSLocalizedString("clear_all_tooltip", comment: "")),
+      (.preferences, false, ",", "")
     ]
 
     if UserDefaults.standard.saratovSeparator {
-      footerItems.append((.separator, false, false, "", ""))
+      footerItems.append((.separator, false, "", ""))
     }
 
     footerItems += [
-      (.about, false, false, "", NSLocalizedString("about_tooltip", comment: "")),
-      (.quit, false, false, "q", NSLocalizedString("quit_tooltip", comment: ""))
+      (.about, false, "", NSLocalizedString("about_tooltip", comment: "")),
+      (.quit, false, "q", NSLocalizedString("quit_tooltip", comment: ""))
     ]
 
     return footerItems.map({ item -> NSMenuItem in
@@ -45,10 +45,13 @@ class Maccy: NSObject {
                                   action: #selector(menuItemAction),
                                   keyEquivalent: item.key)
         menuItem.tag = item.tag.rawValue
-        menuItem.state = item.isChecked ? .on: .off
-        if item.isAlternate {
-          menuItem.isAlternate = true
-          menuItem.keyEquivalentModifierMask = [.option]
+        if UserDefaults.standard.hideFooter {
+          menuItem.isHidden = true
+        } else {
+          if item.isAlternate {
+            menuItem.isAlternate = true
+            menuItem.keyEquivalentModifierMask = [.option]
+          }
         }
         menuItem.target = self
         menuItem.toolTip = item.tooltip
@@ -143,10 +146,6 @@ class Maccy: NSObject {
   }
 
   private func populateFooter() {
-    guard !UserDefaults.standard.hideFooter else {
-      return
-    }
-
     for item in footerItems {
       menu.addItem(item)
     }

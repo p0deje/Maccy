@@ -209,6 +209,13 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
         customMenu?.cancelTracking()
         return false
       }
+    case Key.comma:
+      // Hidden items can't be selected with key equivalents,
+      // so emulate the behavior like items are visible.
+      if UserDefaults.standard.hideFooter && modifierFlags.contains(.command) {
+        openPreferences()
+        return false
+      }
     default:
       break
     }
@@ -273,5 +280,14 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     } else {
       setQuery("\(newValue) ")
     }
+  }
+
+  private func openPreferences() {
+    guard let menuItem = customMenu?.item(withTitle: "Preferences...") else {
+      return
+    }
+
+    _ = menuItem.target?.perform(menuItem.action, with: menuItem)
+    customMenu?.cancelTracking()
   }
 }
