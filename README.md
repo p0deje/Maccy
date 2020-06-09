@@ -47,7 +47,7 @@ brew cask install maccy
 5. To delete the history item, press <kbd>OPTION (⌥)</kbd> + <kbd>DELETE (⌫)</kbd>.
 6. To see the full text of the history item, wait a couple of seconds for tooltip.
 7. To pin the history item so that it remains on top of the list, press <kbd>OPTION (⌥)</kbd> + <kbd>P</kbd>. The item will be moved to the top with a random but permanent keyboard shortcut. To unpin it, press <kbd>OPTION (⌥)</kbd> + <kbd>P</kbd> again.
-8. To clear all unpineed items, select _Clear_ in the menu. To clear all items including pinned, select _Clear_ in the menu with  <kbd>OPTION (⌥)</kbd> pressed.
+8. To clear all unpinned items, select _Clear_ in the menu. To clear all items including pinned, select _Clear_ in the menu with  <kbd>OPTION (⌥)</kbd> pressed.
 9. To customize the behavior, check "Preferences..." window.
 
 ## Advanced

@@ -87,7 +87,9 @@ class Maccy: NSObject {
     pasteByDefaultObserver = UserDefaults.standard.observe(\.pasteByDefault, options: .new, changeHandler: { _, _ in
       self.rebuild()
     })
-    statusItemConfigurationObserver = UserDefaults.standard.observe(\.showInStatusBar, options: .new, changeHandler: { _, change in
+    statusItemConfigurationObserver = UserDefaults.standard.observe(\.showInStatusBar,
+                                                                    options: .new,
+                                                                    changeHandler: { _, change in
       if self.statusItem.isVisible != change.newValue! {
         self.statusItem.isVisible = change.newValue!
       }

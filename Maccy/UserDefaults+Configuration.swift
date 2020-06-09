@@ -10,6 +10,7 @@ extension UserDefaults {
     static let ignoreEvents = "ignoreEvents"
     static let ignoredPasteboardTypes = "ignoredPasteboardTypes"
     static let imageMaxHeight = "imageMaxHeight"
+    static let maxMenuItems = "maxMenuItems"
     static let migrations = "migrations"
     static let pasteByDefault = "pasteByDefault"
     static let popupPosition = "popupPosition"
@@ -30,6 +31,7 @@ extension UserDefaults {
     static let hotKey = "command+shift+c"
     static let ignoredPasteboardTypes: [String] = []
     static let imageMaxHeight = 40.0
+    static let maxMenuItems = 0
     static let migrations: [String: Bool] = [:]
     static let popupPosition = "cursor"
     static let showInStatusBar = true
@@ -76,6 +78,11 @@ extension UserDefaults {
   public var imageMaxHeight: Int {
     get { integer(forKey: Keys.imageMaxHeight) }
     set { set(newValue, forKey: Keys.imageMaxHeight) }
+  }
+
+  public var maxMenuItems: Int {
+    get { integer(forKey: Keys.maxMenuItems) }
+    set { set(newValue, forKey: Keys.maxMenuItems) }
   }
 
   public var migrations: [String: Bool] {

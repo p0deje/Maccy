@@ -11,6 +11,8 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var popupAtButton: NSPopUpButton!
   @IBOutlet weak var imageHeightSlider: NSSlider!
   @IBOutlet weak var imageHeightLabel: NSTextField!
+  @IBOutlet weak var menuSizeSlider: NSSlider!
+  @IBOutlet weak var menuSizeLabel: NSTextField!
   @IBOutlet weak var showMenuIconButton: NSButton!
   @IBOutlet weak var showSearchFieldButton: NSButton!
   @IBOutlet weak var showTitleButton: NSButton!
@@ -20,6 +22,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     super.viewWillAppear()
     populatePopupPosition()
     populateImageHeight()
+    populateMenuSize()
     populateShowMenuIcon()
     populateShowSearchField()
     populateShowTitle()
@@ -42,6 +45,13 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     let new = String(imageHeightSlider.integerValue)
     updateImageHeightLabel(old: old, new: new)
     UserDefaults.standard.imageMaxHeight = sender.integerValue
+  }
+
+  @IBAction func menuSizeChanged(_ sender: NSSlider) {
+    let old = String(UserDefaults.standard.maxMenuItems)
+    let new = String(menuSizeSlider.integerValue)
+    updateMenuSizeLabel(old: old, new: new)
+    UserDefaults.standard.maxMenuItems = sender.integerValue
   }
 
   @IBAction func showMenuIconChanged(_ sender: NSButton) {
@@ -85,6 +95,22 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
       range: imageHeightLabel.stringValue.range(of: old)
     )
     imageHeightLabel.stringValue = newLabelValue
+  }
+
+  private func populateMenuSize() {
+    menuSizeSlider.integerValue = UserDefaults.standard.maxMenuItems
+    let new = String(menuSizeSlider.integerValue)
+    updateMenuSizeLabel(old: "{menuSize}", new: new)
+  }
+
+  private func updateMenuSizeLabel(old: String, new: String) {
+    let newLabelValue = menuSizeLabel.stringValue.replacingOccurrences(
+      of: old,
+      with: new,
+      options: [],
+      range: menuSizeLabel.stringValue.range(of: old)
+    )
+    menuSizeLabel.stringValue = newLabelValue
   }
 
   private func populateShowMenuIcon() {

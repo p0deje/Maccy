@@ -14,12 +14,16 @@ class Menu: NSMenu, NSMenuDelegate {
   private var clipboard: Clipboard!
   private var history: History!
   private var historyItems: [HistoryMenuItem] = []
+  private var maxMenuItems: Int {
+    UserDefaults.standard.maxMenuItems * 2
+  }
 
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
   }
 
   init(history: History, clipboard: Clipboard) {
+    UserDefaults.standard.register(defaults: [UserDefaults.Keys.maxMenuItems: UserDefaults.Values.maxMenuItems])
     super.init(title: "Maccy")
     self.history = history
     self.clipboard = clipboard
@@ -35,6 +39,9 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func buildItems(_ allItems: [HistoryItem]) {
     clearAll()
+
+    let menuSizeLimit = items.count + maxMenuItems
+
     for item in Sorter(by: UserDefaults.standard.sortBy).sort(allItems) {
       let copyHistoryItem = HistoryMenuItem(item: item, onSelected: copy(_:))
       let pasteHistoryItem = HistoryMenuItem(item: item, onSelected: copyAndPaste(_:))
@@ -45,6 +52,16 @@ class Menu: NSMenu, NSMenuDelegate {
       } else {
         alternate(pasteHistoryItem)
         prependHistoryItems(copyHistoryItem, pasteHistoryItem)
+      }
+    }
+
+    if maxMenuItems > 0 {
+      for historyItem in historyItems.reversed() {
+        if items.count > menuSizeLimit {
+          removeItem(historyItem)
+        } else {
+          break
+        }
       }
     }
   }
@@ -58,7 +75,11 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func updateFilter(filter: String) {
-    let results = search.search(string: filter, within: historyItems)
+    var results = search.search(string: filter, within: historyItems)
+
+    if maxMenuItems > 0 && maxMenuItems < results.count {
+      results.removeSubrange(maxMenuItems...results.count - 1)
+    }
 
     // First, remove items that don't match search.
     for item in historyItems {
