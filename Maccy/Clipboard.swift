@@ -15,6 +15,7 @@ class Clipboard {
   ]
 
   private let supportedTypes: Set = [
+    NSPasteboard.PasteboardType.fileURL.rawValue,
     NSPasteboard.PasteboardType.png.rawValue,
     NSPasteboard.PasteboardType.string.rawValue,
     NSPasteboard.PasteboardType.tiff.rawValue

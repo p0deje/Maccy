@@ -78,6 +78,15 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.image!.size, NSSize(width: 40, height: 40))
   }
 
+  func testFile() {
+    let url = URL(fileURLWithPath: "/tmp/foo")
+    let menuItem = historyMenuItem(url)
+    XCTAssertEqual(menuItem.title, "file:///tmp/foo")
+    XCTAssertEqual(menuItem.value, "file:///tmp/foo")
+    XCTAssertEqual(menuItem.toolTip, tooltip(nil))
+    XCTAssertNil(menuItem.image)
+  }
+
   func testUnpinnedByDefault() {
     let menuItem = historyMenuItem("foo")
     XCTAssertNil(menuItem.item.pin)
@@ -117,6 +126,13 @@ class HistoryMenuItemTests: XCTestCase {
   private func historyMenuItem(_ value: NSImage) -> HistoryMenuItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.tiff.rawValue,
                                      value: value.tiffRepresentation!)
+    let item = HistoryItem(contents: [content])
+    return HistoryMenuItem(item: item, onSelected: { _ in })
+  }
+
+  private func historyMenuItem(_ value: URL) -> HistoryMenuItem {
+    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.fileURL.rawValue,
+                                     value: value.dataRepresentation)
     let item = HistoryItem(contents: [content])
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }

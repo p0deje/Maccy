@@ -29,6 +29,8 @@ class HistoryMenuItem: NSMenuItem {
 
     if isImage(item) {
       loadImage(item)
+    } else if isFile(item) {
+      loadFile(item)
     } else {
       loadString(item)
     }
@@ -63,6 +65,10 @@ class HistoryMenuItem: NSMenuItem {
     return content(item, [.tiff, .png]) != nil
   }
 
+  private func isFile(_ item: HistoryItem) -> Bool {
+    return content(item, [.fileURL]) != nil
+  }
+
   private func loadImage(_ item: HistoryItem) {
     if let content = content(item, [.tiff, .png]) {
       if let image = NSImage(data: content.value) {
@@ -78,6 +84,16 @@ class HistoryMenuItem: NSMenuItem {
         }
 
         self.image = image
+        self.toolTip = NSLocalizedString("history_item_tooltip", comment: "")
+      }
+    }
+  }
+
+  private func loadFile(_ item: HistoryItem) {
+    if let content = content(item, [.fileURL]) {
+      if let fileURL = String(data: content.value, encoding: .utf8) {
+        self.value = fileURL
+        self.title = trimmedString(fileURL, showMaxLength)
         self.toolTip = NSLocalizedString("history_item_tooltip", comment: "")
       }
     }

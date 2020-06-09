@@ -1,6 +1,7 @@
 import Carbon
 import XCTest
 
+// swiftlint:disable type_body_length
 class MaccyUITests: XCTestCase {
   let app = XCUIApplication()
   let pasteboard = NSPasteboard.general
@@ -11,6 +12,9 @@ class MaccyUITests: XCTestCase {
   // https://hetima.github.io/fucking_nsimage_syntax
   let image1 = NSImage(named: "NSAddTemplate")!
   let image2 = NSImage(named: "NSBluetoothTemplate")!
+
+  let file1 = URL(fileURLWithPath: "/tmp/file1")
+  let file2 = URL(fileURLWithPath: "/tmp/file2")
 
   var sortBy = "lastCopiedAt"
 
@@ -31,7 +35,6 @@ class MaccyUITests: XCTestCase {
     app.launchArguments.append(contentsOf: ["sortBy", sortBy])
     app.launch()
 
-    pasteboard.declareTypes([NSPasteboard.PasteboardType.string], owner: nil)
     copyToClipboard(copy2)
     copyToClipboard(copy1)
   }
@@ -75,6 +78,16 @@ class MaccyUITests: XCTestCase {
     XCTAssertFalse(app.menuItems[copy1].exists)
   }
 
+  func testSearchFiles() {
+    copyToClipboard(file2)
+    copyToClipboard(file1)
+    popUpWithHotkey()
+    app.typeText(file2.lastPathComponent)
+    XCTAssertTrue(app.menuItems[file2.absoluteString].exists)
+    XCTAssertTrue(app.menuItems[file2.absoluteString].firstMatch.isSelected)
+    XCTAssertFalse(app.menuItems[file1.absoluteString].exists)
+  }
+
   func testCopyWithClick() {
     popUpWithHotkey()
     app.menuItems[copy2].firstMatch.click()
@@ -107,6 +120,16 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     visibleMenuItems()[2].click()
     XCTAssertEqual(pasteboard.data(forType: .tiff)!.count, image2.tiffRepresentation!.count)
+  }
+
+  func testCopyFile() {
+    copyToClipboard(file2)
+    copyToClipboard(file1)
+    popUpWithHotkey()
+    XCTAssertEqual(visibleMenuItemTitles()[1...2], [file1.absoluteString, file2.absoluteString])
+
+    app.menuItems[file2.absoluteString].firstMatch.click()
+    XCTAssertEqual(pasteboard.string(forType: .fileURL), file2.absoluteString)
   }
 
   func testDownArrow() {
@@ -286,13 +309,27 @@ class MaccyUITests: XCTestCase {
   private func copyToClipboard(_ content: String) {
     pasteboard.clearContents()
     pasteboard.setString(content, forType: .string)
-    usleep(1500000) // default interval for Maccy to check clipboard is 1 second
+    waitTillClipboardCheck()
   }
 
   private func copyToClipboard(_ content: NSImage) {
     pasteboard.clearContents()
     pasteboard.setData(content.tiffRepresentation, forType: .tiff)
-    usleep(1500000) // default interval for Maccy to check clipboard is 1 second
+    waitTillClipboardCheck()
+  }
+
+  private func copyToClipboard(_ content: URL) {
+    pasteboard.clearContents()
+    pasteboard.setData(content.dataRepresentation, forType: .fileURL)
+    // WTF: The subsequent writes to pasteboard are not
+    // visible unless we explicitly read the last one?!
+    pasteboard.string(forType: .fileURL)
+    waitTillClipboardCheck()
+  }
+
+  // Default interval for Maccy to check clipboard is 1 second
+  private func waitTillClipboardCheck() {
+    usleep(1500000)
   }
 
   private func visibleMenuItemTitles() -> [String] {
@@ -308,3 +345,4 @@ class MaccyUITests: XCTestCase {
     app.typeKey("p", modifierFlags: [.option])
   }
 }
+// swiftlint:enable type_body_length

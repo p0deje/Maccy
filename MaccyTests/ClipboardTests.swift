@@ -7,6 +7,7 @@ class ClipboardTests: XCTestCase {
   let image = NSImage(named: "NSInfo")!
 
   let customType = NSPasteboard.PasteboardType(rawValue: "org.maccy.ConfidentialType")
+  let fileURLType = NSPasteboard.PasteboardType.fileURL
   let tiffType = NSPasteboard.PasteboardType.tiff
   let stringType = NSPasteboard.PasteboardType.string
   let transientType = NSPasteboard.PasteboardType(rawValue: "org.nspasteboard.TransientType")
@@ -119,10 +120,12 @@ class ClipboardTests: XCTestCase {
     let imageData = image.tiffRepresentation!
     let item = HistoryItem(contents: [
       HistoryItemContent(type: stringType.rawValue, value: "foo".data(using: .utf8)!),
-      HistoryItemContent(type: tiffType.rawValue, value: imageData)
+      HistoryItemContent(type: tiffType.rawValue, value: imageData),
+      HistoryItemContent(type: fileURLType.rawValue, value: "file://foo.bar".data(using: .utf8)!)
     ])
     clipboard.copy(item)
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
     XCTAssertEqual(pasteboard.data(forType: .tiff), imageData)
+    XCTAssertEqual(pasteboard.string(forType: .fileURL), "file://foo.bar")
   }
 }
