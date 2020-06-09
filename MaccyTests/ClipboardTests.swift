@@ -27,6 +27,7 @@ class ClipboardTests: XCTestCase {
     CoreDataManager.inMemory = false
     UserDefaults.standard.ignoreEvents = savedIgnoreEvents
     UserDefaults.standard.ignoredPasteboardTypes = savedIgnoredPasteboardTypes
+    clipboard.onNewCopyHooks = []
   }
 
   func testChangesListenerAndAddHooks() {
@@ -127,5 +128,18 @@ class ClipboardTests: XCTestCase {
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
     XCTAssertEqual(pasteboard.data(forType: .tiff), imageData)
     XCTAssertEqual(pasteboard.string(forType: .fileURL), "file://foo.bar")
+  }
+
+  func testHandlesItemsWithoutData() {
+    let hookExpectation = expectation(description: "Hook is called")
+    pasteboard.clearContents()
+    clipboard.onNewCopy({ (_: HistoryItem) -> Void in
+      hookExpectation.fulfill()
+    })
+    clipboard.startListening()
+    pasteboard.declareTypes([.fileURL, .string], owner: nil)
+    // fileURL is left without data
+    pasteboard.setString("bar", forType: .string)
+    waitForExpectations(timeout: 2)
   }
 }

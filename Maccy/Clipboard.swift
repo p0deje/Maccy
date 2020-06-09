@@ -4,6 +4,8 @@ import Carbon
 class Clipboard {
   typealias OnNewCopyHook = (HistoryItem) -> Void
 
+  public var onNewCopyHooks: [OnNewCopyHook] = []
+
   private let pasteboard = NSPasteboard.general
   private let timerInterval = 1.0
 
@@ -22,7 +24,6 @@ class Clipboard {
   ]
 
   private var changeCount: Int
-  private var onNewCopyHooks: [OnNewCopyHook] = []
 
   init() {
     changeCount = pasteboard.changeCount
@@ -95,7 +96,7 @@ class Clipboard {
       }
 
       let contents = item.types.map({ type in
-        return HistoryItemContent(type: type.rawValue, value: item.data(forType: type)!)
+        return HistoryItemContent(type: type.rawValue, value: item.data(forType: type))
       })
       let historyItem = HistoryItem(contents: contents)
 
