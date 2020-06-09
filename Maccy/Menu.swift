@@ -54,6 +54,9 @@ class Menu: NSMenu, NSMenuDelegate {
         if items.count > menuSizeLimit {
             removeItem(historyItem)
         }
+        else {
+            break
+        }
     }
   }
 

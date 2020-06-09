@@ -15,6 +15,8 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var showSearchFieldButton: NSButton!
   @IBOutlet weak var showTitleButton: NSButton!
   @IBOutlet weak var showFooterButton: NSButton!
+  @IBOutlet weak var menuSizeSlider: NSSlider!
+  @IBOutlet weak var menuSizeLabel: NSTextField!
 
   override func viewWillAppear() {
     super.viewWillAppear()
@@ -24,6 +26,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     populateShowSearchField()
     populateShowTitle()
     populateShowFooter()
+    populateMenuSize()
   }
 
   @IBAction func popupPositionChanged(_ sender: NSPopUpButton) {
@@ -58,6 +61,11 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
 
   @IBAction func showFooterChanged(_ sender: NSButton) {
     UserDefaults.standard.hideFooter = (sender.state == .off)
+  }
+    
+  @IBAction func menuSizeChanged(_ sender: NSSlider) {
+    updateMenuSizeLabel(old: String(UserDefaults.standard.maxMenuItems), new: String(menuSizeSlider.integerValue))
+    UserDefaults.standard.maxMenuItems = sender.integerValue
   }
 
   private func populatePopupPosition() {
@@ -101,5 +109,20 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
 
   private func populateShowFooter() {
     showFooterButton.state = UserDefaults.standard.hideFooter ? .off : .on
+  }
+    
+  private func populateMenuSize() {
+    menuSizeSlider.integerValue = UserDefaults.standard.maxMenuItems
+    updateMenuSizeLabel(old: "{menuSize}", new: String(menuSizeSlider.integerValue))
+  }
+
+  private func updateMenuSizeLabel(old: String, new: String) {
+    let newLabelValue = menuSizeLabel.stringValue.replacingOccurrences(
+      of: old,
+      with: new,
+      options: [],
+      range: menuSizeLabel.stringValue.range(of: old)
+    )
+    menuSizeLabel.stringValue = newLabelValue
   }
 }
