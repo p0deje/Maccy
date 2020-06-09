@@ -68,6 +68,7 @@ class Maccy: NSObject {
   private var hideSearchObserver: NSKeyValueObservation?
   private var hideTitleObserver: NSKeyValueObservation?
   private var pasteByDefaultObserver: NSKeyValueObservation?
+  private var statusItemConfigurationObserver: NSKeyValueObservation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
   override init() {
@@ -86,9 +87,15 @@ class Maccy: NSObject {
     pasteByDefaultObserver = UserDefaults.standard.observe(\.pasteByDefault, options: .new, changeHandler: { _, _ in
       self.rebuild()
     })
-
+    statusItemConfigurationObserver = UserDefaults.standard.observe(\.showInStatusBar, options: .new, changeHandler: { _, change in
+      if self.statusItem.isVisible != change.newValue! {
+        self.statusItem.isVisible = change.newValue!
+      }
+    })
     statusItemVisibilityObserver = observe(\.statusItem.isVisible, options: .new, changeHandler: { _, change in
-      UserDefaults.standard.showInStatusBar = change.newValue!
+      if UserDefaults.standard.showInStatusBar != change.newValue! {
+        UserDefaults.standard.showInStatusBar = change.newValue!
+      }
     })
 
     menu = Menu(history: history, clipboard: clipboard)
@@ -100,6 +107,7 @@ class Maccy: NSObject {
     hideSearchObserver?.invalidate()
     hideTitleObserver?.invalidate()
     pasteByDefaultObserver?.invalidate()
+    statusItemConfigurationObserver?.invalidate()
     statusItemVisibilityObserver?.invalidate()
   }
 

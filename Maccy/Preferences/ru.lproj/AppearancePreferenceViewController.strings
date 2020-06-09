@@ -29,9 +29,6 @@
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Показывать поле поиска";
 
-/* Class = "NSTextFieldCell"; title = "Requires restart."; ObjectID = "pxj-T0-3K0"; */
-"pxj-T0-3K0.title" = "Требуется перезапуск.";
-
 /* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
 "tpV-rp-2HY.title" = "Изменить место для появления всплывающего окна.\nПо умолчанию: Курсор.";
 
