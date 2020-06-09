@@ -30,9 +30,9 @@ class HistoryMenuItem: NSMenuItem {
     if isImage(item) {
       loadImage(item)
     } else if isFile(item) {
-      loadFile(item)
+      loadString(item, from: .fileURL)
     } else {
-      loadString(item)
+      loadString(item, from: .string)
     }
 
     if let itemPin = item.pin {
@@ -89,25 +89,15 @@ class HistoryMenuItem: NSMenuItem {
     }
   }
 
-  private func loadFile(_ item: HistoryItem) {
-    if let content = content(item, [.fileURL]) {
-      if let fileURL = String(data: content.value, encoding: .utf8) {
-        self.value = fileURL
-        self.title = trimmedString(fileURL, showMaxLength)
-        self.toolTip = NSLocalizedString("history_item_tooltip", comment: "")
-      }
-    }
-  }
-
-  private func loadString(_ item: HistoryItem) {
-    if let content = content(item, [.string]) {
-      if let title = String(data: content.value, encoding: .utf8) {
-        self.value = title
-        self.title = trimmedString(title.trimmingCharacters(in: .whitespacesAndNewlines),
+  private func loadString(_ item: HistoryItem, from: NSPasteboard.PasteboardType) {
+    if let content = content(item, [from]) {
+      if let string = String(data: content.value, encoding: .utf8) {
+        self.value = string
+        self.title = trimmedString(string.trimmingCharacters(in: .whitespacesAndNewlines),
                                   showMaxLength)
         self.image = ColorImage.from(title)
         self.toolTip = [
-          trimmedString(title, tooltipMaxLength),
+          trimmedString(string, tooltipMaxLength),
           NSLocalizedString("history_item_tooltip", comment: "")
         ].joined(separator: "\n \n\n")
       }

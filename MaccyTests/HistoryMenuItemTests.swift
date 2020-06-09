@@ -83,7 +83,7 @@ class HistoryMenuItemTests: XCTestCase {
     let menuItem = historyMenuItem(url)
     XCTAssertEqual(menuItem.title, "file:///tmp/foo")
     XCTAssertEqual(menuItem.value, "file:///tmp/foo")
-    XCTAssertEqual(menuItem.toolTip, tooltip(nil))
+    XCTAssertEqual(menuItem.toolTip, tooltip("file:///tmp/foo"))
     XCTAssertNil(menuItem.image)
   }
 
