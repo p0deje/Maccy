@@ -283,7 +283,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }
 
   private func openPreferences() {
-    guard let menuItem = customMenu?.item(withTitle: "Preferences...") else {
+    guard let menuItem = customMenu?.item(withTag: MenuTag.preferences.rawValue) else {
       return
     }
 
