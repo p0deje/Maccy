@@ -23,7 +23,7 @@ class ClipboardTests: XCTestCase {
   }
 
   override func tearDown() {
-    super.setUp()
+    super.tearDown()
     CoreDataManager.inMemory = false
     UserDefaults.standard.ignoreEvents = savedIgnoreEvents
     UserDefaults.standard.ignoredPasteboardTypes = savedIgnoredPasteboardTypes
