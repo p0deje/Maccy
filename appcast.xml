@@ -6,38 +6,25 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.10.0</title>
+      <title>0.11.0</title>
       <description>
         <![CDATA[
-          <h4>⚠️ This release (again) changes the storage system of history. Once upgraded, your new copies won't be visible to older versions of Maccy.</h4>
           <ul>
-            <li>Migrated history storage from UserDefaults to CoreData for better performance and easier maintenance </li>
-            <li>Added preferences windows which can be used to customize every aspect of the application behavior</li>
-            <li>Added support for PNG image copies which is used by default macOS screenshotting tool</li>
-            <li>Added support for different positioning of popup controlled by <code>popupPosition</code> option
-              <ul>
-                <li><code>cursor</code> which popups at pointer coordinates (default behavior)</li>
-                <li><code>center</code> which popups at the center of the current screen</li>
-                <li><code>statusItem</code> which popups in middle of menu icon (similar to what you'd have if you click on the icon manually)</li>
-              </ul>
-            </li>
-            <li>Added possibility to add/remove custom pasteboard types from the ignored list using <code>ignoredPasteboardTypes</code> option</li>
-            <li>Added support for <kbd>CONTROL (^)</kbd> + <kbd>W</kbd> keybinding which removes last word in search field</li>
-            <li>Added better handling of global hotkey when using Dvorak keyboards</li>
-            <li>Changed clearing behavior to keep pinned items by default. You can still clear all including pinned by selecting "Clear" with <kbd>OPTION (⌥)</kbd> pressed</li>
-            <li>Added Spanish localization</li>
-            <li>Added Russian localization</li>
-            <li>Improved performance for large copies (100k+ characters)</li>
-            <li>Fixed an issue when old pinned items would be removed when the storage size limit is reached</li>
+            <li>The application is now notarized by Apple.</li>
+            <li>Allow to open preferences using <kbd>COMMAND (⌘)</kbd> + <kbd>,</kbd> even when footer is hidden.</li>
+            <li>Support copying, storing and pasting files.</li>
+            <li>Allow to control number of visible menu items. Hidden items remain in the history and searchable.</li>
+            <li>Improved option to hide menu icon so it no longer requires restart.</li>
+            <li>Fixed an issue when certain pasteboard items would crash the application.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2020-06-03</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.10.0</releaseNotesLink>
+      <pubDate>2020-06-10</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.11.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.10.0/Maccy.app.zip"
-        sparkle:version="0.10.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.11.0/Maccy.app.zip"
+        sparkle:version="0.11.0"
         length="0"
         type="application/octet-stream"
       />
