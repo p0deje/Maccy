@@ -1,0 +1,42 @@
+
+/* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
+"0h4-CZ-fwT.title" = "Icono del menú";
+
+/* Class = "NSMenuItem"; title = "Cursor"; ObjectID = "Ccp-5J-8nw"; */
+"Ccp-5J-8nw.title" = "Cursor";
+
+/* Class = "NSButtonCell"; title = "Show footer"; ObjectID = "ClZ-IS-YKz"; */
+"ClZ-IS-YKz.title" = "Mostrar footer";
+
+/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
+"KJb-2z-C5c.title" = "Centro de la pantalla";
+
+/* Class = "NSTextFieldCell"; title = "Image height:"; ObjectID = "MKb-cW-gpg"; */
+"MKb-cW-gpg.title" = "Altura de imagen:";
+
+/* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
+"Pud-2o-NKc.title" = "Mostrar icono en la barra de menús";
+
+/* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
+"R7Y-UN-Edt.title" = "Aparecer en:";
+
+/* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
+"bIP-Mi-SeJ.title" = "Tamaño máximo de la previsualización de la imagen: {imageHeight}.\nPor defecto: 40.\nNota: Selecciona 16 para igualar el tamaño del texto.";
+
+/* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
+"ePT-qq-kg9.title" = "Mostrar título antes del buscador";
+
+/* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
+"mWx-zi-OAv.title" = "Mostrar campo de búsqueda";
+
+/* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
+"tpV-rp-2HY.title" = "Cambia la ubicación donde aparce la aplicación\nPor defecto: Cursor.";
+
+/* Class = "NSTextFieldCell"; title = "Press ⌘+, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
+"0tN-4z-p8T.title" = "Presiona ⌘+, para abrir las preferencias cuando el footer esté oculto.";
+
+/* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "Tamaño del menú:";
+
+/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
+"j39-nx-OGb.title" = "Número de elementos visibles: {menuSize}.\nLos elementos ocultos permanecen en el historial y pueden encontrarse usando el buscador.\nSelecciona 0 para verlos todos.\nPor defecto: 0.";

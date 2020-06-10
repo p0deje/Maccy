@@ -1,6 +1,6 @@
 "search_placeholder" = "escribe para buscar...";
-"history_item_tooltip" = "Presiona ⌥+⌫ para borrar.\nPresiona ⌥+p para fijar / soltar.";
-"clear_tooltip" = "Limpiar elementos no fijados.\nSelecciona con ⌥ para limpiarlos todos.";
+"history_item_tooltip" = "Presiona ⌥+⌫ para borrar.\nPresiona ⌥+p para (des)anclar.";
+"clear_tooltip" = "Limpiar elementos no anclados.\nSelecciona con ⌥ para limpiarlos todos.";
 "clear_all_tooltip" = "Limpiar todo.";
 "about_tooltip" = "Leer más sobre la aplicación.";
 "quit_tooltip" = "Cerrar aplicación.";
@@ -9,3 +9,6 @@
 "about" = "Acerca de…";
 "quit" = "Salir";
 "preferences" = "Preferencias...";
+"preferences_advanced" = "Avanzado";
+"preferences_appearance" = "Apariencia";
+"preferences_general" = "General";
