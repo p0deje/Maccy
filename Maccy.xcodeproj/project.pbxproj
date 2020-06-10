@@ -111,6 +111,9 @@
 		DA0EE7B8204657830025FC60 /* MaccyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaccyUITests.swift; sourceTree = "<group>"; };
 		DA0EE7BA204657840025FC60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA0EF1871E444B2A00E58577 /* Clipboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
+		DA0F34CC24913DCA008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
+		DA0F34CD24913DD1008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
+		DA0F34CE24913DD5008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
 		DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferenceViewController.swift; sourceTree = "<group>"; };
 		DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPreferenceViewController.swift; sourceTree = "<group>"; };
 		DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreferencePane.Identifier+Panes.swift"; sourceTree = "<group>"; };
@@ -616,6 +619,7 @@
 			children = (
 				DA05E7D02483EF8F005CB8AA /* ru */,
 				DA05E7D12483F1B9005CB8AA /* Base */,
+				DA0F34CE24913DD5008E9E26 /* es */,
 			);
 			name = GeneralPreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -625,6 +629,7 @@
 			children = (
 				DA05E7D32483F70B005CB8AA /* Base */,
 				DA05E7D62483F711005CB8AA /* ru */,
+				DA0F34CD24913DD1008E9E26 /* es */,
 			);
 			name = AppearancePreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -634,6 +639,7 @@
 			children = (
 				DA05E7D82483F988005CB8AA /* Base */,
 				DA05E7E12483FA08005CB8AA /* ru */,
+				DA0F34CC24913DCA008E9E26 /* es */,
 			);
 			name = AdvancedPreferenceViewController.xib;
 			sourceTree = "<group>";
