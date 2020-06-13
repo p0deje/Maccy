@@ -87,6 +87,14 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertNil(menuItem.image)
   }
 
+  func testItemWithoutData() {
+    let menuItem = historyMenuItem(nil)
+    XCTAssertEqual(menuItem.title, "")
+    XCTAssertEqual(menuItem.value, "")
+    XCTAssertEqual(menuItem.toolTip, nil)
+    XCTAssertNil(menuItem.image)
+  }
+
   func testUnpinnedByDefault() {
     let menuItem = historyMenuItem("foo")
     XCTAssertNil(menuItem.item.pin)
@@ -116,9 +124,9 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.toolTip, tooltip("\(String(repeating: "a", count: 5_000))..."))
   }
 
-  private func historyMenuItem(_ value: String) -> HistoryMenuItem {
+  private func historyMenuItem(_ value: String?) -> HistoryMenuItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
-                                     value: value.data(using: .utf8)!)
+                                     value: value?.data(using: .utf8))
     let item = HistoryItem(contents: [content])
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }

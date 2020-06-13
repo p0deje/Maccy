@@ -62,16 +62,20 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func isImage(_ item: HistoryItem) -> Bool {
-    return content(item, [.tiff, .png]) != nil
+    return contentData(item, [.tiff, .png]) != nil
   }
 
   private func isFile(_ item: HistoryItem) -> Bool {
-    return content(item, [.fileURL]) != nil
+    return contentData(item, [.fileURL]) != nil
+  }
+
+  private func isString(_ item: HistoryItem) -> Bool {
+    return contentData(item, [.string]) != nil
   }
 
   private func loadImage(_ item: HistoryItem) {
-    if let content = content(item, [.tiff, .png]) {
-      if let image = NSImage(data: content.value) {
+    if let contentData = contentData(item, [.tiff, .png]) {
+      if let image = NSImage(data: contentData) {
         if image.size.width > imageMaxWidth {
           image.size.height = image.size.height / (image.size.width / imageMaxWidth)
           image.size.width = imageMaxWidth
@@ -90,8 +94,8 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadString(_ item: HistoryItem, from: NSPasteboard.PasteboardType) {
-    if let content = content(item, [from]) {
-      if let string = String(data: content.value, encoding: .utf8) {
+    if let contentData = contentData(item, [from]) {
+      if let string = String(data: contentData, encoding: .utf8) {
         self.value = string
         self.title = trimmedString(string.trimmingCharacters(in: .whitespacesAndNewlines),
                                   showMaxLength)
@@ -104,11 +108,13 @@ class HistoryMenuItem: NSMenuItem {
     }
   }
 
-  private func content(_ item: HistoryItem, _ types: [NSPasteboard.PasteboardType]) -> HistoryItemContent? {
+  private func contentData(_ item: HistoryItem, _ types: [NSPasteboard.PasteboardType]) -> Data? {
     let contents = item.getContents()
-    return contents.first(where: { content in
+    let content = contents.first(where: { content in
       return types.contains(NSPasteboard.PasteboardType(content.type))
     })
+
+    return content?.value
   }
 
   private func trimmedString(_ string: String, _ maxLength: Int) -> String {
