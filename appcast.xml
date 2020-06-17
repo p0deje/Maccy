@@ -6,25 +6,24 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.11.0</title>
+      <title>0.12.0</title>
       <description>
 	<![CDATA[
-	  <h4>⚠️ Unfortunately it's not possible to automatically update to version 0.11.0 due to notarization added. Please, click "Learn more",  download Maccy.app.zip, extract it and move Maccy.app to your Applications folder manually. You only need to do this once and further updates will resume working automatically.</h4>
 	  <ul>
-	    <li>The application is now notarized by Apple.</li>
-	    <li>Allow to open preferences using <kbd>COMMAND (⌘)</kbd> + <kbd>,</kbd> even when footer is hidden.</li>
-	    <li>Support copying, storing and pasting files.</li>
-	    <li>Allow to control number of visible menu items. Hidden items remain in the history and searchable.</li>
-	    <li>Improved option to hide menu icon so it no longer requires restart.</li>
-	    <li>Fixed an issue when certain pasteboard items would crash the application.</li>
+	    <li>Fixed a crash when application couldn't read empty data.</li>
+	    <li>Added Spanish translation to the preferences.</li>
 	  </ul>
 	]]>
       </description>
-      <pubDate>2020-06-10</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.11.0</releaseNotesLink>
+      <pubDate>2020-06-17</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.12.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
-      <sparkle:version>0.11.0</sparkle:version>
-      <link>https://github.com/p0deje/Maccy/releases/tag/0.11.0</link>
+      <enclosure
+        url="https://github.com/p0deje/Maccy/releases/download/0.12.0/Maccy.app.zip"
+        sparkle:version="0.12.0"
+        length="0"
+        type="application/octet-stream"
+      />
     </item>
   </channel>
 </rss>
