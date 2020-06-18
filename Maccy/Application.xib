@@ -15,5 +15,37 @@
         <customObject id="qYj-xg-cp5" userLabel="Delegate" customClass="AppDelegate" customModule="Maccy" customModuleProvider="target"/>
         <customObject id="YLy-65-1bz" customClass="NSFontManager"/>
         <customObject id="dcE-WI-1wz" customClass="SUUpdater"/>
+        <menu title="Main Menu" systemMenu="main" id="Jro-eu-QeA">
+            <items>
+                <menuItem title="Maccy" id="3CE-d6-uUV">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Maccy" systemMenu="apple" id="S3O-il-PTi">
+                        <items>
+                            <menuItem title="Quit Maccy" keyEquivalent="q" id="RBB-k6-t5o">
+                                <connections>
+                                    <action selector="terminate:" target="-1" id="k91-d6-t2E"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="File" id="WoJ-7b-FuH">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="File" id="3YT-2e-2Wy">
+                        <items>
+                            <menuItem title="Close" keyEquivalent="w" id="56E-4U-hdy">
+                                <connections>
+                                    <action selector="performClose:" target="-1" id="WfX-ON-v1a"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+            </items>
+            <connections>
+                <outlet property="delegate" destination="qYj-xg-cp5" id="ohq-BR-aiW"/>
+            </connections>
+            <point key="canvasLocation" x="139" y="154"/>
+        </menu>
     </objects>
 </document>
