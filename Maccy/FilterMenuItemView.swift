@@ -176,6 +176,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }
 
   // swiftlint:disable cyclomatic_complexity
+  // swiftlint:disable function_body_length
   private func processKeyDownEvent(_ event: NSEvent) -> Bool {
     guard let key = Key(QWERTYKeyCode: Int(event.keyCode)) else {
       return false
@@ -195,10 +196,18 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
         removeLastWordInSearchField()
         return true
       }
+    case Key.n:
+      if modifierFlags.contains(.control) {
+        customMenu?.selectNext(alt: false)
+        return true
+      }
     case Key.p:
       if modifierFlags.contains(.option) {
         customMenu?.pinOrUnpin()
         queryField.stringValue = "" // clear search field just in case
+        return true
+      } else if modifierFlags.contains(.control) {
+        customMenu?.selectPrevious(alt: false)
         return true
       }
     case Key.return, Key.keypadEnter, Key.upArrow, Key.downArrow:
@@ -234,6 +243,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     return false
   }
   // swiftlint:enable cyclomatic_complexity
+  // swiftlint:enable function_body_length
 
   private func processDeleteKey(menu: Menu?, key: Key, modifierFlags: NSEvent.ModifierFlags) {
     if modifierFlags.contains(.command) {
