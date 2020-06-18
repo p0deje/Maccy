@@ -40,3 +40,15 @@
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
 "j39-nx-OGb.title" = "Количество видимых записей: {menuSize}.\nСкрытые записи будут доступны в истории и с помощью поиска.\nПоставьте 0, чтобы все записи были видимы.\nПо умолчанию: 0.";
+
+/* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
+"GhW-Kv-rhO.title" = "Прикреплять к:";
+
+/* Class = "NSMenuItem"; title = "Top"; ObjectID = "DKE-JI-oLS"; */
+"DKE-JI-oLS.title" = "Верху";
+
+/* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
+"Yio-8e-oaa.title" = "Низу";
+
+/* Class = "NSTextFieldCell"; title = "Change the location of pinned items.\nDefault: Top."; ObjectID = "aqA-NI-K5d"; */
+"aqA-NI-K5d.title" = "Изменить место прикрепленных записей.\nПо умолчанию: Верх.";

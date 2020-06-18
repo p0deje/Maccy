@@ -9,6 +9,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   override var nibName: NSNib.Name? { "AppearancePreferenceViewController" }
 
   @IBOutlet weak var popupAtButton: NSPopUpButton!
+  @IBOutlet weak var pinToButton: NSPopUpButton!
   @IBOutlet weak var imageHeightSlider: NSSlider!
   @IBOutlet weak var imageHeightLabel: NSTextField!
   @IBOutlet weak var menuSizeSlider: NSSlider!
@@ -21,6 +22,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   override func viewWillAppear() {
     super.viewWillAppear()
     populatePopupPosition()
+    populatePinTo()
     populateImageHeight()
     populateMenuSize()
     populateShowMenuIcon()
@@ -37,6 +39,15 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
       UserDefaults.standard.popupPosition = "center"
     default:
       UserDefaults.standard.popupPosition = "cursor"
+    }
+  }
+
+  @IBAction func pinToChanged(_ sender: NSPopUpButton) {
+    switch sender.selectedTag() {
+    case 1:
+      UserDefaults.standard.pinTo = "bottom"
+    default:
+      UserDefaults.standard.pinTo = "top"
     }
   }
 
@@ -75,6 +86,15 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     case "statusItem":
       popupAtButton.selectItem(withTag: 2)
     case "center":
+      popupAtButton.selectItem(withTag: 1)
+    default:
+      popupAtButton.selectItem(withTag: 0)
+    }
+  }
+
+  private func populatePinTo() {
+    switch UserDefaults.standard.pinTo {
+    case "bottom":
       popupAtButton.selectItem(withTag: 1)
     default:
       popupAtButton.selectItem(withTag: 0)

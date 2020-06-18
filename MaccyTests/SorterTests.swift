@@ -2,6 +2,8 @@ import XCTest
 @testable import Maccy
 
 class SorterTests: XCTestCase {
+  let savedPinTo = UserDefaults.standard.pinTo
+
   var item1: HistoryItem!
   var item2: HistoryItem!
   var item3: HistoryItem!
@@ -17,6 +19,7 @@ class SorterTests: XCTestCase {
   override func tearDown() {
     super.tearDown()
     CoreDataManager.inMemory = false
+    UserDefaults.standard.pinTo = savedPinTo
   }
 
   func testSortByLastCopiedAt() {
@@ -34,11 +37,20 @@ class SorterTests: XCTestCase {
     XCTAssertEqual(sorter.sort([item1, item2, item3]), [item3, item2, item1])
   }
 
-  func testSortByPin() {
+  func testSortByPinToTop() {
     item1.pin = "a"
     item3.pin = "b"
     let sorter = Sorter(by: "lastCopiedAt")
     XCTAssertEqual(sorter.sort([item1, item2, item3]), [item2, item3, item1])
+  }
+
+  func testSortByPinToBottom() {
+    UserDefaults.standard.pinTo = "bottom"
+
+    item1.pin = "a"
+    item3.pin = "b"
+    let sorter = Sorter(by: "lastCopiedAt")
+    XCTAssertEqual(sorter.sort([item1, item2, item3]), [item3, item1, item2])
   }
 
   private func historyItem(value: String, firstCopiedAt: Int,

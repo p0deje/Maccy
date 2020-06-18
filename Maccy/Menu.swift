@@ -39,7 +39,6 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func buildItems(_ allItems: [HistoryItem]) {
     clearAll()
-
     let menuSizeLimit = items.count + maxMenuItems
 
     for item in Sorter(by: UserDefaults.standard.sortBy).sort(allItems) {
@@ -55,15 +54,7 @@ class Menu: NSMenu, NSMenuDelegate {
       }
     }
 
-    if maxMenuItems > 0 {
-      for historyItem in historyItems.reversed() {
-        if items.count > menuSizeLimit {
-          removeItem(historyItem)
-        } else {
-          break
-        }
-      }
-    }
+    hideUnpinnedItemsExceedingLimit(menuSizeLimit)
   }
 
   func clearAll() {
@@ -258,5 +249,17 @@ class Menu: NSMenu, NSMenuDelegate {
 
       historyItems.removeAll(where: { $0 == item})
     })
+  }
+
+  private func hideUnpinnedItemsExceedingLimit(_ menuSizeLimit: Int) {
+    if maxMenuItems > 0 {
+      for historyItem in historyItems.filter({ !$0.isPinned }).reversed() {
+        if items.count > menuSizeLimit {
+          removeItem(historyItem)
+        } else {
+          break
+        }
+      }
+    }
   }
 }

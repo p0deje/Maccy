@@ -24,6 +24,10 @@ class Sorter {
   }
 
   private func byPinned(_ lhs: HistoryItem, _ rhs: HistoryItem) -> Bool {
-    return (lhs.pin == nil) && (rhs.pin != nil)
+    if UserDefaults.standard.pinTo == "bottom" {
+      return (lhs.pin != nil) && (rhs.pin == nil)
+    } else {
+      return (lhs.pin == nil) && (rhs.pin != nil)
+    }
   }
 }

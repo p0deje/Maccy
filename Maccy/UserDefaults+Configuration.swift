@@ -13,6 +13,7 @@ extension UserDefaults {
     static let maxMenuItems = "maxMenuItems"
     static let migrations = "migrations"
     static let pasteByDefault = "pasteByDefault"
+    static let pinTo = "pinTo"
     static let popupPosition = "popupPosition"
     static let saratovSeparator = "enableSaratovSeparator"
     static let size = "historySize"
@@ -33,6 +34,7 @@ extension UserDefaults {
     static let imageMaxHeight = 40.0
     static let maxMenuItems = 0
     static let migrations: [String: Bool] = [:]
+    static let pinTo = "top"
     static let popupPosition = "cursor"
     static let showInStatusBar = true
     static let size = 200
@@ -93,6 +95,11 @@ extension UserDefaults {
   @objc dynamic public var pasteByDefault: Bool {
     get { bool(forKey: Keys.pasteByDefault) }
     set { set(newValue, forKey: Keys.pasteByDefault) }
+  }
+
+  public var pinTo: String {
+    get { string(forKey: Keys.pinTo) ?? Values.pinTo }
+    set { set(newValue, forKey: Keys.pinTo) }
   }
 
   public var popupPosition: String {
