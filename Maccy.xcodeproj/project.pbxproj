@@ -50,6 +50,7 @@
 		DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE38461E3DBEB100DD2966 /* AppDelegate.swift */; };
 		DAEE38541E3DD6F100DD2966 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE38531E3DD6F100DD2966 /* History.swift */; };
 		DAF176C6202AA56B00C5FD0D /* Keys.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF176C5202AA56B00C5FD0D /* Keys.swift */; };
+		DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +152,7 @@
 		DAEE384D1E3DBEB100DD2966 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAEE38531E3DD6F100DD2966 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = History.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DAF176C5202AA56B00C5FD0D /* Keys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keys.swift; sourceTree = "<group>"; };
+		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Popup.swift"; sourceTree = "<group>"; };
 		EE4F94E5429D67E354BC8011 /* Pods-MaccyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaccyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MaccyTests/Pods-MaccyTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -285,6 +287,7 @@
 				DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */,
 				DA0950EF244AA1A90008414C /* HistoryItemOld.swift */,
 				DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */,
+				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */,
 				DAF176C5202AA56B00C5FD0D /* Keys.swift */,
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
 				DA2C752B2029FE990090965D /* Menu.swift */,
@@ -487,9 +490,8 @@
 			inputPaths = (
 				"${SRCROOT}/Pods/Target Support Files/Pods-Maccy/Pods-Maccy-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Fuse/Fuse.framework",
-				"${BUILT_PRODUCTS_DIR}/KeyHolder/KeyHolder.framework",
+				"${BUILT_PRODUCTS_DIR}/KeyboardShortcuts/KeyboardShortcuts.framework",
 				"${BUILT_PRODUCTS_DIR}/LoginServiceKit/LoginServiceKit.framework",
-				"${BUILT_PRODUCTS_DIR}/Magnet/Magnet.framework",
 				"${BUILT_PRODUCTS_DIR}/Preferences/Preferences.framework",
 				"${BUILT_PRODUCTS_DIR}/Sauce/Sauce.framework",
 				"${PODS_ROOT}/Sparkle/Sparkle.framework",
@@ -499,9 +501,8 @@
 			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fuse.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeyHolder.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeyboardShortcuts.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LoginServiceKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Magnet.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Preferences.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sauce.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sparkle.framework",
@@ -518,11 +519,7 @@
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputFileListPaths = (
-			);
 			inputPaths = (
-			);
-			outputFileListPaths = (
 			);
 			outputPaths = (
 			);
@@ -573,6 +570,7 @@
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
 				DA0950F0244AA1A90008414C /* HistoryItemOld.swift in Sources */,
 				DA6DA786236D605B0062CCC6 /* MenuTag.swift in Sources */,
+				DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift in Sources */,
 				DAB65E0D2440B0D4000AECA8 /* HistoryItemContent.swift in Sources */,
 				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,

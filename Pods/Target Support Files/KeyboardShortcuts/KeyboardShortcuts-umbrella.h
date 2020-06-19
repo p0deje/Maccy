@@ -10,3 +10,7 @@
 #endif
 #endif
 
+
+FOUNDATION_EXPORT double KeyboardShortcutsVersionNumber;
+FOUNDATION_EXPORT const unsigned char KeyboardShortcutsVersionString[];
+

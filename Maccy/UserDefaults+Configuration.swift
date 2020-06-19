@@ -6,7 +6,6 @@ extension UserDefaults {
     static let hideFooter = "hideFooter"
     static let hideSearch = "hideSearch"
     static let hideTitle = "hideTitle"
-    static let hotKey = "hotKey"
     static let ignoreEvents = "ignoreEvents"
     static let ignoredPasteboardTypes = "ignoredPasteboardTypes"
     static let imageMaxHeight = "imageMaxHeight"
@@ -29,7 +28,6 @@ extension UserDefaults {
   }
 
   public struct Values {
-    static let hotKey = "command+shift+c"
     static let ignoredPasteboardTypes: [String] = []
     static let imageMaxHeight = 40.0
     static let maxMenuItems = 0
@@ -60,11 +58,6 @@ extension UserDefaults {
   @objc dynamic public var hideTitle: Bool {
     get { bool(forKey: Keys.hideTitle) }
     set { set(newValue, forKey: Keys.hideTitle) }
-  }
-
-  @objc dynamic public var hotKey: String {
-    get { string(forKey: Keys.hotKey) ?? Values.hotKey }
-    set { set(newValue, forKey: Keys.hotKey) }
   }
 
   public var ignoreEvents: Bool {

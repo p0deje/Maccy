@@ -3,7 +3,6 @@ import XCTest
 
 class UserDefaultsTests: XCTestCase {
   let savedFuzzySearch = UserDefaults.standard.fuzzySearch
-  let savedHotKey = UserDefaults.standard.hotKey
   let savedIgnoreEvents = UserDefaults.standard.ignoreEvents
   let savedIgnoredPasteboardTypes = UserDefaults.standard.ignoredPasteboardTypes
   let savedPasteByDefault = UserDefaults.standard.pasteByDefault
@@ -18,7 +17,6 @@ class UserDefaultsTests: XCTestCase {
     super.setUp()
 
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.fuzzySearch)
-    UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.hotKey)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.ignoreEvents)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.ignoredPasteboardTypes)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.pasteByDefault)
@@ -34,7 +32,6 @@ class UserDefaultsTests: XCTestCase {
     super.tearDown()
 
     UserDefaults.standard.fuzzySearch = savedFuzzySearch
-    UserDefaults.standard.hotKey = savedHotKey
     UserDefaults.standard.ignoreEvents = savedIgnoreEvents
     UserDefaults.standard.ignoredPasteboardTypes = savedIgnoredPasteboardTypes
     UserDefaults.standard.pasteByDefault = savedPasteByDefault
@@ -48,7 +45,6 @@ class UserDefaultsTests: XCTestCase {
 
   func testDefaultValues() {
     XCTAssertEqual(UserDefaults.standard.fuzzySearch, false)
-    XCTAssertEqual(UserDefaults.standard.hotKey, "command+shift+c")
     XCTAssertEqual(UserDefaults.standard.ignoreEvents, false)
     XCTAssertEqual(UserDefaults.standard.ignoredPasteboardTypes, Set())
     XCTAssertEqual(UserDefaults.standard.pasteByDefault, false)
@@ -64,7 +60,6 @@ class UserDefaultsTests: XCTestCase {
     let item = HistoryItemOld(value: "foo".data(using: .utf8)!)
 
     UserDefaults.standard.fuzzySearch = true
-    UserDefaults.standard.hotKey = "command+shift+a"
     UserDefaults.standard.ignoreEvents = true
     UserDefaults.standard.ignoredPasteboardTypes = ["foo", "bar"]
     UserDefaults.standard.pasteByDefault = true
@@ -76,7 +71,6 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.storage = [item]
 
     XCTAssertEqual(UserDefaults.standard.fuzzySearch, true)
-    XCTAssertEqual(UserDefaults.standard.hotKey, "command+shift+a")
     XCTAssertEqual(UserDefaults.standard.ignoreEvents, true)
     XCTAssertEqual(UserDefaults.standard.ignoredPasteboardTypes, Set(["foo", "bar"]))
     XCTAssertEqual(UserDefaults.standard.pasteByDefault, true)

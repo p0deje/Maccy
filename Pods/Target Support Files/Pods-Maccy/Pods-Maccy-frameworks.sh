@@ -144,9 +144,8 @@ strip_invalid_archs() {
 
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Fuse/Fuse.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/KeyHolder/KeyHolder.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/KeyboardShortcuts/KeyboardShortcuts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/LoginServiceKit/LoginServiceKit.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Magnet/Magnet.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Preferences/Preferences.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Sauce/Sauce.framework"
   install_framework "${PODS_ROOT}/Sparkle/Sparkle.framework"
@@ -155,9 +154,8 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/Fuse/Fuse.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/KeyHolder/KeyHolder.framework"
+  install_framework "${BUILT_PRODUCTS_DIR}/KeyboardShortcuts/KeyboardShortcuts.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/LoginServiceKit/LoginServiceKit.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/Magnet/Magnet.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Preferences/Preferences.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Sauce/Sauce.framework"
   install_framework "${PODS_ROOT}/Sparkle/Sparkle.framework"

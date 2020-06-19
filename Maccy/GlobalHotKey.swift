@@ -1,69 +1,20 @@
-import Magnet
-import Sauce
+import KeyboardShortcuts
 
 class GlobalHotKey {
   typealias Handler = () -> Void
 
-  static public var key: Key?
-  static public var modifierFlags: NSEvent.ModifierFlags?
+  static public var key: KeyboardShortcuts.Key? { KeyboardShortcuts.Shortcut(name: .popup)?.key }
+  static public var modifierFlags: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .popup)?.modifiers }
 
-  private var hotKey: HotKey!
   private var handler: Handler
-  private var hotKeyPrefObserver: NSKeyValueObservation?
 
   init(_ handler: @escaping Handler) {
-    UserDefaults.standard.register(defaults: [UserDefaults.Keys.hotKey: UserDefaults.Values.hotKey])
-
     self.handler = handler
-    hotKeyPrefObserver = UserDefaults.standard.observe(\.hotKey, options: [.initial, .new], changeHandler: { _, _ in
-      // Ensure old shortcut stops working.
-      self.hotKey?.unregister()
 
-      if let (key, modifiers) = self.parseHotKey() {
-        if let keyCombo = KeyCombo(key: key, cocoaModifiers: modifiers) {
-          self.hotKey = HotKey(identifier: UserDefaults.standard.hotKey, keyCombo: keyCombo) { hotKey in
-            hotKey.unregister()
-            self.handler()
-            hotKey.register()
-          }
-          self.hotKey.register()
-        }
-      }
-    })
-  }
-
-  deinit {
-    hotKeyPrefObserver?.invalidate()
-  }
-
-  private func parseHotKey() -> (Key, NSEvent.ModifierFlags)? {
-    var keysList = UserDefaults.standard.hotKey.split(separator: "+")
-
-    guard let keyString = keysList.popLast() else {
-      return nil
+    KeyboardShortcuts.onKeyDown(for: .popup) {
+      KeyboardShortcuts.disable(.popup)
+      handler()
+      KeyboardShortcuts.enable(.popup)
     }
-    guard let key = Key(character: String(keyString), virtualKeyCode: nil) else {
-      return nil
-    }
-
-    var modifiers: NSEvent.ModifierFlags = []
-    for keyString in keysList {
-      switch keyString {
-      case "command":
-        modifiers.insert(.command)
-      case "control":
-        modifiers.insert(.control)
-      case "option":
-        modifiers.insert(.option)
-      case "shift":
-        modifiers.insert(.shift)
-      default: ()
-      }
-    }
-
-    GlobalHotKey.key = key
-    GlobalHotKey.modifierFlags = modifiers
-
-    return (key, modifiers)
   }
 }

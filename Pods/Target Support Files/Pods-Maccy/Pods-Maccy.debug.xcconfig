@@ -1,10 +1,10 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
 CODE_SIGN_IDENTITY =
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Sparkle" "${PODS_CONFIGURATION_BUILD_DIR}/Fuse" "${PODS_CONFIGURATION_BUILD_DIR}/KeyHolder" "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit" "${PODS_CONFIGURATION_BUILD_DIR}/Magnet" "${PODS_CONFIGURATION_BUILD_DIR}/Preferences" "${PODS_CONFIGURATION_BUILD_DIR}/Sauce" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors"
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_ROOT}/Sparkle" "${PODS_CONFIGURATION_BUILD_DIR}/Fuse" "${PODS_CONFIGURATION_BUILD_DIR}/KeyboardShortcuts" "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit" "${PODS_CONFIGURATION_BUILD_DIR}/Preferences" "${PODS_CONFIGURATION_BUILD_DIR}/Sauce" "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1
 LD_RUNPATH_SEARCH_PATHS = @loader_path/../Frameworks $(inherited) '@executable_path/../Frameworks' '@loader_path/Frameworks'
-OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Fuse/Fuse.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/KeyHolder/KeyHolder.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit/LoginServiceKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Magnet/Magnet.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Preferences/Preferences.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Sauce/Sauce.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors/SwiftHEXColors.framework/Headers"
-OTHER_LDFLAGS = $(inherited) -framework "Fuse" -framework "KeyHolder" -framework "LoginServiceKit" -framework "Magnet" -framework "Preferences" -framework "Sauce" -framework "Sparkle" -framework "SwiftHEXColors"
+OTHER_CFLAGS = $(inherited) -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Fuse/Fuse.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/KeyboardShortcuts/KeyboardShortcuts.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/LoginServiceKit/LoginServiceKit.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Preferences/Preferences.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/Sauce/Sauce.framework/Headers" -iquote "${PODS_CONFIGURATION_BUILD_DIR}/SwiftHEXColors/SwiftHEXColors.framework/Headers"
+OTHER_LDFLAGS = $(inherited) -framework "Fuse" -framework "KeyboardShortcuts" -framework "LoginServiceKit" -framework "Preferences" -framework "Sauce" -framework "Sparkle" -framework "SwiftHEXColors"
 OTHER_SWIFT_FLAGS = $(inherited) "-D" "COCOAPODS"
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)

@@ -1,4 +1,6 @@
 import Cocoa
+import KeyboardShortcuts
+import Sauce
 import Sparkle
 
 @NSApplicationMain
@@ -28,6 +30,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     CoreDataManager.shared.saveContext()
   }
 
+  // swiftlint:disable cyclomatic_complexity
   // swiftlint:disable function_body_length
   private func migrateUserDefaults() {
     if UserDefaults.standard.migrations["2020-02-22-introduce-history-item"] != true {
@@ -89,6 +92,45 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       ]
       UserDefaults.standard.migrations["2020-04-25-allow-custom-ignored-types"] = true
     }
+
+    if UserDefaults.standard.migrations["2020-06-19-use-keyboardshortcuts"] != true {
+      if let keys = UserDefaults.standard.string(forKey: "hotKey") {
+        var keysList = keys.split(separator: "+")
+
+        if let keyString = keysList.popLast() {
+          if let key = Key(character: String(keyString), virtualKeyCode: nil) {
+            var modifiers: NSEvent.ModifierFlags = []
+            for keyString in keysList {
+              switch keyString {
+              case "command":
+                modifiers.insert(.command)
+              case "control":
+                modifiers.insert(.control)
+              case "option":
+                modifiers.insert(.option)
+              case "shift":
+                modifiers.insert(.shift)
+              default: ()
+              }
+            }
+
+            if let keyboardShortcutKey = KeyboardShortcuts.Key(rawValue: Int(key.QWERTYKeyCode)) {
+              let shortcut = KeyboardShortcuts.Shortcut(keyboardShortcutKey, modifiers: modifiers)
+              if let encoded = try? JSONEncoder().encode(shortcut) {
+                if let hotKeyString = String(data: encoded, encoding: .utf8) {
+                  let preferenceKey = "KeyboardShortcuts_\(KeyboardShortcuts.Name.popup.rawValue)"
+                  UserDefaults.standard.set(hotKeyString, forKey: preferenceKey)
+                }
+              }
+            }
+          }
+        }
+      }
+
+      UserDefaults.standard.migrations["2020-06-19-use-keyboardshortcuts"] = true
+    }
+
   }
+  // swiftlint:enable cyclomatic_complexity
   // swiftlint:enable function_body_length
 }

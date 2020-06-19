@@ -1,7 +1,6 @@
 import Cocoa
-import KeyHolder
+import KeyboardShortcuts
 import LoginServiceKit
-import Magnet
 import Preferences
 import Sparkle
 
@@ -12,7 +11,9 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   override var nibName: NSNib.Name? { "GeneralPreferenceViewController" }
 
-  @IBOutlet weak var hotkeyButton: RecordView!
+  private let hotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .popup)
+
+  @IBOutlet weak var hotkeyGridCell: NSGridCell!
   @IBOutlet weak var launchAtLoginButton: NSButton!
   @IBOutlet weak var fuzzySearchButton: NSButton!
   @IBOutlet weak var pasteAutomaticallyButton: NSButton!
@@ -22,12 +23,11 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    hotkeyButton.didChange = hotkeyChanged(_:)
+    hotkeyGridCell.contentView?.addSubview(hotkeyRecorder)
   }
 
   override func viewWillAppear() {
     super.viewWillAppear()
-    populateHotkey()
     populateLaunchAtLogin()
     populateFuzzySearch()
     populatePasteAutomatically()
@@ -68,36 +68,6 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
       UserDefaults.standard.sortBy = "firstCopiedAt"
     default:
       UserDefaults.standard.sortBy = "lastCopiedAt"
-    }
-  }
-
-  private func hotkeyChanged(_ keyCombo: KeyCombo?) {
-    guard let keyCombo = keyCombo else {
-      return
-    }
-
-    var hotkey: [String] = []
-    if keyCombo.keyEquivalentModifierMask.contains(.command) {
-      hotkey.append("command")
-    }
-    if keyCombo.keyEquivalentModifierMask.contains(.shift) {
-      hotkey.append("shift")
-    }
-    if keyCombo.keyEquivalentModifierMask.contains(.control) {
-      hotkey.append("control")
-    }
-    if keyCombo.keyEquivalentModifierMask.contains(.option) {
-      hotkey.append("option")
-    }
-
-    hotkey.append(keyCombo.keyEquivalent)
-
-    UserDefaults.standard.hotKey = hotkey.joined(separator: "+")
-  }
-
-  private func populateHotkey() {
-    if let key = GlobalHotKey.key, let modifierFlags = GlobalHotKey.modifierFlags {
-      hotkeyButton.keyCombo = KeyCombo(key: key, cocoaModifiers: modifierFlags)
     }
   }
 

@@ -1,6 +1,8 @@
-import Sauce
+import KeyboardShortcuts
 
 class Keys {
+  typealias Key = KeyboardShortcuts.Key
+
   private static let keysToSkip = [
     Key.home,
     Key.pageUp,
