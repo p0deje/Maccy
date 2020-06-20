@@ -31,6 +31,8 @@ enum MenuFooter: Int, CaseIterable {
 
   var keyEquivalent: String {
     switch self {
+    case .clear, .clearAll:
+      return "⌫"
     case .quit:
       return "q"
     case .preferences:
@@ -42,8 +44,10 @@ enum MenuFooter: Int, CaseIterable {
 
   var keyEquivalentModifierMask: NSEvent.ModifierFlags {
     switch self {
+    case .clear:
+      return [.command, .option]
     case .clearAll:
-      return [.option]
+      return [.command, .option, .shift]
     case .quit:
       return [.command]
     case .preferences:

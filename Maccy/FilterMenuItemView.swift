@@ -2,6 +2,7 @@ import AppKit
 import Carbon
 import KeyboardShortcuts
 
+// swiftlint:disable type_body_length
 class FilterMenuItemView: NSView, NSTextFieldDelegate {
   typealias Key = KeyboardShortcuts.Key
 
@@ -303,3 +304,4 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     customMenu?.cancelTracking()
   }
 }
+// swiftlint:enable type_body_length

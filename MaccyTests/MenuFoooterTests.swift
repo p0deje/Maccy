@@ -16,16 +16,16 @@ class MenuFooterTests: XCTestCase {
     ],
     "clear": [
       "isAlternate": false,
-      "keyEquivalent": "",
-      "keyEquivalentModifierMask": NSEvent.ModifierFlags([]),
+      "keyEquivalent": "⌫",
+      "keyEquivalentModifierMask": NSEvent.ModifierFlags([.command, .option]),
       "tag": 101,
       "title": "Clear",
-      "tooltip": "Clear unpinned items.\nSelect with ⌥ to clear all."
+      "tooltip": "Clear unpinned items.\nSelect with ⇧ to clear all."
     ],
     "clear_all": [
       "isAlternate": true,
-      "keyEquivalent": "",
-      "keyEquivalentModifierMask": NSEvent.ModifierFlags([.option]),
+      "keyEquivalent": "⌫",
+      "keyEquivalentModifierMask": NSEvent.ModifierFlags([.command, .option, .shift]),
       "tag": 106,
       "title": "Clear all",
       "tooltip": "Clear all items."

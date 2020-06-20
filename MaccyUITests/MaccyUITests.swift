@@ -18,16 +18,6 @@ class MaccyUITests: XCTestCase {
 
   var sortBy = "lastCopiedAt"
 
-  var popUpEvents: [CGEvent] {
-    let eventDown = CGEvent(keyboardEventSource: nil, virtualKey: UInt16(kVK_ANSI_C), keyDown: true)!
-    eventDown.flags = [.maskCommand, .maskShift]
-
-    let eventUp = CGEvent(keyboardEventSource: nil, virtualKey: UInt16(kVK_ANSI_C), keyDown: false)!
-    eventUp.flags = [.maskCommand, .maskShift]
-
-    return [eventDown, eventUp]
-  }
-
   override func setUp() {
     super.setUp()
     continueAfterFailure = false
@@ -55,10 +45,7 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     let historyItem = app.menuItems[copy1]
     expectation(for: NSPredicate(format: "exists = 0"), evaluatedWith: historyItem)
-
-    for event in popUpEvents {
-      event.post(tap: .cghidEventTap)
-    }
+    simulatePopupHotkey()
     waitForExpectations(timeout: 3)
   }
 
@@ -232,7 +219,7 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     pin(copy2)
     app.menuItems["Clear"].firstMatch.hover()
-    app.typeKey(.enter, modifierFlags: [.option])
+    app.typeKey(.enter, modifierFlags: [.shift])
     popUpWithHotkey()
     XCTAssertFalse(app.menuItems[copy1].exists)
     XCTAssertFalse(app.menuItems[copy2].exists)
@@ -302,15 +289,32 @@ class MaccyUITests: XCTestCase {
   // }
 
   private func popUpWithHotkey() {
-    for event in popUpEvents {
-      event.post(tap: .cghidEventTap)
-    }
+    simulatePopupHotkey()
     waitUntilPoppedUp()
   }
 
   private func popUpWithMouse() {
     app.statusItems.firstMatch.click()
     waitUntilPoppedUp()
+  }
+
+  private func simulatePopupHotkey() {
+    let commandDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: true)!
+    let commandUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: false)!
+    let shiftDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: true)!
+    let shiftUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
+    shiftDown.flags = [.maskCommand]
+    shiftUp.flags = [.maskCommand]
+    let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
+    let cUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: false)!
+    cDown.flags = [.maskCommand, .maskShift]
+    cUp.flags = [.maskCommand, .maskShift]
+    commandDown.post(tap: .cghidEventTap)
+    shiftDown.post(tap: .cghidEventTap)
+    cDown.post(tap: .cghidEventTap)
+    cUp.post(tap: .cghidEventTap)
+    shiftUp.post(tap: .cghidEventTap)
+    commandUp.post(tap: .cghidEventTap)
   }
 
   private func waitUntilPoppedUp() {
