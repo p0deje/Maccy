@@ -218,8 +218,9 @@ class MaccyUITests: XCTestCase {
   func testClearAll() {
     popUpWithHotkey()
     pin(copy2)
-    app.menuItems["Clear"].firstMatch.hover()
-    app.typeKey(.enter, modifierFlags: [.shift])
+    XCUIElement.perform(withKeyModifiers: [.shift], block: {
+      app.menuItems["Clear all"].click()
+    })
     popUpWithHotkey()
     XCTAssertFalse(app.menuItems[copy1].exists)
     XCTAssertFalse(app.menuItems[copy2].exists)
