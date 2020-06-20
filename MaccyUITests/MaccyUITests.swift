@@ -83,7 +83,7 @@ class MaccyUITests: XCTestCase {
 
   func testCopyWithEnter() {
     popUpWithHotkey()
-    app.menuItems[copy2].firstMatch.hover()
+    hover(app.menuItems[copy2].firstMatch)
     app.typeKey(.enter, modifierFlags: [])
     XCTAssertEqual(pasteboard.string(forType: .string), copy2)
   }
@@ -359,8 +359,13 @@ class MaccyUITests: XCTestCase {
   }
 
   private func pin(_ title: String) {
-    app.menuItems[title].firstMatch.hover()
+    hover(app.menuItems[title].firstMatch)
     app.typeKey("p", modifierFlags: [.option])
+  }
+
+  private func hover(_ element: XCUIElement) {
+    element.hover()
+    usleep(20000)
   }
 }
 // swiftlint:enable type_body_length
