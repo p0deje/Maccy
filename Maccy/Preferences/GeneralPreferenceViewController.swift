@@ -17,6 +17,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var launchAtLoginButton: NSButton!
   @IBOutlet weak var fuzzySearchButton: NSButton!
   @IBOutlet weak var pasteAutomaticallyButton: NSButton!
+  @IBOutlet weak var soundsButton: NSButton!
   @IBOutlet weak var historySizeSlider: NSSlider!
   @IBOutlet weak var historySizeLabel: NSTextField!
   @IBOutlet weak var sortByButton: NSPopUpButton!
@@ -31,6 +32,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
     populateLaunchAtLogin()
     populateFuzzySearch()
     populatePasteAutomatically()
+    populateSounds()
     populateHistorySize()
     populateSortBy()
   }
@@ -53,6 +55,10 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   @IBAction func pasteAutomaticallyChanged(_ sender: NSButton) {
     UserDefaults.standard.pasteByDefault = (sender.state == .on)
+  }
+
+  @IBAction func soundsChanged(_ sender: NSButton) {
+    UserDefaults.standard.playSounds = (sender.state == .on)
   }
 
   @IBAction func historySizeChanged(_ sender: NSSlider) {
@@ -81,6 +87,10 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   private func populatePasteAutomatically() {
     pasteAutomaticallyButton.state = UserDefaults.standard.pasteByDefault ? .on : .off
+  }
+
+  private func populateSounds() {
+    soundsButton.state = UserDefaults.standard.playSounds ? .on : .off
   }
 
   private func populateHistorySize() {

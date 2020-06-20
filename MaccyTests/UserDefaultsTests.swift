@@ -7,6 +7,7 @@ class UserDefaultsTests: XCTestCase {
   let savedIgnoredPasteboardTypes = UserDefaults.standard.ignoredPasteboardTypes
   let savedPasteByDefault = UserDefaults.standard.pasteByDefault
   let savedPinTo = UserDefaults.standard.pinTo
+  let savedPlaySounds = UserDefaults.standard.playSounds
   let savedPopupPosition = UserDefaults.standard.popupPosition
   let savedSaratovSeparator = UserDefaults.standard.saratovSeparator
   let savedShowInStatusBar = UserDefaults.standard.showInStatusBar
@@ -21,6 +22,7 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.ignoredPasteboardTypes)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.pasteByDefault)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.pinTo)
+    UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.playSounds)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.popupPosition)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.saratovSeparator)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.showInStatusBar)
@@ -36,6 +38,7 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.ignoredPasteboardTypes = savedIgnoredPasteboardTypes
     UserDefaults.standard.pasteByDefault = savedPasteByDefault
     UserDefaults.standard.pinTo = savedPinTo
+    UserDefaults.standard.playSounds = savedPlaySounds
     UserDefaults.standard.popupPosition = savedPopupPosition
     UserDefaults.standard.saratovSeparator = savedSaratovSeparator
     UserDefaults.standard.showInStatusBar = savedShowInStatusBar
@@ -49,6 +52,7 @@ class UserDefaultsTests: XCTestCase {
     XCTAssertEqual(UserDefaults.standard.ignoredPasteboardTypes, Set())
     XCTAssertEqual(UserDefaults.standard.pasteByDefault, false)
     XCTAssertEqual(UserDefaults.standard.pinTo, "top")
+    XCTAssertEqual(UserDefaults.standard.playSounds, false)
     XCTAssertEqual(UserDefaults.standard.popupPosition, "cursor")
     XCTAssertEqual(UserDefaults.standard.saratovSeparator, false)
     XCTAssertEqual(UserDefaults.standard.showInStatusBar, true)
@@ -64,6 +68,7 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.ignoredPasteboardTypes = ["foo", "bar"]
     UserDefaults.standard.pasteByDefault = true
     UserDefaults.standard.pinTo = "bottom"
+    UserDefaults.standard.playSounds = true
     UserDefaults.standard.popupPosition = "center"
     UserDefaults.standard.saratovSeparator = true
     UserDefaults.standard.showInStatusBar = false
@@ -75,6 +80,7 @@ class UserDefaultsTests: XCTestCase {
     XCTAssertEqual(UserDefaults.standard.ignoredPasteboardTypes, Set(["foo", "bar"]))
     XCTAssertEqual(UserDefaults.standard.pasteByDefault, true)
     XCTAssertEqual(UserDefaults.standard.pinTo, "bottom")
+    XCTAssertEqual(UserDefaults.standard.playSounds, true)
     XCTAssertEqual(UserDefaults.standard.popupPosition, "center")
     XCTAssertEqual(UserDefaults.standard.saratovSeparator, true)
     XCTAssertEqual(UserDefaults.standard.showInStatusBar, false)

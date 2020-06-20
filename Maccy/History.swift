@@ -22,6 +22,10 @@ class History {
       existingHistoryItem.lastCopiedAt = item.firstCopiedAt
       existingHistoryItem.numberOfCopies += 1
       remove(item)
+    } else {
+      if UserDefaults.standard.playSounds {
+        NSSound(named: NSSound.Name("write"))?.play()
+      }
     }
 
     CoreDataManager.shared.saveContext()

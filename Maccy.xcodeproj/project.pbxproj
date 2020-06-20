@@ -22,6 +22,8 @@
 		DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */; };
 		DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */; };
 		DA1EDE452045B68700479723 /* MenuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE442045B68700479723 /* MenuTests.swift */; };
+		DA21AD42249E86E8003E7C98 /* write.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DA21AD41249E86E8003E7C98 /* write.mp3 */; };
+		DA21AD44249E86F0003E7C98 /* knock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DA21AD43249E86F0003E7C98 /* knock.mp3 */; };
 		DA246D611E56C9EA001E40F3 /* Application.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA246D601E56C9EA001E40F3 /* Application.xib */; };
 		DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */; };
 		DA2B0AF42343104600EFAD72 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */; };
@@ -121,6 +123,8 @@
 		DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreferencePane.Identifier+Panes.swift"; sourceTree = "<group>"; };
 		DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMenuItemTests.swift; sourceTree = "<group>"; };
 		DA1EDE442045B68700479723 /* MenuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTests.swift; sourceTree = "<group>"; };
+		DA21AD41249E86E8003E7C98 /* write.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = write.mp3; sourceTree = "<group>"; };
+		DA21AD43249E86F0003E7C98 /* knock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = knock.mp3; sourceTree = "<group>"; };
 		DA246D601E56C9EA001E40F3 /* Application.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Application.xib; sourceTree = "<group>"; };
 		DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Configuration.swift"; sourceTree = "<group>"; };
 		DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
@@ -230,6 +234,15 @@
 			path = Preferences;
 			sourceTree = "<group>";
 		};
+		DA21AD3C249E85BD003E7C98 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				DA21AD41249E86E8003E7C98 /* write.mp3 */,
+				DA21AD43249E86F0003E7C98 /* knock.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 		DA360DB11E3DF137005C6F6B /* MaccyTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -273,6 +286,7 @@
 			isa = PBXGroup;
 			children = (
 				DA181178247D150B00066D55 /* Preferences */,
+				DA21AD3C249E85BD003E7C98 /* Sounds */,
 				DA246D601E56C9EA001E40F3 /* Application.xib */,
 				DA6373971E4AB9BB00263391 /* Assets.xcassets */,
 				DAEE384D1E3DBEB100DD2966 /* Info.plist */,
@@ -441,6 +455,8 @@
 				DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */,
 				4762D6972467226100B3A2BA /* Localizable.strings in Resources */,
 				DA05E7D22483F70B005CB8AA /* AppearancePreferenceViewController.xib in Resources */,
+				DA21AD44249E86F0003E7C98 /* knock.mp3 in Resources */,
+				DA21AD42249E86E8003E7C98 /* write.mp3 in Resources */,
 				DA05E7D72483F988005CB8AA /* AdvancedPreferenceViewController.xib in Resources */,
 				DA246D611E56C9EA001E40F3 /* Application.xib in Resources */,
 			);

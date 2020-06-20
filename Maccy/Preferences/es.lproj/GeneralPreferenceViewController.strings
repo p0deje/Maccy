@@ -49,3 +49,9 @@
 
 /* Class = "NSMenuItem"; title = "Time of last copy"; ObjectID = "zrg-H1-TjU"; */
 "zrg-H1-TjU.title" = "Más nuevo primero";
+
+/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
+"lkL-5p-KVx.title" = "Suena";
+
+/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
+"fda-wq-rZq.title" = "Reproduzca efectos de sonido cuando se agrega un nuevo elemento al historial y se selecciona el elemento anterior.";
