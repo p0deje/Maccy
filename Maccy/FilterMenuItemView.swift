@@ -225,7 +225,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       // Hidden items can't be selected with key equivalents,
       // so emulate the behavior like items are visible.
       if UserDefaults.standard.hideFooter && modifierFlags == MenuFooter.preferences.keyEquivalentModifierMask {
-        openPreferences()
+        performMenuItemAction(MenuFooter.preferences.rawValue)
         return false
       }
     default:
@@ -249,11 +249,20 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   // swiftlint:enable function_body_length
 
   private func processDeleteKey(menu: Menu?, key: Key, modifierFlags: NSEvent.ModifierFlags) {
-    if modifierFlags.contains(.command) {
+    switch modifierFlags {
+    case NSEvent.ModifierFlags([.command]):
       setQuery("")
-    } else if modifierFlags.contains(.option) {
+    case NSEvent.ModifierFlags([.option]):
       menu?.delete()
-    } else {
+    case MenuFooter.clear.keyEquivalentModifierMask:
+      if UserDefaults.standard.hideFooter {
+        performMenuItemAction(MenuFooter.clear.rawValue)
+      }
+    case MenuFooter.clearAll.keyEquivalentModifierMask:
+      if UserDefaults.standard.hideFooter {
+        performMenuItemAction(MenuFooter.clearAll.rawValue)
+      }
+    default:
       if !queryField.stringValue.isEmpty {
         setQuery(String(queryField.stringValue.dropLast()))
       }
@@ -295,8 +304,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
   }
 
-  private func openPreferences() {
-    guard let menuItem = customMenu?.item(withTag: MenuFooter.preferences.rawValue) else {
+  private func performMenuItemAction(_ tag: Int) {
+    guard let menuItem = customMenu?.item(withTag: tag) else {
       return
     }
 
