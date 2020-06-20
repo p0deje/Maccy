@@ -223,7 +223,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     case Key.comma:
       // Hidden items can't be selected with key equivalents,
       // so emulate the behavior like items are visible.
-      if UserDefaults.standard.hideFooter && modifierFlags.contains(.command) {
+      if UserDefaults.standard.hideFooter && modifierFlags == MenuFooter.preferences.keyEquivalentModifierMask {
         openPreferences()
         return false
       }
@@ -295,7 +295,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }
 
   private func openPreferences() {
-    guard let menuItem = customMenu?.item(withTag: MenuTag.preferences.rawValue) else {
+    guard let menuItem = customMenu?.item(withTag: MenuFooter.preferences.rawValue) else {
       return
     }
 

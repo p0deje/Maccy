@@ -20,46 +20,6 @@ class Maccy: NSObject {
     ]
   )
 
-  private var footerItems: [NSMenuItem] {
-    var footerItems: [(tag: MenuTag, isAlternate: Bool, key: String, tooltip: String)] = [
-      (.separator, false, "", ""),
-      (.clear, false, "", NSLocalizedString("clear_tooltip", comment: "")),
-      (.clearAll, true, "", NSLocalizedString("clear_all_tooltip", comment: "")),
-      (.preferences, false, ",", "")
-    ]
-
-    if UserDefaults.standard.saratovSeparator {
-      footerItems.append((.separator, false, "", ""))
-    }
-
-    footerItems += [
-      (.about, false, "", NSLocalizedString("about_tooltip", comment: "")),
-      (.quit, false, "q", NSLocalizedString("quit_tooltip", comment: ""))
-    ]
-
-    return footerItems.map({ item -> NSMenuItem in
-      if item.tag == .separator {
-        return NSMenuItem.separator()
-      } else {
-        let menuItem = NSMenuItem(title: item.tag.string,
-                                  action: #selector(menuItemAction),
-                                  keyEquivalent: item.key)
-        menuItem.tag = item.tag.rawValue
-        if UserDefaults.standard.hideFooter {
-          menuItem.isHidden = true
-        } else {
-          if item.isAlternate {
-            menuItem.isAlternate = true
-            menuItem.keyEquivalentModifierMask = [.option]
-          }
-        }
-        menuItem.target = self
-        menuItem.toolTip = item.tooltip
-        return menuItem
-      }
-    })
-  }
-
   private var filterMenuRect: NSRect {
     return NSRect(x: 0, y: 0, width: menu.menuWidth, height: UserDefaults.standard.hideSearch ? 1 : 29)
   }
@@ -156,14 +116,16 @@ class Maccy: NSObject {
   }
 
   private func populateFooter() {
-    for item in footerItems {
+    MenuFooter.allCases.map({ $0.menuItem }).forEach({ item in
+      item.action = #selector(menuItemAction)
+      item.target = self
       menu.addItem(item)
-    }
+    })
   }
 
   @objc
   func menuItemAction(_ sender: NSMenuItem) {
-    if let tag = MenuTag(rawValue: sender.tag) {
+    if let tag = MenuFooter(rawValue: sender.tag) {
       switch tag {
       case .about:
         about.openAbout(sender)
