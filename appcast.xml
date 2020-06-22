@@ -6,21 +6,24 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.12.0</title>
+      <title>0.13.0</title>
       <description>
 	<![CDATA[
 	  <ul>
-	    <li>Fixed a crash when application couldn't read empty data.</li>
-	    <li>Added Spanish translation to the preferences.</li>
+      <li>Migrated global hotkey to use [sindresorhus/KeyboardShortcuts](https://github.com/sindresorhus/KeyboardShortcuts) package - it looks more native and has better support for non-US keyboards. The migration should happen smoothly, but if the application stops opening with a shortcut, you might need to open preferences and reassign the keyboard shortcut again. If you can't assign a shortcut, create a new issue on GitHub explaining what keyboard shortcut is not working.</li>
+      <li>Added keyboard shortcut to clear unpinned items (<kbd>OPTION (⌥)</kbd>+<kbd>COMMAND (⌘)</kbd>+<kbd>DELETE (⌫)</kbd>) and clear all items (<kbd>SHIFT (⇧)</kbd>+<kbd>OPTION (⌥)</kbd>+<kbd>COMMAND (⌘)</kbd>+<kbd>DELETE (⌫)</kbd>. The shortcuts also work when the footer is hidden.</li>
+      <li>Added preference to show pinned items at the bottom of the menu.</li>
+      <li>Added the menu navigation using <kbd>CONTROL (⌃)</kbd>+<kbd>N</kbd> and <kbd>CONTROL (⌃)</kbd>+<kbd>N</kbd> keyboard shortcuts.</li>
+      <li>Fixed an issue when preferences window wouldn't be closed using <kbd>COMMAND (⌘)</kbd>+<kbd>W</kbd> keyboard shortcut.</li>
 	  </ul>
 	]]>
       </description>
-      <pubDate>2020-06-17</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.12.0</releaseNotesLink>
+      <pubDate>2020-06-22</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.13.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.12.0/Maccy.app.zip"
-        sparkle:version="0.12.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.13.0/Maccy.app.zip"
+        sparkle:version="0.13.0"
         length="0"
         type="application/octet-stream"
       />
