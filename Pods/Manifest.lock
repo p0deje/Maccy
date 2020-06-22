@@ -1,6 +1,6 @@
 PODS:
   - Fuse (1.4.0)
-  - KeyboardShortcuts (0.2.2)
+  - KeyboardShortcuts (0.3.0)
   - LoginServiceKit (2.1.0)
   - Preferences (1.0.1)
   - Sauce (2.1.0)
@@ -9,7 +9,7 @@ PODS:
 
 DEPENDENCIES:
   - Fuse (~> 1.4)
-  - KeyboardShortcuts (from `https://github.com/gpoitch/KeyboardShortcuts.git`, branch `gp/default-shortcuts`)
+  - KeyboardShortcuts (from `https://github.com/sindresorhus/KeyboardShortcuts.git`)
   - LoginServiceKit (from `https://github.com/Clipy/LoginServiceKit.git`)
   - Preferences (~> 1.0)
   - Sauce (~> 2.1)
@@ -26,28 +26,27 @@ SPEC REPOS:
 
 EXTERNAL SOURCES:
   KeyboardShortcuts:
-    :branch: gp/default-shortcuts
-    :git: https://github.com/gpoitch/KeyboardShortcuts.git
+    :git: https://github.com/sindresorhus/KeyboardShortcuts.git
   LoginServiceKit:
     :git: https://github.com/Clipy/LoginServiceKit.git
 
 CHECKOUT OPTIONS:
   KeyboardShortcuts:
-    :commit: 2fba62a97abcdfa0dde5f8fe05d1f1b60ac4a3b5
-    :git: https://github.com/gpoitch/KeyboardShortcuts.git
+    :commit: c7094b0b7a5daa6a7ad6204679a0c3c32e65f83a
+    :git: https://github.com/sindresorhus/KeyboardShortcuts.git
   LoginServiceKit:
     :commit: 01b162248760b5fed4c7bffebee37eb92351b41b
     :git: https://github.com/Clipy/LoginServiceKit.git
 
 SPEC CHECKSUMS:
   Fuse: 48eaf66d0c407c7f8b0ddb168888dc4637e87f14
-  KeyboardShortcuts: fcd9e8c361c3f06f9c2f1d1680a0bb26941f990c
+  KeyboardShortcuts: d80ab5dff9e8656bd435bb3470f956df6b5bb0ec
   LoginServiceKit: 889b5d83f237eb22d93f22fb0a210a0a99d89510
   Preferences: a5afbe0ae3e6bd886328b1960f4998e65d58f2c4
   Sauce: a4075a04b6041e7a0c992a952cc79f7a0ebdb8e3
   Sparkle: 3f75576db8b0265adef36c43249d747f22d0b708
   SwiftHEXColors: 15ab5242cc2efeab548c4c74793b173b78dbae1c
 
-PODFILE CHECKSUM: b067d28edccd1a72e146920feca8e71f0046295e
+PODFILE CHECKSUM: 195c1b2e0caa2ed7b2b85e0ad1f870018b536090
 
 COCOAPODS: 1.5.2

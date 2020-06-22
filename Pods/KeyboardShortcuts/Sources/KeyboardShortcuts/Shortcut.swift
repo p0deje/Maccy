@@ -188,8 +188,8 @@ extension KeyboardShortcuts.Shortcut {
 			return nil
 		}
 
-		let dataRef = unsafeBitCast(layoutDataPointer, to: CFData.self)
-		let keyLayout = unsafeBitCast(CFDataGetBytePtr(dataRef), to: UnsafePointer<CoreServices.UCKeyboardLayout>.self)
+		let layoutData = unsafeBitCast(layoutDataPointer, to: CFData.self)
+		let keyLayout = unsafeBitCast(CFDataGetBytePtr(layoutData), to: UnsafePointer<CoreServices.UCKeyboardLayout>.self)
 		var deadKeyState: UInt32 = 0
 		let maxLength = 4
 		var length = 0
@@ -199,7 +199,7 @@ extension KeyboardShortcuts.Shortcut {
 			keyLayout,
 			UInt16(carbonKeyCode),
 			UInt16(CoreServices.kUCKeyActionDisplay),
-			UInt32(carbonModifiers),
+			0, // No modifiers
 			UInt32(LMGetKbdType()),
 			OptionBits(CoreServices.kUCKeyTranslateNoDeadKeysBit),
 			&deadKeyState,

@@ -29,6 +29,7 @@ extension KeyboardShortcuts {
 		private let minimumWidth: Double = 130
 		private var eventMonitor: LocalEventMonitor?
 		private let shortcutName: Name
+		private let onChange: ((_ shortcut: Shortcut?) -> Void)?
 
 		/// :nodoc:
 		override public var canBecomeKeyView: Bool { false }
@@ -49,8 +50,16 @@ extension KeyboardShortcuts {
 			}
 		}
 
-		public required init(for name: Name) {
+		/**
+		- Parameter name: Strongly-typed keyboard shortcut name.
+		- Parameter onChange: Callback which will be called when the keyboard shortcut is changed/removed by the user. This can be useful when you need more control. For example, when migrating from a different keyboard shortcut solution and you need to store the keyboard shortcut somewhere yourself instead of relying on the built-in storage. However, it's strongly recommended to just rely on the built-in storage when possible.
+		*/
+		public required init(
+			for name: Name,
+			onChange: ((_ shortcut: Shortcut?) -> Void)? = nil
+		) {
 			self.shortcutName = name
+			self.onChange = onChange
 
 			super.init(frame: .zero)
 			self.delegate = self
@@ -82,7 +91,7 @@ extension KeyboardShortcuts {
 		/// :nodoc:
 		public func controlTextDidChange(_ object: Notification) {
 			if stringValue.isEmpty {
-				userDefaultsRemove(name: shortcutName)
+				saveShortcut(nil)
 			}
 
 			showsCancelButton = !stringValue.isEmpty
@@ -121,7 +130,7 @@ extension KeyboardShortcuts {
 				let clickMargin: CGFloat = 3
 
 				if
-					(event.type == .leftMouseUp || event.type == .rightMouseUp),
+					event.type == .leftMouseUp || event.type == .rightMouseUp,
 					!self.frame.insetBy(dx: -clickMargin, dy: -clickMargin).contains(clickPoint)
 				{
 					self.blur()
@@ -151,22 +160,18 @@ extension KeyboardShortcuts {
 				}
 
 				if
-					event.modifiers.isEmpty &&
-					(
-						event.specialKey == .delete ||
-						event.specialKey == .deleteForward ||
-						event.specialKey == .backspace
-					)
+					event.modifiers.isEmpty,
+					event.specialKey == .delete
+						|| event.specialKey == .deleteForward
+						|| event.specialKey == .backspace
 				{
 					self.clear()
 					return nil
 				}
 
 				guard
-					(
-						!event.modifiers.isEmpty ||
-						event.specialKey?.isFunctionKey == true
-					),
+					!event.modifiers.isEmpty
+						|| event.specialKey?.isFunctionKey == true,
 					let shortcut = Shortcut(event: event)
 				else {
 					NSSound.beep()
@@ -205,13 +210,23 @@ extension KeyboardShortcuts {
 				self.stringValue = "\(shortcut)"
 				self.showsCancelButton = true
 
-				userDefaultsSet(name: self.shortcutName, shortcut: shortcut)
+				self.saveShortcut(shortcut)
 				self.blur()
 
 				return nil
 			}.start()
 
 			return shouldBecomeFirstResponder
+		}
+
+		private func saveShortcut(_ shortcut: Shortcut?) {
+			if let shortcut = shortcut {
+				userDefaultsSet(name: shortcutName, shortcut: shortcut)
+			} else {
+				userDefaultsRemove(name: shortcutName)
+			}
+
+			onChange?(shortcut)
 		}
 	}
 }

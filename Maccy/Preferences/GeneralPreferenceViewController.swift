@@ -13,7 +13,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   private let hotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .popup)
 
-  @IBOutlet weak var hotkeyGridCell: NSGridCell!
+  @IBOutlet weak var hotkeyContainerView: NSView!
   @IBOutlet weak var launchAtLoginButton: NSButton!
   @IBOutlet weak var fuzzySearchButton: NSButton!
   @IBOutlet weak var pasteAutomaticallyButton: NSButton!
@@ -23,7 +23,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    hotkeyGridCell.contentView?.addSubview(hotkeyRecorder)
+    hotkeyContainerView.addSubview(hotkeyRecorder)
   }
 
   override func viewWillAppear() {

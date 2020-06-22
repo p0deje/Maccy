@@ -30,13 +30,22 @@ extension KeyboardShortcuts {
 		public typealias NSViewType = RecorderCocoa
 
 		private let name: Name
+		private let onChange: ((_ shortcut: Shortcut?) -> Void)?
 
-		public init(for name: Name) {
+		/**
+		- Parameter name: Strongly-typed keyboard shortcut name.
+		- Parameter onChange: Callback which will be called when the keyboard shortcut is changed/removed by the user. This can be useful when you need more control. For example, when migrating from a different keyboard shortcut solution and you need to store the keyboard shortcut somewhere yourself instead of relying on the built-in storage. However, it's strongly recommended to just rely on the built-in storage when possible.
+		*/
+		public init(
+			for name: Name,
+			onChange: ((_ shortcut: Shortcut?) -> Void)? = nil
+		) {
 			self.name = name
+			self.onChange = onChange
 		}
 
 		/// :nodoc:
-		public func makeNSView(context: Context) -> NSViewType { .init(for: name) }
+		public func makeNSView(context: Context) -> NSViewType { .init(for: name, onChange: onChange) }
 
 		/// :nodoc:
 		public func updateNSView(_ nsView: NSViewType, context: Context) {}
@@ -45,7 +54,7 @@ extension KeyboardShortcuts {
 
 @available(macOS 10.15, *)
 struct SwiftUI_Previews: PreviewProvider {
-    static var previews: some View {
+	static var previews: some View {
 		KeyboardShortcuts.Recorder(for: .Name("xcodePreview"))
-    }
+	}
 }

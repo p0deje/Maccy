@@ -4,7 +4,7 @@ target 'Maccy' do
   use_frameworks!
 
   pod 'Fuse', '~> 1.4'
-  pod 'KeyboardShortcuts', git: 'https://github.com/gpoitch/KeyboardShortcuts.git', branch: 'gp/default-shortcuts'
+  pod 'KeyboardShortcuts', git: 'https://github.com/sindresorhus/KeyboardShortcuts.git'
   pod 'LoginServiceKit', git: 'https://github.com/Clipy/LoginServiceKit.git'
   pod 'Preferences', '~> 1.0'
   pod 'Sparkle', '~> 1.21'

@@ -1,6 +1,6 @@
 {
   "name": "KeyboardShortcuts",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "summary": "Add user-customizable global keyboard shortcuts to your macOS app in minutes",
   "license": "MIT",
   "homepage": "https://github.com/sindresorhus/KeyboardShortcuts",
@@ -10,7 +10,7 @@
   },
   "source": {
     "git": "https://github.com/sindresorhus/KeyboardShortcuts.git",
-    "tag": "v0.2.2"
+    "tag": "v0.3.0"
   },
   "source_files": "Sources/**/*.swift",
   "swift_version": "5.2",

@@ -229,7 +229,7 @@ extension KeyboardShortcuts {
 			case kVK_RightShift:
 				self = .rightShift
 			case kVK_Return:
-				self = .`return`
+				self = .return
 			case kVK_ANSI_Backslash:
 				self = .backslash
 			case kVK_ANSI_Grave:
@@ -464,7 +464,7 @@ extension KeyboardShortcuts {
 				return kVK_RightControl
 			case .rightShift:
 				return kVK_RightShift
-			case .`return`:
+			case .return:
 				return kVK_Return
 			case .backslash:
 				return kVK_ANSI_Backslash
