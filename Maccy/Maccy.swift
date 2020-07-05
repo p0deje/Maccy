@@ -1,9 +1,12 @@
 import Cocoa
+import KeyboardShortcuts
 import LoginServiceKit
 import Preferences
 import Sparkle
 
 class Maccy: NSObject {
+  static public var returnFocusToPreviousApp = true
+
   @objc public let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
 
   private let about = About()
@@ -11,6 +14,12 @@ class Maccy: NSObject {
   private let history = History()
   private var menu: Menu!
   private var window: NSWindow!
+  @objc private var menuLink: NSStatusItem!
+
+  private let carbonMenuWindowTitle = "Item-0"
+  private var extraVisibleWindows: [NSWindow] {
+    return NSApp.windows.filter({ $0.isVisible && $0.title != carbonMenuWindowTitle })
+  }
 
   private lazy var preferencesWindowController = PreferencesWindowController(
     preferencePanes: [
@@ -98,28 +107,39 @@ class Maccy: NSObject {
   }
 
   func popUp() {
-    switch UserDefaults.standard.popupPosition {
-    case "center":
-      if let screen = NSScreen.main {
-        let topLeftX = (screen.frame.width - menu.size.width) / 2
-        let topLeftY = (screen.frame.height + menu.size.height) / 2
-        menu.popUp(positioning: nil, at: NSPoint(x: topLeftX, y: topLeftY), in: nil)
+    withFocus {
+      switch UserDefaults.standard.popupPosition {
+      case "center":
+        if let screen = NSScreen.main {
+          let topLeftX = (screen.frame.width - self.menu.size.width) / 2
+          let topLeftY = (screen.frame.height + self.menu.size.height) / 2
+          self.menu.popUp(positioning: nil, at: NSPoint(x: topLeftX, y: topLeftY), in: nil)
+        }
+      case "statusItem":
+        if let button = self.statusItem.button, let window = button.window {
+          self.menu.popUp(positioning: nil, at: window.frame.origin, in: nil)
+        }
+      default:
+        self.menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
       }
-    case "statusItem":
-      if let button = statusItem.button, let window = button.window {
-        menu.popUp(positioning: nil, at: window.frame.origin, in: nil)
-      }
-    default:
-      menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+    }
+  }
+
+  @objc
+  func popUpStatusItem() {
+    withFocus {
+      self.statusItem.popUpMenu(self.menu)
     }
   }
 
   private func start() {
     statusItem.button?.image = NSImage(named: "StatusBarMenuImage")
     statusItem.button?.appearsDisabled = UserDefaults.standard.ignoreEvents
-    statusItem.menu = menu
     statusItem.behavior = .removalAllowed
     statusItem.isVisible = UserDefaults.standard.showInStatusBar
+    // Simulate statusItem.menu but allowing to withFocus
+    statusItem.button?.target = self
+    statusItem.button?.action = #selector(popUpStatusItem)
 
     clipboard.onNewCopy(history.add)
     clipboard.onNewCopy(menu.add)
@@ -128,6 +148,16 @@ class Maccy: NSObject {
     populateHeader()
     populateItems()
     populateFooter()
+
+    // Link menu to that UI tests can discover it.
+    // Normally we would use statusItem.menu, but we cannot because
+    // there is no way to activate the application when it is clicked.
+    // Hence, we create additional hidden NSStatusItem for tests only.
+    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
+      menuLink = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+      menuLink.isVisible = false
+      menuLink.menu = menu
+    }
   }
 
   private func populateHeader() {
@@ -159,6 +189,7 @@ class Maccy: NSObject {
     if let tag = MenuFooter(rawValue: sender.tag) {
       switch tag {
       case .about:
+        Maccy.returnFocusToPreviousApp = false
         about.openAbout(sender)
       case .clear:
         clearUnpinned()
@@ -167,6 +198,7 @@ class Maccy: NSObject {
       case .quit:
         NSApp.stop(sender)
       case .preferences:
+        Maccy.returnFocusToPreviousApp = false
         preferencesWindowController.show()
       default:
         break
@@ -191,5 +223,47 @@ class Maccy: NSObject {
     populateHeader()
     populateItems()
     populateFooter()
+  }
+
+  // Executes closure with application focus (pun intended).
+  //
+  // Beware of hacks. This code is so fragile that you should
+  // avoid touching it unless you really know what you do.
+  // The code is based on hours of googling, trial-and-error
+  // and testing sessions. Apologies to any future me.
+  //
+  // Once we scheduled menu popup, we need to activate
+  // the application to let search text field become first
+  // responder and start receiving key events.
+  // Without forced activation, agent application
+  // (LSUIElement) doesn't receive the focus.
+  // Once activated, we need to run the closure asynchronously
+  // (and with slight delay) because NSMenu.popUp() is blocking
+  // execution until menu is closed (https://stackoverflow.com/q/1857603).
+  // Annoying side-effect of running NSMenu.popUp() asynchronously
+  // is global hotkey being immediately enabled so we no longer
+  // can close menu by pressing the hotkey again. To workaround
+  // this problem, lifecycle of global hotkey should live here.
+  // 40ms delay was chosen by trial-and-error. It's the smallest value
+  // not causing menu to close on the first time it is opened after
+  // the application launch.
+  //
+  // Once we are done working with menu, we need to return
+  // focus to previous application. However, if our selection
+  // triggered new windows (Preferences, About, Accessibility),
+  // we should preserve focus. Additionally, we should not
+  // hide an application if there are additional visible windows
+  // opened before.
+  private func withFocus(_ closure: @escaping () -> Void) {
+    Maccy.returnFocusToPreviousApp = extraVisibleWindows.count == 0
+    KeyboardShortcuts.disable(.popup)
+    NSApp.activate(ignoringOtherApps: true)
+    Timer.scheduledTimer(withTimeInterval: 0.04, repeats: false) { _ in
+      closure()
+      KeyboardShortcuts.enable(.popup)
+      if Maccy.returnFocusToPreviousApp {
+        NSApp.hide(self)
+      }
+    }
   }
 }

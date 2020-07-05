@@ -55,6 +55,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     field.placeholderString = NSLocalizedString("search_placeholder", comment: "")
     field.bezelStyle = NSTextField.BezelStyle.roundedBezel
     field.delegate = self
+    field.focusRingType = .none
     field.font = NSFont.menuFont(ofSize: 13)
     field.textColor = NSColor.disabledControlTextColor
     field.cell!.usesSingleLineMode = true
@@ -238,8 +239,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
     if let chars = event.charactersIgnoringModifiers {
       if chars.count == 1 {
-        appendSearchField(chars)
-        return true
+        focusQueryField()
       }
     }
 
@@ -289,8 +289,13 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
   }
 
-  private func appendSearchField(_ chars: String) {
-    setQuery("\(queryField.stringValue)\(chars)")
+  private func focusQueryField() {
+    queryField.becomeFirstResponder()
+    // Making text field a first responder selects all the text by default.
+    // We need to make sure events are appended to existing text.
+    if let fieldEditor = queryField.currentEditor() {
+      fieldEditor.selectedRange = NSRange(location: fieldEditor.selectedRange.length, length: 0)
+    }
   }
 
   private func removeLastWordInSearchField() {

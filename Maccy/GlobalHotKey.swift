@@ -10,11 +10,6 @@ class GlobalHotKey {
 
   init(_ handler: @escaping Handler) {
     self.handler = handler
-
-    KeyboardShortcuts.onKeyDown(for: .popup) {
-      KeyboardShortcuts.disable(.popup)
-      handler()
-      KeyboardShortcuts.enable(.popup)
-    }
+    KeyboardShortcuts.onKeyDown(for: .popup, action: handler)
   }
 }

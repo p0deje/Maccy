@@ -20,7 +20,6 @@ class MaccyUITests: XCTestCase {
 
   override func setUp() {
     super.setUp()
-    continueAfterFailure = false
     app.launchArguments.append("ui-testing")
     app.launchArguments.append(contentsOf: ["sortBy", sortBy])
     app.launch()
@@ -36,8 +35,8 @@ class MaccyUITests: XCTestCase {
 
   func testPopupWithHotkey() {
     popUpWithHotkey()
-    XCTAssertTrue(app.menuItems[copy1].exists)
     XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
+    XCTAssertTrue(app.menuItems[copy1].exists)
     XCTAssertTrue(app.menuItems[copy2].exists)
   }
 
@@ -281,6 +280,24 @@ class MaccyUITests: XCTestCase {
     app.typeText("foo bar")
     app.typeKey("w", modifierFlags: [.control])
     XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo ")
+  }
+
+  func testAllowsToFocusSearchField() {
+    popUpWithHotkey()
+    // The first click succeeds because application is frontmost.
+    app.textFields.firstMatch.click()
+    app.typeText("foo")
+    XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo")
+    // Now close the window AND focus another application
+    // by clicking outside of menu.
+    let textFieldCoordinates = app.textFields.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+    let outsideCordinates = textFieldCoordinates.withOffset(CGVector(dx: 0, dy: -20))
+    outsideCordinates.click()
+    // Open again and try to click and focus search field again.
+    popUpWithHotkey()
+    app.textFields.firstMatch.click()
+    app.typeText("foo")
+    XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo")
   }
 
   // Temporarily disable the test as it is flaky.

@@ -49,6 +49,7 @@ class Menu: NSMenu, NSMenuDelegate {
     ])
 
     super.init(title: "Maccy")
+
     self.history = history
     self.clipboard = clipboard
     self.delegate = self
