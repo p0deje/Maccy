@@ -88,7 +88,7 @@ class HistoryMenuItem: NSMenuItem {
         }
 
         self.image = image
-        self.toolTip = NSLocalizedString("history_item_tooltip", comment: "")
+        self.toolTip = defaultTooltip(item)
       }
     }
   }
@@ -100,10 +100,11 @@ class HistoryMenuItem: NSMenuItem {
         self.title = trimmedString(string.trimmingCharacters(in: .whitespacesAndNewlines),
                                   showMaxLength)
         self.image = ColorImage.from(title)
-        self.toolTip = [
-          trimmedString(string, tooltipMaxLength),
-          NSLocalizedString("history_item_tooltip", comment: "")
-        ].joined(separator: "\n \n\n")
+        self.toolTip = """
+        \(trimmedString(string, tooltipMaxLength))
+        \n \n\n
+        \(defaultTooltip(item))
+        """
       }
     }
   }
@@ -124,5 +125,22 @@ class HistoryMenuItem: NSMenuItem {
 
     let index = string.index(string.startIndex, offsetBy: maxLength - 1)
     return "\(string[...index])..."
+  }
+
+  private func defaultTooltip(_ item: HistoryItem) -> String {
+    return """
+    \(NSLocalizedString("first_copy_time_tooltip", comment: "")): \(formatDate(item.firstCopiedAt))
+    \(NSLocalizedString("last_copy_time_tooltip", comment: "")): \(formatDate(item.lastCopiedAt))
+    \(NSLocalizedString("number_of_copies_tooltip", comment: "")): \(item.numberOfCopies)
+    \n \n\n
+    \(NSLocalizedString("history_item_tooltip", comment: ""))
+    """
+  }
+
+  private func formatDate(_ date: Date) -> String {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "MMM d, H:mm:ss"
+    formatter.timeZone = TimeZone.current
+    return formatter.string(from: date)
   }
 }

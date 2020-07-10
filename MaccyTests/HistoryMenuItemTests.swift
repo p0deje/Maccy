@@ -4,6 +4,18 @@ import XCTest
 class HistoryMenuItemTests: XCTestCase {
   let savedImageMaxHeight = UserDefaults.standard.imageMaxHeight
 
+  var firstCopiedAt: Date! {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+    return formatter.date(from: "2020/07/10 12:31:34")
+  }
+
+  var lastCopiedAt: Date! {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+    return formatter.date(from: "2020/07/10 12:41:34")
+  }
+
   override func setUp() {
     super.setUp()
     CoreDataManager.inMemory = true
@@ -128,6 +140,9 @@ class HistoryMenuItemTests: XCTestCase {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))
     let item = HistoryItem(contents: [content])
+    item.firstCopiedAt = firstCopiedAt
+    item.lastCopiedAt = lastCopiedAt
+    item.numberOfCopies = 2
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 
@@ -135,6 +150,9 @@ class HistoryMenuItemTests: XCTestCase {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.tiff.rawValue,
                                      value: value.tiffRepresentation!)
     let item = HistoryItem(contents: [content])
+    item.firstCopiedAt = firstCopiedAt
+    item.lastCopiedAt = lastCopiedAt
+    item.numberOfCopies = 2
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 
@@ -142,18 +160,30 @@ class HistoryMenuItemTests: XCTestCase {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.fileURL.rawValue,
                                      value: value.dataRepresentation)
     let item = HistoryItem(contents: [content])
+    item.firstCopiedAt = firstCopiedAt
+    item.lastCopiedAt = lastCopiedAt
+    item.numberOfCopies = 2
     return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 
   private func tooltip(_ title: String?) -> String {
     if title == nil {
       return """
+             First copy time: Jul 10, 12:31:34
+             Last copy time: Jul 10, 12:41:34
+             Number of copies: 2
+             \n \n\n
              Press ⌥+⌫ to delete.
              Press ⌥+p to (un)pin.
              """
     } else {
       return """
-             \(title!)\n \n
+             \(title!)
+             \n \n\n
+             First copy time: Jul 10, 12:31:34
+             Last copy time: Jul 10, 12:41:34
+             Number of copies: 2
+             \n \n\n
              Press ⌥+⌫ to delete.
              Press ⌥+p to (un)pin.
              """

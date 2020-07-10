@@ -12,3 +12,6 @@
 "preferences_advanced" = "Avanzado";
 "preferences_appearance" = "Apariencia";
 "preferences_general" = "General";
+"first_copy_time_tooltip" = "Hora de la primera copia";
+"last_copy_time_tooltip" = "Hora de la última copia";
+"number_of_copies_tooltip" = "Número de copia";

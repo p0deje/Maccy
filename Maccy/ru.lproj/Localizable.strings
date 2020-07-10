@@ -12,3 +12,6 @@
 "preferences_advanced" = "Дополнения";
 "preferences_appearance" = "Внешний Вид";
 "preferences_general" = "Основные";
+"first_copy_time_tooltip" = "Время первого копирования";
+"last_copy_time_tooltip" = "Время последнего копирования";
+"number_of_copies_tooltip" = "Количество копирований";

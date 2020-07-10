@@ -12,3 +12,6 @@
 "preferences_advanced" = "Advanced";
 "preferences_appearance" = "Appearance";
 "preferences_general" = "General";
+"first_copy_time_tooltip" = "First copy time";
+"last_copy_time_tooltip" = "Last copy time";
+"number_of_copies_tooltip" = "Number of copies";
