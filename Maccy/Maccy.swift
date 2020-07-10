@@ -24,6 +24,7 @@ class Maccy: NSObject {
     return NSRect(x: 0, y: 0, width: menu.menuWidth, height: UserDefaults.standard.hideSearch ? 1 : 29)
   }
 
+  private var ignoreEventsObserver: NSKeyValueObservation?
   private var hideFooterObserver: NSKeyValueObservation?
   private var hideSearchObserver: NSKeyValueObservation?
   private var hideTitleObserver: NSKeyValueObservation?
@@ -35,6 +36,9 @@ class Maccy: NSObject {
     UserDefaults.standard.register(defaults: [UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar])
     super.init()
 
+    ignoreEventsObserver = UserDefaults.standard.observe(\.ignoreEvents, options: .new, changeHandler: { _, change in
+      self.statusItem.button?.appearsDisabled = change.newValue!
+    })
     hideFooterObserver = UserDefaults.standard.observe(\.hideFooter, options: .new, changeHandler: { _, _ in
       self.rebuild()
     })
@@ -65,6 +69,7 @@ class Maccy: NSObject {
   }
 
   deinit {
+    ignoreEventsObserver?.invalidate()
     hideFooterObserver?.invalidate()
     hideSearchObserver?.invalidate()
     hideTitleObserver?.invalidate()
@@ -92,6 +97,7 @@ class Maccy: NSObject {
 
   private func start() {
     statusItem.button?.image = NSImage(named: "StatusBarMenuImage")
+    statusItem.button?.appearsDisabled = UserDefaults.standard.ignoreEvents
     statusItem.menu = menu
     statusItem.behavior = .removalAllowed
     statusItem.isVisible = UserDefaults.standard.showInStatusBar

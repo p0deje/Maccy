@@ -60,7 +60,7 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.hideTitle) }
   }
 
-  public var ignoreEvents: Bool {
+  @objc dynamic public var ignoreEvents: Bool {
     get { bool(forKey: Keys.ignoreEvents) }
     set { set(newValue, forKey: Keys.ignoreEvents) }
   }
