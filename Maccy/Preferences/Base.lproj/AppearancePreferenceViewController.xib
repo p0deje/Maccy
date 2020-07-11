@@ -266,8 +266,8 @@ Default: 0.</string>
                         <gridCell row="Plv-5t-MpL" column="KLa-7P-lgK" id="eeP-jp-pGA"/>
                         <gridCell row="Plv-5t-MpL" column="7OC-Fv-eMr" id="XpX-YX-upx">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6N8-hv-cY7">
-                                <rect key="frame" x="106" y="0.0" width="286" height="14"/>
-                                <textFieldCell key="cell" selectable="YES" title="Press ⌘+, to open preferences when footer is hidden." id="0tN-4z-p8T">
+                                <rect key="frame" x="106" y="0.0" width="279" height="14"/>
+                                <textFieldCell key="cell" selectable="YES" title="Press ⌘, to open preferences when footer is hidden." id="0tN-4z-p8T">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

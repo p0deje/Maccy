@@ -32,8 +32,8 @@
 /* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
 "tpV-rp-2HY.title" = "Изменить место для появления всплывающего окна.\nПо умолчанию: Курсор.";
 
-/* Class = "NSTextFieldCell"; title = "Press ⌘+, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
-"0tN-4z-p8T.title" = "Нажмите ⌘+, чтобы открыть настройки когда нижний колонтитул скрыт.";
+/* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
+"0tN-4z-p8T.title" = "Нажмите ⌘, чтобы открыть настройки когда нижний колонтитул скрыт.";
 
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Размер меню:";

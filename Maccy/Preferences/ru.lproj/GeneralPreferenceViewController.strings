@@ -41,8 +41,8 @@
 /* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
 "mf5-QH-x1u.title" = "Количество копирований";
 
-/* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⌘+⇧+C."; ObjectID = "rCZ-AO-G8B"; */
-"rCZ-AO-G8B.title" = "Глобальная горячая клавиша для открытия приложения.\nПо умолчанию: ⌘+⇧+C.";
+/* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
+"rCZ-AO-G8B.title" = "Глобальная горячая клавиша для открытия приложения.\nПо умолчанию: ⇧⌘C.";
 
 /* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
 "tUJ-hx-P24.title" = "Активировать неточный поиск. Пожалуйста, учтите, что неточный поиск может работать медленно при размере истории более 200.";

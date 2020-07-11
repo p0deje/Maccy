@@ -32,8 +32,8 @@
 /* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
 "tpV-rp-2HY.title" = "Cambia la ubicación donde aparce la aplicación\nPor defecto: Cursor.";
 
-/* Class = "NSTextFieldCell"; title = "Press ⌘+, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
-"0tN-4z-p8T.title" = "Presiona ⌘+, para abrir las preferencias cuando el footer esté oculto.";
+/* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
+"0tN-4z-p8T.title" = "Presiona ⌘, para abrir las preferencias cuando el footer esté oculto.";
 
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Tamaño del menú:";
