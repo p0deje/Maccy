@@ -37,7 +37,9 @@ class Maccy: NSObject {
     super.init()
 
     ignoreEventsObserver = UserDefaults.standard.observe(\.ignoreEvents, options: .new, changeHandler: { _, change in
-      self.statusItem.button?.appearsDisabled = change.newValue!
+      if let newValue = change.newValue {
+        self.statusItem.button?.appearsDisabled = newValue
+      }
     })
     hideFooterObserver = UserDefaults.standard.observe(\.hideFooter, options: .new, changeHandler: { _, _ in
       self.rebuild()
