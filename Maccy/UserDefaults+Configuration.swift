@@ -121,7 +121,7 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.size) }
   }
 
-  public var sortBy: String {
+  @objc dynamic public var sortBy: String {
     get { string(forKey: Keys.sortBy) ?? Values.sortBy }
     set { set(newValue, forKey: Keys.sortBy) }
   }

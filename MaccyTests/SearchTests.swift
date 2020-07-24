@@ -9,9 +9,9 @@ class SearchTests: XCTestCase {
     CoreDataManager.inMemory = true
     super.setUp()
     items = [
-      historyMenuItem("foo bar baz"),
-      historyMenuItem("foo bar zaz"),
-      historyMenuItem("xxx yyy zzz")
+      "foo bar baz",
+      "foo bar zaz",
+      "xxx yyy zzz"
     ]
   }
 
@@ -43,13 +43,6 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("yyy"), [items[2]])
     XCTAssertEqual(search("fbb"), [items[0], items[1]])
     XCTAssertEqual(search("m"), [])
-  }
-
-  private func historyMenuItem(_ value: String) -> HistoryMenuItem {
-    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
-                                     value: value.data(using: .utf8)!)
-    let item = HistoryItem(contents: [content])
-    return HistoryMenuItem(item: item, onSelected: { _ in })
   }
 
   private func search(_ string: String) -> Search.Searchable {

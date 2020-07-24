@@ -56,6 +56,17 @@ class MaccyUITests: XCTestCase {
     XCTAssertTrue(app.menuItems[copy2].exists)
   }
 
+  func testNewCopyIsAdded() {
+    popUpWithHotkey()
+    let copy3 = UUID().uuidString
+    copyToClipboard(copy3)
+    XCTAssertFalse(app.menuItems[copy3].exists)
+    app.typeKey(.escape, modifierFlags: [])
+    popUpWithHotkey()
+    XCTAssertTrue(app.menuItems[copy3].exists)
+    XCTAssertTrue(app.menuItems[copy3].firstMatch.isSelected)
+  }
+
   func testSearch() {
     popUpWithHotkey()
     app.typeText(copy2)

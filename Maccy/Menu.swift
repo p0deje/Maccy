@@ -2,6 +2,18 @@ import AppKit
 
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
 class Menu: NSMenu, NSMenuDelegate {
+  class IndexedItem: NSObject {
+    var value: String
+    var item: HistoryItem
+    var menuItems: [HistoryMenuItem]
+
+    init(value: String, item: HistoryItem, menuItems: [HistoryMenuItem]) {
+      self.value = value
+      self.item = item
+      self.menuItems = menuItems
+    }
+  }
+
   public let maxHotKey = 9
   public let menuWidth = 300
 
@@ -11,11 +23,20 @@ class Menu: NSMenu, NSMenuDelegate {
     "m", "n", "o", "r", "s", "t", "u", "v", "w", "x", "y", "z"
   ])
 
+  private let historyMenuItemOffset = 1 // The first item is reserved for header.
+  private let historyMenuItemsGroup = 2 // 1 main and 1 alternate
+
   private var clipboard: Clipboard!
   private var history: History!
-  private var historyItems: [HistoryMenuItem] = []
+
+  private var indexedItems: [IndexedItem] = []
+
+  private var historyMenuItems: [HistoryMenuItem] {
+    return items.compactMap({ $0 as? HistoryMenuItem })
+  }
+
   private var maxMenuItems: Int {
-    UserDefaults.standard.maxMenuItems * 2
+    UserDefaults.standard.maxMenuItems * historyMenuItemsGroup
   }
 
   required init(coder decoder: NSCoder) {
@@ -23,7 +44,10 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   init(history: History, clipboard: Clipboard) {
-    UserDefaults.standard.register(defaults: [UserDefaults.Keys.maxMenuItems: UserDefaults.Values.maxMenuItems])
+    UserDefaults.standard.register(defaults: [
+      UserDefaults.Keys.maxMenuItems: UserDefaults.Values.maxMenuItems
+    ])
+
     super.init(title: "Maccy")
     self.history = history
     self.clipboard = clipboard
@@ -32,63 +56,84 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuWillOpen(_ menu: NSMenu) {
-    buildItems(history.all)
-    setKeyEquivalents(historyItems)
-    highlight(historyItems.first(where: { !$0.isPinned }))
+    hideUnpinnedItemsExceedingLimit()
+    setKeyEquivalents(historyMenuItems)
+    highlight(historyMenuItems.first(where: { !$0.isPinned }))
   }
 
-  func buildItems(_ allItems: [HistoryItem]) {
+  func buildItems() {
     clearAll()
-    let menuSizeLimit = items.count + maxMenuItems
 
-    for item in Sorter(by: UserDefaults.standard.sortBy).sort(allItems) {
-      let copyHistoryItem = HistoryMenuItem(item: item, onSelected: copy(_:))
-      let pasteHistoryItem = HistoryMenuItem(item: item, onSelected: copyAndPaste(_:))
-
-      if UserDefaults.standard.pasteByDefault {
-        alternate(copyHistoryItem)
-        prependHistoryItems(pasteHistoryItem, copyHistoryItem)
-      } else {
-        alternate(pasteHistoryItem)
-        prependHistoryItems(copyHistoryItem, pasteHistoryItem)
+    for item in Sorter(by: UserDefaults.standard.sortBy).sort(history.all) {
+      let menuItems = buildMenuItems(item)
+      if let value = menuItems.first?.value {
+        indexedItems.append(IndexedItem(value: value, item: item, menuItems: menuItems))
+        for menuItem in menuItems {
+          addItem(menuItem)
+        }
       }
     }
+  }
 
-    hideUnpinnedItemsExceedingLimit(menuSizeLimit)
+  func add(_ item: HistoryItem) {
+    let sortedItems = Sorter(by: UserDefaults.standard.sortBy).sort(history.all)
+    guard let insertionIndex = sortedItems.firstIndex(where: { $0 == item }) else {
+      return
+    }
+
+    let menuItems = buildMenuItems(item)
+    guard let value = menuItems.first?.value else {
+      return
+    }
+
+    indexedItems.insert(IndexedItem(value: value, item: item, menuItems: menuItems), at: insertionIndex)
+    for menuItem in menuItems.reversed() {
+      insertItem(menuItem, at: insertionIndex * historyMenuItemsGroup + historyMenuItemOffset)
+    }
+
+    clearRemovedItems()
   }
 
   func clearAll() {
-    clear(historyItems)
+    clear(indexedItems.flatMap({ $0.menuItems }))
   }
 
   func clearUnpinned() {
-    clear(historyItems.filter({ !$0.isPinned }))
+    clear(indexedItems.flatMap({ $0.menuItems }).filter({ !$0.isPinned }))
   }
 
   func updateFilter(filter: String) {
-    var results = search.search(string: filter, within: historyItems)
+    var results = search.search(string: filter, within: indexedItems.map({ $0.value }))
 
+    // Strip the results that are longer than visible items.
     if maxMenuItems > 0 && maxMenuItems < results.count {
       results.removeSubrange(maxMenuItems...results.count - 1)
     }
 
+    let foundMenuItems = results.compactMap({ result in
+      indexedItems.first(where: { $0.value == result })
+    }).flatMap({ $0.menuItems })
+
     // First, remove items that don't match search.
-    for item in historyItems {
-      if items.contains(item) && !results.contains(item) {
-        removeItem(item)
+    for historyItem in indexedItems {
+      if !results.contains(historyItem.value) {
+        for menuItem in historyItem.menuItems where items.contains(menuItem) {
+          removeItem(menuItem)
+        }
       }
     }
 
     // Second, update order of items to match search results order.
-    results.reversed().forEach({ item in
-      if items.contains(item) {
-        removeItem(item)
+    for menuItem in foundMenuItems.reversed() {
+      if items.contains(menuItem) {
+        removeItem(menuItem)
       }
-      insertItem(item, at: 1)
-    })
+      insertItem(menuItem, at: historyMenuItemOffset)
+    }
 
-    setKeyEquivalents(results)
-    highlight(results.first)
+    hideUnpinnedItemsExceedingLimit()
+    setKeyEquivalents(foundMenuItems)
+    highlight(foundMenuItems.first)
   }
 
   func select() {
@@ -124,14 +169,16 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     if let historyItemToRemove = itemToRemove as? HistoryMenuItem {
-      historyItems.removeAll(where: { $0 == historyItemToRemove })
+      let historyItemToRemoveIndex = index(of: historyItemToRemove)
+
+      if let historyItem = indexedItems.first(where: { $0.value == historyItemToRemove.value }) {
+        historyItem.menuItems.forEach(removeItem(_:))
+        indexedItems.removeAll(where: { $0 == historyItem })
+      }
+
       history.remove(historyItemToRemove.item)
 
-      let historyItemToRemoveIndex = index(of: historyItemToRemove)
-      removeItem(at: historyItemToRemoveIndex) // main item
-      removeItem(at: historyItemToRemoveIndex - 1) // alt item
-
-      setKeyEquivalents(historyItems)
+      setKeyEquivalents(historyMenuItems)
       highlight(items[historyItemToRemoveIndex])
     }
   }
@@ -141,22 +188,37 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    let altItemToPinIndex = index(of: altItemToPin)
-    if let mainItemToPin = item(at: altItemToPinIndex - 1) as? HistoryMenuItem {
-      if altItemToPin.isPinned {
-        mainItemToPin.unpin()
-        altItemToPin.unpin()
-      } else {
-        let pin = randomAvailablePin()
-        mainItemToPin.pin(pin)
-        altItemToPin.pin(pin)
+    guard let historyItem = indexedItems.first(where: { $0.value == altItemToPin.value }) else {
+      return
+    }
+
+    if altItemToPin.isPinned {
+      for menuItem in historyItem.menuItems {
+        menuItem.unpin()
+        removeItem(menuItem)
+      }
+    } else {
+      let pin = randomAvailablePin()
+      for menuItem in historyItem.menuItems {
+        menuItem.pin(pin)
+        removeItem(menuItem)
       }
     }
 
     history.update(altItemToPin.item)
-    buildItems(history.all)
-    setKeyEquivalents(historyItems)
-    highlight(historyItems.first(where: { $0.item == altItemToPin.item }))
+
+    let sortedItems = Sorter(by: UserDefaults.standard.sortBy).sort(history.all)
+    if let newIndex = sortedItems.firstIndex(where: { $0 == altItemToPin.item }) {
+      indexedItems.removeAll(where: { $0 == historyItem })
+      indexedItems.insert(historyItem, at: newIndex)
+
+      for menuItem in historyItem.menuItems.reversed() {
+        insertItem(menuItem, at: newIndex * historyMenuItemsGroup + historyMenuItemOffset)
+      }
+
+      updateFilter(filter: "") // show all items
+      highlight(historyItem.menuItems.first)
+    }
   }
 
   private func highlightNext(_ items: [NSMenuItem], alt: Bool) -> Bool {
@@ -193,7 +255,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func setKeyEquivalents(_ items: [HistoryMenuItem]) {
     // First, clear all existing key equivalents.
-    for item in historyItems where !item.isPinned {
+    for item in historyMenuItems where !item.isPinned {
       item.keyEquivalent = ""
     }
 
@@ -208,19 +270,6 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func prependHistoryItems(_ firstItem: HistoryMenuItem, _ secondItem: HistoryMenuItem) {
-    historyItems.insert(contentsOf: [firstItem, secondItem], at: 0)
-    insertItem(secondItem, at: 1)
-    insertItem(firstItem, at: 1)
-  }
-
-  private func removeLastHistoryItem() {
-    let altItem = historyItems.removeLast()
-    let mainItem = historyItems.removeLast()
-    removeItem(altItem)
-    removeItem(mainItem)
-  }
-
   private func alternate(_ item: HistoryMenuItem) {
     item.keyEquivalentModifierMask = [.option]
     item.isHidden = true
@@ -228,7 +277,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func randomAvailablePin() -> String {
-    let assignedPins = Set(historyItems.map({ $0.keyEquivalent }))
+    let assignedPins = Set(historyMenuItems.map({ $0.keyEquivalent }))
     return availablePins.subtracting(assignedPins).randomElement() ?? ""
   }
 
@@ -247,19 +296,46 @@ class Menu: NSMenu, NSMenuDelegate {
         removeItem(item)
       }
 
-      historyItems.removeAll(where: { $0 == item})
+      indexedItems.removeAll(where: { $0.value == item.value })
     })
   }
 
-  private func hideUnpinnedItemsExceedingLimit(_ menuSizeLimit: Int) {
+  private func hideUnpinnedItemsExceedingLimit() {
     if maxMenuItems > 0 {
-      for historyItem in historyItems.filter({ !$0.isPinned }).reversed() {
-        if items.count > menuSizeLimit {
+      var historyMenuItemsCount = historyMenuItems.count
+      for historyItem in historyMenuItems.filter({ !$0.isPinned }).reversed() {
+        if historyMenuItemsCount > maxMenuItems {
           removeItem(historyItem)
+          historyMenuItemsCount -= 1
         } else {
           break
         }
       }
+    }
+  }
+
+  private func buildMenuItems(_ item: HistoryItem) -> [HistoryMenuItem] {
+    let copyHistoryItem = HistoryMenuItem(item: item, onSelected: copy(_:))
+    let pasteHistoryItem = HistoryMenuItem(item: item, onSelected: copyAndPaste(_:))
+
+    var menuItems: [HistoryMenuItem] = []
+    if UserDefaults.standard.pasteByDefault {
+      alternate(copyHistoryItem)
+      menuItems = [pasteHistoryItem, copyHistoryItem]
+    } else {
+      alternate(pasteHistoryItem)
+      menuItems = [copyHistoryItem, pasteHistoryItem]
+    }
+
+    return menuItems
+  }
+
+  private func clearRemovedItems() {
+    let currentHistoryItems = history.all
+    let itemsToRemove = indexedItems.filter({ !currentHistoryItems.contains($0.item) })
+    for itemToRemove in itemsToRemove {
+      itemToRemove.menuItems.forEach(removeItem(_:))
+      indexedItems.removeAll(where: { $0.value == itemToRemove.value })
     }
   }
 }

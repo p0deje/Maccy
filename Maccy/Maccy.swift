@@ -29,6 +29,7 @@ class Maccy: NSObject {
   private var hideSearchObserver: NSKeyValueObservation?
   private var hideTitleObserver: NSKeyValueObservation?
   private var pasteByDefaultObserver: NSKeyValueObservation?
+  private var sortByObserver: NSKeyValueObservation?
   private var statusItemConfigurationObserver: NSKeyValueObservation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
@@ -51,6 +52,9 @@ class Maccy: NSObject {
       self.rebuild()
     })
     pasteByDefaultObserver = UserDefaults.standard.observe(\.pasteByDefault, options: .new, changeHandler: { _, _ in
+      self.rebuild()
+    })
+    sortByObserver = UserDefaults.standard.observe(\.sortBy, options: .new, changeHandler: { _, _ in
       self.rebuild()
     })
     statusItemConfigurationObserver = UserDefaults.standard.observe(\.showInStatusBar,
@@ -76,6 +80,7 @@ class Maccy: NSObject {
     hideSearchObserver?.invalidate()
     hideTitleObserver?.invalidate()
     pasteByDefaultObserver?.invalidate()
+    sortByObserver?.invalidate()
     statusItemConfigurationObserver?.invalidate()
     statusItemVisibilityObserver?.invalidate()
   }
@@ -105,9 +110,11 @@ class Maccy: NSObject {
     statusItem.isVisible = UserDefaults.standard.showInStatusBar
 
     clipboard.onNewCopy(history.add)
+    clipboard.onNewCopy(menu.add)
     clipboard.startListening()
 
     populateHeader()
+    populateItems()
     populateFooter()
   }
 
@@ -121,6 +128,10 @@ class Maccy: NSObject {
     headerItem.isEnabled = false
 
     menu.addItem(headerItem)
+  }
+
+  private func populateItems() {
+    menu.buildItems()
   }
 
   private func populateFooter() {
@@ -166,6 +177,7 @@ class Maccy: NSObject {
     menu.removeAllItems()
 
     populateHeader()
+    populateItems()
     populateFooter()
   }
 }
