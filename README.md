@@ -86,6 +86,12 @@ You can add additional custom types using preferences or `defaults`:
 defaults write org.p0deje.Maccy ignoredPasteboardTypes -array-add "com.myapp.CustomType"
 ```
 
+If you need to find what custom types are used by an application, you can use
+free application [Pasteboard-Viewer](https://github.com/sindresorhus/Pasteboard-Viewer).
+Simply download the application, open it, copy something from the application you
+want to ignore and look for any custom types in the left sidebar. [Here is an example
+of using this approach to ignore Adobe InDesign](https://github.com/p0deje/Maccy/issues/125).
+
 If you accidentally removed default types, you can restore the original configuration:
 
 ```sh
