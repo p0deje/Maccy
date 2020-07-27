@@ -1,6 +1,7 @@
 import AppKit
 
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
+// swiftlint:disable type_body_length
 class Menu: NSMenu, NSMenuDelegate {
   class IndexedItem: NSObject {
     var value: String
@@ -56,7 +57,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuWillOpen(_ menu: NSMenu) {
-    hideUnpinnedItemsExceedingLimit()
+    updateUnpinnedItemsVisibility()
     setKeyEquivalents(historyMenuItems)
     highlight(historyMenuItems.first(where: { !$0.isPinned }))
   }
@@ -131,7 +132,7 @@ class Menu: NSMenu, NSMenuDelegate {
       insertItem(menuItem, at: historyMenuItemOffset)
     }
 
-    hideUnpinnedItemsExceedingLimit()
+    updateUnpinnedItemsVisibility()
     setKeyEquivalents(foundMenuItems)
     highlight(foundMenuItems.first)
   }
@@ -300,16 +301,52 @@ class Menu: NSMenu, NSMenuDelegate {
     })
   }
 
-  private func hideUnpinnedItemsExceedingLimit() {
+  private func updateUnpinnedItemsVisibility() {
+    let historyMenuItemsCount = historyMenuItems.count
+
     if maxMenuItems > 0 {
-      var historyMenuItemsCount = historyMenuItems.count
-      for historyItem in historyMenuItems.filter({ !$0.isPinned }).reversed() {
-        if historyMenuItemsCount > maxMenuItems {
-          removeItem(historyItem)
-          historyMenuItemsCount -= 1
-        } else {
-          break
-        }
+      if maxMenuItems <= historyMenuItemsCount {
+        hideUnpinnedItemsOverLimit(historyMenuItemsCount)
+      } else if maxMenuItems > historyMenuItemsCount {
+        appendUnpinnedItemsUntilLimit(historyMenuItemsCount)
+      }
+    } else {
+      let allItemsCount = indexedItems.flatMap({ $0.menuItems }).count
+      if historyMenuItemsCount < allItemsCount {
+        showAllUnpinnedItems()
+      }
+    }
+  }
+
+  private func hideUnpinnedItemsOverLimit(_ limit: Int) {
+    var limit = limit
+    for historyItem in historyMenuItems.filter({ !$0.isPinned }).reversed() {
+      if limit > maxMenuItems {
+        removeItem(historyItem)
+        limit -= 1
+      } else {
+        break
+      }
+    }
+  }
+
+  private func appendUnpinnedItemsUntilLimit(_ limit: Int) {
+    var limit = limit
+    for historyItem in indexedItems.flatMap({ $0.menuItems }).filter({ !$0.isPinned }) {
+      if !historyMenuItems.contains(historyItem) {
+        limit += 1
+        insertItem(historyItem, at: historyMenuItems.count)
+      }
+      if maxMenuItems == limit {
+        break
+      }
+    }
+  }
+
+  private func showAllUnpinnedItems() {
+    for historyItem in indexedItems.flatMap({ $0.menuItems }).filter({ !$0.isPinned }) {
+      if !historyMenuItems.contains(historyItem) {
+        insertItem(historyItem, at: historyMenuItems.count)
       }
     }
   }
@@ -339,3 +376,4 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 }
+// swiftlint:enable type_body_length
