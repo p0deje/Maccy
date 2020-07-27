@@ -91,7 +91,7 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.pasteByDefault) }
   }
 
-  public var pinTo: String {
+  @objc dynamic public var pinTo: String {
     get { string(forKey: Keys.pinTo) ?? Values.pinTo }
     set { set(newValue, forKey: Keys.pinTo) }
   }
