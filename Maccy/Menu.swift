@@ -211,8 +211,14 @@ class Menu: NSMenu, NSMenuDelegate {
       indexedItems.removeAll(where: { $0 == historyItem })
       indexedItems.insert(historyItem, at: newIndex)
 
-      for menuItem in historyItem.menuItems.reversed() {
-        insertItem(menuItem, at: newIndex * historyMenuItemsGroup + historyMenuItemOffset)
+      let menuItemIndex = newIndex * historyMenuItemsGroup + historyMenuItemOffset
+      // Ensure that it's possible to insert at the specified item.
+      // This won't be possible when unpinning item that should be inserted
+      // at index higher than maxVisibleItems.
+      if menuItemIndex <= items.count {
+        for menuItem in historyItem.menuItems.reversed() {
+          insertItem(menuItem, at: menuItemIndex)
+        }
       }
 
       updateFilter(filter: "") // show all items
