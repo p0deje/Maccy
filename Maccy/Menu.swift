@@ -36,9 +36,8 @@ class Menu: NSMenu, NSMenuDelegate {
     return items.compactMap({ $0 as? HistoryMenuItem })
   }
 
-  private var maxMenuItems: Int {
-    UserDefaults.standard.maxMenuItems * historyMenuItemsGroup
-  }
+  private var maxMenuItems: Int { UserDefaults.standard.maxMenuItems }
+  private var maxVisibleItems: Int { maxMenuItems * historyMenuItemsGroup }
 
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
@@ -108,7 +107,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
     // Strip the results that are longer than visible items.
     if maxMenuItems > 0 && maxMenuItems < results.count {
-      results.removeSubrange(maxMenuItems...results.count - 1)
+      results = Array(results[0...maxMenuItems - 1])
     }
 
     let foundMenuItems = results.compactMap({ result in
@@ -132,7 +131,6 @@ class Menu: NSMenu, NSMenuDelegate {
       insertItem(menuItem, at: historyMenuItemOffset)
     }
 
-    updateUnpinnedItemsVisibility()
     setKeyEquivalents(foundMenuItems)
     highlight(foundMenuItems.first)
   }
@@ -304,10 +302,10 @@ class Menu: NSMenu, NSMenuDelegate {
   private func updateUnpinnedItemsVisibility() {
     let historyMenuItemsCount = historyMenuItems.count
 
-    if maxMenuItems > 0 {
-      if maxMenuItems <= historyMenuItemsCount {
+    if maxVisibleItems > 0 {
+      if maxVisibleItems <= historyMenuItemsCount {
         hideUnpinnedItemsOverLimit(historyMenuItemsCount)
-      } else if maxMenuItems > historyMenuItemsCount {
+      } else if maxVisibleItems > historyMenuItemsCount {
         appendUnpinnedItemsUntilLimit(historyMenuItemsCount)
       }
     } else {
@@ -321,7 +319,7 @@ class Menu: NSMenu, NSMenuDelegate {
   private func hideUnpinnedItemsOverLimit(_ limit: Int) {
     var limit = limit
     for historyItem in historyMenuItems.filter({ !$0.isPinned }).reversed() {
-      if limit > maxMenuItems {
+      if limit > maxVisibleItems {
         removeItem(historyItem)
         limit -= 1
       } else {
@@ -337,7 +335,7 @@ class Menu: NSMenu, NSMenuDelegate {
         limit += 1
         insertItem(historyItem, at: historyMenuItems.count)
       }
-      if maxMenuItems == limit {
+      if maxVisibleItems == limit {
         break
       }
     }
