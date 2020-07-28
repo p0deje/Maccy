@@ -32,14 +32,17 @@ class HistoryTests: XCTestCase {
 
   func testAddingSame() {
     let first = historyItem("foo")
+    first.pin = "f"
     history.add(first)
     let second = historyItem("bar")
     history.add(second)
-    history.add(historyItem("foo"))
+    let third = historyItem("foo")
+    history.add(third)
 
-    XCTAssertEqual(history.all, [second, first])
+    XCTAssertEqual(history.all, [second, third])
     XCTAssertTrue(history.all[1].lastCopiedAt > history.all[0].firstCopiedAt)
     XCTAssertEqual(history.all[1].numberOfCopies, 2)
+    XCTAssertEqual(history.all[1].pin, "f")
   }
 
   func testUpdate() {

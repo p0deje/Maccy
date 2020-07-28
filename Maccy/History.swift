@@ -19,9 +19,10 @@ class History {
 
   func add(_ item: HistoryItem) {
     if let existingHistoryItem = findDuplicateItem(item) {
-      existingHistoryItem.lastCopiedAt = item.firstCopiedAt
-      existingHistoryItem.numberOfCopies += 1
-      remove(item)
+      item.firstCopiedAt = existingHistoryItem.firstCopiedAt
+      item.numberOfCopies += existingHistoryItem.numberOfCopies
+      item.pin = existingHistoryItem.pin
+      remove(existingHistoryItem)
     } else {
       if UserDefaults.standard.playSounds {
         NSSound(named: NSSound.Name("write"))?.play()
