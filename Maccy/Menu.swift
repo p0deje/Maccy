@@ -375,7 +375,9 @@ class Menu: NSMenu, NSMenuDelegate {
     let currentHistoryItems = history.all
     let itemsToRemove = indexedItems.filter({ !currentHistoryItems.contains($0.item) })
     for itemToRemove in itemsToRemove {
-      itemToRemove.menuItems.forEach(removeItem(_:))
+      for menuItem in itemToRemove.menuItems where items.contains(menuItem) {
+        removeItem(menuItem)
+      }
       indexedItems.removeAll(where: { $0.value == itemToRemove.value })
     }
   }
