@@ -95,9 +95,9 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   private func populatePinTo() {
     switch UserDefaults.standard.pinTo {
     case "bottom":
-      popupAtButton.selectItem(withTag: 1)
+      pinToButton.selectItem(withTag: 1)
     default:
-      popupAtButton.selectItem(withTag: 0)
+      pinToButton.selectItem(withTag: 0)
     }
   }
 
