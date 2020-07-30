@@ -373,13 +373,17 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func clearRemovedItems() {
     let currentHistoryItems = history.all
-    let itemsToRemove = indexedItems.filter({ !currentHistoryItems.contains($0.item) })
-    for itemToRemove in itemsToRemove {
-      for menuItem in itemToRemove.menuItems where items.contains(menuItem) {
-        removeItem(menuItem)
+    var itemsToKeep: [IndexedItem] = []
+    for indexedItem in indexedItems {
+      if currentHistoryItems.contains(indexedItem.item) {
+        itemsToKeep.append(indexedItem)
+      } else {
+        for menuItem in indexedItem.menuItems where items.contains(menuItem) {
+          removeItem(menuItem)
+        }
       }
-      indexedItems.removeAll(where: { $0.value == itemToRemove.value })
     }
+    indexedItems = itemsToKeep
   }
 }
 // swiftlint:enable type_body_length
