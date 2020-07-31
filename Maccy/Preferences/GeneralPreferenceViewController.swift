@@ -17,6 +17,8 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var launchAtLoginButton: NSButton!
   @IBOutlet weak var fuzzySearchButton: NSButton!
   @IBOutlet weak var pasteAutomaticallyButton: NSButton!
+  @IBOutlet weak var removeFormattingButton: NSButton!
+  @IBOutlet weak var modifiersDescriptionLabel: NSTextField!
   @IBOutlet weak var soundsButton: NSButton!
   @IBOutlet weak var historySizeSlider: NSSlider!
   @IBOutlet weak var historySizeLabel: NSTextField!
@@ -32,6 +34,8 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
     populateLaunchAtLogin()
     populateFuzzySearch()
     populatePasteAutomatically()
+    populateRemoveFormatting()
+    updateModifiersDescriptionLabel()
     populateSounds()
     populateHistorySize()
     populateSortBy()
@@ -55,6 +59,12 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   @IBAction func pasteAutomaticallyChanged(_ sender: NSButton) {
     UserDefaults.standard.pasteByDefault = (sender.state == .on)
+    updateModifiersDescriptionLabel()
+  }
+
+  @IBAction func removeFormattingChanged(_ sender: NSButton) {
+    UserDefaults.standard.removeFormattingByDefault = (sender.state == .on)
+    updateModifiersDescriptionLabel()
   }
 
   @IBAction func soundsChanged(_ sender: NSButton) {
@@ -87,6 +97,22 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   private func populatePasteAutomatically() {
     pasteAutomaticallyButton.state = UserDefaults.standard.pasteByDefault ? .on : .off
+  }
+
+  private func populateRemoveFormatting() {
+    removeFormattingButton.state = UserDefaults.standard.removeFormattingByDefault ? .on : .off
+  }
+
+  private func updateModifiersDescriptionLabel() {
+    let descriptions = [
+      String(format: NSLocalizedString("copy_modifiers_config", comment: ""),
+             HistoryMenuItem.CopyMenuItem.keyEquivalentModifierMask.description),
+      String(format: NSLocalizedString("paste_modifiers_config", comment: ""),
+             HistoryMenuItem.PasteMenuItem.keyEquivalentModifierMask.description),
+      String(format: NSLocalizedString("format_modifiers_config", comment: ""),
+             HistoryMenuItem.PasteWithoutFormattingMenuItem.keyEquivalentModifierMask.description)
+    ]
+    modifiersDescriptionLabel.stringValue = descriptions.joined(separator: "\n")
   }
 
   private func populateSounds() {

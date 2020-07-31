@@ -45,6 +45,23 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.all[1].pin, "f")
   }
 
+  func testAddingItemThatIsSupersededByExisting() {
+    let contents = [
+      HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: "one".data(using: .utf8)!),
+      HistoryItemContent(type: NSPasteboard.PasteboardType.rtf.rawValue, value: "two".data(using: .utf8)!)
+    ]
+    let first = HistoryItem(contents: contents)
+    history.add(first)
+
+    let second = HistoryItem(contents: [
+      HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: "one".data(using: .utf8)!)
+    ])
+    history.add(second)
+
+    XCTAssertEqual(history.all, [second])
+    XCTAssertEqual(Set(history.all[0].getContents()), Set(contents))
+  }
+
   func testUpdate() {
     history.add(historyItem("foo"))
     let historyItem = history.all[0]

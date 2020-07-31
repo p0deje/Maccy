@@ -9,6 +9,7 @@ class UserDefaultsTests: XCTestCase {
   let savedPinTo = UserDefaults.standard.pinTo
   let savedPlaySounds = UserDefaults.standard.playSounds
   let savedPopupPosition = UserDefaults.standard.popupPosition
+  let savedRemoveFormattingByDefault = UserDefaults.standard.removeFormattingByDefault
   let savedSaratovSeparator = UserDefaults.standard.saratovSeparator
   let savedShowInStatusBar = UserDefaults.standard.showInStatusBar
   let savedSize = UserDefaults.standard.size
@@ -24,6 +25,7 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.pinTo)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.playSounds)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.popupPosition)
+    UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.removeFormattingByDefault)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.saratovSeparator)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.showInStatusBar)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.size)
@@ -40,6 +42,7 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.pinTo = savedPinTo
     UserDefaults.standard.playSounds = savedPlaySounds
     UserDefaults.standard.popupPosition = savedPopupPosition
+    UserDefaults.standard.removeFormattingByDefault = savedRemoveFormattingByDefault
     UserDefaults.standard.saratovSeparator = savedSaratovSeparator
     UserDefaults.standard.showInStatusBar = savedShowInStatusBar
     UserDefaults.standard.size = savedSize
@@ -54,6 +57,7 @@ class UserDefaultsTests: XCTestCase {
     XCTAssertEqual(UserDefaults.standard.pinTo, "top")
     XCTAssertEqual(UserDefaults.standard.playSounds, false)
     XCTAssertEqual(UserDefaults.standard.popupPosition, "cursor")
+    XCTAssertEqual(UserDefaults.standard.removeFormattingByDefault, false)
     XCTAssertEqual(UserDefaults.standard.saratovSeparator, false)
     XCTAssertEqual(UserDefaults.standard.showInStatusBar, true)
     XCTAssertEqual(UserDefaults.standard.size, 200)
@@ -70,6 +74,7 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.pinTo = "bottom"
     UserDefaults.standard.playSounds = true
     UserDefaults.standard.popupPosition = "center"
+    UserDefaults.standard.removeFormattingByDefault = true
     UserDefaults.standard.saratovSeparator = true
     UserDefaults.standard.showInStatusBar = false
     UserDefaults.standard.size = 100
@@ -82,6 +87,7 @@ class UserDefaultsTests: XCTestCase {
     XCTAssertEqual(UserDefaults.standard.pinTo, "bottom")
     XCTAssertEqual(UserDefaults.standard.playSounds, true)
     XCTAssertEqual(UserDefaults.standard.popupPosition, "center")
+    XCTAssertEqual(UserDefaults.standard.removeFormattingByDefault, true)
     XCTAssertEqual(UserDefaults.standard.saratovSeparator, true)
     XCTAssertEqual(UserDefaults.standard.showInStatusBar, false)
     XCTAssertEqual(UserDefaults.standard.size, 100)

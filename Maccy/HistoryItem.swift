@@ -27,16 +27,7 @@ class HistoryItem: NSManagedObject {
   }
 
   public static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
-    let lhsContents = lhs.getContents()
-    let rhsContents = rhs.getContents()
-
-    if lhsContents.count == rhsContents.count {
-      return lhsContents.allSatisfy({ lhsContent -> Bool in
-        rhsContents.contains(where: { $0 == lhsContent })
-      })
-    }
-
-    return false
+    return lhs.getContents().count == rhs.getContents().count && lhs.supersedes(rhs)
   }
 
   convenience init(contents: [HistoryItemContent]) {
@@ -53,5 +44,11 @@ class HistoryItem: NSManagedObject {
 
   func getContents() -> [HistoryItemContent] {
     return ((contents?.allObjects ?? []) as [HistoryItemContent])
+  }
+
+  func supersedes(_ item: HistoryItem) -> Bool {
+    return item.getContents().allSatisfy({ content in
+      getContents().contains(where: { $0 == content})
+    })
   }
 }

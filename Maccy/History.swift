@@ -18,7 +18,8 @@ class History {
   }
 
   func add(_ item: HistoryItem) {
-    if let existingHistoryItem = findDuplicateItem(item) {
+    if let existingHistoryItem = findSimilarItem(item) {
+      item.contents = existingHistoryItem.contents
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
@@ -45,8 +46,8 @@ class History {
     all.forEach(remove(_:))
   }
 
-  private func findDuplicateItem(_ item: HistoryItem) -> HistoryItem? {
-    let duplicates = all.filter({ $0 == item })
+  private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
+    let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
     if duplicates.count > 1 {
       return duplicates.last
     } else {

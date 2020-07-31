@@ -26,8 +26,8 @@
 /* Class = "NSTextFieldCell"; title = "Default: Time of last copy."; ObjectID = "WYH-Es-sop"; */
 "WYH-Es-sop.title" = "Por defecto: Más nuevo primero.";
 
-/* Class = "NSTextFieldCell"; title = "Automatically paste when selecting item.\nWhen enabled, selecting with ⌥ pressed skips pasting.\nWhen disabled, selecting with ⌥ pressed pastes."; ObjectID = "ZSa-vg-zWi"; */
-"ZSa-vg-zWi.title" = "Pegar automáticamente al seleccionar un elemento.\nCuando está activado, selecciona con ⌥ para evitar pegar.\nCuando está desactivado, selecciona con ⌥ para pegar.";
+/* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
+"ZSa-vg-zWi.title" = "Personalice el comportamiento al seleccionar un elemento:";
 
 /* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
 "avb-QJ-T0h.title" = "Buscar actualizaciones automáticamente";
@@ -37,6 +37,9 @@
 
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "Pegar automáticamente";
+
+/* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
+"5NO-0n-i7l.title" = "Pegar sin formatear";
 
 /* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
 "mf5-QH-x1u.title" = "Número de copia";

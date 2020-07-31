@@ -18,6 +18,10 @@ class Menu: NSMenu, NSMenuDelegate {
   public let maxHotKey = 9
   public let menuWidth = 300
 
+  internal var historyMenuItems: [HistoryMenuItem] {
+    return items.compactMap({ $0 as? HistoryMenuItem })
+  }
+
   private let search = Search()
   private let availablePins = Set([
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
@@ -25,16 +29,12 @@ class Menu: NSMenu, NSMenuDelegate {
   ])
 
   private let historyMenuItemOffset = 1 // The first item is reserved for header.
-  private let historyMenuItemsGroup = 2 // 1 main and 1 alternate
+  private let historyMenuItemsGroup = 3 // 1 main and 2 alternates
 
   private var clipboard: Clipboard!
   private var history: History!
 
   private var indexedItems: [IndexedItem] = []
-
-  private var historyMenuItems: [HistoryMenuItem] {
-    return items.compactMap({ $0 as? HistoryMenuItem })
-  }
 
   private var maxMenuItems: Int { UserDefaults.standard.maxMenuItems }
   private var maxVisibleItems: Int { maxMenuItems * historyMenuItemsGroup }
@@ -264,35 +264,21 @@ class Menu: NSMenu, NSMenuDelegate {
       item.keyEquivalent = ""
     }
 
-    // Second, add key eqvuivalents up to max.
+    // Second, add key equivalents up to max.
     // Both main and alternate item should have the same key equivalent.
+    let unpinnedItems = items.filter({ !$0.isPinned })
     var hotKey = 1
-    for item in items where hotKey <= maxHotKey && !item.isPinned {
-      item.keyEquivalent = String(hotKey)
-      if item.isAlternate {
-        hotKey += 1
+    for chunk in chunks(unpinnedItems) where hotKey <= maxHotKey {
+      for item in chunk {
+        item.keyEquivalent = String(hotKey)
       }
+      hotKey += 1
     }
-  }
-
-  private func alternate(_ item: HistoryMenuItem) {
-    item.keyEquivalentModifierMask = [.option]
-    item.isHidden = true
-    item.isAlternate = true
   }
 
   private func randomAvailablePin() -> String {
     let assignedPins = Set(historyMenuItems.map({ $0.keyEquivalent }))
     return availablePins.subtracting(assignedPins).randomElement() ?? ""
-  }
-
-  private func copy(_ item: HistoryMenuItem) {
-    clipboard.copy(item.item)
-  }
-
-  private func copyAndPaste(_ item: HistoryMenuItem) {
-    copy(item)
-    clipboard.paste()
   }
 
   private func clear(_ itemsToClear: [HistoryMenuItem]) {
@@ -356,19 +342,19 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func buildMenuItems(_ item: HistoryItem) -> [HistoryMenuItem] {
-    let copyHistoryItem = HistoryMenuItem(item: item, onSelected: copy(_:))
-    let pasteHistoryItem = HistoryMenuItem(item: item, onSelected: copyAndPaste(_:))
+    let menuItems = [
+      HistoryMenuItem.CopyMenuItem(item: item, clipboard: clipboard),
+      HistoryMenuItem.PasteMenuItem(item: item, clipboard: clipboard),
+      HistoryMenuItem.PasteWithoutFormattingMenuItem(item: item, clipboard: clipboard)
+    ].sorted(by: { !$0.isAlternate && $1.isAlternate })
 
-    var menuItems: [HistoryMenuItem] = []
-    if UserDefaults.standard.pasteByDefault {
-      alternate(copyHistoryItem)
-      menuItems = [pasteHistoryItem, copyHistoryItem]
-    } else {
-      alternate(pasteHistoryItem)
-      menuItems = [copyHistoryItem, pasteHistoryItem]
-    }
+    return menuItems.sorted(by: { !$0.isAlternate && $1.isAlternate })
+  }
 
-    return menuItems
+  private func chunks(_ items: [HistoryMenuItem]) -> [[HistoryMenuItem]] {
+    return stride(from: 0, to: items.count, by: historyMenuItemsGroup).map({ index in
+      Array(items[index ..< Swift.min(index + historyMenuItemsGroup, items.count)])
+    })
   }
 
   private func clearRemovedItems() {

@@ -1,29 +1,27 @@
 import Cocoa
 
 class HistoryMenuItem: NSMenuItem {
-  typealias Callback = (HistoryMenuItem) -> Void
-
   public var isPinned = false
   public var item: HistoryItem!
   public var value = ""
+
+  internal var clipboard: Clipboard!
 
   private let showMaxLength = 50
   private let tooltipMaxLength = 5_000
   private let imageMaxWidth: CGFloat = 340.0
 
-  private var onSelected: [Callback] = []
-
   required init(coder: NSCoder) {
     super.init(coder: coder)
   }
 
-  init(item: HistoryItem, onSelected: @escaping Callback) {
+  init(item: HistoryItem, clipboard: Clipboard) {
     UserDefaults.standard.register(defaults: [UserDefaults.Keys.imageMaxHeight: UserDefaults.Values.imageMaxHeight])
 
     super.init(title: "", action: #selector(onSelect(_:)), keyEquivalent: "")
 
+    self.clipboard = clipboard
     self.item = item
-    self.onSelected = [onSelected]
     self.onStateImage = NSImage(named: "PinImage")
     self.target = self
 
@@ -38,13 +36,21 @@ class HistoryMenuItem: NSMenuItem {
     if let itemPin = item.pin {
       pin(itemPin)
     }
+
+    alternate()
   }
 
   @objc
   func onSelect(_ sender: NSMenuItem) {
-    for hook in onSelected {
-      hook(self)
-    }
+    select()
+  }
+
+  func select() {
+    // Override in children.
+  }
+
+  func alternate() {
+    // Override in children.
   }
 
   func pin(_ pin: String) {

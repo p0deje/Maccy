@@ -15,6 +15,7 @@ extension UserDefaults {
     static let pinTo = "pinTo"
     static let playSounds = "playSounds"
     static let popupPosition = "popupPosition"
+    static let removeFormattingByDefault = "removeFormattingByDefault"
     static let saratovSeparator = "enableSaratovSeparator"
     static let size = "historySize"
     static let sortBy = "sortBy"
@@ -104,6 +105,11 @@ extension UserDefaults {
   public var popupPosition: String {
     get { string(forKey: Keys.popupPosition) ?? Values.popupPosition }
     set { set(newValue, forKey: Keys.popupPosition) }
+  }
+
+  @objc dynamic public var removeFormattingByDefault: Bool {
+    get { bool(forKey: Keys.removeFormattingByDefault) }
+    set { set(newValue, forKey: Keys.removeFormattingByDefault) }
   }
 
   public var saratovSeparator: Bool {

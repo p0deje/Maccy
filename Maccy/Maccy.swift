@@ -30,6 +30,7 @@ class Maccy: NSObject {
   private var hideTitleObserver: NSKeyValueObservation?
   private var pasteByDefaultObserver: NSKeyValueObservation?
   private var pinToObserver: NSKeyValueObservation?
+  private var removeFormattingByDefaultObserver: NSKeyValueObservation?
   private var sortByObserver: NSKeyValueObservation?
   private var statusItemConfigurationObserver: NSKeyValueObservation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
@@ -56,6 +57,11 @@ class Maccy: NSObject {
       self.rebuild()
     })
     pinToObserver = UserDefaults.standard.observe(\.pinTo, options: .new, changeHandler: { _, _ in
+      self.rebuild()
+    })
+    removeFormattingByDefaultObserver = UserDefaults.standard.observe(\.removeFormattingByDefault,
+                                                                      options: .new,
+                                                                      changeHandler: { _, _ in
       self.rebuild()
     })
     sortByObserver = UserDefaults.standard.observe(\.sortBy, options: .new, changeHandler: { _, _ in
@@ -85,6 +91,7 @@ class Maccy: NSObject {
     hideTitleObserver?.invalidate()
     pasteByDefaultObserver?.invalidate()
     pinToObserver?.invalidate()
+    removeFormattingByDefaultObserver?.invalidate()
     sortByObserver?.invalidate()
     statusItemConfigurationObserver?.invalidate()
     statusItemVisibilityObserver?.invalidate()

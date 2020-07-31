@@ -15,3 +15,6 @@
 "first_copy_time_tooltip" = "Hora de la primera copia";
 "last_copy_time_tooltip" = "Hora de la última copia";
 "number_of_copies_tooltip" = "Número de copia";
+"copy_modifiers_config" = "• Seleccione con %@ presionado para copiar el elemento.";
+"paste_modifiers_config" = "• Seleccione con %@ presionado para copiar y pegar el elemento.";
+"format_modifiers_config" = "• Seleccione con %@ presionado para copiar, borrar el formato y pegar el elemento.";

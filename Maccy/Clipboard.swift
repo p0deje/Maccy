@@ -41,9 +41,16 @@ class Clipboard {
                          repeats: true)
   }
 
-  func copy(_ item: HistoryItem) {
-    let contents = item.getContents()
-    pasteboard.declareTypes(contents.map({ NSPasteboard.PasteboardType($0.type )}), owner: nil)
+  func copy(_ item: HistoryItem, removeFormatting: Bool = false) {
+    pasteboard.clearContents()
+    var contents = item.getContents()
+
+    if removeFormatting {
+      contents = contents.filter({
+        NSPasteboard.PasteboardType($0.type) == .string
+      })
+    }
+
     for content in contents {
       pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
     }

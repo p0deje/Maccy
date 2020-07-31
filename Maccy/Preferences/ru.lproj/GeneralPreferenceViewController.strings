@@ -26,8 +26,8 @@
 /* Class = "NSTextFieldCell"; title = "Default: Time of last copy."; ObjectID = "WYH-Es-sop"; */
 "WYH-Es-sop.title" = "По умолчанию: Время последнего копирования.";
 
-/* Class = "NSTextFieldCell"; title = "Automatically paste when selecting item.\nWhen enabled, selecting with ⌥ pressed skips pasting.\nWhen disabled, selecting with ⌥ pressed pastes."; ObjectID = "ZSa-vg-zWi"; */
-"ZSa-vg-zWi.title" = "Автоматически вставлять при выборе записи.\nЕсли активно, выбор с нажатой клавишой ⌥ не выполняет вставку.\nЕсли неактивно, выбор с нажатой клавишей ⌥ выполняет вставку.";
+/* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
+"ZSa-vg-zWi.title" = "Настроить поведение при выборе записи:";
 
 /* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
 "avb-QJ-T0h.title" = "Автоматически проверять обновления";
@@ -37,6 +37,9 @@
 
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "Автоматически вставлять";
+
+/* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
+"5NO-0n-i7l.title" = "Вставлять без форматирования";
 
 /* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
 "mf5-QH-x1u.title" = "Количество копирований";

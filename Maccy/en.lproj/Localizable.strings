@@ -15,3 +15,6 @@
 "first_copy_time_tooltip" = "First copy time";
 "last_copy_time_tooltip" = "Last copy time";
 "number_of_copies_tooltip" = "Number of copies";
+"copy_modifiers_config" = "• Select with %@ pressed to copy item.";
+"paste_modifiers_config" = "• Select with %@ pressed to copy and paste item.";
+"format_modifiers_config" = "• Select with %@ pressed to copy, clear formatting and paste item.";
