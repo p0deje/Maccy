@@ -129,8 +129,10 @@ class HistoryMenuItem: NSMenuItem {
       return string
     }
 
-    let index = string.index(string.startIndex, offsetBy: maxLength - 1)
-    return "\(string[...index])..."
+    let halfMaxLength: Int = maxLength / 2
+    let indexStart = string.index(string.startIndex, offsetBy: halfMaxLength - 1)
+    let indexEnd = string.index(string.endIndex, offsetBy: -halfMaxLength)
+    return "\(string[...indexStart])...\(string[indexEnd...])"
   }
 
   private func defaultTooltip(_ item: HistoryItem) -> String {
