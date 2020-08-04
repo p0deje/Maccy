@@ -16,6 +16,7 @@ class ClipboardTests: XCTestCase {
   let transientType = NSPasteboard.PasteboardType(rawValue: "org.nspasteboard.TransientType")
   let unknownType = NSPasteboard.PasteboardType(rawValue: "com.apple.AnnotationKit.AnnotationItem")
 
+  let savedEnabledTypes = UserDefaults.standard.enabledPasteboardTypes
   let savedIgnoreEvents = UserDefaults.standard.ignoreEvents
   let savedIgnoredPasteboardTypes = UserDefaults.standard.ignoredPasteboardTypes
 
@@ -28,6 +29,7 @@ class ClipboardTests: XCTestCase {
   override func tearDown() {
     super.tearDown()
     CoreDataManager.inMemory = false
+    UserDefaults.standard.enabledPasteboardTypes = savedEnabledTypes
     UserDefaults.standard.ignoreEvents = savedIgnoreEvents
     UserDefaults.standard.ignoredPasteboardTypes = savedIgnoredPasteboardTypes
     clipboard.onNewCopyHooks = []
@@ -155,6 +157,27 @@ class ClipboardTests: XCTestCase {
     pasteboard.declareTypes([.fileURL, .string], owner: nil)
     // fileURL is left without data
     pasteboard.setString("bar", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testRemovesDisabledTypes() {
+    UserDefaults.standard.enabledPasteboardTypes = [.fileURL]
+
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (item: HistoryItem) -> Void in
+      XCTAssertEqual(item.getContents().map({ $0.type }), [self.fileURLType.rawValue])
+      hookExpectation.fulfill()
+    })
+
+    let item = NSPasteboardItem()
+    item.setString("foo", forType: .string)
+    item.setData(image.tiffRepresentation!, forType: .tiff)
+    item.setData("file://foo.bar".data(using: .utf8)!, forType: .fileURL)
+
+    clipboard.startListening()
+    pasteboard.clearContents()
+    pasteboard.writeObjects([item])
+
     waitForExpectations(timeout: 2)
   }
 }

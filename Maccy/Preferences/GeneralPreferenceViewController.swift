@@ -22,6 +22,9 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var historySizeSlider: NSSlider!
   @IBOutlet weak var historySizeLabel: NSTextField!
   @IBOutlet weak var sortByButton: NSPopUpButton!
+  @IBOutlet weak var storeFilesButton: NSButton!
+  @IBOutlet weak var storeImagesButton: NSButton!
+  @IBOutlet weak var storeTextButton: NSButton!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -38,6 +41,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
     populateSounds()
     populateHistorySize()
     populateSortBy()
+    populateStoredTypes()
   }
 
   @IBAction func launchAtLoginChanged(_ sender: NSButton) {
@@ -80,6 +84,21 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
     default:
       UserDefaults.standard.sortBy = "lastCopiedAt"
     }
+  }
+
+  @IBAction func storeFilesChanged(_ sender: NSButton) {
+    let types: Set = [NSPasteboard.PasteboardType.fileURL]
+    sender.state == .on ? addEnabledTypes(types) : removeEnabledTypes(types)
+  }
+
+  @IBAction func storeImagesChanged(_ sender: NSButton) {
+    let types: Set = [NSPasteboard.PasteboardType.tiff, NSPasteboard.PasteboardType.png]
+    sender.state == .on ? addEnabledTypes(types) : removeEnabledTypes(types)
+  }
+
+  @IBAction func storeTextChanged(_ sender: NSButton) {
+    let types: Set = [NSPasteboard.PasteboardType.string]
+    sender.state == .on ? addEnabledTypes(types) : removeEnabledTypes(types)
   }
 
   private func populateLaunchAtLogin() {
@@ -138,5 +157,20 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
     default:
       sortByButton.selectItem(withTag: 0)
     }
+  }
+
+  private func populateStoredTypes() {
+    let types = UserDefaults.standard.enabledPasteboardTypes
+    storeFilesButton.state = types.contains(.fileURL) ? .on : .off
+    storeImagesButton.state = types.isSuperset(of: [.tiff, .png]) ? .on : .off
+    storeTextButton.state = types.contains(.string) ? .on : .off
+  }
+
+  private func addEnabledTypes(_ types: Set<NSPasteboard.PasteboardType>) {
+    UserDefaults.standard.enabledPasteboardTypes = UserDefaults.standard.enabledPasteboardTypes.union(types)
+  }
+
+  private func removeEnabledTypes(_ types: Set<NSPasteboard.PasteboardType>) {
+    UserDefaults.standard.enabledPasteboardTypes = UserDefaults.standard.enabledPasteboardTypes.subtracting(types)
   }
 }

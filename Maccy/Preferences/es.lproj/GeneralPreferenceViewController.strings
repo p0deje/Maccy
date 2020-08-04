@@ -58,3 +58,18 @@
 
 /* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
 "fda-wq-rZq.title" = "Reproduzca efectos de sonido cuando se agrega un nuevo elemento al historial y se selecciona el elemento anterior.";
+
+/* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
+"Cal-Kj-TqV.title" = "Ahorrar:";
+
+/* Class = "NSButtonCell"; title = "Files"; ObjectID = "Pr2-Ic-sUM"; */
+"Pr2-Ic-sUM.title" = "Archivos";
+
+/* Class = "NSButtonCell"; title = "Images"; ObjectID = "IT6-JX-vi3"; */
+"IT6-JX-vi3.title" = "Imagenes";
+
+/* Class = "NSButtonCell"; title = "Text"; ObjectID = "TyZ-pU-eZ3"; */
+"TyZ-pU-eZ3.title" = "Texto";
+
+/* Class = "NSTextFieldCell"; title = "Change what types of copied content should be stored."; ObjectID = "GDB-hB-d75"; */
+"GDB-hB-d75.title" = "Cambie qué tipos de contenido copiado se deben almacenar.";

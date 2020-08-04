@@ -1,8 +1,9 @@
-import Foundation
+import Cocoa
 
 extension UserDefaults {
   public struct Keys {
     static let avoidTakingFocus = "avoidTakingFocus"
+    static let enabledPasteboardTypes = "enabledPasteboardTypes"
     static let fuzzySearch = "fuzzySearch"
     static let hideFooter = "hideFooter"
     static let hideSearch = "hideSearch"
@@ -44,14 +45,22 @@ extension UserDefaults {
     static let storage: [HistoryItemOld] = []
   }
 
-  public var fuzzySearch: Bool {
-    get { ProcessInfo.processInfo.arguments.contains("ui-testing") ? false : bool(forKey: Keys.fuzzySearch) }
-    set { set(newValue, forKey: Keys.fuzzySearch) }
-  }
-
   public var avoidTakingFocus: Bool {
     get { bool(forKey: Keys.avoidTakingFocus) }
     set { set(newValue, forKey: Keys.avoidTakingFocus) }
+  }
+
+  @objc dynamic public var enabledPasteboardTypes: Set<NSPasteboard.PasteboardType> {
+    get {
+      let types = array(forKey: Keys.enabledPasteboardTypes) as? [String] ?? []
+      return Set(types.map({ NSPasteboard.PasteboardType($0) }))
+    }
+    set { set(Array(newValue.map({ $0.rawValue })), forKey: Keys.enabledPasteboardTypes) }
+  }
+
+  public var fuzzySearch: Bool {
+    get { ProcessInfo.processInfo.arguments.contains("ui-testing") ? false : bool(forKey: Keys.fuzzySearch) }
+    set { set(newValue, forKey: Keys.fuzzySearch) }
   }
 
   @objc dynamic public var hideFooter: Bool {

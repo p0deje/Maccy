@@ -58,3 +58,18 @@
 
 /* Class = "NSMenuItem"; title = "Time of last copy"; ObjectID = "zrg-H1-TjU"; */
 "zrg-H1-TjU.title" = "上次复制时间";
+
+/* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
+"Cal-Kj-TqV.title" = "保存:";
+
+/* Class = "NSButtonCell"; title = "Files"; ObjectID = "Pr2-Ic-sUM"; */
+"Pr2-Ic-sUM.title" = "档案";
+
+/* Class = "NSButtonCell"; title = "Images"; ObjectID = "IT6-JX-vi3"; */
+"IT6-JX-vi3.title" = "图片";
+
+/* Class = "NSButtonCell"; title = "Text"; ObjectID = "TyZ-pU-eZ3"; */
+"TyZ-pU-eZ3.title" = "文本";
+
+/* Class = "NSTextFieldCell"; title = "Change what types of copied content should be stored."; ObjectID = "GDB-hB-d75"; */
+"GDB-hB-d75.title" = "更改应存储哪些类型的复制内容。";

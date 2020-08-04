@@ -136,6 +136,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
       UserDefaults.standard.migrations["2020-09-01-ignore-keeweb"] = true
     }
+
+    if UserDefaults.standard.migrations["2021-02-20-allow-to-customize-supported-types"] != true {
+      UserDefaults.standard.enabledPasteboardTypes = [
+        .fileURL, .png, .string, .tiff
+      ]
+
+      UserDefaults.standard.migrations["2021-02-20-allow-to-customize-supported-types"] = true
+    }
   }
   // swiftlint:enable cyclomatic_complexity
   // swiftlint:enable function_body_length

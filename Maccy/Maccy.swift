@@ -42,6 +42,7 @@ class Maccy: NSObject {
     return NSRect(x: 0, y: 0, width: menu.menuWidth, height: UserDefaults.standard.hideSearch ? 1 : 29)
   }
 
+  private var enabledPasteboardTypesObserver: NSKeyValueObservation?
   private var ignoreEventsObserver: NSKeyValueObservation?
   private var imageHeightObserver: NSKeyValueObservation?
   private var hideFooterObserver: NSKeyValueObservation?
@@ -59,10 +60,13 @@ class Maccy: NSObject {
     UserDefaults.standard.register(defaults: [UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar])
     super.init()
 
-    ignoreEventsObserver = UserDefaults.standard.observe(\.ignoreEvents, options: .new, changeHandler: { _, change in
-      if let newValue = change.newValue {
-        self.statusItem.button?.appearsDisabled = newValue
-      }
+    enabledPasteboardTypesObserver = UserDefaults.standard.observe(\.enabledPasteboardTypes,
+                                                           options: .new,
+                                                           changeHandler: { _, _ in
+      self.updateStatusItemEnabledness()
+    })
+    ignoreEventsObserver = UserDefaults.standard.observe(\.ignoreEvents, options: .new, changeHandler: { _, _ in
+      self.updateStatusItemEnabledness()
     })
     imageHeightObserver = UserDefaults.standard.observe(\.imageMaxHeight, options: .new, changeHandler: { _, _ in
       self.menu.resizeImageMenuItems()
@@ -113,6 +117,7 @@ class Maccy: NSObject {
   }
 
   deinit {
+    enabledPasteboardTypesObserver?.invalidate()
     ignoreEventsObserver?.invalidate()
     hideFooterObserver?.invalidate()
     hideSearchObserver?.invalidate()
@@ -164,7 +169,6 @@ class Maccy: NSObject {
     if let button = statusItem.button {
       button.image = NSImage(named: "StatusBarMenuImage")
       button.imagePosition = .imageRight
-      button.appearsDisabled = UserDefaults.standard.ignoreEvents
       // Simulate statusItem.menu but allowing to use withFocus
       button.action = #selector(performStatusItemClick)
       button.target = self
@@ -179,6 +183,8 @@ class Maccy: NSObject {
     populateHeader()
     populateItems()
     populateFooter()
+
+    updateStatusItemEnabledness()
 
     // Link menu to that UI tests can discover it.
     // Normally we would use statusItem.menu, but we cannot because
@@ -337,6 +343,11 @@ class Maccy: NSObject {
         }
       }
     }
+  }
+
+  private func updateStatusItemEnabledness() {
+    statusItem.button?.appearsDisabled = UserDefaults.standard.ignoreEvents ||
+      UserDefaults.standard.enabledPasteboardTypes.isEmpty
   }
 }
 // swiftlint:enable type_body_length
