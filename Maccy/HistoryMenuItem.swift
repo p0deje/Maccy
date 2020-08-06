@@ -129,9 +129,9 @@ class HistoryMenuItem: NSMenuItem {
       return string
     }
 
-    let halfMaxLength: Int = maxLength / 2
-    let indexStart = string.index(string.startIndex, offsetBy: halfMaxLength - 1)
-    let indexEnd = string.index(string.endIndex, offsetBy: -halfMaxLength)
+    let thirdMaxLength = maxLength / 3
+    let indexStart = string.index(string.startIndex, offsetBy: thirdMaxLength * 2)
+    let indexEnd = string.index(string.endIndex, offsetBy: -(thirdMaxLength + 1))
     return "\(string[...indexStart])...\(string[indexEnd...])"
   }
 

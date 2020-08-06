@@ -56,7 +56,7 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   func testTitleLongerThanMaxLength() {
-    let trimmedTitle = String(repeating: "a", count: 25) + "..." + String(repeating: "a", count: 25)
+    let trimmedTitle = String(repeating: "a", count: 33) + "..." + String(repeating: "a", count: 17)
     let title = String(repeating: "a", count: 51)
     let menuItem = historyMenuItem(title)
     XCTAssertEqual(menuItem.title, trimmedTitle)
@@ -134,7 +134,7 @@ class HistoryMenuItemTests: XCTestCase {
   func testTooltipLongerThanMax() {
     let menuItem = historyMenuItem(String(repeating: "a", count: 5_001))
     XCTAssertEqual(menuItem.toolTip,
-            tooltip("\(String(repeating: "a", count: 2_500))...\(String(repeating: "a", count: 2_500))"))
+            tooltip("\(String(repeating: "a", count: 3_333))...\(String(repeating: "a", count: 1_667))"))
   }
 
   private func historyMenuItem(_ value: String?) -> HistoryMenuItem {
