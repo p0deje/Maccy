@@ -12582,3 +12582,7 @@ a.pswp__share--download:hover {
   height: 51px;
   box-shadow: 0 2px 4px 0 rgba(136, 144, 195, 0.2), 0 5px 15px 0 rgba(37, 44, 97, 0.15);
   border-radius: 11px; }
+
+.producthunt:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px 0 rgba(136, 144, 195, 0.22), 0 8px 15px 0 rgba(37, 44, 97, 0.17); }
