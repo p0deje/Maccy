@@ -60,7 +60,7 @@
   padding: .38em 0;
 
   /* Set the base colour */
-  background-color: #23273E;
+  background-color: #ff9b68;
 
   /* Set a gradient: transparent black at the top to almost-transparent black at the bottom */
   background-image: -webkit-gradient(linear, left top, left bottom, from(rgba(0, 0, 0, 0)), to(rgba(0, 0, 0, 0.15)));
