@@ -88,7 +88,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         "de.petermaurer.TransientPasteboardType",
         "com.typeit4me.clipping",
         "Pasteboard generator type",
-        "com.agilebits.onepassword"
+        "com.agilebits.onepassword",
+        "net.antelle.keeweb"
       ]
       UserDefaults.standard.migrations["2020-04-25-allow-custom-ignored-types"] = true
     }
