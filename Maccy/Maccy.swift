@@ -16,9 +16,9 @@ class Maccy: NSObject {
   private var window: NSWindow!
   @objc private var menuLink: NSStatusItem!
 
-  private let carbonMenuWindowTitle = "Item-0"
+  private let carbonMenuWindowClass = "NSStatusBarWindow"
   private var extraVisibleWindows: [NSWindow] {
-    return NSApp.windows.filter({ $0.isVisible && $0.title != carbonMenuWindowTitle })
+    return NSApp.windows.filter({ $0.isVisible && String(describing: type(of: $0)) != carbonMenuWindowClass })
   }
 
   private lazy var preferencesWindowController = PreferencesWindowController(
