@@ -6,28 +6,20 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.14.0</title>
+      <title>0.14.1</title>
       <description>
 	<![CDATA[
 	  <ul>
-      <li>Allow clearing formatting when pasting an item. By default, it can be done by selecting item with <kbd>SHIFT (⇧)</kbd> + <kbd>OPTION (⌥)</kbd> pressed, but can be changed in the preferences.</li>
-      <li>Support language input helpers when searching (e.g. simplified Chinese input).</li>
-      <li>Improve performance of Maccy popup by storing the menu in memory.</li>
-      <li>Play sound effects when a new copy is added or selected. Sounds are disabled by default and should be enabled in the preferences.</li>
-      <li>Show first, last copied time and number of copies in the tooltip.</li>
-      <li>Show suffix of long items.</li>
-      <li>Dim menu bar icon when Maccy is disabled.</li>
-      <li>Fix a potential crash when disabling Maccy via `defaults` command.</li>
-      <li>Fix "Pin to" configuration in the preferences.</li>
+      <li>Fixed an issue when selecting an item would fail to paste for some users.</li>
 	  </ul>
 	]]>
       </description>
       <pubDate>2020-08-06</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.14.0</releaseNotesLink>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.14.1</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.14.0/Maccy.app.zip"
-        sparkle:version="0.14.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.14.1/Maccy.app.zip"
+        sparkle:version="0.14.1"
         length="0"
         type="application/octet-stream"
       />
