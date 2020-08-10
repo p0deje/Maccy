@@ -80,6 +80,7 @@ or overwritten:
 * `com.typeit4me.clipping`
 * `de.petermaurer.TransientPasteboardType`
 * `Pasteboard generator type`
+* `net.antelle.keeweb`
 
 You can add additional custom types using preferences or `defaults`:
 
@@ -96,7 +97,7 @@ of using this approach to ignore Adobe InDesign](https://github.com/p0deje/Maccy
 If you accidentally removed default types, you can restore the original configuration:
 
 ```sh
-defaults write org.p0deje.Maccy ignoredPasteboardTypes -array "de.petermaurer.TransientPasteboardType" "com.typeit4me.clipping" "Pasteboard generator type" "com.agilebits.onepassword"
+defaults write org.p0deje.Maccy ignoredPasteboardTypes -array "de.petermaurer.TransientPasteboardType" "com.typeit4me.clipping" "Pasteboard generator type" "com.agilebits.onepassword" "net.antelle.keeweb"
 ```
 
 ## Why Yet Another Clipboard Manager
