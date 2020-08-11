@@ -128,18 +128,28 @@ class Maccy: NSObject {
   @objc
   func popUpStatusItem() {
     withFocus {
-      self.statusItem.popUpMenu(self.menu)
+      if let buttonCell = self.statusItem.button?.cell as? NSButtonCell {
+        buttonCell.highlightsBy = [.changeBackgroundCellMask, .changeGrayCellMask, .contentsCellMask, .pushInCellMask]
+        self.statusItem.menu = self.menu
+        self.statusItem.button?.performClick(self)
+        self.statusItem.menu = nil
+        buttonCell.highlightsBy = []
+      }
     }
   }
 
   private func start() {
-    statusItem.button?.image = NSImage(named: "StatusBarMenuImage")
-    statusItem.button?.appearsDisabled = UserDefaults.standard.ignoreEvents
     statusItem.behavior = .removalAllowed
     statusItem.isVisible = UserDefaults.standard.showInStatusBar
-    // Simulate statusItem.menu but allowing to withFocus
-    statusItem.button?.target = self
-    statusItem.button?.action = #selector(popUpStatusItem)
+
+    if let button = statusItem.button {
+      button.image = NSImage(named: "StatusBarMenuImage")
+      button.appearsDisabled = UserDefaults.standard.ignoreEvents
+      // Simulate statusItem.menu but allowing to use withFocus
+      button.action = #selector(popUpStatusItem)
+      button.target = self
+      (button.cell as? NSButtonCell)?.highlightsBy = []
+    }
 
     clipboard.onNewCopy(history.add)
     clipboard.onNewCopy(menu.add)
