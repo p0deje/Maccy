@@ -7,60 +7,60 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		01CEA44AC8B900F7A59CC0E520789E79 /* TISInputSource+Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0472656584A7C122A369CBEADA4300E4 /* TISInputSource+Property.swift */; };
+		01CEA44AC8B900F7A59CC0E520789E79 /* TISInputSource+Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F01EAC8F5B3A0F8C0BF8853AA0BA7A0 /* TISInputSource+Property.swift */; };
 		03EFD4A49E434CC6AF985DD34530F93B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
-		07E2369EA4E356E74D2C3620235CBBFF /* KeyboardShortcuts-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B565ABA127E0ED40A00C937B2249F220 /* KeyboardShortcuts-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		097C72D72C1B506C3044A3FFBFFC3A59 /* NSMenuItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFD23E19CE314A43B8182CB14FB17103 /* NSMenuItem++.swift */; };
-		0C826155B3CC4DD099ACEAAF19315E5D /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3886AA35A5AB046DFF80B22D38104D3F /* util.swift */; };
-		0E7FE80132117A04C8C8E21A6DE3BC28 /* Sauce-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 35458C1B6B928C4D3F86F1887EA4F9AE /* Sauce-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		07E2369EA4E356E74D2C3620235CBBFF /* KeyboardShortcuts-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DF63F7E816074F6CFDB7FF51B472C51C /* KeyboardShortcuts-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		097C72D72C1B506C3044A3FFBFFC3A59 /* NSMenuItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D2B702E3C8D357213238311BA0503B /* NSMenuItem++.swift */; };
+		0C826155B3CC4DD099ACEAAF19315E5D /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0199B8281E7C8BA707763B344F1116EB /* util.swift */; };
+		0E7FE80132117A04C8C8E21A6DE3BC28 /* Sauce-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C0277A950E1261E493DA1C4AFA4C079F /* Sauce-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		10915DC92E26B9E81C3704E473A88D5A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
 		12BAF3E7ABAF13B6C7C660ADB10F4201 /* Pods-Maccy-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		17337C2002BAD629DE9755FC82AD2E8C /* Preferences-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D7B69318B6BD99A77A46CFBD4594CA8 /* Preferences-dummy.m */; };
-		1865C9A8554D1BE2503C087919A597EF /* CarbonKeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94DC4CD0B473EF223588AC016639270A /* CarbonKeyboardShortcuts.swift */; };
+		17337C2002BAD629DE9755FC82AD2E8C /* Preferences-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D0022074392E9CBF5CA4933D54EAB4 /* Preferences-dummy.m */; };
+		1865C9A8554D1BE2503C087919A597EF /* CarbonKeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9A35B51D2701C96265020A0E490A81 /* CarbonKeyboardShortcuts.swift */; };
 		187BD9D1BC38A05D4893ADEA4DD7EF37 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
-		1FF0BE99AC8039C49D57D337E71A0AD7 /* ToolbarItemStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFED08A2C7A5D121182279488A19F51F /* ToolbarItemStyleViewController.swift */; };
-		2260434A050624EFE542F082C3C72564 /* SwiftHEXColors-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B6750E9B22706E2CD6BA69BC182658 /* SwiftHEXColors-dummy.m */; };
-		23D86BED094740817D411AE0B18C2B4F /* String+Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 42078AFB238E5FD9A09EDCDD5AA09E1F /* String+Fuse.swift */; };
-		24A7B907DA45793D6BFDAFFB7DB0FC68 /* PreferencesStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8B03E25DF529FEFC2F363E29A00627D /* PreferencesStyle.swift */; };
-		25B6106D2B93837725E199AD35696E47 /* Preferences-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B747F2560A253C9E2A1B33B2E4317272 /* Preferences-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		3024B207F703BA0B2E3E7E87942E1F10 /* KeyboardShortcuts-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D66601C2509EF0F7587AC2A41C622F6A /* KeyboardShortcuts-dummy.m */; };
-		307A96822D156E443123A5124583512B /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 37CEC890058403E6CBA0E245EE42651E /* PreferencesWindowController.swift */; };
-		3C267C83B70C25830C7EEC16A81E65C8 /* SegmentedControlStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72F849C6FC625799C7561340DE4C551E /* SegmentedControlStyleViewController.swift */; };
-		3CA3176F7745DD932156CED1F72F44A0 /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7BAFB8BBD7AF7458FA0F68CF109BB25E /* KeyboardShortcuts.swift */; };
-		47202A4C3F5BB466C818B4F26C4E7BE0 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A3DDF842B695316A1D06453A650B3D01 /* InputSource.swift */; };
-		5694BF7EB997C802B20912A8AA5D5E83 /* Fuse-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C57706C1DE197412B597F9A2E7E7A59D /* Fuse-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		580B3A3F852D0ABB25EC8842E006C53C /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F9B5A34AF9A41ED595A42A6624CFC7D /* Key.swift */; };
+		1FF0BE99AC8039C49D57D337E71A0AD7 /* ToolbarItemStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4BABEC25B808E2055C2CC44F833C82 /* ToolbarItemStyleViewController.swift */; };
+		2260434A050624EFE542F082C3C72564 /* SwiftHEXColors-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F3987A64FDA3C81AE4340603562C2BE1 /* SwiftHEXColors-dummy.m */; };
+		23D86BED094740817D411AE0B18C2B4F /* String+Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF49F0C700068FE8E002BB7A3CB1F43 /* String+Fuse.swift */; };
+		24A7B907DA45793D6BFDAFFB7DB0FC68 /* PreferencesStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A3847FA74CD2A2185721CF581A9A04 /* PreferencesStyle.swift */; };
+		25B6106D2B93837725E199AD35696E47 /* Preferences-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = EC43A2328161FB4C62E63F65C30F997F /* Preferences-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3024B207F703BA0B2E3E7E87942E1F10 /* KeyboardShortcuts-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7A3BC06224B1F3D552461C037CB942 /* KeyboardShortcuts-dummy.m */; };
+		307A96822D156E443123A5124583512B /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D9D2FD8A4F6D0BB7E183BE365BB17A /* PreferencesWindowController.swift */; };
+		3C267C83B70C25830C7EEC16A81E65C8 /* SegmentedControlStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EFD6FCFEAE18334D2680938FA66BB /* SegmentedControlStyleViewController.swift */; };
+		3CA3176F7745DD932156CED1F72F44A0 /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3724B2D7E015BB1A11CC8F57608F9A /* KeyboardShortcuts.swift */; };
+		47202A4C3F5BB466C818B4F26C4E7BE0 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6C8E69DDC5A2BE461804F45F0B4706 /* InputSource.swift */; };
+		5694BF7EB997C802B20912A8AA5D5E83 /* Fuse-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CD1CF979B5A3CDD8DD8B15348333349F /* Fuse-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		580B3A3F852D0ABB25EC8842E006C53C /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BB86571A13A21620C4B6BE70A0644F /* Key.swift */; };
 		687040AB435CD2C69FD8E2E527B9D489 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
-		687078C6C97D243426F7E0FB4EAF7737 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B1BC73F61C852DD661927A8C0B594E /* Name.swift */; };
-		690453358C9AC46227C60541F56F5CA5 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 030304BE88F6AEF0550EF1BDD4337304 /* Localization.swift */; };
-		6A8B33A023540A74C96465667B75E267 /* PreferencePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = D57967095C91DA6934A9907A7173DBD7 /* PreferencePane.swift */; };
-		70C19C2E054017C6A73EDF717EE76CBE /* SwiftHEXColors-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 94091A560E8F0BFA4E4A73DAC468C79F /* SwiftHEXColors-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		75C530321B7F736B7FBD3B4DA6A52A25 /* LoginServiceKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 87AD60342F62CE603FCEB885B06021FA /* LoginServiceKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		763F09681D7C3F4EC3A2935BB2201CB9 /* FuseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA250EE9DD5FBDB7A48C50295AF4E5E2 /* FuseUtilities.swift */; };
-		781BD2EB706F271287A287BB49C07779 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = 60B1A708C9AB40B736726AF07FB29004 /* Key.swift */; };
-		7B5A262C3BF909346D9CADB7820FFE75 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5710C1CC010080A5F85B47F28178D21F /* util.swift */; };
+		687078C6C97D243426F7E0FB4EAF7737 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA71A643FA416E6E76139594A08A36E8 /* Name.swift */; };
+		690453358C9AC46227C60541F56F5CA5 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F5D1163D0CDFB07CBAA384828E3F3D /* Localization.swift */; };
+		6A8B33A023540A74C96465667B75E267 /* PreferencePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6ABA8D69036FD7B3987C4E0264CA191 /* PreferencePane.swift */; };
+		70C19C2E054017C6A73EDF717EE76CBE /* SwiftHEXColors-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BAC1D435EABB01A827813A74213F3CF8 /* SwiftHEXColors-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75C530321B7F736B7FBD3B4DA6A52A25 /* LoginServiceKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 326D67839F88F563B4526991ED3B5016 /* LoginServiceKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		763F09681D7C3F4EC3A2935BB2201CB9 /* FuseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB6D01B82FD13C569E80EAD181BCF7B /* FuseUtilities.swift */; };
+		781BD2EB706F271287A287BB49C07779 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = B348078046DDB1F954DFCE7EAC479522 /* Key.swift */; };
+		7B5A262C3BF909346D9CADB7820FFE75 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B48C1418F77DD3798E83CCD385758C /* util.swift */; };
 		7F6BA11D1110174E0740B4087919EB58 /* Pods-Maccy-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */; };
-		82F00DB0ACC30009953650C6D4D90B50 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 91C85D14893054A1580FA3ECFF44142E /* KeyboardLayout.swift */; };
-		8513B22C35CF9414E5FE5AA12F5E1EC0 /* ModifierTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3644723E896AF17667C95DF1D470A647 /* ModifierTransformer.swift */; };
-		8B66824BD520B3BB94610920A95F7FB5 /* Fuse-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = AB9544D049C937D19C4102EAF5DA8CD2 /* Fuse-dummy.m */; };
-		96AB3DEB08683A6D28FC4058F2767BDF /* LoginServiceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0694725501021D1EDBBFD9B6E8E28DC /* LoginServiceKit.swift */; };
-		A2C39440DD24C687D4FC9595A0EF65FD /* Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 815F1658DA03D8F1F0F3B4757D7D9DE5 /* Fuse.swift */; };
-		AAECCBAF0183D6D824FC4CA4B11B1F5C /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6DA698904E26E3765744F4C0C416A100 /* Recorder.swift */; };
+		82F00DB0ACC30009953650C6D4D90B50 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E78FFA46E75278844C8E2D89493BE53 /* KeyboardLayout.swift */; };
+		8513B22C35CF9414E5FE5AA12F5E1EC0 /* ModifierTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B757C6F43DB5AD92104B49A3F978609 /* ModifierTransformer.swift */; };
+		8B66824BD520B3BB94610920A95F7FB5 /* Fuse-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D3144176214158D5CBB3E37420EE10B3 /* Fuse-dummy.m */; };
+		96AB3DEB08683A6D28FC4058F2767BDF /* LoginServiceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D32063F45C83F1D5BF5C6C3F675CD7D /* LoginServiceKit.swift */; };
+		A2C39440DD24C687D4FC9595A0EF65FD /* Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C543943B9E7C3A56E1CDA0BE9A33551D /* Fuse.swift */; };
+		AAECCBAF0183D6D824FC4CA4B11B1F5C /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026FE2ED09B471879022D02F4D2E8299 /* Recorder.swift */; };
 		B0E6FDC74FFAB5642563E7472305ACCE /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B0A27F7D816EF3C2A8A037C0AE9F6CE /* Carbon.framework */; };
-		B0FDE96232434638EFADF0205B0A3667 /* PreferencesTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DCC04FBA5455BF97BEE03F362C6AE54E /* PreferencesTabViewController.swift */; };
+		B0FDE96232434638EFADF0205B0A3667 /* PreferencesTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570F718358A59CC8A8AB8C2670EFE13E /* PreferencesTabViewController.swift */; };
 		B11BBD1A14F7D2B6FEE87AC820CD0ACA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
-		B8556B03FB4CA71B20A3CF7D09745F0A /* UserInteractionPausableWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4001E62D350DA8C19DF63C33ED30CFB9 /* UserInteractionPausableWindow.swift */; };
-		B88A81F95CD67B4B35A6DAB3FD9854E7 /* RecorderCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = 38D773237205D87E5573020AADA82464 /* RecorderCocoa.swift */; };
+		B8556B03FB4CA71B20A3CF7D09745F0A /* UserInteractionPausableWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F595B2E1DDEFB91B2535914B0AF147 /* UserInteractionPausableWindow.swift */; };
+		B88A81F95CD67B4B35A6DAB3FD9854E7 /* RecorderCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC58183A115684FAC7E882245819B233 /* RecorderCocoa.swift */; };
 		C6552168E7328AA8A0981D19AE60A343 /* Pods-MaccyTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D39631FB04B4152E1F10899B5242E79 /* Pods-MaccyTests-dummy.m */; };
-		C6E805FDC6EC477AA776D7E03383B795 /* Sauce-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 3434112000B7D94C4434544D4915563D /* Sauce-dummy.m */; };
-		D44EFEF75E748519E9F2ABCF5D1AD0E1 /* PreferencesStyleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2F92A3B3633F4672A8262812EB681E6 /* PreferencesStyleController.swift */; };
-		D6BACA0628CC78A559F664D15FEEFAB7 /* SwiftHEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2F55F7E2C249DA2E0CF98E35C9A007C /* SwiftHEXColors.swift */; };
+		C6E805FDC6EC477AA776D7E03383B795 /* Sauce-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E917627FBD867B49F18BB1BCDCF8CE8C /* Sauce-dummy.m */; };
+		D44EFEF75E748519E9F2ABCF5D1AD0E1 /* PreferencesStyleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72E3936B884EB206F83D0521A51B7A /* PreferencesStyleController.swift */; };
+		D6BACA0628CC78A559F664D15FEEFAB7 /* SwiftHEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC70303EAB38258A0661D08DFFE20D /* SwiftHEXColors.swift */; };
 		D734B3640C594D4A12D75F9699AB29C0 /* Pods-MaccyTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAA781EBF58462A49778917F670B39E /* Pods-MaccyTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		E962828FAE808DBCEE60AED3DB602493 /* Sauce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E63CCBDDCF087B04AD765FB17CC2CFB /* Sauce.swift */; };
-		EA008126BA5AB81CC87901375CC1717C /* SpecialKeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3D7D77FCBF9B2BE059C4F804DE2762 /* SpecialKeyCode.swift */; };
+		E962828FAE808DBCEE60AED3DB602493 /* Sauce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7891D7D92325B55CCB88EBBF2FDFE7C6 /* Sauce.swift */; };
+		EA008126BA5AB81CC87901375CC1717C /* SpecialKeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C1BC0C0FB785C4E27BEAE16C95BC71 /* SpecialKeyCode.swift */; };
 		EAA11791D1B680484A14B16B306498B5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
-		EE9C4AB93C9F2AED8B4D79C23275A3B0 /* Shortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 710189F0C79E45F992EC2CD5FDA0F6F6 /* Shortcut.swift */; };
-		F1C5526700C84132B27211E15405EE71 /* LoginServiceKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = ACB1668E822148F34EB3F971A55B5519 /* LoginServiceKit-dummy.m */; };
+		EE9C4AB93C9F2AED8B4D79C23275A3B0 /* Shortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5670D878EE970586B293034E0A0216 /* Shortcut.swift */; };
+		F1C5526700C84132B27211E15405EE71 /* LoginServiceKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3FC6DB69292628D35297E1858C08A3 /* LoginServiceKit-dummy.m */; };
 		F3B4CF3A1C2AC8CFEE79D210DF3CD9ED /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
 		FDC3AAF1837A6EF072A4008C208E1059 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
@@ -118,123 +118,104 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		00B1BC73F61C852DD661927A8C0B594E /* Name.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Name.swift; path = Sources/KeyboardShortcuts/Name.swift; sourceTree = "<group>"; };
-		016D7659020E3E068D60D4D416923AF9 /* SUStandardVersionComparator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUStandardVersionComparator.h; path = Sparkle.framework/Versions/A/Headers/SUStandardVersionComparator.h; sourceTree = "<group>"; };
-		030304BE88F6AEF0550EF1BDD4337304 /* Localization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Localization.swift; path = Sources/Preferences/Localization.swift; sourceTree = "<group>"; };
-		0472656584A7C122A369CBEADA4300E4 /* TISInputSource+Property.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "TISInputSource+Property.swift"; path = "Lib/Sauce/TISInputSource+Property.swift"; sourceTree = "<group>"; };
-		05645179A4090E8C32295F373021AA76 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0199B8281E7C8BA707763B344F1116EB /* util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = util.swift; path = Sources/Preferences/util.swift; sourceTree = "<group>"; };
+		026FE2ED09B471879022D02F4D2E8299 /* Recorder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Recorder.swift; path = Sources/KeyboardShortcuts/Recorder.swift; sourceTree = "<group>"; };
 		07055F35E68A5B9A507F418B60F26DD2 /* Pods-Maccy.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Maccy.modulemap"; sourceTree = "<group>"; };
-		07E290C355BF9342F853E4CE55746A77 /* LoginServiceKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LoginServiceKit.xcconfig; sourceTree = "<group>"; };
-		07E7782345BD73E641F59E87E269AA5A /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0880D2ACAECF4CA0E983B558A4AC4A3C /* Pods_Maccy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Maccy.framework; path = "Pods-Maccy.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
 		0BFB3D52C5622C4B454CBED8C490E1ED /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D32063F45C83F1D5BF5C6C3F675CD7D /* LoginServiceKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LoginServiceKit.swift; path = Lib/LoginServiceKit/LoginServiceKit.swift; sourceTree = "<group>"; };
+		0F3FC6DB69292628D35297E1858C08A3 /* LoginServiceKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "LoginServiceKit-dummy.m"; sourceTree = "<group>"; };
 		0F476B296688E8A2611661B3A916D2EE /* Pods-MaccyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.release.xcconfig"; sourceTree = "<group>"; };
-		12D5ADFC575712BCEC38F23B0C0BE9D5 /* SPUDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloader.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloader.h; sourceTree = "<group>"; };
-		14E87F474EDFEC4B7993DF2DBB1C31EB /* SPUDownloadData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloadData.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloadData.h; sourceTree = "<group>"; };
-		15228CB665ADD07CED05DE96FC3A2CF4 /* Fuse.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Fuse.modulemap; sourceTree = "<group>"; };
+		107272546C39F8DEA216F43C65E75481 /* KeyboardShortcuts.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KeyboardShortcuts.modulemap; sourceTree = "<group>"; };
 		1571A769B9AABB30B0C55BE1A64F0C13 /* Pods-MaccyTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MaccyTests-acknowledgements.plist"; sourceTree = "<group>"; };
 		158687138ADACBA036E897622CC2799F /* Pods-MaccyTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MaccyTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		1B2DB0749BD5199C329C789FD395E8DF /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
-		1BA5132F59221FB9C7006FFA64466BAA /* SUAppcast.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUAppcast.h; path = Sparkle.framework/Versions/A/Headers/SUAppcast.h; sourceTree = "<group>"; };
+		15E33B90C5A5F70592C815F8FA2A2244 /* Fuse.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Fuse.modulemap; sourceTree = "<group>"; };
+		17B20BC5F977582B1B82C7B0352AC9B9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18B48C1418F77DD3798E83CCD385758C /* util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = util.swift; path = Sources/KeyboardShortcuts/util.swift; sourceTree = "<group>"; };
+		1B72E3936B884EB206F83D0521A51B7A /* PreferencesStyleController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesStyleController.swift; path = Sources/Preferences/PreferencesStyleController.swift; sourceTree = "<group>"; };
+		1C3402305A26648114BA10C377C14295 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		20A49FDE62881F505AE64E73C378F4BA /* Pods-Maccy-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Maccy-acknowledgements.plist"; sourceTree = "<group>"; };
-		22B6750E9B22706E2CD6BA69BC182658 /* SwiftHEXColors-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftHEXColors-dummy.m"; sourceTree = "<group>"; };
-		2C61DF9DAA0A7967676B7BE08E6C0E09 /* SUVersionDisplayProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUVersionDisplayProtocol.h; path = Sparkle.framework/Versions/A/Headers/SUVersionDisplayProtocol.h; sourceTree = "<group>"; };
-		2E2DF34A9789A3DF9C0F75C43E7E9E58 /* SPUDownloaderDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderDelegate.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderDelegate.h; sourceTree = "<group>"; };
-		2EE242727A31C898D05E28E58CEB5DD4 /* SPUURLRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUURLRequest.h; path = Sparkle.framework/Versions/A/Headers/SPUURLRequest.h; sourceTree = "<group>"; };
+		220A7ACF0319E62B0C793E6787B77696 /* Preferences-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Preferences-prefix.pch"; sourceTree = "<group>"; };
+		2B757C6F43DB5AD92104B49A3F978609 /* ModifierTransformer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ModifierTransformer.swift; path = Lib/Sauce/ModifierTransformer.swift; sourceTree = "<group>"; };
+		2E3EFD6FCFEAE18334D2680938FA66BB /* SegmentedControlStyleViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SegmentedControlStyleViewController.swift; path = Sources/Preferences/SegmentedControlStyleViewController.swift; sourceTree = "<group>"; };
 		2F095A421CFC62EC828BCF427E7DB3B8 /* LoginServiceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = LoginServiceKit.framework; path = LoginServiceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		3034803991813C289F4C0C890D67526B /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		324E76B395D44E7854C464D1CA971F4C /* KeyboardShortcuts.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KeyboardShortcuts.modulemap; sourceTree = "<group>"; };
-		3434112000B7D94C4434544D4915563D /* Sauce-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Sauce-dummy.m"; sourceTree = "<group>"; };
-		35458C1B6B928C4D3F86F1887EA4F9AE /* Sauce-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Sauce-umbrella.h"; sourceTree = "<group>"; };
-		3644723E896AF17667C95DF1D470A647 /* ModifierTransformer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ModifierTransformer.swift; path = Lib/Sauce/ModifierTransformer.swift; sourceTree = "<group>"; };
-		37CEC890058403E6CBA0E245EE42651E /* PreferencesWindowController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesWindowController.swift; path = Sources/Preferences/PreferencesWindowController.swift; sourceTree = "<group>"; };
-		3886AA35A5AB046DFF80B22D38104D3F /* util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = util.swift; path = Sources/Preferences/util.swift; sourceTree = "<group>"; };
-		38D773237205D87E5573020AADA82464 /* RecorderCocoa.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderCocoa.swift; path = Sources/KeyboardShortcuts/RecorderCocoa.swift; sourceTree = "<group>"; };
-		3AC5BACA6A4073B7EF08CC124954D522 /* SUUpdaterDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUUpdaterDelegate.h; path = Sparkle.framework/Versions/A/Headers/SUUpdaterDelegate.h; sourceTree = "<group>"; };
+		326D67839F88F563B4526991ED3B5016 /* LoginServiceKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-umbrella.h"; sourceTree = "<group>"; };
+		33F5D1163D0CDFB07CBAA384828E3F3D /* Localization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Localization.swift; path = Sources/Preferences/Localization.swift; sourceTree = "<group>"; };
+		3A350622846451311F2395ABC614A1EC /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3B0A27F7D816EF3C2A8A037C0AE9F6CE /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = DEVELOPER_DIR; };
-		3CD45F0DFA17584AA6D187EBF17859F9 /* SwiftHEXColors.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftHEXColors.xcconfig; sourceTree = "<group>"; };
+		3BF49F0C700068FE8E002BB7A3CB1F43 /* String+Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Fuse.swift"; path = "Fuse/Classes/String+Fuse.swift"; sourceTree = "<group>"; };
 		3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		3D59AC407FD8305ED7FECF867CC9AA25 /* Sparkle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Sparkle.h; path = Sparkle.framework/Versions/A/Headers/Sparkle.h; sourceTree = "<group>"; };
-		4001E62D350DA8C19DF63C33ED30CFB9 /* UserInteractionPausableWindow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UserInteractionPausableWindow.swift; path = Sources/Preferences/UserInteractionPausableWindow.swift; sourceTree = "<group>"; };
-		42078AFB238E5FD9A09EDCDD5AA09E1F /* String+Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Fuse.swift"; path = "Fuse/Classes/String+Fuse.swift"; sourceTree = "<group>"; };
-		4B3AD17993EE99D5C6A99211A7D3F447 /* SUErrors.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUErrors.h; path = Sparkle.framework/Versions/A/Headers/SUErrors.h; sourceTree = "<group>"; };
+		40C1BC0C0FB785C4E27BEAE16C95BC71 /* SpecialKeyCode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpecialKeyCode.swift; path = Lib/Sauce/SpecialKeyCode.swift; sourceTree = "<group>"; };
+		4208BB1AB94E7A334BE9B06D8EB05D4F /* Preferences.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Preferences.xcconfig; sourceTree = "<group>"; };
 		4EBB72ED779D62A8D49EE259C5A30357 /* Pods_MaccyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_MaccyTests.framework; path = "Pods-MaccyTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5710C1CC010080A5F85B47F28178D21F /* util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = util.swift; path = Sources/KeyboardShortcuts/util.swift; sourceTree = "<group>"; };
-		573FE587DA8B42559A68EAFE931EF733 /* Sauce-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Sauce-prefix.pch"; sourceTree = "<group>"; };
+		51FCA5D10026D82BDB3ABC8BF6E7BDE5 /* Sauce.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Sauce.modulemap; sourceTree = "<group>"; };
+		56D9D2FD8A4F6D0BB7E183BE365BB17A /* PreferencesWindowController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesWindowController.swift; path = Sources/Preferences/PreferencesWindowController.swift; sourceTree = "<group>"; };
+		570F718358A59CC8A8AB8C2670EFE13E /* PreferencesTabViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesTabViewController.swift; path = Sources/Preferences/PreferencesTabViewController.swift; sourceTree = "<group>"; };
+		57F184A08D5876D505458478E4BA72E8 /* SwiftHEXColors-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-prefix.pch"; sourceTree = "<group>"; };
 		59B6F79B0890AA54C08D00FA203EB975 /* Pods-MaccyTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MaccyTests-resources.sh"; sourceTree = "<group>"; };
-		60B1A708C9AB40B736726AF07FB29004 /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Lib/Sauce/Key.swift; sourceTree = "<group>"; };
+		5BDDE654C4236712CBEC286D57579FFD /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5F4D0D1B45E6285D4B9ABA5259DE879A /* Fuse-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-prefix.pch"; sourceTree = "<group>"; };
 		625F3788691A8D38F5095EC7016440B3 /* Pods-Maccy-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Maccy-resources.sh"; sourceTree = "<group>"; };
 		65E5832A125E94E9167EA00856FA2157 /* Pods-Maccy-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Maccy-acknowledgements.markdown"; sourceTree = "<group>"; };
-		6DA698904E26E3765744F4C0C416A100 /* Recorder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Recorder.swift; path = Sources/KeyboardShortcuts/Recorder.swift; sourceTree = "<group>"; };
-		6FE8A253E26D9D21BCF5AEBF6A3B8CA1 /* Sauce.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Sauce.xcconfig; sourceTree = "<group>"; };
-		710189F0C79E45F992EC2CD5FDA0F6F6 /* Shortcut.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Shortcut.swift; path = Sources/KeyboardShortcuts/Shortcut.swift; sourceTree = "<group>"; };
+		692B8D8A445CA9C3E36D42845183C6A2 /* LoginServiceKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LoginServiceKit.xcconfig; sourceTree = "<group>"; };
+		6C6C8E69DDC5A2BE461804F45F0B4706 /* InputSource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InputSource.swift; path = Lib/Sauce/InputSource.swift; sourceTree = "<group>"; };
+		6E78FFA46E75278844C8E2D89493BE53 /* KeyboardLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardLayout.swift; path = Lib/Sauce/KeyboardLayout.swift; sourceTree = "<group>"; };
 		71289A3B191F2066B0117390ECF69CAD /* Pods-Maccy-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Maccy-frameworks.sh"; sourceTree = "<group>"; };
-		72F849C6FC625799C7561340DE4C551E /* SegmentedControlStyleViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SegmentedControlStyleViewController.swift; path = Sources/Preferences/SegmentedControlStyleViewController.swift; sourceTree = "<group>"; };
-		768876E11B5CC282274FDB7B9C8874EB /* Preferences-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Preferences-prefix.pch"; sourceTree = "<group>"; };
-		7A7AF42D48465F336B5EE88C33D040BA /* SUAppcastItem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUAppcastItem.h; path = Sparkle.framework/Versions/A/Headers/SUAppcastItem.h; sourceTree = "<group>"; };
-		7BAFB8BBD7AF7458FA0F68CF109BB25E /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardShortcuts.swift; path = Sources/KeyboardShortcuts/KeyboardShortcuts.swift; sourceTree = "<group>"; };
-		7BCE476EF77EAD1F50CDDC6553094DE6 /* Preferences.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Preferences.modulemap; sourceTree = "<group>"; };
+		75D2B702E3C8D357213238311BA0503B /* NSMenuItem++.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSMenuItem++.swift"; path = "Sources/KeyboardShortcuts/NSMenuItem++.swift"; sourceTree = "<group>"; };
+		7891D7D92325B55CCB88EBBF2FDFE7C6 /* Sauce.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Sauce.swift; path = Lib/Sauce/Sauce.swift; sourceTree = "<group>"; };
 		7D289DA5B10DD46D3E60ECD480C85DF3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		7D9BC87DC5037FD7ECD85E7517E14A6B /* SwiftHEXColors-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-prefix.pch"; sourceTree = "<group>"; };
 		7EE89300126F633ACA5000A02F79FE81 /* Pods-MaccyTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MaccyTests-frameworks.sh"; sourceTree = "<group>"; };
-		815F1658DA03D8F1F0F3B4757D7D9DE5 /* Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Fuse.swift; path = Fuse/Classes/Fuse.swift; sourceTree = "<group>"; };
+		7F3724B2D7E015BB1A11CC8F57608F9A /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardShortcuts.swift; path = Sources/KeyboardShortcuts/KeyboardShortcuts.swift; sourceTree = "<group>"; };
+		7F4BABEC25B808E2055C2CC44F833C82 /* ToolbarItemStyleViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToolbarItemStyleViewController.swift; path = Sources/Preferences/ToolbarItemStyleViewController.swift; sourceTree = "<group>"; };
 		816A486C9685FABD159B44C33ED0EF6C /* Pods-MaccyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.debug.xcconfig"; sourceTree = "<group>"; };
-		8328545F67AA2B30F43748FE0B87F433 /* SPUDownloaderProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderProtocol.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderProtocol.h; sourceTree = "<group>"; };
 		842F2E2BDD1488EBA79F5A8A4D4CA617 /* Pods-Maccy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.release.xcconfig"; sourceTree = "<group>"; };
-		852395FE8CBBF1B229136DDB11D3CA2F /* Sauce.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Sauce.modulemap; sourceTree = "<group>"; };
-		87AD60342F62CE603FCEB885B06021FA /* LoginServiceKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-umbrella.h"; sourceTree = "<group>"; };
+		8A5670D878EE970586B293034E0A0216 /* Shortcut.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Shortcut.swift; path = Sources/KeyboardShortcuts/Shortcut.swift; sourceTree = "<group>"; };
 		8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Maccy-umbrella.h"; sourceTree = "<group>"; };
-		8BE909E10F1CE063DD939DCFF0F575EE /* KeyboardShortcuts.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KeyboardShortcuts.xcconfig; sourceTree = "<group>"; };
 		8D39631FB04B4152E1F10899B5242E79 /* Pods-MaccyTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MaccyTests-dummy.m"; sourceTree = "<group>"; };
-		8D7B69318B6BD99A77A46CFBD4594CA8 /* Preferences-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Preferences-dummy.m"; sourceTree = "<group>"; };
-		8E63CCBDDCF087B04AD765FB17CC2CFB /* Sauce.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Sauce.swift; path = Lib/Sauce/Sauce.swift; sourceTree = "<group>"; };
-		91C85D14893054A1580FA3ECFF44142E /* KeyboardLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardLayout.swift; path = Lib/Sauce/KeyboardLayout.swift; sourceTree = "<group>"; };
+		8ED4ECFF084BF18FEEC3E2ABF43E9881 /* Fuse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fuse.xcconfig; sourceTree = "<group>"; };
+		903B7477DBD96FDA71ACE5EEB4A00BB4 /* LoginServiceKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = LoginServiceKit.modulemap; sourceTree = "<group>"; };
+		93A47DC4C0928E5819EDACD08AF11C88 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		94091A560E8F0BFA4E4A73DAC468C79F /* SwiftHEXColors-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-umbrella.h"; sourceTree = "<group>"; };
-		942C15D0897EF9B621B21A3BDE9B8FDE /* Fuse-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-prefix.pch"; sourceTree = "<group>"; };
-		94DC4CD0B473EF223588AC016639270A /* CarbonKeyboardShortcuts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CarbonKeyboardShortcuts.swift; path = Sources/KeyboardShortcuts/CarbonKeyboardShortcuts.swift; sourceTree = "<group>"; };
-		9C5407FF6B3DAA899C0B9A9FD27A9608 /* LoginServiceKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-prefix.pch"; sourceTree = "<group>"; };
+		985B570797996BE3B6A00C9CDBCBB841 /* SwiftHEXColors.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftHEXColors.xcconfig; sourceTree = "<group>"; };
 		9EAA781EBF58462A49778917F670B39E /* Pods-MaccyTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MaccyTests-umbrella.h"; sourceTree = "<group>"; };
-		9F9B5A34AF9A41ED595A42A6624CFC7D /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Sources/KeyboardShortcuts/Key.swift; sourceTree = "<group>"; };
-		A2F92A3B3633F4672A8262812EB681E6 /* PreferencesStyleController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesStyleController.swift; path = Sources/Preferences/PreferencesStyleController.swift; sourceTree = "<group>"; };
-		A3DDF842B695316A1D06453A650B3D01 /* InputSource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InputSource.swift; path = Lib/Sauce/InputSource.swift; sourceTree = "<group>"; };
+		9F01EAC8F5B3A0F8C0BF8853AA0BA7A0 /* TISInputSource+Property.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "TISInputSource+Property.swift"; path = "Lib/Sauce/TISInputSource+Property.swift"; sourceTree = "<group>"; };
+		A0F595B2E1DDEFB91B2535914B0AF147 /* UserInteractionPausableWindow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UserInteractionPausableWindow.swift; path = Sources/Preferences/UserInteractionPausableWindow.swift; sourceTree = "<group>"; };
 		A70FC6B2DCC7D84D23DF023C6014274E /* Pods-MaccyTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MaccyTests.modulemap"; sourceTree = "<group>"; };
-		A80156F417D50051217F260D648D3EBD /* Preferences.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Preferences.xcconfig; sourceTree = "<group>"; };
+		A89A100D698E52318D354C4F60685583 /* Sauce.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Sauce.xcconfig; sourceTree = "<group>"; };
 		A9DA676D395348904324C3A2DFD14A10 /* Preferences.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Preferences.framework; path = Preferences.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AA250EE9DD5FBDB7A48C50295AF4E5E2 /* FuseUtilities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FuseUtilities.swift; path = Fuse/Classes/FuseUtilities.swift; sourceTree = "<group>"; };
-		AB9544D049C937D19C4102EAF5DA8CD2 /* Fuse-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Fuse-dummy.m"; sourceTree = "<group>"; };
-		ACB1668E822148F34EB3F971A55B5519 /* LoginServiceKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "LoginServiceKit-dummy.m"; sourceTree = "<group>"; };
-		AFED08A2C7A5D121182279488A19F51F /* ToolbarItemStyleViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToolbarItemStyleViewController.swift; path = Sources/Preferences/ToolbarItemStyleViewController.swift; sourceTree = "<group>"; };
+		AAF13802EC904AD92511679EB552F5AA /* Preferences.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Preferences.modulemap; sourceTree = "<group>"; };
+		ABF8BF69F7B78A0F97AF7E0F82A0D273 /* KeyboardShortcuts-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeyboardShortcuts-prefix.pch"; sourceTree = "<group>"; };
+		AC58183A115684FAC7E882245819B233 /* RecorderCocoa.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderCocoa.swift; path = Sources/KeyboardShortcuts/RecorderCocoa.swift; sourceTree = "<group>"; };
+		AE102DBF91D30036F4DB3F79AE20C0E0 /* Sauce-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Sauce-prefix.pch"; sourceTree = "<group>"; };
 		B26E704D2668FDD4A7EA4F0F48787FBA /* Sauce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Sauce.framework; path = Sauce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		B565ABA127E0ED40A00C937B2249F220 /* KeyboardShortcuts-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeyboardShortcuts-umbrella.h"; sourceTree = "<group>"; };
-		B747F2560A253C9E2A1B33B2E4317272 /* Preferences-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Preferences-umbrella.h"; sourceTree = "<group>"; };
-		B78B49ACFFED9EEA443CFA3D40DC532B /* SUExport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUExport.h; path = Sparkle.framework/Versions/A/Headers/SUExport.h; sourceTree = "<group>"; };
-		BB3D7D77FCBF9B2BE059C4F804DE2762 /* SpecialKeyCode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpecialKeyCode.swift; path = Lib/Sauce/SpecialKeyCode.swift; sourceTree = "<group>"; };
-		C097659BA2C18E0AF56F6324C93F4C33 /* SPUDownloaderDeprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderDeprecated.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderDeprecated.h; sourceTree = "<group>"; };
-		C1500FB51BFB9EB5A0B6553C78904346 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		C2F55F7E2C249DA2E0CF98E35C9A007C /* SwiftHEXColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftHEXColors.swift; path = Sources/SwiftHEXColors/SwiftHEXColors.swift; sourceTree = "<group>"; };
+		B348078046DDB1F954DFCE7EAC479522 /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Lib/Sauce/Key.swift; sourceTree = "<group>"; };
+		B6A3847FA74CD2A2185721CF581A9A04 /* PreferencesStyle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesStyle.swift; path = Sources/Preferences/PreferencesStyle.swift; sourceTree = "<group>"; };
+		B6ABA8D69036FD7B3987C4E0264CA191 /* PreferencePane.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencePane.swift; path = Sources/Preferences/PreferencePane.swift; sourceTree = "<group>"; };
+		BA9A35B51D2701C96265020A0E490A81 /* CarbonKeyboardShortcuts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CarbonKeyboardShortcuts.swift; path = Sources/KeyboardShortcuts/CarbonKeyboardShortcuts.swift; sourceTree = "<group>"; };
+		BAC1D435EABB01A827813A74213F3CF8 /* SwiftHEXColors-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-umbrella.h"; sourceTree = "<group>"; };
+		C0277A950E1261E493DA1C4AFA4C079F /* Sauce-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Sauce-umbrella.h"; sourceTree = "<group>"; };
 		C40F288A17ACDF1A165EF9764509522C /* SwiftHEXColors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftHEXColors.framework; path = SwiftHEXColors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		C44AE39C229200AD6F3457637360FADF /* Fuse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Fuse.framework; path = Fuse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C57706C1DE197412B597F9A2E7E7A59D /* Fuse-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-umbrella.h"; sourceTree = "<group>"; };
+		C49C3A565ECCD493527114D319D62FEB /* SwiftHEXColors.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftHEXColors.modulemap; sourceTree = "<group>"; };
+		C543943B9E7C3A56E1CDA0BE9A33551D /* Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Fuse.swift; path = Fuse/Classes/Fuse.swift; sourceTree = "<group>"; };
 		C81CC8267FE4E5F1759651B9A5E218FA /* Pods-Maccy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.debug.xcconfig"; sourceTree = "<group>"; };
-		CC98DA330DF1AF1D61339B6857C8EEBC /* KeyboardShortcuts-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeyboardShortcuts-prefix.pch"; sourceTree = "<group>"; };
-		CCB978A56F62AE8A9D3CE41894E2DFC0 /* SwiftHEXColors.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftHEXColors.modulemap; sourceTree = "<group>"; };
-		CF6797AC879CF23FD6DF1651186EFD79 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D0694725501021D1EDBBFD9B6E8E28DC /* LoginServiceKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LoginServiceKit.swift; path = Lib/LoginServiceKit/LoginServiceKit.swift; sourceTree = "<group>"; };
-		D4D05BA9AFC68905F4CB4B2A5B0C19C7 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D57967095C91DA6934A9907A7173DBD7 /* PreferencePane.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencePane.swift; path = Sources/Preferences/PreferencePane.swift; sourceTree = "<group>"; };
-		D66601C2509EF0F7587AC2A41C622F6A /* KeyboardShortcuts-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KeyboardShortcuts-dummy.m"; sourceTree = "<group>"; };
-		DC3E784FFA78657DF9FF7FF3A7879D73 /* Fuse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fuse.xcconfig; sourceTree = "<group>"; };
-		DCC04FBA5455BF97BEE03F362C6AE54E /* PreferencesTabViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesTabViewController.swift; path = Sources/Preferences/PreferencesTabViewController.swift; sourceTree = "<group>"; };
-		DE3D90A6D96B83CE94DC5A3E6EF384CA /* LoginServiceKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = LoginServiceKit.modulemap; sourceTree = "<group>"; };
-		DFD23E19CE314A43B8182CB14FB17103 /* NSMenuItem++.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSMenuItem++.swift"; path = "Sources/KeyboardShortcuts/NSMenuItem++.swift"; sourceTree = "<group>"; };
-		E4B9A2AC7859D4A00BFD027013A72F97 /* SUVersionComparisonProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUVersionComparisonProtocol.h; path = Sparkle.framework/Versions/A/Headers/SUVersionComparisonProtocol.h; sourceTree = "<group>"; };
-		E79CCC890D44A486ECC6DBEF0F8412AE /* SPUDownloaderSession.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderSession.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderSession.h; sourceTree = "<group>"; };
-		F170FE41BD98326004D8C124440DA00B /* SUCodeSigningVerifier.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUCodeSigningVerifier.h; path = Sparkle.framework/Versions/A/Headers/SUCodeSigningVerifier.h; sourceTree = "<group>"; };
+		C9DC70303EAB38258A0661D08DFFE20D /* SwiftHEXColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftHEXColors.swift; path = Sources/SwiftHEXColors/SwiftHEXColors.swift; sourceTree = "<group>"; };
+		CA71A643FA416E6E76139594A08A36E8 /* Name.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Name.swift; path = Sources/KeyboardShortcuts/Name.swift; sourceTree = "<group>"; };
+		CBB6D01B82FD13C569E80EAD181BCF7B /* FuseUtilities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FuseUtilities.swift; path = Fuse/Classes/FuseUtilities.swift; sourceTree = "<group>"; };
+		CD1CF979B5A3CDD8DD8B15348333349F /* Fuse-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-umbrella.h"; sourceTree = "<group>"; };
+		D3144176214158D5CBB3E37420EE10B3 /* Fuse-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Fuse-dummy.m"; sourceTree = "<group>"; };
+		D9D5AC1A5773C9CCDB83E70FB7DF94E9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DF63F7E816074F6CFDB7FF51B472C51C /* KeyboardShortcuts-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeyboardShortcuts-umbrella.h"; sourceTree = "<group>"; };
+		E3BB86571A13A21620C4B6BE70A0644F /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Sources/KeyboardShortcuts/Key.swift; sourceTree = "<group>"; };
+		E3DC06FF63A7AC2A49A19FBAC47F6510 /* LoginServiceKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-prefix.pch"; sourceTree = "<group>"; };
+		E917627FBD867B49F18BB1BCDCF8CE8C /* Sauce-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Sauce-dummy.m"; sourceTree = "<group>"; };
+		EC43A2328161FB4C62E63F65C30F997F /* Preferences-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Preferences-umbrella.h"; sourceTree = "<group>"; };
+		EF219502814D526980B668F630E5AA18 /* KeyboardShortcuts.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KeyboardShortcuts.xcconfig; sourceTree = "<group>"; };
+		F3987A64FDA3C81AE4340603562C2BE1 /* SwiftHEXColors-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftHEXColors-dummy.m"; sourceTree = "<group>"; };
+		F4D0022074392E9CBF5CA4933D54EAB4 /* Preferences-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Preferences-dummy.m"; sourceTree = "<group>"; };
 		F8803AFEF9279F4518DB2D40C046E298 /* KeyboardShortcuts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KeyboardShortcuts.framework; path = KeyboardShortcuts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Maccy-dummy.m"; sourceTree = "<group>"; };
-		F8B03E25DF529FEFC2F363E29A00627D /* PreferencesStyle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesStyle.swift; path = Sources/Preferences/PreferencesStyle.swift; sourceTree = "<group>"; };
-		FBE78B23E8E1010682DCE237613CEB6E /* SUUpdater.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUUpdater.h; path = Sparkle.framework/Versions/A/Headers/SUUpdater.h; sourceTree = "<group>"; };
+		FD7A3BC06224B1F3D552461C037CB942 /* KeyboardShortcuts-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KeyboardShortcuts-dummy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -306,28 +287,57 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0F49338C6543496D7C775759FF0D5911 /* LoginServiceKit */ = {
+		0543AD102F75312D0A6CB8EFDAAF4BC0 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				D0694725501021D1EDBBFD9B6E8E28DC /* LoginServiceKit.swift */,
-				CBD6DCD8779A108D01682FC5351A3C79 /* Support Files */,
+				1C3402305A26648114BA10C377C14295 /* Info.plist */,
+				51FCA5D10026D82BDB3ABC8BF6E7BDE5 /* Sauce.modulemap */,
+				A89A100D698E52318D354C4F60685583 /* Sauce.xcconfig */,
+				E917627FBD867B49F18BB1BCDCF8CE8C /* Sauce-dummy.m */,
+				AE102DBF91D30036F4DB3F79AE20C0E0 /* Sauce-prefix.pch */,
+				C0277A950E1261E493DA1C4AFA4C079F /* Sauce-umbrella.h */,
 			);
-			name = LoginServiceKit;
-			path = LoginServiceKit;
+			name = "Support Files";
+			path = "../Target Support Files/Sauce";
 			sourceTree = "<group>";
 		};
-		1CCF5D701B90E4C2E2927845C9C45CC5 /* Support Files */ = {
+		07AF6E7ECC75B7137DB9A00F72878A47 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				07E7782345BD73E641F59E87E269AA5A /* Info.plist */,
-				CCB978A56F62AE8A9D3CE41894E2DFC0 /* SwiftHEXColors.modulemap */,
-				3CD45F0DFA17584AA6D187EBF17859F9 /* SwiftHEXColors.xcconfig */,
-				22B6750E9B22706E2CD6BA69BC182658 /* SwiftHEXColors-dummy.m */,
-				7D9BC87DC5037FD7ECD85E7517E14A6B /* SwiftHEXColors-prefix.pch */,
-				94091A560E8F0BFA4E4A73DAC468C79F /* SwiftHEXColors-umbrella.h */,
+				0F7AC5E57FE61DD85A78712D8A89B326 /* Fuse */,
+				C382400A1D32F0B12A4C87D363C04F97 /* KeyboardShortcuts */,
+				91CDE01CB637466C64E45EE250CCDA40 /* LoginServiceKit */,
+				8EC28E875C300E85735762751D1FD99A /* Preferences */,
+				DB89BEA154E7BBA98CAAFA8B77B70144 /* Sauce */,
+				26BC57A712F1866512178FE31E4B1DB9 /* SwiftHEXColors */,
+			);
+			name = Pods;
+			sourceTree = "<group>";
+		};
+		0BA7C70784AA8DA669D89D8D1CC99EFF /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				3A350622846451311F2395ABC614A1EC /* Info.plist */,
+				C49C3A565ECCD493527114D319D62FEB /* SwiftHEXColors.modulemap */,
+				985B570797996BE3B6A00C9CDBCBB841 /* SwiftHEXColors.xcconfig */,
+				F3987A64FDA3C81AE4340603562C2BE1 /* SwiftHEXColors-dummy.m */,
+				57F184A08D5876D505458478E4BA72E8 /* SwiftHEXColors-prefix.pch */,
+				BAC1D435EABB01A827813A74213F3CF8 /* SwiftHEXColors-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/SwiftHEXColors";
+			sourceTree = "<group>";
+		};
+		0F7AC5E57FE61DD85A78712D8A89B326 /* Fuse */ = {
+			isa = PBXGroup;
+			children = (
+				C543943B9E7C3A56E1CDA0BE9A33551D /* Fuse.swift */,
+				CBB6D01B82FD13C569E80EAD181BCF7B /* FuseUtilities.swift */,
+				3BF49F0C700068FE8E002BB7A3CB1F43 /* String+Fuse.swift */,
+				C5AE2FE6B7D0BE7AAA69DDB8D040E6C0 /* Support Files */,
+			);
+			name = Fuse;
+			path = Fuse;
 			sourceTree = "<group>";
 		};
 		1F56FAB1848BE50135C67D0A5B678E4F /* Pods-Maccy */ = {
@@ -348,16 +358,14 @@
 			path = "Target Support Files/Pods-Maccy";
 			sourceTree = "<group>";
 		};
-		421558BA397CB09DA916D7BD5C729227 /* Fuse */ = {
+		26BC57A712F1866512178FE31E4B1DB9 /* SwiftHEXColors */ = {
 			isa = PBXGroup;
 			children = (
-				815F1658DA03D8F1F0F3B4757D7D9DE5 /* Fuse.swift */,
-				AA250EE9DD5FBDB7A48C50295AF4E5E2 /* FuseUtilities.swift */,
-				42078AFB238E5FD9A09EDCDD5AA09E1F /* String+Fuse.swift */,
-				9DAFA467E582C0E1145DBCE7C20EDDF2 /* Support Files */,
+				C9DC70303EAB38258A0661D08DFFE20D /* SwiftHEXColors.swift */,
+				0BA7C70784AA8DA669D89D8D1CC99EFF /* Support Files */,
 			);
-			name = Fuse;
-			path = Fuse;
+			name = SwiftHEXColors;
+			path = SwiftHEXColors;
 			sourceTree = "<group>";
 		};
 		4476E2ACA5DA1C3752829A600908ED9D /* Targets Support Files */ = {
@@ -369,38 +377,32 @@
 			name = "Targets Support Files";
 			sourceTree = "<group>";
 		};
-		5E5B43CE88D713B4FFE1B1AB1507B075 /* Frameworks */ = {
+		4ADDEB0A68F90F64B23BC46FBA143AD8 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				1B2DB0749BD5199C329C789FD395E8DF /* Sparkle.framework */,
+				17B20BC5F977582B1B82C7B0352AC9B9 /* Info.plist */,
+				107272546C39F8DEA216F43C65E75481 /* KeyboardShortcuts.modulemap */,
+				EF219502814D526980B668F630E5AA18 /* KeyboardShortcuts.xcconfig */,
+				FD7A3BC06224B1F3D552461C037CB942 /* KeyboardShortcuts-dummy.m */,
+				ABF8BF69F7B78A0F97AF7E0F82A0D273 /* KeyboardShortcuts-prefix.pch */,
+				DF63F7E816074F6CFDB7FF51B472C51C /* KeyboardShortcuts-umbrella.h */,
 			);
-			name = Frameworks;
+			name = "Support Files";
+			path = "../Target Support Files/KeyboardShortcuts";
 			sourceTree = "<group>";
 		};
-		74DCAA5564BC53706F2BFD772840FA2B /* Sauce */ = {
+		6D78D74B15AB6B5D0CD3028F1A8F44E3 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				A3DDF842B695316A1D06453A650B3D01 /* InputSource.swift */,
-				60B1A708C9AB40B736726AF07FB29004 /* Key.swift */,
-				91C85D14893054A1580FA3ECFF44142E /* KeyboardLayout.swift */,
-				3644723E896AF17667C95DF1D470A647 /* ModifierTransformer.swift */,
-				8E63CCBDDCF087B04AD765FB17CC2CFB /* Sauce.swift */,
-				BB3D7D77FCBF9B2BE059C4F804DE2762 /* SpecialKeyCode.swift */,
-				0472656584A7C122A369CBEADA4300E4 /* TISInputSource+Property.swift */,
-				E7AF7A8AD20D26937E0075744171F6AC /* Support Files */,
+				D9D5AC1A5773C9CCDB83E70FB7DF94E9 /* Info.plist */,
+				AAF13802EC904AD92511679EB552F5AA /* Preferences.modulemap */,
+				4208BB1AB94E7A334BE9B06D8EB05D4F /* Preferences.xcconfig */,
+				F4D0022074392E9CBF5CA4933D54EAB4 /* Preferences-dummy.m */,
+				220A7ACF0319E62B0C793E6787B77696 /* Preferences-prefix.pch */,
+				EC43A2328161FB4C62E63F65C30F997F /* Preferences-umbrella.h */,
 			);
-			name = Sauce;
-			path = Sauce;
-			sourceTree = "<group>";
-		};
-		774D9E058A4852915C1C93C7E219400F /* SwiftHEXColors */ = {
-			isa = PBXGroup;
-			children = (
-				C2F55F7E2C249DA2E0CF98E35C9A007C /* SwiftHEXColors.swift */,
-				1CCF5D701B90E4C2E2927845C9C45CC5 /* Support Files */,
-			);
-			name = SwiftHEXColors;
-			path = SwiftHEXColors;
+			name = "Support Files";
+			path = "../Target Support Files/Preferences";
 			sourceTree = "<group>";
 		};
 		7DB346D0F39D3F0E887471402A8071AB = {
@@ -408,7 +410,7 @@
 			children = (
 				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
 				D648CE86F139C7CCFD55D5B8A03BE74B /* Frameworks */,
-				DEE016ECB88375288C14AF28C4A28301 /* Pods */,
+				07AF6E7ECC75B7137DB9A00F72878A47 /* Pods */,
 				D7B4C0E9ADCF57773FCE183E8503604A /* Products */,
 				4476E2ACA5DA1C3752829A600908ED9D /* Targets Support Files */,
 			);
@@ -432,124 +434,65 @@
 			path = "Target Support Files/Pods-MaccyTests";
 			sourceTree = "<group>";
 		};
-		975472972EDCAA90CAFD7181C822BB8C /* Sparkle */ = {
+		8EC28E875C300E85735762751D1FD99A /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				3D59AC407FD8305ED7FECF867CC9AA25 /* Sparkle.h */,
-				14E87F474EDFEC4B7993DF2DBB1C31EB /* SPUDownloadData.h */,
-				12D5ADFC575712BCEC38F23B0C0BE9D5 /* SPUDownloader.h */,
-				2E2DF34A9789A3DF9C0F75C43E7E9E58 /* SPUDownloaderDelegate.h */,
-				C097659BA2C18E0AF56F6324C93F4C33 /* SPUDownloaderDeprecated.h */,
-				8328545F67AA2B30F43748FE0B87F433 /* SPUDownloaderProtocol.h */,
-				E79CCC890D44A486ECC6DBEF0F8412AE /* SPUDownloaderSession.h */,
-				2EE242727A31C898D05E28E58CEB5DD4 /* SPUURLRequest.h */,
-				1BA5132F59221FB9C7006FFA64466BAA /* SUAppcast.h */,
-				7A7AF42D48465F336B5EE88C33D040BA /* SUAppcastItem.h */,
-				F170FE41BD98326004D8C124440DA00B /* SUCodeSigningVerifier.h */,
-				4B3AD17993EE99D5C6A99211A7D3F447 /* SUErrors.h */,
-				B78B49ACFFED9EEA443CFA3D40DC532B /* SUExport.h */,
-				016D7659020E3E068D60D4D416923AF9 /* SUStandardVersionComparator.h */,
-				FBE78B23E8E1010682DCE237613CEB6E /* SUUpdater.h */,
-				3AC5BACA6A4073B7EF08CC124954D522 /* SUUpdaterDelegate.h */,
-				E4B9A2AC7859D4A00BFD027013A72F97 /* SUVersionComparisonProtocol.h */,
-				2C61DF9DAA0A7967676B7BE08E6C0E09 /* SUVersionDisplayProtocol.h */,
-				5E5B43CE88D713B4FFE1B1AB1507B075 /* Frameworks */,
-			);
-			name = Sparkle;
-			path = Sparkle;
-			sourceTree = "<group>";
-		};
-		9DAFA467E582C0E1145DBCE7C20EDDF2 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				15228CB665ADD07CED05DE96FC3A2CF4 /* Fuse.modulemap */,
-				DC3E784FFA78657DF9FF7FF3A7879D73 /* Fuse.xcconfig */,
-				AB9544D049C937D19C4102EAF5DA8CD2 /* Fuse-dummy.m */,
-				942C15D0897EF9B621B21A3BDE9B8FDE /* Fuse-prefix.pch */,
-				C57706C1DE197412B597F9A2E7E7A59D /* Fuse-umbrella.h */,
-				C1500FB51BFB9EB5A0B6553C78904346 /* Info.plist */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Fuse";
-			sourceTree = "<group>";
-		};
-		A1278D76C22B369E0F93B3A40B0097E3 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				D4D05BA9AFC68905F4CB4B2A5B0C19C7 /* Info.plist */,
-				7BCE476EF77EAD1F50CDDC6553094DE6 /* Preferences.modulemap */,
-				A80156F417D50051217F260D648D3EBD /* Preferences.xcconfig */,
-				8D7B69318B6BD99A77A46CFBD4594CA8 /* Preferences-dummy.m */,
-				768876E11B5CC282274FDB7B9C8874EB /* Preferences-prefix.pch */,
-				B747F2560A253C9E2A1B33B2E4317272 /* Preferences-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Preferences";
-			sourceTree = "<group>";
-		};
-		A7248CBAE63B3746CA5F251032993197 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				05645179A4090E8C32295F373021AA76 /* Info.plist */,
-				324E76B395D44E7854C464D1CA971F4C /* KeyboardShortcuts.modulemap */,
-				8BE909E10F1CE063DD939DCFF0F575EE /* KeyboardShortcuts.xcconfig */,
-				D66601C2509EF0F7587AC2A41C622F6A /* KeyboardShortcuts-dummy.m */,
-				CC98DA330DF1AF1D61339B6857C8EEBC /* KeyboardShortcuts-prefix.pch */,
-				B565ABA127E0ED40A00C937B2249F220 /* KeyboardShortcuts-umbrella.h */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/KeyboardShortcuts";
-			sourceTree = "<group>";
-		};
-		B28A62F5C13D8E7C1508E8821D592A47 /* Preferences */ = {
-			isa = PBXGroup;
-			children = (
-				030304BE88F6AEF0550EF1BDD4337304 /* Localization.swift */,
-				D57967095C91DA6934A9907A7173DBD7 /* PreferencePane.swift */,
-				F8B03E25DF529FEFC2F363E29A00627D /* PreferencesStyle.swift */,
-				A2F92A3B3633F4672A8262812EB681E6 /* PreferencesStyleController.swift */,
-				DCC04FBA5455BF97BEE03F362C6AE54E /* PreferencesTabViewController.swift */,
-				37CEC890058403E6CBA0E245EE42651E /* PreferencesWindowController.swift */,
-				72F849C6FC625799C7561340DE4C551E /* SegmentedControlStyleViewController.swift */,
-				AFED08A2C7A5D121182279488A19F51F /* ToolbarItemStyleViewController.swift */,
-				4001E62D350DA8C19DF63C33ED30CFB9 /* UserInteractionPausableWindow.swift */,
-				3886AA35A5AB046DFF80B22D38104D3F /* util.swift */,
-				A1278D76C22B369E0F93B3A40B0097E3 /* Support Files */,
+				33F5D1163D0CDFB07CBAA384828E3F3D /* Localization.swift */,
+				B6ABA8D69036FD7B3987C4E0264CA191 /* PreferencePane.swift */,
+				B6A3847FA74CD2A2185721CF581A9A04 /* PreferencesStyle.swift */,
+				1B72E3936B884EB206F83D0521A51B7A /* PreferencesStyleController.swift */,
+				570F718358A59CC8A8AB8C2670EFE13E /* PreferencesTabViewController.swift */,
+				56D9D2FD8A4F6D0BB7E183BE365BB17A /* PreferencesWindowController.swift */,
+				2E3EFD6FCFEAE18334D2680938FA66BB /* SegmentedControlStyleViewController.swift */,
+				7F4BABEC25B808E2055C2CC44F833C82 /* ToolbarItemStyleViewController.swift */,
+				A0F595B2E1DDEFB91B2535914B0AF147 /* UserInteractionPausableWindow.swift */,
+				0199B8281E7C8BA707763B344F1116EB /* util.swift */,
+				6D78D74B15AB6B5D0CD3028F1A8F44E3 /* Support Files */,
 			);
 			name = Preferences;
 			path = Preferences;
 			sourceTree = "<group>";
 		};
-		B6E0DC6EC16A6AA39E464C2DA4B5EA18 /* KeyboardShortcuts */ = {
+		91CDE01CB637466C64E45EE250CCDA40 /* LoginServiceKit */ = {
 			isa = PBXGroup;
 			children = (
-				94DC4CD0B473EF223588AC016639270A /* CarbonKeyboardShortcuts.swift */,
-				9F9B5A34AF9A41ED595A42A6624CFC7D /* Key.swift */,
-				7BAFB8BBD7AF7458FA0F68CF109BB25E /* KeyboardShortcuts.swift */,
-				00B1BC73F61C852DD661927A8C0B594E /* Name.swift */,
-				DFD23E19CE314A43B8182CB14FB17103 /* NSMenuItem++.swift */,
-				6DA698904E26E3765744F4C0C416A100 /* Recorder.swift */,
-				38D773237205D87E5573020AADA82464 /* RecorderCocoa.swift */,
-				710189F0C79E45F992EC2CD5FDA0F6F6 /* Shortcut.swift */,
-				5710C1CC010080A5F85B47F28178D21F /* util.swift */,
-				A7248CBAE63B3746CA5F251032993197 /* Support Files */,
+				0D32063F45C83F1D5BF5C6C3F675CD7D /* LoginServiceKit.swift */,
+				E5D3E76DB7BCB7AF2C695FC42371185D /* Support Files */,
+			);
+			name = LoginServiceKit;
+			path = LoginServiceKit;
+			sourceTree = "<group>";
+		};
+		C382400A1D32F0B12A4C87D363C04F97 /* KeyboardShortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				BA9A35B51D2701C96265020A0E490A81 /* CarbonKeyboardShortcuts.swift */,
+				E3BB86571A13A21620C4B6BE70A0644F /* Key.swift */,
+				7F3724B2D7E015BB1A11CC8F57608F9A /* KeyboardShortcuts.swift */,
+				CA71A643FA416E6E76139594A08A36E8 /* Name.swift */,
+				75D2B702E3C8D357213238311BA0503B /* NSMenuItem++.swift */,
+				026FE2ED09B471879022D02F4D2E8299 /* Recorder.swift */,
+				AC58183A115684FAC7E882245819B233 /* RecorderCocoa.swift */,
+				8A5670D878EE970586B293034E0A0216 /* Shortcut.swift */,
+				18B48C1418F77DD3798E83CCD385758C /* util.swift */,
+				4ADDEB0A68F90F64B23BC46FBA143AD8 /* Support Files */,
 			);
 			name = KeyboardShortcuts;
 			path = KeyboardShortcuts;
 			sourceTree = "<group>";
 		};
-		CBD6DCD8779A108D01682FC5351A3C79 /* Support Files */ = {
+		C5AE2FE6B7D0BE7AAA69DDB8D040E6C0 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				3034803991813C289F4C0C890D67526B /* Info.plist */,
-				DE3D90A6D96B83CE94DC5A3E6EF384CA /* LoginServiceKit.modulemap */,
-				07E290C355BF9342F853E4CE55746A77 /* LoginServiceKit.xcconfig */,
-				ACB1668E822148F34EB3F971A55B5519 /* LoginServiceKit-dummy.m */,
-				9C5407FF6B3DAA899C0B9A9FD27A9608 /* LoginServiceKit-prefix.pch */,
-				87AD60342F62CE603FCEB885B06021FA /* LoginServiceKit-umbrella.h */,
+				15E33B90C5A5F70592C815F8FA2A2244 /* Fuse.modulemap */,
+				8ED4ECFF084BF18FEEC3E2ABF43E9881 /* Fuse.xcconfig */,
+				D3144176214158D5CBB3E37420EE10B3 /* Fuse-dummy.m */,
+				5F4D0D1B45E6285D4B9ABA5259DE879A /* Fuse-prefix.pch */,
+				CD1CF979B5A3CDD8DD8B15348333349F /* Fuse-umbrella.h */,
+				5BDDE654C4236712CBEC286D57579FFD /* Info.plist */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/LoginServiceKit";
+			path = "../Target Support Files/Fuse";
 			sourceTree = "<group>";
 		};
 		D648CE86F139C7CCFD55D5B8A03BE74B /* Frameworks */ = {
@@ -575,18 +518,20 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		DEE016ECB88375288C14AF28C4A28301 /* Pods */ = {
+		DB89BEA154E7BBA98CAAFA8B77B70144 /* Sauce */ = {
 			isa = PBXGroup;
 			children = (
-				421558BA397CB09DA916D7BD5C729227 /* Fuse */,
-				B6E0DC6EC16A6AA39E464C2DA4B5EA18 /* KeyboardShortcuts */,
-				0F49338C6543496D7C775759FF0D5911 /* LoginServiceKit */,
-				B28A62F5C13D8E7C1508E8821D592A47 /* Preferences */,
-				74DCAA5564BC53706F2BFD772840FA2B /* Sauce */,
-				975472972EDCAA90CAFD7181C822BB8C /* Sparkle */,
-				774D9E058A4852915C1C93C7E219400F /* SwiftHEXColors */,
+				6C6C8E69DDC5A2BE461804F45F0B4706 /* InputSource.swift */,
+				B348078046DDB1F954DFCE7EAC479522 /* Key.swift */,
+				6E78FFA46E75278844C8E2D89493BE53 /* KeyboardLayout.swift */,
+				2B757C6F43DB5AD92104B49A3F978609 /* ModifierTransformer.swift */,
+				7891D7D92325B55CCB88EBBF2FDFE7C6 /* Sauce.swift */,
+				40C1BC0C0FB785C4E27BEAE16C95BC71 /* SpecialKeyCode.swift */,
+				9F01EAC8F5B3A0F8C0BF8853AA0BA7A0 /* TISInputSource+Property.swift */,
+				0543AD102F75312D0A6CB8EFDAAF4BC0 /* Support Files */,
 			);
-			name = Pods;
+			name = Sauce;
+			path = Sauce;
 			sourceTree = "<group>";
 		};
 		E54C390691D9464DCF0A5D1FF793B4A9 /* OS X */ = {
@@ -598,18 +543,18 @@
 			name = "OS X";
 			sourceTree = "<group>";
 		};
-		E7AF7A8AD20D26937E0075744171F6AC /* Support Files */ = {
+		E5D3E76DB7BCB7AF2C695FC42371185D /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				CF6797AC879CF23FD6DF1651186EFD79 /* Info.plist */,
-				852395FE8CBBF1B229136DDB11D3CA2F /* Sauce.modulemap */,
-				6FE8A253E26D9D21BCF5AEBF6A3B8CA1 /* Sauce.xcconfig */,
-				3434112000B7D94C4434544D4915563D /* Sauce-dummy.m */,
-				573FE587DA8B42559A68EAFE931EF733 /* Sauce-prefix.pch */,
-				35458C1B6B928C4D3F86F1887EA4F9AE /* Sauce-umbrella.h */,
+				93A47DC4C0928E5819EDACD08AF11C88 /* Info.plist */,
+				903B7477DBD96FDA71ACE5EEB4A00BB4 /* LoginServiceKit.modulemap */,
+				692B8D8A445CA9C3E36D42845183C6A2 /* LoginServiceKit.xcconfig */,
+				0F3FC6DB69292628D35297E1858C08A3 /* LoginServiceKit-dummy.m */,
+				E3DC06FF63A7AC2A49A19FBAC47F6510 /* LoginServiceKit-prefix.pch */,
+				326D67839F88F563B4526991ED3B5016 /* LoginServiceKit-umbrella.h */,
 			);
 			name = "Support Files";
-			path = "../Target Support Files/Sauce";
+			path = "../Target Support Files/LoginServiceKit";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1062,7 +1007,7 @@
 		};
 		1D1E014E4BB92DB227D405BF082D769C /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BE909E10F1CE063DD939DCFF0F575EE /* KeyboardShortcuts.xcconfig */;
+			baseConfigurationReference = EF219502814D526980B668F630E5AA18 /* KeyboardShortcuts.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1096,7 +1041,7 @@
 		};
 		20C0ADB7916B0681F66590CE81EB54E0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BE909E10F1CE063DD939DCFF0F575EE /* KeyboardShortcuts.xcconfig */;
+			baseConfigurationReference = EF219502814D526980B668F630E5AA18 /* KeyboardShortcuts.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1130,7 +1075,7 @@
 		};
 		2DBCECDCEC0AC5C5EAA607C5F70C7CB1 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 07E290C355BF9342F853E4CE55746A77 /* LoginServiceKit.xcconfig */;
+			baseConfigurationReference = 692B8D8A445CA9C3E36D42845183C6A2 /* LoginServiceKit.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1199,7 +1144,7 @@
 		};
 		3CC4638DCD72A4FF74D91F0D43054F7C /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6FE8A253E26D9D21BCF5AEBF6A3B8CA1 /* Sauce.xcconfig */;
+			baseConfigurationReference = A89A100D698E52318D354C4F60685583 /* Sauce.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1268,7 +1213,7 @@
 		};
 		48FCE2235B374C051FB325FAD3B2084B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC3E784FFA78657DF9FF7FF3A7879D73 /* Fuse.xcconfig */;
+			baseConfigurationReference = 8ED4ECFF084BF18FEEC3E2ABF43E9881 /* Fuse.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1302,7 +1247,7 @@
 		};
 		607BC95ECB97523E255D96FB9458C1A6 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CD45F0DFA17584AA6D187EBF17859F9 /* SwiftHEXColors.xcconfig */;
+			baseConfigurationReference = 985B570797996BE3B6A00C9CDBCBB841 /* SwiftHEXColors.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1335,7 +1280,7 @@
 		};
 		67ADF17BB7E791D9E2EEC9BBAE124B18 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 07E290C355BF9342F853E4CE55746A77 /* LoginServiceKit.xcconfig */;
+			baseConfigurationReference = 692B8D8A445CA9C3E36D42845183C6A2 /* LoginServiceKit.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1369,7 +1314,7 @@
 		};
 		754DE495EB11F5D38DC5A4D061B4A0AF /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DC3E784FFA78657DF9FF7FF3A7879D73 /* Fuse.xcconfig */;
+			baseConfigurationReference = 8ED4ECFF084BF18FEEC3E2ABF43E9881 /* Fuse.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1466,7 +1411,7 @@
 		};
 		846EA35B42795E5B5B467C4F21891D8B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A80156F417D50051217F260D648D3EBD /* Preferences.xcconfig */;
+			baseConfigurationReference = 4208BB1AB94E7A334BE9B06D8EB05D4F /* Preferences.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1500,7 +1445,7 @@
 		};
 		994FB97D2024E78BD05B40A749871BA0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 3CD45F0DFA17584AA6D187EBF17859F9 /* SwiftHEXColors.xcconfig */;
+			baseConfigurationReference = 985B570797996BE3B6A00C9CDBCBB841 /* SwiftHEXColors.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
@@ -1533,7 +1478,7 @@
 		};
 		9E92273484F269CCF65E2451F29030A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = A80156F417D50051217F260D648D3EBD /* Preferences.xcconfig */;
+			baseConfigurationReference = 4208BB1AB94E7A334BE9B06D8EB05D4F /* Preferences.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1604,7 +1549,7 @@
 		};
 		AE48A67C17ABBBD683AAE6C64D1E4016 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6FE8A253E26D9D21BCF5AEBF6A3B8CA1 /* Sauce.xcconfig */;
+			baseConfigurationReference = A89A100D698E52318D354C4F60685583 /* Sauce.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";

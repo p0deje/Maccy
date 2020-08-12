@@ -2,7 +2,6 @@ import Cocoa
 import KeyboardShortcuts
 import LoginServiceKit
 import Preferences
-import Sparkle
 
 class Maccy: NSObject {
   static public var returnFocusToPreviousApp = true

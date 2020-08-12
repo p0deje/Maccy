@@ -10,7 +10,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationWillFinishLaunching(_ notification: Notification) {
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
-      SUUpdater.shared()?.automaticallyChecksForUpdates = false
+      SPUUpdater().automaticallyChecksForUpdates = false
     }
   }
 

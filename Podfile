@@ -7,7 +7,6 @@ target 'Maccy' do
   pod 'KeyboardShortcuts', git: 'https://github.com/sindresorhus/KeyboardShortcuts.git'
   pod 'LoginServiceKit', git: 'https://github.com/Clipy/LoginServiceKit.git'
   pod 'Preferences', '~> 1.0'
-  pod 'Sparkle', '~> 1.21'
   pod 'Sauce', '~> 2.1' # Needed for migration to KeyboardShortcuts
   pod 'SwiftHEXColors', '~> 1.3'
 

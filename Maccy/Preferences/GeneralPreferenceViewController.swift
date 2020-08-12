@@ -2,7 +2,6 @@ import Cocoa
 import KeyboardShortcuts
 import LoginServiceKit
 import Preferences
-import Sparkle
 
 class GeneralPreferenceViewController: NSViewController, PreferencePane {
   public let preferencePaneIdentifier = PreferencePane.Identifier.general
@@ -47,10 +46,6 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
     } else {
       LoginServiceKit.removeLoginItems()
     }
-  }
-
-  @IBAction func checkForUpdatesClicked(_ sender: NSButton) {
-    SUUpdater.shared()?.checkForUpdates(self)
   }
 
   @IBAction func fuzzySearchChanged(_ sender: NSButton) {
