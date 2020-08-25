@@ -6,21 +6,20 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.15.0</title>
+      <title>0.15.1</title>
       <description>
         <![CDATA[
-          <h4>⚠️⚠️⚠️ This release enables App Sandbox and moves all preferences and copied items history to a new sandboxed location. The migration is seamless for this version, but older versions of Maccy won't continue to work. They will default to original preferences and empty history. ⚠️⚠️⚠️</h4>
           <ul>
-            <li>Fixed a regression when menu bar icon won't be highlighted after clicking on it.</li>
+            <li>Fixed a regression when Maccy wouldn't ask for accessibility permissions when pasting and silently fail.</li>
           </ul>
         ]]>
       </description>
       <pubDate>2020-08-13</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.15.0</releaseNotesLink>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.15.1</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.15.0/Maccy.app.zip"
-        sparkle:version="0.15.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.15.1/Maccy.app.zip"
+        sparkle:version="0.15.1"
         length="0"
         type="application/octet-stream"
       />
