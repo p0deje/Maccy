@@ -36,7 +36,9 @@ class Clipboard {
     return alert
   }
   private var accessibilityAllowed: Bool { AXIsProcessTrustedWithOptions(nil) }
-  private let accessibilityURL = URL(string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility")
+  private let accessibilityURL = URL(
+    string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
+  )
 
   init() {
     changeCount = pasteboard.changeCount
