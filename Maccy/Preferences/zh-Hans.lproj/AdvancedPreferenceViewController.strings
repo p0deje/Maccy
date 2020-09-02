@@ -9,7 +9,7 @@
 "Ejh-zi-AFs.title" = "暂时忽略所有新的复制\n在复制敏感数据时，您可能会以编程方式使用它并禁用应用程序。";
 
 /* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
-"LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# 复制数据\ndefaults write org.p0deje.Maccy ignoreEvents false";
 
 /* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "Meq-nm-ddS"; */
 "Meq-nm-ddS.title" = "有可能忽略某些类型。默认情况下，定义了一些已知的特定于应用程序的类型。您可以删除它们并添加任何您想要的自定义类型。";

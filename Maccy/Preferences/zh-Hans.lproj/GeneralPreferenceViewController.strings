@@ -20,9 +20,6 @@
 /* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
 "Cfl-qm-UkM.title" = "开机时自动打开Maccy";
 
-/* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
-"EdO-Bo-TeB.title" = "• 按下 ⌘ 以复制\n• 按下 ⌥ 以复制和粘贴项目\n• 按下 ⌥⇧ 复制，清除格式并粘贴项目";
-
 /* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
 "HJa-3L-ffW.title" = "行为:";
 

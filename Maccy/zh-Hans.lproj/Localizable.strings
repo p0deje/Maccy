@@ -1,5 +1,5 @@
 "search_placeholder" = "搜索...";
-"history_item_tooltip" = "⌥ + ⌫ 删除\n⌥ + p 钉住";
+"history_item_tooltip" = "⌥⌫ 删除\n⌥P 钉住";
 "clear_tooltip" = "额外按住 ⇧ 以清除钉住的条目";
 "clear_all_tooltip" = "清除所有条目";
 "about_tooltip" = "关于";

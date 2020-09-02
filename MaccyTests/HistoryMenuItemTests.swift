@@ -174,8 +174,8 @@ class HistoryMenuItemTests: XCTestCase {
              Last copy time: Jul 10, 12:41:34
              Number of copies: 2
              \n \n\n
-             Press ⌥+⌫ to delete.
-             Press ⌥+p to (un)pin.
+             Press ⌥⌫ to delete.
+             Press ⌥P to (un)pin.
              """
     } else {
       return """
@@ -185,8 +185,8 @@ class HistoryMenuItemTests: XCTestCase {
              Last copy time: Jul 10, 12:41:34
              Number of copies: 2
              \n \n\n
-             Press ⌥+⌫ to delete.
-             Press ⌥+p to (un)pin.
+             Press ⌥⌫ to delete.
+             Press ⌥P to (un)pin.
              """
     }
   }
