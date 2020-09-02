@@ -125,7 +125,14 @@ class Maccy: NSObject {
   }
 
   @objc
-  func popUpStatusItem() {
+  func performStatusItemClick() {
+    if let event = NSApp.currentEvent {
+      if event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .option {
+        UserDefaults.standard.ignoreEvents = !UserDefaults.standard.ignoreEvents
+        return
+      }
+    }
+
     withFocus {
       if let buttonCell = self.statusItem.button?.cell as? NSButtonCell {
         buttonCell.highlightsBy = [.changeBackgroundCellMask, .changeGrayCellMask, .contentsCellMask, .pushInCellMask]
@@ -145,7 +152,7 @@ class Maccy: NSObject {
       button.image = NSImage(named: "StatusBarMenuImage")
       button.appearsDisabled = UserDefaults.standard.ignoreEvents
       // Simulate statusItem.menu but allowing to use withFocus
-      button.action = #selector(popUpStatusItem)
+      button.action = #selector(performStatusItemClick)
       button.target = self
       (button.cell as? NSButtonCell)?.highlightsBy = []
     }
