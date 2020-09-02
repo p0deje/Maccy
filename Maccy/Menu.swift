@@ -347,7 +347,7 @@ class Menu: NSMenu, NSMenuDelegate {
       HistoryMenuItem.CopyMenuItem(item: item, clipboard: clipboard),
       HistoryMenuItem.PasteMenuItem(item: item, clipboard: clipboard),
       HistoryMenuItem.PasteWithoutFormattingMenuItem(item: item, clipboard: clipboard)
-    ].sorted(by: { !$0.isAlternate && $1.isAlternate })
+    ]
 
     return menuItems.sorted(by: { !$0.isAlternate && $1.isAlternate })
   }
