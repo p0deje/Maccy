@@ -2572,7 +2572,7 @@ button.button {
       max-height: 300px; } }
   @media (min-width: 1100px) {
     .header-25__img {
-      max-width: 80%; } }
+      max-width: 90%; } }
 
 .header-08, .header-59 {
   position: relative;
