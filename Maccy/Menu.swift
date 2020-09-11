@@ -5,10 +5,10 @@ import AppKit
 class Menu: NSMenu, NSMenuDelegate {
   class IndexedItem: NSObject {
     var value: String
-    var item: HistoryItem
+    var item: HistoryItem!
     var menuItems: [HistoryMenuItem]
 
-    init(value: String, item: HistoryItem, menuItems: [HistoryMenuItem]) {
+    init(value: String, item: HistoryItem?, menuItems: [HistoryMenuItem]) {
       self.value = value
       self.item = item
       self.menuItems = menuItems
@@ -104,20 +104,19 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func updateFilter(filter: String) {
-    var results = search.search(string: filter, within: indexedItems.map({ $0.value }))
+    var results = search.search(string: filter, within: indexedItems)
 
     // Strip the results that are longer than visible items.
     if maxMenuItems > 0 && maxMenuItems < results.count {
       results = Array(results[0...maxMenuItems - 1])
     }
 
-    let foundMenuItems = results.compactMap({ result in
-      indexedItems.first(where: { $0.value == result })
-    }).flatMap({ $0.menuItems })
+    // Get all the menu items that match results.
+    let foundMenuItems = results.flatMap({ $0.menuItems })
 
     // First, remove items that don't match search.
     for historyItem in indexedItems {
-      if !results.contains(historyItem.value) {
+      if !results.contains(historyItem) {
         for menuItem in historyItem.menuItems where items.contains(menuItem) {
           removeItem(menuItem)
         }
@@ -132,8 +131,8 @@ class Menu: NSMenu, NSMenuDelegate {
       insertItem(menuItem, at: historyMenuItemOffset)
     }
 
-    setKeyEquivalents(foundMenuItems)
-    highlight(foundMenuItems.first)
+    setKeyEquivalents(historyMenuItems)
+    highlight(historyMenuItems.first)
   }
 
   func select() {

@@ -9,9 +9,9 @@ class SearchTests: XCTestCase {
     CoreDataManager.inMemory = true
     super.setUp()
     items = [
-      "foo bar baz",
-      "foo bar zaz",
-      "xxx yyy zzz"
+      Menu.IndexedItem(value: "foo bar baz", item: nil, menuItems: []),
+      Menu.IndexedItem(value: "foo bar zaz", item: nil, menuItems: []),
+      Menu.IndexedItem(value: "xxx yyy zzz", item: nil, menuItems: [])
     ]
   }
 
