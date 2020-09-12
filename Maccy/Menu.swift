@@ -112,12 +112,15 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     // Get all the menu items that match results.
-    let foundMenuItems = results.flatMap({ $0.menuItems })
+    var foundMenuItems = results.flatMap({ $0.menuItems })
+    if filter.isEmpty {
+      foundMenuItems.append(contentsOf: indexedItems.flatMap({ $0.menuItems }).filter({ $0.isPinned }))
+    }
 
     // First, remove items that don't match search.
-    for historyItem in indexedItems {
-      if !results.contains(historyItem) {
-        for menuItem in historyItem.menuItems where items.contains(menuItem) {
+    for indexedItem in indexedItems {
+      if !results.contains(indexedItem) {
+        for menuItem in indexedItem.menuItems where items.contains(menuItem) {
           removeItem(menuItem)
         }
       }
