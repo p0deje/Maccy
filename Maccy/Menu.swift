@@ -170,9 +170,11 @@ class Menu: NSMenu, NSMenuDelegate {
     if let historyItemToRemove = itemToRemove as? HistoryMenuItem {
       let historyItemToRemoveIndex = index(of: historyItemToRemove)
 
-      if let historyItem = indexedItems.first(where: { $0.value == historyItemToRemove.value }) {
+      if let historyItem = indexedItems.first(where: { $0.item == historyItemToRemove.item }) {
         historyItem.menuItems.forEach(removeItem(_:))
-        indexedItems.removeAll(where: { $0 == historyItem })
+        if let removeIndex = indexedItems.firstIndex(of: historyItem) {
+          indexedItems.remove(at: removeIndex)
+        }
       }
 
       history.remove(historyItemToRemove.item)
@@ -187,7 +189,7 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    guard let historyItem = indexedItems.first(where: { $0.value == altItemToPin.value }) else {
+    guard let historyItem = indexedItems.first(where: { $0.item == altItemToPin.item }) else {
       return
     }
 
@@ -208,8 +210,10 @@ class Menu: NSMenu, NSMenuDelegate {
 
     let sortedItems = Sorter(by: UserDefaults.standard.sortBy).sort(history.all)
     if let newIndex = sortedItems.firstIndex(where: { $0 == altItemToPin.item }) {
-      indexedItems.removeAll(where: { $0 == historyItem })
-      indexedItems.insert(historyItem, at: newIndex)
+      if let removeIndex = indexedItems.firstIndex(of: historyItem) {
+        indexedItems.remove(at: removeIndex)
+        indexedItems.insert(historyItem, at: newIndex)
+      }
 
       let menuItemIndex = newIndex * historyMenuItemsGroup + historyMenuItemOffset
       // Ensure that it's possible to insert at the specified item.
@@ -282,12 +286,14 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func clear(_ itemsToClear: [HistoryMenuItem]) {
-    itemsToClear.forEach({ item in
-      if items.contains(item) {
-        removeItem(item)
+    itemsToClear.forEach({ menuItem in
+      if items.contains(menuItem) {
+        removeItem(menuItem)
       }
 
-      indexedItems.removeAll(where: { $0.value == item.value })
+      if let removeIndex = indexedItems.firstIndex(where: { $0.item == menuItem.item }) {
+        indexedItems.remove(at: removeIndex)
+      }
     })
   }
 
@@ -359,17 +365,14 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func clearRemovedItems() {
     let currentHistoryItems = history.all
-    var itemsToKeep: [IndexedItem] = []
-    for indexedItem in indexedItems {
-      if currentHistoryItems.contains(indexedItem.item) {
-        itemsToKeep.append(indexedItem)
-      } else {
-        for menuItem in indexedItem.menuItems where items.contains(menuItem) {
-          removeItem(menuItem)
-        }
+    for indexedItem in indexedItems where !currentHistoryItems.contains(indexedItem.item) {
+      for menuItem in indexedItem.menuItems where items.contains(menuItem) {
+        removeItem(menuItem)
+      }
+      if let removeIndex = indexedItems.firstIndex(of: indexedItem) {
+        indexedItems.remove(at: removeIndex)
       }
     }
-    indexedItems = itemsToKeep
   }
 }
 // swiftlint:enable type_body_length
