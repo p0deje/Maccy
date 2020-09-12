@@ -22,7 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-    maccy.statusItem.isVisible = true
+    maccy.popUp()
     return true
   }
 

@@ -300,23 +300,6 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo")
   }
 
-  // Temporarily disable the test as it is flaky.
-  //
-  // func testHideAndShowMenubarIcon() {
-  //   let statusItem = app.statusItems.firstMatch
-  //   let dragFrom = statusItem.coordinate(withNormalizedOffset: CGVector.zero)
-  //   let dragTo = statusItem.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 10))
-  //   XCUIElement.perform(withKeyModifiers: .command, block: {
-  //     dragFrom.click(forDuration: 1, thenDragTo: dragTo)
-  //   })
-  //   expectation(for: NSPredicate(format: "isHittable = 0"), evaluatedWith: statusItem)
-  //   waitForExpectations(timeout: 3)
-
-  //   app.launch()
-  //   expectation(for: NSPredicate(format: "isHittable = 1"), evaluatedWith: statusItem)
-  //   waitForExpectations(timeout: 3)
-  // }
-
   private func popUpWithHotkey() {
     simulatePopupHotkey()
     waitUntilPoppedUp()
