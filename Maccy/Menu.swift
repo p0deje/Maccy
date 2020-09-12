@@ -307,7 +307,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func updateUnpinnedItemsVisibility() {
-    let historyMenuItemsCount = historyMenuItems.count
+    let historyMenuItemsCount = historyMenuItems.filter({ !$0.isPinned }).count
 
     if maxVisibleItems > 0 {
       if maxVisibleItems <= historyMenuItemsCount {
