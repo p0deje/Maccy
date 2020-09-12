@@ -230,6 +230,12 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
+  func resizeImageMenuItems() {
+    historyMenuItems.forEach {
+      $0.resizeImage()
+    }
+  }
+
   private func highlightNext(_ items: [NSMenuItem], alt: Bool) -> Bool {
     let highlightableItems = self.highlightableItems(items, alt: alt)
     let currentHighlightedItem = highlightedItem ?? highlightableItems.first

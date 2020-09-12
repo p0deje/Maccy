@@ -72,7 +72,7 @@ extension UserDefaults {
     set { set(Array(newValue), forKey: Keys.ignoredPasteboardTypes) }
   }
 
-  public var imageMaxHeight: Int {
+  @objc dynamic public var imageMaxHeight: Int {
     get { integer(forKey: Keys.imageMaxHeight) }
     set { set(newValue, forKey: Keys.imageMaxHeight) }
   }

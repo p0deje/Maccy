@@ -67,6 +67,14 @@ class HistoryMenuItem: NSMenuItem {
     self.state = .off
   }
 
+  func resizeImage() {
+    if !isImage(item) {
+      return
+    }
+
+    loadImage(item)
+  }
+
   private func isImage(_ item: HistoryItem) -> Bool {
     return contentData(item, [.tiff, .png]) != nil
   }

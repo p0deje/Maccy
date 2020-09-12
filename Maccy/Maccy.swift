@@ -33,6 +33,7 @@ class Maccy: NSObject {
   }
 
   private var ignoreEventsObserver: NSKeyValueObservation?
+  private var imageHeightObserver: NSKeyValueObservation?
   private var hideFooterObserver: NSKeyValueObservation?
   private var hideSearchObserver: NSKeyValueObservation?
   private var hideTitleObserver: NSKeyValueObservation?
@@ -51,6 +52,9 @@ class Maccy: NSObject {
       if let newValue = change.newValue {
         self.statusItem.button?.appearsDisabled = newValue
       }
+    })
+    imageHeightObserver = UserDefaults.standard.observe(\.imageMaxHeight, options: .new, changeHandler: { _, _ in
+      self.menu.resizeImageMenuItems()
     })
     hideFooterObserver = UserDefaults.standard.observe(\.hideFooter, options: .new, changeHandler: { _, _ in
       self.rebuild()
