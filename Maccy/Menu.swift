@@ -77,6 +77,10 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func add(_ item: HistoryItem) {
+    guard item.pin == nil else {
+      return
+    }
+
     let sortedItems = Sorter(by: UserDefaults.standard.sortBy).sort(history.all)
     guard let insertionIndex = sortedItems.firstIndex(where: { $0 == item }) else {
       return
