@@ -16,3 +16,9 @@
 
 /* Class = "NSButtonCell"; title = "Turn off"; ObjectID = "RA0-eh-Udt"; */
 "RA0-eh-Udt.title" = "关闭";
+
+/* Class = "NSTextFieldCell"; title = "By default, Maccy will take the application focus while the popup is displayed. Maccy needs app focus to allow advanced text handling in the search bar. If you enable this, you will only be able to search for basic ASCII. However, certain situations (such as a text editor that auto-formats when it loses focus) may make this desirable."; ObjectID = "Y8y-xQ-lFm"; */
+"Y8y-xQ-lFm.title" = "默认情况下，在显示弹出窗口时，Maccy将以应用程序为焦点。 Maccy需要关注应用程序才能在搜索栏中进行高级文本处理。 如果启用此功能，则只能搜索基本ASCII。 但是，在某些情况下（例如，文本编辑器在失去焦点时会自动格式化）可能是理想的选择。";
+
+/* Class = "NSButtonCell"; title = "Avoid taking app focus"; ObjectID = "jjU-HE-iIA"; */
+"jjU-HE-iIA.title" = "避免关注应用程序";
