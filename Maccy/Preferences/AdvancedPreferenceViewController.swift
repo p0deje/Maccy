@@ -54,7 +54,7 @@ class AdvancedPreferenceViewController: NSViewController, NSTableViewDataSource,
   @IBAction func turnOffChanged(_ sender: NSButton) {
     UserDefaults.standard.ignoreEvents = (turnOffButton.state == .on)
   }
-    
+
   @IBAction func avoidTakingFocusChanged(_ sender: NSButton) {
     UserDefaults.standard.avoidTakingFocus = (avoidTakingFocusButton.state == .on)
   }
@@ -77,7 +77,7 @@ class AdvancedPreferenceViewController: NSViewController, NSTableViewDataSource,
   private func populateTurnOff() {
     turnOffButton.state = UserDefaults.standard.ignoreEvents ? .on : .off
   }
-    
+
   private func populateAvoidTakingFocus() {
     avoidTakingFocusButton.state = UserDefaults.standard.avoidTakingFocus ? .on : .off
   }

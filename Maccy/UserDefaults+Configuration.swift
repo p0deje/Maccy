@@ -47,7 +47,7 @@ extension UserDefaults {
     get { ProcessInfo.processInfo.arguments.contains("ui-testing") ? false : bool(forKey: Keys.fuzzySearch) }
     set { set(newValue, forKey: Keys.fuzzySearch) }
   }
-    
+
   @objc dynamic public var avoidTakingFocus: Bool {
     get { bool(forKey: Keys.avoidTakingFocus) }
     set { set(newValue, forKey: Keys.avoidTakingFocus) }
