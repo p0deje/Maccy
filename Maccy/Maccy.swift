@@ -277,7 +277,9 @@ class Maccy: NSObject {
   private func withFocus(_ closure: @escaping () -> Void) {
     Maccy.returnFocusToPreviousApp = extraVisibleWindows.count == 0
     KeyboardShortcuts.disable(.popup)
-    NSApp.activate(ignoringOtherApps: true)
+    if !UserDefaults.standard.avoidTakingFocus {
+        NSApp.activate(ignoringOtherApps: true)
+    }
     Timer.scheduledTimer(withTimeInterval: 0.04, repeats: false) { _ in
       closure()
       KeyboardShortcuts.enable(.popup)

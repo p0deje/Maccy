@@ -240,6 +240,10 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     if let chars = event.charactersIgnoringModifiers {
       if chars.count == 1 {
         focusQueryField()
+        if UserDefaults.standard.avoidTakingFocus {
+            setQuery("\(queryField.stringValue)\(chars)")
+            return true
+        }
       }
     }
 
