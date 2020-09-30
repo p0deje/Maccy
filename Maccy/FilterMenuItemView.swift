@@ -249,7 +249,17 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
     if let chars = event.charactersIgnoringModifiers {
       if chars.count == 1 {
-        focusQueryField()
+        if UserDefaults.standard.avoidTakingFocus {
+          // append character to the search field to trigger
+          // and stop event from being propagated
+          setQuery("\(queryField.stringValue)\(chars)")
+          return true
+        } else {
+          // make the search field first responder
+          // and propagate event to it
+          focusQueryField()
+          return false
+        }
       }
     }
 

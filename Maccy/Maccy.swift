@@ -274,15 +274,25 @@ class Maccy: NSObject {
   // we should preserve focus. Additionally, we should not
   // hide an application if there are additional visible windows
   // opened before.
+  //
+  // It's also possible to complete skip this activation
+  // and fallback to default NSMenu behavior by enabling
+  // UserDefaults.standard.avoidTakingFocus.
   private func withFocus(_ closure: @escaping () -> Void) {
     Maccy.returnFocusToPreviousApp = extraVisibleWindows.count == 0
     KeyboardShortcuts.disable(.popup)
-    NSApp.activate(ignoringOtherApps: true)
-    Timer.scheduledTimer(withTimeInterval: 0.04, repeats: false) { _ in
+
+    if UserDefaults.standard.avoidTakingFocus {
       closure()
       KeyboardShortcuts.enable(.popup)
-      if Maccy.returnFocusToPreviousApp {
-        NSApp.hide(self)
+    } else {
+      NSApp.activate(ignoringOtherApps: true)
+      Timer.scheduledTimer(withTimeInterval: 0.04, repeats: false) { _ in
+        closure()
+        KeyboardShortcuts.enable(.popup)
+        if Maccy.returnFocusToPreviousApp {
+          NSApp.hide(self)
+        }
       }
     }
   }
