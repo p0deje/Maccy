@@ -1,0 +1,14 @@
+"search_placeholder" = "tapez pour rechercher...";
+"history_item_tooltip" = "Appuyez sur ⌥+⌫ pour supprimer.\nAppuyez sur ⌥+p pour épingler.";
+"clear_tooltip" = "Supprimer les éléments non épinglés.\nSélectionnez avec ⌥ pour tout supprimer.";
+"clear_all_tooltip" = "Supprimer toute la liste.";
+"check_for_updates_tooltip" = "Consulter les mises à jour disponibles.";
+"launch_at_login_tooltip" = "Lancer automatiquement au démarrage.";
+"about_tooltip" = "Plus d'informations à propos de l'application.";
+"quit_tooltip" = "Quitter l'application.";
+"clear" = "Supprimer";
+"clear_all" = "Tout supprimer";
+"launch_at_login" = "Lancer au démarrage";
+"about" = "À propos";
+"quit" = "Quitter";
+"check_for_updates" = "Consulter les mises à jour disponibles.";
