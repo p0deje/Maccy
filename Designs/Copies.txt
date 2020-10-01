@@ -1,0 +1,6 @@
+Hello! 👋
+This is Maccy.
+Lightweight clipboard manager for Mac. 💻
+Search as you type. 🔍
+Open source. 🆓
+No fluff! 😛

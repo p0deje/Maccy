@@ -4,6 +4,8 @@ import Carbon
 class Clipboard {
   typealias OnNewCopyHook = (HistoryItem) -> Void
 
+  public var onNewCopyHooks: [OnNewCopyHook] = []
+
   private let pasteboard = NSPasteboard.general
   private let timerInterval = 1.0
 
@@ -15,13 +17,28 @@ class Clipboard {
   ]
 
   private let supportedTypes: Set = [
+    NSPasteboard.PasteboardType.fileURL.rawValue,
     NSPasteboard.PasteboardType.png.rawValue,
     NSPasteboard.PasteboardType.string.rawValue,
     NSPasteboard.PasteboardType.tiff.rawValue
   ]
 
   private var changeCount: Int
-  private var onNewCopyHooks: [OnNewCopyHook] = []
+
+  private var accessibilityAlert: NSAlert {
+    let alert = NSAlert()
+    alert.alertStyle = .warning
+    alert.messageText = NSLocalizedString("accessibility_alert_message", comment: "")
+    alert.informativeText = NSLocalizedString("accessibility_alert_comment", comment: "")
+    alert.addButton(withTitle: NSLocalizedString("accessibility_alert_deny", comment: ""))
+    alert.addButton(withTitle: NSLocalizedString("accessibility_alert_open", comment: ""))
+    alert.icon = NSImage(named: "NSSecurity")
+    return alert
+  }
+  private var accessibilityAllowed: Bool { AXIsProcessTrustedWithOptions(nil) }
+  private let accessibilityURL = URL(
+    string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
+  )
 
   init() {
     changeCount = pasteboard.changeCount
@@ -39,17 +56,33 @@ class Clipboard {
                          repeats: true)
   }
 
-  func copy(_ item: HistoryItem) {
-    let contents = item.getContents()
-    pasteboard.declareTypes(contents.map({ NSPasteboard.PasteboardType($0.type )}), owner: nil)
+  func copy(_ item: HistoryItem, removeFormatting: Bool = false) {
+    pasteboard.clearContents()
+    var contents = item.getContents()
+
+    if removeFormatting {
+      contents = contents.filter({
+        NSPasteboard.PasteboardType($0.type) == .string
+      })
+    }
+
     for content in contents {
       pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
+    }
+
+    if UserDefaults.standard.playSounds {
+      NSSound(named: NSSound.Name("knock"))?.play()
     }
   }
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
   func paste() {
-    checkAccessibilityPermissions()
+    guard accessibilityAllowed else {
+      Maccy.returnFocusToPreviousApp = false
+      // Show accessibility window async to allow menu to close.
+      DispatchQueue.main.async(execute: showAccessibilityWindow)
+      return
+    }
 
     DispatchQueue.main.async {
       let vCode = UInt16(kVK_ANSI_V)
@@ -94,7 +127,7 @@ class Clipboard {
       }
 
       let contents = item.types.map({ type in
-        return HistoryItemContent(type: type.rawValue, value: item.data(forType: type)!)
+        return HistoryItemContent(type: type.rawValue, value: item.data(forType: type))
       })
       let historyItem = HistoryItem(contents: contents)
 
@@ -104,16 +137,10 @@ class Clipboard {
     changeCount = pasteboard.changeCount
   }
 
-  private func checkAccessibilityPermissions() {
-    let options: NSDictionary = [kAXTrustedCheckOptionPrompt.takeRetainedValue(): true]
-    AXIsProcessTrustedWithOptions(options)
-  }
-
   private func shouldIgnore(_ types: [NSPasteboard.PasteboardType]) -> Bool {
     let ignoredTypes = self.ignoredTypes.union(UserDefaults.standard.ignoredPasteboardTypes)
     let passedTypes = Set(types.map({ $0.rawValue }))
     return passedTypes.isDisjoint(with: supportedTypes) || !passedTypes.isDisjoint(with: ignoredTypes)
-
   }
 
   private func isEmptyString(_ item: NSPasteboardItem) -> Bool {
@@ -122,5 +149,13 @@ class Clipboard {
     }
 
     return string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
+
+  private func showAccessibilityWindow() {
+    if accessibilityAlert.runModal() == NSApplication.ModalResponse.alertSecondButtonReturn {
+      if let url = accessibilityURL {
+        NSWorkspace.shared.open(url)
+      }
+    }
   }
 }

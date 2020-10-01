@@ -1,8 +1,11 @@
 import AppKit
 import Carbon
-import Sauce
+import KeyboardShortcuts
 
+// swiftlint:disable type_body_length
 class FilterMenuItemView: NSView, NSTextFieldDelegate {
+  typealias Key = KeyboardShortcuts.Key
+
   @objc public var title: String {
     get { return titleField.stringValue }
     set { titleField.stringValue = newValue }
@@ -52,6 +55,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     field.placeholderString = NSLocalizedString("search_placeholder", comment: "")
     field.bezelStyle = NSTextField.BezelStyle.roundedBezel
     field.delegate = self
+    field.focusRingType = .none
     field.font = NSFont.menuFont(ofSize: 13)
     field.textColor = NSColor.disabledControlTextColor
     field.cell!.usesSingleLineMode = true
@@ -176,8 +180,9 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }
 
   // swiftlint:disable cyclomatic_complexity
+  // swiftlint:disable function_body_length
   private func processKeyDownEvent(_ event: NSEvent) -> Bool {
-    guard let key = Key(QWERTYKeyCode: Int(event.keyCode)) else {
+    guard let key = Key(rawValue: Int(event.keyCode)) else {
       return false
     }
     let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
@@ -195,10 +200,18 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
         removeLastWordInSearchField()
         return true
       }
+    case Key.n:
+      if modifierFlags.contains(.control) {
+        customMenu?.selectNext(alt: false)
+        return true
+      }
     case Key.p:
       if modifierFlags.contains(.option) {
         customMenu?.pinOrUnpin()
         queryField.stringValue = "" // clear search field just in case
+        return true
+      } else if modifierFlags.contains(.control) {
+        customMenu?.selectPrevious(alt: false)
         return true
       }
     case Key.return, Key.keypadEnter, Key.upArrow, Key.downArrow:
@@ -207,6 +220,13 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     case GlobalHotKey.key:
       if modifierFlags == GlobalHotKey.modifierFlags {
         customMenu?.cancelTracking()
+        return false
+      }
+    case Key.comma:
+      // Hidden items can't be selected with key equivalents,
+      // so emulate the behavior like items are visible.
+      if UserDefaults.standard.hideFooter && modifierFlags == MenuFooter.preferences.keyEquivalentModifierMask {
+        performMenuItemAction(MenuFooter.preferences.rawValue)
         return false
       }
     default:
@@ -219,21 +239,30 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
     if let chars = event.charactersIgnoringModifiers {
       if chars.count == 1 {
-        appendSearchField(chars)
-        return true
+        focusQueryField()
       }
     }
 
     return false
   }
   // swiftlint:enable cyclomatic_complexity
+  // swiftlint:enable function_body_length
 
   private func processDeleteKey(menu: Menu?, key: Key, modifierFlags: NSEvent.ModifierFlags) {
-    if modifierFlags.contains(.command) {
+    switch modifierFlags {
+    case NSEvent.ModifierFlags([.command]):
       setQuery("")
-    } else if modifierFlags.contains(.option) {
+    case NSEvent.ModifierFlags([.option]):
       menu?.delete()
-    } else {
+    case MenuFooter.clear.keyEquivalentModifierMask:
+      if UserDefaults.standard.hideFooter {
+        performMenuItemAction(MenuFooter.clear.rawValue)
+      }
+    case MenuFooter.clearAll.keyEquivalentModifierMask:
+      if UserDefaults.standard.hideFooter {
+        performMenuItemAction(MenuFooter.clearAll.rawValue)
+      }
+    default:
       if !queryField.stringValue.isEmpty {
         setQuery(String(queryField.stringValue.dropLast()))
       }
@@ -260,8 +289,13 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     }
   }
 
-  private func appendSearchField(_ chars: String) {
-    setQuery("\(queryField.stringValue)\(chars)")
+  private func focusQueryField() {
+    queryField.becomeFirstResponder()
+    // Making text field a first responder selects all the text by default.
+    // We need to make sure events are appended to existing text.
+    if let fieldEditor = queryField.currentEditor() {
+      fieldEditor.selectedRange = NSRange(location: fieldEditor.selectedRange.length, length: 0)
+    }
   }
 
   private func removeLastWordInSearchField() {
@@ -274,4 +308,14 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       setQuery("\(newValue) ")
     }
   }
+
+  private func performMenuItemAction(_ tag: Int) {
+    guard let menuItem = customMenu?.item(withTag: tag) else {
+      return
+    }
+
+    _ = menuItem.target?.perform(menuItem.action, with: menuItem)
+    customMenu?.cancelTracking()
+  }
 }
+// swiftlint:enable type_body_length

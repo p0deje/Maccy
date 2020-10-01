@@ -1,6 +1,0 @@
-framework module Magnet {
-  umbrella header "Magnet-umbrella.h"
-
-  export *
-  module * { export * }
-}

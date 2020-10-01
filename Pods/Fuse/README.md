@@ -11,7 +11,7 @@
 
 Fuse is a super lightweight library which provides a simple way to do fuzzy searching.
 
-![Demo](https://s17.postimg.org/47a90nmvj/bitap-search-demo.gif)
+![Demo](https://i.postimg.cc/MZNZPD1F/bitap-search-demo.gif)
 
 ## Usage
 
@@ -26,6 +26,8 @@ print(result?.ranges) // [CountableClosedRange(0...0), CountableClosedRange(2...
 ```
 
 #### Example 2
+
+Search for a text pattern in an array of srings.
 
 ```swift
 let books = ["The Silmarillion", "The Lock Artist", "The Lost Symbol"]
@@ -81,6 +83,15 @@ results.forEach { item in
 // index: 0
 // score: 0.028
 // results: [(key: "title", score: 0.027999999999999997, ranges: [CountableClosedRange(4...6)])]
+```
+
+#### Example 4
+
+```swift
+let fuse = Fuse()
+fuse.search("Man", in: books, completion: { results in
+    print(results)
+})
 ```
 
 ### Options

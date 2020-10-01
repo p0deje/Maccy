@@ -11,7 +11,7 @@
 import Foundation
 import Carbon
 
-// swiftlint:disable identifier_name
+// swiftlint:disable identifier_name function_body_length
 
 /**
  *  keycodes for keys that are independent of keyboard layout
@@ -55,11 +55,10 @@ enum SpecialKeyCode {
     case rightArrow
     case downArrow
     case upArrow
-    case yen
-    case underscore
-    case keypadComma
     case eisu
     case kana
+    case keypadClear
+    case keypadEnter
 
     // MARK: - Initialize
     init?(keyCode: Int) {
@@ -99,11 +98,10 @@ enum SpecialKeyCode {
         case kVK_RightArrow: self = .rightArrow
         case kVK_DownArrow: self = .downArrow
         case kVK_UpArrow: self = .upArrow
-        case kVK_JIS_Yen: self = .yen
-        case kVK_JIS_Underscore: self = .underscore
-        case kVK_JIS_KeypadComma: self = .keypadComma
         case kVK_JIS_Eisu: self = .eisu
         case kVK_JIS_Kana: self = .kana
+        case kVK_ANSI_KeypadClear: self = .keypadClear
+        case kVK_ANSI_KeypadEnter: self = .keypadEnter
         default: return nil
         }
     }
@@ -146,11 +144,10 @@ enum SpecialKeyCode {
         case .rightArrow: return 0x2192.string // →
         case .downArrow: return 0x2193.string // ↓
         case .upArrow: return 0x2191.string // ↑
-        case .yen: return "¥"
-        case .underscore: return "_"
-        case .keypadComma: return ","
         case .eisu: return "英数"
         case .kana: return "かな"
+        case .keypadClear: return 0x2327.string // ⌧
+        case .keypadEnter: return 0x2305.string // ⌅
         }
     }
 }

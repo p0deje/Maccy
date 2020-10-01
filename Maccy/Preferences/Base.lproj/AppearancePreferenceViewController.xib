@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+    <dependencies>
+        <deployment version="101304" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="AppearancePreferenceViewController" customModule="Maccy" customModuleProvider="target">
+            <connections>
+                <outlet property="imageHeightLabel" destination="uwx-8S-ZG3" id="Zu8-f0-Q4n"/>
+                <outlet property="imageHeightSlider" destination="fDO-zN-OAg" id="Dqu-5j-0nP"/>
+                <outlet property="menuSizeLabel" destination="IuH-lP-Hez" id="Wqx-pf-GZz"/>
+                <outlet property="menuSizeSlider" destination="fDO-zN-OAh" id="DaY-vX-hH4"/>
+                <outlet property="pinToButton" destination="tWw-ax-Qej" id="qyB-al-akU"/>
+                <outlet property="popupAtButton" destination="ZHc-k4-Nf9" id="BLV-3c-0P4"/>
+                <outlet property="showFooterButton" destination="N6N-SK-mfI" id="ZhB-5v-aek"/>
+                <outlet property="showMenuIconButton" destination="1Hw-20-IWu" id="Dr0-mh-sux"/>
+                <outlet property="showSearchFieldButton" destination="YIB-bg-Q16" id="Qln-5j-37O"/>
+                <outlet property="showTitleButton" destination="NWU-si-fzN" id="5AM-o8-UFd"/>
+                <outlet property="view" destination="O1T-Uq-VLh" id="Mag-yb-MBX"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application" customClass="NSObject"/>
+        <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O1T-Uq-VLh">
+            <rect key="frame" x="0.0" y="0.0" width="504" height="459"/>
+            <subviews>
+                <gridView misplaced="YES" xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="8" columnSpacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="5KL-yT-3Zi">
+                    <rect key="frame" x="20" y="20" width="464" height="419"/>
+                    <rows>
+                        <gridRow height="21" id="wGv-6M-Wwi"/>
+                        <gridRow id="2Q5-sd-gz1"/>
+                        <gridRow id="kMC-R2-5B3"/>
+                        <gridRow id="6xn-My-W6j"/>
+                        <gridRow id="SYP-SL-aAk"/>
+                        <gridRow id="mG6-vX-cIK"/>
+                        <gridRow id="S9I-rv-Kfl"/>
+                        <gridRow id="Sh2-Op-ecx"/>
+                        <gridRow yPlacement="center" topPadding="4" bottomPadding="4" id="OdT-ff-FSd"/>
+                        <gridRow id="r0f-Fp-w4p"/>
+                        <gridRow id="hnq-hF-JcQ"/>
+                        <gridRow id="zRu-GH-PCK"/>
+                        <gridRow id="yso-9X-Eov"/>
+                        <gridRow id="Plv-5t-MpL"/>
+                    </rows>
+                    <columns>
+                        <gridColumn xPlacement="trailing" id="KLa-7P-lgK"/>
+                        <gridColumn id="7OC-Fv-eMr"/>
+                    </columns>
+                    <gridCells>
+                        <gridCell row="wGv-6M-Wwi" column="KLa-7P-lgK" id="fTw-kj-fi7">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cv7-gI-nuh">
+                                <rect key="frame" x="35" y="401" width="62" height="16"/>
+                                <textFieldCell key="cell" alignment="right" title="Popup at:" id="R7Y-UN-Edt">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="wGv-6M-Wwi" column="7OC-Fv-eMr" id="w7a-Ig-74t">
+                            <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZHc-k4-Nf9">
+                                <rect key="frame" x="106" y="395" width="123" height="25"/>
+                                <popUpButtonCell key="cell" type="push" title="Cursor" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Ccp-5J-8nw" id="f7k-K3-J6b">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <menu key="menu" id="8Ak-sj-b4m">
+                                        <items>
+                                            <menuItem title="Cursor" state="on" id="Ccp-5J-8nw"/>
+                                            <menuItem title="Screen center" tag="1" id="KJb-2z-C5c"/>
+                                            <menuItem title="Menu icon" tag="2" id="0h4-CZ-fwT"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="popupPositionChanged:" target="-2" id="Hgk-jt-e91"/>
+                                </connections>
+                            </popUpButton>
+                        </gridCell>
+                        <gridCell row="2Q5-sd-gz1" column="KLa-7P-lgK" id="YMU-yd-0dx"/>
+                        <gridCell row="2Q5-sd-gz1" column="7OC-Fv-eMr" id="ORs-ex-MgK">
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="pCt-XY-Pfv">
+                                <rect key="frame" x="106" y="362" width="230" height="28"/>
+                                <textFieldCell key="cell" selectable="YES" id="tpV-rp-2HY">
+                                    <font key="font" metaFont="controlContent" size="11"/>
+                                    <string key="title">Change the location where popup appears.
+Default: Cursor.</string>
+                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="kMC-R2-5B3" column="KLa-7P-lgK" id="vKu-nA-kna">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Xv-1I-fwQ">
+                                <rect key="frame" x="54" y="336" width="43" height="16"/>
+                                <textFieldCell key="cell" alignment="right" title="Pin to:" id="GhW-Kv-rhO">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="kMC-R2-5B3" column="7OC-Fv-eMr" id="qwo-K1-hTM">
+                            <popUpButton key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tWw-ax-Qej">
+                                <rect key="frame" x="106" y="330" width="83" height="25"/>
+                                <popUpButtonCell key="cell" type="push" title="Top" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="DKE-JI-oLS" id="KGb-ze-78s">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                    <menu key="menu" id="fek-qf-Da1">
+                                        <items>
+                                            <menuItem title="Top" state="on" id="DKE-JI-oLS"/>
+                                            <menuItem title="Bottom" tag="1" id="Yio-8e-oaa"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <action selector="pinToChanged:" target="-2" id="gMa-91-4V9"/>
+                                </connections>
+                            </popUpButton>
+                        </gridCell>
+                        <gridCell row="6xn-My-W6j" column="KLa-7P-lgK" id="mi3-k8-1r7"/>
+                        <gridCell row="6xn-My-W6j" column="7OC-Fv-eMr" id="ePs-tA-Ybg">
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Nd-og-B3C">
+                                <rect key="frame" x="106" y="297" width="197" height="28"/>
+                                <textFieldCell key="cell" selectable="YES" id="aqA-NI-K5d">
+                                    <font key="font" metaFont="controlContent" size="11"/>
+                                    <string key="title">Change the location of pinned items.
+Default: Top.</string>
+                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="SYP-SL-aAk" column="KLa-7P-lgK" id="oQq-xv-omv">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lEK-4J-i8J">
+                                <rect key="frame" x="10" y="273" width="87" height="16"/>
+                                <textFieldCell key="cell" alignment="right" title="Image height:" id="MKb-cW-gpg">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="SYP-SL-aAk" column="7OC-Fv-eMr" id="kuT-3B-2sI">
+                            <slider key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fDO-zN-OAg">
+                                <rect key="frame" x="106" y="271" width="204" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="rbR-pU-c2k"/>
+                                </constraints>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="1" maxValue="200" doubleValue="40" tickMarkPosition="above" sliderType="linear" id="I9h-b7-IuW"/>
+                                <connections>
+                                    <action selector="imageHeightChanged:" target="-2" id="sxf-9N-SDO"/>
+                                </connections>
+                            </slider>
+                        </gridCell>
+                        <gridCell row="mG6-vX-cIK" column="KLa-7P-lgK" id="Mhl-eM-MEO"/>
+                        <gridCell row="mG6-vX-cIK" column="7OC-Fv-eMr" id="EiJ-G6-7EL">
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uwx-8S-ZG3">
+                                <rect key="frame" x="106" y="223" width="255" height="42"/>
+                                <textFieldCell key="cell" selectable="YES" id="bIP-Mi-SeJ">
+                                    <font key="font" metaFont="controlContent" size="11"/>
+                                    <string key="title">Maximum image preview height: {imageHeight}.
+Default: 40.
+Hint: Set to 16 to look like text items.</string>
+                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="S9I-rv-Kfl" column="KLa-7P-lgK" id="vKh-KX-7Ph">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3D7-Xe-sZo">
+                                <rect key="frame" x="28" y="199" width="69" height="16"/>
+                                <textFieldCell key="cell" alignment="right" title="Menu size:" id="gjR-wz-7GQ">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="S9I-rv-Kfl" column="7OC-Fv-eMr" id="Ry9-S9-CyT">
+                            <slider key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fDO-zN-OAh">
+                                <rect key="frame" x="106" y="197" width="204" height="19"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="rbR-pU-c2l"/>
+                                </constraints>
+                                <sliderCell key="cell" continuous="YES" alignment="left" maxValue="100" tickMarkPosition="above" sliderType="linear" id="I9h-b7-IuX"/>
+                                <connections>
+                                    <action selector="menuSizeChanged:" target="-2" id="Kjh-P5-fMl"/>
+                                </connections>
+                            </slider>
+                        </gridCell>
+                        <gridCell row="Sh2-Op-ecx" column="KLa-7P-lgK" id="wFt-9F-og0"/>
+                        <gridCell row="Sh2-Op-ecx" column="7OC-Fv-eMr" id="Kdn-gf-znK">
+                            <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IuH-lP-Hez">
+                                <rect key="frame" x="106" y="135" width="360" height="56"/>
+                                <textFieldCell key="cell" selectable="YES" id="j39-nx-OGb">
+                                    <font key="font" metaFont="controlContent" size="11"/>
+                                    <string key="title">Number of visible items: {menuSize}. 
+Hidden items are still kept in history and can be found using search.
+Set to 0 to make all items visible.
+Default: 0.</string>
+                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="OdT-ff-FSd" column="KLa-7P-lgK" headOfMergedCell="OeY-HC-jSl" xPlacement="fill" id="OeY-HC-jSl">
+                            <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="U8i-B5-SQV">
+                                <rect key="frame" x="0.0" y="116" width="464" height="5"/>
+                            </box>
+                        </gridCell>
+                        <gridCell row="OdT-ff-FSd" column="7OC-Fv-eMr" headOfMergedCell="OeY-HC-jSl" id="fe5-7h-IxP"/>
+                        <gridCell row="r0f-Fp-w4p" column="KLa-7P-lgK" id="RoY-Em-zMu"/>
+                        <gridCell row="r0f-Fp-w4p" column="7OC-Fv-eMr" id="nXT-lH-ioq">
+                            <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Hw-20-IWu">
+                                <rect key="frame" x="106" y="86" width="122" height="18"/>
+                                <buttonCell key="cell" type="check" title="Show menu icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Pud-2o-NKc">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="showMenuIconChanged:" target="-2" id="utt-wu-kcQ"/>
+                                </connections>
+                            </button>
+                        </gridCell>
+                        <gridCell row="hnq-hF-JcQ" column="KLa-7P-lgK" id="5lh-Cz-wCy"/>
+                        <gridCell row="hnq-hF-JcQ" column="7OC-Fv-eMr" id="dkg-xh-BJU">
+                            <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YIB-bg-Q16">
+                                <rect key="frame" x="106" y="64" width="130" height="18"/>
+                                <buttonCell key="cell" type="check" title="Show search field" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="mWx-zi-OAv">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="showSearchFieldChanged:" target="-2" id="C4U-Nl-zY1"/>
+                                </connections>
+                            </button>
+                        </gridCell>
+                        <gridCell row="zRu-GH-PCK" column="KLa-7P-lgK" id="LcS-vZ-Lxg"/>
+                        <gridCell row="zRu-GH-PCK" column="7OC-Fv-eMr" id="Qnl-9g-RtD">
+                            <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NWU-si-fzN">
+                                <rect key="frame" x="106" y="42" width="199" height="18"/>
+                                <buttonCell key="cell" type="check" title="Show title before search field" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ePT-qq-kg9">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="showTitleChanged:" target="-2" id="a7f-Wy-ygd"/>
+                                </connections>
+                            </button>
+                        </gridCell>
+                        <gridCell row="yso-9X-Eov" column="KLa-7P-lgK" id="a8T-d0-IZF"/>
+                        <gridCell row="yso-9X-Eov" column="7OC-Fv-eMr" id="zvZ-zK-BeC">
+                            <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N6N-SK-mfI">
+                                <rect key="frame" x="106" y="20" width="96" height="18"/>
+                                <buttonCell key="cell" type="check" title="Show footer" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ClZ-IS-YKz">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                                <connections>
+                                    <action selector="showFooterChanged:" target="-2" id="OGQ-d3-jEx"/>
+                                </connections>
+                            </button>
+                        </gridCell>
+                        <gridCell row="Plv-5t-MpL" column="KLa-7P-lgK" id="eeP-jp-pGA"/>
+                        <gridCell row="Plv-5t-MpL" column="7OC-Fv-eMr" id="XpX-YX-upx">
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6N8-hv-cY7">
+                                <rect key="frame" x="106" y="0.0" width="279" height="14"/>
+                                <textFieldCell key="cell" selectable="YES" title="Press ⌘, to open preferences when footer is hidden." id="0tN-4z-p8T">
+                                    <font key="font" metaFont="controlContent" size="11"/>
+                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                    </gridCells>
+                </gridView>
+            </subviews>
+            <constraints>
+                <constraint firstItem="5KL-yT-3Zi" firstAttribute="height" secondItem="O1T-Uq-VLh" secondAttribute="height" multiplier="0.798271" id="3Y1-bc-oxv"/>
+                <constraint firstItem="5KL-yT-3Zi" firstAttribute="centerY" secondItem="O1T-Uq-VLh" secondAttribute="centerY" id="LE2-yM-OnK"/>
+                <constraint firstItem="5KL-yT-3Zi" firstAttribute="width" secondItem="O1T-Uq-VLh" secondAttribute="width" multiplier="0.821501" id="PeN-ly-Ypy"/>
+                <constraint firstItem="5KL-yT-3Zi" firstAttribute="centerX" secondItem="O1T-Uq-VLh" secondAttribute="centerX" id="o7U-bu-dCj"/>
+            </constraints>
+            <point key="canvasLocation" x="151" y="220.5"/>
+        </customView>
+    </objects>
+</document>

@@ -5,10 +5,14 @@ class ClipboardTests: XCTestCase {
   let clipboard = Clipboard()
   let pasteboard = NSPasteboard.general
   let image = NSImage(named: "NSInfo")!
+  let coloredString = NSAttributedString(string: "foo",
+                                         attributes: [NSAttributedString.Key.foregroundColor: NSColor.red])
 
   let customType = NSPasteboard.PasteboardType(rawValue: "org.maccy.ConfidentialType")
-  let tiffType = NSPasteboard.PasteboardType.tiff
+  let fileURLType = NSPasteboard.PasteboardType.fileURL
+  let rtfType = NSPasteboard.PasteboardType.rtf
   let stringType = NSPasteboard.PasteboardType.string
+  let tiffType = NSPasteboard.PasteboardType.tiff
   let transientType = NSPasteboard.PasteboardType(rawValue: "org.nspasteboard.TransientType")
   let unknownType = NSPasteboard.PasteboardType(rawValue: "com.apple.AnnotationKit.AnnotationItem")
 
@@ -22,10 +26,11 @@ class ClipboardTests: XCTestCase {
   }
 
   override func tearDown() {
-    super.setUp()
+    super.tearDown()
     CoreDataManager.inMemory = false
     UserDefaults.standard.ignoreEvents = savedIgnoreEvents
     UserDefaults.standard.ignoredPasteboardTypes = savedIgnoredPasteboardTypes
+    clipboard.onNewCopyHooks = []
   }
 
   func testChangesListenerAndAddHooks() {
@@ -119,10 +124,37 @@ class ClipboardTests: XCTestCase {
     let imageData = image.tiffRepresentation!
     let item = HistoryItem(contents: [
       HistoryItemContent(type: stringType.rawValue, value: "foo".data(using: .utf8)!),
-      HistoryItemContent(type: tiffType.rawValue, value: imageData)
+      HistoryItemContent(type: tiffType.rawValue, value: imageData),
+      HistoryItemContent(type: fileURLType.rawValue, value: "file://foo.bar".data(using: .utf8)!)
     ])
     clipboard.copy(item)
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
     XCTAssertEqual(pasteboard.data(forType: .tiff), imageData)
+    XCTAssertEqual(pasteboard.string(forType: .fileURL), "file://foo.bar")
+  }
+
+  func testCopyWithoutFormatting() {
+    let item = HistoryItem(contents: [
+      HistoryItemContent(type: stringType.rawValue, value: "foo".data(using: .utf8)!),
+      HistoryItemContent(type: rtfType.rawValue,
+                         value: coloredString.rtf(from: NSRange(location: 0, length: coloredString.length),
+                                                  documentAttributes: [:]))
+    ])
+    clipboard.copy(item, removeFormatting: true)
+    XCTAssertEqual(pasteboard.string(forType: .string), "foo")
+    XCTAssertNil(pasteboard.data(forType: .rtf))
+  }
+
+  func testHandlesItemsWithoutData() {
+    let hookExpectation = expectation(description: "Hook is called")
+    pasteboard.clearContents()
+    clipboard.onNewCopy({ (_: HistoryItem) -> Void in
+      hookExpectation.fulfill()
+    })
+    clipboard.startListening()
+    pasteboard.declareTypes([.fileURL, .string], owner: nil)
+    // fileURL is left without data
+    pasteboard.setString("bar", forType: .string)
+    waitForExpectations(timeout: 2)
   }
 }

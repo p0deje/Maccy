@@ -1,0 +1,54 @@
+
+/* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
+"0h4-CZ-fwT.title" = "任务栏图标";
+
+/* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
+"0tN-4z-p8T.title" = "按住 ⌘, 在底部菜单隐藏时打开首选项。";
+
+/* Class = "NSMenuItem"; title = "Cursor"; ObjectID = "Ccp-5J-8nw"; */
+"Ccp-5J-8nw.title" = "光标附近";
+
+/* Class = "NSButtonCell"; title = "Show footer"; ObjectID = "ClZ-IS-YKz"; */
+"ClZ-IS-YKz.title" = "显示底部菜单";
+
+/* Class = "NSMenuItem"; title = "Top"; ObjectID = "DKE-JI-oLS"; */
+"DKE-JI-oLS.title" = "顶部";
+
+/* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
+"GhW-Kv-rhO.title" = "置顶:";
+
+/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
+"KJb-2z-C5c.title" = "屏幕中央";
+
+/* Class = "NSTextFieldCell"; title = "Image height:"; ObjectID = "MKb-cW-gpg"; */
+"MKb-cW-gpg.title" = "图片高度:";
+
+/* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
+"Pud-2o-NKc.title" = "显示任务栏图标";
+
+/* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
+"R7Y-UN-Edt.title" = "窗口弹出位置:";
+
+/* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
+"Yio-8e-oaa.title" = "底部";
+
+/* Class = "NSTextFieldCell"; title = "Change the location of pinned items.\nDefault: Top."; ObjectID = "aqA-NI-K5d"; */
+"aqA-NI-K5d.title" = "默认: 顶部";
+
+/* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
+"bIP-Mi-SeJ.title" = "图片预览最大高度：{imageHeight}.\n默认: 40.\n提示：设置成16可以让列表更加整齐";
+
+/* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
+"ePT-qq-kg9.title" = "在搜索字段前显示标题";
+
+/* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "菜单尺寸:";
+
+/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}. \nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
+"j39-nx-OGb.title" = "菜单列表长度： {menuSize} \n隐藏的项目仍保留在历史记录中，可以使用搜索找到\n设置为0可使所有项目可见\n默认: 0";
+
+/* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
+"mWx-zi-OAv.title" = "显示搜索框";
+
+/* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
+"tpV-rp-2HY.title" = "更改显示弹出窗口的位置\n默认: 光标附近";

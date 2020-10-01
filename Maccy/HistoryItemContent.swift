@@ -10,7 +10,7 @@ class HistoryItemContent: NSManagedObject {
     return (lhs.type == rhs.type) && (lhs.value == rhs.value)
   }
 
-  convenience init(type: String, value: Data) {
+  convenience init(type: String, value: Data?) {
     let entity = NSEntityDescription.entity(forEntityName: "HistoryItemContent",
                                             in: CoreDataManager.shared.viewContext)!
     self.init(entity: entity, insertInto: CoreDataManager.shared.viewContext)

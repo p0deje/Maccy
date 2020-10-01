@@ -19,7 +19,7 @@ extension String {
         }
         return self[self.index(self.startIndex, offsetBy: index)]
     }
-    
+
     /// Searches and returns the index within the string of the first occurrence of `searchStr`.
     ///
     ///  - Parameter aString: A string representing the value to search for.
@@ -30,16 +30,16 @@ extension String {
         guard let position = position else {
             return nil
         }
-        
-        if self.startIndex.encodedOffset + position > self.endIndex.encodedOffset {
+
+        if self.count < position {
             return nil
         }
-        
+
         let start: String.Index = self.index(self.startIndex, offsetBy: position)
         let range: Range<Index> = Range<Index>.init(uncheckedBounds: (lower: start, upper: self.endIndex))
         return self.range(of: aString, options: .literal, range: range, locale: nil)?.lowerBound
     }
-    
+
     /// Searches and returns the index within the string of the last occurrence of the `searchStr`.
     ///
     /// - Parameter searchStr: A string representing the value to search for. If `searchStr` is an empty string, then `position` is returned.
@@ -50,7 +50,7 @@ extension String {
         guard let position = position else {
             return nil
         }
-        
+
         let len = self.count
         let start = min(max(position, 0), len)
         let searchLen = searchStr.count

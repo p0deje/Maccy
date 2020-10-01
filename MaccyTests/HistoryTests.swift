@@ -32,14 +32,34 @@ class HistoryTests: XCTestCase {
 
   func testAddingSame() {
     let first = historyItem("foo")
+    first.pin = "f"
     history.add(first)
     let second = historyItem("bar")
     history.add(second)
-    history.add(historyItem("foo"))
+    let third = historyItem("foo")
+    history.add(third)
 
-    XCTAssertEqual(history.all, [second, first])
+    XCTAssertEqual(history.all, [second, third])
     XCTAssertTrue(history.all[1].lastCopiedAt > history.all[0].firstCopiedAt)
     XCTAssertEqual(history.all[1].numberOfCopies, 2)
+    XCTAssertEqual(history.all[1].pin, "f")
+  }
+
+  func testAddingItemThatIsSupersededByExisting() {
+    let contents = [
+      HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: "one".data(using: .utf8)!),
+      HistoryItemContent(type: NSPasteboard.PasteboardType.rtf.rawValue, value: "two".data(using: .utf8)!)
+    ]
+    let first = HistoryItem(contents: contents)
+    history.add(first)
+
+    let second = HistoryItem(contents: [
+      HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: "one".data(using: .utf8)!)
+    ])
+    history.add(second)
+
+    XCTAssertEqual(history.all, [second])
+    XCTAssertEqual(Set(history.all[0].getContents()), Set(contents))
   }
 
   func testUpdate() {
@@ -69,6 +89,26 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.all.count, 10)
     XCTAssertTrue(history.all.contains(items[10]))
     XCTAssertFalse(history.all.contains(items[0]))
+  }
+
+  func testMaxSizeIgnoresPinned() {
+    var items: [HistoryItem] = []
+
+    let item = historyItem("0")
+    item.pin = "A"
+    items.append(item)
+    history.add(item)
+
+    for index in 1...11 {
+      let item = historyItem(String(index))
+      items.append(item)
+      history.add(item)
+    }
+
+    XCTAssertEqual(history.all.count, 11)
+    XCTAssertTrue(history.all.contains(items[10]))
+    XCTAssertTrue(history.all.contains(items[0]))
+    XCTAssertFalse(history.all.contains(items[1]))
   }
 
   func testMaxSizeIsChanged() {

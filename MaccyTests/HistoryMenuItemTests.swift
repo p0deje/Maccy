@@ -4,6 +4,18 @@ import XCTest
 class HistoryMenuItemTests: XCTestCase {
   let savedImageMaxHeight = UserDefaults.standard.imageMaxHeight
 
+  var firstCopiedAt: Date! {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+    return formatter.date(from: "2020/07/10 12:31:34")
+  }
+
+  var lastCopiedAt: Date! {
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy/MM/dd HH:mm:ss"
+    return formatter.date(from: "2020/07/10 12:41:34")
+  }
+
   override func setUp() {
     super.setUp()
     CoreDataManager.inMemory = true
@@ -44,10 +56,10 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   func testTitleLongerThanMaxLength() {
-    let trimmedTitle = String(repeating: "a", count: 50)
+    let trimmedTitle = String(repeating: "a", count: 33) + "..." + String(repeating: "a", count: 17)
     let title = String(repeating: "a", count: 51)
     let menuItem = historyMenuItem(title)
-    XCTAssertEqual(menuItem.title, "\(trimmedTitle)...")
+    XCTAssertEqual(menuItem.title, trimmedTitle)
     XCTAssertEqual(menuItem.value, title)
     XCTAssertEqual(menuItem.title.count, 53)
     XCTAssertEqual(menuItem.toolTip, tooltip(title))
@@ -78,6 +90,23 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.image!.size, NSSize(width: 40, height: 40))
   }
 
+  func testFile() {
+    let url = URL(fileURLWithPath: "/tmp/foo")
+    let menuItem = historyMenuItem(url)
+    XCTAssertEqual(menuItem.title, "file:///tmp/foo")
+    XCTAssertEqual(menuItem.value, "file:///tmp/foo")
+    XCTAssertEqual(menuItem.toolTip, tooltip("file:///tmp/foo"))
+    XCTAssertNil(menuItem.image)
+  }
+
+  func testItemWithoutData() {
+    let menuItem = historyMenuItem(nil)
+    XCTAssertEqual(menuItem.title, "")
+    XCTAssertEqual(menuItem.value, "")
+    XCTAssertEqual(menuItem.toolTip, nil)
+    XCTAssertNil(menuItem.image)
+  }
+
   func testUnpinnedByDefault() {
     let menuItem = historyMenuItem("foo")
     XCTAssertNil(menuItem.item.pin)
@@ -102,31 +131,62 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertNotEqual(menuItem.state, .on)
   }
 
-  private func historyMenuItem(_ value: String) -> HistoryMenuItem {
+  func testTooltipLongerThanMax() {
+    let menuItem = historyMenuItem(String(repeating: "a", count: 5_001))
+    XCTAssertEqual(menuItem.toolTip,
+            tooltip("\(String(repeating: "a", count: 3_333))...\(String(repeating: "a", count: 1_667))"))
+  }
+
+  private func historyMenuItem(_ value: String?) -> HistoryMenuItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
-                                     value: value.data(using: .utf8)!)
+                                     value: value?.data(using: .utf8))
     let item = HistoryItem(contents: [content])
-    return HistoryMenuItem(item: item, onSelected: { _ in })
+    item.firstCopiedAt = firstCopiedAt
+    item.lastCopiedAt = lastCopiedAt
+    item.numberOfCopies = 2
+    return HistoryMenuItem(item: item, clipboard: Clipboard())
   }
 
   private func historyMenuItem(_ value: NSImage) -> HistoryMenuItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.tiff.rawValue,
                                      value: value.tiffRepresentation!)
     let item = HistoryItem(contents: [content])
-    return HistoryMenuItem(item: item, onSelected: { _ in })
+    item.firstCopiedAt = firstCopiedAt
+    item.lastCopiedAt = lastCopiedAt
+    item.numberOfCopies = 2
+    return HistoryMenuItem(item: item, clipboard: Clipboard())
+  }
+
+  private func historyMenuItem(_ value: URL) -> HistoryMenuItem {
+    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.fileURL.rawValue,
+                                     value: value.dataRepresentation)
+    let item = HistoryItem(contents: [content])
+    item.firstCopiedAt = firstCopiedAt
+    item.lastCopiedAt = lastCopiedAt
+    item.numberOfCopies = 2
+    return HistoryMenuItem(item: item, clipboard: Clipboard())
   }
 
   private func tooltip(_ title: String?) -> String {
     if title == nil {
       return """
-             Press ⌥+⌫ to delete.
-             Press ⌥+p to (un)pin.
+             First copy time: Jul 10, 12:31:34
+             Last copy time: Jul 10, 12:41:34
+             Number of copies: 2
+             \n \n\n
+             Press ⌥⌫ to delete.
+             Press ⌥P to (un)pin.
              """
     } else {
       return """
-             \(title!)\n \n
-             Press ⌥+⌫ to delete.
-             Press ⌥+p to (un)pin.
+             \(title!)
+             \n \n\n
+             First copy time: Jul 10, 12:31:34
+             Last copy time: Jul 10, 12:41:34
+             Number of copies: 2
+             \n \n\n
+             Press ⌥⌫ to delete.
+             Press ⌥P to (un)pin.
              """
     }
   }

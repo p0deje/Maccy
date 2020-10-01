@@ -15,15 +15,19 @@ class Sorter {
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem) -> Bool {
     switch by {
     case "firstCopiedAt":
-      return lhs.firstCopiedAt < rhs.firstCopiedAt
+      return lhs.firstCopiedAt > rhs.firstCopiedAt
     case "numberOfCopies":
-      return lhs.numberOfCopies < rhs.numberOfCopies
+      return lhs.numberOfCopies > rhs.numberOfCopies
     default:
-      return lhs.lastCopiedAt < rhs.lastCopiedAt
+      return lhs.lastCopiedAt > rhs.lastCopiedAt
     }
   }
 
   private func byPinned(_ lhs: HistoryItem, _ rhs: HistoryItem) -> Bool {
-    return (lhs.pin == nil) && (rhs.pin != nil)
+    if UserDefaults.standard.pinTo == "bottom" {
+      return (lhs.pin == nil) && (rhs.pin != nil)
+    } else {
+      return (lhs.pin != nil) && (rhs.pin == nil)
+    }
   }
 }

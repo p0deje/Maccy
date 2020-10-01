@@ -6,13 +6,16 @@ extension UserDefaults {
     static let hideFooter = "hideFooter"
     static let hideSearch = "hideSearch"
     static let hideTitle = "hideTitle"
-    static let hotKey = "hotKey"
     static let ignoreEvents = "ignoreEvents"
     static let ignoredPasteboardTypes = "ignoredPasteboardTypes"
     static let imageMaxHeight = "imageMaxHeight"
+    static let maxMenuItems = "maxMenuItems"
     static let migrations = "migrations"
     static let pasteByDefault = "pasteByDefault"
+    static let pinTo = "pinTo"
+    static let playSounds = "playSounds"
     static let popupPosition = "popupPosition"
+    static let removeFormattingByDefault = "removeFormattingByDefault"
     static let saratovSeparator = "enableSaratovSeparator"
     static let size = "historySize"
     static let sortBy = "sortBy"
@@ -27,10 +30,11 @@ extension UserDefaults {
   }
 
   public struct Values {
-    static let hotKey = "command+shift+c"
     static let ignoredPasteboardTypes: [String] = []
     static let imageMaxHeight = 40.0
+    static let maxMenuItems = 0
     static let migrations: [String: Bool] = [:]
+    static let pinTo = "top"
     static let popupPosition = "cursor"
     static let showInStatusBar = true
     static let size = 200
@@ -58,12 +62,7 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.hideTitle) }
   }
 
-  @objc dynamic public var hotKey: String {
-    get { string(forKey: Keys.hotKey) ?? Values.hotKey }
-    set { set(newValue, forKey: Keys.hotKey) }
-  }
-
-  public var ignoreEvents: Bool {
+  @objc dynamic public var ignoreEvents: Bool {
     get { bool(forKey: Keys.ignoreEvents) }
     set { set(newValue, forKey: Keys.ignoreEvents) }
   }
@@ -73,9 +72,14 @@ extension UserDefaults {
     set { set(Array(newValue), forKey: Keys.ignoredPasteboardTypes) }
   }
 
-  public var imageMaxHeight: Float {
-    get { float(forKey: Keys.imageMaxHeight) }
+  @objc dynamic public var imageMaxHeight: Int {
+    get { integer(forKey: Keys.imageMaxHeight) }
     set { set(newValue, forKey: Keys.imageMaxHeight) }
+  }
+
+  public var maxMenuItems: Int {
+    get { integer(forKey: Keys.maxMenuItems) }
+    set { set(newValue, forKey: Keys.maxMenuItems) }
   }
 
   public var migrations: [String: Bool] {
@@ -88,9 +92,24 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.pasteByDefault) }
   }
 
+  @objc dynamic public var pinTo: String {
+    get { string(forKey: Keys.pinTo) ?? Values.pinTo }
+    set { set(newValue, forKey: Keys.pinTo) }
+  }
+
+  public var playSounds: Bool {
+    get { bool(forKey: Keys.playSounds) }
+    set { set(newValue, forKey: Keys.playSounds) }
+  }
+
   public var popupPosition: String {
     get { string(forKey: Keys.popupPosition) ?? Values.popupPosition }
     set { set(newValue, forKey: Keys.popupPosition) }
+  }
+
+  @objc dynamic public var removeFormattingByDefault: Bool {
+    get { bool(forKey: Keys.removeFormattingByDefault) }
+    set { set(newValue, forKey: Keys.removeFormattingByDefault) }
   }
 
   public var saratovSeparator: Bool {
@@ -108,7 +127,7 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.size) }
   }
 
-  public var sortBy: String {
+  @objc dynamic public var sortBy: String {
     get { string(forKey: Keys.sortBy) ?? Values.sortBy }
     set { set(newValue, forKey: Keys.sortBy) }
   }

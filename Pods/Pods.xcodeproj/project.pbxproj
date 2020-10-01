@@ -6,719 +6,692 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		ED77B4B88587C894E85C361023D67C53 /* Sparkle */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 2C8D06A2289713323892B3638F08AC0B /* Build configuration list for PBXAggregateTarget "Sparkle" */;
-			buildPhases = (
-			);
-			dependencies = (
-			);
-			name = Sparkle;
-			productName = Sparkle;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
-		0239CFA722DF795BB27D257B8BC59A72 /* Pods-Maccy-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A168313D632389EC16B99BAD48B1AC42 /* Pods-Maccy-dummy.m */; };
-		06F863D181E8D1B0FCA33AB0CE59B3E4 /* ModifierTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E43C4801E3959AF986137D7857E4780 /* ModifierTransformer.swift */; };
-		10B9CAB1FE16F7A0988FD1E3276751EE /* Fuse-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 449EF254B15E9C37A0C130810E23042F /* Fuse-dummy.m */; };
-		158ADB56A4DFF46A954A042AD3ECC037 /* KeyExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFA8E220B218AF10431F18E211B8792A /* KeyExtension.swift */; };
-		24B3203605D8C4AF57132C311CD7069B /* IntExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 387BF66BB45C4CA8B488DA50F2183355 /* IntExtension.swift */; };
-		25528167E269ADBD54D9EF44005BA2C1 /* Sauce.swift in Sources */ = {isa = PBXBuildFile; fileRef = A21B7599ECCC12903257B8A823A2696D /* Sauce.swift */; };
-		27305314CA19D59621EA00282F077929 /* Pods-MaccyTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C1B2021710F8266E3DE605A86A5406BF /* Pods-MaccyTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		34DACEF4C369E47F6B2D87FBA875C637 /* String+Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C717C758B90C771EF2C0709A3092E5E0 /* String+Fuse.swift */; };
-		39901ED0E424B4AD66D94DBF5ED432A3 /* LoginServiceKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E6C49220BBE7EF9DE672842F1078C192 /* LoginServiceKit-dummy.m */; };
-		4284CD4FF7CD5BE5828923D9E0AF4A6F /* Fuse-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = A9941AABD3E474C0B5B3C27A12B4E8E9 /* Fuse-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		4D24AF625403EABFC2ECBDD1846F76EB /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 512E0D34B38C1EA9EA325601955DC612 /* InputSource.swift */; };
-		50CE596902B417F15FC98ADF9F9FEFFE /* Pods-MaccyTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 239D9B0CC434D9DE53B4B5B505E3C2FD /* Pods-MaccyTests-dummy.m */; };
-		57DE10EAAB206665E98D7398F6C9639C /* CollectionExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5FF4AEA721AC7136E23BC7775AC1AEFC /* CollectionExtension.swift */; };
-		5C232150CA77EF06DC418A48F78C822F /* LoginServiceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AE5ECDB86E678F1C77AF3718B24C2E3 /* LoginServiceKit.swift */; };
-		5E2A5FAD683741C9023C8B269082B13F /* Sauce-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B5ECF51A44F9C1CE05CBBF22BC6817E4 /* Sauce-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		5F1192FB48DE68C17C9B5E701CBAE638 /* Magnet-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 1ACBE0A6DAAC82B3978374F6A1899469 /* Magnet-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		6C6FFDFBF909C38B76A4928C2D74CFD8 /* TISInputSource+Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 464C812A2E1CEB7DA9221412F98D9737 /* TISInputSource+Property.swift */; };
-		8127CEDC9E85D665EAAAD304C1EAC38C /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = C99D2EC73C545CDD76B11847C79DF130 /* KeyboardLayout.swift */; };
-		8326B7526A39636E6FE0F0262E61C3D0 /* Magnet-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 15C7B65C9E868CD16BBEF6C5BB4E2E18 /* Magnet-dummy.m */; };
-		835511E4086D6751B123084FFE36EE27 /* FuseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A3F79CBB40C652C8282460B0BE1D6CE /* FuseUtilities.swift */; };
-		8C7D2A336907EB9DE19ABCA8752C6CC6 /* Sauce.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ABB308DD37B5F5B54160186368D0FE0C /* Sauce.framework */; };
-		90A9C7313FD01F26A582C6941F43F4F9 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2FF67FBF2ACEAADCAD87FAB53BFB6C /* Cocoa.framework */; };
-		92AB1B49BFD8782EA9193CB51A5B8D50 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2FF67FBF2ACEAADCAD87FAB53BFB6C /* Cocoa.framework */; };
-		935A987C8314637090402D54388FA5E6 /* HotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FC9DBE86BB793F1284602A78C5EB8CA /* HotKey.swift */; };
-		9824BFBFD96E1D47E6D3F787AE79F9A6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2FF67FBF2ACEAADCAD87FAB53BFB6C /* Cocoa.framework */; };
-		9F56376632AADB1B30EAAD6F88E2B116 /* Pods-Maccy-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = EE613CBD9DE8F60693A56C5DAC15844B /* Pods-Maccy-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		A6D7B977DD7A89C5471E9CDBA016DD35 /* SwiftHEXColors-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = B4C9769020FCAB595D9957959491D22D /* SwiftHEXColors-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		B44480FC77BC7E3A0618AF36A0A1C1C6 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2FF67FBF2ACEAADCAD87FAB53BFB6C /* Cocoa.framework */; };
-		B66E04D10575F9447C1DC8B6C9347163 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A28C471EAC73969FDC8D7370322B9BE /* Carbon.framework */; };
-		B7E634219A96EF91A87ABAF0193BEB14 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2FF67FBF2ACEAADCAD87FAB53BFB6C /* Cocoa.framework */; };
-		C78AA33632923349390ECFBE605ED8FC /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2FF67FBF2ACEAADCAD87FAB53BFB6C /* Cocoa.framework */; };
-		D229702F2A8DFFF465A1250A2F7F6377 /* KeyCombo.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1FED38D30822AE4CCBB3B140D677579 /* KeyCombo.swift */; };
-		D2A3485155D6D3D977EF41CB127B65B5 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = F313D38B9645F3BB0C07BCD1306E9E1F /* Key.swift */; };
-		D9C605F114D121BFB5DC4DF96280799A /* SwiftHEXColors-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 174BD6C71D96637E93BB13F56C2FC095 /* SwiftHEXColors-dummy.m */; };
-		DDA8F87F02E4E1D58A6CA4B85F4B5906 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EB2FF67FBF2ACEAADCAD87FAB53BFB6C /* Cocoa.framework */; };
-		DDD1465C3C82DFA91FA75B6769ECD010 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A28C471EAC73969FDC8D7370322B9BE /* Carbon.framework */; };
-		E2A680C41F4344975DA7D43CC677BF55 /* Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6EC3B9793844A4F398F59DF351B56966 /* Fuse.swift */; };
-		E3505E1087C2C75D26840A90BA552E25 /* SwiftHEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C179A816A3B0D98CC89C9DA6CFB80EF3 /* SwiftHEXColors.swift */; };
-		E52E557525E5909E51604BFC1618D877 /* HotKeyCenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 527A2BBBF616B8E9096CC02657E95DB4 /* HotKeyCenter.swift */; };
-		EBCD6D9DF188E509AFB98B2D15CC313C /* Sauce-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 22B08222B7E4F89B261B2BB1B129CF23 /* Sauce-dummy.m */; };
-		EBEC0C97C3845743F0AE7157A6A06219 /* SpecialKeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9AC7F07028F18C39E294D7BBF41CED47 /* SpecialKeyCode.swift */; };
-		F98DFA62CAA41ACE858F87B51F05B810 /* NSEventExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94E2495E6E932AA9FA1F6188CC814AAA /* NSEventExtension.swift */; };
-		FD9EA8AA8D3959577C324CE51105CC90 /* LoginServiceKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 4B153CC73B69C495F4EAFD99DEC5A8A6 /* LoginServiceKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		01CEA44AC8B900F7A59CC0E520789E79 /* TISInputSource+Property.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9F01EAC8F5B3A0F8C0BF8853AA0BA7A0 /* TISInputSource+Property.swift */; };
+		03EFD4A49E434CC6AF985DD34530F93B /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
+		07E2369EA4E356E74D2C3620235CBBFF /* KeyboardShortcuts-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = DF63F7E816074F6CFDB7FF51B472C51C /* KeyboardShortcuts-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		097C72D72C1B506C3044A3FFBFFC3A59 /* NSMenuItem++.swift in Sources */ = {isa = PBXBuildFile; fileRef = 75D2B702E3C8D357213238311BA0503B /* NSMenuItem++.swift */; };
+		0C826155B3CC4DD099ACEAAF19315E5D /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0199B8281E7C8BA707763B344F1116EB /* util.swift */; };
+		0E7FE80132117A04C8C8E21A6DE3BC28 /* Sauce-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = C0277A950E1261E493DA1C4AFA4C079F /* Sauce-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		10915DC92E26B9E81C3704E473A88D5A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
+		12BAF3E7ABAF13B6C7C660ADB10F4201 /* Pods-Maccy-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		17337C2002BAD629DE9755FC82AD2E8C /* Preferences-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F4D0022074392E9CBF5CA4933D54EAB4 /* Preferences-dummy.m */; };
+		1865C9A8554D1BE2503C087919A597EF /* CarbonKeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = BA9A35B51D2701C96265020A0E490A81 /* CarbonKeyboardShortcuts.swift */; };
+		187BD9D1BC38A05D4893ADEA4DD7EF37 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
+		1FF0BE99AC8039C49D57D337E71A0AD7 /* ToolbarItemStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F4BABEC25B808E2055C2CC44F833C82 /* ToolbarItemStyleViewController.swift */; };
+		2260434A050624EFE542F082C3C72564 /* SwiftHEXColors-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F3987A64FDA3C81AE4340603562C2BE1 /* SwiftHEXColors-dummy.m */; };
+		23D86BED094740817D411AE0B18C2B4F /* String+Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3BF49F0C700068FE8E002BB7A3CB1F43 /* String+Fuse.swift */; };
+		24A7B907DA45793D6BFDAFFB7DB0FC68 /* PreferencesStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6A3847FA74CD2A2185721CF581A9A04 /* PreferencesStyle.swift */; };
+		25B6106D2B93837725E199AD35696E47 /* Preferences-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = EC43A2328161FB4C62E63F65C30F997F /* Preferences-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		3024B207F703BA0B2E3E7E87942E1F10 /* KeyboardShortcuts-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = FD7A3BC06224B1F3D552461C037CB942 /* KeyboardShortcuts-dummy.m */; };
+		307A96822D156E443123A5124583512B /* PreferencesWindowController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56D9D2FD8A4F6D0BB7E183BE365BB17A /* PreferencesWindowController.swift */; };
+		3C267C83B70C25830C7EEC16A81E65C8 /* SegmentedControlStyleViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E3EFD6FCFEAE18334D2680938FA66BB /* SegmentedControlStyleViewController.swift */; };
+		3CA3176F7745DD932156CED1F72F44A0 /* KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F3724B2D7E015BB1A11CC8F57608F9A /* KeyboardShortcuts.swift */; };
+		47202A4C3F5BB466C818B4F26C4E7BE0 /* InputSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6C6C8E69DDC5A2BE461804F45F0B4706 /* InputSource.swift */; };
+		5694BF7EB997C802B20912A8AA5D5E83 /* Fuse-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = CD1CF979B5A3CDD8DD8B15348333349F /* Fuse-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		580B3A3F852D0ABB25EC8842E006C53C /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = E3BB86571A13A21620C4B6BE70A0644F /* Key.swift */; };
+		687040AB435CD2C69FD8E2E527B9D489 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
+		687078C6C97D243426F7E0FB4EAF7737 /* Name.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA71A643FA416E6E76139594A08A36E8 /* Name.swift */; };
+		690453358C9AC46227C60541F56F5CA5 /* Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33F5D1163D0CDFB07CBAA384828E3F3D /* Localization.swift */; };
+		6A8B33A023540A74C96465667B75E267 /* PreferencePane.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6ABA8D69036FD7B3987C4E0264CA191 /* PreferencePane.swift */; };
+		70C19C2E054017C6A73EDF717EE76CBE /* SwiftHEXColors-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = BAC1D435EABB01A827813A74213F3CF8 /* SwiftHEXColors-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		75C530321B7F736B7FBD3B4DA6A52A25 /* LoginServiceKit-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 326D67839F88F563B4526991ED3B5016 /* LoginServiceKit-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		763F09681D7C3F4EC3A2935BB2201CB9 /* FuseUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = CBB6D01B82FD13C569E80EAD181BCF7B /* FuseUtilities.swift */; };
+		781BD2EB706F271287A287BB49C07779 /* Key.swift in Sources */ = {isa = PBXBuildFile; fileRef = B348078046DDB1F954DFCE7EAC479522 /* Key.swift */; };
+		7B5A262C3BF909346D9CADB7820FFE75 /* util.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18B48C1418F77DD3798E83CCD385758C /* util.swift */; };
+		7F6BA11D1110174E0740B4087919EB58 /* Pods-Maccy-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */; };
+		82F00DB0ACC30009953650C6D4D90B50 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6E78FFA46E75278844C8E2D89493BE53 /* KeyboardLayout.swift */; };
+		8513B22C35CF9414E5FE5AA12F5E1EC0 /* ModifierTransformer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B757C6F43DB5AD92104B49A3F978609 /* ModifierTransformer.swift */; };
+		8B66824BD520B3BB94610920A95F7FB5 /* Fuse-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = D3144176214158D5CBB3E37420EE10B3 /* Fuse-dummy.m */; };
+		96AB3DEB08683A6D28FC4058F2767BDF /* LoginServiceKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0D32063F45C83F1D5BF5C6C3F675CD7D /* LoginServiceKit.swift */; };
+		A2C39440DD24C687D4FC9595A0EF65FD /* Fuse.swift in Sources */ = {isa = PBXBuildFile; fileRef = C543943B9E7C3A56E1CDA0BE9A33551D /* Fuse.swift */; };
+		AAECCBAF0183D6D824FC4CA4B11B1F5C /* Recorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 026FE2ED09B471879022D02F4D2E8299 /* Recorder.swift */; };
+		B0E6FDC74FFAB5642563E7472305ACCE /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3B0A27F7D816EF3C2A8A037C0AE9F6CE /* Carbon.framework */; };
+		B0FDE96232434638EFADF0205B0A3667 /* PreferencesTabViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 570F718358A59CC8A8AB8C2670EFE13E /* PreferencesTabViewController.swift */; };
+		B11BBD1A14F7D2B6FEE87AC820CD0ACA /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
+		B8556B03FB4CA71B20A3CF7D09745F0A /* UserInteractionPausableWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0F595B2E1DDEFB91B2535914B0AF147 /* UserInteractionPausableWindow.swift */; };
+		B88A81F95CD67B4B35A6DAB3FD9854E7 /* RecorderCocoa.swift in Sources */ = {isa = PBXBuildFile; fileRef = AC58183A115684FAC7E882245819B233 /* RecorderCocoa.swift */; };
+		C6552168E7328AA8A0981D19AE60A343 /* Pods-MaccyTests-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 8D39631FB04B4152E1F10899B5242E79 /* Pods-MaccyTests-dummy.m */; };
+		C6E805FDC6EC477AA776D7E03383B795 /* Sauce-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = E917627FBD867B49F18BB1BCDCF8CE8C /* Sauce-dummy.m */; };
+		D44EFEF75E748519E9F2ABCF5D1AD0E1 /* PreferencesStyleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B72E3936B884EB206F83D0521A51B7A /* PreferencesStyleController.swift */; };
+		D6BACA0628CC78A559F664D15FEEFAB7 /* SwiftHEXColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = C9DC70303EAB38258A0661D08DFFE20D /* SwiftHEXColors.swift */; };
+		D734B3640C594D4A12D75F9699AB29C0 /* Pods-MaccyTests-umbrella.h in Headers */ = {isa = PBXBuildFile; fileRef = 9EAA781EBF58462A49778917F670B39E /* Pods-MaccyTests-umbrella.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		E962828FAE808DBCEE60AED3DB602493 /* Sauce.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7891D7D92325B55CCB88EBBF2FDFE7C6 /* Sauce.swift */; };
+		EA008126BA5AB81CC87901375CC1717C /* SpecialKeyCode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40C1BC0C0FB785C4E27BEAE16C95BC71 /* SpecialKeyCode.swift */; };
+		EAA11791D1B680484A14B16B306498B5 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
+		EE9C4AB93C9F2AED8B4D79C23275A3B0 /* Shortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8A5670D878EE970586B293034E0A0216 /* Shortcut.swift */; };
+		F1C5526700C84132B27211E15405EE71 /* LoginServiceKit-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = 0F3FC6DB69292628D35297E1858C08A3 /* LoginServiceKit-dummy.m */; };
+		F3B4CF3A1C2AC8CFEE79D210DF3CD9ED /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
+		FDC3AAF1837A6EF072A4008C208E1059 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		185158734F36FEAC87B6FEB6DE77CEA4 /* PBXContainerItemProxy */ = {
+		0482030518E820A4D94D463BBC6393D6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 0F34737C713D39F0AFADD58B6EFC2CC9;
-			remoteInfo = "Pods-Maccy";
-		};
-		19F1EFDCDEB1945CD2B546C56F6E8B72 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7C965F087BD52D10B405DF57848EC900;
-			remoteInfo = Sauce;
-		};
-		259AAE41FD890C037F608D764EFC2C1F /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = FBCA5614C6DE80E95DB0A68DF224D729;
-			remoteInfo = SwiftHEXColors;
-		};
-		693A587FA0D5420BABE7E38116D2F0FE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 4363B3DEE0E244A6E95B497FB82E7385;
+			remoteGlobalIDString = EC362510521DB9CB07BEBC6EC7887988;
 			remoteInfo = LoginServiceKit;
 		};
-		7BAE00ABB794BFC94AFA466B154E60DD /* PBXContainerItemProxy */ = {
+		057C2D1A46753A702FF9C688A9E50F9A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 321DED4F241934C91121B3DBA1418D9F;
-			remoteInfo = Fuse;
-		};
-		87DB3461253E27D55804BDED8D671E6D /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 7C965F087BD52D10B405DF57848EC900;
+			remoteGlobalIDString = 86B0065C7440EB5993D7C70A96B945FC;
 			remoteInfo = Sauce;
 		};
-		C7362C4D23D8A8371572DD5AED08BEFE /* PBXContainerItemProxy */ = {
+		7AED953720DB935A9768CD9F6E46725B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 3E149398A6E587455F01510D83B29C52;
-			remoteInfo = Magnet;
+			remoteGlobalIDString = D7CE446BF62E2BBF8CEB123F3B63B02F;
+			remoteInfo = SwiftHEXColors;
 		};
-		D4E6FAD87FD5904A2CC7643CC4AD9EA0 /* PBXContainerItemProxy */ = {
+		8CFA1F68B12869D4A6D42B558721E56F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = ED77B4B88587C894E85C361023D67C53;
-			remoteInfo = Sparkle;
+			remoteGlobalIDString = F747D8D0497E3BBEFF56742E347C4F43;
+			remoteInfo = Preferences;
+		};
+		BB449C9FD5F30939FDBC37144B826E4C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 09D9386013E0AF30C61FA50973499B09;
+			remoteInfo = "Pods-Maccy";
+		};
+		CED4A3B147B2C4A105A272CBF461B464 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 5896A5F9FD5AA57C763EA4ACD5CF7522;
+			remoteInfo = KeyboardShortcuts;
+		};
+		F8B45B6189B8143ABB52D08FA72D7094 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = B8CD3B3EDB42EEABB2D487F8706AF6BB;
+			remoteInfo = Fuse;
 		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		014E3C922688036C8EE38B0533AB1BA6 /* Pods-MaccyTests-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MaccyTests-Info.plist"; sourceTree = "<group>"; };
-		01C2BDEF6DF4D69C726879425D9C9690 /* LoginServiceKit-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "LoginServiceKit-Info.plist"; sourceTree = "<group>"; };
-		0A28C471EAC73969FDC8D7370322B9BE /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = DEVELOPER_DIR; };
-		0FAACA4CDCA96BB225E96FC58B6C156A /* Fuse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Fuse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		116A4B9D0E47714B4FA172DE83C09ACB /* SwiftHEXColors-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-prefix.pch"; sourceTree = "<group>"; };
-		11E7FB9715D511E194E0947E947330F0 /* Pods-Maccy-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Maccy-Info.plist"; sourceTree = "<group>"; };
-		121E1C431FE8F10D99672F73CB46B9A9 /* SUCodeSigningVerifier.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUCodeSigningVerifier.h; path = Sparkle.framework/Versions/A/Headers/SUCodeSigningVerifier.h; sourceTree = "<group>"; };
-		137939F6D87B7D1492E1F18B0E6A963D /* SUUpdater.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUUpdater.h; path = Sparkle.framework/Versions/A/Headers/SUUpdater.h; sourceTree = "<group>"; };
-		148FEA8D69B777E15DF160922F196976 /* Pods-Maccy.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Maccy.modulemap"; sourceTree = "<group>"; };
-		15C7B65C9E868CD16BBEF6C5BB4E2E18 /* Magnet-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Magnet-dummy.m"; sourceTree = "<group>"; };
-		174BD6C71D96637E93BB13F56C2FC095 /* SwiftHEXColors-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftHEXColors-dummy.m"; sourceTree = "<group>"; };
-		1ACBE0A6DAAC82B3978374F6A1899469 /* Magnet-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Magnet-umbrella.h"; sourceTree = "<group>"; };
-		1CBF17A9391A3757220FE8C9EBB58656 /* Fuse.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Fuse.modulemap; sourceTree = "<group>"; };
-		1D82B5552B639C70C3A00622A4D1C5E8 /* Sauce.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Sauce.release.xcconfig; sourceTree = "<group>"; };
-		22A0ECA536D5ED21E916A10B1712DFED /* LoginServiceKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-prefix.pch"; sourceTree = "<group>"; };
-		22B08222B7E4F89B261B2BB1B129CF23 /* Sauce-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Sauce-dummy.m"; sourceTree = "<group>"; };
-		239D9B0CC434D9DE53B4B5B505E3C2FD /* Pods-MaccyTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MaccyTests-dummy.m"; sourceTree = "<group>"; };
-		26F0E2D299F6FF98EE91BEE3FA4B4C61 /* Sauce.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Sauce.debug.xcconfig; sourceTree = "<group>"; };
-		2C270DE4BB002D6FAA5835F12DA3C75D /* Pods-Maccy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.release.xcconfig"; sourceTree = "<group>"; };
-		2E43C4801E3959AF986137D7857E4780 /* ModifierTransformer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ModifierTransformer.swift; path = Lib/Sauce/ModifierTransformer.swift; sourceTree = "<group>"; };
-		2FC9DBE86BB793F1284602A78C5EB8CA /* HotKey.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HotKey.swift; path = Lib/Magnet/HotKey.swift; sourceTree = "<group>"; };
-		335FD83471F4F1B24E13CE854F03A99E /* SUAppcast.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUAppcast.h; path = Sparkle.framework/Versions/A/Headers/SUAppcast.h; sourceTree = "<group>"; };
-		35A80F5B310488D858E0A6FC13F60FCE /* Pods_Maccy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Maccy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		364449AD618FFE24D604840F6B90D451 /* Sauce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sauce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		387BF66BB45C4CA8B488DA50F2183355 /* IntExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = IntExtension.swift; path = Lib/Magnet/Extensions/IntExtension.swift; sourceTree = "<group>"; };
-		3D38AD537E8D680B1FD47386ED8CF337 /* SUErrors.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUErrors.h; path = Sparkle.framework/Versions/A/Headers/SUErrors.h; sourceTree = "<group>"; };
-		3FCBA667DE20EDFACACFB2D974378C56 /* SUAppcastItem.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUAppcastItem.h; path = Sparkle.framework/Versions/A/Headers/SUAppcastItem.h; sourceTree = "<group>"; };
-		40C08B6B04C51B0C146C8DCE78271DA5 /* Sauce.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Sauce.modulemap; sourceTree = "<group>"; };
-		421DFB4568FA666D45A13F5D10B2BCB6 /* Pods-MaccyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.debug.xcconfig"; sourceTree = "<group>"; };
-		421FBD01941F7D166C5F1DCAC5C43F1E /* LoginServiceKit.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LoginServiceKit.debug.xcconfig; sourceTree = "<group>"; };
-		42BA9DE8B3FE14860ED9D16BCAFD3445 /* SwiftHEXColors.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftHEXColors.release.xcconfig; sourceTree = "<group>"; };
-		449EF254B15E9C37A0C130810E23042F /* Fuse-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Fuse-dummy.m"; sourceTree = "<group>"; };
-		464C812A2E1CEB7DA9221412F98D9737 /* TISInputSource+Property.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "TISInputSource+Property.swift"; path = "Lib/Sauce/TISInputSource+Property.swift"; sourceTree = "<group>"; };
-		467C960D294718FD3FD72460923149AF /* SwiftHEXColors.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftHEXColors.debug.xcconfig; sourceTree = "<group>"; };
-		4B153CC73B69C495F4EAFD99DEC5A8A6 /* LoginServiceKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-umbrella.h"; sourceTree = "<group>"; };
-		4DA8AB2E59B9062C6DC70298B82834A7 /* Pods-MaccyTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MaccyTests-acknowledgements.markdown"; sourceTree = "<group>"; };
-		512E0D34B38C1EA9EA325601955DC612 /* InputSource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InputSource.swift; path = Lib/Sauce/InputSource.swift; sourceTree = "<group>"; };
-		527A2BBBF616B8E9096CC02657E95DB4 /* HotKeyCenter.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = HotKeyCenter.swift; path = Lib/Magnet/HotKeyCenter.swift; sourceTree = "<group>"; };
-		5FF4AEA721AC7136E23BC7775AC1AEFC /* CollectionExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CollectionExtension.swift; path = Lib/Magnet/Extensions/CollectionExtension.swift; sourceTree = "<group>"; };
-		672FFF815BD6CD4B4B8BA81041E944F5 /* Pods_MaccyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MaccyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		6802AD79E17CBC1AFE1206B80EB24484 /* Magnet.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Magnet.modulemap; sourceTree = "<group>"; };
-		69563CE41ADD3BF7A2DAB15AFBAF4A76 /* Sparkle.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = Sparkle.h; path = Sparkle.framework/Versions/A/Headers/Sparkle.h; sourceTree = "<group>"; };
-		6AE5ECDB86E678F1C77AF3718B24C2E3 /* LoginServiceKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LoginServiceKit.swift; path = Lib/LoginServiceKit/LoginServiceKit.swift; sourceTree = "<group>"; };
-		6EC3B9793844A4F398F59DF351B56966 /* Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Fuse.swift; path = Fuse/Classes/Fuse.swift; sourceTree = "<group>"; };
-		715A4E0F18C436CFFDF97CF93F05DB73 /* SPUDownloaderDeprecated.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderDeprecated.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderDeprecated.h; sourceTree = "<group>"; };
-		7196E1601F9B90B4C322A4A0B5E4760A /* Magnet.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Magnet.release.xcconfig; sourceTree = "<group>"; };
-		7A3F79CBB40C652C8282460B0BE1D6CE /* FuseUtilities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FuseUtilities.swift; path = Fuse/Classes/FuseUtilities.swift; sourceTree = "<group>"; };
-		8049E28997C9CFCBE5D8BF08087AC786 /* Fuse-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Fuse-Info.plist"; sourceTree = "<group>"; };
-		82009B4823D2E7C556FC6DC31B766C27 /* Pods-Maccy-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Maccy-acknowledgements.plist"; sourceTree = "<group>"; };
-		820475DEE643F008B5FBA1874C6447A9 /* LoginServiceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = LoginServiceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		8BD43CB750CBDA7D47F06B5EBCF00D90 /* Pods-Maccy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.debug.xcconfig"; sourceTree = "<group>"; };
-		94E2495E6E932AA9FA1F6188CC814AAA /* NSEventExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = NSEventExtension.swift; path = Lib/Magnet/Extensions/NSEventExtension.swift; sourceTree = "<group>"; };
-		9AC7F07028F18C39E294D7BBF41CED47 /* SpecialKeyCode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpecialKeyCode.swift; path = Lib/Sauce/SpecialKeyCode.swift; sourceTree = "<group>"; };
-		9D940727FF8FB9C785EB98E56350EF41 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; indentWidth = 2; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; tabWidth = 2; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
-		9F694909DB7EB33DD9AD266B280360DF /* Pods-MaccyTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MaccyTests-acknowledgements.plist"; sourceTree = "<group>"; };
-		A168313D632389EC16B99BAD48B1AC42 /* Pods-Maccy-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Maccy-dummy.m"; sourceTree = "<group>"; };
-		A21B7599ECCC12903257B8A823A2696D /* Sauce.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Sauce.swift; path = Lib/Sauce/Sauce.swift; sourceTree = "<group>"; };
-		A56C6CE411F7A94384A9C00678759BE5 /* SUExport.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUExport.h; path = Sparkle.framework/Versions/A/Headers/SUExport.h; sourceTree = "<group>"; };
-		A80D14CF236996F66548AF7A85F86FBF /* SPUDownloadData.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloadData.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloadData.h; sourceTree = "<group>"; };
-		A8C3C000836794BAEF5D38468A389F6F /* SPUDownloaderDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderDelegate.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderDelegate.h; sourceTree = "<group>"; };
-		A9941AABD3E474C0B5B3C27A12B4E8E9 /* Fuse-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-umbrella.h"; sourceTree = "<group>"; };
-		AA08C0167432E5413968EDAA26BC6870 /* SwiftHEXColors-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "SwiftHEXColors-Info.plist"; sourceTree = "<group>"; };
-		ABB308DD37B5F5B54160186368D0FE0C /* Sauce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Sauce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		AED733300FA92CA67728D23D6B8F742F /* SUUpdaterDelegate.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUUpdaterDelegate.h; path = Sparkle.framework/Versions/A/Headers/SUUpdaterDelegate.h; sourceTree = "<group>"; };
-		AFA8E220B218AF10431F18E211B8792A /* KeyExtension.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyExtension.swift; path = Lib/Magnet/Extensions/KeyExtension.swift; sourceTree = "<group>"; };
-		B1EE928C7785F775DAA291294C8D872B /* Fuse.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fuse.debug.xcconfig; sourceTree = "<group>"; };
-		B25F5ECBA0A65FF166588D2E6FC94094 /* SPUURLRequest.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUURLRequest.h; path = Sparkle.framework/Versions/A/Headers/SPUURLRequest.h; sourceTree = "<group>"; };
-		B4C9769020FCAB595D9957959491D22D /* SwiftHEXColors-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-umbrella.h"; sourceTree = "<group>"; };
-		B4D83D5914B165AD8FAF049268D45A89 /* LoginServiceKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = LoginServiceKit.modulemap; sourceTree = "<group>"; };
-		B553ADB144AD6C33DA61A72AB809CFE5 /* Pods-Maccy-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Maccy-acknowledgements.markdown"; sourceTree = "<group>"; };
-		B5ECF51A44F9C1CE05CBBF22BC6817E4 /* Sauce-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Sauce-umbrella.h"; sourceTree = "<group>"; };
-		B7364BC0A6F625E0BAE71BD943EEFD77 /* Fuse-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-prefix.pch"; sourceTree = "<group>"; };
-		B7BEE0CD1F58AEA589D1551F2281424F /* SwiftHEXColors.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftHEXColors.modulemap; sourceTree = "<group>"; };
-		B8CE76A89D03EE8DA40101F77D740323 /* Pods-MaccyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.release.xcconfig"; sourceTree = "<group>"; };
-		B96EF9A336B71D6C08165989EDF75EF0 /* Sauce-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Sauce-Info.plist"; sourceTree = "<group>"; };
-		B9C1E28095FE591422F3B47AE50DD07B /* SPUDownloader.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloader.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloader.h; sourceTree = "<group>"; };
-		BC8A1FADB581A58F2E7A43E93DE58BCD /* SUStandardVersionComparator.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUStandardVersionComparator.h; path = Sparkle.framework/Versions/A/Headers/SUStandardVersionComparator.h; sourceTree = "<group>"; };
-		C0C50F34AAB85F2D113FD01EE45D4D5F /* Magnet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Magnet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		C0EE36A620AFC3D981BAEE10AAE36609 /* Magnet-Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Magnet-Info.plist"; sourceTree = "<group>"; };
-		C179A816A3B0D98CC89C9DA6CFB80EF3 /* SwiftHEXColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftHEXColors.swift; path = Sources/SwiftHEXColors/SwiftHEXColors.swift; sourceTree = "<group>"; };
-		C1B2021710F8266E3DE605A86A5406BF /* Pods-MaccyTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MaccyTests-umbrella.h"; sourceTree = "<group>"; };
-		C717C758B90C771EF2C0709A3092E5E0 /* String+Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Fuse.swift"; path = "Fuse/Classes/String+Fuse.swift"; sourceTree = "<group>"; };
-		C7328A194580563F19DE13C03CB0D4FE /* Sparkle.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Sparkle.release.xcconfig; sourceTree = "<group>"; };
-		C99D2EC73C545CDD76B11847C79DF130 /* KeyboardLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardLayout.swift; path = Lib/Sauce/KeyboardLayout.swift; sourceTree = "<group>"; };
-		CC1DD606234BF35FC8B338539E57A8A2 /* Pods-Maccy-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Maccy-frameworks.sh"; sourceTree = "<group>"; };
-		D409B30497E1C6720BCD385C0967FEE4 /* SPUDownloaderProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderProtocol.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderProtocol.h; sourceTree = "<group>"; };
-		D45AB77E57FDFA0DD25FB7471C149C74 /* Pods-MaccyTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MaccyTests.modulemap"; sourceTree = "<group>"; };
-		D46517E5AD75292E8F1AEEDD664912F6 /* SUVersionComparisonProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUVersionComparisonProtocol.h; path = Sparkle.framework/Versions/A/Headers/SUVersionComparisonProtocol.h; sourceTree = "<group>"; };
-		D57EA7B694ADBBB0E34BA2156635D5E1 /* SPUDownloaderSession.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SPUDownloaderSession.h; path = Sparkle.framework/Versions/A/Headers/SPUDownloaderSession.h; sourceTree = "<group>"; };
-		DDD4B264E8A46F2010323D9B576EF727 /* Sauce-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Sauce-prefix.pch"; sourceTree = "<group>"; };
-		E1FED38D30822AE4CCBB3B140D677579 /* KeyCombo.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyCombo.swift; path = Lib/Magnet/KeyCombo.swift; sourceTree = "<group>"; };
-		E5377FA9371124AC4536C351562C8805 /* Magnet-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Magnet-prefix.pch"; sourceTree = "<group>"; };
-		E6C49220BBE7EF9DE672842F1078C192 /* LoginServiceKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "LoginServiceKit-dummy.m"; sourceTree = "<group>"; };
-		E9DD96BE12F9734175587C17A5625E85 /* LoginServiceKit.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LoginServiceKit.release.xcconfig; sourceTree = "<group>"; };
-		EB2FF67FBF2ACEAADCAD87FAB53BFB6C /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.14.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
-		EE613CBD9DE8F60693A56C5DAC15844B /* Pods-Maccy-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Maccy-umbrella.h"; sourceTree = "<group>"; };
-		F313D38B9645F3BB0C07BCD1306E9E1F /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Lib/Sauce/Key.swift; sourceTree = "<group>"; };
-		F4526F4DC8A2E9D3C8F4DFFD25AAAA61 /* Sparkle.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Sparkle.debug.xcconfig; sourceTree = "<group>"; };
-		F4858F056C7FC2E42F96962A9461F36C /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Sparkle.framework; sourceTree = "<group>"; };
-		F4CF655B0E5C2A830A99BC4B66FB39CF /* SUVersionDisplayProtocol.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; name = SUVersionDisplayProtocol.h; path = Sparkle.framework/Versions/A/Headers/SUVersionDisplayProtocol.h; sourceTree = "<group>"; };
-		F902B2E372005A249A68B9F2BFBF1489 /* SwiftHEXColors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = SwiftHEXColors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		F9AEE40683E8092B78A52EA92F838B9F /* Fuse.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fuse.release.xcconfig; sourceTree = "<group>"; };
-		FCF2FC8F07B3B12B5153A26D690A67E9 /* Magnet.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Magnet.debug.xcconfig; sourceTree = "<group>"; };
+		0199B8281E7C8BA707763B344F1116EB /* util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = util.swift; path = Sources/Preferences/util.swift; sourceTree = "<group>"; };
+		026FE2ED09B471879022D02F4D2E8299 /* Recorder.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Recorder.swift; path = Sources/KeyboardShortcuts/Recorder.swift; sourceTree = "<group>"; };
+		07055F35E68A5B9A507F418B60F26DD2 /* Pods-Maccy.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-Maccy.modulemap"; sourceTree = "<group>"; };
+		0880D2ACAECF4CA0E983B558A4AC4A3C /* Pods_Maccy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_Maccy.framework; path = "Pods-Maccy.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		0BFB3D52C5622C4B454CBED8C490E1ED /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		0D32063F45C83F1D5BF5C6C3F675CD7D /* LoginServiceKit.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = LoginServiceKit.swift; path = Lib/LoginServiceKit/LoginServiceKit.swift; sourceTree = "<group>"; };
+		0F3FC6DB69292628D35297E1858C08A3 /* LoginServiceKit-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "LoginServiceKit-dummy.m"; sourceTree = "<group>"; };
+		0F476B296688E8A2611661B3A916D2EE /* Pods-MaccyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.release.xcconfig"; sourceTree = "<group>"; };
+		107272546C39F8DEA216F43C65E75481 /* KeyboardShortcuts.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = KeyboardShortcuts.modulemap; sourceTree = "<group>"; };
+		1571A769B9AABB30B0C55BE1A64F0C13 /* Pods-MaccyTests-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-MaccyTests-acknowledgements.plist"; sourceTree = "<group>"; };
+		158687138ADACBA036E897622CC2799F /* Pods-MaccyTests-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-MaccyTests-acknowledgements.markdown"; sourceTree = "<group>"; };
+		15E33B90C5A5F70592C815F8FA2A2244 /* Fuse.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Fuse.modulemap; sourceTree = "<group>"; };
+		17B20BC5F977582B1B82C7B0352AC9B9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		18B48C1418F77DD3798E83CCD385758C /* util.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = util.swift; path = Sources/KeyboardShortcuts/util.swift; sourceTree = "<group>"; };
+		1B72E3936B884EB206F83D0521A51B7A /* PreferencesStyleController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesStyleController.swift; path = Sources/Preferences/PreferencesStyleController.swift; sourceTree = "<group>"; };
+		1C3402305A26648114BA10C377C14295 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		20A49FDE62881F505AE64E73C378F4BA /* Pods-Maccy-acknowledgements.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = "Pods-Maccy-acknowledgements.plist"; sourceTree = "<group>"; };
+		220A7ACF0319E62B0C793E6787B77696 /* Preferences-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Preferences-prefix.pch"; sourceTree = "<group>"; };
+		2B757C6F43DB5AD92104B49A3F978609 /* ModifierTransformer.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ModifierTransformer.swift; path = Lib/Sauce/ModifierTransformer.swift; sourceTree = "<group>"; };
+		2E3EFD6FCFEAE18334D2680938FA66BB /* SegmentedControlStyleViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SegmentedControlStyleViewController.swift; path = Sources/Preferences/SegmentedControlStyleViewController.swift; sourceTree = "<group>"; };
+		2F095A421CFC62EC828BCF427E7DB3B8 /* LoginServiceKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = LoginServiceKit.framework; path = LoginServiceKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		326D67839F88F563B4526991ED3B5016 /* LoginServiceKit-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-umbrella.h"; sourceTree = "<group>"; };
+		33F5D1163D0CDFB07CBAA384828E3F3D /* Localization.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Localization.swift; path = Sources/Preferences/Localization.swift; sourceTree = "<group>"; };
+		3A350622846451311F2395ABC614A1EC /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		3B0A27F7D816EF3C2A8A037C0AE9F6CE /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Carbon.framework; sourceTree = DEVELOPER_DIR; };
+		3BF49F0C700068FE8E002BB7A3CB1F43 /* String+Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "String+Fuse.swift"; path = "Fuse/Classes/String+Fuse.swift"; sourceTree = "<group>"; };
+		3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.13.sdk/System/Library/Frameworks/Cocoa.framework; sourceTree = DEVELOPER_DIR; };
+		40C1BC0C0FB785C4E27BEAE16C95BC71 /* SpecialKeyCode.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SpecialKeyCode.swift; path = Lib/Sauce/SpecialKeyCode.swift; sourceTree = "<group>"; };
+		4208BB1AB94E7A334BE9B06D8EB05D4F /* Preferences.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Preferences.xcconfig; sourceTree = "<group>"; };
+		4EBB72ED779D62A8D49EE259C5A30357 /* Pods_MaccyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Pods_MaccyTests.framework; path = "Pods-MaccyTests.framework"; sourceTree = BUILT_PRODUCTS_DIR; };
+		51FCA5D10026D82BDB3ABC8BF6E7BDE5 /* Sauce.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Sauce.modulemap; sourceTree = "<group>"; };
+		56D9D2FD8A4F6D0BB7E183BE365BB17A /* PreferencesWindowController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesWindowController.swift; path = Sources/Preferences/PreferencesWindowController.swift; sourceTree = "<group>"; };
+		570F718358A59CC8A8AB8C2670EFE13E /* PreferencesTabViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesTabViewController.swift; path = Sources/Preferences/PreferencesTabViewController.swift; sourceTree = "<group>"; };
+		57F184A08D5876D505458478E4BA72E8 /* SwiftHEXColors-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-prefix.pch"; sourceTree = "<group>"; };
+		59B6F79B0890AA54C08D00FA203EB975 /* Pods-MaccyTests-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MaccyTests-resources.sh"; sourceTree = "<group>"; };
+		5BDDE654C4236712CBEC286D57579FFD /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		5F4D0D1B45E6285D4B9ABA5259DE879A /* Fuse-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-prefix.pch"; sourceTree = "<group>"; };
+		625F3788691A8D38F5095EC7016440B3 /* Pods-Maccy-resources.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Maccy-resources.sh"; sourceTree = "<group>"; };
+		65E5832A125E94E9167EA00856FA2157 /* Pods-Maccy-acknowledgements.markdown */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text; path = "Pods-Maccy-acknowledgements.markdown"; sourceTree = "<group>"; };
+		692B8D8A445CA9C3E36D42845183C6A2 /* LoginServiceKit.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = LoginServiceKit.xcconfig; sourceTree = "<group>"; };
+		6C6C8E69DDC5A2BE461804F45F0B4706 /* InputSource.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = InputSource.swift; path = Lib/Sauce/InputSource.swift; sourceTree = "<group>"; };
+		6E78FFA46E75278844C8E2D89493BE53 /* KeyboardLayout.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardLayout.swift; path = Lib/Sauce/KeyboardLayout.swift; sourceTree = "<group>"; };
+		71289A3B191F2066B0117390ECF69CAD /* Pods-Maccy-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-Maccy-frameworks.sh"; sourceTree = "<group>"; };
+		75D2B702E3C8D357213238311BA0503B /* NSMenuItem++.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "NSMenuItem++.swift"; path = "Sources/KeyboardShortcuts/NSMenuItem++.swift"; sourceTree = "<group>"; };
+		7891D7D92325B55CCB88EBBF2FDFE7C6 /* Sauce.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Sauce.swift; path = Lib/Sauce/Sauce.swift; sourceTree = "<group>"; };
+		7D289DA5B10DD46D3E60ECD480C85DF3 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		7EE89300126F633ACA5000A02F79FE81 /* Pods-MaccyTests-frameworks.sh */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.script.sh; path = "Pods-MaccyTests-frameworks.sh"; sourceTree = "<group>"; };
+		7F3724B2D7E015BB1A11CC8F57608F9A /* KeyboardShortcuts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = KeyboardShortcuts.swift; path = Sources/KeyboardShortcuts/KeyboardShortcuts.swift; sourceTree = "<group>"; };
+		7F4BABEC25B808E2055C2CC44F833C82 /* ToolbarItemStyleViewController.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = ToolbarItemStyleViewController.swift; path = Sources/Preferences/ToolbarItemStyleViewController.swift; sourceTree = "<group>"; };
+		816A486C9685FABD159B44C33ED0EF6C /* Pods-MaccyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-MaccyTests.debug.xcconfig"; sourceTree = "<group>"; };
+		842F2E2BDD1488EBA79F5A8A4D4CA617 /* Pods-Maccy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.release.xcconfig"; sourceTree = "<group>"; };
+		8A5670D878EE970586B293034E0A0216 /* Shortcut.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Shortcut.swift; path = Sources/KeyboardShortcuts/Shortcut.swift; sourceTree = "<group>"; };
+		8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-Maccy-umbrella.h"; sourceTree = "<group>"; };
+		8D39631FB04B4152E1F10899B5242E79 /* Pods-MaccyTests-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-MaccyTests-dummy.m"; sourceTree = "<group>"; };
+		8ED4ECFF084BF18FEEC3E2ABF43E9881 /* Fuse.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Fuse.xcconfig; sourceTree = "<group>"; };
+		903B7477DBD96FDA71ACE5EEB4A00BB4 /* LoginServiceKit.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = LoginServiceKit.modulemap; sourceTree = "<group>"; };
+		93A47DC4C0928E5819EDACD08AF11C88 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */ = {isa = PBXFileReference; explicitFileType = text.script.ruby; includeInIndex = 1; lastKnownFileType = text; name = Podfile; path = ../Podfile; sourceTree = SOURCE_ROOT; xcLanguageSpecificationIdentifier = xcode.lang.ruby; };
+		985B570797996BE3B6A00C9CDBCBB841 /* SwiftHEXColors.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = SwiftHEXColors.xcconfig; sourceTree = "<group>"; };
+		9EAA781EBF58462A49778917F670B39E /* Pods-MaccyTests-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Pods-MaccyTests-umbrella.h"; sourceTree = "<group>"; };
+		9F01EAC8F5B3A0F8C0BF8853AA0BA7A0 /* TISInputSource+Property.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = "TISInputSource+Property.swift"; path = "Lib/Sauce/TISInputSource+Property.swift"; sourceTree = "<group>"; };
+		A0F595B2E1DDEFB91B2535914B0AF147 /* UserInteractionPausableWindow.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = UserInteractionPausableWindow.swift; path = Sources/Preferences/UserInteractionPausableWindow.swift; sourceTree = "<group>"; };
+		A70FC6B2DCC7D84D23DF023C6014274E /* Pods-MaccyTests.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = "Pods-MaccyTests.modulemap"; sourceTree = "<group>"; };
+		A89A100D698E52318D354C4F60685583 /* Sauce.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = Sauce.xcconfig; sourceTree = "<group>"; };
+		A9DA676D395348904324C3A2DFD14A10 /* Preferences.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Preferences.framework; path = Preferences.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		AAF13802EC904AD92511679EB552F5AA /* Preferences.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = Preferences.modulemap; sourceTree = "<group>"; };
+		ABF8BF69F7B78A0F97AF7E0F82A0D273 /* KeyboardShortcuts-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeyboardShortcuts-prefix.pch"; sourceTree = "<group>"; };
+		AC58183A115684FAC7E882245819B233 /* RecorderCocoa.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = RecorderCocoa.swift; path = Sources/KeyboardShortcuts/RecorderCocoa.swift; sourceTree = "<group>"; };
+		AE102DBF91D30036F4DB3F79AE20C0E0 /* Sauce-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Sauce-prefix.pch"; sourceTree = "<group>"; };
+		B26E704D2668FDD4A7EA4F0F48787FBA /* Sauce.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Sauce.framework; path = Sauce.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		B348078046DDB1F954DFCE7EAC479522 /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Lib/Sauce/Key.swift; sourceTree = "<group>"; };
+		B6A3847FA74CD2A2185721CF581A9A04 /* PreferencesStyle.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencesStyle.swift; path = Sources/Preferences/PreferencesStyle.swift; sourceTree = "<group>"; };
+		B6ABA8D69036FD7B3987C4E0264CA191 /* PreferencePane.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = PreferencePane.swift; path = Sources/Preferences/PreferencePane.swift; sourceTree = "<group>"; };
+		BA9A35B51D2701C96265020A0E490A81 /* CarbonKeyboardShortcuts.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = CarbonKeyboardShortcuts.swift; path = Sources/KeyboardShortcuts/CarbonKeyboardShortcuts.swift; sourceTree = "<group>"; };
+		BAC1D435EABB01A827813A74213F3CF8 /* SwiftHEXColors-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "SwiftHEXColors-umbrella.h"; sourceTree = "<group>"; };
+		C0277A950E1261E493DA1C4AFA4C079F /* Sauce-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Sauce-umbrella.h"; sourceTree = "<group>"; };
+		C40F288A17ACDF1A165EF9764509522C /* SwiftHEXColors.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = SwiftHEXColors.framework; path = SwiftHEXColors.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C44AE39C229200AD6F3457637360FADF /* Fuse.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = Fuse.framework; path = Fuse.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		C49C3A565ECCD493527114D319D62FEB /* SwiftHEXColors.modulemap */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.module; path = SwiftHEXColors.modulemap; sourceTree = "<group>"; };
+		C543943B9E7C3A56E1CDA0BE9A33551D /* Fuse.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Fuse.swift; path = Fuse/Classes/Fuse.swift; sourceTree = "<group>"; };
+		C81CC8267FE4E5F1759651B9A5E218FA /* Pods-Maccy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = "Pods-Maccy.debug.xcconfig"; sourceTree = "<group>"; };
+		C9DC70303EAB38258A0661D08DFFE20D /* SwiftHEXColors.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = SwiftHEXColors.swift; path = Sources/SwiftHEXColors/SwiftHEXColors.swift; sourceTree = "<group>"; };
+		CA71A643FA416E6E76139594A08A36E8 /* Name.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Name.swift; path = Sources/KeyboardShortcuts/Name.swift; sourceTree = "<group>"; };
+		CBB6D01B82FD13C569E80EAD181BCF7B /* FuseUtilities.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = FuseUtilities.swift; path = Fuse/Classes/FuseUtilities.swift; sourceTree = "<group>"; };
+		CD1CF979B5A3CDD8DD8B15348333349F /* Fuse-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Fuse-umbrella.h"; sourceTree = "<group>"; };
+		D3144176214158D5CBB3E37420EE10B3 /* Fuse-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Fuse-dummy.m"; sourceTree = "<group>"; };
+		D9D5AC1A5773C9CCDB83E70FB7DF94E9 /* Info.plist */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DF63F7E816074F6CFDB7FF51B472C51C /* KeyboardShortcuts-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "KeyboardShortcuts-umbrella.h"; sourceTree = "<group>"; };
+		E3BB86571A13A21620C4B6BE70A0644F /* Key.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; name = Key.swift; path = Sources/KeyboardShortcuts/Key.swift; sourceTree = "<group>"; };
+		E3DC06FF63A7AC2A49A19FBAC47F6510 /* LoginServiceKit-prefix.pch */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "LoginServiceKit-prefix.pch"; sourceTree = "<group>"; };
+		E917627FBD867B49F18BB1BCDCF8CE8C /* Sauce-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Sauce-dummy.m"; sourceTree = "<group>"; };
+		EC43A2328161FB4C62E63F65C30F997F /* Preferences-umbrella.h */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.h; path = "Preferences-umbrella.h"; sourceTree = "<group>"; };
+		EF219502814D526980B668F630E5AA18 /* KeyboardShortcuts.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; path = KeyboardShortcuts.xcconfig; sourceTree = "<group>"; };
+		F3987A64FDA3C81AE4340603562C2BE1 /* SwiftHEXColors-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "SwiftHEXColors-dummy.m"; sourceTree = "<group>"; };
+		F4D0022074392E9CBF5CA4933D54EAB4 /* Preferences-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Preferences-dummy.m"; sourceTree = "<group>"; };
+		F8803AFEF9279F4518DB2D40C046E298 /* KeyboardShortcuts.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; name = KeyboardShortcuts.framework; path = KeyboardShortcuts.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "Pods-Maccy-dummy.m"; sourceTree = "<group>"; };
+		FD7A3BC06224B1F3D552461C037CB942 /* KeyboardShortcuts-dummy.m */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.c.objc; path = "KeyboardShortcuts-dummy.m"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		13F1AE57ED286B0037A1032850237228 /* Frameworks */ = {
+		2A64BBFD9FE466EFDBBFDB843DC1F918 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				90A9C7313FD01F26A582C6941F43F4F9 /* Cocoa.framework in Frameworks */,
+				F3B4CF3A1C2AC8CFEE79D210DF3CD9ED /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		20090234F86D87FFF2851C4BD13B8FCA /* Frameworks */ = {
+		44258EC9AB98843AFD25287696B3A5BD /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B44480FC77BC7E3A0618AF36A0A1C1C6 /* Cocoa.framework in Frameworks */,
+				687040AB435CD2C69FD8E2E527B9D489 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2F99CD7605834220247525AD26D37E82 /* Frameworks */ = {
+		5011ED0013D2A47D28B0DAC856A0A456 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDD1465C3C82DFA91FA75B6769ECD010 /* Carbon.framework in Frameworks */,
-				92AB1B49BFD8782EA9193CB51A5B8D50 /* Cocoa.framework in Frameworks */,
+				EAA11791D1B680484A14B16B306498B5 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		3CB65A48D8F6087DBE6EE068559897D9 /* Frameworks */ = {
+		626C5897990204B4F2104CFE29E89CDE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9824BFBFD96E1D47E6D3F787AE79F9A6 /* Cocoa.framework in Frameworks */,
+				B11BBD1A14F7D2B6FEE87AC820CD0ACA /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		7B98135C2F3EF59B10E536391AE413B3 /* Frameworks */ = {
+		98F170EC91AEEC74C0860B68656A202F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DDA8F87F02E4E1D58A6CA4B85F4B5906 /* Cocoa.framework in Frameworks */,
+				10915DC92E26B9E81C3704E473A88D5A /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B932ABD739498F0C5FEAB48907E12FC8 /* Frameworks */ = {
+		9E9C9EB857F7F431EA462D21580B15BC /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				C78AA33632923349390ECFBE605ED8FC /* Cocoa.framework in Frameworks */,
+				B0E6FDC74FFAB5642563E7472305ACCE /* Carbon.framework in Frameworks */,
+				FDC3AAF1837A6EF072A4008C208E1059 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		F0C22BB4D4B583FEFC55813FDB49CD1B /* Frameworks */ = {
+		C63671D233B4806F99D01E8AC4CF5467 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B66E04D10575F9447C1DC8B6C9347163 /* Carbon.framework in Frameworks */,
-				B7E634219A96EF91A87ABAF0193BEB14 /* Cocoa.framework in Frameworks */,
-				8C7D2A336907EB9DE19ABCA8752C6CC6 /* Sauce.framework in Frameworks */,
+				03EFD4A49E434CC6AF985DD34530F93B /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		E3DABA0244EB72B53EE7F43B52DDF034 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				187BD9D1BC38A05D4893ADEA4DD7EF37 /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		015B4EC80127794849BF8437F95EEEE8 /* Support Files */ = {
+		0543AD102F75312D0A6CB8EFDAAF4BC0 /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				F4526F4DC8A2E9D3C8F4DFFD25AAAA61 /* Sparkle.debug.xcconfig */,
-				C7328A194580563F19DE13C03CB0D4FE /* Sparkle.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Sparkle";
-			sourceTree = "<group>";
-		};
-		0B7888EA3F85E3B81ABB50C5504963CA /* SwiftHEXColors */ = {
-			isa = PBXGroup;
-			children = (
-				C179A816A3B0D98CC89C9DA6CFB80EF3 /* SwiftHEXColors.swift */,
-				E27CA56408BD2D58B78B0B51BCEA4876 /* Support Files */,
-			);
-			path = SwiftHEXColors;
-			sourceTree = "<group>";
-		};
-		12BAAD3A8DE550C32BB583A0F1A3546B /* Fuse */ = {
-			isa = PBXGroup;
-			children = (
-				6EC3B9793844A4F398F59DF351B56966 /* Fuse.swift */,
-				7A3F79CBB40C652C8282460B0BE1D6CE /* FuseUtilities.swift */,
-				C717C758B90C771EF2C0709A3092E5E0 /* String+Fuse.swift */,
-				FF12BF42102D00E715F5CDA5D315C0F9 /* Support Files */,
-			);
-			path = Fuse;
-			sourceTree = "<group>";
-		};
-		1D244558F5EB2EDC2C8F582025C3029A /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				F4858F056C7FC2E42F96962A9461F36C /* Sparkle.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		250EB9F13AAFFCAF48AFE335C5A7383A /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				6802AD79E17CBC1AFE1206B80EB24484 /* Magnet.modulemap */,
-				15C7B65C9E868CD16BBEF6C5BB4E2E18 /* Magnet-dummy.m */,
-				C0EE36A620AFC3D981BAEE10AAE36609 /* Magnet-Info.plist */,
-				E5377FA9371124AC4536C351562C8805 /* Magnet-prefix.pch */,
-				1ACBE0A6DAAC82B3978374F6A1899469 /* Magnet-umbrella.h */,
-				FCF2FC8F07B3B12B5153A26D690A67E9 /* Magnet.debug.xcconfig */,
-				7196E1601F9B90B4C322A4A0B5E4760A /* Magnet.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/Magnet";
-			sourceTree = "<group>";
-		};
-		41A9890B30D902CBAF3649DB3B2CED0A /* Sauce */ = {
-			isa = PBXGroup;
-			children = (
-				512E0D34B38C1EA9EA325601955DC612 /* InputSource.swift */,
-				F313D38B9645F3BB0C07BCD1306E9E1F /* Key.swift */,
-				C99D2EC73C545CDD76B11847C79DF130 /* KeyboardLayout.swift */,
-				2E43C4801E3959AF986137D7857E4780 /* ModifierTransformer.swift */,
-				A21B7599ECCC12903257B8A823A2696D /* Sauce.swift */,
-				9AC7F07028F18C39E294D7BBF41CED47 /* SpecialKeyCode.swift */,
-				464C812A2E1CEB7DA9221412F98D9737 /* TISInputSource+Property.swift */,
-				56F63F04BBCF6A6C9A86F031CDA54E49 /* Support Files */,
-			);
-			path = Sauce;
-			sourceTree = "<group>";
-		};
-		437623E427628BED7583FCE06B530A15 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				B4D83D5914B165AD8FAF049268D45A89 /* LoginServiceKit.modulemap */,
-				E6C49220BBE7EF9DE672842F1078C192 /* LoginServiceKit-dummy.m */,
-				01C2BDEF6DF4D69C726879425D9C9690 /* LoginServiceKit-Info.plist */,
-				22A0ECA536D5ED21E916A10B1712DFED /* LoginServiceKit-prefix.pch */,
-				4B153CC73B69C495F4EAFD99DEC5A8A6 /* LoginServiceKit-umbrella.h */,
-				421FBD01941F7D166C5F1DCAC5C43F1E /* LoginServiceKit.debug.xcconfig */,
-				E9DD96BE12F9734175587C17A5625E85 /* LoginServiceKit.release.xcconfig */,
-			);
-			name = "Support Files";
-			path = "../Target Support Files/LoginServiceKit";
-			sourceTree = "<group>";
-		};
-		49424CEC96F065A21BB3499BDC23E4FD /* OS X */ = {
-			isa = PBXGroup;
-			children = (
-				0A28C471EAC73969FDC8D7370322B9BE /* Carbon.framework */,
-				EB2FF67FBF2ACEAADCAD87FAB53BFB6C /* Cocoa.framework */,
-			);
-			name = "OS X";
-			sourceTree = "<group>";
-		};
-		56F63F04BBCF6A6C9A86F031CDA54E49 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				40C08B6B04C51B0C146C8DCE78271DA5 /* Sauce.modulemap */,
-				22B08222B7E4F89B261B2BB1B129CF23 /* Sauce-dummy.m */,
-				B96EF9A336B71D6C08165989EDF75EF0 /* Sauce-Info.plist */,
-				DDD4B264E8A46F2010323D9B576EF727 /* Sauce-prefix.pch */,
-				B5ECF51A44F9C1CE05CBBF22BC6817E4 /* Sauce-umbrella.h */,
-				26F0E2D299F6FF98EE91BEE3FA4B4C61 /* Sauce.debug.xcconfig */,
-				1D82B5552B639C70C3A00622A4D1C5E8 /* Sauce.release.xcconfig */,
+				1C3402305A26648114BA10C377C14295 /* Info.plist */,
+				51FCA5D10026D82BDB3ABC8BF6E7BDE5 /* Sauce.modulemap */,
+				A89A100D698E52318D354C4F60685583 /* Sauce.xcconfig */,
+				E917627FBD867B49F18BB1BCDCF8CE8C /* Sauce-dummy.m */,
+				AE102DBF91D30036F4DB3F79AE20C0E0 /* Sauce-prefix.pch */,
+				C0277A950E1261E493DA1C4AFA4C079F /* Sauce-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Sauce";
 			sourceTree = "<group>";
 		};
-		5CE0F82B68B0453289001EF5BA8764E9 /* Pods-Maccy */ = {
+		07AF6E7ECC75B7137DB9A00F72878A47 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				148FEA8D69B777E15DF160922F196976 /* Pods-Maccy.modulemap */,
-				B553ADB144AD6C33DA61A72AB809CFE5 /* Pods-Maccy-acknowledgements.markdown */,
-				82009B4823D2E7C556FC6DC31B766C27 /* Pods-Maccy-acknowledgements.plist */,
-				A168313D632389EC16B99BAD48B1AC42 /* Pods-Maccy-dummy.m */,
-				CC1DD606234BF35FC8B338539E57A8A2 /* Pods-Maccy-frameworks.sh */,
-				11E7FB9715D511E194E0947E947330F0 /* Pods-Maccy-Info.plist */,
-				EE613CBD9DE8F60693A56C5DAC15844B /* Pods-Maccy-umbrella.h */,
-				8BD43CB750CBDA7D47F06B5EBCF00D90 /* Pods-Maccy.debug.xcconfig */,
-				2C270DE4BB002D6FAA5835F12DA3C75D /* Pods-Maccy.release.xcconfig */,
+				0F7AC5E57FE61DD85A78712D8A89B326 /* Fuse */,
+				C382400A1D32F0B12A4C87D363C04F97 /* KeyboardShortcuts */,
+				91CDE01CB637466C64E45EE250CCDA40 /* LoginServiceKit */,
+				8EC28E875C300E85735762751D1FD99A /* Preferences */,
+				DB89BEA154E7BBA98CAAFA8B77B70144 /* Sauce */,
+				26BC57A712F1866512178FE31E4B1DB9 /* SwiftHEXColors */,
 			);
-			name = "Pods-Maccy";
-			path = "Target Support Files/Pods-Maccy";
+			name = Pods;
 			sourceTree = "<group>";
 		};
-		7F0F9C2F371705AA139F2F997F67E7C6 /* LoginServiceKit */ = {
+		0BA7C70784AA8DA669D89D8D1CC99EFF /* Support Files */ = {
 			isa = PBXGroup;
 			children = (
-				6AE5ECDB86E678F1C77AF3718B24C2E3 /* LoginServiceKit.swift */,
-				437623E427628BED7583FCE06B530A15 /* Support Files */,
-			);
-			path = LoginServiceKit;
-			sourceTree = "<group>";
-		};
-		B88CD123C3A59FD31A7A1A3AD07AC090 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				0FAACA4CDCA96BB225E96FC58B6C156A /* Fuse.framework */,
-				820475DEE643F008B5FBA1874C6447A9 /* LoginServiceKit.framework */,
-				C0C50F34AAB85F2D113FD01EE45D4D5F /* Magnet.framework */,
-				35A80F5B310488D858E0A6FC13F60FCE /* Pods_Maccy.framework */,
-				672FFF815BD6CD4B4B8BA81041E944F5 /* Pods_MaccyTests.framework */,
-				364449AD618FFE24D604840F6B90D451 /* Sauce.framework */,
-				F902B2E372005A249A68B9F2BFBF1489 /* SwiftHEXColors.framework */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		C734712F1ACAE98C84095A98967FC10D /* Pods-MaccyTests */ = {
-			isa = PBXGroup;
-			children = (
-				D45AB77E57FDFA0DD25FB7471C149C74 /* Pods-MaccyTests.modulemap */,
-				4DA8AB2E59B9062C6DC70298B82834A7 /* Pods-MaccyTests-acknowledgements.markdown */,
-				9F694909DB7EB33DD9AD266B280360DF /* Pods-MaccyTests-acknowledgements.plist */,
-				239D9B0CC434D9DE53B4B5B505E3C2FD /* Pods-MaccyTests-dummy.m */,
-				014E3C922688036C8EE38B0533AB1BA6 /* Pods-MaccyTests-Info.plist */,
-				C1B2021710F8266E3DE605A86A5406BF /* Pods-MaccyTests-umbrella.h */,
-				421DFB4568FA666D45A13F5D10B2BCB6 /* Pods-MaccyTests.debug.xcconfig */,
-				B8CE76A89D03EE8DA40101F77D740323 /* Pods-MaccyTests.release.xcconfig */,
-			);
-			name = "Pods-MaccyTests";
-			path = "Target Support Files/Pods-MaccyTests";
-			sourceTree = "<group>";
-		};
-		CF1408CF629C7361332E53B88F7BD30C = {
-			isa = PBXGroup;
-			children = (
-				9D940727FF8FB9C785EB98E56350EF41 /* Podfile */,
-				D91B80805B5560934D0F36FD65B1F988 /* Frameworks */,
-				E5D2B1F985F5B91A54491199B3E01B98 /* Pods */,
-				B88CD123C3A59FD31A7A1A3AD07AC090 /* Products */,
-				D1F18643731A36155CED6A598047E15A /* Targets Support Files */,
-			);
-			sourceTree = "<group>";
-		};
-		D1F18643731A36155CED6A598047E15A /* Targets Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				5CE0F82B68B0453289001EF5BA8764E9 /* Pods-Maccy */,
-				C734712F1ACAE98C84095A98967FC10D /* Pods-MaccyTests */,
-			);
-			name = "Targets Support Files";
-			sourceTree = "<group>";
-		};
-		D91B80805B5560934D0F36FD65B1F988 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				ABB308DD37B5F5B54160186368D0FE0C /* Sauce.framework */,
-				49424CEC96F065A21BB3499BDC23E4FD /* OS X */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		DAB48944137A3F4975C5A1300D94BD0C /* Magnet */ = {
-			isa = PBXGroup;
-			children = (
-				5FF4AEA721AC7136E23BC7775AC1AEFC /* CollectionExtension.swift */,
-				2FC9DBE86BB793F1284602A78C5EB8CA /* HotKey.swift */,
-				527A2BBBF616B8E9096CC02657E95DB4 /* HotKeyCenter.swift */,
-				387BF66BB45C4CA8B488DA50F2183355 /* IntExtension.swift */,
-				E1FED38D30822AE4CCBB3B140D677579 /* KeyCombo.swift */,
-				AFA8E220B218AF10431F18E211B8792A /* KeyExtension.swift */,
-				94E2495E6E932AA9FA1F6188CC814AAA /* NSEventExtension.swift */,
-				250EB9F13AAFFCAF48AFE335C5A7383A /* Support Files */,
-			);
-			path = Magnet;
-			sourceTree = "<group>";
-		};
-		E27CA56408BD2D58B78B0B51BCEA4876 /* Support Files */ = {
-			isa = PBXGroup;
-			children = (
-				B7BEE0CD1F58AEA589D1551F2281424F /* SwiftHEXColors.modulemap */,
-				174BD6C71D96637E93BB13F56C2FC095 /* SwiftHEXColors-dummy.m */,
-				AA08C0167432E5413968EDAA26BC6870 /* SwiftHEXColors-Info.plist */,
-				116A4B9D0E47714B4FA172DE83C09ACB /* SwiftHEXColors-prefix.pch */,
-				B4C9769020FCAB595D9957959491D22D /* SwiftHEXColors-umbrella.h */,
-				467C960D294718FD3FD72460923149AF /* SwiftHEXColors.debug.xcconfig */,
-				42BA9DE8B3FE14860ED9D16BCAFD3445 /* SwiftHEXColors.release.xcconfig */,
+				3A350622846451311F2395ABC614A1EC /* Info.plist */,
+				C49C3A565ECCD493527114D319D62FEB /* SwiftHEXColors.modulemap */,
+				985B570797996BE3B6A00C9CDBCBB841 /* SwiftHEXColors.xcconfig */,
+				F3987A64FDA3C81AE4340603562C2BE1 /* SwiftHEXColors-dummy.m */,
+				57F184A08D5876D505458478E4BA72E8 /* SwiftHEXColors-prefix.pch */,
+				BAC1D435EABB01A827813A74213F3CF8 /* SwiftHEXColors-umbrella.h */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/SwiftHEXColors";
 			sourceTree = "<group>";
 		};
-		E5D2B1F985F5B91A54491199B3E01B98 /* Pods */ = {
+		0F7AC5E57FE61DD85A78712D8A89B326 /* Fuse */ = {
 			isa = PBXGroup;
 			children = (
-				12BAAD3A8DE550C32BB583A0F1A3546B /* Fuse */,
-				7F0F9C2F371705AA139F2F997F67E7C6 /* LoginServiceKit */,
-				DAB48944137A3F4975C5A1300D94BD0C /* Magnet */,
-				41A9890B30D902CBAF3649DB3B2CED0A /* Sauce */,
-				E5F1C8B9E403B06751E82BE6B4C352CA /* Sparkle */,
-				0B7888EA3F85E3B81ABB50C5504963CA /* SwiftHEXColors */,
+				C543943B9E7C3A56E1CDA0BE9A33551D /* Fuse.swift */,
+				CBB6D01B82FD13C569E80EAD181BCF7B /* FuseUtilities.swift */,
+				3BF49F0C700068FE8E002BB7A3CB1F43 /* String+Fuse.swift */,
+				C5AE2FE6B7D0BE7AAA69DDB8D040E6C0 /* Support Files */,
 			);
-			name = Pods;
+			name = Fuse;
+			path = Fuse;
 			sourceTree = "<group>";
 		};
-		E5F1C8B9E403B06751E82BE6B4C352CA /* Sparkle */ = {
+		1F56FAB1848BE50135C67D0A5B678E4F /* Pods-Maccy */ = {
 			isa = PBXGroup;
 			children = (
-				69563CE41ADD3BF7A2DAB15AFBAF4A76 /* Sparkle.h */,
-				A80D14CF236996F66548AF7A85F86FBF /* SPUDownloadData.h */,
-				B9C1E28095FE591422F3B47AE50DD07B /* SPUDownloader.h */,
-				A8C3C000836794BAEF5D38468A389F6F /* SPUDownloaderDelegate.h */,
-				715A4E0F18C436CFFDF97CF93F05DB73 /* SPUDownloaderDeprecated.h */,
-				D409B30497E1C6720BCD385C0967FEE4 /* SPUDownloaderProtocol.h */,
-				D57EA7B694ADBBB0E34BA2156635D5E1 /* SPUDownloaderSession.h */,
-				B25F5ECBA0A65FF166588D2E6FC94094 /* SPUURLRequest.h */,
-				335FD83471F4F1B24E13CE854F03A99E /* SUAppcast.h */,
-				3FCBA667DE20EDFACACFB2D974378C56 /* SUAppcastItem.h */,
-				121E1C431FE8F10D99672F73CB46B9A9 /* SUCodeSigningVerifier.h */,
-				3D38AD537E8D680B1FD47386ED8CF337 /* SUErrors.h */,
-				A56C6CE411F7A94384A9C00678759BE5 /* SUExport.h */,
-				BC8A1FADB581A58F2E7A43E93DE58BCD /* SUStandardVersionComparator.h */,
-				137939F6D87B7D1492E1F18B0E6A963D /* SUUpdater.h */,
-				AED733300FA92CA67728D23D6B8F742F /* SUUpdaterDelegate.h */,
-				D46517E5AD75292E8F1AEEDD664912F6 /* SUVersionComparisonProtocol.h */,
-				F4CF655B0E5C2A830A99BC4B66FB39CF /* SUVersionDisplayProtocol.h */,
-				1D244558F5EB2EDC2C8F582025C3029A /* Frameworks */,
-				015B4EC80127794849BF8437F95EEEE8 /* Support Files */,
+				0BFB3D52C5622C4B454CBED8C490E1ED /* Info.plist */,
+				07055F35E68A5B9A507F418B60F26DD2 /* Pods-Maccy.modulemap */,
+				65E5832A125E94E9167EA00856FA2157 /* Pods-Maccy-acknowledgements.markdown */,
+				20A49FDE62881F505AE64E73C378F4BA /* Pods-Maccy-acknowledgements.plist */,
+				F89F3013F743CADF10C6F9037E59770E /* Pods-Maccy-dummy.m */,
+				71289A3B191F2066B0117390ECF69CAD /* Pods-Maccy-frameworks.sh */,
+				625F3788691A8D38F5095EC7016440B3 /* Pods-Maccy-resources.sh */,
+				8BA92A59AB9DF6A5149A90DD2C0DE340 /* Pods-Maccy-umbrella.h */,
+				C81CC8267FE4E5F1759651B9A5E218FA /* Pods-Maccy.debug.xcconfig */,
+				842F2E2BDD1488EBA79F5A8A4D4CA617 /* Pods-Maccy.release.xcconfig */,
 			);
-			path = Sparkle;
+			name = "Pods-Maccy";
+			path = "Target Support Files/Pods-Maccy";
 			sourceTree = "<group>";
 		};
-		FF12BF42102D00E715F5CDA5D315C0F9 /* Support Files */ = {
+		26BC57A712F1866512178FE31E4B1DB9 /* SwiftHEXColors */ = {
 			isa = PBXGroup;
 			children = (
-				1CBF17A9391A3757220FE8C9EBB58656 /* Fuse.modulemap */,
-				449EF254B15E9C37A0C130810E23042F /* Fuse-dummy.m */,
-				8049E28997C9CFCBE5D8BF08087AC786 /* Fuse-Info.plist */,
-				B7364BC0A6F625E0BAE71BD943EEFD77 /* Fuse-prefix.pch */,
-				A9941AABD3E474C0B5B3C27A12B4E8E9 /* Fuse-umbrella.h */,
-				B1EE928C7785F775DAA291294C8D872B /* Fuse.debug.xcconfig */,
-				F9AEE40683E8092B78A52EA92F838B9F /* Fuse.release.xcconfig */,
+				C9DC70303EAB38258A0661D08DFFE20D /* SwiftHEXColors.swift */,
+				0BA7C70784AA8DA669D89D8D1CC99EFF /* Support Files */,
+			);
+			name = SwiftHEXColors;
+			path = SwiftHEXColors;
+			sourceTree = "<group>";
+		};
+		4476E2ACA5DA1C3752829A600908ED9D /* Targets Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				1F56FAB1848BE50135C67D0A5B678E4F /* Pods-Maccy */,
+				89D06CD1148346BC17AD6D75190C1482 /* Pods-MaccyTests */,
+			);
+			name = "Targets Support Files";
+			sourceTree = "<group>";
+		};
+		4ADDEB0A68F90F64B23BC46FBA143AD8 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				17B20BC5F977582B1B82C7B0352AC9B9 /* Info.plist */,
+				107272546C39F8DEA216F43C65E75481 /* KeyboardShortcuts.modulemap */,
+				EF219502814D526980B668F630E5AA18 /* KeyboardShortcuts.xcconfig */,
+				FD7A3BC06224B1F3D552461C037CB942 /* KeyboardShortcuts-dummy.m */,
+				ABF8BF69F7B78A0F97AF7E0F82A0D273 /* KeyboardShortcuts-prefix.pch */,
+				DF63F7E816074F6CFDB7FF51B472C51C /* KeyboardShortcuts-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/KeyboardShortcuts";
+			sourceTree = "<group>";
+		};
+		6D78D74B15AB6B5D0CD3028F1A8F44E3 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				D9D5AC1A5773C9CCDB83E70FB7DF94E9 /* Info.plist */,
+				AAF13802EC904AD92511679EB552F5AA /* Preferences.modulemap */,
+				4208BB1AB94E7A334BE9B06D8EB05D4F /* Preferences.xcconfig */,
+				F4D0022074392E9CBF5CA4933D54EAB4 /* Preferences-dummy.m */,
+				220A7ACF0319E62B0C793E6787B77696 /* Preferences-prefix.pch */,
+				EC43A2328161FB4C62E63F65C30F997F /* Preferences-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/Preferences";
+			sourceTree = "<group>";
+		};
+		7DB346D0F39D3F0E887471402A8071AB = {
+			isa = PBXGroup;
+			children = (
+				93A4A3777CF96A4AAC1D13BA6DCCEA73 /* Podfile */,
+				D648CE86F139C7CCFD55D5B8A03BE74B /* Frameworks */,
+				07AF6E7ECC75B7137DB9A00F72878A47 /* Pods */,
+				D7B4C0E9ADCF57773FCE183E8503604A /* Products */,
+				4476E2ACA5DA1C3752829A600908ED9D /* Targets Support Files */,
+			);
+			sourceTree = "<group>";
+		};
+		89D06CD1148346BC17AD6D75190C1482 /* Pods-MaccyTests */ = {
+			isa = PBXGroup;
+			children = (
+				7D289DA5B10DD46D3E60ECD480C85DF3 /* Info.plist */,
+				A70FC6B2DCC7D84D23DF023C6014274E /* Pods-MaccyTests.modulemap */,
+				158687138ADACBA036E897622CC2799F /* Pods-MaccyTests-acknowledgements.markdown */,
+				1571A769B9AABB30B0C55BE1A64F0C13 /* Pods-MaccyTests-acknowledgements.plist */,
+				8D39631FB04B4152E1F10899B5242E79 /* Pods-MaccyTests-dummy.m */,
+				7EE89300126F633ACA5000A02F79FE81 /* Pods-MaccyTests-frameworks.sh */,
+				59B6F79B0890AA54C08D00FA203EB975 /* Pods-MaccyTests-resources.sh */,
+				9EAA781EBF58462A49778917F670B39E /* Pods-MaccyTests-umbrella.h */,
+				816A486C9685FABD159B44C33ED0EF6C /* Pods-MaccyTests.debug.xcconfig */,
+				0F476B296688E8A2611661B3A916D2EE /* Pods-MaccyTests.release.xcconfig */,
+			);
+			name = "Pods-MaccyTests";
+			path = "Target Support Files/Pods-MaccyTests";
+			sourceTree = "<group>";
+		};
+		8EC28E875C300E85735762751D1FD99A /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				33F5D1163D0CDFB07CBAA384828E3F3D /* Localization.swift */,
+				B6ABA8D69036FD7B3987C4E0264CA191 /* PreferencePane.swift */,
+				B6A3847FA74CD2A2185721CF581A9A04 /* PreferencesStyle.swift */,
+				1B72E3936B884EB206F83D0521A51B7A /* PreferencesStyleController.swift */,
+				570F718358A59CC8A8AB8C2670EFE13E /* PreferencesTabViewController.swift */,
+				56D9D2FD8A4F6D0BB7E183BE365BB17A /* PreferencesWindowController.swift */,
+				2E3EFD6FCFEAE18334D2680938FA66BB /* SegmentedControlStyleViewController.swift */,
+				7F4BABEC25B808E2055C2CC44F833C82 /* ToolbarItemStyleViewController.swift */,
+				A0F595B2E1DDEFB91B2535914B0AF147 /* UserInteractionPausableWindow.swift */,
+				0199B8281E7C8BA707763B344F1116EB /* util.swift */,
+				6D78D74B15AB6B5D0CD3028F1A8F44E3 /* Support Files */,
+			);
+			name = Preferences;
+			path = Preferences;
+			sourceTree = "<group>";
+		};
+		91CDE01CB637466C64E45EE250CCDA40 /* LoginServiceKit */ = {
+			isa = PBXGroup;
+			children = (
+				0D32063F45C83F1D5BF5C6C3F675CD7D /* LoginServiceKit.swift */,
+				E5D3E76DB7BCB7AF2C695FC42371185D /* Support Files */,
+			);
+			name = LoginServiceKit;
+			path = LoginServiceKit;
+			sourceTree = "<group>";
+		};
+		C382400A1D32F0B12A4C87D363C04F97 /* KeyboardShortcuts */ = {
+			isa = PBXGroup;
+			children = (
+				BA9A35B51D2701C96265020A0E490A81 /* CarbonKeyboardShortcuts.swift */,
+				E3BB86571A13A21620C4B6BE70A0644F /* Key.swift */,
+				7F3724B2D7E015BB1A11CC8F57608F9A /* KeyboardShortcuts.swift */,
+				CA71A643FA416E6E76139594A08A36E8 /* Name.swift */,
+				75D2B702E3C8D357213238311BA0503B /* NSMenuItem++.swift */,
+				026FE2ED09B471879022D02F4D2E8299 /* Recorder.swift */,
+				AC58183A115684FAC7E882245819B233 /* RecorderCocoa.swift */,
+				8A5670D878EE970586B293034E0A0216 /* Shortcut.swift */,
+				18B48C1418F77DD3798E83CCD385758C /* util.swift */,
+				4ADDEB0A68F90F64B23BC46FBA143AD8 /* Support Files */,
+			);
+			name = KeyboardShortcuts;
+			path = KeyboardShortcuts;
+			sourceTree = "<group>";
+		};
+		C5AE2FE6B7D0BE7AAA69DDB8D040E6C0 /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				15E33B90C5A5F70592C815F8FA2A2244 /* Fuse.modulemap */,
+				8ED4ECFF084BF18FEEC3E2ABF43E9881 /* Fuse.xcconfig */,
+				D3144176214158D5CBB3E37420EE10B3 /* Fuse-dummy.m */,
+				5F4D0D1B45E6285D4B9ABA5259DE879A /* Fuse-prefix.pch */,
+				CD1CF979B5A3CDD8DD8B15348333349F /* Fuse-umbrella.h */,
+				5BDDE654C4236712CBEC286D57579FFD /* Info.plist */,
 			);
 			name = "Support Files";
 			path = "../Target Support Files/Fuse";
 			sourceTree = "<group>";
 		};
+		D648CE86F139C7CCFD55D5B8A03BE74B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E54C390691D9464DCF0A5D1FF793B4A9 /* OS X */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D7B4C0E9ADCF57773FCE183E8503604A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				C44AE39C229200AD6F3457637360FADF /* Fuse.framework */,
+				F8803AFEF9279F4518DB2D40C046E298 /* KeyboardShortcuts.framework */,
+				2F095A421CFC62EC828BCF427E7DB3B8 /* LoginServiceKit.framework */,
+				0880D2ACAECF4CA0E983B558A4AC4A3C /* Pods_Maccy.framework */,
+				4EBB72ED779D62A8D49EE259C5A30357 /* Pods_MaccyTests.framework */,
+				A9DA676D395348904324C3A2DFD14A10 /* Preferences.framework */,
+				B26E704D2668FDD4A7EA4F0F48787FBA /* Sauce.framework */,
+				C40F288A17ACDF1A165EF9764509522C /* SwiftHEXColors.framework */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DB89BEA154E7BBA98CAAFA8B77B70144 /* Sauce */ = {
+			isa = PBXGroup;
+			children = (
+				6C6C8E69DDC5A2BE461804F45F0B4706 /* InputSource.swift */,
+				B348078046DDB1F954DFCE7EAC479522 /* Key.swift */,
+				6E78FFA46E75278844C8E2D89493BE53 /* KeyboardLayout.swift */,
+				2B757C6F43DB5AD92104B49A3F978609 /* ModifierTransformer.swift */,
+				7891D7D92325B55CCB88EBBF2FDFE7C6 /* Sauce.swift */,
+				40C1BC0C0FB785C4E27BEAE16C95BC71 /* SpecialKeyCode.swift */,
+				9F01EAC8F5B3A0F8C0BF8853AA0BA7A0 /* TISInputSource+Property.swift */,
+				0543AD102F75312D0A6CB8EFDAAF4BC0 /* Support Files */,
+			);
+			name = Sauce;
+			path = Sauce;
+			sourceTree = "<group>";
+		};
+		E54C390691D9464DCF0A5D1FF793B4A9 /* OS X */ = {
+			isa = PBXGroup;
+			children = (
+				3B0A27F7D816EF3C2A8A037C0AE9F6CE /* Carbon.framework */,
+				3D39892B712BA302C323D7387AD35584 /* Cocoa.framework */,
+			);
+			name = "OS X";
+			sourceTree = "<group>";
+		};
+		E5D3E76DB7BCB7AF2C695FC42371185D /* Support Files */ = {
+			isa = PBXGroup;
+			children = (
+				93A47DC4C0928E5819EDACD08AF11C88 /* Info.plist */,
+				903B7477DBD96FDA71ACE5EEB4A00BB4 /* LoginServiceKit.modulemap */,
+				692B8D8A445CA9C3E36D42845183C6A2 /* LoginServiceKit.xcconfig */,
+				0F3FC6DB69292628D35297E1858C08A3 /* LoginServiceKit-dummy.m */,
+				E3DC06FF63A7AC2A49A19FBAC47F6510 /* LoginServiceKit-prefix.pch */,
+				326D67839F88F563B4526991ED3B5016 /* LoginServiceKit-umbrella.h */,
+			);
+			name = "Support Files";
+			path = "../Target Support Files/LoginServiceKit";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		06697B6D282C2471DA63D0D8F53E9CDD /* Headers */ = {
+		49BCCAB3E487EE7A3E4E27C3DD5C491D /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5F1192FB48DE68C17C9B5E701CBAE638 /* Magnet-umbrella.h in Headers */,
+				70C19C2E054017C6A73EDF717EE76CBE /* SwiftHEXColors-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		94106046E5314FB05F19E2F49C9C33C3 /* Headers */ = {
+		56E7FF140063DCCA9F7F83E6E3C7A53B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4284CD4FF7CD5BE5828923D9E0AF4A6F /* Fuse-umbrella.h in Headers */,
+				D734B3640C594D4A12D75F9699AB29C0 /* Pods-MaccyTests-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		97C249D8B94D576C224CA6105B518D02 /* Headers */ = {
+		808EA5B618034454B9E6C96F994F6AD4 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FD9EA8AA8D3959577C324CE51105CC90 /* LoginServiceKit-umbrella.h in Headers */,
+				25B6106D2B93837725E199AD35696E47 /* Preferences-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A51EF2FCF654A9B3BDF7F2941895012C /* Headers */ = {
+		8202B8A8D106AD34BF429FBC6714D81B /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5E2A5FAD683741C9023C8B269082B13F /* Sauce-umbrella.h in Headers */,
+				07E2369EA4E356E74D2C3620235CBBFF /* KeyboardShortcuts-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EBEEAD109398A400FE529DE65A26E862 /* Headers */ = {
+		A265C1BFD65E42464BA41ECDC868C1C8 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				27305314CA19D59621EA00282F077929 /* Pods-MaccyTests-umbrella.h in Headers */,
+				12BAF3E7ABAF13B6C7C660ADB10F4201 /* Pods-Maccy-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FBBA39B67559D6B7C1457307D07204C4 /* Headers */ = {
+		A32EAA751CFEAACF80A6AF7BED40F9F5 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9F56376632AADB1B30EAAD6F88E2B116 /* Pods-Maccy-umbrella.h in Headers */,
+				75C530321B7F736B7FBD3B4DA6A52A25 /* LoginServiceKit-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		FCF212A5BE853C921E2A0EEEACE9B160 /* Headers */ = {
+		BC2D998E7784A9920F5CC529B2D8E7B0 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A6D7B977DD7A89C5471E9CDBA016DD35 /* SwiftHEXColors-umbrella.h in Headers */,
+				0E7FE80132117A04C8C8E21A6DE3BC28 /* Sauce-umbrella.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		EF915F26D356D8646E7A5F32B05ED231 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5694BF7EB997C802B20912A8AA5D5E83 /* Fuse-umbrella.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		0F34737C713D39F0AFADD58B6EFC2CC9 /* Pods-Maccy */ = {
+		09D9386013E0AF30C61FA50973499B09 /* Pods-Maccy */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = D169892DE21BBD832949F91500BE90AC /* Build configuration list for PBXNativeTarget "Pods-Maccy" */;
+			buildConfigurationList = 47C8A582BF894A90451C3A2F4238B33F /* Build configuration list for PBXNativeTarget "Pods-Maccy" */;
 			buildPhases = (
-				FBBA39B67559D6B7C1457307D07204C4 /* Headers */,
-				2F3E556EA985A52F72EAB69C2DAF163B /* Sources */,
-				20090234F86D87FFF2851C4BD13B8FCA /* Frameworks */,
-				8432BAB47CF9103A4112BBEBBB9F0134 /* Resources */,
+				4E69D7DD11F68FFACAC3C8F4F7107400 /* Sources */,
+				2A64BBFD9FE466EFDBBFDB843DC1F918 /* Frameworks */,
+				A265C1BFD65E42464BA41ECDC868C1C8 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				7B01E194810AD8EA8D1F6940D6C561FD /* PBXTargetDependency */,
-				4CB9EC616DD5EBF8DEBCC4CCEAE0ADA2 /* PBXTargetDependency */,
-				F35CF273A61003553032224DD242639F /* PBXTargetDependency */,
-				0DAA8DF8A06248BDEC0FAF4DA3D7203E /* PBXTargetDependency */,
-				EA641F559D3315AC84C484AC3588D6EA /* PBXTargetDependency */,
-				9FB8790B42227BB30F7361FB7C55EC3A /* PBXTargetDependency */,
+				23EAE1EABBCE01940E003CC1F8F143AA /* PBXTargetDependency */,
+				E03F4D297A02F750BD862C96C13E9243 /* PBXTargetDependency */,
+				3422D174E5E8AEC2FC5F78AFD301EDBD /* PBXTargetDependency */,
+				CB7ADB3D3425091BD6B401DA0E4D9CD0 /* PBXTargetDependency */,
+				8323BE6E77C245BBF571C4025281B019 /* PBXTargetDependency */,
+				6DDC5D91E52F6817CCF4B75CC67FB9DB /* PBXTargetDependency */,
 			);
 			name = "Pods-Maccy";
 			productName = "Pods-Maccy";
-			productReference = 35A80F5B310488D858E0A6FC13F60FCE /* Pods_Maccy.framework */;
+			productReference = 0880D2ACAECF4CA0E983B558A4AC4A3C /* Pods_Maccy.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		321DED4F241934C91121B3DBA1418D9F /* Fuse */ = {
+		399250C55E06A335126C4E4E28EE5AE8 /* Pods-MaccyTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8EAFE2B6BC13A77CCCD51EF3E6681FA0 /* Build configuration list for PBXNativeTarget "Fuse" */;
+			buildConfigurationList = E557DD37A56882053265C7C80BE3918B /* Build configuration list for PBXNativeTarget "Pods-MaccyTests" */;
 			buildPhases = (
-				94106046E5314FB05F19E2F49C9C33C3 /* Headers */,
-				9D4DF1019B75C24682F85AD69FE3DB62 /* Sources */,
-				7B98135C2F3EF59B10E536391AE413B3 /* Frameworks */,
-				3E2ADFC8B34D82D0FE8FE0234254B62D /* Resources */,
+				C6BF1D8A95ACE77FFA134063A3D786F9 /* Sources */,
+				626C5897990204B4F2104CFE29E89CDE /* Frameworks */,
+				56E7FF140063DCCA9F7F83E6E3C7A53B /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				CC1FC0634915F2088DBCCEAFB2E29FE7 /* PBXTargetDependency */,
+			);
+			name = "Pods-MaccyTests";
+			productName = "Pods-MaccyTests";
+			productReference = 4EBB72ED779D62A8D49EE259C5A30357 /* Pods_MaccyTests.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		5896A5F9FD5AA57C763EA4ACD5CF7522 /* KeyboardShortcuts */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8E02CFF8AB5125728F6C3DF6896FF182 /* Build configuration list for PBXNativeTarget "KeyboardShortcuts" */;
+			buildPhases = (
+				981A79A27580C6175D8DDAC2D29ADA16 /* Sources */,
+				98F170EC91AEEC74C0860B68656A202F /* Frameworks */,
+				8202B8A8D106AD34BF429FBC6714D81B /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			name = Fuse;
-			productName = Fuse;
-			productReference = 0FAACA4CDCA96BB225E96FC58B6C156A /* Fuse.framework */;
+			name = KeyboardShortcuts;
+			productName = KeyboardShortcuts;
+			productReference = F8803AFEF9279F4518DB2D40C046E298 /* KeyboardShortcuts.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		3E149398A6E587455F01510D83B29C52 /* Magnet */ = {
+		86B0065C7440EB5993D7C70A96B945FC /* Sauce */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = CFF572FB338441F03240C63FC00B2B38 /* Build configuration list for PBXNativeTarget "Magnet" */;
+			buildConfigurationList = B5ED39800B537F53ACF7780585F19A7C /* Build configuration list for PBXNativeTarget "Sauce" */;
 			buildPhases = (
-				06697B6D282C2471DA63D0D8F53E9CDD /* Headers */,
-				92DAEF421C8FDEB28E194B6FEE3D8E67 /* Sources */,
-				F0C22BB4D4B583FEFC55813FDB49CD1B /* Frameworks */,
-				30D62E2ACA0D3397C02C42128D1CB98F /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				AF52FD4F350F85E9585F8E8282F766EC /* PBXTargetDependency */,
-			);
-			name = Magnet;
-			productName = Magnet;
-			productReference = C0C50F34AAB85F2D113FD01EE45D4D5F /* Magnet.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		4363B3DEE0E244A6E95B497FB82E7385 /* LoginServiceKit */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B6310DB0AF3F4FB8C97CF81017433C2D /* Build configuration list for PBXNativeTarget "LoginServiceKit" */;
-			buildPhases = (
-				97C249D8B94D576C224CA6105B518D02 /* Headers */,
-				EC1E63028C94A657E523CF7E86650E8C /* Sources */,
-				3CB65A48D8F6087DBE6EE068559897D9 /* Frameworks */,
-				D67CF8E41FCE21EB2DB9C6B008323288 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = LoginServiceKit;
-			productName = LoginServiceKit;
-			productReference = 820475DEE643F008B5FBA1874C6447A9 /* LoginServiceKit.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		7C965F087BD52D10B405DF57848EC900 /* Sauce */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 6707455F6D6273790E0B875566E67FD8 /* Build configuration list for PBXNativeTarget "Sauce" */;
-			buildPhases = (
-				A51EF2FCF654A9B3BDF7F2941895012C /* Headers */,
-				D80A436342141C833C1E2E36BB54158B /* Sources */,
-				2F99CD7605834220247525AD26D37E82 /* Frameworks */,
-				E0A66AD4F73E4022F226FCBCFCF4C607 /* Resources */,
+				8BA732075EBA6DB80B6B825B2F0ED650 /* Sources */,
+				9E9C9EB857F7F431EA462D21580B15BC /* Frameworks */,
+				BC2D998E7784A9920F5CC529B2D8E7B0 /* Headers */,
 			);
 			buildRules = (
 			);
@@ -726,17 +699,33 @@
 			);
 			name = Sauce;
 			productName = Sauce;
-			productReference = 364449AD618FFE24D604840F6B90D451 /* Sauce.framework */;
+			productReference = B26E704D2668FDD4A7EA4F0F48787FBA /* Sauce.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		FBCA5614C6DE80E95DB0A68DF224D729 /* SwiftHEXColors */ = {
+		B8CD3B3EDB42EEABB2D487F8706AF6BB /* Fuse */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 6899821C3B174FFCAD8D391AA9EA538D /* Build configuration list for PBXNativeTarget "SwiftHEXColors" */;
+			buildConfigurationList = 0E0B582D8D2B0C67CCE334212F4831C7 /* Build configuration list for PBXNativeTarget "Fuse" */;
 			buildPhases = (
-				FCF212A5BE853C921E2A0EEEACE9B160 /* Headers */,
-				A5B4832E3C252D41AD94E5861C34156C /* Sources */,
-				B932ABD739498F0C5FEAB48907E12FC8 /* Frameworks */,
-				8F741D524424F3DA73AE46959FCD840D /* Resources */,
+				CE6A9DB733C0885B27A6A1F49380149F /* Sources */,
+				E3DABA0244EB72B53EE7F43B52DDF034 /* Frameworks */,
+				EF915F26D356D8646E7A5F32B05ED231 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Fuse;
+			productName = Fuse;
+			productReference = C44AE39C229200AD6F3457637360FADF /* Fuse.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		D7CE446BF62E2BBF8CEB123F3B63B02F /* SwiftHEXColors */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D73EF6446C2491117EF008C747E1377 /* Build configuration list for PBXNativeTarget "SwiftHEXColors" */;
+			buildPhases = (
+				06B423494D2ECC31C8B0B7955BF3832A /* Sources */,
+				44258EC9AB98843AFD25287696B3A5BD /* Frameworks */,
+				49BCCAB3E487EE7A3E4E27C3DD5C491D /* Headers */,
 			);
 			buildRules = (
 			);
@@ -744,386 +733,221 @@
 			);
 			name = SwiftHEXColors;
 			productName = SwiftHEXColors;
-			productReference = F902B2E372005A249A68B9F2BFBF1489 /* SwiftHEXColors.framework */;
+			productReference = C40F288A17ACDF1A165EF9764509522C /* SwiftHEXColors.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		FD0BBE77FCF495F7E1B5FB54FE059045 /* Pods-MaccyTests */ = {
+		EC362510521DB9CB07BEBC6EC7887988 /* LoginServiceKit */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 152F5EDE4929E2C04A51D228F2F258D9 /* Build configuration list for PBXNativeTarget "Pods-MaccyTests" */;
+			buildConfigurationList = A596634D734DE549CB5DCBB949760A4D /* Build configuration list for PBXNativeTarget "LoginServiceKit" */;
 			buildPhases = (
-				EBEEAD109398A400FE529DE65A26E862 /* Headers */,
-				0DE80C4D444014D7C5270750454E2649 /* Sources */,
-				13F1AE57ED286B0037A1032850237228 /* Frameworks */,
-				86EFD84CDB904A456740696FD41AACED /* Resources */,
+				3158B46FFEBAF5A320E2F1851419E19E /* Sources */,
+				5011ED0013D2A47D28B0DAC856A0A456 /* Frameworks */,
+				A32EAA751CFEAACF80A6AF7BED40F9F5 /* Headers */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				ED9568CD11592B4A83B87CB2382F5E6C /* PBXTargetDependency */,
 			);
-			name = "Pods-MaccyTests";
-			productName = "Pods-MaccyTests";
-			productReference = 672FFF815BD6CD4B4B8BA81041E944F5 /* Pods_MaccyTests.framework */;
+			name = LoginServiceKit;
+			productName = LoginServiceKit;
+			productReference = 2F095A421CFC62EC828BCF427E7DB3B8 /* LoginServiceKit.framework */;
+			productType = "com.apple.product-type.framework";
+		};
+		F747D8D0497E3BBEFF56742E347C4F43 /* Preferences */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F01562143CCD3C1D0E7847B2410CCC7C /* Build configuration list for PBXNativeTarget "Preferences" */;
+			buildPhases = (
+				2F8D3D411B4F24C25CF0155EBB50B35D /* Sources */,
+				C63671D233B4806F99D01E8AC4CF5467 /* Frameworks */,
+				808EA5B618034454B9E6C96F994F6AD4 /* Headers */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Preferences;
+			productName = Preferences;
+			productReference = A9DA676D395348904324C3A2DFD14A10 /* Preferences.framework */;
 			productType = "com.apple.product-type.framework";
 		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
-		BFDFE7DC352907FC980B868725387E98 /* Project object */ = {
+		D41D8CD98F00B204E9800998ECF8427E /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1140;
-				TargetAttributes = {
-					321DED4F241934C91121B3DBA1418D9F = {
-						LastSwiftMigration = 1140;
-					};
-				};
+				LastSwiftUpdateCheck = 0930;
+				LastUpgradeCheck = 0930;
 			};
-			buildConfigurationList = 4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */;
+			buildConfigurationList = 2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */;
 			compatibilityVersion = "Xcode 3.2";
-			developmentRegion = en;
+			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
 				en,
-				Base,
 			);
-			mainGroup = CF1408CF629C7361332E53B88F7BD30C;
-			productRefGroup = B88CD123C3A59FD31A7A1A3AD07AC090 /* Products */;
+			mainGroup = 7DB346D0F39D3F0E887471402A8071AB;
+			productRefGroup = D7B4C0E9ADCF57773FCE183E8503604A /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				321DED4F241934C91121B3DBA1418D9F /* Fuse */,
-				4363B3DEE0E244A6E95B497FB82E7385 /* LoginServiceKit */,
-				3E149398A6E587455F01510D83B29C52 /* Magnet */,
-				0F34737C713D39F0AFADD58B6EFC2CC9 /* Pods-Maccy */,
-				FD0BBE77FCF495F7E1B5FB54FE059045 /* Pods-MaccyTests */,
-				7C965F087BD52D10B405DF57848EC900 /* Sauce */,
-				ED77B4B88587C894E85C361023D67C53 /* Sparkle */,
-				FBCA5614C6DE80E95DB0A68DF224D729 /* SwiftHEXColors */,
+				B8CD3B3EDB42EEABB2D487F8706AF6BB /* Fuse */,
+				5896A5F9FD5AA57C763EA4ACD5CF7522 /* KeyboardShortcuts */,
+				EC362510521DB9CB07BEBC6EC7887988 /* LoginServiceKit */,
+				09D9386013E0AF30C61FA50973499B09 /* Pods-Maccy */,
+				399250C55E06A335126C4E4E28EE5AE8 /* Pods-MaccyTests */,
+				F747D8D0497E3BBEFF56742E347C4F43 /* Preferences */,
+				86B0065C7440EB5993D7C70A96B945FC /* Sauce */,
+				D7CE446BF62E2BBF8CEB123F3B63B02F /* SwiftHEXColors */,
 			);
 		};
 /* End PBXProject section */
 
-/* Begin PBXResourcesBuildPhase section */
-		30D62E2ACA0D3397C02C42128D1CB98F /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		3E2ADFC8B34D82D0FE8FE0234254B62D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8432BAB47CF9103A4112BBEBBB9F0134 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		86EFD84CDB904A456740696FD41AACED /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		8F741D524424F3DA73AE46959FCD840D /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		D67CF8E41FCE21EB2DB9C6B008323288 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		E0A66AD4F73E4022F226FCBCFCF4C607 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXResourcesBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
-		0DE80C4D444014D7C5270750454E2649 /* Sources */ = {
+		06B423494D2ECC31C8B0B7955BF3832A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				50CE596902B417F15FC98ADF9F9FEFFE /* Pods-MaccyTests-dummy.m in Sources */,
+				2260434A050624EFE542F082C3C72564 /* SwiftHEXColors-dummy.m in Sources */,
+				D6BACA0628CC78A559F664D15FEEFAB7 /* SwiftHEXColors.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		2F3E556EA985A52F72EAB69C2DAF163B /* Sources */ = {
+		2F8D3D411B4F24C25CF0155EBB50B35D /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0239CFA722DF795BB27D257B8BC59A72 /* Pods-Maccy-dummy.m in Sources */,
+				690453358C9AC46227C60541F56F5CA5 /* Localization.swift in Sources */,
+				6A8B33A023540A74C96465667B75E267 /* PreferencePane.swift in Sources */,
+				17337C2002BAD629DE9755FC82AD2E8C /* Preferences-dummy.m in Sources */,
+				24A7B907DA45793D6BFDAFFB7DB0FC68 /* PreferencesStyle.swift in Sources */,
+				D44EFEF75E748519E9F2ABCF5D1AD0E1 /* PreferencesStyleController.swift in Sources */,
+				B0FDE96232434638EFADF0205B0A3667 /* PreferencesTabViewController.swift in Sources */,
+				307A96822D156E443123A5124583512B /* PreferencesWindowController.swift in Sources */,
+				3C267C83B70C25830C7EEC16A81E65C8 /* SegmentedControlStyleViewController.swift in Sources */,
+				1FF0BE99AC8039C49D57D337E71A0AD7 /* ToolbarItemStyleViewController.swift in Sources */,
+				B8556B03FB4CA71B20A3CF7D09745F0A /* UserInteractionPausableWindow.swift in Sources */,
+				0C826155B3CC4DD099ACEAAF19315E5D /* util.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		92DAEF421C8FDEB28E194B6FEE3D8E67 /* Sources */ = {
+		3158B46FFEBAF5A320E2F1851419E19E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				57DE10EAAB206665E98D7398F6C9639C /* CollectionExtension.swift in Sources */,
-				935A987C8314637090402D54388FA5E6 /* HotKey.swift in Sources */,
-				E52E557525E5909E51604BFC1618D877 /* HotKeyCenter.swift in Sources */,
-				24B3203605D8C4AF57132C311CD7069B /* IntExtension.swift in Sources */,
-				D229702F2A8DFFF465A1250A2F7F6377 /* KeyCombo.swift in Sources */,
-				158ADB56A4DFF46A954A042AD3ECC037 /* KeyExtension.swift in Sources */,
-				8326B7526A39636E6FE0F0262E61C3D0 /* Magnet-dummy.m in Sources */,
-				F98DFA62CAA41ACE858F87B51F05B810 /* NSEventExtension.swift in Sources */,
+				F1C5526700C84132B27211E15405EE71 /* LoginServiceKit-dummy.m in Sources */,
+				96AB3DEB08683A6D28FC4058F2767BDF /* LoginServiceKit.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		9D4DF1019B75C24682F85AD69FE3DB62 /* Sources */ = {
+		4E69D7DD11F68FFACAC3C8F4F7107400 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				10B9CAB1FE16F7A0988FD1E3276751EE /* Fuse-dummy.m in Sources */,
-				E2A680C41F4344975DA7D43CC677BF55 /* Fuse.swift in Sources */,
-				835511E4086D6751B123084FFE36EE27 /* FuseUtilities.swift in Sources */,
-				34DACEF4C369E47F6B2D87FBA875C637 /* String+Fuse.swift in Sources */,
+				7F6BA11D1110174E0740B4087919EB58 /* Pods-Maccy-dummy.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		A5B4832E3C252D41AD94E5861C34156C /* Sources */ = {
+		8BA732075EBA6DB80B6B825B2F0ED650 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D9C605F114D121BFB5DC4DF96280799A /* SwiftHEXColors-dummy.m in Sources */,
-				E3505E1087C2C75D26840A90BA552E25 /* SwiftHEXColors.swift in Sources */,
+				47202A4C3F5BB466C818B4F26C4E7BE0 /* InputSource.swift in Sources */,
+				781BD2EB706F271287A287BB49C07779 /* Key.swift in Sources */,
+				82F00DB0ACC30009953650C6D4D90B50 /* KeyboardLayout.swift in Sources */,
+				8513B22C35CF9414E5FE5AA12F5E1EC0 /* ModifierTransformer.swift in Sources */,
+				C6E805FDC6EC477AA776D7E03383B795 /* Sauce-dummy.m in Sources */,
+				E962828FAE808DBCEE60AED3DB602493 /* Sauce.swift in Sources */,
+				EA008126BA5AB81CC87901375CC1717C /* SpecialKeyCode.swift in Sources */,
+				01CEA44AC8B900F7A59CC0E520789E79 /* TISInputSource+Property.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		D80A436342141C833C1E2E36BB54158B /* Sources */ = {
+		981A79A27580C6175D8DDAC2D29ADA16 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4D24AF625403EABFC2ECBDD1846F76EB /* InputSource.swift in Sources */,
-				D2A3485155D6D3D977EF41CB127B65B5 /* Key.swift in Sources */,
-				8127CEDC9E85D665EAAAD304C1EAC38C /* KeyboardLayout.swift in Sources */,
-				06F863D181E8D1B0FCA33AB0CE59B3E4 /* ModifierTransformer.swift in Sources */,
-				EBCD6D9DF188E509AFB98B2D15CC313C /* Sauce-dummy.m in Sources */,
-				25528167E269ADBD54D9EF44005BA2C1 /* Sauce.swift in Sources */,
-				EBEC0C97C3845743F0AE7157A6A06219 /* SpecialKeyCode.swift in Sources */,
-				6C6FFDFBF909C38B76A4928C2D74CFD8 /* TISInputSource+Property.swift in Sources */,
+				1865C9A8554D1BE2503C087919A597EF /* CarbonKeyboardShortcuts.swift in Sources */,
+				580B3A3F852D0ABB25EC8842E006C53C /* Key.swift in Sources */,
+				3024B207F703BA0B2E3E7E87942E1F10 /* KeyboardShortcuts-dummy.m in Sources */,
+				3CA3176F7745DD932156CED1F72F44A0 /* KeyboardShortcuts.swift in Sources */,
+				687078C6C97D243426F7E0FB4EAF7737 /* Name.swift in Sources */,
+				097C72D72C1B506C3044A3FFBFFC3A59 /* NSMenuItem++.swift in Sources */,
+				AAECCBAF0183D6D824FC4CA4B11B1F5C /* Recorder.swift in Sources */,
+				B88A81F95CD67B4B35A6DAB3FD9854E7 /* RecorderCocoa.swift in Sources */,
+				EE9C4AB93C9F2AED8B4D79C23275A3B0 /* Shortcut.swift in Sources */,
+				7B5A262C3BF909346D9CADB7820FFE75 /* util.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		EC1E63028C94A657E523CF7E86650E8C /* Sources */ = {
+		C6BF1D8A95ACE77FFA134063A3D786F9 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				39901ED0E424B4AD66D94DBF5ED432A3 /* LoginServiceKit-dummy.m in Sources */,
-				5C232150CA77EF06DC418A48F78C822F /* LoginServiceKit.swift in Sources */,
+				C6552168E7328AA8A0981D19AE60A343 /* Pods-MaccyTests-dummy.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CE6A9DB733C0885B27A6A1F49380149F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8B66824BD520B3BB94610920A95F7FB5 /* Fuse-dummy.m in Sources */,
+				A2C39440DD24C687D4FC9595A0EF65FD /* Fuse.swift in Sources */,
+				763F09681D7C3F4EC3A2935BB2201CB9 /* FuseUtilities.swift in Sources */,
+				23D86BED094740817D411AE0B18C2B4F /* String+Fuse.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		0DAA8DF8A06248BDEC0FAF4DA3D7203E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = Sauce;
-			target = 7C965F087BD52D10B405DF57848EC900 /* Sauce */;
-			targetProxy = 87DB3461253E27D55804BDED8D671E6D /* PBXContainerItemProxy */;
-		};
-		4CB9EC616DD5EBF8DEBCC4CCEAE0ADA2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = LoginServiceKit;
-			target = 4363B3DEE0E244A6E95B497FB82E7385 /* LoginServiceKit */;
-			targetProxy = 693A587FA0D5420BABE7E38116D2F0FE /* PBXContainerItemProxy */;
-		};
-		7B01E194810AD8EA8D1F6940D6C561FD /* PBXTargetDependency */ = {
+		23EAE1EABBCE01940E003CC1F8F143AA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Fuse;
-			target = 321DED4F241934C91121B3DBA1418D9F /* Fuse */;
-			targetProxy = 7BAE00ABB794BFC94AFA466B154E60DD /* PBXContainerItemProxy */;
+			target = B8CD3B3EDB42EEABB2D487F8706AF6BB /* Fuse */;
+			targetProxy = F8B45B6189B8143ABB52D08FA72D7094 /* PBXContainerItemProxy */;
 		};
-		9FB8790B42227BB30F7361FB7C55EC3A /* PBXTargetDependency */ = {
+		3422D174E5E8AEC2FC5F78AFD301EDBD /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = LoginServiceKit;
+			target = EC362510521DB9CB07BEBC6EC7887988 /* LoginServiceKit */;
+			targetProxy = 0482030518E820A4D94D463BBC6393D6 /* PBXContainerItemProxy */;
+		};
+		6DDC5D91E52F6817CCF4B75CC67FB9DB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SwiftHEXColors;
-			target = FBCA5614C6DE80E95DB0A68DF224D729 /* SwiftHEXColors */;
-			targetProxy = 259AAE41FD890C037F608D764EFC2C1F /* PBXContainerItemProxy */;
+			target = D7CE446BF62E2BBF8CEB123F3B63B02F /* SwiftHEXColors */;
+			targetProxy = 7AED953720DB935A9768CD9F6E46725B /* PBXContainerItemProxy */;
 		};
-		AF52FD4F350F85E9585F8E8282F766EC /* PBXTargetDependency */ = {
+		8323BE6E77C245BBF571C4025281B019 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = Sauce;
-			target = 7C965F087BD52D10B405DF57848EC900 /* Sauce */;
-			targetProxy = 19F1EFDCDEB1945CD2B546C56F6E8B72 /* PBXContainerItemProxy */;
+			target = 86B0065C7440EB5993D7C70A96B945FC /* Sauce */;
+			targetProxy = 057C2D1A46753A702FF9C688A9E50F9A /* PBXContainerItemProxy */;
 		};
-		EA641F559D3315AC84C484AC3588D6EA /* PBXTargetDependency */ = {
+		CB7ADB3D3425091BD6B401DA0E4D9CD0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Sparkle;
-			target = ED77B4B88587C894E85C361023D67C53 /* Sparkle */;
-			targetProxy = D4E6FAD87FD5904A2CC7643CC4AD9EA0 /* PBXContainerItemProxy */;
+			name = Preferences;
+			target = F747D8D0497E3BBEFF56742E347C4F43 /* Preferences */;
+			targetProxy = 8CFA1F68B12869D4A6D42B558721E56F /* PBXContainerItemProxy */;
 		};
-		ED9568CD11592B4A83B87CB2382F5E6C /* PBXTargetDependency */ = {
+		CC1FC0634915F2088DBCCEAFB2E29FE7 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Pods-Maccy";
-			target = 0F34737C713D39F0AFADD58B6EFC2CC9 /* Pods-Maccy */;
-			targetProxy = 185158734F36FEAC87B6FEB6DE77CEA4 /* PBXContainerItemProxy */;
+			target = 09D9386013E0AF30C61FA50973499B09 /* Pods-Maccy */;
+			targetProxy = BB449C9FD5F30939FDBC37144B826E4C /* PBXContainerItemProxy */;
 		};
-		F35CF273A61003553032224DD242639F /* PBXTargetDependency */ = {
+		E03F4D297A02F750BD862C96C13E9243 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			name = Magnet;
-			target = 3E149398A6E587455F01510D83B29C52 /* Magnet */;
-			targetProxy = C7362C4D23D8A8371572DD5AED08BEFE /* PBXContainerItemProxy */;
+			name = KeyboardShortcuts;
+			target = 5896A5F9FD5AA57C763EA4ACD5CF7522 /* KeyboardShortcuts */;
+			targetProxy = CED4A3B147B2C4A105A272CBF461B464 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
-		05287B2805BA96EC3BDF2D4D39235FAE /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2C270DE4BB002D6FAA5835F12DA3C75D /* Pods-Maccy.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "Target Support Files/Pods-Maccy/Pods-Maccy-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MODULEMAP_FILE = "Target Support Files/Pods-Maccy/Pods-Maccy.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		29C04632589B63A70BBAFFEE042B87DD /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B1EE928C7785F775DAA291294C8D872B /* Fuse.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/Fuse/Fuse-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Fuse/Fuse-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Fuse/Fuse.modulemap";
-				PRODUCT_MODULE_NAME = Fuse;
-				PRODUCT_NAME = Fuse;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.1.2;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		3AE37DDEF94BAC58482DC31DF042B710 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = B8CE76A89D03EE8DA40101F77D740323 /* Pods-MaccyTests.release.xcconfig */;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "Target Support Files/Pods-MaccyTests/Pods-MaccyTests-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACH_O_TYPE = staticlib;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MODULEMAP_FILE = "Target Support Files/Pods-MaccyTests/Pods-MaccyTests.modulemap";
-				OTHER_LDFLAGS = "";
-				OTHER_LIBTOOLFLAGS = "";
-				PODS_ROOT = "$(SRCROOT)";
-				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
-				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		41DFEEA7B47DFD367477D0F30717BF9A /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = E9DD96BE12F9734175587C17A5625E85 /* LoginServiceKit.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/LoginServiceKit/LoginServiceKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/LoginServiceKit/LoginServiceKit-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MODULEMAP_FILE = "Target Support Files/LoginServiceKit/LoginServiceKit.modulemap";
-				PRODUCT_MODULE_NAME = LoginServiceKit;
-				PRODUCT_NAME = LoginServiceKit;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		430C0A1F2A9CB52955BEC7CE69B7B629 /* Debug */ = {
+		1C319FE8FEF78C160E1BFEB270E25F16 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
@@ -1155,6 +979,407 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"POD_CONFIGURATION_RELEASE=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRIP_INSTALLED_PRODUCT = NO;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Release;
+		};
+		1D1E014E4BB92DB227D405BF082D769C /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF219502814D526980B668F630E5AA18 /* KeyboardShortcuts.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/KeyboardShortcuts/KeyboardShortcuts-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/KeyboardShortcuts/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MODULEMAP_FILE = "Target Support Files/KeyboardShortcuts/KeyboardShortcuts.modulemap";
+				PRODUCT_MODULE_NAME = KeyboardShortcuts;
+				PRODUCT_NAME = KeyboardShortcuts;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.2;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		20C0ADB7916B0681F66590CE81EB54E0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = EF219502814D526980B668F630E5AA18 /* KeyboardShortcuts.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/KeyboardShortcuts/KeyboardShortcuts-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/KeyboardShortcuts/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				MODULEMAP_FILE = "Target Support Files/KeyboardShortcuts/KeyboardShortcuts.modulemap";
+				PRODUCT_MODULE_NAME = KeyboardShortcuts;
+				PRODUCT_NAME = KeyboardShortcuts;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.2;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		2DBCECDCEC0AC5C5EAA607C5F70C7CB1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 692B8D8A445CA9C3E36D42845183C6A2 /* LoginServiceKit.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/LoginServiceKit/LoginServiceKit-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/LoginServiceKit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MODULEMAP_FILE = "Target Support Files/LoginServiceKit/LoginServiceKit.modulemap";
+				PRODUCT_MODULE_NAME = LoginServiceKit;
+				PRODUCT_NAME = LoginServiceKit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		35B703D6E108278A36988A2DDF909DE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 816A486C9685FABD159B44C33ED0EF6C /* Pods-MaccyTests.debug.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Target Support Files/Pods-MaccyTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MODULEMAP_FILE = "Target Support Files/Pods-MaccyTests/Pods-MaccyTests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		3CC4638DCD72A4FF74D91F0D43054F7C /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = A89A100D698E52318D354C4F60685583 /* Sauce.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/Sauce/Sauce-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Sauce/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MODULEMAP_FILE = "Target Support Files/Sauce/Sauce.modulemap";
+				PRODUCT_MODULE_NAME = Sauce;
+				PRODUCT_NAME = Sauce;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		433803EE93500881B6C97DD2EBE23C32 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 0F476B296688E8A2611661B3A916D2EE /* Pods-MaccyTests.release.xcconfig */;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				INFOPLIST_FILE = "Target Support Files/Pods-MaccyTests/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACH_O_TYPE = staticlib;
+				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MODULEMAP_FILE = "Target Support Files/Pods-MaccyTests/Pods-MaccyTests.modulemap";
+				OTHER_LDFLAGS = "";
+				OTHER_LIBTOOLFLAGS = "";
+				PODS_ROOT = "$(SRCROOT)";
+				PRODUCT_BUNDLE_IDENTIFIER = "org.cocoapods.${PRODUCT_NAME:rfc1034identifier}";
+				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		48FCE2235B374C051FB325FAD3B2084B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8ED4ECFF084BF18FEEC3E2ABF43E9881 /* Fuse.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/Fuse/Fuse-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Fuse/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Fuse/Fuse.modulemap";
+				PRODUCT_MODULE_NAME = Fuse;
+				PRODUCT_NAME = Fuse;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		607BC95ECB97523E255D96FB9458C1A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 985B570797996BE3B6A00C9CDBCBB841 /* SwiftHEXColors.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftHEXColors/SwiftHEXColors-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftHEXColors/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MODULEMAP_FILE = "Target Support Files/SwiftHEXColors/SwiftHEXColors.modulemap";
+				PRODUCT_MODULE_NAME = SwiftHEXColors;
+				PRODUCT_NAME = SwiftHEXColors;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		67ADF17BB7E791D9E2EEC9BBAE124B18 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 692B8D8A445CA9C3E36D42845183C6A2 /* LoginServiceKit.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/LoginServiceKit/LoginServiceKit-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/LoginServiceKit/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MODULEMAP_FILE = "Target Support Files/LoginServiceKit/LoginServiceKit.modulemap";
+				PRODUCT_MODULE_NAME = LoginServiceKit;
+				PRODUCT_NAME = LoginServiceKit;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		754DE495EB11F5D38DC5A4D061B4A0AF /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 8ED4ECFF084BF18FEEC3E2ABF43E9881 /* Fuse.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/Fuse/Fuse-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Fuse/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MODULEMAP_FILE = "Target Support Files/Fuse/Fuse.modulemap";
+				PRODUCT_MODULE_NAME = Fuse;
+				PRODUCT_NAME = Fuse;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Debug;
+		};
+		822B7102BBE44F4B911960928BE7992D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGNING_ALLOWED = NO;
+				CODE_SIGNING_REQUIRED = NO;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1175,34 +1400,85 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
+				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				STRIP_INSTALLED_PRODUCT = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SYMROOT = "${SRCROOT}/../build";
+			};
+			name = Debug;
+		};
+		846EA35B42795E5B5B467C4F21891D8B /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4208BB1AB94E7A334BE9B06D8EB05D4F /* Preferences.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/Preferences/Preferences-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Preferences/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MODULEMAP_FILE = "Target Support Files/Preferences/Preferences.modulemap";
+				PRODUCT_MODULE_NAME = Preferences;
+				PRODUCT_NAME = Preferences;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.1;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		994FB97D2024E78BD05B40A749871BA0 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 985B570797996BE3B6A00C9CDBCBB841 /* SwiftHEXColors.xcconfig */;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/SwiftHEXColors/SwiftHEXColors-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/SwiftHEXColors/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MODULEMAP_FILE = "Target Support Files/SwiftHEXColors/SwiftHEXColors.modulemap";
+				PRODUCT_MODULE_NAME = SwiftHEXColors;
+				PRODUCT_NAME = SwiftHEXColors;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				SYMROOT = "${SRCROOT}/../build";
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		53119FED25D50CAD8C89D980B8FCB179 /* Release */ = {
+		9E92273484F269CCF65E2451F29030A4 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C7328A194580563F19DE13C03CB0D4FE /* Sparkle.release.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
-			};
-			name = Release;
-		};
-		56659B9EF1DD60BAB4923DCF96DFD084 /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7196E1601F9B90B4C322A4A0B5E4760A /* Magnet.release.xcconfig */;
+			baseConfigurationReference = 4208BB1AB94E7A334BE9B06D8EB05D4F /* Preferences.xcconfig */;
 			buildSettings = {
 				CLANG_ENABLE_OBJC_WEAK = NO;
 				CODE_SIGN_IDENTITY = "";
@@ -1216,215 +1492,27 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/Magnet/Magnet-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Magnet/Magnet-Info.plist";
+				GCC_PREFIX_HEADER = "Target Support Files/Preferences/Preferences-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Preferences/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MODULEMAP_FILE = "Target Support Files/Magnet/Magnet.modulemap";
-				PRODUCT_MODULE_NAME = Magnet;
-				PRODUCT_NAME = Magnet;
+				MODULEMAP_FILE = "Target Support Files/Preferences/Preferences.modulemap";
+				PRODUCT_MODULE_NAME = Preferences;
+				PRODUCT_NAME = Preferences;
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		597E092427DF423992C59C814880FE96 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
-				CLANG_CXX_LIBRARY = "libc++";
-				CLANG_ENABLE_MODULES = YES;
-				CLANG_ENABLE_OBJC_ARC = YES;
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
-				CLANG_WARN_BOOL_CONVERSION = YES;
-				CLANG_WARN_COMMA = YES;
-				CLANG_WARN_CONSTANT_CONVERSION = YES;
-				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
-				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_EMPTY_BODY = YES;
-				CLANG_WARN_ENUM_CONVERSION = YES;
-				CLANG_WARN_INFINITE_RECURSION = YES;
-				CLANG_WARN_INT_CONVERSION = YES;
-				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
-				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
-				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
-				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
-				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
-				CLANG_WARN_STRICT_PROTOTYPES = YES;
-				CLANG_WARN_SUSPICIOUS_MOVE = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CLANG_WARN_UNREACHABLE_CODE = YES;
-				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				COPY_PHASE_STRIP = NO;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				ENABLE_NS_ASSERTIONS = NO;
-				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_NO_COMMON_BLOCKS = YES;
-				GCC_PREPROCESSOR_DEFINITIONS = (
-					"POD_CONFIGURATION_RELEASE=1",
-					"$(inherited)",
-				);
-				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
-				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
-				GCC_WARN_UNDECLARED_SELECTOR = YES;
-				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				GCC_WARN_UNUSED_FUNCTION = YES;
-				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MTL_ENABLE_DEBUG_INFO = NO;
-				MTL_FAST_MATH = YES;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRIP_INSTALLED_PRODUCT = NO;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
-				SWIFT_VERSION = 5.0;
-				SYMROOT = "${SRCROOT}/../build";
-			};
-			name = Release;
-		};
-		60DBB9FD45490E8FED091D7170FD542A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 467C960D294718FD3FD72460923149AF /* SwiftHEXColors.debug.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftHEXColors/SwiftHEXColors-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftHEXColors/SwiftHEXColors-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				MODULEMAP_FILE = "Target Support Files/SwiftHEXColors/SwiftHEXColors.modulemap";
-				PRODUCT_MODULE_NAME = SwiftHEXColors;
-				PRODUCT_NAME = SwiftHEXColors;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		62E93A6B06724F1C2725D0BA5B73C833 /* Debug */ = {
+		A00E529A07CAA3ACF41C72E13F3D6F28 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 421FBD01941F7D166C5F1DCAC5C43F1E /* LoginServiceKit.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/LoginServiceKit/LoginServiceKit-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/LoginServiceKit/LoginServiceKit-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MODULEMAP_FILE = "Target Support Files/LoginServiceKit/LoginServiceKit.modulemap";
-				PRODUCT_MODULE_NAME = LoginServiceKit;
-				PRODUCT_NAME = LoginServiceKit;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		8DBA3E302D765D0A04AB2F6E03A61E6E /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F9AEE40683E8092B78A52EA92F838B9F /* Fuse.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/Fuse/Fuse-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Fuse/Fuse-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
-				MODULEMAP_FILE = "Target Support Files/Fuse/Fuse.modulemap";
-				PRODUCT_MODULE_NAME = Fuse;
-				PRODUCT_NAME = Fuse;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 4.1.2;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		999A7A56AD58565382C317087ECC7CAA /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 42BA9DE8B3FE14860ED9D16BCAFD3445 /* SwiftHEXColors.release.xcconfig */;
-			buildSettings = {
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/SwiftHEXColors/SwiftHEXColors-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/SwiftHEXColors/SwiftHEXColors-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
-				MODULEMAP_FILE = "Target Support Files/SwiftHEXColors/SwiftHEXColors.modulemap";
-				PRODUCT_MODULE_NAME = SwiftHEXColors;
-				PRODUCT_NAME = SwiftHEXColors;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Release;
-		};
-		A9287FA505538217E95F24246940AF46 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8BD43CB750CBDA7D47F06B5EBCF00D90 /* Pods-Maccy.debug.xcconfig */;
+			baseConfigurationReference = C81CC8267FE4E5F1759651B9A5E218FA /* Pods-Maccy.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1439,7 +1527,7 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "Target Support Files/Pods-Maccy/Pods-Maccy-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-Maccy/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
@@ -1452,14 +1540,50 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Debug;
 		};
-		AAB3AB9411A751345DCCD0259BAE623D /* Debug */ = {
+		AE48A67C17ABBBD683AAE6C64D1E4016 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 421DFB4568FA666D45A13F5D10B2BCB6 /* Pods-MaccyTests.debug.xcconfig */;
+			baseConfigurationReference = A89A100D698E52318D354C4F60685583 /* Sauce.xcconfig */;
+			buildSettings = {
+				CLANG_ENABLE_OBJC_WEAK = NO;
+				CODE_SIGN_IDENTITY = "";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
+				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
+				COMBINE_HIDPI_IMAGES = YES;
+				CURRENT_PROJECT_VERSION = 1;
+				DEFINES_MODULE = YES;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				FRAMEWORK_VERSION = A;
+				GCC_PREFIX_HEADER = "Target Support Files/Sauce/Sauce-prefix.pch";
+				INFOPLIST_FILE = "Target Support Files/Sauce/Info.plist";
+				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.10;
+				MODULEMAP_FILE = "Target Support Files/Sauce/Sauce.modulemap";
+				PRODUCT_MODULE_NAME = Sauce;
+				PRODUCT_NAME = Sauce;
+				SDKROOT = macosx;
+				SKIP_INSTALL = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				VERSIONING_SYSTEM = "apple-generic";
+				VERSION_INFO_PREFIX = "";
+			};
+			name = Release;
+		};
+		B3CB99D305DBA2CED3DCF50C87D5F232 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 842F2E2BDD1488EBA79F5A8A4D4CA617 /* Pods-Maccy.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ENABLE_OBJC_WEAK = NO;
@@ -1474,12 +1598,12 @@
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = "Target Support Files/Pods-MaccyTests/Pods-MaccyTests-Info.plist";
+				INFOPLIST_FILE = "Target Support Files/Pods-Maccy/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MACH_O_TYPE = staticlib;
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
-				MODULEMAP_FILE = "Target Support Files/Pods-MaccyTests/Pods-MaccyTests.modulemap";
+				MODULEMAP_FILE = "Target Support Files/Pods-Maccy/Pods-Maccy.modulemap";
 				OTHER_LDFLAGS = "";
 				OTHER_LIBTOOLFLAGS = "";
 				PODS_ROOT = "$(SRCROOT)";
@@ -1487,208 +1611,97 @@
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SDKROOT = macosx;
 				SKIP_INSTALL = YES;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		D0B599D64108D4404D6EB4E6EAA7DB4C /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 1D82B5552B639C70C3A00622A4D1C5E8 /* Sauce.release.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/Sauce/Sauce-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Sauce/Sauce-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MODULEMAP_FILE = "Target Support Files/Sauce/Sauce.modulemap";
-				PRODUCT_MODULE_NAME = Sauce;
-				PRODUCT_NAME = Sauce;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
 			name = Release;
 		};
-		D24DE9D59732B3D89F58ACD78EB5F326 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = F4526F4DC8A2E9D3C8F4DFFD25AAAA61 /* Sparkle.debug.xcconfig */;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.7;
-				SDKROOT = macosx;
-			};
-			name = Debug;
-		};
-		E2759D1FFB63BD60972D0B66E80BC113 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = FCF2FC8F07B3B12B5153A26D690A67E9 /* Magnet.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/Magnet/Magnet-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Magnet/Magnet-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MODULEMAP_FILE = "Target Support Files/Magnet/Magnet.modulemap";
-				PRODUCT_MODULE_NAME = Magnet;
-				PRODUCT_NAME = Magnet;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
-		E64B9069B0BB9E56F4ECE751DC121B75 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 26F0E2D299F6FF98EE91BEE3FA4B4C61 /* Sauce.debug.xcconfig */;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = NO;
-				CODE_SIGN_IDENTITY = "";
-				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
-				"CODE_SIGN_IDENTITY[sdk=watchos*]" = "";
-				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 1;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				GCC_PREFIX_HEADER = "Target Support Files/Sauce/Sauce-prefix.pch";
-				INFOPLIST_FILE = "Target Support Files/Sauce/Sauce-Info.plist";
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.10;
-				MODULEMAP_FILE = "Target Support Files/Sauce/Sauce.modulemap";
-				PRODUCT_MODULE_NAME = Sauce;
-				PRODUCT_NAME = Sauce;
-				SDKROOT = macosx;
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) ";
-				SWIFT_VERSION = 5.0;
-				VERSIONING_SYSTEM = "apple-generic";
-				VERSION_INFO_PREFIX = "";
-			};
-			name = Debug;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		152F5EDE4929E2C04A51D228F2F258D9 /* Build configuration list for PBXNativeTarget "Pods-MaccyTests" */ = {
+		0E0B582D8D2B0C67CCE334212F4831C7 /* Build configuration list for PBXNativeTarget "Fuse" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				AAB3AB9411A751345DCCD0259BAE623D /* Debug */,
-				3AE37DDEF94BAC58482DC31DF042B710 /* Release */,
+				754DE495EB11F5D38DC5A4D061B4A0AF /* Debug */,
+				48FCE2235B374C051FB325FAD3B2084B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		2C8D06A2289713323892B3638F08AC0B /* Build configuration list for PBXAggregateTarget "Sparkle" */ = {
+		2D8E8EC45A3A1A1D94AE762CB5028504 /* Build configuration list for PBXProject "Pods" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				D24DE9D59732B3D89F58ACD78EB5F326 /* Debug */,
-				53119FED25D50CAD8C89D980B8FCB179 /* Release */,
+				822B7102BBE44F4B911960928BE7992D /* Debug */,
+				1C319FE8FEF78C160E1BFEB270E25F16 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		4821239608C13582E20E6DA73FD5F1F9 /* Build configuration list for PBXProject "Pods" */ = {
+		47C8A582BF894A90451C3A2F4238B33F /* Build configuration list for PBXNativeTarget "Pods-Maccy" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				430C0A1F2A9CB52955BEC7CE69B7B629 /* Debug */,
-				597E092427DF423992C59C814880FE96 /* Release */,
+				A00E529A07CAA3ACF41C72E13F3D6F28 /* Debug */,
+				B3CB99D305DBA2CED3DCF50C87D5F232 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6707455F6D6273790E0B875566E67FD8 /* Build configuration list for PBXNativeTarget "Sauce" */ = {
+		8E02CFF8AB5125728F6C3DF6896FF182 /* Build configuration list for PBXNativeTarget "KeyboardShortcuts" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E64B9069B0BB9E56F4ECE751DC121B75 /* Debug */,
-				D0B599D64108D4404D6EB4E6EAA7DB4C /* Release */,
+				20C0ADB7916B0681F66590CE81EB54E0 /* Debug */,
+				1D1E014E4BB92DB227D405BF082D769C /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		6899821C3B174FFCAD8D391AA9EA538D /* Build configuration list for PBXNativeTarget "SwiftHEXColors" */ = {
+		9D73EF6446C2491117EF008C747E1377 /* Build configuration list for PBXNativeTarget "SwiftHEXColors" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				60DBB9FD45490E8FED091D7170FD542A /* Debug */,
-				999A7A56AD58565382C317087ECC7CAA /* Release */,
+				994FB97D2024E78BD05B40A749871BA0 /* Debug */,
+				607BC95ECB97523E255D96FB9458C1A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8EAFE2B6BC13A77CCCD51EF3E6681FA0 /* Build configuration list for PBXNativeTarget "Fuse" */ = {
+		A596634D734DE549CB5DCBB949760A4D /* Build configuration list for PBXNativeTarget "LoginServiceKit" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				29C04632589B63A70BBAFFEE042B87DD /* Debug */,
-				8DBA3E302D765D0A04AB2F6E03A61E6E /* Release */,
+				67ADF17BB7E791D9E2EEC9BBAE124B18 /* Debug */,
+				2DBCECDCEC0AC5C5EAA607C5F70C7CB1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		B6310DB0AF3F4FB8C97CF81017433C2D /* Build configuration list for PBXNativeTarget "LoginServiceKit" */ = {
+		B5ED39800B537F53ACF7780585F19A7C /* Build configuration list for PBXNativeTarget "Sauce" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				62E93A6B06724F1C2725D0BA5B73C833 /* Debug */,
-				41DFEEA7B47DFD367477D0F30717BF9A /* Release */,
+				3CC4638DCD72A4FF74D91F0D43054F7C /* Debug */,
+				AE48A67C17ABBBD683AAE6C64D1E4016 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CFF572FB338441F03240C63FC00B2B38 /* Build configuration list for PBXNativeTarget "Magnet" */ = {
+		E557DD37A56882053265C7C80BE3918B /* Build configuration list for PBXNativeTarget "Pods-MaccyTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				E2759D1FFB63BD60972D0B66E80BC113 /* Debug */,
-				56659B9EF1DD60BAB4923DCF96DFD084 /* Release */,
+				35B703D6E108278A36988A2DDF909DE3 /* Debug */,
+				433803EE93500881B6C97DD2EBE23C32 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		D169892DE21BBD832949F91500BE90AC /* Build configuration list for PBXNativeTarget "Pods-Maccy" */ = {
+		F01562143CCD3C1D0E7847B2410CCC7C /* Build configuration list for PBXNativeTarget "Preferences" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				A9287FA505538217E95F24246940AF46 /* Debug */,
-				05287B2805BA96EC3BDF2D4D39235FAE /* Release */,
+				9E92273484F269CCF65E2451F29030A4 /* Debug */,
+				846EA35B42795E5B5B467C4F21891D8B /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
-	rootObject = BFDFE7DC352907FC980B868725387E98 /* Project object */;
+	rootObject = D41D8CD98F00B204E9800998ECF8427E /* Project object */;
 }

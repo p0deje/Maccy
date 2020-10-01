@@ -2,11 +2,12 @@ import AppKit
 
 class History {
   public var all: [HistoryItem] {
-    var items = HistoryItem.all()
-    while items.count > UserDefaults.standard.size {
-      remove(items.removeLast())
+    var unpinned = HistoryItem.unpinned()
+    while unpinned.count > UserDefaults.standard.size {
+      remove(unpinned.removeLast())
     }
-    return items
+
+    return HistoryItem.all()
   }
 
   init() {
@@ -17,10 +18,16 @@ class History {
   }
 
   func add(_ item: HistoryItem) {
-    if let existingHistoryItem = findDuplicateItem(item) {
-      existingHistoryItem.lastCopiedAt = item.firstCopiedAt
-      existingHistoryItem.numberOfCopies += 1
-      remove(item)
+    if let existingHistoryItem = findSimilarItem(item) {
+      item.contents = existingHistoryItem.contents
+      item.firstCopiedAt = existingHistoryItem.firstCopiedAt
+      item.numberOfCopies += existingHistoryItem.numberOfCopies
+      item.pin = existingHistoryItem.pin
+      remove(existingHistoryItem)
+    } else {
+      if UserDefaults.standard.playSounds {
+        NSSound(named: NSSound.Name("write"))?.play()
+      }
     }
 
     CoreDataManager.shared.saveContext()
@@ -39,8 +46,8 @@ class History {
     all.forEach(remove(_:))
   }
 
-  private func findDuplicateItem(_ item: HistoryItem) -> HistoryItem? {
-    let duplicates = all.filter({ $0 == item })
+  private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
+    let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
     if duplicates.count > 1 {
       return duplicates.last
     } else {

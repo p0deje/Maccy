@@ -1,44 +1,48 @@
 PODS:
-  - Fuse (1.2.0)
+  - Fuse (1.4.0)
+  - KeyboardShortcuts (0.3.0)
   - LoginServiceKit (2.1.0)
-  - Magnet (3.0.4):
-    - Sauce (~> 2.0.1)
-  - Sauce (2.0.2)
-  - Sparkle (1.21.3)
+  - Preferences (1.0.1)
+  - Sauce (2.1.0)
   - SwiftHEXColors (1.3.0)
 
 DEPENDENCIES:
-  - Fuse (~> 1.2)
+  - Fuse (~> 1.4)
+  - KeyboardShortcuts (from `https://github.com/sindresorhus/KeyboardShortcuts.git`)
   - LoginServiceKit (from `https://github.com/Clipy/LoginServiceKit.git`)
-  - Magnet (~> 3.0)
-  - Sparkle (~> 1.21)
+  - Preferences (~> 1.0)
+  - Sauce (~> 2.1)
   - SwiftHEXColors (~> 1.3)
 
 SPEC REPOS:
-  https://github.com/CocoaPods/Specs.git:
+  https://github.com/cocoapods/specs.git:
     - Fuse
-    - Magnet
+    - Preferences
     - Sauce
-    - Sparkle
     - SwiftHEXColors
 
 EXTERNAL SOURCES:
+  KeyboardShortcuts:
+    :git: https://github.com/sindresorhus/KeyboardShortcuts.git
   LoginServiceKit:
     :git: https://github.com/Clipy/LoginServiceKit.git
 
 CHECKOUT OPTIONS:
+  KeyboardShortcuts:
+    :commit: c7094b0b7a5daa6a7ad6204679a0c3c32e65f83a
+    :git: https://github.com/sindresorhus/KeyboardShortcuts.git
   LoginServiceKit:
     :commit: 01b162248760b5fed4c7bffebee37eb92351b41b
     :git: https://github.com/Clipy/LoginServiceKit.git
 
 SPEC CHECKSUMS:
-  Fuse: 287bd95a5c8dbfe6c41af519eaf48856aa1a28f6
+  Fuse: 48eaf66d0c407c7f8b0ddb168888dc4637e87f14
+  KeyboardShortcuts: d80ab5dff9e8656bd435bb3470f956df6b5bb0ec
   LoginServiceKit: 889b5d83f237eb22d93f22fb0a210a0a99d89510
-  Magnet: 8dc7e50ac27575b11780fe52115d52055d01cf17
-  Sauce: 46716849891b07f6623e5dceca179691b76ae53e
-  Sparkle: 3f75576db8b0265adef36c43249d747f22d0b708
+  Preferences: a5afbe0ae3e6bd886328b1960f4998e65d58f2c4
+  Sauce: a4075a04b6041e7a0c992a952cc79f7a0ebdb8e3
   SwiftHEXColors: 15ab5242cc2efeab548c4c74793b173b78dbae1c
 
-PODFILE CHECKSUM: 6f0331c5965395bbbce23cd9a375f6db9b509892
+PODFILE CHECKSUM: 040861193ba7c28bd9271f67facdf48ad66a2434
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.5.2

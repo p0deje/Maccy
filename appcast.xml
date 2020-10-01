@@ -2,38 +2,29 @@
 <rss version="2.0" xmlns:sparkle="http://www.andymatuschak.org/xml-namespaces/sparkle" xmlns:dc="http://purl.org/dc/elements/1.1/">
   <channel>
     <title>Maccy</title>
-    <link>https://raw.githubusercontent.com/p0deje/Maccy/sparkle/appcast.xml</link>
+    <link>https://raw.githubusercontent.com/p0deje/Maccy/master/appcast.xml</link>
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.9.0</title>
+      <title>0.16.0</title>
       <description>
         <![CDATA[
-          <h4>⚠️ This release changes the storage way of history. Once upgraded, you won't be able to use older versions of Maccy without removing all your history.</h4>
           <ul>
-            <li>Added support for pinned history items. Any history item can be pinned and unpinned using <kbd>OPTION (⌥)</kbd> + <kbd>P</kbd>.</li>
-            <li>Added support for storing, viewing, copying and pasting images.</li>
-            <li>Added support for transient copies which is used by various apps to copy sensitive data like passwords. Maccy now ignores such copies and not store them in history.</li>
-            <li>Added support for different sorting algorithms of history which are controlled by <code>sortBy</code> option:
-              <ul>
-                <li><code>lastCopiedAt</code> sorts items by the time the item was last copied (default behavior)</li>
-                <li><code>firstCopiedAt</code> sorts items by the time the item was first copied</li>
-                <li><code>numberOfCopies</code> sorts items by the total number of times the item was copied</li>
-              </ul>
-            </li>
-            <li>Added an option to completely hide the footer items (Clear, About, Quit, etc.) by setting <code>hideFooter</code> to <code>true</code>.</li>
-            <li>Added an option to popup window in the center of the screen by setting <code>popupPosition</code> to <code>center</code>.</li>
-            <li>Fixed a bug when multiple copies issued by the same app like BBEdit would not be handled correctly.</li>
-            <li>Fixed a bug when clearing the history during the search would crash.</li>
+            <li>Support Simplified Chinese localization</li>
+            <li>Ignore KeeWeb application copies by default</li>
+            <li>Allow to turn off/on by clicking menu bar icon with <kbd>OPTION (⌥)</kbd> pressed</li>
+            <li>Improve searching and pinning for similarly looking history items</li>
+            <li>Immediately resize image history items when changing image height in preferences</li>
+            <li>Do not hide pinned items when the menu size is limited and pinned items are shown at the bottom</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2020-03-15</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.9.0</releaseNotesLink>
+      <pubDate>2020-09-14</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.16.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.9.0/Maccy.app.zip"
-        sparkle:version="0.9.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.16.0/Maccy.app.zip"
+        sparkle:version="0.16.0"
         length="0"
         type="application/octet-stream"
       />

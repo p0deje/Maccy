@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 class FuseUtilities {
     /// Computes the score for a match with `e` errors and `x` location.
     ///
@@ -19,15 +18,26 @@ class FuseUtilities {
     /// - Parameter scoreTextLength: Coerced version of text's length.
     /// - Returns: Overall score for match (0.0 = good, 1.0 = bad).
     static func calculateScore(_ pattern: String, e: Int, x: Int, loc: Int, distance: Int) -> Double {
-        let len = pattern.count
-        let accuracy = Double(e) / Double(len)
+        return calculateScore(pattern.count, e: e, x: x, loc: loc, distance: distance)
+    }
+
+    /// Computes the score for a match with `e` errors and `x` location.
+    ///
+    /// - Parameter patternLength: Length of pattern being sought.
+    /// - Parameter e: Number of errors in match.
+    /// - Parameter x: Location of match.
+    /// - Parameter loc: Expected location of match.
+    /// - Parameter scoreTextLength: Coerced version of text's length.
+    /// - Returns: Overall score for match (0.0 = good, 1.0 = bad).
+    static func calculateScore(_ patternLength: Int, e: Int, x: Int, loc: Int, distance: Int) -> Double {
+        let accuracy = Double(e) / Double(patternLength)
         let proximity = abs(x - loc)
         if (distance == 0) {
             return Double(proximity != 0 ? 1 : accuracy)
         }
         return Double(accuracy) + (Double(proximity) / Double(distance))
     }
-    
+
     /// Initializes the alphabet for the Bitap algorithm
     ///
     /// - Parameter pattern: The text to encode.
@@ -35,16 +45,12 @@ class FuseUtilities {
     static func calculatePatternAlphabet(_ pattern: String) -> [Character: Int] {
         let len = pattern.count
         var mask = [Character: Int]()
-        for char in pattern {
-            mask[char] = 0
-        }
-        for i in 0...len-1 {
-            let c = pattern[pattern.index(pattern.startIndex, offsetBy: i)]
-            mask[c] =  mask[c]! | (1 << (len - i - 1))
+        for (i, c) in pattern.enumerated() {
+            mask[c] =  (mask[c] ?? 0) | (1 << (len - i - 1))
         }
         return mask
     }
-    
+
     /// Returns an array of `CountableClosedRange<Int>`, where each range represents a consecutive list of `1`s.
     ///
     ///     let arr = [0, 1, 1, 0, 1, 1, 1 ]
@@ -57,18 +63,16 @@ class FuseUtilities {
     static func findRanges(_ mask: [Int]) -> [CountableClosedRange<Int>] {
         var ranges = [CountableClosedRange<Int>]()
         var start: Int = -1
-        var end: Int = -1
         for (n, bit) in mask.enumerated() {
-            if bit == 1 && start == -1 {
+            if start == -1 && bit == 1 {
                 start = n
-            } else if bit == 0 && start != -1 {
-                end = n - 1
-                ranges.append(CountableClosedRange<Int>(start...end))
+            } else if start != -1 && bit == 0 {
+                ranges.append(CountableClosedRange<Int>(start..<n))
                 start = -1
             }
         }
         if mask.last == 1 {
-            ranges.append(CountableClosedRange<Int>(start...mask.count - 1))
+            ranges.append(CountableClosedRange<Int>(start..<mask.count))
         }
         return ranges
     }

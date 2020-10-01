@@ -1,0 +1,6 @@
+framework module Preferences {
+  umbrella header "Preferences-umbrella.h"
+
+  export *
+  module * { export * }
+}
