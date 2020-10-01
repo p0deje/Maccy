@@ -119,6 +119,10 @@
 		0609BCB5A36EB4079FABECC5 /* Pods-Maccy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maccy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Maccy/Pods-Maccy.release.xcconfig"; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		4DC4D10F252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
+		4DC4D110252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
+		4DC4D111252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
+		4DC4D112252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		70AE2EB056543A975B593A01 /* Pods_Maccy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Maccy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CEEFDEE24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AdvancedPreferenceViewController.strings"; sourceTree = "<group>"; };
 		7CEEFDEF24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppearancePreferenceViewController.strings"; sourceTree = "<group>"; };
@@ -472,6 +476,7 @@
 				ru,
 				Base,
 				"zh-Hans",
+				fr,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
@@ -673,6 +678,7 @@
 				4762D69A2467226400B3A2BA /* es */,
 				DAA2BDCE24676CA7007FE090 /* ru */,
 				7CEEFDF124F41F8500ECAD2A /* zh-Hans */,
+				4DC4D112252713D700FE5FAC /* fr */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -684,6 +690,7 @@
 				DA05E7D12483F1B9005CB8AA /* Base */,
 				DA0F34CE24913DD5008E9E26 /* es */,
 				7CEEFDF024F41F8500ECAD2A /* zh-Hans */,
+				4DC4D111252713D700FE5FAC /* fr */,
 			);
 			name = GeneralPreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -695,6 +702,7 @@
 				DA05E7D62483F711005CB8AA /* ru */,
 				DA0F34CD24913DD1008E9E26 /* es */,
 				7CEEFDEF24F41F8500ECAD2A /* zh-Hans */,
+				4DC4D110252713D700FE5FAC /* fr */,
 			);
 			name = AppearancePreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -706,6 +714,7 @@
 				DA05E7E12483FA08005CB8AA /* ru */,
 				DA0F34CC24913DCA008E9E26 /* es */,
 				7CEEFDEE24F41F8500ECAD2A /* zh-Hans */,
+				4DC4D10F252713D700FE5FAC /* fr */,
 			);
 			name = AdvancedPreferenceViewController.xib;
 			sourceTree = "<group>";
