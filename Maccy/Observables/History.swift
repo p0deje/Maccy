@@ -332,6 +332,9 @@ class History { // swiftlint:disable:this type_body_length
     Task {
       searchQuery = ""
     }
+
+    // Only call this in the App Store version.
+    AppStoreReview.ask()
   }
 
   @MainActor
