@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment version="101304" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -119,7 +119,7 @@ Default: ⇧⌘C.</string>
                                 <rect key="frame" x="101" y="390" width="77" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="Check now" bezelStyle="roundedRect" alignment="center" borderStyle="border" inset="2" id="8Rb-OS-d59">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="controlContent"/>
+                                    <font key="font" metaFont="cellTitle"/>
                                 </buttonCell>
                                 <connections>
                                     <action selector="checkForUpdates:" target="NyN-Z6-SI8" id="SZf-Uf-dKc"/>
@@ -296,7 +296,7 @@ Default: 200.</string>
                                 <rect key="frame" x="99" y="19" width="146" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Time of last copy" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="zrg-H1-TjU" id="xRO-v6-Mlu">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                                    <font key="font" metaFont="system"/>
+                                    <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="Aah-Fy-RaW">
                                         <items>
                                             <menuItem title="Time of last copy" state="on" id="zrg-H1-TjU"/>
