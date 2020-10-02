@@ -6,25 +6,25 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.16.0</title>
+      <title>0.17.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Support Simplified Chinese localization</li>
-            <li>Ignore KeeWeb application copies by default</li>
-            <li>Allow to turn off/on by clicking menu bar icon with <kbd>OPTION (⌥)</kbd> pressed</li>
-            <li>Improve searching and pinning for similarly looking history items</li>
-            <li>Immediately resize image history items when changing image height in preferences</li>
-            <li>Do not hide pinned items when the menu size is limited and pinned items are shown at the bottom</li>
+            <li><b>Drop support for macOS High Sierra</b></li>
+            <li>Support French localization</li>
+            <li>Add support for <kbd>CONTROL (^)</kbd> + <kbd>H</kbd> keybinding which removes the last characer in the search field</li>
+            <li>Add support for <kbd>CONTROL (^)</kbd> + <kbd>U</kbd> keybinding which clears the search field</li>
+            <li>Add links to website, GitHub and support to the about window</li>
+            <li>Fix a crash when selecting bottom pinned item when visible menu items is limited</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2020-09-14</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.16.0</releaseNotesLink>
-      <sparkle:minimumSystemVersion>10.13</sparkle:minimumSystemVersion>
+      <pubDate>2020-10-02</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.17.0</releaseNotesLink>
+      <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.16.0/Maccy.app.zip"
-        sparkle:version="0.16.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.17.0/Maccy.app.zip"
+        sparkle:version="0.17.0"
         length="0"
         type="application/octet-stream"
       />
