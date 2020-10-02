@@ -195,6 +195,11 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     case Key.delete:
       processDeleteKey(menu: customMenu, key: key, modifierFlags: modifierFlags)
       return true
+    case Key.h:
+      if modifierFlags.contains(.control) {
+        processDeleteKey(menu: customMenu, key: key, modifierFlags: modifierFlags)
+        return true
+      }
     case Key.w:
       if modifierFlags.contains(.control) {
         removeLastWordInSearchField()
