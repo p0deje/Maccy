@@ -43,7 +43,7 @@ class HistoryItem: NSManagedObject {
   }
 
   func getContents() -> [HistoryItemContent] {
-    return ((contents?.allObjects ?? []) as [HistoryItemContent])
+    return (contents?.allObjects as? [HistoryItemContent]) ?? []
   }
 
   func supersedes(_ item: HistoryItem) -> Bool {

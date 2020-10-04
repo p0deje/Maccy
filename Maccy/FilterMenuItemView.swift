@@ -15,6 +15,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyDown)),
     EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyRepeat))
   ]
+  private let searchThrottler = Throttler(minimumDelay: 0.1)
 
   private var layoutConstraints: [String] {
     var constraints = ["V:|[queryField]-(==3)-|"]
@@ -150,7 +151,9 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }
 
   private func fireNotification() {
-    customMenu?.updateFilter(filter: queryField.stringValue)
+    searchThrottler.throttle {
+      self.customMenu?.updateFilter(filter: self.queryField.stringValue)
+    }
   }
 
   private func setQuery(_ newQuery: String) {
