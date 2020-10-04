@@ -320,7 +320,7 @@ class Menu: NSMenu, NSMenuDelegate {
         appendUnpinnedItemsUntilLimit(historyMenuItemsCount)
       }
     } else {
-      let allItemsCount = indexedItems.flatMap({ $0.menuItems }).count
+      let allItemsCount = indexedItems.flatMap({ $0.menuItems }).filter({ !$0.isPinned }).count
       if historyMenuItemsCount < allItemsCount {
         showAllUnpinnedItems()
       }
