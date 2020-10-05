@@ -6,7 +6,8 @@ import Preferences
 class Maccy: NSObject {
   static public var returnFocusToPreviousApp = true
 
-  @objc public let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
+  @objc public let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+  private let statusItemTitleMaxLength = 20
 
   private let about = About()
   private let clipboard = Clipboard()
@@ -41,6 +42,7 @@ class Maccy: NSObject {
   private var pinToObserver: NSKeyValueObservation?
   private var removeFormattingByDefaultObserver: NSKeyValueObservation?
   private var sortByObserver: NSKeyValueObservation?
+  private var showRecentCopyInMenuBarObserver: NSKeyValueObservation?
   private var statusItemConfigurationObserver: NSKeyValueObservation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
@@ -79,6 +81,9 @@ class Maccy: NSObject {
     sortByObserver = UserDefaults.standard.observe(\.sortBy, options: .new, changeHandler: { _, _ in
       self.rebuild()
     })
+    showRecentCopyInMenuBarObserver = UserDefaults.standard.observe(\.showRecentCopyInMenuBar, options: .new, changeHandler: { _, _ in
+      self.updateMenuTitle()
+    })
     statusItemConfigurationObserver = UserDefaults.standard.observe(\.showInStatusBar,
                                                                     options: .new,
                                                                     changeHandler: { _, change in
@@ -105,6 +110,7 @@ class Maccy: NSObject {
     pinToObserver?.invalidate()
     removeFormattingByDefaultObserver?.invalidate()
     sortByObserver?.invalidate()
+    showRecentCopyInMenuBarObserver?.invalidate()
     statusItemConfigurationObserver?.invalidate()
     statusItemVisibilityObserver?.invalidate()
   }
@@ -163,6 +169,7 @@ class Maccy: NSObject {
 
     clipboard.onNewCopy(history.add)
     clipboard.onNewCopy(menu.add)
+    clipboard.onNewCopy(updateMenuTitle)
     clipboard.startListening()
 
     populateHeader()
@@ -194,6 +201,7 @@ class Maccy: NSObject {
 
   private func populateItems() {
     menu.buildItems()
+    updateMenuTitle()
   }
 
   private func populateFooter() {
@@ -243,6 +251,22 @@ class Maccy: NSObject {
     populateHeader()
     populateItems()
     populateFooter()
+  }
+
+  private func updateMenuTitle(_ item: HistoryItem? = nil) {
+    guard UserDefaults.standard.showRecentCopyInMenuBar else {
+      statusItem.title = nil
+      return
+    }
+
+    var title = ""
+    if let item = item {
+      title = HistoryMenuItem(item: item, clipboard: clipboard).title
+    } else if let item = menu.firstUnpinnedHistoryMenuItem {
+      title = item.title
+    }
+
+    statusItem.title = String(title.prefix(statusItemTitleMaxLength))
   }
 
   // Executes closure with application focus (pun intended).

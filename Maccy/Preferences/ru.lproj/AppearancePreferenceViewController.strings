@@ -17,6 +17,9 @@
 /* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
 "Pud-2o-NKc.title" = "Показывать иконку в меню";
 
+/* Class = "NSButtonCell"; title = "Show recent copy next to menu icon"; ObjectID = "2vE-8q-6tq"; */
+"2vE-8q-6tq.title" = "Показывать последнюю запись рядом с иконкой меню";
+
 /* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
 "R7Y-UN-Edt.title" = "Всплывать у:";
 

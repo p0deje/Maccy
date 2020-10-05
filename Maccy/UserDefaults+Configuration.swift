@@ -18,6 +18,7 @@ extension UserDefaults {
     static let popupPosition = "popupPosition"
     static let removeFormattingByDefault = "removeFormattingByDefault"
     static let saratovSeparator = "enableSaratovSeparator"
+    static let showRecentCopyInMenuBar = "showRecentCopyInMenuBar"
     static let size = "historySize"
     static let sortBy = "sortBy"
 
@@ -126,6 +127,11 @@ extension UserDefaults {
   @objc dynamic public var showInStatusBar: Bool {
     get { ProcessInfo.processInfo.arguments.contains("ui-testing") ? true : bool(forKey: Keys.showInStatusBar) }
     set { set(newValue, forKey: Keys.showInStatusBar) }
+  }
+
+  @objc dynamic public var showRecentCopyInMenuBar: Bool {
+    get { bool(forKey: Keys.showRecentCopyInMenuBar) }
+    set { set(newValue, forKey: Keys.showRecentCopyInMenuBar) }
   }
 
   public var size: Int {

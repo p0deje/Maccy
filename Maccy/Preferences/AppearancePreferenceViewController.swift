@@ -15,6 +15,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var menuSizeSlider: NSSlider!
   @IBOutlet weak var menuSizeLabel: NSTextField!
   @IBOutlet weak var showMenuIconButton: NSButton!
+  @IBOutlet weak var showRecentCopyButton: NSButton!
   @IBOutlet weak var showSearchFieldButton: NSButton!
   @IBOutlet weak var showTitleButton: NSButton!
   @IBOutlet weak var showFooterButton: NSButton!
@@ -26,6 +27,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     populateImageHeight()
     populateMenuSize()
     populateShowMenuIcon()
+    populateShowRecentCopy()
     populateShowSearchField()
     populateShowTitle()
     populateShowFooter()
@@ -67,6 +69,10 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
 
   @IBAction func showMenuIconChanged(_ sender: NSButton) {
     UserDefaults.standard.showInStatusBar = (sender.state == .on)
+  }
+
+  @IBAction func showRecentCopyChanged(_ sender: NSButton) {
+    UserDefaults.standard.showRecentCopyInMenuBar = (sender.state == .on)
   }
 
   @IBAction func showSearchFieldChanged(_ sender: NSButton) {
@@ -135,6 +141,10 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
 
   private func populateShowMenuIcon() {
     showMenuIconButton.state = UserDefaults.standard.showInStatusBar ? .on : .off
+  }
+
+  private func populateShowRecentCopy() {
+    showRecentCopyButton.state = UserDefaults.standard.showRecentCopyInMenuBar ? .on : .off
   }
 
   private func populateShowSearchField() {

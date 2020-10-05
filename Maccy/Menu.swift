@@ -18,8 +18,12 @@ class Menu: NSMenu, NSMenuDelegate {
   public let maxHotKey = 9
   public let menuWidth = 300
 
+  public var firstUnpinnedHistoryMenuItem: HistoryMenuItem? {
+    historyMenuItems.first(where: { !$0.isPinned })
+  }
+
   internal var historyMenuItems: [HistoryMenuItem] {
-    return items.compactMap({ $0 as? HistoryMenuItem })
+    items.compactMap({ $0 as? HistoryMenuItem })
   }
 
   private let search = Search()
@@ -59,7 +63,7 @@ class Menu: NSMenu, NSMenuDelegate {
   func menuWillOpen(_ menu: NSMenu) {
     updateUnpinnedItemsVisibility()
     setKeyEquivalents(historyMenuItems)
-    highlight(historyMenuItems.first(where: { !$0.isPinned }))
+    highlight(firstUnpinnedHistoryMenuItem)
   }
 
   func buildItems() {
