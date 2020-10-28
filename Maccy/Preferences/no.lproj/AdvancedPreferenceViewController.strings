@@ -1,0 +1,24 @@
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "4iz-e8-h5u"; */
+"4iz-e8-h5u.title" = "Tekstcelle";
+
+/* Class = "NSTableColumn"; headerCell.title = "Ignored pasteboard types"; ObjectID = "6cc-Og-e8p"; */
+"6cc-Og-e8p.headerCell.title" = "Ignorerte utklippstavle-typer";
+
+/* Class = "NSTextFieldCell"; title = "Temporarily ignore all new copies.\nYou are likely to use it programmatically and disable application while copying sensitive data."; ObjectID = "Ejh-zi-AFs"; */
+"Ejh-zi-AFs.title" = "Midlertidig ignorer alle nye kopier.\nDu vil mest sannsynlig bruke det programmatisk og deaktivere programmet ved kopiering av sensitive data.";
+
+/* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
+"LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# kopier data\ndefaults write org.p0deje.Maccy ignoreEvents false";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "Meq-nm-ddS"; */
+"Meq-nm-ddS.title" = "Det er mulig å ignorere visse typer utklippstavle elementer fra å bli husket.\nPSom standard er noen kjente program-spesifikke typer definert. Hvis du øsnker, kan du fjerne dem og legge til egne tilpassede typer.";
+
+/* Class = "NSButtonCell"; title = "Turn off"; ObjectID = "RA0-eh-Udt"; */
+"RA0-eh-Udt.title" = "Deaktiver";
+
+/* Class = "NSTextFieldCell"; title = "Maccy takes an active application focus when the popup is shown and gives focus back when it's closed. The focus is needed for advanced macOS input handling such as Chinese helper or accent menu. Enabling this option would prevent Maccy from taking focus. There are certain situations when this can be useful: for example, pasting to a text editor that auto-formats code when it loses focus."; ObjectID = "Y8y-xQ-lFm"; */
+"Y8y-xQ-lFm.title" = "Maccy programmet kommer i fokus når popup'en blir synlig og avgir fokus når den blir lukket. Fokuset er nødvendig for avansert håndtering av informasjon som f.eks ved en Kinesisk hjelpe-meny eller en aksent-meny. Aktivering av dette alternativet ville forhindre Maccy fra å ta fokus. Det er visse situasjoner hvor dette kan være nyttig: f.eks. ved å lime inn i en tekstredigerer som auto-formatterer kode når det mister fokus.";
+
+/* Class = "NSButtonCell"; title = "Avoid taking application focus"; ObjectID = "jjU-HE-iIA"; */
+"jjU-HE-iIA.title" = "Unngå applikasjonsfokus";

@@ -14,7 +14,7 @@
 "preferences_general" = "Generelt";
 "first_copy_time_tooltip" = "Tidspunkt første kopiering";
 "last_copy_time_tooltip" = "Tidspunkt siste kopiering";
-"number_of_copies_tooltip" = "Antall kopier";
+"number_of_copies_tooltip" = "Antall ganger kopiert";
 "copy_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere element.";
 "paste_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere og lime inn element.";
 "format_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere, slette formattering og lime inn element.";
