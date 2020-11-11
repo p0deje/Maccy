@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<svg width="474px" height="474px" viewBox="0 0 474 474" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <!-- Generator: Sketch 56.2 (81672) - https://sketch.com -->
-    <title>Logo</title>
-    <desc>Created with Sketch.</desc>
+<svg width="494px" height="494px" viewBox="0 0 494 494" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>AppIcon (Big Sur)</title>
     <defs>
         <linearGradient x1="50%" y1="0%" x2="50%" y2="100%" id="linearGradient-1">
             <stop stop-color="#FF93F9" offset="0%"></stop>
             <stop stop-color="#FF9C5A" offset="100%"></stop>
         </linearGradient>
+        <path d="M474,147.622851 C474,141.995847 474,136.368268 473.96773,130.740689 C473.939543,126.000131 473.884895,121.260724 473.756042,116.522467 C473.477626,106.195172 472.868449,95.7792896 471.031712,85.5670428 C469.16909,75.2075344 466.127229,65.5659263 461.333767,56.153264 C456.621414,46.901669 450.465787,38.4358528 443.121142,31.0963577 C435.778223,23.7568625 427.310138,17.6052393 418.055126,12.8957443 C408.63272,8.10111371 398.980794,5.06039177 388.60982,3.19833787 C378.396461,1.36447076 367.977742,0.756441421 357.650486,0.477449718 C352.908796,0.349171059 348.167105,0.29509844 343.424264,0.265761168 C337.79383,0.231246731 332.163396,0.234122934 326.532962,0.234122934 L261.158261,0 L212.262992,0 L148.045096,0.234122934 C142.403732,0.234122934 136.762369,0.231246731 131.121005,0.265761168 C126.368385,0.29509844 121.618066,0.349171059 116.867171,0.477449718 C106.515755,0.756441421 96.0734515,1.365046 85.8359326,3.20121407 C75.4511527,5.06269273 65.7848456,8.10226419 56.3497844,12.8934433 C47.0752147,17.6035136 38.5887217,23.7557121 31.2302713,31.0963577 C23.8729714,38.4352775 17.7058398,46.8993681 12.9848578,56.1492373 C8.17816519,65.5665016 5.13055183,75.2138621 3.26332779,85.5791229 C1.42486567,95.787343 0.815688137,106.199774 0.535547007,116.522467 C0.407844069,121.261299 0.352621176,126.000706 0.323859253,130.740689 C0.289344946,136.368843 0,143.359743 0,148.987322 L0,212.315562 L0,261.734484 L0.292221138,326.408212 C0.292221138,332.043269 0.289920184,337.678326 0.323859253,343.313384 C0.352621176,348.060269 0.407844069,352.806004 0.536122245,357.551164 C0.815688137,367.89169 1.42601614,378.322528 3.26620398,388.548581 C5.13285278,398.921895 8.17989091,408.577309 12.9825568,418.002051 C17.7041141,427.266876 23.8723961,435.743622 31.2302713,443.093472 C38.5881464,450.443321 47.0723385,456.602998 56.3451825,461.319396 C65.7859961,466.120354 75.4569051,469.165103 85.8480126,471.029457 C96.0809296,472.866201 106.519782,473.475381 116.867171,473.754372 C121.618066,473.882651 126.36896,473.937299 131.12158,473.966061 C136.762944,474 142.403732,474 148.045096,474 L212.843408,474 L261.860052,474 L326.532962,474 C332.163396,474 337.79383,474 343.424264,473.966061 C348.167105,473.937299 352.908796,473.882651 357.650486,473.754372 C367.981769,473.474805 378.403939,472.86505 388.6219,471.027156 C398.986547,469.162802 408.633871,466.119203 418.0511,461.321121 C427.307837,456.605299 435.777648,450.444472 443.121142,443.093472 C450.464637,435.744773 456.619688,427.269177 461.332042,418.006078 C466.12838,408.576733 469.170241,398.916718 471.034013,388.5365 C472.869024,378.314475 473.477626,367.887663 473.756617,357.551164 C473.884895,352.805429 473.939543,348.059694 473.96773,343.313384 C474,337.678326 474,332.043269 474,326.408212 C474,326.408212 474,262.876337 474,261.734484 L474,212.26379 C474,211.420488 474,147.622851 474,147.622851" id="path-2"></path>
+        <filter x="-4.2%" y="-2.1%" width="108.4%" height="108.4%" filterUnits="objectBoundingBox" id="filter-4">
+            <feOffset dx="0" dy="10" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="5" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.3 0" type="matrix" in="shadowBlurOuter1"></feColorMatrix>
+        </filter>
+        <filter x="-30.3%" y="-11.3%" width="160.6%" height="123.8%" filterUnits="objectBoundingBox" id="filter-5">
+            <feOffset dx="0" dy="5" in="SourceAlpha" result="shadowOffsetOuter1"></feOffset>
+            <feGaussianBlur stdDeviation="10" in="shadowOffsetOuter1" result="shadowBlurOuter1"></feGaussianBlur>
+            <feColorMatrix values="0 0 0 0 0   0 0 0 0 0   0 0 0 0 0  0 0 0 0.5 0" type="matrix" in="shadowBlurOuter1" result="shadowMatrixOuter1"></feColorMatrix>
+            <feMerge>
+                <feMergeNode in="shadowMatrixOuter1"></feMergeNode>
+                <feMergeNode in="SourceGraphic"></feMergeNode>
+            </feMerge>
+        </filter>
     </defs>
     <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="Logo">
-            <circle id="Background" fill="url(#linearGradient-1)" cx="237" cy="237" r="237"></circle>
-            <g id="Icon" transform="translate(157.000000, 23.000000)" stroke="#FFFFFF" stroke-width="11">
+        <g id="AppIcon-(Big-Sur)" transform="translate(10.000000, 0.000000)">
+            <mask id="mask-3" fill="white">
+                <use xlink:href="#path-2"></use>
+            </mask>
+            <g id="Background">
+                <use fill="black" fill-opacity="1" filter="url(#filter-4)" xlink:href="#path-2"></use>
+                <use fill="url(#linearGradient-1)" fill-rule="evenodd" xlink:href="#path-2"></use>
+            </g>
+            <g id="Icon" filter="url(#filter-5)" transform="translate(157.000000, 23.000000)" stroke="#FFFFFF" stroke-width="11">
                 <ellipse id="OuterVane" fill="#44D7B6" cx="80" cy="159.5" rx="74.5" ry="154"></ellipse>
                 <ellipse id="InnerVane" fill="#32C5FF" cx="81" cy="160" rx="47.5" ry="106.5"></ellipse>
-                <path d="M44,400 L80,378" id="LowerLeftAfterfeather" stroke-linecap="round" transform="translate(62.000000, 389.000000) scale(-1, 1) translate(-62.000000, -389.000000) "></path>
-                <path d="M80,399 L116,377" id="LowerRightAfterfeather" stroke-linecap="round"></path>
-                <path d="M81,367 L117,345" id="HigherLeftAfterfeather" stroke-linecap="round"></path>
-                <path d="M79.4116613,54.5282486 L79.5,427.471751" id="Rachies" stroke-linecap="round"></path>
-                <path d="M80,193 L111,172" id="LowerBarb" stroke-linecap="round"></path>
-                <path d="M101.52381,156 L122.47619,141.535714" id="HigherBarb" stroke-linecap="round"></path>
+                <line x1="44" y1="400" x2="80" y2="378" id="LowerLeftAfterfeather" stroke-linecap="round" transform="translate(62.000000, 389.000000) scale(-1, 1) translate(-62.000000, -389.000000) "></line>
+                <line x1="80" y1="399" x2="116" y2="377" id="LowerRightAfterfeather" stroke-linecap="round"></line>
+                <line x1="81" y1="367" x2="117" y2="345" id="HigherLeftAfterfeather" stroke-linecap="round"></line>
+                <line x1="79.4116613" y1="54.5282486" x2="79.5" y2="427.471751" id="Rachies" stroke-linecap="round"></line>
+                <line x1="80" y1="193" x2="111" y2="172" id="LowerBarb" stroke-linecap="round"></line>
+                <line x1="101.52381" y1="155" x2="122.47619" y2="140.535714" id="HigherBarb" stroke-linecap="round"></line>
             </g>
         </g>
     </g>
