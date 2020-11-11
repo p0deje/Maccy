@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import AppKit
 
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
@@ -400,3 +401,4 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 }
 // swiftlint:enable type_body_length
+// swiftlint:enable file_length
