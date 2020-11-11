@@ -6,25 +6,26 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.17.0</title>
+      <title>0.18.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li><b>Drop support for macOS High Sierra</b></li>
-            <li>Support French localization</li>
-            <li>Add support for <kbd>CONTROL (^)</kbd> + <kbd>H</kbd> keybinding which removes the last characer in the search field</li>
-            <li>Add support for <kbd>CONTROL (^)</kbd> + <kbd>U</kbd> keybinding which clears the search field</li>
-            <li>Add links to website, GitHub and support to the about window</li>
-            <li>Fix a crash when selecting bottom pinned item when visible menu items is limited</li>
+            <li>Allow showing currently copied item next to the menu bar icon</li>
+            <li>Allow keeping the previous application focus on the popup</li>
+            <li>Throttle search input so that when typing fast it doesn't update results until typing is finished</li>
+            <li>Support Norwegian localization</li>
+            <li>Update icon to match Big Sur</li>
+            <li>Fix an issue when images wouldn't be pasted if formatting is cleared by default</li>
+            <li>Fix an issue with disappearing pins</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2020-10-02</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.17.0</releaseNotesLink>
+      <pubDate>2020-11-11</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.18.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.17.0/Maccy.app.zip"
-        sparkle:version="0.17.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.18.0/Maccy.app.zip"
+        sparkle:version="0.18.0"
         length="0"
         type="application/octet-stream"
       />
