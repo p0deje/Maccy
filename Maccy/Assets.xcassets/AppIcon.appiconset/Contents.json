@@ -1,68 +1,68 @@
 {
   "images" : [
     {
-      "size" : "16x16",
+      "filename" : "AppIcon (Big Sur)-16w.png",
       "idiom" : "mac",
-      "filename" : "AppIcon-16w.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "size" : "16x16"
     },
     {
-      "size" : "16x16",
+      "filename" : "AppIcon (Big Sur)-32w.png",
       "idiom" : "mac",
-      "filename" : "AppIcon-32w.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "16x16"
     },
     {
-      "size" : "32x32",
+      "filename" : "AppIcon (Big Sur)-32w-1.png",
       "idiom" : "mac",
-      "filename" : "AppIcon-32w-1.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "size" : "32x32"
     },
     {
-      "size" : "32x32",
+      "filename" : "AppIcon (Big Sur)-64w.png",
       "idiom" : "mac",
-      "filename" : "AppIcon-64w.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "32x32"
     },
     {
-      "size" : "128x128",
+      "filename" : "AppIcon (Big Sur)-128w.png",
       "idiom" : "mac",
-      "filename" : "AppIcon-128w.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "size" : "128x128"
     },
     {
-      "size" : "128x128",
+      "filename" : "AppIcon (Big Sur)-256w.png",
       "idiom" : "mac",
-      "filename" : "AppIcon-256w.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "128x128"
     },
     {
-      "size" : "256x256",
+      "filename" : "AppIcon (Big Sur)-256w-1.png",
       "idiom" : "mac",
-      "filename" : "AppIcon-256w-1.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "size" : "256x256"
     },
     {
-      "size" : "256x256",
+      "filename" : "AppIcon (Big Sur)-512w.png",
       "idiom" : "mac",
-      "filename" : "AppIcon-512w.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "256x256"
     },
     {
-      "size" : "512x512",
+      "filename" : "AppIcon (Big Sur)-512w-1.png",
       "idiom" : "mac",
-      "filename" : "AppIcon-512w-1.png",
-      "scale" : "1x"
+      "scale" : "1x",
+      "size" : "512x512"
     },
     {
-      "size" : "512x512",
+      "filename" : "AppIcon (Big Sur)-1024w.png",
       "idiom" : "mac",
-      "filename" : "AppIcon-1024w.png",
-      "scale" : "2x"
+      "scale" : "2x",
+      "size" : "512x512"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
