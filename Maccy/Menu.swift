@@ -81,10 +81,6 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func add(_ item: HistoryItem) {
-    guard item.pin == nil else {
-      return
-    }
-
     let sortedItems = Sorter(by: UserDefaults.standard.sortBy).sort(history.all)
     guard let insertionIndex = sortedItems.firstIndex(where: { $0 == item }) else {
       return
@@ -94,10 +90,21 @@ class Menu: NSMenu, NSMenuDelegate {
     guard let value = menuItems.first?.value else {
       return
     }
-
     indexedItems.insert(IndexedItem(value: value, item: item, menuItems: menuItems), at: insertionIndex)
+
+    var menuItemInsertionIndex = insertionIndex
+    // Keep pins on the same place.
+    if item.pin != nil {
+      if let index = historyMenuItems.firstIndex(where: { item.supersedes($0.item) }) {
+        menuItemInsertionIndex = index
+      }
+    } else {
+      menuItemInsertionIndex *= historyMenuItemsGroup
+    }
+    menuItemInsertionIndex += historyMenuItemOffset
+
     for menuItem in menuItems.reversed() {
-      insertItem(menuItem, at: insertionIndex * historyMenuItemsGroup + historyMenuItemOffset)
+      insertItem(menuItem, at: menuItemInsertionIndex)
     }
 
     clearRemovedItems()
