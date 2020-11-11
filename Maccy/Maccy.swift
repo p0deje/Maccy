@@ -81,7 +81,9 @@ class Maccy: NSObject {
     sortByObserver = UserDefaults.standard.observe(\.sortBy, options: .new, changeHandler: { _, _ in
       self.rebuild()
     })
-    showRecentCopyInMenuBarObserver = UserDefaults.standard.observe(\.showRecentCopyInMenuBar, options: .new, changeHandler: { _, _ in
+    showRecentCopyInMenuBarObserver = UserDefaults.standard.observe(\.showRecentCopyInMenuBar,
+                                                                    options: .new,
+                                                                    changeHandler: { _, _ in
       self.updateMenuTitle()
     })
     statusItemConfigurationObserver = UserDefaults.standard.observe(\.showInStatusBar,
