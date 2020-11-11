@@ -61,9 +61,15 @@ class Clipboard {
     var contents = item.getContents()
 
     if removeFormatting {
-      contents = contents.filter({
+      let stringContents = contents.filter({
         NSPasteboard.PasteboardType($0.type) == .string
       })
+
+      // If there is no string representation of data,
+      // behave like we didn't have to remove formatting.
+      if !stringContents.isEmpty {
+        contents = stringContents
+      }
     }
 
     for content in contents {
