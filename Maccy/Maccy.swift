@@ -162,6 +162,7 @@ class Maccy: NSObject {
 
     if let button = statusItem.button {
       button.image = NSImage(named: "StatusBarMenuImage")
+      button.imagePosition = .imageRight
       button.appearsDisabled = UserDefaults.standard.ignoreEvents
       // Simulate statusItem.menu but allowing to use withFocus
       button.action = #selector(performStatusItemClick)
@@ -257,7 +258,7 @@ class Maccy: NSObject {
 
   private func updateMenuTitle(_ item: HistoryItem? = nil) {
     guard UserDefaults.standard.showRecentCopyInMenuBar else {
-      statusItem.title = nil
+      statusItem.button?.title = ""
       return
     }
 
@@ -268,7 +269,7 @@ class Maccy: NSObject {
       title = item.title
     }
 
-    statusItem.title = String(title.prefix(statusItemTitleMaxLength))
+    statusItem.button?.title = String(title.prefix(statusItemTitleMaxLength))
   }
 
   // Executes closure with application focus (pun intended).

@@ -111,7 +111,9 @@ class HistoryMenuItem: NSMenuItem {
     if let contentData = contentData(item, [from]) {
       if let string = String(data: contentData, encoding: .utf8) {
         self.value = string
-        self.title = trimmedString(string.trimmingCharacters(in: .whitespacesAndNewlines),
+        self.title = trimmedString(string
+                                    .trimmingCharacters(in: .whitespacesAndNewlines)
+                                    .replacingOccurrences(of: "\n", with: ""),
                                   showMaxLength)
         self.image = ColorImage.from(title)
         self.toolTip = """

@@ -98,7 +98,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                                 <rect key="frame" x="-2" y="291" width="402" height="84"/>
                                 <textFieldCell key="cell" selectable="YES" id="Y8y-xQ-lFm">
                                     <font key="font" metaFont="controlContent" size="11"/>
-                                    <mutableString key="title">Maccy takes an active application focus when the popup is shown and gives focus back when it's closed. The focus is needed for advanced macOS input handling such as Chinese helper or accent menu. Enabling this option would prevent Maccy from taking focus. There are certain situations when this can be useful: for example, pasting to a text editor that auto-formats code when it loses focus.</mutableString>
+                                    <string key="title">Maccy takes an active application focus when the popup is shown and gives focus back when it's closed. The focus is needed for advanced macOS input handling such as Chinese helper or accent menu. Enabling this option would prevent Maccy from taking focus. There are certain situations when this can be useful: for example, pasting to a text editor that auto-formats code when it loses focus.</string>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
@@ -162,7 +162,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="smallSquare" trackingMode="momentary" id="RIZ-u6-XNr">
                                     <font key="font" metaFont="system"/>
                                     <segments>
-                                        <segment alignment="left" image="NSAddTemplate"/>
+                                        <segment image="NSAddTemplate"/>
                                         <segment alignment="left" image="NSRemoveTemplate" tag="1"/>
                                     </segments>
                                     <connections>
