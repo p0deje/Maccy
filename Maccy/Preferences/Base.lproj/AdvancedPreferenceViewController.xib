@@ -163,7 +163,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                                     <font key="font" metaFont="system"/>
                                     <segments>
                                         <segment image="NSAddTemplate"/>
-                                        <segment alignment="left" image="NSRemoveTemplate" tag="1"/>
+                                        <segment image="NSRemoveTemplate" tag="1"/>
                                     </segments>
                                     <connections>
                                         <action selector="ignoredTypeAddedOrRemoved:" target="-2" id="EGX-gg-dA5"/>
