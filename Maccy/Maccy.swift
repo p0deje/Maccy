@@ -127,9 +127,7 @@ class Maccy: NSObject {
           self.menu.popUp(positioning: nil, at: NSPoint(x: topLeftX, y: topLeftY), in: nil)
         }
       case "statusItem":
-        if let button = self.statusItem.button, let window = button.window {
-          self.menu.popUp(positioning: nil, at: window.frame.origin, in: nil)
-        }
+        self.simulateStatusItemClick()
       default:
         self.menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
       }
@@ -146,13 +144,7 @@ class Maccy: NSObject {
     }
 
     withFocus {
-      if let buttonCell = self.statusItem.button?.cell as? NSButtonCell {
-        buttonCell.highlightsBy = [.changeBackgroundCellMask, .changeGrayCellMask, .contentsCellMask, .pushInCellMask]
-        self.statusItem.menu = self.menu
-        self.statusItem.button?.performClick(self)
-        self.statusItem.menu = nil
-        buttonCell.highlightsBy = []
-      }
+      self.simulateStatusItemClick()
     }
   }
 
@@ -270,6 +262,16 @@ class Maccy: NSObject {
     }
 
     statusItem.button?.title = String(title.prefix(statusItemTitleMaxLength))
+  }
+
+  private func simulateStatusItemClick() {
+    if let buttonCell = statusItem.button?.cell as? NSButtonCell {
+      buttonCell.highlightsBy = [.changeBackgroundCellMask, .changeGrayCellMask, .contentsCellMask, .pushInCellMask]
+      statusItem.menu = menu
+      statusItem.button?.performClick(self)
+      statusItem.menu = nil
+      buttonCell.highlightsBy = []
+    }
   }
 
   // Executes closure with application focus (pun intended).
