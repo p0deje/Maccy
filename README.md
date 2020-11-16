@@ -1,9 +1,10 @@
-<div align="center">
-  <img width="100px" src="https://maccy.app/img/maccy/Logo.svg" alt="Logo" />
-  <h1>
-    <a href="https://maccy.app/">Maccy</a>
-  </h1>
-</div>
+<img width="128px" src="https://maccy.app/img/maccy/Logo.svg" alt="Logo" align="left" />
+
+# [Maccy](https://maccy.app)
+
+[![Downloads](https://img.shields.io/github/downloads/p0deje/Maccy/total.svg)]()
+[![Build Status](https://img.shields.io/bitrise/716921b669780314/master?token=3pMiCb5dpFzlO-7jTYtO3Q)](https://app.bitrise.io/app/716921b669780314)
+[![Donate](https://img.shields.io/badge/buy%20me%20a%20coffee-donate-yellow.svg)](https://www.buymeacoffee.com/p0deje)
 
 Maccy is a lightweight clipboard manager for macOS. It keeps the history of what you copy
 and lets you quickly navigate, search, and use previous clipboard contents.
@@ -16,8 +17,7 @@ and lets you quickly navigate, search, and use previous clipboard contents.
 * [Advanced](#advanced)
     * [Ignore Copied Items](#ignore-copied-items)
     * [Ignore Custom Copy Types](#ignore-custom-copy-types)
-* [Why Yet Another Clipboard Manager](#why-yet-another-clipboard-manager)
-* [CI](#ci)
+* [Motivatation](#motivatation)
 * [License](#license)
 
 <!-- vim-markdown-toc -->
@@ -100,7 +100,7 @@ If you accidentally removed default types, you can restore the original configur
 defaults write org.p0deje.Maccy ignoredPasteboardTypes -array "de.petermaurer.TransientPasteboardType" "com.typeit4me.clipping" "Pasteboard generator type" "com.agilebits.onepassword" "net.antelle.keeweb"
 ```
 
-## Why Yet Another Clipboard Manager
+## Motivatation
 
 There are dozens of similar applications out there, so why build another?
 Over the past years since I moved from Linux to macOS, I struggled to find
@@ -108,10 +108,6 @@ a clipboard manager that is as free and simple as [Parcellite](http://parcellite
 but I couldn't. So I've decided to build one.
 
 Also, I wanted to learn Swift and get acquainted with macOS application development.
-
-## CI
-
-[![Build Status](https://app.bitrise.io/app/716921b669780314/status.svg?token=3pMiCb5dpFzlO-7jTYtO3Q&branch=master)](https://app.bitrise.io/app/716921b669780314)
 
 ## License
 
