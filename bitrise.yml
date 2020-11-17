@@ -28,7 +28,7 @@ app:
   envs:
   - opts:
       is_expand: false
-    BITRISE_PROJECT_PATH: Maccy.xcworkspace
+    BITRISE_PROJECT_PATH: Maccy.xcodeproj
   - opts:
       is_expand: false
     BITRISE_SCHEME: Maccy

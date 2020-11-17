@@ -1,6 +1,0 @@
-framework module KeyboardShortcuts {
-  umbrella header "KeyboardShortcuts-umbrella.h"
-
-  export *
-  module * { export * }
-}

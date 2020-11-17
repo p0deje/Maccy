@@ -1,6 +1,0 @@
-framework module LoginServiceKit {
-  umbrella header "LoginServiceKit-umbrella.h"
-
-  export *
-  module * { export * }
-}

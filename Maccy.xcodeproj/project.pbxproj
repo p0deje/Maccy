@@ -3,13 +3,20 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2B63F3A3615AE0AF9FB59464 /* Pods_Maccy.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 70AE2EB056543A975B593A01 /* Pods_Maccy.framework */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
-		86D6CB87BA4B18A71E7BB66F /* Pods_MaccyTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 975F85A311398775317C1FCB /* Pods_MaccyTests.framework */; };
+		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
+		DA009932256411F90030E697 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DA00992D256411F90030E697 /* README.md */; };
+		DA009933256411F90030E697 /* Vagrantfile in Resources */ = {isa = PBXBuildFile; fileRef = DA00992E256411F90030E697 /* Vagrantfile */; };
+		DA009934256411F90030E697 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = DA00992F256411F90030E697 /* LICENSE */; };
+		DA009935256411F90030E697 /* bitrise.yml in Resources */ = {isa = PBXBuildFile; fileRef = DA009930256411F90030E697 /* bitrise.yml */; };
+		DA009940256414560030E697 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = DA00993F256414560030E697 /* Fuse */; };
+		DA009947256414800030E697 /* SwiftHEXColors in Frameworks */ = {isa = PBXBuildFile; productRef = DA009946256414800030E697 /* SwiftHEXColors */; };
+		DA00994E256414A20030E697 /* LoginServiceKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA00994D256414A20030E697 /* LoginServiceKit */; };
+		DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = DA009954256414E60030E697 /* KeyboardShortcuts */; };
 		DA043DE1247D171C00488756 /* AppearancePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */; };
 		DA05E7CC2483EF83005CB8AA /* GeneralPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */; };
 		DA05E7D22483F70B005CB8AA /* AppearancePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7D42483F70B005CB8AA /* AppearancePreferenceViewController.xib */; };
@@ -32,6 +39,8 @@
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
 		DA384E86232746D800603999 /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA384E85232746D800603999 /* SearchTests.swift */; };
 		DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */; };
+		DA5154D325640FD800C01004 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = DA5154D225640FD800C01004 /* Preferences */; };
+		DA5154D82564102900C01004 /* Sauce in Frameworks */ = {isa = PBXBuildFile; productRef = DA5154D72564102900C01004 /* Sauce */; };
 		DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */; };
 		DA57C64E249E2A550032707A /* MenuFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57C64D249E2A550032707A /* MenuFooter.swift */; };
 		DA57C650249E3C8F0032707A /* MenuFoooterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57C64F249E3C8F0032707A /* MenuFoooterTests.swift */; };
@@ -117,21 +126,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0609BCB5A36EB4079FABECC5 /* Pods-Maccy.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maccy.release.xcconfig"; path = "Pods/Target Support Files/Pods-Maccy/Pods-Maccy.release.xcconfig"; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4DC4D10F252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
 		4DC4D110252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
 		4DC4D111252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
 		4DC4D112252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		70AE2EB056543A975B593A01 /* Pods_Maccy.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Maccy.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		7CEEFDEE24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AdvancedPreferenceViewController.strings"; sourceTree = "<group>"; };
 		7CEEFDEF24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppearancePreferenceViewController.strings"; sourceTree = "<group>"; };
 		7CEEFDF024F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GeneralPreferenceViewController.strings"; sourceTree = "<group>"; };
 		7CEEFDF124F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		975F85A311398775317C1FCB /* Pods_MaccyTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_MaccyTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		9E6B74E2D3DF3AFC5D46D00A /* Pods-MaccyTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaccyTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MaccyTests/Pods-MaccyTests.debug.xcconfig"; sourceTree = "<group>"; };
-		D6F6959144733C6AFB9C2610 /* Pods-Maccy.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Maccy.debug.xcconfig"; path = "Pods/Target Support Files/Pods-Maccy/Pods-Maccy.debug.xcconfig"; sourceTree = "<group>"; };
+		DA00992C256411F90030E697 /* appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = appcast.xml; sourceTree = "<group>"; };
+		DA00992D256411F90030E697 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		DA00992E256411F90030E697 /* Vagrantfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Vagrantfile; sourceTree = "<group>"; };
+		DA00992F256411F90030E697 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		DA009930256411F90030E697 /* bitrise.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = bitrise.yml; sourceTree = "<group>"; };
 		DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearancePreferenceViewController.swift; sourceTree = "<group>"; };
 		DA05E7D02483EF8F005CB8AA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
 		DA05E7D12483F1B9005CB8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GeneralPreferenceViewController.xib; sourceTree = "<group>"; };
@@ -142,7 +151,6 @@
 		DA0950EF244AA1A90008414C /* HistoryItemOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemOld.swift; sourceTree = "<group>"; };
 		DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0EE7B8204657830025FC60 /* MaccyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaccyUITests.swift; sourceTree = "<group>"; };
-		DA0EE7BA204657840025FC60 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA0EF1871E444B2A00E58577 /* Clipboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
 		DA0F34CC24913DCA008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
 		DA0F34CD24913DD1008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
@@ -203,7 +211,6 @@
 		DAF65F4624D396FE00F3978F /* PasteMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasteMenuItem.swift; sourceTree = "<group>"; };
 		DAF65F4724D396FE00F3978F /* CopyMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyMenuItem.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Popup.swift"; sourceTree = "<group>"; };
-		EE4F94E5429D67E354BC8011 /* Pods-MaccyTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MaccyTests.release.xcconfig"; path = "Pods/Target Support Files/Pods-MaccyTests/Pods-MaccyTests.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -218,7 +225,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				86D6CB87BA4B18A71E7BB66F /* Pods_MaccyTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -226,32 +232,24 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DA5154D325640FD800C01004 /* Preferences in Frameworks */,
+				DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */,
+				DA00994E256414A20030E697 /* LoginServiceKit in Frameworks */,
 				DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */,
+				DA009947256414800030E697 /* SwiftHEXColors in Frameworks */,
 				DAD20C7924E55CD200E96247 /* Sparkle.framework in Frameworks */,
-				2B63F3A3615AE0AF9FB59464 /* Pods_Maccy.framework in Frameworks */,
+				DA5154D82564102900C01004 /* Sauce in Frameworks */,
+				DA009940256414560030E697 /* Fuse in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		02D718D70205697BF9B8A0A6 /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				D6F6959144733C6AFB9C2610 /* Pods-Maccy.debug.xcconfig */,
-				0609BCB5A36EB4079FABECC5 /* Pods-Maccy.release.xcconfig */,
-				9E6B74E2D3DF3AFC5D46D00A /* Pods-MaccyTests.debug.xcconfig */,
-				EE4F94E5429D67E354BC8011 /* Pods-MaccyTests.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		C2D16D1C2EE365D52E1EE446 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				DA5F464F2020E4DF00425C11 /* Carbon.framework */,
-				70AE2EB056543A975B593A01 /* Pods_Maccy.framework */,
-				975F85A311398775317C1FCB /* Pods_MaccyTests.framework */,
 				DAD20C7224E55CD100E96247 /* org.sparkle-project.Downloader.xpc */,
 				DAD20C7624E55CD200E96247 /* org.sparkle-project.InstallerConnection.xpc */,
 				DAD20C7524E55CD200E96247 /* org.sparkle-project.InstallerLauncher.xpc */,
@@ -265,7 +263,6 @@
 			isa = PBXGroup;
 			children = (
 				DA0EE7B8204657830025FC60 /* MaccyUITests.swift */,
-				DA0EE7BA204657840025FC60 /* Info.plist */,
 			);
 			path = MaccyUITests;
 			sourceTree = "<group>";
@@ -313,12 +310,16 @@
 		DAEE383A1E3DBEB100DD2966 = {
 			isa = PBXGroup;
 			children = (
+				DA00992C256411F90030E697 /* appcast.xml */,
+				DA009930256411F90030E697 /* bitrise.yml */,
+				DA00992F256411F90030E697 /* LICENSE */,
+				DA00992D256411F90030E697 /* README.md */,
+				DA00992E256411F90030E697 /* Vagrantfile */,
 				DAEE38451E3DBEB100DD2966 /* Maccy */,
 				DA360DB11E3DF137005C6F6B /* MaccyTests */,
 				DA0EE7B7204657830025FC60 /* MaccyUITests */,
 				DAEE38441E3DBEB100DD2966 /* Products */,
 				C2D16D1C2EE365D52E1EE446 /* Frameworks */,
-				02D718D70205697BF9B8A0A6 /* Pods */,
 			);
 			sourceTree = "<group>";
 		};
@@ -405,7 +406,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DA360DB71E3DF137005C6F6B /* Build configuration list for PBXNativeTarget "MaccyTests" */;
 			buildPhases = (
-				02BFFDACCB8EB9C465B4F04C /* [CP] Check Pods Manifest.lock */,
 				DA360DAC1E3DF137005C6F6B /* Sources */,
 				DA360DAD1E3DF137005C6F6B /* Frameworks */,
 				DA360DAE1E3DF137005C6F6B /* Resources */,
@@ -424,19 +424,25 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = DAEE38501E3DBEB100DD2966 /* Build configuration list for PBXNativeTarget "Maccy" */;
 			buildPhases = (
-				4C7544D79A6F57EF29C5A306 /* [CP] Check Pods Manifest.lock */,
 				DAEE383F1E3DBEB100DD2966 /* Sources */,
 				DAEE38401E3DBEB100DD2966 /* Frameworks */,
 				DAEE38411E3DBEB100DD2966 /* Resources */,
 				DAE61DA01EDC4A5E0016A3DE /* Copy Sparkle */,
 				DAA8D3D524E44F2E00A08026 /* Embed Sparkle XPC Services */,
-				8AE38A873EFDB3F38D55B774 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
 			name = Maccy;
+			packageProductDependencies = (
+				DA5154D225640FD800C01004 /* Preferences */,
+				DA5154D72564102900C01004 /* Sauce */,
+				DA00993F256414560030E697 /* Fuse */,
+				DA009946256414800030E697 /* SwiftHEXColors */,
+				DA00994D256414A20030E697 /* LoginServiceKit */,
+				DA009954256414E60030E697 /* KeyboardShortcuts */,
+			);
 			productName = Maccy;
 			productReference = DAEE38431E3DBEB100DD2966 /* Maccy.app */;
 			productType = "com.apple.product-type.application";
@@ -448,7 +454,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 1150;
+				LastUpgradeCheck = 1210;
 				ORGANIZATIONNAME = p0deje;
 				TargetAttributes = {
 					DA0EE7B5204657830025FC60 = {
@@ -487,6 +493,14 @@
 				nb,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
+			packageReferences = (
+				DA5154D125640FD800C01004 /* XCRemoteSwiftPackageReference "Preferences" */,
+				DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */,
+				DA00993E256414560030E697 /* XCRemoteSwiftPackageReference "fuse-swift" */,
+				DA009945256414800030E697 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */,
+				DA00994C256414A20030E697 /* XCRemoteSwiftPackageReference "LoginServiceKit" */,
+				DA009953256414E60030E697 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+			);
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -524,83 +538,21 @@
 				DAB8CE4224E368F200A2500E /* container-migration.plist in Resources */,
 				DAD20C7A24E55CD200E96247 /* org.sparkle-project.InstallerLauncher.xpc in Resources */,
 				DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */,
+				DA009935256411F90030E697 /* bitrise.yml in Resources */,
 				4762D6972467226100B3A2BA /* Localizable.strings in Resources */,
+				DA009934256411F90030E697 /* LICENSE in Resources */,
+				DA009931256411F90030E697 /* appcast.xml in Resources */,
 				DA05E7D22483F70B005CB8AA /* AppearancePreferenceViewController.xib in Resources */,
 				DA21AD44249E86F0003E7C98 /* knock.mp3 in Resources */,
 				DA21AD42249E86E8003E7C98 /* write.mp3 in Resources */,
+				DA009932256411F90030E697 /* README.md in Resources */,
 				DA05E7D72483F988005CB8AA /* AdvancedPreferenceViewController.xib in Resources */,
+				DA009933256411F90030E697 /* Vagrantfile in Resources */,
 				DA246D611E56C9EA001E40F3 /* Application.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		02BFFDACCB8EB9C465B4F04C /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-MaccyTests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		4C7544D79A6F57EF29C5A306 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-Maccy-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8AE38A873EFDB3F38D55B774 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"${SRCROOT}/Pods/Target Support Files/Pods-Maccy/Pods-Maccy-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Fuse/Fuse.framework",
-				"${BUILT_PRODUCTS_DIR}/KeyboardShortcuts/KeyboardShortcuts.framework",
-				"${BUILT_PRODUCTS_DIR}/LoginServiceKit/LoginServiceKit.framework",
-				"${BUILT_PRODUCTS_DIR}/Preferences/Preferences.framework",
-				"${BUILT_PRODUCTS_DIR}/Sauce/Sauce.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftHEXColors/SwiftHEXColors.framework",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Fuse.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/KeyboardShortcuts.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/LoginServiceKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Preferences.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sauce.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftHEXColors.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-Maccy/Pods-Maccy-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA0EE7B2204657830025FC60 /* Sources */ = {
@@ -747,7 +699,11 @@
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MaccyUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.MaccyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -769,7 +725,11 @@
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				INFOPLIST_FILE = MaccyUITests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.MaccyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -781,7 +741,6 @@
 		};
 		DA360DB81E3DF137005C6F6B /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9E6B74E2D3DF3AFC5D46D00A /* Pods-MaccyTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "-";
@@ -789,7 +748,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				INFOPLIST_FILE = MaccyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.MaccyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -800,7 +763,6 @@
 		};
 		DA360DB91E3DF137005C6F6B /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = EE4F94E5429D67E354BC8011 /* Pods-MaccyTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_IDENTITY = "Mac Developer";
@@ -808,7 +770,11 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				INFOPLIST_FILE = MaccyTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.MaccyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -842,6 +808,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -901,6 +868,7 @@
 				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
 				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
 				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
 				CLANG_WARN_STRICT_PROTOTYPES = YES;
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
@@ -922,14 +890,14 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.14;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
 			};
 			name = Release;
 		};
 		DAEE38511E3DBEB100DD2966 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D6F6959144733C6AFB9C2610 /* Pods-Maccy.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -944,7 +912,10 @@
 					"$(PROJECT_DIR)/Sparkle",
 				);
 				INFOPLIST_FILE = Maccy/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -955,7 +926,6 @@
 		};
 		DAEE38521E3DBEB100DD2966 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 0609BCB5A36EB4079FABECC5 /* Pods-Maccy.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
@@ -971,7 +941,10 @@
 					"$(PROJECT_DIR)/Sparkle",
 				);
 				INFOPLIST_FILE = Maccy/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1019,6 +992,90 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		DA00993E256414560030E697 /* XCRemoteSwiftPackageReference "fuse-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krisk/fuse-swift";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
+		DA009945256414800030E697 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/thii/SwiftHEXColors";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 1.4.0;
+			};
+		};
+		DA00994C256414A20030E697 /* XCRemoteSwiftPackageReference "LoginServiceKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Clipy/LoginServiceKit";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.2.0;
+			};
+		};
+		DA009953256414E60030E697 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 0.3.0;
+			};
+		};
+		DA5154D125640FD800C01004 /* XCRemoteSwiftPackageReference "Preferences" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Preferences";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
+		DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/Clipy/Sauce";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 2.1.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		DA00993F256414560030E697 /* Fuse */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA00993E256414560030E697 /* XCRemoteSwiftPackageReference "fuse-swift" */;
+			productName = Fuse;
+		};
+		DA009946256414800030E697 /* SwiftHEXColors */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA009945256414800030E697 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */;
+			productName = SwiftHEXColors;
+		};
+		DA00994D256414A20030E697 /* LoginServiceKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA00994C256414A20030E697 /* XCRemoteSwiftPackageReference "LoginServiceKit" */;
+			productName = LoginServiceKit;
+		};
+		DA009954256414E60030E697 /* KeyboardShortcuts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA009953256414E60030E697 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
+			productName = KeyboardShortcuts;
+		};
+		DA5154D225640FD800C01004 /* Preferences */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA5154D125640FD800C01004 /* XCRemoteSwiftPackageReference "Preferences" */;
+			productName = Preferences;
+		};
+		DA5154D72564102900C01004 /* Sauce */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */;
+			productName = Sauce;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		DAB65DFB2440AD63000AECA8 /* Storage.xcdatamodeld */ = {
