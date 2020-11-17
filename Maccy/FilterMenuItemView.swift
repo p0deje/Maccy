@@ -242,6 +242,11 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
         performMenuItemAction(MenuFooter.preferences.rawValue)
         return false
       }
+    case Key.v:
+      if modifierFlags.contains(.command), let currentCopy = NSPasteboard.general.string(forType: .string) {
+        setQuery(currentCopy)
+        return false
+      }
     default:
       break
     }

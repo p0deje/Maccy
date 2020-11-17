@@ -300,6 +300,15 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo")
   }
 
+  func testPasteToSearch() {
+    popUpWithHotkey()
+    app.typeKey("v", modifierFlags: [.command])
+    XCTAssertEqual(app.textFields.firstMatch.value as? String, copy1)
+    XCTAssertTrue(app.menuItems[copy1].exists)
+    XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
+    XCTAssertFalse(app.menuItems[copy2].exists)
+  }
+
   private func popUpWithHotkey() {
     simulatePopupHotkey()
     waitUntilPoppedUp()
