@@ -6,23 +6,20 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.18.1</title>
+      <title>0.18.2</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Align +/- signs on buttons in Advanced preferences window on Big Sur</li>
-            <li>Align menu icon text to the left</li>
-            <li>Fix a UI glitch of menu icon text being mispositioned when it contains newline characters</li>
-            <li>Properly position popup when it's configured to show at menu icon</li>
+            <li>Allow pasting into the search</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2020-11-16</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.18.1</releaseNotesLink>
+      <pubDate>2020-11-18</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.18.2</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.18.1/Maccy.app.zip"
-        sparkle:version="0.18.1"
+        url="https://github.com/p0deje/Maccy/releases/download/0.18.2/Maccy.app.zip"
+        sparkle:version="0.18.2"
         length="0"
         type="application/octet-stream"
       />
