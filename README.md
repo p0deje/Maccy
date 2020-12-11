@@ -17,7 +17,7 @@ and lets you quickly navigate, search, and use previous clipboard contents.
 * [Advanced](#advanced)
     * [Ignore Copied Items](#ignore-copied-items)
     * [Ignore Custom Copy Types](#ignore-custom-copy-types)
-* [Motivatation](#motivatation)
+* [Motivation](#motivation)
 * [License](#license)
 
 <!-- vim-markdown-toc -->
@@ -100,7 +100,7 @@ If you accidentally removed default types, you can restore the original configur
 defaults write org.p0deje.Maccy ignoredPasteboardTypes -array "de.petermaurer.TransientPasteboardType" "com.typeit4me.clipping" "Pasteboard generator type" "com.agilebits.onepassword" "net.antelle.keeweb"
 ```
 
-## Motivatation
+## Motivation
 
 There are dozens of similar applications out there, so why build another?
 Over the past years since I moved from Linux to macOS, I struggled to find
