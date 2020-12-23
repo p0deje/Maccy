@@ -35,7 +35,7 @@ and lets you quickly navigate, search, and use previous clipboard contents.
 Download the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):
 
 ```sh
-brew cask install maccy
+brew install --cask maccy
 ```
 
 ## Usage
