@@ -6,20 +6,21 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.18.2</title>
+      <title>0.19.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Allow pasting into the search</li>
+            <li>Support for Apple Silicon</li>
+            <li>Improved compatibility with Big Sur (icon size, preferences appearance)</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2020-11-18</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.18.2</releaseNotesLink>
+      <pubDate>2021-01-24</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.19.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.18.2/Maccy.app.zip"
-        sparkle:version="0.18.2"
+        url="https://github.com/p0deje/Maccy/releases/download/0.19.0/Maccy.app.zip"
+        sparkle:version="0.19.0"
         length="0"
         type="application/octet-stream"
       />
