@@ -2,7 +2,7 @@ import Cocoa
 import Preferences
 
 class AppearancePreferenceViewController: NSViewController, PreferencePane {
-  public let preferencePaneIdentifier = PreferencePane.Identifier.appearance
+  public let preferencePaneIdentifier = Preferences.PaneIdentifier.appearance
   public let preferencePaneTitle = NSLocalizedString("preferences_appearance", comment: "")
   public let toolbarItemIcon = NSImage(named: NSImage.colorPanelName)!
 
