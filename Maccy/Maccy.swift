@@ -3,6 +3,7 @@ import KeyboardShortcuts
 import LoginServiceKit
 import Preferences
 
+// swiftlint:disable type_body_length
 class Maccy: NSObject {
   static public var returnFocusToPreviousApp = true
 
@@ -338,3 +339,4 @@ class Maccy: NSObject {
     }
   }
 }
+// swiftlint:enable type_body_length
