@@ -22,3 +22,7 @@
 "accessibility_alert_comment" = "Предоставьте права доступа этой программе в настройках «Защита и безопасность» в Системных настройках";
 "accessibility_alert_deny" = "Запретить";
 "accessibility_alert_open" = "Открыть «Системные настройки»";
+"clear_alert_message" = "Вы дейстительно хотите очистить историю?";
+"clear_alert_comment" = "Это действие необратимо.";
+"clear_alert_cancel" = "Отмена";
+"clear_alert_confirm" = "Очистить";

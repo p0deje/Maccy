@@ -22,3 +22,7 @@
 "accessibility_alert_comment" = "Accorder les droits à cette application dans le panneau Sécurité & confidentialité, situé dans Préférences Système.";
 "accessibility_alert_deny" = "Refuser";
 "accessibility_alert_open" = "Ouvrir les Préférences Système";
+"clear_alert_message" = "Voulez-vous vraiment effacer l'historique?";
+"clear_alert_comment" = "Vous ne pouvez pas annuler cette action.";
+"clear_alert_cancel" = "Annuler";
+"clear_alert_confirm" = "Supprimer";

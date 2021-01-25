@@ -17,6 +17,14 @@ class Maccy: NSObject {
   @objc private var menuLink: NSStatusItem!
 
   private let carbonMenuWindowClass = "NSStatusBarWindow"
+  private var clearAlert: NSAlert {
+    let alert = NSAlert()
+    alert.messageText = NSLocalizedString("clear_alert_message", comment: "")
+    alert.informativeText = NSLocalizedString("clear_alert_comment", comment: "")
+    alert.addButton(withTitle: NSLocalizedString("clear_alert_confirm", comment: ""))
+    alert.addButton(withTitle: NSLocalizedString("clear_alert_cancel", comment: ""))
+    return alert
+  }
   private var extraVisibleWindows: [NSWindow] {
     return NSApp.windows.filter({ $0.isVisible && String(describing: type(of: $0)) != carbonMenuWindowClass })
   }
@@ -230,13 +238,17 @@ class Maccy: NSObject {
   }
 
   private func clearUnpinned() {
-    history.all.filter({ $0.pin == nil }).forEach(history.remove(_:))
-    menu.clearUnpinned()
+    if clearAlert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
+      history.all.filter({ $0.pin == nil }).forEach(history.remove(_:))
+      menu.clearUnpinned()
+    }
   }
 
   private func clearAll() {
-    history.clear()
-    menu.clearAll()
+    if clearAlert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
+      history.clear()
+      menu.clearAll()
+    }
   }
 
   private func rebuild() {

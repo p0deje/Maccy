@@ -22,3 +22,7 @@
 "accessibility_alert_comment" = "Dale acceso a esta aplicación en el panel “Seguridad y privacidad” de Preferencias del Sistema.";
 "accessibility_alert_deny" = "Denegar";
 "accessibility_alert_open" = "Abrir Preferencias del Sistema";
+"clear_alert_message" = "¿Estás seguro de que deseas borrar el historial?";
+"clear_alert_comment" = "No puede deshacer esta acción.";
+"clear_alert_cancel" = "Cancelar";
+"clear_alert_confirm" = "Limpiar";

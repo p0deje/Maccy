@@ -22,3 +22,7 @@
 "accessibility_alert_comment" = "Gi tillatelse til dette programmet i Sikkerhet & Personvern innstillingene, lokalisert i System Valg.";
 "accessibility_alert_deny" = "Avslå";
 "accessibility_alert_open" = "Åpne System Valg";
+"clear_alert_message" = "Er du sikker på at du vil tømme historikken?";
+"clear_alert_comment" = "Du kan ikke angre denne handlingen.";
+"clear_alert_cancel" = "Avbryt";
+"clear_alert_confirm" = "Slett";
