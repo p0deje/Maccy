@@ -9,8 +9,15 @@
 #ifndef SUAPPCASTITEM_H
 #define SUAPPCASTITEM_H
 
+#if __has_feature(modules)
+#if __has_warning("-Watimport-in-framework-header")
+#pragma clang diagnostic ignored "-Watimport-in-framework-header"
+#endif
+@import Foundation;
+#else
 #import <Foundation/Foundation.h>
-#import <Sparkle/SUExport.h>
+#endif
+#import "SUExport.h"
 @class SUSignatures;
 
 SU_EXPORT @interface SUAppcastItem : NSObject<NSSecureCoding>
@@ -29,6 +36,7 @@ SU_EXPORT @interface SUAppcastItem : NSObject<NSSecureCoding>
 @property (copy, readonly) NSDictionary *deltaUpdates;
 @property (strong, readonly) NSURL *infoURL;
 @property (nonatomic, copy, readonly) NSString *installationType;
+@property (copy, readonly) NSString *minimumAutoupdateVersion;
 
 // Initializes with data from a dictionary provided by the RSS class.
 - (instancetype)initWithDictionary:(NSDictionary *)dict;

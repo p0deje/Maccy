@@ -1,0 +1,12 @@
+@media (prefers-color-scheme: dark) {
+    html {
+        color: white;
+        background: transparent;
+    }
+    :link {
+        color: #419CFF;
+    }
+    :link:active {
+        color: #FF1919;
+    }
+}

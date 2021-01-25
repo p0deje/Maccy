@@ -9,8 +9,15 @@
 #ifndef SUERRORS_H
 #define SUERRORS_H
 
+#if __has_feature(modules)
+#if __has_warning("-Watimport-in-framework-header")
+#pragma clang diagnostic ignored "-Watimport-in-framework-header"
+#endif
+@import Foundation;
+#else
 #import <Foundation/Foundation.h>
-#import <Sparkle/SUExport.h>
+#endif
+#import "SUExport.h"
 
 /**
  * Error domain used by Sparkle
@@ -34,6 +41,7 @@ typedef NS_ENUM(OSStatus, SUError) {
     SURunningFromDiskImageError = 1003,
     SUResumeAppcastError = 1004,
     SURunningTranslocated = 1005,
+    SUWebKitTerminationError = 1006,
 
     // Download phase errors.
     SUTemporaryDirectoryError = 2000,

@@ -9,11 +9,18 @@
 #ifndef SUUPDATER_H
 #define SUUPDATER_H
 
+#if __has_feature(modules)
+#if __has_warning("-Watimport-in-framework-header")
+#pragma clang diagnostic ignored "-Watimport-in-framework-header"
+#endif
+@import Cocoa;
+#else
 #import <Cocoa/Cocoa.h>
-#import <Sparkle/SUExport.h>
-#import <Sparkle/SUVersionComparisonProtocol.h>
-#import <Sparkle/SUVersionDisplayProtocol.h>
-#import <Sparkle/SUUpdaterDelegate.h>
+#endif
+#import "SUExport.h"
+#import "SUVersionComparisonProtocol.h"
+#import "SUVersionDisplayProtocol.h"
+#import "SUUpdaterDelegate.h"
 
 @class SUAppcastItem, SUAppcast, NSMenuItem;
 

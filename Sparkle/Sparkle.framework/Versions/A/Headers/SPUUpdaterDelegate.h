@@ -6,8 +6,15 @@
 //  Copyright © 2016 Sparkle Project. All rights reserved.
 //
 
+#if __has_feature(modules)
+#if __has_warning("-Watimport-in-framework-header")
+#pragma clang diagnostic ignored "-Watimport-in-framework-header"
+#endif
+@import Foundation;
+#else
 #import <Foundation/Foundation.h>
-#import <Sparkle/SUExport.h>
+#endif
+#import "SUExport.h"
 
 @protocol SUVersionComparison;
 @class SPUUpdater, SUAppcast, SUAppcastItem;
@@ -29,6 +36,22 @@ SU_EXPORT extern NSString *const SUUpdaterWillRestartNotification;
 SU_EXPORT extern NSString *const SUUpdaterAppcastItemNotificationKey;
 // Key for the SUAppcast object in the SUUpdaterDidFinishLoadingAppCastNotification userInfo
 SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
+
+// -----------------------------------------------------------------------------
+//    System Profile Keys
+// -----------------------------------------------------------------------------
+
+SU_EXPORT extern NSString *const SUSystemProfilerApplicationNameKey;
+SU_EXPORT extern NSString *const SUSystemProfilerApplicationVersionKey;
+SU_EXPORT extern NSString *const SUSystemProfilerCPU64bitKey;
+SU_EXPORT extern NSString *const SUSystemProfilerCPUCountKey;
+SU_EXPORT extern NSString *const SUSystemProfilerCPUFrequencyKey;
+SU_EXPORT extern NSString *const SUSystemProfilerCPUTypeKey;
+SU_EXPORT extern NSString *const SUSystemProfilerCPUSubtypeKey;
+SU_EXPORT extern NSString *const SUSystemProfilerHardwareModelKey;
+SU_EXPORT extern NSString *const SUSystemProfilerMemoryKey;
+SU_EXPORT extern NSString *const SUSystemProfilerOperatingSystemVersionKey;
+SU_EXPORT extern NSString *const SUSystemProfilerPreferredLanguageKey;
 
 // -----------------------------------------------------------------------------
 //	SPUUpdater Delegate:
@@ -90,6 +113,21 @@ typedef NS_ENUM(NSInteger, SPUUpdateCheck)
 - (NSArray<NSDictionary<NSString *, NSString *> *> *)feedParametersForUpdater:(SPUUpdater *)updater sendingSystemProfile:(BOOL)sendingProfile;
 #else
 - (NSArray *)feedParametersForUpdater:(SPUUpdater *)updater sendingSystemProfile:(BOOL)sendingProfile;
+#endif
+
+/*!
+ Returns a list of system profile keys to be appended to the appcast URL's query string.
+
+ If this is unimplemented then all keys will be included.
+
+ \param updater The updater instance.
+
+ \return An array of system profile keys to include in the appcast URL's query string. Elements must be one of the SUSystemProfiler*Key constants
+ */
+#if __has_feature(objc_generics)
+- (NSArray<NSString *> *)allowedSystemProfileKeysForUpdater:(SPUUpdater *)updater;
+#else
+- (NSArray *)allowedSystemProfileKeysForUpdater:(SPUUpdater *)updater;
 #endif
 
 /*!
