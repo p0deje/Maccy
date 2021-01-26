@@ -1,4 +1,4 @@
-<img width="128px" src="https://maccy.app/img/maccy/Logo.svg" alt="Logo" align="left" />
+<img width="128px" src="https://maccy.app/img/maccy/Logo.png" alt="Logo" align="left" />
 
 # [Maccy](https://maccy.app)
 
@@ -8,6 +8,8 @@
 
 Maccy is a lightweight clipboard manager for macOS. It keeps the history of what you copy
 and lets you quickly navigate, search, and use previous clipboard contents.
+
+Maccy works on macOS Mojave 10.14 or higher.
 
 <!-- vim-markdown-toc GFM -->
 
