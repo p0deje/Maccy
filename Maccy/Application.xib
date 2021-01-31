@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="16097.2"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -35,6 +35,28 @@
                             <menuItem title="Close" keyEquivalent="w" id="56E-4U-hdy">
                                 <connections>
                                     <action selector="performClose:" target="-1" id="WfX-ON-v1a"/>
+                                </connections>
+                            </menuItem>
+                        </items>
+                    </menu>
+                </menuItem>
+                <menuItem title="Edit" id="ESC-Qx-jTv">
+                    <modifierMask key="keyEquivalentModifierMask"/>
+                    <menu key="submenu" title="Edit" id="PDI-h7-C0K">
+                        <items>
+                            <menuItem title="Cut" keyEquivalent="x" id="N4q-ij-Z54">
+                                <connections>
+                                    <action selector="cut:" target="-1" id="TzL-3z-X62"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Copy" keyEquivalent="c" id="7je-r6-P48">
+                                <connections>
+                                    <action selector="copy:" target="-1" id="OV5-Xj-uO6"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Paste" keyEquivalent="v" id="YDl-G1-INS">
+                                <connections>
+                                    <action selector="paste:" target="-1" id="lDl-Hb-7qa"/>
                                 </connections>
                             </menuItem>
                         </items>
