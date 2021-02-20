@@ -18,7 +18,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     migrateUserDefaults()
 
     maccy = Maccy()
-    hotKey = GlobalHotKey(maccy.popUp)
+    hotKey = GlobalHotKey(maccy.popUp, maccy.togglePrivateMode)
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {

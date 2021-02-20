@@ -7,10 +7,14 @@ class GlobalHotKey {
   static public var key: KeyboardShortcuts.Key? { KeyboardShortcuts.Shortcut(name: .popup)?.key }
   static public var modifierFlags: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .popup)?.modifiers }
 
-  private var handler: Handler
+  private var popupHandler: Handler
+  private var privateModeHandler: Handler
 
-  init(_ handler: @escaping Handler) {
-    self.handler = handler
-    KeyboardShortcuts.onKeyDown(for: .popup, action: handler)
+
+  init(_ popupHandler: @escaping Handler, _ privateModeHandler: @escaping Handler) {
+    self.popupHandler = popupHandler
+    self.privateModeHandler = privateModeHandler
+    KeyboardShortcuts.onKeyDown(for: .popup, action: popupHandler)
+    KeyboardShortcuts.onKeyDown(for: .privateMode, action: privateModeHandler)
   }
 }

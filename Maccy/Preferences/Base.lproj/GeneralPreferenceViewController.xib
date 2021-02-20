@@ -15,6 +15,7 @@
                 <outlet property="launchAtLoginButton" destination="mOE-Th-WLC" id="taH-LL-vsV"/>
                 <outlet property="modifiersDescriptionLabel" destination="zFN-E4-6L5" id="9oM-Sw-fvf"/>
                 <outlet property="pasteAutomaticallyButton" destination="mI4-d4-FAq" id="NG2-Cl-5Vh"/>
+                <outlet property="privateModeHotkeyContainerView" destination="3s7-v4-2Ju" id="wqA-ol-r7O"/>
                 <outlet property="removeFormattingButton" destination="eZQ-w7-Bts" id="brY-wZ-15s"/>
                 <outlet property="sortByButton" destination="PWC-Rx-PPN" id="rxl-rl-hXr"/>
                 <outlet property="soundsButton" destination="vaq-g1-ECx" id="8jG-bL-FwP"/>
@@ -34,6 +35,8 @@
                     <rows>
                         <gridRow rowAlignment="firstBaseline" id="1lh-Qw-cAx"/>
                         <gridRow id="PHn-iI-jCM"/>
+                        <gridRow yPlacement="center" id="grg-Zn-uGR"/>
+                        <gridRow id="jqO-9j-y1f"/>
                         <gridRow id="cbV-VG-Q6m"/>
                         <gridRow id="PS2-Rm-W1c"/>
                         <gridRow id="g9F-gc-VeQ"/>
@@ -90,6 +93,37 @@ Hotkey:</string>
                                     <font key="font" metaFont="message" size="11"/>
                                     <string key="title">Global shortcut key to open application.
 Default: ⇧⌘C.</string>
+                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="grg-Zn-uGR" column="vOJ-9h-G8Y" rowAlignment="none" id="roD-oa-gG6">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xvr-Lj-WZZ">
+                                <rect key="frame" x="12" y="521" width="134" height="16"/>
+                                <textFieldCell key="cell" alignment="right" title="Private Mode Hotkey:" id="ToA-et-V5V">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="grg-Zn-uGR" column="pQU-Pz-q1v" id="VXK-8O-dFK">
+                            <customView key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3s7-v4-2Ju">
+                                <rect key="frame" x="157" y="517" width="100" height="25"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="25" id="RxD-hX-ebm"/>
+                                </constraints>
+                            </customView>
+                        </gridCell>
+                        <gridCell row="jqO-9j-y1f" column="vOJ-9h-G8Y" id="yQE-el-WkG"/>
+                        <gridCell row="jqO-9j-y1f" column="pQU-Pz-q1v" id="ByO-W1-ma4">
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MWV-iJ-igS">
+                                <rect key="frame" x="155" y="467" width="422" height="42"/>
+                                <textFieldCell key="cell" selectable="YES" id="Fc2-Yo-DLw">
+                                    <font key="font" metaFont="message" size="11"/>
+                                    <string key="title">Global shortcut key to toggle private mode. The private mode will be on for 60 seconds.
+Default: ⇧⌘X.</string>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>

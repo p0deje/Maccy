@@ -147,7 +147,18 @@ class Maccy: NSObject {
       }
     }
   }
-
+    
+  func togglePrivateMode(){
+    UserDefaults.standard.ignoreEvents = !UserDefaults.standard.ignoreEvents
+    if(UserDefaults.standard.ignoreEvents == true){
+      DispatchQueue.main.asyncAfter(deadline: .now() + 60) {
+        if(UserDefaults.standard.ignoreEvents == true){
+          UserDefaults.standard.ignoreEvents = false
+        }
+      }
+    }
+  }
+    
   @objc
   func performStatusItemClick() {
     if let event = NSApp.currentEvent {

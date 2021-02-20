@@ -11,8 +11,12 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   override var nibName: NSNib.Name? { "GeneralPreferenceViewController" }
 
   private let hotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .popup)
+  
+  private let privateModeHotkeyRecoder = KeyboardShortcuts.RecorderCocoa(for: .privateMode)
+
 
   @IBOutlet weak var hotkeyContainerView: NSView!
+  @IBOutlet weak var privateModeHotkeyContainerView: NSView!
   @IBOutlet weak var launchAtLoginButton: NSButton!
   @IBOutlet weak var fuzzySearchButton: NSButton!
   @IBOutlet weak var pasteAutomaticallyButton: NSButton!
@@ -29,6 +33,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   override func viewDidLoad() {
     super.viewDidLoad()
     hotkeyContainerView.addSubview(hotkeyRecorder)
+    privateModeHotkeyContainerView.addSubview(privateModeHotkeyRecoder)
   }
 
   override func viewWillAppear() {
