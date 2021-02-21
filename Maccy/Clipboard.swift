@@ -126,11 +126,14 @@ class Clipboard {
     // not only the last one.
     // See https://github.com/p0deje/Maccy/issues/78.
     pasteboard.pasteboardItems?.forEach({ item in
-      let types = Set(item.types)
-      if shouldIgnore(types) {
+      // Reading types on NSPasteboard gives all the available
+      // types - even the ones that are not present on the NSPasteboardItem.
+      // See https://github.com/p0deje/Maccy/issues/241.
+      if shouldIgnore(Set(pasteboard.types ?? [])) {
         return
       }
 
+      let types = Set(item.types)
       if types.contains(.string) && isEmptyString(item) {
         return
       }
