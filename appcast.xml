@@ -22,7 +22,8 @@
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
         url="https://github.com/p0deje/Maccy/releases/download/0.20.0/Maccy.app.zip"
-        sparkle:version="0.20.0"
+        sparkle:version="5"
+        sparkle:shortVersionString="0.20.0"
         length="0"
         type="application/octet-stream"
       />
