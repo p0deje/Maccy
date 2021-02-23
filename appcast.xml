@@ -6,21 +6,23 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.19.0</title>
+      <title>0.20.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Support for Apple Silicon</li>
-            <li>Improved compatibility with Big Sur (icon size, preferences appearance)</li>
+            <li>Allow to customize what data types should be saved (files, images, text)</li>
+            <li>Ask for confirmation when clearing history</li>
+            <li>Allow to copy/paste when search field is manually focused</li>
+            <li>Fix a bug that prevent some pasteboard types from being ignored</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2021-01-24</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.19.0</releaseNotesLink>
+      <pubDate>2021-02-22</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.20.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.19.0/Maccy.app.zip"
-        sparkle:version="0.19.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.20.0/Maccy.app.zip"
+        sparkle:version="0.20.0"
         length="0"
         type="application/octet-stream"
       />
