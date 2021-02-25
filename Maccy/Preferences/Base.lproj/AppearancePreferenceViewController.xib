@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17156" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="17701" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17156"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="17701"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,6 +14,7 @@
                 <outlet property="menuSizeSlider" destination="fDO-zN-OAh" id="DaY-vX-hH4"/>
                 <outlet property="pinToButton" destination="tWw-ax-Qej" id="qyB-al-akU"/>
                 <outlet property="popupAtButton" destination="ZHc-k4-Nf9" id="BLV-3c-0P4"/>
+                <outlet property="popupAtMenuIconMenuItem" destination="0h4-CZ-fwT" id="K5L-Ao-CEu"/>
                 <outlet property="showFooterButton" destination="N6N-SK-mfI" id="ZhB-5v-aek"/>
                 <outlet property="showMenuIconButton" destination="1Hw-20-IWu" id="Dr0-mh-sux"/>
                 <outlet property="showRecentCopyButton" destination="Hp2-aQ-9Eg" id="le6-ZR-4H4"/>
@@ -64,10 +65,10 @@
                         <gridCell row="wGv-6M-Wwi" column="7OC-Fv-eMr" id="w7a-Ig-74t">
                             <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZHc-k4-Nf9">
                                 <rect key="frame" x="106" y="418" width="123" height="25"/>
-                                <popUpButtonCell key="cell" type="push" title="Cursor" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Ccp-5J-8nw" id="f7k-K3-J6b">
+                                <popUpButtonCell key="cell" type="push" title="Cursor" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Ccp-5J-8nw" id="f7k-K3-J6b">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
-                                    <menu key="menu" id="8Ak-sj-b4m">
+                                    <menu key="menu" autoenablesItems="NO" id="8Ak-sj-b4m">
                                         <items>
                                             <menuItem title="Cursor" state="on" id="Ccp-5J-8nw"/>
                                             <menuItem title="Screen center" tag="1" id="KJb-2z-C5c"/>

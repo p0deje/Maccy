@@ -9,6 +9,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   override var nibName: NSNib.Name? { "AppearancePreferenceViewController" }
 
   @IBOutlet weak var popupAtButton: NSPopUpButton!
+  @IBOutlet weak var popupAtMenuIconMenuItem: NSMenuItem!
   @IBOutlet weak var pinToButton: NSPopUpButton!
   @IBOutlet weak var imageHeightSlider: NSSlider!
   @IBOutlet weak var imageHeightLabel: NSTextField!
@@ -37,10 +38,13 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     switch sender.selectedTag() {
     case 2:
       UserDefaults.standard.popupPosition = "statusItem"
+      showMenuIconButton.isEnabled = false
     case 1:
       UserDefaults.standard.popupPosition = "center"
+      showMenuIconButton.isEnabled = true
     default:
       UserDefaults.standard.popupPosition = "cursor"
+      showMenuIconButton.isEnabled = true
     }
   }
 
@@ -69,6 +73,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
 
   @IBAction func showMenuIconChanged(_ sender: NSButton) {
     UserDefaults.standard.showInStatusBar = (sender.state == .on)
+    popupAtMenuIconMenuItem.isEnabled = (sender.state == .on)
   }
 
   @IBAction func showRecentCopyChanged(_ sender: NSButton) {
@@ -91,6 +96,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     switch UserDefaults.standard.popupPosition {
     case "statusItem":
       popupAtButton.selectItem(withTag: 2)
+      showMenuIconButton.isEnabled = false
     case "center":
       popupAtButton.selectItem(withTag: 1)
     default:
@@ -141,6 +147,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
 
   private func populateShowMenuIcon() {
     showMenuIconButton.state = UserDefaults.standard.showInStatusBar ? .on : .off
+    popupAtMenuIconMenuItem.isEnabled = UserDefaults.standard.showInStatusBar
   }
 
   private func populateShowRecentCopy() {
