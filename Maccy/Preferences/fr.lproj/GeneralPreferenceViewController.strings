@@ -6,7 +6,7 @@
 "2yi-R0-4up.title" = "Date de première copie";
 
 /* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
-"5NO-0n-i7l.title" = "Coller sans formattage";
+"5NO-0n-i7l.title" = "Coller sans formatage";
 
 /* Class = "NSTextFieldCell"; title = "History size:"; ObjectID = "5og-JF-cpR"; */
 "5og-JF-cpR.title" = "Taille de l'historique:";
