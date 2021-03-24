@@ -22,6 +22,9 @@ class Menu: NSMenu, NSMenuDelegate {
   public var firstUnpinnedHistoryMenuItem: HistoryMenuItem? {
     historyMenuItems.first(where: { !$0.isPinned })
   }
+  public var lastUnpinnedHistoryMenuItem: HistoryMenuItem? {
+    historyMenuItems.last(where: { !$0.isPinned })
+  }
 
   internal var historyMenuItems: [HistoryMenuItem] {
     items.compactMap({ $0 as? HistoryMenuItem })
@@ -198,6 +201,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
       history.remove(historyItemToRemove.item)
 
+      updateUnpinnedItemsVisibility()
       setKeyEquivalents(historyMenuItems)
       highlight(items[historyItemToRemoveIndex])
     }
@@ -356,7 +360,9 @@ class Menu: NSMenu, NSMenuDelegate {
     for historyItem in indexedItems.flatMap({ $0.menuItems }).filter({ !$0.isPinned }) {
       if !historyMenuItems.contains(historyItem) {
         limit += 1
-        insertItem(historyItem, at: historyMenuItems.count)
+        if let lastItem = lastUnpinnedHistoryMenuItem {
+          insertItem(historyItem, at: index(of: lastItem))
+        }
       }
       if maxVisibleItems == limit {
         break
