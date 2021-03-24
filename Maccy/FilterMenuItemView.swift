@@ -1,11 +1,9 @@
 import AppKit
 import Carbon
-import KeyboardShortcuts
+import Sauce
 
 // swiftlint:disable type_body_length
 class FilterMenuItemView: NSView, NSTextFieldDelegate {
-  typealias Key = KeyboardShortcuts.Key
-
   @objc public var title: String {
     get { return titleField.stringValue }
     set { titleField.stringValue = newValue }
@@ -185,7 +183,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   // swiftlint:disable cyclomatic_complexity
   // swiftlint:disable function_body_length
   private func processKeyDownEvent(_ event: NSEvent) -> Bool {
-    guard let key = Key(rawValue: Int(event.keyCode)) else {
+    guard let key = Sauce.shared.key(by: Int(event.keyCode)) else {
       return false
     }
     let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)

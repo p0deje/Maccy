@@ -1,5 +1,5 @@
 import AppKit
-import Carbon
+import Sauce
 
 class Clipboard {
   typealias OnNewCopyHook = (HistoryItem) -> Void
@@ -93,7 +93,7 @@ class Clipboard {
     }
 
     DispatchQueue.main.async {
-      let vCode = UInt16(kVK_ANSI_V)
+      let vCode = Sauce.shared.keyCode(by: .v)
       let source = CGEventSource(stateID: .combinedSessionState)
       // Disable local keyboard events while pasting
       source?.setLocalEventsFilterDuringSuppressionState([.permitLocalMouseEvents, .permitSystemDefinedEvents],
