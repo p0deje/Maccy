@@ -67,7 +67,7 @@ class Menu: NSMenu, NSMenuDelegate {
   func menuWillOpen(_ menu: NSMenu) {
     updateUnpinnedItemsVisibility()
     setKeyEquivalents(historyMenuItems)
-    highlight(firstUnpinnedHistoryMenuItem)
+    highlight(firstUnpinnedHistoryMenuItem ?? historyMenuItems.first)
   }
 
   func buildItems() {
