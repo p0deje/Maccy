@@ -6,24 +6,24 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.20.0</title>
+      <title>0.20.1</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Allow to customize what data types should be saved (files, images, text)</li>
-            <li>Ask for confirmation when clearing history</li>
-            <li>Allow to copy/paste when search field is manually focused</li>
-            <li>Fix a bug that prevent some pasteboard types from being ignored</li>
+            <li>Improved performance of fuzzy search for large data</li>
+            <li>Improved non-QWERTY keyboard layouts support</li>
+            <li>Added an option to stop asking for confirmation when clearing history</li>
+            <li>Fixed an issue causing popup position in "Screen center" to be wrong in multi-monitor setup</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2021-02-22</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.20.0</releaseNotesLink>
+      <pubDate>2021-03-24</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.20.1</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.20.0/Maccy.app.zip"
-        sparkle:version="5"
-        sparkle:shortVersionString="0.20.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.20.1/Maccy.app.zip"
+        sparkle:version="6"
+        sparkle:shortVersionString="0.20.1"
         length="0"
         type="application/octet-stream"
       />
