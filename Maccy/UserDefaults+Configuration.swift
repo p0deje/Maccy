@@ -22,6 +22,7 @@ extension UserDefaults {
     static let showRecentCopyInMenuBar = "showRecentCopyInMenuBar"
     static let size = "historySize"
     static let sortBy = "sortBy"
+    static let supressClearAlert = "supressClearAlert"
 
     static var showInStatusBar: String {
       ProcessInfo.processInfo.arguments.contains("ui-testing") ? "showInStatusBarUITests" : "showInStatusBar"
@@ -166,4 +167,9 @@ extension UserDefaults {
     set { set(try! PropertyListEncoder().encode(newValue), forKey: Keys.storage) }
   }
   // swiftlint:enable force_try
+
+  public var supressClearAlert: Bool {
+    get { bool(forKey: Keys.supressClearAlert) }
+    set { set(newValue, forKey: Keys.supressClearAlert) }
+  }
 }

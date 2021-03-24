@@ -24,6 +24,7 @@ class Maccy: NSObject {
     alert.informativeText = NSLocalizedString("clear_alert_comment", comment: "")
     alert.addButton(withTitle: NSLocalizedString("clear_alert_confirm", comment: ""))
     alert.addButton(withTitle: NSLocalizedString("clear_alert_cancel", comment: ""))
+    alert.showsSuppressionButton = true
     return alert
   }
   private var extraVisibleWindows: [NSWindow] {
@@ -248,16 +249,30 @@ class Maccy: NSObject {
   }
 
   private func clearUnpinned() {
-    if clearAlert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
-      history.all.filter({ $0.pin == nil }).forEach(history.remove(_:))
-      menu.clearUnpinned()
+    withClearAlert {
+      self.history.all.filter({ $0.pin == nil }).forEach(self.history.remove(_:))
+      self.menu.clearUnpinned()
     }
   }
 
   private func clearAll() {
-    if clearAlert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
-      history.clear()
-      menu.clearAll()
+    withClearAlert {
+      self.history.clear()
+      self.menu.clearAll()
+    }
+  }
+
+  private func withClearAlert(_ closure: @escaping () -> Void) {
+    if UserDefaults.standard.supressClearAlert {
+      closure()
+    } else {
+      let alert = clearAlert
+      if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
+        if alert.suppressionButton?.state == .on {
+          UserDefaults.standard.supressClearAlert = true
+        }
+        closure()
+      }
     }
   }
 
