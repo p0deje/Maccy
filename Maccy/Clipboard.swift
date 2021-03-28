@@ -113,8 +113,9 @@ class Clipboard {
     guard pasteboard.changeCount != changeCount else {
       return
     }
-
+    
     if UserDefaults.standard.ignoreEvents {
+      changeCount = pasteboard.changeCount
       return
     }
 
