@@ -100,6 +100,9 @@ textarea:focus {
     max-width: 1600px; }
   .container--max {
     max-width: 100%; }
+  .container--center {
+    display: flex;
+    justify-content: center; }
 
 header {
   position: relative;
@@ -1385,6 +1388,8 @@ button.button {
   font-size: 0; }
   @media (max-width: 500px) {
     .buttons-set__item {
+      display: flex;
+      justify-content: center;
       width: 100%;
       margin-left: 0;
       margin-right: 0; } }
@@ -7644,11 +7649,13 @@ button.button {
       margin-left: 8px; } }
 
 .cta_button-21, .cta_button-22, .cta_button-23, .cta_button-24 {
-  padding: 70px 0 70px; }
+  padding: 70px 0 70px;
+  display: flex;
+  justify-content: center; }
 
 .cta_button-23 .buttons-set__item {
   padding-bottom: 0; }
-  .cta_button-23 .buttons-set__item:last-child {
+  .cta_button-23 .bubuttons-setttons-set__item:last-child {
     padding-bottom: 0; }
   @media (max-width: 700px) {
     .cta_button-23 .buttons-set__item {
