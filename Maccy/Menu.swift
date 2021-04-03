@@ -107,8 +107,10 @@ class Menu: NSMenu, NSMenuDelegate {
     }
     menuItemInsertionIndex += historyMenuItemOffset
 
-    for menuItem in menuItems.reversed() {
-      insertItem(menuItem, at: menuItemInsertionIndex)
+    if menuItemInsertionIndex <= historyMenuItems.count {
+      for menuItem in menuItems.reversed() {
+        insertItem(menuItem, at: menuItemInsertionIndex)
+      }
     }
 
     clearRemovedItems()
