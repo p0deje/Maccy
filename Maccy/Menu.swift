@@ -105,9 +105,9 @@ class Menu: NSMenu, NSMenuDelegate {
     } else {
       menuItemInsertionIndex *= historyMenuItemsGroup
     }
-    menuItemInsertionIndex += historyMenuItemOffset
 
     if menuItemInsertionIndex <= historyMenuItems.count {
+      menuItemInsertionIndex += historyMenuItemOffset
       for menuItem in menuItems.reversed() {
         insertItem(menuItem, at: menuItemInsertionIndex)
       }
