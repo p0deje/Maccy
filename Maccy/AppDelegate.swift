@@ -16,6 +16,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
+    clearOrphanRecords()
 
     maccy = Maccy()
     hotKey = GlobalHotKey(maccy.popUp)
@@ -143,6 +144,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       ]
 
       UserDefaults.standard.migrations["2021-02-20-allow-to-customize-supported-types"] = true
+    }
+  }
+
+  private func clearOrphanRecords() {
+    let fetchRequest = NSFetchRequest<HistoryItemContent>(entityName: "HistoryItemContent")
+    fetchRequest.predicate = NSPredicate(format: "item == nil")
+    do {
+      try CoreDataManager.shared.viewContext
+        .fetch(fetchRequest)
+        .forEach(CoreDataManager.shared.viewContext.delete(_:))
+      CoreDataManager.shared.saveContext()
+    } catch {
+      // Something went wrong, but it's no big deal.
     }
   }
   // swiftlint:enable cyclomatic_complexity

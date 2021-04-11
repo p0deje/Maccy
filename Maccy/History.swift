@@ -38,6 +38,7 @@ class History {
   }
 
   func remove(_ item: HistoryItem) {
+    item.getContents().forEach(CoreDataManager.shared.viewContext.delete(_:))
     CoreDataManager.shared.viewContext.delete(item)
     CoreDataManager.shared.saveContext()
   }
