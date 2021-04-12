@@ -24,7 +24,7 @@
 "MKb-cW-gpg.title" = "图片高度:";
 
 /* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
-"Pud-2o-NKc.title" = "显示任务栏图标";
+"Pud-2o-NKc.title" = "显示菜单栏图标";
 
 /* Class = "NSButtonCell"; title = "Show recent copy next to menu icon"; ObjectID = "2vE-8q-6tq"; */
 "2vE-8q-6tq.title" = "在菜单图标旁边显示最近的副本";
