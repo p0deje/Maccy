@@ -38,6 +38,8 @@ class SorterTests: XCTestCase {
   }
 
   func testSortByPinToTop() {
+    UserDefaults.standard.pinTo = "top"
+
     item1.pin = "a"
     item3.pin = "b"
     let sorter = Sorter(by: "lastCopiedAt")
