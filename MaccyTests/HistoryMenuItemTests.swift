@@ -108,11 +108,11 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   func testFileWithEscapedChars() {
-    let url = URL(fileURLWithPath: "/tmp/产品培训.txt")
+    let url = URL(fileURLWithPath: "/tmp/产品培训/产品培训.txt")
     let menuItem = historyMenuItem(url)
-    XCTAssertEqual(menuItem.title, "file:///tmp/产品培训.txt")
-    XCTAssertEqual(menuItem.value, "file:///tmp/产品培训.txt")
-    XCTAssertEqual(menuItem.toolTip, tooltip("file:///tmp/产品培训.txt"))
+    XCTAssertEqual(menuItem.title, "file:///tmp/产品培训/产品培训.txt")
+    XCTAssertEqual(menuItem.value, "file:///tmp/产品培训/产品培训.txt")
+    XCTAssertEqual(menuItem.toolTip, tooltip("file:///tmp/产品培训/产品培训.txt"))
     XCTAssertNil(menuItem.image)
   }
 

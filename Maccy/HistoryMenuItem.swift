@@ -109,31 +109,20 @@ class HistoryMenuItem: NSMenuItem {
 
   private func loadFile(_ item: HistoryItem) {
     if let fileURLData = contentData(item, [.fileURL]) {
-      if var fileURL = URL(dataRepresentation: fileURLData, relativeTo: nil, isAbsolute: true) {
-        var string = ""
-
-        // Try to replace filename to avoid escaped characters.
-        // See https://github.com/p0deje/Maccy/issues/272 for details.
-        if let fileNameData = contentData(item, [.string]),
-           let fileName = String(data: fileNameData, encoding: .utf8) {
-          fileURL.deleteLastPathComponent()
-          string = fileURL.absoluteString
-          string.append(fileName)
-        } else {
-          string = fileURL.absoluteString
+      if let fileURL = URL(dataRepresentation: fileURLData, relativeTo: nil, isAbsolute: true) {
+        if let string = fileURL.absoluteString.removingPercentEncoding {
+          self.value = string
+          self.title = trimmedString(string
+                                      .trimmingCharacters(in: .whitespacesAndNewlines)
+                                      .replacingOccurrences(of: "\n", with: ""),
+                                    showMaxLength)
+          self.image = ColorImage.from(title)
+          self.toolTip = """
+          \(trimmedString(string, tooltipMaxLength))
+          \n \n\n
+          \(defaultTooltip(item))
+          """
         }
-
-        self.value = string
-        self.title = trimmedString(string
-                                    .trimmingCharacters(in: .whitespacesAndNewlines)
-                                    .replacingOccurrences(of: "\n", with: ""),
-                                  showMaxLength)
-        self.image = ColorImage.from(title)
-        self.toolTip = """
-        \(trimmedString(string, tooltipMaxLength))
-        \n \n\n
-        \(defaultTooltip(item))
-        """
       }
     }
   }
