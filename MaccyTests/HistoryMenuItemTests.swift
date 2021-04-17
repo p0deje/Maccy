@@ -99,11 +99,20 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   func testFile() {
-    let url = URL(fileURLWithPath: "/tmp/foo")
+    let url = URL(fileURLWithPath: "/tmp/foo.bar")
     let menuItem = historyMenuItem(url)
-    XCTAssertEqual(menuItem.title, "file:///tmp/foo")
-    XCTAssertEqual(menuItem.value, "file:///tmp/foo")
-    XCTAssertEqual(menuItem.toolTip, tooltip("file:///tmp/foo"))
+    XCTAssertEqual(menuItem.title, "file:///tmp/foo.bar")
+    XCTAssertEqual(menuItem.value, "file:///tmp/foo.bar")
+    XCTAssertEqual(menuItem.toolTip, tooltip("file:///tmp/foo.bar"))
+    XCTAssertNil(menuItem.image)
+  }
+
+  func testFileWithEscapedChars() {
+    let url = URL(fileURLWithPath: "/tmp/产品培训.txt")
+    let menuItem = historyMenuItem(url)
+    XCTAssertEqual(menuItem.title, "file:///tmp/产品培训.txt")
+    XCTAssertEqual(menuItem.value, "file:///tmp/产品培训.txt")
+    XCTAssertEqual(menuItem.toolTip, tooltip("file:///tmp/产品培训.txt"))
     XCTAssertNil(menuItem.image)
   }
 
@@ -166,9 +175,15 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   private func historyMenuItem(_ value: URL) -> HistoryMenuItem {
-    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.fileURL.rawValue,
-                                     value: value.dataRepresentation)
-    let item = HistoryItem(contents: [content])
+    let fileURLContent = HistoryItemContent(
+      type: NSPasteboard.PasteboardType.fileURL.rawValue,
+      value: value.dataRepresentation
+    )
+    let fileNameContent = HistoryItemContent(
+      type: NSPasteboard.PasteboardType.string.rawValue,
+      value: value.lastPathComponent.data(using: .utf8)
+    )
+    let item = HistoryItem(contents: [fileURLContent, fileNameContent])
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
