@@ -303,10 +303,21 @@ class Maccy: NSObject {
 
   private func simulateStatusItemClick() {
     if let buttonCell = statusItem.button?.cell as? NSButtonCell {
-      buttonCell.highlightsBy = [.changeBackgroundCellMask, .changeGrayCellMask, .contentsCellMask, .pushInCellMask]
-      statusItem.menu = menu
-      statusItem.button?.performClick(self)
-      statusItem.menu = nil
+      withMenuButtonHighlighted(buttonCell) {
+        self.statusItem.menu = self.menu
+        self.statusItem.button?.performClick(self)
+        self.statusItem.menu = nil
+      }
+    }
+  }
+
+  private func withMenuButtonHighlighted(_ buttonCell: NSButtonCell, _ closure: @escaping () -> Void) {
+    if #available(OSX 10.11, *) {
+      // Big Sur doesn't need to highlight manually
+      closure()
+    } else {
+      buttonCell.highlightsBy = [.changeGrayCellMask, .contentsCellMask, .pushInCellMask]
+      closure()
       buttonCell.highlightsBy = []
     }
   }
