@@ -68,7 +68,7 @@ class MaccyUITests: XCTestCase {
 
   func testSearch() {
     popUpWithHotkey()
-    app.typeText(copy2)
+    search(copy2)
     XCTAssertEqual(app.textFields.firstMatch.value as? String, copy2)
     XCTAssertTrue(app.menuItems[copy2].exists)
     XCTAssertTrue(app.menuItems[copy2].firstMatch.isSelected)
@@ -79,7 +79,7 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(file2)
     copyToClipboard(file1)
     popUpWithHotkey()
-    app.typeText(file2.lastPathComponent)
+    search(file2.lastPathComponent)
     XCTAssertTrue(app.menuItems[file2.absoluteString].exists)
     XCTAssertTrue(app.menuItems[file2.absoluteString].firstMatch.isSelected)
     XCTAssertFalse(app.menuItems[file1.absoluteString].exists)
@@ -208,18 +208,17 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     pin(copy2)
     app.menuItems["Clear"].click()
+    app.dialogs.firstMatch.buttons["Clear"].click()
     popUpWithHotkey()
     XCTAssertFalse(app.menuItems[copy1].exists)
     XCTAssertTrue(app.menuItems[copy2].exists)
-    for item in app.menuItems.allElementsBoundByIndex {
-      XCTAssertFalse(item.isSelected)
-    }
   }
 
   func testClearDuringSearch() {
     popUpWithHotkey()
     app.typeText(copy2)
     app.menuItems["Clear"].click()
+    app.dialogs.firstMatch.buttons["Clear"].click()
     popUpWithHotkey()
     XCTAssertFalse(app.menuItems[copy1].exists)
     XCTAssertFalse(app.menuItems[copy2].exists)
@@ -231,12 +230,10 @@ class MaccyUITests: XCTestCase {
     XCUIElement.perform(withKeyModifiers: [.shift], block: {
       app.menuItems["Clear all"].click()
     })
+    app.dialogs.firstMatch.buttons["Clear"].click()
     popUpWithHotkey()
     XCTAssertFalse(app.menuItems[copy1].exists)
     XCTAssertFalse(app.menuItems[copy2].exists)
-    for item in app.menuItems.allElementsBoundByIndex {
-      XCTAssertFalse(item.isSelected)
-    }
   }
 
   func testPin() {
@@ -386,6 +383,11 @@ class MaccyUITests: XCTestCase {
   private func hover(_ element: XCUIElement) {
     element.hover()
     usleep(20000)
+  }
+
+  private func search(_ string: String) {
+    app.typeText(string)
+    usleep(250000) // wait for search throttle
   }
 }
 // swiftlint:enable type_body_length
