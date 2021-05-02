@@ -7655,7 +7655,7 @@ button.button {
 
 .cta_button-23 .buttons-set__item {
   padding-bottom: 0; }
-  .cta_button-23 .bubuttons-setttons-set__item:last-child {
+  .cta_button-23 .buttons-set__item:last-child {
     padding-bottom: 0; }
   @media (max-width: 700px) {
     .cta_button-23 .buttons-set__item {
