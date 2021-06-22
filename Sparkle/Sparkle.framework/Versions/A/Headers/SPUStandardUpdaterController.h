@@ -10,16 +10,17 @@
 #if __has_warning("-Watimport-in-framework-header")
 #pragma clang diagnostic ignored "-Watimport-in-framework-header"
 #endif
-@import Cocoa;
+@import Foundation;
 #else
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #endif
-#import "SUExport.h"
+#import <Sparkle/SUExport.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class SPUUpdater;
 @class SPUStandardUserDriver;
+@class NSMenuItem;
 @protocol SPUUserDriver, SPUUpdaterDelegate, SPUStandardUserDriverDelegate;
 
 /*!
@@ -32,11 +33,9 @@ NS_ASSUME_NONNULL_BEGIN
  up the updater's and user driver's delegates.
  
  This controller class may not be valuable to you if:
- * You want to control or defer the instantiation of an SPUUpdater, or don't want to be tied into a nib's instantiation, or don't want to use a nib
+ * You want to control or defer starting the SPUUpdater, or don't want to be tied into a nib's instantiation, or don't want to use a nib
  * You want to target a bundle that's not the main bundle
- * You want to provide a custom user interface, or perhaps one that provides little-to-none
- * You don't want to use a convenience class that provides very little glue ;)
- 
+ * You want to provide a custom user interface (SPUUserDriver), or perhaps one that provides little-to-none
   */
 SU_EXPORT @interface SPUStandardUpdaterController : NSObject
 

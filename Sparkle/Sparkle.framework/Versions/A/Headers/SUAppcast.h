@@ -17,20 +17,15 @@
 #else
 #import <Foundation/Foundation.h>
 #endif
-#import "SUExport.h"
+#import <Sparkle/SUExport.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
 @class SUAppcastItem;
-SU_EXPORT @interface SUAppcast : NSObject<NSURLDownloadDelegate>
+SU_EXPORT @interface SUAppcast : NSObject
 
-@property (copy, nullable) NSString *userAgentString;
-@property (copy, nullable) NSDictionary<NSString *, NSString *> *httpHeaders;
+@property (readonly, copy) NSArray<SUAppcastItem *> *items;
 
-- (void)fetchAppcastFromURL:(NSURL *)url inBackground:(BOOL)bg completionBlock:(void (^)(NSError *_Nullable))err;
-- (SUAppcast *)copyWithoutDeltaUpdates;
-
-@property (readonly, copy, nullable) NSArray *items;
 @end
 
 NS_ASSUME_NONNULL_END

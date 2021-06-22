@@ -14,7 +14,7 @@
 #else
 #import <Foundation/Foundation.h>
 #endif
-#import "SUExport.h"
+#import <Sparkle/SUExport.h>
 
 /*!
  This class represents a response for permission to check updates.
@@ -28,6 +28,11 @@ SU_EXPORT @interface SUUpdatePermissionResponse : NSObject<NSSecureCoding>
  @param sendSystemProfile Flag for if system profile information should be sent to the server hosting the appcast.
  */
 - (instancetype)initWithAutomaticUpdateChecks:(BOOL)automaticUpdateChecks sendSystemProfile:(BOOL)sendSystemProfile;
+
+/*
+ Use -initWithAutomaticUpdateChecks:sendSystemProfile: instead.
+ */
+- (instancetype)init NS_UNAVAILABLE;
 
 /*!
  A read-only property indicating whether automatic update checks are allowed or not.

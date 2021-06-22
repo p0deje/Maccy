@@ -13,14 +13,14 @@
 #if __has_warning("-Watimport-in-framework-header")
 #pragma clang diagnostic ignored "-Watimport-in-framework-header"
 #endif
-@import Cocoa;
+@import Foundation;
 #else
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #endif
-#import "SUExport.h"
-#import "SUVersionComparisonProtocol.h"
-#import "SUVersionDisplayProtocol.h"
-#import "SUUpdaterDelegate.h"
+#import <Sparkle/SUExport.h>
+#import <Sparkle/SUVersionComparisonProtocol.h>
+#import <Sparkle/SUVersionDisplayProtocol.h>
+#import <Sparkle/SUUpdaterDelegate.h>
 
 @class SUAppcastItem, SUAppcast, NSMenuItem;
 
@@ -34,7 +34,7 @@
  
  Note: This class is now deprecated and acts as a thin wrapper around SPUUpdater and SPUStandardUserDriver
  */
-__deprecated_msg("Use SPUStandardUpdaterController or SPUUpdater instead")
+__deprecated_msg("Deprecated in Sparkle 2. Use SPUStandardUpdaterController or SPUUpdater instead")
 SU_EXPORT @interface SUUpdater : NSObject
 
 @property (unsafe_unretained, nonatomic) IBOutlet id<SUUpdaterDelegate> delegate;
@@ -154,14 +154,14 @@ SU_EXPORT @interface SUUpdater : NSObject
 @property (nonatomic, readonly) NSBundle *sparkleBundle;
 
 /*!
- The user agent used when checking for updates.
+ The user agent used when checking for and downloading updates.
 
  The default implementation can be overrided.
  */
 @property (nonatomic, copy) NSString *userAgentString;
 
 /*!
- The HTTP headers used when checking for updates.
+ The HTTP headers used when checking for and downloading updates.
 
  The keys of this dictionary are HTTP header fields (NSString) and values are corresponding values (NSString)
  */

@@ -10,7 +10,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationWillFinishLaunching(_ notification: Notification) {
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
-      SPUUpdater().automaticallyChecksForUpdates = false
+      SPUUpdater(hostBundle: Bundle.main,
+                 applicationBundle: Bundle.main,
+                 userDriver: SPUStandardUserDriver(hostBundle: Bundle.main, delegate: nil),
+                 delegate: nil)
+        .automaticallyChecksForUpdates = false
     }
   }
 

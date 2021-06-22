@@ -10,12 +10,12 @@
 #if __has_warning("-Watimport-in-framework-header")
 #pragma clang diagnostic ignored "-Watimport-in-framework-header"
 #endif
-@import Cocoa;
+@import Foundation;
 #else
-#import <Cocoa/Cocoa.h>
+#import <Foundation/Foundation.h>
 #endif
-#import "SPUUserDriver.h"
-#import "SUExport.h"
+#import <Sparkle/SPUUserDriver.h>
+#import <Sparkle/SUExport.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -35,9 +35,9 @@ SU_EXPORT @interface SPUStandardUserDriver : NSObject <SPUUserDriver>
 - (instancetype)initWithHostBundle:(NSBundle *)hostBundle delegate:(nullable id<SPUStandardUserDriverDelegate>)delegate;
 
 /*!
- * Enable or disable hideOnDeactivate for standard update window.
+ Use initWithHostBundle:delegate: instead.
  */
-@property (nonatomic) BOOL hideOnDeactivate;
+- (instancetype)init NS_UNAVAILABLE;
 
 @end
 

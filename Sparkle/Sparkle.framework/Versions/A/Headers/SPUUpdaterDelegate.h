@@ -14,7 +14,7 @@
 #else
 #import <Foundation/Foundation.h>
 #endif
-#import "SUExport.h"
+#import <Sparkle/SUExport.h>
 
 @protocol SUVersionComparison;
 @class SPUUpdater, SUAppcast, SUAppcastItem;
@@ -167,6 +167,17 @@ typedef NS_ENUM(NSInteger, SPUUpdateCheck)
  implement this to use your own logic for finding a valid update, if any,
  in the given appcast.
  
+ Do not base your logic by filtering out items with a minimum or maximum OS version or minimum autoupdate version,
+ because Sparkle already has logic for determining whether or not those items should be filtered out.
+ Also do not return a non-top level item from the appcast such as a delta item. Delta items will be ignored.
+ Sparkle picks the delta item from your selection if the appropriate one is available.
+ 
+ This method will not be invoked with an appcast that has zero items. Pick the best item from the appcast.
+ If an item is available that has the same version as the application or bundle to update,
+ do not pick an item that is worse than that version.
+ 
+ This method may be called multiple times for different selections and filters. This method should be efficient.
+ 
  \param appcast The appcast that was downloaded from the remote server.
  \param updater The updater instance.
  \return The best valid appcast item, or nil if you don't want to be delegated this task.
@@ -189,6 +200,14 @@ typedef NS_ENUM(NSInteger, SPUUpdateCheck)
 - (void)updaterDidNotFindUpdate:(SPUUpdater *)updater;
 
 /*!
+ Called when an update is skipped by the user.
+ 
+ \param updater The updater instance.
+ \param item The appcast item corresponding to the update that the user skipped.
+ */
+- (void)updater:(SPUUpdater *)updater userDidSkipThisVersion:(SUAppcastItem *)item;
+
+/*!
  Returns whether the release notes (if available) should be downloaded after an update is found and shown.
  
  This is specifically for the releaseNotesLink element in the appcast.
@@ -209,6 +228,14 @@ typedef NS_ENUM(NSInteger, SPUUpdateCheck)
 - (void)updater:(SPUUpdater *)updater willDownloadUpdate:(SUAppcastItem *)item withRequest:(NSMutableURLRequest *)request;
 
 /*!
+ Called immediately after succesfull download of the specified update.
+ 
+ \param updater The SUUpdater instance.
+ \param item The appcast item corresponding to the update that has been downloaded.
+ */
+- (void)updater:(SPUUpdater *)updater didDownloadUpdate:(SUAppcastItem *)item;
+
+/*!
  Called after the specified update failed to download.
  
  \param updater The updater instance.
@@ -223,6 +250,22 @@ typedef NS_ENUM(NSInteger, SPUUpdateCheck)
  \param updater The updater instance.
  */
 - (void)userDidCancelDownload:(SPUUpdater *)updater;
+
+/*!
+ Called immediately before extracting the specified downloaded update.
+ 
+ \param updater The SUUpdater instance.
+ \param item The appcast item corresponding to the update that is proposed to be extracted.
+ */
+- (void)updater:(SPUUpdater *)updater willExtractUpdate:(SUAppcastItem *)item;
+
+/*!
+ Called immediately after extracting the specified downloaded update.
+ 
+ \param updater The SUUpdater instance.
+ \param item The appcast item corresponding to the update that has been extracted.
+ */
+- (void)updater:(SPUUpdater *)updater didExtractUpdate:(SUAppcastItem *)item;
 
 /*!
  Called immediately before installing the specified update.
@@ -332,14 +375,6 @@ typedef NS_ENUM(NSInteger, SPUUpdateCheck)
  \param error The error that caused the abort
  */
 - (void)updater:(SPUUpdater *)updater didAbortWithError:(NSError *)error;
-
-/*!
- Called after an update is aborted due to an error during an scheduled update check.
-  
- \param updater The updater instance.
- \param error The error that caused the abort
- */
-- (void)updater:(SPUUpdater *)updater scheduledUpdateCheckDidAbortWithError:(NSError *)error;
 
 @end
 

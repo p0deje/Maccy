@@ -14,7 +14,7 @@
 #else
 #import <Foundation/Foundation.h>
 #endif
-#import "SUExport.h"
+#import <Sparkle/SUExport.h>
 
 @protocol SUVersionComparison, SUVersionDisplay;
 @class SUUpdater, SUAppcast, SUAppcastItem;
@@ -44,7 +44,7 @@ SU_EXPORT extern NSString *const SUUpdaterAppcastNotificationKey;
 /*!
  Provides methods to control the behavior of an SUUpdater object.
  */
-__deprecated_msg("See SPUUpdaterDelegate instead")
+__deprecated_msg("Deprecated in Sparkle 2. See SPUUpdaterDelegate instead")
 @protocol SUUpdaterDelegate <NSObject>
 @optional
 
@@ -137,6 +137,14 @@ __deprecated_msg("See SPUUpdaterDelegate instead")
 - (void)updater:(SUUpdater *)updater willDownloadUpdate:(SUAppcastItem *)item withRequest:(NSMutableURLRequest *)request;
 
 /*!
+ Called immediately after succesfull download of the specified update.
+ 
+ \param updater The SUUpdater instance.
+ \param item The appcast item corresponding to the update that has been downloaded.
+ */
+- (void)updater:(SUUpdater *)updater didDownloadUpdate:(SUAppcastItem *)item;
+
+/*!
  Called after the specified update failed to download.
  
  \param updater The SUUpdater instance.
@@ -153,12 +161,36 @@ __deprecated_msg("See SPUUpdaterDelegate instead")
 - (void)userDidCancelDownload:(SUUpdater *)updater;
 
 /*!
+ Called immediately before extracting the specified downloaded update.
+ 
+ \param updater The SUUpdater instance.
+ \param item The appcast item corresponding to the update that is proposed to be extracted.
+ */
+- (void)updater:(SUUpdater *)updater willExtractUpdate:(SUAppcastItem *)item;
+
+/*!
+ Called immediately after extracting the specified downloaded update.
+ 
+ \param updater The SUUpdater instance.
+ \param item The appcast item corresponding to the update that has been extracted.
+ */
+- (void)updater:(SUUpdater *)updater didExtractUpdate:(SUAppcastItem *)item;
+
+/*!
  Called immediately before installing the specified update.
  
  \param updater The SUUpdater instance.
  \param item The appcast item corresponding to the update that is proposed to be installed.
  */
 - (void)updater:(SUUpdater *)updater willInstallUpdate:(SUAppcastItem *)item;
+
+/*!
+ Called when an update is skipped by the user.
+ 
+ \param updater The updater instance.
+ \param item The appcast item corresponding to the update that the user skipped.
+ */
+- (void)updater:(SUUpdater *)updater userDidSkipThisVersion:(SUAppcastItem *)item;
 
 /*!
  Returns whether the relaunch should be delayed in order to perform other tasks.
@@ -175,6 +207,21 @@ __deprecated_msg("See SPUUpdaterDelegate instead")
  \return \c YES to delay the relaunch until \p invocation is invoked.
  */
 - (BOOL)updater:(SUUpdater *)updater shouldPostponeRelaunchForUpdate:(SUAppcastItem *)item untilInvoking:(NSInvocation *)invocation;
+
+/*!
+ Returns whether the relaunch should be delayed in order to perform other tasks.
+ 
+ This is not called if the user didn't relaunch on the previous update,
+ in that case it will immediately restart.
+ 
+ This method acts as a simpler alternative to SUUpdaterDelegate::updater:shouldPostponeRelaunchForUpdate:untilInvoking: avoiding usage of NSInvocation, which is not available in Swift environments.
+ 
+ \param updater The SUUpdater instance.
+ \param item The appcast item corresponding to the update that is proposed to be installed.
+ 
+ \return \c YES to delay the relaunch.
+ */
+- (BOOL)updater:(SUUpdater *)updater shouldPostponeRelaunchForUpdate:(SUAppcastItem *)item;
 
 /*!
  Returns whether the application should be relaunched at all.
@@ -262,6 +309,17 @@ __deprecated_msg("See SPUUpdaterDelegate instead")
  \param invocation Can be used to trigger an immediate silent install and relaunch.
  */
 - (void)updater:(SUUpdater *)updater willInstallUpdateOnQuit:(SUAppcastItem *)item immediateInstallationInvocation:(NSInvocation *)invocation;
+
+/*!
+ Called when an update is scheduled to be silently installed on quit.
+ This is after an update has been automatically downloaded in the background.
+ (i.e. SUUpdater::automaticallyDownloadsUpdates is YES)
+ This method acts as a more modern alternative to SUUpdaterDelegate::updater:willInstallUpdateOnQuit:immediateInstallationInvocation: using a block instead of NSInvocation, which is not available in Swift environments.
+ \param updater The SUUpdater instance.
+ \param item The appcast item corresponding to the update that is proposed to be installed.
+ \param installationBlock Can be used to trigger an immediate silent install and relaunch.
+ */
+- (void)updater:(SUUpdater *)updater willInstallUpdateOnQuit:(SUAppcastItem *)item immediateInstallationBlock:(void (^)(void))installationBlock;
 
 /*!
  Calls after an update that was scheduled to be silently installed on quit has been canceled.

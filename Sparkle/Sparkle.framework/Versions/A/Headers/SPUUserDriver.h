@@ -15,8 +15,8 @@
 #import <Foundation/Foundation.h>
 #endif
 
-#import "SPUStatusCompletionResults.h"
-#import "SUExport.h"
+#import <Sparkle/SPUUserUpdateState.h>
+#import <Sparkle/SUExport.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -28,27 +28,9 @@ NS_ASSUME_NONNULL_BEGIN
  This protocol is used for implementing a user interface for the Sparkle updater. Sparkle's internal drivers tell
  an object that implements this protocol what actions to take and show to the user.
  
- Every method in this protocol is required (i.e, not optional) and has a void return type and can optionally take a single parameter block, which waits for
- a response back from the user driver. Note that every parameter block, or reply, *must* be responded to eventually -
- that is, none can be ignored. Furthermore, they can only be replied to *once* - a reply or completion block should be considered
- invalidated after it's once used. The faster a reply can be made, the more Sparkle may be able to idle, and so the better.
  Every method in this protocol can be assumed to be called from the main thread.
- 
- It may be possible for an action that says to invalidate or dismiss something to be called multiple times in succession, and the implementor may choose to ignore further requests. (TODO: This should be verified if this actually can happen in practice).
- 
- Note: Once upon a time, when first developing the user driver API, I had the user driver exist in a separate process from the rest of the framework (this is no longer supported).
- If you're familiar with how the higher level XPC APIs work, this explains why some of the decisions above were made
- (reply block executed on any thread, reply block replied only once, single reply block, void return types, idleness, no optional methods, ...)
- This is somewhat of an artifact now, but I think most of these set of restrictions still enforces a well designed API.
  */
 SU_EXPORT @protocol SPUUserDriver <NSObject>
-
-/*!
- * Show that an update can be checked by the user or not
- *
- * A client may choose to update the interface letting the user know if they can check for updates.
- */
-- (void)showCanCheckForUpdates:(BOOL)canCheckForUpdates;
 
 /*!
  * Show an updater permission request to the user
@@ -66,83 +48,43 @@ SU_EXPORT @protocol SPUUserDriver <NSObject>
  *
  * Respond to the user initiating an update check. Sparkle uses this to show the user a window with an indeterminate progress bar.
  *
- * @param updateCheckStatusCompletion A reply indicating whether the initiated update check is done or canceled.
- * Attempts to canceling can be made before -dismissUserInitiatedUpdateCheck is invoked. Replying with SPUUserInitiatedCheckDone
- * on the other hand should not be done until -dismissUserInitiatedUpdateCheck is invoked.
+ * @param cancellation Invoke this cancellation block to cancel the update check before the update check is completed.
  */
-- (void)showUserInitiatedUpdateCheckWithCompletion:(void (^)(SPUUserInitiatedCheckStatus))updateCheckStatusCompletion;
+- (void)showUserInitiatedUpdateCheckWithCancellation:(void (^)(void))cancellation;
 
 /*!
- * Dismiss the user initiated update check from the user
- *
- * Dismiss whatever was started in -showUserInitiatedUpdateCheckWithCompletion:
- * This is an appropriate time to reply with SPUUserInitiatedCheckDone if not having done so already
- */
-- (void)dismissUserInitiatedUpdateCheck;
-
-/*!
- * Show the user a new update is found and can be downloaded and installed
+ * Show the user a new update is found.
  *
  * Let the user know a new update is found and ask them what they want to do.
- *
- * @param appcastItem The Appcast Item containing information that reflects the new update
- *
- * @param userInitiated A flag indicating whether or not a user initiated this update check
- *
- * @param reply
- * A reply of SPUInstallUpdateChoice begins downloading and installing the new update.
- *
- * A reply of SPUInstallLaterChoice reminds the user later of the update, which can act as a "do nothing" option.
- *
- * A reply of SPUSkipThisVersionChoice skips this particular version and won't bother the user again,
- * unless they initiate an update check themselves.
- */
-- (void)showUpdateFoundWithAppcastItem:(SUAppcastItem *)appcastItem userInitiated:(BOOL)userInitiated reply:(void (^)(SPUUpdateAlertChoice))reply;
-
-/*!
- * Show the user a new update has been downloaded and can be installed
- *
- * This method behaves just like -showUpdateFoundWithAppcastItem:reply: except the update has already been downloaded.
- */
-- (void)showDownloadedUpdateFoundWithAppcastItem:(SUAppcastItem *)appcastItem userInitiated:(BOOL)userInitiated reply:(void (^)(SPUUpdateAlertChoice))reply;
-
-/*!
- * Show the user an update that has started installing can be resumed and installed immediately
- *
- * Let the user know an update that has already been downloaded and started installing can be resumed.
- * Note at this point the update cannot be canceled.
- *
- * @param appcastItem The Appcast Item containing information that reflects the new update
- *
- * @param userInitiated A flag indicating whether or not a user initiated this update check
- *
- * @param reply
- * A reply of SPUInstallAndRelaunchUpdateNow installs the update immediately and relaunches the new update.
- * Note: the application is not relaunched if it was not running before installing the update.
- * A reply of SPUInstallUpdateNow installs the update immediately but does not relaunch the new update.
- * A reply of SPUDismissUpdateInstallation dismisses the update installation. Note the update will attempt to finish installation
- * after the application terminates.
- */
-- (void)showResumableUpdateFoundWithAppcastItem:(SUAppcastItem *)appcastItem userInitiated:(BOOL)userInitiated reply:(void (^)(SPUInstallUpdateStatus))reply;
-
-/*!
- * Show the user a new informational only update has been found
- *
- * Let the user know a new informational update is found and ask them what they want to do.
+ * Before this point, -showUserInitiatedUpdateCheckWithCancellation: may be called.
  *
  * @param appcastItem The Appcast Item containing information that reflects the new update.
- * The infoURL property for the appcastItem may be of interest.
  *
- * @param userInitiated A flag indicating whether or not a user initiated this update check
+ * @param state The current state of the update.
+ *  The state.stage values are:
+ *  SPUUserUpdateStateNotDownloaded - Update has not been downloaded yet.
+ *  SPUUserUpdateStateDownloaded - Update has already been downloaded but not started installing yet.
+ *  SPUUserUpdateStateInstalling - Update has been downloaded and already started installing.
+ *  SPUUserUpdateStateInformational - Update is only informational and has no download. You can direct the user to the infoURL property of the appcastItem in their web browser. Use this to check if an update is informational, instead of using the informationOnlyUpdate property of the appcast item.
+ *
+ *  state.userInitiated indicates if the update was initiated by the user or if it was automatically scheduled in the background.
+ *  state.majorUpgrade indicates if the update is a major or paid upgrade.
+ *
+ * Additionally, you may want to check the criticalUpdate property of the appcastItem to let the user know if the update is critical.
  *
  * @param reply
- * A reply of SPUDismissInformationalNoticeChoice dismisses this notice.
- * An implementor may decide to invoke another action before dismissing the notice.
+ * A reply of SPUUserUpdateChoiceInstall begins or resumes downloading or installing the update.
+ * If the state.stage is SPUUserUpdateStateInstalling, this may send a quit event to the application and relaunch it immediately (in this state, this behaves as a fast "install and Relaunch").
  *
- * A reply of SPUSkipThisInformationalVersionChoice skips this particular version and won't bother the user again,
- * unless they initiate an update check themselves.
+ * A reply of SPUUserUpdateChoiceDismiss dismisses the update for the time being. The user may be reminded of the update at a later point.
+ * If the state.stage is SPUUserUpdateStateDownloaded, the downloaded update is kept after dismissing until the next time an update is shown to the user.
+ * If the state.stage is SPUUserUpdateStateInstalling, the installing update is also preserved after dismissing. In this state however, the update will also still be installed after the application is terminated.
+ *
+ * A reply of SPUUserUpdateChoiceSkip skips this particular version and won't notify the user again, unless they initiate an update check themselves.
+ * If state.majorUpgrade is YES, the major update and any minor updates to that major release are skipped.
+ * If the state.stage is SPUUserUpdateStateInstalling, the installation is also canceled when the update is skipped.
  */
-- (void)showInformationalUpdateFoundWithAppcastItem:(SUAppcastItem *)appcastItem userInitiated:(BOOL)userInitiated reply:(void (^)(SPUInformationalUpdateAlertChoice))reply;
+- (void)showUpdateFoundWithAppcastItem:(SUAppcastItem *)appcastItem state:(SPUUserUpdateState *)state reply:(void (^)(SPUUserUpdateChoice))reply;
 
 /*!
  * Show the user the release notes for the new update
@@ -170,10 +112,12 @@ SU_EXPORT @protocol SPUUserDriver <NSObject>
  * Show the user a new update was not found
  *
  * Let the user know a new update was not found after they tried initiating an update check.
+ * Before this point, -showUserInitiatedUpdateCheckWithCancellation: may be called.
  *
- * @param acknowledgement Acknowledge to the updater that no update found was shown.
+ * @param error The error associated with why a new update was not found.
+ * @param acknowledgement Acknowledge to the updater that no update found error was shown.
  */
-- (void)showUpdateNotFoundWithAcknowledgement:(void (^)(void))acknowledgement;
+- (void)showUpdateNotFoundWithError:(NSError *)error acknowledgement:(void (^)(void))acknowledgement;
 
 /*!
  * Show the user an update error occurred
@@ -181,6 +125,9 @@ SU_EXPORT @protocol SPUUserDriver <NSObject>
  * Let the user know that the updater failed with an error. This will not be invoked without the user having been
  * aware that an update was in progress.
  *
+ * Before this point, any of the non-error user driver methods may have been invoked.
+ *
+ * @param error The error associated with what update error occurred..
  * @param acknowledgement Acknowledge to the updater that the error was shown.
  */
 - (void)showUpdaterError:(NSError *)error acknowledgement:(void (^)(void))acknowledgement;
@@ -190,12 +137,9 @@ SU_EXPORT @protocol SPUUserDriver <NSObject>
  *
  * Let the user know that downloading the new update started.
  *
- * @param downloadUpdateStatusCompletion A reply of SPUDownloadUpdateCanceled can be used to cancel
- * the download at any point before -showDownloadDidStartExtractingUpdate is invoked.
- * A reply of SPUDownloadUpdateDone signifies that the download is done, which should not be invoked until
- * -showDownloadDidStartExtractingUpdate
+ * @param cancellation Invoke this cancellation block to cancel the download at any point before -showDownloadDidStartExtractingUpdate is invoked.
  */
-- (void)showDownloadInitiatedWithCompletion:(void (^)(SPUDownloadUpdateStatus))downloadUpdateStatusCompletion;
+- (void)showDownloadInitiatedWithCancellation:(void (^)(void))cancellation;
 
 /*!
  * Show the user the content length of the new update that will be downloaded
@@ -217,7 +161,6 @@ SU_EXPORT @protocol SPUUserDriver <NSObject>
 /*!
  * Show the user that the update finished downloading and started extracting
  *
- * This is an appropriate time to reply with SPUDownloadUpdateDone if not done so already
  * Sparkle uses this to show an indeterminate progress bar.
  *
  * Note that an update can resume at this point after having been downloaded before,
@@ -230,40 +173,48 @@ SU_EXPORT @protocol SPUUserDriver <NSObject>
  *
  * Let the user know how far along the update extraction is.
  *
+ * Before this point, -showDownloadDidStartExtractingUpdate is called.
+ *
  * @param progress The progress of the extraction from a 0.0 to 1.0 scale
  */
 - (void)showExtractionReceivedProgress:(double)progress;
 
 /*!
- * Show the user that the update is ready to install
- *
- * Let the user know that the update is ready and ask them whether they want to install or not.
- * Note if the target application is already terminated and an update can be performed silently, this method may not be invoked.
- *
- * @param installUpdateHandler
- * A reply of SPUInstallAndRelaunchUpdateNow installs the update immediately and relaunches the new update.
- * Note: the application is not relaunched if it was not running before installing the update.
- * A reply of SPUInstallUpdateNow installes the update immediately but does not relaunch the new update.
- * A reply of SPUDismissUpdateInstallation dismisses the update installation. Note the update may still be installed after
- * the application terminates, however there is not a strong guarantee that this will happen.
- */
-- (void)showReadyToInstallAndRelaunch:(void (^)(SPUInstallUpdateStatus))installUpdateHandler;
-
-/*!
  * Show the user that the update is installing
  *
  * Let the user know that the update is currently installing. Sparkle uses this to show an indeterminate progress bar.
+ *
+ * Before this point, -showExtractionReceivedProgress: may be called.
  */
 - (void)showInstallingUpdate;
 
 /*!
- * Show or dismiss progress while a termination signal is being sent to the application
+ * Show the user that the update is ready to install & relaunch
+ *
+ * Let the user know that the update is ready to install and relaunch, and ask them whether they want to proceed.
+ * Note if the target application has already terminated, this method may not be invoked.
+ *
+ * @param reply
+ * A reply of SPUUserUpdateChoiceInstall installs the update the new update immediately. The application is relaunched only if it is still running by the time this reply is invoked. If the application terminates on its own, Sparkle will attempt to automatically install the update.
+ *
+ * A reply of SPUUserUpdateChoiceDismiss dismisses the update installation for the time being. Note the update may still be installed automatically after the application terminates.
+ *
+ * A reply of SPUUserUpdateChoiceSkip cancels the current update that has begun installing and dismisses the update. In this circumstance, the update is canceled but this update version is not skipped in the future.
+ *
+ * Before this point, -showInstallingUpdate will be called.
+ */
+- (void)showReadyToInstallAndRelaunch:(void (^)(SPUUserUpdateChoice))reply;
+
+/*!
+ * Show or dismiss progress while a termination signal is being sent to the application from Sparkle's installer
  *
  * Terminating and relaunching the application (if requested to be relaunched) may happen quickly,
  * or it may take some time to perform the final installation, or the termination signal can be canceled or delayed by the application or user.
  *
  * It is up to the implementor whether or not to decide to continue showing installation progress
  * or dismissing UI that won't remain obscuring other parts of the user interface.
+ *
+ * This will not be invoked if the application that is being updated is already terminated.
  */
 - (void)showSendingTerminationSignal;
 
@@ -271,21 +222,50 @@ SU_EXPORT @protocol SPUUserDriver <NSObject>
  * Show the user that the update installation finished
  *
  * Let the user know that the update finished installing.
- * This will only be invoked if the updater process is still alive, which is typically not the case if
- * the updater's lifetime is tied to the application it is updating.
  *
- * @param acknowledgement Acknowledge to the updater that the installation finish was shown.
+ * This will only be invoked if the updater process is still alive, which is typically not the case if
+ * the updater's lifetime is tied to the application it is updating. This implementation must not try to reference
+ * the old bundle prior to the installation, which will no longer be around.
+ *
+ * Before this point, -showSendingTerminationSignal or -showReadyToInstallAndRelaunch: may be called.
+ *
+ * @param relaunched Indicates if the update was relaunched.
+ * @param acknowledgement Acknowledge to the updater that the finished installation was shown.
  */
-- (void)showUpdateInstallationDidFinishWithAcknowledgement:(void (^)(void))acknowledgement;
+- (void)showUpdateInstalledAndRelaunched:(BOOL)relaunched acknowledgement:(void (^)(void))acknowledgement;
+
+/*!
+ * Show the user the current presented update or its progress in utmost focus
+ *
+ * The user wishes to check for updates while the user is being shown update progress.
+ * Bring whatever is on screen to frontmost focus (permission request, update information, downloading or extraction status, choice to install update, etc).
+ */
+- (void)showUpdateInFocus;
 
 /*!
  * Dismiss the current update installation
  *
- * Stop and tear down everything. Reply to all outstanding reply/completion blocks.
+ * Stop and tear down everything.
  * Dismiss all update windows, alerts, progress, etc from the user.
  * Basically, stop everything that could have been started. Sparkle may invoke this when aborting or finishing an update.
  */
 - (void)dismissUpdateInstallation;
+
+/*
+ * Below are deprecated methods that have been replaced by better alternatives.
+ * The deprecated methods will be used if the alternatives have not been implemented yet.
+ * In the future support for using these deprecated methods may be removed however.
+ */
+@optional
+
+// Clients should move to non-deprecated methods
+// Deprecated methods are only (temporarily) kept around for compatibility reasons
+
+- (void)showUpdateNotFoundWithAcknowledgement:(void (^)(void))acknowledgement __deprecated_msg("Implement -showUpdateNotFoundWithError:acknowledgement: instead");
+
+- (void)showUpdateInstallationDidFinishWithAcknowledgement:(void (^)(void))acknowledgement __deprecated_msg("Implement -showUpdateInstalledAndRelaunched:acknowledgement: instead");
+
+- (void)dismissUserInitiatedUpdateCheck __deprecated_msg("Transition to new UI appropriately when a new update is shown, when no update is found, or when an update error occurs.");;
 
 @end
 
