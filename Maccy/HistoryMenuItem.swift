@@ -112,9 +112,7 @@ class HistoryMenuItem: NSMenuItem {
       if let fileURL = URL(dataRepresentation: fileURLData, relativeTo: nil, isAbsolute: true) {
         if let string = fileURL.absoluteString.removingPercentEncoding {
           self.value = string
-          self.title = trimmedString(string
-                                      .trimmingCharacters(in: .whitespacesAndNewlines)
-                                      .replacingOccurrences(of: "\n", with: ""),
+          self.title = trimmedString(string.trimmingCharacters(in: .whitespacesAndNewlines),
                                     showMaxLength)
           self.image = ColorImage.from(title)
           self.toolTip = """
@@ -132,7 +130,7 @@ class HistoryMenuItem: NSMenuItem {
         self.value = string
         self.title = trimmedString(string
                                     .trimmingCharacters(in: .whitespacesAndNewlines)
-                                    .replacingOccurrences(of: "\n", with: ""),
+                                    .replacingOccurrences(of: "\n", with: "⏎"),
                                   showMaxLength)
         self.image = ColorImage.from(title)
         self.toolTip = """

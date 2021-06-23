@@ -76,7 +76,7 @@ class HistoryMenuItemTests: XCTestCase {
   func testTitleWithNewlines() {
     let title = "\nfoo\nbar\n"
     let menuItem = historyMenuItem(title)
-    XCTAssertEqual(menuItem.title, "foobar")
+    XCTAssertEqual(menuItem.title, "foo⏎bar")
     XCTAssertEqual(menuItem.value, title)
     XCTAssertEqual(menuItem.toolTip, tooltip(title))
   }
