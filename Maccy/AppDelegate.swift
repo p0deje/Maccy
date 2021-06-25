@@ -32,9 +32,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationWillTerminate(_ notification: Notification) {
+    if(UserDefaults.standard.deleteHistoryOnShutdown){
+        self.deleteHistoryItems()
+    }
     CoreDataManager.shared.saveContext()
   }
 
+  private func deleteHistoryItems() {
+    CoreDataManager.shared.clearEntity(entityName: "HistoryItem")
+    CoreDataManager.shared.clearEntity(entityName: "HistoryItemContent")
+  }
   // swiftlint:disable cyclomatic_complexity
   // swiftlint:disable function_body_length
   private func migrateUserDefaults() {

@@ -22,6 +22,7 @@ extension UserDefaults {
     static let showRecentCopyInMenuBar = "showRecentCopyInMenuBar"
     static let size = "historySize"
     static let sortBy = "sortBy"
+    static let deleteHistoryOnShutdown = "deleteHistoryOnShutdown"
     static let supressClearAlert = "supressClearAlert"
 
     static var showInStatusBar: String {
@@ -43,6 +44,7 @@ extension UserDefaults {
     static let showInStatusBar = true
     static let size = 200
     static let sortBy = "lastCopiedAt"
+    static let deleteHistoryOnShutdown = false
     static let storage: [HistoryItemOld] = []
   }
 
@@ -152,6 +154,11 @@ extension UserDefaults {
   @objc dynamic public var sortBy: String {
     get { string(forKey: Keys.sortBy) ?? Values.sortBy }
     set { set(newValue, forKey: Keys.sortBy) }
+  }
+    
+  public var deleteHistoryOnShutdown: Bool {
+    get { bool(forKey: Keys.deleteHistoryOnShutdown) }
+    set { set(newValue, forKey: Keys.deleteHistoryOnShutdown) }
   }
 
   // swiftlint:disable force_try

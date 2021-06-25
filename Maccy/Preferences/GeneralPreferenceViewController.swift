@@ -22,6 +22,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var historySizeSlider: NSSlider!
   @IBOutlet weak var historySizeLabel: NSTextField!
   @IBOutlet weak var sortByButton: NSPopUpButton!
+  @IBOutlet weak var deleteHistoryOnShutdownButton: NSButtonCell!
   @IBOutlet weak var storeFilesButton: NSButton!
   @IBOutlet weak var storeImagesButton: NSButton!
   @IBOutlet weak var storeTextButton: NSButton!
@@ -85,6 +86,10 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
       UserDefaults.standard.sortBy = "lastCopiedAt"
     }
   }
+
+    @IBAction func deleteHistoryOnShutdownChanged(_ sender: NSButton) {
+        UserDefaults.standard.deleteHistoryOnShutdown = (sender.state == .on)
+    }
 
   @IBAction func storeFilesChanged(_ sender: NSButton) {
     let types: Set = [NSPasteboard.PasteboardType.fileURL]

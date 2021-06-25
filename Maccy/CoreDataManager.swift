@@ -39,4 +39,14 @@ class CoreDataManager {
       }
     }
   }
+  
+  func clearEntity(entityName: String){
+    let fetchRequest: NSFetchRequest<NSFetchRequestResult> = NSFetchRequest(entityName: entityName)
+    let deleteRequest = NSBatchDeleteRequest(fetchRequest: fetchRequest)
+    do {
+        try self.persistentContainer.execute(deleteRequest, with: self.viewContext)
+    } catch let error as NSError {
+        // TODO: handle the error
+    }
+  }
 }
