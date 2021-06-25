@@ -189,7 +189,7 @@
 		DAA2BDCE24676CA7007FE090 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAAEB195219694AE00A7883C /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		DAB65DFC2440AD63000AECA8 /* Storage.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = Storage.xcdatamodel; sourceTree = "<group>"; };
-		DAB65DFE2440AE29000AECA8 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; tabWidth = 2; };
+		DAB65DFE2440AE29000AECA8 /* CoreDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoreDataManager.swift; sourceTree = "<group>"; };
 		DAB65E0A2440B078000AECA8 /* HistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItem.swift; sourceTree = "<group>"; };
 		DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemContent.swift; sourceTree = "<group>"; };
 		DAB8CE4024E3677F00A2500E /* Maccy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Maccy.entitlements; sourceTree = "<group>"; };
