@@ -10,6 +10,7 @@ class HistoryMenuItem: NSMenuItem {
   private let showMaxLength = 50
   private let tooltipMaxLength = 5_000
   private let imageMaxWidth: CGFloat = 340.0
+  private let highlightFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
 
   required init(coder: NSCoder) {
     super.init(coder: coder)
@@ -75,6 +76,40 @@ class HistoryMenuItem: NSMenuItem {
     loadImage(item)
   }
 
+  func highlight(_ ranges: [ClosedRange<Int>]) {
+    guard !ranges.isEmpty else {
+      self.attributedTitle = nil
+      return
+    }
+
+    var trimmedOffset = 0
+    for char in value {
+      if char.isWhitespace || char.isNewline {
+        trimmedOffset += 1
+      } else {
+        break
+      }
+    }
+
+    let attributedTitle = NSMutableAttributedString(string: title)
+    for range in ranges {
+      let lowerTrimmedBound = range.lowerBound - trimmedOffset
+      let upperTrimmedBound = range.upperBound - trimmedOffset
+      let rangeLength = upperTrimmedBound - lowerTrimmedBound + 1
+
+      if lowerTrimmedBound >= 0 && rangeLength >= 0 {
+        let highlightRange = NSRange(location: lowerTrimmedBound, length: rangeLength)
+
+        if Range(highlightRange, in: title) != nil {
+          attributedTitle.addAttribute(.font, value: highlightFont, range: highlightRange
+          )
+        }
+      }
+    }
+
+    self.attributedTitle = attributedTitle
+  }
+
   private func isImage(_ item: HistoryItem) -> Bool {
     return contentData(item, [.tiff, .png]) != nil
   }
@@ -124,6 +159,7 @@ class HistoryMenuItem: NSMenuItem {
       }
     }
   }
+
   private func loadString(_ item: HistoryItem, from: NSPasteboard.PasteboardType) {
     if let contentData = contentData(item, [from]) {
       if let string = String(data: contentData, encoding: .utf8) {

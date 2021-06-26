@@ -133,14 +133,15 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     // Get all the menu items that match results.
-    var foundMenuItems = results.flatMap({ $0.menuItems })
+    let foundItems = results.map({ $0.object })
+    var foundMenuItems = foundItems.flatMap({ $0.menuItems })
     if filter.isEmpty {
       foundMenuItems.append(contentsOf: indexedItems.flatMap({ $0.menuItems }).filter({ $0.isPinned }))
     }
 
     // First, remove items that don't match search.
     for indexedItem in indexedItems {
-      if !results.contains(indexedItem) {
+      if !foundItems.contains(indexedItem) {
         for menuItem in indexedItem.menuItems where items.contains(menuItem) {
           removeItem(menuItem)
         }
@@ -148,11 +149,14 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     // Second, update order of items to match search results order.
-    for menuItem in foundMenuItems.reversed() {
-      if items.contains(menuItem) {
-        removeItem(menuItem)
+    for result in results.reversed() {
+      for menuItem in result.object.menuItems.reversed() {
+        if items.contains(menuItem) {
+          removeItem(menuItem)
+        }
+        menuItem.highlight(result.matches)
+        insertItem(menuItem, at: historyMenuItemOffset)
       }
-      insertItem(menuItem, at: historyMenuItemOffset)
     }
 
     setKeyEquivalents(historyMenuItems)
