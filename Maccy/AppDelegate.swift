@@ -32,6 +32,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationWillTerminate(_ notification: Notification) {
+    if UserDefaults.standard.clearOnQuit {
+      maccy.clearUnpinned(suppressClearAlert: true)
+    }
     CoreDataManager.shared.saveContext()
   }
 

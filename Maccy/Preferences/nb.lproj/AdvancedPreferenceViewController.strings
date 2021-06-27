@@ -22,3 +22,9 @@
 
 /* Class = "NSButtonCell"; title = "Avoid taking application focus"; ObjectID = "jjU-HE-iIA"; */
 "jjU-HE-iIA.title" = "Unngå applikasjonsfokus";
+
+/* Class = "NSButtonCell"; title = "Clear history on quit"; ObjectID = "JvB-ng-8vt"; */
+"JvB-ng-8vt.title" = "Tøm historikk når du slutter";
+
+/* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
+"LW1-8W-pFI.title" = "Fjern alle ikke-festede elementer automatisk før du avslutter applikasjonen.";

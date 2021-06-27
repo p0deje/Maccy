@@ -10,6 +10,7 @@ class AdvancedPreferenceViewController: NSViewController, NSTableViewDataSource,
 
   @IBOutlet weak var turnOffButton: NSButton!
   @IBOutlet weak var avoidTakingFocusButton: NSButton!
+  @IBOutlet weak var clearOnQuitButton: NSButton!
   @IBOutlet weak var ignoredItemsTable: NSTableView!
 
   private let exampleIgnoredType = "zzz.yyy.xxx"
@@ -23,6 +24,7 @@ class AdvancedPreferenceViewController: NSViewController, NSTableViewDataSource,
     super.viewWillAppear()
     populateTurnOff()
     populateAvoidTakingFocus()
+    populateClearOnQuit()
   }
 
   func numberOfRows(in tableView: NSTableView) -> Int {
@@ -52,11 +54,15 @@ class AdvancedPreferenceViewController: NSViewController, NSTableViewDataSource,
   }
 
   @IBAction func turnOffChanged(_ sender: NSButton) {
-    UserDefaults.standard.ignoreEvents = (turnOffButton.state == .on)
+    UserDefaults.standard.ignoreEvents = (sender.state == .on)
   }
 
   @IBAction func avoidTakingFocusChanged(_ sender: NSButton) {
-    UserDefaults.standard.avoidTakingFocus = (avoidTakingFocusButton.state == .on)
+    UserDefaults.standard.avoidTakingFocus = (sender.state == .on)
+  }
+
+  @IBAction func clearOnQuitChanged(_ sender: NSButton) {
+    UserDefaults.standard.clearOnQuit = (sender.state == .on)
   }
 
   @IBAction func ignoredTypeAddedOrRemoved(_ sender: NSSegmentedCell) {
@@ -80,6 +86,10 @@ class AdvancedPreferenceViewController: NSViewController, NSTableViewDataSource,
 
   private func populateAvoidTakingFocus() {
     avoidTakingFocusButton.state = UserDefaults.standard.avoidTakingFocus ? .on : .off
+  }
+
+  private func populateClearOnQuit() {
+    clearOnQuitButton.state = UserDefaults.standard.clearOnQuit ? .on : .off
   }
 
   private func addIgnoredType() {

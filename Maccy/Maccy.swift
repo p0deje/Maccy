@@ -238,7 +238,7 @@ class Maccy: NSObject {
       case .clearAll:
         clearAll()
       case .quit:
-        NSApp.stop(sender)
+        NSApp.terminate(sender)
       case .preferences:
         Maccy.returnFocusToPreviousApp = false
         preferencesWindowController.show()
@@ -248,22 +248,22 @@ class Maccy: NSObject {
     }
   }
 
-  private func clearUnpinned() {
-    withClearAlert {
-      self.history.all.filter({ $0.pin == nil }).forEach(self.history.remove(_:))
+  func clearUnpinned(suppressClearAlert: Bool = false) {
+    withClearAlert(suppressClearAlert: suppressClearAlert) {
+      self.history.clearUnpinned()
       self.menu.clearUnpinned()
     }
   }
 
-  private func clearAll() {
-    withClearAlert {
+  private func clearAll(suppressClearAlert: Bool = false) {
+    withClearAlert(suppressClearAlert: suppressClearAlert) {
       self.history.clear()
       self.menu.clearAll()
     }
   }
 
-  private func withClearAlert(_ closure: @escaping () -> Void) {
-    if UserDefaults.standard.supressClearAlert {
+  private func withClearAlert(suppressClearAlert: Bool, _ closure: @escaping () -> Void) {
+    if suppressClearAlert || UserDefaults.standard.supressClearAlert {
       closure()
     } else {
       let alert = clearAlert

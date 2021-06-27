@@ -43,6 +43,10 @@ class History {
     CoreDataManager.shared.saveContext()
   }
 
+  func clearUnpinned() {
+    all.filter({ $0.pin == nil }).forEach(remove(_:))
+  }
+
   func clear() {
     all.forEach(remove(_:))
   }

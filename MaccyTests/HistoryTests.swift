@@ -72,6 +72,15 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.all[0].numberOfCopies, 0)
   }
 
+  func testClearingUnpinned() {
+    let pinned = historyItem("foo")
+    pinned.pin = "f"
+    history.add(pinned)
+    history.add(historyItem("bar"))
+    history.clearUnpinned()
+    XCTAssertEqual(history.all, [pinned])
+  }
+
   func testClearing() {
     history.add(historyItem("foo"))
     history.clear()
