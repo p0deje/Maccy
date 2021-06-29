@@ -7,10 +7,12 @@ class HistoryMenuItem: NSMenuItem {
 
   internal var clipboard: Clipboard!
 
-  private let showMaxLength = 50
   private let tooltipMaxLength = 5_000
   private let imageMaxWidth: CGFloat = 340.0
   private let highlightFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
+
+  private var editPinObserver: NSKeyValueObservation?
+  private var editTitleObserver: NSKeyValueObservation?
 
   required init(coder: NSCoder) {
     super.init(coder: coder)
@@ -39,6 +41,18 @@ class HistoryMenuItem: NSMenuItem {
     }
 
     alternate()
+
+    editPinObserver = item.observe(\.pin, options: .new, changeHandler: { item, _ in
+      self.keyEquivalent = item.pin ?? ""
+    })
+    editTitleObserver = item.observe(\.title, options: .new, changeHandler: { item, _ in
+      self.title = item.title
+    })
+  }
+
+  deinit {
+    editPinObserver?.invalidate()
+    editTitleObserver?.invalidate()
   }
 
   @objc
@@ -147,11 +161,10 @@ class HistoryMenuItem: NSMenuItem {
       if let fileURL = URL(dataRepresentation: fileURLData, relativeTo: nil, isAbsolute: true) {
         if let string = fileURL.absoluteString.removingPercentEncoding {
           self.value = string
-          self.title = trimmedString(string.trimmingCharacters(in: .whitespacesAndNewlines),
-                                    showMaxLength)
+          self.title = item.title
           self.image = ColorImage.from(title)
           self.toolTip = """
-          \(trimmedString(string, tooltipMaxLength))
+          \(string.shortened(to: tooltipMaxLength))
           \n \n\n
           \(defaultTooltip(item))
           """
@@ -164,13 +177,10 @@ class HistoryMenuItem: NSMenuItem {
     if let contentData = contentData(item, [from]) {
       if let string = String(data: contentData, encoding: .utf8) {
         self.value = string
-        self.title = trimmedString(string
-                                    .trimmingCharacters(in: .whitespacesAndNewlines)
-                                    .replacingOccurrences(of: "\n", with: "⏎"),
-                                  showMaxLength)
+        self.title = item.title
         self.image = ColorImage.from(title)
         self.toolTip = """
-        \(trimmedString(string, tooltipMaxLength))
+        \(string.shortened(to: tooltipMaxLength))
         \n \n\n
         \(defaultTooltip(item))
         """
@@ -185,17 +195,6 @@ class HistoryMenuItem: NSMenuItem {
     })
 
     return content?.value
-  }
-
-  private func trimmedString(_ string: String, _ maxLength: Int) -> String {
-    guard string.count > maxLength else {
-      return string
-    }
-
-    let thirdMaxLength = maxLength / 3
-    let indexStart = string.index(string.startIndex, offsetBy: thirdMaxLength * 2)
-    let indexEnd = string.index(string.endIndex, offsetBy: -(thirdMaxLength + 1))
-    return "\(string[...indexStart])...\(string[indexEnd...])"
   }
 
   private func defaultTooltip(_ item: HistoryItem) -> String {

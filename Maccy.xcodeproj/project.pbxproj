@@ -77,6 +77,10 @@
 		DAF65F4824D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF65F4524D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift */; };
 		DAF65F4924D396FE00F3978F /* PasteMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF65F4624D396FE00F3978F /* PasteMenuItem.swift */; };
 		DAF65F4A24D396FE00F3978F /* CopyMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF65F4724D396FE00F3978F /* CopyMenuItem.swift */; };
+		DAFE2DD82688018100990986 /* PinsPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD72688018100990986 /* PinsPreferenceViewController.swift */; };
+		DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD9268A521A00990986 /* String+Shortened.swift */; };
+		DAFE2DDB268A8E4E00990986 /* PinsPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAFE2DDD268A8E4E00990986 /* PinsPreferenceViewController.xib */; };
+		DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */; };
 		DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */; };
 /* End PBXBuildFile section */
 
@@ -210,6 +214,15 @@
 		DAF65F4524D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasteWithoutFormattingMenuItem.swift; sourceTree = "<group>"; };
 		DAF65F4624D396FE00F3978F /* PasteMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasteMenuItem.swift; sourceTree = "<group>"; };
 		DAF65F4724D396FE00F3978F /* CopyMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyMenuItem.swift; sourceTree = "<group>"; };
+		DAFE2DD72688018100990986 /* PinsPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsPreferenceViewController.swift; sourceTree = "<group>"; };
+		DAFE2DD9268A521A00990986 /* String+Shortened.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Shortened.swift"; sourceTree = "<group>"; };
+		DAFE2DDC268A8E4E00990986 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PinsPreferenceViewController.xib; sourceTree = "<group>"; };
+		DAFE2DDF268A8E6000990986 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PinsPreferenceViewController.strings"; sourceTree = "<group>"; };
+		DAFE2DE1268A8E6000990986 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
+		DAFE2DE3268A8E6100990986 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
+		DAFE2DE5268A8E6200990986 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
+		DAFE2DE7268A8E6200990986 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
+		DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTests.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Popup.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -277,6 +290,8 @@
 				DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */,
 				DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */,
 				DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */,
+				DAFE2DDD268A8E4E00990986 /* PinsPreferenceViewController.xib */,
+				DAFE2DD72688018100990986 /* PinsPreferenceViewController.swift */,
 			);
 			path = Preferences;
 			sourceTree = "<group>";
@@ -293,6 +308,7 @@
 		DA360DB11E3DF137005C6F6B /* MaccyTests */ = {
 			isa = PBXGroup;
 			children = (
+				DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */,
 				DA57C64F249E3C8F0032707A /* MenuFoooterTests.swift */,
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				DAE2850123225BD90080E394 /* ColorImageTests.swift */,
@@ -365,6 +381,7 @@
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
+				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
 				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
 			);
@@ -530,6 +547,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAFE2DDB268A8E4E00990986 /* PinsPreferenceViewController.xib in Resources */,
 				DAD20C7B24E55CD200E96247 /* org.sparkle-project.InstallerConnection.xpc in Resources */,
 				DAD20C7724E55CD200E96247 /* org.sparkle-project.Downloader.xpc in Resources */,
 				DAD20C7824E55CD200E96247 /* org.sparkle-project.InstallerStatus.xpc in Resources */,
@@ -566,6 +584,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */,
 				DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */,
 				DAD0862D24545C66002AFAEC /* Storage.xcdatamodeld in Sources */,
 				DA2B0AF42343104600EFAD72 /* UserDefaultsTests.swift in Sources */,
@@ -600,6 +619,7 @@
 				DAB65E0D2440B0D4000AECA8 /* HistoryItemContent.swift in Sources */,
 				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,
 				DAF65F4824D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift in Sources */,
+				DAFE2DD82688018100990986 /* PinsPreferenceViewController.swift in Sources */,
 				DA81D674252A056B009977BC /* Throttler.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
 				DA2C752C2029FE990090965D /* Menu.swift in Sources */,
@@ -607,6 +627,7 @@
 				DAF65F4A24D396FE00F3978F /* CopyMenuItem.swift in Sources */,
 				DA8953B91E446A4E00884EAB /* Maccy.swift in Sources */,
 				DAB65E0B2440B078000AECA8 /* HistoryItem.swift in Sources */,
+				DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
 				DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */,
@@ -681,6 +702,19 @@
 				DA86E870255C4DF600D1929F /* nb */,
 			);
 			name = AdvancedPreferenceViewController.xib;
+			sourceTree = "<group>";
+		};
+		DAFE2DDD268A8E4E00990986 /* PinsPreferenceViewController.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				DAFE2DDC268A8E4E00990986 /* Base */,
+				DAFE2DDF268A8E6000990986 /* zh-Hans */,
+				DAFE2DE1268A8E6000990986 /* fr */,
+				DAFE2DE3268A8E6100990986 /* nb */,
+				DAFE2DE5268A8E6200990986 /* ru */,
+				DAFE2DE7268A8E6200990986 /* es */,
+			);
+			name = PinsPreferenceViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */

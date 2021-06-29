@@ -152,6 +152,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
       UserDefaults.standard.migrations["2021-02-20-allow-to-customize-supported-types"] = true
     }
+
+    if UserDefaults.standard.migrations["2021-06-28-add-title-to-history-item"] != true {
+      for item in HistoryItem.all() {
+        item.title = item.generateTitle(item.getContents())
+      }
+      CoreDataManager.shared.saveContext()
+
+      UserDefaults.standard.migrations["2021-06-28-add-title-to-history-item"] = true
+    }
   }
 
   private func clearOrphanRecords() {

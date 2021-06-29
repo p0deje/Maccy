@@ -12,6 +12,7 @@
 "preferences_advanced" = "Avansert";
 "preferences_appearance" = "Utseende";
 "preferences_general" = "Generelt";
+"preferences_pins" = "Merker";
 "first_copy_time_tooltip" = "Tidspunkt første kopiering";
 "last_copy_time_tooltip" = "Tidspunkt siste kopiering";
 "number_of_copies_tooltip" = "Antall ganger kopiert";
@@ -26,3 +27,4 @@
 "clear_alert_comment" = "Du kan ikke angre denne handlingen.";
 "clear_alert_cancel" = "Avbryt";
 "clear_alert_confirm" = "Slett";
+"key_used_error" = "Nøkkel er allerede brukt.";

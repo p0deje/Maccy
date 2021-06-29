@@ -31,10 +31,6 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private let search = Search()
-  private let availablePins = Set([
-    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-    "m", "n", "o", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-  ])
 
   private let historyMenuItemOffset = 1 // The first item is reserved for header.
   private let historyMenuItemsGroup = 3 // 1 main and 2 alternates
@@ -228,7 +224,7 @@ class Menu: NSMenu, NSMenuDelegate {
         removeItem(menuItem)
       }
     } else {
-      let pin = randomAvailablePin()
+      let pin = HistoryItem.randomAvailablePin
       for menuItem in historyItem.menuItems {
         menuItem.pin(pin)
         removeItem(menuItem)
@@ -313,11 +309,6 @@ class Menu: NSMenu, NSMenuDelegate {
       }
       hotKey += 1
     }
-  }
-
-  private func randomAvailablePin() -> String {
-    let assignedPins = Set(historyMenuItems.map({ $0.keyEquivalent }))
-    return availablePins.subtracting(assignedPins).randomElement() ?? ""
   }
 
   private func clear(_ itemsToClear: [HistoryMenuItem]) {

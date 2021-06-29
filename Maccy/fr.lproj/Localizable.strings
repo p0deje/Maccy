@@ -12,6 +12,7 @@
 "preferences_advanced" = "Avancé";
 "preferences_appearance" = "Apparence";
 "preferences_general" = "Général";
+"preferences_pins" = "Épingles";
 "first_copy_time_tooltip" = "Date de la première copie";
 "last_copy_time_tooltip" = "Date de la dernière copie";
 "number_of_copies_tooltip" = "Nombre de copies";
@@ -26,3 +27,4 @@
 "clear_alert_comment" = "Vous ne pouvez pas annuler cette action.";
 "clear_alert_cancel" = "Annuler";
 "clear_alert_confirm" = "Supprimer";
+"key_used_error" = "La clé est déjà utilisée.";

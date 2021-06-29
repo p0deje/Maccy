@@ -12,6 +12,7 @@
 "preferences_advanced" = "高级";
 "preferences_appearance" = "外观";
 "preferences_general" = "通用";
+"preferences_pins" = "引脚";
 "first_copy_time_tooltip" = "首次复制时间";
 "last_copy_time_tooltip" = "上次复制时间";
 "number_of_copies_tooltip" = "复制次数";
@@ -26,3 +27,4 @@
 "clear_alert_comment" = "您无法撤消此操作。";
 "clear_alert_cancel" = "取消";
 "clear_alert_confirm" = "清除";
+"key_used_error" = "密钥已被使用。";

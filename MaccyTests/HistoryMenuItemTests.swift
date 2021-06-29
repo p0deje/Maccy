@@ -38,50 +38,6 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertNil(menuItem.image)
   }
 
-  func testTitleShorterThanMaxLength() {
-    let title = String(repeating: "a", count: 49)
-    let menuItem = historyMenuItem(title)
-    XCTAssertEqual(menuItem.title, title)
-    XCTAssertEqual(menuItem.value, title)
-    XCTAssertEqual(menuItem.title.count, 49)
-    XCTAssertEqual(menuItem.toolTip, tooltip(title))
-  }
-
-  func testTitleOfMaxLength() {
-    let title = String(repeating: "a", count: 50)
-    let menuItem = historyMenuItem(title)
-    XCTAssertEqual(menuItem.title, title)
-    XCTAssertEqual(menuItem.value, title)
-    XCTAssertEqual(menuItem.title.count, 50)
-    XCTAssertEqual(menuItem.toolTip, tooltip(title))
-  }
-
-  func testTitleLongerThanMaxLength() {
-    let trimmedTitle = String(repeating: "a", count: 33) + "..." + String(repeating: "a", count: 17)
-    let title = String(repeating: "a", count: 51)
-    let menuItem = historyMenuItem(title)
-    XCTAssertEqual(menuItem.title, trimmedTitle)
-    XCTAssertEqual(menuItem.value, title)
-    XCTAssertEqual(menuItem.title.count, 53)
-    XCTAssertEqual(menuItem.toolTip, tooltip(title))
-  }
-
-  func testTitleWithWhitespaces() {
-    let title = "   foo   "
-    let menuItem = historyMenuItem(title)
-    XCTAssertEqual(menuItem.title, "foo")
-    XCTAssertEqual(menuItem.value, title)
-    XCTAssertEqual(menuItem.toolTip, tooltip(title))
-  }
-
-  func testTitleWithNewlines() {
-    let title = "\nfoo\nbar\n"
-    let menuItem = historyMenuItem(title)
-    XCTAssertEqual(menuItem.title, "foo⏎bar")
-    XCTAssertEqual(menuItem.value, title)
-    XCTAssertEqual(menuItem.toolTip, tooltip(title))
-  }
-
   func testImage() {
     let image = NSImage(named: "NSBluetoothTemplate")!
     let menuItem = historyMenuItem(image)

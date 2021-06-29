@@ -12,6 +12,7 @@
 "preferences_advanced" = "Дополнения";
 "preferences_appearance" = "Внешний Вид";
 "preferences_general" = "Основные";
+"preferences_pins" = "Прикреплённые";
 "first_copy_time_tooltip" = "Время первого копирования";
 "last_copy_time_tooltip" = "Время последнего копирования";
 "number_of_copies_tooltip" = "Количество копирований";
@@ -26,3 +27,4 @@
 "clear_alert_comment" = "Это действие необратимо.";
 "clear_alert_cancel" = "Отмена";
 "clear_alert_confirm" = "Очистить";
+"key_used_error" = "Клавиша уже используется.";

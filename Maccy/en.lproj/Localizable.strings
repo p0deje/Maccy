@@ -12,6 +12,7 @@
 "preferences_advanced" = "Advanced";
 "preferences_appearance" = "Appearance";
 "preferences_general" = "General";
+"preferences_pins" = "Pins";
 "first_copy_time_tooltip" = "First copy time";
 "last_copy_time_tooltip" = "Last copy time";
 "number_of_copies_tooltip" = "Number of copies";
@@ -26,3 +27,4 @@
 "clear_alert_comment" = "You can't undo this action.";
 "clear_alert_cancel" = "Cancel";
 "clear_alert_confirm" = "Clear";
+"key_used_error" = "Key is already used.";

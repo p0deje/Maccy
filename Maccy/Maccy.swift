@@ -35,6 +35,7 @@ class Maccy: NSObject {
     preferencePanes: [
       GeneralPreferenceViewController(),
       AppearancePreferenceViewController(),
+      PinsPreferenceViewController(),
       AdvancedPreferenceViewController()
     ]
   )
