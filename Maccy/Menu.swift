@@ -128,11 +128,13 @@ class Menu: NSMenu, NSMenuDelegate {
       results = Array(results[0...maxMenuItems - 1])
     }
 
-    // Get all the menu items that match results.
+    // Get all the items that match results.
     let foundItems = results.map({ $0.object })
-    var foundMenuItems = foundItems.flatMap({ $0.menuItems })
+
+    // Ensure that pinned items are visible after search is cleared.
     if filter.isEmpty {
-      foundMenuItems.append(contentsOf: indexedItems.flatMap({ $0.menuItems }).filter({ $0.isPinned }))
+      results.append(contentsOf: indexedItems.filter({ $0.item.pin != nil })
+                                             .map({ Search.SearchResult(score: nil, object: $0, matches: []) }))
     }
 
     // First, remove items that don't match search.
