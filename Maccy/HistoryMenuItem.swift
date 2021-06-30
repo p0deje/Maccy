@@ -96,29 +96,12 @@ class HistoryMenuItem: NSMenuItem {
       return
     }
 
-    var trimmedOffset = 0
-    for char in value {
-      if char.isWhitespace || char.isNewline {
-        trimmedOffset += 1
-      } else {
-        break
-      }
-    }
-
     let attributedTitle = NSMutableAttributedString(string: title)
     for range in ranges {
-      let lowerTrimmedBound = range.lowerBound - trimmedOffset
-      let upperTrimmedBound = range.upperBound - trimmedOffset
-      let rangeLength = upperTrimmedBound - lowerTrimmedBound + 1
+      let rangeLength = range.upperBound - range.lowerBound + 1
+      let highlightRange = NSRange(location: range.lowerBound, length: rangeLength)
 
-      if lowerTrimmedBound >= 0 && rangeLength >= 0 {
-        let highlightRange = NSRange(location: lowerTrimmedBound, length: rangeLength)
-
-        if Range(highlightRange, in: title) != nil {
-          attributedTitle.addAttribute(.font, value: highlightFont, range: highlightRange
-          )
-        }
-      }
+      attributedTitle.addAttribute(.font, value: highlightFont, range: highlightRange)
     }
 
     self.attributedTitle = attributedTitle

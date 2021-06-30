@@ -134,7 +134,7 @@ class Menu: NSMenu, NSMenuDelegate {
     // Ensure that pinned items are visible after search is cleared.
     if filter.isEmpty {
       results.append(contentsOf: indexedItems.filter({ $0.item.pin != nil })
-                                             .map({ Search.SearchResult(score: nil, object: $0, matches: []) }))
+                                             .map({ Search.SearchResult(score: nil, object: $0, titleMatches: []) }))
     }
 
     // First, remove items that don't match search.
@@ -152,7 +152,7 @@ class Menu: NSMenu, NSMenuDelegate {
         if items.contains(menuItem) {
           removeItem(menuItem)
         }
-        menuItem.highlight(result.matches)
+        menuItem.highlight(result.titleMatches)
         insertItem(menuItem, at: historyMenuItemOffset)
       }
     }

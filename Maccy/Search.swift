@@ -5,7 +5,7 @@ class Search {
   struct SearchResult: Equatable {
     var score: Double?
     var object: Menu.IndexedItem
-    var matches: [ClosedRange<Int>]
+    var titleMatches: [ClosedRange<Int>]
   }
 
   typealias Searchable = [Menu.IndexedItem]
@@ -15,7 +15,7 @@ class Search {
 
   func search(string: String, within: Searchable) -> [SearchResult] {
     guard !string.isEmpty else {
-      return within.map({ SearchResult(score: nil, object: $0, matches: [])})
+      return within.map({ SearchResult(score: nil, object: $0, titleMatches: [])})
     }
 
     if UserDefaults.standard.fuzzySearch {
@@ -39,7 +39,7 @@ class Search {
         return SearchResult(
           score: fuzzyResult.score,
           object: item,
-          matches: fuzzyResult.ranges
+          titleMatches: fuse.search(pattern, in: item.item.title)?.ranges ?? []
         )
       } else {
         return nil
@@ -52,19 +52,26 @@ class Search {
 
   private func simpleSearch(string: String, within: Searchable) -> [SearchResult] {
     return within.compactMap({ item in
-      if let range = item.value.range(
+      if item.value.range(
         of: string,
         options: .caseInsensitive,
         range: nil,
         locale: nil
-      ) {
-        let lowerBound = item.value.distance(from: item.value.startIndex, to: range.lowerBound)
-        let upperBound = item.value.distance(from: item.value.startIndex, to: range.upperBound) - 1
-        return SearchResult(
+      ) != nil {
+        var result = SearchResult(
           score: nil,
           object: item,
-          matches: [lowerBound...upperBound]
+          titleMatches: []
         )
+
+        let title = item.item.title
+        if let titleRange = title.range(of: string, options: .caseInsensitive, range: nil, locale: nil) {
+          let lowerBound = title.distance(from: title.startIndex, to: titleRange.lowerBound)
+          let upperBound = title.distance(from: title.startIndex, to: titleRange.upperBound) - 1
+          result.titleMatches.append(lowerBound...upperBound)
+        }
+
+        return result
       } else {
         return nil
       }

@@ -111,7 +111,7 @@ class HistoryMenuItemTests: XCTestCase {
             tooltip("\(String(repeating: "a", count: 3_333))...\(String(repeating: "a", count: 1_667))"))
   }
 
-  func testHighlightTitle() {
+  func testHighlight() {
     let menuItem = historyMenuItem("foo bar baz")
     menuItem.highlight([4...6, 8...9])
     let expectedTitle = NSMutableAttributedString(string: "foo bar baz")
@@ -120,29 +120,6 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.attributedTitle, expectedTitle)
     menuItem.highlight([])
     XCTAssertEqual(menuItem.attributedTitle, nil)
-  }
-
-  func testHighlightTrimmedTitle() {
-    let menuItem = historyMenuItem(" \n foo bar baz")
-    menuItem.highlight([7...9])
-    let expectedTitle = NSMutableAttributedString(string: "foo bar baz")
-    expectedTitle.addAttribute(.font, value: boldFont, range: NSRange(location: 4, length: 3))
-    XCTAssertEqual(menuItem.attributedTitle, expectedTitle)
-  }
-
-  func testHighlightTimmedPartOfTitle() {
-    let menuItem = historyMenuItem(" \n foo bar baz")
-    menuItem.highlight([1...2])
-    let expectedTitle = NSMutableAttributedString(string: "foo bar baz")
-    XCTAssertEqual(menuItem.attributedTitle, expectedTitle)
-  }
-
-  func testHighlightHiddenPartOfTitle() {
-    let menuItem = historyMenuItem("foo bar baz")
-    menuItem.highlight([4...6, 99...100])
-    let expectedTitle = NSMutableAttributedString(string: "foo bar baz")
-    expectedTitle.addAttribute(.font, value: boldFont, range: NSRange(location: 4, length: 3))
-    XCTAssertEqual(menuItem.attributedTitle, expectedTitle)
   }
 
   private func historyMenuItem(_ value: String?) -> HistoryMenuItem {
