@@ -3,16 +3,11 @@ import XCTest
 
 class SearchTests: XCTestCase {
   let savedFuzzySearch = UserDefaults.standard.fuzzySearch
-  var items: Search.Searchable!
+  var items: [Search.Searchable]!
 
   override func setUp() {
     CoreDataManager.inMemory = true
     super.setUp()
-    items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItem("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItem("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItem("xxx yyy zzz"), menuItems: [])
-    ]
   }
 
   override func tearDown() {
@@ -21,8 +16,13 @@ class SearchTests: XCTestCase {
     UserDefaults.standard.fuzzySearch = savedFuzzySearch
   }
 
-  func testSimpleSearch() {
+  func testSimpleSearchInTitle() {
     UserDefaults.standard.fuzzySearch = false
+    items = [
+      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
+      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
+      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithTitle("xxx yyy zzz"), menuItems: [])
+    ]
 
     XCTAssertEqual(search(""), [
       Search.SearchResult(score: nil, object: items[0], titleMatches: []),
@@ -48,8 +48,45 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
-  func testFuzzySearch() {
+  func testSimpleSearchInContents() {
+    UserDefaults.standard.fuzzySearch = false
+    items = [
+      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
+      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
+      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithoutTitle("xxx yyy zzz"), menuItems: [])
+    ]
+
+    XCTAssertEqual(search(""), [
+      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
+      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
+      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
+    ])
+    XCTAssertEqual(search("z"), [
+      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
+      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
+      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
+    ])
+    XCTAssertEqual(search("foo"), [
+      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
+      Search.SearchResult(score: nil, object: items[1], titleMatches: [])
+    ])
+    XCTAssertEqual(search("za"), [
+      Search.SearchResult(score: nil, object: items[1], titleMatches: [])
+    ])
+    XCTAssertEqual(search("yyy"), [
+      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
+    ])
+    XCTAssertEqual(search("fbb"), [])
+    XCTAssertEqual(search("m"), [])
+  }
+
+  func testFuzzySearchInTitle() {
     UserDefaults.standard.fuzzySearch = true
+    items = [
+      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
+      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
+      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithTitle("xxx yyy zzz"), menuItems: [])
+    ]
 
     XCTAssertEqual(search(""), [
       Search.SearchResult(score: nil, object: items[0], titleMatches: []),
@@ -80,13 +117,58 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
+  func testFuzzySearchInContents() {
+    UserDefaults.standard.fuzzySearch = true
+    items = [
+      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
+      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
+      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithoutTitle("xxx yyy zzz"), menuItems: [])
+    ]
+
+    XCTAssertEqual(search(""), [
+      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
+      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
+      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
+    ])
+    XCTAssertEqual(search("z"), [
+      Search.SearchResult(score: 0.08, object: items[1], titleMatches: []),
+      Search.SearchResult(score: 0.08, object: items[2], titleMatches: []),
+      Search.SearchResult(score: 0.1, object: items[0], titleMatches: [])
+    ])
+    XCTAssertEqual(search("foo"), [
+      Search.SearchResult(score: 0.0, object: items[0], titleMatches: []),
+      Search.SearchResult(score: 0.0, object: items[1], titleMatches: [])
+    ])
+    XCTAssertEqual(search("za"), [
+      Search.SearchResult(score: 0.08, object: items[1], titleMatches: []),
+      Search.SearchResult(score: 0.54, object: items[0], titleMatches: []),
+      Search.SearchResult(score: 0.58, object: items[2], titleMatches: [])
+    ])
+    XCTAssertEqual(search("yyy"), [
+      Search.SearchResult(score: 0.04, object: items[2], titleMatches: [])
+    ])
+    XCTAssertEqual(search("fbb"), [
+      Search.SearchResult(score: 0.6666666666666666, object: items[0], titleMatches: []),
+      Search.SearchResult(score: 0.6666666666666666, object: items[1], titleMatches: [])
+    ])
+    XCTAssertEqual(search("m"), [])
+  }
+
   private func search(_ string: String) -> [Search.SearchResult] {
     return Search().search(string: string, within: items)
   }
 
-  private func historyItem(_ value: String?) -> HistoryItem {
+  private func historyItemWithTitle(_ value: String?) -> HistoryItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))
     return HistoryItem(contents: [content])
+  }
+
+  private func historyItemWithoutTitle(_ value: String?) -> HistoryItem {
+    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+                                     value: value?.data(using: .utf8))
+    var item = HistoryItem(contents: [content])
+    item.title = ""
+    return item
   }
 }
