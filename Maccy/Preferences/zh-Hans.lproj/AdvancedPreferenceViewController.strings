@@ -1,18 +1,9 @@
 
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "4iz-e8-h5u"; */
-"4iz-e8-h5u.title" = "文本格";
-
-/* Class = "NSTableColumn"; headerCell.title = "Ignored pasteboard types"; ObjectID = "6cc-Og-e8p"; */
-"6cc-Og-e8p.headerCell.title" = "忽略的类型";
-
 /* Class = "NSTextFieldCell"; title = "Temporarily ignore all new copies.\nYou are likely to use it programmatically and disable application while copying sensitive data."; ObjectID = "Ejh-zi-AFs"; */
 "Ejh-zi-AFs.title" = "暂时忽略所有新的复制\n在复制敏感数据时，您可能会以编程方式使用它并禁用应用程序。";
 
 /* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
 "LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# 复制数据\ndefaults write org.p0deje.Maccy ignoreEvents false";
-
-/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "Meq-nm-ddS"; */
-"Meq-nm-ddS.title" = "有可能忽略某些类型。默认情况下，定义了一些已知的特定于应用程序的类型。您可以删除它们并添加任何您想要的自定义类型。";
 
 /* Class = "NSButtonCell"; title = "Turn off"; ObjectID = "RA0-eh-Udt"; */
 "RA0-eh-Udt.title" = "关闭";

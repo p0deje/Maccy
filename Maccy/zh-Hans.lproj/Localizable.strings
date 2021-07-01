@@ -11,6 +11,7 @@
 "preferences" = "首选项";
 "preferences_advanced" = "高级";
 "preferences_appearance" = "外观";
+"preferences_ignore" = "忽略";
 "preferences_general" = "通用";
 "preferences_pins" = "引脚";
 "first_copy_time_tooltip" = "首次复制时间";

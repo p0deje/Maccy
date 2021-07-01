@@ -27,6 +27,8 @@ class Clipboard {
   private var enabledTypes: Set<NSPasteboard.PasteboardType> { UserDefaults.standard.enabledPasteboardTypes }
   private var disabledTypes: Set<NSPasteboard.PasteboardType> { supportedTypes.subtracting(enabledTypes) }
 
+  private var sourceApp: NSRunningApplication? { NSWorkspace.shared.frontmostApplication }
+
   private var accessibilityAlert: NSAlert {
     let alert = NSAlert()
     alert.alertStyle = .warning
@@ -132,6 +134,12 @@ class Clipboard {
       // See https://github.com/p0deje/Maccy/issues/241.
       if shouldIgnore(Set(pasteboard.types ?? [])) {
         return
+      }
+
+      if let sourceAppBundle = sourceApp?.bundleIdentifier {
+        if UserDefaults.standard.ignoredApps.contains(sourceAppBundle) {
+          return
+        }
       }
 
       let types = Set(item.types)

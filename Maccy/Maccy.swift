@@ -36,6 +36,7 @@ class Maccy: NSObject {
       GeneralPreferenceViewController(),
       AppearancePreferenceViewController(),
       PinsPreferenceViewController(),
+      IgnorePreferenceViewController(),
       AdvancedPreferenceViewController()
     ]
   )

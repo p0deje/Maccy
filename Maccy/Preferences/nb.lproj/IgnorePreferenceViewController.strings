@@ -1,0 +1,12 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "PDj-Nr-Ubl"; */
+"PDj-Nr-Ubl.headerCell.title" = "Typer";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "PFf-uU-3co"; */
+"PFf-uU-3co.title" = "Det er mulig å ignorere visse typer utklippstavle elementer fra å bli husket.\nPSom standard er noen kjente program-spesifikke typer definert. Hvis du øsnker, kan du fjerne dem og legge til egne tilpassede typer.";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "bVW-Cb-ulw"; */
+"bVW-Cb-ulw.title" = "Det er mulig å ignorere kopier som kommer fra bestemte applikasjoner.\nVær oppmerksom på at måten den fungerer ikke er skuddsikker, så det er bedre å bruke papptypetyper når det er mulig.";
+
+/* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "e5t-lA-7er"; */
+"e5t-lA-7er.headerCell.title" = "Applikasjoner";

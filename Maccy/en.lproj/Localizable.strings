@@ -11,6 +11,7 @@
 "preferences" = "Preferences...";
 "preferences_advanced" = "Advanced";
 "preferences_appearance" = "Appearance";
+"preferences_ignore" = "Ignore";
 "preferences_general" = "General";
 "preferences_pins" = "Pins";
 "first_copy_time_tooltip" = "First copy time";

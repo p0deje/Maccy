@@ -18,6 +18,7 @@ class ClipboardTests: XCTestCase {
 
   let savedEnabledTypes = UserDefaults.standard.enabledPasteboardTypes
   let savedIgnoreEvents = UserDefaults.standard.ignoreEvents
+  let savedIgnoredApps = UserDefaults.standard.ignoredApps
   let savedIgnoredPasteboardTypes = UserDefaults.standard.ignoredPasteboardTypes
 
   override func setUp() {
@@ -31,6 +32,7 @@ class ClipboardTests: XCTestCase {
     CoreDataManager.inMemory = false
     UserDefaults.standard.enabledPasteboardTypes = savedEnabledTypes
     UserDefaults.standard.ignoreEvents = savedIgnoreEvents
+    UserDefaults.standard.ignoredApps = savedIgnoredApps
     UserDefaults.standard.ignoredPasteboardTypes = savedIgnoredPasteboardTypes
     clipboard.onNewCopyHooks = []
   }
@@ -81,6 +83,20 @@ class ClipboardTests: XCTestCase {
     clipboard.startListening()
     pasteboard.declareTypes([.string, transientType], owner: nil)
     pasteboard.setString("foo", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testIgnoreApplication() {
+    UserDefaults.standard.ignoredApps = ["com.apple.dt.Xcode"]
+
+    let hookExpectation = expectation(description: "Hook is called")
+    hookExpectation.isInverted = true
+    clipboard.onNewCopy({ (_: HistoryItem) -> Void in
+      hookExpectation.fulfill()
+    })
+    clipboard.startListening()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString("bar", forType: .string)
     waitForExpectations(timeout: 2)
   }
 

@@ -11,6 +11,7 @@
 "preferences" = "Настройки...";
 "preferences_advanced" = "Дополнения";
 "preferences_appearance" = "Внешний Вид";
+"preferences_ignore" = "Игнорирование";
 "preferences_general" = "Основные";
 "preferences_pins" = "Прикреплённые";
 "first_copy_time_tooltip" = "Время первого копирования";

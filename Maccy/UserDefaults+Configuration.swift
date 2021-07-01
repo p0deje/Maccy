@@ -10,6 +10,7 @@ extension UserDefaults {
     static let hideSearch = "hideSearch"
     static let hideTitle = "hideTitle"
     static let ignoreEvents = "ignoreEvents"
+    static let ignoredApps = "ignoredApps"
     static let ignoredPasteboardTypes = "ignoredPasteboardTypes"
     static let imageMaxHeight = "imageMaxHeight"
     static let maxMenuItems = "maxMenuItems"
@@ -35,6 +36,7 @@ extension UserDefaults {
   }
 
   public struct Values {
+    static let ignoredApps: [String] = []
     static let ignoredPasteboardTypes: [String] = []
     static let imageMaxHeight = 40.0
     static let maxMenuItems = 0
@@ -90,6 +92,11 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.ignoreEvents) }
   }
 
+  public var ignoredApps: [String] {
+    get { array(forKey: Keys.ignoredApps) as? [String] ?? Values.ignoredApps }
+    set { set(newValue, forKey: Keys.ignoredApps) }
+  }
+  
   public var ignoredPasteboardTypes: Set<String> {
     get { Set(array(forKey: Keys.ignoredPasteboardTypes) as? [String] ?? Values.ignoredPasteboardTypes) }
     set { set(Array(newValue), forKey: Keys.ignoredPasteboardTypes) }

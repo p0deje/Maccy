@@ -1,0 +1,12 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "PDj-Nr-Ubl"; */
+"PDj-Nr-Ubl.headerCell.title" = "Типы";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "PFf-uU-3co"; */
+"PFf-uU-3co.title" = "Определённые типы копируемых данных (pasteboard types) можно игнорировать. По умолчанию содержит некоторые типы, специфичные для известных приложений. Вы можете их удалить и добавить свои типы.";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "bVW-Cb-ulw"; */
+"bVW-Cb-ulw.title" = "Копирования из определённых приложений можно игнорировать.\nПожалуйста учтите, что текущая реализация не гарантирует стопроцентного результата, поэтому, по возможности, рекомендуется использовать игнорируемые типы.";
+
+/* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "e5t-lA-7er"; */
+"e5t-lA-7er.headerCell.title" = "Приложения";

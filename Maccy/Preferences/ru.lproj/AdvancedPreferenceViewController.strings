@@ -1,18 +1,9 @@
 
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "4iz-e8-h5u"; */
-"4iz-e8-h5u.title" = "Text Cell";
-
-/* Class = "NSTableColumn"; headerCell.title = "Ignored pasteboard types"; ObjectID = "6cc-Og-e8p"; */
-"6cc-Og-e8p.headerCell.title" = "Игнорируемые типы";
-
 /* Class = "NSTextFieldCell"; title = "Temporarily ignore all new copies.\nYou are likely to use it programmatically and disable application while copying sensitive data."; ObjectID = "Ejh-zi-AFs"; */
 "Ejh-zi-AFs.title" = "Временно игнорировать все новые копировния.\nВы можете использовать эту настройку программно и отключить приложение на время копирования конфиденциальных данных.";
 
 /* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
 "LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# копировать данные\ndefaults write org.p0deje.Maccy ignoreEvents false";
-
-/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "Meq-nm-ddS"; */
-"Meq-nm-ddS.title" = "Определенные типы копируемых данных (pasteboard types) можно игнорировать. По умолчанию содержит некоторые типы, специфичные для известных приложений. Вы можете их удалить и добавить свои типы.";
 
 /* Class = "NSButtonCell"; title = "Turn off"; ObjectID = "RA0-eh-Udt"; */
 "RA0-eh-Udt.title" = "Выключить";
