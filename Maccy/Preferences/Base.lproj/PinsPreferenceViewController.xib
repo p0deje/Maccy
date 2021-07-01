@@ -8,7 +8,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PinsPreferenceViewController" customModule="Maccy" customModuleProvider="target">
             <connections>
-                <outlet property="instructionsLabel" destination="DkW-nL-oHi" id="cXS-xe-QH6"/>
+                <outlet property="instructionsLabel" destination="UQR-eA-hk9" id="eLz-6H-H6S"/>
                 <outlet property="itemsController" destination="1Hm-jM-tqp" id="S7J-lD-XXR"/>
                 <outlet property="view" destination="wB8-4N-LTh" id="GOW-zq-BDX"/>
             </connections>
@@ -16,34 +16,21 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wB8-4N-LTh">
-            <rect key="frame" x="0.0" y="0.0" width="513" height="425"/>
+            <rect key="frame" x="0.0" y="0.0" width="513" height="422"/>
             <subviews>
                 <gridView xPlacement="fill" yPlacement="top" rowAlignment="lastBaseline" rowSpacing="8" columnSpacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="gYS-Mv-Vgf">
-                    <rect key="frame" x="26" y="21" width="460" height="383"/>
+                    <rect key="frame" x="26" y="22" width="460" height="388"/>
                     <rows>
-                        <gridRow id="ZyU-6t-bo6"/>
-                        <gridRow rowAlignment="firstBaseline" height="330" bottomPadding="-8" id="C5b-RL-gFE"/>
+                        <gridRow rowAlignment="firstBaseline" height="330" id="C5b-RL-gFE"/>
+                        <gridRow id="blo-k0-0wL"/>
                     </rows>
                     <columns>
                         <gridColumn width="460" id="UAs-ob-LWJ"/>
                     </columns>
                     <gridCells>
-                        <gridCell row="ZyU-6t-bo6" column="UAs-ob-LWJ" id="J56-3Q-PVB">
-                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="DkW-nL-oHi">
-                                <rect key="frame" x="-2" y="341" width="464" height="42"/>
-                                <textFieldCell key="cell" selectable="YES" id="fEr-ab-CsV">
-                                    <font key="font" metaFont="controlContent" size="11"/>
-                                    <string key="title">You can customize the title and hotkey of every pinned item.
-To edit, double-click it and enter new value.
-For key, you can only use one of the following values: %@.</string>
-                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
-                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                </textFieldCell>
-                            </textField>
-                        </gridCell>
                         <gridCell row="C5b-RL-gFE" column="UAs-ob-LWJ" yPlacement="fill" rowAlignment="none" id="sFH-bL-pZC">
                             <scrollView key="contentView" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xnm-Sk-2Ep">
-                                <rect key="frame" x="0.0" y="0.0" width="460" height="330"/>
+                                <rect key="frame" x="0.0" y="58" width="460" height="330"/>
                                 <clipView key="contentView" id="Ihc-rk-C2u">
                                     <rect key="frame" x="1" y="1" width="458" height="328"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -92,7 +79,7 @@ For key, you can only use one of the following values: %@.</string>
                                     </subviews>
                                 </clipView>
                                 <scroller key="horizontalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="YES" id="cHx-e5-xEh">
-                                    <rect key="frame" x="1" y="314" width="458" height="15"/>
+                                    <rect key="frame" x="1" y="313" width="458" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" wantsLayer="YES" verticalHuggingPriority="750" horizontal="NO" id="PnM-2f-NvS">
@@ -105,6 +92,19 @@ For key, you can only use one of the following values: %@.</string>
                                 </tableHeaderView>
                             </scrollView>
                         </gridCell>
+                        <gridCell row="blo-k0-0wL" column="UAs-ob-LWJ" id="8JK-5C-Zus">
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UQR-eA-hk9">
+                                <rect key="frame" x="-2" y="8" width="464" height="42"/>
+                                <textFieldCell key="cell" selectable="YES" id="jBl-gB-eEV">
+                                    <font key="font" metaFont="controlContent" size="11"/>
+                                    <string key="title">You can customize the title and hotkey of every pinned item.
+To edit, double-click it and enter new value.
+For key, you can only use one of the following values: %@.</string>
+                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
                     </gridCells>
                 </gridView>
             </subviews>
@@ -114,7 +114,7 @@ For key, you can only use one of the following values: %@.</string>
                 <constraint firstItem="gYS-Mv-Vgf" firstAttribute="height" secondItem="wB8-4N-LTh" secondAttribute="height" multiplier="0.899244" id="BNa-US-lSA"/>
                 <constraint firstItem="gYS-Mv-Vgf" firstAttribute="centerX" secondItem="wB8-4N-LTh" secondAttribute="centerX" id="MKB-of-M5J"/>
             </constraints>
-            <point key="canvasLocation" x="136.5" y="176.5"/>
+            <point key="canvasLocation" x="136.5" y="177"/>
         </customView>
         <arrayController mode="entity" entityName="HistoryItem" fetchPredicateFormat="" automaticallyPreparesContent="YES" avoidsEmptySelection="NO" id="1Hm-jM-tqp">
             <connections>

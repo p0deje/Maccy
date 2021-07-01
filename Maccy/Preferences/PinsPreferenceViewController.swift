@@ -1,7 +1,7 @@
 import Cocoa
 import Preferences
 
-class PinsPreferenceViewController: NSViewController, NSTableViewDataSource, PreferencePane {
+class PinsPreferenceViewController: NSViewController, PreferencePane {
   public let preferencePaneIdentifier = Preferences.PaneIdentifier.pins
   public let preferencePaneTitle = NSLocalizedString("preferences_pins", comment: "")
   public let toolbarItemIcon = NSImage(named: "pin.circle")!
