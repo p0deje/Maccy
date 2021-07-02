@@ -96,7 +96,7 @@ extension UserDefaults {
     get { array(forKey: Keys.ignoredApps) as? [String] ?? Values.ignoredApps }
     set { set(newValue, forKey: Keys.ignoredApps) }
   }
-  
+
   public var ignoredPasteboardTypes: Set<String> {
     get { Set(array(forKey: Keys.ignoredPasteboardTypes) as? [String] ?? Values.ignoredPasteboardTypes) }
     set { set(Array(newValue), forKey: Keys.ignoredPasteboardTypes) }

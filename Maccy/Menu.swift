@@ -40,6 +40,17 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private var indexedItems: [IndexedItem] = []
 
+  // When menu opens, we don't know which of the alternate menu items
+  // is actually visible. We would like to highlight the one that is currently
+  // visible and it seems like the only way to do is to try to find out
+  // which ones has keyEquivalentModifierMask matching currently pressed
+  // modifier flags.
+  private var firstVisibleUnpinnedHistoryMenuItem: HistoryMenuItem? {
+    let firstPinnedMenuItems = historyMenuItems.filter({ !$0.isPinned }).prefix(historyMenuItemsGroup)
+    return firstPinnedMenuItems.first(where: { NSEvent.modifierFlags == $0.keyEquivalentModifierMask }) ??
+      firstPinnedMenuItems.first(where: { NSEvent.modifierFlags.isSuperset(of: $0.keyEquivalentModifierMask) })
+  }
+
   private var maxMenuItems: Int { UserDefaults.standard.maxMenuItems }
   private var maxVisibleItems: Int { maxMenuItems * historyMenuItemsGroup }
 
@@ -63,7 +74,7 @@ class Menu: NSMenu, NSMenuDelegate {
   func menuWillOpen(_ menu: NSMenu) {
     updateUnpinnedItemsVisibility()
     setKeyEquivalents(historyMenuItems)
-    highlight(firstUnpinnedHistoryMenuItem ?? historyMenuItems.first)
+    highlight(firstVisibleUnpinnedHistoryMenuItem ?? historyMenuItems.first)
   }
 
   func buildItems() {
