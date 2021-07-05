@@ -167,7 +167,7 @@ class SearchTests: XCTestCase {
   private func historyItemWithoutTitle(_ value: String?) -> HistoryItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))
-    var item = HistoryItem(contents: [content])
+    let item = HistoryItem(contents: [content])
     item.title = ""
     return item
   }

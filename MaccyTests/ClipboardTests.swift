@@ -87,7 +87,7 @@ class ClipboardTests: XCTestCase {
   }
 
   func testIgnoreApplication() {
-    UserDefaults.standard.ignoredApps = ["com.apple.dt.Xcode"]
+    UserDefaults.standard.ignoredApps = ["com.apple.dt.Xcode", "com.apple.finder"] // Finder is on Bitrise
 
     let hookExpectation = expectation(description: "Hook is called")
     hookExpectation.isInverted = true
