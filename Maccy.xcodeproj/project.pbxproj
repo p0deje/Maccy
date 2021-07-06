@@ -24,6 +24,7 @@
 		DA0950F0244AA1A90008414C /* HistoryItemOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0950EF244AA1A90008414C /* HistoryItemOld.swift */; };
 		DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EE7B8204657830025FC60 /* MaccyUITests.swift */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
+		DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA11AE952693DD7100D640D2 /* MenuLoader.swift */; };
 		DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */; };
 		DA181174247B409A00066D55 /* AdvancedPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */; };
 		DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */; };
@@ -163,6 +164,7 @@
 		DA0F34CC24913DCA008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
 		DA0F34CD24913DD1008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
 		DA0F34CE24913DD5008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
+		DA11AE952693DD7100D640D2 /* MenuLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuLoader.swift; sourceTree = "<group>"; };
 		DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferenceViewController.swift; sourceTree = "<group>"; };
 		DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPreferenceViewController.swift; sourceTree = "<group>"; };
 		DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreferencePane.Identifier+Panes.swift"; sourceTree = "<group>"; };
@@ -404,6 +406,7 @@
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
 				DA2C752B2029FE990090965D /* Menu.swift */,
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
+				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
@@ -631,6 +634,7 @@
 				DA2C752A2029FD6B0090965D /* FilterMenuItemView.swift in Sources */,
 				DA043DE1247D171C00488756 /* AppearancePreferenceViewController.swift in Sources */,
 				DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */,
+				DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */,
 				DAF176C6202AA56B00C5FD0D /* Keys.swift in Sources */,
 				DAEE38541E3DD6F100DD2966 /* History.swift in Sources */,
 				DA20EBB0268E253E0032D360 /* IgnorePasteboardTypesViewController.swift in Sources */,

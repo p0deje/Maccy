@@ -14,8 +14,8 @@ class Maccy: NSObject {
   private let clipboard = Clipboard()
   private let history = History()
   private var menu: Menu!
+  private var menuLoader: MenuLoader!
   private var window: NSWindow!
-  @objc private var menuLink: NSStatusItem!
 
   private let carbonMenuWindowClass = "NSStatusBarWindow"
   private var clearAlert: NSAlert {
@@ -116,6 +116,7 @@ class Maccy: NSObject {
     })
 
     menu = Menu(history: history, clipboard: clipboard)
+    menuLoader = MenuLoader(performStatusItemClick)
     start()
   }
 
@@ -144,12 +145,16 @@ class Maccy: NSObject {
           if screen.frame.height < self.menu.size.height {
             topLeftY = screen.frame.origin.y
           }
-          self.menu.popUp(positioning: nil, at: NSPoint(x: topLeftX + 1.0, y: topLeftY + 1.0), in: nil)
+          self.linkingMenuToStatusItem {
+            self.menu.popUp(positioning: nil, at: NSPoint(x: topLeftX + 1.0, y: topLeftY + 1.0), in: nil)
+          }
         }
       case "statusItem":
         self.simulateStatusItemClick()
       default:
-        self.menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+        self.linkingMenuToStatusItem {
+          self.menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+        }
       }
     }
   }
@@ -171,13 +176,11 @@ class Maccy: NSObject {
   private func start() {
     statusItem.behavior = .removalAllowed
     statusItem.isVisible = UserDefaults.standard.showInStatusBar
+    statusItem.menu = menuLoader
 
     if let button = statusItem.button {
       button.image = NSImage(named: "StatusBarMenuImage")
       button.imagePosition = .imageRight
-      // Simulate statusItem.menu but allowing to use withFocus
-      button.action = #selector(performStatusItemClick)
-      button.target = self
       (button.cell as? NSButtonCell)?.highlightsBy = []
     }
 
@@ -191,16 +194,6 @@ class Maccy: NSObject {
     populateFooter()
 
     updateStatusItemEnabledness()
-
-    // Link menu to that UI tests can discover it.
-    // Normally we would use statusItem.menu, but we cannot because
-    // there is no way to activate the application when it is clicked.
-    // Hence, we create additional hidden NSStatusItem for tests only.
-    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
-      menuLink = NSStatusBar.system.statusItem(withLength: NSStatusItem.squareLength)
-      menuLink.isVisible = false
-      menuLink.menu = menu
-    }
   }
 
   private func populateHeader() {
@@ -306,9 +299,9 @@ class Maccy: NSObject {
   private func simulateStatusItemClick() {
     if let buttonCell = statusItem.button?.cell as? NSButtonCell {
       withMenuButtonHighlighted(buttonCell) {
-        self.statusItem.menu = self.menu
-        self.statusItem.button?.performClick(self)
-        self.statusItem.menu = nil
+        self.linkingMenuToStatusItem {
+          self.statusItem.button?.performClick(nil)
+        }
       }
     }
   }
@@ -322,6 +315,12 @@ class Maccy: NSObject {
       closure()
       buttonCell.highlightsBy = []
     }
+  }
+
+  private func linkingMenuToStatusItem(_ closure: @escaping () -> Void) {
+    statusItem.menu = menu
+    closure()
+    statusItem.menu = menuLoader
   }
 
   // Executes closure with application focus (pun intended).
