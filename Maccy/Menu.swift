@@ -48,7 +48,8 @@ class Menu: NSMenu, NSMenuDelegate {
   private var firstVisibleUnpinnedHistoryMenuItem: HistoryMenuItem? {
     let firstPinnedMenuItems = historyMenuItems.filter({ !$0.isPinned }).prefix(historyMenuItemsGroup)
     return firstPinnedMenuItems.first(where: { NSEvent.modifierFlags == $0.keyEquivalentModifierMask }) ??
-      firstPinnedMenuItems.first(where: { NSEvent.modifierFlags.isSuperset(of: $0.keyEquivalentModifierMask) })
+      firstPinnedMenuItems.first(where: { NSEvent.modifierFlags.isSuperset(of: $0.keyEquivalentModifierMask) }) ??
+      firstPinnedMenuItems.first
   }
 
   private var maxMenuItems: Int { UserDefaults.standard.maxMenuItems }

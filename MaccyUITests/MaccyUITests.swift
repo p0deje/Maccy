@@ -16,12 +16,9 @@ class MaccyUITests: XCTestCase {
   let file1 = URL(fileURLWithPath: "/tmp/file1")
   let file2 = URL(fileURLWithPath: "/tmp/file2")
 
-  var sortBy = "lastCopiedAt"
-
   override func setUp() {
     super.setUp()
     app.launchArguments.append("ui-testing")
-    app.launchArguments.append(contentsOf: ["sortBy", sortBy])
     app.launch()
 
     copyToClipboard(copy2)
