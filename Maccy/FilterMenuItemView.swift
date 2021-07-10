@@ -57,6 +57,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     field.focusRingType = .none
     field.font = NSFont.menuFont(ofSize: 13)
     field.textColor = NSColor.disabledControlTextColor
+    field.refusesFirstResponder = true
     field.cell!.usesSingleLineMode = true
     field.cell!.lineBreakMode = NSLineBreakMode.byTruncatingHead
     return field
@@ -316,12 +317,14 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }
 
   private func focusQueryField() {
+    queryField.refusesFirstResponder = false
     queryField.becomeFirstResponder()
     // Making text field a first responder selects all the text by default.
     // We need to make sure events are appended to existing text.
     if let fieldEditor = queryField.currentEditor() {
       fieldEditor.selectedRange = NSRange(location: fieldEditor.selectedRange.length, length: 0)
     }
+    queryField.refusesFirstResponder = true
   }
 
   private func removeLastWordInSearchField() {
