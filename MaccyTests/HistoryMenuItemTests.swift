@@ -41,7 +41,7 @@ class HistoryMenuItemTests: XCTestCase {
   func testImage() {
     let image = NSImage(named: "NSBluetoothTemplate")!
     let menuItem = historyMenuItem(image)
-    XCTAssertEqual(menuItem.title, "")
+    XCTAssertEqual(menuItem.title, " ")
     XCTAssertEqual(menuItem.value, "")
     XCTAssertEqual(menuItem.toolTip, tooltip(nil))
     XCTAssertNotNil(menuItem.image)
