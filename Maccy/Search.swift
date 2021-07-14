@@ -28,7 +28,7 @@ class Search {
   private func fuzzySearch(string: String, within: [Searchable]) -> [SearchResult] {
     let pattern = fuse.createPattern(from: string)
     let searchResults: [SearchResult] = within.compactMap({ item in
-      fuzzySearch(for: pattern, in: item.item.title, of: item) ??
+      fuzzySearch(for: pattern, in: item.title, of: item) ??
         fuzzySearch(for: pattern, in: item.value, of: item)
     })
     let sortedResults = searchResults.sorted(by: { ($0.score ?? 0) < ($1.score ?? 0) })
@@ -47,7 +47,7 @@ class Search {
       return SearchResult(
         score: fuzzyResult.score,
         object: item,
-        titleMatches: fuse.search(pattern, in: item.item.title)?.ranges ?? []
+        titleMatches: fuse.search(pattern, in: item.title)?.ranges ?? []
       )
     } else {
       return nil
@@ -56,7 +56,7 @@ class Search {
 
   private func simpleSearch(string: String, within: [Searchable]) -> [SearchResult] {
     return within.compactMap({ item in
-      simpleSearch(for: string, in: item.item.title, of: item) ??
+      simpleSearch(for: string, in: item.title, of: item) ??
         simpleSearch(for: string, in: item.value, of: item)
     })
   }
@@ -74,7 +74,7 @@ class Search {
         titleMatches: []
       )
 
-      let title = item.item.title
+      let title = item.title
       if let titleRange = title.range(of: string, options: .caseInsensitive, range: nil, locale: nil) {
         let lowerBound = title.distance(from: title.startIndex, to: titleRange.lowerBound)
         let upperBound = title.distance(from: title.startIndex, to: titleRange.upperBound) - 1

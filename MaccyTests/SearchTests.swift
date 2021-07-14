@@ -19,9 +19,9 @@ class SearchTests: XCTestCase {
   func testSimpleSearchInTitle() {
     UserDefaults.standard.fuzzySearch = false
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithTitle("xxx yyy zzz"), menuItems: [])
+      Menu.IndexedItem(value: "foo bar baz", title: "foo bar baz", item: historyItem("foo bar baz"), menuItems: []),
+      Menu.IndexedItem(value: "foo bar zaz", title: "foo bar zaz", item: historyItem("foo bar zaz"), menuItems: []),
+      Menu.IndexedItem(value: "xxx yyy zzz", title: "xxx yyy zzz", item: historyItem("xxx yyy zzz"), menuItems: [])
     ]
 
     XCTAssertEqual(search(""), [
@@ -51,9 +51,9 @@ class SearchTests: XCTestCase {
   func testSimpleSearchInContents() {
     UserDefaults.standard.fuzzySearch = false
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithoutTitle("xxx yyy zzz"), menuItems: [])
+      Menu.IndexedItem(value: "foo bar baz", title: "", item: historyItem("foo bar baz"), menuItems: []),
+      Menu.IndexedItem(value: "foo bar zaz", title: "", item: historyItem("foo bar zaz"), menuItems: []),
+      Menu.IndexedItem(value: "xxx yyy zzz", title: "", item: historyItem("xxx yyy zzz"), menuItems: [])
     ]
 
     XCTAssertEqual(search(""), [
@@ -83,9 +83,9 @@ class SearchTests: XCTestCase {
   func testFuzzySearchInTitle() {
     UserDefaults.standard.fuzzySearch = true
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithTitle("xxx yyy zzz"), menuItems: [])
+      Menu.IndexedItem(value: "foo bar baz", title: "foo bar baz", item: historyItem("foo bar baz"), menuItems: []),
+      Menu.IndexedItem(value: "foo bar zaz", title: "foo bar zaz", item: historyItem("foo bar zaz"), menuItems: []),
+      Menu.IndexedItem(value: "xxx yyy zzz", title: "xxx yyy zzz", item: historyItem("xxx yyy zzz"), menuItems: [])
     ]
 
     XCTAssertEqual(search(""), [
@@ -120,9 +120,9 @@ class SearchTests: XCTestCase {
   func testFuzzySearchInContents() {
     UserDefaults.standard.fuzzySearch = true
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithoutTitle("xxx yyy zzz"), menuItems: [])
+      Menu.IndexedItem(value: "foo bar baz", title: "", item: historyItem("foo bar baz"), menuItems: []),
+      Menu.IndexedItem(value: "foo bar zaz", title: "", item: historyItem("foo bar zaz"), menuItems: []),
+      Menu.IndexedItem(value: "xxx yyy zzz", title: "", item: historyItem("xxx yyy zzz"), menuItems: [])
     ]
 
     XCTAssertEqual(search(""), [
@@ -158,17 +158,9 @@ class SearchTests: XCTestCase {
     return Search().search(string: string, within: items)
   }
 
-  private func historyItemWithTitle(_ value: String?) -> HistoryItem {
+  private func historyItem(_ value: String?) -> HistoryItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))
     return HistoryItem(contents: [content])
-  }
-
-  private func historyItemWithoutTitle(_ value: String?) -> HistoryItem {
-    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
-                                     value: value?.data(using: .utf8))
-    let item = HistoryItem(contents: [content])
-    item.title = ""
-    return item
   }
 }

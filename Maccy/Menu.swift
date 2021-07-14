@@ -6,11 +6,13 @@ import AppKit
 class Menu: NSMenu, NSMenuDelegate {
   class IndexedItem: NSObject {
     var value: String
+    var title: String
     var item: HistoryItem!
     var menuItems: [HistoryMenuItem]
 
-    init(value: String, item: HistoryItem?, menuItems: [HistoryMenuItem]) {
+    init(value: String, title: String, item: HistoryItem?, menuItems: [HistoryMenuItem]) {
       self.value = value
+      self.title = title
       self.item = item
       self.menuItems = menuItems
     }
@@ -83,11 +85,12 @@ class Menu: NSMenu, NSMenuDelegate {
 
     for item in Sorter(by: UserDefaults.standard.sortBy).sort(history.all) {
       let menuItems = buildMenuItems(item)
-      if let value = menuItems.first?.value {
-        indexedItems.append(IndexedItem(value: value, item: item, menuItems: menuItems))
-        for menuItem in menuItems {
-          addItem(menuItem)
-        }
+      if let menuItem = menuItems.first {
+        indexedItems.append(IndexedItem(value: menuItem.value,
+                                        title: menuItem.title,
+                                        item: item,
+                                        menuItems: menuItems))
+        menuItems.forEach(addItem(_:))
       }
     }
   }
@@ -99,10 +102,14 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     let menuItems = buildMenuItems(item)
-    guard let value = menuItems.first?.value else {
+    guard let menuItem = menuItems.first else {
       return
     }
-    indexedItems.insert(IndexedItem(value: value, item: item, menuItems: menuItems), at: insertionIndex)
+    indexedItems.insert(IndexedItem(value: menuItem.value,
+                                    title: menuItem.title,
+                                    item: item,
+                                    menuItems: menuItems),
+                        at: insertionIndex)
 
     var menuItemInsertionIndex = insertionIndex
     // Keep pins on the same place.
