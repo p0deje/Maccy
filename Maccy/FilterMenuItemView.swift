@@ -122,6 +122,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       RemoveEventHandler(eventHandler)
       DispatchQueue.main.async {
         self.setQuery("")
+        self.queryField.refusesFirstResponder = true
       }
     }
   }
@@ -133,6 +134,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       NSColor(named: "MenuColor")?.setFill()
       dirtyRect.fill()
     }
+    queryField.refusesFirstResponder = false
   }
 
   // Process query when search field was focused (i.e. user clicked on it).
@@ -317,14 +319,12 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }
 
   private func focusQueryField() {
-    queryField.refusesFirstResponder = false
     queryField.becomeFirstResponder()
     // Making text field a first responder selects all the text by default.
     // We need to make sure events are appended to existing text.
     if let fieldEditor = queryField.currentEditor() {
       fieldEditor.selectedRange = NSRange(location: fieldEditor.selectedRange.length, length: 0)
     }
-    queryField.refusesFirstResponder = true
   }
 
   private func removeLastWordInSearchField() {
