@@ -177,7 +177,7 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     setKeyEquivalents(historyMenuItems)
-    highlight(historyMenuItems.first)
+    highlight(filter.isEmpty ? firstUnpinnedHistoryMenuItem : historyMenuItems.first)
   }
 
   func select() {
