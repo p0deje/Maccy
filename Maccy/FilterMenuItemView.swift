@@ -167,11 +167,6 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   }
 
   private func processInterceptedEvent(_ eventRef: EventRef) -> Bool {
-    let firstResponder = window?.firstResponder
-    if firstResponder == queryField || firstResponder == queryField.currentEditor() {
-      return false
-    }
-
     guard let event = NSEvent(eventRef: UnsafeRawPointer(eventRef)) else {
       return false
     }
@@ -180,17 +175,25 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       return false
     }
 
-    return processKeyDownEvent(event)
-  }
-
-  // swiftlint:disable cyclomatic_complexity
-  // swiftlint:disable function_body_length
-  private func processKeyDownEvent(_ event: NSEvent) -> Bool {
     guard let key = Sauce.shared.key(by: Int(event.keyCode)) else {
       return false
     }
     let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+    let chars = event.charactersIgnoringModifiers
 
+    let firstResponder = window?.firstResponder
+    if firstResponder == queryField ||
+        firstResponder == queryField.currentEditor() &&
+        !isPasteEvent(key: key, modifierFlags: modifierFlags) {
+      return false
+    }
+
+    return processKeyDownEvent(key: key, modifierFlags: modifierFlags, chars: chars)
+  }
+
+  // swiftlint:disable cyclomatic_complexity
+  // swiftlint:disable function_body_length
+  private func processKeyDownEvent(key: Key, modifierFlags: NSEvent.ModifierFlags, chars: String?) -> Bool {
     if Keys.shouldPassThrough(key) {
       return false
     }
@@ -243,20 +246,21 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
         performMenuItemAction(MenuFooter.preferences.rawValue)
         return false
       }
-    case Key.v:
-      if modifierFlags.contains(.command), let currentCopy = NSPasteboard.general.string(forType: .string) {
-        setQuery(currentCopy)
-        return false
-      }
     default:
       break
+    }
+
+    if isPasteEvent(key: key, modifierFlags: modifierFlags) {
+      queryField.becomeFirstResponder()
+      queryField.currentEditor()?.paste(nil)
+      return true
     }
 
     if modifierFlags.contains(.command) || modifierFlags.contains(.control) || modifierFlags.contains(.option) {
       return false
     }
 
-    if let chars = event.charactersIgnoringModifiers {
+    if let chars = chars {
       if chars.count == 1 {
         if UserDefaults.standard.avoidTakingFocus {
           // append character to the search field to trigger
@@ -345,6 +349,10 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
     _ = menuItem.target?.perform(menuItem.action, with: menuItem)
     customMenu?.cancelTracking()
+  }
+
+  private func isPasteEvent(key: Key, modifierFlags: NSEvent.ModifierFlags) -> Bool {
+    return key == .v && modifierFlags == NSEvent.ModifierFlags([.command])
   }
 }
 // swiftlint:enable type_body_length
