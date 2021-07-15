@@ -6,13 +6,12 @@ import AppKit
 class Menu: NSMenu, NSMenuDelegate {
   class IndexedItem: NSObject {
     var value: String
-    var title: String
+    var title: String { item.title }
     var item: HistoryItem!
     var menuItems: [HistoryMenuItem]
 
-    init(value: String, title: String, item: HistoryItem?, menuItems: [HistoryMenuItem]) {
+    init(value: String, item: HistoryItem?, menuItems: [HistoryMenuItem]) {
       self.value = value
-      self.title = title
       self.item = item
       self.menuItems = menuItems
     }
@@ -87,7 +86,6 @@ class Menu: NSMenu, NSMenuDelegate {
       let menuItems = buildMenuItems(item)
       if let menuItem = menuItems.first {
         indexedItems.append(IndexedItem(value: menuItem.value,
-                                        title: menuItem.title,
                                         item: item,
                                         menuItems: menuItems))
         menuItems.forEach(addItem(_:))
@@ -106,7 +104,6 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
     indexedItems.insert(IndexedItem(value: menuItem.value,
-                                    title: menuItem.title,
                                     item: item,
                                     menuItems: menuItems),
                         at: insertionIndex)

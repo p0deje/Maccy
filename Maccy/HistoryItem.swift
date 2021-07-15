@@ -77,6 +77,10 @@ class HistoryItem: NSManagedObject {
   func generateTitle(_ contents: [HistoryItemContent]) -> String {
     var title = ""
 
+    guard !contents.contains(where: { [.png, .tiff].contains(NSPasteboard.PasteboardType($0.type)) }) else {
+      return title
+    }
+
     if let fileURLData = contents.first(where: { NSPasteboard.PasteboardType($0.type) == .fileURL })?.value {
       if let fileURL = URL(dataRepresentation: fileURLData, relativeTo: nil, isAbsolute: true) {
         title = fileURL.absoluteString.removingPercentEncoding ?? ""
