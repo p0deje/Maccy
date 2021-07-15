@@ -104,7 +104,7 @@ class MaccyUITests: XCTestCase {
 
   func testSearchAndCopyWithCommandShortcut() {
     popUpWithHotkey()
-    app.typeText(copy2)
+    search(copy2)
     app.typeKey("1", modifierFlags: [.command])
     XCTAssertEqual(pasteboard.string(forType: .string), copy2)
   }
@@ -192,7 +192,7 @@ class MaccyUITests: XCTestCase {
 
   func testDeleteEntryDuringSearch() {
     popUpWithHotkey()
-    app.typeText(copy2)
+    search(copy2)
     app.typeKey(.delete, modifierFlags: [.option])
     XCTAssertFalse(app.menuItems[copy2].exists)
     XCTAssertTrue(app.menuItems["Clear"].firstMatch.isSelected)
@@ -214,7 +214,7 @@ class MaccyUITests: XCTestCase {
 
   func testClearDuringSearch() {
     popUpWithHotkey()
-    app.typeText(copy2)
+    search(copy2)
     app.menuItems["Clear"].click()
     app.dialogs.firstMatch.buttons["Clear"].click()
     popUpWithHotkey()
@@ -248,7 +248,7 @@ class MaccyUITests: XCTestCase {
 
   func testPinDuringSearch() {
     popUpWithHotkey()
-    app.typeText(copy2)
+    search(copy2)
     app.typeKey("p", modifierFlags: [.option])
     XCTAssertEqual(app.textFields.firstMatch.value as? String, "")
     XCTAssertEqual(visibleMenuItemTitles()[1...2], [copy2, copy1])
@@ -265,14 +265,14 @@ class MaccyUITests: XCTestCase {
 
   func testClearSearchWithCommandDelete() {
     popUpWithHotkey()
-    app.typeText("foo bar")
+    search("foo bar")
     app.typeKey(.delete, modifierFlags: [.command])
     XCTAssertEqual(app.textFields.firstMatch.value as? String, "")
   }
 
   func testRemoveLastWordFromSearchWithControlW() {
     popUpWithHotkey()
-    app.typeText("foo bar")
+    search("foo bar")
     app.typeKey("w", modifierFlags: [.control])
     XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo ")
   }
@@ -281,7 +281,7 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     // The first click succeeds because application is frontmost.
     app.textFields.firstMatch.click()
-    app.typeText("foo")
+    search("foo")
     XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo")
     // Now close the window AND focus another application
     // by clicking outside of menu.
@@ -291,7 +291,7 @@ class MaccyUITests: XCTestCase {
     // Open again and try to click and focus search field again.
     popUpWithHotkey()
     app.textFields.firstMatch.click()
-    app.typeText("foo")
+    search("foo")
     XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo")
   }
 
