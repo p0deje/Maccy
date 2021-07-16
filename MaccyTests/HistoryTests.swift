@@ -33,6 +33,7 @@ class HistoryTests: XCTestCase {
   func testAddingSame() {
     let first = historyItem("foo")
     first.pin = "f"
+    first.title = "xyz"
     history.add(first)
     let second = historyItem("bar")
     history.add(second)
@@ -43,6 +44,7 @@ class HistoryTests: XCTestCase {
     XCTAssertTrue(history.all[1].lastCopiedAt > history.all[0].firstCopiedAt)
     XCTAssertEqual(history.all[1].numberOfCopies, 2)
     XCTAssertEqual(history.all[1].pin, "f")
+    XCTAssertEqual(history.all[1].title, "xyz")
   }
 
   func testAddingItemThatIsSupersededByExisting() {

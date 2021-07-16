@@ -23,6 +23,7 @@ class History {
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
+      item.title = existingHistoryItem.title
       remove(existingHistoryItem)
     } else {
       if UserDefaults.standard.playSounds {
