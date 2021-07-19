@@ -9,7 +9,14 @@ class HistoryMenuItem: NSMenuItem {
 
   private let tooltipMaxLength = 5_000
   private let imageMaxWidth: CGFloat = 340.0
-  private let highlightFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
+
+  private let highlightFont: NSFont = {
+    if #available(macOS 11, *) {
+      return NSFont.boldSystemFont(ofSize: 13)
+    } else {
+      return NSFont.boldSystemFont(ofSize: 14)
+    }
+  }()
 
   private var editPinObserver: NSKeyValueObservation?
   private var editTitleObserver: NSKeyValueObservation?
