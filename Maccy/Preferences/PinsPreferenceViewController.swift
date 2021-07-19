@@ -4,7 +4,7 @@ import Preferences
 class PinsPreferenceViewController: NSViewController, PreferencePane {
   public let preferencePaneIdentifier = Preferences.PaneIdentifier.pins
   public let preferencePaneTitle = NSLocalizedString("preferences_pins", comment: "")
-  public let toolbarItemIcon = NSImage(named: "pin.circle")!
+  public let toolbarItemIcon = NSImage(named: .pincircle)!
 
   override var nibName: NSNib.Name? { "PinsPreferenceViewController" }
 

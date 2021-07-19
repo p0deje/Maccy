@@ -54,6 +54,7 @@
 		DA696BCE240177E800DE80CF /* Sorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA696BCD240177E800DE80CF /* Sorter.swift */; };
 		DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA696BD12401EEE900DE80CF /* SorterTests.swift */; };
 		DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */; };
+		DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */; };
 		DA81D674252A056B009977BC /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA81D673252A056B009977BC /* Throttler.swift */; };
 		DA8953B91E446A4E00884EAB /* Maccy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8953B81E446A4E00884EAB /* Maccy.swift */; };
 		DAAEB196219694AE00A7883C /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAEB195219694AE00A7883C /* About.swift */; };
@@ -199,6 +200,7 @@
 		DA696BCD240177E800DE80CF /* Sorter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sorter.swift; sourceTree = "<group>"; };
 		DA696BD12401EEE900DE80CF /* SorterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SorterTests.swift; sourceTree = "<group>"; };
 		DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotKey.swift; sourceTree = "<group>"; };
+		DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Names.swift"; sourceTree = "<group>"; };
 		DA81D673252A056B009977BC /* Throttler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
 		DA86E870255C4DF600D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
 		DA86E871255C4DF600D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
@@ -407,6 +409,7 @@
 				DA2C752B2029FE990090965D /* Menu.swift */,
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
 				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
+				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
@@ -665,6 +668,7 @@
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
 				DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */,
 				DAE28500232257D20080E394 /* ColorImage.swift in Sources */,
+				DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */,
 				DAB65DFD2440AD63000AECA8 /* Storage.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
