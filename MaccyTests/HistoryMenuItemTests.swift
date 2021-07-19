@@ -164,18 +164,18 @@ class HistoryMenuItemTests: XCTestCase {
              First copy time: Jul 10, 12:31:34
              Last copy time: Jul 10, 12:41:34
              Number of copies: 2
-             \n \n\n
+
              Press ⌥⌫ to delete.
              Press ⌥P to (un)pin.
              """
     } else {
       return """
              \(title!)
-             \n \n\n
+
              First copy time: Jul 10, 12:31:34
              Last copy time: Jul 10, 12:41:34
              Number of copies: 2
-             \n \n\n
+
              Press ⌥⌫ to delete.
              Press ⌥P to (un)pin.
              """

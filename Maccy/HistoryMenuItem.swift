@@ -156,7 +156,7 @@ class HistoryMenuItem: NSMenuItem {
           self.image = ColorImage.from(title)
           self.toolTip = """
           \(string.shortened(to: tooltipMaxLength))
-          \n \n\n
+
           \(defaultTooltip(item))
           """
         }
@@ -172,7 +172,7 @@ class HistoryMenuItem: NSMenuItem {
         self.image = ColorImage.from(title)
         self.toolTip = """
         \(string.shortened(to: tooltipMaxLength))
-        \n \n\n
+
         \(defaultTooltip(item))
         """
       }
@@ -193,7 +193,7 @@ class HistoryMenuItem: NSMenuItem {
     \(NSLocalizedString("first_copy_time_tooltip", comment: "")): \(formatDate(item.firstCopiedAt))
     \(NSLocalizedString("last_copy_time_tooltip", comment: "")): \(formatDate(item.lastCopiedAt))
     \(NSLocalizedString("number_of_copies_tooltip", comment: "")): \(item.numberOfCopies)
-    \n \n\n
+
     \(NSLocalizedString("history_item_tooltip", comment: ""))
     """
   }
