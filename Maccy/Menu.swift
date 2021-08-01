@@ -388,7 +388,7 @@ class Menu: NSMenu, NSMenuDelegate {
   private func showAllUnpinnedItems() {
     for historyItem in indexedItems.flatMap({ $0.menuItems }).filter({ !$0.isPinned }) {
       if !historyMenuItems.contains(historyItem) {
-        insertItem(historyItem, at: historyMenuItems.count)
+        insertItem(historyItem, at: historyMenuItems.count + historyMenuItemOffset)
       }
     }
   }

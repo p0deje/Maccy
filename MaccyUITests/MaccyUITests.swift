@@ -195,7 +195,7 @@ class MaccyUITests: XCTestCase {
     search(copy2)
     app.typeKey(.delete, modifierFlags: [.option])
     XCTAssertFalse(app.menuItems[copy2].exists)
-    XCTAssertTrue(app.menuItems["Clear"].firstMatch.isSelected)
+    XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
 
     app.typeKey(.escape, modifierFlags: [])
     popUpWithHotkey()
