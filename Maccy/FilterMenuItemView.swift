@@ -16,13 +16,18 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   private let searchThrottler = Throttler(minimumDelay: 0.2)
 
   private var layoutConstraints: [String] {
-    var constraints = ["V:|[queryField]-(==3)-|"]
-    if UserDefaults.standard.hideTitle {
-      constraints.append("|-(==10)-[queryField]-(==10)-|")
-    } else {
-      constraints.append("|-[titleField]-[queryField]-(==10)-|")
-      constraints.append("V:|-(==3)-[titleField]-(==3)-|")
+    var constraints: [String] = []
+
+    if !UserDefaults.standard.hideSearch {
+      if UserDefaults.standard.hideTitle {
+        constraints.append("|-(==10)-[queryField]-(==10)-|")
+      } else {
+        constraints.append("|-[titleField]-[queryField]-(==10)-|")
+        constraints.append("V:|-(==3)-[titleField]-(==3)-|")
+      }
+      constraints.append("V:|[queryField]-(==3)-|")
     }
+
     return constraints
   }
 
