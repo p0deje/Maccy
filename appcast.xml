@@ -6,35 +6,23 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.21.0</title>
+      <title>0.21.1</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added an ability to change pinned items hotkey and title (see <b>Preferences -> Pins</b> for details)</li>
-            <li>Added an ability to ignore copies based on the source application (see <b>Preferences -> Ignore</b> for details)</li>
-            <li>Added an option to clear unpinned items on quit (see <b>Preferences -> Advanced</b> for details)</li>
-            <li>Improved search by highlighting matching parts in bold font</li>
-            <li>Improved multi-line copies by showing <code>⏎</code> as a newline character</li>
-            <li>Improved compatibility with macOS Big Sur</li>
-            <li>Improved compatibility with macOS Monterey</li>
-            <li>Updated auto-update components to support Apple Silicon natively</li>
-            <li>Fixed an issue when filenames with non-US characters would be shown encoded</li>
-            <li>Fixed several issues related to pinned items</li>
-            <li>Fixed intermittent crashes on new copies</li>
-            <li>Fixed an issue when removing history item would leave its contents in the database</li>
-            <li>Fixed an issue when the menubar icon could not be selected with Tab</li>
-            <li>Fixed an issue when pressing <kbd>⌘-V</kbd> would not paste into the search field</li>
-            <li>Fixed an issue when menubar popup opened on mouse up, not mouse down</li>
+            <li>Fixed an issue when the application wouldn't launch at login in macOS 12 beta 5+</li>
+            <li>Fixed an issue when unpinned items would be shown before search field after deletion</li>
+            <li>Fixed constraints breaking warnings when the search field is hidden</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2021-07-27</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.21.0</releaseNotesLink>
+      <pubDate>2021-09-02</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.21.1</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.21.0/Maccy.app.zip"
-        sparkle:version="7"
-        sparkle:shortVersionString="0.21.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.21.1/Maccy.app.zip"
+        sparkle:version="8"
+        sparkle:shortVersionString="0.21.1"
         length="0"
         type="application/octet-stream"
       />
