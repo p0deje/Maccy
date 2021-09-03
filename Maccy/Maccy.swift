@@ -1,6 +1,5 @@
 import Cocoa
 import KeyboardShortcuts
-import LoginServiceKit
 import Preferences
 
 // swiftlint:disable type_body_length

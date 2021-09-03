@@ -1,6 +1,6 @@
 import Cocoa
 import KeyboardShortcuts
-import LoginServiceKit
+import LaunchAtLogin
 import Preferences
 
 class GeneralPreferenceViewController: NSViewController, PreferencePane {
@@ -45,11 +45,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   }
 
   @IBAction func launchAtLoginChanged(_ sender: NSButton) {
-    if sender.state == .on {
-      LoginServiceKit.addLoginItems()
-    } else {
-      LoginServiceKit.removeLoginItems()
-    }
+    LaunchAtLogin.isEnabled = (sender.state == .on)
   }
 
   @IBAction func fuzzySearchChanged(_ sender: NSButton) {
@@ -102,7 +98,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   }
 
   private func populateLaunchAtLogin() {
-    launchAtLoginButton.state = LoginServiceKit.isExistLoginItems() ? .on : .off
+    launchAtLoginButton.state = LaunchAtLogin.isEnabled ? .on : .off
   }
 
   private func populateFuzzySearch() {

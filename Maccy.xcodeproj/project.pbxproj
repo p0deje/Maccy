@@ -15,7 +15,6 @@
 		DA009935256411F90030E697 /* bitrise.yml in Resources */ = {isa = PBXBuildFile; fileRef = DA009930256411F90030E697 /* bitrise.yml */; };
 		DA009940256414560030E697 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = DA00993F256414560030E697 /* Fuse */; };
 		DA009947256414800030E697 /* SwiftHEXColors in Frameworks */ = {isa = PBXBuildFile; productRef = DA009946256414800030E697 /* SwiftHEXColors */; };
-		DA00994E256414A20030E697 /* LoginServiceKit in Frameworks */ = {isa = PBXBuildFile; productRef = DA00994D256414A20030E697 /* LoginServiceKit */; };
 		DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = DA009954256414E60030E697 /* KeyboardShortcuts */; };
 		DA043DE1247D171C00488756 /* AppearancePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */; };
 		DA05E7CC2483EF83005CB8AA /* GeneralPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */; };
@@ -64,6 +63,7 @@
 		DAB65E0D2440B0D4000AECA8 /* HistoryItemContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */; };
 		DAB8CE4224E368F200A2500E /* container-migration.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAB8CE4124E368F200A2500E /* container-migration.plist */; };
 		DAC14124232367B200FCFA30 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC14123232367B200FCFA30 /* Search.swift */; };
+		DAC6CE9126E1AC19002B70B8 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = DAC6CE9026E1AC19002B70B8 /* LaunchAtLogin */; };
 		DAD0862D24545C66002AFAEC /* Storage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAB65DFB2440AD63000AECA8 /* Storage.xcdatamodeld */; };
 		DAD20C7724E55CD200E96247 /* org.sparkle-project.Downloader.xpc in Resources */ = {isa = PBXBuildFile; fileRef = DAD20C7224E55CD100E96247 /* org.sparkle-project.Downloader.xpc */; };
 		DAD20C7824E55CD200E96247 /* org.sparkle-project.InstallerStatus.xpc in Resources */ = {isa = PBXBuildFile; fileRef = DAD20C7324E55CD100E96247 /* org.sparkle-project.InstallerStatus.xpc */; };
@@ -264,11 +264,11 @@
 			files = (
 				DA5154D325640FD800C01004 /* Preferences in Frameworks */,
 				DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */,
-				DA00994E256414A20030E697 /* LoginServiceKit in Frameworks */,
 				DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */,
 				DA009947256414800030E697 /* SwiftHEXColors in Frameworks */,
 				DAD20C7924E55CD200E96247 /* Sparkle.framework in Frameworks */,
 				DA5154D82564102900C01004 /* Sauce in Frameworks */,
+				DAC6CE9126E1AC19002B70B8 /* LaunchAtLogin in Frameworks */,
 				DA009940256414560030E697 /* Fuse in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -475,6 +475,7 @@
 				DAEE383F1E3DBEB100DD2966 /* Sources */,
 				DAEE38401E3DBEB100DD2966 /* Frameworks */,
 				DAEE38411E3DBEB100DD2966 /* Resources */,
+				DAC6CE9226E1AC2C002B70B8 /* Copy Launch at Login Helper */,
 				DAE61DA01EDC4A5E0016A3DE /* Copy Sparkle */,
 				DAA8D3D524E44F2E00A08026 /* Embed Sparkle XPC Services */,
 			);
@@ -488,8 +489,8 @@
 				DA5154D72564102900C01004 /* Sauce */,
 				DA00993F256414560030E697 /* Fuse */,
 				DA009946256414800030E697 /* SwiftHEXColors */,
-				DA00994D256414A20030E697 /* LoginServiceKit */,
 				DA009954256414E60030E697 /* KeyboardShortcuts */,
+				DAC6CE9026E1AC19002B70B8 /* LaunchAtLogin */,
 			);
 			productName = Maccy;
 			productReference = DAEE38431E3DBEB100DD2966 /* Maccy.app */;
@@ -545,8 +546,8 @@
 				DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */,
 				DA00993E256414560030E697 /* XCRemoteSwiftPackageReference "fuse-swift" */,
 				DA009945256414800030E697 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */,
-				DA00994C256414A20030E697 /* XCRemoteSwiftPackageReference "LoginServiceKit" */,
 				DA009953256414E60030E697 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
+				DAC6CE8F26E1AC19002B70B8 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
 			);
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
 			projectDirPath = "";
@@ -602,6 +603,27 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		DAC6CE9226E1AC2C002B70B8 /* Copy Launch at Login Helper */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = "Copy Launch at Login Helper";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${BUILT_PRODUCTS_DIR}/LaunchAtLogin_LaunchAtLogin.bundle/Contents/Resources/copy-helper-swiftpm.sh\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA0EE7B2204657830025FC60 /* Sources */ = {
@@ -991,7 +1013,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1004,7 +1026,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.21.0;
+				MARKETING_VERSION = 0.21.1;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1023,7 +1045,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1036,7 +1058,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.21.0;
+				MARKETING_VERSION = 0.21.1;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1102,14 +1124,6 @@
 				minimumVersion = 1.4.0;
 			};
 		};
-		DA00994C256414A20030E697 /* XCRemoteSwiftPackageReference "LoginServiceKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Clipy/LoginServiceKit";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 2.2.1;
-			};
-		};
 		DA009953256414E60030E697 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
@@ -1134,6 +1148,14 @@
 				minimumVersion = 2.1.0;
 			};
 		};
+		DAC6CE8F26E1AC19002B70B8 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/LaunchAtLogin";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 4.1.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1146,11 +1168,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA009945256414800030E697 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */;
 			productName = SwiftHEXColors;
-		};
-		DA00994D256414A20030E697 /* LoginServiceKit */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DA00994C256414A20030E697 /* XCRemoteSwiftPackageReference "LoginServiceKit" */;
-			productName = LoginServiceKit;
 		};
 		DA009954256414E60030E697 /* KeyboardShortcuts */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1166,6 +1183,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */;
 			productName = Sauce;
+		};
+		DAC6CE9026E1AC19002B70B8 /* LaunchAtLogin */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAC6CE8F26E1AC19002B70B8 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */;
+			productName = LaunchAtLogin;
 		};
 /* End XCSwiftPackageProductDependency section */
 
