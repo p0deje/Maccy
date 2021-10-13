@@ -1,0 +1,21 @@
+
+/* Class = "NSTextFieldCell"; title = "Temporarily ignore all new copies.\nYou are likely to use it programmatically and disable application while copying sensitive data."; ObjectID = "Ejh-zi-AFs"; */
+"Ejh-zi-AFs.title" = "Ignora temporaneamente tutte le nuove copie.\nÈ probabile che verrà utilizzato a livello di programmazione e disabiliti l'applicazione durante la copia di dati sensibili.";
+
+/* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
+"LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copia dei dati\ndefaults write org.p0deje.Maccy ignoreEvents false";
+
+/* Class = "NSButtonCell"; title = "Turn off"; ObjectID = "RA0-eh-Udt"; */
+"RA0-eh-Udt.title" = "Disattivare";
+
+/* Class = "NSTextFieldCell"; title = "Maccy takes an active application focus when the popup is shown and gives focus back when it's closed. The focus is needed for advanced macOS input handling such as Chinese helper or accent menu. Enabling this option would prevent Maccy from taking focus. There are certain situations when this can be useful: for example, pasting to a text editor that auto-formats code when it loses focus."; ObjectID = "Y8y-xQ-lFm"; */
+"Y8y-xQ-lFm.title" = "Maccy attiva il focus dell'applicazione quando viene mostrato il popup e lo restituisce quando viene chiuso. Il focus è necessario per la gestione avanzata dell'input macOS come l'helper per il cinese o il menu degli accenti. Abilitare questa opzione impedirebbe a Maccy di prendere il focus. Ci sono alcune situazioni in cui questo può essere utile: ad esempio, incollare in un editor di testo che formatta automaticamente il codice quando perde il focus.";
+
+/* Class = "NSButtonCell"; title = "Avoid taking application focus"; ObjectID = "jjU-HE-iIA"; */
+"jjU-HE-iIA.title" = "Impedisci di prendere il focus dell'applicazione";
+
+/* Class = "NSButtonCell"; title = "Clear history on quit"; ObjectID = "JvB-ng-8vt"; */
+"JvB-ng-8vt.title" = "Elimina la cronologia e chiudi";
+
+/* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
+"LW1-8W-pFI.title" = "Rimuovi automaticamente gli elementi non bloccati prima di chiudere l'applicazione.";
