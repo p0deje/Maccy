@@ -21,7 +21,7 @@
 "paste_modifiers_config" = "• Seleziona con %@ premuto per copiae e incollare l'elemento.";
 "format_modifiers_config" = "• Seleziona con %@ premuto per copiare, eliminare la formattazione e incollare l'elemento.";
 "accessibility_alert_message" = "“Maccy” vorrebbe controllare questo computer utilizzando le funzionalità di accessibilità.";
-"accessibility_alert_comment" = "Concedi l'accesso a questa applicazione nelle preferenze Sicurezza e Privacy, situate in Preferenze di Sistema.";
+"accessibility_alert_comment" = "Concedi l'accesso a questa applicazione nella sezione Sicurezza e Privacy, situata in Preferenze di Sistema.";
 "accessibility_alert_deny" = "Nega";
 "accessibility_alert_open" = "Apri Preferenze di Sistema";
 "clear_alert_message" = "Sei sicuro di voler cancellare la cronologia?";
