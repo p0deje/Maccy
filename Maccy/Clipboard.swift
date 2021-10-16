@@ -18,6 +18,7 @@ class Clipboard {
 
   private var changeCount: Int
 
+  private let dynamicTypePrefix = "dyn."
   private let supportedTypes: Set = [
     NSPasteboard.PasteboardType.fileURL,
     NSPasteboard.PasteboardType.png,
@@ -147,9 +148,11 @@ class Clipboard {
         return
       }
 
-      let contents = types.subtracting(disabledTypes).map({ type in
-        return HistoryItemContent(type: type.rawValue, value: item.data(forType: type))
-      })
+      let contents = types
+        .subtracting(disabledTypes)
+        .filter { !$0.rawValue.starts(with: dynamicTypePrefix) }
+        .map { HistoryItemContent(type: $0.rawValue, value: item.data(forType: $0)) }
+
       let historyItem = HistoryItem(contents: contents)
 
       onNewCopyHooks.forEach({ $0(historyItem) })

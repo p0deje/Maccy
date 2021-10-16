@@ -161,6 +161,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
       UserDefaults.standard.migrations["2021-06-28-add-title-to-history-item"] = true
     }
+
+    if UserDefaults.standard.migrations["2021-10-16-remove-dynamic-pasteboard-types"] != true {
+      let fetchRequest = NSFetchRequest<HistoryItemContent>(entityName: "HistoryItemContent")
+      fetchRequest.predicate = NSPredicate(format: "type BEGINSWITH 'dyn.'")
+      do {
+        try CoreDataManager.shared.viewContext
+          .fetch(fetchRequest)
+          .forEach(CoreDataManager.shared.viewContext.delete(_:))
+        CoreDataManager.shared.saveContext()
+      } catch {
+        // Something went wrong, but it's no big deal.
+      }
+
+      CoreDataManager.shared.saveContext()
+
+      UserDefaults.standard.migrations["2021-10-16-remove-dynamic-pasteboard-types"] = true
+    }
   }
 
   private func clearOrphanRecords() {

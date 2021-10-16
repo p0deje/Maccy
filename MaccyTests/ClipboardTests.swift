@@ -8,6 +8,7 @@ class ClipboardTests: XCTestCase {
   let coloredString = NSAttributedString(string: "foo",
                                          attributes: [NSAttributedString.Key.foregroundColor: NSColor.red])
 
+  let dynamicType = NSPasteboard.PasteboardType(rawValue: "dyn.ah62d4qmxhk4d425try1g44pdsm11g55gsu1e82xnqzv")
   let customType = NSPasteboard.PasteboardType(rawValue: "org.maccy.ConfidentialType")
   let fileURLType = NSPasteboard.PasteboardType.fileURL
   let rtfType = NSPasteboard.PasteboardType.rtf
@@ -189,6 +190,24 @@ class ClipboardTests: XCTestCase {
     item.setString("foo", forType: .string)
     item.setData(image.tiffRepresentation!, forType: .tiff)
     item.setData("file://foo.bar".data(using: .utf8)!, forType: .fileURL)
+
+    clipboard.startListening()
+    pasteboard.clearContents()
+    pasteboard.writeObjects([item])
+
+    waitForExpectations(timeout: 2)
+  }
+
+  func testRemovesDynamicTypes() {
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (item: HistoryItem) -> Void in
+      XCTAssertEqual(item.getContents().map({ $0.type }), [self.stringType.rawValue])
+      hookExpectation.fulfill()
+    })
+
+    let item = NSPasteboardItem()
+    item.setString("foo", forType: .string)
+    item.setData("".data(using: .utf8)!, forType: dynamicType)
 
     clipboard.startListening()
     pasteboard.clearContents()
