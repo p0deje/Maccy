@@ -6,23 +6,23 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.21.1</title>
+      <title>0.22.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Fixed an issue when the application wouldn't launch at login in macOS 12 beta 5+</li>
-            <li>Fixed an issue when unpinned items would be shown before search field after deletion</li>
-            <li>Fixed constraints breaking warnings when the search field is hidden</li>
+            <li>Added Croatian translation</li>
+            <li>Added Italian translation</li>
+            <li>Fixed issue when pasting to Word.app would result in a different item paste</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2021-09-02</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.21.1</releaseNotesLink>
+      <pubDate>2021-10-16</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.22.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.21.1/Maccy.app.zip"
-        sparkle:version="8"
-        sparkle:shortVersionString="0.21.1"
+        url="https://github.com/p0deje/Maccy/releases/download/0.22.0/Maccy.app.zip"
+        sparkle:version="9"
+        sparkle:shortVersionString="0.22.0"
         length="0"
         type="application/octet-stream"
       />
