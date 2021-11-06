@@ -1,6 +1,6 @@
 
 /* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
-"0h4-CZ-fwT.title" = "Icona del menú";
+"0h4-CZ-fwT.title" = "Icona del menù";
 
 /* Class = "NSMenuItem"; title = "Cursor"; ObjectID = "Ccp-5J-8nw"; */
 "Ccp-5J-8nw.title" = "Cursore";
@@ -15,7 +15,7 @@
 "MKb-cW-gpg.title" = "Altezza dell'immagine:";
 
 /* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
-"Pud-2o-NKc.title" = "Mostra icoma menù";
+"Pud-2o-NKc.title" = "Mostra icona menù";
 
 /* Class = "NSButtonCell"; title = "Show recent copy next to menu icon"; ObjectID = "2vE-8q-6tq"; */
 "2vE-8q-6tq.title" = "Mostra le copie recenti accanto all'icona menù";
@@ -39,7 +39,7 @@
 "0tN-4z-p8T.title" = "Premi ⌘, per aprire le preferenze quando il footer è nascosto.";
 
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "Dimensioni del menú:";
+"gjR-wz-7GQ.title" = "Dimensioni del menù:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
 "j39-nx-OGb.title" = "Numero di elementi visibili: {menuSize}.\nGli elementi nascosti sono salvati lo stesso nella cronologia e possono essere trovati utilizzando la ricerca.\nImposta a 0 per rendere visibili tutti gli elementi.\nDefault: 0.";
