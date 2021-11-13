@@ -316,6 +316,23 @@ class MaccyUITests: XCTestCase {
     XCTAssertFalse(app.menuItems[copy2].exists)
   }
 
+  func testDisablesOnOptionClickingMenubarIcon() {
+    XCUIElement.perform(withKeyModifiers: .option) {
+      app.statusItems.firstMatch.click()
+    }
+
+    let copy3 = UUID().uuidString
+    copyToClipboard(copy3)
+    app.typeKey(.escape, modifierFlags: [])
+    popUpWithHotkey()
+    XCTAssertFalse(app.menuItems[copy3].exists)
+    app.typeKey(.escape, modifierFlags: [])
+
+    XCUIElement.perform(withKeyModifiers: .option) {
+      app.statusItems.firstMatch.click()
+    }
+  }
+
   private func popUpWithHotkey() {
     simulatePopupHotkey()
     waitUntilPoppedUp()

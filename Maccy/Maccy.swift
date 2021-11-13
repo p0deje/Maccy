@@ -108,8 +108,8 @@ class Maccy: NSObject {
   }
 
   @objc
-  func performStatusItemClick() {
-    if let event = NSApp.currentEvent {
+  func performStatusItemClick(_ event: NSEvent?) {
+    if let event = event {
       if event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .option {
         UserDefaults.standard.ignoreEvents = !UserDefaults.standard.ignoreEvents
         return
@@ -248,7 +248,7 @@ class Maccy: NSObject {
     if let buttonCell = statusItem.button?.cell as? NSButtonCell {
       withMenuButtonHighlighted(buttonCell) {
         self.linkingMenuToStatusItem {
-          self.statusItem.button?.performClick(nil)
+          self.statusItem.button?.performClick(self)
         }
       }
     }
