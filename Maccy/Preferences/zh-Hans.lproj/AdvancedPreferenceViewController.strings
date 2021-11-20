@@ -18,4 +18,4 @@
 "JvB-ng-8vt.title" = "退出时清除历史记录";
 
 /* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
-"LW1-8W-pFI.title" = "退出应用时仅保留已固定的条目。";
+"LW1-8W-pFI.title" = "退出应用时仅保留已固定的项目。";

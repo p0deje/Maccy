@@ -1,7 +1,7 @@
 "search_placeholder" = "搜索...";
 "history_item_tooltip" = "按 ⌥⌫ 删除。\n按 ⌥P (取消)固定。";
-"clear_tooltip" = "清除未固定的条目。\n按住 ⇧ 以全部清除。";
-"clear_all_tooltip" = "清除全部条目。";
+"clear_tooltip" = "清除未固定的项目。\n按住 ⇧ 以全部清除。";
+"clear_all_tooltip" = "清除全部项目。";
 "about_tooltip" = "查看更多应用信息。";
 "quit_tooltip" = "退出应用。";
 "clear" = "清除";
@@ -17,9 +17,9 @@
 "first_copy_time_tooltip" = "首次复制时间";
 "last_copy_time_tooltip" = "上次复制时间";
 "number_of_copies_tooltip" = "复制次数";
-"copy_modifiers_config" = "• 按住 %@ 选择条目以复制";
-"paste_modifiers_config" = "• 按住 %@ 选择条目以复制并粘贴";
-"format_modifiers_config" = "• 按住 %@ 选择条目以复制并匹配格式粘贴";
+"copy_modifiers_config" = "• 按住 %@ 选择项目以复制";
+"paste_modifiers_config" = "• 按住 %@ 选择项目以复制并粘贴";
+"format_modifiers_config" = "• 按住 %@ 选择项目以复制并匹配格式粘贴";
 "accessibility_alert_message" = "“Maccy“想要使用“辅助功能”控制此计算机。";
 "accessibility_alert_comment" = "在“系统偏好设置”中的“安全性和隐私”设置中授予此应用程序权限";
 "accessibility_alert_deny" = "拒绝";

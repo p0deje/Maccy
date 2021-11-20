@@ -30,7 +30,7 @@
 "WYH-Es-sop.title" = "默认：上次复制时间";
 
 /* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
-"ZSa-vg-zWi.title" = "自定义选择条目时的行为:";
+"ZSa-vg-zWi.title" = "自定义选择项目时的行为:";
 
 /* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
 "avb-QJ-T0h.title" = "自动检查更新";
