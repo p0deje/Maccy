@@ -15,7 +15,7 @@
 "DKE-JI-oLS.title" = "顶部";
 
 /* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
-"GhW-Kv-rhO.title" = "置顶:";
+"GhW-Kv-rhO.title" = "固定项目位置:";
 
 /* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
 "KJb-2z-C5c.title" = "屏幕中央";
@@ -27,7 +27,7 @@
 "Pud-2o-NKc.title" = "显示菜单栏图标";
 
 /* Class = "NSButtonCell"; title = "Show recent copy next to menu icon"; ObjectID = "2vE-8q-6tq"; */
-"2vE-8q-6tq.title" = "在菜单图标旁边显示最近的副本";
+"2vE-8q-6tq.title" = "在菜单栏图标旁显示剪贴板内容";
 
 /* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
 "R7Y-UN-Edt.title" = "弹窗位置:";
@@ -39,16 +39,16 @@
 "aqA-NI-K5d.title" = "默认: 顶部";
 
 /* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
-"bIP-Mi-SeJ.title" = "图片预览最大高度：{imageHeight}.\n默认: 40.\n提示：设置成16可以让列表更加整齐";
+"bIP-Mi-SeJ.title" = "图像预览最大高度：{imageHeight}。\n默认: 40\n提示：设置为 16 以匹配文本条目的大小。";
 
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "在搜索框前显示应用名";
 
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "菜单尺寸:";
+"gjR-wz-7GQ.title" = "菜单大小:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}. \nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "菜单列表长度： {menuSize} \n隐藏的项目仍保留在历史记录中，可以使用搜索找到\n设置为0可使所有项目可见\n默认: 0";
+"j39-nx-OGb.title" = "在菜单中显示 {menuSize} 条项目。\n隐藏项仍保留在历史记录中，可以通过搜索找到。\n设置为 0 以显示所有条目。\n默认: 0";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "显示搜索框";
