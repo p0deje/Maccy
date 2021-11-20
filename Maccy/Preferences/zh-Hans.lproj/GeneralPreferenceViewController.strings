@@ -36,7 +36,7 @@
 "avb-QJ-T0h.title" = "自动检查更新";
 
 /* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
-"fda-wq-rZq.title" = "将新项目添加到历史记录并选择上一个项目时，播放声音效果";
+"fda-wq-rZq.title" = "记录新项目和选择上一个项目时播放声效。";
 
 /* Class = "NSTextFieldCell"; title = "Number of history items to keep: {historySize}.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
 "k1I-VS-9Kh.title" = "保留 {historySize} 条历史记录。\n默认: 200";
