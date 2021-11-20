@@ -17,9 +17,9 @@
 "first_copy_time_tooltip" = "首次复制时间";
 "last_copy_time_tooltip" = "上次复制时间";
 "number_of_copies_tooltip" = "复制次数";
-"copy_modifiers_config" = "• 按下 %@ 选择复制条目";
-"paste_modifiers_config" = "• 按下 %@ 选择复制和粘贴条目";
-"format_modifiers_config" = "• 按下 %@ 选择复制、清除格式和粘贴条目";
+"copy_modifiers_config" = "• 按住 %@ 选择条目以复制";
+"paste_modifiers_config" = "• 按住 %@ 选择条目以复制并粘贴";
+"format_modifiers_config" = "• 按住 %@ 选择条目以复制并匹配格式粘贴";
 "accessibility_alert_message" = "“Maccy“想要使用“辅助功能”控制此计算机。";
 "accessibility_alert_comment" = "在“系统偏好设置”中的“安全性和隐私”设置中授予此应用程序权限";
 "accessibility_alert_deny" = "拒绝";
