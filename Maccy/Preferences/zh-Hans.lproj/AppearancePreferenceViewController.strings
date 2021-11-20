@@ -1,12 +1,12 @@
 
 /* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
-"0h4-CZ-fwT.title" = "任务栏图标";
+"0h4-CZ-fwT.title" = "菜单栏图标";
 
 /* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
-"0tN-4z-p8T.title" = "按住 ⌘ 和 , 在底部菜单隐藏时打开首选项。";
+"0tN-4z-p8T.title" = "隐藏底部菜单时仍可按 ⌘, 打开偏好设置。";
 
 /* Class = "NSMenuItem"; title = "Cursor"; ObjectID = "Ccp-5J-8nw"; */
-"Ccp-5J-8nw.title" = "光标附近";
+"Ccp-5J-8nw.title" = "光标";
 
 /* Class = "NSButtonCell"; title = "Show footer"; ObjectID = "ClZ-IS-YKz"; */
 "ClZ-IS-YKz.title" = "显示底部菜单";
@@ -30,7 +30,7 @@
 "2vE-8q-6tq.title" = "在菜单图标旁边显示最近的副本";
 
 /* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
-"R7Y-UN-Edt.title" = "窗口弹出位置:";
+"R7Y-UN-Edt.title" = "弹窗位置:";
 
 /* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
 "Yio-8e-oaa.title" = "底部";
@@ -42,7 +42,7 @@
 "bIP-Mi-SeJ.title" = "图片预览最大高度：{imageHeight}.\n默认: 40.\n提示：设置成16可以让列表更加整齐";
 
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
-"ePT-qq-kg9.title" = "在搜索字段前显示标题";
+"ePT-qq-kg9.title" = "在搜索框前显示应用名";
 
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "菜单尺寸:";
@@ -54,4 +54,4 @@
 "mWx-zi-OAv.title" = "显示搜索框";
 
 /* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
-"tpV-rp-2HY.title" = "更改显示弹出窗口的位置\n默认: 光标附近";
+"tpV-rp-2HY.title" = "更改弹窗显示的位置。\n默认: 光标";
