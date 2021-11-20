@@ -1,5 +1,5 @@
 "search_placeholder" = "搜索...";
-"history_item_tooltip" = "按 ⌥⌫ 删除\n按 ⌥P (取消)固定";
+"history_item_tooltip" = "按 ⌥⌫ 删除。\n按 ⌥P (取消)固定。";
 "clear_tooltip" = "清除未固定的条目。\n按住 ⇧ 以全部清除。";
 "clear_all_tooltip" = "清除全部条目。";
 "about_tooltip" = "查看更多应用信息。";
