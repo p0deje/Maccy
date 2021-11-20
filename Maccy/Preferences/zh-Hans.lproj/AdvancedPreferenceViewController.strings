@@ -1,6 +1,6 @@
 
 /* Class = "NSTextFieldCell"; title = "Temporarily ignore all new copies.\nYou are likely to use it programmatically and disable application while copying sensitive data."; ObjectID = "Ejh-zi-AFs"; */
-"Ejh-zi-AFs.title" = "暂停记录剪贴板。\n此选项通常用于在复制敏感数据时通过程序调用来禁用本程序。";
+"Ejh-zi-AFs.title" = "暂停记录新的剪贴板项目。\n此选项通常用于在复制敏感数据时通过程序调用来禁用本程序。";
 
 /* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
 "LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# 执行上述命令后再进行复制，复制完成后执行\ndefaults write org.p0deje.Maccy ignoreEvents false";
