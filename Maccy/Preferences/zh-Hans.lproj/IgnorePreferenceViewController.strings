@@ -1,12 +1,12 @@
 
 /* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "PDj-Nr-Ubl"; */
-"PDj-Nr-Ubl.headerCell.title" = "类型";
+"PDj-Nr-Ubl.headerCell.title" = "忽略剪贴板类型";
 
 /* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "PFf-uU-3co"; */
-"PFf-uU-3co.title" = "有可能忽略某些类型。\n默认情况下，定义了一些已知的特定于应用程序的类型。您可以删除它们并添加任何您想要的自定义类型。";
+"PFf-uU-3co.title" = "忽略特定剪贴板内容类型。\n默认提供了一些已知的适用于特定应用的类型。您可以删除预置类型，或根据需要添加自定义类型。";
 
 /* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "bVW-Cb-ulw"; */
-"bVW-Cb-ulw.title" = "可以忽略来自某些应用程序的副本。\n请注意，它的工作方式并非万无一失，因此最好尽可能使用粘贴板类型。";
+"bVW-Cb-ulw.title" = "忽略来自特定应用的内容。\n请注意此选项并非总是有效，最好使用忽略剪贴板类型设置。";
 
 /* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "e5t-lA-7er"; */
-"e5t-lA-7er.headerCell.title" = "应用";
+"e5t-lA-7er.headerCell.title" = "忽略应用";

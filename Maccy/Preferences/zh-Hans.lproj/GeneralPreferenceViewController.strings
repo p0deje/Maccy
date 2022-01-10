@@ -1,12 +1,12 @@
 
 /* Class = "NSTextFieldCell"; title = "Sort by:"; ObjectID = "0Vh-es-5I5"; */
-"0Vh-es-5I5.title" = "排序:";
+"0Vh-es-5I5.title" = "排序方式:";
 
 /* Class = "NSMenuItem"; title = "Time of first copy"; ObjectID = "2yi-R0-4up"; */
 "2yi-R0-4up.title" = "首次复制时间";
 
 /* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
-"5NO-0n-i7l.title" = "无格式粘贴";
+"5NO-0n-i7l.title" = "匹配格式";
 
 /* Class = "NSTextFieldCell"; title = "History size:"; ObjectID = "5og-JF-cpR"; */
 "5og-JF-cpR.title" = "历史记录大小:";
@@ -18,7 +18,7 @@
 "CGs-Td-v66.title" = "模糊搜索";
 
 /* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
-"Cfl-qm-UkM.title" = "开机时自动打开Maccy";
+"Cfl-qm-UkM.title" = "登录时启动";
 
 /* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
 "HJa-3L-ffW.title" = "行为:";
@@ -36,10 +36,10 @@
 "avb-QJ-T0h.title" = "自动检查更新";
 
 /* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
-"fda-wq-rZq.title" = "将新项目添加到历史记录并选择上一个项目时，播放声音效果";
+"fda-wq-rZq.title" = "记录新项目和选择上一个项目时播放声效。";
 
 /* Class = "NSTextFieldCell"; title = "Number of history items to keep: {historySize}.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
-"k1I-VS-9Kh.title" = "要保留的历史记录项数：{historySize}.\n默认: 200";
+"k1I-VS-9Kh.title" = "保留 {historySize} 条历史记录。\n默认: 200";
 
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "自动粘贴";
@@ -48,13 +48,13 @@
 "lkL-5p-KVx.title" = "声效";
 
 /* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
-"mf5-QH-x1u.title" = "数量";
+"mf5-QH-x1u.title" = "复制次数";
 
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
-"rCZ-AO-G8B.title" = "全局快捷键\n默认: ⇧⌘C";
+"rCZ-AO-G8B.title" = "打开应用的全局快捷键。\n默认: ⇧⌘C";
 
 /* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
-"tUJ-hx-P24.title" = "请注意，历史记录大小大于200时，模糊搜索可能会变慢";
+"tUJ-hx-P24.title" = "允许非精确匹配的搜索。注意历史记录大小超过 200 时，模糊搜索可能会导致速度下降。";
 
 /* Class = "NSMenuItem"; title = "Time of last copy"; ObjectID = "zrg-H1-TjU"; */
 "zrg-H1-TjU.title" = "上次复制时间";
@@ -63,13 +63,13 @@
 "Cal-Kj-TqV.title" = "保存:";
 
 /* Class = "NSButtonCell"; title = "Files"; ObjectID = "Pr2-Ic-sUM"; */
-"Pr2-Ic-sUM.title" = "档案";
+"Pr2-Ic-sUM.title" = "文件";
 
 /* Class = "NSButtonCell"; title = "Images"; ObjectID = "IT6-JX-vi3"; */
-"IT6-JX-vi3.title" = "图片";
+"IT6-JX-vi3.title" = "图像";
 
 /* Class = "NSButtonCell"; title = "Text"; ObjectID = "TyZ-pU-eZ3"; */
 "TyZ-pU-eZ3.title" = "文本";
 
 /* Class = "NSTextFieldCell"; title = "Change what types of copied content should be stored."; ObjectID = "GDB-hB-d75"; */
-"GDB-hB-d75.title" = "更改应存储哪些类型的复制内容。";
+"GDB-hB-d75.title" = "设置何种类型的内容会被保存。";
