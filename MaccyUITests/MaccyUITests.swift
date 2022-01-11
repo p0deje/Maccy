@@ -152,6 +152,12 @@ class MaccyUITests: XCTestCase {
     XCTAssertTrue(app.menuItems[copy2].firstMatch.isSelected)
   }
 
+  func testControlJ() {
+    popUpWithHotkey()
+    app.typeKey("j", modifierFlags: [.control])
+    XCTAssertTrue(app.menuItems[copy2].firstMatch.isSelected)
+  }
+
   func testUpArrow() {
     popUpWithHotkey()
     app.typeKey(.downArrow, modifierFlags: [])
@@ -176,6 +182,13 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     app.typeKey(.downArrow, modifierFlags: [])
     app.typeKey("p", modifierFlags: [.control])
+    XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
+  }
+
+  func testControlK() {
+    popUpWithHotkey()
+    app.typeKey(.downArrow, modifierFlags: [])
+    app.typeKey("k", modifierFlags: [.control])
     XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
   }
 

@@ -222,7 +222,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
         removeLastWordInSearchField()
         return true
       }
-    case Key.n:
+    case Key.j, Key.n:
       if modifierFlags.contains(.control) {
         customMenu?.selectNext(alt: false)
         return true
@@ -233,6 +233,11 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
         queryField.stringValue = "" // clear search field just in case
         return true
       } else if modifierFlags.contains(.control) {
+        customMenu?.selectPrevious(alt: false)
+        return true
+      }
+    case Key.k:
+      if modifierFlags.contains(.control) {
         customMenu?.selectPrevious(alt: false)
         return true
       }
