@@ -18,7 +18,7 @@
 "last_copy_time_tooltip" = "Tempo dell'ultima copia";
 "number_of_copies_tooltip" = "Numero di copie";
 "copy_modifiers_config" = "• Seleziona con %@ premuto per copiare l'elemento.";
-"paste_modifiers_config" = "• Seleziona con %@ premuto per copiae e incollare l'elemento.";
+"paste_modifiers_config" = "• Seleziona con %@ premuto per copiare e incollare l'elemento.";
 "format_modifiers_config" = "• Seleziona con %@ premuto per copiare, eliminare la formattazione e incollare l'elemento.";
 "accessibility_alert_message" = "“Maccy” vorrebbe controllare questo computer utilizzando le funzionalità di accessibilità.";
 "accessibility_alert_comment" = "Concedi l'accesso a questa applicazione nella sezione Sicurezza e Privacy, situata in Preferenze di Sistema.";
