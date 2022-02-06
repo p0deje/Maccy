@@ -56,9 +56,9 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     field.isEditable = false
     field.isEnabled = false
     field.drawsBackground = false
-    field.font = NSFont.menuFont(ofSize: 15)
-    field.textColor = NSColor.disabledControlTextColor
-    field.cell!.usesSingleLineMode = true
+    field.font = .menuFont(ofSize: 15)
+    field.textColor = .disabledControlTextColor
+    field.cell?.usesSingleLineMode = true
     return field
   }()
 
@@ -72,14 +72,14 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     field.isBezeled = true
     field.isHidden = false
     field.placeholderString = NSLocalizedString("search_placeholder", comment: "")
-    field.bezelStyle = NSTextField.BezelStyle.roundedBezel
+    field.bezelStyle = .roundedBezel
     field.delegate = self
     field.focusRingType = .none
-    field.font = NSFont.menuFont(ofSize: 13)
-    field.textColor = NSColor.disabledControlTextColor
+    field.font = .menuFont(ofSize: 13)
+    field.textColor = .disabledControlTextColor
     field.refusesFirstResponder = true
-    field.cell!.usesSingleLineMode = true
-    field.cell!.lineBreakMode = NSLineBreakMode.byTruncatingHead
+    field.cell?.usesSingleLineMode = true
+    field.cell?.lineBreakMode = .byTruncatingHead
     return field
   }()
 
