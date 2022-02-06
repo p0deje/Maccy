@@ -15,14 +15,29 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
   ]
   private let searchThrottler = Throttler(minimumDelay: 0.2)
 
+  lazy private var horizontalTitleAndSearchConstraint: String = {
+    if #available(macOS 11, *) {
+      return "|-(==14)-[titleField]-[queryField]-(==14)-|"
+    } else {
+      return "|-[titleField]-[queryField]-(==10)-|"
+    }
+  }()
+  lazy private var horizontalSearchOnlyConstraint: String = {
+    if #available(macOS 11, *) {
+      return "|-(==14)-[queryField]-(==14)-|"
+    } else {
+      return "|-(==10)-[queryField]-(==10)-|"
+    }
+  }()
+
   private var layoutConstraints: [String] {
     var constraints: [String] = []
 
     if !UserDefaults.standard.hideSearch {
       if UserDefaults.standard.hideTitle {
-        constraints.append("|-(==10)-[queryField]-(==10)-|")
+        constraints.append(horizontalSearchOnlyConstraint)
       } else {
-        constraints.append("|-[titleField]-[queryField]-(==10)-|")
+        constraints.append(horizontalTitleAndSearchConstraint)
         constraints.append("V:|-(==3)-[titleField]-(==3)-|")
       }
       constraints.append("V:|[queryField]-(==3)-|")
