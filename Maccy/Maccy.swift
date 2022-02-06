@@ -33,6 +33,7 @@ class Maccy: NSObject {
   private lazy var preferencesWindowController = PreferencesWindowController(
     preferencePanes: [
       GeneralPreferenceViewController(),
+      StoragePreferenceViewController(),
       AppearancePreferenceViewController(),
       PinsPreferenceViewController(),
       IgnorePreferenceViewController(),

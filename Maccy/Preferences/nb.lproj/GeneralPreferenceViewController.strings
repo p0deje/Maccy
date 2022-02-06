@@ -1,13 +1,4 @@
 
-/* Class = "NSTextFieldCell"; title = "Sort by:"; ObjectID = "0Vh-es-5I5"; */
-"0Vh-es-5I5.title" = "Sorter etter:";
-
-/* Class = "NSMenuItem"; title = "Time of first copy"; ObjectID = "2yi-R0-4up"; */
-"2yi-R0-4up.title" = "Tidspunkt første kopiering";
-
-/* Class = "NSTextFieldCell"; title = "History size:"; ObjectID = "5og-JF-cpR"; */
-"5og-JF-cpR.title" = "Historikk størrelse:";
-
 /* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
 "8Rb-OS-d59.title" = "Sjekk nå";
 
@@ -23,17 +14,11 @@
 /* Class = "NSTextFieldCell"; title = "\nHotkey:"; ObjectID = "QZW-5n-gLa"; */
 "QZW-5n-gLa.title" = "\nHurtigtast:";
 
-/* Class = "NSTextFieldCell"; title = "Default: Time of last copy."; ObjectID = "WYH-Es-sop"; */
-"WYH-Es-sop.title" = "Standard: Tidspunkt siste kopiering.";
-
 /* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
 "ZSa-vg-zWi.title" = "Tilpass oppførsel ved valg av element:";
 
 /* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
 "avb-QJ-T0h.title" = "Sjekk for oppdateringer automatisk";
-
-/* Class = "NSTextFieldCell"; title = "Number of history items to keep: {historySize}.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
-"k1I-VS-9Kh.title" = "Antall ønskede elementer i historikk: {historySize}.\nStandard: 200.";
 
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "Lim in automatisk";
@@ -41,35 +26,14 @@
 /* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
 "5NO-0n-i7l.title" = "Lim inn uten formattering";
 
-/* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
-"mf5-QH-x1u.title" = "Antall ganger kopiert";
-
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
 "rCZ-AO-G8B.title" = "Global hurtigtast for åpning av program.\nStandard: ⇧⌘C.";
 
 /* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
 "tUJ-hx-P24.title" = "Muliggjør ikke-eksakt søk. Vennligst merk at fuzzy søk kan være tregt når historikk-størrelsen er større enn 200.";
 
-/* Class = "NSMenuItem"; title = "Time of last copy"; ObjectID = "zrg-H1-TjU"; */
-"zrg-H1-TjU.title" = "Tidspunkt siste kopiering";
-
 /* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
 "lkL-5p-KVx.title" = "Lyder";
 
 /* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
 "fda-wq-rZq.title" = "Spill lydeffekter når ett nytt element er lagt til historikken og det forrige elementet er valgt.";
-
-/* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
-"Cal-Kj-TqV.title" = "Lagre:";
-
-/* Class = "NSButtonCell"; title = "Files"; ObjectID = "Pr2-Ic-sUM"; */
-"Pr2-Ic-sUM.title" = "Filer";
-
-/* Class = "NSButtonCell"; title = "Images"; ObjectID = "IT6-JX-vi3"; */
-"IT6-JX-vi3.title" = "Bilder";
-
-/* Class = "NSButtonCell"; title = "Text"; ObjectID = "TyZ-pU-eZ3"; */
-"TyZ-pU-eZ3.title" = "Tekst";
-
-/* Class = "NSTextFieldCell"; title = "Change what types of copied content should be stored."; ObjectID = "GDB-hB-d75"; */
-"GDB-hB-d75.title" = "Endre hvilke typer kopiert innhold som skal lagres.";

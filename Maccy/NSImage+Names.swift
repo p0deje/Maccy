@@ -1,6 +1,7 @@
 import Cocoa
 
 extension NSImage.Name {
+  static let externaldrive = loadName("externaldrive")
   static let gearshape = loadName("gearshape")
   static let gearshape2 = loadName("gearshape.2")
   static let nosign = loadName("nosign")

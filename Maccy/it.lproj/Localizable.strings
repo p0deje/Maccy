@@ -14,6 +14,7 @@
 "preferences_ignore" = "Ignora";
 "preferences_general" = "Generali";
 "preferences_pins" = "Bloccati";
+"preferences_storage" = "Memoria";
 "first_copy_time_tooltip" = "Tempo della prima copia";
 "last_copy_time_tooltip" = "Tempo dell'ultima copia";
 "number_of_copies_tooltip" = "Numero di copie";

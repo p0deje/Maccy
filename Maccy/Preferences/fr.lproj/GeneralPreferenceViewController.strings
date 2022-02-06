@@ -1,15 +1,6 @@
 
-/* Class = "NSTextFieldCell"; title = "Sort by:"; ObjectID = "0Vh-es-5I5"; */
-"0Vh-es-5I5.title" = "Trier par:";
-
-/* Class = "NSMenuItem"; title = "Time of first copy"; ObjectID = "2yi-R0-4up"; */
-"2yi-R0-4up.title" = "Date de première copie";
-
 /* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
 "5NO-0n-i7l.title" = "Coller sans formatage";
-
-/* Class = "NSTextFieldCell"; title = "History size:"; ObjectID = "5og-JF-cpR"; */
-"5og-JF-cpR.title" = "Taille de l'historique:";
 
 /* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
 "8Rb-OS-d59.title" = "Vérifier maintenant";
@@ -20,17 +11,11 @@
 /* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
 "Cfl-qm-UkM.title" = "Lancer au démarrage";
 
-/* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
-"EdO-Bo-TeB.title" = "• Sélectionnez avec ⌘ pressé pour copier l'élément.\n• Selectionnez avec ⌥ pressé pour copier et coller l'élément.\n• Selectionnez avec ⌥⇧ pressé pour copier, mise en forme clair et coller l'élement.";
-
 /* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
 "HJa-3L-ffW.title" = "Comportement:";
 
 /* Class = "NSTextFieldCell"; title = "\nHotkey:"; ObjectID = "QZW-5n-gLa"; */
 "QZW-5n-gLa.title" = "\nRaccourci:";
-
-/* Class = "NSTextFieldCell"; title = "Default: Time of last copy."; ObjectID = "WYH-Es-sop"; */
-"WYH-Es-sop.title" = "Par défaut: Date de dernière copie.";
 
 /* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
 "ZSa-vg-zWi.title" = "Customiser le comportement lors de la sélection de l'élément:";
@@ -41,38 +26,14 @@
 /* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
 "fda-wq-rZq.title" = "Activer les effets sonores lorsqu'un nouvel élément est ajouté à l'historique et que l'élément précédent est sélectionné.";
 
-/* Class = "NSTextFieldCell"; title = "Number of history items to keep: {historySize}.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
-"k1I-VS-9Kh.title" = "Nombre d'éléments à garder dans l'historique: {historySize}.\nPar défaut: 200.";
-
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "Coller automatiquement";
 
 /* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
 "lkL-5p-KVx.title" = "Sons";
 
-/* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
-"mf5-QH-x1u.title" = "Nombre de copies";
-
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
 "rCZ-AO-G8B.title" = "Raccourci pour ouvrir l'application.\nPar défaut: ⇧⌘C.";
 
 /* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
 "tUJ-hx-P24.title" = "Activer la recherche approximative. Notez que cette recherche peut être plus longue lorsque l'historique a plus de 200 éléments.";
-
-/* Class = "NSMenuItem"; title = "Time of last copy"; ObjectID = "zrg-H1-TjU"; */
-"zrg-H1-TjU.title" = "Date de dernière copie";
-
-/* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
-"Cal-Kj-TqV.title" = "Sauver:";
-
-/* Class = "NSButtonCell"; title = "Files"; ObjectID = "Pr2-Ic-sUM"; */
-"Pr2-Ic-sUM.title" = "Fichiers";
-
-/* Class = "NSButtonCell"; title = "Images"; ObjectID = "IT6-JX-vi3"; */
-"IT6-JX-vi3.title" = "Images";
-
-/* Class = "NSButtonCell"; title = "Text"; ObjectID = "TyZ-pU-eZ3"; */
-"TyZ-pU-eZ3.title" = "Texte";
-
-/* Class = "NSTextFieldCell"; title = "Change what types of copied content should be stored."; ObjectID = "GDB-hB-d75"; */
-"GDB-hB-d75.title" = "Modifiez les types de contenu copié à stocker.";

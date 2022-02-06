@@ -14,6 +14,7 @@
 "preferences_ignore" = "忽略";
 "preferences_general" = "通用";
 "preferences_pins" = "固定";
+"preferences_storage" = "贮存";
 "first_copy_time_tooltip" = "首次复制时间";
 "last_copy_time_tooltip" = "上次复制时间";
 "number_of_copies_tooltip" = "复制次数";

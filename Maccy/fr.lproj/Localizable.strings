@@ -14,6 +14,7 @@
 "preferences_ignore" = "Ignorer";
 "preferences_general" = "Général";
 "preferences_pins" = "Épingles";
+"preferences_storage" = "Stockage";
 "first_copy_time_tooltip" = "Date de la première copie";
 "last_copy_time_tooltip" = "Date de la dernière copie";
 "number_of_copies_tooltip" = "Nombre de copies";

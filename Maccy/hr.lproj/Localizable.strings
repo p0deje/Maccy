@@ -14,6 +14,7 @@
 "preferences_ignore" = "Zanemari";
 "preferences_general" = "Opće";
 "preferences_pins" = "Pribadače";
+"preferences_storage" = "Skladištenje";
 "first_copy_time_tooltip" = "Vrijeme prve kopije";
 "last_copy_time_tooltip" = "Vrijeme zadnje kopije";
 "number_of_copies_tooltip" = "Broj kopija";

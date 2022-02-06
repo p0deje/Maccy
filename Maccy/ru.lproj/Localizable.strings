@@ -14,6 +14,7 @@
 "preferences_ignore" = "Игнорирование";
 "preferences_general" = "Основные";
 "preferences_pins" = "Прикреплённые";
+"preferences_storage" = "Хранение";
 "first_copy_time_tooltip" = "Время первого копирования";
 "last_copy_time_tooltip" = "Время последнего копирования";
 "number_of_copies_tooltip" = "Количество копирований";
