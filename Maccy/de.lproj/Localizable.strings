@@ -28,4 +28,4 @@
 "clear_alert_comment" = "Diese Aktion kann nicht widerrufen werden.";
 "clear_alert_cancel" = "Abbrechen";
 "clear_alert_confirm" = "Bestätigen";
-"key_used_error" = "Schlüssel ist bereits in Verwendung.";
+"key_used_error" = "Hotkey ist bereits belegt.";
