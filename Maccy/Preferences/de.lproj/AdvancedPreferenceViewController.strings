@@ -1,0 +1,21 @@
+
+/* Class = "NSTextFieldCell"; title = "Temporarily ignore all new copies.\nYou are likely to use it programmatically and disable application while copying sensitive data."; ObjectID = "Ejh-zi-AFs"; */
+"Ejh-zi-AFs.title" = "Ignoriert alle neue Einträge temporärerweise. Zum Beispiel während kopieren von sensitiver Daten.\nDiese können programmatisch aktiviert und deaktiviert werden mit:";
+
+/* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
+"LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# volver a copiar elementos\ndefaults write org.p0deje.Maccy ignoreEvents false";
+
+/* Class = "NSButtonCell"; title = "Turn off"; ObjectID = "RA0-eh-Udt"; */
+"RA0-eh-Udt.title" = "Deaktivieren";
+
+/* Class = "NSTextFieldCell"; title = "Maccy takes an active application focus when the popup is shown and gives focus back when it's closed. The focus is needed for advanced macOS input handling such as Chinese helper or accent menu. Enabling this option would prevent Maccy from taking focus. There are certain situations when this can be useful: for example, pasting to a text editor that auto-formats code when it loses focus."; ObjectID = "Y8y-xQ-lFm"; */
+"Y8y-xQ-lFm.title" = "`Maccy` nimmt dem aktiven Programm den Fokus kurzzeitig weg, während der Popup angezeigt wird, dabei wird der Fokus automatisch zum Suchfeld platziert was die Benutzerfreundlichkeit erhöht. Dies kann jedoch unter Umständen zu einigen Problemen führen, wenn der Fokus für spezielle Situationen gebraucht wie z.B. die Eingabe mittels Hilfprogramme chinesischer Zeichen.";
+
+/* Class = "NSButtonCell"; title = "Avoid taking application focus"; ObjectID = "jjU-HE-iIA"; */
+"jjU-HE-iIA.title" = "Verhindert das Wegnehmen von Fokus";
+
+/* Class = "NSButtonCell"; title = "Clear history on quit"; ObjectID = "JvB-ng-8vt"; */
+"JvB-ng-8vt.title" = "Verlauf beim Schliessen automatisch löschen";
+
+/* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
+"LW1-8W-pFI.title" = "Löscht den Verlauf automatisch wenn die `Maccy` Applikation beendert wird. Gilt auch für das Herunterfahren und Neustart von MacOS.";
