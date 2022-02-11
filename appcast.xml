@@ -6,24 +6,24 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.22.1</title>
+      <title>0.22.2</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added Vim-like keybindings to select previous/next item with <kbd>Control+K</kbd>/<kbd>Control+J</kbd>.</li>
-            <li>Fixed an issue when application cannot be enabled/disabled with <kbd>Option+click</kbd>.</li>
-            <li>Improved Chinese translation.</li>
-            <li>Improved Italian translation.</li>
+            <li>Improved the header and search field horizontal padding on macOS 11+.</li>
+            <li>Fixed an issue when the search field would select all the entered text upon finding no results.</li>
+            <li>Moved storage preferences to a separate tab.</li>
+            <li>Fixed pasting the wrong item on the App Store version of Microsoft Word.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2022-02-05</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.22.1</releaseNotesLink>
+      <pubDate>2022-02-11</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.22.2</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.22.1/Maccy.app.zip"
-        sparkle:version="10"
-        sparkle:shortVersionString="0.22.1"
+        url="https://github.com/p0deje/Maccy/releases/download/0.22.2/Maccy.app.zip"
+        sparkle:version="11"
+        sparkle:shortVersionString="0.22.2"
         length="0"
         type="application/octet-stream"
       />
