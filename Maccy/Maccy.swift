@@ -306,7 +306,6 @@ class Maccy: NSObject {
   // and fallback to default NSMenu behavior by enabling
   // UserDefaults.standard.avoidTakingFocus.
   private func withFocus(_ closure: @escaping () -> Void) {
-    Maccy.returnFocusToPreviousApp = extraVisibleWindows.count == 0
     KeyboardShortcuts.disable(.popup)
 
     if UserDefaults.standard.avoidTakingFocus {
@@ -317,8 +316,9 @@ class Maccy: NSObject {
       Timer.scheduledTimer(withTimeInterval: 0.04, repeats: false) { _ in
         closure()
         KeyboardShortcuts.enable(.popup)
-        if Maccy.returnFocusToPreviousApp {
+        if Maccy.returnFocusToPreviousApp && self.extraVisibleWindows.count == 0 {
           NSApp.hide(self)
+          Maccy.returnFocusToPreviousApp = true
         }
       }
     }
