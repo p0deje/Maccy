@@ -12593,3 +12593,10 @@ a.pswp__share--download:hover {
 .producthunt:hover {
   transform: translateY(-2px);
   box-shadow: 0 2px 8px 0 rgba(136, 144, 195, 0.22), 0 8px 15px 0 rgba(37, 44, 97, 0.17); }
+
+#stopthewar {
+  position: relative;
+  background: #ffd500;
+  text-align: center;
+  padding: 10px;
+}
