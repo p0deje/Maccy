@@ -1,0 +1,39 @@
+
+/* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
+"5NO-0n-i7l.title" = "套用格式";
+
+/* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
+"8Rb-OS-d59.title" = "立即檢查更新";
+
+/* Class = "NSButtonCell"; title = "Fuzzy search"; ObjectID = "CGs-Td-v66"; */
+"CGs-Td-v66.title" = "模糊搜尋";
+
+/* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
+"Cfl-qm-UkM.title" = "登入時啟動";
+
+/* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
+"HJa-3L-ffW.title" = "運作方式:";
+
+/* Class = "NSTextFieldCell"; title = "\nHotkey:"; ObjectID = "QZW-5n-gLa"; */
+"QZW-5n-gLa.title" = "\n快捷鍵:";
+
+/* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
+"ZSa-vg-zWi.title" = "自定選擇項目時的運作方式:";
+
+/* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
+"avb-QJ-T0h.title" = "自動檢查更新";
+
+/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
+"fda-wq-rZq.title" = "記錄新項目和選擇上一項目時播放音效。";
+
+/* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
+"kK4-kG-DIY.title" = "自動貼上";
+
+/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
+"lkL-5p-KVx.title" = "音效";
+
+/* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
+"rCZ-AO-G8B.title" = "打開程式的全域快捷鍵。\n預設: ⇧⌘C";
+
+/* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
+"tUJ-hx-P24.title" = "允許非精準搜尋。歷史記錄大小超過 200 時，模糊搜尋可能導致效能下降。";

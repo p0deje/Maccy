@@ -1,0 +1,21 @@
+
+/* Class = "NSTextFieldCell"; title = "Temporarily ignore all new copies.\nYou are likely to use it programmatically and disable application while copying sensitive data."; ObjectID = "Ejh-zi-AFs"; */
+"Ejh-zi-AFs.title" = "暫停記錄新的剪貼板項目。\n此選項通常用於拷貝隱私資料時，透過程式調用禁用本程式。";
+
+/* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
+"LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# 執行上述命令後再進行拷貝，拷貝完成後執行\ndefaults write org.p0deje.Maccy ignoreEvents false";
+
+/* Class = "NSButtonCell"; title = "Turn off"; ObjectID = "RA0-eh-Udt"; */
+"RA0-eh-Udt.title" = "暫停使用";
+
+/* Class = "NSTextFieldCell"; title = "Maccy takes an active application focus when the popup is shown and gives focus back when it's closed. The focus is needed for advanced macOS input handling such as Chinese helper or accent menu. Enabling this option would prevent Maccy from taking focus. There are certain situations when this can be useful: for example, pasting to a text editor that auto-formats code when it loses focus."; ObjectID = "Y8y-xQ-lFm"; */
+"Y8y-xQ-lFm.title" = "允許 Maccy 的剪貼板彈窗取得焦點，彈窗關閉時還給當前程式。進階 macOS 輸入程式（如中文輸入法或附加符號選單）需要取得焦點才能使用。啟用用此選項後 Maccy 將不會取得焦點。 某些時候這會有所幫助，比如要貼上文字到一個設定失去焦點時會自動格式化代碼的文字編輯器時。";
+
+/* Class = "NSButtonCell"; title = "Avoid taking application focus"; ObjectID = "jjU-HE-iIA"; */
+"jjU-HE-iIA.title" = "不允許取得焦點";
+
+/* Class = "NSButtonCell"; title = "Clear history on quit"; ObjectID = "JvB-ng-8vt"; */
+"JvB-ng-8vt.title" = "結束時清除歷史記錄";
+
+/* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
+"LW1-8W-pFI.title" = "結束程式時僅保留已固定的項目。";
