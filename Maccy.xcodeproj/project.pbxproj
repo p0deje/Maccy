@@ -138,6 +138,13 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1180C7312826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
+		1180C7322826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
+		1180C7332826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
+		1180C7342826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
+		1180C7352826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
+		1180C7362826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Maccy/Preferences/ja.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
+		1180C7372826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		11EB8926281DADFE00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
 		11EB8927281DADFE00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
 		11EB8928281DADFE00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
@@ -590,6 +597,7 @@
 				de,
 				ko,
 				"zh-Hant",
+				ja,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			packageReferences = (
@@ -778,6 +786,7 @@
 				DAF4741E27BB568000B53057 /* de */,
 				11EB892C281DADFF00A78CB4 /* ko */,
 				DA08FDE7282596FA0001F3DA /* zh-Hant */,
+				1180C7372826B6140086870C /* ja */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -796,6 +805,7 @@
 				DAF4741A27BB563100B53057 /* de */,
 				11EB8928281DADFE00A78CB4 /* ko */,
 				DA08FDE3282596FA0001F3DA /* zh-Hant */,
+				1180C7332826B6140086870C /* ja */,
 			);
 			name = GeneralPreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -814,6 +824,7 @@
 				DAF4741927BB563100B53057 /* de */,
 				11EB8927281DADFE00A78CB4 /* ko */,
 				DA08FDE2282596FA0001F3DA /* zh-Hant */,
+				1180C7322826B6140086870C /* ja */,
 			);
 			name = AppearancePreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -832,6 +843,7 @@
 				DAF4741827BB563100B53057 /* de */,
 				11EB8926281DADFE00A78CB4 /* ko */,
 				DA08FDE1282596FA0001F3DA /* zh-Hant */,
+				1180C7312826B6140086870C /* ja */,
 			);
 			name = AdvancedPreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -850,6 +862,7 @@
 				DAF4741D27BB563600B53057 /* de */,
 				11EB892B281DADFF00A78CB4 /* ko */,
 				DA08FDE6282596FA0001F3DA /* zh-Hant */,
+				1180C7362826B6140086870C /* ja */,
 			);
 			name = StoragePreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -868,6 +881,7 @@
 				DAF4741C27BB563100B53057 /* de */,
 				11EB892A281DADFF00A78CB4 /* ko */,
 				DA08FDE5282596FA0001F3DA /* zh-Hant */,
+				1180C7352826B6140086870C /* ja */,
 			);
 			name = IgnorePreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -886,6 +900,7 @@
 				DAF4741B27BB563100B53057 /* de */,
 				11EB8929281DADFF00A78CB4 /* ko */,
 				DA08FDE4282596FA0001F3DA /* zh-Hant */,
+				1180C7342826B6140086870C /* ja */,
 			);
 			name = PinsPreferenceViewController.xib;
 			sourceTree = "<group>";
