@@ -6,7 +6,7 @@
 "0tN-4z-p8T.title" = "フッターが隠されている時に設定を開くには⌘,を押してください。";
 
 /* Class = "NSButtonCell"; title = "Show recent copy next to menu icon"; ObjectID = "2vE-8q-6tq"; */
-"2vE-8q-6tq.title" = "メニューアイコンの隣に最近のコピー表示";
+"2vE-8q-6tq.title" = "メニューアイコンの隣に最近のコピーを表示";
 
 /* Class = "NSMenuItem"; title = "Cursor"; ObjectID = "Ccp-5J-8nw"; */
 "Ccp-5J-8nw.title" = "カーソル";
@@ -24,7 +24,7 @@
 "KJb-2z-C5c.title" = "画面の中央";
 
 /* Class = "NSTextFieldCell"; title = "Image height:"; ObjectID = "MKb-cW-gpg"; */
-"MKb-cW-gpg.title" = "画像の縦：";
+"MKb-cW-gpg.title" = "画像の高さ：";
 
 /* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
 "Pud-2o-NKc.title" = "メニューアイコン表示";
@@ -39,7 +39,7 @@
 "aqA-NI-K5d.title" = "ピン留め項目の場所を変更します。\nデフォルト：上段。";
 
 /* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
-"bIP-Mi-SeJ.title" = "画像プレビューの縦最大値：{imageHeight}。\nデフォルト：40。\nヒント：16に設定するとテキスト項目と同じように見えます。";
+"bIP-Mi-SeJ.title" = "プレビュー時の画像の最大の高さ：{imageHeight}。\nデフォルト：40。\nヒント：16に設定するとテキスト項目と同じように見えます。";
 
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "検索フィールドの前にタイトル表示";
