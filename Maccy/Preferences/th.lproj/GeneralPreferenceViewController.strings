@@ -1,0 +1,42 @@
+
+/* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
+"5NO-0n-i7l.title" = "วางโดยไม่จัดรูปแบบ";
+
+/* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
+"8Rb-OS-d59.title" = "ตรวจสอบทันที";
+
+/* Class = "NSButtonCell"; title = "Fuzzy search"; ObjectID = "CGs-Td-v66"; */
+"CGs-Td-v66.title" = "ค้นหา";
+
+/* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
+"Cfl-qm-UkM.title" = "เปิดเมื่อเข้าสู่ระบบ";
+
+/* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
+"EdO-Bo-TeB.title" = "• เลือกแล้วกด ⌘ เพื่อคัดลอก\n• เลือกแล้วกด ⌥ เพื่อคัดลอกและวางรายการ\n• เลือกแล้วกด ⌥⇧ เพื่อคัดลอก, ล้างรูปแบบและวางรายการ";
+
+/* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
+"HJa-3L-ffW.title" = "พฤติกรรม:";
+
+/* Class = "NSTextFieldCell"; title = "\nHotkey:"; ObjectID = "QZW-5n-gLa"; */
+"QZW-5n-gLa.title" = "\nคีย์ลัดy:";
+
+/* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
+"ZSa-vg-zWi.title" = "ปรับแต่งพฤติกรรมเมื่อเลือกรายการ:";
+
+/* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
+"avb-QJ-T0h.title" = "ตรวจสอบ update อัตโนมัติ";
+
+/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
+"fda-wq-rZq.title" = "เปิดเสียงเมื่อมีรายการใหม่เพิ่มลงในประวัติและรายการก่อนหน้าถูกเลือก";
+
+/* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
+"kK4-kG-DIY.title" = "วางอัตโนมัติ";
+
+/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
+"lkL-5p-KVx.title" = "เสียง";
+
+/* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
+"rCZ-AO-G8B.title" = "คีย์ลัดเพื่อเปิดแอป.\nค่าเริ่มต้น: ⇧⌘C.";
+
+/* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
+"tUJ-hx-P24.title" = "เปิดการค้นหาไม่ระบุเจาะจง โปรดเข้าใจหากค้นหาโดยช่วยหาอาจจะช้าเมื่อประวัติรายการมีมากกว่า 200. รายการ";

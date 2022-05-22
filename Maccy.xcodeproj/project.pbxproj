@@ -155,6 +155,13 @@
 		7CEEFDEF24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppearancePreferenceViewController.strings"; sourceTree = "<group>"; };
 		7CEEFDF024F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GeneralPreferenceViewController.strings"; sourceTree = "<group>"; };
 		7CEEFDF124F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		ABC7285D283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
+		ABC7285E283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
+		ABC7285F283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
+		ABC72860283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
+		ABC72861283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
+		ABC72862283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = Maccy/Preferences/th.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
+		ABC72863283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA00992C256411F90030E697 /* appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = appcast.xml; sourceTree = "<group>"; };
 		DA00992D256411F90030E697 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DA00992E256411F90030E697 /* Vagrantfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Vagrantfile; sourceTree = "<group>"; };
@@ -590,6 +597,7 @@
 				de,
 				ko,
 				"zh-Hant",
+				th,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			packageReferences = (
@@ -778,6 +786,7 @@
 				DAF4741E27BB568000B53057 /* de */,
 				11EB892C281DADFF00A78CB4 /* ko */,
 				DA08FDE7282596FA0001F3DA /* zh-Hant */,
+				ABC72863283A9053001EE086 /* th */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -796,6 +805,7 @@
 				DAF4741A27BB563100B53057 /* de */,
 				11EB8928281DADFE00A78CB4 /* ko */,
 				DA08FDE3282596FA0001F3DA /* zh-Hant */,
+				ABC7285F283A9052001EE086 /* th */,
 			);
 			name = GeneralPreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -814,6 +824,7 @@
 				DAF4741927BB563100B53057 /* de */,
 				11EB8927281DADFE00A78CB4 /* ko */,
 				DA08FDE2282596FA0001F3DA /* zh-Hant */,
+				ABC7285E283A9052001EE086 /* th */,
 			);
 			name = AppearancePreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -832,6 +843,7 @@
 				DAF4741827BB563100B53057 /* de */,
 				11EB8926281DADFE00A78CB4 /* ko */,
 				DA08FDE1282596FA0001F3DA /* zh-Hant */,
+				ABC7285D283A9052001EE086 /* th */,
 			);
 			name = AdvancedPreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -850,6 +862,7 @@
 				DAF4741D27BB563600B53057 /* de */,
 				11EB892B281DADFF00A78CB4 /* ko */,
 				DA08FDE6282596FA0001F3DA /* zh-Hant */,
+				ABC72862283A9053001EE086 /* th */,
 			);
 			name = StoragePreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -868,6 +881,7 @@
 				DAF4741C27BB563100B53057 /* de */,
 				11EB892A281DADFF00A78CB4 /* ko */,
 				DA08FDE5282596FA0001F3DA /* zh-Hant */,
+				ABC72861283A9052001EE086 /* th */,
 			);
 			name = IgnorePreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -886,6 +900,7 @@
 				DAF4741B27BB563100B53057 /* de */,
 				11EB8929281DADFF00A78CB4 /* ko */,
 				DA08FDE4282596FA0001F3DA /* zh-Hant */,
+				ABC72860283A9052001EE086 /* th */,
 			);
 			name = PinsPreferenceViewController.xib;
 			sourceTree = "<group>";
