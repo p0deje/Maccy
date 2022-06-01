@@ -21,7 +21,7 @@ class MenuLoader: NSMenu, NSMenuDelegate {
 
   func menuWillOpen(_ menu: NSMenu) {
     let event = NSApp.currentEvent
-    menu.cancelTracking()
+    menu.cancelTrackingWithoutAnimation()
     // Just calling loader() doesn't work when avoidTakingFocus is true.
     Timer.scheduledTimer(withTimeInterval: 0.01, repeats: false) { _ in
       self.loader(event)
