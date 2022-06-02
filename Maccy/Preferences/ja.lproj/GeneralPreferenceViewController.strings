@@ -1,0 +1,42 @@
+
+/* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
+"5NO-0n-i7l.title" = "書式なしで貼り付け";
+
+/* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
+"8Rb-OS-d59.title" = "今確認する";
+
+/* Class = "NSButtonCell"; title = "Fuzzy search"; ObjectID = "CGs-Td-v66"; */
+"CGs-Td-v66.title" = "あいまい検索";
+
+/* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
+"Cfl-qm-UkM.title" = "ログイン時に実行";
+
+/* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
+"EdO-Bo-TeB.title" = "• ⌘を押しながら選択すると項目をコピーします。\n• ⌥を押しながら選択すると項目をコピーして貼り付けます。\n• ⌥⇧を押しながら選択すると項目をコピーし、 書式なしで貼り付けます。";
+
+/* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
+"HJa-3L-ffW.title" = "動作:";
+
+/* Class = "NSTextFieldCell"; title = "\nHotkey:"; ObjectID = "QZW-5n-gLa"; */
+"QZW-5n-gLa.title" = "\nショートカット：";
+
+/* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
+"ZSa-vg-zWi.title" = "項目選択時の動作カスタマイズ：";
+
+/* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
+"avb-QJ-T0h.title" = "自動的にアップデートを確認";
+
+/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
+"fda-wq-rZq.title" = "履歴に新たに項目が追加される時と以前項目が選択された時に効果音を鳴らします。";
+
+/* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
+"kK4-kG-DIY.title" = "自動的に貼り付け";
+
+/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
+"lkL-5p-KVx.title" = "サウンド";
+
+/* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
+"rCZ-AO-G8B.title" = "どこからでもアプリケーションを開くショートカットです。\nデフォルト：⇧⌘C.";
+
+/* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
+"tUJ-hx-P24.title" = "不正確な検索を有効にします。履歴のサイズが200より大きいとあいまい検索が遅くなることもあります。";

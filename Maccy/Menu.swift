@@ -180,7 +180,7 @@ class Menu: NSMenu, NSMenuDelegate {
   func select() {
     if let item = highlightedItem {
       performActionForItem(at: index(of: item))
-      cancelTracking()
+      cancelTrackingWithoutAnimation()
     }
   }
 
