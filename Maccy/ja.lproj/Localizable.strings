@@ -15,6 +15,7 @@
 "preferences_general" = "一般";
 "preferences_pins" = "ピン留め";
 "preferences_storage" = "保管";
+"copy_application_tooltip" = "アプリケーション";
 "first_copy_time_tooltip" = "最初にコピーした日時";
 "last_copy_time_tooltip" = "最後にコピーした日時";
 "number_of_copies_tooltip" = "コピー回数";

@@ -15,6 +15,7 @@
 "preferences_general" = "General";
 "preferences_pins" = "Pins";
 "preferences_storage" = "Storage";
+"copy_application_tooltip" = "Application";
 "first_copy_time_tooltip" = "First copy time";
 "last_copy_time_tooltip" = "Last copy time";
 "number_of_copies_tooltip" = "Number of copies";

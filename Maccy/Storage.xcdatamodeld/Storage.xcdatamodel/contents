@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="18154" systemVersion="20F71" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="20086" systemVersion="21E258" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="HistoryItem" representedClassName="HistoryItem" syncable="YES">
+        <attribute name="application" optional="YES" attributeType="String"/>
         <attribute name="firstCopiedAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastCopiedAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="numberOfCopies" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
@@ -14,7 +15,7 @@
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HistoryItem" inverseName="contents" inverseEntity="HistoryItem"/>
     </entity>
     <elements>
-        <element name="HistoryItem" positionX="-63" positionY="-18" width="128" height="119"/>
+        <element name="HistoryItem" positionX="-63" positionY="-18" width="128" height="134"/>
         <element name="HistoryItemContent" positionX="-54" positionY="-9" width="128" height="88"/>
     </elements>
 </model>

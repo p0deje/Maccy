@@ -15,6 +15,7 @@
 "preferences_general" = "Generelt";
 "preferences_pins" = "Merker";
 "preferences_storage" = "Lagring";
+"copy_application_tooltip" = "Applikasjon";
 "first_copy_time_tooltip" = "Tidspunkt første kopiering";
 "last_copy_time_tooltip" = "Tidspunkt siste kopiering";
 "number_of_copies_tooltip" = "Antall ganger kopiert";

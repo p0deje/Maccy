@@ -15,6 +15,7 @@
 "preferences_general" = "General";
 "preferences_pins" = "Anclas";
 "preferences_storage" = "Almacenamiento";
+"copy_application_tooltip" = "Aplicación";
 "first_copy_time_tooltip" = "Hora de la primera copia";
 "last_copy_time_tooltip" = "Hora de la última copia";
 "number_of_copies_tooltip" = "Número de copia";

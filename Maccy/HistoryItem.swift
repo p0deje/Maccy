@@ -14,6 +14,7 @@ class HistoryItem: NSManagedObject {
     return availablePins.subtracting(assignedPins).randomElement() ?? ""
   }
 
+  @NSManaged public var application: String?
   @NSManaged public var contents: NSSet?
   @NSManaged public var firstCopiedAt: Date!
   @NSManaged public var lastCopiedAt: Date!
@@ -41,11 +42,12 @@ class HistoryItem: NSManagedObject {
     return lhs.getContents().count == rhs.getContents().count && lhs.supersedes(rhs)
   }
 
-  convenience init(contents: [HistoryItemContent]) {
+  convenience init(contents: [HistoryItemContent], application: String? = nil) {
     let entity = NSEntityDescription.entity(forEntityName: "HistoryItem",
                                             in: CoreDataManager.shared.viewContext)!
     self.init(entity: entity, insertInto: CoreDataManager.shared.viewContext)
 
+    self.application = application
     self.firstCopiedAt = Date()
     self.lastCopiedAt = firstCopiedAt
     self.numberOfCopies = 1

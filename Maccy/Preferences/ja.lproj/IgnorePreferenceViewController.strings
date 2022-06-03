@@ -13,9 +13,3 @@
 
 /* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "e5t-lA-7er"; */
 "e5t-lA-7er.headerCell.title" = "アプリケーション";
-
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "eG1-h6-6Pr"; */
-"eG1-h6-6Pr.title" = "テキストセル";
-
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "tWx-xL-UB5"; */
-"tWx-xL-UB5.title" = "テキストセル";

@@ -197,13 +197,37 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func defaultTooltip(_ item: HistoryItem) -> String {
-    return """
-    \(NSLocalizedString("first_copy_time_tooltip", comment: "")): \(formatDate(item.firstCopiedAt))
-    \(NSLocalizedString("last_copy_time_tooltip", comment: "")): \(formatDate(item.lastCopiedAt))
-    \(NSLocalizedString("number_of_copies_tooltip", comment: "")): \(item.numberOfCopies)
+    var lines: [String] = []
+    if let bundle = item.application, let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundle) {
+      lines.append(
+        [
+          NSLocalizedString("copy_application_tooltip", comment: ""),
+          url.deletingPathExtension().lastPathComponent
+        ].joined(separator: ": ")
+      )
+    }
+    lines.append(
+      [
+        NSLocalizedString("first_copy_time_tooltip", comment: ""),
+        formatDate(item.firstCopiedAt)
+      ].joined(separator: ": ")
+    )
+    lines.append(
+      [
+        NSLocalizedString("last_copy_time_tooltip", comment: ""),
+        formatDate(item.lastCopiedAt)
+      ].joined(separator: ": ")
+    )
+    lines.append(
+      [
+        NSLocalizedString("number_of_copies_tooltip", comment: ""),
+        String(item.numberOfCopies)
+      ].joined(separator: ": ")
+    )
+    lines.append("")
+    lines.append(NSLocalizedString("history_item_tooltip", comment: ""))
 
-    \(NSLocalizedString("history_item_tooltip", comment: ""))
-    """
+    return lines.joined(separator: "\n")
   }
 
   private func formatDate(_ date: Date) -> String {

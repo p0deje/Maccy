@@ -15,6 +15,7 @@
 "preferences_general" = "일반";
 "preferences_pins" = "고정";
 "preferences_storage" = "보관";
+"copy_application_tooltip" = "어플리케이션";
 "first_copy_time_tooltip" = "처음 복사한 시간";
 "last_copy_time_tooltip" = "마지막 복사한 시간";
 "number_of_copies_tooltip" = "복사 횟수";

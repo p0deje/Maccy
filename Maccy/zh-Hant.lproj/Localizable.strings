@@ -15,6 +15,7 @@
 "preferences_general" = "一般";
 "preferences_pins" = "固定";
 "preferences_storage" = "儲存";
+"copy_application_tooltip" = "應用";
 "first_copy_time_tooltip" = "首次拷貝時間";
 "last_copy_time_tooltip" = "上次拷貝時間";
 "number_of_copies_tooltip" = "拷貝次數";

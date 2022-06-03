@@ -15,6 +15,7 @@
 "preferences_general" = "Opće";
 "preferences_pins" = "Pribadače";
 "preferences_storage" = "Skladištenje";
+"copy_application_tooltip" = "Program";
 "first_copy_time_tooltip" = "Vrijeme prve kopije";
 "last_copy_time_tooltip" = "Vrijeme zadnje kopije";
 "number_of_copies_tooltip" = "Broj kopija";

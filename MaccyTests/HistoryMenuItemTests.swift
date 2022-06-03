@@ -122,10 +122,21 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.attributedTitle, nil)
   }
 
-  private func historyMenuItem(_ value: String?) -> HistoryMenuItem {
+  func testTooltipWithNoApplication() {
+    let menuItem = historyMenuItem("foo bar baz", application: nil)
+    XCTAssertFalse(menuItem.toolTip!.contains("Application"))
+  }
+
+  func testTooltipWithUnknownApplication() {
+    let menuItem = historyMenuItem("foo bar baz", application: "com.bundle.whoknowswhat")
+    XCTAssertFalse(menuItem.toolTip!.contains("Application"))
+  }
+
+  private func historyMenuItem(_ value: String?, application: String? = "com.apple.finder") -> HistoryMenuItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))
     let item = HistoryItem(contents: [content])
+    item.application = application
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
@@ -136,6 +147,7 @@ class HistoryMenuItemTests: XCTestCase {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.tiff.rawValue,
                                      value: value.tiffRepresentation!)
     let item = HistoryItem(contents: [content])
+    item.application = "com.apple.finder"
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
@@ -152,6 +164,7 @@ class HistoryMenuItemTests: XCTestCase {
       value: value.lastPathComponent.data(using: .utf8)
     )
     let item = HistoryItem(contents: [fileURLContent, fileNameContent])
+    item.application = "com.apple.finder"
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
@@ -161,6 +174,7 @@ class HistoryMenuItemTests: XCTestCase {
   private func tooltip(_ title: String?) -> String {
     if title == nil {
       return """
+             Application: Finder
              First copy time: Jul 10, 12:31:34
              Last copy time: Jul 10, 12:41:34
              Number of copies: 2
@@ -172,6 +186,7 @@ class HistoryMenuItemTests: XCTestCase {
       return """
              \(title!)
 
+             Application: Finder
              First copy time: Jul 10, 12:31:34
              Last copy time: Jul 10, 12:41:34
              Number of copies: 2

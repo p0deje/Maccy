@@ -15,6 +15,7 @@
 "preferences_general" = "Generell";
 "preferences_pins" = "Pins";
 "preferences_storage" = "Speicherung";
+"copy_application_tooltip" = "Programm";
 "first_copy_time_tooltip" = "Zuerst kopiert";
 "last_copy_time_tooltip" = "Zuletzt kopiert";
 "number_of_copies_tooltip" = "Anzahl der Kopien";

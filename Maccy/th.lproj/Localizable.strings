@@ -15,6 +15,7 @@
 "preferences_general" = "ทั่วไป";
 "preferences_pins" = "ปักหมุด";
 "preferences_storage" = "พื้นที่";
+"copy_application_tooltip" = "แอปพลิเคชัน";
 "first_copy_time_tooltip" = "เวลาคัดลอกครั้งแรก";
 "last_copy_time_tooltip" = "เวลาคัดลอกสุดท้าย";
 "number_of_copies_tooltip" = "จำนวนการคัดลอก";
