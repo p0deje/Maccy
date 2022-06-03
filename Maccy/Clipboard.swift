@@ -190,5 +190,6 @@ class Clipboard {
         NSWorkspace.shared.open(url)
       }
     }
+    Maccy.returnFocusToPreviousApp = true
   }
 }
