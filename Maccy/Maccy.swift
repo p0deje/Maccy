@@ -89,10 +89,10 @@ class Maccy: NSObject {
       switch UserDefaults.standard.popupPosition {
       case "center":
         if let screen = NSScreen.main {
-          let topLeftX = (screen.frame.width - self.menu.size.width) / 2 + screen.frame.origin.x
-          var topLeftY = (screen.frame.height + self.menu.size.height) / 2 - screen.frame.origin.y
-          if screen.frame.height < self.menu.size.height {
-            topLeftY = screen.frame.origin.y
+          let topLeftX = (screen.visibleFrame.width - self.menu.size.width) / 2 + screen.visibleFrame.origin.x
+          var topLeftY = (screen.visibleFrame.height + self.menu.size.height) / 2 + screen.visibleFrame.origin.y
+          if screen.visibleFrame.height < self.menu.size.height {
+            topLeftY = screen.visibleFrame.origin.y
           }
           self.linkingMenuToStatusItem {
             self.menu.popUp(positioning: nil, at: NSPoint(x: topLeftX + 1.0, y: topLeftY + 1.0), in: nil)
