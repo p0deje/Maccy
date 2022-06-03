@@ -111,8 +111,15 @@ class Maccy: NSObject {
   @objc
   func performStatusItemClick(_ event: NSEvent?) {
     if let event = event {
-      if event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .option {
+      let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+
+      if modifierFlags.contains(.option) {
         UserDefaults.standard.ignoreEvents = !UserDefaults.standard.ignoreEvents
+
+        if modifierFlags.contains(.shift) {
+          UserDefaults.standard.ignoreOnlyNextEvent = UserDefaults.standard.ignoreEvents
+        }
+
         return
       }
     }

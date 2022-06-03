@@ -10,6 +10,7 @@ extension UserDefaults {
     static let hideSearch = "hideSearch"
     static let hideTitle = "hideTitle"
     static let ignoreEvents = "ignoreEvents"
+    static let ignoreOnlyNextEvent = "ignoreOnlyNextEvent"
     static let ignoredApps = "ignoredApps"
     static let ignoredPasteboardTypes = "ignoredPasteboardTypes"
     static let imageMaxHeight = "imageMaxHeight"
@@ -90,6 +91,11 @@ extension UserDefaults {
   @objc dynamic public var ignoreEvents: Bool {
     get { bool(forKey: Keys.ignoreEvents) }
     set { set(newValue, forKey: Keys.ignoreEvents) }
+  }
+
+  public var ignoreOnlyNextEvent: Bool {
+    get { bool(forKey: Keys.ignoreOnlyNextEvent) }
+    set { set(newValue, forKey: Keys.ignoreOnlyNextEvent) }
   }
 
   public var ignoredApps: [String] {

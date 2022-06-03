@@ -120,6 +120,12 @@ class Clipboard {
 
     if UserDefaults.standard.ignoreEvents {
       changeCount = pasteboard.changeCount
+
+      if UserDefaults.standard.ignoreOnlyNextEvent {
+        UserDefaults.standard.ignoreEvents = false
+        UserDefaults.standard.ignoreOnlyNextEvent = false
+      }
+
       return
     }
 
