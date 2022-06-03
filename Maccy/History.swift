@@ -26,9 +26,7 @@ class History {
       item.title = existingHistoryItem.title
       remove(existingHistoryItem)
     } else {
-      if UserDefaults.standard.playSounds {
-        NSSound(named: NSSound.Name("write"))?.play()
-      }
+      Notifier.notify(body: item.title, sound: .write)
     }
 
     CoreDataManager.shared.saveContext()

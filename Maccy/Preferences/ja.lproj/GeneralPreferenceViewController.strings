@@ -26,14 +26,8 @@
 /* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
 "avb-QJ-T0h.title" = "自動的にアップデートを確認";
 
-/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
-"fda-wq-rZq.title" = "履歴に新たに項目が追加される時と以前項目が選択された時に効果音を鳴らします。";
-
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "自動的に貼り付け";
-
-/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
-"lkL-5p-KVx.title" = "サウンド";
 
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
 "rCZ-AO-G8B.title" = "どこからでもアプリケーションを開くショートカットです。\nデフォルト：⇧⌘C.";

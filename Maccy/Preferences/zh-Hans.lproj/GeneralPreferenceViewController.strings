@@ -23,14 +23,8 @@
 /* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
 "avb-QJ-T0h.title" = "自动检查更新";
 
-/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
-"fda-wq-rZq.title" = "记录新项目和选择上一个项目时播放声效。";
-
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "自动粘贴";
-
-/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
-"lkL-5p-KVx.title" = "声效";
 
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
 "rCZ-AO-G8B.title" = "打开应用的全局快捷键。\n默认: ⇧⌘C";

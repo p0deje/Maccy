@@ -23,14 +23,8 @@
 /* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
 "avb-QJ-T0h.title" = "Automatski provjeri aktualnost";
 
-/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
-"fda-wq-rZq.title" = "Sviraj zvučne efekte kad se novi element doda u povijest i odabere prethodni.";
-
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "Umetni automatski";
-
-/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
-"lkL-5p-KVx.title" = "Zvukovi";
 
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
 "rCZ-AO-G8B.title" = "Globalni prečac za otvaranje programa.\nStandardno: ⇧⌘C.";

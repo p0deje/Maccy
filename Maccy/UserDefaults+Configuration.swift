@@ -18,7 +18,6 @@ extension UserDefaults {
     static let migrations = "migrations"
     static let pasteByDefault = "pasteByDefault"
     static let pinTo = "pinTo"
-    static let playSounds = "playSounds"
     static let popupPosition = "popupPosition"
     static let removeFormattingByDefault = "removeFormattingByDefault"
     static let saratovSeparator = "enableSaratovSeparator"
@@ -131,11 +130,6 @@ extension UserDefaults {
   @objc dynamic public var pinTo: String {
     get { string(forKey: Keys.pinTo) ?? Values.pinTo }
     set { set(newValue, forKey: Keys.pinTo) }
-  }
-
-  public var playSounds: Bool {
-    get { bool(forKey: Keys.playSounds) }
-    set { set(newValue, forKey: Keys.playSounds) }
   }
 
   public var popupPosition: String {

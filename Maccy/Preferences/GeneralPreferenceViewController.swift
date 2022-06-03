@@ -18,7 +18,6 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var pasteAutomaticallyButton: NSButton!
   @IBOutlet weak var removeFormattingButton: NSButton!
   @IBOutlet weak var modifiersDescriptionLabel: NSTextField!
-  @IBOutlet weak var soundsButton: NSButton!
 
   override func viewDidLoad() {
     super.viewDidLoad()
@@ -32,7 +31,6 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
     populatePasteAutomatically()
     populateRemoveFormatting()
     updateModifiersDescriptionLabel()
-    populateSounds()
   }
 
   @IBAction func launchAtLoginChanged(_ sender: NSButton) {
@@ -51,10 +49,6 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   @IBAction func removeFormattingChanged(_ sender: NSButton) {
     UserDefaults.standard.removeFormattingByDefault = (sender.state == .on)
     updateModifiersDescriptionLabel()
-  }
-
-  @IBAction func soundsChanged(_ sender: NSButton) {
-    UserDefaults.standard.playSounds = (sender.state == .on)
   }
 
   private func populateLaunchAtLogin() {
@@ -83,9 +77,5 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
              HistoryMenuItem.PasteWithoutFormattingMenuItem.keyEquivalentModifierMask.description)
     ]
     modifiersDescriptionLabel.stringValue = descriptions.joined(separator: "\n")
-  }
-
-  private func populateSounds() {
-    soundsButton.state = UserDefaults.standard.playSounds ? .on : .off
   }
 }

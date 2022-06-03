@@ -31,9 +31,3 @@
 
 /* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
 "tUJ-hx-P24.title" = "Erlaubt eine ungenaue Suche. Die Suche könnte länger dauern, wenn der Verlauf grösser ist als 200 Einträge.";
-
-/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
-"lkL-5p-KVx.title" = "Töne";
-
-/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
-"fda-wq-rZq.title" = "Spielt Toneffekt beim Kopieren und beim Auswählen.";

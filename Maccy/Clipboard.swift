@@ -82,9 +82,7 @@ class Clipboard {
       pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
     }
 
-    if UserDefaults.standard.playSounds {
-      NSSound(named: NSSound.Name("knock"))?.play()
-    }
+    Notifier.notify(body: item.title, sound: .knock)
   }
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
