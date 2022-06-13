@@ -6,7 +6,7 @@
 "CGs-Td-v66.title" = "Fuzzy-Suche";
 
 /* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
-"Cfl-qm-UkM.title" = "Aktivieren beim Systemstart";
+"Cfl-qm-UkM.title" = "Beim Anmelden starten";
 
 /* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
 "HJa-3L-ffW.title" = "Verhalten:";
@@ -15,13 +15,13 @@
 "QZW-5n-gLa.title" = "\nAktivieren:";
 
 /* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
-"ZSa-vg-zWi.title" = "Verhalten beim Auswahl:";
+"ZSa-vg-zWi.title" = "Verhalten bei Auswahl eines Eintrags anpassen:";
 
 /* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
-"avb-QJ-T0h.title" = "Automatische Updates";
+"avb-QJ-T0h.title" = "Automatisch nach Updates suchen";
 
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
-"kK4-kG-DIY.title" = "Automatisches Einfügen";
+"kK4-kG-DIY.title" = "Automatisch einfügen";
 
 /* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
 "5NO-0n-i7l.title" = "Einfügen ohne Formattierung";
@@ -30,10 +30,10 @@
 "rCZ-AO-G8B.title" = "Tastenkürzel um die Applikation zu öffnen.\nStandard: ⇧⌘C.";
 
 /* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
-"tUJ-hx-P24.title" = "Erlaubt eine ungenaue Suche. Die Suche könnte länger dauern, wenn der Verlauf grösser ist als 200 Einträge.";
+"tUJ-hx-P24.title" = "Erlaubt eine ungenaue Suche. Die Suche könnte länger dauern, wenn der Verlauf größer ist als 200 Einträge.";
 
 /* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
 "lkL-5p-KVx.title" = "Töne";
 
 /* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
-"fda-wq-rZq.title" = "Spielt Toneffekt beim Kopieren und beim Auswählen.";
+"fda-wq-rZq.title" = "Spielt einen Toneffekt beim Kopieren und beim Auswählen.";
