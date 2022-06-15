@@ -12,7 +12,7 @@
 "WYH-Es-sop.title" = "Standard: Neuester Eintrag zuerst";
 
 /* Class = "NSTextFieldCell"; title = "Number of history items to keep: {historySize}.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
-"k1I-VS-9Kh.title" = "Maximaler Anzahl von Einträge: {historySize}.\nStandard: 200.";
+"k1I-VS-9Kh.title" = "Maximale Anzahl von Einträgen: {historySize}.\nStandard: 200.";
 
 /* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
 "mf5-QH-x1u.title" = "Häufigkeit";
@@ -21,7 +21,7 @@
 "zrg-H1-TjU.title" = "Neuester Eintrag zuerst";
 
 /* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
-"Cal-Kj-TqV.title" = "Speichern:";
+"Cal-Kj-TqV.title" = "Sichern:";
 
 /* Class = "NSButtonCell"; title = "Files"; ObjectID = "Pr2-Ic-sUM"; */
 "Pr2-Ic-sUM.title" = "Dateien";
@@ -33,4 +33,4 @@
 "TyZ-pU-eZ3.title" = "Text";
 
 /* Class = "NSTextFieldCell"; title = "Change what types of copied content should be stored."; ObjectID = "GDB-hB-d75"; */
-"GDB-hB-d75.title" = "Ändere welche Dateitypen berücksichtigt werden sollten.";
+"GDB-hB-d75.title" = "Ändere, welche Dateitypen kopierter Inhalte gesichert werden sollen.";

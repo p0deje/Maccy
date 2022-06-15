@@ -3,10 +3,10 @@
 "bdM-5c-VDK.title" = "Text Cell";
 
 /* Class = "NSTableColumn"; headerCell.title = "Title"; ObjectID = "bsY-ZI-mU2"; */
-"bsY-ZI-mU2.headerCell.title" = "Eintrag";
+"bsY-ZI-mU2.headerCell.title" = "Titel";
 
 /* Class = "NSTextFieldCell"; title = "You can customize the title and hotkey of every pinned item.\nTo edit, double-click it and enter new value.\nFor key, you can only use one of the following values: %@."; ObjectID = "jBl-gB-eEV"; */
-"jBl-gB-eEV.title" = "Für jeden Eintrag kann ein Hotkey gesetzt werden.\nUm zu bearbeiten, doppel-klicke die Zeile.\nAls Hotkey stehen folgende Buchstaben zur Verfügung: %@.";
+"jBl-gB-eEV.title" = "Du kannst den Titel und den Hotkey jedes angehefteten Elements anpassen.\nZum Bearbeiten doppelklicke auf das Element und gib einen neuen Wert ein.\nFür die Tastenkombination kannst du nur einen der folgenden Zeichen verwenden: %@.";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "juh-Mt-VZK"; */
 "juh-Mt-VZK.title" = "Text Cell";

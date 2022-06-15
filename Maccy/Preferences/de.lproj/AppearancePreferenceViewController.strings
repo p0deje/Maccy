@@ -1,6 +1,6 @@
 
 /* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
-"0h4-CZ-fwT.title" = "Menü Icon";
+"0h4-CZ-fwT.title" = "Menüleistensymbol";
 
 /* Class = "NSMenuItem"; title = "Cursor"; ObjectID = "Ccp-5J-8nw"; */
 "Ccp-5J-8nw.title" = "Mauszeiger";
@@ -15,37 +15,37 @@
 "MKb-cW-gpg.title" = "Bildhöhe:";
 
 /* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
-"Pud-2o-NKc.title" = "Menü Icon anzeigen";
+"Pud-2o-NKc.title" = "In Menüleiste anzeigen";
 
 /* Class = "NSButtonCell"; title = "Show recent copy next to menu icon"; ObjectID = "2vE-8q-6tq"; */
-"2vE-8q-6tq.title" = "Letzer Eintrag neben Menü Icon anzeigen";
+"2vE-8q-6tq.title" = "Letzer Eintrag neben Menüleistensymbol anzeigen";
 
 /* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
-"R7Y-UN-Edt.title" = "Position:";
+"R7Y-UN-Edt.title" = "Position des Popup-Fensters:";
 
 /* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
-"bIP-Mi-SeJ.title" = "Maximale Höhe für Bildvorschau in Pixel: {imageHeight}.\nStandard: 40.\nHinweis: Nimm 16 wenn Bild gleich gross sein sollte wie Text.";
+"bIP-Mi-SeJ.title" = "Maximale Höhe für Bildvorschau in Pixel: {imageHeight}.\nStandard: 40.\nHinweis: Wähle 16, wenn das Bild gleich groß dargestellt werden soll, wie Text.";
 
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
-"ePT-qq-kg9.title" = "Zeige Titel neben Suchfeld";
+"ePT-qq-kg9.title" = "Titel neben dem Suchfeld anzeigen ";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
-"mWx-zi-OAv.title" = "Zeige Suchfeld";
+"mWx-zi-OAv.title" = "Suchfeld anzeigen";
 
 /* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
-"tpV-rp-2HY.title" = "Ändere die Position für Popup.\nStandard: Mauszeiger.";
+"tpV-rp-2HY.title" = "Ändere die Position des Popup-Fensters.\nStandard: Mauszeiger.";
 
 /* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
-"0tN-4z-p8T.title" = "Drücke `⌘,` um die Einstellung zu öffnen, wenn Menü ausgeblendet ist.";
+"0tN-4z-p8T.title" = "Drücke ⌘, um die Einstellungen zu öffnen, wenn das Menü ausgeblendet ist.";
 
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Anzahl der Einträge:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "Anzahl der sichtbare Einträge: {menuSize}.\nUnsichtbare Einträge bleiben mittels Suchfeld auffindbar.\nNimm `0` wenn alle Einträge angezeigt werden solten.\nStandard: 0.";
+"j39-nx-OGb.title" = "Anzahl der sichtbaren Einträge: {menuSize}.\nUnsichtbare Einträge bleiben weiterhin über das Suchfeld auffindbar.\nWähle 0 wenn alle Einträge angezeigt werden sollen.\nStandard: 0.";
 
 /* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
-"GhW-Kv-rhO.title" = "Gepinnte Einträge:";
+"GhW-Kv-rhO.title" = "Angeheftete Einträge:";
 
 /* Class = "NSMenuItem"; title = "Top"; ObjectID = "DKE-JI-oLS"; */
 "DKE-JI-oLS.title" = "Oben";
@@ -54,4 +54,4 @@
 "Yio-8e-oaa.title" = "Unten";
 
 /* Class = "NSTextFieldCell"; title = "Change the location of pinned items.\nDefault: Top."; ObjectID = "aqA-NI-K5d"; */
-"aqA-NI-K5d.title" = "Ändere die Position der gepinnte Einträge.\nStandard: Oben.";
+"aqA-NI-K5d.title" = "Ändere die Position der angehefteten Einträge.\nStandard: Oben.";
