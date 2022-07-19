@@ -88,7 +88,8 @@ class Maccy: NSObject {
     withFocus {
       switch UserDefaults.standard.popupPosition {
       case "center":
-        if let screen = NSScreen.main {
+        let activeLocation = NSEvent.mouseLocation
+        if let screen = NSScreen.screens.first(where: { NSMouseInRect(activeLocation, $0.frame, false) }) {
           let topLeftX = (screen.visibleFrame.width - self.menu.size.width) / 2 + screen.visibleFrame.origin.x
           var topLeftY = (screen.visibleFrame.height + self.menu.size.height) / 2 + screen.visibleFrame.origin.y
           if screen.visibleFrame.height < self.menu.size.height {
