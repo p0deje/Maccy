@@ -815,7 +815,7 @@
 				11EB8928281DADFE00A78CB4 /* ko */,
 				DA08FDE3282596FA0001F3DA /* zh-Hant */,
 				1180C7332826B6140086870C /* ja */,
-        ABC7285F283A9052001EE086 /* th */,
+				ABC7285F283A9052001EE086 /* th */,
 			);
 			name = GeneralPreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -855,7 +855,7 @@
 				11EB8926281DADFE00A78CB4 /* ko */,
 				DA08FDE1282596FA0001F3DA /* zh-Hant */,
 				1180C7312826B6140086870C /* ja */,
-        ABC7285D283A9052001EE086 /* th */,
+				ABC7285D283A9052001EE086 /* th */,
 			);
 			name = AdvancedPreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -895,7 +895,7 @@
 				11EB892A281DADFF00A78CB4 /* ko */,
 				DA08FDE5282596FA0001F3DA /* zh-Hant */,
 				1180C7352826B6140086870C /* ja */,
-        ABC72861283A9052001EE086 /* th */,
+				ABC72861283A9052001EE086 /* th */,
 			);
 			name = IgnorePreferenceViewController.xib;
 			sourceTree = "<group>";
@@ -1144,7 +1144,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1157,7 +1157,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.22.2;
+				MARKETING_VERSION = 0.23.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1176,7 +1176,7 @@
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1189,7 +1189,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MARKETING_VERSION = 0.22.2;
+				MARKETING_VERSION = 0.23.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
