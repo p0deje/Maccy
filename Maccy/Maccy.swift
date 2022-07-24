@@ -214,13 +214,13 @@ class Maccy: NSObject {
   }
 
   private func withClearAlert(suppressClearAlert: Bool, _ closure: @escaping () -> Void) {
-    if suppressClearAlert || UserDefaults.standard.supressClearAlert {
+    if suppressClearAlert || UserDefaults.standard.suppressClearAlert {
       closure()
     } else {
       let alert = clearAlert
       if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
         if alert.suppressionButton?.state == .on {
-          UserDefaults.standard.supressClearAlert = true
+          UserDefaults.standard.suppressClearAlert = true
         }
         closure()
       }
