@@ -299,8 +299,8 @@ class MaccyUITests: XCTestCase {
     // Now close the window AND focus another application
     // by clicking outside of menu.
     let textFieldCoordinates = app.textFields.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
-    let outsideCordinates = textFieldCoordinates.withOffset(CGVector(dx: 0, dy: -20))
-    outsideCordinates.click()
+    let outsideCoordinates = textFieldCoordinates.withOffset(CGVector(dx: 0, dy: -20))
+    outsideCoordinates.click()
     // Open again and try to click and focus search field again.
     popUpWithHotkey()
     app.textFields.firstMatch.click()
