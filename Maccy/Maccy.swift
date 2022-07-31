@@ -160,6 +160,9 @@ class Maccy: NSObject {
     headerItem.title = "Maccy"
     headerItem.view = headerItemView
     headerItem.isEnabled = false
+    // HACK: Enable location of text field in UI tests, but make sure
+    //       it's excldued from up/down arrow selection in real usage.
+    headerItem.isHidden = !ProcessInfo.processInfo.arguments.contains("ui-testing")
 
     menu.addItem(headerItem)
   }

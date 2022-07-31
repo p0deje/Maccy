@@ -237,9 +237,14 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
         removeLastWordInSearchField()
         return true
       }
-    case Key.j, Key.n:
-      if modifierFlags.contains(.control) {
-        customMenu?.selectNext(alt: false)
+    case Key.j:
+      if modifierFlags == .control {
+        customMenu?.selectNext()
+        return true
+      }
+    case Key.k:
+      if modifierFlags == .control {
+        customMenu?.selectPrevious()
         return true
       }
     case Key.p:
@@ -247,17 +252,11 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
         customMenu?.pinOrUnpin()
         queryField.stringValue = "" // clear search field just in case
         return true
-      } else if modifierFlags.contains(.control) {
-        customMenu?.selectPrevious(alt: false)
-        return true
+      } else {
+        return false
       }
-    case Key.k:
-      if modifierFlags.contains(.control) {
-        customMenu?.selectPrevious(alt: false)
-        return true
-      }
-    case Key.return, Key.keypadEnter, Key.upArrow, Key.downArrow:
-      processSelectionKey(menu: customMenu, key: key, modifierFlags: modifierFlags)
+    case Key.return, Key.keypadEnter:
+      customMenu?.select()
       return true
     case GlobalHotKey.key:
       if modifierFlags == GlobalHotKey.modifierFlags {
@@ -324,26 +323,6 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       if !queryField.stringValue.isEmpty {
         setQuery(String(queryField.stringValue.dropLast()))
       }
-    }
-  }
-
-  private func processSelectionKey(menu: Menu?, key: Key, modifierFlags: NSEvent.ModifierFlags) {
-    switch key {
-    case .return, .keypadEnter:
-      menu?.select()
-    case .upArrow:
-      if modifierFlags.contains(.command) {
-        menu?.selectFirst()
-      } else {
-        menu?.selectPrevious(alt: modifierFlags.contains(.option))
-      }
-    case .downArrow:
-      if modifierFlags.contains(.command) {
-        menu?.selectLast()
-      } else {
-        menu?.selectNext(alt: modifierFlags.contains(.option))
-      }
-    default: ()
     }
   }
 

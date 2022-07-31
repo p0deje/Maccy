@@ -1,4 +1,3 @@
-// swiftlint:disable file_length
 import Carbon
 import XCTest
 
@@ -127,62 +126,10 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(pasteboard.string(forType: .fileURL), file2.absoluteString)
   }
 
-  func testDownArrow() {
-    popUpWithHotkey()
-    app.typeKey(.downArrow, modifierFlags: [])
-    XCTAssertTrue(app.menuItems[copy2].firstMatch.isSelected)
-  }
-
-  func testCyclingWithDownArrow() {
-    popUpWithHotkey()
-    app.typeKey(.upArrow, modifierFlags: [])
-    app.typeKey(.downArrow, modifierFlags: [])
-    XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
-  }
-
-  func testCommandDownArrow() {
-    popUpWithHotkey()
-    app.typeKey(.downArrow, modifierFlags: [.command])
-    XCTAssertTrue(app.menuItems["Quit"].firstMatch.isSelected)
-  }
-
-  func testControlN() {
-    popUpWithHotkey()
-    app.typeKey("n", modifierFlags: [.control])
-    XCTAssertTrue(app.menuItems[copy2].firstMatch.isSelected)
-  }
-
   func testControlJ() {
     popUpWithHotkey()
     app.typeKey("j", modifierFlags: [.control])
     XCTAssertTrue(app.menuItems[copy2].firstMatch.isSelected)
-  }
-
-  func testUpArrow() {
-    popUpWithHotkey()
-    app.typeKey(.downArrow, modifierFlags: [])
-    app.typeKey(.upArrow, modifierFlags: [])
-    XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
-  }
-
-  func testCyclingWithUpArrow() {
-    popUpWithHotkey()
-    app.typeKey(.upArrow, modifierFlags: [])
-    XCTAssertTrue(app.menuItems["Quit"].firstMatch.isSelected)
-  }
-
-  func testCommandUpArrow() {
-    popUpWithHotkey()
-    app.typeKey(.upArrow, modifierFlags: []) // "Quit"
-    app.typeKey(.upArrow, modifierFlags: [.command])
-    XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
-  }
-
-  func testControlP() {
-    popUpWithHotkey()
-    app.typeKey(.downArrow, modifierFlags: [])
-    app.typeKey("p", modifierFlags: [.control])
-    XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
   }
 
   func testControlK() {
@@ -449,4 +396,3 @@ class MaccyUITests: XCTestCase {
   }
 }
 // swiftlint:enable type_body_length
-// swiftlint:enable file_length
