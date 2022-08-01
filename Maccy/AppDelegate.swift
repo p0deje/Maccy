@@ -128,6 +128,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
       UserDefaults.standard.migrations["2021-10-16-remove-dynamic-pasteboard-types"] = true
     }
+
+    if UserDefaults.standard.migrations["2022-08-01-rename-suppress-clear-alert"] != true {
+      if let suppressClearAlert = UserDefaults.standard.object(forKey: "supressClearAlert") as? Bool {
+        UserDefaults.standard.suppressClearAlert = suppressClearAlert
+        UserDefaults.standard.removeObject(forKey: "supressClearAlert")
+      }
+
+      UserDefaults.standard.migrations["2022-08-01-rename-suppress-clear-alert"] = true
+    }
   }
 
   private func clearOrphanRecords() {
