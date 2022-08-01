@@ -47,7 +47,6 @@ extension UserDefaults {
     static let showInStatusBar = true
     static let size = 200
     static let sortBy = "lastCopiedAt"
-    static let storage: [HistoryItemOld] = []
   }
 
   public var avoidTakingFocus: Bool {
@@ -172,20 +171,6 @@ extension UserDefaults {
     get { string(forKey: Keys.sortBy) ?? Values.sortBy }
     set { set(newValue, forKey: Keys.sortBy) }
   }
-
-  // swiftlint:disable force_try
-  public var storage: [HistoryItemOld] {
-    get {
-      if let storedArray = UserDefaults.standard.object(forKey: Keys.storage) as? Data {
-        return try! PropertyListDecoder().decode([HistoryItemOld].self, from: storedArray)
-      } else {
-        return Values.storage
-      }
-    }
-
-    set { set(try! PropertyListEncoder().encode(newValue), forKey: Keys.storage) }
-  }
-  // swiftlint:enable force_try
 
   public var suppressClearAlert: Bool {
     get { bool(forKey: Keys.suppressClearAlert) }

@@ -82,7 +82,7 @@ class Menu: NSMenu, NSMenuDelegate {
   func buildItems() {
     clearAll()
 
-    for item in Sorter(by: UserDefaults.standard.sortBy).sort(history.all) {
+    for item in history.all {
       let menuItems = buildMenuItems(item)
       if let menuItem = menuItems.first {
         indexedItems.append(IndexedItem(value: menuItem.value,
@@ -94,7 +94,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func add(_ item: HistoryItem) {
-    let sortedItems = Sorter(by: UserDefaults.standard.sortBy).sort(history.all)
+    let sortedItems = history.all
     guard let insertionIndex = sortedItems.firstIndex(where: { $0 == item }) else {
       return
     }
@@ -175,6 +175,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
     setKeyEquivalents(historyMenuItems)
     highlight(filter.isEmpty ? firstUnpinnedHistoryMenuItem : historyMenuItems.first)
+    forceSeparatorShown()
   }
 
   func select() {
@@ -184,24 +185,16 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  func selectPrevious(alt: Bool) {
-    if !highlightNext(items.reversed(), alt: alt) {
-      selectLast(alt: alt) // start from the end after reaching the first item
+  func selectPrevious() {
+    if !highlightNext(items.reversed()) {
+      highlight(highlightableItems(items).last) // start from the end after reaching the first item
     }
   }
 
-  func selectNext(alt: Bool) {
-    if !highlightNext(items, alt: alt) {
-      selectFirst(alt: alt) // start from the beginning after reaching the last item
+  func selectNext() {
+    if !highlightNext(items) {
+      highlight(highlightableItems(items).first) // start from the beginning after reaching the last item
     }
-  }
-
-  func selectFirst(alt: Bool = false) {
-    highlight(highlightableItems(items, alt: alt).first)
-  }
-
-  func selectLast(alt: Bool = false) {
-    highlight(highlightableItems(items, alt: alt).last)
   }
 
   func delete() {
@@ -251,7 +244,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
     history.update(altItemToPin.item)
 
-    let sortedItems = Sorter(by: UserDefaults.standard.sortBy).sort(history.all)
+    let sortedItems = history.all
     if let newIndex = sortedItems.firstIndex(where: { $0 == altItemToPin.item }) {
       if let removeIndex = indexedItems.firstIndex(of: historyItem) {
         indexedItems.remove(at: removeIndex)
@@ -279,8 +272,8 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func highlightNext(_ items: [NSMenuItem], alt: Bool) -> Bool {
-    let highlightableItems = self.highlightableItems(items, alt: alt)
+  private func highlightNext(_ items: [NSMenuItem]) -> Bool {
+    let highlightableItems = self.highlightableItems(items)
     let currentHighlightedItem = highlightedItem ?? highlightableItems.first
     var itemsIterator = highlightableItems.makeIterator()
     while let item = itemsIterator.next() {
@@ -294,8 +287,8 @@ class Menu: NSMenu, NSMenuDelegate {
     return false
   }
 
-  private func highlightableItems(_ items: [NSMenuItem], alt: Bool = false) -> [NSMenuItem] {
-    return items.filter { !$0.isSeparatorItem && $0.isEnabled && $0.isAlternate == alt }
+  private func highlightableItems(_ items: [NSMenuItem]) -> [NSMenuItem] {
+    return items.filter { !$0.isSeparatorItem && $0.isEnabled && !$0.isHidden }
   }
 
   private func highlight(_ itemToHighlight: NSMenuItem?) {
@@ -419,6 +412,22 @@ class Menu: NSMenu, NSMenuDelegate {
         indexedItems.remove(at: removeIndex)
       }
     }
+  }
+
+  // When separator is the first visible item in the menu - it is automatically hidden.
+  // This can happen when for example search results are empty.
+  // Later, when separator is no longer the first item - it is still not automatically shown.
+  private func forceSeparatorShown() {
+    guard !UserDefaults.standard.hideFooter else {
+      return
+    }
+
+    guard let separatorItem = items.first(where: { $0.isSeparatorItem }) else {
+      return
+    }
+
+    separatorItem.isHidden = true
+    separatorItem.isHidden = false
   }
 }
 // swiftlint:enable type_body_length

@@ -20,7 +20,6 @@
 		DA05E7CC2483EF83005CB8AA /* GeneralPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */; };
 		DA05E7D22483F70B005CB8AA /* AppearancePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7D42483F70B005CB8AA /* AppearancePreferenceViewController.xib */; };
 		DA05E7D72483F988005CB8AA /* AdvancedPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7D92483F988005CB8AA /* AdvancedPreferenceViewController.xib */; };
-		DA0950F0244AA1A90008414C /* HistoryItemOld.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0950EF244AA1A90008414C /* HistoryItemOld.swift */; };
 		DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EE7B8204657830025FC60 /* MaccyUITests.swift */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
 		DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA11AE952693DD7100D640D2 /* MenuLoader.swift */; };
@@ -188,7 +187,6 @@
 		DA08FDE5282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/IgnorePreferenceViewController.strings"; sourceTree = "<group>"; };
 		DA08FDE6282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Maccy/Preferences/zh-Hant.lproj/StoragePreferenceViewController.strings"; sourceTree = "<group>"; };
 		DA08FDE7282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		DA0950EF244AA1A90008414C /* HistoryItemOld.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemOld.swift; sourceTree = "<group>"; };
 		DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0EE7B8204657830025FC60 /* MaccyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaccyUITests.swift; sourceTree = "<group>"; };
 		DA0EF1871E444B2A00E58577 /* Clipboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
@@ -461,7 +459,6 @@
 				DAEE38531E3DD6F100DD2966 /* History.swift */,
 				DAB65E0A2440B078000AECA8 /* HistoryItem.swift */,
 				DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */,
-				DA0950EF244AA1A90008414C /* HistoryItemOld.swift */,
 				DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */,
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */,
 				DAF176C5202AA56B00C5FD0D /* Keys.swift */,
@@ -738,7 +735,6 @@
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
 				DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
-				DA0950F0244AA1A90008414C /* HistoryItemOld.swift in Sources */,
 				DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift in Sources */,
 				DAB65E0D2440B0D4000AECA8 /* HistoryItemContent.swift in Sources */,
 				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,
