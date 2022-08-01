@@ -25,7 +25,7 @@ extension UserDefaults {
     static let showRecentCopyInMenuBar = "showRecentCopyInMenuBar"
     static let size = "historySize"
     static let sortBy = "sortBy"
-    static let supressClearAlert = "supressClearAlert"
+    static let suppressClearAlert = "suppressClearAlert"
 
     static var showInStatusBar: String {
       ProcessInfo.processInfo.arguments.contains("ui-testing") ? "showInStatusBarUITests" : "showInStatusBar"
@@ -172,8 +172,8 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.sortBy) }
   }
 
-  public var supressClearAlert: Bool {
-    get { bool(forKey: Keys.supressClearAlert) }
-    set { set(newValue, forKey: Keys.supressClearAlert) }
+  public var suppressClearAlert: Bool {
+    get { bool(forKey: Keys.suppressClearAlert) }
+    set { set(newValue, forKey: Keys.suppressClearAlert) }
   }
 }

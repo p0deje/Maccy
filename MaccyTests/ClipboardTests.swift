@@ -146,7 +146,7 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testIgnoreCopiesWithUknownTypes() {
+  func testIgnoreCopiesWithUnknownTypes() {
     let hookExpectation = expectation(description: "Hook is called")
     hookExpectation.isInverted = true
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in

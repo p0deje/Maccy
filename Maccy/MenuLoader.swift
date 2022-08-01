@@ -2,7 +2,7 @@ import AppKit
 
 // Dummy menu for NSStatusItem which allows to asynchronously
 // execute callback when it's being opened. This gives us an
-// possibilty to load other menu in a non-blocking manner.
+// possibility to load other menu in a non-blocking manner.
 // See Maccy.withFocus() for more details about why this is needed.
 class MenuLoader: NSMenu, NSMenuDelegate {
   typealias LoaderCallback = (NSEvent?) -> Void
