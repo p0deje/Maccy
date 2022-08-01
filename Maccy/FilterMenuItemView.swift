@@ -162,12 +162,24 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     fireNotification()
   }
 
-  // Switch to main window if Tab is pressed when search is focused.
   func control(_ control: NSControl, textView: NSTextView, doCommandBy commandSelector: Selector) -> Bool {
     if commandSelector == #selector(insertTab(_:)) {
+      // Switch to main window if Tab is pressed when search is focused.
       window?.makeFirstResponder(window)
       return true
     }
+
+    if commandSelector == NSSelectorFromString("noop:") {
+      // Support Control-W when search is focused.
+      if let event = NSApp.currentEvent {
+        if event.keyCode == Sauce.shared.keyCode(by: .w) &&
+            event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .control {
+          removeLastWordInSearchField()
+          return true
+        }
+      }
+    }
+
     return false
   }
 
@@ -280,7 +292,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       return true
     }
 
-    if modifierFlags.contains(.command) || modifierFlags.contains(.control) || modifierFlags.contains(.option) {
+    if !modifierFlags.intersection([.command, .control, .option]).isEmpty {
       return false
     }
 
