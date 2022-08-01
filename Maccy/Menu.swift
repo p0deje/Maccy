@@ -82,7 +82,7 @@ class Menu: NSMenu, NSMenuDelegate {
   func buildItems() {
     clearAll()
 
-    for item in Sorter(by: UserDefaults.standard.sortBy).sort(history.all) {
+    for item in history.all {
       let menuItems = buildMenuItems(item)
       if let menuItem = menuItems.first {
         indexedItems.append(IndexedItem(value: menuItem.value,
@@ -94,7 +94,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func add(_ item: HistoryItem) {
-    let sortedItems = Sorter(by: UserDefaults.standard.sortBy).sort(history.all)
+    let sortedItems = history.all
     guard let insertionIndex = sortedItems.firstIndex(where: { $0 == item }) else {
       return
     }
@@ -244,7 +244,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
     history.update(altItemToPin.item)
 
-    let sortedItems = Sorter(by: UserDefaults.standard.sortBy).sort(history.all)
+    let sortedItems = history.all
     if let newIndex = sortedItems.firstIndex(where: { $0 == altItemToPin.item }) {
       if let removeIndex = indexedItems.firstIndex(of: historyItem) {
         indexedItems.remove(at: removeIndex)
