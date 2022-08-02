@@ -227,20 +227,16 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       customMenu?.delete()
       return true
     case .clearHistory:
-      if UserDefaults.standard.hideFooter {
-        performMenuItemAction(MenuFooter.clear.rawValue)
-        return true
-      }
+      performMenuItemAction(MenuFooter.clear.rawValue)
+      return true
     case .clearHistoryAll:
-      if UserDefaults.standard.hideFooter {
-        performMenuItemAction(MenuFooter.clearAll.rawValue)
-        return true
-      }
+      performMenuItemAction(MenuFooter.clearAll.rawValue)
+      return true
     case .deleteOneCharFromSearch:
       if !queryField.stringValue.isEmpty {
         setQuery(String(queryField.stringValue.dropLast()))
-        return true
       }
+      return true
     case .deleteLastWordFromSearch:
       removeLastWordInSearchField()
       return true
@@ -259,10 +255,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       customMenu?.cancelTracking()
       return false
     case .openPreferences:
-      if UserDefaults.standard.hideFooter {
-        performMenuItemAction(MenuFooter.preferences.rawValue)
-        return false
-      }
+      performMenuItemAction(MenuFooter.preferences.rawValue)
+      return false
     case .paste:
       queryField.becomeFirstResponder()
       queryField.currentEditor()?.paste(nil)
