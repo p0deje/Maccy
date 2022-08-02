@@ -119,7 +119,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       if let dispatcher = GetEventDispatcherTarget() {
         // Create pointer to our event processer.
         let eventProcessorPointer = UnsafeMutablePointer<Any>.allocate(capacity: 1)
-        eventProcessorPointer.initialize(to: processInterceptedEvent)
+        eventProcessorPointer.initialize(to: processInterceptedEventRef)
 
         let eventHandlerCallback: EventHandlerUPP = { _, eventRef, userData in
           guard let event = eventRef else { return noErr }
@@ -172,11 +172,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     if commandSelector == NSSelectorFromString("noop:") {
       // Support Control-W when search is focused.
       if let event = NSApp.currentEvent {
-        if event.keyCode == Sauce.shared.keyCode(by: .w) &&
-            event.modifierFlags.intersection(.deviceIndependentFlagsMask) == .control {
-          removeLastWordInSearchField()
-          return true
-        }
+        return processInterceptedEvent(event)
       }
     }
 
@@ -198,11 +194,15 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     fireNotification()
   }
 
-  private func processInterceptedEvent(_ eventRef: EventRef) -> Bool {
+  private func processInterceptedEventRef(_ eventRef: EventRef) -> Bool {
     guard let event = NSEvent(eventRef: UnsafeRawPointer(eventRef)) else {
       return false
     }
 
+    return processInterceptedEvent(event)
+  }
+
+  private func processInterceptedEvent(_ event: NSEvent) -> Bool {
     if event.type != NSEvent.EventType.keyDown {
       return false
     }
@@ -213,128 +213,89 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
     let chars = event.charactersIgnoringModifiers
 
-    let firstResponder = window?.firstResponder
-    if firstResponder == queryField ||
-        firstResponder == queryField.currentEditor() &&
-        !isPasteEvent(key: key, modifierFlags: modifierFlags) {
-      return false
-    }
-
     return processKeyDownEvent(key: key, modifierFlags: modifierFlags, chars: chars)
   }
 
   // swiftlint:disable cyclomatic_complexity
   // swiftlint:disable function_body_length
   private func processKeyDownEvent(key: Key, modifierFlags: NSEvent.ModifierFlags, chars: String?) -> Bool {
-    if Keys.shouldPassThrough(key) {
-      return false
-    }
-
-    switch key {
-    case Key.delete:
-      processDeleteKey(menu: customMenu, key: key, modifierFlags: modifierFlags)
+    switch KeyChord(key, modifierFlags) {
+    case .clearSearch:
+      setQuery("")
       return true
-    case Key.h:
-      if modifierFlags.contains(.control) {
-        processDeleteKey(menu: customMenu, key: key, modifierFlags: modifierFlags)
+    case .deleteCurrentItem:
+      customMenu?.delete()
+      return true
+    case .clearHistory:
+      if UserDefaults.standard.hideFooter {
+        performMenuItemAction(MenuFooter.clear.rawValue)
         return true
       }
-    case Key.u:
-      if modifierFlags.contains(.control) {
-        setQuery("")
+    case .clearHistoryAll:
+      if UserDefaults.standard.hideFooter {
+        performMenuItemAction(MenuFooter.clearAll.rawValue)
         return true
       }
-    case Key.w:
-      if modifierFlags.contains(.control) {
-        removeLastWordInSearchField()
+    case .deleteOneCharFromSearch:
+      if !queryField.stringValue.isEmpty {
+        setQuery(String(queryField.stringValue.dropLast()))
         return true
       }
-    case Key.j:
-      if modifierFlags == .control {
-        customMenu?.selectNext()
-        return true
-      }
-    case Key.k:
-      if modifierFlags == .control {
-        customMenu?.selectPrevious()
-        return true
-      }
-    case Key.p:
-      if modifierFlags.contains(.option) {
-        customMenu?.pinOrUnpin()
+    case .deleteLastWordFromSearch:
+      removeLastWordInSearchField()
+      return true
+    case .moveToNext:
+      customMenu?.selectNext()
+      return true
+    case .moveToPrevious:
+      customMenu?.selectPrevious()
+      return true
+    case .pinOrUnpin:
+      if let menu = customMenu, menu.pinOrUnpin() {
         queryField.stringValue = "" // clear search field just in case
         return true
-      } else {
-        return false
       }
-    case Key.return, Key.keypadEnter:
-      customMenu?.select()
-      return true
-    case GlobalHotKey.key:
-      if modifierFlags == GlobalHotKey.modifierFlags {
-        customMenu?.cancelTracking()
-        return false
-      }
-    case Key.comma:
-      // Hidden items can't be selected with key equivalents,
-      // so emulate the behavior like items are visible.
-      if UserDefaults.standard.hideFooter && modifierFlags == MenuFooter.preferences.keyEquivalentModifierMask {
+    case .hide:
+      customMenu?.cancelTracking()
+      return false
+    case .openPreferences:
+      if UserDefaults.standard.hideFooter {
         performMenuItemAction(MenuFooter.preferences.rawValue)
         return false
       }
-    default:
-      break
-    }
-
-    if isPasteEvent(key: key, modifierFlags: modifierFlags) {
+    case .paste:
       queryField.becomeFirstResponder()
       queryField.currentEditor()?.paste(nil)
       return true
-    }
-
-    if !modifierFlags.intersection([.command, .control, .option]).isEmpty {
+    case .selectCurrentItem:
+      customMenu?.select()
+      return true
+    case .ignored:
       return false
+    default:
+      ()
     }
 
-    if let chars = chars {
-      if chars.count == 1 {
-        if UserDefaults.standard.avoidTakingFocus {
-          // append character to the search field to trigger
-          // and stop event from being propagated
-          setQuery("\(queryField.stringValue)\(chars)")
-          return true
-        } else {
-          // make the search field first responder
-          // and propagate event to it
-          focusQueryField()
-          return false
-        }
-      }
-    }
-
-    return false
+    return processSingleCharacter(chars)
   }
   // swiftlint:enable cyclomatic_complexity
   // swiftlint:enable function_body_length
 
-  private func processDeleteKey(menu: Menu?, key: Key, modifierFlags: NSEvent.ModifierFlags) {
-    switch modifierFlags {
-    case NSEvent.ModifierFlags([.command]):
-      setQuery("")
-    case NSEvent.ModifierFlags([.option]):
-      menu?.delete()
-    case MenuFooter.clear.keyEquivalentModifierMask:
-      if UserDefaults.standard.hideFooter {
-        performMenuItemAction(MenuFooter.clear.rawValue)
-      }
-    case MenuFooter.clearAll.keyEquivalentModifierMask:
-      if UserDefaults.standard.hideFooter {
-        performMenuItemAction(MenuFooter.clearAll.rawValue)
-      }
-    default:
-      if !queryField.stringValue.isEmpty {
-        setQuery(String(queryField.stringValue.dropLast()))
-      }
+  private func processSingleCharacter(_ chars: String?) -> Bool {
+    guard let char = chars, char.count == 1 else {
+      return false
+    }
+
+    if UserDefaults.standard.avoidTakingFocus {
+      // append character to the search field to trigger
+      // and stop event from being propagated
+      setQuery("\(queryField.stringValue)\(char)")
+      return true
+    } else {
+      // make the search field first responder
+      // and propagate event to it
+      focusQueryField()
+      return false
     }
   }
 
@@ -365,10 +326,6 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
 
     _ = menuItem.target?.perform(menuItem.action, with: menuItem)
     customMenu?.cancelTracking()
-  }
-
-  private func isPasteEvent(key: Key, modifierFlags: NSEvent.ModifierFlags) -> Bool {
-    return key == .v && modifierFlags == NSEvent.ModifierFlags([.command])
   }
 }
 // swiftlint:enable type_body_length

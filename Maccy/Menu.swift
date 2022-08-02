@@ -220,13 +220,13 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  func pinOrUnpin() {
+  func pinOrUnpin() -> Bool {
     guard let altItemToPin = highlightedItem as? HistoryMenuItem else {
-      return
+      return false
     }
 
     guard let historyItem = indexedItems.first(where: { $0.item == altItemToPin.item }) else {
-      return
+      return false
     }
 
     if altItemToPin.isPinned {
@@ -264,6 +264,8 @@ class Menu: NSMenu, NSMenuDelegate {
       updateFilter(filter: "") // show all items
       highlight(historyItem.menuItems.first)
     }
+
+    return true
   }
 
   func resizeImageMenuItems() {
