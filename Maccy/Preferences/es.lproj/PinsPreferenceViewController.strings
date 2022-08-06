@@ -5,8 +5,8 @@
 /* Class = "NSTableColumn"; headerCell.title = "Title"; ObjectID = "bsY-ZI-mU2"; */
 "bsY-ZI-mU2.headerCell.title" = "Título";
 
-/* Class = "NSTextFieldCell"; title = "You can customize the title and hotkey of every pinned item.\nTo edit, double-click it and enter new value.\nFor key, you can only use one of the following values: %@."; ObjectID = "jBl-gB-eEV"; */
-"jBl-gB-eEV.title" = "Puede personalizar el título y la tecla de acceso rápido de cada elemento fijado.\nPara editarlo, haga doble clic en él e ingrese un nuevo valor.\nPara la clave, solo puede usar uno de los siguientes valores: %@.";
+/* Class = "NSTextFieldCell"; title = "You can customize the title and hotkey of every pinned item.\nTo edit, double-click it and enter new value."; ObjectID = "jBl-gB-eEV"; */
+"jBl-gB-eEV.title" = "Puede personalizar el título y la tecla de acceso rápido de cada elemento fijado.\nPara editarlo, haga doble clic en él e ingrese un nuevo valor.";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "juh-Mt-VZK"; */
 "juh-Mt-VZK.title" = "Text Cell";

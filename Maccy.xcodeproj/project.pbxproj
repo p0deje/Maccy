@@ -26,6 +26,7 @@
 		DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */; };
 		DA181174247B409A00066D55 /* AdvancedPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */; };
 		DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */; };
+		DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1B0FD5289DFEA200E641BE /* PinComboBoxCell.swift */; };
 		DA1DF95227AF8BBA006839E0 /* StoragePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1DF95127AF8BBA006839E0 /* StoragePreferenceViewController.swift */; };
 		DA1DF95527AF8BCD006839E0 /* StoragePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA1DF95327AF8BCD006839E0 /* StoragePreferenceViewController.xib */; };
 		DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */; };
@@ -197,6 +198,7 @@
 		DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferenceViewController.swift; sourceTree = "<group>"; };
 		DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPreferenceViewController.swift; sourceTree = "<group>"; };
 		DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreferencePane.Identifier+Panes.swift"; sourceTree = "<group>"; };
+		DA1B0FD5289DFEA200E641BE /* PinComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinComboBoxCell.swift; sourceTree = "<group>"; };
 		DA1DF95127AF8BBA006839E0 /* StoragePreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoragePreferenceViewController.swift; sourceTree = "<group>"; };
 		DA1DF95427AF8BCD006839E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Maccy/Preferences/Base.lproj/StoragePreferenceViewController.xib; sourceTree = "<group>"; };
 		DA1DF95927AF8F74006839E0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Maccy/Preferences/zh-Hans.lproj/StoragePreferenceViewController.strings"; sourceTree = "<group>"; };
@@ -363,6 +365,7 @@
 				DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */,
 				DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */,
 				DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */,
+				DA1B0FD4289DFE8100E641BE /* PinsPreferenceViewController */,
 				DAFE2DD72688018100990986 /* PinsPreferenceViewController.swift */,
 				DAFE2DDD268A8E4E00990986 /* PinsPreferenceViewController.xib */,
 				DA20EBAE268E24E50032D360 /* IgnorePreferencesViewController */,
@@ -372,6 +375,14 @@
 				DA1DF95327AF8BCD006839E0 /* StoragePreferenceViewController.xib */,
 			);
 			path = Preferences;
+			sourceTree = "<group>";
+		};
+		DA1B0FD4289DFE8100E641BE /* PinsPreferenceViewController */ = {
+			isa = PBXGroup;
+			children = (
+				DA1B0FD5289DFEA200E641BE /* PinComboBoxCell.swift */,
+			);
+			path = PinsPreferenceViewController;
 			sourceTree = "<group>";
 		};
 		DA20EBAE268E24E50032D360 /* IgnorePreferencesViewController */ = {
@@ -742,6 +753,7 @@
 				DAFE2DD82688018100990986 /* PinsPreferenceViewController.swift in Sources */,
 				DA81D674252A056B009977BC /* Throttler.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
+				DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */,
 				DA1DF95227AF8BBA006839E0 /* StoragePreferenceViewController.swift in Sources */,
 				DA2C752C2029FE990090965D /* Menu.swift in Sources */,
 				DA35278C268D645700C92EBB /* IgnorePreferenceViewController.swift in Sources */,
