@@ -8,7 +8,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PinsPreferenceViewController" customModule="Maccy" customModuleProvider="target">
             <connections>
-                <outlet property="instructionsLabel" destination="UQR-eA-hk9" id="eLz-6H-H6S"/>
                 <outlet property="itemsController" destination="1Hm-jM-tqp" id="S7J-lD-XXR"/>
                 <outlet property="view" destination="wB8-4N-LTh" id="GOW-zq-BDX"/>
             </connections>

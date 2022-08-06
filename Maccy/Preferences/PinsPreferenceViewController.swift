@@ -12,24 +12,10 @@ class PinsPreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet private var itemsController: NSArrayController!
   private let fetchPinnedPredicate = NSPredicate(format: "pin != nil")
 
-  @IBOutlet weak var instructionsLabel: NSTextField!
-
   override func viewDidLoad() {
     super.viewDidLoad()
     self.context = CoreDataManager.shared.viewContext
     itemsController.fetchPredicate = fetchPinnedPredicate
     itemsController.sortDescriptors = [HistoryItem.sortByFirstCopiedAt]
-  }
-
-  override func viewWillAppear() {
-    super.viewWillAppear()
-    updateInstructionsLabel()
-  }
-
-  private func updateInstructionsLabel() {
-    instructionsLabel.stringValue = String(
-      format: instructionsLabel.stringValue,
-      HistoryItem.availablePins.sorted().joined(separator: ", ")
-    )
   }
 }
