@@ -70,8 +70,8 @@ class StoragePreferenceViewController: NSViewController, PreferencePane {
 
   private func setMinAndMaxSize() {
     sizeFormatter = NumberFormatter()
-    sizeFormatter.minimum = NSNumber(integerLiteral: sizeMin)
-    sizeFormatter.maximum = NSNumber(integerLiteral: sizeMax)
+    sizeFormatter.minimum = sizeMin as NSNumber
+    sizeFormatter.maximum = sizeMax as NSNumber
     sizeFormatter.maximumFractionDigits = 0
     sizeTextField.formatter = sizeFormatter
     sizeStepper.minValue = Double(sizeMin)
