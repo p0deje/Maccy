@@ -187,6 +187,7 @@ class Maccy: NSObject {
       case .about:
         Maccy.returnFocusToPreviousApp = false
         about.openAbout(sender)
+        Maccy.returnFocusToPreviousApp = true
       case .clear:
         clearUnpinned()
       case .clearAll:
@@ -196,6 +197,7 @@ class Maccy: NSObject {
       case .preferences:
         Maccy.returnFocusToPreviousApp = false
         preferencesWindowController.show()
+        Maccy.returnFocusToPreviousApp = true
       default:
         break
       }
