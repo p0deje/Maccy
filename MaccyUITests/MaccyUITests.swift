@@ -1,6 +1,7 @@
 import Carbon
 import XCTest
 
+// swiftlint:disable file_length
 // swiftlint:disable type_body_length
 class MaccyUITests: XCTestCase {
   let app = XCUIApplication()
@@ -311,6 +312,15 @@ class MaccyUITests: XCTestCase {
     XCTAssertTrue(app.menuItems[copy4].exists)
   }
 
+  func testCreatesNewCopyOnEnterWhenSearchResultsAreEmpty() {
+    popUpWithHotkey()
+    search("foo bar")
+    app.typeKey(.return, modifierFlags: [])
+    XCTAssertEqual(pasteboard.string(forType: .string), "foo bar")
+    popUpWithHotkey()
+    XCTAssertTrue(app.menuItems["foo bar"].exists)
+  }
+
   private func popUpWithHotkey() {
     simulatePopupHotkey()
     waitUntilPoppedUp()
@@ -396,3 +406,4 @@ class MaccyUITests: XCTestCase {
   }
 }
 // swiftlint:enable type_body_length
+// swiftlint:enable file_length

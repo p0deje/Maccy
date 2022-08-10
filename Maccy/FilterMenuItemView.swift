@@ -262,7 +262,7 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
       queryField.currentEditor()?.paste(nil)
       return true
     case .selectCurrentItem:
-      customMenu?.select()
+      customMenu?.select(queryField.stringValue)
       return true
     case .ignored:
       return false

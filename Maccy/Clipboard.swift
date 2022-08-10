@@ -62,6 +62,12 @@ class Clipboard {
                          repeats: true)
   }
 
+  func copy(_ string: String) {
+    pasteboard.clearContents()
+    pasteboard.setString(string, forType: .string)
+    checkForChangesInPasteboard()
+  }
+
   func copy(_ item: HistoryItem, removeFormatting: Bool = false) {
     pasteboard.clearContents()
     var contents = item.getContents()

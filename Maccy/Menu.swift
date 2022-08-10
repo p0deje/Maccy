@@ -178,10 +178,14 @@ class Menu: NSMenu, NSMenuDelegate {
     forceSeparatorShown()
   }
 
-  func select() {
+  func select(_ searchQuery: String) {
     if let item = highlightedItem {
       performActionForItem(at: index(of: item))
       cancelTrackingWithoutAnimation()
+    } else if !searchQuery.isEmpty && historyMenuItems.isEmpty {
+      clipboard.copy(searchQuery)
+      updateFilter(filter: searchQuery)
+      select(searchQuery)
     }
   }
 
