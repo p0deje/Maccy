@@ -14,11 +14,11 @@
 /* Class = "NSTextFieldCell"; title = "Change what types of copied content should be stored."; ObjectID = "GDB-hB-d75"; */
 "GDB-hB-d75.title" = "Изменить хранимые типы записей.";
 
-/* Class = "NSTextFieldCell"; title = "History size:"; ObjectID = "5og-JF-cpR"; */
-"5og-JF-cpR.title" = "Размер истории:";
+/* Class = "NSTextFieldCell"; title = "Size:"; ObjectID = "5og-JF-cpR"; */
+"5og-JF-cpR.title" = "Размер:";
 
-/* Class = "NSTextFieldCell"; title = "Number of history items to keep: {historySize}.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
-"k1I-VS-9Kh.title" = "Количество записей в истории для хранения: {historySize}.\nПо умолчанию: 200.";
+/* Class = "NSTextFieldCell"; title = "Number of history items to keep.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
+"k1I-VS-9Kh.title" = "Количество записей в истории для хранения.\nПо умолчанию: 200.";
 
 /* Class = "NSTextFieldCell"; title = "Sort by:"; ObjectID = "0Vh-es-5I5"; */
 "0Vh-es-5I5.title" = "Сортировать:";

@@ -2,29 +2,44 @@ import Cocoa
 import Preferences
 
 class StoragePreferenceViewController: NSViewController, PreferencePane {
-  public let preferencePaneIdentifier = Preferences.PaneIdentifier.storage
-  public let preferencePaneTitle = NSLocalizedString("preferences_storage", comment: "")
-  public let toolbarItemIcon = NSImage(named: .externaldrive)!
+  let preferencePaneIdentifier = Preferences.PaneIdentifier.storage
+  let preferencePaneTitle = NSLocalizedString("preferences_storage", comment: "")
+  let toolbarItemIcon = NSImage(named: .externaldrive)!
+
+  let sizeMin = 1
+  let sizeMax = 999
 
   override var nibName: NSNib.Name? { "StoragePreferenceViewController" }
 
-  @IBOutlet weak var historySizeSlider: NSSlider!
-  @IBOutlet weak var historySizeLabel: NSTextField!
+  @IBOutlet weak var sizeTextField: NSTextField!
+  @IBOutlet weak var sizeStepper: NSStepper!
   @IBOutlet weak var sortByButton: NSPopUpButton!
   @IBOutlet weak var storeFilesButton: NSButton!
   @IBOutlet weak var storeImagesButton: NSButton!
   @IBOutlet weak var storeTextButton: NSButton!
 
+  private var sizeFormatter: NumberFormatter!
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    setMinAndMaxSize()
+  }
+
   override func viewWillAppear() {
     super.viewWillAppear()
-    populateHistorySize()
+    populateSize()
     populateSortBy()
     populateStoredTypes()
   }
 
-  @IBAction func historySizeChanged(_ sender: NSSlider) {
-    updateHistorySizeLabel(old: String(UserDefaults.standard.size), new: String(historySizeSlider.integerValue))
+  @IBAction func sizeFieldChanged(_ sender: NSTextField) {
     UserDefaults.standard.size = sender.integerValue
+    sizeStepper.integerValue = sender.integerValue
+  }
+
+  @IBAction func sizeStepperChanged(_ sender: NSStepper) {
+    UserDefaults.standard.size = sender.integerValue
+    sizeTextField.integerValue = sender.integerValue
   }
 
   @IBAction func sortByChanged(_ sender: NSPopUpButton) {
@@ -53,19 +68,19 @@ class StoragePreferenceViewController: NSViewController, PreferencePane {
     sender.state == .on ? addEnabledTypes(types) : removeEnabledTypes(types)
   }
 
-  private func populateHistorySize() {
-    historySizeSlider.integerValue = UserDefaults.standard.size
-    updateHistorySizeLabel(old: "{historySize}", new: String(historySizeSlider.integerValue))
+  private func setMinAndMaxSize() {
+    sizeFormatter = NumberFormatter()
+    sizeFormatter.minimum = NSNumber(integerLiteral: sizeMin)
+    sizeFormatter.maximum = NSNumber(integerLiteral: sizeMax)
+    sizeFormatter.maximumFractionDigits = 0
+    sizeTextField.formatter = sizeFormatter
+    sizeStepper.minValue = Double(sizeMin)
+    sizeStepper.maxValue = Double(sizeMax)
   }
 
-  private func updateHistorySizeLabel(old: String, new: String) {
-    let newLabelValue = historySizeLabel.stringValue.replacingOccurrences(
-      of: old,
-      with: new,
-      options: [],
-      range: historySizeLabel.stringValue.range(of: old)
-    )
-    historySizeLabel.stringValue = newLabelValue
+  private func populateSize() {
+    sizeTextField.integerValue = UserDefaults.standard.size
+    sizeStepper.integerValue = UserDefaults.standard.size
   }
 
   private func populateSortBy() {

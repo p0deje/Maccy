@@ -5,8 +5,8 @@
 /* Class = "NSMenuItem"; title = "Time of first copy"; ObjectID = "2yi-R0-4up"; */
 "2yi-R0-4up.title" = "เวลาคัดลอกครั้งแรก";
 
-/* Class = "NSTextFieldCell"; title = "History size:"; ObjectID = "5og-JF-cpR"; */
-"5og-JF-cpR.title" = "ขนาดประวัติ:";
+/* Class = "NSTextFieldCell"; title = "Size:"; ObjectID = "5og-JF-cpR"; */
+"5og-JF-cpR.title" = "ขนาด:";
 
 /* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
 "Cal-Kj-TqV.title" = "บันทึก:";
@@ -26,8 +26,8 @@
 /* Class = "NSTextFieldCell"; title = "Default: Time of last copy."; ObjectID = "WYH-Es-sop"; */
 "WYH-Es-sop.title" = "ค่าเริ่มต้น: เวลาคัดลอกสุดท้าย";
 
-/* Class = "NSTextFieldCell"; title = "Number of history items to keep: {historySize}.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
-"k1I-VS-9Kh.title" = "จำนวนประวัติรายการที่ต้องการเก็บ: {historySize}.\nค่าเริ่มต้น: 200.";
+/* Class = "NSTextFieldCell"; title = "Number of history items to keep.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
+"k1I-VS-9Kh.title" = "จำนวนประวัติรายการที่ต้องการเก็บ.\nค่าเริ่มต้น: 200.";
 
 /* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
 "mf5-QH-x1u.title" = "จำนวนการคัดลอก";

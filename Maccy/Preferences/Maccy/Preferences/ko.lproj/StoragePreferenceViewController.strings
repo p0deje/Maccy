@@ -5,8 +5,8 @@
 /* Class = "NSMenuItem"; title = "Time of first copy"; ObjectID = "2yi-R0-4up"; */
 "2yi-R0-4up.title" = "처음 복사한 시간";
 
-/* Class = "NSTextFieldCell"; title = "History size:"; ObjectID = "5og-JF-cpR"; */
-"5og-JF-cpR.title" = "기록 크기:";
+/* Class = "NSTextFieldCell"; title = "Size:"; ObjectID = "5og-JF-cpR"; */
+"5og-JF-cpR.title" = "크기:";
 
 /* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
 "Cal-Kj-TqV.title" = "저장:";
@@ -26,8 +26,8 @@
 /* Class = "NSTextFieldCell"; title = "Default: Time of last copy."; ObjectID = "WYH-Es-sop"; */
 "WYH-Es-sop.title" = "기본값: 마지막 복사한 시간.";
 
-/* Class = "NSTextFieldCell"; title = "Number of history items to keep: {historySize}.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
-"k1I-VS-9Kh.title" = "보관할 기록 항목 수: {historySize}.\n기본값: 200.";
+/* Class = "NSTextFieldCell"; title = "Number of history items to keep.\nDefault: 200."; ObjectID = "k1I-VS-9Kh"; */
+"k1I-VS-9Kh.title" = "보관할 기록 항목 수.\n기본값: 200.";
 
 /* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
 "mf5-QH-x1u.title" = "복사 횟수";
