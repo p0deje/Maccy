@@ -3,7 +3,7 @@ import Carbon
 import Sauce
 
 // swiftlint:disable type_body_length
-class FilterMenuItemView: NSView, NSTextFieldDelegate {
+class FilterMenuItemView: NSView, NSSearchFieldDelegate {
   @objc public var title: String {
     get { return titleField.stringValue }
     set { titleField.stringValue = newValue }
@@ -62,8 +62,8 @@ class FilterMenuItemView: NSView, NSTextFieldDelegate {
     return field
   }()
 
-  lazy private var queryField: NSTextField = { [unowned self] in
-    let field = NSTextField(frame: NSRect.zero)
+  lazy private var queryField: NSSearchField = { [unowned self] in
+    let field = NSSearchField(frame: .zero)
     field.translatesAutoresizingMaskIntoConstraints = false
     field.stringValue = ""
     field.isBordered = true
