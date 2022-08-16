@@ -1,19 +1,25 @@
-import AppKit
 import Carbon
+import Cocoa
 import Sauce
 
-// swiftlint:disable type_body_length
-class FilterMenuItemView: NSView, NSSearchFieldDelegate {
-  @objc public var title: String {
-    get { return titleField.stringValue }
-    set { titleField.stringValue = newValue }
-  }
+class MenuHeaderView: NSView, NSSearchFieldDelegate {
+  @IBOutlet weak var queryField: NSSearchField!
+  @IBOutlet weak var titleField: NSTextField!
 
   private let eventSpecs = [
     EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyDown)),
     EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyRepeat))
   ]
   private let searchThrottler = Throttler(minimumDelay: 0.2)
+
+  private var eventHandler: EventHandlerRef?
+  private var headerRect: NSRect {
+    NSRect(x: 0, y: 0, width: Menu.menuWidth, height: UserDefaults.standard.hideSearch ? 1 : 29)
+  }
+
+  lazy private var customMenu: Menu? = { [unowned self] in
+    return self.enclosingMenuItem?.menu as? Menu
+  }()
 
   lazy private var horizontalTitleAndSearchConstraint: String = {
     if #available(macOS 11, *) {
@@ -46,59 +52,17 @@ class FilterMenuItemView: NSView, NSSearchFieldDelegate {
     return constraints
   }
 
-  private var eventHandler: EventHandlerRef?
 
-  lazy private var titleField: NSTextField = { [unowned self] in
-    let field = NSTextField(frame: NSRect.zero)
-    field.translatesAutoresizingMaskIntoConstraints = false
-    field.stringValue = ""
-    field.isBordered = false
-    field.isEditable = false
-    field.isEnabled = false
-    field.drawsBackground = false
-    field.font = .menuFont(ofSize: 15)
-    field.textColor = .disabledControlTextColor
-    field.cell?.usesSingleLineMode = true
-    return field
-  }()
+  override func awakeFromNib() {
+    autoresizingMask = .width
+    frame = headerRect
 
-  lazy private var queryField: NSSearchField = { [unowned self] in
-    let field = NSSearchField(frame: .zero)
-    field.translatesAutoresizingMaskIntoConstraints = false
-    field.stringValue = ""
-    field.isBordered = true
-    field.isEditable = true
-    field.isEnabled = true
-    field.isBezeled = true
-    field.isHidden = false
-    field.placeholderString = NSLocalizedString("search_placeholder", comment: "")
-    field.bezelStyle = .roundedBezel
-    field.delegate = self
-    field.focusRingType = .none
-    field.font = .menuFont(ofSize: 13)
-    field.textColor = .disabledControlTextColor
-    field.refusesFirstResponder = true
-    field.cell?.usesSingleLineMode = true
-    field.cell?.lineBreakMode = .byTruncatingHead
-    return field
-  }()
+    queryField.delegate = self
+    queryField.placeholderString = NSLocalizedString("search_placeholder", comment: "")
+    queryField.translatesAutoresizingMaskIntoConstraints = false
+    titleField.translatesAutoresizingMaskIntoConstraints = false
 
-  lazy private var customMenu: Menu? = { [unowned self] in
-    return self.enclosingMenuItem?.menu as? Menu
-  }()
-
-  required init?(coder decoder: NSCoder) {
-    super.init(coder: decoder)
-  }
-
-  override init(frame frameRect: NSRect) {
-    super.init(frame: frameRect)
-    self.autoresizingMask = .width
-
-    if !UserDefaults.standard.hideTitle {
-      addSubview(titleField)
-    }
-    addSubview(queryField)
+    titleField.isHidden = UserDefaults.standard.hideTitle
 
     let views = ["titleField": titleField, "queryField": queryField]
     for layoutConstraint in layoutConstraints {
@@ -106,7 +70,7 @@ class FilterMenuItemView: NSView, NSSearchFieldDelegate {
         withVisualFormat: layoutConstraint,
         options: NSLayoutConstraint.FormatOptions(rawValue: 0),
         metrics: nil,
-        views: views
+        views: views as [String : Any]
       )
       addConstraints(constraint)
     }
@@ -322,4 +286,3 @@ class FilterMenuItemView: NSView, NSSearchFieldDelegate {
     customMenu?.cancelTracking()
   }
 }
-// swiftlint:enable type_body_length

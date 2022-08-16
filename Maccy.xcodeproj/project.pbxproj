@@ -26,6 +26,9 @@
 		DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */; };
 		DA181174247B409A00066D55 /* AdvancedPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */; };
 		DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */; };
+		DA196A9028AB0A6800ADD8A2 /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA196A8E28AB0A6800ADD8A2 /* MenuHeader.swift */; };
+		DA196A9128AB0A6800ADD8A2 /* MenuHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA196A8F28AB0A6800ADD8A2 /* MenuHeader.xib */; };
+		DA196A9328AB0D4500ADD8A2 /* MenuHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA196A9228AB0D4500ADD8A2 /* MenuHeaderView.swift */; };
 		DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1B0FD5289DFEA200E641BE /* PinComboBoxCell.swift */; };
 		DA1DF95227AF8BBA006839E0 /* StoragePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1DF95127AF8BBA006839E0 /* StoragePreferenceViewController.swift */; };
 		DA1DF95527AF8BCD006839E0 /* StoragePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA1DF95327AF8BCD006839E0 /* StoragePreferenceViewController.xib */; };
@@ -39,7 +42,6 @@
 		DA246D611E56C9EA001E40F3 /* Application.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA246D601E56C9EA001E40F3 /* Application.xib */; };
 		DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */; };
 		DA2B0AF42343104600EFAD72 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */; };
-		DA2C752A2029FD6B0090965D /* FilterMenuItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2C75292029FD6B0090965D /* FilterMenuItemView.swift */; };
 		DA2C752C2029FE990090965D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2C752B2029FE990090965D /* Menu.swift */; };
 		DA35278C268D645700C92EBB /* IgnorePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35278B268D645700C92EBB /* IgnorePreferenceViewController.swift */; };
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
@@ -198,6 +200,9 @@
 		DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferenceViewController.swift; sourceTree = "<group>"; };
 		DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPreferenceViewController.swift; sourceTree = "<group>"; };
 		DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreferencePane.Identifier+Panes.swift"; sourceTree = "<group>"; };
+		DA196A8E28AB0A6800ADD8A2 /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
+		DA196A8F28AB0A6800ADD8A2 /* MenuHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuHeader.xib; sourceTree = "<group>"; };
+		DA196A9228AB0D4500ADD8A2 /* MenuHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeaderView.swift; sourceTree = "<group>"; };
 		DA1B0FD5289DFEA200E641BE /* PinComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinComboBoxCell.swift; sourceTree = "<group>"; };
 		DA1DF95127AF8BBA006839E0 /* StoragePreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoragePreferenceViewController.swift; sourceTree = "<group>"; };
 		DA1DF95427AF8BCD006839E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Maccy/Preferences/Base.lproj/StoragePreferenceViewController.xib; sourceTree = "<group>"; };
@@ -223,7 +228,6 @@
 		DA246D601E56C9EA001E40F3 /* Application.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Application.xib; sourceTree = "<group>"; };
 		DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Configuration.swift"; sourceTree = "<group>"; };
 		DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
-		DA2C75292029FD6B0090965D /* FilterMenuItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterMenuItemView.swift; sourceTree = "<group>"; };
 		DA2C752B2029FE990090965D /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		DA2F1B0426F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
 		DA2F1B0526F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
@@ -377,6 +381,16 @@
 			path = Preferences;
 			sourceTree = "<group>";
 		};
+		DA196A8D28AB0A3700ADD8A2 /* MenuHeader */ = {
+			isa = PBXGroup;
+			children = (
+				DA196A9228AB0D4500ADD8A2 /* MenuHeaderView.swift */,
+				DA196A8E28AB0A6800ADD8A2 /* MenuHeader.swift */,
+				DA196A8F28AB0A6800ADD8A2 /* MenuHeader.xib */,
+			);
+			path = MenuHeader;
+			sourceTree = "<group>";
+		};
 		DA1B0FD4289DFE8100E641BE /* PinsPreferenceViewController */ = {
 			isa = PBXGroup;
 			children = (
@@ -451,6 +465,7 @@
 			isa = PBXGroup;
 			children = (
 				DAF65F4424D396D400F3978F /* HistoryMenuItem */,
+				DA196A8D28AB0A3700ADD8A2 /* MenuHeader */,
 				DA181178247D150B00066D55 /* Preferences */,
 				DA21AD3C249E85BD003E7C98 /* Sounds */,
 				DA246D601E56C9EA001E40F3 /* Application.xib */,
@@ -465,7 +480,6 @@
 				DA0EF1871E444B2A00E58577 /* Clipboard.swift */,
 				DAE284FF232257D20080E394 /* ColorImage.swift */,
 				DAB65DFE2440AE29000AECA8 /* CoreDataManager.swift */,
-				DA2C75292029FD6B0090965D /* FilterMenuItemView.swift */,
 				DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */,
 				DAEE38531E3DD6F100DD2966 /* History.swift */,
 				DAB65E0A2440B078000AECA8 /* HistoryItem.swift */,
@@ -671,6 +685,7 @@
 				DA21AD44249E86F0003E7C98 /* knock.mp3 in Resources */,
 				DA21AD42249E86E8003E7C98 /* write.mp3 in Resources */,
 				DA1DF95527AF8BCD006839E0 /* StoragePreferenceViewController.xib in Resources */,
+				DA196A9128AB0A6800ADD8A2 /* MenuHeader.xib in Resources */,
 				DA009932256411F90030E697 /* README.md in Resources */,
 				DA05E7D72483F988005CB8AA /* AdvancedPreferenceViewController.xib in Resources */,
 				DA009933256411F90030E697 /* Vagrantfile in Resources */,
@@ -732,7 +747,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA2C752A2029FD6B0090965D /* FilterMenuItemView.swift in Sources */,
 				DA043DE1247D171C00488756 /* AppearancePreferenceViewController.swift in Sources */,
 				DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */,
 				DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */,
@@ -752,6 +766,7 @@
 				DAF65F4824D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift in Sources */,
 				DAFE2DD82688018100990986 /* PinsPreferenceViewController.swift in Sources */,
 				DA81D674252A056B009977BC /* Throttler.swift in Sources */,
+				DA196A9328AB0D4500ADD8A2 /* MenuHeaderView.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
 				DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */,
 				DA1DF95227AF8BBA006839E0 /* StoragePreferenceViewController.swift in Sources */,
@@ -767,6 +782,7 @@
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
 				DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */,
 				DAE28500232257D20080E394 /* ColorImage.swift in Sources */,
+				DA196A9028AB0A6800ADD8A2 /* MenuHeader.swift in Sources */,
 				DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */,
 				DAB65DFD2440AD63000AECA8 /* Storage.xcdatamodeld in Sources */,
 			);

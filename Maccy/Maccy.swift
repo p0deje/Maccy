@@ -41,10 +41,6 @@ class Maccy: NSObject {
     ]
   )
 
-  private var filterMenuRect: NSRect {
-    return NSRect(x: 0, y: 0, width: menu.menuWidth, height: UserDefaults.standard.hideSearch ? 1 : 29)
-  }
-
   private var enabledPasteboardTypesObserver: NSKeyValueObservation?
   private var ignoreEventsObserver: NSKeyValueObservation?
   private var imageHeightObserver: NSKeyValueObservation?
@@ -153,12 +149,9 @@ class Maccy: NSObject {
   }
 
   private func populateHeader() {
-    let headerItemView = FilterMenuItemView(frame: filterMenuRect)
-    headerItemView.title = "Maccy"
-
     let headerItem = NSMenuItem()
     headerItem.title = "Maccy"
-    headerItem.view = headerItemView
+    headerItem.view = MenuHeader().view
     headerItem.isEnabled = false
     // HACK: Enable location of text field in UI tests, but make sure
     //       it's excldued from up/down arrow selection in real usage.

@@ -4,6 +4,8 @@ import AppKit
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
 // swiftlint:disable type_body_length
 class Menu: NSMenu, NSMenuDelegate {
+  static let menuWidth = 300
+
   class IndexedItem: NSObject {
     var value: String
     var title: String { item.title }
@@ -18,7 +20,6 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   public let maxHotKey = 9
-  public let menuWidth = 300
 
   public var firstUnpinnedHistoryMenuItem: HistoryMenuItem? {
     historyMenuItems.first(where: { !$0.isPinned })
@@ -70,7 +71,7 @@ class Menu: NSMenu, NSMenuDelegate {
     self.history = history
     self.clipboard = clipboard
     self.delegate = self
-    self.minimumWidth = CGFloat(menuWidth)
+    self.minimumWidth = CGFloat(Menu.menuWidth)
   }
 
   func menuWillOpen(_ menu: NSMenu) {
