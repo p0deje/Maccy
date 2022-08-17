@@ -13,28 +13,23 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   private let searchThrottler = Throttler(minimumDelay: 0.2)
 
   private var eventHandler: EventHandlerRef?
-  private var headerRect: NSRect {
-    NSRect(x: 0, y: 0, width: Menu.menuWidth, height: UserDefaults.standard.hideSearch ? 1 : 29)
+
+  private lazy var customMenu: Menu? = self.enclosingMenuItem?.menu as? Menu
+  private lazy var headerRect = NSRect(x: 0, y: 0, width: Menu.menuWidth, height: UserDefaults.standard.hideSearch ? 1 : 29)
+
+  private var horizontalPadding: Int {
+    if #available(macOS 11, *) {
+      return 14
+    } else {
+      return 10
+    }
   }
+  private let horizontalTitleAndSearchConstraint = "H:|-horizontalPadding-[titleField]-[queryField]-horizontalPadding-|"
+  private let horizontalSearchOnlyConstraint = "H:|-horizontalPadding-[queryField]-horizontalPadding-|"
 
-  lazy private var customMenu: Menu? = { [unowned self] in
-    return self.enclosingMenuItem?.menu as? Menu
-  }()
-
-  lazy private var horizontalTitleAndSearchConstraint: String = {
-    if #available(macOS 11, *) {
-      return "|-(==14)-[titleField]-[queryField]-(==14)-|"
-    } else {
-      return "|-[titleField]-[queryField]-(==10)-|"
-    }
-  }()
-  lazy private var horizontalSearchOnlyConstraint: String = {
-    if #available(macOS 11, *) {
-      return "|-(==14)-[queryField]-(==14)-|"
-    } else {
-      return "|-(==10)-[queryField]-(==10)-|"
-    }
-  }()
+  private let verticalPadding = 3
+  private let verticalTitleConstraint = "V:|-verticalPadding-[titleField]-verticalPadding-|"
+  private let verticalSearchConstraint = "V:|[queryField]-verticalPadding-|"
 
   private var layoutConstraints: [String] {
     var constraints: [String] = []
@@ -44,9 +39,9 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
         constraints.append(horizontalSearchOnlyConstraint)
       } else {
         constraints.append(horizontalTitleAndSearchConstraint)
-        constraints.append("V:|-(==3)-[titleField]-(==3)-|")
+        constraints.append(verticalTitleConstraint)
       }
-      constraints.append("V:|[queryField]-(==3)-|")
+      constraints.append(verticalSearchConstraint)
     }
 
     return constraints
@@ -69,7 +64,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       let constraint = NSLayoutConstraint.constraints(
         withVisualFormat: layoutConstraint,
         options: NSLayoutConstraint.FormatOptions(rawValue: 0),
-        metrics: nil,
+        metrics: ["horizontalPadding": horizontalPadding, "verticalPadding": verticalPadding],
         views: views as [String : Any]
       )
       addConstraints(constraint)
