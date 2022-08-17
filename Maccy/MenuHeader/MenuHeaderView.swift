@@ -6,10 +6,15 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   @IBOutlet weak var queryField: NSSearchField!
   @IBOutlet weak var titleField: NSTextField!
 
+  @IBOutlet weak var horizontalLeftPadding: NSLayoutConstraint!
+  @IBOutlet weak var horizontalRightPadding: NSLayoutConstraint!
+  @IBOutlet weak var titleAndSearchSpacing: NSLayoutConstraint!
+
   private let eventSpecs = [
     EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyDown)),
     EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyRepeat))
   ]
+  private let macOSXPadding: CGFloat = 10.0
   private let searchThrottler = Throttler(minimumDelay: 0.2)
 
   private var eventHandler: EventHandlerRef?
@@ -17,57 +22,25 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   private lazy var customMenu: Menu? = self.enclosingMenuItem?.menu as? Menu
   private lazy var headerRect = NSRect(x: 0, y: 0, width: Menu.menuWidth, height: UserDefaults.standard.hideSearch ? 1 : 29)
 
-  private var horizontalPadding: Int {
-    if #available(macOS 11, *) {
-      return 14
-    } else {
-      return 10
-    }
-  }
-  private let horizontalTitleAndSearchConstraint = "H:|-horizontalPadding-[titleField]-[queryField]-horizontalPadding-|"
-  private let horizontalSearchOnlyConstraint = "H:|-horizontalPadding-[queryField]-horizontalPadding-|"
-
-  private let verticalPadding = 3
-  private let verticalTitleConstraint = "V:|-verticalPadding-[titleField]-verticalPadding-|"
-  private let verticalSearchConstraint = "V:|[queryField]-verticalPadding-|"
-
-  private var layoutConstraints: [String] {
-    var constraints: [String] = []
-
-    if !UserDefaults.standard.hideSearch {
-      if UserDefaults.standard.hideTitle {
-        constraints.append(horizontalSearchOnlyConstraint)
-      } else {
-        constraints.append(horizontalTitleAndSearchConstraint)
-        constraints.append(verticalTitleConstraint)
-      }
-      constraints.append(verticalSearchConstraint)
-    }
-
-    return constraints
-  }
-
-
   override func awakeFromNib() {
     autoresizingMask = .width
     frame = headerRect
 
     queryField.delegate = self
     queryField.placeholderString = NSLocalizedString("search_placeholder", comment: "")
-    queryField.translatesAutoresizingMaskIntoConstraints = false
-    titleField.translatesAutoresizingMaskIntoConstraints = false
 
-    titleField.isHidden = UserDefaults.standard.hideTitle
+    if #unavailable(macOS 11) {
+      horizontalLeftPadding.constant = macOSXPadding
+      horizontalRightPadding.constant = macOSXPadding
+    }
 
-    let views = ["titleField": titleField, "queryField": queryField]
-    for layoutConstraint in layoutConstraints {
-      let constraint = NSLayoutConstraint.constraints(
-        withVisualFormat: layoutConstraint,
-        options: NSLayoutConstraint.FormatOptions(rawValue: 0),
-        metrics: ["horizontalPadding": horizontalPadding, "verticalPadding": verticalPadding],
-        views: views as [String : Any]
-      )
-      addConstraints(constraint)
+    if UserDefaults.standard.hideTitle {
+      titleField.isHidden = true
+      removeConstraint(titleAndSearchSpacing)
+    }
+
+    if UserDefaults.standard.hideSearch {
+      constraints.forEach(removeConstraint)
     }
   }
 
