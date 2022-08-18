@@ -8,9 +8,6 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="MenuHeaderViewController" customModule="Maccy" customModuleProvider="target">
             <connections>
-                <outlet property="horizontalLeftPadding" destination="m8t-Ev-ws5" id="VtI-iD-jhr"/>
-                <outlet property="horizontalRightPadding" destination="9iL-Y8-VWA" id="lFL-GW-P7r"/>
-                <outlet property="titleAndSearchSpacing" destination="ghh-ML-UQd" id="TLf-Jn-ktk"/>
                 <outlet property="view" destination="Hz6-mo-xeY" id="0bl-1N-x8E"/>
             </connections>
         </customObject>
@@ -56,7 +53,7 @@
                 <outlet property="horizontalLeftPadding" destination="m8t-Ev-ws5" id="Zou-Qo-UfO"/>
                 <outlet property="horizontalRightPadding" destination="9iL-Y8-VWA" id="Kbl-Wd-50R"/>
                 <outlet property="queryField" destination="MmW-Nx-C7z" id="blP-46-55K"/>
-                <outlet property="titleAndSearchSpacing" destination="ghh-ML-UQd" id="icO-j4-wby"/>
+                <outlet property="titleAndSearchSpacing" destination="ghh-ML-UQd" id="T6U-Q4-EKq"/>
                 <outlet property="titleField" destination="S88-gz-je6" id="m08-of-qqa"/>
             </connections>
             <point key="canvasLocation" x="70" y="59"/>
