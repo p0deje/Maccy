@@ -12600,3 +12600,8 @@ a.pswp__share--download:hover {
   text-align: center;
   padding: 10px;
 }
+
+video {
+  -webkit-mask-image: -webkit-radial-gradient(white, black);
+  -webkit-backface-visibility: hidden;
+}
