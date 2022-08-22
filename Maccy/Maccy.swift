@@ -152,7 +152,7 @@ class Maccy: NSObject {
     let headerItem = NSMenuItem()
     headerItem.title = "Maccy"
     headerItem.view = MenuHeader().view
-    headerItem.isEnabled = false
+//    headerItem.isEnabled = false
 
     menu.addItem(headerItem)
   }

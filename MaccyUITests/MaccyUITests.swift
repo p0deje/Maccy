@@ -67,7 +67,7 @@ class MaccyUITests: XCTestCase {
   func testSearch() {
     popUpWithHotkey()
     search(copy2)
-    XCTAssertEqual(app.textFields.firstMatch.value as? String, copy2)
+    XCTAssertEqual(app.searchFields.firstMatch.value as? String, copy2)
     XCTAssertTrue(app.menuItems[copy2].exists)
     XCTAssertTrue(app.menuItems[copy2].firstMatch.isSelected)
     XCTAssertFalse(app.menuItems[copy1].exists)
@@ -211,7 +211,7 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     search(copy2)
     app.typeKey("p", modifierFlags: [.option])
-    XCTAssertEqual(app.textFields.firstMatch.value as? String, "")
+    XCTAssertEqual(app.searchFields.firstMatch.value as? String, "")
     XCTAssertEqual(visibleMenuItemTitles()[1...2], [copy2, copy1])
     XCTAssertTrue(app.menuItems[copy2].firstMatch.isSelected)
   }
@@ -228,39 +228,39 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     search("foo bar")
     app.typeKey(.delete, modifierFlags: [.command])
-    XCTAssertEqual(app.textFields.firstMatch.value as? String, "")
+    XCTAssertEqual(app.searchFields.firstMatch.value as? String, "")
   }
 
   func testRemoveLastWordFromSearchWithControlW() {
     popUpWithHotkey()
     search("foo bar")
     app.typeKey("w", modifierFlags: [.control])
-    XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo ")
+    XCTAssertEqual(app.searchFields.firstMatch.value as? String, "foo ")
   }
 
   func testAllowsToFocusSearchField() {
     popUpWithHotkey()
     // The first click succeeds because application is frontmost.
-    app.textFields.firstMatch.click()
+    app.searchFields.firstMatch.click()
     search("foo")
-    XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo")
+    XCTAssertEqual(app.searchFields.firstMatch.value as? String, "foo")
     // Now close the window AND focus another application
     // by clicking outside of menu.
-    let textFieldCoordinates = app.textFields.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+    let textFieldCoordinates = app.searchFields.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
     let outsideCoordinates = textFieldCoordinates.withOffset(CGVector(dx: 0, dy: -20))
     outsideCoordinates.click()
     // Open again and try to click and focus search field again.
     popUpWithHotkey()
-    app.textFields.firstMatch.click()
+    app.searchFields.firstMatch.click()
     search("foo")
-    XCTAssertEqual(app.textFields.firstMatch.value as? String, "foo")
+    XCTAssertEqual(app.searchFields.firstMatch.value as? String, "foo")
   }
 
   func testPasteToSearchWithFieldUnfocused() {
     popUpWithHotkey()
     app.typeKey("v", modifierFlags: [.command])
     usleep(250000) // wait for search throttle
-    XCTAssertEqual(app.textFields.firstMatch.value as? String, copy1)
+    XCTAssertEqual(app.searchFields.firstMatch.value as? String, copy1)
     XCTAssertTrue(app.menuItems[copy1].exists)
     XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
     XCTAssertFalse(app.menuItems[copy2].exists)
@@ -268,10 +268,10 @@ class MaccyUITests: XCTestCase {
 
   func testPasteToSearchWithFieldFocused() {
     popUpWithHotkey()
-    app.textFields.firstMatch.click()
+    app.searchFields.firstMatch.click()
     app.typeKey("v", modifierFlags: [.command])
     usleep(250000) // wait for search throttle
-    XCTAssertEqual(app.textFields.firstMatch.value as? String, copy1)
+    XCTAssertEqual(app.searchFields.firstMatch.value as? String, copy1)
     XCTAssertTrue(app.menuItems[copy1].exists)
     XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
     XCTAssertFalse(app.menuItems[copy2].exists)
