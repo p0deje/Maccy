@@ -33,7 +33,9 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     queryField.delegate = self
     queryField.placeholderString = NSLocalizedString("search_placeholder", comment: "")
 
-    if #unavailable(macOS 11) {
+    if #available(macOS 11, *) {
+      // all good
+    } else {
       horizontalLeftPadding.constant = macOSXPadding
       horizontalRightPadding.constant = macOSXPadding
     }
