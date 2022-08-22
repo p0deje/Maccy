@@ -176,7 +176,6 @@ class Menu: NSMenu, NSMenuDelegate {
 
     setKeyEquivalents(historyMenuItems)
     highlight(filter.isEmpty ? firstUnpinnedHistoryMenuItem : historyMenuItems.first)
-    forceSeparatorShown()
   }
 
   func select(_ searchQuery: String) {
@@ -419,22 +418,6 @@ class Menu: NSMenu, NSMenuDelegate {
         indexedItems.remove(at: removeIndex)
       }
     }
-  }
-
-  // When separator is the first visible item in the menu - it is automatically hidden.
-  // This can happen when for example search results are empty.
-  // Later, when separator is no longer the first item - it is still not automatically shown.
-  private func forceSeparatorShown() {
-    guard !UserDefaults.standard.hideFooter else {
-      return
-    }
-
-    guard let separatorItem = items.first(where: { $0.isSeparatorItem }) else {
-      return
-    }
-
-    separatorItem.isHidden = true
-    separatorItem.isHidden = false
   }
 }
 // swiftlint:enable type_body_length
