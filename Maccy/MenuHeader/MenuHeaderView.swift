@@ -17,6 +17,9 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   private let macOSXPadding: CGFloat = 10.0
   private let searchThrottler = Throttler(minimumDelay: 0.2)
 
+  private var characterPickerVisible: Bool {
+    NSApp.windows.filter({ $0.isVisible }).map({ $0.className }).contains("NSPanelViewBridge")
+  }
   private var eventHandler: EventHandlerRef?
 
   private lazy var customMenu: Menu? = self.enclosingMenuItem?.menu as? Menu
@@ -209,6 +212,10 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   // swiftlint:enable function_body_length
 
   private func processSingleCharacter(_ chars: String?) -> Bool {
+    guard !characterPickerVisible else {
+      return false
+    }
+
     guard let char = chars, char.count == 1 else {
       return false
     }
