@@ -105,13 +105,6 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       return true
     }
 
-    if commandSelector == NSSelectorFromString("noop:") {
-      // Support Control-W when search is focused.
-      if let event = NSApp.currentEvent {
-        return processInterceptedEvent(event)
-      }
-    }
-
     return false
   }
 
