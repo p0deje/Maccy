@@ -5,6 +5,9 @@
 /* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
 "LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# копировать данные\ndefaults write org.p0deje.Maccy ignoreEvents false";
 
+/* Class = "NSTextFieldCell"; title = "You can also click the menu icon with ⌥ pressed. To ignore only the next copy, click with ⌥⇧."; ObjectID = "lwS-2p-WwS"; */
+"lwS-2p-WwS.title" = "Вы также можете кликнуть значок меню с нажатой клавишей ⌥. Чтобы игнорировать только следующую копию, кликните с ⌥⇧.";
+
 /* Class = "NSButtonCell"; title = "Turn off"; ObjectID = "RA0-eh-Udt"; */
 "RA0-eh-Udt.title" = "Выключить";
 

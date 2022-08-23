@@ -8,6 +8,9 @@
 /* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
 "LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# 데이터 복사\ndefaults write org.p0deje.Maccy ignoreEvents false";
 
+/* Class = "NSTextFieldCell"; title = "You can also click the menu icon with ⌥ pressed. To ignore only the next copy, click with ⌥⇧."; ObjectID = "lwS-2p-WwS"; */
+"lwS-2p-WwS.title" = "⌥를 누른 상태에서 메뉴 아이콘을 클릭할 수도 있습니다. 다음 사본만 무시하려면 ⌥⇧로 클릭하십시오.";
+
 /* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
 "LW1-8W-pFI.title" = "어플리케이션이 종료되기 전에 모든 고정되지 않은 항목을 자동으로 삭제합니다.";
 

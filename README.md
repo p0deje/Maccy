@@ -67,6 +67,8 @@ defaults write org.p0deje.Maccy ignoreEvents true # default is false
 
 This is useful if you have some workflow for copying sensitive data. You can set `ignoreEvents` to true, copy the data and set `ignoreEvents` back to false.
 
+You can also click the menu icon with <kbd>OPTION (⌥)</kbd> pressed. To ignore only the next copy, click with <kbd>OPTION (⌥)</kbd> + <kbd>SHIFT (⇧)</kbd> pressed.
+
 #### Ignore Custom Copy Types
 
 By default Maccy will ignore certain copy types that are considered to be confidential
