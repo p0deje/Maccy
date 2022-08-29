@@ -20,6 +20,9 @@
 /* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
 "KJb-2z-C5c.title" = "Sredina ekrana";
 
+/* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
+"gMh-0J-BUx.title" = "Središte prozora";
+
 /* Class = "NSTextFieldCell"; title = "Image height:"; ObjectID = "MKb-cW-gpg"; */
 "MKb-cW-gpg.title" = "Visina slike:";
 

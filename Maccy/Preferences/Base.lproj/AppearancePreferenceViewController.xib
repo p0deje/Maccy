@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -25,11 +25,11 @@
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O1T-Uq-VLh">
-            <rect key="frame" x="0.0" y="0.0" width="505" height="498"/>
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="O1T-Uq-VLh">
+            <rect key="frame" x="0.0" y="0.0" width="517" height="508"/>
             <subviews>
-                <gridView misplaced="YES" xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="8" columnSpacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="5KL-yT-3Zi">
-                    <rect key="frame" x="20" y="20" width="465" height="458"/>
+                <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="8" columnSpacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="5KL-yT-3Zi">
+                    <rect key="frame" x="26" y="25" width="465" height="458"/>
                     <rows>
                         <gridRow height="21" id="wGv-6M-Wwi"/>
                         <gridRow id="2Q5-sd-gz1"/>
@@ -64,7 +64,7 @@
                         </gridCell>
                         <gridCell row="wGv-6M-Wwi" column="7OC-Fv-eMr" id="w7a-Ig-74t">
                             <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZHc-k4-Nf9">
-                                <rect key="frame" x="106" y="434" width="124" height="25"/>
+                                <rect key="frame" x="106" y="434" width="130" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Cursor" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Ccp-5J-8nw" id="f7k-K3-J6b">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -72,6 +72,7 @@
                                         <items>
                                             <menuItem title="Cursor" state="on" id="Ccp-5J-8nw"/>
                                             <menuItem title="Screen center" tag="1" id="KJb-2z-C5c"/>
+                                            <menuItem title="Window center" tag="3" id="gMh-0J-BUx"/>
                                             <menuItem title="Menu icon" tag="2" id="0h4-CZ-fwT"/>
                                         </items>
                                     </menu>

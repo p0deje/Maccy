@@ -11,6 +11,9 @@
 /* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
 "KJb-2z-C5c.title" = "Centro dello schermo";
 
+/* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
+"gMh-0J-BUx.title" = "Centro della finestra";
+
 /* Class = "NSTextFieldCell"; title = "Image height:"; ObjectID = "MKb-cW-gpg"; */
 "MKb-cW-gpg.title" = "Altezza dell'immagine:";
 

@@ -23,6 +23,9 @@
 /* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
 "KJb-2z-C5c.title" = "화면 중앙";
 
+/* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
+"gMh-0J-BUx.title" = "창의 중앙";
+
 /* Class = "NSTextFieldCell"; title = "Image height:"; ObjectID = "MKb-cW-gpg"; */
 "MKb-cW-gpg.title" = "이미지 세로 높이:";
 

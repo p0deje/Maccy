@@ -81,18 +81,24 @@ class Maccy: NSObject {
   }
 
   func popUp() {
+    // Grab focused window frame before changing focus
+    let windowFrame = NSWorkspace.shared.frontmostApplication?.windowFrame
+
     withFocus {
       switch UserDefaults.standard.popupPosition {
       case "center":
-        if let screen = NSScreen.main {
-          let topLeftX = (screen.visibleFrame.width - self.menu.size.width) / 2 + screen.visibleFrame.origin.x
-          var topLeftY = (screen.visibleFrame.height + self.menu.size.height) / 2 + screen.visibleFrame.origin.y
-          if screen.visibleFrame.height < self.menu.size.height {
-            topLeftY = screen.visibleFrame.origin.y
-          }
+        if let frame = NSScreen.main?.visibleFrame {
           self.linkingMenuToStatusItem {
-            self.menu.popUp(positioning: nil, at: NSPoint(x: topLeftX + 1.0, y: topLeftY + 1.0), in: nil)
+            self.menu.popUp(positioning: nil, at: NSRect.centered(ofSize: self.menu.size, in: frame).origin, in: nil)
           }
+        }
+      case "window":
+        if let frame = windowFrame {
+          self.linkingMenuToStatusItem {
+            self.menu.popUp(positioning: nil, at: NSRect.centered(ofSize: self.menu.size, in: frame).origin, in: nil)
+          }
+        } else {
+          fallthrough
         }
       case "statusItem":
         self.simulateStatusItemClick()
@@ -152,7 +158,6 @@ class Maccy: NSObject {
     let headerItem = NSMenuItem()
     headerItem.title = "Maccy"
     headerItem.view = MenuHeader().view
-//    headerItem.isEnabled = false
 
     menu.addItem(headerItem)
   }
