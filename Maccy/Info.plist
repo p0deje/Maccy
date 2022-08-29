@@ -18,6 +18,11 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>INIntentsSupported</key>
+	<array>
+		<string>Clearintent</string>
+		<string>SelectIntent</string>
+	</array>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
 	<key>LSMinimumSystemVersion</key>
@@ -30,6 +35,11 @@
 	<string>Application</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>ClearIntent</string>
+		<string>SelectIntent</string>
+	</array>
 	<key>SUFeedURL</key>
 	<string>https://raw.githubusercontent.com/p0deje/Maccy/master/appcast.xml</string>
 </dict>

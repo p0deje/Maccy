@@ -1,4 +1,5 @@
 import Cocoa
+import Intents
 import KeyboardShortcuts
 import Sauce
 import Sparkle
@@ -36,6 +37,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       maccy.clearUnpinned(suppressClearAlert: true)
     }
     CoreDataManager.shared.saveContext()
+  }
+
+  @available(macOS 11.0, *)
+  func application(_ application: NSApplication, handlerFor intent: INIntent) -> Any? {
+    if intent is SelectIntent {
+      return SelectIntentHandler(maccy)
+    } else if intent is ClearIntent {
+      return ClearIntentHandler(maccy)
+    }
+
+    return nil
   }
 
   // swiftlint:disable cyclomatic_complexity

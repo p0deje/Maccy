@@ -110,8 +110,19 @@ class Maccy: NSObject {
     }
   }
 
+  func select(position: Int) -> String? {
+    return menu.select(position: position)
+  }
+
+  func clearUnpinned(suppressClearAlert: Bool = false) {
+    withClearAlert(suppressClearAlert: suppressClearAlert) {
+      self.history.clearUnpinned()
+      self.menu.clearUnpinned()
+    }
+  }
+
   @objc
-  func performStatusItemClick(_ event: NSEvent?) {
+  private func performStatusItemClick(_ event: NSEvent?) {
     if let event = event {
       let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
 
@@ -176,7 +187,7 @@ class Maccy: NSObject {
   }
 
   @objc
-  func menuItemAction(_ sender: NSMenuItem) {
+  private func menuItemAction(_ sender: NSMenuItem) {
     if let tag = MenuFooter(rawValue: sender.tag) {
       switch tag {
       case .about:
@@ -196,13 +207,6 @@ class Maccy: NSObject {
       default:
         break
       }
-    }
-  }
-
-  func clearUnpinned(suppressClearAlert: Bool = false) {
-    withClearAlert(suppressClearAlert: suppressClearAlert) {
-      self.history.clearUnpinned()
-      self.menu.clearUnpinned()
     }
   }
 

@@ -189,6 +189,16 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
+  func select(position: Int) -> String? {
+    guard indexedItems.count > position,
+          let item = indexedItems[position].menuItems.first else {
+      return nil
+    }
+
+    performActionForItem(at: index(of: item))
+    return indexedItems[position].title
+  }
+
   func selectPrevious() {
     if !highlightNext(items.reversed()) {
       highlight(highlightableItems(items).last) // start from the end after reaching the first item
