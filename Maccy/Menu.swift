@@ -385,7 +385,7 @@ class Menu: NSMenu, NSMenuDelegate {
       if !historyMenuItems.contains(historyItem) {
         limit += 1
         if let lastItem = lastUnpinnedHistoryMenuItem {
-          insertItem(historyItem, at: index(of: lastItem))
+          insertItem(historyItem, at: index(of: lastItem) + 1)
         }
       }
       if maxVisibleItems == limit {
