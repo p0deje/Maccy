@@ -161,18 +161,18 @@
 				<key>INIntentResponseLastParameterTag</key>
 				<integer>1</integer>
 				<key>INIntentResponseOutput</key>
-				<string>title</string>
+				<string>value</string>
 				<key>INIntentResponseParameters</key>
 				<array>
 					<dict>
 						<key>INIntentResponseParameterDisplayName</key>
-						<string>Title</string>
+						<string>Value</string>
 						<key>INIntentResponseParameterDisplayNameID</key>
 						<string>7ElENg</string>
 						<key>INIntentResponseParameterDisplayPriority</key>
 						<integer>1</integer>
 						<key>INIntentResponseParameterName</key>
-						<string>title</string>
+						<string>value</string>
 						<key>INIntentResponseParameterTag</key>
 						<integer>1</integer>
 						<key>INIntentResponseParameterType</key>

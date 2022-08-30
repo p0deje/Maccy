@@ -196,7 +196,7 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     performActionForItem(at: index(of: item))
-    return indexedItems[position].title
+    return indexedItems[position].value
   }
 
   func selectPrevious() {

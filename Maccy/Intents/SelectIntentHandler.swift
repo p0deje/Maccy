@@ -11,12 +11,12 @@ class SelectIntentHandler: NSObject, SelectIntentHandling {
 
   func handle(intent: SelectIntent, completion: @escaping (SelectIntentResponse) -> Void) {
     guard let number = intent.number as? Int,
-          let result = maccy.select(position: number - positionOffset) else {
+          let value = maccy.select(position: number - positionOffset) else {
       return completion(SelectIntentResponse(code: .failure, userActivity: nil))
     }
 
     let response = SelectIntentResponse(code: .success, userActivity: nil)
-    response.title = result
+    response.value = value
     return completion(response)
   }
 
