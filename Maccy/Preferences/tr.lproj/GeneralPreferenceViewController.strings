@@ -1,0 +1,42 @@
+
+/* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
+"5NO-0n-i7l.title" = "Biçimlendirme olmadan yapıştır";
+
+/* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
+"8Rb-OS-d59.title" = "Şimdi denetle";
+
+/* Class = "NSButtonCell"; title = "Fuzzy search"; ObjectID = "CGs-Td-v66"; */
+"CGs-Td-v66.title" = "Belirsiz arama";
+
+/* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
+"Cfl-qm-UkM.title" = "Girişte başlat";
+
+/* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
+"EdO-Bo-TeB.title" = "• Ögeyi kopyalamak için ⌘'a basılıyken seçin.\n• Ögeyi kopyalayıp yopıştırmak için ⌥'a basılıyken seçin.\n• Ögeyi kopyalamak, biçimlendirmesini temizlemek ve yapıştırmak için ⌥⇧'e basılıyken seçin.";
+
+/* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
+"HJa-3L-ffW.title" = "Davranış:";
+
+/* Class = "NSTextFieldCell"; title = "\nHotkey:"; ObjectID = "QZW-5n-gLa"; */
+"QZW-5n-gLa.title" = "\nKısayol:";
+
+/* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
+"ZSa-vg-zWi.title" = "Ögeyi seçme davranışını özelleştirin:";
+
+/* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
+"avb-QJ-T0h.title" = "Güncellemeleri otomatik olarak denetle";
+
+/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
+"fda-wq-rZq.title" = "Geçmişe yeni bir öge eklendiğinde ve bir önceki öge seçildiğinde ses efektleri çal.";
+
+/* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
+"kK4-kG-DIY.title" = "Otomatik olarak yapıştır";
+
+/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
+"lkL-5p-KVx.title" = "Sesler";
+
+/* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
+"rCZ-AO-G8B.title" = "Uygulamayı açmak için global kısayol düğmesi.\nSaptanmış: ⇧⌘C.";
+
+/* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
+"tUJ-hx-P24.title" = "Kesin olmayan aramayı etkinleştir. Geçmiş boyutu 200'den büyük olduğunda belirsiz aramanın yavaş olabileceğini aklınızda bulundurun.";
