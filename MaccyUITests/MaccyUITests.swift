@@ -167,7 +167,7 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     pin(copy2)
     app.menuItems["Clear"].click()
-    app.dialogs.firstMatch.buttons["Clear"].click()
+    confirmClear()
     popUpWithHotkey()
     XCTAssertFalse(app.menuItems[copy1].exists)
     XCTAssertTrue(app.menuItems[copy2].exists)
@@ -177,7 +177,7 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     search(copy2)
     app.menuItems["Clear"].click()
-    app.dialogs.firstMatch.buttons["Clear"].click()
+    confirmClear()
     popUpWithHotkey()
     XCTAssertFalse(app.menuItems[copy1].exists)
     XCTAssertFalse(app.menuItems[copy2].exists)
@@ -189,7 +189,7 @@ class MaccyUITests: XCTestCase {
     XCUIElement.perform(withKeyModifiers: [.shift], block: {
       app.menuItems["Clear all"].click()
     })
-    app.dialogs.firstMatch.buttons["Clear"].click()
+    confirmClear()
     popUpWithHotkey()
     XCTAssertFalse(app.menuItems[copy1].exists)
     XCTAssertFalse(app.menuItems[copy2].exists)
@@ -403,6 +403,13 @@ class MaccyUITests: XCTestCase {
   private func search(_ string: String) {
     app.typeText(string)
     usleep(250000) // wait for search throttle
+  }
+
+  private func confirmClear() {
+    let button = app.dialogs.firstMatch.buttons["Clear"].firstMatch
+    expectation(for: NSPredicate(format: "isHittable = 1"), evaluatedWith: button)
+    waitForExpectations(timeout: 3)
+    button.click()
   }
 }
 // swiftlint:enable type_body_length
