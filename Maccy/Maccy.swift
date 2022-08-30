@@ -92,6 +92,8 @@ class Maccy: NSObject {
             self.menu.popUp(positioning: nil, at: NSRect.centered(ofSize: self.menu.size, in: frame).origin, in: nil)
           }
         }
+      case "statusItem":
+        self.simulateStatusItemClick()
       case "window":
         if let frame = windowFrame {
           self.linkingMenuToStatusItem {
@@ -100,8 +102,6 @@ class Maccy: NSObject {
         } else {
           fallthrough
         }
-      case "statusItem":
-        self.simulateStatusItemClick()
       default:
         self.linkingMenuToStatusItem {
           self.menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
