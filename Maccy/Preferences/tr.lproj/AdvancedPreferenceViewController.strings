@@ -6,7 +6,7 @@
 "JvB-ng-8vt.title" = "Çıkışta geçmişi temizle";
 
 /* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
-"LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# verileri kopyala\ndefaults write org.p0deje.Maccy ignoreEvents false";
 
 /* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
 "LW1-8W-pFI.title" = "Uygulamadan çıkmadan önce tüm iğnesi çıkarılmış ögeleri kendiliğinden kaldır.";

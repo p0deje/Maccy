@@ -3,7 +3,7 @@
 "0h4-CZ-fwT.title" = "Menü simgesi";
 
 /* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
-"0tN-4z-p8T.title" = "Altbilgi gizliyken ayarları açmak için ⌘'a basın.";
+"0tN-4z-p8T.title" = "Altbilgi gizliyken ayarları açmak için ⌘,'a basın.";
 
 /* Class = "NSButtonCell"; title = "Show recent copy next to menu icon"; ObjectID = "2vE-8q-6tq"; */
 "2vE-8q-6tq.title" = "Menü simgesinin yanında son kopyayı göster";
