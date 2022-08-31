@@ -6,31 +6,34 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.23.0</title>
+      <title>0.24.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added Chinese Traditional localization (credits to kkn)</li>
-            <li>Added German localization (credits to @pitschr and @fabifabulousity)</li>
-            <li>Added Japanese localization (credits to @weensy and @yebityon)</li>
-            <li>Added Korean localization (credits to @weensy)</li>
-            <li>Added Thai localization (credits to @naijab)</li>
-            <li>Added a feature to ignore only next copy by clicking on the menu icon with OPTION + SHIFT pressed (#354)</li>
-            <li>Added a feature to automatically capture the source application of every new copy and show the source in the copy tooltip (#387)</li>
-            <li>Fixed an issue when JPG copies were not rendered as images (#381)</li>
-            <li>Fixed multiple issues with positioning of Maccy window in the center of multiple displays (#334, #406)</li>
-            <li>Fixed an issue when auto-update window could not be focused (#371)</li>
-            <li>Improved performance of pasting by reducing animation delay (#390)</li>
+            <li>Added support for selecting an item in the history using its position number via Shortcuts (#315, #374).</li>
+            <li>Added support for clearing history via Shortcuts (#340).</li>
+            <li>Added Turkish localization (credits to @bitigchi).</li>
+            <li>Added preference to pop up in the center of a currently focused application window (#150).</li>
+            <li>Added support for <kbd>⌃ (CONTROL)</kbd> + <kbd>W</kbd> shortcut to remove last word when search field is focused.</li>
+            <li>Added support for creating a new copy by typing it and pressing <kbd>ENTER</kbd> when there are no search results (#341).</li>
+            <li>Added missing documentation about disabling by clicking on the menu icon with <kbd>⌥ (OPTION)</kbd> pressed.</li>
+            <li>Improved search field UI by using native macOS control.</li>
+            <li>Improved navigation using arrow keys (#442).</li>
+            <li>Improved pins preferences tab to allow selecting a key using a dropdown menu (#443).</li>
+            <li>Improved storage preferences tab to show the size as a number text field with a stepper (#188).</li>
+            <li>Fixed an issue of storage not respecting a sorting setting when removing oldest records (#427).</li>
+            <li>Fixed an issue when paste wouldn't work after opening preferences/about (#435).</li>
+            <li>Fixed an issue when pasting an item would update its source application with the one it has just been pasted to.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2022-06-19</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.23.0</releaseNotesLink>
+      <pubDate>2022-08-31</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.24.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.23.0/Maccy.app.zip"
-        sparkle:version="12"
-        sparkle:shortVersionString="0.23.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.24.0/Maccy.app.zip"
+        sparkle:version="13"
+        sparkle:shortVersionString="0.24.0"
         length="0"
         type="application/octet-stream"
       />
