@@ -1,0 +1,21 @@
+
+/* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "PDj-Nr-Ubl"; */
+"PDj-Nr-Ubl.headerCell.title" = "Pano türleri";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "PFf-uU-3co"; */
+"PFf-uU-3co.title" = "Kimi pano ögesi türlerini anımsamayı yok sayabilirsiniz.\nSaptanmış olarak, kimi bilinen uygulamaya özel türler tanımlanmıştır. Bunları kaldırabilir ve istediğiniz herhangi bir özel türü ekleyebilirsiniz.";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "at1-VF-wpg"; */
+"at1-VF-wpg.title" = "Table View Cell";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "bVW-Cb-ulw"; */
+"bVW-Cb-ulw.title" = "Kimi uygulamalardan gelen kopyaları yok sayabilirsiniz.\nBunun çalışma yönteminin %100 kesin olmadığını aklınızda bulundurun; bu nedenle olabildiğince pano türleri kullanmak daha iyidir.";
+
+/* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "e5t-lA-7er"; */
+"e5t-lA-7er.headerCell.title" = "Uygulamalar";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "eG1-h6-6Pr"; */
+"eG1-h6-6Pr.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "tWx-xL-UB5"; */
+"tWx-xL-UB5.title" = "Text Cell";
