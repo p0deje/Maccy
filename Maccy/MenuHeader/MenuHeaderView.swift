@@ -14,7 +14,8 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyDown)),
     EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyRepeat))
   ]
-  private let macOSXPadding: CGFloat = 10.0
+  private let macOSXLeftPadding: CGFloat = 20.0
+  private let macOSXRightPadding: CGFloat = 10.0
   private let searchThrottler = Throttler(minimumDelay: 0.2)
 
   private var characterPickerVisible: Bool {
@@ -36,8 +37,8 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     if #available(macOS 11, *) {
       // all good
     } else {
-      horizontalLeftPadding.constant = macOSXPadding
-      horizontalRightPadding.constant = macOSXPadding
+      horizontalLeftPadding.constant = macOSXLeftPadding
+      horizontalRightPadding.constant = macOSXRightPadding
     }
 
     if UserDefaults.standard.hideTitle {
