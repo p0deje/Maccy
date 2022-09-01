@@ -33,6 +33,7 @@ class Clipboard {
 
   private var accessibilityAlert: NSAlert {
     let alert = NSAlert()
+    alert.accessoryView = acccessibilityInsturctionsView
     alert.alertStyle = .warning
     alert.messageText = NSLocalizedString("accessibility_alert_message", comment: "")
     alert.informativeText = NSLocalizedString("accessibility_alert_comment", comment: "")
@@ -42,6 +43,12 @@ class Clipboard {
     return alert
   }
   private var accessibilityAllowed: Bool { AXIsProcessTrustedWithOptions(nil) }
+  private lazy var acccessibilityInsturctionsView: NSImageView = {
+    let view = NSImageView(frame: NSRect(x: 0, y: 0, width: 300, height: 250))
+    view.animates = true
+    view.image = NSImage(named: "AccessibilityInstructions.gif")
+    return view
+  }()
   private let accessibilityURL = URL(
     string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
   )
