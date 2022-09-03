@@ -39,7 +39,7 @@
 "tpV-rp-2HY.title" = "Ändere die Position des Popup-Fensters.\nStandard: Mauszeiger.";
 
 /* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
-"0tN-4z-p8T.title" = "Drücke ⌘, um die Einstellungen zu öffnen, wenn das Menü ausgeblendet ist.";
+"0tN-4z-p8T.title" = "Um die Einstellungen zu öffnen, halte ⌘, gedrückt.";
 
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Anzahl der Einträge:";

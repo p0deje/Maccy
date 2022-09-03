@@ -24,7 +24,7 @@
 "kK4-kG-DIY.title" = "Automatisch einfügen";
 
 /* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
-"5NO-0n-i7l.title" = "Einfügen ohne Formattierung";
+"5NO-0n-i7l.title" = "Einfügen ohne Formatierung";
 
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
 "rCZ-AO-G8B.title" = "Tastenkürzel um die Applikation zu öffnen.\nStandard: ⇧⌘C.";

@@ -6,7 +6,7 @@
 "LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# Einträge wieder kopieren\ndefaults write org.p0deje.Maccy ignoreEvents false";
 
 /* Class = "NSTextFieldCell"; title = "You can also click the menu icon with ⌥ pressed. To ignore only the next copy, click with ⌥⇧."; ObjectID = "lwS-2p-WwS"; */
-"lwS-2p-WwS.title" = "Sie können auch auf das Menüsymbol klicken, während Sie ⌥ gedrückt halten. Um nur die nächste Kopie zu ignorieren, klicken Sie mit ⌥⇧.";
+"lwS-2p-WwS.title" = "Um Maccy zu deaktivieren, klicke auf das Menüleistensymbol und halte dabei ⌥ gedrückt. Um nur die nächste Kopie zu ignorieren, klicke und halte ⌥⇧ gedrückt.";
 
 /* Class = "NSButtonCell"; title = "Turn off"; ObjectID = "RA0-eh-Udt"; */
 "RA0-eh-Udt.title" = "Deaktivieren";
