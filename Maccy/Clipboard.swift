@@ -112,8 +112,8 @@ class Clipboard {
     DispatchQueue.main.async {
       // Add flag that left/right modifier key has been pressed.
       // See https://github.com/TermiT/Flycut/pull/18 for details.
-      let cmdFlag = CGEventFlags(rawValue: UInt64(NSEvent.ModifierFlags([.command]).rawValue) | 0x000008)
-      let vCode = Sauce.shared.keyCode(by: .v)
+      let cmdFlag = CGEventFlags(rawValue: UInt64(KeyChord.pasteKeyModifiers.rawValue) | 0x000008)
+      let vCode = Sauce.shared.keyCode(for: KeyChord.pasteKey)
       let source = CGEventSource(stateID: .combinedSessionState)
       // Disable local keyboard events while pasting
       source?.setLocalEventsFilterDuringSuppressionState([.permitLocalMouseEvents, .permitSystemDefinedEvents],

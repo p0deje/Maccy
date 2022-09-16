@@ -6,6 +6,8 @@ import Sparkle
 
 @NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
+  @IBOutlet weak var pasteMenuItem: NSMenuItem!
+
   private var hotKey: GlobalHotKey!
   private var maccy: Maccy!
 

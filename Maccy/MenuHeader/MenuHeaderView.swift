@@ -139,7 +139,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       return false
     }
 
-    guard let key = Sauce.shared.key(by: Int(event.keyCode)) else {
+    guard let key = Sauce.shared.key(for: Int(event.keyCode)) else {
       return false
     }
     let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)

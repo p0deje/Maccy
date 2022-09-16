@@ -9,7 +9,7 @@ class GlobalHotKey {
     guard let key = KeyboardShortcuts.Shortcut(name: .popup)?.key else {
       return nil
     }
-    return Sauce.shared.key(by: key.rawValue)
+    return Sauce.shared.key(for: key.rawValue)
   }
   static public var modifierFlags: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .popup)?.modifiers }
 

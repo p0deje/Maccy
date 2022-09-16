@@ -1343,7 +1343,7 @@
 			repositoryURL = "https://github.com/Clipy/Sauce";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 2.1.0;
+				minimumVersion = 2.3.0;
 			};
 		};
 		DAC6CE8F26E1AC19002B70B8 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */ = {

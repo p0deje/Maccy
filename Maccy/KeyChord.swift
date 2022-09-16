@@ -2,6 +2,15 @@ import AppKit
 import Sauce
 
 enum KeyChord: CaseIterable {
+  // Fetch paste from Edit / Paste menu item.
+  // Fallback to ⌘V if unavailable.
+  static var pasteKey: Key {
+    (NSApp.delegate as? AppDelegate)?.pasteMenuItem.key ?? .v
+  }
+  static var pasteKeyModifiers: NSEvent.ModifierFlags {
+    (NSApp.delegate as? AppDelegate)?.pasteMenuItem.keyEquivalentModifierMask ?? NSEvent.ModifierFlags([.command])
+  }
+
   case clearHistory
   case clearHistoryAll
   case clearSearch
@@ -43,7 +52,7 @@ enum KeyChord: CaseIterable {
       self = .hide
     case (.comma, MenuFooter.preferences.keyEquivalentModifierMask):
       self = .openPreferences
-    case (.v, [.command]):
+    case (KeyChord.pasteKey, KeyChord.pasteKeyModifiers):
       self = .paste
     case (.return, _), (.keypadEnter, _):
       self = .selectCurrentItem
