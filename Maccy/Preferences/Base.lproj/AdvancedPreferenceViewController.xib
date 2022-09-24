@@ -10,21 +10,20 @@
             <connections>
                 <outlet property="avoidTakingFocusButton" destination="4MH-H4-Ce2" id="iHM-Ux-GrT"/>
                 <outlet property="clearOnQuitButton" destination="O2y-qd-u6c" id="awd-Ep-Rex"/>
+                <outlet property="clearSystemClipboardButton" destination="hfC-v8-O9B" id="gYl-l2-YWz"/>
                 <outlet property="turnOffButton" destination="RTY-w8-2Wt" id="xy5-W3-yjD"/>
                 <outlet property="view" destination="vfL-pB-YIa" id="gmn-hk-Nsm"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vfL-pB-YIa">
+        <customView translatesAutoresizingMaskIntoConstraints="NO" id="vfL-pB-YIa">
             <rect key="frame" x="0.0" y="0.0" width="438" height="474"/>
             <subviews>
                 <gridView xPlacement="fill" yPlacement="top" rowAlignment="lastBaseline" rowSpacing="8" columnSpacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="FlB-UI-Pmg">
                     <rect key="frame" x="22" y="24" width="398" height="428"/>
                     <constraints>
                         <constraint firstItem="b9g-nH-4p9" firstAttribute="top" secondItem="N3b-Yq-7Cd" secondAttribute="bottom" constant="12" id="WzY-oo-bVJ"/>
-                        <constraint firstItem="hfC-v8-O9B" firstAttribute="top" secondItem="b9g-nH-4p9" secondAttribute="bottom" constant="12" id="eoM-L9-1YZ"/>
-                        <constraint firstItem="hfC-v8-O9B" firstAttribute="top" secondItem="b9g-nH-4p9" secondAttribute="bottom" constant="12" id="qfG-wC-kht"/>
                     </constraints>
                     <rows>
                         <gridRow id="CZD-ac-NuU"/>
@@ -60,7 +59,7 @@
                         </gridCell>
                         <gridCell row="l2s-iI-2ix" column="8aH-p4-Hiw" id="XZW-aJ-d98">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ahJ-Lm-rjm">
-                                <rect key="frame" x="-2" y="362" width="402" height="42"/>
+                                <rect key="frame" x="-2" y="354" width="402" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="Ejh-zi-AFs">
                                     <font key="font" metaFont="smallSystem"/>
                                     <string key="title">Temporarily ignore all new copies.
@@ -72,7 +71,7 @@ You are likely to use it programmatically and disable application while copying 
                         </gridCell>
                         <gridCell row="M6T-bh-slS" column="8aH-p4-Hiw" id="dQu-KC-grG">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fpb-AC-gT0">
-                                <rect key="frame" x="-2" y="321" width="402" height="33"/>
+                                <rect key="frame" x="-2" y="313" width="402" height="33"/>
                                 <textFieldCell key="cell" selectable="YES" id="LFh-6b-GFi">
                                     <font key="font" size="10" name="Menlo-Regular"/>
                                     <string key="title">defaults write org.p0deje.Maccy ignoreEvents true
@@ -85,7 +84,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="klT-Xg-5Xa" column="8aH-p4-Hiw" id="9Bn-10-d0I">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b73-sw-gL3">
-                                <rect key="frame" x="-2" y="285" width="402" height="28"/>
+                                <rect key="frame" x="-2" y="277" width="402" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" title="You can also click the menu icon with ⌥ pressed. To ignore only the next copy, click with ⌥⇧." id="lwS-2p-WwS">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -95,7 +94,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="ey0-TY-bAY" column="8aH-p4-Hiw" id="uUX-Op-ca8">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="uoQ-aq-GS3">
-                                <rect key="frame" x="0.0" y="270" width="398" height="5"/>
+                                <rect key="frame" x="0.0" y="262" width="398" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="tDm-DG-HuU" column="8aH-p4-Hiw" id="d4M-7j-KcB">
@@ -161,6 +160,9 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="clearSystemClipboardChanged:" target="-2" id="mXu-vh-Ue5"/>
+                                </connections>
                             </button>
                         </gridCell>
                         <gridCell row="PQV-FC-ejB" column="8aH-p4-Hiw" id="mAX-sM-XVo">
@@ -177,10 +179,10 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                 </gridView>
             </subviews>
             <constraints>
-                <constraint firstItem="FlB-UI-Pmg" firstAttribute="centerX" secondItem="vfL-pB-YIa" secondAttribute="centerX" id="5Df-de-3FT"/>
-                <constraint firstItem="FlB-UI-Pmg" firstAttribute="width" secondItem="vfL-pB-YIa" secondAttribute="width" multiplier="0.9" id="7tk-Oh-85A"/>
-                <constraint firstItem="FlB-UI-Pmg" firstAttribute="centerY" secondItem="vfL-pB-YIa" secondAttribute="centerY" id="SNC-0D-pSa"/>
-                <constraint firstItem="FlB-UI-Pmg" firstAttribute="height" secondItem="vfL-pB-YIa" secondAttribute="height" multiplier="0.9" id="tsa-Jn-Abh"/>
+                <constraint firstItem="FlB-UI-Pmg" firstAttribute="centerX" secondItem="vfL-pB-YIa" secondAttribute="centerX" constant="2" id="5Df-de-3FT"/>
+                <constraint firstItem="FlB-UI-Pmg" firstAttribute="width" secondItem="vfL-pB-YIa" secondAttribute="width" multiplier="0.9" constant="3.8000000000000114" id="7tk-Oh-85A"/>
+                <constraint firstItem="FlB-UI-Pmg" firstAttribute="centerY" secondItem="vfL-pB-YIa" secondAttribute="centerY" constant="-1" id="SNC-0D-pSa"/>
+                <constraint firstItem="FlB-UI-Pmg" firstAttribute="height" secondItem="vfL-pB-YIa" secondAttribute="height" multiplier="0.9" constant="1.3999999999999773" id="tsa-Jn-Abh"/>
             </constraints>
             <point key="canvasLocation" x="153" y="193"/>
         </customView>
