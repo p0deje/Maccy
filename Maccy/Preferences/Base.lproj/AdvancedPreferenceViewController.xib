@@ -59,7 +59,7 @@
                         </gridCell>
                         <gridCell row="l2s-iI-2ix" column="8aH-p4-Hiw" id="XZW-aJ-d98">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ahJ-Lm-rjm">
-                                <rect key="frame" x="-2" y="354" width="402" height="42"/>
+                                <rect key="frame" x="-2" y="362" width="402" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="Ejh-zi-AFs">
                                     <font key="font" metaFont="smallSystem"/>
                                     <string key="title">Temporarily ignore all new copies.

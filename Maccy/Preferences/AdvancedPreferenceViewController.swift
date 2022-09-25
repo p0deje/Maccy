@@ -20,6 +20,7 @@ class AdvancedPreferenceViewController: NSViewController, PreferencePane {
         populateTurnOff()
         populateAvoidTakingFocus()
         populateClearOnQuit()
+        populateClearSystemClipboard()
     }
     
     @IBAction func turnOffChanged(_ sender: NSButton) {
