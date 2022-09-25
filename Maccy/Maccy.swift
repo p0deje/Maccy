@@ -15,6 +15,7 @@ class Maccy: NSObject {
   private var menu: Menu!
   private var menuLoader: MenuLoader!
   private var window: NSWindow!
+  private var systemPasteBoard = NSPasteboard.general
 
   private let carbonMenuWindowClass = "NSStatusBarWindow"
   private var clearAlert: NSAlert {
@@ -118,6 +119,9 @@ class Maccy: NSObject {
     withClearAlert(suppressClearAlert: suppressClearAlert) {
       self.history.clearUnpinned()
       self.menu.clearUnpinned()
+      if (UserDefaults.standard.clearSystemClipboard) {
+        self.systemPasteBoard.clearContents()
+      }
     }
   }
 
