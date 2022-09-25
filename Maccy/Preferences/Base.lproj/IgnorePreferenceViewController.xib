@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21225" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21225"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -48,7 +48,7 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn editable="NO" width="437" minWidth="40" maxWidth="1000" id="e5t-lA-7er">
+                                                <tableColumn editable="NO" width="408" minWidth="40" maxWidth="1000" id="e5t-lA-7er">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Applications">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -61,7 +61,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="appCell" id="fhd-tK-2ds">
-                                                            <rect key="frame" x="1" y="0.0" width="446" height="34"/>
+                                                            <rect key="frame" x="1" y="0.0" width="417" height="34"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sfK-F0-gSp">
@@ -72,7 +72,7 @@
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="jpG-Mf-0lg"/>
                                                                 </imageView>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="VfN-4U-S04">
-                                                                    <rect key="frame" x="34" y="9" width="390" height="16"/>
+                                                                    <rect key="frame" x="34" y="9" width="361" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="at1-VF-wpg">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -118,8 +118,8 @@
                             </scrollView>
                         </gridCell>
                         <gridCell row="ids-bw-eOR" column="gIK-wZ-lcb" xPlacement="leading" id="jtR-Tw-Hf6">
-                            <segmentedControl key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iyi-HD-6dB">
-                                <rect key="frame" x="0.0" y="328" width="451" height="23"/>
+                            <segmentedControl key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="iyi-HD-6dB">
+                                <rect key="frame" x="0.0" y="328" width="61" height="23"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="smallSquare" trackingMode="momentary" id="3q1-5O-D0G">
                                     <font key="font" metaFont="system"/>
                                     <segments>
@@ -134,7 +134,7 @@
                         </gridCell>
                         <gridCell row="r9h-eh-aYG" column="gIK-wZ-lcb" id="z7F-kW-yFp">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ADT-kA-zMw">
-                                <rect key="frame" x="-2" y="279" width="455" height="42"/>
+                                <rect key="frame" x="-2" y="270" width="455" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="bVW-Cb-ulw">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">It's possible to ignore copies coming from certain applications.
@@ -146,12 +146,12 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                         </gridCell>
                         <gridCell row="4b1-JA-oq7" column="gIK-wZ-lcb" id="jlS-uK-TuZ">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="UYR-XZ-POZ">
-                                <rect key="frame" x="0.0" y="262" width="451" height="5"/>
+                                <rect key="frame" x="0.0" y="253" width="451" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="kwT-sg-M5h" column="gIK-wZ-lcb" yPlacement="fill" rowAlignment="none" id="bLi-De-yeG">
                             <scrollView key="contentView" ambiguous="YES" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xeW-eu-ZJA">
-                                <rect key="frame" x="0.0" y="80" width="451" height="170"/>
+                                <rect key="frame" x="0.0" y="71" width="451" height="170"/>
                                 <clipView key="contentView" id="INS-KQ-gE0">
                                     <rect key="frame" x="1" y="1" width="449" height="168"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -163,7 +163,7 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="437" minWidth="40" maxWidth="1000" id="PDj-Nr-Ubl">
+                                                <tableColumn width="408" minWidth="40" maxWidth="1000" id="PDj-Nr-Ubl">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Pasteboard types">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -198,7 +198,7 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                         </gridCell>
                         <gridCell row="2BD-jg-qTx" column="gIK-wZ-lcb" xPlacement="leading" id="E68-5x-6xu">
                             <segmentedControl key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e7Y-T3-0AJ">
-                                <rect key="frame" x="0.0" y="49" width="451" height="32"/>
+                                <rect key="frame" x="0.0" y="49" width="61" height="23"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="smallSquare" trackingMode="momentary" id="7OS-5Z-WDT">
                                     <font key="font" metaFont="system"/>
                                     <segments>
