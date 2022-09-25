@@ -10,6 +10,7 @@
             <connections>
                 <outlet property="avoidTakingFocusButton" destination="4MH-H4-Ce2" id="iHM-Ux-GrT"/>
                 <outlet property="clearOnQuitButton" destination="O2y-qd-u6c" id="awd-Ep-Rex"/>
+                <outlet property="clearSystemClipboardButton" destination="lGE-3K-m2Y" id="yUd-O9-5tm"/>
                 <outlet property="turnOffButton" destination="RTY-w8-2Wt" id="xy5-W3-yjD"/>
                 <outlet property="view" destination="vfL-pB-YIa" id="gmn-hk-Nsm"/>
             </connections>
@@ -154,6 +155,9 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
                                 </buttonCell>
+                                <connections>
+                                    <action selector="clearSystemClipboardChanged:" target="-2" id="1Lb-Tj-REC"/>
+                                </connections>
                             </button>
                         </gridCell>
                         <gridCell row="QpM-uB-0J5" column="8aH-p4-Hiw" id="yrJ-wa-dsY">

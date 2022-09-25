@@ -4,6 +4,7 @@ extension UserDefaults {
   public struct Keys {
     static let avoidTakingFocus = "avoidTakingFocus"
     static let clearOnQuit = "clearOnQuit"
+    static let clearSystemClipboard = "clearSystemClipboard"
     static let enabledPasteboardTypes = "enabledPasteboardTypes"
     static let fuzzySearch = "fuzzySearch"
     static let hideFooter = "hideFooter"
@@ -57,6 +58,11 @@ extension UserDefaults {
   public var clearOnQuit: Bool {
     get { bool(forKey: Keys.clearOnQuit) }
     set { set(newValue, forKey: Keys.clearOnQuit) }
+  }
+    
+  public var clearSystemClipboard: Bool {
+    get { bool(forKey: Keys.clearSystemClipboard) }
+    set { set(newValue, forKey: Keys.clearSystemClipboard) }
   }
 
   @objc dynamic public var enabledPasteboardTypes: Set<NSPasteboard.PasteboardType> {
