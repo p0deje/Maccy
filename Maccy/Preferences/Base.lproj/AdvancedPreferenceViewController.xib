@@ -55,7 +55,7 @@
                         </gridCell>
                         <gridCell row="l2s-iI-2ix" column="8aH-p4-Hiw" id="XZW-aJ-d98">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ahJ-Lm-rjm">
-                                <rect key="frame" x="-2" y="352" width="402" height="42"/>
+                                <rect key="frame" x="-2" y="360" width="402" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="Ejh-zi-AFs">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Temporarily ignore all new copies.
@@ -67,7 +67,7 @@ You are likely to use it programmatically and disable application while copying 
                         </gridCell>
                         <gridCell row="M6T-bh-slS" column="8aH-p4-Hiw" id="dQu-KC-grG">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fpb-AC-gT0">
-                                <rect key="frame" x="-2" y="311" width="402" height="33"/>
+                                <rect key="frame" x="-2" y="319" width="402" height="33"/>
                                 <textFieldCell key="cell" selectable="YES" id="LFh-6b-GFi">
                                     <font key="font" size="10" name="Menlo-Regular"/>
                                     <string key="title">defaults write org.p0deje.Maccy ignoreEvents true
@@ -80,7 +80,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="klT-Xg-5Xa" column="8aH-p4-Hiw" id="9Bn-10-d0I">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b73-sw-gL3">
-                                <rect key="frame" x="-2" y="275" width="402" height="28"/>
+                                <rect key="frame" x="-2" y="283" width="402" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" title="You can also click the menu icon with ⌥ pressed. To ignore only the next copy, click with ⌥⇧." id="lwS-2p-WwS">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -90,12 +90,12 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="ey0-TY-bAY" column="8aH-p4-Hiw" id="uUX-Op-ca8">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="uoQ-aq-GS3">
-                                <rect key="frame" x="0.0" y="260" width="398" height="5"/>
+                                <rect key="frame" x="0.0" y="268" width="398" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="tDm-DG-HuU" column="8aH-p4-Hiw" id="d4M-7j-KcB">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4MH-H4-Ce2">
-                                <rect key="frame" x="-2" y="233" width="400" height="18"/>
+                                <rect key="frame" x="-2" y="241" width="400" height="18"/>
                                 <buttonCell key="cell" type="check" title="Avoid taking application focus" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jjU-HE-iIA">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -107,7 +107,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="o97-4G-dK7" column="8aH-p4-Hiw" id="TZ9-X9-vIe">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T2q-cI-BLE">
-                                <rect key="frame" x="-2" y="142" width="402" height="84"/>
+                                <rect key="frame" x="-2" y="150" width="402" height="84"/>
                                 <textFieldCell key="cell" selectable="YES" id="Y8y-xQ-lFm">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Maccy takes an active application focus when the popup is shown and gives focus back when it's closed. The focus is needed for advanced macOS input handling such as Chinese helper or accent menu. Enabling this option would prevent Maccy from taking focus. There are certain situations when this can be useful: for example, pasting to a text editor that auto-formats code when it loses focus.</string>
@@ -118,12 +118,12 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="xPS-dE-Nfw" column="8aH-p4-Hiw" xPlacement="fill" id="XTe-Nh-Nsd">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="zG7-X4-p00">
-                                <rect key="frame" x="0.0" y="127" width="398" height="5"/>
+                                <rect key="frame" x="0.0" y="135" width="398" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="fzu-MZ-Qf6" column="8aH-p4-Hiw" id="oYJ-Lk-nQt">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O2y-qd-u6c">
-                                <rect key="frame" x="-2" y="100" width="400" height="18"/>
+                                <rect key="frame" x="-2" y="108" width="400" height="18"/>
                                 <buttonCell key="cell" type="check" title="Clear history on quit" bezelStyle="regularSquare" imagePosition="left" inset="2" id="JvB-ng-8vt">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -135,7 +135,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="Vgr-fz-fiu" column="8aH-p4-Hiw" id="ZGt-CI-a2s">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N3b-Yq-7Cd">
-                                <rect key="frame" x="-2" y="79" width="402" height="14"/>
+                                <rect key="frame" x="-2" y="87" width="402" height="14"/>
                                 <textFieldCell key="cell" selectable="YES" title="Automatically remove all unpinned items before quitting the application." id="LW1-8W-pFI">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -145,7 +145,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="UZi-uf-36p" column="8aH-p4-Hiw" id="6va-Ex-6b0">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Jw1-K6-kPH">
-                                <rect key="frame" x="0.0" y="64" width="398" height="5"/>
+                                <rect key="frame" x="0.0" y="72" width="398" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="srs-kY-zXE" column="8aH-p4-Hiw" id="i2r-hf-2WV">
