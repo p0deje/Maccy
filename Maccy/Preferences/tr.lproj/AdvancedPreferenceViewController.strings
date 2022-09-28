@@ -22,3 +22,11 @@
 
 /* Class = "NSTextFieldCell"; title = "You can also click the menu icon with ⌥ pressed. To ignore only the next copy, click with ⌥⇧."; ObjectID = "lwS-2p-WwS"; */
 "lwS-2p-WwS.title" = "Aynı zamanda, ⌥ basılıyken menü simgesine tıklayabilirsiniz. Yalnızca sonraki kopyayı yok saymak için ⌥⇧ ile tıklayın.";
+
+/* Class = "NSButtonCell"; title = "Clear the system clipboard too"; ObjectID = "WSh-1o-SG8"; */
+"WSh-1o-SG8.title" = "Sistem panosunu da temizle"
+
+/* Class = "NSTextFieldCell"; title = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "SJh-zS-Osw" */
+ "SJh-zS-Osw.title" = "Etkinleştirildiğinde, geçmişi temizlemek mevcut sistem panosunu da temizleyecektir."
+
+

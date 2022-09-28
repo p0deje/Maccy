@@ -150,7 +150,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="srs-kY-zXE" column="8aH-p4-Hiw" id="i2r-hf-2WV">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lGE-3K-m2Y">
-                                <rect key="frame" x="-2" y="37" width="400" height="18"/>
+                                <rect key="frame" x="-2" y="45" width="400" height="18"/>
                                 <buttonCell key="cell" type="check" title="Clear the system clipboard too" bezelStyle="regularSquare" imagePosition="left" inset="2" id="WSh-1o-SG8">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -162,7 +162,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="QpM-uB-0J5" column="8aH-p4-Hiw" id="yrJ-wa-dsY">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o6L-Xg-UBJ">
-                                <rect key="frame" x="-2" y="0.0" width="402" height="28"/>
+                                <rect key="frame" x="-2" y="8" width="402" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" title="When enabled, clearing the history would also clear the current system clipboard." id="SJh-zS-Osw">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
