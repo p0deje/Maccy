@@ -127,6 +127,13 @@ class Clipboard {
       keyVUp?.post(tap: .cgAnnotatedSessionEventTap)
     }
   }
+    
+ func clear() {
+     guard UserDefaults.standard.clearSystemClipboard else {
+       return
+     }
+     pasteboard.clearContents()
+ }
 
   @objc
   func checkForChangesInPasteboard() {
