@@ -22,3 +22,11 @@
 
 /* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
 "LW1-8W-pFI.title" = "Rimuovi automaticamente gli elementi non bloccati prima di chiudere l'applicazione.";
+
+/* Class = "NSButtonCell"; title = "Clear the system clipboard too"; ObjectID = "WSh-1o-SG8"; */
+"WSh-1o-SG8.title" = "Cancella anche gli appunti di sistema";
+
+/* Class = "NSTextFieldCell"; title = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "SJh-zS-Osw" */
+ "SJh-zS-Osw.title" = "Se abilitata, la cancellazione della cronologia cancellerebbe anche gli appunti di sistema correnti.";
+
+

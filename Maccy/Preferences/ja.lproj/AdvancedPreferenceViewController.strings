@@ -22,3 +22,11 @@
 
 /* Class = "NSButtonCell"; title = "Avoid taking application focus"; ObjectID = "jjU-HE-iIA"; */
 "jjU-HE-iIA.title" = "アプリケーションのフォーカスを取らない";
+
+/* Class = "NSButtonCell"; title = "Clear the system clipboard too"; ObjectID = "WSh-1o-SG8"; */
+"WSh-1o-SG8.title" = "システムのクリップボードもクリア";
+
+/* Class = "NSTextFieldCell"; title = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "SJh-zS-Osw" */
+ "SJh-zS-Osw.title" = "有効にすると、履歴をクリアすると、現在のシステム クリップボードもクリアされます。";
+
+
