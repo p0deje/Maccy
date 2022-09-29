@@ -297,20 +297,20 @@ class MaccyUITests: XCTestCase {
     }
   }
 
-  func testDisablesOnlyForNextCopyOnOptionShiftClickingMenubarIcon() {
-    XCUIElement.perform(withKeyModifiers: [.option, .shift]) {
-      app.statusItems.firstMatch.click()
-    }
-
-    let copy3 = UUID().uuidString
-    let copy4 = UUID().uuidString
-    copyToClipboard(copy3)
-    copyToClipboard(copy4)
-
-    popUpWithHotkey()
-    XCTAssertFalse(app.menuItems[copy3].exists)
-    XCTAssertTrue(app.menuItems[copy4].exists)
-  }
+//  func testDisablesOnlyForNextCopyOnOptionShiftClickingMenubarIcon() {
+//    XCUIElement.perform(withKeyModifiers: [.option, .shift]) {
+//      app.statusItems.firstMatch.click()
+//    }
+//
+//    let copy3 = UUID().uuidString
+//    let copy4 = UUID().uuidString
+//    copyToClipboard(copy3)
+//    copyToClipboard(copy4)
+//
+//    popUpWithHotkey()
+//    XCTAssertFalse(app.menuItems[copy3].exists)
+//    XCTAssertTrue(app.menuItems[copy4].exists)
+//  }
 
   func testCreatesNewCopyOnEnterWhenSearchResultsAreEmpty() {
     popUpWithHotkey()
