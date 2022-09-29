@@ -15,8 +15,7 @@ class Maccy: NSObject {
   private var menu: Menu!
   private var menuLoader: MenuLoader!
   private var window: NSWindow!
-  private var systemPasteBoard = NSPasteboard.general
-
+  
   private let carbonMenuWindowClass = "NSStatusBarWindow"
   private var clearAlert: NSAlert {
     let alert = NSAlert()
