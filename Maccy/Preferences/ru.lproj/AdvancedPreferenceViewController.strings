@@ -28,5 +28,3 @@
 
 /* Class = "NSTextFieldCell"; title = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "SJh-zS-Osw" */
  "SJh-zS-Osw.title" = "Если этот параметр включен, очистка истории также очистит текущий системный буфер обмена.";
-
-

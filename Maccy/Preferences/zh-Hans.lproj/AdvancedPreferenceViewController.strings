@@ -28,5 +28,3 @@
 
 /* Class = "NSTextFieldCell"; title = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "SJh-zS-Osw" */
  "SJh-zS-Osw.title" = "启用后，清除历史记录也会清除当前系统剪贴板。";
-
-

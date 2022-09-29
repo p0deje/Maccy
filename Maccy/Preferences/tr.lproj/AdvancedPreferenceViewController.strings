@@ -28,5 +28,3 @@
 
 /* Class = "NSTextFieldCell"; title = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "SJh-zS-Osw" */
  "SJh-zS-Osw.title" = "Etkinleştirildiğinde, geçmişi temizlemek mevcut sistem panosunu da temizleyecektir.";
-
-
