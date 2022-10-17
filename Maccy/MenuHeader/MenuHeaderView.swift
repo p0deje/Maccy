@@ -165,9 +165,8 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       performMenuItemAction(MenuFooter.clearAll.rawValue)
       return true
     case .deleteOneCharFromSearch:
-      if !queryField.stringValue.isEmpty {
-        setQuery(String(queryField.stringValue.dropLast()))
-      }
+      guard !queryField.stringValue.isEmpty else { return true }
+      deleteOneCharacter()
       return true
     case .deleteLastWordFromSearch:
       removeLastWordInSearchField()
@@ -190,7 +189,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       performMenuItemAction(MenuFooter.preferences.rawValue)
       return false
     case .paste:
-      queryField.becomeFirstResponder()
+      focusQueryField()
       queryField.currentEditor()?.paste(nil)
       return true
     case .selectCurrentItem:
@@ -216,25 +215,43 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       return false
     }
 
-    if UserDefaults.standard.avoidTakingFocus {
-      // append character to the search field to trigger
-      // and stop event from being propagated
-      setQuery("\(queryField.stringValue)\(char)")
-      return true
-    } else {
-      // make the search field first responder
-      // and propagate event to it
+    guard UserDefaults.standard.avoidTakingFocus else {
       focusQueryField()
       return false
     }
+
+    var query = queryField.stringValue
+    if let selectedNSRange = queryField.currentEditor()?.selectedRange,
+       let selectedRange = Range(selectedNSRange, in: query) {
+      query.replaceSubrange(selectedRange, with: char)
+      setQuery(query)
+      queryField.currentEditor()?.selectedRange = NSRange(location: query.count, length: 0)
+    } else {
+      query.append(char)
+      setQuery(query)
+    }
+    return true
+  }
+  
+  private func deleteOneCharacter() {
+    var query = queryField.stringValue
+    if let selectedNSRange = queryField.currentEditor()?.selectedRange,
+       let selectedRange = Range(selectedNSRange, in: query) {
+      query.removeSubrange(selectedRange)
+    } else {
+      query.removeLast()
+    }
+    setQuery(query)
   }
 
   private func focusQueryField() {
-    queryField.becomeFirstResponder()
-    // Making text field a first responder selects all the text by default.
-    // We need to make sure events are appended to existing text.
+    let previousSelectedRange = queryField.currentEditor()?.selectedRange
+    
+    queryField.becomeFirstResponder() // Making text field a first responder selects all the text by default.
+    
     if let fieldEditor = queryField.currentEditor() {
-      fieldEditor.selectedRange = NSRange(location: fieldEditor.selectedRange.length, length: 0)
+      // Restore the previous selected range or set cursor to the end if no text was selected.
+      fieldEditor.selectedRange = previousSelectedRange ?? NSRange(location: fieldEditor.selectedRange.length, length: 0)
     }
   }
 
