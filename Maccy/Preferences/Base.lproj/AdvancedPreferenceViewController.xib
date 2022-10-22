@@ -118,12 +118,12 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="xPS-dE-Nfw" column="8aH-p4-Hiw" xPlacement="fill" id="XTe-Nh-Nsd">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="zG7-X4-p00">
-                                <rect key="frame" x="0.0" y="135" width="398" height="5"/>
+                                <rect key="frame" x="0.0" y="127" width="398" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="fzu-MZ-Qf6" column="8aH-p4-Hiw" id="oYJ-Lk-nQt">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O2y-qd-u6c">
-                                <rect key="frame" x="-2" y="108" width="400" height="18"/>
+                                <rect key="frame" x="-2" y="100" width="400" height="18"/>
                                 <buttonCell key="cell" type="check" title="Clear history on quit" bezelStyle="regularSquare" imagePosition="left" inset="2" id="JvB-ng-8vt">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -135,7 +135,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="Vgr-fz-fiu" column="8aH-p4-Hiw" id="ZGt-CI-a2s">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N3b-Yq-7Cd">
-                                <rect key="frame" x="-2" y="87" width="402" height="14"/>
+                                <rect key="frame" x="-2" y="79" width="402" height="14"/>
                                 <textFieldCell key="cell" selectable="YES" title="Automatically remove all unpinned items before quitting the application." id="LW1-8W-pFI">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -145,12 +145,12 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="UZi-uf-36p" column="8aH-p4-Hiw" id="6va-Ex-6b0">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="Jw1-K6-kPH">
-                                <rect key="frame" x="0.0" y="72" width="398" height="5"/>
+                                <rect key="frame" x="0.0" y="64" width="398" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="srs-kY-zXE" column="8aH-p4-Hiw" id="i2r-hf-2WV">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lGE-3K-m2Y">
-                                <rect key="frame" x="-2" y="45" width="400" height="18"/>
+                                <rect key="frame" x="-2" y="37" width="400" height="18"/>
                                 <buttonCell key="cell" type="check" title="Clear the system clipboard too" bezelStyle="regularSquare" imagePosition="left" inset="2" id="WSh-1o-SG8">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -162,7 +162,7 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                         </gridCell>
                         <gridCell row="QpM-uB-0J5" column="8aH-p4-Hiw" id="yrJ-wa-dsY">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="o6L-Xg-UBJ">
-                                <rect key="frame" x="-2" y="8" width="402" height="28"/>
+                                <rect key="frame" x="-2" y="0.0" width="402" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" title="When enabled, clearing the history would also clear the current system clipboard." id="SJh-zS-Osw">
                                     <font key="font" metaFont="smallSystem"/>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
