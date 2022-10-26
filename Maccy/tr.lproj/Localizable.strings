@@ -23,7 +23,7 @@
 "paste_modifiers_config" = "• Ögeyi kopyalayıp yapıştırmak için %@ basılı tutarak seçin.";
 "format_modifiers_config" = "• Kopyalamak, biçimlendirmeyi temizlemek ve yapıştırmak için %@ basılı tutarak seçin.";
 "accessibility_alert_message" = "“Maccy”, erişilebilirlik özelliklerini kullanarak bu bilgisayarı denetlemek istiyor.";
-"accessibility_alert_comment" = "Bu uygulamaya, Sistem Ayarları'nda Güvenlik ve Gizlilik bölümünden izin verin.";
+"accessibility_alert_comment" = "Bu uygulamaya, Sistem Ayarları'nda Güvenlik ve Gizlilik bölümünden izin verin.\n\n“+“ düğmesine tıklayın, Maccy'yi seçin ve yanındaki onay kutusunu işaretleyin.";
 "accessibility_alert_deny" = "Reddet";
 "accessibility_alert_open" = "Sistem Ayarları'nı Aç";
 "clear_alert_message" = "Geçmişi temizlemek istediğinize emin misiniz?";

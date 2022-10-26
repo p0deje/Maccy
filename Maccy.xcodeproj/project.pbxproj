@@ -53,7 +53,6 @@
 		DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */; };
 		DA57C64E249E2A550032707A /* MenuFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57C64D249E2A550032707A /* MenuFooter.swift */; };
 		DA57C650249E3C8F0032707A /* MenuFoooterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57C64F249E3C8F0032707A /* MenuFoooterTests.swift */; };
-		DA580FBD28C041720089AA66 /* AccessibilityInstructions.gif in Resources */ = {isa = PBXBuildFile; fileRef = DA580FBC28C041720089AA66 /* AccessibilityInstructions.gif */; };
 		DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5F464F2020E4DF00425C11 /* Carbon.framework */; };
 		DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA6373971E4AB9BB00263391 /* Assets.xcassets */; };
 		DA68F91828BD6E21007E2F25 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = DA68F91728BD6E21007E2F25 /* Intents.intentdefinition */; };
@@ -263,7 +262,6 @@
 		DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryMenuItem.swift; sourceTree = "<group>"; };
 		DA57C64D249E2A550032707A /* MenuFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFooter.swift; sourceTree = "<group>"; };
 		DA57C64F249E3C8F0032707A /* MenuFoooterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFoooterTests.swift; sourceTree = "<group>"; };
-		DA580FBC28C041720089AA66 /* AccessibilityInstructions.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = AccessibilityInstructions.gif; sourceTree = "<group>"; };
 		DA5F464F2020E4DF00425C11 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
 		DA6373971E4AB9BB00263391 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA68F91728BD6E21007E2F25 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
@@ -494,7 +492,6 @@
 				DA196A8D28AB0A3700ADD8A2 /* MenuHeader */,
 				DA181178247D150B00066D55 /* Preferences */,
 				DA21AD3C249E85BD003E7C98 /* Sounds */,
-				DA580FBC28C041720089AA66 /* AccessibilityInstructions.gif */,
 				DA246D601E56C9EA001E40F3 /* Application.xib */,
 				DA6373971E4AB9BB00263391 /* Assets.xcassets */,
 				DAB8CE4124E368F200A2500E /* container-migration.plist */,
@@ -707,7 +704,6 @@
 				DA20EBB5268E54E80032D360 /* IgnorePreferenceViewController.xib in Resources */,
 				DAB8CE4224E368F200A2500E /* container-migration.plist in Resources */,
 				DAD20C7A24E55CD200E96247 /* org.sparkle-project.InstallerLauncher.xpc in Resources */,
-				DA580FBD28C041720089AA66 /* AccessibilityInstructions.gif in Resources */,
 				DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */,
 				4762D6972467226100B3A2BA /* Localizable.strings in Resources */,
 				DA009934256411F90030E697 /* LICENSE in Resources */,

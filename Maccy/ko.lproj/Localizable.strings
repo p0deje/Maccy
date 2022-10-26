@@ -23,7 +23,7 @@
 "paste_modifiers_config" = "• %@와 함께 선택시 항목을 복사하여 붙여넣기 합니다.";
 "format_modifiers_config" = "• %@와 함께 선택시 항목을 복사하여 서식없이 붙여넣기 합니다.";
 "accessibility_alert_message" = "“Maccy”가 손쉬운 사용 기능을 사용하여 이 컴퓨터를 제어하려고 합니다.";
-"accessibility_alert_comment" = "시스템 환경설정에 있는 보안 및 개인 정보 보호 환경설정에서 이 응용 프로그램에 접근 권한을 부여하십시오.";
+"accessibility_alert_comment" = "시스템 환경설정에 있는 보안 및 개인 정보 보호 환경설정에서 이 응용 프로그램에 접근 권한을 부여하십시오.\n\n“+“ 버튼을 클릭하고 “Maccy“를 선택한 다음 옆에 있는 확인란을 토글합니다.";
 "accessibility_alert_deny" = "거부";
 "accessibility_alert_open" = "시스템 환경설정 열기";
 "clear_alert_message" = "기록을 지우시겠습니까?";

@@ -23,7 +23,7 @@
 "paste_modifiers_config" = "• 按住 %@ 貼上所選項目";
 "format_modifiers_config" = "• 按住 %@ 拷貝所選項目的格式設定";
 "accessibility_alert_message" = "「Maccy「想要使用「輔助功能」控制此 Mac。";
-"accessibility_alert_comment" = "在「系統偏好設定」中的「安全性和隱私權」設定中允許此應用程式權限";
+"accessibility_alert_comment" = "在「系統偏好設定」中的「安全性和隱私權」設定中允許此應用程式權限。\n\n單擊 「+ 「按鈕，選擇 「Maccy 「並打開旁邊的複選框。";
 "accessibility_alert_deny" = "拒絕";
 "accessibility_alert_open" = "打開系統偏好設定";
 "clear_alert_message" = "確定要清除歷史記錄嗎？";

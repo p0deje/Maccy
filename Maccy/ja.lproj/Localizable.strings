@@ -23,7 +23,7 @@
 "paste_modifiers_config" = "• %@を押しながら選択すると項目をコピーして貼り付けます。";
 "format_modifiers_config" = "• %@を押しながら選択すると項目をコピーし、 書式なしで貼り付けます。";
 "accessibility_alert_message" = "“Maccy”は、アクセシビリティ機能を使用してこのコンピュータを制御することを求めています。";
-"accessibility_alert_comment" = "システム環境設定の“セキュリティとプライバシー”環境設定で、このアプリケーションへのアクセスを許可してください。";
+"accessibility_alert_comment" = "システム環境設定の“セキュリティとプライバシー”環境設定で、このアプリケーションへのアクセスを許可してください。\n\n“+“ボタンをクリックし、“Maccy“を選択して、その横のチェックボックスをオンにします。";
 "accessibility_alert_deny" = "拒否";
 "accessibility_alert_open" = "“システム環境設定”を開く";
 "clear_alert_message" = "履歴をクリアしますか？";

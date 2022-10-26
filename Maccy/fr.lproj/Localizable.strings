@@ -23,7 +23,7 @@
 "paste_modifiers_config" = "• Selectionnez avec %@ pressé pour copier et coller l'élément.";
 "format_modifiers_config" = "• Selectionnez avec %@ pressé pour copier, reformater et coller l'élément.";
 "accessibility_alert_message" = "“Maccy” souhaite contrôler cet ordinateur en utilisant des fonctions d'accessibilité.";
-"accessibility_alert_comment" = "Accorder les droits à cette application dans le panneau Sécurité & confidentialité, situé dans Préférences Système.";
+"accessibility_alert_comment" = "Accorder les droits à cette application dans le panneau Sécurité & confidentialité, situé dans Préférences Système.\n\nCliquez sur le bouton +, sélectionnez “Maccy“ et cochez la case à côté.";
 "accessibility_alert_deny" = "Refuser";
 "accessibility_alert_open" = "Ouvrir les Préférences Système";
 "clear_alert_message" = "Voulez-vous vraiment effacer l'historique?";

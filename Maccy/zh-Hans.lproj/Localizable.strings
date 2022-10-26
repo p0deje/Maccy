@@ -23,7 +23,7 @@
 "paste_modifiers_config" = "• 按住 %@ 选择项目以复制并粘贴";
 "format_modifiers_config" = "• 按住 %@ 选择项目以复制并匹配格式粘贴";
 "accessibility_alert_message" = "“Maccy“想要使用“辅助功能”控制此计算机。";
-"accessibility_alert_comment" = "在“系统偏好设置”中的“安全性和隐私”设置中授予此应用程序权限";
+"accessibility_alert_comment" = "在“系统偏好设置”中的“安全性和隐私”设置中授予此应用程序权限。\n\n单击 ”+” 按钮，选择 ”Maccy” 并打开旁边的复选框。";
 "accessibility_alert_deny" = "拒绝";
 "accessibility_alert_open" = "打开系统偏好设置";
 "clear_alert_message" = "确定要清除历史记录吗？";
