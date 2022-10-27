@@ -22,3 +22,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
 "LW1-8W-pFI.title" = "Automatski ukloni sve otkvačene elemente prije zatvaranja programa.";
+
+/* Class = "NSButtonCell"; title = "Clear the system clipboard too"; ObjectID = "WSh-1o-SG8"; */
+"WSh-1o-SG8.title" = "Očistite i međuspremnik sustava";
+
+/* Class = "NSTextFieldCell"; title = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "SJh-zS-Osw" */
+"SJh-zS-Osw.title" = "Kada je omogućeno, brisanje povijesti također bi izbrisalo trenutni sistemski međuspremnik.";

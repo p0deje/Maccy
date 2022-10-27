@@ -22,3 +22,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
 "LW1-8W-pFI.title" = "Supprimez automatiquement tous les éléments non épinglés avant de quitter l'application.";
+
+/* Class = "NSButtonCell"; title = "Clear the system clipboard too"; ObjectID = "WSh-1o-SG8"; */
+"WSh-1o-SG8.title" = "Effacer également le presse-papiers du système";
+
+/* Class = "NSTextFieldCell"; title = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "SJh-zS-Osw" */
+"SJh-zS-Osw.title" = "Lorsqu'il est activé, l'effacement de l'historique effacerait également le presse-papiers du système actuel.";

@@ -22,3 +22,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Automatically remove all unpinned items before quitting the application."; ObjectID = "LW1-8W-pFI"; */
 "LW1-8W-pFI.title" = "Fjern alle ikke-festede elementer automatisk før du avslutter applikasjonen.";
+
+/* Class = "NSButtonCell"; title = "Clear the system clipboard too"; ObjectID = "WSh-1o-SG8"; */
+"WSh-1o-SG8.title" = "Tøm systemets utklippstavle også";
+
+/* Class = "NSTextFieldCell"; title = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "SJh-zS-Osw" */
+"SJh-zS-Osw.title" = "Når den er aktivert, vil tømming av loggen også tømme gjeldende systemutklippstavle.";

@@ -118,6 +118,7 @@ class Maccy: NSObject {
     withClearAlert(suppressClearAlert: suppressClearAlert) {
       self.history.clearUnpinned()
       self.menu.clearUnpinned()
+      self.clipboard.clear()
     }
   }
 
@@ -214,6 +215,7 @@ class Maccy: NSObject {
     withClearAlert(suppressClearAlert: suppressClearAlert) {
       self.history.clear()
       self.menu.clearAll()
+      self.clipboard.clear()
     }
   }
 

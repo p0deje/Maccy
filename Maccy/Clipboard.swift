@@ -121,6 +121,14 @@ class Clipboard {
     }
   }
 
+  func clear() {
+    guard UserDefaults.standard.clearSystemClipboard else {
+      return
+    }
+
+    pasteboard.clearContents()
+  }
+
   @objc
   func checkForChangesInPasteboard() {
     guard pasteboard.changeCount != changeCount else {
