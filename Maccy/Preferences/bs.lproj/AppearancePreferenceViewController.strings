@@ -1,0 +1,60 @@
+
+/* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
+"0h4-CZ-fwT.title" = "Meni ikona";
+
+/* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
+"0tN-4z-p8T.title" = "Pritisni ⌘, da otvorite postavke kada je podnožje skriveno.";
+
+/* Class = "NSButtonCell"; title = "Show recent copy next to menu icon"; ObjectID = "2vE-8q-6tq"; */
+"2vE-8q-6tq.title" = "Prikaži nedavnu kopiju pored ikone menija";
+
+/* Class = "NSMenuItem"; title = "Cursor"; ObjectID = "Ccp-5J-8nw"; */
+"Ccp-5J-8nw.title" = "Kursor";
+
+/* Class = "NSButtonCell"; title = "Show footer"; ObjectID = "ClZ-IS-YKz"; */
+"ClZ-IS-YKz.title" = "Prikaži footer";
+
+/* Class = "NSMenuItem"; title = "Top"; ObjectID = "DKE-JI-oLS"; */
+"DKE-JI-oLS.title" = "Vrh";
+
+/* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
+"GhW-Kv-rhO.title" = "Zakači na:";
+
+/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
+"KJb-2z-C5c.title" = "Centar zaslona";
+
+/* Class = "NSTextFieldCell"; title = "Image height:"; ObjectID = "MKb-cW-gpg"; */
+"MKb-cW-gpg.title" = "Visina slike:";
+
+/* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
+"Pud-2o-NKc.title" = "Prikaži meni ikonu";
+
+/* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
+"R7Y-UN-Edt.title" = "Popup na:";
+
+/* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
+"Yio-8e-oaa.title" = "Dno";
+
+/* Class = "NSTextFieldCell"; title = "Change the location of pinned items.\nDefault: Top."; ObjectID = "aqA-NI-K5d"; */
+"aqA-NI-K5d.title" = "Promjeni lokaciju zakačenih stavki.\nDefault: Vrh.";
+
+/* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
+"bIP-Mi-SeJ.title" = "Maksimalna visina pregleda slike: {imageHeight}.\nZadano: 40.\nSavjet: Postavite na 16 da izgledaju kao tekstualne stavke.";
+
+/* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
+"ePT-qq-kg9.title" = "Prikaži naslov prije polja za pretraživanje";
+
+/* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
+"gMh-0J-BUx.title" = "Centar prozora";
+
+/* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "Veličina meni-a:";
+
+/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}. \nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
+"j39-nx-OGb.title" = "Broj vidljivih stavki: {menuSize}.\nSkrivene stavke se i dalje čuvaju u historiji i mogu se pronaći pomoću pretrage.\nPostavi na 0 da sve stavke budu vidljive.\Zadano: 0.";
+
+/* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
+"mWx-zi-OAv.title" = "Prikaži polje za pretragu";
+
+/* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
+"tpV-rp-2HY.title" = "Promijeni lokaciju na kojoj se pojavljuje priručni prozor.\nZadano: Kursor.";
