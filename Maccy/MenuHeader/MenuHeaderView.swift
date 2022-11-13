@@ -16,7 +16,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   ]
   private let macOSXLeftPadding: CGFloat = 20.0
   private let macOSXRightPadding: CGFloat = 10.0
-  private let searchThrottler = Throttler(minimumDelay: 0.2)
+  private let searchThrottler = Throttler(minimumDelay: 0.4)
 
   private var characterPickerVisible: Bool {
     NSApp.windows.filter({ $0.isVisible }).map({ $0.className }).contains("NSPanelViewBridge")
@@ -230,6 +230,13 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   }
 
   private func focusQueryField() {
+    // If the field is already focused, there is no need for force-focus it.
+    // Worse, it breaks Korean input handling.
+    // See https://github.com/p0deje/Maccy/issues/476 for details.
+    guard queryField.currentEditor() == nil else {
+      return
+    }
+
     queryField.becomeFirstResponder()
     // Making text field a first responder selects all the text by default.
     // We need to make sure events are appended to existing text.
