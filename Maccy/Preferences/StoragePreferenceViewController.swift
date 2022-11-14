@@ -64,7 +64,11 @@ class StoragePreferenceViewController: NSViewController, PreferencePane {
   }
 
   @IBAction func storeTextChanged(_ sender: NSButton) {
-    let types: Set = [NSPasteboard.PasteboardType.string]
+    let types: Set = [
+      NSPasteboard.PasteboardType.html,
+      NSPasteboard.PasteboardType.rtf,
+      NSPasteboard.PasteboardType.string
+    ]
     sender.state == .on ? addEnabledTypes(types) : removeEnabledTypes(types)
   }
 

@@ -89,6 +89,12 @@ class HistoryItem: NSManagedObject {
       }
     } else if let stringData = contents.first(where: { NSPasteboard.PasteboardType($0.type) == .string })?.value {
       title = String(data: stringData, encoding: .utf8) ?? ""
+    } else if title.isEmpty,
+              let rtfData = contents.first(where: { NSPasteboard.PasteboardType($0.type) == .rtf })?.value {
+      title = NSAttributedString(rtf: rtfData, documentAttributes: nil)?.string ?? ""
+    } else if title.isEmpty,
+              let htmlData = contents.first(where: { NSPasteboard.PasteboardType($0.type) == .html })?.value {
+      title = NSAttributedString(html: htmlData, documentAttributes: nil)?.string ?? ""
     }
 
     return title

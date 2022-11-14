@@ -11,6 +11,7 @@ class ClipboardTests: XCTestCase {
   let dynamicType = NSPasteboard.PasteboardType(rawValue: "dyn.ah62d4qmxhk4d425try1g44pdsm11g55gsu1e82xnqzv")
   let customType = NSPasteboard.PasteboardType(rawValue: "org.maccy.ConfidentialType")
   let fileURLType = NSPasteboard.PasteboardType.fileURL
+  let htmlType = NSPasteboard.PasteboardType.html
   let rtfType = NSPasteboard.PasteboardType.rtf
   let stringType = NSPasteboard.PasteboardType.string
   let tiffType = NSPasteboard.PasteboardType.tiff
@@ -71,6 +72,32 @@ class ClipboardTests: XCTestCase {
     clipboard.startListening()
     pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString("\n", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testDoesNotIgnoreRTF() {
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (_: HistoryItem) -> Void in
+      hookExpectation.fulfill()
+    })
+    clipboard.startListening()
+    let rtf = NSAttributedString(string: "foo").rtf(
+      from: NSRange(0...2),
+      documentAttributes: [:]
+    )
+    pasteboard.declareTypes([.rtf], owner: nil)
+    pasteboard.setData(rtf, forType: .rtf)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testDoesNotIgnoreHTML() {
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (_: HistoryItem) -> Void in
+      hookExpectation.fulfill()
+    })
+    clipboard.startListening()
+    pasteboard.declareTypes([.html], owner: nil)
+    pasteboard.setString("foo", forType: .html)
     waitForExpectations(timeout: 2)
   }
 

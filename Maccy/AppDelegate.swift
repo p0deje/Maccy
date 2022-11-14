@@ -151,6 +151,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
       UserDefaults.standard.migrations["2022-08-01-rename-suppress-clear-alert"] = true
     }
+
+    if UserDefaults.standard.migrations["2022-11-14-add-html-rtf-to-supported-types"] != true {
+      if UserDefaults.standard.enabledPasteboardTypes.contains(.string) {
+        UserDefaults.standard.enabledPasteboardTypes =
+          UserDefaults.standard.enabledPasteboardTypes.union([.html, .rtf])
+      }
+
+      UserDefaults.standard.migrations["2022-11-14-add-html-rtf-to-supported-types"] = true
+    }
   }
 
   private func clearOrphanRecords() {

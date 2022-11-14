@@ -38,6 +38,27 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertNil(menuItem.image)
   }
 
+  func testRTF() {
+    let rtf = NSAttributedString(string: "foo").rtf(
+      from: NSRange(0...2),
+      documentAttributes: [:]
+    )
+    let menuItem = historyMenuItem(rtf, .rtf)
+    XCTAssertEqual(menuItem.title, "foo")
+    XCTAssertEqual(menuItem.value, "foo")
+    XCTAssertEqual(menuItem.toolTip, tooltip("foo"))
+    XCTAssertNil(menuItem.image)
+  }
+
+  func testHTML() {
+    let html = "<a href='#'>foo</a>".data(using: .utf8)
+    let menuItem = historyMenuItem(html, .html)
+    XCTAssertEqual(menuItem.title, "foo")
+    XCTAssertEqual(menuItem.value, "foo")
+    XCTAssertEqual(menuItem.toolTip, tooltip("foo"))
+    XCTAssertNil(menuItem.image)
+  }
+
   func testImage() {
     let image = NSImage(named: "NSBluetoothTemplate")!
     let menuItem = historyMenuItem(image)
@@ -137,6 +158,17 @@ class HistoryMenuItemTests: XCTestCase {
                                      value: value?.data(using: .utf8))
     let item = HistoryItem(contents: [content])
     item.application = application
+    item.firstCopiedAt = firstCopiedAt
+    item.lastCopiedAt = lastCopiedAt
+    item.numberOfCopies = 2
+    return HistoryMenuItem(item: item, clipboard: Clipboard.shared)
+  }
+
+  private func historyMenuItem(_ value: Data?, _ type: NSPasteboard.PasteboardType) -> HistoryMenuItem {
+    let content = HistoryItemContent(type: type.rawValue,
+                                     value: value)
+    let item = HistoryItem(contents: [content])
+    item.application = "com.apple.finder"
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2

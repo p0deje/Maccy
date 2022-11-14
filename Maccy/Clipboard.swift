@@ -24,7 +24,9 @@ class Clipboard {
   private let microsoftSourcePrefix = "com.microsoft.ole.source."
   private let supportedTypes: Set = [
     NSPasteboard.PasteboardType.fileURL,
+    NSPasteboard.PasteboardType.html,
     NSPasteboard.PasteboardType.png,
+    NSPasteboard.PasteboardType.rtf,
     NSPasteboard.PasteboardType.string,
     NSPasteboard.PasteboardType.tiff
   ]
@@ -170,7 +172,7 @@ class Clipboard {
       }
 
       let types = Set(item.types)
-      if types.contains(.string) && isEmptyString(item) {
+      if types.contains(.string) && isEmptyString(item) && !richText(item) {
         return
       }
 
@@ -201,6 +203,22 @@ class Clipboard {
     }
 
     return string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
+
+  private func richText(_ item: NSPasteboardItem) -> Bool {
+    if let rtf = item.data(forType: .rtf) {
+      if let attributedString = NSAttributedString(rtf: rtf, documentAttributes: nil) {
+        return !attributedString.string.isEmpty
+      }
+    }
+
+    if let html = item.data(forType: .html) {
+      if let attributedString = NSAttributedString(html: html, documentAttributes: nil) {
+        return !attributedString.string.isEmpty
+      }
+    }
+
+    return false
   }
 
   private func showAccessibilityWindow() {

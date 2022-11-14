@@ -52,6 +52,21 @@ class HistoryItemTests: XCTestCase {
     XCTAssertEqual(item.title, "foo⏎bar")
   }
 
+  func testTitleWithRTF() {
+    let rtf = NSAttributedString(string: "foo").rtf(
+      from: NSRange(0...2),
+      documentAttributes: [:]
+    )
+    let item = historyItem(rtf, .rtf)
+    XCTAssertEqual(item.title, "foo")
+  }
+
+  func testTitleWithHTML() {
+    let html = "<a href='#'>foo</a>".data(using: .utf8)
+    let item = historyItem(html, .html)
+    XCTAssertEqual(item.title, "foo")
+  }
+
   func testImage() {
     let image = NSImage(named: "NSBluetoothTemplate")!
     let item = historyItem(image)
@@ -98,6 +113,12 @@ class HistoryItemTests: XCTestCase {
   private func historyItem(_ value: String?) -> HistoryItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))
+    return HistoryItem(contents: [content])
+  }
+
+  private func historyItem(_ data: Data?, _ type: NSPasteboard.PasteboardType) -> HistoryItem {
+    let content = HistoryItemContent(type: type.rawValue,
+                                     value: data)
     return HistoryItem(contents: [content])
   }
 

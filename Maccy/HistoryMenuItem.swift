@@ -40,6 +40,10 @@ class HistoryMenuItem: NSMenuItem {
       loadImage(item)
     } else if isFile(item) {
       loadFile(item)
+    } else if isRTF(item) {
+      loadRTF(item)
+    } else if isHTML(item) {
+      loadHTML(item)
     } else {
       loadString(item, from: .string)
     }
@@ -123,6 +127,14 @@ class HistoryMenuItem: NSMenuItem {
     return contentData(item, [.fileURL]) != nil
   }
 
+  private func isRTF(_ item: HistoryItem) -> Bool {
+    return contentData(item, [.rtf]) != nil
+  }
+
+  private func isHTML(_ item: HistoryItem) -> Bool {
+    return contentData(item, [.html]) != nil
+  }
+
   private func isString(_ item: HistoryItem) -> Bool {
     return contentData(item, [.string]) != nil
   }
@@ -172,6 +184,35 @@ class HistoryMenuItem: NSMenuItem {
     }
   }
 
+  private func loadRTF(_ item: HistoryItem) {
+    if let contentData = contentData(item, [.rtf]) {
+      if let string = NSAttributedString(rtf: contentData, documentAttributes: nil)?.string {
+        self.value = string
+        self.title = item.title
+        self.image = ColorImage.from(title)
+        self.toolTip = """
+        \(string.shortened(to: tooltipMaxLength))
+
+        \(defaultTooltip(item))
+        """
+      }
+    }
+  }
+
+  private func loadHTML(_ item: HistoryItem) {
+    if let contentData = contentData(item, [.html]) {
+      if let string = NSAttributedString(html: contentData, documentAttributes: nil)?.string {
+        self.value = string
+        self.title = item.title
+        self.image = ColorImage.from(title)
+        self.toolTip = """
+        \(string.shortened(to: tooltipMaxLength))
+
+        \(defaultTooltip(item))
+        """
+      }
+    }
+  }
   private func loadString(_ item: HistoryItem, from: NSPasteboard.PasteboardType) {
     if let contentData = contentData(item, [from]) {
       if let string = String(data: contentData, encoding: .utf8) {

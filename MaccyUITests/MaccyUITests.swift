@@ -17,6 +17,18 @@ class MaccyUITests: XCTestCase {
   let file1 = URL(fileURLWithPath: "/tmp/file1")
   let file2 = URL(fileURLWithPath: "/tmp/file2")
 
+  let rtf1 = NSAttributedString(string: "foo").rtf(
+    from: NSRange(0...2),
+    documentAttributes: [:]
+  )
+  let rtf2 = NSAttributedString(string: "bar").rtf(
+    from: NSRange(0...2),
+    documentAttributes: [:]
+  )
+
+  let html1 = "<a href='#'>foo</a>".data(using: .utf8)
+  let html2 = "<a href='#'>bar</a>".data(using: .utf8)
+
   override func setUp() {
     super.setUp()
     app.launchArguments.append("ui-testing")
@@ -125,6 +137,28 @@ class MaccyUITests: XCTestCase {
 
     app.menuItems[file2.absoluteString].firstMatch.click()
     XCTAssertEqual(pasteboard.string(forType: .fileURL), file2.absoluteString)
+  }
+
+  // This test does not work because NSPasteboardItem somehow becomes "empty".
+  // 
+  // func testCopyRTF() {
+  //   copyToClipboard(rtf2, .rtf)
+  //   copyToClipboard(rtf1, .rtf)
+  //   popUpWithHotkey()
+  //   XCTAssertEqual(visibleMenuItemTitles()[1...2], ["foo", "bar"])
+  //
+  //   app.menuItems["bar"].firstMatch.click()
+  //  XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
+  // }
+
+  func testCopyHTML() {
+    copyToClipboard(html2, .html)
+    copyToClipboard(html1, .html)
+    popUpWithHotkey()
+    XCTAssertEqual(visibleMenuItemTitles()[1...2], ["foo", "bar"])
+
+    app.menuItems["bar"].firstMatch.click()
+    XCTAssertEqual(pasteboard.data(forType: .html), html2)
   }
 
   func testControlJ() {
@@ -374,6 +408,12 @@ class MaccyUITests: XCTestCase {
     // WTF: The subsequent writes to pasteboard are not
     // visible unless we explicitly read the last one?!
     pasteboard.string(forType: .fileURL)
+    waitTillClipboardCheck()
+  }
+
+  private func copyToClipboard(_ content: Data?, _ type: NSPasteboard.PasteboardType) {
+    pasteboard.clearContents()
+    pasteboard.setData(content, forType: type)
     waitTillClipboardCheck()
   }
 
