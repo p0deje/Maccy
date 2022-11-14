@@ -10,7 +10,7 @@ class Maccy: NSObject {
   private let statusItemTitleMaxLength = 20
 
   private let about = About()
-  private let clipboard = Clipboard()
+  private let clipboard = Clipboard.shared
   private let history = History()
   private var menu: Menu!
   private var menuLoader: MenuLoader!
@@ -60,7 +60,7 @@ class Maccy: NSObject {
     super.init()
     initializeObservers()
 
-    menu = Menu(history: history, clipboard: clipboard)
+    menu = Menu(history: history, clipboard: Clipboard.shared)
     menuLoader = MenuLoader(performStatusItemClick)
     start()
   }

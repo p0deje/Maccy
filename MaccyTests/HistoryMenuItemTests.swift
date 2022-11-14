@@ -140,7 +140,7 @@ class HistoryMenuItemTests: XCTestCase {
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
-    return HistoryMenuItem(item: item, clipboard: Clipboard())
+    return HistoryMenuItem(item: item, clipboard: Clipboard.shared)
   }
 
   private func historyMenuItem(_ value: NSImage) -> HistoryMenuItem {
@@ -151,7 +151,7 @@ class HistoryMenuItemTests: XCTestCase {
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
-    return HistoryMenuItem(item: item, clipboard: Clipboard())
+    return HistoryMenuItem(item: item, clipboard: Clipboard.shared)
   }
 
   private func historyMenuItem(_ value: URL) -> HistoryMenuItem {
@@ -168,7 +168,7 @@ class HistoryMenuItemTests: XCTestCase {
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
-    return HistoryMenuItem(item: item, clipboard: Clipboard())
+    return HistoryMenuItem(item: item, clipboard: Clipboard.shared)
   }
 
   private func tooltip(_ title: String?) -> String {

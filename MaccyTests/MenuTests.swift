@@ -2,7 +2,7 @@ import XCTest
 @testable import Maccy
 
 class MenuTests: XCTestCase {
-  let clipboard = Clipboard()
+  let clipboard = Clipboard.shared
   let history = History()
 
   let savedPasteByDefault = UserDefaults.standard.pasteByDefault

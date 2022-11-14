@@ -2,11 +2,11 @@ import XCTest
 @testable import Maccy
 
 class ClipboardTests: XCTestCase {
-  let clipboard = Clipboard()
+  let clipboard = Clipboard.shared
   let pasteboard = NSPasteboard.general
   let image = NSImage(named: "NSInfo")!
   let coloredString = NSAttributedString(string: "foo",
-                                         attributes: [NSAttributedString.Key.foregroundColor: NSColor.red])
+                                         attributes: [.foregroundColor: NSColor.red])
 
   let dynamicType = NSPasteboard.PasteboardType(rawValue: "dyn.ah62d4qmxhk4d425try1g44pdsm11g55gsu1e82xnqzv")
   let customType = NSPasteboard.PasteboardType(rawValue: "org.maccy.ConfidentialType")
@@ -57,7 +57,7 @@ class ClipboardTests: XCTestCase {
       hookExpectation.fulfill()
     })
     clipboard.startListening()
-    pasteboard.declareTypes([.string, transientType], owner: nil)
+    pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString(" ", forType: .string)
     waitForExpectations(timeout: 2)
   }
@@ -69,7 +69,7 @@ class ClipboardTests: XCTestCase {
       hookExpectation.fulfill()
     })
     clipboard.startListening()
-    pasteboard.declareTypes([.string, transientType], owner: nil)
+    pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString("\n", forType: .string)
     waitForExpectations(timeout: 2)
   }
@@ -83,7 +83,7 @@ class ClipboardTests: XCTestCase {
       hookExpectation.fulfill()
     })
     clipboard.startListening()
-    pasteboard.declareTypes([.string, transientType], owner: nil)
+    pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString("foo", forType: .string)
     waitForExpectations(timeout: 2)
   }
@@ -98,7 +98,7 @@ class ClipboardTests: XCTestCase {
       hookExpectation.fulfill()
     })
     clipboard.startListening()
-    pasteboard.declareTypes([.string, transientType], owner: nil)
+    pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString("foo", forType: .string)
     waitForExpectations(timeout: 2)
 
