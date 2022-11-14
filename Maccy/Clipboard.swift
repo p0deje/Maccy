@@ -150,41 +150,42 @@ class Clipboard {
       return
     }
 
-    // Some applications add 2 items to pasteboard when copying:
-    //   1. The proper meaningful string.
-    //   2. The empty item with no data and types.
-    // An example of such application is BBEdit.
-    // To handle such cases, handle all new pasteboard items,
-    // not only the last one.
-    // See https://github.com/p0deje/Maccy/issues/78.
-    pasteboard.pasteboardItems?.forEach({ item in
-      // Reading types on NSPasteboard gives all the available
-      // types - even the ones that are not present on the NSPasteboardItem.
-      // See https://github.com/p0deje/Maccy/issues/241.
-      if shouldIgnore(Set(pasteboard.types ?? [])) {
+    // Reading types on NSPasteboard gives all the available
+    // types - even the ones that are not present on the NSPasteboardItem.
+    // See https://github.com/p0deje/Maccy/issues/241.
+    if shouldIgnore(Set(pasteboard.types ?? [])) {
+      return
+    }
+
+    if let sourceAppBundle = sourceApp?.bundleIdentifier {
+      if UserDefaults.standard.ignoredApps.contains(sourceAppBundle) {
         return
       }
+    }
 
-      if let sourceAppBundle = sourceApp?.bundleIdentifier {
-        if UserDefaults.standard.ignoredApps.contains(sourceAppBundle) {
-          return
-        }
-      }
-
+    // Some applications (BBEdit, Edge) add 2 items to pasteboard when copying
+    // so it's better to merge all data into a single record.
+    // - https://github.com/p0deje/Maccy/issues/78
+    // - https://github.com/p0deje/Maccy/issues/472
+    var contents: [HistoryItemContent] = []
+    pasteboard.pasteboardItems?.forEach({ item in
       let types = Set(item.types)
       if types.contains(.string) && isEmptyString(item) && !richText(item) {
         return
       }
 
-      let contents = types
+      contents += types
         .subtracting(disabledTypes)
         .filter { !$0.rawValue.starts(with: dynamicTypePrefix) && !$0.rawValue.starts(with: microsoftSourcePrefix) }
         .map { HistoryItemContent(type: $0.rawValue, value: item.data(forType: $0)) }
-
-      let historyItem = HistoryItem(contents: contents, application: sourceApp?.bundleIdentifier)
-
-      onNewCopyHooks.forEach({ $0(historyItem) })
     })
+
+    guard !contents.isEmpty else {
+      return
+    }
+
+    let historyItem = HistoryItem(contents: contents, application: sourceApp?.bundleIdentifier)
+    onNewCopyHooks.forEach({ $0(historyItem) })
 
     changeCount = pasteboard.changeCount
   }

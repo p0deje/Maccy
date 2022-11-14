@@ -1,6 +1,7 @@
 import XCTest
 @testable import Maccy
 
+// swiftlint:disable type_body_length
 class ClipboardTests: XCTestCase {
   let clipboard = Clipboard.shared
   let pasteboard = NSPasteboard.general
@@ -223,6 +224,25 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 
+  func testMergesMulitpleItems() {
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (item: HistoryItem) -> Void in
+      XCTAssertEqual(item.getContents().map({ $0.type }), [self.stringType.rawValue, self.tiffType.rawValue])
+      hookExpectation.fulfill()
+    })
+
+    let item1 = NSPasteboardItem()
+    item1.setString("foo", forType: .string)
+    let item2 = NSPasteboardItem()
+    item2.setData(image.tiffRepresentation!, forType: .tiff)
+
+    clipboard.startListening()
+    pasteboard.clearContents()
+    pasteboard.writeObjects([item1, item2])
+
+    waitForExpectations(timeout: 2)
+  }
+
   func testRemovesDisabledTypes() {
     UserDefaults.standard.enabledPasteboardTypes = [.fileURL]
 
@@ -262,3 +282,4 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 }
+// swiftlint:enable type_body_length
