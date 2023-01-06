@@ -6,7 +6,7 @@
 "8Rb-OS-d59.title" = "Şimdi denetle";
 
 /* Class = "NSButtonCell"; title = "Fuzzy search"; ObjectID = "CGs-Td-v66"; */
-"CGs-Td-v66.title" = "Belirsiz arama";
+"CGs-Td-v66.title" = "Bulanık arama";
 
 /* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
 "Cfl-qm-UkM.title" = "Girişte başlat";
@@ -39,4 +39,4 @@
 "rCZ-AO-G8B.title" = "Uygulamayı açmak için global kısayol düğmesi.\nSaptanmış: ⇧⌘C.";
 
 /* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
-"tUJ-hx-P24.title" = "Kesin olmayan aramayı etkinleştir. Geçmiş boyutu 200'den büyük olduğunda belirsiz aramanın yavaş olabileceğini aklınızda bulundurun.";
+"tUJ-hx-P24.title" = "Kesin olmayan aramayı etkinleştir. Geçmiş boyutu 200'den büyük olduğunda bulanık aramanın yavaş olabileceğini aklınızda bulundurun.";
