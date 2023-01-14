@@ -16,6 +16,7 @@ extension UserDefaults {
     static let ignoredPasteboardTypes = "ignoredPasteboardTypes"
     static let imageMaxHeight = "imageMaxHeight"
     static let maxMenuItems = "maxMenuItems"
+    static let maxMenuItemLength = "maxMenuItemLength"
     static let migrations = "migrations"
     static let pasteByDefault = "pasteByDefault"
     static let pinTo = "pinTo"
@@ -42,6 +43,7 @@ extension UserDefaults {
     static let ignoredPasteboardTypes: [String] = []
     static let imageMaxHeight = 40.0
     static let maxMenuItems = 0
+    static let maxMenuItemLength = 50
     static let migrations: [String: Bool] = [:]
     static let pinTo = "top"
     static let popupPosition = "cursor"
@@ -121,6 +123,11 @@ extension UserDefaults {
   public var maxMenuItems: Int {
     get { integer(forKey: Keys.maxMenuItems) }
     set { set(newValue, forKey: Keys.maxMenuItems) }
+  }
+
+  @objc dynamic public var maxMenuItemLength: Int {
+    get { integer(forKey: Keys.maxMenuItemLength) }
+    set { set(newValue, forKey: Keys.maxMenuItemLength) }
   }
 
   public var migrations: [String: Bool] {

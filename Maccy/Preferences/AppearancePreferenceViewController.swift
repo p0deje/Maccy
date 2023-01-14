@@ -15,6 +15,8 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var imageHeightLabel: NSTextField!
   @IBOutlet weak var menuSizeSlider: NSSlider!
   @IBOutlet weak var menuSizeLabel: NSTextField!
+  @IBOutlet weak var titleLengthSlider: NSSlider!
+  @IBOutlet weak var titleLengthLabel: NSTextField!
   @IBOutlet weak var showMenuIconButton: NSButton!
   @IBOutlet weak var showRecentCopyButton: NSButton!
   @IBOutlet weak var showSearchFieldButton: NSButton!
@@ -27,6 +29,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     populatePinTo()
     populateImageHeight()
     populateMenuSize()
+    populateTitleLength()
     populateShowMenuIcon()
     populateShowRecentCopy()
     populateShowSearchField()
@@ -63,15 +66,22 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   @IBAction func imageHeightChanged(_ sender: NSSlider) {
     let old = String(UserDefaults.standard.imageMaxHeight)
     let new = String(imageHeightSlider.integerValue)
-    updateImageHeightLabel(old: old, new: new)
+    updateLabel(old: old, new: new, label: imageHeightLabel)
     UserDefaults.standard.imageMaxHeight = sender.integerValue
   }
 
   @IBAction func menuSizeChanged(_ sender: NSSlider) {
     let old = String(UserDefaults.standard.maxMenuItems)
     let new = String(menuSizeSlider.integerValue)
-    updateMenuSizeLabel(old: old, new: new)
+    updateLabel(old: old, new: new, label: menuSizeLabel)
     UserDefaults.standard.maxMenuItems = sender.integerValue
+  }
+
+  @IBAction func titleLengthChanged(_ sender: NSSlider) {
+    let old = String(UserDefaults.standard.maxMenuItemLength)
+    let new = String(titleLengthSlider.integerValue)
+    updateLabel(old: old, new: new, label: titleLengthLabel)
+    UserDefaults.standard.maxMenuItemLength = sender.integerValue
   }
 
   @IBAction func showMenuIconChanged(_ sender: NSButton) {
@@ -121,33 +131,29 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   private func populateImageHeight() {
     imageHeightSlider.integerValue = UserDefaults.standard.imageMaxHeight
     let new = String(imageHeightSlider.integerValue)
-    updateImageHeightLabel(old: "{imageHeight}", new: new)
-  }
-
-  private func updateImageHeightLabel(old: String, new: String) {
-    let newLabelValue = imageHeightLabel.stringValue.replacingOccurrences(
-      of: old,
-      with: new,
-      options: [],
-      range: imageHeightLabel.stringValue.range(of: old)
-    )
-    imageHeightLabel.stringValue = newLabelValue
+    updateLabel(old: "{imageHeight}", new: new, label: imageHeightLabel)
   }
 
   private func populateMenuSize() {
     menuSizeSlider.integerValue = UserDefaults.standard.maxMenuItems
     let new = String(menuSizeSlider.integerValue)
-    updateMenuSizeLabel(old: "{menuSize}", new: new)
+    updateLabel(old: "{menuSize}", new: new, label: menuSizeLabel)
   }
 
-  private func updateMenuSizeLabel(old: String, new: String) {
-    let newLabelValue = menuSizeLabel.stringValue.replacingOccurrences(
+  private func updateLabel(old: String, new: String, label: NSTextField) {
+    let newLabelValue = label.stringValue.replacingOccurrences(
       of: old,
       with: new,
       options: [],
-      range: menuSizeLabel.stringValue.range(of: old)
+      range: label.stringValue.range(of: old)
     )
-    menuSizeLabel.stringValue = newLabelValue
+    label.stringValue = newLabelValue
+  }
+
+  private func populateTitleLength() {
+    titleLengthSlider.integerValue = UserDefaults.standard.maxMenuItemLength
+    let new = String(titleLengthSlider.integerValue)
+    updateLabel(old: "{maxMenuItemLength}", new: new, label: titleLengthLabel)
   }
 
   private func populateShowMenuIcon() {

@@ -27,8 +27,6 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   init(item: HistoryItem, clipboard: Clipboard) {
-    UserDefaults.standard.register(defaults: [UserDefaults.Keys.imageMaxHeight: UserDefaults.Values.imageMaxHeight])
-
     super.init(title: "", action: #selector(onSelect(_:)), keyEquivalent: "")
 
     self.clipboard = clipboard
@@ -100,6 +98,14 @@ class HistoryMenuItem: NSMenuItem {
     }
 
     loadImage(item)
+  }
+
+  func regenerateTitle() {
+    if isImage(item) {
+      return
+    }
+
+    item.title = item.generateTitle(item.getContents())
   }
 
   func highlight(_ ranges: [ClosedRange<Int>]) {

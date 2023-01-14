@@ -1,4 +1,3 @@
-
 /* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
 "0h4-CZ-fwT.title" = "選單列圖示";
 
@@ -50,7 +49,7 @@
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "選單大小:";
 
-/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}. \nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
+/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
 "j39-nx-OGb.title" = "在選單中顯示 {menuSize} 條項目。\n隱藏項目仍保留在歷史記錄，可透過搜尋查找。\n設定為 0 以顯示所有項目。\n預設: 0";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
@@ -58,3 +57,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
 "tpV-rp-2HY.title" = "更改彈窗顯示位置。\n預設: 指標";
+
+/* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
+"TgE-eS-5nT.title" = "標題長度：";
+
+/* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
+"mG7-wI-7Eb.title" = "項目標題中的最大字符數：{maxMenuItemLength}。\n默認值：50。";

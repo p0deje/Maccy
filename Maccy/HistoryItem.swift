@@ -22,8 +22,6 @@ class HistoryItem: NSManagedObject {
   @NSManaged public var pin: String?
   @NSManaged public var title: String
 
-  private let titleMaxLength = 50
-
   public static func all() -> [HistoryItem] {
     let fetchRequest = NSFetchRequest<HistoryItem>(entityName: "HistoryItem")
     fetchRequest.sortDescriptors = [HistoryItem.sortByFirstCopiedAt]
@@ -100,7 +98,7 @@ class HistoryItem: NSManagedObject {
     return title
       .trimmingCharacters(in: .whitespacesAndNewlines)
       .replacingOccurrences(of: "\n", with: "⏎")
-      .shortened(to: titleMaxLength)
+      .shortened(to: UserDefaults.standard.maxMenuItemLength)
   }
 
   private func validatePin(_ pin: String) throws {

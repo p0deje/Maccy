@@ -47,6 +47,7 @@ class Maccy: NSObject {
   private var hideFooterObserver: NSKeyValueObservation?
   private var hideSearchObserver: NSKeyValueObservation?
   private var hideTitleObserver: NSKeyValueObservation?
+  private var maxMenuItemLengthObserver: NSKeyValueObservation?
   private var pasteByDefaultObserver: NSKeyValueObservation?
   private var pinToObserver: NSKeyValueObservation?
   private var removeFormattingByDefaultObserver: NSKeyValueObservation?
@@ -56,7 +57,13 @@ class Maccy: NSObject {
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
   override init() {
-    UserDefaults.standard.register(defaults: [UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar])
+    UserDefaults.standard.register(defaults: [
+      UserDefaults.Keys.imageMaxHeight: UserDefaults.Values.imageMaxHeight,
+      UserDefaults.Keys.maxMenuItems: UserDefaults.Values.maxMenuItems,
+      UserDefaults.Keys.maxMenuItemLength: UserDefaults.Values.maxMenuItemLength,
+      UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar,
+    ])
+
     super.init()
     initializeObservers()
 
@@ -71,6 +78,7 @@ class Maccy: NSObject {
     hideFooterObserver?.invalidate()
     hideSearchObserver?.invalidate()
     hideTitleObserver?.invalidate()
+    maxMenuItemLengthObserver?.invalidate()
     pasteByDefaultObserver?.invalidate()
     pinToObserver?.invalidate()
     removeFormattingByDefaultObserver?.invalidate()
@@ -351,6 +359,10 @@ class Maccy: NSObject {
     }
     imageHeightObserver = UserDefaults.standard.observe(\.imageMaxHeight, options: .new) { _, _ in
       self.menu.resizeImageMenuItems()
+    }
+    maxMenuItemLengthObserver = UserDefaults.standard.observe(\.maxMenuItemLength, options: .new) { _, _ in
+      self.menu.regenerateMenuItemTitles()
+      CoreDataManager.shared.saveContext()
     }
     hideFooterObserver = UserDefaults.standard.observe(\.hideFooter, options: .new) { _, _ in
       self.rebuild()

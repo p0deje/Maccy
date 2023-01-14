@@ -1,4 +1,3 @@
-
 /* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
 "0h4-CZ-fwT.title" = "Значок меню";
 
@@ -50,11 +49,17 @@
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Розмір меню:";
 
-/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}. \nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "Кількість видимих елементів: {menuSize}.\nПриховані елементи все ще зберігаються в історії та їх можна знайти за допомогою пошуку.\nУстановіть 0, щоб зробити всі елементи видимими.\За замовчуванням: 0.";
+/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
+"j39-nx-OGb.title" = "Кількість видимих елементів: {menuSize}.\nПриховані елементи все ще зберігаються в історії та їх можна знайти за допомогою пошуку.\nУстановіть 0, щоб зробити всі елементи видимими.\nЗа замовчуванням: 0.";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Показати поле пошуку";
 
 /* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
 "tpV-rp-2HY.title" = "Змініть розташування спливаючого вікна.\nЗа замовчуванням: Курсор.";
+
+/* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
+"TgE-eS-5nT.title" = "Довжина назви:";
+
+/* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
+"mG7-wI-7Eb.title" = "Максимальна кількість символів у назві елемента: {maxMenuItemLength}.\nЗа замовчуванням: 50.";

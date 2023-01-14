@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="20037" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="20037"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -20,16 +20,18 @@
                 <outlet property="showRecentCopyButton" destination="Hp2-aQ-9Eg" id="le6-ZR-4H4"/>
                 <outlet property="showSearchFieldButton" destination="YIB-bg-Q16" id="Qln-5j-37O"/>
                 <outlet property="showTitleButton" destination="NWU-si-fzN" id="5AM-o8-UFd"/>
+                <outlet property="titleLengthLabel" destination="hKN-L2-1YT" id="Urx-FG-glJ"/>
+                <outlet property="titleLengthSlider" destination="a4B-1F-kOn" id="nsf-9k-ors"/>
                 <outlet property="view" destination="O1T-Uq-VLh" id="Mag-yb-MBX"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
-        <customView translatesAutoresizingMaskIntoConstraints="NO" id="O1T-Uq-VLh">
-            <rect key="frame" x="0.0" y="0.0" width="517" height="508"/>
+        <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O1T-Uq-VLh">
+            <rect key="frame" x="0.0" y="0.0" width="537" height="571"/>
             <subviews>
                 <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="8" columnSpacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="5KL-yT-3Zi">
-                    <rect key="frame" x="26" y="25" width="465" height="458"/>
+                    <rect key="frame" x="27" y="29" width="486" height="521"/>
                     <rows>
                         <gridRow height="21" id="wGv-6M-Wwi"/>
                         <gridRow id="2Q5-sd-gz1"/>
@@ -39,6 +41,8 @@
                         <gridRow id="mG6-vX-cIK"/>
                         <gridRow id="S9I-rv-Kfl"/>
                         <gridRow id="Sh2-Op-ecx"/>
+                        <gridRow id="5AN-Hb-8z8"/>
+                        <gridRow id="i5q-GB-A4l"/>
                         <gridRow yPlacement="center" topPadding="4" bottomPadding="4" id="OdT-ff-FSd"/>
                         <gridRow id="r0f-Fp-w4p"/>
                         <gridRow height="15" id="CJ6-hZ-HiH"/>
@@ -54,7 +58,7 @@
                     <gridCells>
                         <gridCell row="wGv-6M-Wwi" column="KLa-7P-lgK" id="fTw-kj-fi7">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cv7-gI-nuh">
-                                <rect key="frame" x="36" y="441" width="62" height="16"/>
+                                <rect key="frame" x="36" y="504" width="62" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Popup at:" id="R7Y-UN-Edt">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -64,7 +68,7 @@
                         </gridCell>
                         <gridCell row="wGv-6M-Wwi" column="7OC-Fv-eMr" id="w7a-Ig-74t">
                             <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZHc-k4-Nf9">
-                                <rect key="frame" x="106" y="434" width="130" height="25"/>
+                                <rect key="frame" x="106" y="497" width="130" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Cursor" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Ccp-5J-8nw" id="f7k-K3-J6b">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -85,7 +89,7 @@
                         <gridCell row="2Q5-sd-gz1" column="KLa-7P-lgK" id="YMU-yd-0dx"/>
                         <gridCell row="2Q5-sd-gz1" column="7OC-Fv-eMr" id="ORs-ex-MgK">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="pCt-XY-Pfv">
-                                <rect key="frame" x="107" y="401" width="230" height="28"/>
+                                <rect key="frame" x="107" y="464" width="230" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" id="tpV-rp-2HY">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Change the location where popup appears.
@@ -97,7 +101,7 @@ Default: Cursor.</string>
                         </gridCell>
                         <gridCell row="kMC-R2-5B3" column="KLa-7P-lgK" id="vKu-nA-kna">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9Xv-1I-fwQ">
-                                <rect key="frame" x="55" y="376" width="43" height="16"/>
+                                <rect key="frame" x="55" y="439" width="43" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Pin to:" id="GhW-Kv-rhO">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -107,7 +111,7 @@ Default: Cursor.</string>
                         </gridCell>
                         <gridCell row="kMC-R2-5B3" column="7OC-Fv-eMr" id="qwo-K1-hTM">
                             <popUpButton key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tWw-ax-Qej">
-                                <rect key="frame" x="106" y="369" width="84" height="25"/>
+                                <rect key="frame" x="106" y="432" width="84" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Top" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="DKE-JI-oLS" id="KGb-ze-78s">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -126,7 +130,7 @@ Default: Cursor.</string>
                         <gridCell row="6xn-My-W6j" column="KLa-7P-lgK" id="mi3-k8-1r7"/>
                         <gridCell row="6xn-My-W6j" column="7OC-Fv-eMr" id="ePs-tA-Ybg">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Nd-og-B3C">
-                                <rect key="frame" x="107" y="337" width="197" height="28"/>
+                                <rect key="frame" x="107" y="400" width="197" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" id="aqA-NI-K5d">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Change the location of pinned items.
@@ -138,7 +142,7 @@ Default: Top.</string>
                         </gridCell>
                         <gridCell row="SYP-SL-aAk" column="KLa-7P-lgK" id="oQq-xv-omv">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lEK-4J-i8J">
-                                <rect key="frame" x="11" y="312" width="87" height="16"/>
+                                <rect key="frame" x="11" y="375" width="87" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Image height:" id="MKb-cW-gpg">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -148,7 +152,7 @@ Default: Top.</string>
                         </gridCell>
                         <gridCell row="SYP-SL-aAk" column="7OC-Fv-eMr" id="kuT-3B-2sI">
                             <slider key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fDO-zN-OAg">
-                                <rect key="frame" x="107" y="303" width="204" height="28"/>
+                                <rect key="frame" x="107" y="366" width="204" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="rbR-pU-c2k"/>
                                 </constraints>
@@ -161,7 +165,7 @@ Default: Top.</string>
                         <gridCell row="mG6-vX-cIK" column="KLa-7P-lgK" id="Mhl-eM-MEO"/>
                         <gridCell row="mG6-vX-cIK" column="7OC-Fv-eMr" id="EiJ-G6-7EL">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uwx-8S-ZG3">
-                                <rect key="frame" x="107" y="259" width="254" height="42"/>
+                                <rect key="frame" x="107" y="322" width="254" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="bIP-Mi-SeJ">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Maximum image preview height: {imageHeight}.
@@ -174,7 +178,7 @@ Hint: Set to 16 to look like text items.</string>
                         </gridCell>
                         <gridCell row="S9I-rv-Kfl" column="KLa-7P-lgK" id="vKh-KX-7Ph">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3D7-Xe-sZo">
-                                <rect key="frame" x="29" y="234" width="69" height="16"/>
+                                <rect key="frame" x="29" y="297" width="69" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Menu size:" id="gjR-wz-7GQ">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -184,7 +188,7 @@ Hint: Set to 16 to look like text items.</string>
                         </gridCell>
                         <gridCell row="S9I-rv-Kfl" column="7OC-Fv-eMr" id="Ry9-S9-CyT">
                             <slider key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fDO-zN-OAh">
-                                <rect key="frame" x="107" y="225" width="204" height="28"/>
+                                <rect key="frame" x="107" y="288" width="204" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="rbR-pU-c2l"/>
                                 </constraints>
@@ -197,10 +201,10 @@ Hint: Set to 16 to look like text items.</string>
                         <gridCell row="Sh2-Op-ecx" column="KLa-7P-lgK" id="wFt-9F-og0"/>
                         <gridCell row="Sh2-Op-ecx" column="7OC-Fv-eMr" id="Kdn-gf-znK">
                             <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IuH-lP-Hez">
-                                <rect key="frame" x="107" y="167" width="360" height="56"/>
+                                <rect key="frame" x="107" y="230" width="360" height="56"/>
                                 <textFieldCell key="cell" selectable="YES" id="j39-nx-OGb">
                                     <font key="font" metaFont="controlContent" size="11"/>
-                                    <string key="title">Number of visible items: {menuSize}. 
+                                    <string key="title">Number of visible items: {menuSize}.
 Hidden items are still kept in history and can be found using search.
 Set to 0 to make all items visible.
 Default: 0.</string>
@@ -209,9 +213,44 @@ Default: 0.</string>
                                 </textFieldCell>
                             </textField>
                         </gridCell>
+                        <gridCell row="5AN-Hb-8z8" column="KLa-7P-lgK" id="CGn-tZ-Kyv">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zpA-rz-vpL">
+                                <rect key="frame" x="22" y="205" width="76" height="16"/>
+                                <textFieldCell key="cell" alignment="right" title="Title length:" id="TgE-eS-5nT">
+                                    <font key="font" usesAppearanceFont="YES"/>
+                                    <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
+                        <gridCell row="5AN-Hb-8z8" column="7OC-Fv-eMr" id="wS5-KF-93i">
+                            <slider key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a4B-1F-kOn">
+                                <rect key="frame" x="107" y="196" width="204" height="28"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="200" id="QJa-eM-yrF"/>
+                                </constraints>
+                                <sliderCell key="cell" continuous="YES" state="on" alignment="left" minValue="30" maxValue="200" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="Tf7-qG-bYC"/>
+                                <connections>
+                                    <action selector="titleLengthChanged:" target="-2" id="9Ar-vf-vjb"/>
+                                </connections>
+                            </slider>
+                        </gridCell>
+                        <gridCell row="i5q-GB-A4l" column="KLa-7P-lgK" id="VXH-WC-6Lx"/>
+                        <gridCell row="i5q-GB-A4l" column="7OC-Fv-eMr" id="5tI-fh-Vsh">
+                            <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hKN-L2-1YT">
+                                <rect key="frame" x="107" y="166" width="381" height="28"/>
+                                <textFieldCell key="cell" selectable="YES" id="mG7-wI-7Eb">
+                                    <font key="font" metaFont="controlContent" size="11"/>
+                                    <string key="title">Maximum number of characters in the item title: {maxMenuItemLength}.
+Default: 50.</string>
+                                    <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                        </gridCell>
                         <gridCell row="OdT-ff-FSd" column="KLa-7P-lgK" headOfMergedCell="OeY-HC-jSl" xPlacement="fill" id="OeY-HC-jSl">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="U8i-B5-SQV">
-                                <rect key="frame" x="0.0" y="148" width="465" height="5"/>
+                                <rect key="frame" x="0.0" y="147" width="486" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="OdT-ff-FSd" column="7OC-Fv-eMr" headOfMergedCell="OeY-HC-jSl" id="fe5-7h-IxP"/>
@@ -300,7 +339,7 @@ Default: 0.</string>
                 <constraint firstItem="5KL-yT-3Zi" firstAttribute="width" secondItem="O1T-Uq-VLh" secondAttribute="width" multiplier="0.9" id="PeN-ly-Ypy"/>
                 <constraint firstItem="5KL-yT-3Zi" firstAttribute="centerX" secondItem="O1T-Uq-VLh" secondAttribute="centerX" id="o7U-bu-dCj"/>
             </constraints>
-            <point key="canvasLocation" x="151.5" y="240"/>
+            <point key="canvasLocation" x="165.5" y="258.5"/>
         </customView>
     </objects>
 </document>

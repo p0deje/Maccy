@@ -1,4 +1,3 @@
-
 /* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
 "0h4-CZ-fwT.title" = "Иконки в меню";
 
@@ -58,3 +57,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Change the location of pinned items.\nDefault: Top."; ObjectID = "aqA-NI-K5d"; */
 "aqA-NI-K5d.title" = "Изменить место прикрепленных записей.\nПо умолчанию: Верх.";
+
+/* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
+"TgE-eS-5nT.title" = "Длина названия:";
+
+/* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
+"mG7-wI-7Eb.title" = "Максимальное количество знаков в названии записи: {maxMenuItemLength}.\nПо умолчанию: 50.";

@@ -62,10 +62,6 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   init(history: History, clipboard: Clipboard) {
-    UserDefaults.standard.register(defaults: [
-      UserDefaults.Keys.maxMenuItems: UserDefaults.Values.maxMenuItems
-    ])
-
     super.init(title: "Maccy")
 
     self.history = history
@@ -286,6 +282,13 @@ class Menu: NSMenu, NSMenuDelegate {
     historyMenuItems.forEach {
       $0.resizeImage()
     }
+  }
+
+  func regenerateMenuItemTitles() {
+    historyMenuItems.forEach {
+      $0.regenerateTitle()
+    }
+    update()
   }
 
   private func highlightNext(_ items: [NSMenuItem]) -> Bool {

@@ -1,4 +1,3 @@
-
 /* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
 "0h4-CZ-fwT.title" = "Ikona u izborniku";
 
@@ -50,11 +49,17 @@
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Veličina izbornika:";
 
-/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}. \nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "Broj vidljivih elemenata: {menuSize}. \nSkriveni elementi se i dalje čuvaju u povijesti te se mogu pronaći putem pretrage.\nZa prikaz svih elemenata, postavi na 0.\nStandardno: 0.";
+/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
+"j39-nx-OGb.title" = "Broj vidljivih elemenata: {menuSize}.\nSkriveni elementi se i dalje čuvaju u povijesti te se mogu pronaći putem pretrage.\nZa prikaz svih elemenata, postavi na 0.\nStandardno: 0.";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Prikaži polje pretrage";
 
 /* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
 "tpV-rp-2HY.title" = "Promijeni mjesto gdje će se skočni prozor pojaviti.\nStandardno: Kursor.";
+
+/* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
+"TgE-eS-5nT.title" = "Dužina naslova:";
+
+/* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
+"mG7-wI-7Eb.title" = "Maksimalan broj znakova u naslovu stavke: {maxMenuItemLength}.\nZadano: 50.";

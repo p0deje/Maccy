@@ -1,4 +1,3 @@
-
 /* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
 "0h4-CZ-fwT.title" = "Icône du menu";
 
@@ -50,11 +49,17 @@
 /* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Taille du menu:";
 
-/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}. \nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "Nombre d'éléments visibles: {menuSize}. \nLes éléments cachés sont toujours stockés dans l'historique et peuvent être trouvés à l'aide de la barre de recherche.\nRéglez sur 0 pour afficher tous les éléments.\nPar défaut: 0.";
+/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
+"j39-nx-OGb.title" = "Nombre d'éléments visibles: {menuSize}.\nLes éléments cachés sont toujours stockés dans l'historique et peuvent être trouvés à l'aide de la barre de recherche.\nRéglez sur 0 pour afficher tous les éléments.\nPar défaut: 0.";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Afficher le champ de recherche";
 
 /* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
 "tpV-rp-2HY.title" = "Changer la localisation de l'apparition du popup.\nPar défaut: Curseur.";
+
+/* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
+"TgE-eS-5nT.title" = "Longueur du titre:";
+
+/* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
+"mG7-wI-7Eb.title" = "Nombre maximal de caractères dans le titre de l'élément: {maxMenuItemLength}.\nPar défaut: 50.";
