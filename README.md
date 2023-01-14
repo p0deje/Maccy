@@ -19,6 +19,8 @@ Maccy works on macOS Mojave 10.14 or higher.
 * [Advanced](#advanced)
     * [Ignore Copied Items](#ignore-copied-items)
     * [Ignore Custom Copy Types](#ignore-custom-copy-types)
+* [FAQ](#faq)
+    * [Why doesn't it paste when I select an item in history?](#why-doesnt-it-paste-when-i-select-an-item-in-history)
 * [Motivation](#motivation)
 * [License](#license)
 
@@ -52,12 +54,12 @@ brew install --cask maccy
 8. To pin the history item so that it remains on top of the list, press <kbd>OPTION (⌥)</kbd> + <kbd>P</kbd>. The item will be moved to the top with a random but permanent keyboard shortcut. To unpin it, press <kbd>OPTION (⌥)</kbd> + <kbd>P</kbd> again.
 9. To clear all unpinned items, select _Clear_ in the menu, or press <kbd>OPTION (⌥)</kbd> + <kbd>COMMAND (⌘)</kbd> + <kbd>DELETE (⌫)</kbd>. To clear all items including pinned, select _Clear_ in the menu with  <kbd>OPTION (⌥)</kbd> pressed, or press <kbd>SHIFT (⇧)</kbd> + <kbd>OPTION (⌥)</kbd> + <kbd>COMMAND (⌘)</kbd> + <kbd>DELETE (⌫)</kbd>.
 10. To disable Maccy and ignore new copies, click on the menu icon with <kbd>OPTION (⌥)</kbd> pressed.
-11. To ignore only the next copy, click on the menu icon with <kbd>OPTION (⌥)</kbd> + <kbd>SHIFT (⇧)</kbd> pressed. 
+11. To ignore only the next copy, click on the menu icon with <kbd>OPTION (⌥)</kbd> + <kbd>SHIFT (⇧)</kbd> pressed.
 12. To customize the behavior, check "Preferences..." window, or press <kbd>COMMAND (⌘)</kbd> + <kbd>,</kbd>.
 
 ## Advanced
 
-#### Ignore Copied Items
+### Ignore Copied Items
 
 You can tell Maccy to ignore all copied items:
 
@@ -69,7 +71,7 @@ This is useful if you have some workflow for copying sensitive data. You can set
 
 You can also click the menu icon with <kbd>OPTION (⌥)</kbd> pressed. To ignore only the next copy, click with <kbd>OPTION (⌥)</kbd> + <kbd>SHIFT (⇧)</kbd> pressed.
 
-#### Ignore Custom Copy Types
+### Ignore Custom Copy Types
 
 By default Maccy will ignore certain copy types that are considered to be confidential
 or temporary. The default list always include the following types:
@@ -104,6 +106,12 @@ If you accidentally removed default types, you can restore the original configur
 ```sh
 defaults write org.p0deje.Maccy ignoredPasteboardTypes -array "de.petermaurer.TransientPasteboardType" "com.typeit4me.clipping" "Pasteboard generator type" "com.agilebits.onepassword" "net.antelle.keeweb"
 ```
+## FAQ
+
+### Why doesn't it paste when I select an item in history?
+
+1. Make sure you have "Paste automatically" enabled in Preferences.
+2. Make sure "Maccy" is added to System Settings -> Privacy & Security -> Accessibility.
 
 ## Motivation
 
