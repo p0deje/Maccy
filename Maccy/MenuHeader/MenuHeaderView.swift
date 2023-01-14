@@ -216,7 +216,12 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       return false
     }
 
-    if UserDefaults.standard.avoidTakingFocus {
+    // Sometimes even though we attempt to activate Maccy,
+    // it doesn't get active. This happens particularly with
+    // password fields in Safari. Let's at least allow
+    // search to work in these cases.
+    // See https://github.com/p0deje/Maccy/issues/473.
+    if UserDefaults.standard.avoidTakingFocus || !NSApp.isActive {
       // append character to the search field to trigger
       // and stop event from being propagated
       setQuery("\(queryField.stringValue)\(char)")
