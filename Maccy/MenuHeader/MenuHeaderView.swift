@@ -157,6 +157,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       return true
     case .deleteCurrentItem:
       customMenu?.delete()
+      setQuery("")
       return true
     case .clearHistory:
       performMenuItemAction(MenuFooter.clear.rawValue)
