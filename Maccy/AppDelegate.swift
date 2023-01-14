@@ -1,6 +1,7 @@
 import Cocoa
 import Intents
 import KeyboardShortcuts
+import LaunchAtLogin
 import Sauce
 import Sparkle
 
@@ -22,6 +23,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
+    LaunchAtLogin.migrateIfNeeded()
     migrateUserDefaults()
     clearOrphanRecords()
 
