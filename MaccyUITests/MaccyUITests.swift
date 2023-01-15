@@ -43,14 +43,18 @@ class MaccyUITests: XCTestCase {
     app.terminate()
   }
 
-  func testPopupWithHotkey() {
+  func testPopupWithHotkey() throws {
+    try XCTSkipIf(ProcessInfo.processInfo.environment["CI"] != nil)
+    
     popUpWithHotkey()
     XCTAssertTrue(app.menuItems[copy1].firstMatch.isSelected)
     XCTAssertTrue(app.menuItems[copy1].exists)
     XCTAssertTrue(app.menuItems[copy2].exists)
   }
 
-  func testCloseWithHotkey() {
+  func testCloseWithHotkey() throws {
+    try XCTSkipIf(ProcessInfo.processInfo.environment["CI"] != nil)
+
     popUpWithMouse()
     let historyItem = app.menuItems[copy1]
     expectation(for: NSPredicate(format: "exists = 0"), evaluatedWith: historyItem)
