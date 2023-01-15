@@ -6,34 +6,31 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.24.0</title>
+      <title>0.25.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added support for selecting an item in the history using its position number via Shortcuts (#315, #374).</li>
-            <li>Added support for clearing history via Shortcuts (#340).</li>
-            <li>Added Turkish localization (credits to @bitigchi).</li>
-            <li>Added preference to pop up in the center of a currently focused application window (#150).</li>
-            <li>Added support for <kbd>⌃ (CONTROL)</kbd> + <kbd>W</kbd> shortcut to remove last word when search field is focused.</li>
-            <li>Added support for creating a new copy by typing it and pressing <kbd>ENTER</kbd> when there are no search results (#341).</li>
-            <li>Added missing documentation about disabling by clicking on the menu icon with <kbd>⌥ (OPTION)</kbd> pressed.</li>
-            <li>Improved search field UI by using native macOS control.</li>
-            <li>Improved navigation using arrow keys (#442).</li>
-            <li>Improved pins preferences tab to allow selecting a key using a dropdown menu (#443).</li>
-            <li>Improved storage preferences tab to show the size as a number text field with a stepper (#188).</li>
-            <li>Fixed an issue of storage not respecting a sorting setting when removing oldest records (#427).</li>
-            <li>Fixed an issue when paste wouldn't work after opening preferences/about (#435).</li>
-            <li>Fixed an issue when pasting an item would update its source application with the one it has just been pasted to.</li>
+              <li>Added an option to clear the system clipboard when clearing Maccy history in Preferences / Advanced (credits to @andrewpeal) (#392).</li>
+              <li>Added an option to change the maximum title length of the history items (#458).</li>
+              <li>Added Bosnian localization (credits to @omarbeg).</li>
+              <li>Added Ukrainian localization (credits to @alalayla).</li>
+              <li>Added support for pure RTF and HTML copies (#474).</li>
+              <li>Improved compatibility with Microsoft Edge application (#472).</li>
+              <li>Improved compatibility with macOS 13 to natively launch at login (#504).</li>
+              <li>Improved pasting to work with the Microsoft Remote Desktop application with a "Scancode" keyboard mode (#365).</li>
+              <li>Improved pasting to handle cases when the shortcut to paste is overridden on the OS level (#462).</li>
+              <li>Improved handling of Korean and Chinese input (#476, #493).</li>
+              <li>Fixed a bug when the search failed to work when popped up from password text fields (#464, #473).</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2022-08-31</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.24.0</releaseNotesLink>
+      <pubDate>2023-01-14</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.25.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.24.0/Maccy.app.zip"
-        sparkle:version="13"
-        sparkle:shortVersionString="0.24.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.25.0/Maccy.app.zip"
+        sparkle:version="14"
+        sparkle:shortVersionString="0.25.0"
         length="0"
         type="application/octet-stream"
       />
