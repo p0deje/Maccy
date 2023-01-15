@@ -110,7 +110,15 @@ class Clipboard {
       // Add flag that left/right modifier key has been pressed.
       // See https://github.com/TermiT/Flycut/pull/18 for details.
       let cmdFlag = CGEventFlags(rawValue: UInt64(KeyChord.pasteKeyModifiers.rawValue) | 0x000008)
-      let vCode = Sauce.shared.keyCode(for: KeyChord.pasteKey)
+      var vCode = Sauce.shared.keyCode(for: KeyChord.pasteKey)
+
+      // Force QWERTY keycode when keyboard layout switches to
+      // QWERTY upon pressing ⌘ key (e.g. "Dvorak - QWERTY ⌘").
+      // See https://github.com/p0deje/Maccy/issues/482 for details.
+      if KeyboardLayout.current.commandSwitchesToQWERTY && cmdFlag.contains(.maskCommand) {
+        vCode = KeyChord.pasteKey.QWERTYKeyCode
+      }
+
       let source = CGEventSource(stateID: .combinedSessionState)
       // Disable local keyboard events while pasting
       source?.setLocalEventsFilterDuringSuppressionState([.permitLocalMouseEvents, .permitSystemDefinedEvents],

@@ -70,6 +70,7 @@
 		DAB65E0B2440B078000AECA8 /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB65E0A2440B078000AECA8 /* HistoryItem.swift */; };
 		DAB65E0D2440B0D4000AECA8 /* HistoryItemContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */; };
 		DAB8CE4224E368F200A2500E /* container-migration.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAB8CE4124E368F200A2500E /* container-migration.plist */; };
+		DABDE97F2974706C005B32E9 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */; };
 		DAC14124232367B200FCFA30 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC14123232367B200FCFA30 /* Search.swift */; };
 		DAC6CE9126E1AC19002B70B8 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = DAC6CE9026E1AC19002B70B8 /* LaunchAtLogin */; };
 		DAD0862D24545C66002AFAEC /* Storage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAB65DFB2440AD63000AECA8 /* Storage.xcdatamodeld */; };
@@ -299,6 +300,7 @@
 		DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemContent.swift; sourceTree = "<group>"; };
 		DAB8CE4024E3677F00A2500E /* Maccy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Maccy.entitlements; sourceTree = "<group>"; };
 		DAB8CE4124E368F200A2500E /* container-migration.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "container-migration.plist"; sourceTree = "<group>"; };
+		DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayout.swift; sourceTree = "<group>"; };
 		DAC14123232367B200FCFA30 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		DAD20C7224E55CD100E96247 /* org.sparkle-project.Downloader.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; name = "org.sparkle-project.Downloader.xpc"; path = "Sparkle/org.sparkle-project.Downloader.xpc"; sourceTree = "<group>"; };
 		DAD20C7324E55CD100E96247 /* org.sparkle-project.InstallerStatus.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; name = "org.sparkle-project.InstallerStatus.xpc"; path = "Sparkle/org.sparkle-project.InstallerStatus.xpc"; sourceTree = "<group>"; };
@@ -525,6 +527,7 @@
 				DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */,
 				DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */,
 				DAD665652898A1C000975096 /* KeyChord.swift */,
+				DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */,
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */,
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
 				DA2C752B2029FE990090965D /* Menu.swift */,
@@ -809,6 +812,7 @@
 				DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift in Sources */,
 				DAB65E0D2440B0D4000AECA8 /* HistoryItemContent.swift in Sources */,
 				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,
+				DABDE97F2974706C005B32E9 /* KeyboardLayout.swift in Sources */,
 				DA49EE7928B594DC002752E0 /* NSRunningApplication+WindowFrame.swift in Sources */,
 				DAF65F4824D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift in Sources */,
 				DAFE2DD82688018100990986 /* PinsPreferenceViewController.swift in Sources */,

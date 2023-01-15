@@ -2,6 +2,7 @@ import Cocoa
 import KeyboardShortcuts
 import Preferences
 
+// swiftlint:disable file_length
 // swiftlint:disable type_body_length
 class Maccy: NSObject {
   static public var returnFocusToPreviousApp = true
@@ -61,7 +62,7 @@ class Maccy: NSObject {
       UserDefaults.Keys.imageMaxHeight: UserDefaults.Values.imageMaxHeight,
       UserDefaults.Keys.maxMenuItems: UserDefaults.Values.maxMenuItems,
       UserDefaults.Keys.maxMenuItemLength: UserDefaults.Values.maxMenuItemLength,
-      UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar,
+      UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar
     ])
 
     super.init()
@@ -404,3 +405,4 @@ class Maccy: NSObject {
   }
 }
 // swiftlint:enable type_body_length
+// swiftlint:enable file_length
