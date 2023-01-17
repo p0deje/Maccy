@@ -11,6 +11,14 @@ class HistoryMenuItem: NSMenuItem {
   private let imageMaxWidth: CGFloat = 340.0
   private let imagePasteboardTypes = [.tiff, .png, NSPasteboard.PasteboardType(rawValue: "public.jpeg")]
 
+  // Assign "empty" title to the image (but it can't be empty string).
+  // This is required for onStateImage to render correctly when item is pinned.
+  // Otherwise, it's not rendered with the error:
+  //
+  // GetEventParameter(inEvent, kEventParamMenuTextBaseline, typeCGFloat, NULL, sizeof baseline, NULL, &baseline)
+  // returned error -9870 on line 2078 in -[NSCarbonMenuImpl _carbonDrawStateImageForMenuItem:withEvent:]
+  private let imageTitle = " "
+
   private let highlightFont: NSFont = {
     if #available(macOS 11, *) {
       return NSFont.boldSystemFont(ofSize: 13)
@@ -109,7 +117,7 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   func highlight(_ ranges: [ClosedRange<Int>]) {
-    guard !ranges.isEmpty else {
+    guard !ranges.isEmpty, title != imageTitle else {
       self.attributedTitle = nil
       return
     }
@@ -161,14 +169,7 @@ class HistoryMenuItem: NSMenuItem {
 
         self.image = image
         self.toolTip = defaultTooltip(item)
-
-        // Assign "empty" title to the image (but it can't be empty string).
-        // This is required for onStateImage to render correctly when item is pinned.
-        // Otherwise, it's not rendered with the error:
-        //
-        // GetEventParameter(inEvent, kEventParamMenuTextBaseline, typeCGFloat, NULL, sizeof baseline, NULL, &baseline)
-        // returned error -9870 on line 2078 in -[NSCarbonMenuImpl _carbonDrawStateImageForMenuItem:withEvent:]
-        self.title = " "
+        self.title = imageTitle
       }
     }
   }
