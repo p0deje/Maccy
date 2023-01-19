@@ -49,6 +49,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       return SelectIntentHandler(maccy)
     } else if intent is ClearIntent {
       return ClearIntentHandler(maccy)
+    } else if intent is GetIntent {
+      return GetIntentHandler(maccy)
     }
 
     return nil
@@ -120,7 +122,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     if UserDefaults.standard.migrations["2021-06-28-add-title-to-history-item"] != true {
-      for item in HistoryItem.all() {
+      for item in HistoryItem.all {
         item.title = item.generateTitle(item.getContents())
       }
       CoreDataManager.shared.saveContext()

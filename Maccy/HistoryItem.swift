@@ -3,14 +3,28 @@ import CoreData
 
 @objc(HistoryItem)
 class HistoryItem: NSManagedObject {
-  public static let availablePins = Set([
+  static let availablePins = Set([
     "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
     "m", "n", "o", "r", "s", "t", "u", "v", "w", "x", "y", "z"
   ])
-  public static let sortByFirstCopiedAt = NSSortDescriptor(key: #keyPath(HistoryItem.firstCopiedAt), ascending: false)
+  static let sortByFirstCopiedAt = NSSortDescriptor(key: #keyPath(HistoryItem.firstCopiedAt), ascending: false)
 
-  public static var randomAvailablePin: String {
-    let assignedPins = Set(all().compactMap({ $0.pin }))
+  static var all: [HistoryItem] {
+    let fetchRequest = NSFetchRequest<HistoryItem>(entityName: "HistoryItem")
+    fetchRequest.sortDescriptors = [HistoryItem.sortByFirstCopiedAt]
+    do {
+      return try CoreDataManager.shared.viewContext.fetch(fetchRequest)
+    } catch {
+      return []
+    }
+  }
+
+  static var unpinned: [HistoryItem] {
+    all.filter({ $0.pin == nil })
+  }
+
+  static var randomAvailablePin: String {
+    let assignedPins = Set(all.compactMap({ $0.pin }))
     return availablePins.subtracting(assignedPins).randomElement() ?? ""
   }
 
@@ -22,21 +36,49 @@ class HistoryItem: NSManagedObject {
   @NSManaged public var pin: String?
   @NSManaged public var title: String
 
-  public static func all() -> [HistoryItem] {
-    let fetchRequest = NSFetchRequest<HistoryItem>(entityName: "HistoryItem")
-    fetchRequest.sortDescriptors = [HistoryItem.sortByFirstCopiedAt]
-    do {
-      return try CoreDataManager.shared.viewContext.fetch(fetchRequest)
-    } catch {
-      return []
+  var fileURL: URL? {
+    guard let data = contentData([.fileURL]) else {
+      return nil
     }
+
+    return URL(dataRepresentation: data, relativeTo: nil, isAbsolute: true)
   }
 
-  public static func unpinned() -> [HistoryItem] {
-    all().filter({ $0.pin == nil })
+  var htmlData: Data? { contentData([.html]) }
+  var html: NSAttributedString? {
+    guard let data = htmlData else {
+      return nil
+    }
+
+    return NSAttributedString(html: data, documentAttributes: nil)
   }
 
-  public static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
+  var image: NSImage? {
+    guard let data = contentData([.tiff, .png, .jpeg]) else {
+      return nil
+    }
+
+    return NSImage(data: data)
+  }
+
+  var rtfData: Data? { contentData([.rtf]) }
+  var rtf: NSAttributedString? {
+    guard let data = rtfData else {
+      return nil
+    }
+
+    return NSAttributedString(rtf: data, documentAttributes: nil)
+  }
+
+  var text: String? {
+    guard let data = contentData([.string]) else {
+      return nil
+    }
+
+    return String(data: data, encoding: .utf8)
+  }
+
+  static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
     return lhs.getContents().count == rhs.getContents().count && lhs.supersedes(rhs)
   }
 
@@ -49,10 +91,9 @@ class HistoryItem: NSManagedObject {
     self.firstCopiedAt = Date()
     self.lastCopiedAt = firstCopiedAt
     self.numberOfCopies = 1
-    self.title = generateTitle(contents)
-
     contents.forEach(addToContents(_:))
-  }
+
+    self.title = generateTitle(contents)  }
 
   override func validateValue(_ value: AutoreleasingUnsafeMutablePointer<AnyObject?>, forKey key: String) throws {
     try super.validateValue(value, forKey: key)
@@ -77,22 +118,18 @@ class HistoryItem: NSManagedObject {
   func generateTitle(_ contents: [HistoryItemContent]) -> String {
     var title = ""
 
-    guard !contents.contains(where: { [.png, .tiff].contains(NSPasteboard.PasteboardType($0.type)) }) else {
+    guard image == nil else {
       return title
     }
 
-    if let fileURLData = contents.first(where: { NSPasteboard.PasteboardType($0.type) == .fileURL })?.value {
-      if let fileURL = URL(dataRepresentation: fileURLData, relativeTo: nil, isAbsolute: true) {
-        title = fileURL.absoluteString.removingPercentEncoding ?? ""
-      }
-    } else if let stringData = contents.first(where: { NSPasteboard.PasteboardType($0.type) == .string })?.value {
-      title = String(data: stringData, encoding: .utf8) ?? ""
-    } else if title.isEmpty,
-              let rtfData = contents.first(where: { NSPasteboard.PasteboardType($0.type) == .rtf })?.value {
-      title = NSAttributedString(rtf: rtfData, documentAttributes: nil)?.string ?? ""
-    } else if title.isEmpty,
-              let htmlData = contents.first(where: { NSPasteboard.PasteboardType($0.type) == .html })?.value {
-      title = NSAttributedString(html: htmlData, documentAttributes: nil)?.string ?? ""
+    if let fileURL = fileURL {
+      title = fileURL.absoluteString.removingPercentEncoding ?? ""
+    } else if let text = text {
+      title = text
+    } else if title.isEmpty, let rtf = rtf {
+      title = rtf.string
+    } else if title.isEmpty, let html = html {
+      title = html.string
     }
 
     return title
@@ -102,7 +139,7 @@ class HistoryItem: NSManagedObject {
   }
 
   private func validatePin(_ pin: String) throws {
-    for item in HistoryItem.all() {
+    for item in HistoryItem.all {
       if let existingPin = item.pin, existingPin == pin, item != self {
         throw NSError(
           domain: "keyUsed",
@@ -110,5 +147,14 @@ class HistoryItem: NSManagedObject {
           userInfo: [NSLocalizedDescriptionKey: NSLocalizedString("key_used_error", comment: "")])
       }
     }
+  }
+
+  private func contentData(_ types: [NSPasteboard.PasteboardType]) -> Data? {
+    let contents = getContents()
+    let content = contents.first(where: { content in
+      return types.contains(NSPasteboard.PasteboardType(content.type))
+    })
+
+    return content?.value
   }
 }

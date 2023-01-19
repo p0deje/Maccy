@@ -195,6 +195,14 @@ class Menu: NSMenu, NSMenuDelegate {
     return indexedItems[position].value
   }
 
+  func historyItem(at position: Int) -> HistoryItem? {
+    guard indexedItems.indices.contains(position) else {
+      return nil
+    }
+
+    return indexedItems[position].item
+  }
+
   func selectPrevious() {
     if !highlightNext(items.reversed()) {
       highlight(highlightableItems(items).last) // start from the end after reaching the first item

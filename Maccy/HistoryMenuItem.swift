@@ -9,7 +9,6 @@ class HistoryMenuItem: NSMenuItem {
 
   private let tooltipMaxLength = 5_000
   private let imageMaxWidth: CGFloat = 340.0
-  private let imagePasteboardTypes = [.tiff, .png, NSPasteboard.PasteboardType(rawValue: "public.jpeg")]
 
   // Assign "empty" title to the image (but it can't be empty string).
   // This is required for onStateImage to render correctly when item is pinned.
@@ -51,7 +50,7 @@ class HistoryMenuItem: NSMenuItem {
     } else if isHTML(item) {
       loadHTML(item)
     } else {
-      loadString(item, from: .string)
+      loadString(item)
     }
 
     if let itemPin = item.pin {
@@ -134,114 +133,105 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func isImage(_ item: HistoryItem) -> Bool {
-    return contentData(item, imagePasteboardTypes) != nil
+    return item.image != nil
   }
 
   private func isFile(_ item: HistoryItem) -> Bool {
-    return contentData(item, [.fileURL]) != nil
+    return item.fileURL != nil
   }
 
   private func isRTF(_ item: HistoryItem) -> Bool {
-    return contentData(item, [.rtf]) != nil
+    return item.rtf != nil
   }
 
   private func isHTML(_ item: HistoryItem) -> Bool {
-    return contentData(item, [.html]) != nil
+    return item.html != nil
   }
 
   private func isString(_ item: HistoryItem) -> Bool {
-    return contentData(item, [.string]) != nil
+    return item.text != nil
   }
 
   private func loadImage(_ item: HistoryItem) {
-    if let contentData = contentData(item, imagePasteboardTypes) {
-      if let image = NSImage(data: contentData) {
-        if image.size.width > imageMaxWidth {
-          image.size.height = image.size.height / (image.size.width / imageMaxWidth)
-          image.size.width = imageMaxWidth
-        }
-
-        let imageMaxHeight = CGFloat(UserDefaults.standard.imageMaxHeight)
-        if image.size.height > imageMaxHeight {
-          image.size.width = image.size.width / (image.size.height / imageMaxHeight)
-          image.size.height = imageMaxHeight
-        }
-
-        self.image = image
-        self.toolTip = defaultTooltip(item)
-        self.title = imageTitle
-      }
+    guard let image = item.image else {
+      return
     }
+
+    if image.size.width > imageMaxWidth {
+      image.size.height = image.size.height / (image.size.width / imageMaxWidth)
+      image.size.width = imageMaxWidth
+    }
+
+    let imageMaxHeight = CGFloat(UserDefaults.standard.imageMaxHeight)
+    if image.size.height > imageMaxHeight {
+      image.size.width = image.size.width / (image.size.height / imageMaxHeight)
+      image.size.height = imageMaxHeight
+    }
+
+    self.image = image
+    self.toolTip = defaultTooltip(item)
+    self.title = imageTitle
   }
 
   private func loadFile(_ item: HistoryItem) {
-    if let fileURLData = contentData(item, [.fileURL]) {
-      if let fileURL = URL(dataRepresentation: fileURLData, relativeTo: nil, isAbsolute: true) {
-        if let string = fileURL.absoluteString.removingPercentEncoding {
-          self.value = string
-          self.title = item.title
-          self.image = ColorImage.from(title)
-          self.toolTip = """
-          \(string.shortened(to: tooltipMaxLength))
-
-          \(defaultTooltip(item))
-          """
-        }
-      }
+    guard let fileURL = item.fileURL,
+          let string = fileURL.absoluteString.removingPercentEncoding else {
+      return
     }
+
+    self.value = string
+    self.title = item.title
+    self.image = ColorImage.from(title)
+    self.toolTip = """
+    \(string.shortened(to: tooltipMaxLength))
+
+    \(defaultTooltip(item))
+    """
   }
 
   private func loadRTF(_ item: HistoryItem) {
-    if let contentData = contentData(item, [.rtf]) {
-      if let string = NSAttributedString(rtf: contentData, documentAttributes: nil)?.string {
-        self.value = string
-        self.title = item.title
-        self.image = ColorImage.from(title)
-        self.toolTip = """
-        \(string.shortened(to: tooltipMaxLength))
-
-        \(defaultTooltip(item))
-        """
-      }
+    guard let string = item.rtf?.string else {
+      return
     }
+
+    self.value = string
+    self.title = item.title
+    self.image = ColorImage.from(title)
+    self.toolTip = """
+    \(string.shortened(to: tooltipMaxLength))
+
+    \(defaultTooltip(item))
+    """
   }
 
   private func loadHTML(_ item: HistoryItem) {
-    if let contentData = contentData(item, [.html]) {
-      if let string = NSAttributedString(html: contentData, documentAttributes: nil)?.string {
-        self.value = string
-        self.title = item.title
-        self.image = ColorImage.from(title)
-        self.toolTip = """
-        \(string.shortened(to: tooltipMaxLength))
-
-        \(defaultTooltip(item))
-        """
-      }
+    guard let string = item.html?.string else {
+      return
     }
-  }
-  private func loadString(_ item: HistoryItem, from: NSPasteboard.PasteboardType) {
-    if let contentData = contentData(item, [from]) {
-      if let string = String(data: contentData, encoding: .utf8) {
-        self.value = string
-        self.title = item.title
-        self.image = ColorImage.from(title)
-        self.toolTip = """
-        \(string.shortened(to: tooltipMaxLength))
 
-        \(defaultTooltip(item))
-        """
-      }
-    }
+    self.value = string
+    self.title = item.title
+    self.image = ColorImage.from(title)
+    self.toolTip = """
+    \(string.shortened(to: tooltipMaxLength))
+
+    \(defaultTooltip(item))
+    """
   }
 
-  private func contentData(_ item: HistoryItem, _ types: [NSPasteboard.PasteboardType]) -> Data? {
-    let contents = item.getContents()
-    let content = contents.first(where: { content in
-      return types.contains(NSPasteboard.PasteboardType(content.type))
-    })
+  private func loadString(_ item: HistoryItem) {
+    guard let string = item.text else {
+      return
+    }
 
-    return content?.value
+    self.value = string
+    self.title = item.title
+    self.image = ColorImage.from(title)
+    self.toolTip = """
+    \(string.shortened(to: tooltipMaxLength))
+
+    \(defaultTooltip(item))
+    """
   }
 
   private func defaultTooltip(_ item: HistoryItem) -> String {

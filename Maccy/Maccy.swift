@@ -123,6 +123,10 @@ class Maccy: NSObject {
     return menu.select(position: position)
   }
 
+  func item(at position: Int) -> HistoryItem? {
+    return menu.historyItem(at: position)
+  }
+
   func clearUnpinned(suppressClearAlert: Bool = false) {
     withClearAlert(suppressClearAlert: suppressClearAlert) {
       self.history.clearUnpinned()

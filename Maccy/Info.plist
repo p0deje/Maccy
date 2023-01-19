@@ -22,6 +22,7 @@
 	<array>
 		<string>Clearintent</string>
 		<string>SelectIntent</string>
+		<string>GetIntent</string>
 	</array>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
@@ -38,6 +39,7 @@
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ClearIntent</string>
+		<string>GetIntent</string>
 		<string>SelectIntent</string>
 	</array>
 	<key>SUFeedURL</key>

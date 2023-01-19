@@ -63,6 +63,7 @@
 		DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */; };
 		DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */; };
 		DA81D674252A056B009977BC /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA81D673252A056B009977BC /* Throttler.swift */; };
+		DA83EC262974EEA400A95531 /* GetIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA83EC252974EEA400A95531 /* GetIntentHandler.swift */; };
 		DA8953B91E446A4E00884EAB /* Maccy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA8953B81E446A4E00884EAB /* Maccy.swift */; };
 		DAAEB196219694AE00A7883C /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAEB195219694AE00A7883C /* About.swift */; };
 		DAB65DFD2440AD63000AECA8 /* Storage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAB65DFB2440AD63000AECA8 /* Storage.xcdatamodeld */; };
@@ -73,6 +74,7 @@
 		DABDE97F2974706C005B32E9 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */; };
 		DAC14124232367B200FCFA30 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC14123232367B200FCFA30 /* Search.swift */; };
 		DAC6CE9126E1AC19002B70B8 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = DAC6CE9026E1AC19002B70B8 /* LaunchAtLogin */; };
+		DAC929D7297A0E8B00814F19 /* NSPasteboard.PasteboardType+JPG.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+JPG.swift */; };
 		DAD0862D24545C66002AFAEC /* Storage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAB65DFB2440AD63000AECA8 /* Storage.xcdatamodeld */; };
 		DAD20C7724E55CD200E96247 /* org.sparkle-project.Downloader.xpc in Resources */ = {isa = PBXBuildFile; fileRef = DAD20C7224E55CD100E96247 /* org.sparkle-project.Downloader.xpc */; };
 		DAD20C7824E55CD200E96247 /* org.sparkle-project.InstallerStatus.xpc in Resources */ = {isa = PBXBuildFile; fileRef = DAD20C7324E55CD100E96247 /* org.sparkle-project.InstallerStatus.xpc */; };
@@ -287,6 +289,7 @@
 		DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotKey.swift; sourceTree = "<group>"; };
 		DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Names.swift"; sourceTree = "<group>"; };
 		DA81D673252A056B009977BC /* Throttler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
+		DA83EC252974EEA400A95531 /* GetIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIntentHandler.swift; sourceTree = "<group>"; };
 		DA86E870255C4DF600D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
 		DA86E871255C4DF600D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
 		DA86E872255C4DF700D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
@@ -302,6 +305,7 @@
 		DAB8CE4124E368F200A2500E /* container-migration.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "container-migration.plist"; sourceTree = "<group>"; };
 		DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayout.swift; sourceTree = "<group>"; };
 		DAC14123232367B200FCFA30 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
+		DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+JPG.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPasteboard.PasteboardType+JPG.swift"; sourceTree = "<group>"; };
 		DAD20C7224E55CD100E96247 /* org.sparkle-project.Downloader.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; name = "org.sparkle-project.Downloader.xpc"; path = "Sparkle/org.sparkle-project.Downloader.xpc"; sourceTree = "<group>"; };
 		DAD20C7324E55CD100E96247 /* org.sparkle-project.InstallerStatus.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; name = "org.sparkle-project.InstallerStatus.xpc"; path = "Sparkle/org.sparkle-project.InstallerStatus.xpc"; sourceTree = "<group>"; };
 		DAD20C7424E55CD100E96247 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Sparkle.framework; sourceTree = "<group>"; };
@@ -470,6 +474,7 @@
 			isa = PBXGroup;
 			children = (
 				DA68F91D28BD7DEA007E2F25 /* ClearIntentHandler.swift */,
+				DA83EC252974EEA400A95531 /* GetIntentHandler.swift */,
 				DA68F91B28BD76B8007E2F25 /* SelectIntentHandler.swift */,
 			);
 			path = Intents;
@@ -534,6 +539,7 @@
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
 				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
 				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
+				DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+JPG.swift */,
 				DA49EE7428B59468002752E0 /* NSRect+Centered.swift */,
 				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
@@ -629,7 +635,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1420;
 				ORGANIZATIONNAME = p0deje;
 				TargetAttributes = {
 					DA0EE7B5204657830025FC60 = {
@@ -800,7 +806,9 @@
 				DA68F91828BD6E21007E2F25 /* Intents.intentdefinition in Sources */,
 				DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */,
 				DAD665662898A1C000975096 /* KeyChord.swift in Sources */,
+				DA83EC262974EEA400A95531 /* GetIntentHandler.swift in Sources */,
 				DAEE38541E3DD6F100DD2966 /* History.swift in Sources */,
+				DAC929D7297A0E8B00814F19 /* NSPasteboard.PasteboardType+JPG.swift in Sources */,
 				DA20EBB0268E253E0032D360 /* IgnorePasteboardTypesViewController.swift in Sources */,
 				DAF65F4924D396FE00F3978F /* PasteMenuItem.swift in Sources */,
 				DA57C64E249E2A550032707A /* MenuFooter.swift in Sources */,
@@ -1262,7 +1270,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 0.25.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1296,7 +1304,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.14;
+				MACOSX_DEPLOYMENT_TARGET = "$(RECOMMENDED_MACOSX_DEPLOYMENT_TARGET)";
 				MARKETING_VERSION = 0.25.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";

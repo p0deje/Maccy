@@ -3,12 +3,12 @@ import AppKit
 class History {
   var all: [HistoryItem] {
     let sorter = Sorter(by: UserDefaults.standard.sortBy)
-    var unpinned = sorter.sort(HistoryItem.unpinned())
+    var unpinned = sorter.sort(HistoryItem.unpinned)
     while unpinned.count > UserDefaults.standard.size {
       remove(unpinned.removeLast())
     }
 
-    return sorter.sort(HistoryItem.all())
+    return sorter.sort(HistoryItem.all)
   }
 
   init() {
