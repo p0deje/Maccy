@@ -80,6 +80,19 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.all[0].numberOfCopies, 0)
   }
 
+  func testModifiedAfterCopying() {
+    history.add(historyItem("foo"))
+
+    let modifiedItem = historyItem("bar")
+    modifiedItem.addToContents(HistoryItemContent(
+      type: NSPasteboard.PasteboardType.modified.rawValue,
+      value: String(Clipboard.shared.changeCount).data(using: .utf8)
+    ))
+    history.add(modifiedItem)
+
+    XCTAssertEqual(history.all, [modifiedItem])
+  }
+
   func testClearingUnpinned() {
     let pinned = historyItem("foo")
     pinned.pin = "f"

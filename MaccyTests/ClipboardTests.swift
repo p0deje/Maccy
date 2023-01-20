@@ -16,7 +16,7 @@ class ClipboardTests: XCTestCase {
   let rtfType = NSPasteboard.PasteboardType.rtf
   let stringType = NSPasteboard.PasteboardType.string
   let tiffType = NSPasteboard.PasteboardType.tiff
-  let transientType = NSPasteboard.PasteboardType(rawValue: "org.nspasteboard.TransientType")
+  let transientType = NSPasteboard.PasteboardType.transient
   let unknownType = NSPasteboard.PasteboardType(rawValue: "com.apple.AnnotationKit.AnnotationItem")
 
   let savedEnabledTypes = UserDefaults.standard.enabledPasteboardTypes

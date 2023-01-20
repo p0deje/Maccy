@@ -11,6 +11,8 @@ class History {
     return sorter.sort(HistoryItem.all)
   }
 
+  private var sessionLog: [Int: HistoryItem] = [:]
+
   init() {
     UserDefaults.standard.register(defaults: [UserDefaults.Keys.size: UserDefaults.Values.size])
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
@@ -33,6 +35,7 @@ class History {
       }
     }
 
+    sessionLog[Clipboard.shared.changeCount] = item
     CoreDataManager.shared.saveContext()
   }
 
@@ -55,6 +58,10 @@ class History {
   }
 
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
+    if let modified = item.modified, sessionLog.keys.contains(modified) {
+      return sessionLog[modified]
+    }
+
     let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
     if duplicates.count > 1 {
       return duplicates.first(where: { $0.objectID != item.objectID })

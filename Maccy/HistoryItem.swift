@@ -78,6 +78,15 @@ class HistoryItem: NSManagedObject {
     return String(data: data, encoding: .utf8)
   }
 
+  var modified: Int? {
+    guard let data = contentData([.modified]),
+          let modified = String(data: data, encoding: .utf8) else {
+      return nil
+    }
+
+    return Int(modified)
+  }
+
   static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
     return lhs.getContents().count == rhs.getContents().count && lhs.supersedes(rhs)
   }

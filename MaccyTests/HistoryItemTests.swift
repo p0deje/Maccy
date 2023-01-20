@@ -1,15 +1,19 @@
 import XCTest
 @testable import Maccy
 
-class HistoryItemTests: XCTestCase {
+class HistoryItemTests: XCTestCase {  let savedIgnoredApps = UserDefaults.standard.ignoredApps
+  let savedMaxMenuItemLength = UserDefaults.standard.maxMenuItemLength
+
   override func setUp() {
     CoreDataManager.inMemory = true
+    UserDefaults.standard.maxMenuItemLength = 50
     super.setUp()
   }
 
   override func tearDown() {
     super.tearDown()
     CoreDataManager.inMemory = false
+    UserDefaults.standard.maxMenuItemLength = savedMaxMenuItemLength
   }
 
   func testTitleForString() {
