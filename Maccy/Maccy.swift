@@ -238,12 +238,16 @@ class Maccy: NSObject {
     if suppressClearAlert || UserDefaults.standard.suppressClearAlert {
       closure()
     } else {
+      Maccy.returnFocusToPreviousApp = false
       let alert = clearAlert
-      if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
-        if alert.suppressionButton?.state == .on {
-          UserDefaults.standard.suppressClearAlert = true
+      DispatchQueue.main.async {
+        if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
+          if alert.suppressionButton?.state == .on {
+            UserDefaults.standard.suppressClearAlert = true
+          }
+          closure()
         }
-        closure()
+        Maccy.returnFocusToPreviousApp = true
       }
     }
   }
