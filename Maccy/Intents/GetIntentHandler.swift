@@ -11,12 +11,23 @@ class GetIntentHandler: NSObject, GetIntentHandling {
   }
 
   func handle(intent: GetIntent, completion: @escaping (GetIntentResponse) -> Void) {
-    guard let number = intent.number as? Int else {
+    guard let selected = intent.selected as? Bool else {
       return completion(GetIntentResponse(code: .failure, userActivity: nil))
     }
 
-    let index = number - positionOffset
-    guard let item = maccy.item(at: index) else {
+    var item: HistoryItem?
+    if selected {
+      item = maccy.selectedItem
+    } else {
+      guard let number = intent.number as? Int else {
+        return completion(GetIntentResponse(code: .failure, userActivity: nil))
+      }
+
+      let index = number - positionOffset
+      item = maccy.item(at: index)
+    }
+
+    guard let item = item else {
       return completion(GetIntentResponse(code: .failure, userActivity: nil))
     }
 
@@ -46,6 +57,14 @@ class GetIntentHandler: NSObject, GetIntentHandling {
     let response = GetIntentResponse(code: .success, userActivity: nil)
     response.item = intentItem
     return completion(response)
+  }
+
+  func resolveSelected(for intent: GetIntent, with completion: @escaping (INBooleanResolutionResult) -> Void) {
+    guard let selected = intent.selected as? Bool else {
+      return completion(.needsValue())
+    }
+
+    return completion(.success(with: selected))
   }
 
   func resolveNumber(for intent: GetIntent, with completion: @escaping (GetNumberResolutionResult) -> Void) {

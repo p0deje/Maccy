@@ -5,9 +5,11 @@ import Preferences
 // swiftlint:disable file_length
 // swiftlint:disable type_body_length
 class Maccy: NSObject {
-  static public var returnFocusToPreviousApp = true
+  static var returnFocusToPreviousApp = true
 
-  @objc public let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+  @objc let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+  var selectedItem: HistoryItem? { (menu.highlightedItem as? HistoryMenuItem)?.item }
+
   private let statusItemTitleMaxLength = 20
 
   private let about = About()

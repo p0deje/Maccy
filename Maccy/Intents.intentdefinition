@@ -262,15 +262,18 @@
 			<true/>
 			<key>INIntentDescriptionID</key>
 			<string>9xam4c</string>
-			<key>INIntentInput</key>
-			<string>number</string>
-			<key>INIntentKeyParameter</key>
-			<string>number</string>
 			<key>INIntentLastParameterTag</key>
-			<integer>4</integer>
+			<integer>6</integer>
 			<key>INIntentManagedParameterCombinations</key>
 			<dict>
-				<key>number</key>
+				<key>number,selected</key>
+				<dict>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationUpdatesLinked</key>
+					<true/>
+				</dict>
+				<key>selected</key>
 				<dict>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
@@ -282,14 +285,25 @@
 			<string>Get</string>
 			<key>INIntentParameterCombinations</key>
 			<dict>
-				<key>number</key>
+				<key>number,selected</key>
 				<dict>
+					<key>INIntentParameterCombinationIsPrimary</key>
+					<true/>
 					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
 					<true/>
 					<key>INIntentParameterCombinationTitle</key>
 					<string>Get ${number} Item from Clipboard History</string>
 					<key>INIntentParameterCombinationTitleID</key>
-					<string>Xmok86</string>
+					<string>e1TT65</string>
+				</dict>
+				<key>selected</key>
+				<dict>
+					<key>INIntentParameterCombinationSupportsBackgroundExecution</key>
+					<true/>
+					<key>INIntentParameterCombinationTitle</key>
+					<string>Get ${selected} Item from Clipboard History</string>
+					<key>INIntentParameterCombinationTitleID</key>
+					<string>jGkmpE</string>
 				</dict>
 			</dict>
 			<key>INIntentParameters</key>
@@ -298,11 +312,61 @@
 					<key>INIntentParameterConfigurable</key>
 					<true/>
 					<key>INIntentParameterDisplayName</key>
+					<string>Selected</string>
+					<key>INIntentParameterDisplayNameID</key>
+					<string>1IEkRt</string>
+					<key>INIntentParameterDisplayPriority</key>
+					<integer>1</integer>
+					<key>INIntentParameterMetadata</key>
+					<dict>
+						<key>INIntentParameterMetadataDefaultValue</key>
+						<true/>
+						<key>INIntentParameterMetadataFalseDisplayName</key>
+						<string>false</string>
+						<key>INIntentParameterMetadataFalseDisplayNameID</key>
+						<string>bVyYtG</string>
+						<key>INIntentParameterMetadataTrueDisplayName</key>
+						<string>true</string>
+						<key>INIntentParameterMetadataTrueDisplayNameID</key>
+						<string>n9bxv2</string>
+					</dict>
+					<key>INIntentParameterName</key>
+					<string>selected</string>
+					<key>INIntentParameterPromptDialogs</key>
+					<array>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Configuration</string>
+						</dict>
+						<dict>
+							<key>INIntentParameterPromptDialogCustom</key>
+							<true/>
+							<key>INIntentParameterPromptDialogFormatString</key>
+							<string>Do you want to get currently selected item?</string>
+							<key>INIntentParameterPromptDialogFormatStringID</key>
+							<string>5MwbyJ</string>
+							<key>INIntentParameterPromptDialogType</key>
+							<string>Primary</string>
+						</dict>
+					</array>
+					<key>INIntentParameterSupportsResolution</key>
+					<true/>
+					<key>INIntentParameterTag</key>
+					<integer>6</integer>
+					<key>INIntentParameterType</key>
+					<string>Boolean</string>
+				</dict>
+				<dict>
+					<key>INIntentParameterConfigurable</key>
+					<true/>
+					<key>INIntentParameterDisplayName</key>
 					<string>Number</string>
 					<key>INIntentParameterDisplayNameID</key>
 					<string>nVCfZI</string>
 					<key>INIntentParameterDisplayPriority</key>
-					<integer>1</integer>
+					<integer>2</integer>
 					<key>INIntentParameterMetadata</key>
 					<dict>
 						<key>INIntentParameterMetadataDefaultValue</key>
@@ -335,6 +399,13 @@
 							<string>Primary</string>
 						</dict>
 					</array>
+					<key>INIntentParameterRelationship</key>
+					<dict>
+						<key>INIntentParameterRelationshipParentName</key>
+						<string>selected</string>
+						<key>INIntentParameterRelationshipPredicateName</key>
+						<string>BooleanHasExactValue</string>
+					</dict>
 					<key>INIntentParameterSupportsResolution</key>
 					<true/>
 					<key>INIntentParameterTag</key>
