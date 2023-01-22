@@ -2,7 +2,6 @@ import XCTest
 @testable import Maccy
 
 class UserDefaultsTests: XCTestCase {
-  let savedFuzzySearch = UserDefaults.standard.fuzzySearch
   let savedIgnoreEvents = UserDefaults.standard.ignoreEvents
   let savedIgnoredPasteboardTypes = UserDefaults.standard.ignoredPasteboardTypes
   let savedPasteByDefault = UserDefaults.standard.pasteByDefault
@@ -17,7 +16,6 @@ class UserDefaultsTests: XCTestCase {
   override func setUp() {
     super.setUp()
 
-    UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.fuzzySearch)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.ignoreEvents)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.ignoredPasteboardTypes)
     UserDefaults.standard.removeObject(forKey: UserDefaults.Keys.pasteByDefault)
@@ -34,7 +32,6 @@ class UserDefaultsTests: XCTestCase {
   override func tearDown() {
     super.tearDown()
 
-    UserDefaults.standard.fuzzySearch = savedFuzzySearch
     UserDefaults.standard.ignoreEvents = savedIgnoreEvents
     UserDefaults.standard.ignoredPasteboardTypes = savedIgnoredPasteboardTypes
     UserDefaults.standard.pasteByDefault = savedPasteByDefault
@@ -48,7 +45,6 @@ class UserDefaultsTests: XCTestCase {
   }
 
   func testDefaultValues() {
-    XCTAssertEqual(UserDefaults.standard.fuzzySearch, false)
     XCTAssertEqual(UserDefaults.standard.ignoreEvents, false)
     XCTAssertEqual(UserDefaults.standard.ignoredPasteboardTypes, Set())
     XCTAssertEqual(UserDefaults.standard.pasteByDefault, false)
@@ -62,7 +58,6 @@ class UserDefaultsTests: XCTestCase {
   }
 
   func testChanging() {
-    UserDefaults.standard.fuzzySearch = true
     UserDefaults.standard.ignoreEvents = true
     UserDefaults.standard.ignoredPasteboardTypes = ["foo", "bar"]
     UserDefaults.standard.pasteByDefault = true
@@ -74,7 +69,6 @@ class UserDefaultsTests: XCTestCase {
     UserDefaults.standard.showInStatusBar = false
     UserDefaults.standard.size = 100
 
-    XCTAssertEqual(UserDefaults.standard.fuzzySearch, true)
     XCTAssertEqual(UserDefaults.standard.ignoreEvents, true)
     XCTAssertEqual(UserDefaults.standard.ignoredPasteboardTypes, Set(["foo", "bar"]))
     XCTAssertEqual(UserDefaults.standard.pasteByDefault, true)

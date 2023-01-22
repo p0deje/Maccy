@@ -1,12 +1,8 @@
-
 /* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
 "5NO-0n-i7l.title" = "書式なしで貼り付け";
 
 /* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
 "8Rb-OS-d59.title" = "今確認する";
-
-/* Class = "NSButtonCell"; title = "Fuzzy search"; ObjectID = "CGs-Td-v66"; */
-"CGs-Td-v66.title" = "あいまい検索";
 
 /* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
 "Cfl-qm-UkM.title" = "ログイン時に実行";
@@ -38,5 +34,14 @@
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
 "rCZ-AO-G8B.title" = "どこからでもアプリケーションを開くショートカットです。\nデフォルト：⇧⌘C.";
 
-/* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
-"tUJ-hx-P24.title" = "不正確な検索を有効にします。履歴のサイズが200より大きいとあいまい検索が遅くなることもあります。";
+/* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
+"IGh-5B-6RG.title" = "あいまい";
+
+/* Class = "NSMenuItem"; title = "Exact"; ObjectID = "OJz-OA-cKK"; */
+"OJz-OA-cKK.title" = "精密";
+
+/* Class = "NSTextFieldCell"; title = "Search:"; ObjectID = "eLD-CL-D8J"; */
+"eLD-CL-D8J.title" = "検索：";
+
+/* Class = "NSMenuItem"; title = "Regular expressions"; ObjectID = "mhw-kS-4Wk"; */
+"mhw-kS-4Wk.title" = "正規表現";

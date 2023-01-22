@@ -1,12 +1,8 @@
-
 /* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
 "5NO-0n-i7l.title" = "วางโดยไม่จัดรูปแบบ";
 
 /* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
 "8Rb-OS-d59.title" = "ตรวจสอบทันที";
-
-/* Class = "NSButtonCell"; title = "Fuzzy search"; ObjectID = "CGs-Td-v66"; */
-"CGs-Td-v66.title" = "ค้นหา";
 
 /* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
 "Cfl-qm-UkM.title" = "เปิดเมื่อเข้าสู่ระบบ";
@@ -38,5 +34,14 @@
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
 "rCZ-AO-G8B.title" = "คีย์ลัดเพื่อเปิดแอป.\nค่าเริ่มต้น: ⇧⌘C.";
 
-/* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
-"tUJ-hx-P24.title" = "เปิดการค้นหาไม่ระบุเจาะจง โปรดเข้าใจหากค้นหาโดยช่วยหาอาจจะช้าเมื่อประวัติรายการมีมากกว่า 200. รายการ";
+/* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
+"IGh-5B-6RG.title" = "เลือน";
+
+/* Class = "NSMenuItem"; title = "Exact"; ObjectID = "OJz-OA-cKK"; */
+"OJz-OA-cKK.title" = "แม่นยำ";
+
+/* Class = "NSTextFieldCell"; title = "Search:"; ObjectID = "eLD-CL-D8J"; */
+"eLD-CL-D8J.title" = "ค้นหา:";
+
+/* Class = "NSMenuItem"; title = "Regular expressions"; ObjectID = "mhw-kS-4Wk"; */
+"mhw-kS-4Wk.title" = "นิพจน์ทั่วไป";

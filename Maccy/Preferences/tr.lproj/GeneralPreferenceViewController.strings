@@ -1,12 +1,8 @@
-
 /* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
 "5NO-0n-i7l.title" = "Biçimlendirme olmadan yapıştır";
 
 /* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
 "8Rb-OS-d59.title" = "Şimdi denetle";
-
-/* Class = "NSButtonCell"; title = "Fuzzy search"; ObjectID = "CGs-Td-v66"; */
-"CGs-Td-v66.title" = "Bulanık arama";
 
 /* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
 "Cfl-qm-UkM.title" = "Girişte başlat";
@@ -38,5 +34,14 @@
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
 "rCZ-AO-G8B.title" = "Uygulamayı açmak için global kısayol düğmesi.\nSaptanmış: ⇧⌘C.";
 
-/* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
-"tUJ-hx-P24.title" = "Kesin olmayan aramayı etkinleştir. Geçmiş boyutu 200'den büyük olduğunda bulanık aramanın yavaş olabileceğini aklınızda bulundurun.";
+/* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
+"IGh-5B-6RG.title" = "Bulanık";
+
+/* Class = "NSMenuItem"; title = "Exact"; ObjectID = "OJz-OA-cKK"; */
+"OJz-OA-cKK.title" = "Kesin";
+
+/* Class = "NSTextFieldCell"; title = "Search:"; ObjectID = "eLD-CL-D8J"; */
+"eLD-CL-D8J.title" = "Arama:";
+
+/* Class = "NSMenuItem"; title = "Regular expressions"; ObjectID = "mhw-kS-4Wk"; */
+"mhw-kS-4Wk.title" = "Düzenli ifadeler";

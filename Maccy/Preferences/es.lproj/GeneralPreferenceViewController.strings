@@ -1,9 +1,5 @@
-
 /* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
 "8Rb-OS-d59.title" = "Comprobar ahora";
-
-/* Class = "NSButtonCell"; title = "Fuzzy search"; ObjectID = "CGs-Td-v66"; */
-"CGs-Td-v66.title" = "Búsqueda aproximada";
 
 /* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
 "Cfl-qm-UkM.title" = "Abrir al inciar la sesión";
@@ -29,11 +25,23 @@
 /* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
 "rCZ-AO-G8B.title" = "Combinación de teclas global para abrir la aplicación.\nPor defecto: ⇧⌘C.";
 
-/* Class = "NSTextFieldCell"; title = "Enable non-exact search. Please note that fuzzy search might be slow when history size is bigger than 200."; ObjectID = "tUJ-hx-P24"; */
-"tUJ-hx-P24.title" = "Habilita la búsqueda no exacta. Por favor, ten en cuenta que la búsqueda aproximada puede ser lenta cuando el historial tiene más de 200 elementos.";
-
 /* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
 "lkL-5p-KVx.title" = "Suena";
 
 /* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
 "fda-wq-rZq.title" = "Reproduzca efectos de sonido cuando se agrega un nuevo elemento al historial y se selecciona el elemento anterior.";
+
+/* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
+"EdO-Bo-TeB.title" = "";
+
+/* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
+"IGh-5B-6RG.title" = "Aproximada";
+
+/* Class = "NSMenuItem"; title = "Exact"; ObjectID = "OJz-OA-cKK"; */
+"OJz-OA-cKK.title" = "Exacta";
+
+/* Class = "NSTextFieldCell"; title = "Search:"; ObjectID = "eLD-CL-D8J"; */
+"eLD-CL-D8J.title" = "Búsqueda:";
+
+/* Class = "NSMenuItem"; title = "Regular expressions"; ObjectID = "mhw-kS-4Wk"; */
+"mhw-kS-4Wk.title" = "Expresiones regulares";

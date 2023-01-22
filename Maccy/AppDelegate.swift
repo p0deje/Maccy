@@ -164,6 +164,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
       UserDefaults.standard.migrations["2022-11-14-add-html-rtf-to-supported-types"] = true
     }
+
+    if UserDefaults.standard.migrations["2023-01-22-add-regexp-search-mode"] != true {
+      if UserDefaults.standard.bool(forKey: "fuzzySearch") {
+        UserDefaults.standard.searchMode = Search.Mode.fuzzy.rawValue
+      }
+      UserDefaults.standard.removeObject(forKey: "fuzzySearch")
+
+      UserDefaults.standard.migrations["2023-01-22-add-regexp-search-mode"] = true
+    }
   }
 
   private func clearOrphanRecords() {

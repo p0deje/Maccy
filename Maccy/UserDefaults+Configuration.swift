@@ -6,7 +6,6 @@ extension UserDefaults {
     static let clearOnQuit = "clearOnQuit"
     static let clearSystemClipboard = "clearSystemClipboard"
     static let enabledPasteboardTypes = "enabledPasteboardTypes"
-    static let fuzzySearch = "fuzzySearch"
     static let hideFooter = "hideFooter"
     static let hideSearch = "hideSearch"
     static let hideTitle = "hideTitle"
@@ -22,6 +21,7 @@ extension UserDefaults {
     static let pinTo = "pinTo"
     static let playSounds = "playSounds"
     static let popupPosition = "popupPosition"
+    static let searchMode = "searchMode"
     static let removeFormattingByDefault = "removeFormattingByDefault"
     static let saratovSeparator = "enableSaratovSeparator"
     static let showRecentCopyInMenuBar = "showRecentCopyInMenuBar"
@@ -47,6 +47,7 @@ extension UserDefaults {
     static let migrations: [String: Bool] = [:]
     static let pinTo = "top"
     static let popupPosition = "cursor"
+    static let searchMode = "exact"
     static let showInStatusBar = true
     static let size = 200
     static let sortBy = "lastCopiedAt"
@@ -73,11 +74,6 @@ extension UserDefaults {
       return Set(types.map({ NSPasteboard.PasteboardType($0) }))
     }
     set { set(Array(newValue.map({ $0.rawValue })), forKey: Keys.enabledPasteboardTypes) }
-  }
-
-  public var fuzzySearch: Bool {
-    get { ProcessInfo.processInfo.arguments.contains("ui-testing") ? false : bool(forKey: Keys.fuzzySearch) }
-    set { set(newValue, forKey: Keys.fuzzySearch) }
   }
 
   @objc dynamic public var hideFooter: Bool {
@@ -163,6 +159,11 @@ extension UserDefaults {
   public var saratovSeparator: Bool {
     get { bool(forKey: Keys.saratovSeparator) }
     set { set(newValue, forKey: Keys.saratovSeparator) }
+  }
+
+  public var searchMode: String {
+    get { string(forKey: Keys.searchMode) ?? Values.searchMode }
+    set { set(newValue, forKey: Keys.searchMode) }
   }
 
   @objc dynamic public var showInStatusBar: Bool {

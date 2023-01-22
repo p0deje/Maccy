@@ -14,7 +14,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   @IBOutlet weak var hotkeyContainerView: NSView!
   @IBOutlet weak var launchAtLoginButton: NSButton!
-  @IBOutlet weak var fuzzySearchButton: NSButton!
+  @IBOutlet weak var searchModeButton: NSPopUpButton!
   @IBOutlet weak var pasteAutomaticallyButton: NSButton!
   @IBOutlet weak var removeFormattingButton: NSButton!
   @IBOutlet weak var modifiersDescriptionLabel: NSTextField!
@@ -28,7 +28,7 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
   override func viewWillAppear() {
     super.viewWillAppear()
     populateLaunchAtLogin()
-    populateFuzzySearch()
+    populateSearchMode()
     populatePasteAutomatically()
     populateRemoveFormatting()
     updateModifiersDescriptionLabel()
@@ -39,8 +39,15 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
     LaunchAtLogin.isEnabled = (sender.state == .on)
   }
 
-  @IBAction func fuzzySearchChanged(_ sender: NSButton) {
-    UserDefaults.standard.fuzzySearch = (sender.state == .on)
+  @IBAction func searchModeChanged(_ sender: NSPopUpButton) {
+    switch sender.selectedTag() {
+    case 2:
+      UserDefaults.standard.searchMode = Search.Mode.regexp.rawValue
+    case 1:
+      UserDefaults.standard.searchMode = Search.Mode.fuzzy.rawValue
+    default:
+      UserDefaults.standard.searchMode = Search.Mode.exact.rawValue
+    }
   }
 
   @IBAction func pasteAutomaticallyChanged(_ sender: NSButton) {
@@ -61,8 +68,15 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
     launchAtLoginButton.state = LaunchAtLogin.isEnabled ? .on : .off
   }
 
-  private func populateFuzzySearch() {
-    fuzzySearchButton.state = UserDefaults.standard.fuzzySearch ? .on : .off
+  private func populateSearchMode() {
+    switch Search.Mode(rawValue: UserDefaults.standard.searchMode) {
+    case .regexp:
+      searchModeButton.selectItem(withTag: 2)
+    case .fuzzy:
+      searchModeButton.selectItem(withTag: 1)
+    default:
+      searchModeButton.selectItem(withTag: 0)
+    }
   }
 
   private func populatePasteAutomatically() {
