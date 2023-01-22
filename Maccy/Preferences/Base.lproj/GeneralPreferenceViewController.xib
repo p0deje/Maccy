@@ -144,6 +144,7 @@ Default: ⇧⌘C.</string>
                                             <menuItem title="Exact" state="on" id="OJz-OA-cKK"/>
                                             <menuItem title="Fuzzy" tag="1" id="IGh-5B-6RG"/>
                                             <menuItem title="Regular expressions" tag="2" id="mhw-kS-4Wk"/>
+                                            <menuItem title="Mixed" tag="3" id="dTc-O1-HqW"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>

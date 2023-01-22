@@ -41,6 +41,8 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   @IBAction func searchModeChanged(_ sender: NSPopUpButton) {
     switch sender.selectedTag() {
+    case 3:
+      UserDefaults.standard.searchMode = Search.Mode.mixed.rawValue
     case 2:
       UserDefaults.standard.searchMode = Search.Mode.regexp.rawValue
     case 1:
@@ -70,6 +72,8 @@ class GeneralPreferenceViewController: NSViewController, PreferencePane {
 
   private func populateSearchMode() {
     switch Search.Mode(rawValue: UserDefaults.standard.searchMode) {
+    case .mixed:
+      searchModeButton.selectItem(withTag: 3)
     case .regexp:
       searchModeButton.selectItem(withTag: 2)
     case .fuzzy:

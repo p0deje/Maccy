@@ -45,3 +45,6 @@
 
 /* Class = "NSMenuItem"; title = "Regular expressions"; ObjectID = "mhw-kS-4Wk"; */
 "mhw-kS-4Wk.title" = "Expressions régulières";
+
+/* Class = "NSMenuItem"; title = "Mixed"; ObjectID = "dTc-O1-HqW"; */
+"dTc-O1-HqW.title" = "Mixte";

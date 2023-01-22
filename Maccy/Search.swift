@@ -6,6 +6,7 @@ class Search {
     case exact
     case fuzzy
     case regexp
+    case mixed
   }
 
   struct SearchResult: Equatable {
@@ -25,6 +26,8 @@ class Search {
     }
 
     switch Mode(rawValue: UserDefaults.standard.searchMode) {
+    case .mixed:
+      return mixedSearch(string: string, within: within)
     case .regexp:
       return simpleSearch(string: string, within: within, options: .regularExpression)
     case .fuzzy:
@@ -102,5 +105,24 @@ class Search {
     } else {
       return nil
     }
+  }
+
+  private func mixedSearch(string: String, within: [Searchable]) -> [SearchResult] {
+    var results = simpleSearch(string: string, within: within, options: .caseInsensitive)
+    guard results.isEmpty else {
+      return results
+    }
+
+    results = simpleSearch(string: string, within: within, options: .regularExpression)
+    guard results.isEmpty else {
+      return results
+    }
+
+    results = fuzzySearch(string: string, within: within)
+    guard results.isEmpty else {
+      return results
+    }
+
+    return []
   }
 }
