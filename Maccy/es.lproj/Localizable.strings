@@ -1,6 +1,5 @@
 "search_placeholder" = "escribe para buscar...";
-"history_item_tooltip" = "Presiona ⌥⌫ para borrar.\nPresiona ⌥P para (des)anclar.";
-"clear_tooltip" = "Limpiar elementos no anclados.\nSelecciona con ⌥ para limpiarlos todos.";
+"clear_tooltip" = "Limpiar elementos no anclados.\nSelecciona con ⇧ para limpiarlos todos.";
 "clear_all_tooltip" = "Limpiar todo.";
 "about_tooltip" = "Leer más sobre la aplicación.";
 "quit_tooltip" = "Cerrar aplicación.";
@@ -15,10 +14,6 @@
 "preferences_general" = "General";
 "preferences_pins" = "Anclas";
 "preferences_storage" = "Almacenamiento";
-"copy_application_tooltip" = "Aplicación";
-"first_copy_time_tooltip" = "Hora de la primera copia";
-"last_copy_time_tooltip" = "Hora de la última copia";
-"number_of_copies_tooltip" = "Número de copia";
 "copy_modifiers_config" = "• Seleccione con %@ presionado para copiar el elemento.";
 "paste_modifiers_config" = "• Seleccione con %@ presionado para copiar y pegar el elemento.";
 "format_modifiers_config" = "• Seleccione con %@ presionado para copiar, borrar el formato y pegar el elemento.";

@@ -1,5 +1,4 @@
 "search_placeholder" = "počni kucati za pretragu...";
-"history_item_tooltip" = "Pritisni ⌥⌫ da obrišeš.\nPritisni ⌥P (Od/Za)kačiš.";
 "clear_tooltip" = "Očisti sve stavke.\nOznači sa ⇧ da očistiš sve.";
 "clear_all_tooltip" = "Očisti sve stavke.";
 "about_tooltip" = "Pročitaj više o aplikaciji.";
@@ -15,10 +14,6 @@
 "preferences_general" = "Opšte";
 "preferences_pins" = "Zakačke";
 "preferences_storage" = "Pohrana";
-"copy_application_tooltip" = "Aplikacija";
-"first_copy_time_tooltip" = "Prvi put kopirano";
-"last_copy_time_tooltip" = "Zadnji put kopirano";
-"number_of_copies_tooltip" = "Broj kopija";
 "copy_modifiers_config" = "• Označi sa %@ da kopiraš stavku.";
 "paste_modifiers_config" = "• Označi sa %@ da kopiraš i zalijepiš stavku.";
 "format_modifiers_config" = "• Označi sa %@ kopiraš, očistiš formatiranje i zalijepiš stavku";

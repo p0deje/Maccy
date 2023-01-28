@@ -2,10 +2,11 @@ import Foundation
 
 // Based on https://www.craftappco.com/blog/2018/5/30/simple-throttling-in-swift.
 class Throttler {
+  var minimumDelay: TimeInterval
+
   private var workItem: DispatchWorkItem = DispatchWorkItem(block: {})
   private var previousRun: Date = Date.distantPast
   private let queue: DispatchQueue
-  private let minimumDelay: TimeInterval
 
   init(minimumDelay: TimeInterval, queue: DispatchQueue = DispatchQueue.main) {
     self.minimumDelay = minimumDelay
@@ -14,7 +15,7 @@ class Throttler {
 
   func throttle(_ block: @escaping () -> Void) {
     // Cancel any existing work item if it has not yet executed
-    workItem.cancel()
+    cancel()
 
     // Re-assign workItem with the new block task,
     // resetting the previousRun time when it executes
@@ -29,5 +30,9 @@ class Throttler {
     // => delay the workItem execution by the minimum delay time
     let delay = previousRun.timeIntervalSinceNow > minimumDelay ? 0 : minimumDelay
     queue.asyncAfter(deadline: .now() + Double(delay), execute: workItem)
+  }
+
+  func cancel() {
+    workItem.cancel()
   }
 }

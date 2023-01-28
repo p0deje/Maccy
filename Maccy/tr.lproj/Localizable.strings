@@ -1,5 +1,4 @@
 "search_placeholder" = "aramak için yazın...";
-"history_item_tooltip" = "Silmek için ⌥⌫'a basın.\nİğnelemek/kaldırmak için ⌥P'a basın.";
 "clear_tooltip" = "İğnesi kaldırılan ögeleri temizle.\nTümünü temizlemek için ⇧ ile seçin.";
 "clear_all_tooltip" = "Tüm ögeleri temizle.";
 "about_tooltip" = "Uygulama hakkında daha fazla bilgi al.";
@@ -15,10 +14,6 @@
 "preferences_general" = "Genel";
 "preferences_pins" = "İğneler";
 "preferences_storage" = "Depolama";
-"copy_application_tooltip" = "Uygulama";
-"first_copy_time_tooltip" = "İlk kopyalama zamanı";
-"last_copy_time_tooltip" = "Son kopyalama zamanı";
-"number_of_copies_tooltip" = "Kopya sayısı";
 "copy_modifiers_config" = "• Ögeyi kopyalamak için %@ basılı tutarak seçin.";
 "paste_modifiers_config" = "• Ögeyi kopyalayıp yapıştırmak için %@ basılı tutarak seçin.";
 "format_modifiers_config" = "• Kopyalamak, biçimlendirmeyi temizlemek ve yapıştırmak için %@ basılı tutarak seçin.";

@@ -1,5 +1,4 @@
 "search_placeholder" = "skriv for å søke...";
-"history_item_tooltip" = "Trykk ⌥⌫ for å slette.\nTrykk ⌥P for å (av)merke.";
 "clear_tooltip" = "Slett avmerkede elementer.\nVelg med ⇧ for å slette alle.";
 "clear_all_tooltip" = "Slett alle elementer.";
 "about_tooltip" = "Les mer om programmet.";
@@ -15,10 +14,6 @@
 "preferences_general" = "Generelt";
 "preferences_pins" = "Merker";
 "preferences_storage" = "Lagring";
-"copy_application_tooltip" = "Applikasjon";
-"first_copy_time_tooltip" = "Tidspunkt første kopiering";
-"last_copy_time_tooltip" = "Tidspunkt siste kopiering";
-"number_of_copies_tooltip" = "Antall ganger kopiert";
 "copy_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere element.";
 "paste_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere og lime inn element.";
 "format_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere, slette formattering og lime inn element.";

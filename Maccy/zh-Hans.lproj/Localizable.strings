@@ -1,5 +1,4 @@
 "search_placeholder" = "搜索...";
-"history_item_tooltip" = "按 ⌥⌫ 删除。\n按 ⌥P (取消)固定。";
 "clear_tooltip" = "清除未固定的项目。\n按住 ⇧ 以全部清除。";
 "clear_all_tooltip" = "清除全部项目。";
 "about_tooltip" = "查看更多应用信息。";
@@ -15,10 +14,6 @@
 "preferences_general" = "通用";
 "preferences_pins" = "固定";
 "preferences_storage" = "贮存";
-"copy_application_tooltip" = "应用";
-"first_copy_time_tooltip" = "首次复制时间";
-"last_copy_time_tooltip" = "上次复制时间";
-"number_of_copies_tooltip" = "复制次数";
 "copy_modifiers_config" = "• 按住 %@ 选择项目以复制";
 "paste_modifiers_config" = "• 按住 %@ 选择项目以复制并粘贴";
 "format_modifiers_config" = "• 按住 %@ 选择项目以复制并匹配格式粘贴";

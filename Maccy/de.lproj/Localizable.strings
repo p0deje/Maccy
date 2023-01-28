@@ -1,5 +1,4 @@
 "search_placeholder" = "Suchen ...";
-"history_item_tooltip" = "Drücke ⌥⌫ zum Löschen.\nDrücke ⌥P zum Anheften / Lösen";
 "clear_tooltip" = "Lösche nur die nicht angehefteten Einträge.\nHalte zusätzlich ⇧ gedrückt, um alle Einträge zu löschen.";
 "clear_all_tooltip" = "Lösche alle Einträge.";
 "about_tooltip" = "Informationen über die Anwendung.";
@@ -15,10 +14,6 @@
 "preferences_general" = "Allgemein";
 "preferences_pins" = "Pins";
 "preferences_storage" = "Speicher";
-"copy_application_tooltip" = "Programm";
-"first_copy_time_tooltip" = "Zuerst kopiert";
-"last_copy_time_tooltip" = "Zuletzt kopiert";
-"number_of_copies_tooltip" = "Anzahl der Kopien";
 "copy_modifiers_config" = "• Drücke %@, um den gewählten Eintrag zu kopieren.";
 "paste_modifiers_config" = "• Drücke %@, um den gewählten Eintrag zu kopieren und einzufügen.";
 "format_modifiers_config" = "• Drücke %@, um den gewählten Eintrag zu kopieren und unformatiert einzufügen.";

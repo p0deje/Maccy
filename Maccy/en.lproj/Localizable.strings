@@ -1,5 +1,4 @@
 "search_placeholder" = "type to search...";
-"history_item_tooltip" = "Press ⌥⌫ to delete.\nPress ⌥P to (un)pin.";
 "clear_tooltip" = "Clear unpinned items.\nSelect with ⇧ to clear all.";
 "clear_all_tooltip" = "Clear all items.";
 "about_tooltip" = "Read more about application.";
@@ -15,10 +14,6 @@
 "preferences_general" = "General";
 "preferences_pins" = "Pins";
 "preferences_storage" = "Storage";
-"copy_application_tooltip" = "Application";
-"first_copy_time_tooltip" = "First copy time";
-"last_copy_time_tooltip" = "Last copy time";
-"number_of_copies_tooltip" = "Number of copies";
 "copy_modifiers_config" = "• Select with %@ pressed to copy item.";
 "paste_modifiers_config" = "• Select with %@ pressed to copy and paste item.";
 "format_modifiers_config" = "• Select with %@ pressed to copy, clear formatting and paste item.";

@@ -34,7 +34,6 @@ class HistoryMenuItemTests: XCTestCase {
     let menuItem = historyMenuItem(title)
     XCTAssertEqual(menuItem.title, title)
     XCTAssertEqual(menuItem.value, title)
-    XCTAssertEqual(menuItem.toolTip, tooltip(title))
     XCTAssertNil(menuItem.image)
   }
 
@@ -46,7 +45,6 @@ class HistoryMenuItemTests: XCTestCase {
     let menuItem = historyMenuItem(rtf, .rtf)
     XCTAssertEqual(menuItem.title, "foo")
     XCTAssertEqual(menuItem.value, "foo")
-    XCTAssertEqual(menuItem.toolTip, tooltip("foo"))
     XCTAssertNil(menuItem.image)
   }
 
@@ -55,7 +53,6 @@ class HistoryMenuItemTests: XCTestCase {
     let menuItem = historyMenuItem(html, .html)
     XCTAssertEqual(menuItem.title, "foo")
     XCTAssertEqual(menuItem.value, "foo")
-    XCTAssertEqual(menuItem.toolTip, tooltip("foo"))
     XCTAssertNil(menuItem.image)
   }
 
@@ -64,7 +61,6 @@ class HistoryMenuItemTests: XCTestCase {
     let menuItem = historyMenuItem(image)
     XCTAssertEqual(menuItem.title, " ")
     XCTAssertEqual(menuItem.value, "")
-    XCTAssertEqual(menuItem.toolTip, tooltip(nil))
     XCTAssertNotNil(menuItem.image)
     XCTAssertEqual(menuItem.image!.size, image.size)
   }
@@ -81,7 +77,6 @@ class HistoryMenuItemTests: XCTestCase {
     let menuItem = historyMenuItem(url)
     XCTAssertEqual(menuItem.title, "file:///tmp/foo.bar")
     XCTAssertEqual(menuItem.value, "file:///tmp/foo.bar")
-    XCTAssertEqual(menuItem.toolTip, tooltip("file:///tmp/foo.bar"))
     XCTAssertNil(menuItem.image)
   }
 
@@ -90,7 +85,6 @@ class HistoryMenuItemTests: XCTestCase {
     let menuItem = historyMenuItem(url)
     XCTAssertEqual(menuItem.title, "file:///tmp/产品培训/产品培训.txt")
     XCTAssertEqual(menuItem.value, "file:///tmp/产品培训/产品培训.txt")
-    XCTAssertEqual(menuItem.toolTip, tooltip("file:///tmp/产品培训/产品培训.txt"))
     XCTAssertNil(menuItem.image)
   }
 
@@ -98,7 +92,6 @@ class HistoryMenuItemTests: XCTestCase {
     let menuItem = historyMenuItem(nil)
     XCTAssertEqual(menuItem.title, "")
     XCTAssertEqual(menuItem.value, "")
-    XCTAssertEqual(menuItem.toolTip, nil)
     XCTAssertNil(menuItem.image)
   }
 
@@ -126,12 +119,6 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertNotEqual(menuItem.state, .on)
   }
 
-  func testTooltipLongerThanMax() {
-    let menuItem = historyMenuItem(String(repeating: "a", count: 5_001))
-    XCTAssertEqual(menuItem.toolTip,
-            tooltip("\(String(repeating: "a", count: 3_333))...\(String(repeating: "a", count: 1_667))"))
-  }
-
   func testHighlight() {
     let menuItem = historyMenuItem("foo bar baz")
     menuItem.highlight([4...6, 8...9])
@@ -141,16 +128,6 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.attributedTitle, expectedTitle)
     menuItem.highlight([])
     XCTAssertEqual(menuItem.attributedTitle, nil)
-  }
-
-  func testTooltipWithNoApplication() {
-    let menuItem = historyMenuItem("foo bar baz", application: nil)
-    XCTAssertFalse(menuItem.toolTip!.contains("Application"))
-  }
-
-  func testTooltipWithUnknownApplication() {
-    let menuItem = historyMenuItem("foo bar baz", application: "com.bundle.whoknowswhat")
-    XCTAssertFalse(menuItem.toolTip!.contains("Application"))
   }
 
   private func historyMenuItem(_ value: String?, application: String? = "com.apple.finder") -> HistoryMenuItem {
@@ -201,31 +178,5 @@ class HistoryMenuItemTests: XCTestCase {
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
     return HistoryMenuItem(item: item, clipboard: Clipboard.shared)
-  }
-
-  private func tooltip(_ title: String?) -> String {
-    if title == nil {
-      return """
-             Application: Finder
-             First copy time: Jul 10, 12:31:34
-             Last copy time: Jul 10, 12:41:34
-             Number of copies: 2
-
-             Press ⌥⌫ to delete.
-             Press ⌥P to (un)pin.
-             """
-    } else {
-      return """
-             \(title!)
-
-             Application: Finder
-             First copy time: Jul 10, 12:31:34
-             Last copy time: Jul 10, 12:41:34
-             Number of copies: 2
-
-             Press ⌥⌫ to delete.
-             Press ⌥P to (un)pin.
-             """
-    }
   }
 }

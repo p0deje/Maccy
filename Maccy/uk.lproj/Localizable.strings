@@ -1,5 +1,4 @@
 "search_placeholder" = "введіть для пошуку...";
-"history_item_tooltip" = "Натисніть ⌥⌫, щоб видалити.\nНатисніть ⌥P, щоб (від)кріпити.";
 "clear_tooltip" = "Очистити незакріплені елементи.\nВиберіть за допомогою ⇧, щоб видалити всі.";
 "clear_all_tooltip" = "Очистити всі елементи.";
 "about_tooltip" = "Докладніше про додаток.";
@@ -15,10 +14,6 @@
 "preferences_general" = "Загальні";
 "preferences_pins" = "Прикріплення";
 "preferences_storage" = "Зберігання";
-"copy_application_tooltip" = "Додаток";
-"first_copy_time_tooltip" = "Час першої копії";
-"last_copy_time_tooltip" = "Час останньої копії";
-"number_of_copies_tooltip" = "Кількість копій";
 "copy_modifiers_config" = "• Виберіть, натиснувши %@, щоб скопіювати елемент.";
 "paste_modifiers_config" = "• Виберіть, натиснувши %@, щоб скопіювати та вставити елемент.";
 "format_modifiers_config" = "• Виберіть, натиснувши %@, щоб скопіювати, очистити форматування та вставити елемент.";

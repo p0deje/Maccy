@@ -1,5 +1,4 @@
 "search_placeholder" = "tipkaj za pretragu...";
-"history_item_tooltip" = "Izbriši pomoću tipki ⌥⌫.\nPrikvači/otkvači pomoću tipki ⌥P.";
 "clear_tooltip" = "Izbriši neprikvačene.\nIzbriši sve pomoću tipke ⇧.";
 "clear_all_tooltip" = "Izbriši sve.";
 "about_tooltip" = "Saznaj više o programu.";
@@ -15,10 +14,6 @@
 "preferences_general" = "Opće";
 "preferences_pins" = "Pribadače";
 "preferences_storage" = "Skladištenje";
-"copy_application_tooltip" = "Program";
-"first_copy_time_tooltip" = "Vrijeme prve kopije";
-"last_copy_time_tooltip" = "Vrijeme zadnje kopije";
-"number_of_copies_tooltip" = "Broj kopija";
 "copy_modifiers_config" = "• Za kopiranje elementa odaberi zajedno s pritisnutom tipkom %@.";
 "paste_modifiers_config" = "• Za kopiranje i umetanje elementa odaberi zajedno s pritisnutom tipkom %@.";
 "format_modifiers_config" = "• Za kopiranje, uklanjanje formata i umetanje elementa odaberi zajedno s pritisnutom tipkom %@.";

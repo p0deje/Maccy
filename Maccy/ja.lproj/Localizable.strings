@@ -1,5 +1,4 @@
 "search_placeholder" = "入力して検索";
-"history_item_tooltip" = "⌥⌫で削除します。\n⌥Pでピン留め(外し)します。";
 "clear_tooltip" = "固定されていない項目をクリアします。\n⇧を押しながら選択すると全てクリアします。";
 "clear_all_tooltip" = "全ての項目をクリアします。";
 "about_tooltip" = "アプリケーションについての詳細を表示します。";
@@ -15,10 +14,6 @@
 "preferences_general" = "一般";
 "preferences_pins" = "ピン留め";
 "preferences_storage" = "保管";
-"copy_application_tooltip" = "アプリケーション";
-"first_copy_time_tooltip" = "最初にコピーした日時";
-"last_copy_time_tooltip" = "最後にコピーした日時";
-"number_of_copies_tooltip" = "コピー回数";
 "copy_modifiers_config" = "• %を押しながら選択すると項目をコピーします。";
 "paste_modifiers_config" = "• %@を押しながら選択すると項目をコピーして貼り付けます。";
 "format_modifiers_config" = "• %@を押しながら選択すると項目をコピーし、 書式なしで貼り付けます。";

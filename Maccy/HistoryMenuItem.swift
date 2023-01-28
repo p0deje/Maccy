@@ -1,13 +1,13 @@
 import Cocoa
 
 class HistoryMenuItem: NSMenuItem {
-  public var isPinned = false
-  public var item: HistoryItem!
-  public var value = ""
+  var isPinned = false
+  var item: HistoryItem!
+  var value = ""
+  lazy var previewController = Preview(item: item)
 
   internal var clipboard: Clipboard!
 
-  private let tooltipMaxLength = 5_000
   private let imageMaxWidth: CGFloat = 340.0
 
   // Assign "empty" title to the image (but it can't be empty string).
@@ -169,7 +169,6 @@ class HistoryMenuItem: NSMenuItem {
     }
 
     self.image = image
-    self.toolTip = defaultTooltip(item)
     self.title = imageTitle
   }
 
@@ -182,11 +181,6 @@ class HistoryMenuItem: NSMenuItem {
     self.value = string
     self.title = item.title
     self.image = ColorImage.from(title)
-    self.toolTip = """
-    \(string.shortened(to: tooltipMaxLength))
-
-    \(defaultTooltip(item))
-    """
   }
 
   private func loadRTF(_ item: HistoryItem) {
@@ -197,11 +191,6 @@ class HistoryMenuItem: NSMenuItem {
     self.value = string
     self.title = item.title
     self.image = ColorImage.from(title)
-    self.toolTip = """
-    \(string.shortened(to: tooltipMaxLength))
-
-    \(defaultTooltip(item))
-    """
   }
 
   private func loadHTML(_ item: HistoryItem) {
@@ -212,11 +201,6 @@ class HistoryMenuItem: NSMenuItem {
     self.value = string
     self.title = item.title
     self.image = ColorImage.from(title)
-    self.toolTip = """
-    \(string.shortened(to: tooltipMaxLength))
-
-    \(defaultTooltip(item))
-    """
   }
 
   private func loadString(_ item: HistoryItem) {
@@ -227,51 +211,5 @@ class HistoryMenuItem: NSMenuItem {
     self.value = string
     self.title = item.title
     self.image = ColorImage.from(title)
-    self.toolTip = """
-    \(string.shortened(to: tooltipMaxLength))
-
-    \(defaultTooltip(item))
-    """
-  }
-
-  private func defaultTooltip(_ item: HistoryItem) -> String {
-    var lines: [String] = []
-    if let bundle = item.application, let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundle) {
-      lines.append(
-        [
-          NSLocalizedString("copy_application_tooltip", comment: ""),
-          url.deletingPathExtension().lastPathComponent
-        ].joined(separator: ": ")
-      )
-    }
-    lines.append(
-      [
-        NSLocalizedString("first_copy_time_tooltip", comment: ""),
-        formatDate(item.firstCopiedAt)
-      ].joined(separator: ": ")
-    )
-    lines.append(
-      [
-        NSLocalizedString("last_copy_time_tooltip", comment: ""),
-        formatDate(item.lastCopiedAt)
-      ].joined(separator: ": ")
-    )
-    lines.append(
-      [
-        NSLocalizedString("number_of_copies_tooltip", comment: ""),
-        String(item.numberOfCopies)
-      ].joined(separator: ": ")
-    )
-    lines.append("")
-    lines.append(NSLocalizedString("history_item_tooltip", comment: ""))
-
-    return lines.joined(separator: "\n")
-  }
-
-  private func formatDate(_ date: Date) -> String {
-    let formatter = DateFormatter()
-    formatter.dateFormat = "MMM d, H:mm:ss"
-    formatter.timeZone = TimeZone.current
-    return formatter.string(from: date)
   }
 }

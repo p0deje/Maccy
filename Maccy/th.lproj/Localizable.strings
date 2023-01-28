@@ -1,5 +1,4 @@
 "search_placeholder" = "พิมพ์เพื่อค้นหา...";
-"history_item_tooltip" = "กด ⌥⌫ เพื่อลบ.\nกด ⌥P เพื่อปักหมุด";
 "clear_tooltip" = "ล้างรายการปักหมุด.\nเลือกแล้วกด ⇧ เพื่อล้างทั้งหมด";
 "clear_all_tooltip" = "ล้างรายการทั้งหมด";
 "about_tooltip" = "อ่านเพิ่มเติมเกี่ยวกับแอปพลิเคชัน";
@@ -15,10 +14,6 @@
 "preferences_general" = "ทั่วไป";
 "preferences_pins" = "ปักหมุด";
 "preferences_storage" = "พื้นที่";
-"copy_application_tooltip" = "แอปพลิเคชัน";
-"first_copy_time_tooltip" = "เวลาคัดลอกครั้งแรก";
-"last_copy_time_tooltip" = "เวลาคัดลอกสุดท้าย";
-"number_of_copies_tooltip" = "จำนวนการคัดลอก";
 "copy_modifiers_config" = "• เลือกแล้วกด %@ เพื่อคัดลอก";
 "paste_modifiers_config" = "• เลือกแล้วกด %@ เพื่อคัดลอกและวางรายการ";
 "format_modifiers_config" = "• เลือกแล้วกด %@ เพื่อคัดลอก, ล้างรูปแบบและวางรายการ";
