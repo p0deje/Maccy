@@ -88,11 +88,17 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
 
   override func draw(_ dirtyRect: NSRect) {
     super.draw(dirtyRect)
-    if NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast ||
-       NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
-      NSColor(named: "MenuColor")?.setFill()
-      dirtyRect.fill()
+
+    if #available(macOS 13, *) {
+      // all good
+    } else {
+      if NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast ||
+         NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
+        NSColor(named: "MenuColor")?.setFill()
+        dirtyRect.fill()
+      }
     }
+
     queryField.refusesFirstResponder = false
   }
 
