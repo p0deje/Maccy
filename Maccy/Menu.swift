@@ -35,9 +35,9 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private let search = Search()
 
-  private static let initialPreviewDelay = 1.5
   private static let subsequentPreviewDelay = 0.2
-  private let previewThrottle = Throttler(minimumDelay: initialPreviewDelay)
+  private var initialPreviewDelay: Double { Double(UserDefaults.standard.previewDelay) / 1000 }
+  private lazy var previewThrottle = Throttler(minimumDelay: initialPreviewDelay)
   private var previewPopover: NSPopover?
 
   private let historyMenuItemOffset = 1 // The first item is reserved for header.
@@ -78,6 +78,8 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuWillOpen(_ menu: NSMenu) {
+    previewThrottle.minimumDelay = initialPreviewDelay
+
     updateUnpinnedItemsVisibility()
     setKeyEquivalents(historyMenuItems)
     highlight(firstVisibleUnpinnedHistoryMenuItem ?? historyMenuItems.first)
@@ -85,7 +87,6 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func menuDidClose(_ menu: NSMenu) {
     previewThrottle.cancel()
-    previewThrottle.minimumDelay = Menu.initialPreviewDelay
     previewPopover?.close()
   }
 

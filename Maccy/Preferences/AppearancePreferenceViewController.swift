@@ -2,9 +2,9 @@ import Cocoa
 import Preferences
 
 class AppearancePreferenceViewController: NSViewController, PreferencePane {
-  public let preferencePaneIdentifier = Preferences.PaneIdentifier.appearance
-  public let preferencePaneTitle = NSLocalizedString("preferences_appearance", comment: "")
-  public let toolbarItemIcon = NSImage(named: .paintpalette)!
+  let preferencePaneIdentifier = Preferences.PaneIdentifier.appearance
+  let preferencePaneTitle = NSLocalizedString("preferences_appearance", comment: "")
+  let toolbarItemIcon = NSImage(named: .paintpalette)!
 
   override var nibName: NSNib.Name? { "AppearancePreferenceViewController" }
 
@@ -17,11 +17,23 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var menuSizeLabel: NSTextField!
   @IBOutlet weak var titleLengthSlider: NSSlider!
   @IBOutlet weak var titleLengthLabel: NSTextField!
+  @IBOutlet weak var previewDelayField: NSTextField!
+  @IBOutlet weak var previewDelayStepper: NSStepper!
   @IBOutlet weak var showMenuIconButton: NSButton!
   @IBOutlet weak var showRecentCopyButton: NSButton!
   @IBOutlet weak var showSearchFieldButton: NSButton!
   @IBOutlet weak var showTitleButton: NSButton!
   @IBOutlet weak var showFooterButton: NSButton!
+
+  private let previewDelayMin = 200
+  private let previewDelayMax = 100_000
+
+  private var previewDelayFormatter: NumberFormatter!
+
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    setMinAndMaxPreviewDelay()
+  }
 
   override func viewWillAppear() {
     super.viewWillAppear()
@@ -30,6 +42,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     populateImageHeight()
     populateMenuSize()
     populateTitleLength()
+    populatePreviewDelay()
     populateShowMenuIcon()
     populateShowRecentCopy()
     populateShowSearchField()
@@ -82,6 +95,16 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     let new = String(titleLengthSlider.integerValue)
     updateLabel(old: old, new: new, label: titleLengthLabel)
     UserDefaults.standard.maxMenuItemLength = sender.integerValue
+  }
+
+  @IBAction func previewDelayFieldChanged(_ sender: NSTextField) {
+    UserDefaults.standard.previewDelay = sender.integerValue
+    previewDelayStepper.integerValue = sender.integerValue
+  }
+
+  @IBAction func previewDelayStepperChanged(_ sender: NSStepper) {
+    UserDefaults.standard.previewDelay = sender.integerValue
+    previewDelayField.integerValue = sender.integerValue
   }
 
   @IBAction func showMenuIconChanged(_ sender: NSButton) {
@@ -154,6 +177,21 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     titleLengthSlider.integerValue = UserDefaults.standard.maxMenuItemLength
     let new = String(titleLengthSlider.integerValue)
     updateLabel(old: "{maxMenuItemLength}", new: new, label: titleLengthLabel)
+  }
+
+  private func setMinAndMaxPreviewDelay() {
+    previewDelayFormatter = NumberFormatter()
+    previewDelayFormatter.minimum = NSNumber(integerLiteral: previewDelayMin)
+    previewDelayFormatter.maximum = NSNumber(integerLiteral: previewDelayMax)
+    previewDelayFormatter.maximumFractionDigits = 0
+    previewDelayField.formatter = previewDelayFormatter
+    previewDelayStepper.minValue = Double(previewDelayMin)
+    previewDelayStepper.maxValue = Double(previewDelayMax)
+  }
+
+  private func populatePreviewDelay() {
+    previewDelayField.integerValue = UserDefaults.standard.previewDelay
+    previewDelayStepper.integerValue = UserDefaults.standard.previewDelay
   }
 
   private func populateShowMenuIcon() {

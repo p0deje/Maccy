@@ -62,4 +62,10 @@
 "TgE-eS-5nT.title" = "Dužina naslova:";
 
 /* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
-"mG7-wI-7Eb.title" = "Maksimalan broj znakova u naslovu stavke: {maxMenuItemLength}.\nZadano: 50.";
+"mG7-wI-7Eb.title" = "Maksimalan broj znakova u naslovu stavke: {maxMenuItemLength}.\nStandardno: 50.";
+
+/* Class = "NSTextFieldCell"; title = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "1Mt-Lg-Smd"; */
+"1Mt-Lg-Smd.title" = "Odgoda u milisekundama dok se ne prikaže skočni prozor za pregled.\nStandardno: 1500.";
+
+/* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
+"lnS-Rg-4sa.title" = "Odgoda pregleda:";

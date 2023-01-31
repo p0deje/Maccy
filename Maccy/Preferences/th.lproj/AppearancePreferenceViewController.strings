@@ -50,16 +50,22 @@
 "gjR-wz-7GQ.title" = "เมนูขนาด:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "จำนวนรายการที่แสดง: {menuSize}.\nรายการที่ไม่แสดง ยังถูกเก็บไว้และสามารถค้นหาได้ในประวัติ.\nตั้ง 0 เพื่อให้แสดงรายการทั้งหมด.\nค่าเริ่มต้น: 0.";
+"j39-nx-OGb.title" = "จำนวนรายการที่แสดง: {menuSize}.\nรายการที่ไม่แสดง ยังถูกเก็บไว้และสามารถค้นหาได้ในประวัติ.\nตั้ง 0 เพื่อให้แสดงรายการทั้งหมด.\nค่าเริ่มต้น: 0";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "แสดงช่องค้นหา";
 
 /* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
-"tpV-rp-2HY.title" = "เปลี่ยนตำแหน่งที่ popup แสดง.\nค่าเริ่มต้น: Cursor.";
+"tpV-rp-2HY.title" = "เปลี่ยนตำแหน่งที่ popup แสดง.\nค่าเริ่มต้น: Cursor";
 
 /* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
 "TgE-eS-5nT.title" = "ความยาวชื่อเรื่อง:";
 
 /* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
 "mG7-wI-7Eb.title" = "จำนวนอักขระสูงสุดในชื่อรายการ: {maxMenuItemLength}.\nค่าเริ่มต้น: 50";
+
+/* Class = "NSTextFieldCell"; title = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "1Mt-Lg-Smd"; */
+"1Mt-Lg-Smd.title" = "หน่วงเวลาเป็นมิลลิวินาทีจนกว่าจะแสดงตัวอย่างป๊อปอัป.\nค่าเริ่มต้น: 1500";
+
+/* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
+"lnS-Rg-4sa.title" = "ความล่าช้าในการดูตัวอย่าง:";

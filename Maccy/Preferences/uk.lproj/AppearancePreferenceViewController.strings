@@ -63,3 +63,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
 "mG7-wI-7Eb.title" = "Максимальна кількість символів у назві елемента: {maxMenuItemLength}.\nЗа замовчуванням: 50.";
+
+/* Class = "NSTextFieldCell"; title = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "1Mt-Lg-Smd"; */
+"1Mt-Lg-Smd.title" = "Затримка в мілісекундах до появи спливаючого вікна попереднього перегляду.\nЗа замовчуванням: 1500.";
+
+/* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
+"lnS-Rg-4sa.title" = "Затримка попереднього перегляду:";

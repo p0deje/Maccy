@@ -62,4 +62,10 @@
 "TgE-eS-5nT.title" = "Lunghezza del titolo:";
 
 /* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
-"mG7-wI-7Eb.title" = "Numero massimo di caratteri nel titolo dell'elemento: {maxMenuItemLength}.\nPredefinito: 50.";
+"mG7-wI-7Eb.title" = "Numero massimo di caratteri nel titolo dell'elemento: {maxMenuItemLength}.\nDefault: 50.";
+
+/* Class = "NSTextFieldCell"; title = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "1Mt-Lg-Smd"; */
+"1Mt-Lg-Smd.title" = "Ritardo in millisecondi prima che venga visualizzato un popup di anteprima.\nDefault: 1500.";
+
+/* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
+"lnS-Rg-4sa.title" = "Anteprima ritardo:";

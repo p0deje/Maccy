@@ -35,7 +35,7 @@
 "Yio-8e-oaa.title" = "Dno";
 
 /* Class = "NSTextFieldCell"; title = "Change the location of pinned items.\nDefault: Top."; ObjectID = "aqA-NI-K5d"; */
-"aqA-NI-K5d.title" = "Promjeni lokaciju zakačenih stavki.\nDefault: Vrh.";
+"aqA-NI-K5d.title" = "Promjeni lokaciju zakačenih stavki.\nZadano: Vrh.";
 
 /* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
 "bIP-Mi-SeJ.title" = "Maksimalna visina pregleda slike: {imageHeight}.\nZadano: 40.\nSavjet: Postavite na 16 da izgledaju kao tekstualne stavke.";
@@ -63,3 +63,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
 "mG7-wI-7Eb.title" = "Maksimalan broj znakova u naslovu stavke: {maxMenuItemLength}.\nZadano: 50.";
+
+/* Class = "NSTextFieldCell"; title = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "1Mt-Lg-Smd"; */
+"1Mt-Lg-Smd.title" = "Kašnjenje u milisekundama dok se ne prikaže skočni prozor za pregled.\nZadano: 1500.";
+
+/* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
+"lnS-Rg-4sa.title" = "Kašnjenje pregleda:";

@@ -21,6 +21,7 @@ extension UserDefaults {
     static let pinTo = "pinTo"
     static let playSounds = "playSounds"
     static let popupPosition = "popupPosition"
+    static let previewDelay = "previewDelay"
     static let searchMode = "searchMode"
     static let removeFormattingByDefault = "removeFormattingByDefault"
     static let saratovSeparator = "enableSaratovSeparator"
@@ -47,6 +48,7 @@ extension UserDefaults {
     static let migrations: [String: Bool] = [:]
     static let pinTo = "top"
     static let popupPosition = "cursor"
+    static let previewDelay = 1500
     static let searchMode = "exact"
     static let showInStatusBar = true
     static let size = 200
@@ -149,6 +151,11 @@ extension UserDefaults {
   public var popupPosition: String {
     get { string(forKey: Keys.popupPosition) ?? Values.popupPosition }
     set { set(newValue, forKey: Keys.popupPosition) }
+  }
+
+  public var previewDelay: Int {
+    get { integer(forKey: Keys.previewDelay) }
+    set { set(newValue, forKey: Keys.previewDelay) }
   }
 
   @objc dynamic public var removeFormattingByDefault: Bool {

@@ -63,3 +63,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
 "mG7-wI-7Eb.title" = "Nombre maximal de caractères dans le titre de l'élément: {maxMenuItemLength}.\nPar défaut: 50.";
+
+/* Class = "NSTextFieldCell"; title = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "1Mt-Lg-Smd"; */
+"1Mt-Lg-Smd.title" = "Délai en millisecondes jusqu'à ce qu'une fenêtre d'aperçu s'affiche.\nPar défaut: 1500.";
+
+/* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
+"lnS-Rg-4sa.title" = "Délai de prévisualisation:";

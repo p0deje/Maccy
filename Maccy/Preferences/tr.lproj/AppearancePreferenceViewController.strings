@@ -62,4 +62,10 @@
 "TgE-eS-5nT.title" = "Başlık uzunluğu:";
 
 /* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
-"mG7-wI-7Eb.title" = "Öğe başlığındaki maksimum karakter sayısı: {maxMenuItemLength}.\nVarsayılan: 50.";
+"mG7-wI-7Eb.title" = "Öğe başlığındaki maksimum karakter sayısı: {maxMenuItemLength}.\nSaptanmış: 50.";
+
+/* Class = "NSTextFieldCell"; title = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "1Mt-Lg-Smd"; */
+"1Mt-Lg-Smd.title" = "Önizleme açılır penceresi gösterilene kadar milisaniye cinsinden gecikme.\nSaptanmış: 1500.";
+
+/* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
+"lnS-Rg-4sa.title" = "Önizleme gecikmesi:";
