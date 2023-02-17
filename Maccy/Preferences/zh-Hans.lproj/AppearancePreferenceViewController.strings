@@ -46,8 +46,8 @@
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "在搜索框前显示应用名";
 
-/* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "菜单大小:";
+/* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "东西的个数:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
 "j39-nx-OGb.title" = "在菜单中显示 {menuSize} 条项目。\n隐藏项仍保留在历史记录中，可以通过搜索找到。\n设置为 0 以显示所有项目。\n默认: 0。";

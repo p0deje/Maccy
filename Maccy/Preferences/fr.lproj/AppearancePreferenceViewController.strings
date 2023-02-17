@@ -46,8 +46,8 @@
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "Afficher le titre avant la barre de recherche";
 
-/* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "Taille du menu:";
+/* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "Nombre d'éléments:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
 "j39-nx-OGb.title" = "Nombre d'éléments visibles: {menuSize}.\nLes éléments cachés sont toujours stockés dans l'historique et peuvent être trouvés à l'aide de la barre de recherche.\nRéglez sur 0 pour afficher tous les éléments.\nPar défaut: 0.";

@@ -46,8 +46,8 @@
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "Prikaži naslov prije polja pretrage";
 
-/* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "Veličina izbornika:";
+/* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "Broj elemenata:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
 "j39-nx-OGb.title" = "Broj vidljivih elemenata: {menuSize}.\nSkriveni elementi se i dalje čuvaju u povijesti te se mogu pronaći putem pretrage.\nZa prikaz svih elemenata, postavi na 0.\nStandardno: 0.";

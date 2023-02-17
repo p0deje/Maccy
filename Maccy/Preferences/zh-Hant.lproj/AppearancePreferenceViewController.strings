@@ -46,8 +46,8 @@
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "搜尋列旁顯示 Maccy";
 
-/* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "選單大小:";
+/* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "東西的個數:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
 "j39-nx-OGb.title" = "在選單中顯示 {menuSize} 條項目。\n隱藏項目仍保留在歷史記錄，可透過搜尋查找。\n設定為 0 以顯示所有項目。\n預設: 0";

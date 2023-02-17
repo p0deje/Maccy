@@ -46,8 +46,8 @@
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "검색 필드 앞에 타이틀 표시";
 
-/* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "메뉴 크기:";
+/* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "항목 수:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
 "j39-nx-OGb.title" = "보이는 항목의 수: {menuSize}.\n숨겨진 항목은 계속 기록에 남아있으며 검색을 통해 찾을 수 있습니다.\n0으로 설정하면 모든 항목을 보여줍니다.\n기본값: 0.";

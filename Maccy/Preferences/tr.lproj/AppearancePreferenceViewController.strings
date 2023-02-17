@@ -46,8 +46,8 @@
 /* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
 "gMh-0J-BUx.title" = "Pencere merkezi";
 
-/* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "Menü boyutu:";
+/* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "Öğe sayısı:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
 "j39-nx-OGb.title" = "Görünür ögelerin sayısı: {menuSize}.\nGizli ögeler yine de geçmişte tutulurlar ve arama kullanarak bulunabilirler.\nTüm ögeleri görünür yapmak için 0 olarak ayarlayın.\nSaptanmış: 0.";

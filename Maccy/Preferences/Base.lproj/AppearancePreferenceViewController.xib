@@ -181,8 +181,8 @@ Hint: Set to 16 to look like text items.</string>
                         </gridCell>
                         <gridCell row="S9I-rv-Kfl" column="KLa-7P-lgK" id="vKh-KX-7Ph">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3D7-Xe-sZo">
-                                <rect key="frame" x="53" y="374" width="69" height="16"/>
-                                <textFieldCell key="cell" alignment="right" title="Menu size:" id="gjR-wz-7GQ">
+                                <rect key="frame" x="13" y="374" width="109" height="16"/>
+                                <textFieldCell key="cell" alignment="right" title="Number of items:" id="gjR-wz-7GQ">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>

@@ -40,8 +40,8 @@
 /* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
 "0tN-4z-p8T.title" = "Premi ⌘, per aprire le preferenze quando il footer è nascosto.";
 
-/* Class = "NSTextFieldCell"; title = "Menu size:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "Dimensioni del menù:";
+/* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "Numero di elementi:";
 
 /* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
 "j39-nx-OGb.title" = "Numero di elementi visibili: {menuSize}.\nGli elementi nascosti sono salvati lo stesso nella cronologia e possono essere trovati utilizzando la ricerca.\nImposta a 0 per rendere visibili tutti gli elementi.\nDefault: 0.";
