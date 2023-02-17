@@ -192,6 +192,7 @@ class Maccy: NSObject {
 
   private func populateItems() {
     menu.buildItems()
+    menu.updateUnpinnedItemsVisibility()
     updateMenuTitle()
   }
 

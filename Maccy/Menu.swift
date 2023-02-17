@@ -352,6 +352,23 @@ class Menu: NSMenu, NSMenuDelegate {
     update()
   }
 
+  func updateUnpinnedItemsVisibility() {
+    let historyMenuItemsCount = historyMenuItems.filter({ !$0.isPinned }).count
+
+    if maxVisibleItems > 0 {
+      if maxVisibleItems <= historyMenuItemsCount {
+        hideUnpinnedItemsOverLimit(historyMenuItemsCount)
+      } else if maxVisibleItems > historyMenuItemsCount {
+        appendUnpinnedItemsUntilLimit(historyMenuItemsCount)
+      }
+    } else {
+      let allItemsCount = indexedItems.flatMap({ $0.menuItems }).filter({ !$0.isPinned }).count
+      if historyMenuItemsCount < allItemsCount {
+        appendUnpinnedItemsUntilLimit(allItemsCount)
+      }
+    }
+  }
+
   private func highlightNext(_ items: [NSMenuItem]) -> Bool {
     let highlightableItems = self.highlightableItems(items)
     let currentHighlightedItem = highlightedItem ?? highlightableItems.first
@@ -409,23 +426,6 @@ class Menu: NSMenu, NSMenuDelegate {
 
       if let removeIndex = indexedItems.firstIndex(of: indexedItem) {
         indexedItems.remove(at: removeIndex)
-      }
-    }
-  }
-
-  private func updateUnpinnedItemsVisibility() {
-    let historyMenuItemsCount = historyMenuItems.filter({ !$0.isPinned }).count
-
-    if maxVisibleItems > 0 {
-      if maxVisibleItems <= historyMenuItemsCount {
-        hideUnpinnedItemsOverLimit(historyMenuItemsCount)
-      } else if maxVisibleItems > historyMenuItemsCount {
-        appendUnpinnedItemsUntilLimit(historyMenuItemsCount)
-      }
-    } else {
-      let allItemsCount = indexedItems.flatMap({ $0.menuItems }).filter({ !$0.isPinned }).count
-      if historyMenuItemsCount < allItemsCount {
-        appendUnpinnedItemsUntilLimit(allItemsCount)
       }
     }
   }
