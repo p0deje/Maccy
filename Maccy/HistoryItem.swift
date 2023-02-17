@@ -119,9 +119,11 @@ class HistoryItem: NSManagedObject {
   }
 
   func supersedes(_ item: HistoryItem) -> Bool {
-    return item.getContents().allSatisfy({ content in
-      getContents().contains(where: { $0 == content})
-    })
+    return item.getContents()
+      .filter { $0.type != NSPasteboard.PasteboardType.modified.rawValue }
+      .allSatisfy { content in
+        getContents().contains(where: { $0 == content})
+      }
   }
 
   func generateTitle(_ contents: [HistoryItemContent]) -> String {
