@@ -181,8 +181,8 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
 
   private func setMinAndMaxPreviewDelay() {
     previewDelayFormatter = NumberFormatter()
-    previewDelayFormatter.minimum = NSNumber(integerLiteral: previewDelayMin)
-    previewDelayFormatter.maximum = NSNumber(integerLiteral: previewDelayMax)
+    previewDelayFormatter.minimum = previewDelayMin as NSNumber
+    previewDelayFormatter.maximum = previewDelayMax as NSNumber
     previewDelayFormatter.maximumFractionDigits = 0
     previewDelayField.formatter = previewDelayFormatter
     previewDelayStepper.minValue = Double(previewDelayMin)
