@@ -94,6 +94,8 @@ class Clipboard {
     if UserDefaults.standard.playSounds {
       NSSound(named: NSSound.Name("knock"))?.play()
     }
+
+    checkForChangesInPasteboard()
   }
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
@@ -146,9 +148,9 @@ class Clipboard {
       return
     }
 
-    if UserDefaults.standard.ignoreEvents {
-      changeCount = pasteboard.changeCount
+    changeCount = pasteboard.changeCount
 
+    if UserDefaults.standard.ignoreEvents {
       if UserDefaults.standard.ignoreOnlyNextEvent {
         UserDefaults.standard.ignoreEvents = false
         UserDefaults.standard.ignoreOnlyNextEvent = false
@@ -192,7 +194,6 @@ class Clipboard {
     }
 
     let historyItem = HistoryItem(contents: contents, application: sourceApp?.bundleIdentifier)
-    changeCount = pasteboard.changeCount
     onNewCopyHooks.forEach({ $0(historyItem) })
   }
 
