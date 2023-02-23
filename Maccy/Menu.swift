@@ -398,6 +398,9 @@ class Menu: NSMenu, NSMenuDelegate {
       if items.contains(item) {
         perform(highlightItemSelector, with: item)
       }
+    } else {
+      // Unhighlight current item.
+       perform(highlightItemSelector, with: nil)
     }
   }
 
