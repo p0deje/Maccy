@@ -1,4 +1,3 @@
-
 /* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "PDj-Nr-Ubl"; */
 "PDj-Nr-Ubl.headerCell.title" = "Vrste međuspremnika";
 
@@ -10,3 +9,15 @@
 
 /* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "e5t-lA-7er"; */
 "e5t-lA-7er.headerCell.title" = "Programi";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "at1-VF-wpg"; */
+"at1-VF-wpg.title" = "";
+
+/* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "bPI-gF-DM1"; */
+"bPI-gF-DM1.title" = "Zanemarite sve aplikacije osim navedenih";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "eG1-h6-6Pr"; */
+"eG1-h6-6Pr.title" = "";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "tWx-xL-UB5"; */
+"tWx-xL-UB5.title" = "";

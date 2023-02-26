@@ -57,6 +57,10 @@ class IgnoreApplicationsViewController: NSViewController, NSTableViewDataSource,
     }
   }
 
+  @IBAction func ignoredAllAppsExceptListedChanged(_ sender: NSButton) {
+    UserDefaults.standard.ignoreAllAppsExceptListed = (sender.state == .on)
+  }
+
   private func addIgnoredApp() {
     let dialog = chooseAppDialog
     if dialog.runModal() == .OK {

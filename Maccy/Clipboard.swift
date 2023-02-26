@@ -167,7 +167,7 @@ class Clipboard {
     }
 
     if let sourceAppBundle = sourceApp?.bundleIdentifier {
-      if UserDefaults.standard.ignoredApps.contains(sourceAppBundle) {
+      if shouldIgnore(sourceAppBundle) {
         return
       }
     }
@@ -203,6 +203,14 @@ class Clipboard {
 
     return types.isDisjoint(with: enabledTypes) ||
       !types.isDisjoint(with: ignoredTypes)
+  }
+
+  private func shouldIgnore(_ sourceAppBundle: String) -> Bool {
+    if UserDefaults.standard.ignoreAllAppsExceptListed {
+      return !UserDefaults.standard.ignoredApps.contains(sourceAppBundle)
+    } else {
+      return UserDefaults.standard.ignoredApps.contains(sourceAppBundle)
+    }
   }
 
   private func isEmptyString(_ item: NSPasteboardItem) -> Bool {

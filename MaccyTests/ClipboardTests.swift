@@ -21,12 +21,14 @@ class ClipboardTests: XCTestCase {
 
   let savedEnabledTypes = UserDefaults.standard.enabledPasteboardTypes
   let savedIgnoreEvents = UserDefaults.standard.ignoreEvents
+  let savedIgnoreAllAppsExceptListed = UserDefaults.standard.ignoreAllAppsExceptListed
   let savedIgnoredApps = UserDefaults.standard.ignoredApps
   let savedIgnoredPasteboardTypes = UserDefaults.standard.ignoredPasteboardTypes
 
   override func setUp() {
     super.setUp()
     CoreDataManager.inMemory = true
+    UserDefaults.standard.ignoreAllAppsExceptListed = false
     UserDefaults.standard.ignoreEvents = false
   }
 
@@ -36,6 +38,7 @@ class ClipboardTests: XCTestCase {
     UserDefaults.standard.enabledPasteboardTypes = savedEnabledTypes
     UserDefaults.standard.ignoreEvents = savedIgnoreEvents
     UserDefaults.standard.ignoreOnlyNextEvent = false
+    UserDefaults.standard.ignoreAllAppsExceptListed = savedIgnoreAllAppsExceptListed
     UserDefaults.standard.ignoredApps = savedIgnoredApps
     UserDefaults.standard.ignoredPasteboardTypes = savedIgnoredPasteboardTypes
     clipboard.onNewCopyHooks = []
@@ -139,6 +142,20 @@ class ClipboardTests: XCTestCase {
 
     let hookExpectation = expectation(description: "Hook is called")
     hookExpectation.isInverted = true
+    clipboard.onNewCopy({ (_: HistoryItem) -> Void in
+      hookExpectation.fulfill()
+    })
+    clipboard.startListening()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString("bar", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testIgnoreAllApplicationsExcept() {
+    UserDefaults.standard.ignoreAllAppsExceptListed = true
+    UserDefaults.standard.ignoredApps = ["com.apple.dt.Xcode", "com.apple.finder"] // Finder is on Bitrise
+
+    let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })

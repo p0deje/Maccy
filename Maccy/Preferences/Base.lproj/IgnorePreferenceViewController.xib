@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="18122" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="21507" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="18122"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="21507"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -14,10 +13,10 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView translatesAutoresizingMaskIntoConstraints="NO" id="NB5-c9-ckl">
-            <rect key="frame" x="0.0" y="0.0" width="501" height="666"/>
+            <rect key="frame" x="0.0" y="0.0" width="501" height="675"/>
             <subviews>
                 <gridView xPlacement="fill" yPlacement="top" rowAlignment="lastBaseline" rowSpacing="8" columnSpacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="zdW-dB-5K5">
-                    <rect key="frame" x="25" y="33" width="451" height="600"/>
+                    <rect key="frame" x="25" y="33" width="451" height="609"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="451" id="vc8-zd-zfr"/>
                     </constraints>
@@ -36,7 +35,7 @@
                     <gridCells>
                         <gridCell row="DkH-kT-tUh" column="gIK-wZ-lcb" id="dRO-Vy-sZz">
                             <scrollView key="contentView" autohidesScrollers="YES" horizontalLineScroll="34" horizontalPageScroll="10" verticalLineScroll="34" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="yVG-iO-NMD">
-                                <rect key="frame" x="0.0" y="350" width="451" height="250"/>
+                                <rect key="frame" x="0.0" y="359" width="451" height="250"/>
                                 <clipView key="contentView" id="5nb-WR-Cj8">
                                     <rect key="frame" x="1" y="1" width="449" height="248"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -48,7 +47,7 @@
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn editable="NO" width="437" minWidth="40" maxWidth="1000" id="e5t-lA-7er">
+                                                <tableColumn editable="NO" width="408" minWidth="40" maxWidth="1000" id="e5t-lA-7er">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Applications">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -61,7 +60,7 @@
                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                     <prototypeCellViews>
                                                         <tableCellView identifier="appCell" id="fhd-tK-2ds">
-                                                            <rect key="frame" x="1" y="0.0" width="446" height="34"/>
+                                                            <rect key="frame" x="1" y="0.0" width="417" height="34"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <subviews>
                                                                 <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="sfK-F0-gSp">
@@ -72,7 +71,7 @@
                                                                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="jpG-Mf-0lg"/>
                                                                 </imageView>
                                                                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="VfN-4U-S04">
-                                                                    <rect key="frame" x="34" y="9" width="390" height="16"/>
+                                                                    <rect key="frame" x="34" y="9" width="361" height="16"/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="at1-VF-wpg">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -117,24 +116,47 @@
                                 </tableHeaderView>
                             </scrollView>
                         </gridCell>
-                        <gridCell row="ids-bw-eOR" column="gIK-wZ-lcb" xPlacement="leading" id="jtR-Tw-Hf6">
-                            <segmentedControl key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iyi-HD-6dB">
-                                <rect key="frame" x="0.0" y="328" width="451" height="23"/>
-                                <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="smallSquare" trackingMode="momentary" id="3q1-5O-D0G">
-                                    <font key="font" metaFont="system"/>
-                                    <segments>
-                                        <segment image="NSAddTemplate"/>
-                                        <segment image="NSRemoveTemplate" tag="1"/>
-                                    </segments>
-                                    <connections>
-                                        <action selector="ignoredAppAddedOrRemoved:" target="gYR-MN-G8y" id="PBK-gd-kE9"/>
-                                    </connections>
-                                </segmentedCell>
-                            </segmentedControl>
+                        <gridCell row="ids-bw-eOR" column="gIK-wZ-lcb" yPlacement="fill" id="jtR-Tw-Hf6">
+                            <customView key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="eHW-t7-tZw">
+                                <rect key="frame" x="0.0" y="329" width="451" height="30"/>
+                                <subviews>
+                                    <segmentedControl translatesAutoresizingMaskIntoConstraints="NO" id="iyi-HD-6dB">
+                                        <rect key="frame" x="0.0" y="8" width="61" height="23"/>
+                                        <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="smallSquare" trackingMode="momentary" id="3q1-5O-D0G">
+                                            <font key="font" metaFont="system"/>
+                                            <segments>
+                                                <segment alignment="left" image="NSAddTemplate"/>
+                                                <segment image="NSRemoveTemplate" tag="1"/>
+                                            </segments>
+                                            <connections>
+                                                <action selector="ignoredAppAddedOrRemoved:" target="gYR-MN-G8y" id="PBK-gd-kE9"/>
+                                            </connections>
+                                        </segmentedCell>
+                                    </segmentedControl>
+                                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="T0w-kG-Yc8">
+                                        <rect key="frame" x="67" y="10" width="239" height="18"/>
+                                        <buttonCell key="cell" type="check" title="Ignore all applications except listed" bezelStyle="regularSquare" imagePosition="left" inset="2" id="bPI-gF-DM1">
+                                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                            <font key="font" metaFont="system"/>
+                                        </buttonCell>
+                                        <connections>
+                                            <action selector="ignoredAllAppsExceptListedChanged:" target="gYR-MN-G8y" id="p0J-s9-AaV"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="T0w-kG-Yc8" secondAttribute="trailing" id="8Ga-Zo-s1i"/>
+                                    <constraint firstItem="T0w-kG-Yc8" firstAttribute="leading" secondItem="iyi-HD-6dB" secondAttribute="trailing" constant="8" symbolic="YES" id="M1v-w2-lkW"/>
+                                    <constraint firstItem="iyi-HD-6dB" firstAttribute="top" secondItem="eHW-t7-tZw" secondAttribute="top" id="c3h-i5-O5f"/>
+                                    <constraint firstItem="T0w-kG-Yc8" firstAttribute="centerY" secondItem="iyi-HD-6dB" secondAttribute="centerY" id="cxJ-JZ-YEK"/>
+                                    <constraint firstItem="iyi-HD-6dB" firstAttribute="leading" secondItem="eHW-t7-tZw" secondAttribute="leading" id="kJg-ru-44J"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="21" id="zhl-VK-JBM"/>
+                                </constraints>
+                            </customView>
                         </gridCell>
                         <gridCell row="r9h-eh-aYG" column="gIK-wZ-lcb" id="z7F-kW-yFp">
-                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ADT-kA-zMw">
-                                <rect key="frame" x="-2" y="279" width="455" height="42"/>
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ADT-kA-zMw">
+                                <rect key="frame" x="-2" y="270" width="455" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="bVW-Cb-ulw">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">It's possible to ignore copies coming from certain applications.
@@ -145,13 +167,13 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                             </textField>
                         </gridCell>
                         <gridCell row="4b1-JA-oq7" column="gIK-wZ-lcb" id="jlS-uK-TuZ">
-                            <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="UYR-XZ-POZ">
-                                <rect key="frame" x="0.0" y="262" width="451" height="5"/>
+                            <box key="contentView" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="UYR-XZ-POZ">
+                                <rect key="frame" x="0.0" y="253" width="451" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="kwT-sg-M5h" column="gIK-wZ-lcb" yPlacement="fill" rowAlignment="none" id="bLi-De-yeG">
-                            <scrollView key="contentView" ambiguous="YES" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xeW-eu-ZJA">
-                                <rect key="frame" x="0.0" y="80" width="451" height="170"/>
+                            <scrollView key="contentView" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xeW-eu-ZJA">
+                                <rect key="frame" x="0.0" y="71" width="451" height="170"/>
                                 <clipView key="contentView" id="INS-KQ-gE0">
                                     <rect key="frame" x="1" y="1" width="449" height="168"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -163,7 +185,7 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                             <tableColumns>
-                                                <tableColumn width="437" minWidth="40" maxWidth="1000" id="PDj-Nr-Ubl">
+                                                <tableColumn width="408" minWidth="40" maxWidth="1000" id="PDj-Nr-Ubl">
                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Pasteboard types">
                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                         <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -197,8 +219,8 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                             </scrollView>
                         </gridCell>
                         <gridCell row="2BD-jg-qTx" column="gIK-wZ-lcb" xPlacement="leading" id="E68-5x-6xu">
-                            <segmentedControl key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="e7Y-T3-0AJ">
-                                <rect key="frame" x="0.0" y="49" width="451" height="32"/>
+                            <segmentedControl key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="e7Y-T3-0AJ">
+                                <rect key="frame" x="0.0" y="49" width="61" height="23"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="smallSquare" trackingMode="momentary" id="7OS-5Z-WDT">
                                     <font key="font" metaFont="system"/>
                                     <segments>
@@ -212,7 +234,7 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                             </segmentedControl>
                         </gridCell>
                         <gridCell row="q5t-NQ-mvV" column="gIK-wZ-lcb" id="bJP-Mi-buD">
-                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="KCb-iW-LTn">
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="KCb-iW-LTn">
                                 <rect key="frame" x="-2" y="0.0" width="455" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="PFf-uU-3co">
                                     <font key="font" metaFont="controlContent" size="11"/>
@@ -232,7 +254,7 @@ By default, some known application-specific types are defined. You can remove th
                 <constraint firstItem="zdW-dB-5K5" firstAttribute="centerX" secondItem="NB5-c9-ckl" secondAttribute="centerX" id="OAk-E8-Bhk"/>
                 <constraint firstItem="zdW-dB-5K5" firstAttribute="width" secondItem="NB5-c9-ckl" secondAttribute="width" multiplier="0.9" id="QKi-fa-PpA"/>
             </constraints>
-            <point key="canvasLocation" x="286" y="150.5"/>
+            <point key="canvasLocation" x="282" y="117.5"/>
         </customView>
         <viewController id="gYR-MN-G8y" customClass="IgnoreApplicationsViewController" customModule="Maccy" customModuleProvider="target">
             <connections>
@@ -246,7 +268,7 @@ By default, some known application-specific types are defined. You can remove th
         </viewController>
     </objects>
     <resources>
-        <image name="NSAddTemplate" width="14" height="13"/>
-        <image name="NSRemoveTemplate" width="14" height="4"/>
+        <image name="NSAddTemplate" width="18" height="17"/>
+        <image name="NSRemoveTemplate" width="18" height="5"/>
     </resources>
 </document>
