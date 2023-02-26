@@ -21,6 +21,7 @@ extension UserDefaults {
     static let pinTo = "pinTo"
     static let playSounds = "playSounds"
     static let popupPosition = "popupPosition"
+    static let popupScreen = "popupScreen"
     static let previewDelay = "previewDelay"
     static let searchMode = "searchMode"
     static let removeFormattingByDefault = "removeFormattingByDefault"
@@ -48,6 +49,7 @@ extension UserDefaults {
     static let migrations: [String: Bool] = [:]
     static let pinTo = "top"
     static let popupPosition = "cursor"
+    static let popupScreen = 0 // main
     static let previewDelay = 1500
     static let searchMode = "exact"
     static let showInStatusBar = true
@@ -151,6 +153,11 @@ extension UserDefaults {
   public var popupPosition: String {
     get { string(forKey: Keys.popupPosition) ?? Values.popupPosition }
     set { set(newValue, forKey: Keys.popupPosition) }
+  }
+
+  public var popupScreen: Int {
+    get { integer(forKey: Keys.popupScreen) ?? Values.popupScreen }
+    set { set(newValue, forKey: Keys.popupScreen) }
   }
 
   public var previewDelay: Int {

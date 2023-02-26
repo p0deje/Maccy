@@ -10,6 +10,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
 
   @IBOutlet weak var popupAtButton: NSPopUpButton!
   @IBOutlet weak var popupAtMenuIconMenuItem: NSMenuItem!
+  @IBOutlet weak var popupAtScreenCenterMenuItem: NSMenuItem!
   @IBOutlet weak var pinToButton: NSPopUpButton!
   @IBOutlet weak var imageHeightSlider: NSSlider!
   @IBOutlet weak var imageHeightLabel: NSTextField!
@@ -37,6 +38,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
 
   override func viewWillAppear() {
     super.viewWillAppear()
+    populateScreens()
     populatePopupPosition()
     populatePinTo()
     populateImageHeight()
@@ -50,21 +52,41 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     populateShowFooter()
   }
 
-  @IBAction func popupPositionChanged(_ sender: NSPopUpButton) {
-    switch sender.selectedTag() {
-    case 3:
-      UserDefaults.standard.popupPosition = "window"
-      showMenuIconButton.isEnabled = true
-    case 2:
-      UserDefaults.standard.popupPosition = "statusItem"
-      showMenuIconButton.isEnabled = false
-    case 1:
-      UserDefaults.standard.popupPosition = "center"
-      showMenuIconButton.isEnabled = true
-    default:
-      UserDefaults.standard.popupPosition = "cursor"
-      showMenuIconButton.isEnabled = true
+  @IBAction func popupAtCursorSelected(_ sender: NSMenuItem) {
+    UserDefaults.standard.popupPosition = "cursor"
+    showMenuIconButton.isEnabled = true
+  }
+
+  @IBAction func popupAtMenuIconSelected(_ sender: NSMenuItem) {
+    UserDefaults.standard.popupPosition = "statusItem"
+    showMenuIconButton.isEnabled = false
+  }
+
+  @IBAction func popupAtScreenCenterSelected(_ sender: NSMenuItem) {
+    UserDefaults.standard.popupPosition = "center"
+    UserDefaults.standard.popupScreen = 0
+    showMenuIconButton.isEnabled = true
+  }
+
+  @IBAction func popupAtWindowSelected(_ sender: NSMenuItem) {
+    UserDefaults.standard.popupPosition = "window"
+    showMenuIconButton.isEnabled = true
+  }
+
+  @IBAction func selectScreen(_ sender: NSMenuItem) {
+    UserDefaults.standard.popupPosition = "center"
+    UserDefaults.standard.popupScreen = sender.tag
+
+    populatePopupPosition()
+  }
+
+  private func updateScreensSelection() {
+    guard let menu = popupAtScreenCenterMenuItem.submenu else {
+      return
     }
+
+    menu.items.forEach { $0.state = .off }
+    menu.item(withTag: UserDefaults.standard.popupScreen)?.state = .on
   }
 
   @IBAction func pinToChanged(_ sender: NSPopUpButton) {
@@ -128,15 +150,47 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     UserDefaults.standard.hideFooter = (sender.state == .off)
   }
 
+  private func populateScreens() {
+    guard NSScreen.screens.count > 1 else {
+      popupAtScreenCenterMenuItem.submenu = nil
+      popupAtScreenCenterMenuItem.action = #selector(popupAtScreenCenterSelected)
+      return
+    }
+
+    let screensMenu = NSMenu(title: "Screens")
+    popupAtScreenCenterMenuItem.submenu = screensMenu
+    popupAtScreenCenterMenuItem.action = nil
+
+    let activeScreenMenuItem = NSMenuItem(
+      title: NSLocalizedString("active_screen", comment: ""),
+      action: #selector(selectScreen),
+      keyEquivalent: ""
+    )
+    activeScreenMenuItem.tag = 0
+    screensMenu.addItem(activeScreenMenuItem)
+
+    for (index, screen) in NSScreen.screens.enumerated() {
+      var name = "\(NSLocalizedString("screen", comment: "")) \(index + 1)"
+      if #available(macOS 10.15, *) {
+        name += " (\(screen.localizedName))"
+      }
+
+      let item = NSMenuItem(title: name, action: #selector(selectScreen), keyEquivalent: "")
+      item.tag = index + 1
+      screensMenu.addItem(item)
+    }
+  }
+
   private func populatePopupPosition() {
     switch UserDefaults.standard.popupPosition {
     case "window":
       popupAtButton.selectItem(withTag: 3)
-    case "statusItem":
-      popupAtButton.selectItem(withTag: 2)
-      showMenuIconButton.isEnabled = false
     case "center":
+      popupAtButton.selectItem(withTag: 2)
+      updateScreensSelection()
+    case "statusItem":
       popupAtButton.selectItem(withTag: 1)
+      showMenuIconButton.isEnabled = false
     default:
       popupAtButton.selectItem(withTag: 0)
     }

@@ -26,3 +26,5 @@
 "clear_alert_cancel" = "Скасувати";
 "clear_alert_confirm" = "Очистити";
 "key_used_error" = "Клавіша вже використовується.";
+"active_screen" = "Активний екран";
+"screen" = "Екран";

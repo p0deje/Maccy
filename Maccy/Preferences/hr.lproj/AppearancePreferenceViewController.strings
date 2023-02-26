@@ -16,9 +16,6 @@
 /* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
 "GhW-Kv-rhO.title" = "Prikvači:";
 
-/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
-"KJb-2z-C5c.title" = "Sredina ekrana";
-
 /* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
 "gMh-0J-BUx.title" = "Središte prozora";
 
@@ -55,9 +52,6 @@
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Prikaži polje pretrage";
 
-/* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
-"tpV-rp-2HY.title" = "Promijeni mjesto gdje će se skočni prozor pojaviti.\nStandardno: Kursor.";
-
 /* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
 "TgE-eS-5nT.title" = "Dužina naslova:";
 
@@ -69,3 +63,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
 "lnS-Rg-4sa.title" = "Odgoda pregleda:";
+
+/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "N8k-nW-lzS"; */
+"N8k-nW-lzS.title" = "Sredina ekrana";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "ZHc-k4-Nf9"; */
+"ZHc-k4-Nf9.ibShadowedToolTip" = "Promijeni mjesto gdje će se skočni prozor pojaviti.\nStandardno: Kursor.";

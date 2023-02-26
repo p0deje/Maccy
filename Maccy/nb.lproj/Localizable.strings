@@ -26,3 +26,5 @@
 "clear_alert_cancel" = "Avbryt";
 "clear_alert_confirm" = "Slett";
 "key_used_error" = "Nøkkel er allerede brukt.";
+"active_screen" = "Aktiv skjerm";
+"screen" = "Skjerm";

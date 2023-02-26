@@ -99,7 +99,7 @@ class Maccy: NSObject {
     withFocus {
       switch UserDefaults.standard.popupPosition {
       case "center":
-        if let frame = NSScreen.main?.visibleFrame {
+        if let frame = NSScreen.forPopup?.visibleFrame {
           self.linkingMenuToStatusItem {
             self.menu.popUp(positioning: nil, at: NSRect.centered(ofSize: self.menu.size, in: frame).origin, in: nil)
           }

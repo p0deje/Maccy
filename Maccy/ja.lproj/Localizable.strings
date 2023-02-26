@@ -26,3 +26,5 @@
 "clear_alert_cancel" = "キャンセル";
 "clear_alert_confirm" = "クリア";
 "key_used_error" = "キーが既に使用中です。";
+"active_screen" = "アクティブスクリーン";
+"screen" = "画面";

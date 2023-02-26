@@ -26,3 +26,5 @@
 "clear_alert_cancel" = "Abbrechen";
 "clear_alert_confirm" = "Bestätigen";
 "key_used_error" = "Hotkey ist bereits belegt.";
+"active_screen" = "Aktiver Bildschirm";
+"screen" = "Bildschirm";

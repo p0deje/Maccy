@@ -7,9 +7,6 @@
 /* Class = "NSButtonCell"; title = "Show footer"; ObjectID = "ClZ-IS-YKz"; */
 "ClZ-IS-YKz.title" = "Menü anzeigen";
 
-/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
-"KJb-2z-C5c.title" = "Bildschirmmitte";
-
 /* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
 "gMh-0J-BUx.title" = "Fenstermitte";
 
@@ -33,9 +30,6 @@
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Suchfeld anzeigen";
-
-/* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
-"tpV-rp-2HY.title" = "Ändere die Position des Popup-Fensters.\nStandard: Mauszeiger.";
 
 /* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
 "0tN-4z-p8T.title" = "Um die Einstellungen zu öffnen, halte ⌘, gedrückt.";
@@ -69,3 +63,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
 "lnS-Rg-4sa.title" = "Vorschauverzögerung:";
+
+/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "N8k-nW-lzS"; */
+"N8k-nW-lzS.title" = "Bildschirmmitte";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "ZHc-k4-Nf9"; */
+"ZHc-k4-Nf9.ibShadowedToolTip" = "Ändere die Position des Popup-Fensters.\nStandard: Mauszeiger.";

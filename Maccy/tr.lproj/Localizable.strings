@@ -26,3 +26,5 @@
 "clear_alert_cancel" = "Vazgeç";
 "clear_alert_confirm" = "Temizle";
 "key_used_error" = "Düğme, halihazırda kullanılıyor.";
+"active_screen" = "Aktif ekran";
+"screen" = "Ekran";

@@ -26,3 +26,5 @@
 "clear_alert_cancel" = "取消";
 "clear_alert_confirm" = "清除";
 "key_used_error" = "键位已被使用。";
+"active_screen" = "活动屏幕";
+"screen" = "屏幕";

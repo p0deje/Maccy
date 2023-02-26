@@ -19,9 +19,6 @@
 /* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
 "GhW-Kv-rhO.title" = "고정 위치:";
 
-/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
-"KJb-2z-C5c.title" = "화면 중앙";
-
 /* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
 "gMh-0J-BUx.title" = "창의 중앙";
 
@@ -55,9 +52,6 @@
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "검색 필드 표시";
 
-/* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
-"tpV-rp-2HY.title" = "팝업이 나타나는 위치를 변경합니다.\n기본값: 커서.";
-
 /* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
 "TgE-eS-5nT.title" = "제목 길이:";
 
@@ -69,3 +63,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
 "lnS-Rg-4sa.title" = "미리보기 지연:";
+
+/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "N8k-nW-lzS"; */
+"N8k-nW-lzS.title" = "화면 중앙";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "ZHc-k4-Nf9"; */
+"ZHc-k4-Nf9.ibShadowedToolTip" = "팝업이 나타나는 위치를 변경합니다.\n기본값: 커서.";

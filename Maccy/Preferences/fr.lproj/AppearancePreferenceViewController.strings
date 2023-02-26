@@ -16,9 +16,6 @@
 /* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
 "GhW-Kv-rhO.title" = "Epingler à:";
 
-/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "KJb-2z-C5c"; */
-"KJb-2z-C5c.title" = "Centre de l'écran";
-
 /* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
 "gMh-0J-BUx.title" = "Centre de la fenêtre";
 
@@ -55,9 +52,6 @@
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Afficher le champ de recherche";
 
-/* Class = "NSTextFieldCell"; title = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "tpV-rp-2HY"; */
-"tpV-rp-2HY.title" = "Changer la localisation de l'apparition du popup.\nPar défaut: Curseur.";
-
 /* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
 "TgE-eS-5nT.title" = "Longueur du titre:";
 
@@ -69,3 +63,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
 "lnS-Rg-4sa.title" = "Délai de prévisualisation:";
+
+/* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "N8k-nW-lzS"; */
+"N8k-nW-lzS.title" = "Centre de l'écran";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "ZHc-k4-Nf9"; */
+"ZHc-k4-Nf9.ibShadowedToolTip" = "Changer la localisation de l'apparition du popup.\nPar défaut: Curseur.";

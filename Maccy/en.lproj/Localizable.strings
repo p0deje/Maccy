@@ -26,3 +26,5 @@
 "clear_alert_cancel" = "Cancel";
 "clear_alert_confirm" = "Clear";
 "key_used_error" = "Key is already used.";
+"active_screen" = "Active screen";
+"screen" = "Screen";

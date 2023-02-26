@@ -57,6 +57,7 @@
 		DA57C650249E3C8F0032707A /* MenuFoooterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57C64F249E3C8F0032707A /* MenuFoooterTests.swift */; };
 		DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5F464F2020E4DF00425C11 /* Carbon.framework */; };
 		DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA6373971E4AB9BB00263391 /* Assets.xcassets */; };
+		DA6491B029ABCF2400837D93 /* NSScreen+ForPopup.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */; };
 		DA68F91828BD6E21007E2F25 /* Intents.intentdefinition in Sources */ = {isa = PBXBuildFile; fileRef = DA68F91728BD6E21007E2F25 /* Intents.intentdefinition */; };
 		DA68F91C28BD76B8007E2F25 /* SelectIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA68F91B28BD76B8007E2F25 /* SelectIntentHandler.swift */; };
 		DA68F91E28BD7DEB007E2F25 /* ClearIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA68F91D28BD7DEA007E2F25 /* ClearIntentHandler.swift */; };
@@ -286,6 +287,7 @@
 		DA609399291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = Maccy/Preferences/uk.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
 		DA60939A291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA6373971E4AB9BB00263391 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSScreen+ForPopup.swift"; sourceTree = "<group>"; };
 		DA68F91728BD6E21007E2F25 /* Intents.intentdefinition */ = {isa = PBXFileReference; lastKnownFileType = file.intentdefinition; path = Intents.intentdefinition; sourceTree = "<group>"; };
 		DA68F91B28BD76B8007E2F25 /* SelectIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectIntentHandler.swift; sourceTree = "<group>"; };
 		DA68F91D28BD7DEA007E2F25 /* ClearIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearIntentHandler.swift; sourceTree = "<group>"; };
@@ -573,6 +575,7 @@
 				DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */,
 				DA49EE7428B59468002752E0 /* NSRect+Centered.swift */,
 				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
+				DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
@@ -856,6 +859,7 @@
 				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,
 				DABDE97F2974706C005B32E9 /* KeyboardLayout.swift in Sources */,
 				DA49EE7928B594DC002752E0 /* NSRunningApplication+WindowFrame.swift in Sources */,
+				DA6491B029ABCF2400837D93 /* NSScreen+ForPopup.swift in Sources */,
 				DAF65F4824D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift in Sources */,
 				DAFE2DD82688018100990986 /* PinsPreferenceViewController.swift in Sources */,
 				DA81D674252A056B009977BC /* Throttler.swift in Sources */,

@@ -26,3 +26,5 @@
 "clear_alert_cancel" = "취소";
 "clear_alert_confirm" = "지우기";
 "key_used_error" = "키가 이미 사용 중입니다.";
+"active_screen" = "활성 화면";
+"screen" = "화면";

@@ -1,0 +1,25 @@
+[update]
+tasks = ["interfaces", "normalize"]
+
+[update.interfaces]
+paths = ["Maccy"]
+subpathsToIgnore = [".git", "carthage", "pods", "build", ".build", "docs"]
+defaultToBase = false
+ignoreEmptyStrings = false
+unstripped = false
+ignoreKeys = ["#bartycrouch-ignore!", "#bc-ignore!", "#i!"]
+
+[update.normalize]
+paths = ["Maccy"]
+subpathsToIgnore = [".git", "carthage", "pods", "build", ".build", "docs"]
+sourceLocale = "en"
+harmonizeWithSource = true
+sortByKeys = false
+separateWithEmptyLine = false
+overrideComments = false
+
+[lint]
+paths = ["Maccy"]
+subpathsToIgnore = [".git", "carthage", "pods", "build", ".build", "docs"]
+duplicateKeys = true
+emptyValues = true

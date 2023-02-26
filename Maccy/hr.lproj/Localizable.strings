@@ -26,3 +26,5 @@
 "clear_alert_cancel" = "Odustani";
 "clear_alert_confirm" = "Izbriši";
 "key_used_error" = "Tipka se već koristi.";
+"active_screen" = "Aktivni ekran";
+"screen" = "Ekran";
