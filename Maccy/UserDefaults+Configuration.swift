@@ -31,6 +31,7 @@ extension UserDefaults {
     static let size = "historySize"
     static let sortBy = "sortBy"
     static let suppressClearAlert = "suppressClearAlert"
+    static let menuIcon = "menuIcon"
 
     static var showInStatusBar: String {
       ProcessInfo.processInfo.arguments.contains("ui-testing") ? "showInStatusBarUITests" : "showInStatusBar"
@@ -56,6 +57,7 @@ extension UserDefaults {
     static let showInStatusBar = true
     static let size = 200
     static let sortBy = "lastCopiedAt"
+    static let menuIcon = "maccy"
   }
 
   public var avoidTakingFocus: Bool {
@@ -209,5 +211,10 @@ extension UserDefaults {
   public var suppressClearAlert: Bool {
     get { bool(forKey: Keys.suppressClearAlert) }
     set { set(newValue, forKey: Keys.suppressClearAlert) }
+  }
+  
+  @objc dynamic public var menuIcon: String {
+    get { string(forKey: Keys.menuIcon) ?? Values.menuIcon }
+    set { set(newValue, forKey: Keys.menuIcon) }
   }
 }
