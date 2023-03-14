@@ -138,6 +138,11 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.maxMenuItemLength) }
   }
 
+  @objc dynamic public var menuIcon: String {
+    get { string(forKey: Keys.menuIcon) ?? Values.menuIcon }
+    set { set(newValue, forKey: Keys.menuIcon) }
+  }
+
   public var migrations: [String: Bool] {
     get { dictionary(forKey: Keys.migrations) as? [String: Bool] ?? Values.migrations }
     set { set(newValue, forKey: Keys.migrations) }
@@ -211,10 +216,5 @@ extension UserDefaults {
   public var suppressClearAlert: Bool {
     get { bool(forKey: Keys.suppressClearAlert) }
     set { set(newValue, forKey: Keys.suppressClearAlert) }
-  }
-  
-  @objc dynamic public var menuIcon: String {
-    get { string(forKey: Keys.menuIcon) ?? Values.menuIcon }
-    set { set(newValue, forKey: Keys.menuIcon) }
   }
 }

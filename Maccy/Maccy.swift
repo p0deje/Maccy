@@ -276,20 +276,22 @@ class Maccy: NSObject {
 
     statusItem.button?.title = String(title.prefix(statusItemTitleMaxLength))
   }
-  
+
   private func updateStatusMenuIcon(_ newIcon: String) {
-    if let button = self.statusItem.button {
-      switch (newIcon)  {
-        case "scissors":
-          button.image = NSImage(named: "scissors")
-        case "clipboard":
-          button.image = NSImage(named: "clipboard.fill")
-        default:
-          button.image = NSImage(named: "StatusBarMenuImage")
-        }
-      button.imagePosition = .imageRight
-      (button.cell as? NSButtonCell)?.highlightsBy = []
+    guard let button = statusItem.button else {
+      return
     }
+
+    switch newIcon {
+    case "scissors":
+      button.image = NSImage(named: .scissors)
+    case "clipboard":
+      button.image = NSImage(named: .clipboard)
+    default:
+      button.image = NSImage(named: .maccyStatusBar)
+    }
+    button.imagePosition = .imageRight
+    (button.cell as? NSButtonCell)?.highlightsBy = []
   }
 
   private func simulateStatusItemClick() {

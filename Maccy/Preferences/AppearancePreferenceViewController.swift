@@ -136,7 +136,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     popupAtMenuIconMenuItem.isEnabled = (sender.state == .on)
     changeMenuIcon.isEnabled = (sender.state == .on)
   }
-  
+
   @IBAction func showMenuIconChangedToDefault(_ sender: NSMenuItem) {
     UserDefaults.standard.menuIcon = "maccy"
   }
@@ -267,16 +267,16 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     showMenuIconButton.state = UserDefaults.standard.showInStatusBar ? .on : .off
     popupAtMenuIconMenuItem.isEnabled = UserDefaults.standard.showInStatusBar
   }
-    
+
   private func populateChangeMenuIcon() {
     changeMenuIcon.isEnabled = UserDefaults.standard.showInStatusBar
     switch UserDefaults.standard.menuIcon {
-      case "clipboard":
-        changeMenuIcon.selectItem(withTag: 1)
-      case "scissors":
-        changeMenuIcon.selectItem(withTag: 2)
-      default:
-        changeMenuIcon.selectItem(withTag: 0)
+    case "clipboard":
+      changeMenuIcon.selectItem(withTag: 1)
+    case "scissors":
+      changeMenuIcon.selectItem(withTag: 2)
+    default:
+      changeMenuIcon.selectItem(withTag: 0)
     }
   }
 
