@@ -10,7 +10,7 @@ class KeyboardLayout {
 
   var localizedName: String {
     if let value = TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName) {
-       return Unmanaged<CFString>.fromOpaque(value).takeUnretainedValue() as String
+      return Unmanaged<CFString>.fromOpaque(value).takeUnretainedValue() as String
     } else {
       return ""
     }

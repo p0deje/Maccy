@@ -6,31 +6,36 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.25.0</title>
+      <title>0.26.0</title>
       <description>
         <![CDATA[
           <ul>
-              <li>Added an option to clear the system clipboard when clearing Maccy history in Preferences / Advanced (credits to @andrewpeal) (#392).</li>
-              <li>Added an option to change the maximum title length of the history items (#458).</li>
-              <li>Added Bosnian localization (credits to @omarbeg).</li>
-              <li>Added Ukrainian localization (credits to @alalayla).</li>
-              <li>Added support for pure RTF and HTML copies (#474).</li>
-              <li>Improved compatibility with Microsoft Edge application (#472).</li>
-              <li>Improved compatibility with macOS 13 to natively launch at login (#504).</li>
-              <li>Improved pasting to work with the Microsoft Remote Desktop application with a "Scancode" keyboard mode (#365).</li>
-              <li>Improved pasting to handle cases when the shortcut to paste is overridden on the OS level (#462).</li>
-              <li>Improved handling of Korean and Chinese input (#476, #493).</li>
-              <li>Fixed a bug when the search failed to work when popped up from password text fields (#464, #473).</li>
+            <li>Added support for searching by regular expressions.</li>
+            <li>Added experiment mixed search. It works by first searching by exact match. If no results are found, it automatically searches using fuzzy search. Finally, if there are still no results, it uses a regular expressions search.</li>
+            <li>Added support for rich preview popups that replace old tooltips. They allow previewing long text easier, showing higher-resolution images, and customizing the delay until the preview is showing via preferences.</li>
+            <li>Added support for getting a clipboard item by its position in the Shortcuts app. It is also possible to get a selected item. This allows building complex processing of clipboard items from Maccy via the Shortcuts such as trimming whitespace from copied text, converting copied RTF to Markdown files, and others.</li>
+            <li>Added support for ignoring copies coming from the Maccy itself using the ignored applications list.</li>
+            <li>Added support for specifying a display to popup at.</li>
+            <li>Added support for ignoring all copies except for specific applications listed in the ignore preferences.</li>
+            <li>Added several menu icons that can be customized via preferences.</li>
+            <li>Improved compatibility with the Pure Paste app.</li>
+            <li>Improved search field text contrast in Dark Mode.</li>
+            <li>Improved colors with increased contrast / reduced transparency on macOS Ventura.</li>
+            <li>Fixed crashes when searching through images from the Photos app.</li>
+            <li>Fixed pasting to work on <kbd>Dvorak - QWERTY ⌘</kbd> and <kbd>bépo 1.1 - Azerty ⌘</kbd> keyboard layouts.</li>
+            <li>Fixed clear history confirmation dialog not focused when the footer is hidden.</li>
+            <li>Fixed incorrect placement of the Maccy menu in the screen center when showing the first time or after being inactive for a long time.</li>
+            <li>Fixed empty highlighting when there are no search results.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2023-01-14</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.25.0</releaseNotesLink>
+      <pubDate>2023-03-14</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.26.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.25.0/Maccy.app.zip"
-        sparkle:version="14"
-        sparkle:shortVersionString="0.25.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.26.0/Maccy.app.zip"
+        sparkle:version="15"
+        sparkle:shortVersionString="0.26.0"
         length="0"
         type="application/octet-stream"
       />
