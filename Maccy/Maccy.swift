@@ -58,6 +58,7 @@ class Maccy: NSObject {
   private var showRecentCopyInMenuBarObserver: NSKeyValueObservation?
   private var statusItemConfigurationObserver: NSKeyValueObservation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
+  private var statusItemChangeObserver: NSKeyValueObservation?
 
   override init() {
     UserDefaults.standard.register(defaults: [
@@ -90,6 +91,7 @@ class Maccy: NSObject {
     showRecentCopyInMenuBarObserver?.invalidate()
     statusItemConfigurationObserver?.invalidate()
     statusItemVisibilityObserver?.invalidate()
+    statusItemChangeObserver?.invalidate()
   }
 
   func popUp() {
@@ -164,11 +166,7 @@ class Maccy: NSObject {
     statusItem.isVisible = UserDefaults.standard.showInStatusBar
     statusItem.menu = menuLoader
 
-    if let button = statusItem.button {
-      button.image = NSImage(named: "StatusBarMenuImage")
-      button.imagePosition = .imageRight
-      (button.cell as? NSButtonCell)?.highlightsBy = []
-    }
+    updateStatusMenuIcon(UserDefaults.standard.menuIcon)
 
     clipboard.onNewCopy(history.add)
     clipboard.onNewCopy(menu.add)
@@ -277,6 +275,21 @@ class Maccy: NSObject {
     }
 
     statusItem.button?.title = String(title.prefix(statusItemTitleMaxLength))
+  }
+  
+  private func updateStatusMenuIcon(_ newIcon: String) {
+    if let button = self.statusItem.button {
+      switch (newIcon)  {
+        case "scissors":
+          button.image = NSImage(named: "scissors")
+        case "clipboard":
+          button.image = NSImage(named: "clipboard.fill")
+        default:
+          button.image = NSImage(named: "StatusBarMenuImage")
+        }
+      button.imagePosition = .imageRight
+      (button.cell as? NSButtonCell)?.highlightsBy = []
+    }
   }
 
   private func simulateStatusItemClick() {
@@ -413,6 +426,9 @@ class Maccy: NSObject {
       if UserDefaults.standard.showInStatusBar != change.newValue! {
         UserDefaults.standard.showInStatusBar = change.newValue!
       }
+    }
+    statusItemChangeObserver = UserDefaults.standard.observe(\.menuIcon, options: .new) { _, change in
+      self.updateStatusMenuIcon(change.newValue!)
     }
   }
 }

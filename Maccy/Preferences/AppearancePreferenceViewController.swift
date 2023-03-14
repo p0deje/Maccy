@@ -21,6 +21,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   @IBOutlet weak var previewDelayField: NSTextField!
   @IBOutlet weak var previewDelayStepper: NSStepper!
   @IBOutlet weak var showMenuIconButton: NSButton!
+  @IBOutlet weak var changeMenuIcon: NSPopUpButton!
   @IBOutlet weak var showRecentCopyButton: NSButton!
   @IBOutlet weak var showSearchFieldButton: NSButton!
   @IBOutlet weak var showTitleButton: NSButton!
@@ -46,6 +47,7 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
     populateTitleLength()
     populatePreviewDelay()
     populateShowMenuIcon()
+    populateChangeMenuIcon()
     populateShowRecentCopy()
     populateShowSearchField()
     populateShowTitle()
@@ -132,6 +134,19 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   @IBAction func showMenuIconChanged(_ sender: NSButton) {
     UserDefaults.standard.showInStatusBar = (sender.state == .on)
     popupAtMenuIconMenuItem.isEnabled = (sender.state == .on)
+    changeMenuIcon.isEnabled = (sender.state == .on)
+  }
+  
+  @IBAction func showMenuIconChangedToDefault(_ sender: NSMenuItem) {
+    UserDefaults.standard.menuIcon = "maccy"
+  }
+
+  @IBAction func showMenuIconChangedToClipboard(_ sender: NSMenuItem) {
+    UserDefaults.standard.menuIcon = "clipboard"
+  }
+
+  @IBAction func showMenuIconChangedToScissors(_ sender: NSMenuItem) {
+    UserDefaults.standard.menuIcon = "scissors"
   }
 
   @IBAction func showRecentCopyChanged(_ sender: NSButton) {
@@ -251,6 +266,18 @@ class AppearancePreferenceViewController: NSViewController, PreferencePane {
   private func populateShowMenuIcon() {
     showMenuIconButton.state = UserDefaults.standard.showInStatusBar ? .on : .off
     popupAtMenuIconMenuItem.isEnabled = UserDefaults.standard.showInStatusBar
+  }
+    
+  private func populateChangeMenuIcon() {
+    changeMenuIcon.isEnabled = UserDefaults.standard.showInStatusBar
+    switch UserDefaults.standard.menuIcon {
+      case "clipboard":
+        changeMenuIcon.selectItem(withTag: 1)
+      case "scissors":
+        changeMenuIcon.selectItem(withTag: 2)
+      default:
+        changeMenuIcon.selectItem(withTag: 0)
+    }
   }
 
   private func populateShowRecentCopy() {

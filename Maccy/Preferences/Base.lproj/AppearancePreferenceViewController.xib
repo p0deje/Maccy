@@ -7,6 +7,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AppearancePreferenceViewController" customModule="Maccy" customModuleProvider="target">
             <connections>
+                <outlet property="changeMenuIcon" destination="MCd-5h-YbU" id="h6e-S4-c9A"/>
                 <outlet property="imageHeightLabel" destination="uwx-8S-ZG3" id="Zu8-f0-Q4n"/>
                 <outlet property="imageHeightSlider" destination="fDO-zN-OAg" id="Dqu-5j-0nP"/>
                 <outlet property="menuSizeLabel" destination="IuH-lP-Hez" id="Wqx-pf-GZz"/>
@@ -30,10 +31,10 @@
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
         <customObject id="-3" userLabel="Application" customClass="NSObject"/>
         <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O1T-Uq-VLh">
-            <rect key="frame" x="0.0" y="0.0" width="560" height="603"/>
+            <rect key="frame" x="0.0" y="0.0" width="560" height="646"/>
             <subviews>
                 <gridView xPlacement="leading" yPlacement="top" rowAlignment="firstBaseline" rowSpacing="8" columnSpacing="13" translatesAutoresizingMaskIntoConstraints="NO" id="5KL-yT-3Zi">
-                    <rect key="frame" x="28" y="31" width="509" height="549"/>
+                    <rect key="frame" x="28" y="32" width="509" height="582"/>
                     <rows>
                         <gridRow height="21" id="wGv-6M-Wwi"/>
                         <gridRow id="kMC-R2-5B3"/>
@@ -48,6 +49,7 @@
                         <gridRow id="ZR6-sW-UyG"/>
                         <gridRow yPlacement="center" topPadding="4" bottomPadding="4" id="OdT-ff-FSd"/>
                         <gridRow id="r0f-Fp-w4p"/>
+                        <gridRow id="kjZ-9R-yeS"/>
                         <gridRow height="15" id="CJ6-hZ-HiH"/>
                         <gridRow id="hnq-hF-JcQ"/>
                         <gridRow id="zRu-GH-PCK"/>
@@ -61,7 +63,7 @@
                     <gridCells>
                         <gridCell row="wGv-6M-Wwi" column="KLa-7P-lgK" id="fTw-kj-fi7">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cv7-gI-nuh">
-                                <rect key="frame" x="59" y="532" width="62" height="16"/>
+                                <rect key="frame" x="59" y="565" width="62" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Popup at:" id="R7Y-UN-Edt">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -71,7 +73,7 @@
                         </gridCell>
                         <gridCell row="wGv-6M-Wwi" column="7OC-Fv-eMr" id="w7a-Ig-74t">
                             <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZHc-k4-Nf9">
-                                <rect key="frame" x="129" y="525" width="130" height="25"/>
+                                <rect key="frame" x="129" y="558" width="130" height="25"/>
                                 <string key="toolTip">Change the location where popup appears.
 Default: Cursor.</string>
                                 <popUpButtonCell key="cell" type="push" title="Cursor" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Ccp-5J-8nw" id="f7k-K3-J6b">
@@ -107,7 +109,7 @@ Default: Cursor.</string>
                         </gridCell>
                         <gridCell row="kMC-R2-5B3" column="KLa-7P-lgK" id="vKu-nA-kna">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Xv-1I-fwQ">
-                                <rect key="frame" x="78" y="503" width="43" height="16"/>
+                                <rect key="frame" x="78" y="536" width="43" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Pin to:" id="GhW-Kv-rhO">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -117,7 +119,7 @@ Default: Cursor.</string>
                         </gridCell>
                         <gridCell row="kMC-R2-5B3" column="7OC-Fv-eMr" id="qwo-K1-hTM">
                             <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tWw-ax-Qej">
-                                <rect key="frame" x="129" y="496" width="84" height="25"/>
+                                <rect key="frame" x="129" y="529" width="84" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Top" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="DKE-JI-oLS" id="KGb-ze-78s">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -136,7 +138,7 @@ Default: Cursor.</string>
                         <gridCell row="6xn-My-W6j" column="KLa-7P-lgK" id="mi3-k8-1r7"/>
                         <gridCell row="6xn-My-W6j" column="7OC-Fv-eMr" id="ePs-tA-Ybg">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="7Nd-og-B3C">
-                                <rect key="frame" x="130" y="464" width="197" height="28"/>
+                                <rect key="frame" x="130" y="497" width="197" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" id="aqA-NI-K5d">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Change the location of pinned items.
@@ -148,7 +150,7 @@ Default: Top.</string>
                         </gridCell>
                         <gridCell row="SYP-SL-aAk" column="KLa-7P-lgK" id="oQq-xv-omv">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lEK-4J-i8J">
-                                <rect key="frame" x="34" y="439" width="87" height="16"/>
+                                <rect key="frame" x="34" y="472" width="87" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Image height:" id="MKb-cW-gpg">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -158,7 +160,7 @@ Default: Top.</string>
                         </gridCell>
                         <gridCell row="SYP-SL-aAk" column="7OC-Fv-eMr" id="kuT-3B-2sI">
                             <slider key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fDO-zN-OAg">
-                                <rect key="frame" x="130" y="430" width="204" height="28"/>
+                                <rect key="frame" x="130" y="463" width="204" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="rbR-pU-c2k"/>
                                 </constraints>
@@ -171,7 +173,7 @@ Default: Top.</string>
                         <gridCell row="mG6-vX-cIK" column="KLa-7P-lgK" id="Mhl-eM-MEO"/>
                         <gridCell row="mG6-vX-cIK" column="7OC-Fv-eMr" id="EiJ-G6-7EL">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uwx-8S-ZG3">
-                                <rect key="frame" x="130" y="386" width="254" height="42"/>
+                                <rect key="frame" x="130" y="419" width="254" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="bIP-Mi-SeJ">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Maximum image preview height: {imageHeight}.
@@ -184,7 +186,7 @@ Hint: Set to 16 to look like text items.</string>
                         </gridCell>
                         <gridCell row="S9I-rv-Kfl" column="KLa-7P-lgK" id="vKh-KX-7Ph">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3D7-Xe-sZo">
-                                <rect key="frame" x="12" y="361" width="109" height="16"/>
+                                <rect key="frame" x="12" y="394" width="109" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Number of items:" id="gjR-wz-7GQ">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -194,7 +196,7 @@ Hint: Set to 16 to look like text items.</string>
                         </gridCell>
                         <gridCell row="S9I-rv-Kfl" column="7OC-Fv-eMr" id="Ry9-S9-CyT">
                             <slider key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fDO-zN-OAh">
-                                <rect key="frame" x="130" y="352" width="204" height="28"/>
+                                <rect key="frame" x="130" y="385" width="204" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="rbR-pU-c2l"/>
                                 </constraints>
@@ -207,7 +209,7 @@ Hint: Set to 16 to look like text items.</string>
                         <gridCell row="Sh2-Op-ecx" column="KLa-7P-lgK" id="wFt-9F-og0"/>
                         <gridCell row="Sh2-Op-ecx" column="7OC-Fv-eMr" id="Kdn-gf-znK">
                             <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="IuH-lP-Hez">
-                                <rect key="frame" x="130" y="294" width="360" height="56"/>
+                                <rect key="frame" x="130" y="327" width="360" height="56"/>
                                 <textFieldCell key="cell" selectable="YES" id="j39-nx-OGb">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Number of visible items: {menuSize}.
@@ -221,7 +223,7 @@ Default: 0.</string>
                         </gridCell>
                         <gridCell row="5AN-Hb-8z8" column="KLa-7P-lgK" id="CGn-tZ-Kyv">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zpA-rz-vpL">
-                                <rect key="frame" x="45" y="269" width="76" height="16"/>
+                                <rect key="frame" x="45" y="302" width="76" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Title length:" id="TgE-eS-5nT">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -231,7 +233,7 @@ Default: 0.</string>
                         </gridCell>
                         <gridCell row="5AN-Hb-8z8" column="7OC-Fv-eMr" id="wS5-KF-93i">
                             <slider key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a4B-1F-kOn">
-                                <rect key="frame" x="130" y="260" width="204" height="28"/>
+                                <rect key="frame" x="130" y="293" width="204" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="200" id="QJa-eM-yrF"/>
                                 </constraints>
@@ -244,7 +246,7 @@ Default: 0.</string>
                         <gridCell row="i5q-GB-A4l" column="KLa-7P-lgK" id="VXH-WC-6Lx"/>
                         <gridCell row="i5q-GB-A4l" column="7OC-Fv-eMr" id="5tI-fh-Vsh">
                             <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hKN-L2-1YT">
-                                <rect key="frame" x="130" y="230" width="381" height="28"/>
+                                <rect key="frame" x="130" y="263" width="381" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" id="mG7-wI-7Eb">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Maximum number of characters in the item title: {maxMenuItemLength}.
@@ -256,7 +258,7 @@ Default: 50.</string>
                         </gridCell>
                         <gridCell row="NiR-EB-Xrn" column="KLa-7P-lgK" id="zZ5-X2-rET">
                             <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="AH3-Nd-NhZ">
-                                <rect key="frame" x="29" y="204" width="92" height="16"/>
+                                <rect key="frame" x="29" y="237" width="92" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Preview delay:" id="lnS-Rg-4sa">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -266,7 +268,7 @@ Default: 50.</string>
                         </gridCell>
                         <gridCell row="NiR-EB-Xrn" column="7OC-Fv-eMr" id="Dy9-7o-54w">
                             <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7SP-tN-nLD">
-                                <rect key="frame" x="132" y="201" width="117" height="21"/>
+                                <rect key="frame" x="132" y="234" width="117" height="21"/>
                                 <subviews>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bWg-D5-ht1">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="21"/>
@@ -303,7 +305,7 @@ Default: 50.</string>
                         <gridCell row="ZR6-sW-UyG" column="KLa-7P-lgK" id="6dF-fd-Ecw"/>
                         <gridCell row="ZR6-sW-UyG" column="7OC-Fv-eMr" id="1vc-qZ-EXO">
                             <textField key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="QdG-NA-TXV">
-                                <rect key="frame" x="130" y="165" width="282" height="28"/>
+                                <rect key="frame" x="130" y="198" width="282" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" id="1Mt-Lg-Smd">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Delay in milliseconds until a preview popup is shown.
@@ -315,14 +317,14 @@ Default: 1500.</string>
                         </gridCell>
                         <gridCell row="OdT-ff-FSd" column="KLa-7P-lgK" headOfMergedCell="OeY-HC-jSl" xPlacement="fill" id="OeY-HC-jSl">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="U8i-B5-SQV">
-                                <rect key="frame" x="0.0" y="146" width="509" height="5"/>
+                                <rect key="frame" x="0.0" y="177" width="509" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="OdT-ff-FSd" column="7OC-Fv-eMr" headOfMergedCell="OeY-HC-jSl" id="fe5-7h-IxP"/>
                         <gridCell row="r0f-Fp-w4p" column="KLa-7P-lgK" id="RoY-Em-zMu"/>
                         <gridCell row="r0f-Fp-w4p" column="7OC-Fv-eMr" id="nXT-lH-ioq">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1Hw-20-IWu">
-                                <rect key="frame" x="130" y="116" width="126" height="18"/>
+                                <rect key="frame" x="130" y="144" width="126" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show menu icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Pud-2o-NKc">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -331,6 +333,41 @@ Default: 1500.</string>
                                     <action selector="showMenuIconChanged:" target="-2" id="utt-wu-kcQ"/>
                                 </connections>
                             </button>
+                        </gridCell>
+                        <gridCell row="kjZ-9R-yeS" column="KLa-7P-lgK" id="9RA-dI-PvQ"/>
+                        <gridCell row="kjZ-9R-yeS" column="7OC-Fv-eMr" id="iGd-gL-WF7">
+                            <popUpButton key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MCd-5h-YbU">
+                                <rect key="frame" x="129" y="113" width="55" height="25"/>
+                                <string key="toolTip">Change the location where popup appears.
+Default: Cursor.</string>
+                                <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="UmG-gP-6ar" id="4Gx-iu-Elz">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="menu"/>
+                                    <menu key="menu" autoenablesItems="NO" id="mgi-5L-Pvc">
+                                        <items>
+                                            <menuItem state="on" image="StatusBarMenuImage" id="UmG-gP-6ar">
+                                                <connections>
+                                                    <action selector="showMenuIconChangedToDefault:" target="-2" id="oa7-26-Tnf"/>
+                                                </connections>
+                                            </menuItem>
+                                            <menuItem image="clipboard.fill" tag="1" id="5sC-4C-j4U">
+                                                <connections>
+                                                    <action selector="showMenuIconChangedToClipboard:" target="-2" id="4lH-i2-dJO"/>
+                                                </connections>
+                                            </menuItem>
+                                            <menuItem image="scissors" tag="2" id="p17-wL-FTF">
+                                                <modifierMask key="keyEquivalentModifierMask"/>
+                                                <connections>
+                                                    <action selector="showMenuIconChangedToScissors:" target="-2" id="7mU-aU-mfC"/>
+                                                </connections>
+                                            </menuItem>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <outlet property="menu" destination="5KL-yT-3Zi" id="Dvu-Id-LQV"/>
+                                </connections>
+                            </popUpButton>
                         </gridCell>
                         <gridCell row="CJ6-hZ-HiH" column="KLa-7P-lgK" id="AGY-0Z-W9a"/>
                         <gridCell row="CJ6-hZ-HiH" column="7OC-Fv-eMr" id="uwz-L0-IUL">
@@ -404,7 +441,12 @@ Default: 1500.</string>
                 <constraint firstItem="5KL-yT-3Zi" firstAttribute="width" secondItem="O1T-Uq-VLh" secondAttribute="width" multiplier="0.9" id="PeN-ly-Ypy"/>
                 <constraint firstItem="5KL-yT-3Zi" firstAttribute="centerX" secondItem="O1T-Uq-VLh" secondAttribute="centerX" id="o7U-bu-dCj"/>
             </constraints>
-            <point key="canvasLocation" x="162" y="238.5"/>
+            <point key="canvasLocation" x="162" y="260"/>
         </customView>
     </objects>
+    <resources>
+        <image name="StatusBarMenuImage" width="16" height="16"/>
+        <image name="clipboard.fill" width="16" height="16"/>
+        <image name="scissors" width="8" height="8"/>
+    </resources>
 </document>
