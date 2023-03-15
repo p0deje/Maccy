@@ -130,6 +130,12 @@ class HistoryMenuItemTests: XCTestCase {
     XCTAssertEqual(menuItem.attributedTitle, nil)
   }
 
+  func testHighlightInvalidRange() {
+    let menuItem = historyMenuItem("")
+    menuItem.highlight([0...0])
+    XCTAssertEqual(menuItem.attributedTitle?.string, "")
+  }
+
   private func historyMenuItem(_ value: String?, application: String? = "com.apple.finder") -> HistoryMenuItem {
     let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))

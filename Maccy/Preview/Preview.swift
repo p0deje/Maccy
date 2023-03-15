@@ -49,7 +49,7 @@ class Preview: NSViewController {
       applicationValueLabel.removeFromSuperview()
     }
 
-    if textView.stringValue.count > maxTextSize  {
+    if textView.stringValue.count > maxTextSize {
       textView.stringValue = textView.stringValue.shortened(to: maxTextSize)
     }
 

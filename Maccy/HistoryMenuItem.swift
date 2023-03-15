@@ -126,7 +126,9 @@ class HistoryMenuItem: NSMenuItem {
       let rangeLength = range.upperBound - range.lowerBound + 1
       let highlightRange = NSRange(location: range.lowerBound, length: rangeLength)
 
-      attributedTitle.addAttribute(.font, value: highlightFont, range: highlightRange)
+      if Range(highlightRange, in: title) != nil {
+        attributedTitle.addAttribute(.font, value: highlightFont, range: highlightRange)
+      }
     }
 
     self.attributedTitle = attributedTitle
