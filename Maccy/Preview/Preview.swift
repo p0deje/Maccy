@@ -8,6 +8,8 @@ class Preview: NSViewController {
   @IBOutlet weak var lastCopyTimeValueLabel: NSTextField!
   @IBOutlet weak var numberOfCopiesValueLabel: NSTextField!
 
+  private let maxTextSize = 1_500
+
   private var item: HistoryItem!
 
   convenience init(item: HistoryItem) {
@@ -45,6 +47,10 @@ class Preview: NSViewController {
       applicationValueLabel.stringValue = url.deletingPathExtension().lastPathComponent
     } else {
       applicationValueLabel.removeFromSuperview()
+    }
+
+    if textView.stringValue.count > maxTextSize  {
+      textView.stringValue = textView.stringValue.shortened(to: maxTextSize)
     }
 
     firstCopyTimeValueLabel.stringValue = formatDate(item.firstCopiedAt)

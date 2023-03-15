@@ -81,7 +81,7 @@ Default: ⇧⌘C.</string>
                         <gridCell row="cbV-VG-Q6m" column="vOJ-9h-G8Y" id="Fex-gk-axf"/>
                         <gridCell row="cbV-VG-Q6m" column="pQU-Pz-q1v" id="MR4-2f-xfg">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mOE-Th-WLC">
-                                <rect key="frame" x="81" y="267" width="119" height="18"/>
+                                <rect key="frame" x="81" y="275" width="119" height="18"/>
                                 <buttonCell key="cell" type="check" title="Launch at login" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="Cfl-qm-UkM">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
