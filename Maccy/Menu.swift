@@ -167,12 +167,10 @@ class Menu: NSMenu, NSMenuDelegate {
       menuItemInsertionIndex *= (historyMenuItemsGroup + previewMenuItemOffset)
     }
 
-    if menuItemInsertionIndex <= historyMenuItems.count {
-      menuItemInsertionIndex += historyMenuItemOffset
-      safeInsertItem(indexedItem.previewMenuItem, at: menuItemInsertionIndex)
-      for menuItem in menuItems.reversed() {
-        safeInsertItem(menuItem, at: menuItemInsertionIndex)
-      }
+    menuItemInsertionIndex += historyMenuItemOffset
+    safeInsertItem(indexedItem.previewMenuItem, at: menuItemInsertionIndex)
+    for menuItem in menuItems.reversed() {
+      safeInsertItem(menuItem, at: menuItemInsertionIndex)
     }
 
     clearRemovedItems()
