@@ -111,7 +111,8 @@ class Menu: NSMenu, NSMenuDelegate {
       previewPopover?.animates = false
       previewPopover?.behavior = .semitransient
       previewPopover?.contentViewController = item.previewController
-      if let previewView = indexedItem.previewMenuItem.view {
+      if let previewView = indexedItem.previewMenuItem.view,
+         previewView.superview?.superview != nil {
         previewThrottle.minimumDelay = Menu.subsequentPreviewDelay
         previewPopover?.show(
           relativeTo: .zero,
