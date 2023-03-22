@@ -6,23 +6,21 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.26.1</title>
+      <title>0.26.2</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Fixed the application hanging when loading the preview with very long text.</li>
-            <li>Fixed the crash when searching for regular expressions with zero-character match such as `^$`.</li>
-            <li>Fixed the menu not showing new copies after clearing the history with top pinned items (#528).</li>
+            <li>Fixed the crash showing preview for partially visible items (#531).</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2023-03-21</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.26.1</releaseNotesLink>
+      <pubDate>2023-03-22</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.26.2</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.26.1/Maccy.app.zip"
-        sparkle:version="16"
-        sparkle:shortVersionString="0.26.1"
+        url="https://github.com/p0deje/Maccy/releases/download/0.26.2/Maccy.app.zip"
+        sparkle:version="17"
+        sparkle:shortVersionString="0.26.2"
         length="0"
         type="application/octet-stream"
       />
