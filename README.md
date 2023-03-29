@@ -39,7 +39,7 @@ Maccy works on macOS Mojave 10.14 or higher.
 Download the latest version from the [releases](https://github.com/p0deje/Maccy/releases/latest) page, or use [Homebrew](https://brew.sh/):
 
 ```sh
-brew install --cask maccy
+brew install maccy
 ```
 
 ## Usage
