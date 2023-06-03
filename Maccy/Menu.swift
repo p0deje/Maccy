@@ -8,7 +8,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   class IndexedItem: NSObject {
     var value: String
-    var title: String { item.title }
+    var title: String { item.title ?? "" }
     var item: HistoryItem!
     var menuItems: [HistoryMenuItem]
     lazy var previewMenuItem = HistoryMenuItem.PreviewMenuItem()

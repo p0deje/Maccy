@@ -27,11 +27,11 @@ class GetIntentHandler: NSObject, GetIntentHandling {
       item = maccy.item(at: index)
     }
 
-    guard let item = item else {
+    guard let item = item, let title = item.title else {
       return completion(GetIntentResponse(code: .failure, userActivity: nil))
     }
 
-    let intentItem = IntentHistoryItem(identifier: item.title, display: item.title)
+    let intentItem = IntentHistoryItem(identifier: item.title, display: title)
     intentItem.text = item.text
 
     if let html = item.htmlData {

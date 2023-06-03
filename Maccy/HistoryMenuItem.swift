@@ -62,7 +62,7 @@ class HistoryMenuItem: NSMenuItem {
       self.keyEquivalent = item.pin ?? ""
     })
     editTitleObserver = item.observe(\.title, options: .new, changeHandler: { item, _ in
-      self.title = item.title
+      self.title = item.title ?? ""
     })
   }
 
@@ -181,7 +181,7 @@ class HistoryMenuItem: NSMenuItem {
     }
 
     self.value = string
-    self.title = item.title
+    self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }
 
@@ -191,7 +191,7 @@ class HistoryMenuItem: NSMenuItem {
     }
 
     self.value = string
-    self.title = item.title
+    self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }
 
@@ -201,7 +201,7 @@ class HistoryMenuItem: NSMenuItem {
     }
 
     self.value = string
-    self.title = item.title
+    self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }
 
@@ -211,7 +211,7 @@ class HistoryMenuItem: NSMenuItem {
     }
 
     self.value = string
-    self.title = item.title
+    self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }
 }

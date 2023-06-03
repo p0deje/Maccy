@@ -39,7 +39,7 @@ class Preview: NSViewController {
       textView.stringValue = string
     } else {
       imageView.removeFromSuperview()
-      textView.stringValue = item.title
+      textView.stringValue = item.title ?? ""
     }
 
     if let bundle = item.application,

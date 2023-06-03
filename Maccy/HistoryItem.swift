@@ -34,7 +34,7 @@ class HistoryItem: NSManagedObject {
   @NSManaged public var lastCopiedAt: Date!
   @NSManaged public var numberOfCopies: Int
   @NSManaged public var pin: String?
-  @NSManaged public var title: String
+  @NSManaged public var title: String?
 
   var fileURL: URL? {
     guard let data = contentData([.fileURL]) else {
