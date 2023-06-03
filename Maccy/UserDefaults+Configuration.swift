@@ -51,7 +51,6 @@ extension UserDefaults {
     static let migrations: [String: Bool] = [:]
     static let pinTo = "top"
     static let popupPosition = "cursor"
-    static let popupScreen = 0 // main
     static let previewDelay = 1500
     static let searchMode = "exact"
     static let showInStatusBar = true
@@ -169,7 +168,7 @@ extension UserDefaults {
   }
 
   public var popupScreen: Int {
-    get { integer(forKey: Keys.popupScreen) ?? Values.popupScreen }
+    get { integer(forKey: Keys.popupScreen) }
     set { set(newValue, forKey: Keys.popupScreen) }
   }
 
