@@ -15,9 +15,12 @@ extension UserDefaults {
     static let ignoredApps = "ignoredApps"
     static let ignoredPasteboardTypes = "ignoredPasteboardTypes"
     static let imageMaxHeight = "imageMaxHeight"
+    static let lastReviewRequestedAt = "lastReviewRequestedAt"
     static let maxMenuItems = "maxMenuItems"
     static let maxMenuItemLength = "maxMenuItemLength"
+    static let menuIcon = "menuIcon"
     static let migrations = "migrations"
+    static let numberOfUsages = "numberOfUsages"
     static let pasteByDefault = "pasteByDefault"
     static let pinTo = "pinTo"
     static let playSounds = "playSounds"
@@ -31,7 +34,6 @@ extension UserDefaults {
     static let size = "historySize"
     static let sortBy = "sortBy"
     static let suppressClearAlert = "suppressClearAlert"
-    static let menuIcon = "menuIcon"
 
     static var showInStatusBar: String {
       ProcessInfo.processInfo.arguments.contains("ui-testing") ? "showInStatusBarUITests" : "showInStatusBar"
@@ -127,6 +129,14 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.imageMaxHeight) }
   }
 
+  public var lastReviewRequestedAt: Date {
+    get {
+      let int = Int64(integer(forKey: Keys.lastReviewRequestedAt))
+      return Date(timeIntervalSince1970: TimeInterval(integerLiteral: int))
+    }
+    set { set(Int(newValue.timeIntervalSince1970), forKey: Keys.lastReviewRequestedAt) }
+  }
+
   public var maxMenuItems: Int {
     get { integer(forKey: Keys.maxMenuItems) }
     set { set(newValue, forKey: Keys.maxMenuItems) }
@@ -145,6 +155,11 @@ extension UserDefaults {
   public var migrations: [String: Bool] {
     get { dictionary(forKey: Keys.migrations) as? [String: Bool] ?? Values.migrations }
     set { set(newValue, forKey: Keys.migrations) }
+  }
+
+  public var numberOfUsages: Int {
+    get { integer(forKey: Keys.numberOfUsages) }
+    set { set(newValue, forKey: Keys.numberOfUsages) }
   }
 
   @objc dynamic public var pasteByDefault: Bool {

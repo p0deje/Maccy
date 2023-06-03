@@ -75,6 +75,7 @@ class HistoryMenuItem: NSMenuItem {
   @objc
   func onSelect(_ sender: NSMenuItem) {
     select()
+    AppStoreReview.ask()
   }
 
   func select() {
