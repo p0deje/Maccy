@@ -86,13 +86,11 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuDidClose(_ menu: NSMenu) {
-    previewThrottle.cancel()
-    previewPopover?.close()
+    offloadCurrentPreview()
   }
 
   func menu(_ menu: NSMenu, willHighlight item: NSMenuItem?) {
-    previewThrottle.cancel()
-    previewPopover?.close()
+    offloadCurrentPreview()
 
     guard let item = item as? HistoryMenuItem,
           let indexedItem = indexedItems.first(where: { $0.menuItems.contains(item) }) else {
@@ -110,7 +108,7 @@ class Menu: NSMenu, NSMenuDelegate {
       previewPopover = NSPopover()
       previewPopover?.animates = false
       previewPopover?.behavior = .semitransient
-      previewPopover?.contentViewController = item.previewController
+      previewPopover?.contentViewController = Preview(item: item.item)
       if let previewView = indexedItem.previewMenuItem.view,
          previewView.superview?.superview != nil {
         previewThrottle.minimumDelay = Menu.subsequentPreviewDelay
@@ -520,6 +518,12 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     removeItem(item)
+  }
+
+  private func offloadCurrentPreview() {
+    previewThrottle.cancel()
+    previewPopover?.close()
+    previewPopover = nil
   }
 }
 // swiftlint:enable type_body_length

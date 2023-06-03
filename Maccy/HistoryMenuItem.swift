@@ -4,7 +4,6 @@ class HistoryMenuItem: NSMenuItem {
   var isPinned = false
   var item: HistoryItem!
   var value = ""
-  lazy var previewController = Preview(item: item)
 
   internal var clipboard: Clipboard!
 
