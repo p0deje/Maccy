@@ -26,14 +26,14 @@ class HistoryItemTests: XCTestCase {  let savedIgnoredApps = UserDefaults.standa
     let title = String(repeating: "a", count: 49)
     let item = historyItem(title)
     XCTAssertEqual(item.title, title)
-    XCTAssertEqual(item.title.count, 49)
+    XCTAssertEqual(item.title?.count, 49)
   }
 
   func testTitleOfMaxLength() {
     let title = String(repeating: "a", count: 50)
     let item = historyItem(title)
     XCTAssertEqual(item.title, title)
-    XCTAssertEqual(item.title.count, 50)
+    XCTAssertEqual(item.title?.count, 50)
   }
 
   func testTitleLongerThanMaxLength() {
@@ -41,7 +41,7 @@ class HistoryItemTests: XCTestCase {  let savedIgnoredApps = UserDefaults.standa
     let title = String(repeating: "a", count: 51)
     let item = historyItem(title)
     XCTAssertEqual(item.title, trimmedTitle)
-    XCTAssertEqual(item.title.count, 53)
+    XCTAssertEqual(item.title?.count, 53)
   }
 
   func testTitleWithWhitespaces() {
