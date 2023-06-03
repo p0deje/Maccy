@@ -669,8 +669,9 @@
 		DAEE383B1E3DBEB100DD2966 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 1420;
+				LastUpgradeCheck = 1430;
 				ORGANIZATIONNAME = p0deje;
 				TargetAttributes = {
 					DA0EE7B5204657830025FC60 = {
@@ -1328,6 +1329,7 @@
 					"$(PROJECT_DIR)/Sparkle",
 				);
 				INFOPLIST_FILE = Maccy/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1362,6 +1364,7 @@
 					"$(PROJECT_DIR)/Sparkle",
 				);
 				INFOPLIST_FILE = Maccy/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
