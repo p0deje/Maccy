@@ -6,21 +6,23 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.26.2</title>
+      <title>0.26.3</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Fixed the crash showing preview for partially visible items (#531).</li>
+            <li>Added support for asking for an App Store review periodically.</li>
+            <li>Fixed a potential crash when selecting an existing item (#549).</li>
+            <li>Fixed memory leaks in previews (#549).</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2023-03-22</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.26.2</releaseNotesLink>
+      <pubDate>2023-06-03</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.26.3</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.26.2/Maccy.app.zip"
-        sparkle:version="17"
-        sparkle:shortVersionString="0.26.2"
+        url="https://github.com/p0deje/Maccy/releases/download/0.26.3/Maccy.app.zip"
+        sparkle:version="18"
+        sparkle:shortVersionString="0.26.3"
         length="0"
         type="application/octet-stream"
       />
