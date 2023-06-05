@@ -102,7 +102,8 @@ class HistoryItem: NSManagedObject {
     self.numberOfCopies = 1
     contents.forEach(addToContents(_:))
 
-    self.title = generateTitle(contents)  }
+    self.title = generateTitle(contents)
+  }
 
   override func validateValue(_ value: AutoreleasingUnsafeMutablePointer<AnyObject?>, forKey key: String) throws {
     try super.validateValue(value, forKey: key)
@@ -151,7 +152,7 @@ class HistoryItem: NSManagedObject {
 
   private func validatePin(_ pin: String) throws {
     for item in HistoryItem.all {
-      if let existingPin = item.pin, existingPin == pin, item != self {
+      if let existingPin = item.pin, !pin.isEmpty, existingPin == pin, item != self {
         throw NSError(
           domain: "keyUsed",
           code: 1,

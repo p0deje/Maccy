@@ -1,7 +1,8 @@
 import XCTest
 @testable import Maccy
 
-class HistoryItemTests: XCTestCase {  let savedIgnoredApps = UserDefaults.standard.ignoredApps
+class HistoryItemTests: XCTestCase {
+  let savedIgnoredApps = UserDefaults.standard.ignoredApps
   let savedMaxMenuItemLength = UserDefaults.standard.maxMenuItemLength
 
   override func setUp() {
@@ -12,6 +13,7 @@ class HistoryItemTests: XCTestCase {  let savedIgnoredApps = UserDefaults.standa
 
   override func tearDown() {
     super.tearDown()
+    CoreDataManager.shared.viewContext.reset()
     CoreDataManager.inMemory = false
     UserDefaults.standard.maxMenuItemLength = savedMaxMenuItemLength
   }
@@ -98,7 +100,7 @@ class HistoryItemTests: XCTestCase {  let savedIgnoredApps = UserDefaults.standa
     let item1 = historyItem("foo")
     item1.pin = "a"
     let item2 = historyItem("bar")
-    item2.pin = "b"
+    item2.pin = "a"
     XCTAssertThrowsError(try CoreDataManager.shared.viewContext.save())
   }
 
@@ -112,6 +114,23 @@ class HistoryItemTests: XCTestCase {  let savedIgnoredApps = UserDefaults.standa
     let item1 = historyItem("foo")
     item1.pin = "C"
     XCTAssertThrowsError(try CoreDataManager.shared.viewContext.save())
+  }
+
+  func testPinCanBeEmpty() {
+    let item1 = historyItem("foo")
+    item1.pin = ""
+    XCTAssertNoThrow(try CoreDataManager.shared.viewContext.save())
+    XCTAssertEqual(item1.pin, "")
+  }
+
+  func testSeveralItemsCanHaveEmptyPin() {
+    let item1 = historyItem("foo")
+    item1.pin = ""
+    let item2 = historyItem("bar")
+    item2.pin = ""
+    XCTAssertNoThrow(try CoreDataManager.shared.viewContext.save())
+    XCTAssertEqual(item1.pin, "")
+    XCTAssertEqual(item2.pin, "")
   }
 
   private func historyItem(_ value: String?) -> HistoryItem {
