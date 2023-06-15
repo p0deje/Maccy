@@ -137,6 +137,7 @@ class Maccy: NSObject {
       self.history.clearUnpinned()
       self.menu.clearUnpinned()
       self.clipboard.clear()
+      self.updateMenuTitle()
     }
   }
 
@@ -231,6 +232,7 @@ class Maccy: NSObject {
       self.history.clear()
       self.menu.clearAll()
       self.clipboard.clear()
+      self.updateMenuTitle()
     }
   }
 
