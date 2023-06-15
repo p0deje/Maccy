@@ -44,12 +44,12 @@ class HistoryMenuItem: NSMenuItem {
       loadImage(item)
     } else if isFile(item) {
       loadFile(item)
+    } else if isText(item) {
+      loadText(item)
     } else if isRTF(item) {
       loadRTF(item)
     } else if isHTML(item) {
       loadHTML(item)
-    } else {
-      loadString(item)
     }
 
     if let itemPin = item.pin {
@@ -151,7 +151,7 @@ class HistoryMenuItem: NSMenuItem {
     return item.html != nil
   }
 
-  private func isString(_ item: HistoryItem) -> Bool {
+  private func isText(_ item: HistoryItem) -> Bool {
     return item.text != nil
   }
 
@@ -206,7 +206,7 @@ class HistoryMenuItem: NSMenuItem {
     self.image = ColorImage.from(title)
   }
 
-  private func loadString(_ item: HistoryItem) {
+  private func loadText(_ item: HistoryItem) {
     guard let string = item.text else {
       return
     }
