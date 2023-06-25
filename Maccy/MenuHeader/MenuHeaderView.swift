@@ -24,13 +24,10 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   private var eventHandler: EventHandlerRef?
 
   private lazy var customMenu: Menu? = self.enclosingMenuItem?.menu as? Menu
-  private lazy var headerHeight = UserDefaults.standard.hideSearch ? 1 : 29
-  private lazy var headerRect = NSRect(x: 0, y: 0, width: Menu.menuWidth, height: headerHeight)
 
   override func awakeFromNib() {
-    autoresizingMask = .width
-    frame = headerRect
-
+    autoresizingMask = [.width]
+    
     queryField.delegate = self
     queryField.placeholderString = NSLocalizedString("search_placeholder", comment: "")
 
@@ -47,6 +44,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     }
 
     if UserDefaults.standard.hideSearch {
+      queryField.isHidden = true
       constraints.forEach(removeConstraint)
     }
   }

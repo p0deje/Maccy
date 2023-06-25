@@ -174,9 +174,7 @@ class Maccy: NSObject {
     clipboard.onNewCopy(updateMenuTitle)
     clipboard.startListening()
 
-    populateHeader()
-    populateItems()
-    populateFooter()
+    rebuild();
 
     updateStatusItemEnabledness()
   }
@@ -258,7 +256,11 @@ class Maccy: NSObject {
     menu.clearAll()
     menu.removeAllItems()
 
-    populateHeader()
+    if !UserDefaults.standard.hideTitle || !UserDefaults.standard.hideSearch {
+      // The header only contains the title and search bar right now.
+      // Don't add the header to the menu if they're both disabled:
+      populateHeader()
+    }
     populateItems()
     populateFooter()
   }
