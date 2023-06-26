@@ -24,11 +24,12 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   private var eventHandler: EventHandlerRef?
 
   private lazy var customMenu: Menu? = self.enclosingMenuItem?.menu as? Menu
-  private lazy var headerHeight = UserDefaults.standard.hideSearch ? 1 : 29
-  private lazy var headerRect = NSRect(x: 0, y: 0, width: Menu.menuWidth, height: headerHeight)
+  private lazy var headerHeight = UserDefaults.standard.hideSearch ? 1 : 28
+  private lazy var headerSize = NSSize(width: Menu.menuWidth, height: headerHeight)
 
   override func awakeFromNib() {
     autoresizingMask = .width
+    setFrameSize(headerSize)
 
     queryField.delegate = self
     queryField.placeholderString = NSLocalizedString("search_placeholder", comment: "")
@@ -52,9 +53,6 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
 
   override func viewDidMoveToWindow() {
     super.viewDidMoveToWindow()
-
-    // Calling this in awakeFromNib() crashes on macos Sonoma Beta 2.
-    frame = headerRect
 
     if window != nil {
       if let dispatcher = GetEventDispatcherTarget() {
