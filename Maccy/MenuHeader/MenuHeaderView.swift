@@ -29,7 +29,6 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
 
   override func awakeFromNib() {
     autoresizingMask = .width
-    frame = headerRect
 
     queryField.delegate = self
     queryField.placeholderString = NSLocalizedString("search_placeholder", comment: "")
@@ -88,6 +87,9 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
 
   override func draw(_ dirtyRect: NSRect) {
     super.draw(dirtyRect)
+
+    // Calling this in awakeFromNib() crashes on macos Sonoma Beta 2.
+    frame = headerRect
 
     if #available(macOS 13, *) {
       // all good
