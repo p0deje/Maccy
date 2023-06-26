@@ -53,6 +53,9 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   override func viewDidMoveToWindow() {
     super.viewDidMoveToWindow()
 
+    // Calling this in awakeFromNib() crashes on macos Sonoma Beta 2.
+    frame = headerRect
+
     if window != nil {
       if let dispatcher = GetEventDispatcherTarget() {
         // Create pointer to our event processer.
@@ -87,9 +90,6 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
 
   override func draw(_ dirtyRect: NSRect) {
     super.draw(dirtyRect)
-
-    // Calling this in awakeFromNib() crashes on macos Sonoma Beta 2.
-    frame = headerRect
 
     if #available(macOS 13, *) {
       // all good
