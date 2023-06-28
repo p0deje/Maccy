@@ -6,21 +6,24 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.26.4</title>
+      <title>0.26.5</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Fixed an issue when an App Store review was asked for a non-App Store version of Maccy (#553).</li>
+            <li>Added support for pins without keys (#552).</li>
+            <li>Fixed an issue when the recent copy text was not cleared (#557).</li>
+            <li>Fixed a crash on macOS Sonoma Beta 2. Note that search/pinning/deleting still doesn't work (#566).</li>
+            <li>Improved memory utilization by not eagerly loading RTF/HTML copies (#549).</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2023-06-04</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.26.4</releaseNotesLink>
+      <pubDate>2023-06-28</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.26.5</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.26.4/Maccy.app.zip"
-        sparkle:version="19"
-        sparkle:shortVersionString="0.26.4"
+        url="https://github.com/p0deje/Maccy/releases/download/0.26.5/Maccy.app.zip"
+        sparkle:version="20"
+        sparkle:shortVersionString="0.26.5"
         length="0"
         type="application/octet-stream"
       />
