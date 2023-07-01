@@ -7,6 +7,7 @@ class Preview: NSViewController {
   @IBOutlet weak var firstCopyTimeValueLabel: NSTextField!
   @IBOutlet weak var lastCopyTimeValueLabel: NSTextField!
   @IBOutlet weak var numberOfCopiesValueLabel: NSTextField!
+  @IBOutlet weak var explainValueLabel: NSTextField!
 
   private let maxTextSize = 1_500
 
@@ -56,6 +57,7 @@ class Preview: NSViewController {
     firstCopyTimeValueLabel.stringValue = formatDate(item.firstCopiedAt)
     lastCopyTimeValueLabel.stringValue = formatDate(item.lastCopiedAt)
     numberOfCopiesValueLabel.stringValue = String(item.numberOfCopies)
+    explainValueLabel.stringValue = item.explain ?? ""
   }
 
   private func formatDate(_ date: Date) -> String {

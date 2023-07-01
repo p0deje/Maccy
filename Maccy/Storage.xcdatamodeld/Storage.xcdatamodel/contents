@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F66" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21512" systemVersion="22D49" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
     <entity name="HistoryItem" representedClassName="HistoryItem" syncable="YES">
         <attribute name="application" optional="YES" attributeType="String"/>
+        <attribute name="explain" optional="YES" attributeType="String"/>
         <attribute name="firstCopiedAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastCopiedAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="numberOfCopies" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>

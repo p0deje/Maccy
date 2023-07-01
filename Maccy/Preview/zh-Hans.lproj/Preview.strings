@@ -30,3 +30,9 @@
 
 /* Class = "NSTextFieldCell"; title = "Application:"; ObjectID = "v53-2O-7HD"; */
 "v53-2O-7HD.title" = "应用:";
+
+/* Class = "NSTextFieldCell"; title = "Explain:"; ObjectID = "n35-CP-pjc"; */
+"n35-CP-pjc.title" = "解释:"
+
+/* Class = "NSTextFieldCell"; title = "No"; ObjectID = "tn3-Io-CBp"; */
+"tn3-Io-CBp.title" = "无"

@@ -11,5 +11,8 @@
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "juh-Mt-VZK"; */
 "juh-Mt-VZK.title" = "Polje teksta";
 
+/* Class = "NSTableColumn"; headerCell.title = "Explain"; ObjectID = "gp0-11-DX7"; */
+"gp0-11-DX7.headerCell.title" = "Objasniti";
+
 /* Class = "NSTableColumn"; headerCell.title = "Key"; ObjectID = "qRS-YB-ZPI"; */
 "qRS-YB-ZPI.headerCell.title" = "Tipka";
