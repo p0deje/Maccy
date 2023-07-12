@@ -37,14 +37,17 @@ class HistoryItem: NSManagedObject {
   @NSManaged public var title: String?
 
   var fileURL: URL? {
-    guard let data = contentData([.fileURL]) else {
+    guard let data = contentData(filePasteboardTypes) else {
+      return nil
+    }
+    guard !univeralClipboardText else {
       return nil
     }
 
     return URL(dataRepresentation: data, relativeTo: nil, isAbsolute: true)
   }
 
-  var htmlData: Data? { contentData([.html]) }
+  var htmlData: Data? { contentData(htmlPasteboardTypes) }
   var html: NSAttributedString? {
     guard let data = htmlData else {
       return nil
@@ -54,14 +57,20 @@ class HistoryItem: NSManagedObject {
   }
 
   var image: NSImage? {
-    guard let data = contentData([.tiff, .png, .jpeg]) else {
+    var data: Data?
+    data = contentData(imagePasteboardTypes)
+    if data == nil, univeralClipboardImage, let url = fileURL {
+      data = try? Data(contentsOf: url)
+    }
+
+    guard let data = data else {
       return nil
     }
 
     return NSImage(data: data)
   }
 
-  var rtfData: Data? { contentData([.rtf]) }
+  var rtfData: Data? { contentData(rtfPasteboardTypes) }
   var rtf: NSAttributedString? {
     guard let data = rtfData else {
       return nil
@@ -71,7 +80,7 @@ class HistoryItem: NSManagedObject {
   }
 
   var text: String? {
-    guard let data = contentData([.string]) else {
+    guard let data = contentData(textPasteboardTypes) else {
       return nil
     }
 
@@ -85,6 +94,19 @@ class HistoryItem: NSManagedObject {
     }
 
     return Int(modified)
+  }
+
+  private let filePasteboardTypes: [NSPasteboard.PasteboardType] = [.fileURL]
+  private let htmlPasteboardTypes: [NSPasteboard.PasteboardType] = [.html]
+  private let imagePasteboardTypes: [NSPasteboard.PasteboardType] = [.tiff, .png, .jpeg]
+  private let rtfPasteboardTypes: [NSPasteboard.PasteboardType] = [.rtf]
+  private let textPasteboardTypes: [NSPasteboard.PasteboardType] = [.string]
+
+  private var universalClipboard: Bool { contentData([.universalClipboard]) != nil }
+  private var univeralClipboardImage: Bool { universalClipboard && fileURL?.pathExtension == "jpeg" }
+  private var univeralClipboardText: Bool {
+     universalClipboard &&
+      contentData(htmlPasteboardTypes + imagePasteboardTypes + rtfPasteboardTypes + textPasteboardTypes) != nil
   }
 
   static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
