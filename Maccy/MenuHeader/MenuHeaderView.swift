@@ -148,7 +148,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     guard let key = Sauce.shared.key(for: Int(event.keyCode)) else {
       return false
     }
-    let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+    let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask).subtracting(.capsLock)
     let chars = event.charactersIgnoringModifiers
 
     return processKeyDownEvent(key: key, modifierFlags: modifierFlags, chars: chars)
