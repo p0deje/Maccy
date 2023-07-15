@@ -90,6 +90,7 @@ class Clipboard {
     for content in contents {
       pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
     }
+    pasteboard.setString("", forType: .fromMaccy)
 
     if UserDefaults.standard.playSounds {
       NSSound(named: NSSound.Name("knock"))?.play()

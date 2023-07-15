@@ -89,6 +89,26 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(Set(history.all[0].getContents()), Set(contents))
   }
 
+  func testAddingItemFromMaccy() {
+    let contents = [
+      HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: "one".data(using: .utf8)!)
+    ]
+    let first = HistoryItem(contents: contents)
+    first.application = "Xcode.app"
+    history.add(first)
+
+    let second = HistoryItem(contents: [
+      HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: "one".data(using: .utf8)!),
+      HistoryItemContent(type: NSPasteboard.PasteboardType.fromMaccy.rawValue, value: "".data(using: .utf8)!)
+    ])
+    second.application = "Maccy.app"
+    history.add(second)
+
+    XCTAssertEqual(history.all, [second])
+    XCTAssertEqual(history.all[0].application, "Xcode.app")
+    XCTAssertEqual(Set(history.all[0].getContents()), Set(contents))
+  }
+
   func testUpdate() {
     history.add(historyItem("foo"))
     let historyItem = history.all[0]

@@ -96,6 +96,8 @@ class HistoryItem: NSManagedObject {
     return Int(modified)
   }
 
+  var fromMaccy: Bool { contentData([.fromMaccy]) != nil }
+
   private let filePasteboardTypes: [NSPasteboard.PasteboardType] = [.fileURL]
   private let htmlPasteboardTypes: [NSPasteboard.PasteboardType] = [.html]
   private let imagePasteboardTypes: [NSPasteboard.PasteboardType] = [.tiff, .png, .jpeg]
@@ -143,7 +145,12 @@ class HistoryItem: NSManagedObject {
 
   func supersedes(_ item: HistoryItem) -> Bool {
     return item.getContents()
-      .filter { $0.type != NSPasteboard.PasteboardType.modified.rawValue }
+      .filter { content in
+        ![
+          NSPasteboard.PasteboardType.modified.rawValue,
+          NSPasteboard.PasteboardType.fromMaccy.rawValue
+        ].contains(content.type)
+      }
       .allSatisfy { content in
         getContents().contains(where: { $0 == content})
       }

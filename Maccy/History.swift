@@ -29,7 +29,9 @@ class History {
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
       item.title = existingHistoryItem.title
-      item.application = existingHistoryItem.application
+      if !item.fromMaccy {
+        item.application = existingHistoryItem.application
+      }
       remove(existingHistoryItem)
     } else {
       if UserDefaults.standard.playSounds {

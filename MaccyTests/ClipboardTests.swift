@@ -214,6 +214,7 @@ class ClipboardTests: XCTestCase {
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
     XCTAssertEqual(pasteboard.data(forType: .tiff), imageData)
     XCTAssertEqual(pasteboard.string(forType: .fileURL), "file://foo.bar")
+    XCTAssertEqual(pasteboard.string(forType: .fromMaccy), "")
   }
 
   func testCopyWithoutFormatting() {
@@ -225,6 +226,7 @@ class ClipboardTests: XCTestCase {
     ])
     clipboard.copy(item, removeFormatting: true)
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
+    XCTAssertEqual(pasteboard.string(forType: .fromMaccy), "")
     XCTAssertNil(pasteboard.data(forType: .rtf))
   }
 
