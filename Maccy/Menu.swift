@@ -5,6 +5,7 @@ import AppKit
 // swiftlint:disable type_body_length
 class Menu: NSMenu, NSMenuDelegate {
   static let menuWidth = 300
+  static let popoverGap = 5.0
 
   class IndexedItem: NSObject {
     var value: String
@@ -93,9 +94,11 @@ class Menu: NSMenu, NSMenuDelegate {
     offloadCurrentPreview()
 
     guard let item = item as? HistoryMenuItem,
-          let indexedItem = indexedItems.first(where: { $0.menuItems.contains(item) }) else {
+          let itemIndex = indexedItems.firstIndex(where: { $0.menuItems.contains(item) }) else {
       return
     }
+
+    let indexedItem = indexedItems[itemIndex]
 
     if let previewMenuItemView = indexedItem.previewMenuItem.view,
        previewMenuItemView.frame.width != menu.size.width {
@@ -109,14 +112,59 @@ class Menu: NSMenu, NSMenuDelegate {
       previewPopover?.animates = false
       previewPopover?.behavior = .semitransient
       previewPopover?.contentViewController = Preview(item: item.item)
+
       if let previewView = indexedItem.previewMenuItem.view,
-         previewView.superview?.superview != nil {
+         let previewWindow = previewView.window,
+         let windowContentView = previewWindow.contentView {
+        // Check if the preview item is non-obstructed (which can e.g. happen is scrollable and the scroll arrow overlaps the item)
+        guard previewView.superview?.superview != nil else { return }
+
         previewThrottle.minimumDelay = Menu.subsequentPreviewDelay
+
+        func getPrecedingView() -> NSView? {
+          for index in (0..<itemIndex).reversed() {
+            // PreviewMenuItem always has a view
+            let view = indexedItems[index].previewMenuItem.view!
+            // Check if preview item is visible (it may hidden by the saerch filter)
+            if view.window != nil {
+              return view
+            }
+          }
+          // If the item is the first visible one, the preceding view is the header.
+          guard let header = menu.items.first?.view as? MenuHeaderView? else {
+            // Should never happen as we always have a MenuHeader installed.
+            return nil
+          }
+          return header
+        }
+
+        guard let precedingView = getPrecedingView() else { return }
+
+        let bottomPoint = previewView.convert(
+          NSPoint(x: previewView.bounds.minX, y: previewView.bounds.maxY),
+          to: windowContentView
+        )
+        let topPoint = precedingView.convert(
+          NSPoint(x: previewView.bounds.minX, y: precedingView.bounds.minY),
+          to: windowContentView
+        )
+
+        let heightOfVisibleMenuItem = abs(topPoint.y - bottomPoint.y)
+        let boundsOfVisibleMenuItem = NSRect(origin: bottomPoint, size: NSSize(width: previewView.bounds.width, height: heightOfVisibleMenuItem))
+
         previewPopover?.show(
-          relativeTo: .zero,
-          of: previewView,
+          relativeTo: boundsOfVisibleMenuItem,
+          of: windowContentView,
           preferredEdge: .maxX
         )
+
+        if let popoverWindow = previewPopover?.contentViewController?.view.window {
+          if popoverWindow.frame.minX < previewWindow.frame.minX {
+            popoverWindow.setFrameOrigin(NSPoint(x: popoverWindow.frame.minX - Menu.popoverGap, y: popoverWindow.frame.minY))
+          } else {
+            popoverWindow.setFrameOrigin(NSPoint(x: popoverWindow.frame.minX + Menu.popoverGap, y: popoverWindow.frame.minY))
+          }
+        }
       }
     }
   }
