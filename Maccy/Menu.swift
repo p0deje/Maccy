@@ -5,6 +5,7 @@ import AppKit
 // swiftlint:disable type_body_length
 class Menu: NSMenu, NSMenuDelegate {
   static let menuWidth = 300
+  static let popoverGap = 5.0
 
   class IndexedItem: NSObject {
     var value: String
@@ -113,7 +114,8 @@ class Menu: NSMenu, NSMenuDelegate {
       previewPopover?.contentViewController = Preview(item: item.item)
 
       if let previewView = indexedItem.previewMenuItem.view,
-         let windowContentView = previewView.window?.contentView {
+         let previewWindow = previewView.window,
+         let windowContentView = previewWindow.contentView {
         // Check if the preview item is non-obstructed (which can e.g. happen is scrollable and the scroll arrow overlaps the item)
         guard previewView.superview?.superview != nil else { return }
 
@@ -155,6 +157,14 @@ class Menu: NSMenu, NSMenuDelegate {
           of: windowContentView,
           preferredEdge: .maxX
         )
+
+        if let popoverWindow = previewPopover?.contentViewController?.view.window {
+          if popoverWindow.frame.minX < previewWindow.frame.minX {
+            popoverWindow.setFrameOrigin(NSPoint(x: popoverWindow.frame.minX - Menu.popoverGap, y: popoverWindow.frame.minY))
+          } else {
+            popoverWindow.setFrameOrigin(NSPoint(x: popoverWindow.frame.minX + Menu.popoverGap, y: popoverWindow.frame.minY))
+          }
+        }
       }
     }
   }
