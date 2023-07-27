@@ -65,6 +65,9 @@ class Menu: NSMenu, NSMenuDelegate {
   private var maxMenuItems: Int { UserDefaults.standard.maxMenuItems }
   private var maxVisibleItems: Int { maxMenuItems * historyMenuItemsGroup }
 
+  private var inMenuRectResolution = false
+  private var savedMenuRect: NSRect? = nil
+
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
   }
@@ -78,7 +81,29 @@ class Menu: NSMenu, NSMenuDelegate {
     self.minimumWidth = CGFloat(Menu.menuWidth)
   }
 
+  func confinementRect(for menu: NSMenu, on screen: NSScreen?) -> NSRect {
+    return savedMenuRect ?? .zero
+  }
+
+  func popUpConstrained(positioning item: NSMenuItem?, at location: NSPoint, in view: NSView?) {
+    if savedMenuRect == nil {
+      inMenuRectResolution = true
+      // Save the window bounds immediatly after the popup is shown.
+      // As the popUp function is blocking we have to explicitly shedule it with the relevant RunLoop.
+      RunLoop.current.perform(inModes: [RunLoop.Mode.eventTracking], block: {
+        self.savedMenuRect = self.items[0].view?.window?.frame
+        self.cancelTrackingWithoutAnimation()
+      })
+      super.popUp(positioning: item, at: location, in: view)
+    }
+    inMenuRectResolution = false
+    super.popUp(positioning: item, at: location, in: view)
+  }
+
   func menuWillOpen(_ menu: NSMenu) {
+    if inMenuRectResolution {
+      return
+    }
     previewThrottle.minimumDelay = initialPreviewDelay
 
     updateUnpinnedItemsVisibility()
@@ -87,7 +112,11 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuDidClose(_ menu: NSMenu) {
+    if inMenuRectResolution {
+      return
+    }
     offloadCurrentPreview()
+    savedMenuRect = nil
   }
 
   func menu(_ menu: NSMenu, willHighlight item: NSMenuItem?) {

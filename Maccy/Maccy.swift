@@ -103,7 +103,7 @@ class Maccy: NSObject {
       case "center":
         if let frame = NSScreen.forPopup?.visibleFrame {
           self.linkingMenuToStatusItem {
-            self.menu.popUp(positioning: nil, at: NSRect.centered(ofSize: self.menu.size, in: frame).origin, in: nil)
+            self.menu.popUpConstrained(positioning: nil, at: NSRect.centered(ofSize: self.menu.size, in: frame).origin, in: nil)
           }
         }
       case "statusItem":
@@ -111,14 +111,14 @@ class Maccy: NSObject {
       case "window":
         if let frame = windowFrame {
           self.linkingMenuToStatusItem {
-            self.menu.popUp(positioning: nil, at: NSRect.centered(ofSize: self.menu.size, in: frame).origin, in: nil)
+            self.menu.popUpConstrained(positioning: nil, at: NSRect.centered(ofSize: self.menu.size, in: frame).origin, in: nil)
           }
         } else {
           fallthrough
         }
       default:
         self.linkingMenuToStatusItem {
-          self.menu.popUp(positioning: nil, at: NSEvent.mouseLocation, in: nil)
+          self.menu.popUpConstrained(positioning: nil, at: NSEvent.mouseLocation, in: nil)
         }
       }
     }
