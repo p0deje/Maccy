@@ -10,10 +10,6 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   @IBOutlet weak var horizontalRightPadding: NSLayoutConstraint!
   @IBOutlet weak var titleAndSearchSpacing: NSLayoutConstraint!
 
-  private let eventSpecs = [
-    EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyDown)),
-    EventTypeSpec(eventClass: OSType(kEventClassKeyboard), eventKind: UInt32(kEventRawKeyRepeat))
-  ]
   private let macOSXLeftPadding: CGFloat = 20.0
   private let macOSXRightPadding: CGFloat = 10.0
   private let searchThrottler = Throttler(minimumDelay: 0.4)
@@ -21,7 +17,14 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   private var characterPickerVisible: Bool {
     NSApp.windows.filter({ $0.isVisible }).map({ $0.className }).contains("NSPanelViewBridge")
   }
-  private var eventHandler: EventHandlerRef?
+
+  private lazy var eventMonitor = RunLoopLocalEventMonitor(events: .keyDown, runLoopMode: .eventTracking) { event in
+    if self.processInterceptedEvent(event) {
+      return nil
+    } else {
+      return event
+    }
+  }
 
   private lazy var customMenu: Menu? = self.enclosingMenuItem?.menu as? Menu
   private lazy var headerHeight = UserDefaults.standard.hideSearch ? 1 : 28
@@ -55,30 +58,9 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     super.viewDidMoveToWindow()
 
     if window != nil {
-      if let dispatcher = GetEventDispatcherTarget() {
-        // Create pointer to our event processer.
-        let eventProcessorPointer = UnsafeMutablePointer<Any>.allocate(capacity: 1)
-        eventProcessorPointer.initialize(to: processInterceptedEventRef)
-
-        let eventHandlerCallback: EventHandlerUPP = { _, eventRef, userData in
-          guard let event = eventRef else { return noErr }
-          guard let callbackPointer = userData else { return noErr }
-
-          // Call our event processor from pointer.
-          let eventProcessPointer = UnsafeMutablePointer<(EventRef) -> (Bool)>(OpaquePointer(callbackPointer))
-          let eventProcessed = eventProcessPointer.pointee(event)
-
-          if eventProcessed {
-            return noErr
-          } else {
-            return OSStatus(Carbon.eventNotHandledErr)
-          }
-        }
-
-        InstallEventHandler(dispatcher, eventHandlerCallback, 2, eventSpecs, eventProcessorPointer, &eventHandler)
-      }
+      eventMonitor.start()
     } else {
-      RemoveEventHandler(eventHandler)
+      eventMonitor.stop()
       DispatchQueue.main.async {
         self.setQuery("")
         self.queryField.refusesFirstResponder = true

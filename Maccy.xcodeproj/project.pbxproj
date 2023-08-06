@@ -78,6 +78,7 @@
 		DABDE97F2974706C005B32E9 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */; };
 		DAC14124232367B200FCFA30 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC14123232367B200FCFA30 /* Search.swift */; };
 		DAC6CE9126E1AC19002B70B8 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = DAC6CE9026E1AC19002B70B8 /* LaunchAtLogin */; };
+		DAC7AFAF2A801C92006081BB /* RunLoopLocalEventMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */; };
 		DAC929D7297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */; };
 		DAD0862D24545C66002AFAEC /* Storage.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = DAB65DFB2440AD63000AECA8 /* Storage.xcdatamodeld */; };
 		DAD20C7724E55CD200E96247 /* org.sparkle-project.Downloader.xpc in Resources */ = {isa = PBXBuildFile; fileRef = DAD20C7224E55CD100E96247 /* org.sparkle-project.Downloader.xpc */; };
@@ -314,6 +315,7 @@
 		DAB8CE4124E368F200A2500E /* container-migration.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "container-migration.plist"; sourceTree = "<group>"; };
 		DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayout.swift; sourceTree = "<group>"; };
 		DAC14123232367B200FCFA30 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
+		DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunLoopLocalEventMonitor.swift; sourceTree = "<group>"; };
 		DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPasteboard.PasteboardType+Types.swift"; sourceTree = "<group>"; };
 		DAD20C7224E55CD100E96247 /* org.sparkle-project.Downloader.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; name = "org.sparkle-project.Downloader.xpc"; path = "Sparkle/org.sparkle-project.Downloader.xpc"; sourceTree = "<group>"; };
 		DAD20C7324E55CD100E96247 /* org.sparkle-project.InstallerStatus.xpc */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.xpc-service"; name = "org.sparkle-project.InstallerStatus.xpc"; path = "Sparkle/org.sparkle-project.InstallerStatus.xpc"; sourceTree = "<group>"; };
@@ -587,6 +589,7 @@
 				DA49EE7428B59468002752E0 /* NSRect+Centered.swift */,
 				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
 				DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */,
+				DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
@@ -864,6 +867,7 @@
 				DA57C64E249E2A550032707A /* MenuFooter.swift in Sources */,
 				DAB65DFF2440AE29000AECA8 /* CoreDataManager.swift in Sources */,
 				DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */,
+				DAC7AFAF2A801C92006081BB /* RunLoopLocalEventMonitor.swift in Sources */,
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
 				DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
