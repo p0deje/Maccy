@@ -114,13 +114,23 @@ class Menu: NSMenu, NSMenuDelegate {
       previewPopover?.behavior = .semitransient
       previewPopover?.contentViewController = Preview(item: item.item)
 
-      if let previewView = indexedItem.previewMenuItem.view,
-         let previewWindow = previewView.window,
-         let windowContentView = previewWindow.contentView {
+      guard let previewView = indexedItem.previewMenuItem.view else {
+        return
+      }
+
+      var previewWindow: NSWindow?
+      if #available(macOS 14, *) {
+        previewWindow = NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
+      } else {
         // Check if the preview item is non-obstructed
         // (which can e.g. happen is scrollable and the scroll arrow overlaps the item)
         guard previewView.superview?.superview != nil else { return }
 
+        previewWindow = previewView.window
+      }
+
+      if let previewWindow = previewWindow,
+         let windowContentView = previewWindow.contentView {
         previewThrottle.minimumDelay = Menu.subsequentPreviewDelay
 
         func getPrecedingView() -> NSView? {
