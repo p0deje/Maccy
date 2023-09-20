@@ -457,8 +457,16 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func highlight(_ itemToHighlight: NSMenuItem?) {
+    if #available(macOS 14, *) {
+      DispatchQueue.main.async { self.highlightItem(itemToHighlight) }
+    } else {
+      highlightItem(itemToHighlight)
+    }
+  }
+
+  private func highlightItem(_ itemToHighlight: NSMenuItem?) {
     let highlightItemSelector = NSSelectorFromString("highlightItem:")
-    if let item = itemToHighlight {
+    if let item = itemToHighlight, !item.isHighlighted {
       // we need to highlight filter menu item to force menu redrawing
       // when it has more items that can fit into the screen height
       // and scrolling items are added to the top and bottom of menu
@@ -468,7 +476,7 @@ class Menu: NSMenu, NSMenuDelegate {
       }
     } else {
       // Unhighlight current item.
-       perform(highlightItemSelector, with: nil)
+      perform(highlightItemSelector, with: nil)
     }
   }
 
