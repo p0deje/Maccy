@@ -357,7 +357,11 @@ class Menu: NSMenu, NSMenuDelegate {
 
       updateUnpinnedItemsVisibility()
       setKeyEquivalents(historyMenuItems)
-      highlight(items[historyItemToRemoveIndex])
+
+      let mainItemToHighlightIndex = historyItemToRemoveIndex - 1
+      if items.count >= mainItemToHighlightIndex {
+        highlight(items[mainItemToHighlightIndex])
+      }
     }
   }
 
