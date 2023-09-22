@@ -23,6 +23,8 @@ class Menu: NSMenu, NSMenuDelegate {
 
   public let maxHotKey = 9
 
+  public var isVisible: Bool!
+
   public var firstUnpinnedHistoryMenuItem: HistoryMenuItem? {
     historyMenuItems.first(where: { !$0.isPinned })
   }
@@ -79,6 +81,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuWillOpen(_ menu: NSMenu) {
+    isVisible = true
     previewThrottle.minimumDelay = initialPreviewDelay
 
     updateUnpinnedItemsVisibility()
@@ -87,7 +90,14 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func menuDidClose(_ menu: NSMenu) {
+    isVisible = false
     offloadCurrentPreview()
+    if let headerView = items.first?.view as? MenuHeaderView {
+      DispatchQueue.main.async {
+        headerView.setQuery("")
+        headerView.queryField.refusesFirstResponder = true
+      }
+    }
   }
 
   // swiftlint:disable function_body_length
@@ -583,7 +593,11 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    addItem(item)
+    if #available(macOS 14, *) {
+      items.append(item)
+    } else {
+      addItem(item)
+    }
   }
 
   private func safeInsertItem(_ item: NSMenuItem, at index: Int) {
@@ -591,7 +605,11 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    insertItem(item, at: index)
+    if #available(macOS 14, *) {
+      items.insert(item, at: index)
+    } else {
+      insertItem(item, at: index)
+    }
   }
 
   private func safeRemoveItem(_ item: NSMenuItem?) {
@@ -600,7 +618,11 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    removeItem(item)
+    if #available(macOS 14, *) {
+      items.removeAll(where: { $0 == item })
+    } else {
+      removeItem(item)
+    }
   }
 
   private func offloadCurrentPreview() {

@@ -57,14 +57,10 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   override func viewDidMoveToWindow() {
     super.viewDidMoveToWindow()
 
-    if window != nil {
+    if window != nil && customMenu?.isVisible == true {
       eventMonitor.start()
-    } else {
+    } else if window == nil && customMenu?.isVisible == false {
       eventMonitor.stop()
-      DispatchQueue.main.async {
-        self.setQuery("")
-        self.queryField.refusesFirstResponder = true
-      }
     }
   }
 
@@ -105,7 +101,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     }
   }
 
-  private func setQuery(_ newQuery: String) {
+  public func setQuery(_ newQuery: String) {
     guard queryField.stringValue != newQuery else {
       return
     }
