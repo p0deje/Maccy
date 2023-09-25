@@ -476,14 +476,12 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func highlightItem(_ itemToHighlight: NSMenuItem?) {
     let highlightItemSelector = NSSelectorFromString("highlightItem:")
-    if let item = itemToHighlight, !item.isHighlighted {
-      // we need to highlight filter menu item to force menu redrawing
-      // when it has more items that can fit into the screen height
-      // and scrolling items are added to the top and bottom of menu
-      perform(highlightItemSelector, with: items.first)
-      if items.contains(item) {
-        perform(highlightItemSelector, with: item)
-      }
+    // we need to highlight filter menu item to force menu redrawing
+    // when it has more items that can fit into the screen height
+    // and scrolling items are added to the top and bottom of menu
+    perform(highlightItemSelector, with: items.first)
+    if let item = itemToHighlight, !item.isHighlighted, items.contains(item) {
+      perform(highlightItemSelector, with: item)
     } else {
       // Unhighlight current item.
       perform(highlightItemSelector, with: nil)
