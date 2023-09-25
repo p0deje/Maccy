@@ -6,24 +6,26 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.26.5</title>
+      <title>0.27.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added support for pins without keys (#552).</li>
-            <li>Fixed an issue when the recent copy text was not cleared (#557).</li>
-            <li>Fixed a crash on macOS Sonoma Beta 2. Note that search/pinning/deleting still doesn't work (#566).</li>
-            <li>Improved memory utilization by not eagerly loading RTF/HTML copies (#549).</li>
+            <li>Improved compatibility with macOS Sonoma 14. Functionality should mostly work though there are still visual glitches and performance issues (#555).</li>
+            <li>Improved alignment of preview popover (credits to @weisJ).</li>
+            <li>Improved handling of copies from Universal Clipboard (#397).</li>
+            <li>Improved source application handling to preserve an original one when copying from Maccy (#516).</li>
+            <li>Fixed an issue when Caps Lock on would prevent pinning/removal (#576).</li>
+            <li>Fixed a blurry scissors menu icon (#572).</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2023-06-28</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.26.5</releaseNotesLink>
+      <pubDate>2023-09-25</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.27.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.26.5/Maccy.app.zip"
-        sparkle:version="20"
-        sparkle:shortVersionString="0.26.5"
+        url="https://github.com/p0deje/Maccy/releases/download/0.27.0/Maccy.app.zip"
+        sparkle:version="21"
+        sparkle:shortVersionString="0.27.0"
         length="0"
         type="application/octet-stream"
       />
