@@ -19,8 +19,9 @@ final class RunLoopLocalEventMonitor {
       // Non-matching events are left untouched, maintaining their order in the queue.
       var eventsToHandle = [NSEvent]()
 
-      // Retrieve all events from the event queue to preserve their order (instead of using the `matching` parameter).
-      while let eventToHandle = NSApp.nextEvent(matching: .any, until: nil, inMode: .default, dequeue: true) {
+      while let eventToHandle = NSApp.nextEvent(
+        matching: [.keyDown, .keyUp], until: nil, inMode: .default, dequeue: true
+      ) {
         eventsToHandle.append(eventToHandle)
       }
 
