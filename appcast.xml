@@ -6,26 +6,21 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.27.0</title>
+      <title>0.27.1</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Improved compatibility with macOS Sonoma 14. Functionality should mostly work though there are still visual glitches and performance issues (#555).</li>
-            <li>Improved alignment of preview popover (credits to @weisJ).</li>
-            <li>Improved handling of copies from Universal Clipboard (#397).</li>
-            <li>Improved source application handling to preserve an original one when copying from Maccy (#516).</li>
-            <li>Fixed an issue when Caps Lock on would prevent pinning/removal (#576).</li>
-            <li>Fixed a blurry scissors menu icon (#572).</li>
+            <li>Fixed an issue when cursor would not highlight history items on macOS Ventura (#611).</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2023-09-25</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.27.0</releaseNotesLink>
+      <pubDate>2023-09-27</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.27.1</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.27.0/Maccy.app.zip"
-        sparkle:version="21"
-        sparkle:shortVersionString="0.27.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.27.1/Maccy.app.zip"
+        sparkle:version="22"
+        sparkle:shortVersionString="0.27.1"
         length="0"
         type="application/octet-stream"
       />
