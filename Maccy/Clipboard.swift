@@ -186,6 +186,7 @@ class Clipboard {
 
       contents += types
         .subtracting(disabledTypes)
+        .subtracting([.microsoftLinkSource, .microsoftObjectLink])
         .filter { !$0.rawValue.starts(with: dynamicTypePrefix) && !$0.rawValue.starts(with: microsoftSourcePrefix) }
         .map { HistoryItemContent(type: $0.rawValue, value: item.data(forType: $0)) }
     })
