@@ -18,7 +18,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     NSApp.windows.filter({ $0.isVisible }).map({ $0.className }).contains("NSPanelViewBridge")
   }
 
-  private lazy var eventMonitor = RunLoopLocalEventMonitor(events: .keyDown, runLoopMode: .eventTracking) { event in
+  private lazy var eventMonitor = RunLoopLocalEventMonitor(runLoopMode: .eventTracking) { event in
     if self.processInterceptedEvent(event) {
       return nil
     } else {
