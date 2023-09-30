@@ -7,7 +7,6 @@ final class RunLoopLocalEventMonitor {
   private let observer: CFRunLoopObserver
 
   init(
-    events: NSEvent.EventTypeMask,
     runLoopMode: RunLoop.Mode,
     callback: @escaping (NSEvent) -> NSEvent?
   ) {
@@ -16,9 +15,11 @@ final class RunLoopLocalEventMonitor {
 
     self.observer = CFRunLoopObserverCreateWithHandler(nil, CFRunLoopActivity.beforeSources.rawValue, true, 0) { _, _ in
       // Pull all events from the queue and handle the ones matching the given types.
-      // Non-matching events are left untouched, maintaining their order in the queue.
+      // As non-processes events are redispatched we have to gather them first before processing to avoid infinite loops.
       var eventsToHandle = [NSEvent]()
 
+      // Note: Non-processed events are redispatched and may therefore be out of order with respect to other events.
+      //       Even though we are only interested in keydown events we deque the keyUp events as well to preserve their order.
       while let eventToHandle = NSApp.nextEvent(
         matching: [.keyDown, .keyUp], until: nil, inMode: .default, dequeue: true
       ) {
@@ -28,19 +29,9 @@ final class RunLoopLocalEventMonitor {
       // Iterate over the gathered events, instead of doing it directly in the `while` loop,
       // to avoid potential infinite loops caused by re-retrieving undiscarded events.
       for eventToHandle in eventsToHandle {
-        var handledEvent: NSEvent?
-
-        if !events.contains(NSEvent.EventTypeMask(rawValue: 1 << eventToHandle.type.rawValue)) {
-          handledEvent = eventToHandle
-        } else if let callbackEvent = callback(eventToHandle) {
-          handledEvent = callbackEvent
+        if let callbackEvent = callback(eventToHandle) {
+          NSApp.postEvent(callbackEvent, atStart: false)
         }
-
-        guard let handledEvent else {
-          continue
-        }
-
-        NSApp.postEvent(handledEvent, atStart: false)
       }
     }
   }
