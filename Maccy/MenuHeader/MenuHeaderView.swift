@@ -110,14 +110,6 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     fireNotification()
   }
 
-  private func processInterceptedEventRef(_ eventRef: EventRef) -> Bool {
-    guard let event = NSEvent(eventRef: UnsafeRawPointer(eventRef)) else {
-      return false
-    }
-
-    return processInterceptedEvent(event)
-  }
-
   private func processInterceptedEvent(_ event: NSEvent) -> Bool {
     if event.type != NSEvent.EventType.keyDown {
       return false
