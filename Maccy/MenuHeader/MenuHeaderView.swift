@@ -162,7 +162,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       }
     case .hide:
       customMenu?.cancelTracking()
-      return false
+      return true
     case .openPreferences:
       performMenuItemAction(MenuFooter.preferences.rawValue)
       return false
