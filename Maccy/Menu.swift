@@ -92,12 +92,16 @@ class Menu: NSMenu, NSMenuDelegate {
   func menuDidClose(_ menu: NSMenu) {
     isVisible = false
     offloadCurrentPreview()
-    if let headerView = items.first?.view as? MenuHeaderView {
+    if let headerView = menuHeader() {
       DispatchQueue.main.async {
         headerView.setQuery("")
         headerView.queryField.refusesFirstResponder = true
       }
     }
+  }
+
+  private func menuHeader() -> MenuHeaderView? {
+    return items.first?.view as? MenuHeaderView
   }
 
   // swiftlint:disable function_body_length
@@ -124,80 +128,58 @@ class Menu: NSMenu, NSMenuDelegate {
       previewPopover?.behavior = .semitransient
       previewPopover?.contentViewController = Preview(item: item.item)
 
-      guard let previewView = indexedItem.previewMenuItem.view else {
+      guard let previewView = indexedItem.previewMenuItem.view,
+            let previewWindow = menuWindow(of: previewView),
+            let windowContentView = previewWindow.contentView,
+            let boundsOfVisibleMenuItem = boundsOfMenuItem(item, windowContentView) else {
         return
       }
 
-      var previewWindow: NSWindow?
-      if #available(macOS 14, *) {
-        previewWindow = NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
-      } else {
-        // Check if the preview item is non-obstructed
-        // (which can e.g. happen is scrollable and the scroll arrow overlaps the item)
-        guard previewView.superview?.superview != nil else { return }
+      previewThrottle.minimumDelay = Menu.subsequentPreviewDelay
 
-        previewWindow = previewView.window
-      }
+      previewPopover?.show(
+        relativeTo: boundsOfVisibleMenuItem,
+        of: windowContentView,
+        preferredEdge: .maxX
+      )
 
-      if let previewWindow = previewWindow,
-         let windowContentView = previewWindow.contentView {
-        previewThrottle.minimumDelay = Menu.subsequentPreviewDelay
-
-        func getPrecedingView() -> NSView? {
-          for index in (0..<itemIndex).reversed() {
-            // PreviewMenuItem always has a view
-            let view = indexedItems[index].previewMenuItem.view!
-            // Check if preview item is visible (it may hidden by the saerch filter)
-            if view.window != nil {
-              return view
-            }
-          }
-          // If the item is the first visible one, the preceding view is the header.
-          guard let header = menu.items.first?.view as? MenuHeaderView? else {
-            // Should never happen as we always have a MenuHeader installed.
-            return nil
-          }
-          return header
-        }
-
-        guard let precedingView = getPrecedingView() else { return }
-
-        let bottomPoint = previewView.convert(
-          NSPoint(x: previewView.bounds.minX, y: previewView.bounds.maxY),
-          to: windowContentView
-        )
-        let topPoint = precedingView.convert(
-          NSPoint(x: previewView.bounds.minX, y: precedingView.bounds.minY),
-          to: windowContentView
-        )
-
-        let heightOfVisibleMenuItem = abs(topPoint.y - bottomPoint.y)
-        let boundsOfVisibleMenuItem = NSRect(
-          origin: bottomPoint,
-          size: NSSize(width: previewView.bounds.width, height: heightOfVisibleMenuItem)
-        )
-
-        previewPopover?.show(
-          relativeTo: boundsOfVisibleMenuItem,
-          of: windowContentView,
-          preferredEdge: .maxX
-        )
-
-        if let popoverWindow = previewPopover?.contentViewController?.view.window {
-          if popoverWindow.frame.minX < previewWindow.frame.minX {
-            popoverWindow.setFrameOrigin(
-              NSPoint(x: popoverWindow.frame.minX - Menu.popoverGap, y: popoverWindow.frame.minY)
-            )
-          } else {
-            popoverWindow.setFrameOrigin(
-              NSPoint(x: popoverWindow.frame.minX + Menu.popoverGap, y: popoverWindow.frame.minY)
-            )
-          }
+      if let popoverWindow = previewPopover?.contentViewController?.view.window {
+        if popoverWindow.frame.minX < previewWindow.frame.minX {
+          popoverWindow.setFrameOrigin(
+            NSPoint(x: popoverWindow.frame.minX - Menu.popoverGap, y: popoverWindow.frame.minY)
+          )
+        } else {
+          popoverWindow.setFrameOrigin(
+            NSPoint(x: popoverWindow.frame.minX + Menu.popoverGap, y: popoverWindow.frame.minY)
+          )
         }
       }
     }
   }
   // swiftlint:enable function_body_length
+
+  private func menuWindow(of previewView : NSView) -> NSWindow? {
+    if #available(macOS 14, *) {
+      return NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
+    } else {
+      // Check if the preview item is non-obstructed
+      // (which can e.g. happen is scrollable and the scroll arrow overlaps the item)
+      guard previewView.superview?.superview != nil else { return nil }
+
+      return previewView.window
+    }
+  }
+
+  private func boundsOfMenuItem(_ item : NSMenuItem, _ windowContentView: NSView) -> NSRect? {
+    let windowRectInScreenCoordinates = windowContentView.accessibilityFrame()
+    let menuItemRectInScreenCoordinates = item.accessibilityFrame()
+    return NSRect(
+      origin: NSPoint(
+        x: menuItemRectInScreenCoordinates.origin.x - windowRectInScreenCoordinates.origin.x,
+        y: menuItemRectInScreenCoordinates.origin.y - windowRectInScreenCoordinates.origin.y),
+      size: menuItemRectInScreenCoordinates.size
+    )
+  }
 
   func buildItems() {
     clearAll()
