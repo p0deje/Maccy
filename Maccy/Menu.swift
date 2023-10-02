@@ -219,6 +219,12 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func updateFilter(filter: String) {
+    RunLoop.main.perform(inModes: [RunLoop.Mode.eventTracking], block: {
+      self.updateFilterImpl(filter: filter)
+    })
+  }
+
+  func updateFilterImpl(filter: String) {
     var results = search.search(string: filter, within: indexedItems)
 
     // Strip the results that are longer than visible items.
