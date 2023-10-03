@@ -78,13 +78,35 @@ class Menu: NSMenu, NSMenuDelegate {
     self.minimumWidth = CGFloat(Menu.menuWidth)
   }
 
-  func menuWillOpen(_ menu: NSMenu) {
-    isVisible = true
-    previewThrottle.minimumDelay = initialPreviewDelay
-
+  func popUpMenu(at location: NSPoint) {
     updateUnpinnedItemsVisibility()
     setKeyEquivalents(historyMenuItems)
     highlight(firstVisibleUnpinnedHistoryMenuItem ?? historyMenuItems.first)
+
+    super.popUp(positioning: nil, at: location, in: nil)
+  }
+
+  func menuWillOpen(_ menu: NSMenu) {
+    isVisible = true
+    previewThrottle.minimumDelay = initialPreviewDelay
+  }
+
+  internal func adjustMenuWindowPosition() {
+    let frame : NSRect?
+    switch UserDefaults.standard.popupPosition {
+    case "center":
+      frame = NSScreen.forPopup?.visibleFrame
+    case "window":
+      frame = NSWorkspace.shared.frontmostApplication?.windowFrame
+    default:
+      frame = nil
+      break
+    }
+    if let frame = frame {
+      var centeredRect = NSRect.centered(ofSize: size, in: frame)
+      centeredRect.origin.y -= size.height
+      menuWindow()?.setFrameOrigin(centeredRect.origin)
+    }
   }
 
   func menuDidClose(_ menu: NSMenu) {

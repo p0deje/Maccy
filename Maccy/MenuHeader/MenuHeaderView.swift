@@ -57,6 +57,11 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     super.viewDidMoveToWindow()
 
     if window != nil && customMenu?.isVisible == true {
+      // Fix for Sonoma. The menu will report an icorrect height causing the popup to be
+      // This is the most conventient and earliest point possible to intercept and adjust the window location.
+      if #available(macOS 14, *) {
+        customMenu?.adjustMenuWindowPosition()
+      }
       eventMonitor.start()
     } else if window == nil && customMenu?.isVisible == false {
       eventMonitor.stop()
