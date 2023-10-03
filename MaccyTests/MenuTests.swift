@@ -55,7 +55,7 @@ class MenuTests: XCTestCase {
     UserDefaults.standard.removeFormattingByDefault = false
 
     menu.buildItems()
-    menu.menuWillOpen(menu)
+    menu.prepareForPopup(shouldAdjustLocationAfterwards: false)
 
     XCTAssertEqual(chunkedItems.count, 3)
     for (index, chunk) in chunkedItems.enumerated() {
@@ -82,7 +82,7 @@ class MenuTests: XCTestCase {
     UserDefaults.standard.removeFormattingByDefault = false
 
     menu.buildItems()
-    menu.menuWillOpen(menu)
+    menu.prepareForPopup(shouldAdjustLocationAfterwards: false)
 
     XCTAssertEqual(chunkedItems.count, 3)
     for (index, chunk) in chunkedItems.enumerated() {
@@ -109,7 +109,7 @@ class MenuTests: XCTestCase {
     UserDefaults.standard.removeFormattingByDefault = true
 
     menu.buildItems()
-    menu.menuWillOpen(menu)
+    menu.prepareForPopup(shouldAdjustLocationAfterwards: false)
 
     XCTAssertEqual(chunkedItems.count, 3)
     for (index, chunk) in chunkedItems.enumerated() {
@@ -136,7 +136,7 @@ class MenuTests: XCTestCase {
     UserDefaults.standard.removeFormattingByDefault = true
 
     menu.buildItems()
-    menu.menuWillOpen(menu)
+    menu.prepareForPopup(shouldAdjustLocationAfterwards: false)
 
     XCTAssertEqual(chunkedItems.count, 3)
     for (index, chunk) in chunkedItems.enumerated() {
