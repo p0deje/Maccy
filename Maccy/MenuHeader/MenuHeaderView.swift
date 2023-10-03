@@ -165,7 +165,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       return true
     case .openPreferences:
       performMenuItemAction(MenuFooter.preferences.rawValue)
-      return false
+      return true
     case .paste:
       queryField.becomeFirstResponder()
       queryField.currentEditor()?.paste(nil)
