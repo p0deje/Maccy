@@ -17,10 +17,10 @@ class Maccy: NSObject {
   private let history = History()
   private var menu: Menu!
   
-  internal var header: MenuHeaderView!
+  private var header: MenuHeaderView!
   private var headerItem: NSMenuItem!
-
   private var footerItems: [NSMenuItem]!
+  
   private var menuLoader: MenuLoader!
   private var window: NSWindow!
 
@@ -77,23 +77,20 @@ class Maccy: NSObject {
     super.init()
     initializeObservers()
 
-    menu = Menu(history: history, clipboard: Clipboard.shared)
-    menuLoader = MenuLoader(performStatusItemClick)
-
     header = (MenuHeader().view as! MenuHeaderView)
     headerItem = NSMenuItem()
     headerItem.title = "Maccy"
     headerItem.view = header
-    menu.addItem(headerItem)
-
 
     footerItems = MenuFooter.allCases.map({
       let item = $0.menuItem
       item.action = #selector(menuItemAction)
       item.target = self
-      self.menu.addItem(item)
       return item
     })
+
+    menu = Menu(history: history, clipboard: Clipboard.shared, headerItem: headerItem, footerItems: footerItems)
+    menuLoader = MenuLoader(performStatusItemClick)
 
     start()
   }
@@ -326,6 +323,7 @@ class Maccy: NSObject {
     if let buttonCell = statusItem.button?.cell as? NSButtonCell {
       withMenuButtonHighlighted(buttonCell) {
         self.linkingMenuToStatusItem {
+          self.menu.prepareForPopup()
           self.statusItem.button?.performClick(self)
         }
       }

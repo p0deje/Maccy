@@ -27,8 +27,7 @@ class MenuTests: XCTestCase {
     ]
     historyItems.forEach(history.add(_:))
 
-    menu = Menu(history: history, clipboard: clipboard)
-    menu.addItem(NSMenuItem(title: "Search", action: nil, keyEquivalent: ""))
+    menu = Menu(history: history, clipboard: clipboard, headerItem: NSMenuItem(title: "Search", action: nil, keyEquivalent: ""), footerItems: [])
   }
 
   override func tearDown() {
@@ -55,7 +54,7 @@ class MenuTests: XCTestCase {
     UserDefaults.standard.removeFormattingByDefault = false
 
     menu.buildItems()
-    menu.menuWillOpen(menu)
+    menu.prepareForPopup()
 
     XCTAssertEqual(chunkedItems.count, 3)
     for (index, chunk) in chunkedItems.enumerated() {
@@ -82,7 +81,7 @@ class MenuTests: XCTestCase {
     UserDefaults.standard.removeFormattingByDefault = false
 
     menu.buildItems()
-    menu.menuWillOpen(menu)
+    menu.prepareForPopup()
 
     XCTAssertEqual(chunkedItems.count, 3)
     for (index, chunk) in chunkedItems.enumerated() {
@@ -109,7 +108,7 @@ class MenuTests: XCTestCase {
     UserDefaults.standard.removeFormattingByDefault = true
 
     menu.buildItems()
-    menu.menuWillOpen(menu)
+    menu.prepareForPopup()
 
     XCTAssertEqual(chunkedItems.count, 3)
     for (index, chunk) in chunkedItems.enumerated() {
@@ -136,7 +135,7 @@ class MenuTests: XCTestCase {
     UserDefaults.standard.removeFormattingByDefault = true
 
     menu.buildItems()
-    menu.menuWillOpen(menu)
+    menu.prepareForPopup()
 
     XCTAssertEqual(chunkedItems.count, 3)
     for (index, chunk) in chunkedItems.enumerated() {

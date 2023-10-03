@@ -44,6 +44,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private let historyMenuItemOffset = 1 // The first item is reserved for header.
   private let historyMenuItemsGroup = 3 // 1 main and 2 alternates
+  private var footerMenuItemCount = 0
 
   private var clipboard: Clipboard!
   private var history: History!
@@ -69,26 +70,33 @@ class Menu: NSMenu, NSMenuDelegate {
     super.init(coder: decoder)
   }
 
-  init(history: History, clipboard: Clipboard) {
+  init(history: History, clipboard: Clipboard, headerItem : NSMenuItem, footerItems: [NSMenuItem]) {
     super.init(title: "Maccy")
 
     self.history = history
     self.clipboard = clipboard
     self.delegate = self
     self.minimumWidth = CGFloat(Menu.menuWidth)
+    self.footerMenuItemCount = footerItems.count
+
+    addItem(headerItem)
+    footerItems.forEach(addItem)
   }
 
   func popUpMenu(at location: NSPoint) {
+    prepareForPopup()
+    super.popUp(positioning: nil, at: location, in: nil)
+  }
+
+  func prepareForPopup() {
     updateUnpinnedItemsVisibility()
     setKeyEquivalents(historyMenuItems)
-    highlight(firstVisibleUnpinnedHistoryMenuItem ?? historyMenuItems.first)
-
-    super.popUp(positioning: nil, at: location, in: nil)
   }
 
   func menuWillOpen(_ menu: NSMenu) {
     isVisible = true
     previewThrottle.minimumDelay = initialPreviewDelay
+    highlight(firstVisibleUnpinnedHistoryMenuItem ?? historyMenuItems.first)
   }
 
   internal func adjustMenuWindowPosition() {
@@ -511,11 +519,10 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func appendUnpinnedItemsUntilLimit(_ currentCount: Int) {
     var currentCount = currentCount
-    let footerItemsCount = MenuFooter.allCases.count
 
     for indexedItem in indexedItems.filter({ $0.item.pin == nil }) {
       indexedItem.menuItems.forEach { historyMenuItem in
-        safeInsertItem(historyMenuItem, at: items.count - footerItemsCount)
+        safeInsertItem(historyMenuItem, at: items.count - footerMenuItemCount)
         currentCount += 1
       }
 
