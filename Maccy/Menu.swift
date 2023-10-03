@@ -143,7 +143,7 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func menuWindow() -> NSWindow? {
+  func menuWindow() -> NSWindow? {
     return NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
   }
 
@@ -170,7 +170,6 @@ class Menu: NSMenu, NSMenuDelegate {
           menuItems: menuItems
         )
         indexedItems.append(indexedItem)
-        menuItems.forEach(safeAddItem)
       }
     }
   }
@@ -212,6 +211,10 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func clearAll() {
     clear(indexedItems)
+  }
+
+  func removeAllHistoryItems() {
+    historyMenuItems.forEach(removeItem)
   }
 
   func clearUnpinned() {
@@ -388,7 +391,7 @@ class Menu: NSMenu, NSMenuDelegate {
     let historyMenuItemsCount = historyMenuItems.filter({ !$0.isPinned }).count
 
     if maxVisibleItems > 0 {
-      if maxVisibleItems <= historyMenuItemsCount {
+      if maxVisibleItems < historyMenuItemsCount {
         hideUnpinnedItemsOverLimit(historyMenuItemsCount)
       } else if maxVisibleItems > historyMenuItemsCount {
         appendUnpinnedItemsUntilLimit(historyMenuItemsCount)
@@ -470,36 +473,31 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func hideUnpinnedItemsOverLimit(_ limit: Int) {
-    var limit = limit
+  private func hideUnpinnedItemsOverLimit(_ currentCount: Int) {
+    var currentCount = currentCount
     for indexedItem in indexedItems.filter({ $0.item.pin == nil }).reversed() {
-      let menuItems = indexedItem.menuItems.filter({ historyMenuItems.contains($0) })
-      if !menuItems.isEmpty {
-        menuItems.forEach { historyMenuItem in
-          safeRemoveItem(historyMenuItem)
-          limit -= 1
-        }
+      indexedItem.menuItems.forEach { historyMenuItem in
+        safeRemoveItem(historyMenuItem)
+        currentCount -= 1
       }
 
-      if maxVisibleItems != 0 && maxVisibleItems == limit {
+      if maxVisibleItems != 0 && maxVisibleItems == currentCount {
         return
       }
     }
   }
 
-  private func appendUnpinnedItemsUntilLimit(_ limit: Int) {
-    var limit = limit
+  private func appendUnpinnedItemsUntilLimit(_ currentCount: Int) {
+    var currentCount = currentCount
+    let footerItemsCount = MenuFooter.allCases.count
+
     for indexedItem in indexedItems.filter({ $0.item.pin == nil }) {
-      let menuItems = indexedItem.menuItems.filter({ !historyMenuItems.contains($0) })
-      if !menuItems.isEmpty, let lastItem = lastUnpinnedHistoryMenuItem {
-        let index = index(of: lastItem) + 1
-        menuItems.reversed().forEach { historyMenuItem in
-          safeInsertItem(historyMenuItem, at: index)
-          limit += 1
-        }
+      indexedItem.menuItems.forEach { historyMenuItem in
+        safeInsertItem(historyMenuItem, at: items.count - footerItemsCount)
+        currentCount += 1
       }
 
-      if maxVisibleItems != 0 && maxVisibleItems == limit {
+      if maxVisibleItems != 0 && maxVisibleItems == currentCount {
         return
       }
     }

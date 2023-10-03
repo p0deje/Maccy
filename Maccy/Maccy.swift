@@ -16,6 +16,11 @@ class Maccy: NSObject {
   private let clipboard = Clipboard.shared
   private let history = History()
   private var menu: Menu!
+  
+  internal var header: MenuHeaderView!
+  private var headerItem: NSMenuItem!
+
+  private var footerItems: [NSMenuItem]!
   private var menuLoader: MenuLoader!
   private var window: NSWindow!
 
@@ -74,6 +79,22 @@ class Maccy: NSObject {
 
     menu = Menu(history: history, clipboard: Clipboard.shared)
     menuLoader = MenuLoader(performStatusItemClick)
+
+    header = (MenuHeader().view as! MenuHeaderView)
+    headerItem = NSMenuItem()
+    headerItem.title = "Maccy"
+    headerItem.view = header
+    menu.addItem(headerItem)
+
+
+    footerItems = MenuFooter.allCases.map({
+      let item = $0.menuItem
+      item.action = #selector(menuItemAction)
+      item.target = self
+      self.menu.addItem(item)
+      return item
+    })
+
     start()
   }
 
@@ -174,19 +195,12 @@ class Maccy: NSObject {
     clipboard.onNewCopy(updateMenuTitle)
     clipboard.startListening()
 
-    populateHeader()
+    updateHeaderVisibility()
+    updateFooterVisibility()
+
     populateItems()
-    populateFooter()
 
     updateStatusItemEnabledness()
-  }
-
-  private func populateHeader() {
-    let headerItem = NSMenuItem()
-    headerItem.title = "Maccy"
-    headerItem.view = MenuHeader().view
-
-    menu.addItem(headerItem)
   }
 
   private func populateItems() {
@@ -195,12 +209,27 @@ class Maccy: NSObject {
     updateMenuTitle()
   }
 
-  private func populateFooter() {
-    MenuFooter.allCases.map({ $0.menuItem }).forEach({ item in
-      item.action = #selector(menuItemAction)
-      item.target = self
-      menu.addItem(item)
-    })
+  var isHeaderVisible : Bool {
+    return !UserDefaults.standard.hideSearch
+  }
+
+  func updateHeaderVisibility() {
+    self.headerItem.isHidden = !isHeaderVisible
+  }
+
+  var isFooterVisible : Bool {
+    return !UserDefaults.standard.hideFooter
+  }
+
+  var itemsInFooter : Int {
+    return footerItems.count
+  }
+
+  func updateFooterVisibility() {
+    footerItems.forEach { item in
+      item.isAlternate = isFooterVisible
+      item.isHidden = !isFooterVisible
+    }
   }
 
   @objc
@@ -256,11 +285,8 @@ class Maccy: NSObject {
 
   private func rebuild() {
     menu.clearAll()
-    menu.removeAllItems()
-
-    populateHeader()
+    menu.removeAllHistoryItems()
     populateItems()
-    populateFooter()
   }
 
   private func updateMenuTitle(_ item: HistoryItem? = nil) {
@@ -395,13 +421,13 @@ class Maccy: NSObject {
       CoreDataManager.shared.saveContext()
     }
     hideFooterObserver = UserDefaults.standard.observe(\.hideFooter, options: .new) { _, _ in
-      self.rebuild()
+      self.updateFooterVisibility()
     }
     hideSearchObserver = UserDefaults.standard.observe(\.hideSearch, options: .new) { _, _ in
-      self.rebuild()
+      self.updateHeaderVisibility()
     }
     hideTitleObserver = UserDefaults.standard.observe(\.hideTitle, options: .new) { _, _ in
-      self.rebuild()
+      self.header.updateTitleVisibility()
     }
     pasteByDefaultObserver = UserDefaults.standard.observe(\.pasteByDefault, options: .new) { _, _ in
       self.rebuild()

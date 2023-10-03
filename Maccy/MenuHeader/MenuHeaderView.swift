@@ -8,7 +8,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
 
   @IBOutlet weak var horizontalLeftPadding: NSLayoutConstraint!
   @IBOutlet weak var horizontalRightPadding: NSLayoutConstraint!
-  @IBOutlet weak var titleAndSearchSpacing: NSLayoutConstraint!
+  @IBOutlet var titleAndSearchSpacing: NSLayoutConstraint!
 
   private let macOSXLeftPadding: CGFloat = 20.0
   private let macOSXRightPadding: CGFloat = 10.0
@@ -44,14 +44,13 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       horizontalRightPadding.constant = macOSXRightPadding
     }
 
-    if UserDefaults.standard.hideTitle {
-      titleField.isHidden = true
-      removeConstraint(titleAndSearchSpacing)
-    }
+    updateTitleVisibility()
+  }
 
-    if UserDefaults.standard.hideSearch {
-      constraints.forEach(removeConstraint)
-    }
+  func updateTitleVisibility() {
+    let hidden = UserDefaults.standard.hideTitle
+    titleField.isHidden = hidden
+    titleAndSearchSpacing.isActive = !hidden
   }
 
   override func viewDidMoveToWindow() {
