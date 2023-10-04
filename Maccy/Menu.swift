@@ -191,6 +191,8 @@ class Menu: NSMenu, NSMenuDelegate {
   func buildItems() {
     clearAll()
 
+    var insertionIndex = historyMenuItemOffset
+
     for item in history.all {
       let menuItems = buildMenuItems(item)
       if let menuItem = menuItems.first {
@@ -200,8 +202,17 @@ class Menu: NSMenu, NSMenuDelegate {
           menuItems: menuItems
         )
         indexedItems.append(indexedItem)
+
+        if menuItem.isPinned {
+          menuItems.forEach { mi in
+            insertItem(mi, at: insertionIndex)
+            insertionIndex += 1
+          }
+        }
       }
     }
+
+    updateUnpinnedItemsVisibility()
   }
 
   func add(_ item: HistoryItem) {
@@ -398,7 +409,9 @@ class Menu: NSMenu, NSMenuDelegate {
       }
 
       updateFilter(filter: "") // show all items
-      highlight(historyItem.menuItems[1])
+      RunLoop.main.perform(inModes: [.eventTracking], block: {
+        self.highlight(historyItem.menuItems[1])
+      })
     }
 
     return true
@@ -454,11 +467,9 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func highlight(_ itemToHighlight: NSMenuItem?) {
-    if #available(macOS 14, *) {
-      DispatchQueue.main.async { self.highlightItem(itemToHighlight) }
-    } else {
-      highlightItem(itemToHighlight)
-    }
+    RunLoop.main.perform(inModes: [.eventTracking], block: {
+      self.highlightItem(itemToHighlight)
+    })
   }
 
   private func highlightItem(_ itemToHighlight: NSMenuItem?) {
@@ -511,7 +522,7 @@ class Menu: NSMenu, NSMenuDelegate {
         currentCount -= 1
       }
 
-      if maxVisibleItems != 0 && maxVisibleItems == currentCount {
+      if maxVisibleItems != 0 && maxVisibleItems >= currentCount {
         return
       }
     }
@@ -526,7 +537,7 @@ class Menu: NSMenu, NSMenuDelegate {
         currentCount += 1
       }
 
-      if maxVisibleItems != 0 && maxVisibleItems == currentCount {
+      if maxVisibleItems != 0 && maxVisibleItems <= currentCount {
         return
       }
     }
