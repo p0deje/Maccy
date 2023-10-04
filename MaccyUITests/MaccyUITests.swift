@@ -71,7 +71,7 @@ class MaccyUITests: XCTestCase {
     popUpWithMouse()
     let copy3 = UUID().uuidString
     copyToClipboard(copy3)
-    assertNotVisible(app.menuItems[copy3])
+    assertNotExists(app.menuItems[copy3])
     app.typeKey(.escape, modifierFlags: [])
     popUpWithMouse()
     assertExists(app.menuItems[copy2])
@@ -457,11 +457,6 @@ class MaccyUITests: XCTestCase {
 
   private func assertNotExists(_ element: XCUIElement) {
     expectation(for: NSPredicate(format: "exists = 0"), evaluatedWith: element)
-    waitForExpectations(timeout: 3)
-  }
-
-  private func assertNotVisible(_ element: XCUIElement) {
-    expectation(for: NSPredicate(format: "(exists = 0) OR (isHittable = 0)"), evaluatedWith: element)
     waitForExpectations(timeout: 3)
   }
 

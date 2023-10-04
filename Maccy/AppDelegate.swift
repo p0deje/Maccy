@@ -27,7 +27,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     migrateUserDefaults()
     clearOrphanRecords()
 
-    maccy = Maccy()
+    maccy = Maccy.shared
     hotKey = GlobalHotKey(maccy.popUp)
   }
 

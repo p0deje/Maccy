@@ -6,8 +6,11 @@ class Clipboard {
 
   typealias OnNewCopyHook = (HistoryItem) -> Void
 
-  var onNewCopyHooks: [OnNewCopyHook] = []
+  private var onNewCopyHooks: [OnNewCopyHook] = []
+  private var syncOnNewCopyHooks: [OnNewCopyHook] = []
   var changeCount: Int
+
+  private var eventQueue: [HistoryItem] = []
 
   private let pasteboard = NSPasteboard.general
   private let timerInterval = 1.0
@@ -53,8 +56,17 @@ class Clipboard {
     changeCount = pasteboard.changeCount
   }
 
-  func onNewCopy(_ hook: @escaping OnNewCopyHook) {
-    onNewCopyHooks.append(hook)
+  func onNewCopy(delayUntilPopupIsClosed: Bool = false, _ hook: @escaping OnNewCopyHook) {
+    if !delayUntilPopupIsClosed {
+      syncOnNewCopyHooks.append(hook)
+    } else {
+      onNewCopyHooks.append(hook)
+    }
+  }
+
+  func clearHooks() {
+    syncOnNewCopyHooks = []
+    onNewCopyHooks = []
   }
 
   func startListening() {
@@ -196,7 +208,22 @@ class Clipboard {
     }
 
     let historyItem = HistoryItem(contents: contents, application: sourceApp?.bundleIdentifier)
-    onNewCopyHooks.forEach({ $0(historyItem) })
+    dispatchHistoryEvent(item: historyItem)
+  }
+
+  private func dispatchHistoryEvent(item : HistoryItem) {
+    syncOnNewCopyHooks.forEach({ $0(item) })
+    if Maccy.shared.isVisible {
+      eventQueue.append(item)
+    } else {
+      onNewCopyHooks.forEach({ $0(item) })
+    }
+  }
+
+  public func processEvents() {
+    eventQueue.forEach { item in
+      onNewCopyHooks.forEach({ $0(item) })
+    }
   }
 
   private func shouldIgnore(_ types: Set<NSPasteboard.PasteboardType>) -> Bool {

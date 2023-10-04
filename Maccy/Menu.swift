@@ -122,6 +122,7 @@ class Menu: NSMenu, NSMenuDelegate {
         headerView.queryField.refusesFirstResponder = true
       }
     }
+    Clipboard.shared.processEvents()
   }
 
   private func menuHeader() -> MenuHeaderView? {
@@ -289,12 +290,11 @@ class Menu: NSMenu, NSMenuDelegate {
   func select(_ searchQuery: String) {
     if let item = highlightedItem {
       performActionForItem(at: index(of: item))
-      cancelTrackingWithoutAnimation()
     } else if !searchQuery.isEmpty && historyMenuItems.isEmpty {
       clipboard.copy(searchQuery)
       updateFilter(filter: searchQuery)
-      select(searchQuery)
     }
+    cancelTrackingWithoutAnimation()
   }
 
   func select(position: Int) -> String? {
@@ -444,9 +444,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func highlight(_ itemToHighlight: NSMenuItem?) {
     if #available(macOS 14, *) {
-      ensureInEventTrackingModeIfVisible {
-        self.highlightItem(itemToHighlight)
-      }
+      DispatchQueue.main.async { self.highlightItem(itemToHighlight) }
     } else {
       highlightItem(itemToHighlight)
     }
@@ -599,8 +597,8 @@ class Menu: NSMenu, NSMenuDelegate {
     previewPopover = nil
   }
 
-  private func ensureInEventTrackingModeIfVisible(block: @escaping () -> Void) {
-    if isVisible && (RunLoop.current != RunLoop.main || RunLoop.current.currentMode != .eventTracking)  {
+  private func ensureInEventTrackingModeIfVisible(dispatchLater: Bool = false, block: @escaping () -> Void) {
+    if isVisible && (dispatchLater || RunLoop.current != RunLoop.main || RunLoop.current.currentMode != .eventTracking)  {
       RunLoop.main.perform(inModes: [.eventTracking], block: block)
     } else {
       block()

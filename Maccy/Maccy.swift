@@ -5,6 +5,7 @@ import Preferences
 // swiftlint:disable file_length
 // swiftlint:disable type_body_length
 class Maccy: NSObject {
+  static let shared = Maccy()
   static var returnFocusToPreviousApp = true
 
   @objc let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -94,6 +95,10 @@ class Maccy: NSObject {
     statusItemChangeObserver?.invalidate()
   }
 
+  var isVisible : Bool {
+    return menu.isVisible
+  }
+
   func popUp() {
     // Grab focused window frame before changing focus
     let windowFrame = NSWorkspace.shared.frontmostApplication?.windowFrame
@@ -170,7 +175,7 @@ class Maccy: NSObject {
     updateStatusMenuIcon(UserDefaults.standard.menuIcon)
 
     clipboard.onNewCopy(history.add)
-    clipboard.onNewCopy(menu.add)
+    clipboard.onNewCopy(delayUntilPopupIsClosed: true, menu.add)
     clipboard.onNewCopy(updateMenuTitle)
     clipboard.startListening()
 
