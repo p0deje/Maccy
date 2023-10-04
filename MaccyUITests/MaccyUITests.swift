@@ -435,7 +435,9 @@ class MaccyUITests: XCTestCase {
   }
 
   private func search(_ string: String) {
-    app.typeText(string)
+    string.forEach { char in
+      app.typeKey("\(char)", modifierFlags: [])
+    }
     waitForSearch()
   }
 
