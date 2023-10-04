@@ -6,7 +6,7 @@ class Clipboard {
 
   typealias OnNewCopyHook = (HistoryItem) -> Void
 
-  var onNewCopyHooks: [OnNewCopyHook] = []
+  private var onNewCopyHooks: [OnNewCopyHook] = []
   var changeCount: Int
 
   private let pasteboard = NSPasteboard.general
@@ -55,6 +55,10 @@ class Clipboard {
 
   func onNewCopy(_ hook: @escaping OnNewCopyHook) {
     onNewCopyHooks.append(hook)
+  }
+
+  func clearHooks() {
+    onNewCopyHooks = []
   }
 
   func startListening() {

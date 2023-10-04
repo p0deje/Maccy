@@ -94,6 +94,10 @@ class Maccy: NSObject {
     statusItemChangeObserver?.invalidate()
   }
 
+  var isVisible : Bool {
+    return menu.isVisible
+  }
+
   func popUp() {
     // Grab focused window frame before changing focus
     let windowFrame = NSWorkspace.shared.frontmostApplication?.windowFrame

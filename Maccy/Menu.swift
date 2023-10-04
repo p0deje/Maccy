@@ -22,7 +22,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   public let maxHotKey = 9
 
-  public var isVisible: Bool!
+  public var isVisible: Bool = false
 
   public var firstUnpinnedHistoryMenuItem: HistoryMenuItem? {
     historyMenuItems.first(where: { !$0.isPinned })
@@ -217,23 +217,25 @@ class Menu: NSMenu, NSMenuDelegate {
       menuItems: menuItems
     )
     indexedItems.insert(indexedItem, at: insertionIndex)
-
-    var menuItemInsertionIndex = insertionIndex
-    // Keep pins on the same place.
-    if item.pin != nil {
-      if let index = historyMenuItems.firstIndex(where: { item.supersedes($0.item) }) {
-        menuItemInsertionIndex = index
+    
+    ensureInEventTrackingModeIfVisible {
+      var menuItemInsertionIndex = insertionIndex
+      // Keep pins on the same place.
+      if item.pin != nil {
+        if let index = self.historyMenuItems.firstIndex(where: { item.supersedes($0.item) }) {
+          menuItemInsertionIndex = index
+        }
+      } else {
+        menuItemInsertionIndex *= self.historyMenuItemsGroup
       }
-    } else {
-      menuItemInsertionIndex *= historyMenuItemsGroup
-    }
+      menuItemInsertionIndex += self.historyMenuItemOffset
 
-    menuItemInsertionIndex += historyMenuItemOffset
-    for menuItem in menuItems.reversed() {
-      safeInsertItem(menuItem, at: menuItemInsertionIndex)
-    }
+      for menuItem in menuItems.reversed() {
+        self.safeInsertItem(menuItem, at: menuItemInsertionIndex)
+      }
 
-    clearRemovedItems()
+      self.clearRemovedItems()
+    }
   }
 
   func clearAll() {
@@ -287,12 +289,11 @@ class Menu: NSMenu, NSMenuDelegate {
   func select(_ searchQuery: String) {
     if let item = highlightedItem {
       performActionForItem(at: index(of: item))
-      cancelTrackingWithoutAnimation()
     } else if !searchQuery.isEmpty && historyMenuItems.isEmpty {
       clipboard.copy(searchQuery)
       updateFilter(filter: searchQuery)
-      select(searchQuery)
     }
+    cancelTrackingWithoutAnimation()
   }
 
   func select(position: Int) -> String? {
@@ -593,6 +594,14 @@ class Menu: NSMenu, NSMenuDelegate {
     previewThrottle.cancel()
     previewPopover?.close()
     previewPopover = nil
+  }
+
+  private func ensureInEventTrackingModeIfVisible(dispatchLater: Bool = false, block: @escaping () -> Void) {
+    if isVisible && (dispatchLater || RunLoop.current != RunLoop.main || RunLoop.current.currentMode != .eventTracking)  {
+      RunLoop.main.perform(inModes: [.eventTracking], block: block)
+    } else {
+      block()
+    }
   }
 }
 // swiftlint:enable type_body_length
