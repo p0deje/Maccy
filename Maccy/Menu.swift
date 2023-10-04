@@ -247,6 +247,10 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func updateFilter(filter: String) {
+    let window = menuWindow()
+    var savedTopLeft = window?.frame.origin ?? NSPoint()
+    savedTopLeft.y += window?.frame.height ?? 0.0
+
     var results = search.search(string: filter, within: indexedItems)
 
     // Strip the results that are longer than visible items.
@@ -284,6 +288,11 @@ class Menu: NSMenu, NSMenuDelegate {
 
     setKeyEquivalents(historyMenuItems)
     highlight(filter.isEmpty ? firstUnpinnedHistoryMenuItem : historyMenuItems.first)
+
+    ensureInEventTrackingModeIfVisible(dispatchLater: true) {
+      let window = self.menuWindow()
+      window?.setFrameTopLeftPoint(savedTopLeft)
+    }
   }
 
   func select(_ searchQuery: String) {
