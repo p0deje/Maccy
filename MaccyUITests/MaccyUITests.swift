@@ -71,7 +71,7 @@ class MaccyUITests: XCTestCase {
     popUpWithMouse()
     let copy3 = UUID().uuidString
     copyToClipboard(copy3)
-    assertNotExists(app.menuItems[copy3])
+    assertNotVisible(app.menuItems[copy3])
     app.typeKey(.escape, modifierFlags: [])
     popUpWithMouse()
     assertExists(app.menuItems[copy2])
@@ -120,6 +120,8 @@ class MaccyUITests: XCTestCase {
     popUpWithMouse()
     search(copy2)
     app.typeKey("1", modifierFlags: [.command])
+    // FIXME: Test is flaky
+    sleep(1)
     XCTAssertEqual(pasteboard.string(forType: .string), copy2)
   }
 
@@ -435,12 +437,17 @@ class MaccyUITests: XCTestCase {
   }
 
   private func search(_ string: String) {
-    app.typeText(string)
+    // NOTE: app.typeText is broken in Sonoma and causes some
+    //       Chars to be submitted with a .command mask (e.g. 'p', 'k' or 'j')
+    string.forEach { ch in
+      app.typeKey("\(ch)", modifierFlags: [])
+    }
     waitForSearch()
   }
 
   private func waitForSearch() {
-    usleep(250000) // wait for search throttle
+    // FIXME: This is a hack and is flaky. Ideally we should wait for a proper condition to detect that search has settled down.
+    usleep(500000) // wait for search throttle
   }
 
   private func assertExists(_ element: XCUIElement) {
@@ -450,6 +457,11 @@ class MaccyUITests: XCTestCase {
 
   private func assertNotExists(_ element: XCUIElement) {
     expectation(for: NSPredicate(format: "exists = 0"), evaluatedWith: element)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertNotVisible(_ element: XCUIElement) {
+    expectation(for: NSPredicate(format: "(exists = 0) || (isHittable = 0)"), evaluatedWith: element)
     waitForExpectations(timeout: 3)
   }
 
