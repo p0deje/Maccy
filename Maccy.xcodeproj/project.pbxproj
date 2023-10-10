@@ -27,7 +27,6 @@
 		DA196A9028AB0A6800ADD8A2 /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA196A8E28AB0A6800ADD8A2 /* MenuHeader.swift */; };
 		DA196A9128AB0A6800ADD8A2 /* MenuHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA196A8F28AB0A6800ADD8A2 /* MenuHeader.xib */; };
 		DA196A9328AB0D4500ADD8A2 /* MenuHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA196A9228AB0D4500ADD8A2 /* MenuHeaderView.swift */; };
-		DA19F18A29847FF00091F26C /* PreviewMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19F18929847FF00091F26C /* PreviewMenuItem.swift */; };
 		DA19F18F2984943E0091F26C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19F18D2984943E0091F26C /* Preview.swift */; };
 		DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1B0FD5289DFEA200E641BE /* PinComboBoxCell.swift */; };
 		DA1DF95227AF8BBA006839E0 /* StoragePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1DF95127AF8BBA006839E0 /* StoragePreferenceViewController.swift */; };
@@ -221,7 +220,6 @@
 		DA196A8E28AB0A6800ADD8A2 /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
 		DA196A8F28AB0A6800ADD8A2 /* MenuHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuHeader.xib; sourceTree = "<group>"; };
 		DA196A9228AB0D4500ADD8A2 /* MenuHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeaderView.swift; sourceTree = "<group>"; };
-		DA19F18929847FF00091F26C /* PreviewMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewMenuItem.swift; sourceTree = "<group>"; };
 		DA19F18D2984943E0091F26C /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		DA1B0FD5289DFEA200E641BE /* PinComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinComboBoxCell.swift; sourceTree = "<group>"; };
 		DA1DF95127AF8BBA006839E0 /* StoragePreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoragePreferenceViewController.swift; sourceTree = "<group>"; };
@@ -605,7 +603,6 @@
 				DAF65F4724D396FE00F3978F /* CopyMenuItem.swift */,
 				DAF65F4624D396FE00F3978F /* PasteMenuItem.swift */,
 				DAF65F4524D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift */,
-				DA19F18929847FF00091F26C /* PreviewMenuItem.swift */,
 			);
 			path = HistoryMenuItem;
 			sourceTree = "<group>";
@@ -882,7 +879,6 @@
 				DA81D674252A056B009977BC /* Throttler.swift in Sources */,
 				DA196A9328AB0D4500ADD8A2 /* MenuHeaderView.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
-				DA19F18A29847FF00091F26C /* PreviewMenuItem.swift in Sources */,
 				DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */,
 				DA1DF95227AF8BBA006839E0 /* StoragePreferenceViewController.swift in Sources */,
 				DA2C752C2029FE990090965D /* Menu.swift in Sources */,
