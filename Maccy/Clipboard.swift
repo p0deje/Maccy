@@ -172,6 +172,7 @@ class Clipboard {
         return
       }
     }
+      
 
     // Some applications (BBEdit, Edge) add 2 items to pasteboard when copying
     // so it's better to merge all data into a single record.
@@ -183,6 +184,11 @@ class Clipboard {
       if types.contains(.string) && isEmptyString(item) && !richText(item) {
         return
       }
+        
+        if shouldIgnore(item){
+            return
+        }
+
 
       contents += types
         .subtracting(disabledTypes)
@@ -214,6 +220,23 @@ class Clipboard {
       return UserDefaults.standard.ignoredApps.contains(sourceAppBundle)
     }
   }
+
+    private func shouldIgnore(_ item: NSPasteboardItem) -> Bool {
+        for regexp in UserDefaults.standard.ignoreRegexp{
+            if let string = item.string(forType: .string) {
+                do {
+                    let regex = try NSRegularExpression(pattern: regexp)
+                    if regex.numberOfMatches(in: string, range: NSRange(string.startIndex..., in: string)) > 0{
+                        return true
+                    }
+                }
+                catch {
+                    return false
+                }
+            }
+        }
+        return false
+    }
 
   private func isEmptyString(_ item: NSPasteboardItem) -> Bool {
     guard let string = item.string(forType: .string) else {
