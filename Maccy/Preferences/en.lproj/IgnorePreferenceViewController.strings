@@ -36,5 +36,6 @@
 "L9O-de-BED.headerCell.title" = "Regex Strings";
 
 /* Class = "NSTextFieldCell"; headerCell.title = "It's possible to ignore certain pasteboard items from remebering based on defined regex strings. Create strings using standard regex."; ObjectID = "FqC-BY-av4"; */
-"FqC-BY-av4.title" = "Il est possible d'ignorer certains éléments du carton de mémorisation en fonction des chaînes d'expression régulière définies. Créez des chaînes à l’aide d’une expression régulière standard.";
+"FqC-BY-av4.title" = "It's possible to ignore certain pasteboard items from remebering based on defined regex strings. Create strings using standard regex.";
+
 
