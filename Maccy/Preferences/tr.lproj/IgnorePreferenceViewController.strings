@@ -21,3 +21,9 @@
 
 /* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "bPI-gF-DM1"; */
 "bPI-gF-DM1.title" = "Listelenenler dışındaki tüm uygulamaları yoksay";
+
+/* Class = "NSTableColumn"; headerCell.title = "Regex Strings"; ObjectID = "L9O-de-BED"; */
+"L9O-de-BED.headerCell.title" = "Regex Dizeleri";
+
+/* Class = "NSTextFieldCell"; headerCell.title = "It's possible to ignore certain pasteboard items from remebering based on defined regex strings. Create strings using standard regex."; ObjectID = "FqC-BY-av4"; */
+"FqC-BY-av4.title" = "Belirli çalışma alanı öğelerinin, tanımlanmış normal ifade dizelerine göre hatırlanmasını göz ardı etmek mümkündür. Standart normal ifadeyi kullanarak dizeler oluşturun.";

@@ -1,0 +1,40 @@
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard items from remebering based on defined regex strings. Create strings using standard regex.\n"; ObjectID = "FqC-BY-av4"; */
+"FqC-BY-av4.title" = "It's possible to ignore certain pasteboard items from remebering based on defined regex strings. Create strings using standard regex.\n";
+
+/* Class = "NSTableColumn"; headerCell.title = "Regex strings"; ObjectID = "L9O-de-BED"; */
+"L9O-de-BED.headerCell.title" = "Regex strings";
+
+/* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "PDj-Nr-Ubl"; */
+"PDj-Nr-Ubl.headerCell.title" = "Pasteboard types";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "PFf-uU-3co"; */
+"PFf-uU-3co.title" = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want.";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "aYl-Dc-4rx"; */
+"aYl-Dc-4rx.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "at1-VF-wpg"; */
+"at1-VF-wpg.title" = "Table View Cell";
+
+/* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "bPI-gF-DM1"; */
+"bPI-gF-DM1.title" = "Ignore all applications except listed";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "bVW-Cb-ulw"; */
+"bVW-Cb-ulw.title" = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible.";
+
+/* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "e5t-lA-7er"; */
+"e5t-lA-7er.headerCell.title" = "Applications";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "eG1-h6-6Pr"; */
+"eG1-h6-6Pr.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "tWx-xL-UB5"; */
+"tWx-xL-UB5.title" = "Text Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Regex Strings"; ObjectID = "L9O-de-BED"; */
+"L9O-de-BED.headerCell.title" = "Regex Strings";
+
+/* Class = "NSTextFieldCell"; headerCell.title = "It's possible to ignore certain pasteboard items from remebering based on defined regex strings. Create strings using standard regex."; ObjectID = "FqC-BY-av4"; */
+"FqC-BY-av4.title" = "Il est possible d'ignorer certains éléments du carton de mémorisation en fonction des chaînes d'expression régulière définies. Créez des chaînes à l’aide d’une expression régulière standard.";
+
