@@ -24,6 +24,11 @@ class Preview: NSViewController {
       // Preserver image aspect ratio
       let aspect = image.size.height / image.size.width
       imageView.heightAnchor.constraint(equalTo: imageView.widthAnchor, multiplier: aspect).isActive = true
+      imageView.wantsLayer = true
+      imageView.layer?.borderWidth = 1.0
+      imageView.layer?.borderColor = NSColor.separatorColor.cgColor
+      imageView.layer?.cornerRadius = 7.0
+      imageView.layer?.masksToBounds = true
     } else if let fileURL = item.fileURL,
               let string = fileURL.absoluteString.removingPercentEncoding {
       imageView.removeFromSuperview()
