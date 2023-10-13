@@ -1,9 +1,9 @@
 import Cocoa
-import Preferences
+import Settings
 
-class IgnorePreferenceViewController: NSViewController, PreferencePane {
-  public let preferencePaneIdentifier = Preferences.PaneIdentifier.ignore
-  public let preferencePaneTitle = NSLocalizedString("preferences_ignore", comment: "")
+class IgnorePreferenceViewController: NSViewController, SettingsPane {
+  public let paneIdentifier = Settings.PaneIdentifier.ignore
+  public let paneTitle = NSLocalizedString("preferences_ignore", comment: "")
   public let toolbarItemIcon = NSImage(named: .nosign)!
 
   override var nibName: NSNib.Name? { "IgnorePreferenceViewController" }

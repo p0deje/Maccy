@@ -1,9 +1,9 @@
 import Cocoa
-import Preferences
+import Settings
 
-class PinsPreferenceViewController: NSViewController, PreferencePane {
-  public let preferencePaneIdentifier = Preferences.PaneIdentifier.pins
-  public let preferencePaneTitle = NSLocalizedString("preferences_pins", comment: "")
+class PinsPreferenceViewController: NSViewController, SettingsPane {
+  public let paneIdentifier = Settings.PaneIdentifier.pins
+  public let paneTitle = NSLocalizedString("preferences_pins", comment: "")
   public let toolbarItemIcon = NSImage(named: .pincircle)!
 
   override var nibName: NSNib.Name? { "PinsPreferenceViewController" }
