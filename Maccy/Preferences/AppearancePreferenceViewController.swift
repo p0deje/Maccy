@@ -1,9 +1,9 @@
 import Cocoa
-import Preferences
+import Settings
 
-class AppearancePreferenceViewController: NSViewController, PreferencePane {
-  let preferencePaneIdentifier = Preferences.PaneIdentifier.appearance
-  let preferencePaneTitle = NSLocalizedString("preferences_appearance", comment: "")
+class AppearancePreferenceViewController: NSViewController, SettingsPane {
+  let paneIdentifier = Settings.PaneIdentifier.appearance
+  let paneTitle = NSLocalizedString("preferences_appearance", comment: "")
   let toolbarItemIcon = NSImage(named: .paintpalette)!
 
   override var nibName: NSNib.Name? { "AppearancePreferenceViewController" }

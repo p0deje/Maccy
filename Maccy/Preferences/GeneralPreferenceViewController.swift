@@ -1,11 +1,11 @@
 import Cocoa
 import KeyboardShortcuts
 import LaunchAtLogin
-import Preferences
+import Settings
 
-class GeneralPreferenceViewController: NSViewController, PreferencePane {
-  public let preferencePaneIdentifier = Preferences.PaneIdentifier.general
-  public let preferencePaneTitle = NSLocalizedString("preferences_general", comment: "")
+class GeneralPreferenceViewController: NSViewController, SettingsPane {
+  public let paneIdentifier = Settings.PaneIdentifier.general
+  public let paneTitle = NSLocalizedString("preferences_general", comment: "")
   public let toolbarItemIcon = NSImage(named: .gearshape)!
 
   override var nibName: NSNib.Name? { "GeneralPreferenceViewController" }

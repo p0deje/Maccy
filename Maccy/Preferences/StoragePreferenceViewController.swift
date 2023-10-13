@@ -1,9 +1,9 @@
 import Cocoa
-import Preferences
+import Settings
 
-class StoragePreferenceViewController: NSViewController, PreferencePane {
-  let preferencePaneIdentifier = Preferences.PaneIdentifier.storage
-  let preferencePaneTitle = NSLocalizedString("preferences_storage", comment: "")
+class StoragePreferenceViewController: NSViewController, SettingsPane {
+  let paneIdentifier = Settings.PaneIdentifier.storage
+  let paneTitle = NSLocalizedString("preferences_storage", comment: "")
   let toolbarItemIcon = NSImage(named: .externaldrive)!
 
   let sizeMin = 1

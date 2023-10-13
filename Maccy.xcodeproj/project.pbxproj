@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB092AD9AE1F00B749FD /* Settings */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
 		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
 		DA009932256411F90030E697 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DA00992D256411F90030E697 /* README.md */; };
@@ -49,7 +50,6 @@
 		DA48AE892A5F0548006D4894 /* guy.jpeg in Resources */ = {isa = PBXBuildFile; fileRef = DA48AE882A5F0548006D4894 /* guy.jpeg */; };
 		DA49EE7528B59468002752E0 /* NSRect+Centered.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EE7428B59468002752E0 /* NSRect+Centered.swift */; };
 		DA49EE7928B594DC002752E0 /* NSRunningApplication+WindowFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */; };
-		DA5154D325640FD800C01004 /* Preferences in Frameworks */ = {isa = PBXBuildFile; productRef = DA5154D225640FD800C01004 /* Preferences */; };
 		DA5154D82564102900C01004 /* Sauce in Frameworks */ = {isa = PBXBuildFile; productRef = DA5154D72564102900C01004 /* Sauce */; };
 		DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */; };
 		DA57C64E249E2A550032707A /* MenuFooter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57C64D249E2A550032707A /* MenuFooter.swift */; };
@@ -384,12 +384,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DA5154D325640FD800C01004 /* Preferences in Frameworks */,
 				DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */,
 				DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */,
 				DA009947256414800030E697 /* SwiftHEXColors in Frameworks */,
 				DAD20C7924E55CD200E96247 /* Sparkle.framework in Frameworks */,
 				DA5154D82564102900C01004 /* Sauce in Frameworks */,
+				2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */,
 				DAC6CE9126E1AC19002B70B8 /* LaunchAtLogin in Frameworks */,
 				DA009940256414560030E697 /* Fuse in Frameworks */,
 			);
@@ -663,12 +663,12 @@
 			);
 			name = Maccy;
 			packageProductDependencies = (
-				DA5154D225640FD800C01004 /* Preferences */,
 				DA5154D72564102900C01004 /* Sauce */,
 				DA00993F256414560030E697 /* Fuse */,
 				DA009946256414800030E697 /* SwiftHEXColors */,
 				DA009954256414E60030E697 /* KeyboardShortcuts */,
 				DAC6CE9026E1AC19002B70B8 /* LaunchAtLogin */,
+				2F39CB092AD9AE1F00B749FD /* Settings */,
 			);
 			productName = Maccy;
 			productReference = DAEE38431E3DBEB100DD2966 /* Maccy.app */;
@@ -731,12 +731,12 @@
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			packageReferences = (
-				DA5154D125640FD800C01004 /* XCRemoteSwiftPackageReference "Preferences" */,
 				DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */,
 				DA00993E256414560030E697 /* XCRemoteSwiftPackageReference "fuse-swift" */,
 				DA009945256414800030E697 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */,
 				DA009953256414E60030E697 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				DAC6CE8F26E1AC19002B70B8 /* XCRemoteSwiftPackageReference "LaunchAtLogin" */,
+				2F39CB082AD9AE1F00B749FD /* XCRemoteSwiftPackageReference "Settings" */,
 			);
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
 			projectDirPath = "";
@@ -1434,6 +1434,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2F39CB082AD9AE1F00B749FD /* XCRemoteSwiftPackageReference "Settings" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Settings.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 3.0.3;
+			};
+		};
 		DA00993E256414560030E697 /* XCRemoteSwiftPackageReference "fuse-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/krisk/fuse-swift";
@@ -1458,14 +1466,6 @@
 				minimumVersion = 0.3.0;
 			};
 		};
-		DA5154D125640FD800C01004 /* XCRemoteSwiftPackageReference "Preferences" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/sindresorhus/Preferences";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 2.2.0;
-			};
-		};
 		DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Clipy/Sauce";
@@ -1485,6 +1485,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2F39CB092AD9AE1F00B749FD /* Settings */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F39CB082AD9AE1F00B749FD /* XCRemoteSwiftPackageReference "Settings" */;
+			productName = Settings;
+		};
 		DA00993F256414560030E697 /* Fuse */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = DA00993E256414560030E697 /* XCRemoteSwiftPackageReference "fuse-swift" */;
@@ -1499,11 +1504,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA009953256414E60030E697 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */;
 			productName = KeyboardShortcuts;
-		};
-		DA5154D225640FD800C01004 /* Preferences */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DA5154D125640FD800C01004 /* XCRemoteSwiftPackageReference "Preferences" */;
-			productName = Preferences;
 		};
 		DA5154D72564102900C01004 /* Sauce */ = {
 			isa = XCSwiftPackageProductDependency;

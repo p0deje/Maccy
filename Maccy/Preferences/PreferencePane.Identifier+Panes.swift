@@ -1,6 +1,6 @@
-import Preferences
+import Settings
 
-extension Preferences.PaneIdentifier {
+extension Settings.PaneIdentifier {
   static let advanced = Self("advanced")
   static let appearance = Self("appearance")
   static let general = Self("general")

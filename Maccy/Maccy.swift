@@ -1,6 +1,6 @@
 import Cocoa
 import KeyboardShortcuts
-import Preferences
+import Settings
 
 // swiftlint:disable file_length
 // swiftlint:disable type_body_length
