@@ -180,7 +180,6 @@
 		4DC4D110252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
 		4DC4D111252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
 		4DC4D112252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		5AA9C83C2AD7CF3F003340F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
 		5AA9C83F2AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IgnorePasteboardTypesViewController.swift; sourceTree = "<group>"; };
 		5ACA94F42AD4D1E200ECAB6A /* IgnoreRegexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreRegexViewController.swift; sourceTree = "<group>"; };
 		7CEEFDEE24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AdvancedPreferenceViewController.strings"; sourceTree = "<group>"; };
@@ -1055,7 +1054,6 @@
 				088F4DA428BECBC40003AD19 /* tr */,
 				DA60939129188180002D739E /* bs */,
 				DA609398291886E4002D739E /* uk */,
-				5AA9C83C2AD7CF3F003340F9 /* en */,
 			);
 			name = IgnorePreferenceViewController.xib;
 			sourceTree = "<group>";

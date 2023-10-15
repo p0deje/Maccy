@@ -160,7 +160,7 @@
                         </gridCell>
                         <gridCell row="r9h-eh-aYG" column="gIK-wZ-lcb" id="z7F-kW-yFp">
                             <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="ADT-kA-zMw">
-                                <rect key="frame" x="-2" y="508" width="455" height="42"/>
+                                <rect key="frame" x="-2" y="549" width="455" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="bVW-Cb-ulw">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">It's possible to ignore copies coming from certain applications.
@@ -172,12 +172,12 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                         </gridCell>
                         <gridCell row="oT0-vf-7d6" column="gIK-wZ-lcb" id="o5C-5n-wUz">
                             <box key="contentView" verticalHuggingPriority="750" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="MVe-Mr-7XO">
-                                <rect key="frame" x="0.0" y="491" width="451" height="5"/>
+                                <rect key="frame" x="0.0" y="532" width="451" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="kwT-sg-M5h" column="gIK-wZ-lcb" yPlacement="fill" rowAlignment="none" id="bLi-De-yeG">
                             <scrollView key="contentView" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xeW-eu-ZJA">
-                                <rect key="frame" x="0.0" y="329" width="451" height="150"/>
+                                <rect key="frame" x="0.0" y="370" width="451" height="150"/>
                                 <clipView key="contentView" id="INS-KQ-gE0">
                                     <rect key="frame" x="1" y="1" width="449" height="148"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -224,7 +224,7 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                         </gridCell>
                         <gridCell row="2BD-jg-qTx" column="gIK-wZ-lcb" xPlacement="leading" id="E68-5x-6xu">
                             <segmentedControl key="contentView" translatesAutoresizingMaskIntoConstraints="NO" id="dCL-Nx-C7K">
-                                <rect key="frame" x="0.0" y="307" width="61" height="23"/>
+                                <rect key="frame" x="0.0" y="348" width="61" height="23"/>
                                 <segmentedCell key="cell" borderStyle="border" alignment="left" segmentDistribution="fill" style="smallSquare" trackingMode="momentary" id="khV-NQ-sch">
                                     <font key="font" metaFont="system"/>
                                     <segments>
@@ -321,13 +321,13 @@ By default, some known application-specific types are defined. You can remove th
                                 <rect key="frame" x="-2" y="0.0" width="455" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="FqC-BY-av4">
                                     <font key="font" metaFont="controlContent" size="11"/>
-                                    <string key="title">It's possible to ignore certain pasteboard items from remebering based on defined regex strings. Create strings using standard regex.
+                                    <string key="title">It's possible to ignore certain pasteboard items from remembering based on defined regex strings. Create strings using standard regex.
 </string>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <string key="userLabel">It's possible to ignore certain pasteboard item types from remembering. By default, some known application-specific types are defined. You can remove them and add any custom types you want.</string>
                                 </textFieldCell>
-                                <string key="userLabel">It's possible to ignore certain pasteboard items from remebering based on defined regex strings. Create strings using standard regex.</string>
+                                <string key="userLabel">It's possible to ignore certain pasteboard items from remembering | w based on defined regex strings. Create strings using standard regex.</string>
                             </textField>
                         </gridCell>
                     </gridCells>

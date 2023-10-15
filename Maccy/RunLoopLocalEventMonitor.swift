@@ -15,11 +15,13 @@ final class RunLoopLocalEventMonitor {
 
     self.observer = CFRunLoopObserverCreateWithHandler(nil, CFRunLoopActivity.beforeSources.rawValue, true, 0) { _, _ in
       // Pull all events from the queue and handle the ones matching the given types.
-      // As non-processes events are redispatched we have to gather them first before processing to avoid infinite loops.
+      // As non-processes events are redispatched we have to gather them first before
+      // processing to avoid infinite loops.
       var eventsToHandle = [NSEvent]()
 
       // Note: Non-processed events are redispatched and may therefore be out of order with respect to other events.
-      //       Even though we are only interested in keydown events we deque the keyUp events as well to preserve their order.
+      //       Even though we are only interested in keydown events we deque the keyUp events as well to preserve
+      //       their order.
       while let eventToHandle = NSApp.nextEvent(
         matching: [.keyDown, .keyUp], until: nil, inMode: .default, dequeue: true
       ) {

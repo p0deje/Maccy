@@ -130,7 +130,7 @@ extension UserDefaults {
     get { array(forKey: Keys.ignoreRegexp) as? [String] ?? Values.ignoreRegexp }
     set { set(newValue, forKey: Keys.ignoreRegexp) }
   }
-    
+
   @objc dynamic public var imageMaxHeight: Int {
     get { integer(forKey: Keys.imageMaxHeight) }
     set { set(newValue, forKey: Keys.imageMaxHeight) }

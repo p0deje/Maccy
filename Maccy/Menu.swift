@@ -147,7 +147,7 @@ class Menu: NSMenu, NSMenuDelegate {
     return NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
   }
 
-  private func boundsOfMenuItem(_ item : NSMenuItem, _ windowContentView: NSView) -> NSRect? {
+  private func boundsOfMenuItem(_ item: NSMenuItem, _ windowContentView: NSView) -> NSRect? {
     let windowRectInScreenCoordinates = windowContentView.accessibilityFrame()
     let menuItemRectInScreenCoordinates = item.accessibilityFrame()
     return NSRect(
