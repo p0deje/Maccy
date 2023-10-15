@@ -33,8 +33,8 @@ class Maccy: NSObject {
     return NSApp.windows.filter({ $0.isVisible && String(describing: type(of: $0)) != carbonMenuWindowClass })
   }
 
-  private lazy var preferencesWindowController = PreferencesWindowController(
-    preferencePanes: [
+  private lazy var settingsWindowController = SettingsWindowController(
+    panes: [
       GeneralPreferenceViewController(),
       StoragePreferenceViewController(),
       AppearancePreferenceViewController(),
@@ -219,7 +219,7 @@ class Maccy: NSObject {
         NSApp.terminate(sender)
       case .preferences:
         Maccy.returnFocusToPreviousApp = false
-        preferencesWindowController.show()
+        settingsWindowController.show()
         Maccy.returnFocusToPreviousApp = true
       default:
         break
