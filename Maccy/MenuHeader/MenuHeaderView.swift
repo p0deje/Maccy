@@ -167,9 +167,13 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       performMenuItemAction(MenuFooter.preferences.rawValue)
       return true
     case .paste:
-      queryField.becomeFirstResponder()
-      queryField.currentEditor()?.paste(nil)
-      return true
+      if HistoryItem.pinned.contains(where: { $0.pin == key.rawValue }) {
+        return false
+      } else {
+        queryField.becomeFirstResponder()
+        queryField.currentEditor()?.paste(nil)
+        return true
+      }
     case .selectCurrentItem:
       customMenu?.select(queryField.stringValue)
       return true

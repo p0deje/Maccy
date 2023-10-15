@@ -19,6 +19,10 @@ class HistoryItem: NSManagedObject {
     }
   }
 
+  static var pinned: [HistoryItem] {
+    all.filter({ $0.pin != nil })
+  }
+
   static var unpinned: [HistoryItem] {
     all.filter({ $0.pin == nil })
   }
