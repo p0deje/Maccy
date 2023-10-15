@@ -1,21 +1,21 @@
 import Cocoa
 
-class IgnorePasteboardTypesViewController: NSViewController, NSTableViewDataSource {
+class IgnoreRegexViewController: NSViewController, NSTableViewDataSource {
   @IBOutlet weak var ignoredItemsTable: NSTableView!
   
-  private let exampleIgnoredType = "zzz.yyy.xxx"
+  private let exampleIgnoredRegex = "zzz.yyy.xxx"
   
-  private var ignoredTypes: [String] {
-    get { UserDefaults.standard.ignoredPasteboardTypes.sorted() }
-    set { UserDefaults.standard.ignoredPasteboardTypes = Set(newValue) }
+  private var ignoredRegexp: [String] {
+    get { UserDefaults.standard.ignoreRegexp.sorted() }
+    set { UserDefaults.standard.ignoreRegexp = newValue }
   }
   
   func numberOfRows(in tableView: NSTableView) -> Int {
-    return ignoredTypes.count
+    return ignoredRegexp.count
   }
   
   func tableView(_ tableView: NSTableView, objectValueFor tableColumn: NSTableColumn?, row: Int) -> Any? {
-    return ignoredTypes[row]
+    return ignoredRegexp[row]
   }
   
   func tableView(_ tableView: NSTableView, setObjectValue object: Any?, for tableColumn: NSTableColumn?, row: Int) {
@@ -24,41 +24,42 @@ class IgnorePasteboardTypesViewController: NSViewController, NSTableViewDataSour
     }
     
     guard !object.isEmpty else {
-      removeIgnoredType(row)
+      removeIgnoredRegex(row)
       return
     }
     
-    ignoredTypes[row] = object
+    ignoredRegexp[row] = object
     ignoredItemsTable.reloadData()
-    if let newIndex = ignoredTypes.firstIndex(of: object) {
+    if let newIndex = ignoredRegexp.firstIndex(of: object) {
       ignoredItemsTable.deselectRow(row)
       ignoredItemsTable.selectRowIndexes(IndexSet(integer: newIndex), byExtendingSelection: false)
     }
   }
   
-  @IBAction func ignoredTypeAddedOrRemoved(_ sender: NSSegmentedCell) {
+  @IBAction func ignoredRegexAddedOrRemoved(_ sender: NSSegmentedCell) {
     switch sender.selectedSegment {
     case 0:
-      addIgnoredType()
+      addIgnoredRegex()
     case 1:
       guard ignoredItemsTable.selectedRow != -1 else {
         return
       }
       
-      removeIgnoredType(ignoredItemsTable.selectedRow)
+      removeIgnoredRegex(ignoredItemsTable.selectedRow)
     default:
       return
     }
   }
   
-  private func addIgnoredType() {
-    ignoredTypes.append(exampleIgnoredType)
+  private func addIgnoredRegex() {
+    ignoredRegexp.append(exampleIgnoredRegex)
     ignoredItemsTable.reloadData()
-    ignoredItemsTable.editColumn(0, row: ignoredTypes.firstIndex(of: exampleIgnoredType)!, with: nil, select: true)
+    ignoredItemsTable.editColumn(0, row: ignoredRegexp.firstIndex(of: exampleIgnoredRegex)!, with: nil, select: true)
+    print(ignoredRegexp)
   }
   
-  private func removeIgnoredType(_ row: Int) {
-    ignoredTypes.remove(at: row)
+  private func removeIgnoredRegex(_ row: Int) {
+    ignoredRegexp.remove(at: row)
     ignoredItemsTable.reloadData()
   }
 }

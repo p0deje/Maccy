@@ -34,6 +34,7 @@ extension UserDefaults {
     static let size = "historySize"
     static let sortBy = "sortBy"
     static let suppressClearAlert = "suppressClearAlert"
+    static let ignoreRegexp = "ignoreRegexp"
 
     static var showInStatusBar: String {
       ProcessInfo.processInfo.arguments.contains("ui-testing") ? "showInStatusBarUITests" : "showInStatusBar"
@@ -47,6 +48,7 @@ extension UserDefaults {
   public struct Values {
     static let ignoredApps: [String] = []
     static let ignoredPasteboardTypes: [String] = []
+    static let ignoreRegexp: [String] = []
     static let imageMaxHeight = 40.0
     static let maxMenuItems = 0
     static let maxMenuItemLength = 50
@@ -124,6 +126,11 @@ extension UserDefaults {
     set { set(Array(newValue), forKey: Keys.ignoredPasteboardTypes) }
   }
 
+  public var ignoreRegexp: [String] {
+    get { array(forKey: Keys.ignoreRegexp) as? [String] ?? Values.ignoreRegexp }
+    set { set(newValue, forKey: Keys.ignoreRegexp) }
+  }
+    
   @objc dynamic public var imageMaxHeight: Int {
     get { integer(forKey: Keys.imageMaxHeight) }
     set { set(newValue, forKey: Keys.imageMaxHeight) }

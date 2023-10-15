@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB092AD9AE1F00B749FD /* Settings */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
+		5AA9C8402AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA9C83F2AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift */; };
+		5ACA94F52AD4D1E200ECAB6A /* IgnoreRegexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACA94F42AD4D1E200ECAB6A /* IgnoreRegexViewController.swift */; };
 		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
 		DA009932256411F90030E697 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DA00992D256411F90030E697 /* README.md */; };
 		DA009934256411F90030E697 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = DA00992F256411F90030E697 /* LICENSE */; };
@@ -34,7 +36,6 @@
 		DA1DF95527AF8BCD006839E0 /* StoragePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA1DF95327AF8BCD006839E0 /* StoragePreferenceViewController.xib */; };
 		DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */; };
 		DA1EDE452045B68700479723 /* MenuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE442045B68700479723 /* MenuTests.swift */; };
-		DA20EBB0268E253E0032D360 /* IgnorePasteboardTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20EBAF268E253E0032D360 /* IgnorePasteboardTypesViewController.swift */; };
 		DA20EBB2268E279F0032D360 /* IgnoreApplicationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20EBB1268E279F0032D360 /* IgnoreApplicationsViewController.swift */; };
 		DA20EBB5268E54E80032D360 /* IgnorePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA20EBB7268E54E80032D360 /* IgnorePreferenceViewController.xib */; };
 		DA21AD42249E86E8003E7C98 /* write.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DA21AD41249E86E8003E7C98 /* write.mp3 */; };
@@ -179,6 +180,9 @@
 		4DC4D110252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
 		4DC4D111252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
 		4DC4D112252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		5AA9C83C2AD7CF3F003340F9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
+		5AA9C83F2AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IgnorePasteboardTypesViewController.swift; sourceTree = "<group>"; };
+		5ACA94F42AD4D1E200ECAB6A /* IgnoreRegexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreRegexViewController.swift; sourceTree = "<group>"; };
 		7CEEFDEE24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AdvancedPreferenceViewController.strings"; sourceTree = "<group>"; };
 		7CEEFDEF24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppearancePreferenceViewController.strings"; sourceTree = "<group>"; };
 		7CEEFDF024F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GeneralPreferenceViewController.strings"; sourceTree = "<group>"; };
@@ -233,7 +237,6 @@
 		DA1DF96527AF8F79006839E0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Maccy/Preferences/es.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
 		DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMenuItemTests.swift; sourceTree = "<group>"; };
 		DA1EDE442045B68700479723 /* MenuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTests.swift; sourceTree = "<group>"; };
-		DA20EBAF268E253E0032D360 /* IgnorePasteboardTypesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnorePasteboardTypesViewController.swift; sourceTree = "<group>"; };
 		DA20EBB1268E279F0032D360 /* IgnoreApplicationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreApplicationsViewController.swift; sourceTree = "<group>"; };
 		DA20EBB6268E54E80032D360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/IgnorePreferenceViewController.xib; sourceTree = "<group>"; };
 		DA20EBB9268E54EF0032D360 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/IgnorePreferenceViewController.strings"; sourceTree = "<group>"; };
@@ -471,8 +474,9 @@
 		DA20EBAE268E24E50032D360 /* IgnorePreferencesViewController */ = {
 			isa = PBXGroup;
 			children = (
+				5AA9C83F2AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift */,
 				DA20EBB1268E279F0032D360 /* IgnoreApplicationsViewController.swift */,
-				DA20EBAF268E253E0032D360 /* IgnorePasteboardTypesViewController.swift */,
+				5ACA94F42AD4D1E200ECAB6A /* IgnoreRegexViewController.swift */,
 			);
 			path = IgnorePreferencesViewController;
 			sourceTree = "<group>";
@@ -682,7 +686,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				ORGANIZATIONNAME = p0deje;
 				TargetAttributes = {
 					DA0EE7B5204657830025FC60 = {
@@ -702,7 +706,6 @@
 					DAEE38421E3DBEB100DD2966 = {
 						CreatedOnToolsVersion = 8.2.1;
 						LastSwiftMigration = 1020;
-						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -858,7 +861,6 @@
 				DA83EC262974EEA400A95531 /* GetIntentHandler.swift in Sources */,
 				DAEE38541E3DD6F100DD2966 /* History.swift in Sources */,
 				DAC929D7297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift in Sources */,
-				DA20EBB0268E253E0032D360 /* IgnorePasteboardTypesViewController.swift in Sources */,
 				DA19F18F2984943E0091F26C /* Preview.swift in Sources */,
 				DAF65F4924D396FE00F3978F /* PasteMenuItem.swift in Sources */,
 				DA57C64E249E2A550032707A /* MenuFooter.swift in Sources */,
@@ -866,6 +868,7 @@
 				DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */,
 				DAC7AFAF2A801C92006081BB /* RunLoopLocalEventMonitor.swift in Sources */,
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
+				5AA9C8402AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift in Sources */,
 				DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
 				DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift in Sources */,
@@ -895,6 +898,7 @@
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
 				DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */,
 				DAE28500232257D20080E394 /* ColorImage.swift in Sources */,
+				5ACA94F52AD4D1E200ECAB6A /* IgnoreRegexViewController.swift in Sources */,
 				DA196A9028AB0A6800ADD8A2 /* MenuHeader.swift in Sources */,
 				DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */,
 				DAB65DFD2440AD63000AECA8 /* Storage.xcdatamodeld in Sources */,
@@ -1051,6 +1055,7 @@
 				088F4DA428BECBC40003AD19 /* tr */,
 				DA60939129188180002D739E /* bs */,
 				DA609398291886E4002D739E /* uk */,
+				5AA9C83C2AD7CF3F003340F9 /* en */,
 			);
 			name = IgnorePreferenceViewController.xib;
 			sourceTree = "<group>";
