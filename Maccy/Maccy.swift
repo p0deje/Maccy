@@ -35,12 +35,12 @@ class Maccy: NSObject {
 
   private lazy var settingsWindowController = SettingsWindowController(
     panes: [
-      GeneralPreferenceViewController(),
-      StoragePreferenceViewController(),
-      AppearancePreferenceViewController(),
-      PinsPreferenceViewController(),
-      IgnorePreferenceViewController(),
-      AdvancedPreferenceViewController()
+      GeneralSettingsViewController(),
+      StorageSettingsViewController(),
+      AppearanceSettingsViewController(),
+      PinsSettingsViewController(),
+      IgnoreSettingsViewController(),
+      AdvancedSettingsViewController()
     ]
   )
 

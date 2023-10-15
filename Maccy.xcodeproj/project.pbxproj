@@ -17,34 +17,34 @@
 		DA009940256414560030E697 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = DA00993F256414560030E697 /* Fuse */; };
 		DA009947256414800030E697 /* SwiftHEXColors in Frameworks */ = {isa = PBXBuildFile; productRef = DA009946256414800030E697 /* SwiftHEXColors */; };
 		DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = DA009954256414E60030E697 /* KeyboardShortcuts */; };
-		DA043DE1247D171C00488756 /* AppearancePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */; };
-		DA05E7CC2483EF83005CB8AA /* GeneralPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */; };
-		DA05E7D22483F70B005CB8AA /* AppearancePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7D42483F70B005CB8AA /* AppearancePreferenceViewController.xib */; };
-		DA05E7D72483F988005CB8AA /* AdvancedPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7D92483F988005CB8AA /* AdvancedPreferenceViewController.xib */; };
+		DA043DE1247D171C00488756 /* AppearanceSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA043DDF247D171C00488756 /* AppearanceSettingsViewController.swift */; };
+		DA05E7CC2483EF83005CB8AA /* GeneralSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7CE2483EF83005CB8AA /* GeneralSettingsViewController.xib */; };
+		DA05E7D22483F70B005CB8AA /* AppearanceSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7D42483F70B005CB8AA /* AppearanceSettingsViewController.xib */; };
+		DA05E7D72483F988005CB8AA /* AdvancedSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA05E7D92483F988005CB8AA /* AdvancedSettingsViewController.xib */; };
 		DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EE7B8204657830025FC60 /* MaccyUITests.swift */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
 		DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA11AE952693DD7100D640D2 /* MenuLoader.swift */; };
-		DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */; };
-		DA181174247B409A00066D55 /* AdvancedPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */; };
-		DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */; };
+		DA181170247B405B00066D55 /* GeneralSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18116E247B405B00066D55 /* GeneralSettingsViewController.swift */; };
+		DA181174247B409A00066D55 /* AdvancedSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181172247B409A00066D55 /* AdvancedSettingsViewController.swift */; };
+		DA181177247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */; };
 		DA196A9028AB0A6800ADD8A2 /* MenuHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA196A8E28AB0A6800ADD8A2 /* MenuHeader.swift */; };
 		DA196A9128AB0A6800ADD8A2 /* MenuHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA196A8F28AB0A6800ADD8A2 /* MenuHeader.xib */; };
 		DA196A9328AB0D4500ADD8A2 /* MenuHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA196A9228AB0D4500ADD8A2 /* MenuHeaderView.swift */; };
 		DA19F18F2984943E0091F26C /* Preview.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19F18D2984943E0091F26C /* Preview.swift */; };
 		DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1B0FD5289DFEA200E641BE /* PinComboBoxCell.swift */; };
-		DA1DF95227AF8BBA006839E0 /* StoragePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1DF95127AF8BBA006839E0 /* StoragePreferenceViewController.swift */; };
-		DA1DF95527AF8BCD006839E0 /* StoragePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA1DF95327AF8BCD006839E0 /* StoragePreferenceViewController.xib */; };
+		DA1DF95227AF8BBA006839E0 /* StorageSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1DF95127AF8BBA006839E0 /* StorageSettingsViewController.swift */; };
+		DA1DF95527AF8BCD006839E0 /* StorageSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA1DF95327AF8BCD006839E0 /* StorageSettingsViewController.xib */; };
 		DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */; };
 		DA1EDE452045B68700479723 /* MenuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE442045B68700479723 /* MenuTests.swift */; };
 		DA20EBB2268E279F0032D360 /* IgnoreApplicationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20EBB1268E279F0032D360 /* IgnoreApplicationsViewController.swift */; };
-		DA20EBB5268E54E80032D360 /* IgnorePreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA20EBB7268E54E80032D360 /* IgnorePreferenceViewController.xib */; };
+		DA20EBB5268E54E80032D360 /* IgnoreSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA20EBB7268E54E80032D360 /* IgnoreSettingsViewController.xib */; };
 		DA21AD42249E86E8003E7C98 /* write.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DA21AD41249E86E8003E7C98 /* write.mp3 */; };
 		DA21AD44249E86F0003E7C98 /* knock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DA21AD43249E86F0003E7C98 /* knock.mp3 */; };
 		DA246D611E56C9EA001E40F3 /* Application.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA246D601E56C9EA001E40F3 /* Application.xib */; };
 		DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */; };
 		DA2B0AF42343104600EFAD72 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */; };
 		DA2C752C2029FE990090965D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2C752B2029FE990090965D /* Menu.swift */; };
-		DA35278C268D645700C92EBB /* IgnorePreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35278B268D645700C92EBB /* IgnorePreferenceViewController.swift */; };
+		DA35278C268D645700C92EBB /* IgnoreSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35278B268D645700C92EBB /* IgnoreSettingsViewController.swift */; };
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
 		DA384E86232746D800603999 /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA384E85232746D800603999 /* SearchTests.swift */; };
 		DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */; };
@@ -100,9 +100,9 @@
 		DAF65F4824D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF65F4524D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift */; };
 		DAF65F4924D396FE00F3978F /* PasteMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF65F4624D396FE00F3978F /* PasteMenuItem.swift */; };
 		DAF65F4A24D396FE00F3978F /* CopyMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAF65F4724D396FE00F3978F /* CopyMenuItem.swift */; };
-		DAFE2DD82688018100990986 /* PinsPreferenceViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD72688018100990986 /* PinsPreferenceViewController.swift */; };
+		DAFE2DD82688018100990986 /* PinsSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD72688018100990986 /* PinsSettingsViewController.swift */; };
 		DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD9268A521A00990986 /* String+Shortened.swift */; };
-		DAFE2DDB268A8E4E00990986 /* PinsPreferenceViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAFE2DDD268A8E4E00990986 /* PinsPreferenceViewController.xib */; };
+		DAFE2DDB268A8E4E00990986 /* PinsSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DAFE2DDD268A8E4E00990986 /* PinsSettingsViewController.xib */; };
 		DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */; };
 		DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */; };
 /* End PBXBuildFile section */
@@ -153,109 +153,109 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		088F4DA028BECBC30003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		088F4DA128BECBC30003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		088F4DA228BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
-		088F4DA328BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		088F4DA428BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
-		088F4DA528BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = Maccy/Preferences/tr.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
+		088F4DA028BECBC30003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		088F4DA128BECBC30003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		088F4DA228BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		088F4DA328BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		088F4DA428BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		088F4DA528BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = Maccy/Preferences/tr.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
 		088F4DA628BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		1180C7312826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		1180C7322826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		1180C7332826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
-		1180C7342826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		1180C7352826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
-		1180C7362826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Maccy/Preferences/ja.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
+		1180C7312826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		1180C7322826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		1180C7332826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		1180C7342826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		1180C7352826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		1180C7362826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = Maccy/Preferences/ja.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
 		1180C7372826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
-		11EB8926281DADFE00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		11EB8927281DADFE00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		11EB8928281DADFE00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
-		11EB8929281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		11EB892A281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
-		11EB892B281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Maccy/Preferences/ko.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
+		11EB8926281DADFE00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		11EB8927281DADFE00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		11EB8928281DADFE00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		11EB8929281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		11EB892A281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		11EB892B281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Maccy/Preferences/ko.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
 		11EB892C281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		4DC4D10F252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		4DC4D110252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		4DC4D111252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
+		4DC4D10F252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		4DC4D110252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		4DC4D111252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
 		4DC4D112252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5AA9C83F2AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IgnorePasteboardTypesViewController.swift; sourceTree = "<group>"; };
 		5ACA94F42AD4D1E200ECAB6A /* IgnoreRegexViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreRegexViewController.swift; sourceTree = "<group>"; };
-		7CEEFDEE24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AdvancedPreferenceViewController.strings"; sourceTree = "<group>"; };
-		7CEEFDEF24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppearancePreferenceViewController.strings"; sourceTree = "<group>"; };
-		7CEEFDF024F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GeneralPreferenceViewController.strings"; sourceTree = "<group>"; };
+		7CEEFDEE24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AdvancedSettingsViewController.strings"; sourceTree = "<group>"; };
+		7CEEFDEF24F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/AppearanceSettingsViewController.strings"; sourceTree = "<group>"; };
+		7CEEFDF024F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/GeneralSettingsViewController.strings"; sourceTree = "<group>"; };
 		7CEEFDF124F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
-		ABC7285D283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		ABC7285E283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		ABC7285F283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
-		ABC72860283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		ABC72861283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
-		ABC72862283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = Maccy/Preferences/th.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
+		ABC7285D283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		ABC7285E283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		ABC7285F283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		ABC72860283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		ABC72861283A9052001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		ABC72862283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = Maccy/Preferences/th.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
 		ABC72863283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA00992C256411F90030E697 /* appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = appcast.xml; sourceTree = "<group>"; };
 		DA00992D256411F90030E697 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DA00992F256411F90030E697 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearancePreferenceViewController.swift; sourceTree = "<group>"; };
-		DA05E7D02483EF8F005CB8AA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA05E7D12483F1B9005CB8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GeneralPreferenceViewController.xib; sourceTree = "<group>"; };
-		DA05E7D32483F70B005CB8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AppearancePreferenceViewController.xib; sourceTree = "<group>"; };
-		DA05E7D62483F711005CB8AA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA05E7D82483F988005CB8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AdvancedPreferenceViewController.xib; sourceTree = "<group>"; };
-		DA05E7E12483FA08005CB8AA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA08FDE1282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AdvancedPreferenceViewController.strings"; sourceTree = "<group>"; };
-		DA08FDE2282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AppearancePreferenceViewController.strings"; sourceTree = "<group>"; };
-		DA08FDE3282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/GeneralPreferenceViewController.strings"; sourceTree = "<group>"; };
-		DA08FDE4282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/PinsPreferenceViewController.strings"; sourceTree = "<group>"; };
-		DA08FDE5282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/IgnorePreferenceViewController.strings"; sourceTree = "<group>"; };
-		DA08FDE6282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Maccy/Preferences/zh-Hant.lproj/StoragePreferenceViewController.strings"; sourceTree = "<group>"; };
+		DA043DDF247D171C00488756 /* AppearanceSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppearanceSettingsViewController.swift; sourceTree = "<group>"; };
+		DA05E7D02483EF8F005CB8AA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		DA05E7D12483F1B9005CB8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/GeneralSettingsViewController.xib; sourceTree = "<group>"; };
+		DA05E7D32483F70B005CB8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AppearanceSettingsViewController.xib; sourceTree = "<group>"; };
+		DA05E7D62483F711005CB8AA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		DA05E7D82483F988005CB8AA /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/AdvancedSettingsViewController.xib; sourceTree = "<group>"; };
+		DA05E7E12483FA08005CB8AA /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		DA08FDE1282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AdvancedSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA08FDE2282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/AppearanceSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA08FDE3282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/GeneralSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA08FDE4282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/PinsSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA08FDE5282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/IgnoreSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA08FDE6282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "Maccy/Preferences/zh-Hant.lproj/StorageSettingsViewController.strings"; sourceTree = "<group>"; };
 		DA08FDE7282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0EE7B8204657830025FC60 /* MaccyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaccyUITests.swift; sourceTree = "<group>"; };
 		DA0EF1871E444B2A00E58577 /* Clipboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
-		DA0F34CC24913DCA008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA0F34CD24913DD1008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA0F34CE24913DD5008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
+		DA0F34CC24913DCA008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		DA0F34CD24913DD1008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		DA0F34CE24913DD5008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
 		DA11AE952693DD7100D640D2 /* MenuLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuLoader.swift; sourceTree = "<group>"; };
-		DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralPreferenceViewController.swift; sourceTree = "<group>"; };
-		DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedPreferenceViewController.swift; sourceTree = "<group>"; };
-		DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PreferencePane.Identifier+Panes.swift"; sourceTree = "<group>"; };
+		DA18116E247B405B00066D55 /* GeneralSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsViewController.swift; sourceTree = "<group>"; };
+		DA181172247B409A00066D55 /* AdvancedSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsViewController.swift; sourceTree = "<group>"; };
+		DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Settings.PaneIdentifier+Panes.swift"; sourceTree = "<group>"; };
 		DA196A8E28AB0A6800ADD8A2 /* MenuHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeader.swift; sourceTree = "<group>"; };
 		DA196A8F28AB0A6800ADD8A2 /* MenuHeader.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MenuHeader.xib; sourceTree = "<group>"; };
 		DA196A9228AB0D4500ADD8A2 /* MenuHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuHeaderView.swift; sourceTree = "<group>"; };
 		DA19F18D2984943E0091F26C /* Preview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Preview.swift; sourceTree = "<group>"; };
 		DA1B0FD5289DFEA200E641BE /* PinComboBoxCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinComboBoxCell.swift; sourceTree = "<group>"; };
-		DA1DF95127AF8BBA006839E0 /* StoragePreferenceViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StoragePreferenceViewController.swift; sourceTree = "<group>"; };
-		DA1DF95427AF8BCD006839E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Maccy/Preferences/Base.lproj/StoragePreferenceViewController.xib; sourceTree = "<group>"; };
-		DA1DF95927AF8F74006839E0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Maccy/Preferences/zh-Hans.lproj/StoragePreferenceViewController.strings"; sourceTree = "<group>"; };
-		DA1DF95B27AF8F77006839E0 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = Maccy/Preferences/hr.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA1DF95D27AF8F77006839E0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Maccy/Preferences/fr.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA1DF95F27AF8F78006839E0 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = Maccy/Preferences/it.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA1DF96127AF8F78006839E0 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = Maccy/Preferences/nb.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA1DF96327AF8F79006839E0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Maccy/Preferences/ru.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA1DF96527AF8F79006839E0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Maccy/Preferences/es.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
+		DA1DF95127AF8BBA006839E0 /* StorageSettingsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StorageSettingsViewController.swift; sourceTree = "<group>"; };
+		DA1DF95427AF8BCD006839E0 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Maccy/Preferences/Base.lproj/StorageSettingsViewController.xib; sourceTree = "<group>"; };
+		DA1DF95927AF8F74006839E0 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "Maccy/Preferences/zh-Hans.lproj/StorageSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA1DF95B27AF8F77006839E0 /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = Maccy/Preferences/hr.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
+		DA1DF95D27AF8F77006839E0 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = Maccy/Preferences/fr.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
+		DA1DF95F27AF8F78006839E0 /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = Maccy/Preferences/it.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
+		DA1DF96127AF8F78006839E0 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = Maccy/Preferences/nb.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
+		DA1DF96327AF8F79006839E0 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = Maccy/Preferences/ru.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
+		DA1DF96527AF8F79006839E0 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Maccy/Preferences/es.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
 		DA1EDE422045B35300479723 /* HistoryMenuItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryMenuItemTests.swift; sourceTree = "<group>"; };
 		DA1EDE442045B68700479723 /* MenuTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTests.swift; sourceTree = "<group>"; };
 		DA20EBB1268E279F0032D360 /* IgnoreApplicationsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreApplicationsViewController.swift; sourceTree = "<group>"; };
-		DA20EBB6268E54E80032D360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/IgnorePreferenceViewController.xib; sourceTree = "<group>"; };
-		DA20EBB9268E54EF0032D360 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/IgnorePreferenceViewController.strings"; sourceTree = "<group>"; };
-		DA20EBBB268E54EF0032D360 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA20EBBD268E54F00032D360 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA20EBBF268E54F10032D360 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA20EBC1268E54F50032D360 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
+		DA20EBB6268E54E80032D360 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/IgnoreSettingsViewController.xib; sourceTree = "<group>"; };
+		DA20EBB9268E54EF0032D360 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/IgnoreSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA20EBBB268E54EF0032D360 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		DA20EBBD268E54F00032D360 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		DA20EBBF268E54F10032D360 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		DA20EBC1268E54F50032D360 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
 		DA21AD41249E86E8003E7C98 /* write.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = write.mp3; sourceTree = "<group>"; };
 		DA21AD43249E86F0003E7C98 /* knock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = knock.mp3; sourceTree = "<group>"; };
 		DA246D601E56C9EA001E40F3 /* Application.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Application.xib; sourceTree = "<group>"; };
 		DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Configuration.swift"; sourceTree = "<group>"; };
 		DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
 		DA2C752B2029FE990090965D /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
-		DA2F1B0426F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA2F1B0526F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA2F1B0626F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA2F1B0726F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA2F1B0826F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
+		DA2F1B0426F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		DA2F1B0526F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		DA2F1B0626F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		DA2F1B0726F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		DA2F1B0826F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
 		DA2F1B0926F22DF4005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		DA35278B268D645700C92EBB /* IgnorePreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnorePreferenceViewController.swift; sourceTree = "<group>"; };
+		DA35278B268D645700C92EBB /* IgnoreSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreSettingsViewController.swift; sourceTree = "<group>"; };
 		DA360DB01E3DF137005C6F6B /* MaccyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA360DB21E3DF137005C6F6B /* HistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HistoryTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DA360DB41E3DF137005C6F6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -264,29 +264,29 @@
 		DA48AE882A5F0548006D4894 /* guy.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guy.jpeg; sourceTree = "<group>"; };
 		DA49EE7428B59468002752E0 /* NSRect+Centered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRect+Centered.swift"; sourceTree = "<group>"; };
 		DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRunningApplication+WindowFrame.swift"; sourceTree = "<group>"; };
-		DA4B7065271B7B5200FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA4B7066271B7B5300FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA4B7067271B7B5300FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA4B7068271B7B5300FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA4B7069271B7B5300FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
+		DA4B7065271B7B5200FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		DA4B7066271B7B5300FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		DA4B7067271B7B5300FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		DA4B7068271B7B5300FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		DA4B7069271B7B5300FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
 		DA4B706A271B7B5300FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HistoryMenuItem.swift; sourceTree = "<group>"; };
 		DA57C64D249E2A550032707A /* MenuFooter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFooter.swift; sourceTree = "<group>"; };
 		DA57C64F249E3C8F0032707A /* MenuFoooterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFoooterTests.swift; sourceTree = "<group>"; };
 		DA5F464F2020E4DF00425C11 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = System/Library/Frameworks/Carbon.framework; sourceTree = SDKROOT; };
-		DA60938D2918817F002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA60938E2918817F002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA60938F2918817F002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA60939029188180002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA60939129188180002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA60939229188180002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = Maccy/Preferences/bs.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
+		DA60938D2918817F002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		DA60938E2918817F002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		DA60938F2918817F002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		DA60939029188180002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		DA60939129188180002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		DA60939229188180002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = Maccy/Preferences/bs.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
 		DA60939329188180002D739E /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/Localizable.strings; sourceTree = "<group>"; };
-		DA609394291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA609395291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA609396291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA609397291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA609398291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA609399291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = Maccy/Preferences/uk.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
+		DA609394291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		DA609395291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		DA609396291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		DA609397291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		DA609398291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		DA609399291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = Maccy/Preferences/uk.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
 		DA60939A291886E4002D739E /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA6373971E4AB9BB00263391 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSScreen+ForPopup.swift"; sourceTree = "<group>"; };
@@ -299,9 +299,9 @@
 		DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Names.swift"; sourceTree = "<group>"; };
 		DA81D673252A056B009977BC /* Throttler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
 		DA83EC252974EEA400A95531 /* GetIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIntentHandler.swift; sourceTree = "<group>"; };
-		DA86E870255C4DF600D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		DA86E871255C4DF600D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		DA86E872255C4DF700D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
+		DA86E870255C4DF600D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		DA86E871255C4DF600D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		DA86E872255C4DF700D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
 		DA86E873255C4DF700D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA8953B81E446A4E00884EAB /* Maccy.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Maccy.swift; sourceTree = "<group>"; };
 		DAA2BDCE24676CA7007FE090 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -345,24 +345,24 @@
 		DAEE38461E3DBEB100DD2966 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DAEE384D1E3DBEB100DD2966 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAEE38531E3DD6F100DD2966 /* History.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = History.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
-		DAF4741827BB563100B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/AdvancedPreferenceViewController.strings; sourceTree = "<group>"; };
-		DAF4741927BB563100B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/AppearancePreferenceViewController.strings; sourceTree = "<group>"; };
-		DAF4741A27BB563100B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/GeneralPreferenceViewController.strings; sourceTree = "<group>"; };
-		DAF4741B27BB563100B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		DAF4741C27BB563100B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/IgnorePreferenceViewController.strings; sourceTree = "<group>"; };
-		DAF4741D27BB563600B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Maccy/Preferences/de.lproj/StoragePreferenceViewController.strings; sourceTree = "<group>"; };
+		DAF4741827BB563100B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		DAF4741927BB563100B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		DAF4741A27BB563100B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		DAF4741B27BB563100B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		DAF4741C27BB563100B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		DAF4741D27BB563600B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = Maccy/Preferences/de.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
 		DAF4741E27BB568000B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAF65F4524D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasteWithoutFormattingMenuItem.swift; sourceTree = "<group>"; };
 		DAF65F4624D396FE00F3978F /* PasteMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PasteMenuItem.swift; sourceTree = "<group>"; };
 		DAF65F4724D396FE00F3978F /* CopyMenuItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CopyMenuItem.swift; sourceTree = "<group>"; };
-		DAFE2DD72688018100990986 /* PinsPreferenceViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsPreferenceViewController.swift; sourceTree = "<group>"; };
+		DAFE2DD72688018100990986 /* PinsSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsSettingsViewController.swift; sourceTree = "<group>"; };
 		DAFE2DD9268A521A00990986 /* String+Shortened.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Shortened.swift"; sourceTree = "<group>"; };
-		DAFE2DDC268A8E4E00990986 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PinsPreferenceViewController.xib; sourceTree = "<group>"; };
-		DAFE2DDF268A8E6000990986 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PinsPreferenceViewController.strings"; sourceTree = "<group>"; };
-		DAFE2DE1268A8E6000990986 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		DAFE2DE3268A8E6100990986 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		DAFE2DE5268A8E6200990986 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
-		DAFE2DE7268A8E6200990986 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/PinsPreferenceViewController.strings; sourceTree = "<group>"; };
+		DAFE2DDC268A8E4E00990986 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/PinsSettingsViewController.xib; sourceTree = "<group>"; };
+		DAFE2DDF268A8E6000990986 /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/PinsSettingsViewController.strings"; sourceTree = "<group>"; };
+		DAFE2DE1268A8E6000990986 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		DAFE2DE3268A8E6100990986 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		DAFE2DE5268A8E6200990986 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		DAFE2DE7268A8E6200990986 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
 		DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTests.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Popup.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -421,26 +421,26 @@
 			path = MaccyUITests;
 			sourceTree = "<group>";
 		};
-		DA181178247D150B00066D55 /* Preferences */ = {
+		DA181178247D150B00066D55 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
-				DA181172247B409A00066D55 /* AdvancedPreferenceViewController.swift */,
-				DA05E7D92483F988005CB8AA /* AdvancedPreferenceViewController.xib */,
-				DA043DDF247D171C00488756 /* AppearancePreferenceViewController.swift */,
-				DA05E7D42483F70B005CB8AA /* AppearancePreferenceViewController.xib */,
-				DA18116E247B405B00066D55 /* GeneralPreferenceViewController.swift */,
-				DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */,
-				DA181176247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift */,
-				DA1B0FD4289DFE8100E641BE /* PinsPreferenceViewController */,
-				DAFE2DD72688018100990986 /* PinsPreferenceViewController.swift */,
-				DAFE2DDD268A8E4E00990986 /* PinsPreferenceViewController.xib */,
-				DA20EBAE268E24E50032D360 /* IgnorePreferencesViewController */,
-				DA35278B268D645700C92EBB /* IgnorePreferenceViewController.swift */,
-				DA20EBB7268E54E80032D360 /* IgnorePreferenceViewController.xib */,
-				DA1DF95127AF8BBA006839E0 /* StoragePreferenceViewController.swift */,
-				DA1DF95327AF8BCD006839E0 /* StoragePreferenceViewController.xib */,
+				DA181172247B409A00066D55 /* AdvancedSettingsViewController.swift */,
+				DA05E7D92483F988005CB8AA /* AdvancedSettingsViewController.xib */,
+				DA043DDF247D171C00488756 /* AppearanceSettingsViewController.swift */,
+				DA05E7D42483F70B005CB8AA /* AppearanceSettingsViewController.xib */,
+				DA18116E247B405B00066D55 /* GeneralSettingsViewController.swift */,
+				DA05E7CE2483EF83005CB8AA /* GeneralSettingsViewController.xib */,
+				DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */,
+				DA1B0FD4289DFE8100E641BE /* PinsSettingsViewController */,
+				DAFE2DD72688018100990986 /* PinsSettingsViewController.swift */,
+				DAFE2DDD268A8E4E00990986 /* PinsSettingsViewController.xib */,
+				DA20EBAE268E24E50032D360 /* IgnoreSettingsViewController */,
+				DA35278B268D645700C92EBB /* IgnoreSettingsViewController.swift */,
+				DA20EBB7268E54E80032D360 /* IgnoreSettingsViewController.xib */,
+				DA1DF95127AF8BBA006839E0 /* StorageSettingsViewController.swift */,
+				DA1DF95327AF8BCD006839E0 /* StorageSettingsViewController.xib */,
 			);
-			path = Preferences;
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		DA196A8D28AB0A3700ADD8A2 /* MenuHeader */ = {
@@ -462,22 +462,22 @@
 			path = Preview;
 			sourceTree = "<group>";
 		};
-		DA1B0FD4289DFE8100E641BE /* PinsPreferenceViewController */ = {
+		DA1B0FD4289DFE8100E641BE /* PinsSettingsViewController */ = {
 			isa = PBXGroup;
 			children = (
 				DA1B0FD5289DFEA200E641BE /* PinComboBoxCell.swift */,
 			);
-			path = PinsPreferenceViewController;
+			path = PinsSettingsViewController;
 			sourceTree = "<group>";
 		};
-		DA20EBAE268E24E50032D360 /* IgnorePreferencesViewController */ = {
+		DA20EBAE268E24E50032D360 /* IgnoreSettingsViewController */ = {
 			isa = PBXGroup;
 			children = (
 				5AA9C83F2AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift */,
 				DA20EBB1268E279F0032D360 /* IgnoreApplicationsViewController.swift */,
 				5ACA94F42AD4D1E200ECAB6A /* IgnoreRegexViewController.swift */,
 			);
-			path = IgnorePreferencesViewController;
+			path = IgnoreSettingsViewController;
 			sourceTree = "<group>";
 		};
 		DA21AD3C249E85BD003E7C98 /* Sounds */ = {
@@ -556,7 +556,7 @@
 				DAF65F4424D396D400F3978F /* HistoryMenuItem */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
 				DA196A8D28AB0A3700ADD8A2 /* MenuHeader */,
-				DA181178247D150B00066D55 /* Preferences */,
+				DA181178247D150B00066D55 /* Settings */,
 				DA19F18C2984940B0091F26C /* Preview */,
 				DA21AD3C249E85BD003E7C98 /* Sounds */,
 				DA246D601E56C9EA001E40F3 /* Application.xib */,
@@ -771,26 +771,26 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAFE2DDB268A8E4E00990986 /* PinsPreferenceViewController.xib in Resources */,
+				DAFE2DDB268A8E4E00990986 /* PinsSettingsViewController.xib in Resources */,
 				DAD20C7B24E55CD200E96247 /* org.sparkle-project.InstallerConnection.xpc in Resources */,
 				DAD20C7724E55CD200E96247 /* org.sparkle-project.Downloader.xpc in Resources */,
 				DAD20C7824E55CD200E96247 /* org.sparkle-project.InstallerStatus.xpc in Resources */,
-				DA05E7CC2483EF83005CB8AA /* GeneralPreferenceViewController.xib in Resources */,
-				DA20EBB5268E54E80032D360 /* IgnorePreferenceViewController.xib in Resources */,
+				DA05E7CC2483EF83005CB8AA /* GeneralSettingsViewController.xib in Resources */,
+				DA20EBB5268E54E80032D360 /* IgnoreSettingsViewController.xib in Resources */,
 				DAB8CE4224E368F200A2500E /* container-migration.plist in Resources */,
 				DAD20C7A24E55CD200E96247 /* org.sparkle-project.InstallerLauncher.xpc in Resources */,
 				DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */,
 				4762D6972467226100B3A2BA /* Localizable.strings in Resources */,
 				DA009934256411F90030E697 /* LICENSE in Resources */,
 				DA009931256411F90030E697 /* appcast.xml in Resources */,
-				DA05E7D22483F70B005CB8AA /* AppearancePreferenceViewController.xib in Resources */,
+				DA05E7D22483F70B005CB8AA /* AppearanceSettingsViewController.xib in Resources */,
 				DA21AD44249E86F0003E7C98 /* knock.mp3 in Resources */,
 				DADBA95E2985C7AA00EC46FB /* Preview.xib in Resources */,
 				DA21AD42249E86E8003E7C98 /* write.mp3 in Resources */,
-				DA1DF95527AF8BCD006839E0 /* StoragePreferenceViewController.xib in Resources */,
+				DA1DF95527AF8BCD006839E0 /* StorageSettingsViewController.xib in Resources */,
 				DA196A9128AB0A6800ADD8A2 /* MenuHeader.xib in Resources */,
 				DA009932256411F90030E697 /* README.md in Resources */,
-				DA05E7D72483F988005CB8AA /* AdvancedPreferenceViewController.xib in Resources */,
+				DA05E7D72483F988005CB8AA /* AdvancedSettingsViewController.xib in Resources */,
 				DA246D611E56C9EA001E40F3 /* Application.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -852,7 +852,7 @@
 			files = (
 				DA68F91C28BD76B8007E2F25 /* SelectIntentHandler.swift in Sources */,
 				DAB082962A2B7B850053E463 /* AppStoreReview.swift in Sources */,
-				DA043DE1247D171C00488756 /* AppearancePreferenceViewController.swift in Sources */,
+				DA043DE1247D171C00488756 /* AppearanceSettingsViewController.swift in Sources */,
 				DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */,
 				DA68F91828BD6E21007E2F25 /* Intents.intentdefinition in Sources */,
 				DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */,
@@ -868,7 +868,7 @@
 				DAC7AFAF2A801C92006081BB /* RunLoopLocalEventMonitor.swift in Sources */,
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
 				5AA9C8402AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift in Sources */,
-				DA181170247B405B00066D55 /* GeneralPreferenceViewController.swift in Sources */,
+				DA181170247B405B00066D55 /* GeneralSettingsViewController.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
 				DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift in Sources */,
 				DAB65E0D2440B0D4000AECA8 /* HistoryItemContent.swift in Sources */,
@@ -877,15 +877,15 @@
 				DA49EE7928B594DC002752E0 /* NSRunningApplication+WindowFrame.swift in Sources */,
 				DA6491B029ABCF2400837D93 /* NSScreen+ForPopup.swift in Sources */,
 				DAF65F4824D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift in Sources */,
-				DAFE2DD82688018100990986 /* PinsPreferenceViewController.swift in Sources */,
+				DAFE2DD82688018100990986 /* PinsSettingsViewController.swift in Sources */,
 				DA81D674252A056B009977BC /* Throttler.swift in Sources */,
 				DA196A9328AB0D4500ADD8A2 /* MenuHeaderView.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
 				DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */,
-				DA1DF95227AF8BBA006839E0 /* StoragePreferenceViewController.swift in Sources */,
+				DA1DF95227AF8BBA006839E0 /* StorageSettingsViewController.swift in Sources */,
 				DA2C752C2029FE990090965D /* Menu.swift in Sources */,
-				DA35278C268D645700C92EBB /* IgnorePreferenceViewController.swift in Sources */,
-				DA181174247B409A00066D55 /* AdvancedPreferenceViewController.swift in Sources */,
+				DA35278C268D645700C92EBB /* IgnoreSettingsViewController.swift in Sources */,
+				DA181174247B409A00066D55 /* AdvancedSettingsViewController.swift in Sources */,
 				DA20EBB2268E279F0032D360 /* IgnoreApplicationsViewController.swift in Sources */,
 				DA49EE7528B59468002752E0 /* NSRect+Centered.swift in Sources */,
 				DAF65F4A24D396FE00F3978F /* CopyMenuItem.swift in Sources */,
@@ -895,7 +895,7 @@
 				DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
-				DA181177247D14DA00066D55 /* PreferencePane.Identifier+Panes.swift in Sources */,
+				DA181177247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift in Sources */,
 				DAE28500232257D20080E394 /* ColorImage.swift in Sources */,
 				5ACA94F52AD4D1E200ECAB6A /* IgnoreRegexViewController.swift in Sources */,
 				DA196A9028AB0A6800ADD8A2 /* MenuHeader.swift in Sources */,
@@ -943,7 +943,7 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
-		DA05E7CE2483EF83005CB8AA /* GeneralPreferenceViewController.xib */ = {
+		DA05E7CE2483EF83005CB8AA /* GeneralSettingsViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DA05E7D02483EF8F005CB8AA /* ru */,
@@ -963,10 +963,10 @@
 				DA60938F2918817F002D739E /* bs */,
 				DA609396291886E4002D739E /* uk */,
 			);
-			name = GeneralPreferenceViewController.xib;
+			name = GeneralSettingsViewController.xib;
 			sourceTree = "<group>";
 		};
-		DA05E7D42483F70B005CB8AA /* AppearancePreferenceViewController.xib */ = {
+		DA05E7D42483F70B005CB8AA /* AppearanceSettingsViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DA05E7D32483F70B005CB8AA /* Base */,
@@ -986,10 +986,10 @@
 				DA60938E2918817F002D739E /* bs */,
 				DA609395291886E4002D739E /* uk */,
 			);
-			name = AppearancePreferenceViewController.xib;
+			name = AppearanceSettingsViewController.xib;
 			sourceTree = "<group>";
 		};
-		DA05E7D92483F988005CB8AA /* AdvancedPreferenceViewController.xib */ = {
+		DA05E7D92483F988005CB8AA /* AdvancedSettingsViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DA05E7D82483F988005CB8AA /* Base */,
@@ -1009,10 +1009,10 @@
 				DA60938D2918817F002D739E /* bs */,
 				DA609394291886E4002D739E /* uk */,
 			);
-			name = AdvancedPreferenceViewController.xib;
+			name = AdvancedSettingsViewController.xib;
 			sourceTree = "<group>";
 		};
-		DA1DF95327AF8BCD006839E0 /* StoragePreferenceViewController.xib */ = {
+		DA1DF95327AF8BCD006839E0 /* StorageSettingsViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DA1DF95427AF8BCD006839E0 /* Base */,
@@ -1032,10 +1032,10 @@
 				DA60939229188180002D739E /* bs */,
 				DA609399291886E4002D739E /* uk */,
 			);
-			name = StoragePreferenceViewController.xib;
+			name = StorageSettingsViewController.xib;
 			sourceTree = "<group>";
 		};
-		DA20EBB7268E54E80032D360 /* IgnorePreferenceViewController.xib */ = {
+		DA20EBB7268E54E80032D360 /* IgnoreSettingsViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DA20EBB6268E54E80032D360 /* Base */,
@@ -1055,7 +1055,7 @@
 				DA60939129188180002D739E /* bs */,
 				DA609398291886E4002D739E /* uk */,
 			);
-			name = IgnorePreferenceViewController.xib;
+			name = IgnoreSettingsViewController.xib;
 			sourceTree = "<group>";
 		};
 		DADBA9602985C7AA00EC46FB /* Preview.xib */ = {
@@ -1081,7 +1081,7 @@
 			name = Preview.xib;
 			sourceTree = "<group>";
 		};
-		DAFE2DDD268A8E4E00990986 /* PinsPreferenceViewController.xib */ = {
+		DAFE2DDD268A8E4E00990986 /* PinsSettingsViewController.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
 				DAFE2DDC268A8E4E00990986 /* Base */,
@@ -1101,7 +1101,7 @@
 				DA60939029188180002D739E /* bs */,
 				DA609397291886E4002D739E /* uk */,
 			);
-			name = PinsPreferenceViewController.xib;
+			name = PinsSettingsViewController.xib;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
