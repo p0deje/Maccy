@@ -105,7 +105,7 @@ class Maccy: NSObject {
           self.linkingMenuToStatusItem {
             self.menu.popUpMenu(
               at: NSRect.centered(ofSize: self.menu.size, in: frame).origin,
-              within: frame
+              ofType: .centeredInScreen(frame: frame)
             )
           }
         }
@@ -116,7 +116,7 @@ class Maccy: NSObject {
           self.linkingMenuToStatusItem {
             self.menu.popUpMenu(
               at: NSRect.centered(ofSize: self.menu.size, in: frame).origin,
-              within: windowFrame
+              ofType: .centeredInWindow(frame: frame)
             )
           }
         } else {
@@ -124,7 +124,8 @@ class Maccy: NSObject {
         }
       default:
         self.linkingMenuToStatusItem {
-          self.menu.popUpMenu(at: NSEvent.mouseLocation)
+          let mouseLocation = NSEvent.mouseLocation
+          self.menu.popUpMenu(at: mouseLocation, ofType: .atMouseCursor(location: mouseLocation))
         }
       }
     }
@@ -307,7 +308,7 @@ class Maccy: NSObject {
     if let buttonCell = statusItem.button?.cell as? NSButtonCell {
       withMenuButtonHighlighted(buttonCell) {
         self.linkingMenuToStatusItem {
-          self.menu.prepareForPopup(shouldAdjustLocationAfterwards: false)
+          self.menu.prepareForPopup(location: .inMenuBar)
           self.statusItem.button?.performClick(self)
         }
       }
