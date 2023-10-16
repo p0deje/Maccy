@@ -94,10 +94,6 @@ class Maccy: NSObject {
     statusItemChangeObserver?.invalidate()
   }
 
-  var isVisible : Bool {
-    return menu.isVisible
-  }
-
   func popUp() {
     // Grab focused window frame before changing focus
     let windowFrame = NSWorkspace.shared.frontmostApplication?.windowFrame
@@ -107,7 +103,10 @@ class Maccy: NSObject {
       case "center":
         if let frame = NSScreen.forPopup?.visibleFrame {
           self.linkingMenuToStatusItem {
-            self.menu.popUpMenu(at: NSRect.centered(ofSize: self.menu.size, in: frame).origin)
+            self.menu.popUpMenu(
+              at: NSRect.centered(ofSize: self.menu.size, in: frame).origin,
+              within: frame
+            )
           }
         }
       case "statusItem":
@@ -115,7 +114,10 @@ class Maccy: NSObject {
       case "window":
         if let frame = windowFrame {
           self.linkingMenuToStatusItem {
-            self.menu.popUpMenu(at: NSRect.centered(ofSize: self.menu.size, in: frame).origin)
+            self.menu.popUpMenu(
+              at: NSRect.centered(ofSize: self.menu.size, in: frame).origin,
+              within: windowFrame
+            )
           }
         } else {
           fallthrough

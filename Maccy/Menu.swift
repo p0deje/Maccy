@@ -65,6 +65,11 @@ class Menu: NSMenu, NSMenuDelegate {
   private var maxMenuItems: Int { UserDefaults.standard.maxMenuItems }
   private var maxVisibleItems: Int { maxMenuItems * historyMenuItemsGroup }
 
+  private var outerFrame: NSRect?
+  private var menuWindow: NSWindow? {
+    NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
+  }
+
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
   }
@@ -78,12 +83,13 @@ class Menu: NSMenu, NSMenuDelegate {
     self.minimumWidth = CGFloat(Menu.menuWidth)
   }
 
-  func popUpMenu(at location: NSPoint) {
-    prepareForPopup(shouldAdjustLocationAfterwards: true)
+  func popUpMenu(at location: NSPoint, within frame: NSRect? = nil) {
+    prepareForPopup(shouldAdjustLocationAfterwards: true, frame: frame)
     super.popUp(positioning: nil, at: location, in: nil)
   }
 
-  func prepareForPopup(shouldAdjustLocationAfterwards: Bool) {
+  func prepareForPopup(shouldAdjustLocationAfterwards: Bool, frame: NSRect? = nil) {
+    outerFrame = frame
     menuHeader()?.shouldAdjustMenuWindowLocation = shouldAdjustLocationAfterwards
     updateUnpinnedItemsVisibility()
     setKeyEquivalents(historyMenuItems)
@@ -96,26 +102,20 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   internal func adjustMenuWindowPosition() {
-    let frame : NSRect?
-    switch UserDefaults.standard.popupPosition {
-    case "center":
-      frame = NSScreen.forPopup?.visibleFrame
-    case "window":
-      frame = NSWorkspace.shared.frontmostApplication?.windowFrame
-    default:
-      frame = nil
-      break
+    guard let frame = outerFrame else {
+      return
     }
-    if let frame = frame {
-      var centeredRect = NSRect.centered(ofSize: size, in: frame)
-      centeredRect.origin.y -= size.height
-      menuWindow()?.setFrameOrigin(centeredRect.origin)
-    }
+
+    var centeredRect = NSRect.centered(ofSize: size, in: frame)
+    centeredRect.origin.y -= size.height
+    menuWindow?.setFrameOrigin(centeredRect.origin)
   }
 
   func menuDidClose(_ menu: NSMenu) {
     isVisible = false
+    outerFrame = nil
     offloadCurrentPreview()
+
     if let headerView = menuHeader() {
       DispatchQueue.main.async {
         headerView.setQuery("")
@@ -141,7 +141,7 @@ class Menu: NSMenu, NSMenuDelegate {
       previewPopover?.behavior = .semitransient
       previewPopover?.contentViewController = Preview(item: item.item)
 
-      guard let previewWindow = menuWindow(),
+      guard let previewWindow = menuWindow,
             let windowContentView = previewWindow.contentView,
             let boundsOfVisibleMenuItem = boundsOfMenuItem(item, windowContentView) else {
         return
@@ -167,10 +167,6 @@ class Menu: NSMenu, NSMenuDelegate {
         }
       }
     }
-  }
-
-  private func menuWindow() -> NSWindow? {
-    return NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
   }
 
   private func boundsOfMenuItem(_ item: NSMenuItem, _ windowContentView: NSView) -> NSRect? {
@@ -217,7 +213,7 @@ class Menu: NSMenu, NSMenuDelegate {
       menuItems: menuItems
     )
     indexedItems.insert(indexedItem, at: insertionIndex)
-    
+
     ensureInEventTrackingModeIfVisible {
       var menuItemInsertionIndex = insertionIndex
       // Keep pins on the same place.
@@ -247,7 +243,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func updateFilter(filter: String) {
-    let window = menuWindow()
+    let window = menuWindow
     var savedTopLeft = window?.frame.origin ?? NSPoint()
     savedTopLeft.y += window?.frame.height ?? 0.0
 
@@ -290,7 +286,7 @@ class Menu: NSMenu, NSMenuDelegate {
     highlight(filter.isEmpty ? firstUnpinnedHistoryMenuItem : historyMenuItems.first)
 
     ensureInEventTrackingModeIfVisible(dispatchLater: true) {
-      let window = self.menuWindow()
+      let window = self.menuWindow
       window?.setFrameTopLeftPoint(savedTopLeft)
     }
   }
@@ -606,7 +602,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func ensureInEventTrackingModeIfVisible(dispatchLater: Bool = false, block: @escaping () -> Void) {
-    if isVisible && (dispatchLater || RunLoop.current != RunLoop.main || RunLoop.current.currentMode != .eventTracking)  {
+    if isVisible && (dispatchLater || RunLoop.current != RunLoop.main || RunLoop.current.currentMode != .eventTracking) {
       RunLoop.main.perform(inModes: [.eventTracking], block: block)
     } else {
       block()
