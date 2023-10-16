@@ -30,8 +30,6 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   private lazy var headerHeight = UserDefaults.standard.hideSearch ? 1 : 28
   private lazy var headerSize = NSSize(width: Menu.menuWidth, height: headerHeight)
 
-  var shouldAdjustMenuWindowLocation = false
-
   override func awakeFromNib() {
     autoresizingMask = .width
     setFrameSize(headerSize)
@@ -62,11 +60,10 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     if window != nil && customMenu?.isVisible == true {
       // Fix for Sonoma. The menu will report an icorrect height causing the popup to be
       // This is the most conventient and earliest point possible to intercept and adjust the window location.
-      if #available(macOS 14, *), shouldAdjustMenuWindowLocation {
+      if #available(macOS 14, *) {
         if customMenu?.size.height ?? 0.0 < NSScreen.forPopup?.visibleFrame.height ?? 0.0 {
           customMenu?.adjustMenuWindowPosition()
         }
-        shouldAdjustMenuWindowLocation = false
       }
       eventMonitor.start()
     } else if window == nil && customMenu?.isVisible == false {

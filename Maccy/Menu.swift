@@ -65,7 +65,14 @@ class Menu: NSMenu, NSMenuDelegate {
   private var maxMenuItems: Int { UserDefaults.standard.maxMenuItems }
   private var maxVisibleItems: Int { maxMenuItems * historyMenuItemsGroup }
 
-  private var outerFrame: NSRect?
+  enum PopupLocation {
+    case inMenuBar
+    case atMouseCursor(location: CGPoint)
+    case centeredInWindow(frame: CGRect)
+    case centeredInScreen(frame: CGRect)
+  }
+
+  private var lastMenuLocation : PopupLocation?
   private var menuWindow: NSWindow? {
     NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
   }
@@ -83,14 +90,13 @@ class Menu: NSMenu, NSMenuDelegate {
     self.minimumWidth = CGFloat(Menu.menuWidth)
   }
 
-  func popUpMenu(at location: NSPoint, within frame: NSRect? = nil) {
-    prepareForPopup(shouldAdjustLocationAfterwards: true, frame: frame)
+  func popUpMenu(at location: NSPoint, ofType locationType: PopupLocation) {
+    prepareForPopup(location: locationType)
     super.popUp(positioning: nil, at: location, in: nil)
   }
 
-  func prepareForPopup(shouldAdjustLocationAfterwards: Bool, frame: NSRect? = nil) {
-    outerFrame = frame
-    menuHeader()?.shouldAdjustMenuWindowLocation = shouldAdjustLocationAfterwards
+  func prepareForPopup(location : PopupLocation) {
+    lastMenuLocation = location
     updateUnpinnedItemsVisibility()
     setKeyEquivalents(historyMenuItems)
   }
@@ -102,18 +108,22 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   internal func adjustMenuWindowPosition() {
-    guard let frame = outerFrame else {
+    guard let location = lastMenuLocation else {
       return
     }
-
-    var centeredRect = NSRect.centered(ofSize: size, in: frame)
-    centeredRect.origin.y -= size.height
-    menuWindow?.setFrameOrigin(centeredRect.origin)
+    switch location {
+    case let .centeredInWindow(frame),
+         let .centeredInScreen(frame):
+      let centeredRect = NSRect.centered(ofSize: size, in: frame)
+      menuWindow?.setFrameTopLeftPoint(NSPoint(x: centeredRect.minX, y: centeredRect.minY))
+    default:
+      break
+    }
   }
 
   func menuDidClose(_ menu: NSMenu) {
     isVisible = false
-    outerFrame = nil
+    lastMenuLocation = nil
     offloadCurrentPreview()
 
     if let headerView = menuHeader() {
