@@ -563,11 +563,7 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    if #available(macOS 14, *) {
-      items.append(item)
-    } else {
-      addItem(item)
-    }
+    addItem(item)
   }
 
   private func safeInsertItem(_ item: NSMenuItem, at index: Int) {
@@ -575,11 +571,7 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    if #available(macOS 14, *) {
-      items.insert(item, at: index)
-    } else {
-      insertItem(item, at: index)
-    }
+    insertItem(item, at: index)
   }
 
   private func safeRemoveItem(_ item: NSMenuItem?) {
@@ -588,11 +580,7 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    if #available(macOS 14, *) {
-      items.removeAll(where: { $0 == item })
-    } else {
-      removeItem(item)
-    }
+    removeItem(item)
   }
 
   private func offloadCurrentPreview() {
