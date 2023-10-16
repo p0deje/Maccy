@@ -439,14 +439,15 @@ class MaccyUITests: XCTestCase {
   private func search(_ string: String) {
     // NOTE: app.typeText is broken in Sonoma and causes some
     //       Chars to be submitted with a .command mask (e.g. 'p', 'k' or 'j')
-    string.forEach { ch in
-      app.typeKey("\(ch)", modifierFlags: [])
+    string.forEach {
+      app.typeKey("\($0)", modifierFlags: [])
     }
     waitForSearch()
   }
 
   private func waitForSearch() {
-    // FIXME: This is a hack and is flaky. Ideally we should wait for a proper condition to detect that search has settled down.
+    // FIXME: This is a hack and is flacky.
+    // Ideally we should wait for a proper condition to detect that search has settled down.
     usleep(500000) // wait for search throttle
   }
 

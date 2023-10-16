@@ -589,8 +589,15 @@ class Menu: NSMenu, NSMenuDelegate {
     previewPopover = nil
   }
 
-  private func ensureInEventTrackingModeIfVisible(dispatchLater: Bool = false, block: @escaping () -> Void) {
-    if isVisible && (dispatchLater || RunLoop.current != RunLoop.main || RunLoop.current.currentMode != .eventTracking) {
+  private func ensureInEventTrackingModeIfVisible(
+    dispatchLater: Bool = false,
+    block: @escaping () -> Void
+  ) {
+    if isVisible && (
+      dispatchLater ||
+      RunLoop.current != RunLoop.main ||
+      RunLoop.current.currentMode != .eventTracking
+    ) {
       RunLoop.main.perform(inModes: [.eventTracking], block: block)
     } else {
       block()
