@@ -226,6 +226,7 @@ class Maccy: NSObject {
       case .preferences:
         Maccy.returnFocusToPreviousApp = false
         settingsWindowController.show()
+        settingsWindowController.window?.orderFrontRegardless()
         Maccy.returnFocusToPreviousApp = true
       default:
         break
