@@ -13,6 +13,7 @@
 		2F73DF2C2AE2749E00DB654E /* PreviewMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F73DF2B2AE2749E00DB654E /* PreviewMenuItem.swift */; };
 		2F89CC932AE2C9E000959C91 /* PopupLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F89CC922AE2C9E000959C91 /* PopupLocation.swift */; };
 		2FB66AEA2ADFD7F30081AA34 /* PreviewPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB66AE92ADFD7F30081AA34 /* PreviewPopoverController.swift */; };
+		2FB66AEC2ADFDCE40081AA34 /* IndexedItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB66AEB2ADFDCE40081AA34 /* IndexedItem.swift */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
 		5AA9C8402AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA9C83F2AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift */; };
 		5ACA94F52AD4D1E200ECAB6A /* IgnoreRegexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACA94F42AD4D1E200ECAB6A /* IgnoreRegexViewController.swift */; };
@@ -147,6 +148,7 @@
 		2F73DF2B2AE2749E00DB654E /* PreviewMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewMenuItem.swift; sourceTree = "<group>"; };
 		2F89CC922AE2C9E000959C91 /* PopupLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupLocation.swift; sourceTree = "<group>"; };
 		2FB66AE92ADFD7F30081AA34 /* PreviewPopoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPopoverController.swift; sourceTree = "<group>"; };
+		2FB66AEB2ADFDCE40081AA34 /* IndexedItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndexedItem.swift; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4DC4D10F252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
@@ -375,6 +377,7 @@
 			children = (
 				DA2C752B2029FE990090965D /* Menu.swift */,
 				2FB66AE92ADFD7F30081AA34 /* PreviewPopoverController.swift */,
+				2FB66AEB2ADFDCE40081AA34 /* IndexedItem.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -844,6 +847,7 @@
 				DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */,
 				DAC7AFAF2A801C92006081BB /* RunLoopLocalEventMonitor.swift in Sources */,
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
+				2FB66AEC2ADFDCE40081AA34 /* IndexedItem.swift in Sources */,
 				5AA9C8402AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift in Sources */,
 				DA181170247B405B00066D55 /* GeneralSettingsViewController.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,

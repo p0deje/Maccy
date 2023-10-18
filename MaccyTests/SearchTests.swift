@@ -19,9 +19,9 @@ class SearchTests: XCTestCase {
   func testSimpleSearchInTitle() {
     UserDefaults.standard.searchMode = Search.Mode.exact.rawValue
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithTitle("xxx yyy zzz"), menuItems: [])
+      Menu.IndexedItem(item: historyItemWithTitle("foo bar baz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithTitle("foo bar zaz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithTitle("xxx yyy zzz"), clipboard: Clipboard.shared)
     ]
 
     XCTAssertEqual(search(""), [
@@ -51,9 +51,9 @@ class SearchTests: XCTestCase {
   func testSimpleSearchInContents() {
     UserDefaults.standard.searchMode = Search.Mode.exact.rawValue
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithoutTitle("xxx yyy zzz"), menuItems: [])
+      Menu.IndexedItem(item: historyItemWithoutTitle("foo bar baz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithoutTitle("foo bar zaz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithoutTitle("xxx yyy zzz"), clipboard: Clipboard.shared)
     ]
 
     XCTAssertEqual(search(""), [
@@ -83,9 +83,9 @@ class SearchTests: XCTestCase {
   func testFuzzySearchInTitle() {
     UserDefaults.standard.searchMode = Search.Mode.fuzzy.rawValue
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithTitle("xxx yyy zzz"), menuItems: [])
+      Menu.IndexedItem(item: historyItemWithTitle("foo bar baz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithTitle("foo bar zaz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithTitle("xxx yyy zzz"), clipboard: Clipboard.shared)
     ]
 
     XCTAssertEqual(search(""), [
@@ -120,9 +120,9 @@ class SearchTests: XCTestCase {
   func testFuzzySearchInContents() {
     UserDefaults.standard.searchMode = Search.Mode.fuzzy.rawValue
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithoutTitle("xxx yyy zzz"), menuItems: [])
+      Menu.IndexedItem(item: historyItemWithoutTitle("foo bar baz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithoutTitle("foo bar zaz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithoutTitle("xxx yyy zzz"), clipboard: Clipboard.shared)
     ]
 
     XCTAssertEqual(search(""), [
@@ -157,9 +157,9 @@ class SearchTests: XCTestCase {
   func testRegexpSearchInTitle() {
     UserDefaults.standard.searchMode = Search.Mode.regexp.rawValue
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithTitle("xxx yyy zzz"), menuItems: [])
+      Menu.IndexedItem(item: historyItemWithTitle("foo bar baz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithTitle("foo bar zaz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithTitle("xxx yyy zzz"), clipboard: Clipboard.shared)
     ]
 
     XCTAssertEqual(search(""), [
@@ -194,9 +194,9 @@ class SearchTests: XCTestCase {
   func testRegexpSearchInContents() {
     UserDefaults.standard.searchMode = Search.Mode.regexp.rawValue
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithoutTitle("xxx yyy zzz"), menuItems: [])
+      Menu.IndexedItem(item: historyItemWithoutTitle("foo bar baz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithoutTitle("foo bar zaz"), clipboard: Clipboard.shared),
+      Menu.IndexedItem(item: historyItemWithoutTitle("xxx yyy zzz"), clipboard: Clipboard.shared)
     ]
 
     XCTAssertEqual(search(""), [

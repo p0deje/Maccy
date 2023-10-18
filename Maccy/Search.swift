@@ -40,8 +40,8 @@ class Search {
   private func fuzzySearch(string: String, within: [Searchable]) -> [SearchResult] {
     let pattern = fuse.createPattern(from: string)
     let searchResults: [SearchResult] = within.compactMap({ item in
-      fuzzySearch(for: pattern, in: item.title, of: item) ??
-        fuzzySearch(for: pattern, in: item.value, of: item)
+      fuzzySearch(for: pattern, in: item.title, of: item)
+      ?? fuzzySearch(for: pattern, in: item.value, of: item)
     })
     let sortedResults = searchResults.sorted(by: { ($0.score ?? 0) < ($1.score ?? 0) })
     return sortedResults
@@ -68,8 +68,8 @@ class Search {
 
   private func simpleSearch(string: String, within: [Searchable], options: NSString.CompareOptions) -> [SearchResult] {
     return within.compactMap({ item in
-      simpleSearch(for: string, in: item.title, of: item, options: options) ??
-        simpleSearch(for: string, in: item.value, of: item, options: options)
+      simpleSearch(for: string, in: item.title, of: item, options: options)
+      ?? simpleSearch(for: string, in: item.value, of: item, options: options)
     })
   }
 

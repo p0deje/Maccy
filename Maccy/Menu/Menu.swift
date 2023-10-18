@@ -6,23 +6,6 @@ import AppKit
 class Menu: NSMenu, NSMenuDelegate {
   static let menuWidth = 300
 
-  class IndexedItem: NSObject {
-    var value: String
-    var title: String { item.title ?? "" }
-    var item: HistoryItem!
-    var menuItems: [HistoryMenuItem]
-    var popoverAnchor: NSMenuItem?
-
-    init(value: String, item: HistoryItem?, menuItems: [HistoryMenuItem]) {
-      self.value = value
-      self.item = item
-      self.menuItems = menuItems
-      if #unavailable(macOS 14) {
-        self.popoverAnchor = HistoryMenuItem.PreviewMenuItem()
-      }
-    }
-  }
-
   public let maxHotKey = 9
 
   public var isVisible: Bool = false
@@ -130,17 +113,13 @@ class Menu: NSMenu, NSMenuDelegate {
     clearAll()
 
     for item in history.all {
-      let menuItems = buildMenuItems(item)
-      if let menuItem = menuItems.first {
         let indexedItem = IndexedItem(
-          value: menuItem.value,
           item: item,
-          menuItems: menuItems
+          clipboard: clipboard
         )
         indexedItems.append(indexedItem)
-        menuItems.forEach(safeAddItem)
-        addPopoverAnchor(indexedItem)
-      }
+        indexedItem.menuItems.forEach(safeAddItem)
+		addPopoverAnchor(indexedItem)
     }
   }
 
@@ -150,14 +129,9 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    let menuItems = buildMenuItems(item)
-    guard let menuItem = menuItems.first else {
-      return
-    }
     let indexedItem = IndexedItem(
-      value: menuItem.value,
       item: item,
-      menuItems: menuItems
+      clipboard: clipboard
     )
     indexedItems.insert(indexedItem, at: insertionIndex)
 
@@ -174,7 +148,7 @@ class Menu: NSMenu, NSMenuDelegate {
       menuItemInsertionIndex += self.historyMenuItemOffset
       self.insertPopoverAnchor(indexedItem, menuItemInsertionIndex)
 
-      for menuItem in menuItems.reversed() {
+      for menuItem in indexedItem.menuItems.reversed() {
         self.safeInsertItem(menuItem, at: menuItemInsertionIndex)
       }
 
@@ -261,7 +235,7 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     performActionForItem(at: index(of: item))
-    return indexedItems[position].value
+    return indexedItems[position].title
   }
 
   func historyItem(at position: Int) -> HistoryItem? {
@@ -512,16 +486,6 @@ class Menu: NSMenu, NSMenuDelegate {
         return
       }
     }
-  }
-
-  private func buildMenuItems(_ item: HistoryItem) -> [HistoryMenuItem] {
-    let menuItems = [
-      HistoryMenuItem.CopyMenuItem(item: item, clipboard: clipboard),
-      HistoryMenuItem.PasteMenuItem(item: item, clipboard: clipboard),
-      HistoryMenuItem.PasteWithoutFormattingMenuItem(item: item, clipboard: clipboard)
-    ]
-
-    return menuItems.sorted(by: { !$0.isAlternate && $1.isAlternate })
   }
 
   private func chunks(_ items: [HistoryMenuItem]) -> [[HistoryMenuItem]] {

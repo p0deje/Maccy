@@ -160,24 +160,31 @@ class HistoryItem: NSManagedObject {
       }
   }
 
-  func generateTitle(_ contents: [HistoryItemContent]) -> String {
-    var title = ""
+  internal func generateContentString(_ contents: [HistoryItemContent]) -> String {
+    var content = ""
 
     guard image == nil else {
-      return title
+      return content
     }
 
     if let fileURL = fileURL {
-      title = fileURL.absoluteString.removingPercentEncoding ?? ""
+      content = fileURL.absoluteString.removingPercentEncoding ?? ""
     } else if let text = text {
-      title = text
-    } else if title.isEmpty, let rtf = rtf {
-      title = rtf.string
-    } else if title.isEmpty, let html = html {
-      title = html.string
+      content = text
+    } else if content.isEmpty, let rtf = rtf {
+      content = rtf.string
+    } else if content.isEmpty, let html = html {
+      content = html.string
     }
+    return content
+  }
 
-    return title
+  internal func generateTitle(_ contents: [HistoryItemContent]) -> String {
+    return titleFromContent(generateContentString(contents))
+  }
+
+  private func titleFromContent(_ content : String) -> String {
+    return  content
       .trimmingCharacters(in: .whitespacesAndNewlines)
       .replacingOccurrences(of: "\n", with: "⏎")
       .shortened(to: UserDefaults.standard.maxMenuItemLength)

@@ -3,7 +3,6 @@ import Cocoa
 class HistoryMenuItem: NSMenuItem {
   var isPinned = false
   var item: HistoryItem!
-  var value = ""
 
   internal var clipboard: Clipboard!
 
@@ -176,42 +175,21 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadFile(_ item: HistoryItem) {
-    guard let fileURL = item.fileURL,
-          let string = fileURL.absoluteString.removingPercentEncoding else {
-      return
-    }
-
-    self.value = string
     self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }
 
   private func loadRTF(_ item: HistoryItem) {
-    guard let string = item.rtf?.string else {
-      return
-    }
-
-    self.value = string
     self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }
 
   private func loadHTML(_ item: HistoryItem) {
-    guard let string = item.html?.string else {
-      return
-    }
-
-    self.value = string
     self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }
 
   private func loadText(_ item: HistoryItem) {
-    guard let string = item.text else {
-      return
-    }
-
-    self.value = string
     self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }

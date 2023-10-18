@@ -33,7 +33,7 @@ class HistoryMenuItemTests: XCTestCase {
     let title = "foo"
     let menuItem = historyMenuItem(title)
     XCTAssertEqual(menuItem.title, title)
-    XCTAssertEqual(menuItem.value, title)
+    XCTAssertEqual(menuItem.item.title, title)
     XCTAssertNil(menuItem.image)
   }
 
@@ -44,7 +44,7 @@ class HistoryMenuItemTests: XCTestCase {
     )
     let menuItem = historyMenuItem(rtf, .rtf)
     XCTAssertEqual(menuItem.title, "foo")
-    XCTAssertEqual(menuItem.value, "foo")
+    XCTAssertEqual(menuItem.item.title, "foo")
     XCTAssertNil(menuItem.image)
   }
 
@@ -52,7 +52,7 @@ class HistoryMenuItemTests: XCTestCase {
     let html = "<a href='#'>foo</a>".data(using: .utf8)
     let menuItem = historyMenuItem(html, .html)
     XCTAssertEqual(menuItem.title, "foo")
-    XCTAssertEqual(menuItem.value, "foo")
+    XCTAssertEqual(menuItem.item.title, "foo")
     XCTAssertNil(menuItem.image)
   }
 
@@ -60,7 +60,7 @@ class HistoryMenuItemTests: XCTestCase {
     let image = NSImage(named: "StatusBarMenuImage")!
     let menuItem = historyMenuItem(image)
     XCTAssertEqual(menuItem.title, " ")
-    XCTAssertEqual(menuItem.value, "")
+    XCTAssertEqual(menuItem.item.title, "")
     XCTAssertNotNil(menuItem.image)
     XCTAssertEqual(menuItem.image!.size, image.size)
   }
@@ -76,7 +76,7 @@ class HistoryMenuItemTests: XCTestCase {
     let url = URL(fileURLWithPath: "/tmp/foo.bar")
     let menuItem = historyMenuItem(url)
     XCTAssertEqual(menuItem.title, "file:///tmp/foo.bar")
-    XCTAssertEqual(menuItem.value, "file:///tmp/foo.bar")
+    XCTAssertEqual(menuItem.item.title, "file:///tmp/foo.bar")
     XCTAssertNil(menuItem.image)
   }
 
@@ -84,14 +84,14 @@ class HistoryMenuItemTests: XCTestCase {
     let url = URL(fileURLWithPath: "/tmp/产品培训/产品培训.txt")
     let menuItem = historyMenuItem(url)
     XCTAssertEqual(menuItem.title, "file:///tmp/产品培训/产品培训.txt")
-    XCTAssertEqual(menuItem.value, "file:///tmp/产品培训/产品培训.txt")
+    XCTAssertEqual(menuItem.item.title, "file:///tmp/产品培训/产品培训.txt")
     XCTAssertNil(menuItem.image)
   }
 
   func testItemWithoutData() {
     let menuItem = historyMenuItem(nil)
     XCTAssertEqual(menuItem.title, "")
-    XCTAssertEqual(menuItem.value, "")
+    XCTAssertEqual(menuItem.item.title, "")
     XCTAssertNil(menuItem.image)
   }
 
