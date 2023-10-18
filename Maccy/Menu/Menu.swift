@@ -46,8 +46,14 @@ class Menu: NSMenu, NSMenuDelegate {
       firstPinnedMenuItems.first
   }
 
-  private var maxMenuItems: Int { UserDefaults.standard.maxMenuItems }
-  private var maxVisibleItems: Int { maxMenuItems * historyMenuItemsGroup }
+  private var maxMenuItems: Int {
+    let count = UserDefaults.standard.maxMenuItems
+    return count > 0 ? count : Int.max;
+  }
+  private var maxVisibleItems: Int {
+    let count = UserDefaults.standard.maxMenuItems
+    return count > 0 ? count * historyMenuItemsGroup : Int.max
+  }
   private var lastMenuLocation: PopupLocation?
   private var menuHeader: MenuHeaderView? { items.first?.view as? MenuHeaderView }
   private var menuWindow: NSWindow? { NSApp.menuWindow }
@@ -172,7 +178,7 @@ class Menu: NSMenu, NSMenuDelegate {
     var results = search.search(string: filter, within: indexedItems)
 
     // Strip the results that are longer than visible items.
-    if maxMenuItems > 0 && maxMenuItems < results.count {
+    if maxMenuItems < results.count {
       results = Array(results[0...maxMenuItems - 1])
     }
 
@@ -349,17 +355,10 @@ class Menu: NSMenu, NSMenuDelegate {
   func updateUnpinnedItemsVisibility() {
     let historyMenuItemsCount = historyMenuItems.filter({ !$0.isPinned }).count
 
-    if maxVisibleItems > 0 {
-      if maxVisibleItems <= historyMenuItemsCount {
-        hideUnpinnedItemsOverLimit(historyMenuItemsCount)
-      } else if maxVisibleItems > historyMenuItemsCount {
-        appendUnpinnedItemsUntilLimit(historyMenuItemsCount)
-      }
+    if maxVisibleItems <= historyMenuItemsCount {
+      hideUnpinnedItemsOverLimit(currentCount: historyMenuItemsCount)
     } else {
-      let allItemsCount = indexedItems.flatMap({ $0.menuItems }).filter({ !$0.isPinned }).count
-      if historyMenuItemsCount < allItemsCount {
-        appendUnpinnedItemsUntilLimit(allItemsCount)
-      }
+      appendUnpinnedItemsUntilLimit(currentCount: historyMenuItemsCount)
     }
   }
 
@@ -451,38 +450,36 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func hideUnpinnedItemsOverLimit(_ limit: Int) {
-    var limit = limit
+  private func hideUnpinnedItemsOverLimit(currentCount: Int) {
+    var currentCount = currentCount
     for indexedItem in indexedItems.filter({ $0.item.pin == nil }).reversed() {
       let menuItems = indexedItem.menuItems.filter({ historyMenuItems.contains($0) })
-      if !menuItems.isEmpty {
-        removePopoverAnchor(indexedItem)
-        menuItems.forEach { historyMenuItem in
-          safeRemoveItem(historyMenuItem)
-          limit -= 1
-        }
+      removePopoverAnchor(indexedItem)
+      menuItems.forEach { historyMenuItem in
+        safeRemoveItem(historyMenuItem)
+        currentCount -= 1
       }
 
-      if maxVisibleItems != 0 && maxVisibleItems == limit {
+      if maxVisibleItems >= currentCount {
         return
       }
     }
   }
 
-  private func appendUnpinnedItemsUntilLimit(_ limit: Int) {
-    var limit = limit
+  private func appendUnpinnedItemsUntilLimit(currentCount: Int) {
+    var currentCount = currentCount
     for indexedItem in indexedItems.filter({ $0.item.pin == nil }) {
       let menuItems = indexedItem.menuItems.filter({ !historyMenuItems.contains($0) })
-      if !menuItems.isEmpty, let lastItem = lastUnpinnedHistoryMenuItem {
+      if let lastItem = lastUnpinnedHistoryMenuItem {
         let index = index(of: lastItem) + 1 + previewMenuItemOffset
         insertPopoverAnchor(indexedItem, index)
         menuItems.reversed().forEach { historyMenuItem in
           safeInsertItem(historyMenuItem, at: index)
-          limit += 1
+          currentCount += 1
         }
       }
 
-      if maxVisibleItems != 0 && maxVisibleItems == limit {
+      if maxVisibleItems <= currentCount {
         return
       }
     }
