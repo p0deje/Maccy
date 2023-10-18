@@ -12,6 +12,7 @@
 		2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB092AD9AE1F00B749FD /* Settings */; };
 		2F73DF2C2AE2749E00DB654E /* PreviewMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F73DF2B2AE2749E00DB654E /* PreviewMenuItem.swift */; };
 		2F89CC932AE2C9E000959C91 /* PopupLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F89CC922AE2C9E000959C91 /* PopupLocation.swift */; };
+		2FB66AEA2ADFD7F30081AA34 /* PreviewPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB66AE92ADFD7F30081AA34 /* PreviewPopoverController.swift */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
 		5AA9C8402AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA9C83F2AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift */; };
 		5ACA94F52AD4D1E200ECAB6A /* IgnoreRegexViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ACA94F42AD4D1E200ECAB6A /* IgnoreRegexViewController.swift */; };
@@ -145,6 +146,7 @@
 		2F3205B82AE3EDCA002EA545 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
 		2F73DF2B2AE2749E00DB654E /* PreviewMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewMenuItem.swift; sourceTree = "<group>"; };
 		2F89CC922AE2C9E000959C91 /* PopupLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupLocation.swift; sourceTree = "<group>"; };
+		2FB66AE92ADFD7F30081AA34 /* PreviewPopoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPopoverController.swift; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4DC4D10F252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
@@ -372,6 +374,7 @@
 			isa = PBXGroup;
 			children = (
 				DA2C752B2029FE990090965D /* Menu.swift */,
+				2FB66AE92ADFD7F30081AA34 /* PreviewPopoverController.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -855,6 +858,7 @@
 				DAFE2DD82688018100990986 /* PinsSettingsViewController.swift in Sources */,
 				DA81D674252A056B009977BC /* Throttler.swift in Sources */,
 				DA196A9328AB0D4500ADD8A2 /* MenuHeaderView.swift in Sources */,
+				2FB66AEA2ADFD7F30081AA34 /* PreviewPopoverController.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
 				DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */,
 				DA1DF95227AF8BBA006839E0 /* StorageSettingsViewController.swift in Sources */,

@@ -5,7 +5,6 @@ import AppKit
 // swiftlint:disable type_body_length
 class Menu: NSMenu, NSMenuDelegate {
   static let menuWidth = 300
-  static let popoverGap = 5.0
 
   class IndexedItem: NSObject {
     var value: String
@@ -41,10 +40,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private let search = Search()
 
-  private static let subsequentPreviewDelay = 0.2
-  private var initialPreviewDelay: Double { Double(UserDefaults.standard.previewDelay) / 1000 }
-  private lazy var previewThrottle = Throttler(minimumDelay: initialPreviewDelay)
-  private var previewPopover: NSPopover?
+  private let previewController = PreviewPopoverController()
 
   private let historyMenuItemOffset = 1 // The first item is reserved for header.
   private let historyMenuItemsGroup = 3 // 1 main and 2 alternates
@@ -103,7 +99,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   func menuWillOpen(_ menu: NSMenu) {
     isVisible = true
-    previewThrottle.minimumDelay = initialPreviewDelay
+    previewController.menuWillOpen()
     highlight(firstVisibleUnpinnedHistoryMenuItem ?? historyMenuItems.first)
   }
 
@@ -119,106 +115,15 @@ class Menu: NSMenu, NSMenuDelegate {
   func menuDidClose(_ menu: NSMenu) {
     isVisible = false
     lastMenuLocation = nil
-    offloadCurrentPreview()
+    previewController.menuDidClose()
   }
 
   func menu(_ menu: NSMenu, willHighlight item: NSMenuItem?) {
-    offloadCurrentPreview()
-
+    previewController.cancelPopover()
     guard let item = item as? HistoryMenuItem else {
       return
     }
-
-    previewThrottle.throttle { [self] in
-      previewPopover = NSPopover()
-      previewPopover?.animates = false
-      previewPopover?.behavior = .semitransient
-      previewPopover?.contentViewController = Preview(item: item.item)
-
-      guard let previewWindow = menuWindow,
-            let windowContentView = previewWindow.contentView,
-            let boundsOfVisibleMenuItem = boundsOfMenuItem(item, windowContentView) else {
-        return
-      }
-
-      previewThrottle.minimumDelay = Menu.subsequentPreviewDelay
-
-      previewPopover?.show(
-        relativeTo: boundsOfVisibleMenuItem,
-        of: windowContentView,
-        preferredEdge: .maxX
-      )
-
-      if let popoverWindow = previewPopover?.contentViewController?.view.window {
-        if popoverWindow.frame.minX < previewWindow.frame.minX {
-          popoverWindow.setFrameOrigin(
-            NSPoint(x: popoverWindow.frame.minX - Menu.popoverGap, y: popoverWindow.frame.minY)
-          )
-        } else {
-          popoverWindow.setFrameOrigin(
-            NSPoint(x: popoverWindow.frame.minX + Menu.popoverGap, y: popoverWindow.frame.minY)
-          )
-        }
-      }
-    }
-  }
-
-  private func boundsOfMenuItem(_ item: NSMenuItem, _ windowContentView: NSView) -> NSRect? {
-    if #available(macOS 14, *) {
-      let windowRectInScreenCoordinates = windowContentView.accessibilityFrame()
-      let menuItemRectInScreenCoordinates = item.accessibilityFrame()
-      return NSRect(
-        origin: NSPoint(
-          x: menuItemRectInScreenCoordinates.origin.x - windowRectInScreenCoordinates.origin.x,
-          y: menuItemRectInScreenCoordinates.origin.y - windowRectInScreenCoordinates.origin.y),
-        size: menuItemRectInScreenCoordinates.size
-      )
-    } else {
-      guard let item = item as? HistoryMenuItem,
-            let itemIndex = indexedItems.firstIndex(where: { $0.menuItems.contains(item) }) else {
-        return nil
-      }
-      let indexedItem = indexedItems[itemIndex]
-      guard let previewView = indexedItem.popoverAnchor!.view else {
-        return nil
-      }
-
-      func getPrecedingView() -> NSView? {
-        for index in (0..<itemIndex).reversed() {
-          // PreviewMenuItem always has a view
-          // Check if preview item is visible (it may be hidden by the search filter)
-          if let view = indexedItems[index].popoverAnchor?.view,
-             view.window != nil {
-            return view
-          }
-        }
-        // If the item is the first visible one, the preceding view is the header.
-        guard let header = menuHeader else {
-          // Should never happen as we always have a MenuHeader installed.
-          return nil
-        }
-        return header
-      }
-
-      guard let precedingView = getPrecedingView() else {
-        return nil
-      }
-
-      let bottomPoint = previewView.convert(
-        NSPoint(x: previewView.bounds.minX, y: previewView.bounds.maxY),
-        to: windowContentView
-      )
-      let topPoint = precedingView.convert(
-        NSPoint(x: previewView.bounds.minX, y: precedingView.bounds.minY),
-        to: windowContentView
-      )
-
-      let heightOfVisibleMenuItem = abs(topPoint.y - bottomPoint.y)
-      return NSRect(
-        origin: bottomPoint,
-        size: NSSize(width: item.menu?.size.width ?? 0, height: heightOfVisibleMenuItem)
-      )
-    }
+    previewController.showPopover(for: item, allItems: indexedItems)
   }
 
   func buildItems() {
@@ -660,12 +565,6 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     removeItem(item)
-  }
-
-  private func offloadCurrentPreview() {
-    previewThrottle.cancel()
-    previewPopover?.close()
-    previewPopover = nil
   }
 
   private func ensureInEventTrackingModeIfVisible(
