@@ -81,7 +81,11 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private var lastMenuLocation : PopupLocation?
   private var menuWindow: NSWindow? {
-    NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
+    if #available(macOS 14, *) {
+      NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
+    } else {
+      NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSMenuWindowManagerWindow" })
+    }
   }
 
   required init(coder decoder: NSCoder) {
@@ -187,14 +191,61 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func boundsOfMenuItem(_ item: NSMenuItem, _ windowContentView: NSView) -> NSRect? {
-    let windowRectInScreenCoordinates = windowContentView.accessibilityFrame()
-    let menuItemRectInScreenCoordinates = item.accessibilityFrame()
-    return NSRect(
-      origin: NSPoint(
-        x: menuItemRectInScreenCoordinates.origin.x - windowRectInScreenCoordinates.origin.x,
-        y: menuItemRectInScreenCoordinates.origin.y - windowRectInScreenCoordinates.origin.y),
-      size: menuItemRectInScreenCoordinates.size
-    )
+    if #available(macOS 14, *) {
+      let windowRectInScreenCoordinates = windowContentView.accessibilityFrame()
+      let menuItemRectInScreenCoordinates = item.accessibilityFrame()
+      return NSRect(
+        origin: NSPoint(
+          x: menuItemRectInScreenCoordinates.origin.x - windowRectInScreenCoordinates.origin.x,
+          y: menuItemRectInScreenCoordinates.origin.y - windowRectInScreenCoordinates.origin.y),
+        size: menuItemRectInScreenCoordinates.size
+      )
+    } else {
+      guard let item = item as? HistoryMenuItem,
+            let itemIndex = indexedItems.firstIndex(where: { $0.menuItems.contains(item) }) else {
+        return nil
+      }
+      let indexedItem = indexedItems[itemIndex]
+      guard let previewView = indexedItem.popoverAnchor!.view else {
+        return nil
+      }
+
+      func getPrecedingView() -> NSView? {
+        for index in (0..<itemIndex).reversed() {
+          // PreviewMenuItem always has a view
+          // Check if preview item is visible (it may be hidden by the search filter)
+          if let view = indexedItems[index].popoverAnchor?.view,
+             view.window != nil {
+            return view
+          }
+        }
+        // If the item is the first visible one, the preceding view is the header.
+        guard let header = menuHeader() else {
+          // Should never happen as we always have a MenuHeader installed.
+          return nil
+        }
+        return header
+      }
+
+      guard let precedingView = getPrecedingView() else {
+        return nil
+      }
+
+      let bottomPoint = previewView.convert(
+        NSPoint(x: previewView.bounds.minX, y: previewView.bounds.maxY),
+        to: windowContentView
+      )
+      let topPoint = precedingView.convert(
+        NSPoint(x: previewView.bounds.minX, y: precedingView.bounds.minY),
+        to: windowContentView
+      )
+
+      let heightOfVisibleMenuItem = abs(topPoint.y - bottomPoint.y)
+      return NSRect(
+        origin: bottomPoint,
+        size: NSSize(width: item.menu?.size.width ?? 0, height: heightOfVisibleMenuItem)
+      )
+    }
   }
 
   func buildItems() {
