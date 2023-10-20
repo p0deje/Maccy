@@ -94,38 +94,13 @@ class Maccy: NSObject {
   }
 
   func popUp() {
-    // Grab focused window frame before changing focus
-    let windowFrame = NSWorkspace.shared.frontmostApplication?.windowFrame
-
-    withFocus {
-      switch UserDefaults.standard.popupPosition {
-      case "center":
-        if let frame = NSScreen.forPopup?.visibleFrame {
-          self.linkingMenuToStatusItem {
-            self.menu.popUpMenu(
-              at: NSRect.centered(ofSize: self.menu.size, in: frame).origin,
-              ofType: .centeredInScreen(frame: frame)
-            )
-          }
-        }
-      case "statusItem":
-        self.simulateStatusItemClick()
-      case "window":
-        if let frame = windowFrame {
-          self.linkingMenuToStatusItem {
-            self.menu.popUpMenu(
-              at: NSRect.centered(ofSize: self.menu.size, in: frame).origin,
-              ofType: .centeredInWindow(frame: frame)
-            )
-          }
-        } else {
-          fallthrough
-        }
-      default:
-        self.linkingMenuToStatusItem {
-          let mouseLocation = NSEvent.mouseLocation
-          self.menu.popUpMenu(at: mouseLocation, ofType: .atMouseCursor(location: mouseLocation))
-        }
+    let location = PopupLocation.forUserDefaults
+    switch location {
+    case .inMenuBar:
+      self.simulateStatusItemClick()
+    default:
+      self.linkingMenuToStatusItem {
+        self.menu.popUpMenu(at: location.location(for: self.menu.size) ?? .zero, ofType: location)
       }
     }
   }
