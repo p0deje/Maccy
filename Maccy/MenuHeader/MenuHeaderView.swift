@@ -35,9 +35,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     queryField.delegate = self
     queryField.placeholderString = NSLocalizedString("search_placeholder", comment: "")
 
-    if #available(macOS 11, *) {
-      // all good
-    } else {
+    if #unavailable(macOS 11) {
       horizontalLeftPadding.constant = macOSXLeftPadding
       horizontalRightPadding.constant = macOSXRightPadding
     }
@@ -78,9 +76,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   override func draw(_ dirtyRect: NSRect) {
     super.draw(dirtyRect)
 
-    if #available(macOS 13, *) {
-      // all good
-    } else {
+    if #unavailable(macOS 13) {
       if NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast ||
          NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
         NSColor(named: "MenuColor")?.setFill()

@@ -315,8 +315,7 @@ class Maccy: NSObject {
   }
 
   private func withMenuButtonHighlighted(_ buttonCell: NSButtonCell, _ closure: @escaping () -> Void) {
-    if #available(OSX 10.11, *) {
-      // Big Sur doesn't need to highlight manually
+    if #available(macOS 11, *) {
       closure()
     } else {
       buttonCell.highlightsBy = [.changeGrayCellMask, .contentsCellMask, .pushInCellMask]

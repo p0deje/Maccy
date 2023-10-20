@@ -18,9 +18,7 @@ class Menu: NSMenu, NSMenuDelegate {
       self.value = value
       self.item = item
       self.menuItems = menuItems
-      if #available(macOS 14, *) {
-        // all good
-      } else {
+      if #unavailable(macOS 14) {
         self.popoverAnchor = HistoryMenuItem.PreviewMenuItem()
       }
     }
@@ -50,11 +48,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private let historyMenuItemOffset = 1 // The first item is reserved for header.
   private let historyMenuItemsGroup = 3 // 1 main and 2 alternates
-  private let previewMenuItemOffset = if #available(macOS 14, *) {
-    0
-  } else {
-    1
-  }
+  private var previewMenuItemOffset = 0
 
   private var clipboard: Clipboard!
   private var history: History!
@@ -98,6 +92,10 @@ class Menu: NSMenu, NSMenuDelegate {
     self.clipboard = clipboard
     self.delegate = self
     self.minimumWidth = CGFloat(Menu.menuWidth)
+
+    if #unavailable(macOS 14) {
+      self.previewMenuItemOffset = 1
+    }
   }
 
   func popUpMenu(at location: NSPoint, ofType locationType: PopupLocation) {
@@ -565,29 +563,19 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func addPopoverAnchor(_ item: IndexedItem) {
-    if #available(macOS 14, *) {
-      // all good
-    } else {
-      if let popoverAnchor = item.popoverAnchor {
-        safeAddItem(popoverAnchor)
-      }
+    if #unavailable(macOS 14), let popoverAnchor = item.popoverAnchor {
+      safeAddItem(popoverAnchor)
     }
   }
 
   private func insertPopoverAnchor(_ item: IndexedItem, _ index: Int) {
-    if #available(macOS 14, *) {
-      // all good
-    } else {
-      if let popoverAnchor = item.popoverAnchor {
-        safeInsertItem(popoverAnchor, at: index)
-      }
+    if #unavailable(macOS 14), let popoverAnchor = item.popoverAnchor {
+      safeInsertItem(popoverAnchor, at: index)
     }
   }
 
   private func removePopoverAnchor(_ item: IndexedItem) {
-    if #available(macOS 14, *) {
-      // all good
-    } else {
+    if #unavailable(macOS 14) {
       safeRemoveItem(item.popoverAnchor)
     }
   }
