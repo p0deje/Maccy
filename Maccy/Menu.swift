@@ -50,7 +50,11 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private let historyMenuItemOffset = 1 // The first item is reserved for header.
   private let historyMenuItemsGroup = 3 // 1 main and 2 alternates
-  private let previewMenuItemOffset = if #available(macOS 14, *) { 0 } else { 1 }
+  private let previewMenuItemOffset = if #available(macOS 14, *) {
+    0
+  } else {
+    1
+  }
 
   private var clipboard: Clipboard!
   private var history: History!
