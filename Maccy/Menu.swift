@@ -69,14 +69,6 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private var maxMenuItems: Int { UserDefaults.standard.maxMenuItems }
   private var maxVisibleItems: Int { maxMenuItems * historyMenuItemsGroup }
-
-  enum PopupLocation {
-    case inMenuBar
-    case atMouseCursor(location: CGPoint)
-    case centeredInWindow(frame: CGRect)
-    case centeredInScreen(frame: CGRect)
-  }
-
   private var lastMenuLocation: PopupLocation?
   private var menuHeader: MenuHeaderView? { items.first?.view as? MenuHeaderView }
   private var menuWindow: NSWindow? { NSApp.menuWindow }
@@ -119,13 +111,8 @@ class Menu: NSMenu, NSMenuDelegate {
     guard let location = lastMenuLocation else {
       return
     }
-    switch location {
-    case let .centeredInWindow(frame),
-         let .centeredInScreen(frame):
-      let centeredRect = NSRect.centered(ofSize: size, in: frame)
-      menuWindow?.setFrameTopLeftPoint(NSPoint(x: centeredRect.minX, y: centeredRect.minY))
-    default:
-      break
+    if let point = location.location(for: self.size) {
+      menuWindow?.setFrameTopLeftPoint(point)
     }
   }
 
