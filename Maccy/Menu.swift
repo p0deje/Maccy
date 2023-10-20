@@ -80,13 +80,8 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private var lastMenuLocation: PopupLocation?
-  private var menuWindow: NSWindow? {
-    if #available(macOS 14, *) {
-      NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSPopupMenuWindow" })
-    } else {
-      NSApp.windows.first(where: { String(describing: type(of: $0)) == "NSMenuWindowManagerWindow" })
-    }
-  }
+  private var menuHeader: MenuHeaderView? { items.first?.view as? MenuHeaderView }
+  private var menuWindow: NSWindow? { NSApp.menuWindow }
 
   required init(coder decoder: NSCoder) {
     super.init(coder: decoder)
@@ -137,16 +132,12 @@ class Menu: NSMenu, NSMenuDelegate {
     lastMenuLocation = nil
     offloadCurrentPreview()
 
-    if let headerView = menuHeader() {
+    if let headerView = menuHeader {
       DispatchQueue.main.async {
         headerView.setQuery("")
         headerView.queryField.refusesFirstResponder = true
       }
     }
-  }
-
-  private func menuHeader() -> MenuHeaderView? {
-    return items.first?.view as? MenuHeaderView
   }
 
   func menu(_ menu: NSMenu, willHighlight item: NSMenuItem?) {
@@ -220,7 +211,7 @@ class Menu: NSMenu, NSMenuDelegate {
           }
         }
         // If the item is the first visible one, the preceding view is the header.
-        guard let header = menuHeader() else {
+        guard let header = menuHeader else {
           // Should never happen as we always have a MenuHeader installed.
           return nil
         }

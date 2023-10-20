@@ -19,7 +19,6 @@ class Maccy: NSObject {
   private var menuLoader: MenuLoader!
   private var window: NSWindow!
 
-  private let carbonMenuWindowClass = "NSStatusBarWindow"
   private var clearAlert: NSAlert {
     let alert = NSAlert()
     alert.messageText = NSLocalizedString("clear_alert_message", comment: "")
@@ -30,7 +29,7 @@ class Maccy: NSObject {
     return alert
   }
   private var extraVisibleWindows: [NSWindow] {
-    return NSApp.windows.filter({ $0.isVisible && String(describing: type(of: $0)) != carbonMenuWindowClass })
+    NSApp.windows.filter({ $0.isVisible && String(describing: type(of: $0)) != NSApplication.statusBarWindowClass })
   }
 
   private lazy var settingsWindowController = SettingsWindowController(
