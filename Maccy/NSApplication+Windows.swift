@@ -1,16 +1,13 @@
 import AppKit
 
 extension NSApplication {
-  static let statusBarWindowClass = "NSStatusBarWindow"
-
+  var characterPickerWindow: NSWindow? { windows.first { $0.className == "NSPanelViewBridge" } }
   var menuWindow: NSWindow? {
     windows.first { window in
-      let className = String(describing: type(of: window))
-      return (
-        className == "NSPopupMenuWindow" // macOS 14 and later
-          || className == "NSMenuWindowManagerWindow" // macOS 13 - 14
-          || className == "NSCarbonMenuWindow" // macOS 12 and earlier
-      )
+      window.className == "NSPopupMenuWindow" // macOS 14 and later
+        || window.className == "NSMenuWindowManagerWindow" // macOS 13 - 14
+        || window.className == "NSCarbonMenuWindow" // macOS 12 and earlier
     }
   }
+  var statusBarWindow: NSWindow? { windows.first { $0.className == "NSStatusBarWindow" } }
 }

@@ -29,7 +29,7 @@ class Maccy: NSObject {
     return alert
   }
   private var extraVisibleWindows: [NSWindow] {
-    NSApp.windows.filter({ $0.isVisible && String(describing: type(of: $0)) != NSApplication.statusBarWindowClass })
+    NSApp.windows.filter({ $0.isVisible && $0.className != NSApp.statusBarWindow?.className })
   }
 
   private lazy var settingsWindowController = SettingsWindowController(

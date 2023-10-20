@@ -14,9 +14,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   private let macOSXRightPadding: CGFloat = 10.0
   private let searchThrottler = Throttler(minimumDelay: 0.4)
 
-  private var characterPickerVisible: Bool {
-    NSApp.windows.filter({ $0.isVisible }).map({ $0.className }).contains("NSPanelViewBridge")
-  }
+  private var characterPickerVisible: Bool { NSApp.characterPickerWindow?.isVisible ?? false }
 
   private lazy var eventMonitor = RunLoopLocalEventMonitor(runLoopMode: .eventTracking) { event in
     if self.processInterceptedEvent(event) {
