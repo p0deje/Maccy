@@ -55,17 +55,23 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   override func viewDidMoveToWindow() {
     super.viewDidMoveToWindow()
 
-    if window != nil && customMenu?.isVisible == true {
-      // Fix for Sonoma. The menu will report an icorrect height causing the popup to be
-      // This is the most conventient and earliest point possible to intercept and adjust the window location.
+    guard let menu = customMenu else { return }
+
+    if window != nil {
+      // Fix for Sonoma. The menu will report an incorrect height causing the popup to be mispositioned.
+      // This is the most convenient and earliest point to intercept and adjust the window location.
       if #available(macOS 14, *) {
-        if customMenu?.size.height ?? 0.0 < NSScreen.forPopup?.visibleFrame.height ?? 0.0 {
-          customMenu?.adjustMenuWindowPosition()
+        if menu.size.height < (NSScreen.forPopup?.visibleFrame.height ?? 0.0) {
+          menu.adjustMenuWindowPosition()
         }
       }
       eventMonitor.start()
-    } else if window == nil && customMenu?.isVisible == false {
+    } else {
       eventMonitor.stop()
+      DispatchQueue.main.async {
+        self.setQuery("")
+        self.queryField.refusesFirstResponder = true
+      }
     }
   }
 

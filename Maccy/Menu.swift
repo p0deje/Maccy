@@ -131,13 +131,6 @@ class Menu: NSMenu, NSMenuDelegate {
     isVisible = false
     lastMenuLocation = nil
     offloadCurrentPreview()
-
-    if let headerView = menuHeader {
-      DispatchQueue.main.async {
-        headerView.setQuery("")
-        headerView.queryField.refusesFirstResponder = true
-      }
-    }
   }
 
   func menu(_ menu: NSMenu, willHighlight item: NSMenuItem?) {
