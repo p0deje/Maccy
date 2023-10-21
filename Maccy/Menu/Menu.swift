@@ -119,13 +119,12 @@ class Menu: NSMenu, NSMenuDelegate {
     clearAll()
 
     for item in history.all {
-        let indexedItem = IndexedItem(
-          item: item,
-          clipboard: clipboard
-        )
-        indexedItems.append(indexedItem)
-        indexedItem.menuItems.forEach(safeAddItem)
-		addPopoverAnchor(indexedItem)
+      let indexedItem = IndexedItem(
+        item: item,
+        clipboard: clipboard
+      )
+      indexedItems.append(indexedItem)
+      addIndexedItem(indexedItem)
     }
   }
 
@@ -152,12 +151,7 @@ class Menu: NSMenu, NSMenuDelegate {
         menuItemInsertionIndex *= (self.historyMenuItemsGroup + self.previewMenuItemOffset)
       }
       menuItemInsertionIndex += self.historyMenuItemOffset
-      self.insertPopoverAnchor(indexedItem, menuItemInsertionIndex)
-
-      for menuItem in indexedItem.menuItems.reversed() {
-        self.safeInsertItem(menuItem, at: menuItemInsertionIndex)
-      }
-
+      self.insertIndexedItem(indexedItem, at: menuItemInsertionIndex)
       self.clearRemovedItems()
     }
   }
@@ -197,21 +191,16 @@ class Menu: NSMenu, NSMenuDelegate {
     // First, remove items that don't match search.
     for indexedItem in indexedItems {
       if !foundItems.contains(indexedItem) {
-        indexedItem.menuItems.forEach(safeRemoveItem)
+        removeIndexedItem(indexedItem)
       }
-      removePopoverAnchor(indexedItem)
     }
 
     // Second, update order of items to match search results order.
     for result in results.reversed() {
-      if let popoverAnchor = result.object.popoverAnchor {
-        safeRemoveItem(popoverAnchor)
-        safeInsertItem(popoverAnchor, at: historyMenuItemOffset)
-      }
-      for menuItem in result.object.menuItems.reversed() {
-        safeRemoveItem(menuItem)
+      removeIndexedItem(result.object)
+      insertIndexedItem(result.object, at: historyMenuItemOffset)
+      for menuItem in result.object.menuItems {
         menuItem.highlight(result.titleMatches)
-        safeInsertItem(menuItem, at: historyMenuItemOffset)
       }
     }
 
@@ -278,8 +267,7 @@ class Menu: NSMenu, NSMenuDelegate {
       guard historyItemToRemoveIndex != -1 else { return }
 
       if let indexedItem = indexedItems.first(where: { $0.item == historyItemToRemove.item }) {
-        removePopoverAnchor(indexedItem)
-        indexedItem.menuItems.forEach(safeRemoveItem)
+        removeIndexedItem(indexedItem)
         if let removeIndex = indexedItems.firstIndex(of: indexedItem) {
           indexedItems.remove(at: removeIndex)
         }
@@ -303,18 +291,16 @@ class Menu: NSMenu, NSMenuDelegate {
     }
 
     if altItemToPin.isPinned {
+      removeIndexedItem(historyItem)
       for menuItem in historyItem.menuItems {
         menuItem.unpin()
-        safeRemoveItem(menuItem)
       }
-      removePopoverAnchor(historyItem)
     } else {
       let pin = HistoryItem.randomAvailablePin
+      removeIndexedItem(historyItem)
       for menuItem in historyItem.menuItems {
         menuItem.pin(pin)
-        safeRemoveItem(menuItem)
       }
-      removePopoverAnchor(historyItem)
     }
 
     history.update(altItemToPin.item)
@@ -327,10 +313,7 @@ class Menu: NSMenu, NSMenuDelegate {
       }
 
       let menuItemIndex = newIndex * (historyMenuItemsGroup + previewMenuItemOffset) + historyMenuItemOffset
-      insertPopoverAnchor(historyItem, menuItemIndex)
-      for menuItem in historyItem.menuItems.reversed() {
-        safeInsertItem(menuItem, at: menuItemIndex)
-      }
+      insertIndexedItem(historyItem, at: menuItemIndex)
 
       updateFilter(filter: "") // show all items
       highlight(historyItem.menuItems[1])
@@ -423,8 +406,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func clear(_ itemsToClear: [IndexedItem]) {
     for indexedItem in itemsToClear {
-      removePopoverAnchor(indexedItem)
-      indexedItem.menuItems.forEach(safeRemoveItem)
+      removeIndexedItem(indexedItem)
 
       if let removeIndex = indexedItems.firstIndex(of: indexedItem) {
         indexedItems.remove(at: removeIndex)
@@ -432,33 +414,11 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func addPopoverAnchor(_ item: IndexedItem) {
-    if #unavailable(macOS 14), let popoverAnchor = item.popoverAnchor {
-      safeAddItem(popoverAnchor)
-    }
-  }
-
-  private func insertPopoverAnchor(_ item: IndexedItem, _ index: Int) {
-    if #unavailable(macOS 14), let popoverAnchor = item.popoverAnchor {
-      safeInsertItem(popoverAnchor, at: index)
-    }
-  }
-
-  private func removePopoverAnchor(_ item: IndexedItem) {
-    if #unavailable(macOS 14) {
-      safeRemoveItem(item.popoverAnchor)
-    }
-  }
-
   private func hideUnpinnedItemsOverLimit(currentCount: Int) {
     var currentCount = currentCount
     for indexedItem in indexedItems.filter({ $0.item.pin == nil }).reversed() {
-      let menuItems = indexedItem.menuItems.filter({ historyMenuItems.contains($0) })
-      removePopoverAnchor(indexedItem)
-      menuItems.forEach { historyMenuItem in
-        safeRemoveItem(historyMenuItem)
-        currentCount -= 1
-      }
+      removeIndexedItem(indexedItem)
+      currentCount -= indexedItem.menuItemCount
 
       if maxVisibleItems >= currentCount {
         return
@@ -469,14 +429,10 @@ class Menu: NSMenu, NSMenuDelegate {
   private func appendUnpinnedItemsUntilLimit(currentCount: Int) {
     var currentCount = currentCount
     for indexedItem in indexedItems.filter({ $0.item.pin == nil }) {
-      let menuItems = indexedItem.menuItems.filter({ !historyMenuItems.contains($0) })
       if let lastItem = lastUnpinnedHistoryMenuItem {
         let index = index(of: lastItem) + 1 + previewMenuItemOffset
-        insertPopoverAnchor(indexedItem, index)
-        menuItems.reversed().forEach { historyMenuItem in
-          safeInsertItem(historyMenuItem, at: index)
-          currentCount += 1
-        }
+        insertIndexedItem(indexedItem, at: index)
+        currentCount += indexedItem.menuItemCount
       }
 
       if maxVisibleItems <= currentCount {
@@ -494,13 +450,37 @@ class Menu: NSMenu, NSMenuDelegate {
   private func clearRemovedItems() {
     let currentHistoryItems = history.all
     for indexedItem in indexedItems where !currentHistoryItems.contains(indexedItem.item) {
-      removePopoverAnchor(indexedItem)
-      indexedItem.menuItems.forEach(safeRemoveItem)
+      removeIndexedItem(indexedItem)
 
       if let removeIndex = indexedItems.firstIndex(of: indexedItem) {
         indexedItems.remove(at: removeIndex)
       }
     }
+  }
+
+  private func addIndexedItem(_ item: IndexedItem) {
+    item.menuItems.forEach(safeAddItem(_:))
+    if #unavailable(macOS 14), let popoverAnchor = item.popoverAnchor {
+      safeAddItem(popoverAnchor)
+    }
+  }
+
+  private func insertIndexedItem(_ item: IndexedItem, at index: Int) {
+    if #unavailable(macOS 14), let popoverAnchor = item.popoverAnchor {
+      safeInsertItem(popoverAnchor, at: index)
+    }
+
+    for menuItem in item.menuItems.reversed() {
+      safeInsertItem(menuItem, at: index)
+    }
+  }
+
+  private func removeIndexedItem(_ item: IndexedItem?) {
+    guard let item = item else { return }
+    if #unavailable(macOS 14) {
+      safeRemoveItem(item.popoverAnchor)
+    }
+    item.menuItems.forEach(safeRemoveItem(_:))
   }
 
   private func safeAddItem(_ item: NSMenuItem) {
