@@ -375,6 +375,8 @@
 		2FB66AE82ADFD6FD0081AA34 /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
+				2F3205B82AE3EDCA002EA545 /* MenuController.swift */,
 				DA2C752B2029FE990090965D /* Menu.swift */,
 				2FB66AE92ADFD7F30081AA34 /* PreviewPopoverController.swift */,
 				2FB66AEB2ADFDCE40081AA34 /* IndexedItem.swift */,
@@ -563,7 +565,6 @@
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */,
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
-				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
 				DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */,
 				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
 				DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */,
@@ -577,6 +578,7 @@
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
 				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
+				2F89CC922AE2C9E000959C91 /* PopupLocation.swift */,
 			);
 			path = Maccy;
 			sourceTree = "<group>";
