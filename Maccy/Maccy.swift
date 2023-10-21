@@ -16,7 +16,6 @@ class Maccy: NSObject {
   private let history = History()
   private var menu: Menu!
   private var menuController: MenuController!
-  private var window: NSWindow!
 
   private var clearAlert: NSAlert {
     let alert = NSAlert()
