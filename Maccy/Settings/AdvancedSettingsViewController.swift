@@ -13,8 +13,6 @@ class AdvancedSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var clearOnQuitButton: NSButton!
   @IBOutlet weak var clearSystemClipboardButton: NSButton!
 
-  private let exampleIgnoredType = "zzz.yyy.xxx"
-
   override func viewWillAppear() {
     super.viewWillAppear()
     populateTurnOff()
