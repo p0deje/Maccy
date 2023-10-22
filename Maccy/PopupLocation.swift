@@ -6,7 +6,7 @@ enum PopupLocation {
   case centeredInWindow(frame: CGRect)
   case centeredInScreen(frame: CGRect)
 
-  static var forUserDefaults : PopupLocation {
+  static var forUserDefaults: PopupLocation {
     switch UserDefaults.standard.popupPosition {
     case "center":
       if let frame = NSScreen.forPopup?.visibleFrame {
@@ -25,7 +25,7 @@ enum PopupLocation {
     return .atMouseCursor(location: mouseLocation)
   }
 
-  func location(for size : NSSize) -> NSPoint? {
+  func location(for size: NSSize) -> NSPoint? {
     switch self {
     case .inMenuBar:
       return nil

@@ -387,6 +387,11 @@ class Menu: NSMenu, NSMenuDelegate {
     if let historyItemToRemove = itemToRemove as? HistoryMenuItem {
       let historyItemToRemoveIndex = index(of: historyItemToRemove)
 
+      // When deleting mulitple items by holding the removal keys
+      // we sometimes get into a race condition with menu updating indices.
+      // https://github.com/p0deje/Maccy/issues/628
+      guard historyItemToRemoveIndex != -1 else { return }
+
       if let indexedItem = indexedItems.first(where: { $0.item == historyItemToRemove.item }) {
         removePopoverAnchor(indexedItem)
         indexedItem.menuItems.forEach(safeRemoveItem)
