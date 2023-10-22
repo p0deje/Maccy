@@ -55,7 +55,6 @@ class Menu: NSMenu, NSMenuDelegate {
     return count > 0 ? count * historyMenuItemsGroup : Int.max
   }
   private var lastMenuLocation: PopupLocation?
-  private var menuHeader: MenuHeaderView? { items.first?.view as? MenuHeaderView }
   private var menuWindow: NSWindow? { NSApp.menuWindow }
 
   required init(coder decoder: NSCoder) {
