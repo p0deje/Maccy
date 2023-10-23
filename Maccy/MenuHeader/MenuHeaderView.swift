@@ -65,6 +65,9 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       }
       eventMonitor.start()
     } else {
+      // Ensure header view was not simply scrolled out of the menu.
+      guard NSApp.menuWindow?.isVisible != true else { return }
+
       eventMonitor.stop()
       DispatchQueue.main.async {
         self.setQuery("")
