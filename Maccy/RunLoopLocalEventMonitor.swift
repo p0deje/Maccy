@@ -6,6 +6,8 @@ final class RunLoopLocalEventMonitor {
   private let callback: (NSEvent) -> NSEvent?
   private let observer: CFRunLoopObserver
 
+  private var started: Bool = false
+
   init(
     runLoopMode: RunLoop.Mode,
     callback: @escaping (NSEvent) -> NSEvent?
@@ -42,13 +44,15 @@ final class RunLoopLocalEventMonitor {
     stop()
   }
 
-  @discardableResult
-  func start() -> Self {
+  func start() {
+    guard !started else { return }
+
     CFRunLoopAddObserver(RunLoop.current.getCFRunLoop(), observer, CFRunLoopMode(runLoopMode.rawValue as CFString))
-    return self
+    started = true
   }
 
   func stop() {
     CFRunLoopRemoveObserver(RunLoop.current.getCFRunLoop(), observer, CFRunLoopMode(runLoopMode.rawValue as CFString))
+    started = false
   }
 }
