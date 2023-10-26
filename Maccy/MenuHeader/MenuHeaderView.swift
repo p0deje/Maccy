@@ -14,9 +14,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   private let macOSXRightPadding: CGFloat = 10.0
   private let searchThrottler = Throttler(minimumDelay: 0.4)
 
-  private var characterPickerVisible: Bool {
-    NSApp.windows.filter({ $0.isVisible }).map({ $0.className }).contains("NSPanelViewBridge")
-  }
+  private var characterPickerVisible: Bool { NSApp.characterPickerWindow?.isVisible ?? false }
 
   private lazy var eventMonitor = RunLoopLocalEventMonitor(runLoopMode: .eventTracking) { event in
     if self.processInterceptedEvent(event) {
@@ -30,8 +28,6 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   private lazy var headerHeight = UserDefaults.standard.hideSearch ? 1 : 28
   private lazy var headerSize = NSSize(width: Menu.menuWidth, height: headerHeight)
 
-  var shouldAdjustMenuWindowLocation = false
-
   override func awakeFromNib() {
     autoresizingMask = .width
     setFrameSize(headerSize)
@@ -39,9 +35,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     queryField.delegate = self
     queryField.placeholderString = NSLocalizedString("search_placeholder", comment: "")
 
-    if #available(macOS 11, *) {
-      // all good
-    } else {
+    if #unavailable(macOS 11) {
       horizontalLeftPadding.constant = macOSXLeftPadding
       horizontalRightPadding.constant = macOSXRightPadding
     }
@@ -59,27 +53,33 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   override func viewDidMoveToWindow() {
     super.viewDidMoveToWindow()
 
-    if window != nil && customMenu?.isVisible == true {
-      // Fix for Sonoma. The menu will report an icorrect height causing the popup to be
-      // This is the most conventient and earliest point possible to intercept and adjust the window location.
-      if #available(macOS 14, *), shouldAdjustMenuWindowLocation {
-        if customMenu?.size.height ?? 0.0 < NSScreen.forPopup?.visibleFrame.height ?? 0.0 {
-          customMenu?.adjustMenuWindowPosition()
+    guard let menu = customMenu else { return }
+
+    if window != nil {
+      // Fix for Sonoma. The menu will report an incorrect height causing the popup to be mispositioned.
+      // This is the most convenient and earliest point to intercept and adjust the window location.
+      if #available(macOS 14, *) {
+        if menu.size.height < (NSScreen.forPopup?.visibleFrame.height ?? 0.0) {
+          menu.adjustMenuWindowPosition()
         }
-        shouldAdjustMenuWindowLocation = false
       }
       eventMonitor.start()
-    } else if window == nil && customMenu?.isVisible == false {
+    } else {
+      // Ensure header view was not simply scrolled out of the menu.
+      guard NSApp.menuWindow?.isVisible != true else { return }
+
       eventMonitor.stop()
+      DispatchQueue.main.async {
+        self.setQuery("")
+        self.queryField.refusesFirstResponder = true
+      }
     }
   }
 
   override func draw(_ dirtyRect: NSRect) {
     super.draw(dirtyRect)
 
-    if #available(macOS 13, *) {
-      // all good
-    } else {
+    if #unavailable(macOS 13) {
       if NSWorkspace.shared.accessibilityDisplayShouldIncreaseContrast ||
          NSWorkspace.shared.accessibilityDisplayShouldReduceTransparency {
         NSColor(named: "MenuColor")?.setFill()
