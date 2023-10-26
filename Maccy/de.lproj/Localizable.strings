@@ -18,7 +18,7 @@
 "paste_modifiers_config" = "• Drücke %@, um den gewählten Eintrag zu kopieren und einzufügen.";
 "format_modifiers_config" = "• Drücke %@, um den gewählten Eintrag zu kopieren und unformatiert einzufügen.";
 "accessibility_alert_message" = "“Maccy” möchte diesen Computer mittels Bedienungshilfen steuern.";
-"accessibility_alert_comment" = "Erlaube den Zugriff für diese Anwendung in “Systemeinstellungen > Sicherheit & Datenschutz > Datenschutz > Bedienungshilfen”.\n\nKlicken Sie auf die Schaltfläche “+“, wählen Sie “Maccy“ aus und aktivieren Sie das Kontrollkästchen daneben.";
+"accessibility_alert_comment" = "Erlaube den Zugriff für diese Anwendung in “{settings} > {pane} > Datenschutz > Bedienungshilfen”.\n\nKlicken Sie auf die Schaltfläche “+“, wählen Sie “Maccy“ aus und aktivieren Sie das Kontrollkästchen daneben.";
 "accessibility_alert_deny" = "Ablehnen";
 "accessibility_alert_open" = "Öffne Systemeinstellungen";
 "clear_alert_message" = "Möchtest du den Verlauf wirklich leeren?";
@@ -28,3 +28,7 @@
 "key_used_error" = "Hotkey ist bereits belegt.";
 "active_screen" = "Aktiver Bildschirm";
 "screen" = "Bildschirm";
+"system_settings_name" = "Systemeinstellungen";
+"system_settings_pane" = "Datenschutz & Sicherheit";
+"system_preferences_name" = "Systemeinstellungen";
+"system_preferences_pane" = "Sicherheit & Datenschutz";

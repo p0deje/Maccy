@@ -34,21 +34,6 @@ class Clipboard {
 
   private var sourceApp: NSRunningApplication? { NSWorkspace.shared.frontmostApplication }
 
-  private var accessibilityAlert: NSAlert {
-    let alert = NSAlert()
-    alert.alertStyle = .warning
-    alert.messageText = NSLocalizedString("accessibility_alert_message", comment: "")
-    alert.informativeText = NSLocalizedString("accessibility_alert_comment", comment: "")
-    alert.addButton(withTitle: NSLocalizedString("accessibility_alert_deny", comment: ""))
-    alert.addButton(withTitle: NSLocalizedString("accessibility_alert_open", comment: ""))
-    alert.icon = NSImage(named: "NSSecurity")
-    return alert
-  }
-  private var accessibilityAllowed: Bool { AXIsProcessTrustedWithOptions(nil) }
-  private let accessibilityURL = URL(
-    string: "x-apple.systempreferences:com.apple.preference.security?Privacy_Accessibility"
-  )
-
   init() {
     changeCount = pasteboard.changeCount
   }
@@ -105,12 +90,7 @@ class Clipboard {
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
   func paste() {
-    guard accessibilityAllowed else {
-      Maccy.returnFocusToPreviousApp = false
-      // Show accessibility window async to allow menu to close.
-      DispatchQueue.main.async(execute: showAccessibilityWindow)
-      return
-    }
+    Accessibility.check()
 
     DispatchQueue.main.async {
       // Add flag that left/right modifier key has been pressed.
@@ -261,14 +241,5 @@ class Clipboard {
     }
 
     return false
-  }
-
-  private func showAccessibilityWindow() {
-    if accessibilityAlert.runModal() == NSApplication.ModalResponse.alertSecondButtonReturn {
-      if let url = accessibilityURL {
-        NSWorkspace.shared.open(url)
-      }
-    }
-    Maccy.returnFocusToPreviousApp = true
   }
 }

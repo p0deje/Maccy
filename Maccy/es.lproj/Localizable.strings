@@ -18,7 +18,7 @@
 "paste_modifiers_config" = "• Seleccione con %@ presionado para copiar y pegar el elemento.";
 "format_modifiers_config" = "• Seleccione con %@ presionado para copiar, borrar el formato y pegar el elemento.";
 "accessibility_alert_message" = "“Maccy” quiere controlar esta computadora mediante las funciones de accesibilidad.";
-"accessibility_alert_comment" = "Dale acceso a esta aplicación en el panel “Seguridad y privacidad” de Preferencias del Sistema.\n\nHaga clic en el botón “+”, seleccione “Maccy“ y active la casilla de verificación junto a él.";
+"accessibility_alert_comment" = "Dale acceso a esta aplicación en el panel {pane} de {settings}.\n\nHaga clic en el botón “+”, seleccione “Maccy“ y active la casilla de verificación junto a él.";
 "accessibility_alert_deny" = "Denegar";
 "accessibility_alert_open" = "Abrir Preferencias del Sistema";
 "clear_alert_message" = "¿Estás seguro de que deseas borrar el historial?";
@@ -28,3 +28,7 @@
 "key_used_error" = "La clave ya está en uso.";
 "active_screen" = "Pantalla activa";
 "screen" = "Pantalla";
+"system_settings_name" = "Configuración del Sistema";
+"system_settings_pane" = "“Privacidad y seguridad”";
+"system_preferences_name" = "Preferencias del Sistema";
+"system_preferences_pane" = "“Seguridad y privacidad”";

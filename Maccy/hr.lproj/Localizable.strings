@@ -18,7 +18,7 @@
 "paste_modifiers_config" = "• Za kopiranje i umetanje elementa odaberi zajedno s pritisnutom tipkom %@.";
 "format_modifiers_config" = "• Za kopiranje, uklanjanje formata i umetanje elementa odaberi zajedno s pritisnutom tipkom %@.";
 "accessibility_alert_message" = "„Maccy” želi upravljati ovim računalom koristeći funkcije pristupačnosti.";
-"accessibility_alert_comment" = "Dozvoli pristup ovom programu u postavkama za sigurnost i privatnost u postavkama sustava.\n\nKliknite gumb „+”, odaberite „Maccy” i uključite potvrdni okvir pokraj njega.";
+"accessibility_alert_comment" = "Dozvoli pristup ovoj aplikaciji u postavkama {pane} unutar {settings}.\n\nKliknite gumb „+”, odaberite „Maccy” i uključite potvrdni okvir pokraj njega.";
 "accessibility_alert_deny" = "Zabrani";
 "accessibility_alert_open" = "Otvori postavke sustava";
 "clear_alert_message" = "Stvarno želiš izbrisati povijest?";
@@ -28,3 +28,7 @@
 "key_used_error" = "Tipka se već koristi.";
 "active_screen" = "Aktivni ekran";
 "screen" = "Ekran";
+"system_settings_name" = "Postavki sustava";
+"system_settings_pane" = "Privatnost i sigurnost";
+"system_preferences_name" = "Postavki sustava";
+"system_preferences_pane" = "Sigurnost i privatnost";

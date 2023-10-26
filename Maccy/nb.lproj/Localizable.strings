@@ -18,7 +18,7 @@
 "paste_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere og lime inn element.";
 "format_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere, slette formattering og lime inn element.";
 "accessibility_alert_message" = "“Maccy” vil ha adgang til denne datamaskinen for tjenester tilknyttet tilgjengelighet.";
-"accessibility_alert_comment" = "Gi tillatelse til dette programmet i Sikkerhet & Personvern innstillingene, lokalisert i System Valg.\n\nKlikk på +-knappen, velg “Maccy“ og velg avmerkingsboksen ved siden av.";
+"accessibility_alert_comment" = "Gi tillatelse til dette programmet i {pane} innstillingene, lokalisert i {settings}.\n\nKlikk på +-knappen, velg “Maccy“ og velg avmerkingsboksen ved siden av.";
 "accessibility_alert_deny" = "Avslå";
 "accessibility_alert_open" = "Åpne System Valg";
 "clear_alert_message" = "Er du sikker på at du vil tømme historikken?";
@@ -28,3 +28,7 @@
 "key_used_error" = "Nøkkel er allerede brukt.";
 "active_screen" = "Aktiv skjerm";
 "screen" = "Skjerm";
+"system_settings_name" = "System­innstillinger";
+"system_settings_pane" = "Personvern og sikkerhet";
+"system_preferences_name" = "System Valg";
+"system_preferences_pane" = "Sikkerhet & Personvern";

@@ -1,7 +1,6 @@
 import Cocoa
 import Settings
 
-// swiftlint:disable file_length
 // swiftlint:disable type_body_length
 class Maccy: NSObject {
   static var returnFocusToPreviousApp = true
@@ -305,4 +304,3 @@ class Maccy: NSObject {
   }
 }
 // swiftlint:enable type_body_length
-// swiftlint:enable file_length

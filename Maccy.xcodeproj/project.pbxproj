@@ -68,6 +68,7 @@
 		DA68F91E28BD7DEB007E2F25 /* ClearIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA68F91D28BD7DEA007E2F25 /* ClearIntentHandler.swift */; };
 		DA696BCE240177E800DE80CF /* Sorter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA696BCD240177E800DE80CF /* Sorter.swift */; };
 		DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA696BD12401EEE900DE80CF /* SorterTests.swift */; };
+		DA6D98E22AEABE03008A77CE /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6D98E12AEABE03008A77CE /* Accessibility.swift */; };
 		DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */; };
 		DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */; };
 		DA81D674252A056B009977BC /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA81D673252A056B009977BC /* Throttler.swift */; };
@@ -266,6 +267,7 @@
 		DA68F91D28BD7DEA007E2F25 /* ClearIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClearIntentHandler.swift; sourceTree = "<group>"; };
 		DA696BCD240177E800DE80CF /* Sorter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Sorter.swift; sourceTree = "<group>"; };
 		DA696BD12401EEE900DE80CF /* SorterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SorterTests.swift; sourceTree = "<group>"; };
+		DA6D98E12AEABE03008A77CE /* Accessibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Accessibility.swift; sourceTree = "<group>"; };
 		DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalHotKey.swift; sourceTree = "<group>"; };
 		DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Names.swift"; sourceTree = "<group>"; };
 		DA81D673252A056B009977BC /* Throttler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
@@ -514,8 +516,8 @@
 		DAEE38451E3DBEB100DD2966 /* Maccy */ = {
 			isa = PBXGroup;
 			children = (
-				DAF65F4424D396D400F3978F /* HistoryMenuItem */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
+				DAF65F4424D396D400F3978F /* HistoryMenuItem */,
 				DA196A8D28AB0A3700ADD8A2 /* MenuHeader */,
 				DA19F18C2984940B0091F26C /* Preview */,
 				DA181178247D150B00066D55 /* Settings */,
@@ -529,6 +531,7 @@
 				DAB8CE4024E3677F00A2500E /* Maccy.entitlements */,
 				DAB65DFB2440AD63000AECA8 /* Storage.xcdatamodeld */,
 				DAAEB195219694AE00A7883C /* About.swift */,
+				DA6D98E12AEABE03008A77CE /* Accessibility.swift */,
 				DAEE38461E3DBEB100DD2966 /* AppDelegate.swift */,
 				DAB082952A2B7B850053E463 /* AppStoreReview.swift */,
 				DA0EF1871E444B2A00E58577 /* Clipboard.swift */,
@@ -544,6 +547,7 @@
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift */,
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
 				DA2C752B2029FE990090965D /* Menu.swift */,
+				2F3205B82AE3EDCA002EA545 /* MenuController.swift */,
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
 				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
 				DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */,
@@ -552,14 +556,13 @@
 				DA49EE7428B59468002752E0 /* NSRect+Centered.swift */,
 				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
 				DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */,
+				2F89CC922AE2C9E000959C91 /* PopupLocation.swift */,
 				DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
 				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
-				2F89CC922AE2C9E000959C91 /* PopupLocation.swift */,
-				2F3205B82AE3EDCA002EA545 /* MenuController.swift */,
 			);
 			path = Maccy;
 			sourceTree = "<group>";
@@ -833,6 +836,7 @@
 				5AA9C8402AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift in Sources */,
 				DA181170247B405B00066D55 /* GeneralSettingsViewController.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
+				DA6D98E22AEABE03008A77CE /* Accessibility.swift in Sources */,
 				DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Popup.swift in Sources */,
 				DAB65E0D2440B0D4000AECA8 /* HistoryItemContent.swift in Sources */,
 				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,
