@@ -101,6 +101,7 @@ class HistoryItem: NSManagedObject {
   }
 
   var fromMaccy: Bool { contentData([.fromMaccy]) != nil }
+  var universalClipboard: Bool { contentData([.universalClipboard]) != nil }
 
   private let filePasteboardTypes: [NSPasteboard.PasteboardType] = [.fileURL]
   private let htmlPasteboardTypes: [NSPasteboard.PasteboardType] = [.html]
@@ -108,7 +109,6 @@ class HistoryItem: NSManagedObject {
   private let rtfPasteboardTypes: [NSPasteboard.PasteboardType] = [.rtf]
   private let textPasteboardTypes: [NSPasteboard.PasteboardType] = [.string]
 
-  private var universalClipboard: Bool { contentData([.universalClipboard]) != nil }
   private var univeralClipboardImage: Bool { universalClipboard && fileURL?.pathExtension == "jpeg" }
   private var univeralClipboardText: Bool {
      universalClipboard &&

@@ -47,12 +47,7 @@ class Preview: NSViewController {
       textView.stringValue = item.title ?? ""
     }
 
-    if let bundle = item.application,
-       let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundle) {
-      applicationValueLabel.stringValue = url.deletingPathExtension().lastPathComponent
-    } else {
-      applicationValueLabel.removeFromSuperview()
-    }
+    loadApplication(item)
 
     if textView.stringValue.count > maxTextSize {
       textView.stringValue = textView.stringValue.shortened(to: maxTextSize)
@@ -68,5 +63,20 @@ class Preview: NSViewController {
     formatter.dateFormat = "MMM d, H:mm:ss"
     formatter.timeZone = TimeZone.current
     return formatter.string(from: date)
+  }
+
+  private func loadApplication(_ item: HistoryItem) {
+    if item.universalClipboard {
+      applicationValueLabel.stringValue = "iCloud"
+      return
+    }
+
+    guard let bundle = item.application,
+          let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundle) else {
+      applicationValueLabel.removeFromSuperview()
+      return
+    }
+
+    applicationValueLabel.stringValue = url.deletingPathExtension().lastPathComponent
   }
 }
