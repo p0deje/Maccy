@@ -26,7 +26,8 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var showSearchFieldButton: NSButton!
   @IBOutlet weak var showTitleButton: NSButton!
   @IBOutlet weak var showFooterButton: NSButton!
-
+  @IBOutlet weak var searchStringHighlightButton: NSPopUpButton!
+    
   private let previewDelayMin = 200
   private let previewDelayMax = 100_000
 
@@ -52,6 +53,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     populateShowSearchField()
     populateShowTitle()
     populateShowFooter()
+    populateSearchStringHighlight()
   }
 
   @IBAction func popupAtCursorSelected(_ sender: NSMenuItem) {
@@ -164,6 +166,18 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBAction func showFooterChanged(_ sender: NSButton) {
     UserDefaults.standard.hideFooter = (sender.state == .off)
   }
+    
+  @IBAction func searchStringHighlightChanged(_ sender: NSButton) {
+    switch sender.selectedTag() {
+    case 1:
+        UserDefaults.standard.searchStringHighlight = "italic"
+    case 2:
+        UserDefaults.standard.searchStringHighlight = "underline"
+    default:
+        UserDefaults.standard.searchStringHighlight = "bold"
+    }
+  }
+    
 
   private func populateScreens() {
     guard NSScreen.screens.count > 1 else {
@@ -294,5 +308,16 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
 
   private func populateShowFooter() {
     showFooterButton.state = UserDefaults.standard.hideFooter ? .off : .on
+  }
+    
+  private func populateSearchStringHighlight() {
+    switch UserDefaults.standard.searchStringHighlight {
+    case "italic":
+      searchStringHighlightButton.selectItem(withTag: 1)
+    case "underline":
+      searchStringHighlightButton.selectItem(withTag: 2)
+    default:
+        searchStringHighlightButton.selectItem(withTag: 0)
+    }
   }
 }
