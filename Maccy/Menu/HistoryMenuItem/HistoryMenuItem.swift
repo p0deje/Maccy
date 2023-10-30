@@ -17,12 +17,19 @@ class HistoryMenuItem: NSMenuItem {
   // returned error -9870 on line 2078 in -[NSCarbonMenuImpl _carbonDrawStateImageForMenuItem:withEvent:]
   private let imageTitle = " "
 
-  private let highlightFont: NSFont = {
+  private let highlightBoldFont: NSFont = {
     if #available(macOS 11, *) {
       return NSFont.boldSystemFont(ofSize: 13)
     } else {
       return NSFont.boldSystemFont(ofSize: 14)
     }
+  }()
+    
+  private let highlightItalicFont: NSFont = {
+    let systemFont = NSFont.systemFont(ofSize: 14)
+    let italicFontDescriptor = systemFont.fontDescriptor.withSymbolicTraits([.italic, .bold])
+
+    return NSFont(descriptor: italicFontDescriptor, size: 0) ?? NSFont.boldSystemFont(ofSize: 13)
   }()
 
   private var editPinObserver: NSKeyValueObservation?
@@ -128,7 +135,14 @@ class HistoryMenuItem: NSMenuItem {
       let highlightRange = NSRange(location: range.lowerBound, length: rangeLength)
 
       if Range(highlightRange, in: title) != nil {
-        attributedTitle.addAttribute(.font, value: highlightFont, range: highlightRange)
+          switch UserDefaults.standard.searchStringHighlight {
+          case "italic":
+            attributedTitle.addAttribute(.font, value: highlightItalicFont, range: highlightRange)
+          case "underline":
+              attributedTitle.addAttributes([.underlineStyle: NSUnderlineStyle.single.rawValue, .font: NSFont.boldSystemFont(ofSize: 13)], range: highlightRange)
+          default:
+            attributedTitle.addAttribute(.font, value: highlightBoldFont, range: highlightRange)
+          }
       }
     }
 
