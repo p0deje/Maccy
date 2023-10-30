@@ -34,6 +34,7 @@ extension UserDefaults {
     static let size = "historySize"
     static let sortBy = "sortBy"
     static let suppressClearAlert = "suppressClearAlert"
+    static let searchStringHighlight = "searchStringHighlight"
 
     static var showInStatusBar: String {
       ProcessInfo.processInfo.arguments.contains("ui-testing") ? "showInStatusBarUITests" : "showInStatusBar"
@@ -59,6 +60,7 @@ extension UserDefaults {
     static let size = 200
     static let sortBy = "lastCopiedAt"
     static let menuIcon = "maccy"
+    static let searchStringHighlight = "bold"
   }
 
   public var avoidTakingFocus: Bool {
@@ -230,5 +232,10 @@ extension UserDefaults {
   public var suppressClearAlert: Bool {
     get { bool(forKey: Keys.suppressClearAlert) }
     set { set(newValue, forKey: Keys.suppressClearAlert) }
+  }
+    
+  @objc dynamic public var searchStringHighlight: String {
+    get { string(forKey: Keys.searchStringHighlight) ?? Values.searchStringHighlight }
+    set { set(newValue, forKey: Keys.searchStringHighlight) }
   }
 }
