@@ -26,10 +26,16 @@ class HistoryMenuItem: NSMenuItem {
   }()
     
   private let highlightItalicFont: NSFont = {
-    let systemFont = NSFont.systemFont(ofSize: 14)
+    var systemFont: NSFont
+    if #available(macOS 11, *) {
+      systemFont = NSFont.boldSystemFont(ofSize: 13)
+    } else {
+      systemFont = NSFont.boldSystemFont(ofSize: 14)
+    }
+      
     let italicFontDescriptor = systemFont.fontDescriptor.withSymbolicTraits([.italic, .bold])
 
-    return NSFont(descriptor: italicFontDescriptor, size: 0) ?? NSFont.boldSystemFont(ofSize: 13)
+    return NSFont(descriptor: italicFontDescriptor, size: 0) ?? systemFont
   }()
 
   private var editPinObserver: NSKeyValueObservation?
@@ -139,7 +145,7 @@ class HistoryMenuItem: NSMenuItem {
           case "italic":
             attributedTitle.addAttribute(.font, value: highlightItalicFont, range: highlightRange)
           case "underline":
-              attributedTitle.addAttributes([.underlineStyle: NSUnderlineStyle.single.rawValue, .font: NSFont.boldSystemFont(ofSize: 13)], range: highlightRange)
+              attributedTitle.addAttributes([.underlineStyle: NSUnderlineStyle.single.rawValue, .font: highlightBoldFont], range: highlightRange)
           default:
             attributedTitle.addAttribute(.font, value: highlightBoldFont, range: highlightRange)
           }
