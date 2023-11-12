@@ -179,7 +179,7 @@ class Menu: NSMenu, NSMenuDelegate {
         return nil
       }
       let indexedItem = indexedItems[itemIndex]
-      guard let previewView = indexedItem.popoverAnchor!.view else {
+      guard let previewView = indexedItem.popoverAnchor?.view else {
         return nil
       }
 
