@@ -67,7 +67,7 @@ class Menu: NSMenu, NSMenuDelegate {
       firstPinnedMenuItems.first
   }
 
-  private var maxMenuItems: Int { UserDefaults.standard.maxMenuItems }
+  private var maxMenuItems: Int { min(UserDefaults.standard.maxMenuItems, UserDefaults.standard.size) }
   private var maxVisibleItems: Int { maxMenuItems * historyMenuItemsGroup }
   private var lastMenuLocation: PopupLocation?
   private var menuHeader: MenuHeaderView? { items.first?.view as? MenuHeaderView }
@@ -584,7 +584,7 @@ class Menu: NSMenu, NSMenuDelegate {
         }
       }
 
-      if maxVisibleItems != 0 && maxVisibleItems == limit {
+      if maxVisibleItems != 0 && maxVisibleItems >= limit {
         return
       }
     }
@@ -603,7 +603,7 @@ class Menu: NSMenu, NSMenuDelegate {
         }
       }
 
-      if maxVisibleItems != 0 && maxVisibleItems == limit {
+      if maxVisibleItems != 0 && maxVisibleItems <= limit {
         return
       }
     }
