@@ -71,7 +71,7 @@ class MaccyUITests: XCTestCase {
     popUpWithMouse()
     let copy3 = UUID().uuidString
     copyToClipboard(copy3)
-    assertNotVisible(app.menuItems[copy3])
+    assertExists(app.menuItems[copy3])
     app.typeKey(.escape, modifierFlags: [])
     popUpWithMouse()
     assertExists(app.menuItems[copy2])
@@ -100,29 +100,27 @@ class MaccyUITests: XCTestCase {
   func testCopyWithClick() {
     popUpWithMouse()
     app.menuItems[copy2].firstMatch.click()
-    XCTAssertEqual(pasteboard.string(forType: .string), copy2)
+    assertPasteboardStringEquals(copy2)
   }
 
   func testCopyWithEnter() {
     popUpWithMouse()
     hover(app.menuItems[copy2].firstMatch)
     app.typeKey(.enter, modifierFlags: [])
-    XCTAssertEqual(pasteboard.string(forType: .string), copy2)
+    assertPasteboardStringEquals(copy2)
   }
 
   func testCopyWithCommandShortcut() {
     popUpWithMouse()
     app.typeKey("2", modifierFlags: [.command])
-    XCTAssertEqual(pasteboard.string(forType: .string), copy2)
+    assertPasteboardStringEquals(copy2)
   }
 
   func testSearchAndCopyWithCommandShortcut() {
     popUpWithMouse()
     search(copy2)
     app.typeKey("1", modifierFlags: [.command])
-    // FIXME: Test is flaky
-    sleep(1)
-    XCTAssertEqual(pasteboard.string(forType: .string), copy2)
+    assertPasteboardStringEquals(copy2)
   }
 
   func testCopyImage() {
@@ -130,7 +128,7 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(image1)
     popUpWithMouse()
     visibleMenuItems[2].click()
-    XCTAssertEqual(pasteboard.data(forType: .tiff)!.count, image2.tiffRepresentation!.count)
+    assertPasteboardDataCountEquals(image2.tiffRepresentation!.count, forType: .tiff)
   }
 
   func testCopyFile() {
@@ -140,7 +138,7 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(visibleMenuItemTitles[1...2], [file1.absoluteString, file2.absoluteString])
 
     app.menuItems[file2.absoluteString].firstMatch.click()
-    XCTAssertEqual(pasteboard.string(forType: .fileURL), file2.absoluteString)
+    assertPasteboardStringEquals(file2.absoluteString, forType: .fileURL)
   }
 
   // This test does not work because NSPasteboardItem somehow becomes "empty".
@@ -152,7 +150,7 @@ class MaccyUITests: XCTestCase {
   //   XCTAssertEqual(visibleMenuItemTitles()[1...2], ["foo", "bar"])
   //
   //   app.menuItems["bar"].firstMatch.click()
-  //  XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
+  //   XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
   // }
 
   func testCopyHTML() {
@@ -162,7 +160,7 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(visibleMenuItemTitles[1...2], ["foo", "bar"])
 
     app.menuItems["bar"].firstMatch.click()
-    XCTAssertEqual(pasteboard.data(forType: .html), html2)
+    assertPasteboardDataEquals(html2, forType: .html)
   }
 
   func testControlJ() {
@@ -224,9 +222,9 @@ class MaccyUITests: XCTestCase {
   func testClearAll() {
     popUpWithMouse()
     pin(copy2)
-    XCUIElement.perform(withKeyModifiers: [.shift], block: {
+    XCUIElement.perform(withKeyModifiers: [.shift]) {
       app.menuItems["Clear all"].click()
-    })
+    }
     confirmClear()
     popUpWithMouse()
     assertNotExists(app.menuItems[copy1])
@@ -463,6 +461,42 @@ class MaccyUITests: XCTestCase {
 
   private func assertNotVisible(_ element: XCUIElement) {
     expectation(for: NSPredicate(format: "(exists = 0) || (isHittable = 0)"), evaluatedWith: element)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertPasteboardDataEquals(_ expected: Data?, forType: NSPasteboard.PasteboardType = .string) {
+    let predicate = NSPredicate { (object, _ ) -> Bool in
+      guard let copy = object as? Data else {
+        return false
+      }
+
+      return self.pasteboard.data(forType: forType) == copy
+    }
+    expectation(for: predicate, evaluatedWith: expected)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertPasteboardDataCountEquals(_ expected: Int, forType: NSPasteboard.PasteboardType = .string) {
+    let predicate = NSPredicate { (object, _ ) -> Bool in
+      guard let count = object as? Int else {
+        return false
+      }
+
+      return self.pasteboard.data(forType: forType)!.count == count
+    }
+    expectation(for: predicate, evaluatedWith: expected)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertPasteboardStringEquals(_ expected: String?, forType: NSPasteboard.PasteboardType = .string) {
+    let predicate = NSPredicate { (object, _ ) -> Bool in
+      guard let copy = object as? String else {
+        return false
+      }
+
+      return self.pasteboard.string(forType: forType) == copy
+    }
+    expectation(for: predicate, evaluatedWith: expected)
     waitForExpectations(timeout: 3)
   }
 
