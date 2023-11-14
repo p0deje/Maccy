@@ -60,7 +60,9 @@ class Clipboard {
     checkForChangesInPasteboard()
   }
 
-  func copy(_ item: HistoryItem, removeFormatting: Bool = false) {
+  func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
+    guard let item else { return }
+
     pasteboard.clearContents()
     var contents = item.getContents()
 

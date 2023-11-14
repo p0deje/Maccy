@@ -43,14 +43,15 @@ class History {
     CoreDataManager.shared.saveContext()
   }
 
-  func update(_ item: HistoryItem) {
+  func update(_ item: HistoryItem?) {
     CoreDataManager.shared.saveContext()
   }
 
-  func remove(_ item: HistoryItem) {
+  func remove(_ item: HistoryItem?) {
+    guard let item else { return }
+
     item.getContents().forEach(CoreDataManager.shared.viewContext.delete(_:))
     CoreDataManager.shared.viewContext.delete(item)
-    CoreDataManager.shared.saveContext()
   }
 
   func clearUnpinned() {

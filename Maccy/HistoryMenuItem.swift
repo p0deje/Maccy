@@ -2,7 +2,7 @@ import Cocoa
 
 class HistoryMenuItem: NSMenuItem {
   var isPinned = false
-  var item: HistoryItem!
+  var item: HistoryItem?
   var value = ""
 
   internal var clipboard: Clipboard!
@@ -87,21 +87,21 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   func pin(_ pin: String) {
-    item.pin = pin
+    item?.pin = pin
     self.isPinned = true
     self.keyEquivalent = pin
     self.state = .on
   }
 
   func unpin() {
-    item.pin = nil
+    item?.pin = nil
     self.isPinned = false
     self.keyEquivalent = ""
     self.state = .off
   }
 
   func resizeImage() {
-    if !isImage(item) {
+    guard let item, !isImage(item) else {
       return
     }
 
@@ -109,7 +109,7 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   func regenerateTitle() {
-    if isImage(item) {
+    guard let item, !isImage(item) else {
       return
     }
 

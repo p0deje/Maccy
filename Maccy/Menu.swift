@@ -9,8 +9,8 @@ class Menu: NSMenu, NSMenuDelegate {
 
   class IndexedItem: NSObject {
     var value: String
-    var title: String { item.title ?? "" }
-    var item: HistoryItem!
+    var title: String { item?.title ?? "" }
+    var item: HistoryItem?
     var menuItems: [HistoryMenuItem]
     var popoverAnchor: NSMenuItem?
 
@@ -260,7 +260,13 @@ class Menu: NSMenu, NSMenuDelegate {
       var menuItemInsertionIndex = insertionIndex
       // Keep pins on the same place.
       if item.pin != nil {
-        if let index = self.historyMenuItems.firstIndex(where: { item.supersedes($0.item) }) {
+        if let index = self.historyMenuItems.firstIndex(where: {
+          if let historyItem = $0.item {
+            return item.supersedes(historyItem)
+          } else {
+            return false
+          }
+        }) {
           menuItemInsertionIndex = (index + self.previewMenuItemOffset)
         }
       } else {
@@ -282,7 +288,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func clearUnpinned() {
-    clear(indexedItems.filter({ $0.item.pin == nil }))
+    clear(indexedItems.filter({ $0.item?.pin == nil }))
   }
 
   func updateFilter(filter: String) {
@@ -304,7 +310,7 @@ class Menu: NSMenu, NSMenuDelegate {
     if filter.isEmpty {
       results.append(
         contentsOf: indexedItems
-          .filter({ $0.item.pin != nil })
+          .filter({ $0.item?.pin != nil })
           .map({ Search.SearchResult(score: nil, object: $0, titleMatches: []) })
       )
     }
@@ -435,7 +441,8 @@ class Menu: NSMenu, NSMenuDelegate {
     history.update(altItemToPin.item)
 
     let sortedItems = history.all
-    if let newIndex = sortedItems.firstIndex(of: altItemToPin.item) {
+    if let altHistoryItem = altItemToPin.item,
+       let newIndex = sortedItems.firstIndex(of: altHistoryItem) {
       if let removeIndex = indexedItems.firstIndex(of: historyItem) {
         indexedItems.remove(at: removeIndex)
         indexedItems.insert(historyItem, at: newIndex)
@@ -574,7 +581,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func hideUnpinnedItemsOverLimit(_ limit: Int) {
     var limit = limit
-    for indexedItem in indexedItems.filter({ $0.item.pin == nil }).reversed() {
+    for indexedItem in indexedItems.filter({ $0.item?.pin == nil }).reversed() {
       let menuItems = indexedItem.menuItems.filter({ historyMenuItems.contains($0) })
       if !menuItems.isEmpty {
         removePopoverAnchor(indexedItem)
@@ -592,7 +599,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func appendUnpinnedItemsUntilLimit(_ limit: Int) {
     var limit = limit
-    for indexedItem in indexedItems.filter({ $0.item.pin == nil }) {
+    for indexedItem in indexedItems.filter({ $0.item?.pin == nil }) {
       let menuItems = indexedItem.menuItems.filter({ !historyMenuItems.contains($0) })
       if !menuItems.isEmpty, let lastItem = lastUnpinnedHistoryMenuItem {
         let index = index(of: lastItem) + 1 + previewMenuItemOffset
@@ -627,12 +634,15 @@ class Menu: NSMenu, NSMenuDelegate {
 
   private func clearRemovedItems() {
     let currentHistoryItems = history.all
-    for indexedItem in indexedItems where !currentHistoryItems.contains(indexedItem.item) {
-      removePopoverAnchor(indexedItem)
-      indexedItem.menuItems.forEach(safeRemoveItem)
+    for indexedItem in indexedItems {
+      if let historyItem = indexedItem.item,
+         !currentHistoryItems.contains(historyItem) {
+        removePopoverAnchor(indexedItem)
+        indexedItem.menuItems.forEach(safeRemoveItem)
 
-      if let removeIndex = indexedItems.firstIndex(of: indexedItem) {
-        indexedItems.remove(at: removeIndex)
+        if let removeIndex = indexedItems.firstIndex(of: indexedItem) {
+          indexedItems.remove(at: removeIndex)
+        }
       }
     }
   }

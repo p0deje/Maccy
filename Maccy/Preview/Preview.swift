@@ -10,14 +10,16 @@ class Preview: NSViewController {
 
   private let maxTextSize = 1_500
 
-  private var item: HistoryItem!
+  private var item: HistoryItem?
 
-  convenience init(item: HistoryItem) {
+  convenience init(item: HistoryItem?) {
     self.init()
     self.item = item
   }
 
   override func viewDidLoad() {
+    guard let item, !item.isFault else { return }
+
     if let image = item.image {
       textView.removeFromSuperview()
       imageView.image = image

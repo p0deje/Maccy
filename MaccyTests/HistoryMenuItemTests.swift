@@ -97,7 +97,7 @@ class HistoryMenuItemTests: XCTestCase {
 
   func testUnpinnedByDefault() {
     let menuItem = historyMenuItem("foo")
-    XCTAssertNil(menuItem.item.pin)
+    XCTAssertNil(menuItem.item?.pin)
     XCTAssertFalse(menuItem.isPinned)
     XCTAssertNotEqual(menuItem.state, .on)
   }
@@ -105,7 +105,7 @@ class HistoryMenuItemTests: XCTestCase {
   func testPin() {
     let menuItem = historyMenuItem("foo")
     menuItem.pin("a")
-    XCTAssertEqual(menuItem.item.pin, "a")
+    XCTAssertEqual(menuItem.item?.pin, "a")
     XCTAssertTrue(menuItem.isPinned)
     XCTAssertEqual(menuItem.state, .on)
   }
@@ -114,7 +114,7 @@ class HistoryMenuItemTests: XCTestCase {
     let menuItem = historyMenuItem("foo")
     menuItem.pin("a")
     menuItem.unpin()
-    XCTAssertNil(menuItem.item.pin)
+    XCTAssertNil(menuItem.item?.pin)
     XCTAssertFalse(menuItem.isPinned)
     XCTAssertNotEqual(menuItem.state, .on)
   }
