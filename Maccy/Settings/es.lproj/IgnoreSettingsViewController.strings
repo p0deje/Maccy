@@ -25,5 +25,5 @@
 /* Class = "NSTableColumn"; headerCell.title = "Regex Strings"; ObjectID = "L9O-de-BED"; */
 "L9O-de-BED.headerCell.title" = "Cadenas de expresiones regulares";
 
-/* Class = "NSTextFieldCell"; headerCell.title = "It's possible to ignore certain pasteboard items from remembering based on defined regex strings. Create strings using standard regex. For example, many passwords are matched by ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s\n]{8,}$"; ObjectID = "FqC-BY-av4"; */
+/* Class = "NSTextFieldCell"; headerCell.title = "It's possible to ignore certain pasteboard items from remembering based on defined regex strings. Create strings using standard regex. For example, many passwords are matched by ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s]{8,}$"; ObjectID = "FqC-BY-av4"; */
 "FqC-BY-av4.title" = "Es posible ignorar ciertos elementos del tablero para que no se recuerden en función de cadenas de expresiones regulares definidas. Crea cadenas usando expresiones regulares estándar.";
