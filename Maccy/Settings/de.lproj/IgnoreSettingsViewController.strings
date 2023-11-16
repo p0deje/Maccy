@@ -25,5 +25,5 @@
 /* Class = "NSTableColumn"; headerCell.title = "Regex Strings"; ObjectID = "L9O-de-BED"; */
 "L9O-de-BED.headerCell.title" = "Regex-Strings";
 
-/* Class = "NSTextFieldCell"; headerCell.title = "It's possible to ignore certain pasteboard items from remembering based on defined regex strings. Create strings using standard regex."; ObjectID = "FqC-BY-av4"; */
+/* Class = "NSTextFieldCell"; headerCell.title = "It's possible to ignore certain pasteboard items from remembering based on defined regex strings. Create strings using standard regex. For example, many passwords are matched by ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s\n]{8,}$"; ObjectID = "FqC-BY-av4"; */
 "FqC-BY-av4.title" = "Es ist möglich, bestimmte Pasteboard-Elemente basierend auf definierten Regex-Strings aus der Erinnerung zu ignorieren. Erstellen Sie Zeichenfolgen mit Standard-Regex.";

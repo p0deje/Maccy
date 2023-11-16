@@ -321,13 +321,13 @@ By default, some known application-specific types are defined. You can remove th
                                 <rect key="frame" x="-2" y="41" width="455" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="FqC-BY-av4">
                                     <font key="font" metaFont="controlContent" size="11"/>
-                                    <string key="title">It's possible to ignore certain pasteboard items from remembering based on defined regex strings. Create strings using standard regex.
+                                    <string key="title">It's possible to ignore certain pasteboard items from remembering based on defined regex strings. Create strings using standard regex. For example, many passwords are matched by ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s\n]{8,}$
 </string>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     <string key="userLabel">It's possible to ignore certain pasteboard item types from remembering. By default, some known application-specific types are defined. You can remove them and add any custom types you want.</string>
                                 </textFieldCell>
-                                <string key="userLabel">It's possible to ignore certain pasteboard items from remembering | w based on defined regex strings. Create strings using standard regex.</string>
+                                <string key="userLabel">It's possible to ignore certain pasteboard items from remembering | w based on defined regex strings. Create strings using standard regex. For example, many passwords are matched by ^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[^\s\n]{8,}$</string>
                             </textField>
                         </gridCell>
                     </gridCells>
