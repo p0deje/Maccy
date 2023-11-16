@@ -95,6 +95,10 @@ class Maccy: NSObject {
     return menu.select(position: position)
   }
 
+  func delete(position: Int) -> String? {
+    return menu.delete(position: position)
+  }
+
   func item(at position: Int) -> HistoryItem? {
     return menu.historyItem(at: position)
   }

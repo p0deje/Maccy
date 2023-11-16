@@ -414,6 +414,22 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
+  func delete(position: Int) -> String? {
+    guard indexedItems.count > position else {
+      return nil
+    }
+
+    let indexedItem = indexedItems[position]
+    let value = indexedItem.value
+
+    removePopoverAnchor(indexedItem)
+    indexedItem.menuItems.forEach(safeRemoveItem)
+    history.remove(indexedItem.item)
+    indexedItems.remove(at: position)
+
+    return value
+  }
+
   func pinOrUnpin() -> Bool {
     guard let altItemToPin = highlightedItem as? HistoryMenuItem else {
       return false

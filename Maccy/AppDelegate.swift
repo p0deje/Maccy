@@ -51,6 +51,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       return ClearIntentHandler(maccy)
     } else if intent is GetIntent {
       return GetIntentHandler(maccy)
+    } else if intent is DeleteIntent {
+      return DeleteIntentHandler(maccy)
     }
 
     return nil

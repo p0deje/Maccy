@@ -81,6 +81,7 @@
 		DAB65E0B2440B078000AECA8 /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB65E0A2440B078000AECA8 /* HistoryItem.swift */; };
 		DAB65E0D2440B0D4000AECA8 /* HistoryItemContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */; };
 		DAB8CE4224E368F200A2500E /* container-migration.plist in Resources */ = {isa = PBXBuildFile; fileRef = DAB8CE4124E368F200A2500E /* container-migration.plist */; };
+		DAB9442D2B0583D700451E7C /* DeleteIntentHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB9442C2B0583D700451E7C /* DeleteIntentHandler.swift */; };
 		DABDE97F2974706C005B32E9 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */; };
 		DAC14124232367B200FCFA30 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC14123232367B200FCFA30 /* Search.swift */; };
 		DAC6CE9126E1AC19002B70B8 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = DAC6CE9026E1AC19002B70B8 /* LaunchAtLogin */; };
@@ -286,6 +287,7 @@
 		DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemContent.swift; sourceTree = "<group>"; };
 		DAB8CE4024E3677F00A2500E /* Maccy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Maccy.entitlements; sourceTree = "<group>"; };
 		DAB8CE4124E368F200A2500E /* container-migration.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "container-migration.plist"; sourceTree = "<group>"; };
+		DAB9442C2B0583D700451E7C /* DeleteIntentHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DeleteIntentHandler.swift; sourceTree = "<group>"; };
 		DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayout.swift; sourceTree = "<group>"; };
 		DAC14123232367B200FCFA30 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
 		DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunLoopLocalEventMonitor.swift; sourceTree = "<group>"; };
@@ -483,6 +485,7 @@
 			isa = PBXGroup;
 			children = (
 				DA68F91D28BD7DEA007E2F25 /* ClearIntentHandler.swift */,
+				DAB9442C2B0583D700451E7C /* DeleteIntentHandler.swift */,
 				DA83EC252974EEA400A95531 /* GetIntentHandler.swift */,
 				DA68F91B28BD76B8007E2F25 /* SelectIntentHandler.swift */,
 			);
@@ -820,6 +823,7 @@
 				DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */,
 				DA68F91828BD6E21007E2F25 /* Intents.intentdefinition in Sources */,
 				2F3205B92AE3EDCA002EA545 /* MenuController.swift in Sources */,
+				DAB9442D2B0583D700451E7C /* DeleteIntentHandler.swift in Sources */,
 				DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */,
 				DAD665662898A1C000975096 /* KeyChord.swift in Sources */,
 				DA83EC262974EEA400A95531 /* GetIntentHandler.swift in Sources */,

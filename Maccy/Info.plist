@@ -23,6 +23,7 @@
 		<string>Clearintent</string>
 		<string>SelectIntent</string>
 		<string>GetIntent</string>
+		<string>DeleteIntent</string>
 	</array>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>
@@ -39,12 +40,13 @@
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>ClearIntent</string>
+		<string>DeleteIntent</string>
 		<string>GetIntent</string>
 		<string>SelectIntent</string>
 	</array>
-	<key>SUEnableInstallerLauncherService</key>
-	<true/>
 	<key>SUEnableDownloaderService</key>
+	<true/>
+	<key>SUEnableInstallerLauncherService</key>
 	<true/>
 	<key>SUFeedURL</key>
 	<string>https://raw.githubusercontent.com/p0deje/Maccy/master/appcast.xml</string>
