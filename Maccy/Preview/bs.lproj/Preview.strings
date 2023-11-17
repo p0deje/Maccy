@@ -1,8 +1,8 @@
 /* Class = "NSTextFieldCell"; title = "Jan 28, 8:22:33"; ObjectID = "Efh-V6-485"; */
 "Efh-V6-485.title" = "Jan 28, 8:22:33";
 
-/* Class = "NSTextFieldCell"; title = "Press ⌥P to (un)pin."; ObjectID = "Hz7-tJ-kat"; */
-"Hz7-tJ-kat.title" = "Pritisni ⌥P (Od/Za)kačiš.";
+/* Class = "NSTextFieldCell"; title = "Press {pinKey} to (un)pin."; ObjectID = "Hz7-tJ-kat"; */
+"Hz7-tJ-kat.title" = "Pritisni {pinKey} (Od/Za)kačiš.";
 
 /* Class = "NSTextFieldCell"; title = "1"; ObjectID = "Klp-cA-i6M"; */
 "Klp-cA-i6M.title" = "1";
@@ -22,8 +22,8 @@
 /* Class = "NSTextFieldCell"; title = "Last copy time:"; ObjectID = "ify-Om-Foy"; */
 "ify-Om-Foy.title" = "Zadnji put kopirano:";
 
-/* Class = "NSTextFieldCell"; title = "Press ⌥⌫ to delete."; ObjectID = "oTv-7u-tbp"; */
-"oTv-7u-tbp.title" = "Pritisni ⌥⌫ da obrišeš.";
+/* Class = "NSTextFieldCell"; title = "Press {deleteKey} to delete."; ObjectID = "oTv-7u-tbp"; */
+"oTv-7u-tbp.title" = "Pritisni {deleteKey} za brisanje.";
 
 /* Class = "NSTextFieldCell"; title = "Jan 28, 8:22:33"; ObjectID = "ung-5b-7M1"; */
 "ung-5b-7M1.title" = "Jan 28, 8:22:33";

@@ -10,9 +10,13 @@ class GeneralSettingsViewController: NSViewController, SettingsPane {
 
   override var nibName: NSNib.Name? { "GeneralSettingsViewController" }
 
-  private let hotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .popup)
+  private let popupHotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .popup)
+  private let pinHotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .pin)
+  private let deleteHotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .delete)
 
-  @IBOutlet weak var hotkeyContainerView: NSView!
+  @IBOutlet weak var popupHotkeyContainerView: NSView!
+  @IBOutlet weak var pinHotkeyContainerView: NSView!
+  @IBOutlet weak var deleteHotkeyContainerView: NSView!
   @IBOutlet weak var launchAtLoginButton: NSButton!
   @IBOutlet weak var searchModeButton: NSPopUpButton!
   @IBOutlet weak var pasteAutomaticallyButton: NSButton!
@@ -22,7 +26,9 @@ class GeneralSettingsViewController: NSViewController, SettingsPane {
 
   override func viewDidLoad() {
     super.viewDidLoad()
-    hotkeyContainerView.addSubview(hotkeyRecorder)
+    popupHotkeyContainerView.addSubview(popupHotkeyRecorder)
+    pinHotkeyContainerView.addSubview(pinHotkeyRecorder)
+    deleteHotkeyContainerView.addSubview(deleteHotkeyRecorder)
   }
 
   override func viewWillAppear() {

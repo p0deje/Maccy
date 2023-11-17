@@ -10,26 +10,17 @@
 /* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
 "HJa-3L-ffW.title" = "Ponašanje:";
 
-/* Class = "NSTextFieldCell"; title = "\nHotkey:"; ObjectID = "QZW-5n-gLa"; */
-"QZW-5n-gLa.title" = "\nPrečica:";
-
 /* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
 "ZSa-vg-zWi.title" = "Prilagodi ponašanje prilikom odabira stavke:";
 
 /* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
 "avb-QJ-T0h.title" = "Provjeri dostupna ažuriranja";
 
-/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
-"fda-wq-rZq.title" = "Reproduciraj zvučne efekte kada se u historiju doda nova stavka i odabere prethodna stavka.";
-
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "Zalijepi automatski";
 
 /* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
 "lkL-5p-KVx.title" = "Zvukovi";
-
-/* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
-"rCZ-AO-G8B.title" = "Globalna prečica da otvoriš aplikaciju.\nStandardno: ⇧⌘C.";
 
 /* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
 "EdO-Bo-TeB.title" = "";
@@ -48,3 +39,24 @@
 
 /* Class = "NSMenuItem"; title = "Mixed"; ObjectID = "dTc-O1-HqW"; */
 "dTc-O1-HqW.title" = "Miješano";
+
+/* Class = "NSTextFieldCell"; title = "Pin:"; ObjectID = "1Tw-Z5-00F"; */
+"1Tw-Z5-00F.title" = "Zakačiti:";
+
+/* Class = "NSView"; ibShadowedToolTip = "Shortcut key to delete history item.\nDefault: ⌥⌫."; ObjectID = "MWj-5S-7C8"; */
+"MWj-5S-7C8.ibShadowedToolTip" = "Prečica za brisanje stavke historije.\nStandardno: ⌥⌫.";
+
+/* Class = "NSView"; ibShadowedToolTip = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "gv6-rV-zkI"; */
+"gv6-rV-zkI.ibShadowedToolTip" = "Globalna prečica da otvoriš aplikaciju.\nStandardno: ⇧⌘C.";
+
+/* Class = "NSTextFieldCell"; title = "Open:"; ObjectID = "hdM-75-pvO"; */
+"hdM-75-pvO.title" = "Obrisati:";
+
+/* Class = "NSView"; ibShadowedToolTip = "Shortcut key to pin history item.\nDefault: ⌥P."; ObjectID = "pPs-rF-k8m"; */
+"pPs-rF-k8m.ibShadowedToolTip" = "Prečica za zakačenje stavke istorije.\nStandardno: ⌥P.";
+
+/* Class = "NSTextFieldCell"; title = "Delete:"; ObjectID = "r50-bG-RWB"; */
+"r50-bG-RWB.title" = "Brisaniti:";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "vaq-g1-ECx"; */
+"vaq-g1-ECx.ibShadowedToolTip" = "Reproduciraj zvučne efekte kada se u historiju doda nova stavka i odabere prethodna stavka.";

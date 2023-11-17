@@ -1,8 +1,8 @@
 /* Class = "NSTextFieldCell"; title = "Jan 28, 8:22:33"; ObjectID = "Efh-V6-485"; */
 "Efh-V6-485.title" = "Jan 28, 8:22:33";
 
-/* Class = "NSTextFieldCell"; title = "Press ⌥P to (un)pin."; ObjectID = "Hz7-tJ-kat"; */
-"Hz7-tJ-kat.title" = "Trykk ⌥P for å (av)merke.";
+/* Class = "NSTextFieldCell"; title = "Press {pinKey} to (un)pin."; ObjectID = "Hz7-tJ-kat"; */
+"Hz7-tJ-kat.title" = "Trykk {pinKey} for å (av)merke.";
 
 /* Class = "NSTextFieldCell"; title = "1"; ObjectID = "Klp-cA-i6M"; */
 "Klp-cA-i6M.title" = "1";
@@ -22,8 +22,8 @@
 /* Class = "NSTextFieldCell"; title = "Last copy time:"; ObjectID = "ify-Om-Foy"; */
 "ify-Om-Foy.title" = "Tidspunkt siste kopiering:";
 
-/* Class = "NSTextFieldCell"; title = "Press ⌥⌫ to delete."; ObjectID = "oTv-7u-tbp"; */
-"oTv-7u-tbp.title" = "Trykk ⌥⌫ for å slette.";
+/* Class = "NSTextFieldCell"; title = "Press {deleteKey} to delete."; ObjectID = "oTv-7u-tbp"; */
+"oTv-7u-tbp.title" = "Trykk {deleteKey} for å slette.";
 
 /* Class = "NSTextFieldCell"; title = "Jan 28, 8:22:33"; ObjectID = "ung-5b-7M1"; */
 "ung-5b-7M1.title" = "Jan 28, 8:22:33";

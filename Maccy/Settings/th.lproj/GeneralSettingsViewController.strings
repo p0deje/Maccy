@@ -13,26 +13,17 @@
 /* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
 "HJa-3L-ffW.title" = "พฤติกรรม:";
 
-/* Class = "NSTextFieldCell"; title = "\nHotkey:"; ObjectID = "QZW-5n-gLa"; */
-"QZW-5n-gLa.title" = "\nคีย์ลัดy:";
-
 /* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
 "ZSa-vg-zWi.title" = "ปรับแต่งพฤติกรรมเมื่อเลือกรายการ:";
 
 /* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
 "avb-QJ-T0h.title" = "ตรวจสอบ update อัตโนมัติ";
 
-/* Class = "NSTextFieldCell"; title = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "fda-wq-rZq"; */
-"fda-wq-rZq.title" = "เปิดเสียงเมื่อมีรายการใหม่เพิ่มลงในประวัติและรายการก่อนหน้าถูกเลือก";
-
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "วางอัตโนมัติ";
 
 /* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
 "lkL-5p-KVx.title" = "เสียง";
-
-/* Class = "NSTextFieldCell"; title = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "rCZ-AO-G8B"; */
-"rCZ-AO-G8B.title" = "คีย์ลัดเพื่อเปิดแอป.\nค่าเริ่มต้น: ⇧⌘C.";
 
 /* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
 "IGh-5B-6RG.title" = "เลือน";
@@ -48,3 +39,24 @@
 
 /* Class = "NSMenuItem"; title = "Mixed"; ObjectID = "dTc-O1-HqW"; */
 "dTc-O1-HqW.title" = "ผสม";
+
+/* Class = "NSTextFieldCell"; title = "Pin:"; ObjectID = "1Tw-Z5-00F"; */
+"1Tw-Z5-00F.title" = "ปักหมุด:";
+
+/* Class = "NSView"; ibShadowedToolTip = "Shortcut key to delete history item.\nDefault: ⌥⌫."; ObjectID = "MWj-5S-7C8"; */
+"MWj-5S-7C8.ibShadowedToolTip" = "ปุ่มลัดเพื่อลบรายการประวัติ\nค่าเริ่มต้น: ⌥⌫";
+
+/* Class = "NSView"; ibShadowedToolTip = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "gv6-rV-zkI"; */
+"gv6-rV-zkI.ibShadowedToolTip" = "คีย์ลัดเพื่อเปิดแอป\nค่าเริ่มต้น: ⇧⌘C.";
+
+/* Class = "NSTextFieldCell"; title = "Open:"; ObjectID = "hdM-75-pvO"; */
+"hdM-75-pvO.title" = "เปิด:";
+
+/* Class = "NSView"; ibShadowedToolTip = "Shortcut key to pin history item.\nDefault: ⌥P."; ObjectID = "pPs-rF-k8m"; */
+"pPs-rF-k8m.ibShadowedToolTip" = "ปุ่มลัดเพื่อปักหมุดรายการประวัติ\nค่าเริ่มต้น: ⌥P";
+
+/* Class = "NSTextFieldCell"; title = "Delete:"; ObjectID = "r50-bG-RWB"; */
+"r50-bG-RWB.title" = "อลบ:";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "vaq-g1-ECx"; */
+"vaq-g1-ECx.ibShadowedToolTip" = "เปิดเสียงเมื่อมีรายการใหม่เพิ่มลงในประวัติและรายการก่อนหน้าถูกเลือก";

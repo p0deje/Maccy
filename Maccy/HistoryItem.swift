@@ -1,12 +1,25 @@
 import Cocoa
 import CoreData
+import Sauce
 
 @objc(HistoryItem)
 class HistoryItem: NSManagedObject {
-  static let availablePins = Set([
-    "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-    "m", "n", "o", "r", "s", "t", "u", "v", "w", "x", "y", "z"
-  ])
+  static var availablePins: Set<String> {
+    var keys = Set([
+      "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
+      "n", "o", "p", "r", "s", "t", "u", "v", "w", "x", "y", "z" // "q" reserved for quit
+    ])
+
+    if let deleteKey = KeyChord.deleteKey {
+      keys.remove(Sauce.shared.character(for: Int(deleteKey.QWERTYKeyCode), cocoaModifiers: []) ?? "")
+    }
+    if let pinKey = KeyChord.pinKey {
+      keys.remove(Sauce.shared.character(for: Int(pinKey.QWERTYKeyCode), cocoaModifiers: []) ?? "")
+    }
+
+    return keys
+  }
+
   static let sortByFirstCopiedAt = NSSortDescriptor(key: #keyPath(HistoryItem.firstCopiedAt), ascending: false)
 
   static var all: [HistoryItem] {

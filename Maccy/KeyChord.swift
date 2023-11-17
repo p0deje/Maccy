@@ -1,4 +1,5 @@
 import AppKit
+import KeyboardShortcuts
 import Sauce
 
 enum KeyChord: CaseIterable {
@@ -8,7 +9,36 @@ enum KeyChord: CaseIterable {
     (NSApp.delegate as? AppDelegate)?.pasteMenuItem.key ?? .v
   }
   static var pasteKeyModifiers: NSEvent.ModifierFlags {
-    (NSApp.delegate as? AppDelegate)?.pasteMenuItem.keyEquivalentModifierMask ?? NSEvent.ModifierFlags([.command])
+    (NSApp.delegate as? AppDelegate)?.pasteMenuItem.keyEquivalentModifierMask ?? [.command]
+  }
+  static var deleteKey: Key? {
+    if let shortcut = KeyboardShortcuts.Shortcut(name: .delete) {
+      return Sauce.shared.key(for: shortcut.carbonKeyCode)
+    } else {
+      return nil
+    }
+  }
+  static var deleteModifiers: NSEvent.ModifierFlags? {
+    if let shortcut = KeyboardShortcuts.Shortcut(name: .delete) {
+      return shortcut.modifiers.intersection(.deviceIndependentFlagsMask)
+    } else {
+      return nil
+    }
+  }
+
+  static var pinKey: Key? {
+    if let shortcut = KeyboardShortcuts.Shortcut(name: .pin) {
+      return Sauce.shared.key(for: shortcut.carbonKeyCode)
+    } else {
+      return nil
+    }
+  }
+  static var pinModifiers: NSEvent.ModifierFlags? {
+    if let shortcut = KeyboardShortcuts.Shortcut(name: .pin) {
+      return shortcut.modifiers.intersection(.deviceIndependentFlagsMask)
+    } else {
+      return nil
+    }
   }
 
   case clearHistory
@@ -36,7 +66,7 @@ enum KeyChord: CaseIterable {
       self = .clearHistoryAll
     case (.delete, [.command]), (.u, [.control]):
       self = .clearSearch
-    case (.delete, [.option]):
+    case (KeyChord.deleteKey, KeyChord.deleteModifiers):
       self = .deleteCurrentItem
     case (.delete, []), (.h, [.control]):
       self = .deleteOneCharFromSearch
@@ -46,7 +76,7 @@ enum KeyChord: CaseIterable {
       self = .moveToNext
     case (.k, [.control]):
       self = .moveToPrevious
-    case (.p, [.option]):
+    case (KeyChord.pinKey, KeyChord.pinModifiers):
       self = .pinOrUnpin
     case (GlobalHotKey.key, GlobalHotKey.modifierFlags):
       self = .hide
