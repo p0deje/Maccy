@@ -22,8 +22,11 @@
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "tWx-xL-UB5"; */
 "tWx-xL-UB5.title" = "";
 
-/* Class = "NSTableColumn"; headerCell.title = "Regex Strings"; ObjectID = "L9O-de-BED"; */
+/* Class = "NSTableColumn"; headerCell.title = "Regex strings"; ObjectID = "L9O-de-BED"; */
 "L9O-de-BED.headerCell.title" = "정규식 문자열";
 
-/* Class = "NSTextFieldCell"; headerCell.title = "It's possible to ignore certain pasteboard items from remembering based on defined regex strings. Create strings using standard regex."; ObjectID = "FqC-BY-av4"; */
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard items from remembering based on defined regex strings. Create strings using standard regex.\n"; ObjectID = "FqC-BY-av4"; */
 "FqC-BY-av4.title" = "정의된 정규식 문자열을 기반으로 특정 임시 보드 항목이 기억되지 않도록 무시할 수 있습니다. 표준 정규식을 사용하여 문자열을 만듭니다";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "aYl-Dc-4rx"; */
+"aYl-Dc-4rx.title" = "";
