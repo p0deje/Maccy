@@ -42,8 +42,10 @@
 		DA1EDE452045B68700479723 /* MenuTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE442045B68700479723 /* MenuTests.swift */; };
 		DA20EBB2268E279F0032D360 /* IgnoreApplicationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20EBB1268E279F0032D360 /* IgnoreApplicationsViewController.swift */; };
 		DA20EBB5268E54E80032D360 /* IgnoreSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA20EBB7268E54E80032D360 /* IgnoreSettingsViewController.xib */; };
-		DA21AD42249E86E8003E7C98 /* write.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DA21AD41249E86E8003E7C98 /* write.mp3 */; };
-		DA21AD44249E86F0003E7C98 /* knock.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = DA21AD43249E86F0003E7C98 /* knock.mp3 */; };
+		DA20FA722B082DD600056DD5 /* Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20FA712B082DD600056DD5 /* Notifier.swift */; };
+		DA20FA742B082E0100056DD5 /* knock.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA20FA732B082E0100056DD5 /* knock.caf */; };
+		DA20FA762B082E0800056DD5 /* write.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA20FA752B082E0800056DD5 /* write.caf */; };
+		DA20FA782B082E1A00056DD5 /* UNNotificationSound+Named.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20FA772B082E1A00056DD5 /* UNNotificationSound+Named.swift */; };
 		DA246D611E56C9EA001E40F3 /* Application.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA246D601E56C9EA001E40F3 /* Application.xib */; };
 		DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */; };
 		DA2B0AF42343104600EFAD72 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */; };
@@ -215,8 +217,10 @@
 		DA20EBBD268E54F00032D360 /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
 		DA20EBBF268E54F10032D360 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
 		DA20EBC1268E54F50032D360 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
-		DA21AD41249E86E8003E7C98 /* write.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = write.mp3; sourceTree = "<group>"; };
-		DA21AD43249E86F0003E7C98 /* knock.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = knock.mp3; sourceTree = "<group>"; };
+		DA20FA712B082DD600056DD5 /* Notifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifier.swift; sourceTree = "<group>"; };
+		DA20FA732B082E0100056DD5 /* knock.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = knock.caf; sourceTree = "<group>"; };
+		DA20FA752B082E0800056DD5 /* write.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = write.caf; sourceTree = "<group>"; };
+		DA20FA772B082E1A00056DD5 /* UNNotificationSound+Named.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNNotificationSound+Named.swift"; sourceTree = "<group>"; };
 		DA246D601E56C9EA001E40F3 /* Application.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Application.xib; sourceTree = "<group>"; };
 		DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Configuration.swift"; sourceTree = "<group>"; };
 		DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
@@ -448,8 +452,8 @@
 		DA21AD3C249E85BD003E7C98 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				DA21AD41249E86E8003E7C98 /* write.mp3 */,
-				DA21AD43249E86F0003E7C98 /* knock.mp3 */,
+				DA20FA732B082E0100056DD5 /* knock.caf */,
+				DA20FA752B082E0800056DD5 /* write.caf */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -553,6 +557,7 @@
 				2F3205B82AE3EDCA002EA545 /* MenuController.swift */,
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
 				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
+				DA20FA712B082DD600056DD5 /* Notifier.swift */,
 				DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */,
 				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
 				DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */,
@@ -565,6 +570,7 @@
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
+				DA20FA772B082E1A00056DD5 /* UNNotificationSound+Named.swift */,
 				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
 			);
 			path = Maccy;
@@ -745,15 +751,15 @@
 				DAFE2DDB268A8E4E00990986 /* PinsSettingsViewController.xib in Resources */,
 				DA05E7CC2483EF83005CB8AA /* GeneralSettingsViewController.xib in Resources */,
 				DA20EBB5268E54E80032D360 /* IgnoreSettingsViewController.xib in Resources */,
+				DA20FA762B082E0800056DD5 /* write.caf in Resources */,
 				DAB8CE4224E368F200A2500E /* container-migration.plist in Resources */,
 				DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */,
 				4762D6972467226100B3A2BA /* Localizable.strings in Resources */,
 				DA009934256411F90030E697 /* LICENSE in Resources */,
+				DA20FA742B082E0100056DD5 /* knock.caf in Resources */,
 				DA009931256411F90030E697 /* appcast.xml in Resources */,
 				DA05E7D22483F70B005CB8AA /* AppearanceSettingsViewController.xib in Resources */,
-				DA21AD44249E86F0003E7C98 /* knock.mp3 in Resources */,
 				DADBA95E2985C7AA00EC46FB /* Preview.xib in Resources */,
-				DA21AD42249E86E8003E7C98 /* write.mp3 in Resources */,
 				DA1DF95527AF8BCD006839E0 /* StorageSettingsViewController.xib in Resources */,
 				DA196A9128AB0A6800ADD8A2 /* MenuHeader.xib in Resources */,
 				DA009932256411F90030E697 /* README.md in Resources */,
@@ -850,6 +856,7 @@
 				DAF65F4824D396FE00F3978F /* PasteWithoutFormattingMenuItem.swift in Sources */,
 				DAFE2DD82688018100990986 /* PinsSettingsViewController.swift in Sources */,
 				DA81D674252A056B009977BC /* Throttler.swift in Sources */,
+				DA20FA722B082DD600056DD5 /* Notifier.swift in Sources */,
 				DA196A9328AB0D4500ADD8A2 /* MenuHeaderView.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
 				DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */,
@@ -873,6 +880,7 @@
 				5ACA94F52AD4D1E200ECAB6A /* IgnoreRegexViewController.swift in Sources */,
 				DA196A9028AB0A6800ADD8A2 /* MenuHeader.swift in Sources */,
 				DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */,
+				DA20FA782B082E1A00056DD5 /* UNNotificationSound+Named.swift in Sources */,
 				DAB65DFD2440AD63000AECA8 /* Storage.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

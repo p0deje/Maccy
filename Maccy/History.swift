@@ -34,9 +34,7 @@ class History {
       }
       remove(existingHistoryItem)
     } else {
-      if UserDefaults.standard.playSounds {
-        NSSound(named: NSSound.Name("write"))?.play()
-      }
+      Notifier.notify(body: item.title, sound: .write)
     }
 
     sessionLog[Clipboard.shared.changeCount] = item

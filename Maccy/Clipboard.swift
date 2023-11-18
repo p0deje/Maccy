@@ -83,9 +83,7 @@ class Clipboard {
     }
     pasteboard.setString("", forType: .fromMaccy)
 
-    if UserDefaults.standard.playSounds {
-      NSSound(named: NSSound.Name("knock"))?.play()
-    }
+    Notifier.notify(body: item.title, sound: .knock)
 
     checkForChangesInPasteboard()
   }
