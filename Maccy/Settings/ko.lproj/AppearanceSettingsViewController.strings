@@ -34,9 +34,6 @@
 /* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
 "Yio-8e-oaa.title" = "하단";
 
-/* Class = "NSTextFieldCell"; title = "Change the location of pinned items.\nDefault: Top."; ObjectID = "aqA-NI-K5d"; */
-"aqA-NI-K5d.title" = "고정된 항목의 위치를 변경합니다.\n기본값: 상단.";
-
 /* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
 "bIP-Mi-SeJ.title" = "이미지 미리보기 최대 세로 높이: {imageHeight}.\n기본값: 40.\nHint: 16으로 설정하면 텍스트 항목과 같아 보입니다.";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "ZHc-k4-Nf9"; */
 "ZHc-k4-Nf9.ibShadowedToolTip" = "팝업이 나타나는 위치를 변경합니다.\n기본값: 커서.";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
+"tWw-ax-Qej.ibShadowedToolTip" = "고정된 항목의 위치를 변경합니다.\n기본값: 상단.";

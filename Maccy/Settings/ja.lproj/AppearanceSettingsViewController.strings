@@ -34,9 +34,6 @@
 /* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
 "Yio-8e-oaa.title" = "下段";
 
-/* Class = "NSTextFieldCell"; title = "Change the location of pinned items.\nDefault: Top."; ObjectID = "aqA-NI-K5d"; */
-"aqA-NI-K5d.title" = "ピン留め項目の場所を変更します。\nデフォルト：上段。";
-
 /* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
 "bIP-Mi-SeJ.title" = "プレビュー時の画像の最大の高さ：{imageHeight}。\nデフォルト：40。\nヒント：16に設定するとテキスト項目と同じように見えます。";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "ZHc-k4-Nf9"; */
 "ZHc-k4-Nf9.ibShadowedToolTip" = "ポップアップが表れる場所を変更します。\nデフォルト：カーソル。";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
+"tWw-ax-Qej.ibShadowedToolTip" = "ピン留め項目の場所を変更します。\nデフォルト：上段。";
