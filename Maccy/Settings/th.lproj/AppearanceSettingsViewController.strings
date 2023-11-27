@@ -34,9 +34,6 @@
 /* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
 "Yio-8e-oaa.title" = "ข้างล่าง";
 
-/* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
-"bIP-Mi-SeJ.title" = "ความสูงสุดของตัวอย่างรูป: {imageHeight}.\nค่าเริ่มต้น: 40.\nHint: ตั้งเป็น 16 ขนาดรายการข้อความ";
-
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "แสดงหัวข้อก่อนช่องค้นหา";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
 "tWw-ax-Qej.ibShadowedToolTip" = "เปลี่ยนตำแหน่งรายการปักหมุด\nค่าเริ่มต้น: ข้างบน";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
+"Tsp-4i-Mym.ibShadowedToolTip" = "ความสูงสุดของตัวอย่างรูป.\nค่าเริ่มต้น: 40.\nHint: ตั้งเป็น 16 ขนาดรายการข้อความ";

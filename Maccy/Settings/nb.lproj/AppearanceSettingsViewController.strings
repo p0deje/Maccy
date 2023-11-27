@@ -22,9 +22,6 @@
 /* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
 "R7Y-UN-Edt.title" = "Popup ved:";
 
-/* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
-"bIP-Mi-SeJ.title" = "Maximal bildehøyde forhåndsvisning: {imageHeight}.\nStandard: 40.\nTips: Satt til 16 for å se ut som tekst elementer.";
-
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "Vis tittel før søkefelt";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
 "tWw-ax-Qej.ibShadowedToolTip" = "Forandre plassering av festede elementer.\nStandard: Øverst.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
+"Tsp-4i-Mym.ibShadowedToolTip" = "Maximal bildehøyde forhåndsvisning.\nStandard: 40.\nTips: Satt til 16 for å se ut som tekst elementer.";

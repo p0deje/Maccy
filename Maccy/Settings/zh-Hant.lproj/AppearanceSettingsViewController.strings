@@ -34,9 +34,6 @@
 /* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
 "Yio-8e-oaa.title" = "置底";
 
-/* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
-"bIP-Mi-SeJ.title" = "圖片預覽最高：{imageHeight}。\n預設: 40\n提示：設定 16 可符合文字項目大小。";
-
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "搜尋列旁顯示 Maccy";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
 "tWw-ax-Qej.ibShadowedToolTip" = "更改固定項目的位置。\n預設: 置頂。";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
+"Tsp-4i-Mym.ibShadowedToolTip" = "圖片預覽最高。\n預設: 40\n提示：設定 16 可符合文字項目大小。";

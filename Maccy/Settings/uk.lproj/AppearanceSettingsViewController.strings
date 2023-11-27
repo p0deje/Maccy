@@ -31,9 +31,6 @@
 /* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
 "Yio-8e-oaa.title" = "Знизу";
 
-/* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
-"bIP-Mi-SeJ.title" = "Максимальна висота попереднього перегляду зображення: {imageHeight}.\nЗа замовчуванням: 40.\nПідказка: установіть значення 16, щоб виглядати як текстові елементи.";
-
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "Показати назву перед полем пошуку";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
 "tWw-ax-Qej.ibShadowedToolTip" = "Змінити розташування закріплених елементів.\nЗа замовчуванням: Зsверху.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
+"Tsp-4i-Mym.ibShadowedToolTip" = "Максимальна висота попереднього перегляду зображення.\nЗа замовчуванням: 40.\nПідказка: установіть значення 16, щоб виглядати як текстові елементи.";

@@ -31,9 +31,6 @@
 /* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
 "Yio-8e-oaa.title" = "Alt";
 
-/* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
-"bIP-Mi-SeJ.title" = "En yüksek görsel önizlemesi boyu: {imageHeight}.\nSaptanmış: 40.\nİpucu: Metin ögeleri gibi görünmeleri için 16 olarak ayarlayın.";
-
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "Arama alanı öncesi başlığı göster";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
 "tWw-ax-Qej.ibShadowedToolTip" = "İğnelenen ögelerin konumunu değiştir.\nSaptanmış: Üst.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
+"Tsp-4i-Mym.ibShadowedToolTip" = "En yüksek görsel önizlemesi boyu.\nSaptanmış: 40.\nİpucu: Metin ögeleri gibi görünmeleri için 16 olarak ayarlayın.";

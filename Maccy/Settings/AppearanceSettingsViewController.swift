@@ -12,8 +12,8 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var popupAtMenuIconMenuItem: NSMenuItem!
   @IBOutlet weak var popupAtScreenCenterMenuItem: NSMenuItem!
   @IBOutlet weak var pinToButton: NSPopUpButton!
-  @IBOutlet weak var imageHeightSlider: NSSlider!
-  @IBOutlet weak var imageHeightLabel: NSTextField!
+  @IBOutlet weak var imageHeightField: NSTextField!
+  @IBOutlet weak var imageHeightStepper: NSStepper!
   @IBOutlet weak var menuSizeSlider: NSSlider!
   @IBOutlet weak var menuSizeLabel: NSTextField!
   @IBOutlet weak var titleLengthSlider: NSSlider!
@@ -27,13 +27,17 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var showTitleButton: NSButton!
   @IBOutlet weak var showFooterButton: NSButton!
 
+  private let imageHeightMin = 1
+  private let imageHeightMax = 200
+  private var imageHeightFormatter: NumberFormatter!
+
   private let previewDelayMin = 200
   private let previewDelayMax = 100_000
-
   private var previewDelayFormatter: NumberFormatter!
 
   override func viewDidLoad() {
     super.viewDidLoad()
+    setMinAndMaxImageHeight()
     setMinAndMaxPreviewDelay()
   }
 
@@ -100,11 +104,14 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     }
   }
 
-  @IBAction func imageHeightChanged(_ sender: NSSlider) {
-    let old = String(UserDefaults.standard.imageMaxHeight)
-    let new = String(imageHeightSlider.integerValue)
-    updateLabel(old: old, new: new, label: imageHeightLabel)
+  @IBAction func imageHeightFieldChanged(_ sender: NSTextField) {
     UserDefaults.standard.imageMaxHeight = sender.integerValue
+    imageHeightStepper.integerValue = sender.integerValue
+  }
+
+  @IBAction func imageHeightStepperChanged(_ sender: NSStepper) {
+    UserDefaults.standard.imageMaxHeight = sender.integerValue
+    imageHeightField.integerValue = sender.integerValue
   }
 
   @IBAction func menuSizeChanged(_ sender: NSSlider) {
@@ -220,10 +227,19 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     }
   }
 
+  private func setMinAndMaxImageHeight() {
+    imageHeightFormatter = NumberFormatter()
+    imageHeightFormatter.minimum = imageHeightMin as NSNumber
+    imageHeightFormatter.maximum = imageHeightMax as NSNumber
+    imageHeightFormatter.maximumFractionDigits = 0
+    imageHeightField.formatter = imageHeightFormatter
+    imageHeightStepper.minValue = Double(imageHeightMin)
+    imageHeightStepper.maxValue = Double(imageHeightMax)
+  }
+
   private func populateImageHeight() {
-    imageHeightSlider.integerValue = UserDefaults.standard.imageMaxHeight
-    let new = String(imageHeightSlider.integerValue)
-    updateLabel(old: "{imageHeight}", new: new, label: imageHeightLabel)
+    imageHeightField.integerValue =  UserDefaults.standard.imageMaxHeight
+    imageHeightStepper.integerValue =  UserDefaults.standard.imageMaxHeight
   }
 
   private func populateMenuSize() {

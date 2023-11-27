@@ -22,9 +22,6 @@
 /* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
 "R7Y-UN-Edt.title" = "Aparecer en:";
 
-/* Class = "NSTextFieldCell"; title = "Maximum image preview height: {imageHeight}.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "bIP-Mi-SeJ"; */
-"bIP-Mi-SeJ.title" = "Tamaño máximo de la previsualización de la imagen: {imageHeight}.\nPor defecto: 40.\nNota: Selecciona 16 para igualar el tamaño del texto.";
-
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
 "ePT-qq-kg9.title" = "Mostrar título antes del buscador";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
 "tWw-ax-Qej.ibShadowedToolTip" = "Cambiar la ubicación de los artículos anclados.\nPor defecto: Parte superior.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
+"Tsp-4i-Mym.ibShadowedToolTip" = "Tamaño máximo de la previsualización de la imagen.\nPor defecto: 40.\nNota: Selecciona 16 para igualar el tamaño del texto.";
