@@ -19,9 +19,6 @@
 /* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
 "5NO-0n-i7l.title" = "Einfügen ohne Formatierung";
 
-/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
-"lkL-5p-KVx.title" = "Töne";
-
 /* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
 "EdO-Bo-TeB.title" = "";
 
@@ -57,6 +54,3 @@
 
 /* Class = "NSTextFieldCell"; title = "Delete:"; ObjectID = "r50-bG-RWB"; */
 "r50-bG-RWB.title" = "Löschen:";
-
-/* Class = "NSButton"; ibShadowedToolTip = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "vaq-g1-ECx"; */
-"vaq-g1-ECx.ibShadowedToolTip" = "Spielt einen Toneffekt beim Kopieren und beim Auswählen.";

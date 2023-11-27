@@ -22,9 +22,6 @@
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "Otomatik olarak yapıştır";
 
-/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
-"lkL-5p-KVx.title" = "Sesler";
-
 /* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
 "IGh-5B-6RG.title" = "Bulanık";
 
@@ -57,6 +54,3 @@
 
 /* Class = "NSTextFieldCell"; title = "Delete:"; ObjectID = "r50-bG-RWB"; */
 "r50-bG-RWB.title" = "Silmek:";
-
-/* Class = "NSButton"; ibShadowedToolTip = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "vaq-g1-ECx"; */
-"vaq-g1-ECx.ibShadowedToolTip" = "Geçmişe yeni bir öge eklendiğinde ve bir önceki öge seçildiğinde ses efektleri çal.";

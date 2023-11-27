@@ -22,9 +22,6 @@
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "자동으로 붙여넣기";
 
-/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
-"lkL-5p-KVx.title" = "소리";
-
 /* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
 "IGh-5B-6RG.title" = "퍼지";
 
@@ -57,6 +54,3 @@
 
 /* Class = "NSTextFieldCell"; title = "Delete:"; ObjectID = "r50-bG-RWB"; */
 "r50-bG-RWB.title" = "삭제:";
-
-/* Class = "NSButton"; ibShadowedToolTip = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "vaq-g1-ECx"; */
-"vaq-g1-ECx.ibShadowedToolTip" = "기록에 새로운 항목이 추가될 때와 이전 항목이 선택되었을 때 효과음을 재생합니다.";

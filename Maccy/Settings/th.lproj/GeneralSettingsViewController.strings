@@ -22,9 +22,6 @@
 /* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
 "kK4-kG-DIY.title" = "วางอัตโนมัติ";
 
-/* Class = "NSButtonCell"; title = "Sounds"; ObjectID = "lkL-5p-KVx"; */
-"lkL-5p-KVx.title" = "เสียง";
-
 /* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
 "IGh-5B-6RG.title" = "เลือน";
 
@@ -57,6 +54,3 @@
 
 /* Class = "NSTextFieldCell"; title = "Delete:"; ObjectID = "r50-bG-RWB"; */
 "r50-bG-RWB.title" = "อลบ:";
-
-/* Class = "NSButton"; ibShadowedToolTip = "Play sound effects when a new item is added to the history and the previous item is selected."; ObjectID = "vaq-g1-ECx"; */
-"vaq-g1-ECx.ibShadowedToolTip" = "เปิดเสียงเมื่อมีรายการใหม่เพิ่มลงในประวัติและรายการก่อนหน้าถูกเลือก";
