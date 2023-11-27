@@ -46,9 +46,6 @@
 /* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
 "TgE-eS-5nT.title" = "Довжина назви:";
 
-/* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
-"mG7-wI-7Eb.title" = "Максимальна кількість символів у назві елемента: {maxMenuItemLength}.\nЗа замовчуванням: 50.";
-
 /* Class = "NSTextFieldCell"; title = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "1Mt-Lg-Smd"; */
 "1Mt-Lg-Smd.title" = "Затримка в мілісекундах до появи спливаючого вікна попереднього перегляду.\nЗа замовчуванням: 1500.";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
 "a8Y-aG-9on.ibShadowedToolTip" = "Кількість видимих елементів.\nПриховані елементи все ще зберігаються в історії та їх можна знайти за допомогою пошуку.\nУстановіть 0, щоб зробити всі елементи видимими.\nЗа замовчуванням: 0.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Maximum number of characters in the item title.\nDefault: 50."; ObjectID = "XGd-Fg-wS9"; */
+"XGd-Fg-wS9.ibShadowedToolTip" = "Максимальна кількість символів у назві елемента.\nЗа замовчуванням: 50.";

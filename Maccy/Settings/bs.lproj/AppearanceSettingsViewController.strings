@@ -46,9 +46,6 @@
 /* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
 "TgE-eS-5nT.title" = "Dužina naslova:";
 
-/* Class = "NSTextFieldCell"; title = "Maximum number of characters in the item title: {maxMenuItemLength}.\nDefault: 50."; ObjectID = "mG7-wI-7Eb"; */
-"mG7-wI-7Eb.title" = "Maksimalan broj znakova u naslovu stavke: {maxMenuItemLength}.\nZadano: 50.";
-
 /* Class = "NSTextFieldCell"; title = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "1Mt-Lg-Smd"; */
 "1Mt-Lg-Smd.title" = "Kašnjenje u milisekundama dok se ne prikaže skočni prozor za pregled.\nZadano: 1500.";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
 "a8Y-aG-9on.ibShadowedToolTip" = "Broj vidljivih stavki.\nSkrivene stavke se i dalje čuvaju u historiji i mogu se pronaći pomoću pretrage.\nPostavi na 0 da sve stavke budu vidljive.\nZadano: 0.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Maximum number of characters in the item title.\nDefault: 50."; ObjectID = "XGd-Fg-wS9"; */
+"XGd-Fg-wS9.ibShadowedToolTip" = "Maksimalan broj znakova u naslovu stavke.\nZadano: 50.";

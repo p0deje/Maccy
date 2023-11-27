@@ -16,8 +16,8 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var imageHeightStepper: NSStepper!
   @IBOutlet weak var numberOfItemsField: NSTextField!
   @IBOutlet weak var numberOfItemsStepper: NSStepper!
-  @IBOutlet weak var titleLengthSlider: NSSlider!
-  @IBOutlet weak var titleLengthLabel: NSTextField!
+  @IBOutlet weak var titleLengthField: NSTextField!
+  @IBOutlet weak var titleLengthStepper: NSStepper!
   @IBOutlet weak var previewDelayField: NSTextField!
   @IBOutlet weak var previewDelayStepper: NSStepper!
   @IBOutlet weak var showMenuIconButton: NSButton!
@@ -35,6 +35,10 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   private let numberOfItemsMax = 100
   private var numberOfItemsFormatter: NumberFormatter!
 
+  private let titleLengthMin = 30
+  private let titleLengthMax = 200
+  private var titleLengthFormatter: NumberFormatter!
+
   private let previewDelayMin = 200
   private let previewDelayMax = 100_000
   private var previewDelayFormatter: NumberFormatter!
@@ -43,6 +47,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     super.viewDidLoad()
     setMinAndMaxImageHeight()
     setMinAndMaxNumberOfItems()
+    setMinAndMaxTitleLength()
     setMinAndMaxPreviewDelay()
   }
 
@@ -129,11 +134,14 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     numberOfItemsField.integerValue = sender.integerValue
   }
 
-  @IBAction func titleLengthChanged(_ sender: NSSlider) {
-    let old = String(UserDefaults.standard.maxMenuItemLength)
-    let new = String(titleLengthSlider.integerValue)
-    updateLabel(old: old, new: new, label: titleLengthLabel)
+  @IBAction func titleLengthFieldChanged(_ sender: NSTextField) {
     UserDefaults.standard.maxMenuItemLength = sender.integerValue
+    titleLengthStepper.integerValue = sender.integerValue
+  }
+
+  @IBAction func titleLengthStepperChanged(_ sender: NSStepper) {
+    UserDefaults.standard.maxMenuItemLength = sender.integerValue
+    titleLengthField.integerValue = sender.integerValue
   }
 
   @IBAction func previewDelayFieldChanged(_ sender: NSTextField) {
@@ -275,10 +283,19 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     label.stringValue = newLabelValue
   }
 
+  private func setMinAndMaxTitleLength() {
+    titleLengthFormatter = NumberFormatter()
+    titleLengthFormatter.minimum = titleLengthMin as NSNumber
+    titleLengthFormatter.maximum = titleLengthMax as NSNumber
+    titleLengthFormatter.maximumFractionDigits = 0
+    titleLengthField.formatter = titleLengthFormatter
+    titleLengthStepper.minValue = Double(titleLengthMin)
+    titleLengthStepper.maxValue = Double(titleLengthMax)
+  }
+
   private func populateTitleLength() {
-    titleLengthSlider.integerValue = UserDefaults.standard.maxMenuItemLength
-    let new = String(titleLengthSlider.integerValue)
-    updateLabel(old: "{maxMenuItemLength}", new: new, label: titleLengthLabel)
+    titleLengthField.integerValue = UserDefaults.standard.maxMenuItemLength
+    titleLengthStepper.integerValue = UserDefaults.standard.maxMenuItemLength
   }
 
   private func setMinAndMaxPreviewDelay() {
