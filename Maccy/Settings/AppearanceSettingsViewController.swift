@@ -26,6 +26,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var showSearchFieldButton: NSButton!
   @IBOutlet weak var showTitleButton: NSButton!
   @IBOutlet weak var showFooterButton: NSButton!
+  @IBOutlet weak var openPreferencesLabel: NSTextField!
 
   private let imageHeightMin = 1
   private let imageHeightMax = 200
@@ -186,6 +187,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
 
   @IBAction func showFooterChanged(_ sender: NSButton) {
     UserDefaults.standard.hideFooter = (sender.state == .off)
+    openPreferencesLabel.isHidden = (sender.state == .on)
   }
 
   private func populateScreens() {
@@ -273,16 +275,6 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     numberOfItemsStepper.integerValue = UserDefaults.standard.maxMenuItems
   }
 
-  private func updateLabel(old: String, new: String, label: NSTextField) {
-    let newLabelValue = label.stringValue.replacingOccurrences(
-      of: old,
-      with: new,
-      options: [],
-      range: label.stringValue.range(of: old)
-    )
-    label.stringValue = newLabelValue
-  }
-
   private func setMinAndMaxTitleLength() {
     titleLengthFormatter = NumberFormatter()
     titleLengthFormatter.minimum = titleLengthMin as NSNumber
@@ -344,5 +336,6 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
 
   private func populateShowFooter() {
     showFooterButton.state = UserDefaults.standard.hideFooter ? .off : .on
+    openPreferencesLabel.isHidden = !UserDefaults.standard.hideFooter
   }
 }
