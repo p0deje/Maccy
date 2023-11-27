@@ -34,9 +34,6 @@
 /* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Antall elementer:";
 
-/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "Antall synlige elementer: {menuSize}.\nSkjulte elementer er fremdeles oppbevart i historikken og kan finnes ved bruk av søkefunksjonen.\nSett til 0 for å gjøre alle elementer synlige.\nStandard: 0.";
-
 /* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
 "GhW-Kv-rhO.title" = "Fest til:";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
 "Tsp-4i-Mym.ibShadowedToolTip" = "Maximal bildehøyde forhåndsvisning.\nStandard: 40.\nTips: Satt til 16 for å se ut som tekst elementer.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
+"a8Y-aG-9on.ibShadowedToolTip" = "Antall synlige elementer.\nSkjulte elementer er fremdeles oppbevart i historikken og kan finnes ved bruk av søkefunksjonen.\nSett til 0 for å gjøre alle elementer synlige.\nStandard: 0.";

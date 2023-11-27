@@ -40,9 +40,6 @@
 /* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Broj stavki:";
 
-/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "Broj vidljivih stavki: {menuSize}.\nSkrivene stavke se i dalje čuvaju u historiji i mogu se pronaći pomoću pretrage.\nPostavi na 0 da sve stavke budu vidljive.\nZadano: 0.";
-
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Prikaži polje za pretragu";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
 "Tsp-4i-Mym.ibShadowedToolTip" = "Maksimalna visina pregleda slike.\nZadano: 40.\nSavjet: Postavite na 16 da izgledaju kao tekstualne stavke.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
+"a8Y-aG-9on.ibShadowedToolTip" = "Broj vidljivih stavki.\nSkrivene stavke se i dalje čuvaju u historiji i mogu se pronaći pomoću pretrage.\nPostavi na 0 da sve stavke budu vidljive.\nZadano: 0.";

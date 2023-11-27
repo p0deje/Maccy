@@ -34,9 +34,6 @@
 /* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Количество записей:";
 
-/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "Количество видимых записей: {menuSize}.\nСкрытые записи будут доступны в истории и с помощью поиска.\nПоставьте 0, чтобы все записи были видимы.\nПо умолчанию: 0.";
-
 /* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
 "GhW-Kv-rhO.title" = "Прикреплять к:";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
 "Tsp-4i-Mym.ibShadowedToolTip" = "Максимальная высота предпросмотра изображений.\nПо умолчанию: 40.\nСовет: Поставьте 16 для схожести с текстовыми записями.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
+"a8Y-aG-9on.ibShadowedToolTip" = "Количество видимых записей.\nСкрытые записи будут доступны в истории и с помощью поиска.\nПоставьте 0, чтобы все записи были видимы.\nПо умолчанию: 0.";

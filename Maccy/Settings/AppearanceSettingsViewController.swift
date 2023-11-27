@@ -14,8 +14,8 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var pinToButton: NSPopUpButton!
   @IBOutlet weak var imageHeightField: NSTextField!
   @IBOutlet weak var imageHeightStepper: NSStepper!
-  @IBOutlet weak var menuSizeSlider: NSSlider!
-  @IBOutlet weak var menuSizeLabel: NSTextField!
+  @IBOutlet weak var numberOfItemsField: NSTextField!
+  @IBOutlet weak var numberOfItemsStepper: NSStepper!
   @IBOutlet weak var titleLengthSlider: NSSlider!
   @IBOutlet weak var titleLengthLabel: NSTextField!
   @IBOutlet weak var previewDelayField: NSTextField!
@@ -31,6 +31,10 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   private let imageHeightMax = 200
   private var imageHeightFormatter: NumberFormatter!
 
+  private let numberOfItemsMin = 0
+  private let numberOfItemsMax = 100
+  private var numberOfItemsFormatter: NumberFormatter!
+
   private let previewDelayMin = 200
   private let previewDelayMax = 100_000
   private var previewDelayFormatter: NumberFormatter!
@@ -38,6 +42,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   override func viewDidLoad() {
     super.viewDidLoad()
     setMinAndMaxImageHeight()
+    setMinAndMaxNumberOfItems()
     setMinAndMaxPreviewDelay()
   }
 
@@ -47,7 +52,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     populatePopupPosition()
     populatePinTo()
     populateImageHeight()
-    populateMenuSize()
+    populateNumberOfItems()
     populateTitleLength()
     populatePreviewDelay()
     populateShowMenuIcon()
@@ -114,11 +119,14 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     imageHeightField.integerValue = sender.integerValue
   }
 
-  @IBAction func menuSizeChanged(_ sender: NSSlider) {
-    let old = String(UserDefaults.standard.maxMenuItems)
-    let new = String(menuSizeSlider.integerValue)
-    updateLabel(old: old, new: new, label: menuSizeLabel)
+  @IBAction func numberOfItemsFieldChanged(_ sender: NSTextField) {
     UserDefaults.standard.maxMenuItems = sender.integerValue
+    numberOfItemsStepper.integerValue = sender.integerValue
+  }
+
+  @IBAction func numberOfItemsStepperChanged(_ sender: NSStepper) {
+    UserDefaults.standard.maxMenuItems = sender.integerValue
+    numberOfItemsField.integerValue = sender.integerValue
   }
 
   @IBAction func titleLengthChanged(_ sender: NSSlider) {
@@ -237,15 +245,24 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     imageHeightStepper.maxValue = Double(imageHeightMax)
   }
 
+  private func setMinAndMaxNumberOfItems() {
+    numberOfItemsFormatter = NumberFormatter()
+    numberOfItemsFormatter.minimum = numberOfItemsMin as NSNumber
+    numberOfItemsFormatter.maximum = numberOfItemsMax as NSNumber
+    numberOfItemsFormatter.maximumFractionDigits = 0
+    numberOfItemsField.formatter = numberOfItemsFormatter
+    numberOfItemsStepper.minValue = Double(numberOfItemsMin)
+    numberOfItemsStepper.maxValue = Double(numberOfItemsMax)
+  }
+
   private func populateImageHeight() {
     imageHeightField.integerValue =  UserDefaults.standard.imageMaxHeight
     imageHeightStepper.integerValue =  UserDefaults.standard.imageMaxHeight
   }
 
-  private func populateMenuSize() {
-    menuSizeSlider.integerValue = UserDefaults.standard.maxMenuItems
-    let new = String(menuSizeSlider.integerValue)
-    updateLabel(old: "{menuSize}", new: new, label: menuSizeLabel)
+  private func populateNumberOfItems() {
+    numberOfItemsField.integerValue = UserDefaults.standard.maxMenuItems
+    numberOfItemsStepper.integerValue = UserDefaults.standard.maxMenuItems
   }
 
   private func updateLabel(old: String, new: String, label: NSTextField) {

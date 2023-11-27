@@ -40,9 +40,6 @@
 /* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Nombre d'éléments:";
 
-/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "Nombre d'éléments visibles: {menuSize}.\nLes éléments cachés sont toujours stockés dans l'historique et peuvent être trouvés à l'aide de la barre de recherche.\nRéglez sur 0 pour afficher tous les éléments.\nPar défaut: 0.";
-
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Afficher le champ de recherche";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
 "Tsp-4i-Mym.ibShadowedToolTip" = "Hauteur maximale de l'aperçu de l'image.\nPar défaut: 40.\nAstuce: réglez sur 16 pour qu'ils ressemblent à des éléments de texte.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
+"a8Y-aG-9on.ibShadowedToolTip" = "Nombre d'éléments visibles.\nLes éléments cachés sont toujours stockés dans l'historique et peuvent être trouvés à l'aide de la barre de recherche.\nRéglez sur 0 pour afficher tous les éléments.\nPar défaut: 0.";

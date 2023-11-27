@@ -40,9 +40,6 @@
 /* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Broj elemenata:";
 
-/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "Broj vidljivih elemenata: {menuSize}.\nSkriveni elementi se i dalje čuvaju u povijesti te se mogu pronaći putem pretrage.\nZa prikaz svih elemenata, postavi na 0.\nStandardno: 0.";
-
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Prikaži polje pretrage";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
 "Tsp-4i-Mym.ibShadowedToolTip" = "Maksimalna visina slike pregleda.\nStandardno: 40.\nSavjet: Postavi na 16 da bi sličilo tekstu.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
+"a8Y-aG-9on.ibShadowedToolTip" = "Broj vidljivih elemenata.\nSkriveni elementi se i dalje čuvaju u povijesti te se mogu pronaći putem pretrage.\nZa prikaz svih elemenata, postavi na 0.\nStandardno: 0.";

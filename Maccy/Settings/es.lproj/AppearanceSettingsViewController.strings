@@ -34,9 +34,6 @@
 /* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Número de elementos:";
 
-/* Class = "NSTextFieldCell"; title = "Number of visible items: {menuSize}.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "j39-nx-OGb"; */
-"j39-nx-OGb.title" = "Número de elementos visibles: {menuSize}.\nLos elementos ocultos permanecen en el historial y pueden encontrarse usando el buscador.\nSelecciona 0 para verlos todos.\nPor defecto: 0.";
-
 /* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
 "GhW-Kv-rhO.title" = "Anclar a:";
 
@@ -69,3 +66,6 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
 "Tsp-4i-Mym.ibShadowedToolTip" = "Tamaño máximo de la previsualización de la imagen.\nPor defecto: 40.\nNota: Selecciona 16 para igualar el tamaño del texto.";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
+"a8Y-aG-9on.ibShadowedToolTip" = "Número de elementos visibles.\nLos elementos ocultos permanecen en el historial y pueden encontrarse usando el buscador.\nSelecciona 0 para verlos todos.\nPor defecto: 0.";
