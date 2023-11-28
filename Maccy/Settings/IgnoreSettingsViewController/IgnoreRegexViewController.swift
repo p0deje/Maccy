@@ -3,7 +3,7 @@ import Cocoa
 class IgnoreRegexViewController: NSViewController, NSTableViewDataSource {
   @IBOutlet weak var ignoredItemsTable: NSTableView!
 
-  private let exampleIgnoredRegex = "zzz.yyy.xxx"
+  private let exampleIgnoredRegex = "^[a-zA-Z0-9]{50}$"
 
   private var ignoredRegexp: [String] {
     get { UserDefaults.standard.ignoreRegexp.sorted() }

@@ -1,32 +1,41 @@
-/* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "PDj-Nr-Ubl"; */
-"PDj-Nr-Ubl.headerCell.title" = "Типы";
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain copies from remembering based on defined regular expressions."; ObjectID = "76n-GS-0HQ"; */
+"76n-GS-0HQ.title" = "Определенные копирования можно игнорировать на основе регулярных выражений.";
 
-/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "PFf-uU-3co"; */
-"PFf-uU-3co.title" = "Определённые типы копируемых данных (pasteboard types) можно игнорировать. По умолчанию содержит некоторые типы, специфичные для известных приложений. Вы можете их удалить и добавить свои типы.";
+/* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "8Ox-ex-Bkl"; */
+"8Ox-ex-Bkl.headerCell.title" = "Типы";
 
-/* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "bVW-Cb-ulw"; */
-"bVW-Cb-ulw.title" = "Копирования из определённых приложений можно игнорировать.\nПожалуйста учтите, что текущая реализация не гарантирует стопроцентного результата, поэтому, по возможности, рекомендуется использовать игнорируемые типы.";
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "CB1-s7-UXJ"; */
+"CB1-s7-UXJ.title" = "Определённые типы копируемых данных (pasteboard types) можно игнорировать. По умолчанию содержит некоторые типы, специфичные для известных приложений. Вы можете их удалить и добавить свои типы.";
 
-/* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "e5t-lA-7er"; */
-"e5t-lA-7er.headerCell.title" = "Приложения";
+/* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "DCt-Nk-VNS"; */
+"DCt-Nk-VNS.headerCell.title" = "Приложения";
 
-/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "at1-VF-wpg"; */
-"at1-VF-wpg.title" = "";
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Goj-ts-fal"; */
+"Goj-ts-fal.title" = "";
 
-/* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "bPI-gF-DM1"; */
-"bPI-gF-DM1.title" = "Игнорировать все приложения, кроме перечисленных";
+/* Class = "NSTableColumn"; headerCell.title = "Regular expressions"; ObjectID = "Hef-1G-Irp"; */
+"Hef-1G-Irp.headerCell.title" = "Регулярные выражения";
 
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "eG1-h6-6Pr"; */
-"eG1-h6-6Pr.title" = "";
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ItS-bj-BFG"; */
+"ItS-bj-BFG.title" = "";
 
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "tWx-xL-UB5"; */
-"tWx-xL-UB5.title" = "";
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "Rfe-XX-kt3"; */
+"Rfe-XX-kt3.title" = "";
 
-/* Class = "NSTableColumn"; headerCell.title = "Regex strings"; ObjectID = "L9O-de-BED"; */
-"L9O-de-BED.headerCell.title" = "Строки регулярных выражений";
+/* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "Zb2-M8-Pky"; */
+"Zb2-M8-Pky.title" = "Игнорировать все приложения, кроме перечисленных";
 
-/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard items from remembering based on defined regex strings. Create strings using standard regex.\n"; ObjectID = "FqC-BY-av4"; */
-"FqC-BY-av4.title" = "Можно игнорировать определенные элементы монтажного стола из запоминания на основе определенных строк регулярных выражений. Создавайте строки, используя стандартное регулярное выражение.";
+/* Class = "NSTabViewItem"; label = "Pasteboard types"; ObjectID = "b7c-gy-SzX"; */
+"b7c-gy-SzX.label" = "Типы";
 
-/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "aYl-Dc-4rx"; */
-"aYl-Dc-4rx.title" = "";
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "cCb-x7-Qin"; */
+"cCb-x7-Qin.title" = "Копирования из определённых приложений можно игнорировать.\nПожалуйста учтите, что текущая реализация не гарантирует стопроцентного результата, поэтому, по возможности, рекомендуется использовать игнорируемые типы.";
+
+/* Class = "NSTabViewItem"; label = "Regular expressions"; ObjectID = "oR1-gy-AKV"; */
+"oR1-gy-AKV.label" = "Регулярные выражения";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "rOG-Q7-qpw"; */
+"rOG-Q7-qpw.title" = "";
+
+/* Class = "NSTabViewItem"; label = "Applications"; ObjectID = "uWq-uc-eIR"; */
+"uWq-uc-eIR.label" = "Приложения";
