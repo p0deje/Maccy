@@ -6,27 +6,31 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.28.0</title>
+      <title>0.29.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added support for ignoring text copies based on regular expressions.</li>
-            <li>Fixed an issue when copying anything in Microsoft Word would create an in-app bookmark.</li>
-            <li>Fixed a slow search on macOS Sonoma.</li>
-            <li>Fixed a preview position on macOS Sonoma.</li>
-            <li>Fixed a popup position on macOS Sonoma.</li>
-            <li>Fixed a selection of pins with a "v" letter assigned.</li>
-            <li>Fixed a preferences window not being focused on macOS Sonoma.</li>
+            <li>Added "Delete Item from Clipboard History" action to Shortcuts.app.</li>
+            <li>Added settings to change delete/pin keyboard shortcuts.</li>
+            <li>Added support for sending macOS notifications on new copies and a selection from Maccy history. Removed settings for playing custom sounds on new copies and a selection from Maccy history. You can enable/disabe sounds using System Settings / Notifications / Maccy now.</li>
+            <li>Reworked preferences UI to make it more compact.</li>
+            <li>Fixed crash when removing an item during the search.</li>
+            <li>Fixed empty list when storage size is smaller than the number of visible items.</li>
+            <li>Fixed crash when showing a preview for a removed item.</li>
+            <li>Fixed copies from Universal Clipboard to show "iCloud" as a source application.</li>
+            <li>Fixed incorrect instructions on an accessibility permissions alert.</li>
+            <li>Fixed delete/pin shortcuts not working when the header is scrolled out of the view.</li>
+            <li>Fixed crash when removing items quickly in a row.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2023-10-20</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.28.0</releaseNotesLink>
+      <pubDate>2023-12-02</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.29.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.28.0/Maccy.app.zip"
-        sparkle:version="23"
-        sparkle:shortVersionString="0.28.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.29.0/Maccy.app.zip"
+        sparkle:version="24"
+        sparkle:shortVersionString="0.29.0"
         length="0"
         type="application/octet-stream"
       />
