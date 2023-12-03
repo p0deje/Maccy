@@ -6,31 +6,21 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.29.0</title>
+      <title>0.29.1</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added "Delete Item from Clipboard History" action to Shortcuts.app.</li>
-            <li>Added settings to change delete/pin keyboard shortcuts.</li>
-            <li>Added support for sending macOS notifications on new copies and a selection from Maccy history. Removed settings for playing custom sounds on new copies and a selection from Maccy history. You can enable/disabe sounds using System Settings / Notifications / Maccy now.</li>
-            <li>Reworked preferences UI to make it more compact.</li>
-            <li>Fixed crash when removing an item during the search.</li>
-            <li>Fixed empty list when storage size is smaller than the number of visible items.</li>
-            <li>Fixed crash when showing a preview for a removed item.</li>
-            <li>Fixed copies from Universal Clipboard to show "iCloud" as a source application.</li>
-            <li>Fixed incorrect instructions on an accessibility permissions alert.</li>
-            <li>Fixed delete/pin shortcuts not working when the header is scrolled out of the view.</li>
-            <li>Fixed crash when removing items quickly in a row.</li>
+            <li>Fixed crash when changing ignored applications and pasteboard types.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2023-12-02</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.29.0</releaseNotesLink>
+      <pubDate>2023-12-03</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.29.1</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.29.0/Maccy.app.zip"
-        sparkle:version="24"
-        sparkle:shortVersionString="0.29.0"
+        url="https://github.com/p0deje/Maccy/releases/download/0.29.1/Maccy.app.zip"
+        sparkle:version="25"
+        sparkle:shortVersionString="0.29.1"
         length="0"
         type="application/octet-stream"
       />
