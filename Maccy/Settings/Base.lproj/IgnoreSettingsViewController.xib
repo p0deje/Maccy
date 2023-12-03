@@ -51,7 +51,7 @@
                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                 <tableColumns>
-                                                                    <tableColumn editable="NO" width="436" minWidth="40" maxWidth="1000" id="DCt-Nk-VNS">
+                                                                    <tableColumn editable="NO" width="407" minWidth="40" maxWidth="1000" id="DCt-Nk-VNS">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Applications">
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -64,7 +64,7 @@
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView identifier="appCell" id="jz9-hp-3dN">
-                                                                                <rect key="frame" x="1" y="0.0" width="445" height="34"/>
+                                                                                <rect key="frame" x="1" y="0.0" width="416" height="34"/>
                                                                                 <autoresizingMask key="autoresizingMask"/>
                                                                                 <subviews>
                                                                                     <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="BfN-JY-Il0">
@@ -75,7 +75,7 @@
                                                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="zWO-sO-8yI"/>
                                                                                     </imageView>
                                                                                     <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="oLu-60-hTo">
-                                                                                        <rect key="frame" x="34" y="9" width="389" height="16"/>
+                                                                                        <rect key="frame" x="34" y="9" width="360" height="16"/>
                                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Rfe-XX-kt3">
                                                                                             <font key="font" metaFont="system"/>
                                                                                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -206,7 +206,7 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                 <tableColumns>
-                                                                    <tableColumn width="437" minWidth="40" maxWidth="1000" id="8Ox-ex-Bkl">
+                                                                    <tableColumn width="408" minWidth="40" maxWidth="1000" id="8Ox-ex-Bkl">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Pasteboard types">
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -289,9 +289,8 @@ By default, some known application-specific types are defined. You can remove th
                                         </columns>
                                         <gridCells>
                                             <gridCell row="i0c-7g-iXT" column="ISw-Ga-S0x" id="g9K-Xf-qYZ">
-                                                <scrollView key="contentView" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="UPC-Ve-Bia">
+                                                <scrollView key="contentView" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="UPC-Ve-Bia">
                                                     <rect key="frame" x="0.0" y="59" width="451" height="210"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <clipView key="contentView" id="3Zw-hK-svm">
                                                         <rect key="frame" x="1" y="1" width="449" height="208"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -303,7 +302,7 @@ By default, some known application-specific types are defined. You can remove th
                                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                                 <tableColumns>
-                                                                    <tableColumn width="437" minWidth="40" maxWidth="1000" id="Hef-1G-Irp">
+                                                                    <tableColumn width="408" minWidth="40" maxWidth="1000" id="Hef-1G-Irp">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" title="Regular expressions">
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
                                                                             <color key="backgroundColor" name="headerColor" catalog="System" colorSpace="catalog"/>
@@ -376,8 +375,16 @@ By default, some known application-specific types are defined. You can remove th
             </constraints>
             <point key="canvasLocation" x="194" y="-58.5"/>
         </customView>
-        <viewController id="gYR-MN-G8y" customClass="IgnoreApplicationsViewController" customModule="Maccy" customModuleProvider="target"/>
-        <viewController id="tgV-YG-Zdo" customClass="IgnorePasteboardTypesViewController" customModule="Maccy" customModuleProvider="target"/>
+        <viewController id="gYR-MN-G8y" customClass="IgnoreApplicationsViewController" customModule="Maccy" customModuleProvider="target">
+            <connections>
+                <outlet property="ignoredItemsTable" destination="CZi-bA-9xC" id="nYD-Vd-eZA"/>
+            </connections>
+        </viewController>
+        <viewController id="tgV-YG-Zdo" customClass="IgnorePasteboardTypesViewController" customModule="Maccy" customModuleProvider="target">
+            <connections>
+                <outlet property="ignoredItemsTable" destination="OFh-D1-WKr" id="gb5-6D-RkJ"/>
+            </connections>
+        </viewController>
         <viewController id="yZq-nz-Q7h" customClass="IgnoreRegexViewController" customModule="Maccy" customModuleProvider="target">
             <connections>
                 <outlet property="ignoredItemsTable" destination="hKt-HW-p79" id="F8X-wd-gA7"/>
