@@ -1,0 +1,29 @@
+---
+name: 💪 Feature request
+description: Suggest an idea for this project
+labels: [enhancement]
+body:
+  - type: checkboxes
+    attributes:
+      label: Before Submitting Your Feature Request
+      options:
+        - label: Check that there isn't already a similar feature request to avoid creating a duplicate.
+          required: false
+        - label: I have seen the [FAQ](https://github.com/p0deje/Maccy?tab=readme-ov-file#faq).
+          required: false
+  - type: textarea
+    attributes:
+      label: Problem
+      description:
+        Please add a clear and concise description of the problem you are
+        seeking to solve with this feature request.
+      placeholder: |
+        Description
+  - type: textarea
+    attributes:
+      label: Solution
+      description: Please describe what you might want to happen to address this issue. If applicable, add a screenshot, gif, or video to better convey your idea.
+      placeholder: |
+        Short description
+    validations:
+      required: false

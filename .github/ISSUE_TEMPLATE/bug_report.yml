@@ -1,0 +1,57 @@
+---
+name: 🐛 Bug Report
+description: Submit a Bug Report
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for taking the time to complete this bug report!
+        This will help to find the cause of the issue faster and requires fewer follow-ups.
+  - type: checkboxes
+    attributes:
+      label: Before Submitting Your Bug Report
+      options:
+        - label: I have verified that there isn't already an issue reporting the same bug to prevent duplication.
+          required: false
+        - label: I have seen the [FAQ](https://github.com/p0deje/Maccy?tab=readme-ov-file#faq).
+          required: false
+  - type: input
+    attributes:
+      label: Maccy Version (see 'About' window)
+      placeholder: e.g. 0.29.0
+    validations:
+      required: false
+  - type: input
+    attributes:
+      label: macOS Version
+      placeholder: e.g. 13.5.2
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Maccy Settings
+      description: Provide the output from running 'defaults read org.p0deje.Maccy' in Terminal.app.
+      render: Shell
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Description
+      description: Please provide a clear and concise description of the bug.
+      placeholder: Short description
+    validations:
+      required: false
+  - type: textarea
+    attributes:
+      label: Steps to Reproduce
+      description: |
+        Provide the steps to consistently reproduce the issue. If possible, record a screen video
+        demonstrating the problem using QuickTime.app.
+      placeholder: |
+        1. Navigate to …
+        2. Click on …
+        3. Scroll down to …
+        4. Observe …
+    validations:
+      required: false
