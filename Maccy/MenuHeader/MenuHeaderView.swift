@@ -69,10 +69,6 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       guard NSApp.menuWindow?.isVisible != true else { return }
 
       eventMonitor.stop()
-      DispatchQueue.main.async {
-        self.setQuery("")
-        self.queryField.refusesFirstResponder = true
-      }
     }
   }
 
@@ -105,19 +101,23 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     return false
   }
 
-  private func fireNotification() {
-    searchThrottler.throttle {
+  private func fireNotification(throttle: Bool = true) {
+    if throttle {
+      searchThrottler.throttle {
+        self.customMenu?.updateFilter(filter: self.queryField.stringValue)
+      }
+    } else {
       self.customMenu?.updateFilter(filter: self.queryField.stringValue)
     }
   }
 
-  public func setQuery(_ newQuery: String) {
+  public func setQuery(_ newQuery: String, throttle: Bool = true) {
     guard queryField.stringValue != newQuery else {
       return
     }
 
     queryField.stringValue = newQuery
-    fireNotification()
+    fireNotification(throttle: throttle)
   }
 
   private func processInterceptedEvent(_ event: NSEvent) -> Bool {
