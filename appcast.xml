@@ -6,21 +6,22 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.29.1</title>
+      <title>0.29.2</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Fixed crash when changing ignored applications and pasteboard types.</li>
+            <li>Fixed Chinese input not working when Maccy is open via global hotkey.</li>
+            <li>Fixed search not cleared after selecting item in history.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2023-12-03</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.29.1</releaseNotesLink>
+      <pubDate>2023-12-04</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.29.2</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.29.1/Maccy.app.zip"
-        sparkle:version="25"
-        sparkle:shortVersionString="0.29.1"
+        url="https://github.com/p0deje/Maccy/releases/download/0.29.2/Maccy.app.zip"
+        sparkle:version="26"
+        sparkle:shortVersionString="0.29.2"
         length="0"
         type="application/octet-stream"
       />
