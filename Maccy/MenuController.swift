@@ -19,12 +19,15 @@ class MenuController {
 
   func popUp() {
     let location = PopupLocation.forUserDefaults
-    switch location {
-    case .inMenuBar:
-      self.simulateStatusItemClick()
-    default:
-      self.linkingMenuToStatusItem {
-        self.menu.popUpMenu(at: location.location(for: self.menu.size) ?? .zero, ofType: location)
+
+    withFocus {
+      switch location {
+      case .inMenuBar:
+        self.simulateStatusItemClick()
+      default:
+        self.linkingMenuToStatusItem {
+          self.menu.popUpMenu(at: location.location(for: self.menu.size) ?? .zero, ofType: location)
+        }
       }
     }
   }
@@ -107,7 +110,7 @@ class MenuController {
   // hide an application if there are additional visible windows
   // opened before.
   //
-  // It's also possible to complete skip this activation
+  // It's also possible to completely skip this activation
   // and fallback to default NSMenu behavior by enabling
   // UserDefaults.standard.avoidTakingFocus.
   private func withFocus(_ closure: @escaping () -> Void) {
