@@ -1,3 +1,4 @@
+import AppKit
 import UserNotifications
 
 class Notifier {
@@ -11,7 +12,7 @@ class Notifier {
     }
   }
 
-  static func notify(body: String?, sound: UNNotificationSound) {
+  static func notify(body: String?, sound: NSSound?) {
     guard let body else { return }
 
     authorize()
@@ -24,14 +25,15 @@ class Notifier {
       if settings.alertSetting == .enabled {
         content.body = body
       }
-      if settings.soundSetting == .enabled {
-        content.sound = sound
-      }
 
       let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
       center.add(request) { error in
         if error != nil {
           NSLog("Failed to deliver notification: \(String(describing: error))")
+        } else {
+          if settings.soundSetting == .enabled {
+            sound?.play()
+          }
         }
       }
     }

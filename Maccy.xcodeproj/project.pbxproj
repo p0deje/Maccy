@@ -43,9 +43,9 @@
 		DA20EBB2268E279F0032D360 /* IgnoreApplicationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20EBB1268E279F0032D360 /* IgnoreApplicationsViewController.swift */; };
 		DA20EBB5268E54E80032D360 /* IgnoreSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA20EBB7268E54E80032D360 /* IgnoreSettingsViewController.xib */; };
 		DA20FA722B082DD600056DD5 /* Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20FA712B082DD600056DD5 /* Notifier.swift */; };
-		DA20FA742B082E0100056DD5 /* knock.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA20FA732B082E0100056DD5 /* knock.caf */; };
-		DA20FA762B082E0800056DD5 /* write.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA20FA752B082E0800056DD5 /* write.caf */; };
-		DA20FA782B082E1A00056DD5 /* UNNotificationSound+Named.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20FA772B082E1A00056DD5 /* UNNotificationSound+Named.swift */; };
+		DA20FA742B082E0100056DD5 /* Knock.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA20FA732B082E0100056DD5 /* Knock.caf */; };
+		DA20FA762B082E0800056DD5 /* Write.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA20FA752B082E0800056DD5 /* Write.caf */; };
+		DA20FA782B082E1A00056DD5 /* NSSound+Named.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */; };
 		DA246D611E56C9EA001E40F3 /* Application.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA246D601E56C9EA001E40F3 /* Application.xib */; };
 		DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */; };
 		DA2B0AF42343104600EFAD72 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */; };
@@ -218,9 +218,9 @@
 		DA20EBBF268E54F10032D360 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
 		DA20EBC1268E54F50032D360 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
 		DA20FA712B082DD600056DD5 /* Notifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifier.swift; sourceTree = "<group>"; };
-		DA20FA732B082E0100056DD5 /* knock.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = knock.caf; sourceTree = "<group>"; };
-		DA20FA752B082E0800056DD5 /* write.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = write.caf; sourceTree = "<group>"; };
-		DA20FA772B082E1A00056DD5 /* UNNotificationSound+Named.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UNNotificationSound+Named.swift"; sourceTree = "<group>"; };
+		DA20FA732B082E0100056DD5 /* Knock.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Knock.caf; sourceTree = "<group>"; };
+		DA20FA752B082E0800056DD5 /* Write.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Write.caf; sourceTree = "<group>"; };
+		DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSound+Named.swift"; sourceTree = "<group>"; };
 		DA246D601E56C9EA001E40F3 /* Application.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Application.xib; sourceTree = "<group>"; };
 		DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Configuration.swift"; sourceTree = "<group>"; };
 		DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
@@ -452,8 +452,8 @@
 		DA21AD3C249E85BD003E7C98 /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
-				DA20FA732B082E0100056DD5 /* knock.caf */,
-				DA20FA752B082E0800056DD5 /* write.caf */,
+				DA20FA732B082E0100056DD5 /* Knock.caf */,
+				DA20FA752B082E0800056DD5 /* Write.caf */,
 			);
 			path = Sounds;
 			sourceTree = "<group>";
@@ -564,13 +564,13 @@
 				DA49EE7428B59468002752E0 /* NSRect+Centered.swift */,
 				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
 				DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */,
+				DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */,
 				2F89CC922AE2C9E000959C91 /* PopupLocation.swift */,
 				DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
-				DA20FA772B082E1A00056DD5 /* UNNotificationSound+Named.swift */,
 				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
 			);
 			path = Maccy;
@@ -751,12 +751,12 @@
 				DAFE2DDB268A8E4E00990986 /* PinsSettingsViewController.xib in Resources */,
 				DA05E7CC2483EF83005CB8AA /* GeneralSettingsViewController.xib in Resources */,
 				DA20EBB5268E54E80032D360 /* IgnoreSettingsViewController.xib in Resources */,
-				DA20FA762B082E0800056DD5 /* write.caf in Resources */,
+				DA20FA762B082E0800056DD5 /* Write.caf in Resources */,
 				DAB8CE4224E368F200A2500E /* container-migration.plist in Resources */,
 				DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */,
 				4762D6972467226100B3A2BA /* Localizable.strings in Resources */,
 				DA009934256411F90030E697 /* LICENSE in Resources */,
-				DA20FA742B082E0100056DD5 /* knock.caf in Resources */,
+				DA20FA742B082E0100056DD5 /* Knock.caf in Resources */,
 				DA009931256411F90030E697 /* appcast.xml in Resources */,
 				DA05E7D22483F70B005CB8AA /* AppearanceSettingsViewController.xib in Resources */,
 				DADBA95E2985C7AA00EC46FB /* Preview.xib in Resources */,
@@ -880,7 +880,7 @@
 				5ACA94F52AD4D1E200ECAB6A /* IgnoreRegexViewController.swift in Sources */,
 				DA196A9028AB0A6800ADD8A2 /* MenuHeader.swift in Sources */,
 				DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */,
-				DA20FA782B082E1A00056DD5 /* UNNotificationSound+Named.swift in Sources */,
+				DA20FA782B082E1A00056DD5 /* NSSound+Named.swift in Sources */,
 				DAB65DFD2440AD63000AECA8 /* Storage.xcdatamodeld in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
