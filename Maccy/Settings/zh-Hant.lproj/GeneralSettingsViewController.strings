@@ -54,3 +54,6 @@
 
 /* Class = "NSTextFieldCell"; title = "Delete:"; ObjectID = "r50-bG-RWB"; */
 "r50-bG-RWB.title" = "刪除:";
+
+/* Class = "NSButtonCell"; title = "Notifications and sounds 􀱁"; ObjectID = "CQh-gW-fw6"; */
+"CQh-gW-fw6.title" = "通知和聲音 􀱁";

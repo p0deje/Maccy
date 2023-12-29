@@ -14,6 +14,8 @@ class GeneralSettingsViewController: NSViewController, SettingsPane {
   private let pinHotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .pin)
   private let deleteHotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .delete)
 
+  private lazy var notificationsURL = URL(string: "x-apple.systempreferences:com.apple.preference.notifications?id=\(Bundle.main.bundleIdentifier ?? "")")
+
   @IBOutlet weak var popupHotkeyContainerView: NSView!
   @IBOutlet weak var pinHotkeyContainerView: NSView!
   @IBOutlet weak var deleteHotkeyContainerView: NSView!
@@ -22,12 +24,14 @@ class GeneralSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var pasteAutomaticallyButton: NSButton!
   @IBOutlet weak var removeFormattingButton: NSButton!
   @IBOutlet weak var modifiersDescriptionLabel: NSTextField!
+  @IBOutlet weak var notificationsButton: NSButton!
 
   override func viewDidLoad() {
     super.viewDidLoad()
     popupHotkeyContainerView.addSubview(popupHotkeyRecorder)
     pinHotkeyContainerView.addSubview(pinHotkeyRecorder)
     deleteHotkeyContainerView.addSubview(deleteHotkeyRecorder)
+    loadNotificationsLink()
   }
 
   override func viewWillAppear() {
@@ -64,6 +68,12 @@ class GeneralSettingsViewController: NSViewController, SettingsPane {
   @IBAction func removeFormattingChanged(_ sender: NSButton) {
     UserDefaults.standard.removeFormattingByDefault = (sender.state == .on)
     updateModifiersDescriptionLabel()
+  }
+
+  @IBAction func notificationsButtonClicked(_ sender: NSButton) {
+    guard let notificationsURL else { return }
+
+    NSWorkspace.shared.open(notificationsURL)
   }
 
   private func populateLaunchAtLogin() {
@@ -103,4 +113,14 @@ class GeneralSettingsViewController: NSViewController, SettingsPane {
     modifiersDescriptionLabel.stringValue = descriptions.joined(separator: "\n")
   }
 
+  private func loadNotificationsLink() {
+    guard let notificationsURL else { return }
+
+    notificationsButton.attributedTitle = NSMutableAttributedString(
+      string: notificationsButton.title,
+      attributes: [
+        .link: notificationsURL
+      ]
+    )
+  }
 }
