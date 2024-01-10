@@ -239,6 +239,8 @@ class Maccy: NSObject {
     switch newIcon {
     case "scissors":
       button.image = NSImage(named: .scissors)
+    case "paperclip":
+      button.image = NSImage(named: .paperclip)
     case "clipboard":
       button.image = NSImage(named: .clipboard)
     default:

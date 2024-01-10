@@ -10,6 +10,7 @@ extension NSImage.Name {
   static let paintpalette = loadName("paintpalette")
   static let pincircle = loadName("pin.circle")
   static let scissors = NSImage.Name("scissors")
+  static let paperclip = NSImage.Name("paperclip")
 
   private static func loadName(_ name: String) -> NSImage.Name {
     if #available(macOS 11, *) {

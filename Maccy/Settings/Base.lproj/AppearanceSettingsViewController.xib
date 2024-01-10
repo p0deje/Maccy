@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -371,6 +371,12 @@ Default: 1500.</string>
                                                             <action selector="showMenuIconChangedToScissors:" target="-2" id="7mU-aU-mfC"/>
                                                         </connections>
                                                     </menuItem>
+                                                    <menuItem image="paperclip" tag="3" id="weh-Ig-vef">
+                                                        <modifierMask key="keyEquivalentModifierMask"/>
+                                                        <connections>
+                                                            <action selector="showMenuIconChangedToPaperclip:" target="-2" id="hA2-h7-HvL"/>
+                                                        </connections>
+                                                    </menuItem>
                                                 </items>
                                             </menu>
                                         </popUpButtonCell>
@@ -467,6 +473,7 @@ Default: 1500.</string>
     <resources>
         <image name="StatusBarMenuImage" width="16" height="16"/>
         <image name="clipboard.fill" width="16" height="16"/>
+        <image name="paperclip" width="16" height="16"/>
         <image name="scissors" width="16" height="16"/>
     </resources>
 </document>
