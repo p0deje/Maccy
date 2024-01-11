@@ -173,6 +173,9 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     UserDefaults.standard.menuIcon = "scissors"
   }
 
+  @IBAction func showMenuIconChangedToPaperclip(_ sender: NSMenuItem) {
+      UserDefaults.standard.menuIcon = "paperclip"
+    }
   @IBAction func showRecentCopyChanged(_ sender: NSButton) {
     UserDefaults.standard.showRecentCopyInMenuBar = (sender.state == .on)
   }
@@ -317,6 +320,8 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
       changeMenuIcon.selectItem(withTag: 1)
     case "scissors":
       changeMenuIcon.selectItem(withTag: 2)
+    case "paperclip":
+      changeMenuIcon.selectItem(withTag: 3)
     default:
       changeMenuIcon.selectItem(withTag: 0)
     }
