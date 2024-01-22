@@ -374,6 +374,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F3C6B4E2B5EFB4600FA41BE /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				DA2C752B2029FE990090965D /* Menu.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
 		C2D16D1C2EE365D52E1EE446 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,6 +531,7 @@
 		DAEE38451E3DBEB100DD2966 /* Maccy */ = {
 			isa = PBXGroup;
 			children = (
+				2F3C6B4E2B5EFB4600FA41BE /* Menu */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
 				DAF65F4424D396D400F3978F /* HistoryMenuItem */,
 				DA196A8D28AB0A3700ADD8A2 /* MenuHeader */,
@@ -553,7 +562,6 @@
 				DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */,
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */,
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
-				DA2C752B2029FE990090965D /* Menu.swift */,
 				2F3205B82AE3EDCA002EA545 /* MenuController.swift */,
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
 				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
