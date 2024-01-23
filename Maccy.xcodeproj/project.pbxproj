@@ -10,6 +10,7 @@
 		2F3205B92AE3EDCA002EA545 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3205B82AE3EDCA002EA545 /* MenuController.swift */; };
 		2F39CB042AD9A93C00B749FD /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB032AD9A93C00B749FD /* Sparkle */; };
 		2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB092AD9AE1F00B749FD /* Settings */; };
+		2F3C6B512B5EFC1D00FA41BE /* PreviewPopoverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3C6B502B5EFC1D00FA41BE /* PreviewPopoverController.swift */; };
 		2F73DF2C2AE2749E00DB654E /* PreviewMenuItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F73DF2B2AE2749E00DB654E /* PreviewMenuItem.swift */; };
 		2F89CC932AE2C9E000959C91 /* PopupLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F89CC922AE2C9E000959C91 /* PopupLocation.swift */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
@@ -146,6 +147,7 @@
 		11EB892B281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = Maccy/Preferences/ko.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
 		11EB892C281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2F3205B82AE3EDCA002EA545 /* MenuController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuController.swift; sourceTree = "<group>"; };
+		2F3C6B502B5EFC1D00FA41BE /* PreviewPopoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPopoverController.swift; sourceTree = "<group>"; };
 		2F73DF2B2AE2749E00DB654E /* PreviewMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewMenuItem.swift; sourceTree = "<group>"; };
 		2F89CC922AE2C9E000959C91 /* PopupLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupLocation.swift; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -374,6 +376,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2F3C6B4E2B5EFB4600FA41BE /* Menu */ = {
+			isa = PBXGroup;
+			children = (
+				DA2C752B2029FE990090965D /* Menu.swift */,
+				2F3C6B502B5EFC1D00FA41BE /* PreviewPopoverController.swift */,
+			);
+			path = Menu;
+			sourceTree = "<group>";
+		};
 		C2D16D1C2EE365D52E1EE446 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -523,6 +534,7 @@
 		DAEE38451E3DBEB100DD2966 /* Maccy */ = {
 			isa = PBXGroup;
 			children = (
+				2F3C6B4E2B5EFB4600FA41BE /* Menu */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
 				DAF65F4424D396D400F3978F /* HistoryMenuItem */,
 				DA196A8D28AB0A3700ADD8A2 /* MenuHeader */,
@@ -553,7 +565,6 @@
 				DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */,
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */,
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
-				DA2C752B2029FE990090965D /* Menu.swift */,
 				2F3205B82AE3EDCA002EA545 /* MenuController.swift */,
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
 				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
@@ -845,6 +856,7 @@
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
 				5AA9C8402AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift in Sources */,
 				DA181170247B405B00066D55 /* GeneralSettingsViewController.swift in Sources */,
+				2F3C6B512B5EFC1D00FA41BE /* PreviewPopoverController.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
 				DA6D98E22AEABE03008A77CE /* Accessibility.swift in Sources */,
 				DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift in Sources */,
