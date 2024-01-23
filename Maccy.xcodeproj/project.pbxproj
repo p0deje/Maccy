@@ -397,6 +397,7 @@
 				DAEE38531E3DD6F100DD2966 /* History.swift */,
 				DAB65E0A2440B078000AECA8 /* HistoryItem.swift */,
 				DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */,
+				DA696BCD240177E800DE80CF /* Sorter.swift */,
 			);
 			path = History;
 			sourceTree = "<group>";
@@ -596,7 +597,6 @@
 				DA20FA712B082DD600056DD5 /* Notifier.swift */,
 				DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
-				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
 			);
 			path = Maccy;
