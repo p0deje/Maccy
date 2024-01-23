@@ -379,6 +379,7 @@
 		2F3C6B4E2B5EFB4600FA41BE /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				DAF65F4424D396D400F3978F /* HistoryMenuItem */,
 				DA196A8D28AB0A3700ADD8A2 /* MenuHeader */,
 				2F3205B82AE3EDCA002EA545 /* MenuController.swift */,
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
@@ -540,7 +541,6 @@
 			children = (
 				2F3C6B4E2B5EFB4600FA41BE /* Menu */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
-				DAF65F4424D396D400F3978F /* HistoryMenuItem */,
 				DA19F18C2984940B0091F26C /* Preview */,
 				DA181178247D150B00066D55 /* Settings */,
 				DA21AD3C249E85BD003E7C98 /* Sounds */,
