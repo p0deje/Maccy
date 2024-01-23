@@ -387,6 +387,7 @@
 				DA2C752B2029FE990090965D /* Menu.swift */,
 				2F89CC922AE2C9E000959C91 /* PopupLocation.swift */,
 				2F3C6B502B5EFC1D00FA41BE /* PreviewPopoverController.swift */,
+				DAC14123232367B200FCFA30 /* Search.swift */,
 			);
 			path = Menu;
 			sourceTree = "<group>";
@@ -596,7 +597,6 @@
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
 				DA20FA712B082DD600056DD5 /* Notifier.swift */,
 				DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */,
-				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
 			);
 			path = Maccy;
