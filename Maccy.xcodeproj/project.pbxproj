@@ -391,6 +391,16 @@
 			path = Menu;
 			sourceTree = "<group>";
 		};
+		2FBB7A242B5FEC7900C65BBE /* History */ = {
+			isa = PBXGroup;
+			children = (
+				DAEE38531E3DD6F100DD2966 /* History.swift */,
+				DAB65E0A2440B078000AECA8 /* HistoryItem.swift */,
+				DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */,
+			);
+			path = History;
+			sourceTree = "<group>";
+		};
 		C2D16D1C2EE365D52E1EE446 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -540,6 +550,7 @@
 		DAEE38451E3DBEB100DD2966 /* Maccy */ = {
 			isa = PBXGroup;
 			children = (
+				2FBB7A242B5FEC7900C65BBE /* History */,
 				2F3C6B4E2B5EFB4600FA41BE /* Menu */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
 				DA19F18C2984940B0091F26C /* Preview */,
@@ -561,9 +572,6 @@
 				DAE284FF232257D20080E394 /* ColorImage.swift */,
 				DAB65DFE2440AE29000AECA8 /* CoreDataManager.swift */,
 				DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */,
-				DAEE38531E3DD6F100DD2966 /* History.swift */,
-				DAB65E0A2440B078000AECA8 /* HistoryItem.swift */,
-				DAB65E0C2440B0D4000AECA8 /* HistoryItemContent.swift */,
 				DAD665652898A1C000975096 /* KeyChord.swift */,
 				DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */,
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */,
