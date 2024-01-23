@@ -385,6 +385,7 @@
 				DA57C64D249E2A550032707A /* MenuFooter.swift */,
 				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
 				DA2C752B2029FE990090965D /* Menu.swift */,
+				2F89CC922AE2C9E000959C91 /* PopupLocation.swift */,
 				2F3C6B502B5EFC1D00FA41BE /* PreviewPopoverController.swift */,
 			);
 			path = Menu;
@@ -575,7 +576,6 @@
 				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
 				DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */,
 				DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */,
-				2F89CC922AE2C9E000959C91 /* PopupLocation.swift */,
 				DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
