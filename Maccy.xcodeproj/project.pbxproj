@@ -401,6 +401,23 @@
 			path = History;
 			sourceTree = "<group>";
 		};
+		2FBB7A252B5FECBB00C65BBE /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */,
+				DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */,
+				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
+				DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */,
+				DA49EE7428B59468002752E0 /* NSRect+Centered.swift */,
+				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
+				DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */,
+				DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */,
+				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
+				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		C2D16D1C2EE365D52E1EE446 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -550,6 +567,7 @@
 		DAEE38451E3DBEB100DD2966 /* Maccy */ = {
 			isa = PBXGroup;
 			children = (
+				2FBB7A252B5FECBB00C65BBE /* Extensions */,
 				2FBB7A242B5FEC7900C65BBE /* History */,
 				2F3C6B4E2B5EFB4600FA41BE /* Menu */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
@@ -574,22 +592,12 @@
 				DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */,
 				DAD665652898A1C000975096 /* KeyChord.swift */,
 				DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */,
-				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */,
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
 				DA20FA712B082DD600056DD5 /* Notifier.swift */,
-				DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */,
-				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
-				DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */,
-				DA49EE7428B59468002752E0 /* NSRect+Centered.swift */,
-				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
-				DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */,
-				DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */,
 				DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
-				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
-				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
 			);
 			path = Maccy;
 			sourceTree = "<group>";
