@@ -379,6 +379,9 @@
 		2F3C6B4E2B5EFB4600FA41BE /* Menu */ = {
 			isa = PBXGroup;
 			children = (
+				2F3205B82AE3EDCA002EA545 /* MenuController.swift */,
+				DA57C64D249E2A550032707A /* MenuFooter.swift */,
+				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
 				DA2C752B2029FE990090965D /* Menu.swift */,
 				2F3C6B502B5EFC1D00FA41BE /* PreviewPopoverController.swift */,
 			);
@@ -565,9 +568,6 @@
 				DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */,
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */,
 				DA8953B81E446A4E00884EAB /* Maccy.swift */,
-				2F3205B82AE3EDCA002EA545 /* MenuController.swift */,
-				DA57C64D249E2A550032707A /* MenuFooter.swift */,
-				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
 				DA20FA712B082DD600056DD5 /* Notifier.swift */,
 				DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */,
 				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
