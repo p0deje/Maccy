@@ -589,7 +589,6 @@
 				DAEE38461E3DBEB100DD2966 /* AppDelegate.swift */,
 				DAB082952A2B7B850053E463 /* AppStoreReview.swift */,
 				DA0EF1871E444B2A00E58577 /* Clipboard.swift */,
-				DAE284FF232257D20080E394 /* ColorImage.swift */,
 				DAB65DFE2440AE29000AECA8 /* CoreDataManager.swift */,
 				DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */,
 				DAD665652898A1C000975096 /* KeyChord.swift */,
@@ -605,6 +604,7 @@
 		DAF65F4424D396D400F3978F /* HistoryMenuItem */ = {
 			isa = PBXGroup;
 			children = (
+				DAE284FF232257D20080E394 /* ColorImage.swift */,
 				DA573EAC1EDD410F00561FB2 /* HistoryMenuItem.swift */,
 				DAF65F4724D396FE00F3978F /* CopyMenuItem.swift */,
 				DAF65F4624D396FE00F3978F /* PasteMenuItem.swift */,
