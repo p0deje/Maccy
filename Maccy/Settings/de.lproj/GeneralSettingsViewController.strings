@@ -47,7 +47,7 @@
 "gv6-rV-zkI.ibShadowedToolTip" = "Tastenkürzel um die Applikation zu öffnen.\nStandard: ⇧⌘C.";
 
 /* Class = "NSTextFieldCell"; title = "Open:"; ObjectID = "hdM-75-pvO"; */
-"hdM-75-pvO.title" = "Offen:";
+"hdM-75-pvO.title" = "Öffnen:";
 
 /* Class = "NSView"; ibShadowedToolTip = "Shortcut key to pin history item.\nDefault: ⌥P."; ObjectID = "pPs-rF-k8m"; */
 "pPs-rF-k8m.ibShadowedToolTip" = "Tastenkombination zum Anheften eines Verlaufselements.\Standard: ⌥P.";
