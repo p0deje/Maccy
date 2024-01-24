@@ -6,21 +6,24 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.29.3</title>
+      <title>0.29.4</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Fixed custom sounds not playing when sending notifications.</li>
+            <li>Added a new paperclip menu icon.</li>
+            <li>Added a link to configure notifications and sounds in preferences.</li>
+            <li>Fixed an issue when a pin image was black in a dark appearance.</li>
+            <li>Fixed an issue when the popup would be hidden beyond screen edges.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2023-12-25</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.29.3</releaseNotesLink>
+      <pubDate>2024-01-24</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.29.4</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.29.3/Maccy.app.zip"
-        sparkle:version="27"
-        sparkle:shortVersionString="0.29.3"
+        url="https://github.com/p0deje/Maccy/releases/download/0.29.4/Maccy.app.zip"
+        sparkle:version="28"
+        sparkle:shortVersionString="0.29.4"
         length="0"
         type="application/octet-stream"
       />
