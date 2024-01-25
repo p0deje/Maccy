@@ -207,6 +207,6 @@ class HistoryItem: NSManagedObject {
     let contents = getContents()
     return contents
       .filter { types.contains(NSPasteboard.PasteboardType($0.type)) }
-      .map { $0.value }
+      .compactMap { $0.value }
   }
 }

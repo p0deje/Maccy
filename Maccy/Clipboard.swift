@@ -78,9 +78,10 @@ class Clipboard {
       }
     }
 
-    let items = contents.map { item in
+    let items: [NSPasteboardItem] = contents.compactMap { item in
+      guard let value = item.value else { return nil }
       let pasteItem = NSPasteboardItem()
-      pasteItem.setData(item.value, forType: NSPasteboard.PasteboardType(item.type))
+      pasteItem.setData(value, forType: NSPasteboard.PasteboardType(item.type))
       return pasteItem
     }
     pasteboard.writeObjects(items)
