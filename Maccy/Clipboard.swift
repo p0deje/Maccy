@@ -78,9 +78,12 @@ class Clipboard {
       }
     }
 
-    for content in contents {
-      pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
+    let items = contents.map { item in
+      let pasteItem = NSPasteboardItem()
+      pasteItem.setData(item.value, forType: NSPasteboard.PasteboardType(item.type))
+      return pasteItem
     }
+    pasteboard.writeObjects(items)
     pasteboard.setString("", forType: .fromMaccy)
 
     Notifier.notify(body: item.title, sound: .knock)

@@ -136,27 +136,27 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func isImage(_ item: HistoryItem) -> Bool {
-    return item.image != nil
+    return !item.image.isEmpty
   }
 
   private func isFile(_ item: HistoryItem) -> Bool {
-    return item.fileURL != nil
+    return !item.fileURL.isEmpty
   }
 
   private func isRTF(_ item: HistoryItem) -> Bool {
-    return item.rtf != nil
+    return !item.rtf.isEmpty
   }
 
   private func isHTML(_ item: HistoryItem) -> Bool {
-    return item.html != nil
+    return !item.html.isEmpty
   }
 
   private func isText(_ item: HistoryItem) -> Bool {
-    return item.text != nil
+    return !item.text.isEmpty
   }
 
   private func loadImage(_ item: HistoryItem) {
-    guard let image = item.image else {
+    guard let image = item.image.first else {
       return
     }
 
@@ -176,18 +176,19 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadFile(_ item: HistoryItem) {
-    guard let fileURL = item.fileURL,
-          let string = fileURL.absoluteString.removingPercentEncoding else {
+    guard !item.fileURL.isEmpty else {
       return
     }
 
-    self.value = string
+    self.value = item.fileURL
+      .compactMap { $0.absoluteString.removingPercentEncoding }
+      .joined(separator: "\n")
     self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }
 
   private func loadRTF(_ item: HistoryItem) {
-    guard let string = item.rtf?.string else {
+    guard let string = item.rtf.first?.string else {
       return
     }
 
@@ -197,7 +198,7 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadHTML(_ item: HistoryItem) {
-    guard let string = item.html?.string else {
+    guard let string = item.html.first?.string else {
       return
     }
 
@@ -207,11 +208,11 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadText(_ item: HistoryItem) {
-    guard let string = item.text else {
+    guard !item.text.isEmpty else {
       return
     }
 
-    self.value = string
+    self.value = item.text.joined(separator: "\n")
     self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }
