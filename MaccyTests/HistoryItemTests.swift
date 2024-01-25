@@ -121,7 +121,7 @@ class HistoryItemTests: XCTestCase {
       value: "".data(using: .utf8)
     )
     let item = HistoryItem(contents: [fileURLContent, universalClipboardContent])
-    XCTAssertEqual(item.image!.tiffRepresentation, NSImage(data: try! Data(contentsOf: url))!.tiffRepresentation)
+    XCTAssertEqual(item.image.first!.tiffRepresentation, NSImage(data: try! Data(contentsOf: url))!.tiffRepresentation)
   }
 
   func testFileFromUniversalClipboard() {
