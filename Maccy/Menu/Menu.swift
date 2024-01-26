@@ -409,12 +409,26 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   internal func adjustMenuWindowPosition() {
-    guard let location = lastMenuLocation else {
+    // macOS 14 reports incorrect height before menu is opened,
+    // so we need to adjust it when we are trying to place the menu
+    // centered.
+    guard #available(macOS 14, *),
+          (UserDefaults.standard.popupPosition == "center" ||
+           UserDefaults.standard.popupPosition == "window") else {
       return
     }
-    if let point = location.location(for: self.size) {
-      menuWindow?.setFrameTopLeftPoint(point)
+
+    // Don't attempt to adjust height if it's bigger than the screen height.
+    guard let screenHeight = NSScreen.forPopup?.visibleFrame.height,
+          size.height < screenHeight else {
+      return
     }
+
+    guard let point = lastMenuLocation?.location(for: size) else {
+      return
+    }
+
+    menuWindow?.setFrameTopLeftPoint(point)
   }
 
   private func highlightNext(_ items: [NSMenuItem]) -> Bool {

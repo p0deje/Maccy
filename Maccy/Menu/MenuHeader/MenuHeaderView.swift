@@ -56,13 +56,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     guard let menu = customMenu else { return }
 
     if window != nil {
-      // Fix for Sonoma. The menu will report an incorrect height causing the popup to be mispositioned.
-      // This is the most convenient and earliest point to intercept and adjust the window location.
-      if #available(macOS 14, *) {
-        if menu.size.height < (NSScreen.forPopup?.visibleFrame.height ?? 0.0) {
-          menu.adjustMenuWindowPosition()
-        }
-      }
+      menu.adjustMenuWindowPosition()
       eventMonitor.start()
     } else {
       // Ensure header view was not simply scrolled out of the menu.
