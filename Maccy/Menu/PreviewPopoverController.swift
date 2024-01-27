@@ -17,7 +17,7 @@ class PreviewPopoverController {
     cancelPopover()
   }
 
-  func showPopover(for item: HistoryMenuItem, allItems : [Menu.IndexedItem]) {
+  func showPopover(for item: HistoryMenuItem, allItems: [Menu.IndexedItem]) {
     previewThrottle.throttle { [self] in
       let popover = NSPopover()
       popover.animates = false
@@ -45,7 +45,7 @@ class PreviewPopoverController {
           popoverWindow.setFrameOrigin(
             NSPoint(x: popoverWindow.frame.minX - gap, y: popoverWindow.frame.minY)
           )
-        } else if popoverWindow.frame.minX >= window.frame.maxX  {
+        } else if popoverWindow.frame.minX >= window.frame.maxX {
           popoverWindow.setFrameOrigin(
             NSPoint(x: popoverWindow.frame.minX + gap, y: popoverWindow.frame.minY)
           )
@@ -54,7 +54,7 @@ class PreviewPopoverController {
     }
   }
 
-  private func boundsOfMenuItem(_ item: NSMenuItem, _ windowContentView: NSView, _ allItems : [Menu.IndexedItem]) -> NSRect? {
+  private func boundsOfMenuItem(_ item: NSMenuItem, _ windowContentView: NSView, _ allItems: [Menu.IndexedItem]) -> NSRect? {
     if #available(macOS 14, *) {
       let windowRectInScreenCoordinates = windowContentView.accessibilityFrame()
       let menuItemRectInScreenCoordinates = item.accessibilityFrame()

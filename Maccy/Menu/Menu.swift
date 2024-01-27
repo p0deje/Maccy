@@ -413,8 +413,8 @@ class Menu: NSMenu, NSMenuDelegate {
     // so we need to adjust it when we are trying to place the menu
     // centered.
     guard #available(macOS 14, *),
-          (UserDefaults.standard.popupPosition == "center" ||
-           UserDefaults.standard.popupPosition == "window") else {
+          let lastMenuLocation,
+          lastMenuLocation.shouldAdjustHeight else {
       return
     }
 
@@ -424,7 +424,7 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
 
-    guard let point = lastMenuLocation?.location(for: size) else {
+    guard let point = lastMenuLocation.location(for: size) else {
       return
     }
 

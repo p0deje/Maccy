@@ -25,6 +25,15 @@ enum PopupLocation {
     return .atMouseCursor(location: mouseLocation)
   }
 
+  var shouldAdjustHeight: Bool {
+    switch self {
+    case .centeredInScreen, .centeredInWindow:
+      return true
+    default:
+      return false
+    }
+  }
+
   func location(for size: NSSize) -> NSPoint? {
     switch self {
     case .inMenuBar:
