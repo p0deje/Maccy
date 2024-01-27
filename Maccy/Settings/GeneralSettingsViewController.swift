@@ -14,7 +14,9 @@ class GeneralSettingsViewController: NSViewController, SettingsPane {
   private let pinHotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .pin)
   private let deleteHotkeyRecorder = KeyboardShortcuts.RecorderCocoa(for: .delete)
 
-  private lazy var notificationsURL = URL(string: "x-apple.systempreferences:com.apple.preference.notifications?id=\(Bundle.main.bundleIdentifier ?? "")")
+  private lazy var notificationsURL = URL(
+    string: "x-apple.systempreferences:com.apple.preference.notifications?id=\(Bundle.main.bundleIdentifier ?? "")"
+  )
 
   @IBOutlet weak var popupHotkeyContainerView: NSView!
   @IBOutlet weak var pinHotkeyContainerView: NSView!

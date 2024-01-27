@@ -57,7 +57,7 @@ class HistoryItem: NSManagedObject {
     guard let data = contentData(filePasteboardTypes) else {
       return nil
     }
-    guard !univeralClipboardText else {
+    guard !universalClipboardText else {
       return nil
     }
 
@@ -76,7 +76,7 @@ class HistoryItem: NSManagedObject {
   var image: NSImage? {
     var data: Data?
     data = contentData(imagePasteboardTypes)
-    if data == nil, univeralClipboardImage, let url = fileURL {
+    if data == nil, universalClipboardImage, let url = fileURL {
       data = try? Data(contentsOf: url)
     }
 
@@ -122,15 +122,18 @@ class HistoryItem: NSManagedObject {
   private let rtfPasteboardTypes: [NSPasteboard.PasteboardType] = [.rtf]
   private let textPasteboardTypes: [NSPasteboard.PasteboardType] = [.string]
 
-  private var univeralClipboardImage: Bool { universalClipboard && fileURL?.pathExtension == "jpeg" }
-  private var univeralClipboardText: Bool {
+  private var universalClipboardImage: Bool { universalClipboard && fileURL?.pathExtension == "jpeg" }
+  private var universalClipboardText: Bool {
      universalClipboard &&
       contentData(htmlPasteboardTypes + imagePasteboardTypes + rtfPasteboardTypes + textPasteboardTypes) != nil
   }
 
+  // swiftlint:disable nsobject_prefer_isequal
+  // Class 'HistoryItem' for entity 'HistoryItem' has an illegal override of NSManagedObject -isEqual
   static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
     return lhs.getContents().count == rhs.getContents().count && lhs.supersedes(rhs)
   }
+  // swiftlint:enable nsobject_prefer_isequal
 
   convenience init(contents: [HistoryItemContent], application: String? = nil) {
     let entity = NSEntityDescription.entity(forEntityName: "HistoryItem",

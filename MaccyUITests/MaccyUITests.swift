@@ -29,7 +29,9 @@ class MaccyUITests: XCTestCase {
   let html1 = "<a href='#'>foo</a>".data(using: .utf8)
   let html2 = "<a href='#'>bar</a>".data(using: .utf8)
 
-  var visibleMenuItems: [XCUIElement] { app.menuItems.allElementsBoundByIndex.filter({ $0.isHittable }) }
+  var visibleMenuItems: [XCUIElement] {
+    app.menuItems.allElementsBoundByIndex.filter({ $0.isHittable })
+  }
   var visibleMenuItemTitles: [String] { visibleMenuItems.map({ $0.title }) }
 
   override func setUp() {
@@ -142,7 +144,7 @@ class MaccyUITests: XCTestCase {
   }
 
   // This test does not work because NSPasteboardItem somehow becomes "empty".
-  // 
+  //
   // func testCopyRTF() {
   //   copyToClipboard(rtf2, .rtf)
   //   copyToClipboard(rtf1, .rtf)
@@ -255,7 +257,7 @@ class MaccyUITests: XCTestCase {
   func testUnpin() {
     popUpWithMouse()
     pin(copy2)
-    app.typeKey("p", modifierFlags: [.option]) // unpin
+    app.typeKey("p", modifierFlags: [.option])  // unpin
     assertSelected(app.menuItems[copy2].firstMatch)
     XCTAssertEqual(visibleMenuItemTitles[1...2], [copy1, copy2])
   }
@@ -282,7 +284,8 @@ class MaccyUITests: XCTestCase {
     assertSearchFieldValue("foo")
     // Now close the window AND focus another application
     // by clicking outside of menu.
-    let textFieldCoordinates = app.searchFields.firstMatch.coordinate(withNormalizedOffset: CGVector(dx: 0, dy: 0))
+    let textFieldCoordinates = app.searchFields.firstMatch.coordinate(
+      withNormalizedOffset: CGVector(dx: 0, dy: 0))
     let outsideCoordinates = textFieldCoordinates.withOffset(CGVector(dx: 0, dy: -20))
     outsideCoordinates.click()
     // Open again and try to click and focus search field again.
@@ -368,10 +371,14 @@ class MaccyUITests: XCTestCase {
   }
 
   private func simulatePopupHotkey() {
-    let commandDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: true)!
-    let commandUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: false)!
-    let shiftDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: true)!
-    let shiftUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
+    let commandDown = CGEvent(
+      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: true)!
+    let commandUp = CGEvent(
+      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: false)!
+    let shiftDown = CGEvent(
+      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: true)!
+    let shiftUp = CGEvent(
+      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
     shiftDown.flags = [.maskCommand]
     shiftUp.flags = [.maskCommand]
     let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
@@ -421,7 +428,7 @@ class MaccyUITests: XCTestCase {
 
   // Default interval for Maccy to check clipboard is 1 second
   private func waitTillClipboardCheck() {
-    usleep(1500000)
+    usleep(1_500_000)
   }
 
   private func pin(_ title: String) {
@@ -444,9 +451,9 @@ class MaccyUITests: XCTestCase {
   }
 
   private func waitForSearch() {
-    // FIXME: This is a hack and is flacky.
+    // NOTE: This is a hack and is flaky.
     // Ideally we should wait for a proper condition to detect that search has settled down.
-    usleep(500000) // wait for search throttle
+    usleep(500000)  // wait for search throttle
   }
 
   private func assertExists(_ element: XCUIElement) {
@@ -460,12 +467,15 @@ class MaccyUITests: XCTestCase {
   }
 
   private func assertNotVisible(_ element: XCUIElement) {
-    expectation(for: NSPredicate(format: "(exists = 0) || (isHittable = 0)"), evaluatedWith: element)
+    expectation(
+      for: NSPredicate(format: "(exists = 0) || (isHittable = 0)"), evaluatedWith: element)
     waitForExpectations(timeout: 3)
   }
 
-  private func assertPasteboardDataEquals(_ expected: Data?, forType: NSPasteboard.PasteboardType = .string) {
-    let predicate = NSPredicate { (object, _ ) -> Bool in
+  private func assertPasteboardDataEquals(
+    _ expected: Data?, forType: NSPasteboard.PasteboardType = .string
+  ) {
+    let predicate = NSPredicate { (object, _) -> Bool in
       guard let copy = object as? Data else {
         return false
       }
@@ -476,8 +486,10 @@ class MaccyUITests: XCTestCase {
     waitForExpectations(timeout: 3)
   }
 
-  private func assertPasteboardDataCountEquals(_ expected: Int, forType: NSPasteboard.PasteboardType = .string) {
-    let predicate = NSPredicate { (object, _ ) -> Bool in
+  private func assertPasteboardDataCountEquals(
+    _ expected: Int, forType: NSPasteboard.PasteboardType = .string
+  ) {
+    let predicate = NSPredicate { (object, _) -> Bool in
       guard let count = object as? Int else {
         return false
       }
@@ -488,8 +500,10 @@ class MaccyUITests: XCTestCase {
     waitForExpectations(timeout: 3)
   }
 
-  private func assertPasteboardStringEquals(_ expected: String?, forType: NSPasteboard.PasteboardType = .string) {
-    let predicate = NSPredicate { (object, _ ) -> Bool in
+  private func assertPasteboardStringEquals(
+    _ expected: String?, forType: NSPasteboard.PasteboardType = .string
+  ) {
+    let predicate = NSPredicate { (object, _) -> Bool in
       guard let copy = object as? String else {
         return false
       }

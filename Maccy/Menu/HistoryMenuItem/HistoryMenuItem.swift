@@ -161,13 +161,13 @@ class HistoryMenuItem: NSMenuItem {
     }
 
     if image.size.width > imageMaxWidth {
-      image.size.height = image.size.height / (image.size.width / imageMaxWidth)
+      image.size.height /= image.size.width / imageMaxWidth
       image.size.width = imageMaxWidth
     }
 
     let imageMaxHeight = CGFloat(UserDefaults.standard.imageMaxHeight)
     if image.size.height > imageMaxHeight {
-      image.size.width = image.size.width / (image.size.height / imageMaxHeight)
+      image.size.width /= image.size.height / imageMaxHeight
       image.size.height = imageMaxHeight
     }
 

@@ -54,7 +54,11 @@ class PreviewPopoverController {
     }
   }
 
-  private func boundsOfMenuItem(_ item: NSMenuItem, _ windowContentView: NSView, _ allItems: [Menu.IndexedItem]) -> NSRect? {
+  private func boundsOfMenuItem(
+    _ item: NSMenuItem,
+    _ windowContentView: NSView,
+    _ allItems: [Menu.IndexedItem]
+  ) -> NSRect? {
     if #available(macOS 14, *) {
       let windowRectInScreenCoordinates = windowContentView.accessibilityFrame()
       let menuItemRectInScreenCoordinates = item.accessibilityFrame()

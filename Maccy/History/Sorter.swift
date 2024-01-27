@@ -31,3 +31,4 @@ class Sorter {
     }
   }
 }
+// swiftlint:enable identifier_name

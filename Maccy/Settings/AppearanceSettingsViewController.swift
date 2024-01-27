@@ -1,6 +1,7 @@
 import Cocoa
 import Settings
 
+// swiftlint:disable type_body_length
 class AppearanceSettingsViewController: NSViewController, SettingsPane {
   let paneIdentifier = Settings.PaneIdentifier.appearance
   let paneTitle = NSLocalizedString("preferences_appearance", comment: "")
@@ -344,3 +345,4 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     openPreferencesLabel.isHidden = !UserDefaults.standard.hideFooter
   }
 }
+// swiftlint:enable type_body_length

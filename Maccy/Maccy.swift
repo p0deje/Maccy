@@ -255,6 +255,7 @@ class Maccy: NSObject {
       UserDefaults.standard.enabledPasteboardTypes.isEmpty
   }
 
+  // swiftlint:disable function_body_length
   private func initializeObservers() {
     enabledPasteboardTypesObserver = UserDefaults.standard.observe(\.enabledPasteboardTypes, options: .new) { _, _ in
       self.updateStatusItemEnabledness()
@@ -310,6 +311,7 @@ class Maccy: NSObject {
       self.updateStatusMenuIcon(change.newValue!)
     }
   }
+  // swiftlint:enable function_body_length
 
   private func disableUnusedGlobalHotkeys() {
     let names: [KeyboardShortcuts.Name] = [.delete, .pin]

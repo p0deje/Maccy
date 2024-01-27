@@ -55,12 +55,20 @@ class StorageSettingsViewController: NSViewController, SettingsPane {
 
   @IBAction func storeFilesChanged(_ sender: NSButton) {
     let types: Set = [NSPasteboard.PasteboardType.fileURL]
-    sender.state == .on ? addEnabledTypes(types) : removeEnabledTypes(types)
+    if sender.state == .on {
+      addEnabledTypes(types)
+    } else {
+      removeEnabledTypes(types)
+    }
   }
 
   @IBAction func storeImagesChanged(_ sender: NSButton) {
     let types: Set = [NSPasteboard.PasteboardType.tiff, NSPasteboard.PasteboardType.png]
-    sender.state == .on ? addEnabledTypes(types) : removeEnabledTypes(types)
+    if sender.state == .on {
+      addEnabledTypes(types)
+    } else {
+      removeEnabledTypes(types)
+    }
   }
 
   @IBAction func storeTextChanged(_ sender: NSButton) {
@@ -69,7 +77,11 @@ class StorageSettingsViewController: NSViewController, SettingsPane {
       NSPasteboard.PasteboardType.rtf,
       NSPasteboard.PasteboardType.string
     ]
-    sender.state == .on ? addEnabledTypes(types) : removeEnabledTypes(types)
+    if sender.state == .on {
+      addEnabledTypes(types)
+    } else {
+      removeEnabledTypes(types)
+    }
   }
 
   private func setMinAndMaxSize() {
