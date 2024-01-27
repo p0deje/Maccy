@@ -32,13 +32,13 @@ class GetIntentHandler: NSObject, GetIntentHandling {
     }
 
     let intentItem = IntentHistoryItem(identifier: item.title, display: title)
-    intentItem.text = item.text.first
+    intentItem.text = item.text
 
-    if let html = item.htmlData.first {
+    if let html = item.htmlData {
       intentItem.html = String(data: html, encoding: .utf8)
     }
 
-    if let fileURL = item.fileURL.first {
+    if let fileURL = item.fileURLs.first {
       intentItem.file = INFile(
         fileURL: fileURL,
         filename: "",
@@ -46,11 +46,11 @@ class GetIntentHandler: NSObject, GetIntentHandling {
       )
     }
 
-    if let image = item.image.first?.tiffRepresentation {
+    if let image = item.image?.tiffRepresentation {
       intentItem.image = INFile(data: image, filename: "", typeIdentifier: nil)
     }
 
-    if let rtf = item.rtfData.first {
+    if let rtf = item.rtfData {
       intentItem.richText = String(data: rtf, encoding: .utf8)
     }
 

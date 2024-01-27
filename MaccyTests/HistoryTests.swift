@@ -130,7 +130,7 @@ class HistoryTests: XCTestCase {
     history.add(modifiedItem)
 
     XCTAssertEqual(history.all, [modifiedItem])
-    XCTAssertEqual(history.all[0].text.first, "bar")
+    XCTAssertEqual(history.all[0].text, "bar")
   }
 
   func testClearingUnpinned() {

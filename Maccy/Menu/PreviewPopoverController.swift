@@ -22,7 +22,7 @@ class PreviewPopoverController {
       let popover = NSPopover()
       popover.animates = false
       popover.behavior = .semitransient
-      popover.contentViewController = Preview(item: item)
+      popover.contentViewController = Preview(item: item.item)
 
       guard let window = NSApp.menuWindow,
             let windowContentView = window.contentView,

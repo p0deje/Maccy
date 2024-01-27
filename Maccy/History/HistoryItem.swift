@@ -53,45 +53,57 @@ class HistoryItem: NSManagedObject {
   @NSManaged public var pin: String?
   @NSManaged public var title: String?
 
-  var fileURL: [URL] {
+  var fileURLs: [URL] {
     guard !universalClipboardText else {
       return []
     }
 
-    return contentData(filePasteboardTypes)
+    return allContentData(filePasteboardTypes)
       .compactMap { URL(dataRepresentation: $0, relativeTo: nil, isAbsolute: true) }
   }
 
-  var htmlData: [Data] { contentData(htmlPasteboardTypes) }
-  var html: [NSAttributedString] {
-    htmlData
-      .compactMap { NSAttributedString(html: $0, documentAttributes: nil) }
-  }
-
-  var image: [NSImage] {
-    var data = contentData(imagePasteboardTypes)
-      .compactMap { NSImage(data: $0) }
-    
-    if data.isEmpty && universalClipboardImage {
-      return fileURL
-        .compactMap { try? Data(contentsOf: $0) }
-        .compactMap { NSImage(data: $0) }
-    } else {
-      return data
+  var htmlData: Data? { contentData(htmlPasteboardTypes) }
+  var html: NSAttributedString? {
+    guard let data = htmlData else {
+      return nil
     }
+
+    return NSAttributedString(html: data, documentAttributes: nil)
   }
 
-  var rtfData: [Data] { contentData(rtfPasteboardTypes) }
-  var rtf: [NSAttributedString] {
-    return rtfData.compactMap { NSAttributedString(rtf: $0, documentAttributes: nil) }
+  var image: NSImage? {
+    var data: Data?
+    data = contentData(imagePasteboardTypes)
+    if data == nil, universalClipboardImage, let url = fileURLs.first {
+      data = try? Data(contentsOf: url)
+    }
+
+    guard let data = data else {
+      return nil
+    }
+
+    return NSImage(data: data)
   }
 
-  var text: [String] {
-    return contentData(textPasteboardTypes).compactMap { String(data: $0, encoding: .utf8) }
+  var rtfData: Data? { contentData(rtfPasteboardTypes) }
+  var rtf: NSAttributedString? {
+    guard let data = rtfData else {
+      return nil
+    }
+
+    return NSAttributedString(rtf: data, documentAttributes: nil)
+  }
+
+  var text: String? {
+    guard let data = contentData(textPasteboardTypes) else {
+      return nil
+    }
+
+    return String(data: data, encoding: .utf8)
   }
 
   var modified: Int? {
-    guard let data = contentData([.modified]).first,
+    guard let data = contentData([.modified]),
           let modified = String(data: data, encoding: .utf8) else {
       return nil
     }
@@ -99,8 +111,8 @@ class HistoryItem: NSManagedObject {
     return Int(modified)
   }
 
-  var fromMaccy: Bool { !contentData([.fromMaccy]).isEmpty }
-  var universalClipboard: Bool { !contentData([.universalClipboard]).isEmpty }
+  var fromMaccy: Bool { contentData([.fromMaccy]) != nil }
+  var universalClipboard: Bool { contentData([.universalClipboard]) != nil }
 
   private let filePasteboardTypes: [NSPasteboard.PasteboardType] = [.fileURL]
   private let htmlPasteboardTypes: [NSPasteboard.PasteboardType] = [.html]
@@ -108,13 +120,10 @@ class HistoryItem: NSManagedObject {
   private let rtfPasteboardTypes: [NSPasteboard.PasteboardType] = [.rtf]
   private let textPasteboardTypes: [NSPasteboard.PasteboardType] = [.string]
 
-  private var universalClipboardImage: Bool {
-    universalClipboard &&
-    !fileURL.filter { $0.pathExtension == "jpeg" }.isEmpty
-  }
+  private var universalClipboardImage: Bool { universalClipboard && fileURLs.first?.pathExtension == "jpeg" }
   private var universalClipboardText: Bool {
-    universalClipboard &&
-    !contentData(htmlPasteboardTypes + imagePasteboardTypes + rtfPasteboardTypes + textPasteboardTypes).isEmpty
+     universalClipboard &&
+      contentData(htmlPasteboardTypes + imagePasteboardTypes + rtfPasteboardTypes + textPasteboardTypes) != nil
   }
 
   // swiftlint:disable nsobject_prefer_isequal
@@ -166,24 +175,22 @@ class HistoryItem: NSManagedObject {
   }
 
   func generateTitle(_ contents: [HistoryItemContent]) -> String {
-    guard image.isEmpty else {
-      return ""
-    }
-    
-    let title: String
+    var title = ""
 
-    if !fileURL.isEmpty {
-      title = fileURL
+    guard image == nil else {
+      return title
+    }
+
+    if !fileURLs.isEmpty {
+      title = fileURLs
         .compactMap { $0.absoluteString.removingPercentEncoding }
         .joined(separator: "; ")
-    } else if !text.isEmpty {
-      title = text.joined(separator: "; ")
-    } else if !rtf.isEmpty {
-      title = rtf.map { $0.string }.joined(separator: "; ")
-    } else if !html.isEmpty {
-      title = html.map { $0.string }.joined(separator: "; ")
-    } else {
-      title = ""
+    } else if let text = text {
+      title = text
+    } else if title.isEmpty, let rtf = rtf {
+      title = rtf.string
+    } else if title.isEmpty, let html = html {
+      title = html.string
     }
 
     return title
@@ -203,7 +210,16 @@ class HistoryItem: NSManagedObject {
     }
   }
 
-  private func contentData(_ types: [NSPasteboard.PasteboardType]) -> [Data] {
+  private func contentData(_ types: [NSPasteboard.PasteboardType]) -> Data? {
+    let contents = getContents()
+    let content = contents.first(where: { content in
+      return types.contains(NSPasteboard.PasteboardType(content.type))
+    })
+
+    return content?.value
+  }
+  
+  private func allContentData(_ types: [NSPasteboard.PasteboardType]) -> [Data] {
     let contents = getContents()
     return contents
       .filter { types.contains(NSPasteboard.PasteboardType($0.type)) }

@@ -13,19 +13,17 @@ class Preview: NSViewController {
 
   private let maxTextSize = 1_500
 
-  private var menuItem: HistoryMenuItem?
   private var item: HistoryItem?
 
-  convenience init(item: HistoryMenuItem) {
+  convenience init(item: HistoryItem?) {
     self.init()
-    self.menuItem = item
-    self.item = item.item
+    self.item = item
   }
 
   override func viewDidLoad() {
     guard let item, !item.isFault else { return }
 
-    if let image = item.image.first {
+    if let image = item.image {
       textView.removeFromSuperview()
       imageView.image = image
       // Preserver image aspect ratio
@@ -36,7 +34,18 @@ class Preview: NSViewController {
       imageView.layer?.borderColor = NSColor.separatorColor.cgColor
       imageView.layer?.cornerRadius = 7.0
       imageView.layer?.masksToBounds = true
-    } else if let string = menuItem?.value {
+    } else if !item.fileURLs.isEmpty {
+      imageView.removeFromSuperview()
+      textView.stringValue = item.fileURLs
+        .compactMap { $0.absoluteString.removingPercentEncoding }
+        .joined(separator: "\n")
+    } else if let string = item.rtf?.string {
+      imageView.removeFromSuperview()
+      textView.stringValue = string
+    } else if let string = item.html?.string {
+      imageView.removeFromSuperview()
+      textView.stringValue = string
+    } else if let string = item.text {
       imageView.removeFromSuperview()
       textView.stringValue = string
     } else {

@@ -136,27 +136,27 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func isImage(_ item: HistoryItem) -> Bool {
-    return !item.image.isEmpty
+    return item.image != nil
   }
 
   private func isFile(_ item: HistoryItem) -> Bool {
-    return !item.fileURL.isEmpty
+    return !item.fileURLs.isEmpty
   }
 
   private func isRTF(_ item: HistoryItem) -> Bool {
-    return !item.rtf.isEmpty
+    return item.rtf != nil
   }
 
   private func isHTML(_ item: HistoryItem) -> Bool {
-    return !item.html.isEmpty
+    return item.html != nil
   }
 
   private func isText(_ item: HistoryItem) -> Bool {
-    return !item.text.isEmpty
+    return item.text != nil
   }
 
   private func loadImage(_ item: HistoryItem) {
-    guard let image = item.image.first else {
+    guard let image = item.image else {
       return
     }
 
@@ -176,11 +176,11 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadFile(_ item: HistoryItem) {
-    guard !item.fileURL.isEmpty else {
+    guard !item.fileURLs.isEmpty else {
       return
     }
 
-    self.value = item.fileURL
+    self.value = item.fileURLs
       .compactMap { $0.absoluteString.removingPercentEncoding }
       .joined(separator: "\n")
     self.title = item.title ?? ""
@@ -188,7 +188,7 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadRTF(_ item: HistoryItem) {
-    guard let string = item.rtf.first?.string else {
+    guard let string = item.rtf?.string else {
       return
     }
 
@@ -198,7 +198,7 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadHTML(_ item: HistoryItem) {
-    guard let string = item.html.first?.string else {
+    guard let string = item.html?.string else {
       return
     }
 
@@ -208,11 +208,11 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadText(_ item: HistoryItem) {
-    guard !item.text.isEmpty else {
+    guard let string = item.text else {
       return
     }
 
-    self.value = item.text.joined(separator: "\n")
+    self.value = string
     self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }
