@@ -3,7 +3,7 @@ import CoreData
 @objc(HistoryItemContent)
 class HistoryItemContent: NSManagedObject {
   @NSManaged public var type: String!
-  @NSManaged public var value: Data!
+  @NSManaged public var value: Data?
   @NSManaged public var item: HistoryItem?
 
   // swiftlint:disable nsobject_prefer_isequal

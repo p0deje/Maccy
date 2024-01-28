@@ -53,15 +53,13 @@ class HistoryItem: NSManagedObject {
   @NSManaged public var pin: String?
   @NSManaged public var title: String?
 
-  var fileURL: URL? {
-    guard let data = contentData(filePasteboardTypes) else {
-      return nil
-    }
+  var fileURLs: [URL] {
     guard !universalClipboardText else {
-      return nil
+      return []
     }
 
-    return URL(dataRepresentation: data, relativeTo: nil, isAbsolute: true)
+    return allContentData(filePasteboardTypes)
+      .compactMap { URL(dataRepresentation: $0, relativeTo: nil, isAbsolute: true) }
   }
 
   var htmlData: Data? { contentData(htmlPasteboardTypes) }
@@ -76,7 +74,7 @@ class HistoryItem: NSManagedObject {
   var image: NSImage? {
     var data: Data?
     data = contentData(imagePasteboardTypes)
-    if data == nil, universalClipboardImage, let url = fileURL {
+    if data == nil, universalClipboardImage, let url = fileURLs.first {
       data = try? Data(contentsOf: url)
     }
 
@@ -122,7 +120,7 @@ class HistoryItem: NSManagedObject {
   private let rtfPasteboardTypes: [NSPasteboard.PasteboardType] = [.rtf]
   private let textPasteboardTypes: [NSPasteboard.PasteboardType] = [.string]
 
-  private var universalClipboardImage: Bool { universalClipboard && fileURL?.pathExtension == "jpeg" }
+  private var universalClipboardImage: Bool { universalClipboard && fileURLs.first?.pathExtension == "jpeg" }
   private var universalClipboardText: Bool {
      universalClipboard &&
       contentData(htmlPasteboardTypes + imagePasteboardTypes + rtfPasteboardTypes + textPasteboardTypes) != nil
@@ -183,8 +181,10 @@ class HistoryItem: NSManagedObject {
       return title
     }
 
-    if let fileURL = fileURL {
-      title = fileURL.absoluteString.removingPercentEncoding ?? ""
+    if !fileURLs.isEmpty {
+      title = fileURLs
+        .compactMap { $0.absoluteString.removingPercentEncoding }
+        .joined(separator: "\n")
     } else if let text = text {
       title = text
     } else if title.isEmpty, let rtf = rtf {
@@ -217,5 +217,12 @@ class HistoryItem: NSManagedObject {
     })
 
     return content?.value
+  }
+  
+  private func allContentData(_ types: [NSPasteboard.PasteboardType]) -> [Data] {
+    let contents = getContents()
+    return contents
+      .filter { types.contains(NSPasteboard.PasteboardType($0.type)) }
+      .compactMap { $0.value }
   }
 }

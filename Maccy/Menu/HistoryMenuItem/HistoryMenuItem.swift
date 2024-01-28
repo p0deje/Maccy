@@ -140,7 +140,7 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func isFile(_ item: HistoryItem) -> Bool {
-    return item.fileURL != nil
+    return !item.fileURLs.isEmpty
   }
 
   private func isRTF(_ item: HistoryItem) -> Bool {
@@ -176,12 +176,13 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   private func loadFile(_ item: HistoryItem) {
-    guard let fileURL = item.fileURL,
-          let string = fileURL.absoluteString.removingPercentEncoding else {
+    guard !item.fileURLs.isEmpty else {
       return
     }
 
-    self.value = string
+    self.value = item.fileURLs
+      .compactMap { $0.absoluteString.removingPercentEncoding }
+      .joined(separator: "\n")
     self.title = item.title ?? ""
     self.image = ColorImage.from(title)
   }

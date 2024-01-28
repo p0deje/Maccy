@@ -34,10 +34,11 @@ class Preview: NSViewController {
       imageView.layer?.borderColor = NSColor.separatorColor.cgColor
       imageView.layer?.cornerRadius = 7.0
       imageView.layer?.masksToBounds = true
-    } else if let fileURL = item.fileURL,
-              let string = fileURL.absoluteString.removingPercentEncoding {
+    } else if !item.fileURLs.isEmpty {
       imageView.removeFromSuperview()
-      textView.stringValue = string
+      textView.stringValue = item.fileURLs
+        .compactMap { $0.absoluteString.removingPercentEncoding }
+        .joined(separator: "\n")
     } else if let string = item.rtf?.string {
       imageView.removeFromSuperview()
       textView.stringValue = string

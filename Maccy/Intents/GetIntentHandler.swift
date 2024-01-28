@@ -38,7 +38,7 @@ class GetIntentHandler: NSObject, GetIntentHandling {
       intentItem.html = String(data: html, encoding: .utf8)
     }
 
-    if let fileURL = item.fileURL {
+    if let fileURL = item.fileURLs.first {
       intentItem.file = INFile(
         fileURL: fileURL,
         filename: "",
