@@ -184,7 +184,7 @@ class HistoryItem: NSManagedObject {
     if !fileURLs.isEmpty {
       title = fileURLs
         .compactMap { $0.absoluteString.removingPercentEncoding }
-        .joined(separator: "; ")
+        .joined(separator: "\n")
     } else if let text = text {
       title = text
     } else if title.isEmpty, let rtf = rtf {
