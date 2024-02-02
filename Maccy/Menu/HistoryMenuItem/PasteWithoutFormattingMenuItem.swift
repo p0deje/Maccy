@@ -24,7 +24,6 @@ extension HistoryMenuItem {
 
       if !UserDefaults.standard.pasteByDefault || !UserDefaults.standard.removeFormattingByDefault {
         isAlternate = true
-        isHidden = true
       }
     }
   }

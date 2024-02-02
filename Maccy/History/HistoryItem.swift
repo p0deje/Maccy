@@ -218,7 +218,7 @@ class HistoryItem: NSManagedObject {
 
     return content?.value
   }
-  
+
   private func allContentData(_ types: [NSPasteboard.PasteboardType]) -> [Data] {
     let contents = getContents()
     return contents

@@ -19,7 +19,6 @@ extension HistoryMenuItem {
 
       if UserDefaults.standard.pasteByDefault {
         isAlternate = true
-        isHidden = true
       }
     }
   }

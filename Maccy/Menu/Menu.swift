@@ -275,15 +275,11 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func selectPrevious() {
-    if !highlightNext(items.reversed()) {
-      highlight(highlightableItems(items).last) // start from the end after reaching the first item
-    }
+    _ = highlightNext(items.reversed())
   }
 
   func selectNext() {
-    if !highlightNext(items) {
-      highlight(highlightableItems(items).first) // start from the beginning after reaching the last item
-    }
+    _ = highlightNext(items)
   }
 
   func delete() {
@@ -447,7 +443,7 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   private func highlightableItems(_ items: [NSMenuItem]) -> [NSMenuItem] {
-    return items.filter { !$0.isSeparatorItem && $0.isEnabled && !$0.isHidden }
+    return items.filter { !$0.isSeparatorItem && $0.isEnabled && !$0.isAlternate }
   }
 
   private func highlight(_ itemToHighlight: NSMenuItem?) {
