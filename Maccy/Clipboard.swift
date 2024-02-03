@@ -78,13 +78,23 @@ class Clipboard {
       }
     }
 
-    let items: [NSPasteboardItem] = contents.compactMap { item in
+    for content in contents {
+      guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
+      pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
+    }
+    
+    // Use writeObjects for file URLs so that multiple files that are copied actually work.
+    // Only do this for file URLs because it causes an issue with some other data types (like formatted text)
+    // where the item is pasted more than once.
+    let fileURLItems: [NSPasteboardItem] = contents.compactMap { item in
+      guard item.type == NSPasteboard.PasteboardType.fileURL.rawValue else { return nil }
       guard let value = item.value else { return nil }
       let pasteItem = NSPasteboardItem()
       pasteItem.setData(value, forType: NSPasteboard.PasteboardType(item.type))
       return pasteItem
     }
-    pasteboard.writeObjects(items)
+    pasteboard.writeObjects(fileURLItems)
+    
     pasteboard.setString("", forType: .fromMaccy)
 
     Notifier.notify(body: item.title, sound: .knock)
