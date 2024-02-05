@@ -70,8 +70,8 @@
 /* Class = "NSStackView"; ibShadowedToolTip = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "7SP-tN-nLD"; */
 "7SP-tN-nLD.ibShadowedToolTip" = "延迟以毫秒为单位，直到显示预览弹出窗口。\n默认: 1500。";
 
-/* Class = "NSTextFieldCell"; title = "Search string highlight:"; ObjectID = "gzY-QO-mMa"; */
-"gzY-QO-mMa.title" = "搜索字符串突出显示:";
+/* Class = "NSTextFieldCell"; title = "Highlight Match:"; ObjectID = "gzY-QO-mMa"; */
+"gzY-QO-mMa.title" = "亮点匹配：";
 
 /* Class = "NSMenuItem"; title = "bold"; ObjectID = "Ab6-Jt-UI5"; */
 "Ab6-Jt-UI5.title" = "大胆的";

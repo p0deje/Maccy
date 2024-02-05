@@ -331,7 +331,7 @@ Default: 1500.</string>
                             </stackView>
                         </gridCell>
                         <gridCell row="COy-q6-8Qe" column="KLa-7P-lgK" id="sEN-zO-jeM">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I2c-rj-xuX" userLabel="Search string highlight:">
+                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I2c-rj-xuX" userLabel="Highlight Match:">
                                 <rect key="frame" x="86" y="169" width="104" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Highlight match:" id="gzY-QO-mMa">
                                     <font key="font" usesAppearanceFont="YES"/>
