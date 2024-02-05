@@ -60,8 +60,8 @@
                     </columns>
                     <gridCells>
                         <gridCell row="wGv-6M-Wwi" column="KLa-7P-lgK" id="fTw-kj-fi7">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cv7-gI-nuh">
-                                <rect key="frame" x="128" y="342" width="62" height="16"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cv7-gI-nuh">
+                                <rect key="frame" x="109" y="342" width="62" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Popup at:" id="R7Y-UN-Edt">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -71,7 +71,7 @@
                         </gridCell>
                         <gridCell row="wGv-6M-Wwi" column="7OC-Fv-eMr" id="w7a-Ig-74t">
                             <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ZHc-k4-Nf9">
-                                <rect key="frame" x="198" y="335" width="130" height="25"/>
+                                <rect key="frame" x="179" y="335" width="130" height="25"/>
                                 <string key="toolTip">Change the location where popup appears.
 Default: Cursor.</string>
                                 <popUpButtonCell key="cell" type="push" title="Cursor" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" autoenablesItems="NO" selectedItem="Ccp-5J-8nw" id="f7k-K3-J6b">
@@ -106,8 +106,8 @@ Default: Cursor.</string>
                             </popUpButton>
                         </gridCell>
                         <gridCell row="kMC-R2-5B3" column="KLa-7P-lgK" id="vKu-nA-kna">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Xv-1I-fwQ">
-                                <rect key="frame" x="147" y="313" width="43" height="16"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Xv-1I-fwQ">
+                                <rect key="frame" x="128" y="313" width="43" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Pin to:" id="GhW-Kv-rhO">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -117,7 +117,7 @@ Default: Cursor.</string>
                         </gridCell>
                         <gridCell row="kMC-R2-5B3" column="7OC-Fv-eMr" id="qwo-K1-hTM">
                             <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="tWw-ax-Qej">
-                                <rect key="frame" x="198" y="306" width="84" height="25"/>
+                                <rect key="frame" x="179" y="306" width="84" height="25"/>
                                 <string key="toolTip">Change the location of pinned items.
 Default: Top.</string>
                                 <popUpButtonCell key="cell" type="push" title="Top" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="DKE-JI-oLS" id="KGb-ze-78s">
@@ -136,8 +136,8 @@ Default: Top.</string>
                             </popUpButton>
                         </gridCell>
                         <gridCell row="SYP-SL-aAk" column="KLa-7P-lgK" id="oQq-xv-omv">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lEK-4J-i8J">
-                                <rect key="frame" x="103" y="284" width="87" height="16"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lEK-4J-i8J">
+                                <rect key="frame" x="84" y="284" width="87" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Image height:" id="MKb-cW-gpg">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -147,12 +147,12 @@ Default: Top.</string>
                         </gridCell>
                         <gridCell row="SYP-SL-aAk" column="7OC-Fv-eMr" id="kuT-3B-2sI">
                             <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tsp-4i-Mym">
-                                <rect key="frame" x="201" y="281" width="117" height="21"/>
+                                <rect key="frame" x="182" y="281" width="117" height="21"/>
                                 <string key="toolTip">Maximum image preview height.
 Default: 40.
 Hint: Set to 16 to look like text items.</string>
                                 <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fcz-4Q-KUm">
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fcz-4Q-KUm">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="Jp7-tc-rrq"/>
@@ -185,8 +185,8 @@ Hint: Set to 16 to look like text items.</string>
                             </stackView>
                         </gridCell>
                         <gridCell row="S9I-rv-Kfl" column="KLa-7P-lgK" id="vKh-KX-7Ph">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3D7-Xe-sZo">
-                                <rect key="frame" x="81" y="255" width="109" height="16"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3D7-Xe-sZo">
+                                <rect key="frame" x="62" y="255" width="109" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Number of items:" id="gjR-wz-7GQ">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -196,13 +196,13 @@ Hint: Set to 16 to look like text items.</string>
                         </gridCell>
                         <gridCell row="S9I-rv-Kfl" column="7OC-Fv-eMr" id="Ry9-S9-CyT">
                             <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="a8Y-aG-9on">
-                                <rect key="frame" x="201" y="252" width="117" height="21"/>
+                                <rect key="frame" x="182" y="252" width="117" height="21"/>
                                 <string key="toolTip">Number of visible items.
 Hidden items are still kept in history and can be found using search.
 Set to 0 to make all items visible.
 Default: 0.</string>
                                 <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bLY-QC-Jck">
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bLY-QC-Jck">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="0cw-7u-Pmb"/>
@@ -235,8 +235,8 @@ Default: 0.</string>
                             </stackView>
                         </gridCell>
                         <gridCell row="5AN-Hb-8z8" column="KLa-7P-lgK" id="CGn-tZ-Kyv">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zpA-rz-vpL">
-                                <rect key="frame" x="114" y="226" width="76" height="16"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zpA-rz-vpL">
+                                <rect key="frame" x="95" y="226" width="76" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Title length:" id="TgE-eS-5nT">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -246,11 +246,11 @@ Default: 0.</string>
                         </gridCell>
                         <gridCell row="5AN-Hb-8z8" column="7OC-Fv-eMr" id="wS5-KF-93i">
                             <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="XGd-Fg-wS9">
-                                <rect key="frame" x="201" y="223" width="117" height="21"/>
+                                <rect key="frame" x="182" y="223" width="117" height="21"/>
                                 <string key="toolTip">Maximum number of characters in the item title.
 Default: 50.</string>
                                 <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wto-wB-Ijw">
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wto-wB-Ijw">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="hpq-K8-ij3"/>
@@ -283,8 +283,8 @@ Default: 50.</string>
                             </stackView>
                         </gridCell>
                         <gridCell row="NiR-EB-Xrn" column="KLa-7P-lgK" id="zZ5-X2-rET">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AH3-Nd-NhZ">
-                                <rect key="frame" x="98" y="197" width="92" height="16"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AH3-Nd-NhZ">
+                                <rect key="frame" x="79" y="197" width="92" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Preview delay:" id="lnS-Rg-4sa">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -294,11 +294,11 @@ Default: 50.</string>
                         </gridCell>
                         <gridCell row="NiR-EB-Xrn" column="7OC-Fv-eMr" id="Dy9-7o-54w">
                             <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7SP-tN-nLD">
-                                <rect key="frame" x="201" y="194" width="117" height="21"/>
+                                <rect key="frame" x="182" y="194" width="117" height="21"/>
                                 <string key="toolTip">Delay in milliseconds until a preview popup is shown.
 Default: 1500.</string>
                                 <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bWg-D5-ht1">
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bWg-D5-ht1">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="8Wt-bI-jQW"/>
@@ -331,8 +331,8 @@ Default: 1500.</string>
                             </stackView>
                         </gridCell>
                         <gridCell row="COy-q6-8Qe" column="KLa-7P-lgK" id="sEN-zO-jeM">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I2c-rj-xuX" userLabel="Highlight Match:">
-                                <rect key="frame" x="72" y="169" width="118" height="16"/>
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I2c-rj-xuX" userLabel="Highlight Match:">
+                                <rect key="frame" x="53" y="169" width="118" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Highlight matches:" id="gzY-QO-mMa">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -342,7 +342,7 @@ Default: 1500.</string>
                         </gridCell>
                         <gridCell row="COy-q6-8Qe" column="7OC-Fv-eMr" id="06u-gv-b4n">
                             <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B41-eW-cJt">
-                                <rect key="frame" x="198" y="162" width="98" height="25"/>
+                                <rect key="frame" x="179" y="162" width="98" height="25"/>
                                 <string key="toolTip">Change the highlighting style for search matches.
 Default: Bold.</string>
                                 <popUpButtonCell key="cell" type="push" title="Bold" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Ab6-Jt-UI5" id="ULp-DF-zeA">
@@ -370,7 +370,7 @@ Default: Bold.</string>
                         <gridCell row="5jp-7e-81V" column="KLa-7P-lgK" id="be6-eb-ATU"/>
                         <gridCell row="5jp-7e-81V" column="7OC-Fv-eMr" id="mth-O1-avp">
                             <stackView key="contentView" distribution="fill" orientation="horizontal" alignment="top" horizontalStackHuggingPriority="249.99998474121094" verticalStackHuggingPriority="249.99998474121094" ambiguous="YES" detachesHiddenViews="YES" translatesAutoresizingMaskIntoConstraints="NO" id="id0-MB-onU">
-                                <rect key="frame" x="201" y="117" width="172" height="16"/>
+                                <rect key="frame" x="182" y="117" width="172" height="16"/>
                                 <subviews>
                                     <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="1Hw-20-IWu">
                                         <rect key="frame" x="-2" y="-1" width="126" height="18"/>
@@ -432,7 +432,7 @@ Default: Bold.</string>
                         <gridCell row="CJ6-hZ-HiH" column="KLa-7P-lgK" id="AGY-0Z-W9a"/>
                         <gridCell row="CJ6-hZ-HiH" column="7OC-Fv-eMr" id="uwz-L0-IUL">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Hp2-aQ-9Eg" userLabel="I">
-                                <rect key="frame" x="199" y="93" width="246" height="17"/>
+                                <rect key="frame" x="180" y="93" width="246" height="17"/>
                                 <buttonCell key="cell" type="check" title="Show recent copy next to menu icon" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="2vE-8q-6tq">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -445,7 +445,7 @@ Default: Bold.</string>
                         <gridCell row="hnq-hF-JcQ" column="KLa-7P-lgK" id="5lh-Cz-wCy"/>
                         <gridCell row="hnq-hF-JcQ" column="7OC-Fv-eMr" id="dkg-xh-BJU">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="YIB-bg-Q16">
-                                <rect key="frame" x="199" y="69" width="134" height="18"/>
+                                <rect key="frame" x="180" y="69" width="134" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show search field" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="mWx-zi-OAv">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -458,7 +458,7 @@ Default: Bold.</string>
                         <gridCell row="zRu-GH-PCK" column="KLa-7P-lgK" id="LcS-vZ-Lxg"/>
                         <gridCell row="zRu-GH-PCK" column="7OC-Fv-eMr" id="Qnl-9g-RtD">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="NWU-si-fzN">
-                                <rect key="frame" x="199" y="45" width="203" height="18"/>
+                                <rect key="frame" x="180" y="45" width="203" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show title before search field" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ePT-qq-kg9">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -471,7 +471,7 @@ Default: Bold.</string>
                         <gridCell row="yso-9X-Eov" column="KLa-7P-lgK" id="a8T-d0-IZF"/>
                         <gridCell row="yso-9X-Eov" column="7OC-Fv-eMr" id="zvZ-zK-BeC">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="N6N-SK-mfI">
-                                <rect key="frame" x="199" y="21" width="100" height="18"/>
+                                <rect key="frame" x="180" y="21" width="100" height="18"/>
                                 <buttonCell key="cell" type="check" title="Show footer" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="ClZ-IS-YKz">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -483,11 +483,11 @@ Default: Bold.</string>
                         </gridCell>
                         <gridCell row="Plv-5t-MpL" column="KLa-7P-lgK" id="eeP-jp-pGA"/>
                         <gridCell row="Plv-5t-MpL" column="7OC-Fv-eMr" id="XpX-YX-upx">
-                            <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6N8-hv-cY7">
-                                <rect key="frame" x="199" y="0.0" width="279" height="14"/>
-                                <textFieldCell key="cell" selectable="YES" title="Press ⌘, to open preferences when footer is hidden." id="0tN-4z-p8T">
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6N8-hv-cY7">
+                                <rect key="frame" x="180" y="0.0" width="298" height="14"/>
+                                <textFieldCell key="cell" selectable="YES" title="⚠️ Press ⌘, to open preferences when footer is hidden." id="0tN-4z-p8T">
                                     <font key="font" metaFont="controlContent" size="11"/>
-                                    <color key="textColor" name="systemRedColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="textColor" name="secondaryLabelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                 </textFieldCell>
                             </textField>

@@ -1,8 +1,8 @@
 /* Class = "NSMenuItem"; title = "Menu icon"; ObjectID = "0h4-CZ-fwT"; */
 "0h4-CZ-fwT.title" = "Icône du menu";
 
-/* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
-"0tN-4z-p8T.title" = "Pressez ⌘, pour ouvrir les préférences quand le bas de l'application est caché.";
+/* Class = "NSTextFieldCell"; title = "⚠️ Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
+"0tN-4z-p8T.title" = "⚠️ Pressez ⌘, pour ouvrir les préférences quand le bas de l'application est caché.";
 
 /* Class = "NSMenuItem"; title = "Cursor"; ObjectID = "Ccp-5J-8nw"; */
 "Ccp-5J-8nw.title" = "Curseur";

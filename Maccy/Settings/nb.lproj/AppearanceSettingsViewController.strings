@@ -28,8 +28,8 @@
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Vis søkefelt";
 
-/* Class = "NSTextFieldCell"; title = "Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
-"0tN-4z-p8T.title" = "Trykk ⌘, for å åpne valg når bunntekst er skjult.";
+/* Class = "NSTextFieldCell"; title = "⚠️ Press ⌘, to open preferences when footer is hidden."; ObjectID = "0tN-4z-p8T"; */
+"0tN-4z-p8T.title" = "⚠️ Trykk ⌘, for å åpne valg når bunntekst er skjult.";
 
 /* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
 "gjR-wz-7GQ.title" = "Antall elementer:";
