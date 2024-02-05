@@ -27,7 +27,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var showSearchFieldButton: NSButton!
   @IBOutlet weak var showTitleButton: NSButton!
   @IBOutlet weak var showFooterButton: NSButton!
-  @IBOutlet weak var highlightMatchButton: NSPopUpButton!
+  @IBOutlet weak var highlightMatchesButton: NSPopUpButton!
   @IBOutlet weak var openPreferencesLabel: NSTextField!
 
   private let imageHeightMin = 1
@@ -195,15 +195,15 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     UserDefaults.standard.hideFooter = (sender.state == .off)
     openPreferencesLabel.isHidden = (sender.state == .on)
   }
-    
-  @IBAction func highlightMatchChanged(_ sender: NSPopUpButton) {
+
+  @IBAction func highlightMatchesChanged(_ sender: NSPopUpButton) {
     switch sender.selectedTag() {
     case 1:
-      UserDefaults.standard.highlightMatch = "italic"
+      UserDefaults.standard.highlightMatches = "italic"
     case 2:
-      UserDefaults.standard.highlightMatch = "underline"
+      UserDefaults.standard.highlightMatches = "underline"
     default:
-      UserDefaults.standard.highlightMatch = "bold"
+      UserDefaults.standard.highlightMatches = "bold"
     }
   }
 
@@ -357,15 +357,15 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     showFooterButton.state = UserDefaults.standard.hideFooter ? .off : .on
     openPreferencesLabel.isHidden = !UserDefaults.standard.hideFooter
   }
-    
+
   private func populateHighlightMatch() {
-    switch UserDefaults.standard.highlightMatch {
+    switch UserDefaults.standard.highlightMatches {
     case "italic":
-        highlightMatchButton.selectItem(withTag: 1)
+      highlightMatchesButton.selectItem(withTag: 1)
     case "underline":
-        highlightMatchButton.selectItem(withTag: 2)
+      highlightMatchesButton.selectItem(withTag: 2)
     default:
-        highlightMatchButton.selectItem(withTag: 0)
+      highlightMatchesButton.selectItem(withTag: 0)
     }
   }
 }

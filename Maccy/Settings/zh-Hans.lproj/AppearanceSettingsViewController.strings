@@ -70,14 +70,17 @@
 /* Class = "NSStackView"; ibShadowedToolTip = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "7SP-tN-nLD"; */
 "7SP-tN-nLD.ibShadowedToolTip" = "延迟以毫秒为单位，直到显示预览弹出窗口。\n默认: 1500。";
 
-/* Class = "NSTextFieldCell"; title = "Highlight Match:"; ObjectID = "gzY-QO-mMa"; */
-"gzY-QO-mMa.title" = "亮点匹配：";
+/* Class = "NSTextFieldCell"; title = "Highlight matches:"; ObjectID = "gzY-QO-mMa"; */
+"gzY-QO-mMa.title" = "突出显示比赛：";
 
-/* Class = "NSMenuItem"; title = "bold"; ObjectID = "Ab6-Jt-UI5"; */
-"Ab6-Jt-UI5.title" = "大胆的";
+/* Class = "NSMenuItem"; title = "Bold"; ObjectID = "Ab6-Jt-UI5"; */
+"Ab6-Jt-UI5.title" = "粗体";
 
-/* Class = "NSMenuItem"; title = "italic"; ObjectID = "OHf-E4-lFq"; */
+/* Class = "NSMenuItem"; title = "Italic"; ObjectID = "OHf-E4-lFq"; */
 "OHf-E4-lFq.title" = "斜体";
 
-/* Class = "NSMenuItem"; title = "underline"; ObjectID = "UPc-L7-OTE"; */
+/* Class = "NSMenuItem"; title = "Underline"; ObjectID = "UPc-L7-OTE"; */
 "UPc-L7-OTE.title" = "强调";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the highlighting style for search matches.\nDefault: Bold."; ObjectID = "B41-eW-cJt"; */
+"B41-eW-cJt.ibShadowedToolTip" = "更改搜索匹配项的突出显示样式。\n默认: 粗体。";

@@ -70,14 +70,17 @@
 /* Class = "NSStackView"; ibShadowedToolTip = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "7SP-tN-nLD"; */
 "7SP-tN-nLD.ibShadowedToolTip" = "Délai en millisecondes jusqu'à ce qu'une fenêtre d'aperçu s'affiche.\nPar défaut: 1500.";
 
-/* Class = "NSTextFieldCell"; title = "Highlight Match:"; ObjectID = "gzY-QO-mMa"; */
-"gzY-QO-mMa.title" = "Match en surbrillance:";
+/* Class = "NSTextFieldCell"; title = "Highlight matches:"; ObjectID = "gzY-QO-mMa"; */
+"gzY-QO-mMa.title" = "Matchs phares:";
 
-/* Class = "NSMenuItem"; title = "bold"; ObjectID = "Ab6-Jt-UI5"; */
-"Ab6-Jt-UI5.title" = "audacieuse";
+/* Class = "NSMenuItem"; title = "Bold"; ObjectID = "Ab6-Jt-UI5"; */
+"Ab6-Jt-UI5.title" = "Gras";
 
-/* Class = "NSMenuItem"; title = "italic"; ObjectID = "OHf-E4-lFq"; */
-"OHf-E4-lFq.title" = "italique";
+/* Class = "NSMenuItem"; title = "Italic"; ObjectID = "OHf-E4-lFq"; */
+"OHf-E4-lFq.title" = "Italique";
 
-/* Class = "NSMenuItem"; title = "underline"; ObjectID = "UPc-L7-OTE"; */
-"UPc-L7-OTE.title" = "souligner";
+/* Class = "NSMenuItem"; title = "Underline"; ObjectID = "UPc-L7-OTE"; */
+"UPc-L7-OTE.title" = "Souligner";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the highlighting style for search matches.\nDefault: Bold."; ObjectID = "B41-eW-cJt"; */
+"B41-eW-cJt.ibShadowedToolTip" = "Modifiez le style de surbrillance des correspondances de recherche.\nPar défaut: Gras.";

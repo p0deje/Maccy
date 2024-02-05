@@ -70,14 +70,17 @@
 /* Class = "NSStackView"; ibShadowedToolTip = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "7SP-tN-nLD"; */
 "7SP-tN-nLD.ibShadowedToolTip" = "Задержка в миллисекундах до появления всплывающего окна предварительного просмотра.\nПо умолчанию: 1500.";
 
-/* Class = "NSTextFieldCell"; title = "Highlight Match:"; ObjectID = "gzY-QO-mMa"; */
-"gzY-QO-mMa.title" = "Выделите матч:";
+/* Class = "NSTextFieldCell"; title = "Highlight matches:"; ObjectID = "gzY-QO-mMa"; */
+"gzY-QO-mMa.title" = "Выделить совпадения:";
 
-/* Class = "NSMenuItem"; title = "bold"; ObjectID = "Ab6-Jt-UI5"; */
-"Ab6-Jt-UI5.title" = "смелый";
+/* Class = "NSMenuItem"; title = "Bold"; ObjectID = "Ab6-Jt-UI5"; */
+"Ab6-Jt-UI5.title" = "Жирный";
 
-/* Class = "NSMenuItem"; title = "italic"; ObjectID = "OHf-E4-lFq"; */
-"OHf-E4-lFq.title" = "курсив";
+/* Class = "NSMenuItem"; title = "Italic"; ObjectID = "OHf-E4-lFq"; */
+"OHf-E4-lFq.title" = "Курсив";
 
-/* Class = "NSMenuItem"; title = "underline"; ObjectID = "UPc-L7-OTE"; */
-"UPc-L7-OTE.title" = "подчеркнуть";
+/* Class = "NSMenuItem"; title = "Underline"; ObjectID = "UPc-L7-OTE"; */
+"UPc-L7-OTE.title" = "Подчеркнутый";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the highlighting style for search matches.\nDefault: Bold."; ObjectID = "B41-eW-cJt"; */
+"B41-eW-cJt.ibShadowedToolTip" = "Измените стиль выделения для совпадений при поиске.\nПо умолчанию: Жирный.";

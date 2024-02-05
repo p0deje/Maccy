@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22154" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22154"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AppearanceSettingsViewController" customModule="Maccy" customModuleProvider="target">
             <connections>
                 <outlet property="changeMenuIcon" destination="MCd-5h-YbU" id="h6e-S4-c9A"/>
-                <outlet property="highlightMatchButton" destination="B41-eW-cJt" id="JdE-rh-nzX"/>
                 <outlet property="highlightMatchChanged" destination="ULp-DF-zeA" id="ycU-gv-cfz"/>
+                <outlet property="highlightMatchesButton" destination="B41-eW-cJt" id="JdE-rh-nzX"/>
                 <outlet property="imageHeightField" destination="fcz-4Q-KUm" id="cyp-tO-tIe"/>
                 <outlet property="imageHeightStepper" destination="P1r-xd-oR8" id="Xjt-Gz-1OP"/>
                 <outlet property="numberOfItemsField" destination="bLY-QC-Jck" id="dri-mu-gwm"/>
@@ -332,8 +332,8 @@ Default: 1500.</string>
                         </gridCell>
                         <gridCell row="COy-q6-8Qe" column="KLa-7P-lgK" id="sEN-zO-jeM">
                             <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I2c-rj-xuX" userLabel="Highlight Match:">
-                                <rect key="frame" x="86" y="169" width="104" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Highlight match:" id="gzY-QO-mMa">
+                                <rect key="frame" x="72" y="169" width="118" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Highlight matches:" id="gzY-QO-mMa">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -343,6 +343,8 @@ Default: 1500.</string>
                         <gridCell row="COy-q6-8Qe" column="7OC-Fv-eMr" id="06u-gv-b4n">
                             <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B41-eW-cJt">
                                 <rect key="frame" x="198" y="162" width="98" height="25"/>
+                                <string key="toolTip">Change the highlighting style for search matches.
+Default: Bold.</string>
                                 <popUpButtonCell key="cell" type="push" title="Bold" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Ab6-Jt-UI5" id="ULp-DF-zeA">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -355,7 +357,7 @@ Default: 1500.</string>
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="highlightMatchChanged:" target="-2" id="XHn-U9-YsX"/>
+                                    <action selector="highlightMatchesChanged:" target="-2" id="XHn-U9-YsX"/>
                                 </connections>
                             </popUpButton>
                         </gridCell>

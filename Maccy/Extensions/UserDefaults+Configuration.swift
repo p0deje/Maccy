@@ -241,8 +241,8 @@ extension UserDefaults {
     get { bool(forKey: Keys.suppressClearAlert) }
     set { set(newValue, forKey: Keys.suppressClearAlert) }
   }
-    
-  public var highlightMatch: String {
+
+  public var highlightMatches: String {
     get { string(forKey: Keys.highlightMatch) ?? Values.highlightMatch }
     set { set(newValue, forKey: Keys.highlightMatch) }
   }
