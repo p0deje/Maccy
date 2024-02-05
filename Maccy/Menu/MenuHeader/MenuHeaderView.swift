@@ -12,7 +12,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
 
   private let macOSXLeftPadding: CGFloat = 20.0
   private let macOSXRightPadding: CGFloat = 10.0
-  private let searchThrottler = Throttler(minimumDelay: 0.4)
+  private let searchThrottler = Throttler(minimumDelay: 0.2)
 
   private var characterPickerVisible: Bool { NSApp.characterPickerWindow?.isVisible ?? false }
 
