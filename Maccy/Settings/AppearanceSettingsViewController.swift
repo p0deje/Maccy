@@ -196,17 +196,16 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     openPreferencesLabel.isHidden = (sender.state == .on)
   }
     
-  @IBAction func searchStringHighlightChanged(_ sender: NSButton) {
+  @IBAction func searchStringHighlightChanged(_ sender: NSPopUpButton) {
     switch sender.selectedTag() {
     case 1:
-        UserDefaults.standard.searchStringHighlight = "italic"
+      UserDefaults.standard.searchStringHighlight = "italic"
     case 2:
-        UserDefaults.standard.searchStringHighlight = "underline"
+      UserDefaults.standard.searchStringHighlight = "underline"
     default:
-        UserDefaults.standard.searchStringHighlight = "bold"
+      UserDefaults.standard.searchStringHighlight = "bold"
     }
   }
-    
 
   private func populateScreens() {
     guard NSScreen.screens.count > 1 else {
