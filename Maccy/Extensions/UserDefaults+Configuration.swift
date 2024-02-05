@@ -5,6 +5,7 @@ extension UserDefaults {
     static let avoidTakingFocus = "avoidTakingFocus"
     static let clearOnQuit = "clearOnQuit"
     static let clearSystemClipboard = "clearSystemClipboard"
+    static let clipboardCheckInterval = "clipboardCheckInterval"
     static let enabledPasteboardTypes = "enabledPasteboardTypes"
     static let hideFooter = "hideFooter"
     static let hideSearch = "hideSearch"
@@ -46,6 +47,7 @@ extension UserDefaults {
   }
 
   public struct Values {
+    static let clipboardCheckInterval = 0.5
     static let ignoredApps: [String] = []
     static let ignoredPasteboardTypes: [String] = []
     static let ignoreRegexp: [String] = []
@@ -77,6 +79,11 @@ extension UserDefaults {
   public var clearSystemClipboard: Bool {
     get { bool(forKey: Keys.clearSystemClipboard) }
     set { set(newValue, forKey: Keys.clearSystemClipboard) }
+  }
+
+  @objc dynamic var clipboardCheckInterval: Double {
+    get { double(forKey: Keys.clipboardCheckInterval) }
+    set { set(newValue, forKey: Keys.clipboardCheckInterval) }
   }
 
   @objc dynamic public var enabledPasteboardTypes: Set<NSPasteboard.PasteboardType> {

@@ -1,3 +1,4 @@
+
 <img width="128px" src="https://maccy.app/img/maccy/Logo.png" alt="Logo" align="left" />
 
 # [Maccy](https://maccy.app)
@@ -106,6 +107,16 @@ If you accidentally removed default types, you can restore the original configur
 ```sh
 defaults write org.p0deje.Maccy ignoredPasteboardTypes -array "de.petermaurer.TransientPasteboardType" "com.typeit4me.clipping" "Pasteboard generator type" "com.agilebits.onepassword" "net.antelle.keeweb"
 ```
+
+### Speed up Clipboard Check Interval
+
+By default, Maccy checks clipboard every 500 ms, which should be enough for most users. If you want
+to speed it up, you can change it with `defaults`:
+
+```sh
+defaults write org.p0deje.Maccy clipboardCheckInterval 0.1 # 100 ms
+```
+
 ## FAQ
 
 ### Why doesn't it paste when I select an item in history?

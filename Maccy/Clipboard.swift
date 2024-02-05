@@ -10,7 +10,8 @@ class Clipboard {
   var changeCount: Int
 
   private let pasteboard = NSPasteboard.general
-  private let timerInterval = 1.0
+
+  private var timer: Timer?
 
   private let dynamicTypePrefix = "dyn."
   private let microsoftSourcePrefix = "com.microsoft.ole.source."
@@ -46,12 +47,19 @@ class Clipboard {
     onNewCopyHooks = []
   }
 
-  func startListening() {
-    Timer.scheduledTimer(timeInterval: timerInterval,
-                         target: self,
-                         selector: #selector(checkForChangesInPasteboard),
-                         userInfo: nil,
-                         repeats: true)
+  func start() {
+    timer = Timer.scheduledTimer(
+      timeInterval: UserDefaults.standard.clipboardCheckInterval,
+      target: self,
+      selector: #selector(checkForChangesInPasteboard),
+      userInfo: nil,
+      repeats: true
+    )
+  }
+
+  func restart() {
+    timer?.invalidate()
+    start()
   }
 
   func copy(_ string: String) {
@@ -82,7 +90,7 @@ class Clipboard {
       guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
       pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
     }
-    
+
     // Use writeObjects for file URLs so that multiple files that are copied actually work.
     // Only do this for file URLs because it causes an issue with some other data types (like formatted text)
     // where the item is pasted more than once.
@@ -94,7 +102,7 @@ class Clipboard {
       return pasteItem
     }
     pasteboard.writeObjects(fileURLItems)
-    
+
     pasteboard.setString("", forType: .fromMaccy)
 
     Notifier.notify(body: item.title, sound: .knock)

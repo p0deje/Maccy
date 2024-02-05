@@ -49,7 +49,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString("bar", forType: .string)
     waitForExpectations(timeout: 2)
@@ -61,7 +61,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString(" ", forType: .string)
     waitForExpectations(timeout: 2)
@@ -73,7 +73,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString("\n", forType: .string)
     waitForExpectations(timeout: 2)
@@ -84,7 +84,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     let rtf = NSAttributedString(string: "foo").rtf(
       from: NSRange(0...2),
       documentAttributes: [:]
@@ -99,7 +99,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.html], owner: nil)
     pasteboard.setString("foo", forType: .html)
     waitForExpectations(timeout: 2)
@@ -113,7 +113,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString("foo", forType: .string)
     waitForExpectations(timeout: 2)
@@ -128,7 +128,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString("foo", forType: .string)
     waitForExpectations(timeout: 2)
@@ -145,7 +145,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString("bar", forType: .string)
     waitForExpectations(timeout: 2)
@@ -159,7 +159,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.string], owner: nil)
     pasteboard.setString("bar", forType: .string)
     waitForExpectations(timeout: 2)
@@ -171,7 +171,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.string, transientType], owner: nil)
     pasteboard.setString("bar", forType: .string)
     waitForExpectations(timeout: 2)
@@ -185,7 +185,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.string, customType], owner: nil)
     pasteboard.setString("bar", forType: .string)
     waitForExpectations(timeout: 2)
@@ -197,7 +197,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([unknownType], owner: nil)
     pasteboard.setString(" ", forType: unknownType)
     waitForExpectations(timeout: 2)
@@ -236,7 +236,7 @@ class ClipboardTests: XCTestCase {
     clipboard.onNewCopy({ (_: HistoryItem) -> Void in
       hookExpectation.fulfill()
     })
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.declareTypes([.fileURL, .string], owner: nil)
     // fileURL is left without data
     pasteboard.setString("bar", forType: .string)
@@ -258,7 +258,7 @@ class ClipboardTests: XCTestCase {
     let item2 = NSPasteboardItem()
     item2.setData(image.tiffRepresentation!, forType: .tiff)
 
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.clearContents()
     pasteboard.writeObjects([item1, item2])
 
@@ -279,7 +279,7 @@ class ClipboardTests: XCTestCase {
     item.setData(image.tiffRepresentation!, forType: .tiff)
     item.setData("file://foo.bar".data(using: .utf8)!, forType: .fileURL)
 
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.clearContents()
     pasteboard.writeObjects([item])
 
@@ -297,7 +297,7 @@ class ClipboardTests: XCTestCase {
     item.setString("foo", forType: .string)
     item.setData("".data(using: .utf8)!, forType: dynamicType)
 
-    clipboard.startListening()
+    clipboard.start()
     pasteboard.clearContents()
     pasteboard.writeObjects([item])
 
