@@ -8,6 +8,8 @@
         <customObject id="-2" userLabel="File's Owner" customClass="AppearanceSettingsViewController" customModule="Maccy" customModuleProvider="target">
             <connections>
                 <outlet property="changeMenuIcon" destination="MCd-5h-YbU" id="h6e-S4-c9A"/>
+                <outlet property="highlightMatchButton" destination="B41-eW-cJt" id="JdE-rh-nzX"/>
+                <outlet property="highlightMatchChanged" destination="ULp-DF-zeA" id="ycU-gv-cfz"/>
                 <outlet property="imageHeightField" destination="fcz-4Q-KUm" id="cyp-tO-tIe"/>
                 <outlet property="imageHeightStepper" destination="P1r-xd-oR8" id="Xjt-Gz-1OP"/>
                 <outlet property="numberOfItemsField" destination="bLY-QC-Jck" id="dri-mu-gwm"/>
@@ -19,8 +21,6 @@
                 <outlet property="popupAtScreenCenterMenuItem" destination="N8k-nW-lzS" id="LKe-O8-twI"/>
                 <outlet property="previewDelayField" destination="bWg-D5-ht1" id="vMb-ug-t34"/>
                 <outlet property="previewDelayStepper" destination="ULE-wI-xRy" id="ln7-x8-0ju"/>
-                <outlet property="searchStringHighlightButton" destination="B41-eW-cJt" id="JdE-rh-nzX"/>
-                <outlet property="searchStringHighlightChanged" destination="ULp-DF-zeA" id="ycU-gv-cfz"/>
                 <outlet property="showFooterButton" destination="N6N-SK-mfI" id="ZhB-5v-aek"/>
                 <outlet property="showMenuIconButton" destination="1Hw-20-IWu" id="Dr0-mh-sux"/>
                 <outlet property="showRecentCopyButton" destination="Hp2-aQ-9Eg" id="le6-ZR-4H4"/>
@@ -332,8 +332,8 @@ Default: 1500.</string>
                         </gridCell>
                         <gridCell row="COy-q6-8Qe" column="KLa-7P-lgK" id="sEN-zO-jeM">
                             <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I2c-rj-xuX" userLabel="Search string highlight:">
-                                <rect key="frame" x="45" y="169" width="145" height="16"/>
-                                <textFieldCell key="cell" lineBreakMode="clipping" title="Search string highlight:" id="gzY-QO-mMa">
+                                <rect key="frame" x="86" y="169" width="104" height="16"/>
+                                <textFieldCell key="cell" lineBreakMode="clipping" title="Highlight match:" id="gzY-QO-mMa">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -342,20 +342,20 @@ Default: 1500.</string>
                         </gridCell>
                         <gridCell row="COy-q6-8Qe" column="7OC-Fv-eMr" id="06u-gv-b4n">
                             <popUpButton key="contentView" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="B41-eW-cJt">
-                                <rect key="frame" x="198" y="162" width="96" height="25"/>
-                                <popUpButtonCell key="cell" type="push" title="bold" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Ab6-Jt-UI5" id="ULp-DF-zeA">
+                                <rect key="frame" x="198" y="162" width="98" height="25"/>
+                                <popUpButtonCell key="cell" type="push" title="Bold" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Ab6-Jt-UI5" id="ULp-DF-zeA">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
                                     <menu key="menu" id="Wdx-5c-0xV">
                                         <items>
-                                            <menuItem title="bold" state="on" id="Ab6-Jt-UI5"/>
-                                            <menuItem title="italic" tag="1" id="OHf-E4-lFq"/>
-                                            <menuItem title="underline" tag="2" id="UPc-L7-OTE"/>
+                                            <menuItem title="Bold" state="on" id="Ab6-Jt-UI5"/>
+                                            <menuItem title="Italic" tag="1" id="OHf-E4-lFq"/>
+                                            <menuItem title="Underline" tag="2" id="UPc-L7-OTE"/>
                                         </items>
                                     </menu>
                                 </popUpButtonCell>
                                 <connections>
-                                    <action selector="searchStringHighlightChanged:" target="-2" id="XHn-U9-YsX"/>
+                                    <action selector="highlightMatchChanged:" target="-2" id="XHn-U9-YsX"/>
                                 </connections>
                             </popUpButton>
                         </gridCell>

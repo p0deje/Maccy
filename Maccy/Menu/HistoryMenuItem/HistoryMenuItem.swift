@@ -28,12 +28,12 @@ class HistoryMenuItem: NSMenuItem {
   private let highlightItalicFont: NSFont = {
     var systemFont: NSFont
     if #available(macOS 11, *) {
-      systemFont = NSFont.boldSystemFont(ofSize: 13)
+      systemFont = NSFont.systemFont(ofSize: 13)
     } else {
-      systemFont = NSFont.boldSystemFont(ofSize: 14)
+      systemFont = NSFont.systemFont(ofSize: 14)
     }
       
-    let italicFontDescriptor = systemFont.fontDescriptor.withSymbolicTraits([.italic, .bold])
+    let italicFontDescriptor = systemFont.fontDescriptor.withSymbolicTraits([.italic])
 
     return NSFont(descriptor: italicFontDescriptor, size: 0) ?? systemFont
   }()
@@ -141,14 +141,14 @@ class HistoryMenuItem: NSMenuItem {
       let highlightRange = NSRange(location: range.lowerBound, length: rangeLength)
 
       if Range(highlightRange, in: title) != nil {
-          switch UserDefaults.standard.searchStringHighlight {
-          case "italic":
-            attributedTitle.addAttribute(.font, value: highlightItalicFont, range: highlightRange)
-          case "underline":
-              attributedTitle.addAttributes([.underlineStyle: NSUnderlineStyle.single.rawValue, .font: highlightBoldFont], range: highlightRange)
-          default:
-            attributedTitle.addAttribute(.font, value: highlightBoldFont, range: highlightRange)
-          }
+        switch UserDefaults.standard.highlightMatch {
+        case "italic":
+          attributedTitle.addAttribute(.font, value: highlightItalicFont, range: highlightRange)
+        case "underline":
+          attributedTitle.addAttributes([.underlineStyle: NSUnderlineStyle.single.rawValue, .font: highlightBoldFont], range: highlightRange)
+        default:
+          attributedTitle.addAttribute(.font, value: highlightBoldFont, range: highlightRange)
+        }
       }
     }
 

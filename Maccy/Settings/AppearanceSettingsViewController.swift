@@ -27,7 +27,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var showSearchFieldButton: NSButton!
   @IBOutlet weak var showTitleButton: NSButton!
   @IBOutlet weak var showFooterButton: NSButton!
-  @IBOutlet weak var searchStringHighlightButton: NSPopUpButton!
+  @IBOutlet weak var highlightMatchButton: NSPopUpButton!
   @IBOutlet weak var openPreferencesLabel: NSTextField!
 
   private let imageHeightMin = 1
@@ -69,7 +69,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     populateShowSearchField()
     populateShowTitle()
     populateShowFooter()
-    populateSearchStringHighlight()
+    populateHighlightMatch()
   }
 
   @IBAction func popupAtCursorSelected(_ sender: NSMenuItem) {
@@ -196,14 +196,14 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     openPreferencesLabel.isHidden = (sender.state == .on)
   }
     
-  @IBAction func searchStringHighlightChanged(_ sender: NSPopUpButton) {
+  @IBAction func highlightMatchChanged(_ sender: NSPopUpButton) {
     switch sender.selectedTag() {
     case 1:
-      UserDefaults.standard.searchStringHighlight = "italic"
+      UserDefaults.standard.highlightMatch = "italic"
     case 2:
-      UserDefaults.standard.searchStringHighlight = "underline"
+      UserDefaults.standard.highlightMatch = "underline"
     default:
-      UserDefaults.standard.searchStringHighlight = "bold"
+      UserDefaults.standard.highlightMatch = "bold"
     }
   }
 
@@ -358,14 +358,14 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     openPreferencesLabel.isHidden = !UserDefaults.standard.hideFooter
   }
     
-  private func populateSearchStringHighlight() {
-    switch UserDefaults.standard.searchStringHighlight {
+  private func populateHighlightMatch() {
+    switch UserDefaults.standard.highlightMatch {
     case "italic":
-      searchStringHighlightButton.selectItem(withTag: 1)
+        highlightMatchButton.selectItem(withTag: 1)
     case "underline":
-      searchStringHighlightButton.selectItem(withTag: 2)
+        highlightMatchButton.selectItem(withTag: 2)
     default:
-        searchStringHighlightButton.selectItem(withTag: 0)
+        highlightMatchButton.selectItem(withTag: 0)
     }
   }
 }
