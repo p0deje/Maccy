@@ -27,6 +27,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var showSearchFieldButton: NSButton!
   @IBOutlet weak var showTitleButton: NSButton!
   @IBOutlet weak var showFooterButton: NSButton!
+  @IBOutlet weak var highlightMatchButton: NSPopUpButton!
   @IBOutlet weak var openPreferencesLabel: NSTextField!
 
   private let imageHeightMin = 1
@@ -68,6 +69,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     populateShowSearchField()
     populateShowTitle()
     populateShowFooter()
+    populateHighlightMatch()
   }
 
   @IBAction func popupAtCursorSelected(_ sender: NSMenuItem) {
@@ -192,6 +194,17 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBAction func showFooterChanged(_ sender: NSButton) {
     UserDefaults.standard.hideFooter = (sender.state == .off)
     openPreferencesLabel.isHidden = (sender.state == .on)
+  }
+    
+  @IBAction func highlightMatchChanged(_ sender: NSPopUpButton) {
+    switch sender.selectedTag() {
+    case 1:
+      UserDefaults.standard.highlightMatch = "italic"
+    case 2:
+      UserDefaults.standard.highlightMatch = "underline"
+    default:
+      UserDefaults.standard.highlightMatch = "bold"
+    }
   }
 
   private func populateScreens() {
@@ -343,6 +356,17 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   private func populateShowFooter() {
     showFooterButton.state = UserDefaults.standard.hideFooter ? .off : .on
     openPreferencesLabel.isHidden = !UserDefaults.standard.hideFooter
+  }
+    
+  private func populateHighlightMatch() {
+    switch UserDefaults.standard.highlightMatch {
+    case "italic":
+        highlightMatchButton.selectItem(withTag: 1)
+    case "underline":
+        highlightMatchButton.selectItem(withTag: 2)
+    default:
+        highlightMatchButton.selectItem(withTag: 0)
+    }
   }
 }
 // swiftlint:enable type_body_length

@@ -69,3 +69,15 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "7SP-tN-nLD"; */
 "7SP-tN-nLD.ibShadowedToolTip" = "延遲以毫秒為單位，直到顯示預覽彈出窗口。\n預設: 1500。";
+
+/* Class = "NSTextFieldCell"; title = "Highlight Match:"; ObjectID = "gzY-QO-mMa"; */
+"gzY-QO-mMa.title" = "亮點匹配:";
+
+/* Class = "NSMenuItem"; title = "bold"; ObjectID = "Ab6-Jt-UI5"; */
+"Ab6-Jt-UI5.title" = "大膽的";
+
+/* Class = "NSMenuItem"; title = "italic"; ObjectID = "OHf-E4-lFq"; */
+"OHf-E4-lFq.title" = "斜體";
+
+/* Class = "NSMenuItem"; title = "underline"; ObjectID = "UPc-L7-OTE"; */
+"UPc-L7-OTE.title" = "強調";

@@ -69,3 +69,15 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "7SP-tN-nLD"; */
 "7SP-tN-nLD.ibShadowedToolTip" = "미리보기 팝업이 표시될 때까지 밀리초 단위로 지연됩니다.\n기본값: 1500.";
+
+/* Class = "NSTextFieldCell"; title = "Highlight Match:"; ObjectID = "gzY-QO-mMa"; */
+"gzY-QO-mMa.title" = "하이라이트 매치:";
+
+/* Class = "NSMenuItem"; title = "bold"; ObjectID = "Ab6-Jt-UI5"; */
+"Ab6-Jt-UI5.title" = "두껍게";
+
+/* Class = "NSMenuItem"; title = "italic"; ObjectID = "OHf-E4-lFq"; */
+"OHf-E4-lFq.title" = "이탤릭체";
+
+/* Class = "NSMenuItem"; title = "underline"; ObjectID = "UPc-L7-OTE"; */
+"UPc-L7-OTE.title" = "밑줄";

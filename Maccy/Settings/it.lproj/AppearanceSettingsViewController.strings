@@ -69,3 +69,15 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "7SP-tN-nLD"; */
 "7SP-tN-nLD.ibShadowedToolTip" = "Ritardo in millisecondi prima che venga visualizzato un popup di anteprima.\nDefault: 1500.";
+
+/* Class = "NSTextFieldCell"; title = "Highlight Match:"; ObjectID = "gzY-QO-mMa"; */
+"gzY-QO-mMa.title" = "Evidenzia corrispondenza:";
+
+/* Class = "NSMenuItem"; title = "bold"; ObjectID = "Ab6-Jt-UI5"; */
+"Ab6-Jt-UI5.title" = "grassetto";
+
+/* Class = "NSMenuItem"; title = "italic"; ObjectID = "OHf-E4-lFq"; */
+"OHf-E4-lFq.title" = "corsiva";
+
+/* Class = "NSMenuItem"; title = "underline"; ObjectID = "UPc-L7-OTE"; */
+"UPc-L7-OTE.title" = "sottolineare";

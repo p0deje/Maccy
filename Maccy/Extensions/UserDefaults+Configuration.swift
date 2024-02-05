@@ -34,6 +34,7 @@ extension UserDefaults {
     static let sortBy = "sortBy"
     static let suppressClearAlert = "suppressClearAlert"
     static let ignoreRegexp = "ignoreRegexp"
+    static let highlightMatch = "highlightMatch"
 
     static var showInStatusBar: String {
       ProcessInfo.processInfo.arguments.contains("ui-testing") ? "showInStatusBarUITests" : "showInStatusBar"
@@ -60,6 +61,7 @@ extension UserDefaults {
     static let size = 200
     static let sortBy = "lastCopiedAt"
     static let menuIcon = "maccy"
+    static let highlightMatch = "bold"
   }
 
   public var avoidTakingFocus: Bool {
@@ -231,5 +233,10 @@ extension UserDefaults {
   public var suppressClearAlert: Bool {
     get { bool(forKey: Keys.suppressClearAlert) }
     set { set(newValue, forKey: Keys.suppressClearAlert) }
+  }
+    
+  public var highlightMatch: String {
+    get { string(forKey: Keys.highlightMatch) ?? Values.highlightMatch }
+    set { set(newValue, forKey: Keys.highlightMatch) }
   }
 }
