@@ -5,7 +5,7 @@
 "bsY-ZI-mU2.headerCell.title" = "Название";
 
 /* Class = "NSTextFieldCell"; title = "You can customize the title and hotkey of every pinned item.\nTo edit, double-click it and enter new value."; ObjectID = "jBl-gB-eEV"; */
-"jBl-gB-eEV.title" = "Вы можете настроить название и клавиши каждой прикреплённой записи.\nЧтобы изменить, дважды кликните и введите новое значение.";
+"jBl-gB-eEV.title" = "";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "juh-Mt-VZK"; */
 "juh-Mt-VZK.title" = "Text Cell";

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -38,7 +38,7 @@
                     </columns>
                     <gridCells>
                         <gridCell row="WLw-gz-XMs" column="vOJ-9h-G8Y" id="zSJ-6e-DJn">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LLZ-6w-uaM">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="LLZ-6w-uaM">
                                 <rect key="frame" x="27" y="193" width="37" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Save:" id="Cal-Kj-TqV">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -75,7 +75,7 @@
                         <gridCell row="wb4-w2-i9U" column="vOJ-9h-G8Y" id="OEV-NG-PrW"/>
                         <gridCell row="wb4-w2-i9U" column="pQU-Pz-q1v" id="Mr7-oB-BTl">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jjl-jH-9i9">
-                                <rect key="frame" x="73" y="144" width="52" height="18"/>
+                                <rect key="frame" x="73" y="87" width="52" height="18"/>
                                 <buttonCell key="cell" type="check" title="Text" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="TyZ-pU-eZ3">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -87,8 +87,8 @@
                         </gridCell>
                         <gridCell row="5Ho-hd-kNX" column="vOJ-9h-G8Y" id="7GD-BL-fI2"/>
                         <gridCell row="5Ho-hd-kNX" column="pQU-Pz-q1v" id="Nw9-Z6-JIK">
-                            <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TOm-A3-UNH">
-                                <rect key="frame" x="73" y="123" width="296" height="14"/>
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TOm-A3-UNH">
+                                <rect key="frame" x="73" y="66" width="296" height="14"/>
                                 <textFieldCell key="cell" selectable="YES" title="Change what types of copied content should be stored." id="GDB-hB-d75">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -103,7 +103,7 @@
                         </gridCell>
                         <gridCell row="0hg-v1-My2" column="pQU-Pz-q1v" headOfMergedCell="omO-W3-sR2" id="TES-cX-Wqi"/>
                         <gridCell row="m0w-B8-cHU" column="vOJ-9h-G8Y" id="tyg-75-szb">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UIV-uq-49Q" customClass="Number">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="UIV-uq-49Q" customClass="Number">
                                 <rect key="frame" x="30" y="33" width="34" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Size:" id="5og-JF-cpR">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -118,7 +118,7 @@
                                 <string key="toolTip">Number of history items to keep.
 Default: 200.</string>
                                 <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Net-9d-Fk3">
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Net-9d-Fk3">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="FiR-eS-HK4"/>
@@ -151,7 +151,7 @@ Default: 200.</string>
                             </stackView>
                         </gridCell>
                         <gridCell row="ou0-Xf-4Qn" column="vOJ-9h-G8Y" id="oD9-cw-7rk">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fCK-Xg-lQC">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fCK-Xg-lQC">
                                 <rect key="frame" x="12" y="3" width="52" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Sort by:" id="0Vh-es-5I5">
                                     <font key="font" usesAppearanceFont="YES"/>
