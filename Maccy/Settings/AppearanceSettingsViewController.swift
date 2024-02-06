@@ -21,6 +21,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBOutlet weak var titleLengthStepper: NSStepper!
   @IBOutlet weak var previewDelayField: NSTextField!
   @IBOutlet weak var previewDelayStepper: NSStepper!
+  @IBOutlet weak var showSpecialSymbolsButton: NSButton!
   @IBOutlet weak var showMenuIconButton: NSButton!
   @IBOutlet weak var changeMenuIcon: NSPopUpButton!
   @IBOutlet weak var showRecentCopyButton: NSButton!
@@ -63,6 +64,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     populateNumberOfItems()
     populateTitleLength()
     populatePreviewDelay()
+    populateShowSpecialSymbols()
     populateShowMenuIcon()
     populateChangeMenuIcon()
     populateShowRecentCopy()
@@ -156,6 +158,10 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   @IBAction func previewDelayStepperChanged(_ sender: NSStepper) {
     UserDefaults.standard.previewDelay = sender.integerValue
     previewDelayField.integerValue = sender.integerValue
+  }
+
+  @IBAction func showSpecialSymbolsChanged(_ sender: NSButton) {
+    UserDefaults.standard.showSpecialSymbols = (sender.state == .on)
   }
 
   @IBAction func showMenuIconChanged(_ sender: NSButton) {
@@ -320,6 +326,10 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   private func populatePreviewDelay() {
     previewDelayField.integerValue = UserDefaults.standard.previewDelay
     previewDelayStepper.integerValue = UserDefaults.standard.previewDelay
+  }
+
+  private func populateShowSpecialSymbols() {
+    showSpecialSymbolsButton.state = UserDefaults.standard.showSpecialSymbols ? .on : .off
   }
 
   private func populateShowMenuIcon() {

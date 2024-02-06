@@ -84,3 +84,9 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the highlighting style for search matches.\nDefault: Bold."; ObjectID = "B41-eW-cJt"; */
 "B41-eW-cJt.ibShadowedToolTip" = "검색 일치 항목의 강조 스타일을 변경합니다.\n기본값: 굵게.";
+
+/* Class = "NSButtonCell"; title = "Show special symbols"; ObjectID = "t7k-cr-U2Q"; */
+"t7k-cr-U2Q.title" = "특수 기호 표시";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Show newlines, tabs, leading and trailing spaces via special symbols."; ObjectID = "tC6-tV-7tl"; */
+"tC6-tV-7tl.ibShadowedToolTip" = "특수 기호를 통해 개행, 탭, 선행 및 후행 공백을 표시합니다.";

@@ -50,6 +50,7 @@ class Maccy: NSObject {
   private var pinToObserver: NSKeyValueObservation?
   private var removeFormattingByDefaultObserver: NSKeyValueObservation?
   private var sortByObserver: NSKeyValueObservation?
+  private var showSpecialSymbolsObserver: NSKeyValueObservation?
   private var showRecentCopyInMenuBarObserver: NSKeyValueObservation?
   private var statusItemConfigurationObserver: NSKeyValueObservation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
@@ -62,7 +63,8 @@ class Maccy: NSObject {
       UserDefaults.Keys.maxMenuItems: UserDefaults.Values.maxMenuItems,
       UserDefaults.Keys.maxMenuItemLength: UserDefaults.Values.maxMenuItemLength,
       UserDefaults.Keys.previewDelay: UserDefaults.Values.previewDelay,
-      UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar
+      UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar,
+      UserDefaults.Keys.showSpecialSymbols: UserDefaults.Values.showSpecialSymbols
     ])
 
     super.init()
@@ -87,6 +89,7 @@ class Maccy: NSObject {
     removeFormattingByDefaultObserver?.invalidate()
     sortByObserver?.invalidate()
     showRecentCopyInMenuBarObserver?.invalidate()
+    showSpecialSymbolsObserver?.invalidate()
     statusItemConfigurationObserver?.invalidate()
     statusItemVisibilityObserver?.invalidate()
     statusItemChangeObserver?.invalidate()
@@ -297,6 +300,10 @@ class Maccy: NSObject {
     }
     sortByObserver = UserDefaults.standard.observe(\.sortBy, options: .new) { _, _ in
       self.rebuild()
+    }
+    showSpecialSymbolsObserver = UserDefaults.standard.observe(\.showSpecialSymbols, options: .new) { _, _ in
+      self.menu.regenerateMenuItemTitles()
+      CoreDataManager.shared.saveContext()
     }
     showRecentCopyInMenuBarObserver = UserDefaults.standard.observe(\.showRecentCopyInMenuBar,
                                                                     options: .new) { _, _ in

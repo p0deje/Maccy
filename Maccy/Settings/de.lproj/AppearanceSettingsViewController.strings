@@ -84,3 +84,9 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the highlighting style for search matches.\nDefault: Bold."; ObjectID = "B41-eW-cJt"; */
 "B41-eW-cJt.ibShadowedToolTip" = "Ändern Sie den Hervorhebungsstil für Suchtreffer.\nStandard: Fett.";
+
+/* Class = "NSButtonCell"; title = "Show special symbols"; ObjectID = "t7k-cr-U2Q"; */
+"t7k-cr-U2Q.title" = "Sondersymbole anzeigen";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Show newlines, tabs, leading and trailing spaces via special symbols."; ObjectID = "tC6-tV-7tl"; */
+"tC6-tV-7tl.ibShadowedToolTip" = "Zeigen Sie Zeilenumbrüche, Tabulatoren sowie führende und nachgestellte Leerzeichen über spezielle Symbole an.";

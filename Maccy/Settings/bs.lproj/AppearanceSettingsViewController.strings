@@ -84,3 +84,9 @@
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the highlighting style for search matches.\nDefault: Bold."; ObjectID = "B41-eW-cJt"; */
 "B41-eW-cJt.ibShadowedToolTip" = "Promijenite stil isticanja za podudaranja pretraživanja.\nZadano: Podebljano.";
+
+/* Class = "NSButtonCell"; title = "Show special symbols"; ObjectID = "t7k-cr-U2Q"; */
+"t7k-cr-U2Q.title" = "Prikaži posebne simbole";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Show newlines, tabs, leading and trailing spaces via special symbols."; ObjectID = "tC6-tV-7tl"; */
+"tC6-tV-7tl.ibShadowedToolTip" = "Prikaži nove redove, tabulatore, početne i zadnje razmake pomoću posebnih simbola.";

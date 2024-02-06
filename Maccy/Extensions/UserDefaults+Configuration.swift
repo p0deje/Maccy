@@ -29,8 +29,8 @@ extension UserDefaults {
     static let previewDelay = "previewDelay"
     static let searchMode = "searchMode"
     static let removeFormattingByDefault = "removeFormattingByDefault"
-    static let saratovSeparator = "enableSaratovSeparator"
     static let showRecentCopyInMenuBar = "showRecentCopyInMenuBar"
+    static let showSpecialSymbols = "showSpecialSymbols"
     static let size = "historySize"
     static let sortBy = "sortBy"
     static let suppressClearAlert = "suppressClearAlert"
@@ -60,6 +60,7 @@ extension UserDefaults {
     static let previewDelay = 1500
     static let searchMode = "exact"
     static let showInStatusBar = true
+    static let showSpecialSymbols = true
     static let size = 200
     static let sortBy = "lastCopiedAt"
     static let menuIcon = "maccy"
@@ -207,11 +208,6 @@ extension UserDefaults {
     set { set(newValue, forKey: Keys.removeFormattingByDefault) }
   }
 
-  public var saratovSeparator: Bool {
-    get { bool(forKey: Keys.saratovSeparator) }
-    set { set(newValue, forKey: Keys.saratovSeparator) }
-  }
-
   public var searchMode: String {
     get { string(forKey: Keys.searchMode) ?? Values.searchMode }
     set { set(newValue, forKey: Keys.searchMode) }
@@ -225,6 +221,11 @@ extension UserDefaults {
   @objc dynamic public var showRecentCopyInMenuBar: Bool {
     get { bool(forKey: Keys.showRecentCopyInMenuBar) }
     set { set(newValue, forKey: Keys.showRecentCopyInMenuBar) }
+  }
+
+  @objc dynamic var showSpecialSymbols: Bool {
+    get { bool(forKey: Keys.showSpecialSymbols) }
+    set { set(newValue, forKey: Keys.showSpecialSymbols) }
   }
 
   public var size: Int {
