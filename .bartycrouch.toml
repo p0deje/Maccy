@@ -1,22 +1,25 @@
 [update]
-tasks = ["interfaces"]
+tasks = ["interfaces", "translate", "normalize"]
 
 [update.interfaces]
 paths = ["Maccy"]
 subpathsToIgnore = [".git", "carthage", "pods", "build", ".build", "docs"]
 defaultToBase = false
-ignoreEmptyStrings = false
+ignoreEmptyStrings = true
 unstripped = false
 ignoreKeys = ["#bartycrouch-ignore!", "#bc-ignore!", "#i!"]
+
+[update.translate]
+paths = ["Maccy"]
+subpathsToIgnore = [".git", "carthage", "pods", "build", ".build", "docs"]
+translator = "deepL"
+secret = "<replace>"
+sourceLocale = "en"
 
 [update.normalize]
 paths = ["Maccy"]
 subpathsToIgnore = [".git", "carthage", "pods", "build", ".build", "docs"]
-sourceLocale = "en"
-harmonizeWithSource = true
-sortByKeys = false
 separateWithEmptyLine = false
-overrideComments = false
 
 [lint]
 paths = ["Maccy"]
