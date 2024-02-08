@@ -130,7 +130,7 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   func regenerateTitle() {
-    guard let item, !isImage(item) else {
+    guard let item, !isImage(item), !isPinned else {
       return
     }
 
