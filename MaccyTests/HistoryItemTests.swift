@@ -48,15 +48,21 @@ class HistoryItemTests: XCTestCase {
   }
 
   func testTitleWithWhitespaces() {
-    let title = "   foo   "
+    let title = "   foo bar   "
     let item = historyItem(title)
-    XCTAssertEqual(item.title, "foo")
+    XCTAssertEqual(item.title, "···foo bar···")
   }
 
   func testTitleWithNewlines() {
     let title = "\nfoo\nbar\n"
     let item = historyItem(title)
-    XCTAssertEqual(item.title, "foo⏎bar")
+    XCTAssertEqual(item.title, "⏎foo⏎bar⏎")
+  }
+
+  func testTitleWithTabs() {
+    let title = "\tfoo\tbar\t"
+    let item = historyItem(title)
+    XCTAssertEqual(item.title, "⇥foo⇥bar⇥")
   }
 
   func testTitleWithRTF() {
