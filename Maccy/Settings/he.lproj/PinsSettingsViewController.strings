@@ -1,0 +1,14 @@
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "bdM-5c-VDK"; */
+"bdM-5c-VDK.title" = "תא טקסט";
+
+/* Class = "NSTableColumn"; headerCell.title = "Title"; ObjectID = "bsY-ZI-mU2"; */
+"bsY-ZI-mU2.headerCell.title" = "כותרת";
+
+/* Class = "NSTextFieldCell"; title = "You can customize the title and hotkey of every pinned item.\nTo edit, double-click it and enter new value."; ObjectID = "jBl-gB-eEV"; */
+"jBl-gB-eEV.title" = "אפשר להתאים את הכותרת ואת מקש הקיצור לכל פריט נעוץ.\nכדי לערוך, יש ללחוץ עליו לחיצה כפולה ולמלא ערך חדש.";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "juh-Mt-VZK"; */
+"juh-Mt-VZK.title" = "תא טקסט";
+
+/* Class = "NSTableColumn"; headerCell.title = "Key"; ObjectID = "qRS-YB-ZPI"; */
+"qRS-YB-ZPI.headerCell.title" = "מקש קישור";
