@@ -29,7 +29,7 @@
 "b7c-gy-SzX.label" = "סוגי לוחות הדבקה";
 
 /* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "cCb-x7-Qin"; */
-"cCb-x7-Qin.title" = "Es ist möglich, kopierte Elemente von bestimmten Anwendungen zu ignorieren.\nBitte beachte, dass diese Methode nicht hundertprozentig zuverlässig funktioniert. Daher ist es besser, wenn möglich Pasteboard-Typen zu verwenden.";
+"cCb-x7-Qin.title" = "אפשר להתעלם מעותקים שמגיעים מיישומים מסוימים\nנא לשים לב שזה לא המימוש הכי אמין, עדיף להשתמש בסוגים שבלוח ההדבקה אם אפשר.";
 
 /* Class = "NSTabViewItem"; label = "Regular expressions"; ObjectID = "oR1-gy-AKV"; */
 "oR1-gy-AKV.label" = "ביטויים רגולריים";
