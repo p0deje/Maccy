@@ -1,0 +1,41 @@
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain copies from remembering based on defined regular expressions."; ObjectID = "76n-GS-0HQ"; */
+"76n-GS-0HQ.title" = "אפשר להתעלם מזכירת עותקים מסוימים לפי ביטויים רגולריים מוגדרים.";
+
+/* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "8Ox-ex-Bkl"; */
+"8Ox-ex-Bkl.headerCell.title" = "סוגי לוחות הדבקה";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "CB1-s7-UXJ"; */
+"CB1-s7-UXJ.title" = "אפשר להתעלם מזכירת סוגי פריטים מסוימים בלוח ההדבקה.\nכברירת מחדל, מספר סוגים נקודתיים ליישומים מוגדרים. אפשר להסיר אותם ולהוסיף איזה סוג מותאם משלך שנחוץ לך.";
+
+/* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "DCt-Nk-VNS"; */
+"DCt-Nk-VNS.headerCell.title" = "יישומים";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Goj-ts-fal"; */
+"Goj-ts-fal.title" = "תא טקסט";
+
+/* Class = "NSTableColumn"; headerCell.title = "Regular expressions"; ObjectID = "Hef-1G-Irp"; */
+"Hef-1G-Irp.headerCell.title" = "ביטויים רגולריים";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ItS-bj-BFG"; */
+"ItS-bj-BFG.title" = "תא טקסט";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "Rfe-XX-kt3"; */
+"Rfe-XX-kt3.title" = "תא תצוגת טבלה";
+
+/* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "Zb2-M8-Pky"; */
+"Zb2-M8-Pky.title" = "התעלמות מכל היישומים חוץ מאלו הרשומים";
+
+/* Class = "NSTabViewItem"; label = "Pasteboard types"; ObjectID = "b7c-gy-SzX"; */
+"b7c-gy-SzX.label" = "סוגי לוחות הדבקה";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "cCb-x7-Qin"; */
+"cCb-x7-Qin.title" = "אפשר להתעלם מעותקים שמגיעים מיישומים מסוימים\nנא לשים לב שזה לא המימוש הכי אמין, עדיף להשתמש בסוגים שבלוח ההדבקה אם אפשר.";
+
+/* Class = "NSTabViewItem"; label = "Regular expressions"; ObjectID = "oR1-gy-AKV"; */
+"oR1-gy-AKV.label" = "ביטויים רגולריים";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "rOG-Q7-qpw"; */
+"rOG-Q7-qpw.title" = "תא טקסט";
+
+/* Class = "NSTabViewItem"; label = "Applications"; ObjectID = "uWq-uc-eIR"; */
+"uWq-uc-eIR.label" = "יישומים";

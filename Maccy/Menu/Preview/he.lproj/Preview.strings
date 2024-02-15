@@ -1,0 +1,32 @@
+/* Class = "NSTextFieldCell"; title = "Jan 28, 8:22:33"; ObjectID = "Efh-V6-485"; */
+"Efh-V6-485.title" = "28 בינואר, 8:22:33";
+
+/* Class = "NSTextFieldCell"; title = "Press {pinKey} to (un)pin."; ObjectID = "Hz7-tJ-kat"; */
+"Hz7-tJ-kat.title" = "יש ללחוץ על {pinKey} כדי לנעוץ / לשחרר.";
+
+/* Class = "NSTextFieldCell"; title = "1"; ObjectID = "Klp-cA-i6M"; */
+"Klp-cA-i6M.title" = "1";
+
+/* Class = "NSTextFieldCell"; title = "Xcode"; ObjectID = "Krv-qU-Cbs"; */
+"Krv-qU-Cbs.title" = "Xcode";
+
+/* Class = "NSTextFieldCell"; title = "First copy time:"; ObjectID = "Ot3-5Y-zfU"; */
+"Ot3-5Y-zfU.title" = "מועד ההעתקה הראשונה:";
+
+/* Class = "NSTextFieldCell"; title = "Text"; ObjectID = "bOI-SJ-vkn"; */
+"bOI-SJ-vkn.title" = "טקסט";
+
+/* Class = "NSTextFieldCell"; title = "Number of copies:"; ObjectID = "bmV-pZ-ccc"; */
+"bmV-pZ-ccc.title" = "מספר העותקים:";
+
+/* Class = "NSTextFieldCell"; title = "Last copy time:"; ObjectID = "ify-Om-Foy"; */
+"ify-Om-Foy.title" = "מועד ההעתקה האחרונה:";
+
+/* Class = "NSTextFieldCell"; title = "Press {deleteKey} to delete."; ObjectID = "oTv-7u-tbp"; */
+"oTv-7u-tbp.title" = "יש ללחוץ על {deleteKey} כדי למחוק.";
+
+/* Class = "NSTextFieldCell"; title = "Jan 28, 8:22:33"; ObjectID = "ung-5b-7M1"; */
+"ung-5b-7M1.title" = "28 בינואר, 8:22:33";
+
+/* Class = "NSTextFieldCell"; title = "Application:"; ObjectID = "v53-2O-7HD"; */
+"v53-2O-7HD.title" = "יישום:";
