@@ -124,6 +124,14 @@ defaults write org.p0deje.Maccy clipboardCheckInterval 0.1 # 100 ms
 1. Make sure you have "Paste automatically" enabled in Preferences.
 2. Make sure "Maccy" is added to System Settings -> Privacy & Security -> Accessibility.
 
+### When assigning a hotkey to open Maccy, it says that this hotkey is used in some system setting, e.g. "Convert text to simplified Chinese" ([screenshot](https://github.com/p0deje/Maccy/assets/576152/dd8e1100-a7ed-423f-a353-debbb506b94e))
+
+1. Open System settings -> Keyboard -> Keyboard Shortcuts.
+2. Find where that hotkey is used. For example, "Convert text to simplified Chinese" is under Services -> Text
+3. Disable that hotkey or remove assigned combination ([screenshot](https://github.com/p0deje/Maccy/assets/576152/446719e6-c3e5-4eb0-95fb-5a811066487f))
+4. Restart Maccy
+5. Assign hotkey in Maccy settings
+
 ## Motivation
 
 There are dozens of similar applications out there, so why build another?
