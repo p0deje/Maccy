@@ -20,8 +20,11 @@ Maccy works on macOS Mojave 10.14 or higher.
 * [Advanced](#advanced)
     * [Ignore Copied Items](#ignore-copied-items)
     * [Ignore Custom Copy Types](#ignore-custom-copy-types)
+    * [Speed up Clipboard Check Interval](#speed-up-clipboard-check-interval)
 * [FAQ](#faq)
     * [Why doesn't it paste when I select an item in history?](#why-doesnt-it-paste-when-i-select-an-item-in-history)
+    * [When assigning a hotkey to open Maccy, it says that this hotkey is already used in some system setting.](#when-assigning-a-hotkey-to-open-maccy-it-says-that-this-hotkey-is-already-used-in-some-system-setting)
+    * [How to restore hidden footer?](#how-to-restore-hidden-footer)
 * [Motivation](#motivation)
 * [License](#license)
 
@@ -124,13 +127,25 @@ defaults write org.p0deje.Maccy clipboardCheckInterval 0.1 # 100 ms
 1. Make sure you have "Paste automatically" enabled in Preferences.
 2. Make sure "Maccy" is added to System Settings -> Privacy & Security -> Accessibility.
 
-### When assigning a hotkey to open Maccy, it says that this hotkey is used in some system setting, e.g. "Convert text to simplified Chinese" ([screenshot](https://github.com/p0deje/Maccy/assets/576152/dd8e1100-a7ed-423f-a353-debbb506b94e))
+### When assigning a hotkey to open Maccy, it says that this hotkey is already used in some system setting.
 
 1. Open System settings -> Keyboard -> Keyboard Shortcuts.
-2. Find where that hotkey is used. For example, "Convert text to simplified Chinese" is under Services -> Text
-3. Disable that hotkey or remove assigned combination ([screenshot](https://github.com/p0deje/Maccy/assets/576152/446719e6-c3e5-4eb0-95fb-5a811066487f))
-4. Restart Maccy
-5. Assign hotkey in Maccy settings
+2. Find where that hotkey is used. For example, "Convert text to simplified Chinese" is under Services -> Text.
+3. Disable that hotkey or remove assigned combination ([screenshot](https://github.com/p0deje/Maccy/assets/576152/446719e6-c3e5-4eb0-95fb-5a811066487f)).
+4. Restart Maccy.
+5. Assign hotkey in Maccy settings.
+
+### How to restore hidden footer?
+
+1. Open Maccy window.
+2. Press ⌘, to open preferences.
+3. Enable footer in Appearance section.
+
+If for some reason it doesn't work, run the following command in Terminal.app:
+
+```sh
+defaults delete org.p0deje.Maccy hideFooter
+```
 
 ## Motivation
 
