@@ -123,7 +123,9 @@ enum KeyChord: CaseIterable {
     Key.f16,
     Key.f17,
     Key.f18,
-    Key.f19
+    Key.f19,
+    Key.eisu,
+    Key.kana
   ]
   private static let modifiersToSkip = NSEvent.ModifierFlags([
     .command,
