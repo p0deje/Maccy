@@ -1,11 +1,11 @@
 /* Class = "NSTextFieldCell"; title = "Sort by:"; ObjectID = "0Vh-es-5I5"; */
-"0Vh-es-5I5.title" = "排序方式:";
+"0Vh-es-5I5.title" = "排序方式：";
 
 /* Class = "NSMenuItem"; title = "Time of first copy"; ObjectID = "2yi-R0-4up"; */
 "2yi-R0-4up.title" = "首次拷貝時間";
 
 /* Class = "NSTextFieldCell"; title = "Size:"; ObjectID = "5og-JF-cpR"; */
-"5og-JF-cpR.title" = "大小:";
+"5og-JF-cpR.title" = "大小：";
 
 /* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
 "mf5-QH-x1u.title" = "拷貝次數";
@@ -14,10 +14,10 @@
 "zrg-H1-TjU.title" = "上次拷貝時間";
 
 /* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
-"Cal-Kj-TqV.title" = "儲存:";
+"Cal-Kj-TqV.title" = "儲存；";
 
 /* Class = "NSButtonCell"; title = "Files"; ObjectID = "Pr2-Ic-sUM"; */
-"Pr2-Ic-sUM.title" = "文件";
+"Pr2-Ic-sUM.title" = "檔案";
 
 /* Class = "NSButtonCell"; title = "Images"; ObjectID = "IT6-JX-vi3"; */
 "IT6-JX-vi3.title" = "圖片";
@@ -26,10 +26,10 @@
 "TyZ-pU-eZ3.title" = "文字";
 
 /* Class = "NSTextFieldCell"; title = "Change what types of copied content should be stored."; ObjectID = "GDB-hB-d75"; */
-"GDB-hB-d75.title" = "選擇您將儲存的內容類型。";
+"GDB-hB-d75.title" = "選擇應儲存的複製內容類型。";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Default: Time of last copy."; ObjectID = "PWC-Rx-PPN"; */
 "PWC-Rx-PPN.ibShadowedToolTip" = "預設：上次拷貝時間。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Number of history items to keep.\nDefault: 200."; ObjectID = "b49-c6-irW"; */
-"b49-c6-irW.ibShadowedToolTip" = "保留項歷史記錄。\n預設: 200。";
+"b49-c6-irW.ibShadowedToolTip" = "要保留的歷史記錄項目數量。\n預設：200。";
