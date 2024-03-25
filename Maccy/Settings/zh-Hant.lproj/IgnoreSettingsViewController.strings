@@ -1,41 +1,41 @@
 /* Class = "NSTextFieldCell"; title = "It's possible to ignore certain copies from remembering based on defined regular expressions."; ObjectID = "76n-GS-0HQ"; */
-"76n-GS-0HQ.title" = "根據定義的正規表示式，可以從記憶中忽略某些副本。";
+"76n-GS-0HQ.title" = "可以根據所設的正規表示式來忽略特定的拷貝。";
 
 /* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "8Ox-ex-Bkl"; */
-"8Ox-ex-Bkl.headerCell.title" = "忽略剪貼板類型";
+"8Ox-ex-Bkl.headerCell.title" = "剪貼簿類型";
 
 /* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "CB1-s7-UXJ"; */
-"CB1-s7-UXJ.title" = "忽略特定剪貼板內容類型。\n預設提供了部分已知適用特定應用類型。您可刪除預設類型，或根據需要新增自定類型。";
+"CB1-s7-UXJ.title" = "可以忽略特定的剪貼簿項目類型。\n預設已定義一些已知的特定應用程式類型。您可刪除預設類型並根據需要新增自訂類型。";
 
 /* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "DCt-Nk-VNS"; */
-"DCt-Nk-VNS.headerCell.title" = "忽略應用";
+"DCt-Nk-VNS.headerCell.title" = "應用程式";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Goj-ts-fal"; */
-"Goj-ts-fal.title" = "";
+"Goj-ts-fal.title" = "文字儲存格";
 
 /* Class = "NSTableColumn"; headerCell.title = "Regular expressions"; ObjectID = "Hef-1G-Irp"; */
-"Hef-1G-Irp.headerCell.title" = "常用表達";
+"Hef-1G-Irp.headerCell.title" = "正規表示式";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ItS-bj-BFG"; */
-"ItS-bj-BFG.title" = "";
+"ItS-bj-BFG.title" = "文字儲存格";
 
 /* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "Rfe-XX-kt3"; */
-"Rfe-XX-kt3.title" = "";
+"Rfe-XX-kt3.title" = "表格檢視儲存格";
 
 /* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "Zb2-M8-Pky"; */
-"Zb2-M8-Pky.title" = "忽略除列出的所有應用程序";
+"Zb2-M8-Pky.title" = "忽略除了列表中的所有應用程式";
 
 /* Class = "NSTabViewItem"; label = "Pasteboard types"; ObjectID = "b7c-gy-SzX"; */
-"b7c-gy-SzX.label" = "忽略剪貼板類型";
+"b7c-gy-SzX.label" = "剪貼簿類型";
 
 /* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "cCb-x7-Qin"; */
-"cCb-x7-Qin.title" = "忽略特定應用的內容。\n請注意此選項並非總是有效，建議使用忽略剪貼板類型設定。";
+"cCb-x7-Qin.title" = "可以忽略於特定應用程式的拷貝。\n請注意，此選項並非完全可靠，建議使用忽略剪貼簿類型設定。";
 
 /* Class = "NSTabViewItem"; label = "Regular expressions"; ObjectID = "oR1-gy-AKV"; */
-"oR1-gy-AKV.label" = "常用表達";
+"oR1-gy-AKV.label" = "正規表示式";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "rOG-Q7-qpw"; */
-"rOG-Q7-qpw.title" = "";
+"rOG-Q7-qpw.title" = "文字儲存格";
 
 /* Class = "NSTabViewItem"; label = "Applications"; ObjectID = "uWq-uc-eIR"; */
-"uWq-uc-eIR.label" = "忽略應用";
+"uWq-uc-eIR.label" = "應用程式";

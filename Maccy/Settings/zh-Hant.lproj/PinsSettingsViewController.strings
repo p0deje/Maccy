@@ -1,14 +1,14 @@
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "bdM-5c-VDK"; */
-"bdM-5c-VDK.title" = "文字";
+"bdM-5c-VDK.title" = "文字儲存格";
 
 /* Class = "NSTableColumn"; headerCell.title = "Title"; ObjectID = "bsY-ZI-mU2"; */
 "bsY-ZI-mU2.headerCell.title" = "標題";
 
 /* Class = "NSTextFieldCell"; title = "You can customize the title and hotkey of every pinned item.\nTo edit, double-click it and enter new value."; ObjectID = "jBl-gB-eEV"; */
-"jBl-gB-eEV.title" = "您可自定固定項目的標題和快捷鍵。\n滑鼠按兩下項目編輯新設定。";
+"jBl-gB-eEV.title" = "您可以自訂每個釘選項目的標題和快捷鍵。\n若要編輯，對項目點擊兩次並輸入新值。";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "juh-Mt-VZK"; */
-"juh-Mt-VZK.title" = "文字";
+"juh-Mt-VZK.title" = "文字儲存格";
 
 /* Class = "NSTableColumn"; headerCell.title = "Key"; ObjectID = "qRS-YB-ZPI"; */
-"qRS-YB-ZPI.headerCell.title" = "快速鍵";
+"qRS-YB-ZPI.headerCell.title" = "快捷鍵";

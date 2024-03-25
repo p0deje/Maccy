@@ -65,13 +65,13 @@
 "a8Y-aG-9on.ibShadowedToolTip" = "在選單中顯示條項目。\n隱藏項目仍保留在歷史記錄，可透過搜尋查找。\n設定為 0 以顯示所有項目。\n預設: 0。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum number of characters in the item title.\nDefault: 50."; ObjectID = "XGd-Fg-wS9"; */
-"XGd-Fg-wS9.ibShadowedToolTip" = "項目標題中的最大字符數。\n預設：50。";
+"XGd-Fg-wS9.ibShadowedToolTip" = "項目標題的最大字元數。\n預設：50。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "7SP-tN-nLD"; */
-"7SP-tN-nLD.ibShadowedToolTip" = "延遲以毫秒為單位，直到顯示預覽彈出窗口。\n預設: 1500。";
+"7SP-tN-nLD.ibShadowedToolTip" = "顯示預覽彈出視窗的延遲，單位為毫秒。\n預設：1500。";
 
 /* Class = "NSTextFieldCell"; title = "Highlight matches:"; ObjectID = "gzY-QO-mMa"; */
-"gzY-QO-mMa.title" = "突出顯示比賽:";
+"gzY-QO-mMa.title" = "凸顯相符項目：";
 
 /* Class = "NSMenuItem"; title = "Bold"; ObjectID = "Ab6-Jt-UI5"; */
 "Ab6-Jt-UI5.title" = "粗體";
@@ -80,10 +80,10 @@
 "OHf-E4-lFq.title" = "斜體";
 
 /* Class = "NSMenuItem"; title = "Underline"; ObjectID = "UPc-L7-OTE"; */
-"UPc-L7-OTE.title" = "強調";
+"UPc-L7-OTE.title" = "底線";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the highlighting style for search matches.\nDefault: Bold."; ObjectID = "B41-eW-cJt"; */
-"B41-eW-cJt.ibShadowedToolTip" = "變更搜尋符合項目的突出顯示樣式。\n預設: 粗體。";
+"B41-eW-cJt.ibShadowedToolTip" = "變更搜尋符合項目的凸顯樣式。\n預設：粗體。";
 
 /* Class = "NSButtonCell"; title = "Show special symbols"; ObjectID = "t7k-cr-U2Q"; */
 "t7k-cr-U2Q.title" = "顯示特殊符號";
