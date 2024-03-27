@@ -243,7 +243,7 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testMergesMulitpleItems() {
+  func testMergesMultipleItems() {
     let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (item: HistoryItem) -> Void in
       XCTAssertEqual(
