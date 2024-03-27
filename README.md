@@ -159,5 +159,3 @@ Also, I wanted to learn Swift and get acquainted with macOS application developm
 ## License
 
 [MIT](./LICENSE)
-
-<style>h1 { border-bottom: 0; } </style>
