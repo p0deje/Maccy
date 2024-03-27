@@ -34,8 +34,7 @@ class IgnoreApplicationsViewController: NSViewController, NSTableViewDataSource,
     let appIdentifier = ignoredApps[row]
     if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: appIdentifier) {
       appCell.imageView?.image = NSWorkspace.shared.icon(forFile: url.path)
-      appCell.textField?.stringValue = Bundle(url: url)?.applicationName
-        ?? url.deletingLastPathComponent().lastPathComponent
+      appCell.textField?.stringValue = NSWorkspace.shared.applicationName(url: url)
     } else {
       appCell.imageView?.image = nil
       appCell.textField?.stringValue = appIdentifier
