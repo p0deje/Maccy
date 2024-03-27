@@ -34,8 +34,9 @@ class IgnoreApplicationsViewController: NSViewController, NSTableViewDataSource,
     let appIdentifier = ignoredApps[row]
     if let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: appIdentifier) {
       appCell.imageView?.image = NSWorkspace.shared.icon(forFile: url.path)
-      appCell.textField?.stringValue = url.deletingPathExtension().lastPathComponent
+      appCell.textField?.stringValue = NSWorkspace.shared.applicationName(url: url)
     } else {
+      appCell.imageView?.image = nil
       appCell.textField?.stringValue = appIdentifier
     }
 
@@ -66,7 +67,8 @@ class IgnoreApplicationsViewController: NSViewController, NSTableViewDataSource,
     if dialog.runModal() == .OK {
       if let appUrl = dialog.url,
          let bundle = Bundle(path: appUrl.path),
-         let bundleIdentifier = bundle.bundleIdentifier {
+         let bundleIdentifier = bundle.bundleIdentifier,
+         !ignoredApps.contains(bundleIdentifier) {
         ignoredApps.append(bundleIdentifier)
         ignoredItemsTable.reloadData()
       }
