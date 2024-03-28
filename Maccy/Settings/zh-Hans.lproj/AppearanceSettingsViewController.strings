@@ -14,13 +14,13 @@
 "DKE-JI-oLS.title" = "顶部";
 
 /* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
-"GhW-Kv-rhO.title" = "固定项目位置:";
+"GhW-Kv-rhO.title" = "固定项目位置：";
 
 /* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
 "gMh-0J-BUx.title" = "窗口中心";
 
 /* Class = "NSTextFieldCell"; title = "Image height:"; ObjectID = "MKb-cW-gpg"; */
-"MKb-cW-gpg.title" = "图片高度:";
+"MKb-cW-gpg.title" = "图片高度：";
 
 /* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
 "Pud-2o-NKc.title" = "显示菜单栏图标";
@@ -29,7 +29,7 @@
 "2vE-8q-6tq.title" = "在菜单栏图标旁显示剪贴板内容";
 
 /* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
-"R7Y-UN-Edt.title" = "弹窗位置:";
+"R7Y-UN-Edt.title" = "弹窗位置：";
 
 /* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
 "Yio-8e-oaa.title" = "底部";
@@ -38,40 +38,40 @@
 "ePT-qq-kg9.title" = "在搜索框前显示应用名";
 
 /* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "东西的个数:";
+"gjR-wz-7GQ.title" = "数量：";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "显示搜索框";
 
 /* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
-"TgE-eS-5nT.title" = "标题长度:";
+"TgE-eS-5nT.title" = "标题长度：";
 
 /* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
-"lnS-Rg-4sa.title" = "预览延迟:";
+"lnS-Rg-4sa.title" = "预览延迟：";
 
 /* Class = "NSMenuItem"; title = "Screen center"; ObjectID = "N8k-nW-lzS"; */
 "N8k-nW-lzS.title" = "屏幕中央";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "ZHc-k4-Nf9"; */
-"ZHc-k4-Nf9.ibShadowedToolTip" = "更改弹窗显示的位置。\n默认: 光标。";
+"ZHc-k4-Nf9.ibShadowedToolTip" = "更改弹窗显示的位置。\n默认：光标。";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
-"tWw-ax-Qej.ibShadowedToolTip" = "更改固定项目的位置。\n默认: 顶部。";
+"tWw-ax-Qej.ibShadowedToolTip" = "更改固定项目的位置。\n默认：顶部。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
 "Tsp-4i-Mym.ibShadowedToolTip" = "图像预览最大高度。\n默认: 40\n提示：设置为 16 以匹配文本项目的大小。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
-"a8Y-aG-9on.ibShadowedToolTip" = "在菜单中显示条项目。\n隐藏项仍保留在历史记录中，可以通过搜索找到。\n设置为 0 以显示所有项目。\n默认: 0。";
+"a8Y-aG-9on.ibShadowedToolTip" = "在菜单中显示条项目。\n隐藏项仍保留在历史记录中，可以通过搜索找到。\n设置为 0 以显示所有项目。\n默认：0。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum number of characters in the item title.\nDefault: 50."; ObjectID = "XGd-Fg-wS9"; */
-"XGd-Fg-wS9.ibShadowedToolTip" = "项目标题中的最大字符数。\n默认: 50。";
+"XGd-Fg-wS9.ibShadowedToolTip" = "项目标题中的最大字符数。\n默认：50。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500."; ObjectID = "7SP-tN-nLD"; */
-"7SP-tN-nLD.ibShadowedToolTip" = "延迟以毫秒为单位，直到显示预览弹出窗口。\n默认: 1500。";
+"7SP-tN-nLD.ibShadowedToolTip" = "延迟以毫秒为单位，直到显示预览弹出窗口。\n默认：1500。";
 
 /* Class = "NSTextFieldCell"; title = "Highlight matches:"; ObjectID = "gzY-QO-mMa"; */
-"gzY-QO-mMa.title" = "突出显示比赛：";
+"gzY-QO-mMa.title" = "高亮匹配：";
 
 /* Class = "NSMenuItem"; title = "Bold"; ObjectID = "Ab6-Jt-UI5"; */
 "Ab6-Jt-UI5.title" = "粗体";
@@ -83,7 +83,7 @@
 "UPc-L7-OTE.title" = "强调";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the highlighting style for search matches.\nDefault: Bold."; ObjectID = "B41-eW-cJt"; */
-"B41-eW-cJt.ibShadowedToolTip" = "更改搜索匹配项的突出显示样式。\n默认: 粗体。";
+"B41-eW-cJt.ibShadowedToolTip" = "更改搜索匹配项的突出显示样式。\n默认：粗体。";
 
 /* Class = "NSButtonCell"; title = "Show special symbols"; ObjectID = "t7k-cr-U2Q"; */
 "t7k-cr-U2Q.title" = "显示特殊符号";

@@ -13,7 +13,7 @@
 "preferences_ignore" = "忽略";
 "preferences_general" = "通用";
 "preferences_pins" = "固定";
-"preferences_storage" = "贮存";
+"preferences_storage" = "存储";
 "copy_modifiers_config" = "• 按住 %@ 选择项目以复制";
 "paste_modifiers_config" = "• 按住 %@ 选择项目以复制并粘贴";
 "format_modifiers_config" = "• 按住 %@ 选择项目以复制并匹配格式粘贴";
