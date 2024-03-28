@@ -1,5 +1,5 @@
 /* Class = "NSTextFieldCell"; title = "It's possible to ignore certain copies from remembering based on defined regular expressions."; ObjectID = "76n-GS-0HQ"; */
-"76n-GS-0HQ.title" = "根据定义的正则表达式，可以从记忆中忽略某些副本。";
+"76n-GS-0HQ.title" = "可以根据定义的正则表达式忽略某些副本。";
 
 /* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "8Ox-ex-Bkl"; */
 "8Ox-ex-Bkl.headerCell.title" = "忽略剪贴板类型";
@@ -14,7 +14,7 @@
 "Goj-ts-fal.title" = "";
 
 /* Class = "NSTableColumn"; headerCell.title = "Regular expressions"; ObjectID = "Hef-1G-Irp"; */
-"Hef-1G-Irp.headerCell.title" = "常用表达";
+"Hef-1G-Irp.headerCell.title" = "正则表达式";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ItS-bj-BFG"; */
 "ItS-bj-BFG.title" = "";
@@ -23,7 +23,7 @@
 "Rfe-XX-kt3.title" = "";
 
 /* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "Zb2-M8-Pky"; */
-"Zb2-M8-Pky.title" = "忽略除列出的所有应用程序";
+"Zb2-M8-Pky.title" = "忽略列表之外的所有应用程序";
 
 /* Class = "NSTabViewItem"; label = "Pasteboard types"; ObjectID = "b7c-gy-SzX"; */
 "b7c-gy-SzX.label" = "忽略剪贴板类型";
@@ -32,7 +32,7 @@
 "cCb-x7-Qin.title" = "忽略来自特定应用的内容。\n请注意此选项并非总是有效，最好使用忽略剪贴板类型设置。";
 
 /* Class = "NSTabViewItem"; label = "Regular expressions"; ObjectID = "oR1-gy-AKV"; */
-"oR1-gy-AKV.label" = "常用表达";
+"oR1-gy-AKV.label" = "正则表达式";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "rOG-Q7-qpw"; */
 "rOG-Q7-qpw.title" = "";

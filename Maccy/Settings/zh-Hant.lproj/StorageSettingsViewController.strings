@@ -14,7 +14,7 @@
 "zrg-H1-TjU.title" = "上次拷貝時間";
 
 /* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
-"Cal-Kj-TqV.title" = "儲存；";
+"Cal-Kj-TqV.title" = "儲存：";
 
 /* Class = "NSButtonCell"; title = "Files"; ObjectID = "Pr2-Ic-sUM"; */
 "Pr2-Ic-sUM.title" = "檔案";

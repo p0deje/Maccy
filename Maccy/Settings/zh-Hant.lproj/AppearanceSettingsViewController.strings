@@ -14,13 +14,13 @@
 "DKE-JI-oLS.title" = "置頂";
 
 /* Class = "NSTextFieldCell"; title = "Pin to:"; ObjectID = "GhW-Kv-rhO"; */
-"GhW-Kv-rhO.title" = "固定項目位置:";
+"GhW-Kv-rhO.title" = "固定項目位置：";
 
 /* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
 "gMh-0J-BUx.title" = "窗口中心";
 
 /* Class = "NSTextFieldCell"; title = "Image height:"; ObjectID = "MKb-cW-gpg"; */
-"MKb-cW-gpg.title" = "圖片高度:";
+"MKb-cW-gpg.title" = "圖片高度：";
 
 /* Class = "NSButtonCell"; title = "Show menu icon"; ObjectID = "Pud-2o-NKc"; */
 "Pud-2o-NKc.title" = "顯示選單列圖示";
@@ -29,7 +29,7 @@
 "2vE-8q-6tq.title" = "選單列圖示旁顯示目前內容";
 
 /* Class = "NSTextFieldCell"; title = "Popup at:"; ObjectID = "R7Y-UN-Edt"; */
-"R7Y-UN-Edt.title" = "彈窗位置:";
+"R7Y-UN-Edt.title" = "彈窗位置：";
 
 /* Class = "NSMenuItem"; title = "Bottom"; ObjectID = "Yio-8e-oaa"; */
 "Yio-8e-oaa.title" = "置底";
@@ -38,7 +38,7 @@
 "ePT-qq-kg9.title" = "搜尋列旁顯示 Maccy";
 
 /* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
-"gjR-wz-7GQ.title" = "東西的個數:";
+"gjR-wz-7GQ.title" = "東西的個數：";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "顯示搜尋框";
@@ -53,16 +53,16 @@
 "N8k-nW-lzS.title" = "螢幕中央";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "ZHc-k4-Nf9"; */
-"ZHc-k4-Nf9.ibShadowedToolTip" = "更改彈窗顯示位置。\n預設: 指標";
+"ZHc-k4-Nf9.ibShadowedToolTip" = "更改彈窗顯示位置。\n預設：指標";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
-"tWw-ax-Qej.ibShadowedToolTip" = "更改固定項目的位置。\n預設: 置頂。";
+"tWw-ax-Qej.ibShadowedToolTip" = "更改固定項目的位置。\n預設：置頂。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items."; ObjectID = "Tsp-4i-Mym"; */
-"Tsp-4i-Mym.ibShadowedToolTip" = "圖片預覽最高。\n預設: 40\n提示：設定 16 可符合文字項目大小。";
+"Tsp-4i-Mym.ibShadowedToolTip" = "圖片預覽最高。\n預設：40\n提示：設定 16 可符合文字項目大小。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
-"a8Y-aG-9on.ibShadowedToolTip" = "在選單中顯示條項目。\n隱藏項目仍保留在歷史記錄，可透過搜尋查找。\n設定為 0 以顯示所有項目。\n預設: 0。";
+"a8Y-aG-9on.ibShadowedToolTip" = "在選單中顯示條項目。\n隱藏項目仍保留在歷史記錄，可透過搜尋查找。\n設定為 0 以顯示所有項目。\n預設：0。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Maximum number of characters in the item title.\nDefault: 50."; ObjectID = "XGd-Fg-wS9"; */
 "XGd-Fg-wS9.ibShadowedToolTip" = "項目標題的最大字元數。\n預設：50。";
