@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0ABDD5102BB472120054963B /* Bundle+ApplicationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABDD50F2BB472120054963B /* Bundle+ApplicationName.swift */; };
 		0ABDD5122BB47F1E0054963B /* NSWorkspace+ApplicationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */; };
 		2F3205B92AE3EDCA002EA545 /* MenuController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F3205B82AE3EDCA002EA545 /* MenuController.swift */; };
 		2F39CB042AD9A93C00B749FD /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB032AD9A93C00B749FD /* Sparkle */; };
@@ -133,7 +132,6 @@
 		088F4DA328BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
 		088F4DA428BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
 		088F4DA628BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		0ABDD50F2BB472120054963B /* Bundle+ApplicationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+ApplicationName.swift"; sourceTree = "<group>"; };
 		0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWorkspace+ApplicationName.swift"; sourceTree = "<group>"; };
 		1180C7312826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
 		1180C7322826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
@@ -420,7 +418,6 @@
 			isa = PBXGroup;
 			children = (
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */,
-				0ABDD50F2BB472120054963B /* Bundle+ApplicationName.swift */,
 				DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */,
 				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
 				DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */,
@@ -428,9 +425,9 @@
 				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
 				DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */,
 				DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */,
+				0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
 				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
-				0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -905,7 +902,6 @@
 				DA81D674252A056B009977BC /* Throttler.swift in Sources */,
 				DA20FA722B082DD600056DD5 /* Notifier.swift in Sources */,
 				DA196A9328AB0D4500ADD8A2 /* MenuHeaderView.swift in Sources */,
-				0ABDD5102BB472120054963B /* Bundle+ApplicationName.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
 				DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */,
 				DA1DF95227AF8BBA006839E0 /* StorageSettingsViewController.swift in Sources */,
