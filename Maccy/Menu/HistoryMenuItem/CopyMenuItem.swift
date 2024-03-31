@@ -18,7 +18,7 @@ extension HistoryMenuItem {
       keyEquivalentModifierMask = CopyMenuItem.keyEquivalentModifierMask
 
       if UserDefaults.standard.pasteByDefault {
-        isAlternate = true
+        super.alternate()
       }
     }
   }

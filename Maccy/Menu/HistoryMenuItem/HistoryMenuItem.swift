@@ -104,7 +104,11 @@ class HistoryMenuItem: NSMenuItem {
   }
 
   func alternate() {
-    // Override in children.
+    isAlternate = true
+    // isHidden is implicit in macOS 14.4 and completely prevents selecting hidden item.
+    if #unavailable(macOS 14.4) {
+      isHidden = true
+    }
   }
 
   func pin(_ pin: String) {

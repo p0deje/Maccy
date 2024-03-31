@@ -23,7 +23,7 @@ extension HistoryMenuItem {
       keyEquivalentModifierMask = PasteMenuItem.keyEquivalentModifierMask
 
       if !UserDefaults.standard.pasteByDefault || UserDefaults.standard.removeFormattingByDefault {
-        isAlternate = true
+        super.alternate()
       }
     }
   }
