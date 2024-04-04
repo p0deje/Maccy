@@ -1,4 +1,4 @@
-"search_placeholder" = "type to search...";
+"search_placeholder" = "type to search…";
 "clear_tooltip" = "Clear unpinned items.\nSelect with ⇧ to clear all.";
 "clear_all_tooltip" = "Clear all items.";
 "about_tooltip" = "Read more about application.";
@@ -7,7 +7,7 @@
 "clear_all" = "Clear all";
 "about" = "About";
 "quit" = "Quit";
-"preferences" = "Preferences...";
+"preferences" = "Preferences…";
 "preferences_advanced" = "Advanced";
 "preferences_appearance" = "Appearance";
 "preferences_ignore" = "Ignore";
