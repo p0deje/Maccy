@@ -149,6 +149,14 @@
 		2F3C6B502B5EFC1D00FA41BE /* PreviewPopoverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewPopoverController.swift; sourceTree = "<group>"; };
 		2F73DF2B2AE2749E00DB654E /* PreviewMenuItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewMenuItem.swift; sourceTree = "<group>"; };
 		2F89CC922AE2C9E000959C91 /* PopupLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupLocation.swift; sourceTree = "<group>"; };
+		3EBDD1DC2BBEF22700C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Preview.strings; sourceTree = "<group>"; };
+		3EBDD1DD2BBEF22700C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
+		3EBDD1DE2BBEF22700C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
+		3EBDD1DF2BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
+		3EBDD1E02BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/PinsSettingsViewController.strings; sourceTree = "<group>"; };
+		3EBDD1E12BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/IgnoreSettingsViewController.strings; sourceTree = "<group>"; };
+		3EBDD1E22BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/StorageSettingsViewController.strings; sourceTree = "<group>"; };
+		3EBDD1E32BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4DC4D10F252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
@@ -745,6 +753,7 @@
 				bs,
 				uk,
 				he,
+				nl,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			packageReferences = (
@@ -965,6 +974,7 @@
 				DA60939329188180002D739E /* bs */,
 				DA60939A291886E4002D739E /* uk */,
 				DA7E87232B7EC74100CA9EDF /* he */,
+				3EBDD1E32BBEF22800C57500 /* nl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -989,6 +999,7 @@
 				DA60938F2918817F002D739E /* bs */,
 				DA609396291886E4002D739E /* uk */,
 				DA7E871F2B7EC6FA00CA9EDF /* he */,
+				3EBDD1DF2BBEF22800C57500 /* nl */,
 			);
 			name = GeneralSettingsViewController.xib;
 			sourceTree = "<group>";
@@ -1013,6 +1024,7 @@
 				DA60938E2918817F002D739E /* bs */,
 				DA609395291886E4002D739E /* uk */,
 				DA7E871E2B7EC6FA00CA9EDF /* he */,
+				3EBDD1DE2BBEF22700C57500 /* nl */,
 			);
 			name = AppearanceSettingsViewController.xib;
 			sourceTree = "<group>";
@@ -1037,6 +1049,7 @@
 				DA60938D2918817F002D739E /* bs */,
 				DA609394291886E4002D739E /* uk */,
 				DA7E871D2B7EC6FA00CA9EDF /* he */,
+				3EBDD1DD2BBEF22700C57500 /* nl */,
 			);
 			name = AdvancedSettingsViewController.xib;
 			sourceTree = "<group>";
@@ -1061,6 +1074,7 @@
 				DA8828462B72EDCB00A6F5D8 /* tr */,
 				DA8828472B72EDCC00A6F5D8 /* uk */,
 				DA7E87222B7EC6FA00CA9EDF /* he */,
+				3EBDD1E22BBEF22800C57500 /* nl */,
 			);
 			name = StorageSettingsViewController.xib;
 			sourceTree = "<group>";
@@ -1085,6 +1099,7 @@
 				DA60939129188180002D739E /* bs */,
 				DA609398291886E4002D739E /* uk */,
 				DA7E87212B7EC6FA00CA9EDF /* he */,
+				3EBDD1E12BBEF22800C57500 /* nl */,
 			);
 			name = IgnoreSettingsViewController.xib;
 			sourceTree = "<group>";
@@ -1109,6 +1124,7 @@
 				DADBA97C2985C7B600EC46FB /* tr */,
 				DADBA97E2985C7B600EC46FB /* uk */,
 				DA7E871C2B7EC6FA00CA9EDF /* he */,
+				3EBDD1DC2BBEF22700C57500 /* nl */,
 			);
 			name = Preview.xib;
 			sourceTree = "<group>";
@@ -1133,6 +1149,7 @@
 				DA60939029188180002D739E /* bs */,
 				DA609397291886E4002D739E /* uk */,
 				DA7E87202B7EC6FA00CA9EDF /* he */,
+				3EBDD1E02BBEF22800C57500 /* nl */,
 			);
 			name = PinsSettingsViewController.xib;
 			sourceTree = "<group>";
