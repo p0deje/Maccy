@@ -49,8 +49,8 @@
                             </button>
                         </gridCell>
                         <gridCell row="l2s-iI-2ix" column="8aH-p4-Hiw" id="XZW-aJ-d98">
-                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ahJ-Lm-rjm">
-                                <rect key="frame" x="-2" y="198" width="402" height="42"/>
+                            <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ahJ-Lm-rjm">
+                                <rect key="frame" x="-2" y="212" width="402" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="Ejh-zi-AFs">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">Temporarily ignore all new copies.
@@ -61,8 +61,8 @@ You are likely to use it programmatically and disable application while copying 
                             </textField>
                         </gridCell>
                         <gridCell row="M6T-bh-slS" column="8aH-p4-Hiw" id="dQu-KC-grG">
-                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fpb-AC-gT0">
-                                <rect key="frame" x="-2" y="157" width="402" height="33"/>
+                            <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Fpb-AC-gT0">
+                                <rect key="frame" x="-2" y="171" width="402" height="33"/>
                                 <textFieldCell key="cell" selectable="YES" id="LFh-6b-GFi">
                                     <font key="font" size="10" name="Menlo-Regular"/>
                                     <string key="title">defaults write org.p0deje.Maccy ignoreEvents true
@@ -74,8 +74,8 @@ defaults write org.p0deje.Maccy ignoreEvents false</string>
                             </textField>
                         </gridCell>
                         <gridCell row="klT-Xg-5Xa" column="8aH-p4-Hiw" id="9Bn-10-d0I">
-                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b73-sw-gL3">
-                                <rect key="frame" x="-2" y="121" width="402" height="28"/>
+                            <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="b73-sw-gL3">
+                                <rect key="frame" x="-2" y="135" width="402" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" id="lwS-2p-WwS">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <string key="title">You can also click the menu icon with ⌥ pressed.
@@ -86,8 +86,8 @@ To ignore only the next copy, click with ⌥⇧.</string>
                             </textField>
                         </gridCell>
                         <gridCell row="Ffc-bg-XxF" column="8aH-p4-Hiw" id="bLA-hg-jtA">
-                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sb1-dZ-Kuf">
-                                <rect key="frame" x="-2" y="91" width="402" height="22"/>
+                            <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Sb1-dZ-Kuf">
+                                <rect key="frame" x="-2" y="105" width="402" height="22"/>
                                 <textFieldCell key="cell" selectable="YES" id="yeX-On-Ble">
                                     <font key="font" size="10" name="Menlo-Regular"/>
                                     <string key="title">defaults write org.p0deje.Maccy ignoreOnlyNextEvent true
@@ -99,12 +99,12 @@ To ignore only the next copy, click with ⌥⇧.</string>
                         </gridCell>
                         <gridCell row="ey0-TY-bAY" column="8aH-p4-Hiw" id="uUX-Op-ca8">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="uoQ-aq-GS3">
-                                <rect key="frame" x="0.0" y="76" width="398" height="5"/>
+                                <rect key="frame" x="0.0" y="90" width="398" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="tDm-DG-HuU" column="8aH-p4-Hiw" id="d4M-7j-KcB">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4MH-H4-Ce2">
-                                <rect key="frame" x="-2" y="49" width="400" height="18"/>
+                                <rect key="frame" x="-2" y="63" width="400" height="18"/>
                                 <string key="toolTip">Maccy takes an active application focus when the popup is shown and gives focus back when it's closed. The focus is needed for advanced macOS input handling such as Chinese helper or accent menu. Enabling this option would prevent Maccy from taking focus. There are certain situations when this can be useful: for example, pasting to a text editor that auto-formats code when it loses focus.</string>
                                 <buttonCell key="cell" type="check" title="Avoid taking application focus" bezelStyle="regularSquare" imagePosition="left" inset="2" id="jjU-HE-iIA">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
@@ -117,7 +117,7 @@ To ignore only the next copy, click with ⌥⇧.</string>
                         </gridCell>
                         <gridCell row="fzu-MZ-Qf6" column="8aH-p4-Hiw" id="oYJ-Lk-nQt">
                             <button key="contentView" toolTip="Automatically remove all unpinned items before quitting the application." verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="O2y-qd-u6c">
-                                <rect key="frame" x="-2" y="25" width="400" height="18"/>
+                                <rect key="frame" x="-2" y="39" width="400" height="18"/>
                                 <buttonCell key="cell" type="check" title="Clear history on quit" bezelStyle="regularSquare" imagePosition="left" inset="2" id="JvB-ng-8vt">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
