@@ -24,7 +24,7 @@
 "ify-Om-Foy.title" = "Laatste kopie:";
 
 /* Class = "NSTextFieldCell"; title = "Press {deleteKey} to delete."; ObjectID = "oTv-7u-tbp"; */
-"oTv-7u-tbp.title" = "Druk op {pinKey} om te verwijderen.";
+"oTv-7u-tbp.title" = "Druk op {deleteKey} om te verwijderen.";
 
 /* Class = "NSTextFieldCell"; title = "Jan 28, 8:22:33"; ObjectID = "ung-5b-7M1"; */
 "ung-5b-7M1.title" = "Jan 28, 8:22:33";
