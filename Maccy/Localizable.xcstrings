@@ -4,6 +4,12 @@
     "about" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عن"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -117,6 +123,12 @@
     "about_tooltip" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اقرأ المزيد عن التطبيق."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -230,6 +242,12 @@
     "accessibility_alert_comment" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "امنح حق الوصول إلى هذا التطبيق في {الجزء}، الموجود في {الإعدادات}.\\n\\nانقر على الزر +، وحدد Maccy ثم قم بالتبديل على مربع الاختيار المجاور له."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -343,6 +361,12 @@
     "accessibility_alert_deny" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "رفض"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -456,6 +480,12 @@
     "accessibility_alert_message" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "\"Maccy\" يرغب في التحكم في هذا الكمبيوتر باستخدام ميزات إمكانية الوصول."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -569,6 +599,12 @@
     "accessibility_alert_open" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "افتح تفضيلات النظام"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -682,6 +718,12 @@
     "active_screen" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "شاشة التوقف"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -795,6 +837,12 @@
     "clear" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "امسح"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -908,6 +956,12 @@
     "clear_alert_cancel" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إلغاء"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1021,6 +1075,12 @@
     "clear_alert_comment" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "لا يمكنك التراجع عن هذا الإجراء."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1134,6 +1194,12 @@
     "clear_alert_confirm" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "امسح"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1247,6 +1313,12 @@
     "clear_alert_message" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "هل أنت متأكد أنك تريد مسح سجل التاريخ؟"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1360,6 +1432,12 @@
     "clear_all" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "امسح الكل"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1473,6 +1551,12 @@
     "clear_all_tooltip" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مسح كافة العناصر."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1586,6 +1670,12 @@
     "clear_tooltip" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "امسح العناصر غير المثبتة.\\nاختر باستخدام ⇧ لمسح الكل."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1699,6 +1789,12 @@
     "copy_modifiers_config" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• حدد مع الضغط على %@ لنسخ العنصر."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1812,6 +1908,12 @@
     "format_modifiers_config" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• حدد مع الضغط على %@ للنسخ ومسح التنسيق ولصق العنصر."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -1925,6 +2027,12 @@
     "key_used_error" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المفتاح مستخدم بالفعل."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2038,6 +2146,12 @@
     "paste_modifiers_config" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "• حدد مع الضغط على %@ لنسخ العنصر ولصقه."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2151,6 +2265,12 @@
     "preferences" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التفضيلات..."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2264,6 +2384,12 @@
     "preferences_advanced" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "متقدم"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2377,6 +2503,12 @@
     "preferences_appearance" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "المظهر"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2490,6 +2622,12 @@
     "preferences_general" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "عام"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2603,6 +2741,12 @@
     "preferences_ignore" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تجاهل"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2716,6 +2860,12 @@
     "preferences_pins" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "مثبتة"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2829,6 +2979,12 @@
     "preferences_storage" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "التخزين"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -2942,6 +3098,12 @@
     "quit" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إغلاق"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3055,6 +3217,12 @@
     "quit_tooltip" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "قم بإنهاء التطبيق."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3168,6 +3336,12 @@
     "screen" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "الشاشة"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3281,6 +3455,12 @@
     "search_placeholder" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "اكتب للبحث..."
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3394,6 +3574,12 @@
     "system_preferences_name" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "خصائص النظام"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3507,6 +3693,12 @@
     "system_preferences_pane" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "تفضيلات الأمان والخصوصية"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3620,6 +3812,12 @@
     "system_settings_name" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إعدادات النظام"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",
@@ -3733,6 +3931,12 @@
     "system_settings_pane" : {
       "extractionState" : "migrated",
       "localizations" : {
+        "ar" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "إعدادات الخصوصية والأمان"
+          }
+        },
         "bs" : {
           "stringUnit" : {
             "state" : "translated",

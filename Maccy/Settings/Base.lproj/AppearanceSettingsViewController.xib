@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -62,7 +62,7 @@
                     </columns>
                     <gridCells>
                         <gridCell row="wGv-6M-Wwi" column="KLa-7P-lgK" id="fTw-kj-fi7">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cv7-gI-nuh">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Cv7-gI-nuh">
                                 <rect key="frame" x="103" y="384" width="62" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Popup at:" id="R7Y-UN-Edt">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -108,7 +108,7 @@ Default: Cursor.</string>
                             </popUpButton>
                         </gridCell>
                         <gridCell row="kMC-R2-5B3" column="KLa-7P-lgK" id="vKu-nA-kna">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Xv-1I-fwQ">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="9Xv-1I-fwQ">
                                 <rect key="frame" x="122" y="355" width="43" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Pin to:" id="GhW-Kv-rhO">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -138,7 +138,7 @@ Default: Top.</string>
                             </popUpButton>
                         </gridCell>
                         <gridCell row="SYP-SL-aAk" column="KLa-7P-lgK" id="oQq-xv-omv">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lEK-4J-i8J">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="lEK-4J-i8J">
                                 <rect key="frame" x="78" y="326" width="87" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Image height:" id="MKb-cW-gpg">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -154,7 +154,7 @@ Default: Top.</string>
 Default: 40.
 Hint: Set to 16 to look like text items.</string>
                                 <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fcz-4Q-KUm">
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="fcz-4Q-KUm">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="Jp7-tc-rrq"/>
@@ -187,7 +187,7 @@ Hint: Set to 16 to look like text items.</string>
                             </stackView>
                         </gridCell>
                         <gridCell row="S9I-rv-Kfl" column="KLa-7P-lgK" id="vKh-KX-7Ph">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3D7-Xe-sZo">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="3D7-Xe-sZo">
                                 <rect key="frame" x="56" y="297" width="109" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Number of items:" id="gjR-wz-7GQ">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -204,7 +204,7 @@ Hidden items are still kept in history and can be found using search.
 Set to 0 to make all items visible.
 Default: 0.</string>
                                 <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bLY-QC-Jck">
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bLY-QC-Jck">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="0cw-7u-Pmb"/>
@@ -237,7 +237,7 @@ Default: 0.</string>
                             </stackView>
                         </gridCell>
                         <gridCell row="5AN-Hb-8z8" column="KLa-7P-lgK" id="CGn-tZ-Kyv">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zpA-rz-vpL">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="zpA-rz-vpL">
                                 <rect key="frame" x="89" y="268" width="76" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Title length:" id="TgE-eS-5nT">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -252,7 +252,7 @@ Default: 0.</string>
                                 <string key="toolTip">Maximum number of characters in the item title.
 Default: 50.</string>
                                 <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wto-wB-Ijw">
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Wto-wB-Ijw">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="hpq-K8-ij3"/>
@@ -285,7 +285,7 @@ Default: 50.</string>
                             </stackView>
                         </gridCell>
                         <gridCell row="NiR-EB-Xrn" column="KLa-7P-lgK" id="zZ5-X2-rET">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AH3-Nd-NhZ">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="AH3-Nd-NhZ">
                                 <rect key="frame" x="73" y="239" width="92" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Preview delay:" id="lnS-Rg-4sa">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -300,7 +300,7 @@ Default: 50.</string>
                                 <string key="toolTip">Delay in milliseconds until a preview popup is shown.
 Default: 1500.</string>
                                 <subviews>
-                                    <textField focusRingType="none" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bWg-D5-ht1">
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="bWg-D5-ht1">
                                         <rect key="frame" x="0.0" y="0.0" width="96" height="21"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="96" id="8Wt-bI-jQW"/>
@@ -333,7 +333,7 @@ Default: 1500.</string>
                             </stackView>
                         </gridCell>
                         <gridCell row="COy-q6-8Qe" column="KLa-7P-lgK" id="sEN-zO-jeM">
-                            <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I2c-rj-xuX" userLabel="Highlight Match:">
+                            <textField key="contentView" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="I2c-rj-xuX" userLabel="Highlight Match:">
                                 <rect key="frame" x="47" y="211" width="118" height="16"/>
                                 <textFieldCell key="cell" lineBreakMode="clipping" title="Highlight matches:" id="gzY-QO-mMa">
                                     <font key="font" usesAppearanceFont="YES"/>
@@ -498,7 +498,7 @@ Default: Bold.</string>
                         </gridCell>
                         <gridCell row="Plv-5t-MpL" column="KLa-7P-lgK" id="eeP-jp-pGA"/>
                         <gridCell row="Plv-5t-MpL" column="7OC-Fv-eMr" id="XpX-YX-upx">
-                            <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6N8-hv-cY7">
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6N8-hv-cY7">
                                 <rect key="frame" x="174" y="0.0" width="298" height="14"/>
                                 <textFieldCell key="cell" selectable="YES" title="⚠️ Press ⌘, to open preferences when footer is hidden." id="0tN-4z-p8T">
                                     <font key="font" metaFont="controlContent" size="11"/>

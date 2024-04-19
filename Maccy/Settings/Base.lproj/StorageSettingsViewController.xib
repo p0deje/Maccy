@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -75,7 +75,7 @@
                         <gridCell row="wb4-w2-i9U" column="vOJ-9h-G8Y" id="OEV-NG-PrW"/>
                         <gridCell row="wb4-w2-i9U" column="pQU-Pz-q1v" id="Mr7-oB-BTl">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="jjl-jH-9i9">
-                                <rect key="frame" x="73" y="87" width="52" height="18"/>
+                                <rect key="frame" x="73" y="144" width="52" height="18"/>
                                 <buttonCell key="cell" type="check" title="Text" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="TyZ-pU-eZ3">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -88,7 +88,7 @@
                         <gridCell row="5Ho-hd-kNX" column="vOJ-9h-G8Y" id="7GD-BL-fI2"/>
                         <gridCell row="5Ho-hd-kNX" column="pQU-Pz-q1v" id="Nw9-Z6-JIK">
                             <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TOm-A3-UNH">
-                                <rect key="frame" x="73" y="66" width="296" height="14"/>
+                                <rect key="frame" x="73" y="123" width="296" height="14"/>
                                 <textFieldCell key="cell" selectable="YES" title="Change what types of copied content should be stored." id="GDB-hB-d75">
                                     <font key="font" metaFont="controlContent" size="11"/>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -98,7 +98,7 @@
                         </gridCell>
                         <gridCell row="0hg-v1-My2" column="vOJ-9h-G8Y" headOfMergedCell="omO-W3-sR2" id="omO-W3-sR2">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="6jk-to-ck8">
-                                <rect key="frame" x="393" y="55" width="100" height="5"/>
+                                <rect key="frame" x="393" y="112" width="100" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="0hg-v1-My2" column="pQU-Pz-q1v" headOfMergedCell="omO-W3-sR2" id="TES-cX-Wqi"/>
