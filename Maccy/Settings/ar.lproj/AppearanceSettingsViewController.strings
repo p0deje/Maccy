@@ -62,4 +62,4 @@
 "ZHc-k4-Nf9.ibShadowedToolTip" = "تغيير موقع ظهور الإنبثاق.\nالافتراضي: المؤشر.";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
-"a8Y-aG-9on.ibShadowedToolTip" = "عدد العناصر المرئية.\nالعناصر المخفية لا تزال محفوظة في السجل ويمكن العثور عليها
+"a8Y-aG-9on.ibShadowedToolTip" = "عدد العناصر المرئية.\nالعناصر المخفية .لا تزال محفوظة في السجل ويمكن العثور عليها\nالافتراضي: 0.";

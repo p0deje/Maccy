@@ -10,6 +10,8 @@
 /* Class = "NSTextFieldCell"; title = "You can also click the menu icon with ⌥ pressed.\nTo ignore only the next copy, click with ⌥⇧."; ObjectID = "lwS-2p-WwS"; */
 "lwS-2p-WwS.title" = "يمكنك أيضًا النقر على أيقونة القائمة مع ⌥ مضغوط.\nلتجاهل النسخة التالية فقط، انقر بـ ⌥⇧.";
 
+/* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
+"LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\nنسخ البيانات #\ndefaults write org.p0deje.Maccy ignoreEvents false";
 
 /* Class = "NSButton"; ibShadowedToolTip = "Automatically remove all unpinned items before quitting the application."; ObjectID = "O2y-qd-u6c"; */
 "O2y-qd-u6c.ibShadowedToolTip" = "إزالة جميع العناصر غير المثبتة تلقائيًا قبل إغلاق التطبيق.";
@@ -30,4 +32,4 @@
 "lwS-2p-WwS.title" = "يمكنك أيضًا النقر على أيقونة القائمة مع ⌥ ضغط.\nلتجاهل النسخة التالية فقط، انقر بـ ⌥⇧.";
 
 /* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copy data"; ObjectID = "yeX-On-Ble"; */
-"yeX-On-Ble.title" = "اكتب الأوامر الافتراضية وتجاهل الحدث التالي فقط لـ org.p0deje.Maccy\n# نسخ البيانات";
+"yeX-On-Ble.title" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\nنسخ البيانات #";
