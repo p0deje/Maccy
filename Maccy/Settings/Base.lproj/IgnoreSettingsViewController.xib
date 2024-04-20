@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22155" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22689"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22155"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -74,7 +74,7 @@
                                                                                         </constraints>
                                                                                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" id="zWO-sO-8yI"/>
                                                                                     </imageView>
-                                                                                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="oLu-60-hTo">
+                                                                                    <textField focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="oLu-60-hTo">
                                                                                         <rect key="frame" x="34" y="9" width="360" height="16"/>
                                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Rfe-XX-kt3">
                                                                                             <font key="font" metaFont="system"/>
@@ -159,7 +159,7 @@
                                                 </customView>
                                             </gridCell>
                                             <gridCell row="izJ-W9-c39" column="cwh-3y-Eiy" id="pmD-Jw-JCw">
-                                                <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="uW0-01-HQG">
+                                                <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="uW0-01-HQG">
                                                     <rect key="frame" x="-2" y="0.0" width="454" height="42"/>
                                                     <textFieldCell key="cell" selectable="YES" id="cCb-x7-Qin">
                                                         <font key="font" metaFont="controlContent" size="11"/>
@@ -197,7 +197,7 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                                                     <rect key="frame" x="0.0" y="70" width="451" height="210"/>
                                                     <clipView key="contentView" id="ucF-8Z-DXr">
                                                         <rect key="frame" x="1" y="1" width="449" height="208"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="16" headerView="4V6-xv-HDU" id="OFh-D1-WKr">
                                                                 <rect key="frame" x="0.0" y="0.0" width="449" height="180"/>
@@ -255,7 +255,7 @@ Please note that the way it works is not bullet-proof, so it's better to use pas
                                                 </segmentedControl>
                                             </gridCell>
                                             <gridCell row="AfP-ey-Hho" column="DNw-6P-vMx" id="ZYq-Y5-6kT">
-                                                <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TUQ-LT-dgT">
+                                                <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TUQ-LT-dgT">
                                                     <rect key="frame" x="-2" y="0.0" width="455" height="42"/>
                                                     <textFieldCell key="cell" selectable="YES" id="CB1-s7-UXJ">
                                                         <font key="font" metaFont="controlContent" size="11"/>
@@ -293,7 +293,7 @@ By default, some known application-specific types are defined. You can remove th
                                                     <rect key="frame" x="0.0" y="59" width="451" height="210"/>
                                                     <clipView key="contentView" id="3Zw-hK-svm">
                                                         <rect key="frame" x="1" y="1" width="449" height="208"/>
-                                                        <autoresizingMask key="autoresizingMask"/>
+                                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <subviews>
                                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" typeSelect="NO" rowHeight="16" headerView="LaJ-Bz-rQT" id="hKt-HW-p79">
                                                                 <rect key="frame" x="0.0" y="0.0" width="449" height="180"/>
@@ -351,7 +351,7 @@ By default, some known application-specific types are defined. You can remove th
                                                 </segmentedControl>
                                             </gridCell>
                                             <gridCell row="ESR-Fn-zJs" column="ISw-Ga-S0x" id="JEf-CW-aJ0">
-                                                <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1YD-Q4-cg6">
+                                                <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1YD-Q4-cg6">
                                                     <rect key="frame" x="-2" y="2" width="455" height="28"/>
                                                     <textFieldCell key="cell" selectable="YES" title="It's possible to ignore certain copies from remembering based on defined regular expressions." id="76n-GS-0HQ">
                                                         <font key="font" metaFont="controlContent" size="11"/>
