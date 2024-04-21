@@ -63,3 +63,30 @@
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Number of visible items.\nHidden items are still kept in history and can be found using search.\nSet to 0 to make all items visible.\nDefault: 0."; ObjectID = "a8Y-aG-9on"; */
 "a8Y-aG-9on.ibShadowedToolTip" = "عدد العناصر المرئية.\nالعناصر المخفية .لا تزال محفوظة في السجل ويمكن العثور عليها\nالافتراضي: 0.";
+
+/* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
+"ePT-qq-kg9.title" = "إظهار العنوان قبل حقل البحث";
+
+/* Class = "NSMenuItem"; title = "Window center"; ObjectID = "gMh-0J-BUx"; */
+"gMh-0J-BUx.title" = "مركز النافذة";
+
+/* Class = "NSTextFieldCell"; title = "Number of items:"; ObjectID = "gjR-wz-7GQ"; */
+"gjR-wz-7GQ.title" = "عدد العناصر:";
+
+/* Class = "NSTextFieldCell"; title = "Highlight matches:"; ObjectID = "gzY-QO-mMa"; */
+"gzY-QO-mMa.title" = "تسليط الضوء على التطابقات:";
+
+/* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
+"lnS-Rg-4sa.title" = "تأخير المعاينة:";
+
+/* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
+"mWx-zi-OAv.title" = "إظهار حقل البحث";
+
+/* Class = "NSButtonCell"; title = "Show special symbols"; ObjectID = "t7k-cr-U2Q"; */
+"t7k-cr-U2Q.title" = "إظهار الرموز الخاصة";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Show newlines, tabs, leading and trailing spaces via special symbols."; ObjectID = "tC6-tV-7tl"; */
+"tC6-tV-7tl.ibShadowedToolTip" = "إظهار الأسطر الجديدة، علامات التبويب، المسافات الأمامية والخلفية عبر الرموز الخاصة.";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
+"tWw-ax-Qej.ibShadowedToolTip" = "تغيير موقع العناصر المثبتة.\nالافتراضي: الأعلى.";
