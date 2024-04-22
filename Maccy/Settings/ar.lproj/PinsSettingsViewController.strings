@@ -1,0 +1,14 @@
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "bdM-5c-VDK"; */
+"bdM-5c-VDK.title" = "خلية نصية";
+
+/* Class = "NSTableColumn"; headerCell.title = "Title"; ObjectID = "bsY-ZI-mU2"; */
+"bsY-ZI-mU2.headerCell.title" = "العنوان";
+
+/* Class = "NSTextFieldCell"; title = "You can customize the title and hotkey of every pinned item.\nTo edit, double-click it and enter new value."; ObjectID = "jBl-gB-eEV"; */
+"jBl-gB-eEV.title" = "يمكنك تخصيص العنوان والمفتاح المختصر لكل عنصر تم تثبيته.\nللتعديل، قم بالنقر المزدوج عليه وأدخل القيمة الجديدة.";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "juh-Mt-VZK"; */
+"juh-Mt-VZK.title" = "خلية نصية";
+
+/* Class = "NSTableColumn"; headerCell.title = "Key"; ObjectID = "qRS-YB-ZPI"; */
+"qRS-YB-ZPI.headerCell.title" = "المفتاح";

@@ -1,0 +1,41 @@
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain copies from remembering based on defined regular expressions."; ObjectID = "76n-GS-0HQ"; */
+"76n-GS-0HQ.title" = "من الممكن تجاهل بعض النسخ من التذكر استنادًا إلى التعبيرات العادية المحددة.";
+
+/* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "8Ox-ex-Bkl"; */
+"8Ox-ex-Bkl.headerCell.title" = "أنواع الحافظة";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "CB1-s7-UXJ"; */
+"CB1-s7-UXJ.title" = "من الممكن تجاهل بعض أنواع عناصر الحافظة من التذكر.\nبشكل افتراضي، تم تحديد بعض الأنواع المعروفة المحددة للتطبيق. يمكنك إزالتها وإضافة أي أنواع مخصصة ترغب فيها.";
+
+/* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "DCt-Nk-VNS"; */
+"DCt-Nk-VNS.headerCell.title" = "التطبيقات";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Goj-ts-fal"; */
+"Goj-ts-fal.title" = "خلية نصية";
+
+/* Class = "NSTableColumn"; headerCell.title = "Regular expressions"; ObjectID = "Hef-1G-Irp"; */
+"Hef-1G-Irp.headerCell.title" = "التعبيرات العادية";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ItS-bj-BFG"; */
+"ItS-bj-BFG.title" = "خلية نصية";
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "Rfe-XX-kt3"; */
+"Rfe-XX-kt3.title" = "خلية عرض الجدول";
+
+/* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "Zb2-M8-Pky"; */
+"Zb2-M8-Pky.title" = "تجاهل جميع التطبيقات ما عدا المُدرجة";
+
+/* Class = "NSTabViewItem"; label = "Pasteboard types"; ObjectID = "b7c-gy-SzX"; */
+"b7c-gy-SzX.label" = "أنواع الحافظة";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "cCb-x7-Qin"; */
+"cCb-x7-Qin.title" = "من الممكن تجاهل النسخ القادمة من بعض التطبيقات.\nيرجى ملاحظة أن الطريقة التي تعمل بها ليست مضمونة بنسبة 100٪، لذا من الأفضل استخدام أنواع الحافظة عند الإمكان.";
+
+/* Class = "NSTabViewItem"; label = "Regular expressions"; ObjectID = "oR1-gy-AKV"; */
+"oR1-gy-AKV.label" = "التعبيرات العادية";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "rOG-Q7-qpw"; */
+"rOG-Q7-qpw.title" = "خلية نصية";
+
+/* Class = "NSTabViewItem"; label = "Applications"; ObjectID = "uWq-uc-eIR"; */
+"uWq-uc-eIR.label" = "التطبيقات";
