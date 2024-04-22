@@ -1,4 +1,4 @@
-"search_placeholder" = "type om te zoeken...";
+"search_placeholder" = "type om te zoeken…";
 "clear_tooltip" = "Wis niet vastgemaakte items.\nSelecteer met ⇧ om alles te wissen.";
 "clear_all_tooltip" = "Wis alle items.";
 "about_tooltip" = "Lees meer over de app.";
@@ -7,7 +7,7 @@
 "clear_all" = "Wis alles";
 "about" = "Over";
 "quit" = "Sluit";
-"preferences" = "Voorkeuren...";
+"preferences" = "Voorkeuren…";
 "preferences_advanced" = "Geavanceerd";
 "preferences_appearance" = "Weergave";
 "preferences_ignore" = "Negeer";
