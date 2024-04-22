@@ -11,16 +11,16 @@
 "DCt-Nk-VNS.headerCell.title" = "Uygulamalar";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Goj-ts-fal"; */
-"Goj-ts-fal.title" = "";
+"Goj-ts-fal.title" = "Metin Hücresi";
 
 /* Class = "NSTableColumn"; headerCell.title = "Regular expressions"; ObjectID = "Hef-1G-Irp"; */
 "Hef-1G-Irp.headerCell.title" = "Düzenli ifadeler";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ItS-bj-BFG"; */
-"ItS-bj-BFG.title" = "";
+"ItS-bj-BFG.title" = "Metin Hücresi";
 
 /* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "Rfe-XX-kt3"; */
-"Rfe-XX-kt3.title" = "";
+"Rfe-XX-kt3.title" = "Masa View Cell";
 
 /* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "Zb2-M8-Pky"; */
 "Zb2-M8-Pky.title" = "Listelenenler dışındaki tüm uygulamaları yoksay";
@@ -35,7 +35,7 @@
 "oR1-gy-AKV.label" = "Düzenli ifadeler";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "rOG-Q7-qpw"; */
-"rOG-Q7-qpw.title" = "";
+"rOG-Q7-qpw.title" = "Metin Hücresi";
 
 /* Class = "NSTabViewItem"; label = "Applications"; ObjectID = "uWq-uc-eIR"; */
 "uWq-uc-eIR.label" = "Uygulamalar";
