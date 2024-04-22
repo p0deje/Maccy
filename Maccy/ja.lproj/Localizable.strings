@@ -1,4 +1,4 @@
-"search_placeholder" = "入力して検索";
+"search_placeholder" = "入力して検索…";
 "clear_tooltip" = "固定されていない項目をクリアします。\n⇧を押しながら選択すると全てクリアします。";
 "clear_all_tooltip" = "全ての項目をクリアします。";
 "about_tooltip" = "アプリケーションについての詳細を表示します。";
@@ -7,7 +7,7 @@
 "clear_all" = "全てクリア";
 "about" = "Maccyについて";
 "quit" = "終了";
-"preferences" = "設定";
+"preferences" = "設定…";
 "preferences_advanced" = "詳細";
 "preferences_appearance" = "外見";
 "preferences_ignore" = "無視";
