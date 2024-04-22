@@ -28,8 +28,5 @@
 /* Class = "NSButton"; ibShadowedToolTip = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "lGE-3K-m2Y"; */
 "lGE-3K-m2Y.ibShadowedToolTip" = "عند التمكين، سيؤدي مسح السجل أيضًا إلى مسح حافظة النظام الحالية.";
 
-/* Class = "NSTextFieldCell"; title = "You can also click the menu icon with ⌥ pressed.\nTo ignore only the next copy, click with ⌥⇧."; ObjectID = "lwS-2p-WwS"; */
-"lwS-2p-WwS.title" = "يمكنك أيضًا النقر على أيقونة القائمة مع ⌥ ضغط.\nلتجاهل النسخة التالية فقط، انقر بـ ⌥⇧.";
-
 /* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copy data"; ObjectID = "yeX-On-Ble"; */
 "yeX-On-Ble.title" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\nنسخ البيانات #";

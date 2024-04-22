@@ -1,4 +1,3 @@
-
 /* Class = "NSButton"; ibShadowedToolTip = "Maccy takes an active application focus when the popup is shown and gives focus back when it's closed. The focus is needed for advanced macOS input handling such as Chinese helper or accent menu. Enabling this option would prevent Maccy from taking focus. There are certain situations when this can be useful: for example, pasting to a text editor that auto-formats code when it loses focus."; ObjectID = "4MH-H4-Ce2"; */
 "4MH-H4-Ce2.ibShadowedToolTip" = "Maccy neemt de focus van een actieve app als de popup wordt weergegeven en geeft de focus weer terug als deze wordt gesloten. De focus is nodig voor geavanceerde macOS-invoerverwerking, zoals Chinese helper of accentmenu. Door deze optie in te schakelen wordt voorkomen dat Maccy de focus neemt. Er zijn bepaalde situaties waarin dit nuttig kan zijn: bijvoorbeeld plakken in een teksteditor die code automatisch opmaakt wanneer de focus verloren gaat.";
 
