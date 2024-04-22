@@ -44,7 +44,7 @@
 "Yio-8e-oaa.title" = "Fondo";
 
 /* Class = "NSTextFieldCell"; title = "Title length:"; ObjectID = "TgE-eS-5nT"; */
-"TgE-eS-5nT.title" = "Longitud del título";
+"TgE-eS-5nT.title" = "Longitud del título:";
 
 /* Class = "NSTextFieldCell"; title = "Preview delay:"; ObjectID = "lnS-Rg-4sa"; */
 "lnS-Rg-4sa.title" = "Retraso de vista previa:";
