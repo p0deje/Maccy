@@ -53,7 +53,7 @@
 "N8k-nW-lzS.title" = "螢幕中央";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location where popup appears.\nDefault: Cursor."; ObjectID = "ZHc-k4-Nf9"; */
-"ZHc-k4-Nf9.ibShadowedToolTip" = "更改彈窗顯示位置。\n預設：指標";
+"ZHc-k4-Nf9.ibShadowedToolTip" = "更改彈窗顯示位置。\n預設：指標。";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Change the location of pinned items.\nDefault: Top."; ObjectID = "tWw-ax-Qej"; */
 "tWw-ax-Qej.ibShadowedToolTip" = "更改固定項目的位置。\n預設：置頂。";
