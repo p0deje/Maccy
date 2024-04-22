@@ -1,4 +1,4 @@
-"search_placeholder" = "搜索...";
+"search_placeholder" = "搜索…";
 "clear_tooltip" = "清除未固定的项目。\n按住 ⇧ 以全部清除。";
 "clear_all_tooltip" = "清除全部项目。";
 "about_tooltip" = "查看更多应用信息。";
@@ -7,16 +7,16 @@
 "clear_all" = "全部清除";
 "about" = "关于";
 "quit" = "退出";
-"preferences" = "偏好设置";
+"preferences" = "偏好设置…";
 "preferences_advanced" = "高级";
 "preferences_appearance" = "外观";
 "preferences_ignore" = "忽略";
 "preferences_general" = "通用";
 "preferences_pins" = "固定";
 "preferences_storage" = "存储";
-"copy_modifiers_config" = "• 按住 %@ 选择项目以复制";
-"paste_modifiers_config" = "• 按住 %@ 选择项目以复制并粘贴";
-"format_modifiers_config" = "• 按住 %@ 选择项目以复制并匹配格式粘贴";
+"copy_modifiers_config" = "• 按住 %@ 选择项目以复制。";
+"paste_modifiers_config" = "• 按住 %@ 选择项目以复制并粘贴。";
+"format_modifiers_config" = "• 按住 %@ 选择项目以复制并匹配格式粘贴。";
 "accessibility_alert_message" = "“Maccy“想要使用“辅助功能”控制此计算机。";
 "accessibility_alert_comment" = "在{settings}中的{pane}设置中授予此应用程序权限。\n\n单击 ”+” 按钮，选择 ”Maccy” 并打开旁边的复选框。";
 "accessibility_alert_deny" = "拒绝";
