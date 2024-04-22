@@ -20,7 +20,7 @@
 "5NO-0n-i7l.title" = "Incolla senza formattazione";
 
 /* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
-"EdO-Bo-TeB.title" = "";
+"EdO-Bo-TeB.title" = "• Seleziona con ⌘ premuto per copiare l'elemento.\n• Seleziona con ⌥ premuto per copiare e incollare l'elemento.\n• Seleziona con ⌥⇧ premuto per copiare, eliminare la formattazione e incollare l'elemento.";
 
 /* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
 "IGh-5B-6RG.title" = "Approssimata";
