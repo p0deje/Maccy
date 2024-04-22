@@ -1,4 +1,4 @@
-"search_placeholder" = "พิมพ์เพื่อค้นหา...";
+"search_placeholder" = "พิมพ์เพื่อค้นหา…";
 "clear_tooltip" = "ล้างรายการปักหมุด.\nเลือกแล้วกด ⇧ เพื่อล้างทั้งหมด";
 "clear_all_tooltip" = "ล้างรายการทั้งหมด";
 "about_tooltip" = "อ่านเพิ่มเติมเกี่ยวกับแอปพลิเคชัน";
@@ -7,7 +7,7 @@
 "clear_all" = "ล้างทั้งหมด";
 "about" = "เกี่ยวกับเรา";
 "quit" = "ออก";
-"preferences" = "ตั้งค่า...";
+"preferences" = "ตั้งค่า…";
 "preferences_advanced" = "ขั้นสูง";
 "preferences_appearance" = "หน้าตา";
 "preferences_ignore" = "ไม่สนใจ";

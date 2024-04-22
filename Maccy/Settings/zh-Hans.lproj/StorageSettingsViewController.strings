@@ -29,7 +29,7 @@
 "GDB-hB-d75.title" = "设置何种类型的内容会被保存。";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Default: Time of last copy."; ObjectID = "PWC-Rx-PPN"; */
-"PWC-Rx-PPN.ibShadowedToolTip" = "默认：上次复制时间";
+"PWC-Rx-PPN.ibShadowedToolTip" = "默认：上次复制时间。";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Number of history items to keep.\nDefault: 200."; ObjectID = "b49-c6-irW"; */
 "b49-c6-irW.ibShadowedToolTip" = "保留条历史记录。\n默认: 200。";

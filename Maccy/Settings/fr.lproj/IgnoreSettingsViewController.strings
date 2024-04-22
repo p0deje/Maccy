@@ -11,16 +11,16 @@
 "DCt-Nk-VNS.headerCell.title" = "Applications";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Goj-ts-fal"; */
-"Goj-ts-fal.title" = "";
+"Goj-ts-fal.title" = "Cellule de texte";
 
 /* Class = "NSTableColumn"; headerCell.title = "Regular expressions"; ObjectID = "Hef-1G-Irp"; */
 "Hef-1G-Irp.headerCell.title" = "Expressions régulières";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ItS-bj-BFG"; */
-"ItS-bj-BFG.title" = "";
+"ItS-bj-BFG.title" = "Cellule de texte";
 
 /* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "Rfe-XX-kt3"; */
-"Rfe-XX-kt3.title" = "";
+"Rfe-XX-kt3.title" = "Table View Cell";
 
 /* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "Zb2-M8-Pky"; */
 "Zb2-M8-Pky.title" = "Ignorer toutes les applications sauf listées";
@@ -35,7 +35,7 @@
 "oR1-gy-AKV.label" = "Expressions régulières";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "rOG-Q7-qpw"; */
-"rOG-Q7-qpw.title" = "";
+"rOG-Q7-qpw.title" = "Cellule de texte";
 
 /* Class = "NSTabViewItem"; label = "Applications"; ObjectID = "uWq-uc-eIR"; */
 "uWq-uc-eIR.label" = "Applications";

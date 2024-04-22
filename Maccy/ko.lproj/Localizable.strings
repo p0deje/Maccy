@@ -1,4 +1,4 @@
-"search_placeholder" = "검색어를 입력하세요";
+"search_placeholder" = "검색어를 입력하세요…";
 "clear_tooltip" = "고정되지 않은 항목들을 지웁니다.\n⇧와 함께 선택시 모두 지웁니다.";
 "clear_all_tooltip" = "모든 항목을 지웁니다.";
 "about_tooltip" = "어플리케이션에 관하여 더 보기.";
@@ -7,7 +7,7 @@
 "clear_all" = "모두 지우기";
 "about" = "관하여";
 "quit" = "종료";
-"preferences" = "설정";
+"preferences" = "설정…";
 "preferences_advanced" = "고급";
 "preferences_appearance" = "모양";
 "preferences_ignore" = "제외";

@@ -32,4 +32,4 @@
 "PWC-Rx-PPN.ibShadowedToolTip" = "По умолчанию: Время последнего копирования.";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Number of history items to keep.\nDefault: 200."; ObjectID = "b49-c6-irW"; */
-"b49-c6-irW.ibShadowedToolTip" = "Количество записей в истории для хранения.\nПо умолчанию: 200";
+"b49-c6-irW.ibShadowedToolTip" = "Количество записей в истории для хранения.\nПо умолчанию: 200.";

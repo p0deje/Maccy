@@ -1,4 +1,4 @@
-"search_placeholder" = "اكتب للبحث...";
+"search_placeholder" = "اكتب للبحث…";
 "clear_tooltip" = "امسح العناصر غير المثبتة.\nاختر باستخدام ⇧ لمسح الكل.";
 "clear_all_tooltip" = "مسح كافة العناصر.";
 "about_tooltip" = "اقرأ المزيد عن التطبيق.";
@@ -7,7 +7,7 @@
 "clear_all" = "امسح الكل";
 "about" = "عن";
 "quit" = "إغلاق";
-"preferences" = "التفضيلات...";
+"preferences" = "التفضيلات…";
 "preferences_advanced" = "متقدم";
 "preferences_appearance" = "المظهر";
 "preferences_ignore" = "تجاهل";

@@ -23,7 +23,7 @@
 "R7Y-UN-Edt.title" = "Position des Popup-Fensters:";
 
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
-"ePT-qq-kg9.title" = "Titel neben dem Suchfeld anzeigen ";
+"ePT-qq-kg9.title" = "Titel neben dem Suchfeld anzeigen";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "Suchfeld anzeigen";

@@ -1,13 +1,13 @@
-"search_placeholder" = "escribe para buscar...";
+"search_placeholder" = "escriba para buscar…";
 "clear_tooltip" = "Limpiar elementos no anclados.\nSelecciona con ⇧ para limpiarlos todos.";
 "clear_all_tooltip" = "Limpiar todo.";
 "about_tooltip" = "Leer más sobre la aplicación.";
 "quit_tooltip" = "Cerrar aplicación.";
 "clear" = "Limpiar";
 "clear_all" = "Limpiar todo";
-"about" = "Acerca de…";
+"about" = "Acerca de";
 "quit" = "Salir";
-"preferences" = "Preferencias...";
+"preferences" = "Preferencias…";
 "preferences_advanced" = "Avanzado";
 "preferences_appearance" = "Apariencia";
 "preferences_ignore" = "Ignorar";

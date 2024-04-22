@@ -1,11 +1,11 @@
 /* Class = "NSTextFieldCell"; title = "Sort by:"; ObjectID = "0Vh-es-5I5"; */
-"0Vh-es-5I5.title" = "Trier par:";
+"0Vh-es-5I5.title" = "Trier par :";
 
 /* Class = "NSMenuItem"; title = "Time of first copy"; ObjectID = "2yi-R0-4up"; */
 "2yi-R0-4up.title" = "Date de première copie";
 
 /* Class = "NSTextFieldCell"; title = "Size:"; ObjectID = "5og-JF-cpR"; */
-"5og-JF-cpR.title" = "Taille:";
+"5og-JF-cpR.title" = "Taille :";
 
 /* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
 "mf5-QH-x1u.title" = "Nombre de copies";
@@ -14,7 +14,7 @@
 "zrg-H1-TjU.title" = "Date de dernière copie";
 
 /* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
-"Cal-Kj-TqV.title" = "Sauver:";
+"Cal-Kj-TqV.title" = "Sauver :";
 
 /* Class = "NSButtonCell"; title = "Files"; ObjectID = "Pr2-Ic-sUM"; */
 "Pr2-Ic-sUM.title" = "Fichiers";
@@ -29,7 +29,7 @@
 "GDB-hB-d75.title" = "Modifiez les types de contenu copié à stocker.";
 
 /* Class = "NSPopUpButton"; ibShadowedToolTip = "Default: Time of last copy."; ObjectID = "PWC-Rx-PPN"; */
-"PWC-Rx-PPN.ibShadowedToolTip" = "Par défaut: Date de dernière copie.";
+"PWC-Rx-PPN.ibShadowedToolTip" = "Par défaut : Date de dernière copie.";
 
 /* Class = "NSStackView"; ibShadowedToolTip = "Number of history items to keep.\nDefault: 200."; ObjectID = "b49-c6-irW"; */
-"b49-c6-irW.ibShadowedToolTip" = "Nombre d'éléments à garder dans l'historique.\nPar défaut: 200.";
+"b49-c6-irW.ibShadowedToolTip" = "Nombre d'éléments à garder dans l'historique.\nPar défaut : 200.";

@@ -11,16 +11,16 @@
 "DCt-Nk-VNS.headerCell.title" = "Додатки";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Goj-ts-fal"; */
-"Goj-ts-fal.title" = "";
+"Goj-ts-fal.title" = "Metin Hücresi";
 
 /* Class = "NSTableColumn"; headerCell.title = "Regular expressions"; ObjectID = "Hef-1G-Irp"; */
 "Hef-1G-Irp.headerCell.title" = "Регулярні вирази";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ItS-bj-BFG"; */
-"ItS-bj-BFG.title" = "";
+"ItS-bj-BFG.title" = "Текст клітинки";
 
 /* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "Rfe-XX-kt3"; */
-"Rfe-XX-kt3.title" = "";
+"Rfe-XX-kt3.title" = "Таблиця Перегляд клітин";
 
 /* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "Zb2-M8-Pky"; */
 "Zb2-M8-Pky.title" = "Ігнорувати всі програми, окрім перелічених";
@@ -29,13 +29,13 @@
 "b7c-gy-SzX.label" = "Типи";
 
 /* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "cCb-x7-Qin"; */
-"cCb-x7-Qin.title" = "Можна ігнорувати копії, які надходять із певних програм.\nЗверніть увагу, що поточна реалізація не гарантує стовідсоткового результату. Тому, по можливості, рекомендується використовувати типи, що ігноруються";
+"cCb-x7-Qin.title" = "Можна ігнорувати копії, які надходять із певних програм.\nЗверніть увагу, що поточна реалізація не гарантує стовідсоткового результату. Тому, по можливості, рекомендується використовувати типи, що ігноруються.";
 
 /* Class = "NSTabViewItem"; label = "Regular expressions"; ObjectID = "oR1-gy-AKV"; */
 "oR1-gy-AKV.label" = "Регулярні вирази";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "rOG-Q7-qpw"; */
-"rOG-Q7-qpw.title" = "";
+"rOG-Q7-qpw.title" = "Текст клітинки";
 
 /* Class = "NSTabViewItem"; label = "Applications"; ObjectID = "uWq-uc-eIR"; */
 "uWq-uc-eIR.label" = "Додатки";

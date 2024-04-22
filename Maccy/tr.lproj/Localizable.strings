@@ -1,4 +1,4 @@
-"search_placeholder" = "aramak için yazın...";
+"search_placeholder" = "aramak için yazın…";
 "clear_tooltip" = "İğnesi kaldırılan ögeleri temizle.\nTümünü temizlemek için ⇧ ile seçin.";
 "clear_all_tooltip" = "Tüm ögeleri temizle.";
 "about_tooltip" = "Uygulama hakkında daha fazla bilgi al.";
@@ -7,7 +7,7 @@
 "clear_all" = "Tümünü Temizle";
 "about" = "Hakkında";
 "quit" = "Çık";
-"preferences" = "Ayarlar...";
+"preferences" = "Ayarlar…";
 "preferences_advanced" = "Gelişmiş";
 "preferences_appearance" = "Görünüş";
 "preferences_ignore" = "Yok Say";

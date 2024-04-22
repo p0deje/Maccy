@@ -11,16 +11,16 @@
 "Krv-qU-Cbs.title" = "Xcode";
 
 /* Class = "NSTextFieldCell"; title = "First copy time:"; ObjectID = "Ot3-5Y-zfU"; */
-"Ot3-5Y-zfU.title" = "Date de la première copie:";
+"Ot3-5Y-zfU.title" = "Date de la première copie :";
 
 /* Class = "NSTextFieldCell"; title = "Text"; ObjectID = "bOI-SJ-vkn"; */
 "bOI-SJ-vkn.title" = "Text";
 
 /* Class = "NSTextFieldCell"; title = "Number of copies:"; ObjectID = "bmV-pZ-ccc"; */
-"bmV-pZ-ccc.title" = "Nombre de copies:";
+"bmV-pZ-ccc.title" = "Nombre de copies :";
 
 /* Class = "NSTextFieldCell"; title = "Last copy time:"; ObjectID = "ify-Om-Foy"; */
-"ify-Om-Foy.title" = "Date de la dernière copie:";
+"ify-Om-Foy.title" = "Date de la dernière copie :";
 
 /* Class = "NSTextFieldCell"; title = "Press {deleteKey} to delete."; ObjectID = "oTv-7u-tbp"; */
 "oTv-7u-tbp.title" = "Appuyez sur {deleteKey} pour supprimer.";
@@ -29,4 +29,4 @@
 "ung-5b-7M1.title" = "Jan 28, 8:22:33";
 
 /* Class = "NSTextFieldCell"; title = "Application:"; ObjectID = "v53-2O-7HD"; */
-"v53-2O-7HD.title" = "Application:";
+"v53-2O-7HD.title" = "Application :";

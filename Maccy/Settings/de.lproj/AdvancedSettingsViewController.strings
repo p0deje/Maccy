@@ -1,5 +1,5 @@
 /* Class = "NSTextFieldCell"; title = "Temporarily ignore all new copies.\nYou are likely to use it programmatically and disable application while copying sensitive data."; ObjectID = "Ejh-zi-AFs"; */
-"Ejh-zi-AFs.title" = "Vorrübergehend alle neue Einträge ignorieren. Zum Beispiel während dem Kopieren von sensiblen Daten.\nDies kann über das Terminal aktiviert und deaktiviert werden mit:";
+"Ejh-zi-AFs.title" = "Vorrübergehend alle neue Einträge ignorieren. Zum Beispiel während dem Kopieren von sensiblen Daten.\nDies kann über das Terminal aktiviert und deaktiviert werden mit.";
 
 /* Class = "NSTextFieldCell"; title = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false"; ObjectID = "LFh-6b-GFi"; */
 "LFh-6b-GFi.title" = "defaults write org.p0deje.Maccy ignoreEvents true\n# Einträge wieder kopieren\ndefaults write org.p0deje.Maccy ignoreEvents false";
@@ -11,7 +11,7 @@
 "RA0-eh-Udt.title" = "Deaktivieren";
 
 /* Class = "NSButtonCell"; title = "Avoid taking application focus"; ObjectID = "jjU-HE-iIA"; */
-"jjU-HE-iIA.title" = "Verhindert das Wegnehmen des Fokus der aktiven Anwendung ";
+"jjU-HE-iIA.title" = "Verhindert das Wegnehmen des Fokus der aktiven Anwendung";
 
 /* Class = "NSButtonCell"; title = "Clear history on quit"; ObjectID = "JvB-ng-8vt"; */
 "JvB-ng-8vt.title" = "Verlauf beim Beenden löschen";

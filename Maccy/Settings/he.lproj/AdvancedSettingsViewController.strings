@@ -11,7 +11,7 @@
 "RA0-eh-Udt.title" = "כיבוי";
 
 /* Class = "NSButtonCell"; title = "Avoid taking application focus"; ObjectID = "jjU-HE-iIA"; */
-"jjU-HE-iIA.title" = "הימנעות מחטיפת המיקוד של היישום ";
+"jjU-HE-iIA.title" = "הימנעות מחטיפת המיקוד של היישום";
 
 /* Class = "NSButtonCell"; title = "Clear history on quit"; ObjectID = "JvB-ng-8vt"; */
 "JvB-ng-8vt.title" = "פינוי היסטוריה עם היציאה";

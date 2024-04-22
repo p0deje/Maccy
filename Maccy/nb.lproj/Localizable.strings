@@ -1,4 +1,4 @@
-"search_placeholder" = "skriv for å søke...";
+"search_placeholder" = "skriv for å søke…";
 "clear_tooltip" = "Slett avmerkede elementer.\nVelg med ⇧ for å slette alle.";
 "clear_all_tooltip" = "Slett alle elementer.";
 "about_tooltip" = "Les mer om programmet.";
@@ -7,7 +7,7 @@
 "clear_all" = "Slett alt";
 "about" = "Om";
 "quit" = "Avslutt";
-"preferences" = "Valg...";
+"preferences" = "Valg…";
 "preferences_advanced" = "Avansert";
 "preferences_appearance" = "Utseende";
 "preferences_ignore" = "Overse";
