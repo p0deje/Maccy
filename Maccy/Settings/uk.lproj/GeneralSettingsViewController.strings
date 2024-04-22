@@ -20,7 +20,7 @@
 "kK4-kG-DIY.title" = "Вставити автоматично";
 
 /* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
-"EdO-Bo-TeB.title" = "";
+"EdO-Bo-TeB.title" = "• Виберіть, натиснувши ⌘, щоб скопіювати елемент.\n• Виберіть, натиснувши ⌥, щоб скопіювати та вставити елемент.\n• Виберіть, натиснувши ⌥⇧, щоб скопіювати, очистити форматування та вставити елемент.";
 
 /* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
 "IGh-5B-6RG.title" = "Нечіткий";

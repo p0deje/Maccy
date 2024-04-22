@@ -20,7 +20,7 @@
 "5NO-0n-i7l.title" = "Einfügen ohne Formatierung";
 
 /* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
-"EdO-Bo-TeB.title" = "";
+"EdO-Bo-TeB.title" = "• Drücke ⌘, um den gewählten Eintrag zu kopieren.\n• Drücke ⌥, um den gewählten Eintrag zu kopieren und einzufügen.\n• Drücke ⌥⇧, um den gewählten Eintrag zu kopieren und unformatiert einzufügen.";
 
 /* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
 "IGh-5B-6RG.title" = "Fuzzy";
@@ -41,7 +41,7 @@
 "1Tw-Z5-00F.title" = "Anheften:";
 
 /* Class = "NSView"; ibShadowedToolTip = "Shortcut key to delete history item.\nDefault: ⌥⌫."; ObjectID = "MWj-5S-7C8"; */
-"MWj-5S-7C8.ibShadowedToolTip" = "Tastenkombination zum Löschen eines Verlaufselements.\Standard: ⌥⌫.";
+"MWj-5S-7C8.ibShadowedToolTip" = "Tastenkombination zum Löschen eines Verlaufselements.\nStandard: ⌥⌫.";
 
 /* Class = "NSView"; ibShadowedToolTip = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "gv6-rV-zkI"; */
 "gv6-rV-zkI.ibShadowedToolTip" = "Tastenkürzel um die Applikation zu öffnen.\nStandard: ⇧⌘C.";
@@ -50,7 +50,7 @@
 "hdM-75-pvO.title" = "Öffnen:";
 
 /* Class = "NSView"; ibShadowedToolTip = "Shortcut key to pin history item.\nDefault: ⌥P."; ObjectID = "pPs-rF-k8m"; */
-"pPs-rF-k8m.ibShadowedToolTip" = "Tastenkombination zum Anheften eines Verlaufselements.\Standard: ⌥P.";
+"pPs-rF-k8m.ibShadowedToolTip" = "Tastenkombination zum Anheften eines Verlaufselements.\nStandard: ⌥P.";
 
 /* Class = "NSTextFieldCell"; title = "Delete:"; ObjectID = "r50-bG-RWB"; */
 "r50-bG-RWB.title" = "Löschen:";

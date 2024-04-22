@@ -20,7 +20,7 @@
 "5NO-0n-i7l.title" = "Вставлять без форматирования";
 
 /* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
-"EdO-Bo-TeB.title" = "";
+"EdO-Bo-TeB.title" = "• Выберите, зажав ⌘, чтобы скопировать запись.\n• Выберите, зажав ⌥, чтобы скопировать и вставить запись.\n• Выберите, зажав ⌥⇧, чтобы скопировать, очистить форматирование и вставить запись.";
 
 /* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
 "IGh-5B-6RG.title" = "Неточный";
