@@ -1,4 +1,4 @@
-"search_placeholder" = "počni kucati za pretragu...";
+"search_placeholder" = "počni kucati za pretragu…";
 "clear_tooltip" = "Očisti sve stavke.\nOznači sa ⇧ da očistiš sve.";
 "clear_all_tooltip" = "Očisti sve stavke.";
 "about_tooltip" = "Pročitaj više o aplikaciji.";
@@ -6,8 +6,8 @@
 "clear" = "Očisti";
 "clear_all" = "Očisti sve";
 "about" = "O Aplikaciji";
-"quit" = "Odustani";
-"preferences" = "Podešavanja...";
+"quit" = "Zatvori";
+"preferences" = "Podešavanja…";
 "preferences_advanced" = "Napredno";
 "preferences_appearance" = "Izgled";
 "preferences_ignore" = "Ignoriši";
@@ -16,13 +16,13 @@
 "preferences_storage" = "Pohrana";
 "copy_modifiers_config" = "• Označi sa %@ da kopiraš stavku.";
 "paste_modifiers_config" = "• Označi sa %@ da kopiraš i zalijepiš stavku.";
-"format_modifiers_config" = "• Označi sa %@ kopiraš, očistiš formatiranje i zalijepiš stavku";
+"format_modifiers_config" = "• Označi sa %@ kopiraš, očistiš formatiranje i zalijepiš stavku.";
 "accessibility_alert_message" = "“Maccy” želi da kontroliše ovaj računar koristeći funkcije pristupačnosti.";
 "accessibility_alert_comment" = "Odobrite pristup ovoj aplikaciji u postavkama {pane}, koje se nalaze u {settings}.\n\nKliknite na dugme +, izaberite Maccy i potvrdite izbor u polju za potvrdu pored njega.";
-"accessibility_alert_deny" = "Ignoriši";
+"accessibility_alert_deny" = "Nemoj dozvoliti";
 "accessibility_alert_open" = "Otvori Sistemska podešavanja";
 "clear_alert_message" = "Da li ste sigurni?";
-"clear_alert_comment" = "Ne možeš povratiti ovu radnju";
+"clear_alert_comment" = "Ne možeš povratiti ovu radnju.";
 "clear_alert_cancel" = "Odustani";
 "clear_alert_confirm" = "Očisti";
 "key_used_error" = "Tipka je več u upotrebi.";
