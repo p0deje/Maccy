@@ -1,4 +1,4 @@
-"search_placeholder" = "tapez pour rechercher...";
+"search_placeholder" = "tapez pour rechercher…";
 "clear_tooltip" = "Supprimer les éléments non épinglés.\nSélectionnez avec ⇧ pour tout supprimer.";
 "clear_all_tooltip" = "Supprimer toute la liste.";
 "about_tooltip" = "Plus d'informations à propos de l'application.";
@@ -7,7 +7,7 @@
 "clear_all" = "Tout supprimer";
 "about" = "À propos";
 "quit" = "Quitter";
-"preferences" = "Préférences...";
+"preferences" = "Préférences…";
 "preferences_advanced" = "Avancé";
 "preferences_appearance" = "Apparence";
 "preferences_ignore" = "Ignorer";
@@ -21,7 +21,7 @@
 "accessibility_alert_comment" = "Accorder les droits à cette application dans le panneau {pane}, situé dans {settings}.\n\nCliquez sur le bouton +, sélectionnez “Maccy“ et cochez la case à côté.";
 "accessibility_alert_deny" = "Refuser";
 "accessibility_alert_open" = "Ouvrir les Préférences Système";
-"clear_alert_message" = "Voulez-vous vraiment effacer l'historique?";
+"clear_alert_message" = "Voulez-vous vraiment effacer l'historique ?";
 "clear_alert_comment" = "Vous ne pouvez pas annuler cette action.";
 "clear_alert_cancel" = "Annuler";
 "clear_alert_confirm" = "Supprimer";
