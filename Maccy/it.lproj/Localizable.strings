@@ -1,5 +1,5 @@
-"search_placeholder" = "scrivi per cercare...";
-"clear_tooltip" = "Elimina gli elementi sbloccati.\Seleziona con ⇧ per eliminarli tutti.";
+"search_placeholder" = "scrivi per cercare…";
+"clear_tooltip" = "Elimina gli elementi sbloccati.\nSeleziona con ⇧ per eliminarli tutti.";
 "clear_all_tooltip" = "Pulisci tutto.";
 "about_tooltip" = "Leggi più informazioni sull'applicazione.";
 "quit_tooltip" = "Chiudi l' applicazione.";
@@ -7,7 +7,7 @@
 "clear_all" = "Pulisci tutto";
 "about" = "Informazioni";
 "quit" = "Chiudi";
-"preferences" = "Preferenze...";
+"preferences" = "Preferenze…";
 "preferences_advanced" = "Avanzate";
 "preferences_appearance" = "Aspetto";
 "preferences_ignore" = "Ignora";
