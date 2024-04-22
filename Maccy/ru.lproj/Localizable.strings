@@ -1,4 +1,4 @@
-"search_placeholder" = "начните печатать для поиска...";
+"search_placeholder" = "начните печатать для поиска…";
 "clear_tooltip" = "Очистить неприкреплённые записи.\nВыберите нажав ⇧ чтобы очистить всё.";
 "clear_all_tooltip" = "Очистить все записи.";
 "about_tooltip" = "Узнать больше о приложении.";
@@ -7,7 +7,7 @@
 "clear_all" = "Очистить всё";
 "about" = "О приложении";
 "quit" = "Завершить";
-"preferences" = "Настройки...";
+"preferences" = "Настройки…";
 "preferences_advanced" = "Дополнения";
 "preferences_appearance" = "Внешний Вид";
 "preferences_ignore" = "Игнорирование";
