@@ -11,16 +11,16 @@
 "DCt-Nk-VNS.headerCell.title" = "어플리케이션";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Goj-ts-fal"; */
-"Goj-ts-fal.title" = "";
+"Goj-ts-fal.title" = "텍스트 셀";
 
 /* Class = "NSTableColumn"; headerCell.title = "Regular expressions"; ObjectID = "Hef-1G-Irp"; */
 "Hef-1G-Irp.headerCell.title" = "정규식";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ItS-bj-BFG"; */
-"ItS-bj-BFG.title" = "";
+"ItS-bj-BFG.title" = "텍스트 셀";
 
 /* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "Rfe-XX-kt3"; */
-"Rfe-XX-kt3.title" = "";
+"Rfe-XX-kt3.title" = "표 전망 세포";
 
 /* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "Zb2-M8-Pky"; */
 "Zb2-M8-Pky.title" = "나열된 애플리케이션을 제외한 모든 애플리케이션 무시";
@@ -35,7 +35,7 @@
 "oR1-gy-AKV.label" = "정규식";
 
 /* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "rOG-Q7-qpw"; */
-"rOG-Q7-qpw.title" = "";
+"rOG-Q7-qpw.title" = "텍스트 셀";
 
 /* Class = "NSTabViewItem"; label = "Applications"; ObjectID = "uWq-uc-eIR"; */
 "uWq-uc-eIR.label" = "어플리케이션";
