@@ -1,4 +1,4 @@
-"search_placeholder" = "введіть для пошуку...";
+"search_placeholder" = "введіть для пошуку…";
 "clear_tooltip" = "Очистити незакріплені елементи.\nВиберіть за допомогою ⇧, щоб видалити всі.";
 "clear_all_tooltip" = "Очистити всі елементи.";
 "about_tooltip" = "Докладніше про додаток.";
@@ -7,7 +7,7 @@
 "clear_all" = "Очистити все";
 "about" = "Про додаток";
 "quit" = "Вийти";
-"preferences" = "Налаштування...";
+"preferences" = "Налаштування…";
 "preferences_advanced" = "Розширені опції";
 "preferences_appearance" = "Виявлення";
 "preferences_ignore" = "Ігнорувати";
