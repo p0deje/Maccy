@@ -23,7 +23,7 @@
 "R7Y-UN-Edt.title" = "הקפצת חלונית ב־:";
 
 /* Class = "NSButtonCell"; title = "Show title before search field"; ObjectID = "ePT-qq-kg9"; */
-"ePT-qq-kg9.title" = "הצגת כותרת לפני שדה החיפוש ";
+"ePT-qq-kg9.title" = "הצגת כותרת לפני שדה החיפוש";
 
 /* Class = "NSButtonCell"; title = "Show search field"; ObjectID = "mWx-zi-OAv"; */
 "mWx-zi-OAv.title" = "הצגת שדה חיפוש";
