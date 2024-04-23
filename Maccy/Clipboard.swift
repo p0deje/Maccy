@@ -174,8 +174,8 @@ class Clipboard {
     }
 
     if let sourceAppBundle = sourceApp?.bundleIdentifier, shouldIgnore(sourceAppBundle) {
-        return
-      }
+      return
+    }
 
     // Some applications (BBEdit, Edge) add 2 items to pasteboard when copying
     // so it's better to merge all data into a single record.
@@ -183,7 +183,7 @@ class Clipboard {
     // - https://github.com/p0deje/Maccy/issues/472
     var contents: [HistoryItemContent] = []
     pasteboard.pasteboardItems?.forEach({ item in
-      let types = Set(item.types)
+      var types = Set(item.types)
       if types.contains(.string) && isEmptyString(item) && !richText(item) {
         return
       }
@@ -192,11 +192,21 @@ class Clipboard {
         return
       }
 
-      contents += types
+      types = types
         .subtracting(disabledTypes)
-        .subtracting([.microsoftLinkSource, .microsoftObjectLink])
-        .filter { !$0.rawValue.starts(with: dynamicTypePrefix) && !$0.rawValue.starts(with: microsoftSourcePrefix) }
-        .map { HistoryItemContent(type: $0.rawValue, value: item.data(forType: $0)) }
+        .filter { !$0.rawValue.starts(with: dynamicTypePrefix) }
+        .filter { !$0.rawValue.starts(with: microsoftSourcePrefix) }
+
+      // Avoid reading Microsoft Word links from bookmarks and cross-references.
+      // https://github.com/p0deje/Maccy/issues/613
+      // https://github.com/p0deje/Maccy/issues/770
+      if types.isSuperset(of: [.microsoftLinkSource, .microsoftObjectLink]) {
+        types = types.subtracting([.microsoftLinkSource, .microsoftObjectLink, .pdf])
+      }
+
+      types.forEach { type in
+        contents.append(HistoryItemContent(type: type.rawValue, value: item.data(forType: type)))
+      }
     })
 
     guard !contents.isEmpty else {

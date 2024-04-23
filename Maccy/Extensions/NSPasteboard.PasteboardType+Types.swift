@@ -16,7 +16,6 @@ extension NSPasteboard.PasteboardType {
   static let fromMaccy = NSPasteboard.PasteboardType(rawValue: "org.p0deje.Maccy")
 
   // Types that indicate Microsoft Word bookmarks (links).
-  // https://github.com/p0deje/Maccy/issues/613
   static let microsoftObjectLink = NSPasteboard.PasteboardType(rawValue: "com.microsoft.ObjectLink")
   static let microsoftLinkSource = NSPasteboard.PasteboardType(rawValue: "com.microsoft.Link-Source")
 }
