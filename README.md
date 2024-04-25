@@ -18,13 +18,13 @@ Maccy works on macOS Mojave 10.14 or higher.
 * [Install](#install)
 * [Usage](#usage)
 * [Advanced](#advanced)
-    * [Ignore Copied Items](#ignore-copied-items)
-    * [Ignore Custom Copy Types](#ignore-custom-copy-types)
-    * [Speed up Clipboard Check Interval](#speed-up-clipboard-check-interval)
+  * [Ignore Copied Items](#ignore-copied-items)
+  * [Ignore Custom Copy Types](#ignore-custom-copy-types)
+  * [Speed up Clipboard Check Interval](#speed-up-clipboard-check-interval)
 * [FAQ](#faq)
-    * [Why doesn't it paste when I select an item in history?](#why-doesnt-it-paste-when-i-select-an-item-in-history)
-    * [When assigning a hotkey to open Maccy, it says that this hotkey is already used in some system setting.](#when-assigning-a-hotkey-to-open-maccy-it-says-that-this-hotkey-is-already-used-in-some-system-setting)
-    * [How to restore hidden footer?](#how-to-restore-hidden-footer)
+  * [Why doesn't it paste when I select an item in history?](#why-doesnt-it-paste-when-i-select-an-item-in-history)
+  * [When assigning a hotkey to open Maccy, it says that this hotkey is already used in some system setting.](#when-assigning-a-hotkey-to-open-maccy-it-says-that-this-hotkey-is-already-used-in-some-system-setting)
+  * [How to restore hidden footer?](#how-to-restore-hidden-footer)
 * [Motivation](#motivation)
 * [License](#license)
 
@@ -59,7 +59,7 @@ brew install maccy
 9. To clear all unpinned items, select _Clear_ in the menu, or press <kbd>OPTION (⌥)</kbd> + <kbd>COMMAND (⌘)</kbd> + <kbd>DELETE (⌫)</kbd>. To clear all items including pinned, select _Clear_ in the menu with  <kbd>OPTION (⌥)</kbd> pressed, or press <kbd>SHIFT (⇧)</kbd> + <kbd>OPTION (⌥)</kbd> + <kbd>COMMAND (⌘)</kbd> + <kbd>DELETE (⌫)</kbd>.
 10. To disable Maccy and ignore new copies, click on the menu icon with <kbd>OPTION (⌥)</kbd> pressed.
 11. To ignore only the next copy, click on the menu icon with <kbd>OPTION (⌥)</kbd> + <kbd>SHIFT (⇧)</kbd> pressed.
-12. To customize the behavior, check "Preferences..." window, or press <kbd>COMMAND (⌘)</kbd> + <kbd>,</kbd>.
+12. To customize the behavior, check "Preferences…" window, or press <kbd>COMMAND (⌘)</kbd> + <kbd>,</kbd>.
 
 ## Advanced
 

@@ -14,7 +14,7 @@ class MenuLoader: NSMenu, NSMenuDelegate {
 
   init(_ loader: @escaping LoaderCallback) {
     super.init(title: "Loader")
-    addItem(withTitle: "Loading...", action: nil, keyEquivalent: "")
+    addItem(withTitle: "Loading…", action: nil, keyEquivalent: "")
     self.delegate = self
     self.loader = loader
   }

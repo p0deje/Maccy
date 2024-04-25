@@ -35,7 +35,7 @@ class MenuFooterTests: XCTestCase {
       "keyEquivalent": ",",
       "keyEquivalentModifierMask": NSEvent.ModifierFlags([.command]),
       "tag": 107,
-      "title": "Preferences...",
+      "title": "Preferences…",
       "tooltip": ""
     ],
     "about": [

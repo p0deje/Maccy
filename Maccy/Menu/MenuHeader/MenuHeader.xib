@@ -29,7 +29,7 @@
                     <constraints>
                         <constraint firstAttribute="height" constant="25" id="xNg-gc-FWv"/>
                     </constraints>
-                    <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" refusesFirstResponder="YES" borderStyle="bezel" focusRingType="none" placeholderString="type to search..." usesSingleLineMode="YES" bezelStyle="round" id="oKU-5I-XAd">
+                    <searchFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" continuous="YES" refusesFirstResponder="YES" borderStyle="bezel" focusRingType="none" placeholderString="type to search…" usesSingleLineMode="YES" bezelStyle="round" id="oKU-5I-XAd">
                         <font key="font" metaFont="system"/>
                         <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
