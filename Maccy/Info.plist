@@ -20,10 +20,10 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>INIntentsSupported</key>
 	<array>
-		<string>Clearintent</string>
 		<string>SelectIntent</string>
 		<string>GetIntent</string>
 		<string>DeleteIntent</string>
+		<string>ClearIntent</string>
 	</array>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.productivity</string>

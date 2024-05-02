@@ -9,11 +9,11 @@
 	<key>INIntentDefinitionNamespace</key>
 	<string>F3nH0s</string>
 	<key>INIntentDefinitionSystemVersion</key>
-	<string>23B73</string>
+	<string>23F5064f</string>
 	<key>INIntentDefinitionToolsBuildVersion</key>
-	<string>15A507</string>
+	<string>15E204a</string>
 	<key>INIntentDefinitionToolsVersion</key>
-	<string>15.0.1</string>
+	<string>15.3</string>
 	<key>INIntents</key>
 	<array>
 		<dict>
@@ -21,6 +21,8 @@
 			<string>generic</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>Selects an item in Maccy clipboard history. Depending on Maccy settings, it might trigger pasting of the selected item.</string>
 			<key>INIntentDescriptionID</key>
 			<string>SY2Wat</string>
 			<key>INIntentInput</key>
@@ -198,6 +200,8 @@
 			<string>generic</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>Clears all Maccy clipboard history except for pinned items.</string>
 			<key>INIntentDescriptionID</key>
 			<string>qICI4b</string>
 			<key>INIntentManagedParameterCombinations</key>
@@ -262,6 +266,8 @@
 			<string>generic</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>Gets an item from Maccy clipboard history. The returned item can be used to access its plain/rich/HTML text, image contents or file location.</string>
 			<key>INIntentDescriptionID</key>
 			<string>9xam4c</string>
 			<key>INIntentLastParameterTag</key>
@@ -506,6 +512,8 @@
 			<string>generic</string>
 			<key>INIntentConfigurable</key>
 			<true/>
+			<key>INIntentDescription</key>
+			<string>Deletes an item from Maccy clipboard history.</string>
 			<key>INIntentDescriptionID</key>
 			<string>I316c6</string>
 			<key>INIntentInput</key>
