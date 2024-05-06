@@ -23,14 +23,15 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  public let maxHotKey = 9
+  let maxHotKey = 9
 
-  public var isVisible: Bool = false
+  var isVisible: Bool = false
+  var lastSelectedItem: HistoryMenuItem?
 
-  public var firstUnpinnedHistoryMenuItem: HistoryMenuItem? {
+  var firstUnpinnedHistoryMenuItem: HistoryMenuItem? {
     historyMenuItems.first(where: { !$0.isPinned })
   }
-  public var lastUnpinnedHistoryMenuItem: HistoryMenuItem? {
+  var lastUnpinnedHistoryMenuItem: HistoryMenuItem? {
     historyMenuItems.last(where: { !$0.isPinned })
   }
 
@@ -110,7 +111,7 @@ class Menu: NSMenu, NSMenuDelegate {
     DispatchQueue.main.async {
       self.menuHeader?.setQuery("", throttle: false)
       self.menuHeader?.queryField.refusesFirstResponder = true
-   }
+    }
   }
 
   func menu(_ menu: NSMenu, willHighlight item: NSMenuItem?) {
@@ -120,6 +121,7 @@ class Menu: NSMenu, NSMenuDelegate {
       return
     }
     previewController.showPopover(for: item, allItems: indexedItems)
+    lastSelectedItem = item
   }
 
   func buildItems() {

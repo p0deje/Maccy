@@ -7,7 +7,7 @@ class Maccy: NSObject {
   static var returnFocusToPreviousApp = true
 
   @objc let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-  var selectedItem: HistoryItem? { (menu.highlightedItem as? HistoryMenuItem)?.item }
+  var selectedItem: HistoryItem? { menu.lastSelectedItem?.item }
 
   private let statusItemTitleMaxLength = 20
 
