@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="22505" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="32700.99.1234" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" customObjectInstantitationMethod="direct">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22505"/>
+        <deployment identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="22690"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -66,7 +67,7 @@
                         <gridCell row="Ssu-ST-LDz" column="vOJ-9h-G8Y" id="gUk-1z-sYH"/>
                         <gridCell row="Ssu-ST-LDz" column="pQU-Pz-q1v" id="qhX-wf-DeN">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Mxc-Pf-Ef9">
-                                <rect key="frame" x="81" y="379" width="222" height="18"/>
+                                <rect key="frame" x="81" y="356" width="222" height="18"/>
                                 <buttonCell key="cell" type="check" title="Check for updates automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="avb-QJ-T0h">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -79,7 +80,7 @@
                         <gridCell row="bpM-Oe-CBP" column="vOJ-9h-G8Y" id="F1h-En-eCd"/>
                         <gridCell row="bpM-Oe-CBP" column="pQU-Pz-q1v" id="4MC-s5-NJN">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Ik8-mb-VoG">
-                                <rect key="frame" x="83" y="353" width="77" height="19"/>
+                                <rect key="frame" x="83" y="330" width="77" height="19"/>
                                 <buttonCell key="cell" type="roundRect" title="Check now" bezelStyle="roundedRect" alignment="center" borderStyle="border" inset="2" id="8Rb-OS-d59">
                                     <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="cellTitle"/>
@@ -91,13 +92,13 @@
                         </gridCell>
                         <gridCell row="mzz-6k-Dz9" column="vOJ-9h-G8Y" headOfMergedCell="hec-ch-tJx" id="hec-ch-tJx">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="vbo-7a-QV5">
-                                <rect key="frame" x="401" y="343" width="100" height="5"/>
+                                <rect key="frame" x="401" y="320" width="100" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="mzz-6k-Dz9" column="pQU-Pz-q1v" headOfMergedCell="hec-ch-tJx" id="hE2-yX-ng0"/>
                         <gridCell row="1lh-Qw-cAx" column="vOJ-9h-G8Y" id="2m8-9a-mJO">
                             <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="C8J-Mx-Lzz">
-                                <rect key="frame" x="31" y="304" width="41" height="23"/>
+                                <rect key="frame" x="31" y="281" width="41" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="10R-0q-RDn"/>
                                 </constraints>
@@ -110,7 +111,7 @@
                         </gridCell>
                         <gridCell row="1lh-Qw-cAx" column="pQU-Pz-q1v" id="t3H-4Z-90w">
                             <customView key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gv6-rV-zkI">
-                                <rect key="frame" x="83" y="307" width="100" height="30"/>
+                                <rect key="frame" x="83" y="284" width="100" height="30"/>
                                 <string key="toolTip">Global shortcut key to open application.
 Default: ⇧⌘C.</string>
                                 <constraints>
@@ -120,7 +121,7 @@ Default: ⇧⌘C.</string>
                         </gridCell>
                         <gridCell row="rSH-D5-fQU" column="vOJ-9h-G8Y" id="MkQ-Ti-RAy">
                             <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UNS-12-xWP">
-                                <rect key="frame" x="45" y="263" width="27" height="23"/>
+                                <rect key="frame" x="45" y="240" width="27" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="ARz-S4-0pY"/>
                                 </constraints>
@@ -133,7 +134,7 @@ Default: ⇧⌘C.</string>
                         </gridCell>
                         <gridCell row="rSH-D5-fQU" column="pQU-Pz-q1v" id="yVM-gZ-e0i">
                             <customView key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pPs-rF-k8m">
-                                <rect key="frame" x="83" y="266" width="100" height="30"/>
+                                <rect key="frame" x="83" y="243" width="100" height="30"/>
                                 <string key="toolTip">Shortcut key to pin history item.
 Default: ⌥P.</string>
                                 <constraints>
@@ -143,7 +144,7 @@ Default: ⌥P.</string>
                         </gridCell>
                         <gridCell row="6l6-J7-db5" column="vOJ-9h-G8Y" id="7zg-HT-ckd">
                             <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="VdH-E4-54P">
-                                <rect key="frame" x="25" y="222" width="47" height="23"/>
+                                <rect key="frame" x="25" y="199" width="47" height="23"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="23" id="e85-mk-6n9"/>
                                 </constraints>
@@ -156,7 +157,7 @@ Default: ⌥P.</string>
                         </gridCell>
                         <gridCell row="6l6-J7-db5" column="pQU-Pz-q1v" id="1vO-Yp-qzV">
                             <customView key="contentView" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MWj-5S-7C8">
-                                <rect key="frame" x="83" y="225" width="100" height="30"/>
+                                <rect key="frame" x="83" y="202" width="100" height="30"/>
                                 <string key="toolTip">Shortcut key to delete history item.
 Default: ⌥⌫.</string>
                                 <constraints>
@@ -168,13 +169,13 @@ Default: ⌥⌫.</string>
                         <gridCell row="PHn-iI-jCM" column="pQU-Pz-q1v" headOfMergedCell="8Mg-Vk-jBD" id="HHp-Fs-2P6"/>
                         <gridCell row="gQG-qR-qof" column="vOJ-9h-G8Y" headOfMergedCell="8Tc-ki-XIw" xPlacement="fill" id="8Tc-ki-XIw">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="fMY-lL-A9Q">
-                                <rect key="frame" x="0.0" y="203" width="501" height="5"/>
+                                <rect key="frame" x="0.0" y="180" width="501" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="gQG-qR-qof" column="pQU-Pz-q1v" headOfMergedCell="8Tc-ki-XIw" id="a3u-rN-xNI"/>
                         <gridCell row="Ahg-HZ-SOL" column="vOJ-9h-G8Y" id="LiU-w2-SdI">
                             <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Q7N-u9-cfJ">
-                                <rect key="frame" x="22" y="180" width="50" height="16"/>
+                                <rect key="frame" x="22" y="157" width="50" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Search:" id="eLD-CL-D8J">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -184,7 +185,7 @@ Default: ⌥⌫.</string>
                         </gridCell>
                         <gridCell row="Ahg-HZ-SOL" column="pQU-Pz-q1v" id="u4O-7G-Ykh">
                             <popUpButton key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="W4h-tN-MTS">
-                                <rect key="frame" x="80" y="173" width="161" height="25"/>
+                                <rect key="frame" x="80" y="150" width="161" height="25"/>
                                 <popUpButtonCell key="cell" type="push" title="Exact" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="OJz-OA-cKK" id="w1r-h5-MLH">
                                     <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                                     <font key="font" metaFont="menu"/>
@@ -206,7 +207,7 @@ Default: ⌥⌫.</string>
                         <gridCell row="Tu6-SU-k0p" column="pQU-Pz-q1v" id="EcY-4A-GHy"/>
                         <gridCell row="UJH-vP-Sxs" column="vOJ-9h-G8Y" id="5cq-36-h4b">
                             <textField key="contentView" focusRingType="none" horizontalHuggingPriority="251" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="F0h-Nd-ZrP">
-                                <rect key="frame" x="11" y="145" width="61" height="16"/>
+                                <rect key="frame" x="11" y="122" width="61" height="16"/>
                                 <textFieldCell key="cell" alignment="right" title="Behavior:" id="HJa-3L-ffW">
                                     <font key="font" usesAppearanceFont="YES"/>
                                     <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -216,7 +217,7 @@ Default: ⌥⌫.</string>
                         </gridCell>
                         <gridCell row="UJH-vP-Sxs" column="pQU-Pz-q1v" id="NQO-xP-Gnq">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mI4-d4-FAq">
-                                <rect key="frame" x="81" y="144" width="144" height="18"/>
+                                <rect key="frame" x="81" y="121" width="144" height="18"/>
                                 <buttonCell key="cell" type="check" title="Paste automatically" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="kK4-kG-DIY">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -229,7 +230,7 @@ Default: ⌥⌫.</string>
                         <gridCell row="pEf-RA-ZQD" column="vOJ-9h-G8Y" id="peV-hS-IxH"/>
                         <gridCell row="pEf-RA-ZQD" column="pQU-Pz-q1v" id="Jm2-0G-oZg">
                             <button key="contentView" verticalHuggingPriority="750" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="eZQ-w7-Bts">
-                                <rect key="frame" x="81" y="120" width="175" height="18"/>
+                                <rect key="frame" x="81" y="97" width="175" height="18"/>
                                 <buttonCell key="cell" type="check" title="Paste without formatting" bezelStyle="regularSquare" imagePosition="left" state="on" inset="2" id="5NO-0n-i7l">
                                     <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                                     <font key="font" metaFont="system"/>
@@ -242,7 +243,7 @@ Default: ⌥⌫.</string>
                         <gridCell row="WUd-Pz-Jmh" column="vOJ-9h-G8Y" id="PVN-G5-e3x"/>
                         <gridCell row="WUd-Pz-Jmh" column="pQU-Pz-q1v" id="Cka-Bw-1F2">
                             <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zoT-9w-uyW">
-                                <rect key="frame" x="81" y="99" width="240" height="14"/>
+                                <rect key="frame" x="81" y="76" width="240" height="14"/>
                                 <textFieldCell key="cell" selectable="YES" title="Customize the behavior when selecting item:" id="ZSa-vg-zWi">
                                     <font key="font" metaFont="message" size="11"/>
                                     <color key="textColor" name="systemGrayColor" catalog="System" colorSpace="catalog"/>
@@ -253,7 +254,7 @@ Default: ⌥⌫.</string>
                         <gridCell row="zQc-VT-n4K" column="vOJ-9h-G8Y" id="I8T-py-BXS"/>
                         <gridCell row="zQc-VT-n4K" column="pQU-Pz-q1v" id="SXk-Fm-WVe">
                             <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" ambiguous="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zFN-E4-6L5">
-                                <rect key="frame" x="81" y="56" width="356" height="42"/>
+                                <rect key="frame" x="81" y="33" width="356" height="42"/>
                                 <textFieldCell key="cell" selectable="YES" id="EdO-Bo-TeB">
                                     <font key="font" metaFont="message" size="11"/>
                                     <string key="title">• Select with ⌘ pressed to copy item.
@@ -266,7 +267,7 @@ Default: ⌥⌫.</string>
                         </gridCell>
                         <gridCell row="b9E-uO-yBa" column="vOJ-9h-G8Y" headOfMergedCell="bSy-UX-xHc" id="bSy-UX-xHc">
                             <box key="contentView" verticalHuggingPriority="750" ambiguous="YES" boxType="separator" translatesAutoresizingMaskIntoConstraints="NO" id="TPf-ZH-DdZ">
-                                <rect key="frame" x="401" y="45" width="100" height="5"/>
+                                <rect key="frame" x="401" y="22" width="100" height="5"/>
                             </box>
                         </gridCell>
                         <gridCell row="b9E-uO-yBa" column="pQU-Pz-q1v" headOfMergedCell="bSy-UX-xHc" id="2qU-zh-Fsa"/>
