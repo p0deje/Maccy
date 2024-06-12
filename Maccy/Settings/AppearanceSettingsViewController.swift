@@ -1,4 +1,5 @@
 import Cocoa
+import Defaults
 import Settings
 
 // swiftlint:disable type_body_length
@@ -75,29 +76,29 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   }
 
   @IBAction func popupAtCursorSelected(_ sender: NSMenuItem) {
-    UserDefaults.standard.popupPosition = "cursor"
+    Defaults[.popupPosition] = "cursor"
     showMenuIconButton.isEnabled = true
   }
 
   @IBAction func popupAtMenuIconSelected(_ sender: NSMenuItem) {
-    UserDefaults.standard.popupPosition = "statusItem"
+    Defaults[.popupPosition] = "statusItem"
     showMenuIconButton.isEnabled = false
   }
 
   @IBAction func popupAtScreenCenterSelected(_ sender: NSMenuItem) {
-    UserDefaults.standard.popupPosition = "center"
-    UserDefaults.standard.popupScreen = 0
+    Defaults[.popupPosition] = "center"
+    Defaults[.popupScreen] = 0
     showMenuIconButton.isEnabled = true
   }
 
   @IBAction func popupAtWindowSelected(_ sender: NSMenuItem) {
-    UserDefaults.standard.popupPosition = "window"
+    Defaults[.popupPosition] = "window"
     showMenuIconButton.isEnabled = true
   }
 
   @IBAction func selectScreen(_ sender: NSMenuItem) {
-    UserDefaults.standard.popupPosition = "center"
-    UserDefaults.standard.popupScreen = sender.tag
+    Defaults[.popupPosition] = "center"
+    Defaults[.popupScreen] = sender.tag
 
     populatePopupPosition()
   }
@@ -108,108 +109,109 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
     }
 
     menu.items.forEach { $0.state = .off }
-    menu.item(withTag: UserDefaults.standard.popupScreen)?.state = .on
+    menu.item(withTag: Defaults[.popupScreen])?.state = .on
   }
 
   @IBAction func pinToChanged(_ sender: NSPopUpButton) {
     switch sender.selectedTag() {
     case 1:
-      UserDefaults.standard.pinTo = "bottom"
+      Defaults[.pinTo] = "bottom"
     default:
-      UserDefaults.standard.pinTo = "top"
+      Defaults[.pinTo] = "top"
     }
   }
 
   @IBAction func imageHeightFieldChanged(_ sender: NSTextField) {
-    UserDefaults.standard.imageMaxHeight = sender.integerValue
+    Defaults[.imageMaxHeight] = sender.integerValue
     imageHeightStepper.integerValue = sender.integerValue
   }
 
   @IBAction func imageHeightStepperChanged(_ sender: NSStepper) {
-    UserDefaults.standard.imageMaxHeight = sender.integerValue
+    Defaults[.imageMaxHeight] = sender.integerValue
     imageHeightField.integerValue = sender.integerValue
   }
 
   @IBAction func numberOfItemsFieldChanged(_ sender: NSTextField) {
-    UserDefaults.standard.maxMenuItems = sender.integerValue
+    Defaults[.maxMenuItems] = sender.integerValue
     numberOfItemsStepper.integerValue = sender.integerValue
   }
 
   @IBAction func numberOfItemsStepperChanged(_ sender: NSStepper) {
-    UserDefaults.standard.maxMenuItems = sender.integerValue
+    Defaults[.maxMenuItems] = sender.integerValue
     numberOfItemsField.integerValue = sender.integerValue
   }
 
   @IBAction func titleLengthFieldChanged(_ sender: NSTextField) {
-    UserDefaults.standard.maxMenuItemLength = sender.integerValue
+    Defaults[.maxMenuItemLength] = sender.integerValue
     titleLengthStepper.integerValue = sender.integerValue
   }
 
   @IBAction func titleLengthStepperChanged(_ sender: NSStepper) {
-    UserDefaults.standard.maxMenuItemLength = sender.integerValue
+    Defaults[.maxMenuItemLength] = sender.integerValue
     titleLengthField.integerValue = sender.integerValue
   }
 
   @IBAction func previewDelayFieldChanged(_ sender: NSTextField) {
-    UserDefaults.standard.previewDelay = sender.integerValue
+    Defaults[.previewDelay] = sender.integerValue
     previewDelayStepper.integerValue = sender.integerValue
   }
 
   @IBAction func previewDelayStepperChanged(_ sender: NSStepper) {
-    UserDefaults.standard.previewDelay = sender.integerValue
+    Defaults[.previewDelay] = sender.integerValue
     previewDelayField.integerValue = sender.integerValue
   }
 
   @IBAction func showSpecialSymbolsChanged(_ sender: NSButton) {
-    UserDefaults.standard.showSpecialSymbols = (sender.state == .on)
+    Defaults[.showSpecialSymbols] = (sender.state == .on)
   }
 
   @IBAction func showMenuIconChanged(_ sender: NSButton) {
-    UserDefaults.standard.showInStatusBar = (sender.state == .on)
+    Defaults[.showInStatusBar] = (sender.state == .on)
     popupAtMenuIconMenuItem.isEnabled = (sender.state == .on)
     changeMenuIcon.isEnabled = (sender.state == .on)
   }
 
   @IBAction func showMenuIconChangedToDefault(_ sender: NSMenuItem) {
-    UserDefaults.standard.menuIcon = "maccy"
+    Defaults[.menuIcon] = "maccy"
   }
 
   @IBAction func showMenuIconChangedToClipboard(_ sender: NSMenuItem) {
-    UserDefaults.standard.menuIcon = "clipboard"
+    Defaults[.menuIcon] = "clipboard"
   }
 
   @IBAction func showMenuIconChangedToScissors(_ sender: NSMenuItem) {
-    UserDefaults.standard.menuIcon = "scissors"
+    Defaults[.menuIcon] = "scissors"
   }
 
   @IBAction func showMenuIconChangedToPaperclip(_ sender: NSMenuItem) {
-      UserDefaults.standard.menuIcon = "paperclip"
-    }
+    Defaults[.menuIcon] = "paperclip"
+  }
+
   @IBAction func showRecentCopyChanged(_ sender: NSButton) {
-    UserDefaults.standard.showRecentCopyInMenuBar = (sender.state == .on)
+    Defaults[.showRecentCopyInMenuBar] = (sender.state == .on)
   }
 
   @IBAction func showSearchFieldChanged(_ sender: NSButton) {
-    UserDefaults.standard.hideSearch = (sender.state == .off)
+    Defaults[.hideSearch] = (sender.state == .off)
   }
 
   @IBAction func showTitleChanged(_ sender: NSButton) {
-    UserDefaults.standard.hideTitle = (sender.state == .off)
+    Defaults[.hideTitle] = (sender.state == .off)
   }
 
   @IBAction func showFooterChanged(_ sender: NSButton) {
-    UserDefaults.standard.hideFooter = (sender.state == .off)
+    Defaults[.hideFooter] = (sender.state == .off)
     openPreferencesLabel.isHidden = (sender.state == .on)
   }
 
   @IBAction func highlightMatchesChanged(_ sender: NSPopUpButton) {
     switch sender.selectedTag() {
     case 1:
-      UserDefaults.standard.highlightMatches = "italic"
+      Defaults[.highlightMatch] = "italic"
     case 2:
-      UserDefaults.standard.highlightMatches = "underline"
+      Defaults[.highlightMatch] = "underline"
     default:
-      UserDefaults.standard.highlightMatches = "bold"
+      Defaults[.highlightMatch] = "bold"
     }
   }
 
@@ -245,7 +247,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   }
 
   private func populatePopupPosition() {
-    switch UserDefaults.standard.popupPosition {
+    switch Defaults[.popupPosition] {
     case "window":
       popupAtButton.selectItem(withTag: 3)
     case "center":
@@ -260,7 +262,7 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   }
 
   private func populatePinTo() {
-    switch UserDefaults.standard.pinTo {
+    switch Defaults[.pinTo] {
     case "bottom":
       pinToButton.selectItem(withTag: 1)
     default:
@@ -289,13 +291,13 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   }
 
   private func populateImageHeight() {
-    imageHeightField.integerValue =  UserDefaults.standard.imageMaxHeight
-    imageHeightStepper.integerValue =  UserDefaults.standard.imageMaxHeight
+    imageHeightField.integerValue = Defaults[.imageMaxHeight]
+    imageHeightStepper.integerValue = Defaults[.imageMaxHeight]
   }
 
   private func populateNumberOfItems() {
-    numberOfItemsField.integerValue = UserDefaults.standard.maxMenuItems
-    numberOfItemsStepper.integerValue = UserDefaults.standard.maxMenuItems
+    numberOfItemsField.integerValue = Defaults[.maxMenuItems]
+    numberOfItemsStepper.integerValue = Defaults[.maxMenuItems]
   }
 
   private func setMinAndMaxTitleLength() {
@@ -309,8 +311,8 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   }
 
   private func populateTitleLength() {
-    titleLengthField.integerValue = UserDefaults.standard.maxMenuItemLength
-    titleLengthStepper.integerValue = UserDefaults.standard.maxMenuItemLength
+    titleLengthField.integerValue = Defaults[.maxMenuItemLength]
+    titleLengthStepper.integerValue = Defaults[.maxMenuItemLength]
   }
 
   private func setMinAndMaxPreviewDelay() {
@@ -324,22 +326,22 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   }
 
   private func populatePreviewDelay() {
-    previewDelayField.integerValue = UserDefaults.standard.previewDelay
-    previewDelayStepper.integerValue = UserDefaults.standard.previewDelay
+    previewDelayField.integerValue = Defaults[.previewDelay]
+    previewDelayStepper.integerValue = Defaults[.previewDelay]
   }
 
   private func populateShowSpecialSymbols() {
-    showSpecialSymbolsButton.state = UserDefaults.standard.showSpecialSymbols ? .on : .off
+    showSpecialSymbolsButton.state = Defaults[.showSpecialSymbols] ? .on : .off
   }
 
   private func populateShowMenuIcon() {
-    showMenuIconButton.state = UserDefaults.standard.showInStatusBar ? .on : .off
-    popupAtMenuIconMenuItem.isEnabled = UserDefaults.standard.showInStatusBar
+    showMenuIconButton.state = Defaults[.showInStatusBar] ? .on : .off
+    popupAtMenuIconMenuItem.isEnabled = Defaults[.showInStatusBar]
   }
 
   private func populateChangeMenuIcon() {
-    changeMenuIcon.isEnabled = UserDefaults.standard.showInStatusBar
-    switch UserDefaults.standard.menuIcon {
+    changeMenuIcon.isEnabled = Defaults[.showInStatusBar]
+    switch Defaults[.menuIcon] {
     case "clipboard":
       changeMenuIcon.selectItem(withTag: 1)
     case "scissors":
@@ -352,24 +354,24 @@ class AppearanceSettingsViewController: NSViewController, SettingsPane {
   }
 
   private func populateShowRecentCopy() {
-    showRecentCopyButton.state = UserDefaults.standard.showRecentCopyInMenuBar ? .on : .off
+    showRecentCopyButton.state = Defaults[.showRecentCopyInMenuBar] ? .on : .off
   }
 
   private func populateShowSearchField() {
-    showSearchFieldButton.state = UserDefaults.standard.hideSearch ? .off : .on
+    showSearchFieldButton.state = Defaults[.hideSearch] ? .off : .on
   }
 
   private func populateShowTitle() {
-    showTitleButton.state = UserDefaults.standard.hideTitle ? .off : .on
+    showTitleButton.state = Defaults[.hideTitle] ? .off : .on
   }
 
   private func populateShowFooter() {
-    showFooterButton.state = UserDefaults.standard.hideFooter ? .off : .on
-    openPreferencesLabel.isHidden = !UserDefaults.standard.hideFooter
+    showFooterButton.state = Defaults[.hideFooter] ? .off : .on
+    openPreferencesLabel.isHidden = !Defaults[.hideFooter]
   }
 
   private func populateHighlightMatch() {
-    switch UserDefaults.standard.highlightMatches {
+    switch Defaults[.highlightMatch] {
     case "italic":
       highlightMatchesButton.selectItem(withTag: 1)
     case "underline":

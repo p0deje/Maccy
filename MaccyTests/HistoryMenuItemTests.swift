@@ -1,9 +1,10 @@
 import XCTest
+import Defaults
 @testable import Maccy
 
 class HistoryMenuItemTests: XCTestCase {
   let boldFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
-  let savedImageMaxHeight = UserDefaults.standard.imageMaxHeight
+  let savedImageMaxHeight = Defaults[.imageMaxHeight]
 
   var firstCopiedAt: Date! {
     let formatter = DateFormatter()
@@ -20,13 +21,13 @@ class HistoryMenuItemTests: XCTestCase {
   override func setUp() {
     super.setUp()
     CoreDataManager.inMemory = true
-    UserDefaults.standard.imageMaxHeight = 40
+    Defaults[.imageMaxHeight] = 40
   }
 
   override func tearDown() {
     super.tearDown()
     CoreDataManager.inMemory = false
-    UserDefaults.standard.imageMaxHeight = savedImageMaxHeight
+    Defaults[.imageMaxHeight] = savedImageMaxHeight
   }
 
   func testString() {

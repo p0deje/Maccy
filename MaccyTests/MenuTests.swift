@@ -1,12 +1,13 @@
 import XCTest
+import Defaults
 @testable import Maccy
 
 class MenuTests: XCTestCase {
   let clipboard = Clipboard.shared
   let history = History()
 
-  let savedPasteByDefault = UserDefaults.standard.pasteByDefault
-  let savedRemoveFormattingByDefault = UserDefaults.standard.removeFormattingByDefault
+  let savedPasteByDefault = Defaults[.pasteByDefault]
+  let savedRemoveFormattingByDefault = Defaults[.removeFormattingByDefault]
 
   var menu: Menu!
   var chunkedItems: [[HistoryMenuItem]] {
@@ -34,8 +35,8 @@ class MenuTests: XCTestCase {
   override func tearDown() {
     super.tearDown()
     CoreDataManager.inMemory = false
-    UserDefaults.standard.pasteByDefault = savedPasteByDefault
-    UserDefaults.standard.removeFormattingByDefault = savedRemoveFormattingByDefault
+    Defaults[.pasteByDefault] = savedPasteByDefault
+    Defaults[.removeFormattingByDefault] = savedRemoveFormattingByDefault
   }
 
   func testSeparator() {
@@ -51,8 +52,8 @@ class MenuTests: XCTestCase {
   }
 
   func testItemsWhenPasteAndRemoveFormattingAreOff() {
-    UserDefaults.standard.pasteByDefault = false
-    UserDefaults.standard.removeFormattingByDefault = false
+    Defaults[.pasteByDefault] = false
+    Defaults[.removeFormattingByDefault] = false
 
     menu.buildItems()
     menu.prepareForPopup(location: .inMenuBar)
@@ -75,8 +76,8 @@ class MenuTests: XCTestCase {
   }
 
   func testItemsWhenPasteIsOnAndRemoveFormattingIsOff() {
-    UserDefaults.standard.pasteByDefault = true
-    UserDefaults.standard.removeFormattingByDefault = false
+    Defaults[.pasteByDefault] = true
+    Defaults[.removeFormattingByDefault] = false
 
     menu.buildItems()
     menu.prepareForPopup(location: .inMenuBar)
@@ -99,8 +100,8 @@ class MenuTests: XCTestCase {
   }
 
   func testItemsWhenPasteIsOffAndRemoveFormattingIsOn() {
-    UserDefaults.standard.pasteByDefault = false
-    UserDefaults.standard.removeFormattingByDefault = true
+    Defaults[.pasteByDefault] = false
+    Defaults[.removeFormattingByDefault] = true
 
     menu.buildItems()
     menu.prepareForPopup(location: .inMenuBar)
@@ -123,8 +124,8 @@ class MenuTests: XCTestCase {
   }
 
   func testItemsWhenPasteIsOnAndRemoveFormattingIsOn() {
-    UserDefaults.standard.pasteByDefault = true
-    UserDefaults.standard.removeFormattingByDefault = true
+    Defaults[.pasteByDefault] = true
+    Defaults[.removeFormattingByDefault] = true
 
     menu.buildItems()
     menu.prepareForPopup(location: .inMenuBar)

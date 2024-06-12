@@ -1,14 +1,15 @@
 import XCTest
+import Defaults
 @testable import Maccy
 
 // swiftlint:disable force_try
 class HistoryItemTests: XCTestCase {
-  let savedIgnoredApps = UserDefaults.standard.ignoredApps
-  let savedMaxMenuItemLength = UserDefaults.standard.maxMenuItemLength
+  let savedIgnoredApps = Defaults[.ignoredApps]
+  let savedMaxMenuItemLength = Defaults[.maxMenuItemLength]
 
   override func setUp() {
     CoreDataManager.inMemory = true
-    UserDefaults.standard.maxMenuItemLength = 50
+    Defaults[.maxMenuItemLength] = 50
     super.setUp()
   }
 
@@ -16,7 +17,7 @@ class HistoryItemTests: XCTestCase {
     super.tearDown()
     CoreDataManager.shared.viewContext.reset()
     CoreDataManager.inMemory = false
-    UserDefaults.standard.maxMenuItemLength = savedMaxMenuItemLength
+    Defaults[.maxMenuItemLength] = savedMaxMenuItemLength
   }
 
   func testTitleForString() {

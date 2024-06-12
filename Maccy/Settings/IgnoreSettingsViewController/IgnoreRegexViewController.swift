@@ -1,4 +1,5 @@
 import Cocoa
+import Defaults
 
 class IgnoreRegexViewController: NSViewController, NSTableViewDataSource {
   @IBOutlet weak var ignoredItemsTable: NSTableView!
@@ -6,8 +7,8 @@ class IgnoreRegexViewController: NSViewController, NSTableViewDataSource {
   private let exampleIgnoredRegex = "^[a-zA-Z0-9]{50}$"
 
   private var ignoredRegexp: [String] {
-    get { UserDefaults.standard.ignoreRegexp.sorted() }
-    set { UserDefaults.standard.ignoreRegexp = newValue }
+    get { Defaults[.ignoreRegexp].sorted() }
+    set { Defaults[.ignoreRegexp] = newValue }
   }
 
   func numberOfRows(in tableView: NSTableView) -> Int {

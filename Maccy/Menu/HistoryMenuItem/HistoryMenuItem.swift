@@ -1,4 +1,5 @@
 import Cocoa
+import Defaults
 
 class HistoryMenuItem: NSMenuItem {
   var isPinned = false
@@ -153,7 +154,7 @@ class HistoryMenuItem: NSMenuItem {
       let highlightRange = NSRange(location: range.lowerBound, length: rangeLength)
 
       if Range(highlightRange, in: title) != nil {
-        switch UserDefaults.standard.highlightMatches {
+        switch Defaults[.highlightMatch] {
         case "italic":
           attributedTitle.addAttribute(.font, value: systemItalicFont, range: highlightRange)
         case "underline":
@@ -200,7 +201,7 @@ class HistoryMenuItem: NSMenuItem {
       image.size.width = imageMaxWidth
     }
 
-    let imageMaxHeight = CGFloat(UserDefaults.standard.imageMaxHeight)
+    let imageMaxHeight = CGFloat(Defaults[.imageMaxHeight])
     if image.size.height > imageMaxHeight {
       image.size.width /= image.size.height / imageMaxHeight
       image.size.height = imageMaxHeight

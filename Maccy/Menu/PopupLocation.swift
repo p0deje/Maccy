@@ -1,4 +1,5 @@
 import AppKit
+import Defaults
 
 enum PopupLocation {
   case inMenuBar
@@ -7,7 +8,7 @@ enum PopupLocation {
   case centeredInScreen(frame: CGRect)
 
   static var forUserDefaults: PopupLocation {
-    switch UserDefaults.standard.popupPosition {
+    switch Defaults[.popupPosition] {
     case "center":
       if let frame = NSScreen.forPopup?.visibleFrame {
         return .centeredInScreen(frame: frame)

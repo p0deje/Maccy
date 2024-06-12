@@ -1,5 +1,6 @@
 import Cocoa
 import CoreData
+import Defaults
 import Sauce
 
 @objc(HistoryItem)
@@ -193,7 +194,7 @@ class HistoryItem: NSManagedObject {
       title = html.string
     }
 
-    if UserDefaults.standard.showSpecialSymbols {
+    if Defaults[.showSpecialSymbols] {
       if let range = title.range(of: "^ +", options: .regularExpression) {
         title = title.replacingOccurrences(of: " ", with: "·", range: range)
       }
@@ -207,7 +208,7 @@ class HistoryItem: NSManagedObject {
       title = title.trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
-    return title.shortened(to: UserDefaults.standard.maxMenuItemLength)
+    return title.shortened(to: Defaults[.maxMenuItemLength])
   }
 
   private func validatePin(_ pin: String) throws {

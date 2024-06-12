@@ -1,8 +1,9 @@
 import XCTest
+import Defaults
 @testable import Maccy
 
 class SorterTests: XCTestCase {
-  let savedPinTo = UserDefaults.standard.pinTo
+  let savedPinTo = Defaults[.pinTo]
 
   var item1: HistoryItem!
   var item2: HistoryItem!
@@ -19,7 +20,7 @@ class SorterTests: XCTestCase {
   override func tearDown() {
     super.tearDown()
     CoreDataManager.inMemory = false
-    UserDefaults.standard.pinTo = savedPinTo
+    Defaults[.pinTo] = savedPinTo
   }
 
   func testSortByLastCopiedAt() {
@@ -38,7 +39,7 @@ class SorterTests: XCTestCase {
   }
 
   func testSortByPinToTop() {
-    UserDefaults.standard.pinTo = "top"
+    Defaults[.pinTo] = "top"
 
     item1.pin = "a"
     item3.pin = "b"
@@ -47,7 +48,7 @@ class SorterTests: XCTestCase {
   }
 
   func testSortByPinToBottom() {
-    UserDefaults.standard.pinTo = "bottom"
+    Defaults[.pinTo] = "bottom"
 
     item1.pin = "a"
     item3.pin = "b"

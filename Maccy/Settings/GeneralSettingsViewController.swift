@@ -1,4 +1,5 @@
 import Cocoa
+import Defaults
 import KeyboardShortcuts
 import LaunchAtLogin
 import Settings
@@ -52,23 +53,23 @@ class GeneralSettingsViewController: NSViewController, SettingsPane {
   @IBAction func searchModeChanged(_ sender: NSPopUpButton) {
     switch sender.selectedTag() {
     case 3:
-      UserDefaults.standard.searchMode = Search.Mode.mixed.rawValue
+      Defaults[.searchMode] = Search.Mode.mixed.rawValue
     case 2:
-      UserDefaults.standard.searchMode = Search.Mode.regexp.rawValue
+      Defaults[.searchMode] = Search.Mode.regexp.rawValue
     case 1:
-      UserDefaults.standard.searchMode = Search.Mode.fuzzy.rawValue
+      Defaults[.searchMode] = Search.Mode.fuzzy.rawValue
     default:
-      UserDefaults.standard.searchMode = Search.Mode.exact.rawValue
+      Defaults[.searchMode] = Search.Mode.exact.rawValue
     }
   }
 
   @IBAction func pasteAutomaticallyChanged(_ sender: NSButton) {
-    UserDefaults.standard.pasteByDefault = (sender.state == .on)
+    Defaults[.pasteByDefault] = (sender.state == .on)
     updateModifiersDescriptionLabel()
   }
 
   @IBAction func removeFormattingChanged(_ sender: NSButton) {
-    UserDefaults.standard.removeFormattingByDefault = (sender.state == .on)
+    Defaults[.removeFormattingByDefault] = (sender.state == .on)
     updateModifiersDescriptionLabel()
   }
 
@@ -83,7 +84,7 @@ class GeneralSettingsViewController: NSViewController, SettingsPane {
   }
 
   private func populateSearchMode() {
-    switch Search.Mode(rawValue: UserDefaults.standard.searchMode) {
+    switch Search.Mode(rawValue: Defaults[.searchMode]) {
     case .mixed:
       searchModeButton.selectItem(withTag: 3)
     case .regexp:
@@ -96,11 +97,11 @@ class GeneralSettingsViewController: NSViewController, SettingsPane {
   }
 
   private func populatePasteAutomatically() {
-    pasteAutomaticallyButton.state = UserDefaults.standard.pasteByDefault ? .on : .off
+    pasteAutomaticallyButton.state = Defaults[.pasteByDefault] ? .on : .off
   }
 
   private func populateRemoveFormatting() {
-    removeFormattingButton.state = UserDefaults.standard.removeFormattingByDefault ? .on : .off
+    removeFormattingButton.state = Defaults[.removeFormattingByDefault] ? .on : .off
   }
 
   private func updateModifiersDescriptionLabel() {

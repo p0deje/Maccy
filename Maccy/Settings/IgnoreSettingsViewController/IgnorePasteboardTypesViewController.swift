@@ -1,4 +1,5 @@
 import Cocoa
+import Defaults
 
 class IgnorePasteboardTypesViewController: NSViewController, NSTableViewDataSource {
   @IBOutlet weak var ignoredItemsTable: NSTableView!
@@ -6,8 +7,8 @@ class IgnorePasteboardTypesViewController: NSViewController, NSTableViewDataSour
   private let exampleIgnoredType = "zzz.yyy.xxx"
 
   private var ignoredTypes: [String] {
-    get { UserDefaults.standard.ignoredPasteboardTypes.sorted() }
-    set { UserDefaults.standard.ignoredPasteboardTypes = Set(newValue) }
+    get { Defaults[.ignoredPasteboardTypes].sorted() }
+    set { Defaults[.ignoredPasteboardTypes] = Set(newValue) }
   }
 
   func numberOfRows(in tableView: NSTableView) -> Int {

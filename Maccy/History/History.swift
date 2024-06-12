@@ -1,10 +1,11 @@
 import AppKit
+import Defaults
 
 class History {
   var all: [HistoryItem] {
-    let sorter = Sorter(by: UserDefaults.standard.sortBy)
+    let sorter = Sorter(by: Defaults[.sortBy])
     var unpinned = sorter.sort(HistoryItem.unpinned)
-    while unpinned.count > UserDefaults.standard.size {
+    while unpinned.count > Defaults[.size] {
       remove(unpinned.removeLast())
     }
 
@@ -14,7 +15,6 @@ class History {
   private var sessionLog: [Int: HistoryItem] = [:]
 
   init() {
-    UserDefaults.standard.register(defaults: [UserDefaults.Keys.size: UserDefaults.Values.size])
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
       clear()
     }

@@ -1,5 +1,6 @@
 import Carbon
 import Cocoa
+import Defaults
 import Sauce
 
 class MenuHeaderView: NSView, NSSearchFieldDelegate {
@@ -25,7 +26,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   }
 
   private lazy var customMenu: Menu? = self.enclosingMenuItem?.menu as? Menu
-  private lazy var headerHeight = UserDefaults.standard.hideSearch ? 1 : 28
+  private lazy var headerHeight = Defaults[.hideSearch] ? 1 : 28
   private lazy var headerSize = NSSize(width: Menu.menuWidth, height: headerHeight)
 
   override func awakeFromNib() {
@@ -40,12 +41,12 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       horizontalRightPadding.constant = macOSXRightPadding
     }
 
-    if UserDefaults.standard.hideTitle {
+    if Defaults[.hideTitle] {
       titleField.isHidden = true
       removeConstraint(titleAndSearchSpacing)
     }
 
-    if UserDefaults.standard.hideSearch {
+    if Defaults[.hideSearch] {
       constraints.forEach(removeConstraint)
     }
   }
@@ -206,7 +207,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
     // password fields in Safari. Let's at least allow
     // search to work in these cases.
     // See https://github.com/p0deje/Maccy/issues/473.
-    if UserDefaults.standard.avoidTakingFocus || !NSApp.isActive {
+    if Defaults[.avoidTakingFocus] || !NSApp.isActive {
       // append character to the search field to trigger
       // and stop event from being propagated
       setQuery("\(queryField.stringValue)\(char)")

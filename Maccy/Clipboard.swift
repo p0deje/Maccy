@@ -1,4 +1,5 @@
 import AppKit
+import Defaults
 import Sauce
 
 class Clipboard {
@@ -30,7 +31,7 @@ class Clipboard {
   ]
   private let modifiedTypes: Set<NSPasteboard.PasteboardType> = [.modified]
 
-  private var enabledTypes: Set<NSPasteboard.PasteboardType> { UserDefaults.standard.enabledPasteboardTypes }
+  private var enabledTypes: Set<NSPasteboard.PasteboardType> { Defaults[.enabledPasteboardTypes] }
   private var disabledTypes: Set<NSPasteboard.PasteboardType> { supportedTypes.subtracting(enabledTypes) }
 
   private var sourceApp: NSRunningApplication? { NSWorkspace.shared.frontmostApplication }
@@ -49,7 +50,7 @@ class Clipboard {
 
   func start() {
     timer = Timer.scheduledTimer(
-      timeInterval: UserDefaults.standard.clipboardCheckInterval,
+      timeInterval: Defaults[.clipboardCheckInterval],
       target: self,
       selector: #selector(checkForChangesInPasteboard),
       userInfo: nil,
@@ -142,7 +143,7 @@ class Clipboard {
   }
 
   func clear() {
-    guard UserDefaults.standard.clearSystemClipboard else {
+    guard Defaults[.clearSystemClipboard] else {
       return
     }
 
@@ -157,10 +158,10 @@ class Clipboard {
 
     changeCount = pasteboard.changeCount
 
-    if UserDefaults.standard.ignoreEvents {
-      if UserDefaults.standard.ignoreOnlyNextEvent {
-        UserDefaults.standard.ignoreEvents = false
-        UserDefaults.standard.ignoreOnlyNextEvent = false
+    if Defaults[.ignoreEvents] {
+      if Defaults[.ignoreOnlyNextEvent] {
+        Defaults[.ignoreEvents] = false
+        Defaults[.ignoreOnlyNextEvent] = false
       }
 
       return
@@ -219,22 +220,22 @@ class Clipboard {
 
   private func shouldIgnore(_ types: Set<NSPasteboard.PasteboardType>) -> Bool {
     let ignoredTypes = self.ignoredTypes
-      .union(UserDefaults.standard.ignoredPasteboardTypes.map({ NSPasteboard.PasteboardType($0) }))
+      .union(Defaults[.ignoredPasteboardTypes].map({ NSPasteboard.PasteboardType($0) }))
 
     return types.isDisjoint(with: enabledTypes) ||
       !types.isDisjoint(with: ignoredTypes)
   }
 
   private func shouldIgnore(_ sourceAppBundle: String) -> Bool {
-    if UserDefaults.standard.ignoreAllAppsExceptListed {
-      return !UserDefaults.standard.ignoredApps.contains(sourceAppBundle)
+    if Defaults[.ignoreAllAppsExceptListed] {
+      return !Defaults[.ignoredApps].contains(sourceAppBundle)
     } else {
-      return UserDefaults.standard.ignoredApps.contains(sourceAppBundle)
+      return Defaults[.ignoredApps].contains(sourceAppBundle)
     }
   }
 
   private func shouldIgnore(_ item: NSPasteboardItem) -> Bool {
-    for regexp in UserDefaults.standard.ignoreRegexp {
+    for regexp in Defaults[.ignoreRegexp] {
       if let string = item.string(forType: .string) {
         do {
           let regex = try NSRegularExpression(pattern: regexp)

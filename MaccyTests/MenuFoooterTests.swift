@@ -1,9 +1,10 @@
 import XCTest
+import Defaults
 @testable import Maccy
 
 // swiftlint:disable force_cast
 class MenuFooterTests: XCTestCase {
-  let savedHideFooter = UserDefaults.standard.hideFooter
+  let savedHideFooter = Defaults[.hideFooter]
 
   let expected: KeyValuePairs<String, [String: Any]> = [
     "separator": [
@@ -60,12 +61,12 @@ class MenuFooterTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
-    UserDefaults.standard.hideFooter = false
+    Defaults[.hideFooter] = false
   }
 
   override func tearDown() {
     super.tearDown()
-    UserDefaults.standard.hideFooter = savedHideFooter
+    Defaults[.hideFooter] = savedHideFooter
   }
 
   func testIsAlternate() {
@@ -94,7 +95,7 @@ class MenuFooterTests: XCTestCase {
   }
 
   func testHiddenFooter() {
-    UserDefaults.standard.hideFooter = true
+    Defaults[.hideFooter] = true
     XCTAssertEqual(Set(actual.map({ $0.isAlternate })), [false])
     XCTAssertEqual(Set(actual.map({ $0.isHidden })), [true])
   }

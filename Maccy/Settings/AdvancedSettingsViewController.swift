@@ -1,4 +1,5 @@
 import Cocoa
+import Defaults
 import Settings
 
 class AdvancedSettingsViewController: NSViewController, SettingsPane {
@@ -24,34 +25,34 @@ class AdvancedSettingsViewController: NSViewController, SettingsPane {
   }
 
   @IBAction func turnOffChanged(_ sender: NSButton) {
-    UserDefaults.standard.ignoreEvents = (sender.state == .on)
+    Defaults[.ignoreEvents] = (sender.state == .on)
   }
 
   @IBAction func avoidTakingFocusChanged(_ sender: NSButton) {
-    UserDefaults.standard.avoidTakingFocus = (sender.state == .on)
+    Defaults[.avoidTakingFocus] = (sender.state == .on)
   }
 
   @IBAction func clearOnQuitChanged(_ sender: NSButton) {
-    UserDefaults.standard.clearOnQuit = (sender.state == .on)
+    Defaults[.clearOnQuit] = (sender.state == .on)
   }
 
   @IBAction func clearSystemClipboardChanged(_ sender: NSButton) {
-    UserDefaults.standard.clearSystemClipboard = (sender.state == .on)
+    Defaults[.clearSystemClipboard] = (sender.state == .on)
   }
 
   private func populateTurnOff() {
-    turnOffButton.state = UserDefaults.standard.ignoreEvents ? .on : .off
+    turnOffButton.state = Defaults[.ignoreEvents] ? .on : .off
   }
 
   private func populateAvoidTakingFocus() {
-    avoidTakingFocusButton.state = UserDefaults.standard.avoidTakingFocus ? .on : .off
+    avoidTakingFocusButton.state = Defaults[.avoidTakingFocus] ? .on : .off
   }
 
   private func populateClearOnQuit() {
-    clearOnQuitButton.state = UserDefaults.standard.clearOnQuit ? .on : .off
+    clearOnQuitButton.state = Defaults[.clearOnQuit] ? .on : .off
   }
 
   private func populateClearSystemClipboard() {
-    clearSystemClipboardButton.state = UserDefaults.standard.clearSystemClipboard ? .on : .off
+    clearSystemClipboardButton.state = Defaults[.clearSystemClipboard] ? .on : .off
   }
 }
