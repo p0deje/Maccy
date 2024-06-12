@@ -7,7 +7,7 @@ class IgnoreApplicationsViewController: NSViewController, NSTableViewDataSource,
 
   private var chooseAppDialog: NSOpenPanel {
     let dialog = NSOpenPanel()
-    dialog.allowedFileTypes = ["app"]
+    dialog.allowedContentTypes = [.application]
     dialog.allowsMultipleSelection = false
     dialog.canChooseDirectories = false
     dialog.directoryURL = URL(string: "/Applications")

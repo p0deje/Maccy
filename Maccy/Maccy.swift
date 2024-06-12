@@ -340,7 +340,7 @@ class Maccy: NSObject {
 
   private func disableUnusedGlobalHotkeys() {
     let names: [KeyboardShortcuts.Name] = [.delete, .pin]
-    names.forEach(KeyboardShortcuts.disable)
+    KeyboardShortcuts.disable(names)
 
     NotificationCenter.default.addObserver(
       forName: Notification.Name("KeyboardShortcuts_shortcutByNameDidChange"),

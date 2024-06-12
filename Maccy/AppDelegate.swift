@@ -23,7 +23,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
-    LaunchAtLogin.migrateIfNeeded()
     migrateUserDefaults()
     clearOrphanRecords()
 
@@ -58,123 +57,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     return nil
   }
 
-  // swiftlint:disable cyclomatic_complexity
-  // swiftlint:disable function_body_length
   private func migrateUserDefaults() {
-    if UserDefaults.standard.migrations["2020-04-25-allow-custom-ignored-types"] != true {
-      UserDefaults.standard.ignoredPasteboardTypes = [
-        "de.petermaurer.TransientPasteboardType",
-        "com.typeit4me.clipping",
-        "Pasteboard generator type",
-        "com.agilebits.onepassword"
-      ]
-      UserDefaults.standard.migrations["2020-04-25-allow-custom-ignored-types"] = true
-    }
-
-    if UserDefaults.standard.migrations["2020-06-19-use-keyboardshortcuts"] != true {
-      if let keys = UserDefaults.standard.string(forKey: "hotKey") {
-        var keysList = keys.split(separator: "+")
-
-        if let keyString = keysList.popLast() {
-          if let key = Key(character: String(keyString), virtualKeyCode: nil) {
-            var modifiers: NSEvent.ModifierFlags = []
-            for keyString in keysList {
-              switch keyString {
-              case "command":
-                modifiers.insert(.command)
-              case "control":
-                modifiers.insert(.control)
-              case "option":
-                modifiers.insert(.option)
-              case "shift":
-                modifiers.insert(.shift)
-              default: ()
-              }
-            }
-
-            if let keyboardShortcutKey = KeyboardShortcuts.Key(rawValue: Int(key.QWERTYKeyCode)) {
-              let shortcut = KeyboardShortcuts.Shortcut(keyboardShortcutKey, modifiers: modifiers)
-              if let encoded = try? JSONEncoder().encode(shortcut) {
-                if let hotKeyString = String(data: encoded, encoding: .utf8) {
-                  let preferenceKey = "KeyboardShortcuts_\(KeyboardShortcuts.Name.popup.rawValue)"
-                  UserDefaults.standard.set(hotKeyString, forKey: preferenceKey)
-                }
-              }
-            }
-          }
-        }
-      }
-
-      UserDefaults.standard.migrations["2020-06-19-use-keyboardshortcuts"] = true
-    }
-
-    if UserDefaults.standard.migrations["2020-09-01-ignore-keeweb"] != true {
-      UserDefaults.standard.ignoredPasteboardTypes =
-        UserDefaults.standard.ignoredPasteboardTypes.union(["net.antelle.keeweb"])
-
-      UserDefaults.standard.migrations["2020-09-01-ignore-keeweb"] = true
-    }
-
-    if UserDefaults.standard.migrations["2021-02-20-allow-to-customize-supported-types"] != true {
-      UserDefaults.standard.enabledPasteboardTypes = [
-        .fileURL, .png, .string, .tiff
-      ]
-
-      UserDefaults.standard.migrations["2021-02-20-allow-to-customize-supported-types"] = true
-    }
-
-    if UserDefaults.standard.migrations["2021-06-28-add-title-to-history-item"] != true {
-      for item in HistoryItem.all {
-        item.title = item.generateTitle(item.getContents())
-      }
-      CoreDataManager.shared.saveContext()
-
-      UserDefaults.standard.migrations["2021-06-28-add-title-to-history-item"] = true
-    }
-
-    if UserDefaults.standard.migrations["2021-10-16-remove-dynamic-pasteboard-types"] != true {
-      let fetchRequest = NSFetchRequest<HistoryItemContent>(entityName: "HistoryItemContent")
-      fetchRequest.predicate = NSPredicate(format: "type BEGINSWITH 'dyn.'")
-      do {
-        try CoreDataManager.shared.viewContext
-          .fetch(fetchRequest)
-          .forEach(CoreDataManager.shared.viewContext.delete(_:))
-        CoreDataManager.shared.saveContext()
-      } catch {
-        // Something went wrong, but it's no big deal.
-      }
-
-      CoreDataManager.shared.saveContext()
-
-      UserDefaults.standard.migrations["2021-10-16-remove-dynamic-pasteboard-types"] = true
-    }
-
-    if UserDefaults.standard.migrations["2022-08-01-rename-suppress-clear-alert"] != true {
-      if let suppressClearAlert = UserDefaults.standard.object(forKey: "supressClearAlert") as? Bool {
-        UserDefaults.standard.suppressClearAlert = suppressClearAlert
-        UserDefaults.standard.removeObject(forKey: "supressClearAlert")
-      }
-
-      UserDefaults.standard.migrations["2022-08-01-rename-suppress-clear-alert"] = true
-    }
-
-    if UserDefaults.standard.migrations["2022-11-14-add-html-rtf-to-supported-types"] != true {
-      if UserDefaults.standard.enabledPasteboardTypes.contains(.string) {
-        UserDefaults.standard.enabledPasteboardTypes =
-          UserDefaults.standard.enabledPasteboardTypes.union([.html, .rtf])
-      }
-
-      UserDefaults.standard.migrations["2022-11-14-add-html-rtf-to-supported-types"] = true
-    }
-
-    if UserDefaults.standard.migrations["2023-01-22-add-regexp-search-mode"] != true {
-      if UserDefaults.standard.bool(forKey: "fuzzySearch") {
-        UserDefaults.standard.searchMode = Search.Mode.fuzzy.rawValue
-      }
-      UserDefaults.standard.removeObject(forKey: "fuzzySearch")
-
-      UserDefaults.standard.migrations["2023-01-22-add-regexp-search-mode"] = true
-    }
   }
 
   private func clearOrphanRecords() {
@@ -189,6 +72,4 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       // Something went wrong, but it's no big deal.
     }
   }
-  // swiftlint:enable cyclomatic_complexity
-  // swiftlint:enable function_body_length
 }
