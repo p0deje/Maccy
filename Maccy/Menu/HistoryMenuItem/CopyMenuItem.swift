@@ -1,9 +1,10 @@
 import AppKit
+import Defaults
 
 extension HistoryMenuItem {
   class CopyMenuItem: HistoryMenuItem {
     static var keyEquivalentModifierMask: NSEvent.ModifierFlags {
-      if UserDefaults.standard.pasteByDefault {
+      if Defaults[.pasteByDefault] {
         return .option
       } else {
         return .command
@@ -17,7 +18,7 @@ extension HistoryMenuItem {
     override func alternate() {
       keyEquivalentModifierMask = CopyMenuItem.keyEquivalentModifierMask
 
-      if UserDefaults.standard.pasteByDefault {
+      if Defaults[.pasteByDefault] {
         super.alternate()
       }
     }

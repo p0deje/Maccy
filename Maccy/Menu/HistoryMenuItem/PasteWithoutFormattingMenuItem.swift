@@ -1,13 +1,14 @@
 import AppKit
+import Defaults
 
 extension HistoryMenuItem {
   class PasteWithoutFormattingMenuItem: HistoryMenuItem {
     static var keyEquivalentModifierMask: NSEvent.ModifierFlags {
-      if UserDefaults.standard.pasteByDefault && !UserDefaults.standard.removeFormattingByDefault {
+      if Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault] {
         return NSEvent.ModifierFlags([.command, .shift])
-      } else if !UserDefaults.standard.pasteByDefault && UserDefaults.standard.removeFormattingByDefault {
+      } else if !Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault] {
         return .option
-      } else if !UserDefaults.standard.pasteByDefault && !UserDefaults.standard.removeFormattingByDefault {
+      } else if !Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault] {
         return NSEvent.ModifierFlags([.option, .shift])
       } else {
         return .command
@@ -22,7 +23,7 @@ extension HistoryMenuItem {
     override func alternate() {
       keyEquivalentModifierMask = PasteWithoutFormattingMenuItem.keyEquivalentModifierMask
 
-      if !UserDefaults.standard.pasteByDefault || !UserDefaults.standard.removeFormattingByDefault {
+      if !Defaults[.pasteByDefault] || !Defaults[.removeFormattingByDefault] {
         super.alternate()
       }
     }

@@ -31,6 +31,8 @@
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
 		DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA11AE952693DD7100D640D2 /* MenuLoader.swift */; };
 		DA13D7CA2C19F52B00FA9E23 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = DA13D7C92C19F52B00FA9E23 /* LaunchAtLogin */; };
+		DA13D7D02C19F8C300FA9E23 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = DA13D7CF2C19F8C300FA9E23 /* Defaults */; };
+		DA13D7D22C19F91B00FA9E23 /* Defaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7D12C19F91B00FA9E23 /* Defaults.swift */; };
 		DA181170247B405B00066D55 /* GeneralSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA18116E247B405B00066D55 /* GeneralSettingsViewController.swift */; };
 		DA181174247B409A00066D55 /* AdvancedSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181172247B409A00066D55 /* AdvancedSettingsViewController.swift */; };
 		DA181177247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */; };
@@ -50,8 +52,6 @@
 		DA20FA762B082E0800056DD5 /* Write.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA20FA752B082E0800056DD5 /* Write.caf */; };
 		DA20FA782B082E1A00056DD5 /* NSSound+Named.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */; };
 		DA246D611E56C9EA001E40F3 /* Application.xib in Resources */ = {isa = PBXBuildFile; fileRef = DA246D601E56C9EA001E40F3 /* Application.xib */; };
-		DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */; };
-		DA2B0AF42343104600EFAD72 /* UserDefaultsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */; };
 		DA2C752C2029FE990090965D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2C752B2029FE990090965D /* Menu.swift */; };
 		DA35278C268D645700C92EBB /* IgnoreSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA35278B268D645700C92EBB /* IgnoreSettingsViewController.swift */; };
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
@@ -198,6 +198,7 @@
 		DA0F34CD24913DD1008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
 		DA0F34CE24913DD5008E9E26 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/GeneralSettingsViewController.strings; sourceTree = "<group>"; };
 		DA11AE952693DD7100D640D2 /* MenuLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuLoader.swift; sourceTree = "<group>"; };
+		DA13D7D12C19F91B00FA9E23 /* Defaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Defaults.swift; sourceTree = "<group>"; };
 		DA18116E247B405B00066D55 /* GeneralSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsViewController.swift; sourceTree = "<group>"; };
 		DA181172247B409A00066D55 /* AdvancedSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsViewController.swift; sourceTree = "<group>"; };
 		DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Settings.PaneIdentifier+Panes.swift"; sourceTree = "<group>"; };
@@ -229,8 +230,6 @@
 		DA20FA752B082E0800056DD5 /* Write.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Write.caf; sourceTree = "<group>"; };
 		DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSound+Named.swift"; sourceTree = "<group>"; };
 		DA246D601E56C9EA001E40F3 /* Application.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Application.xib; sourceTree = "<group>"; };
-		DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Configuration.swift"; sourceTree = "<group>"; };
-		DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsTests.swift; sourceTree = "<group>"; };
 		DA2C752B2029FE990090965D /* Menu.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Menu.swift; sourceTree = "<group>"; };
 		DA2F1B0426F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/AdvancedSettingsViewController.strings; sourceTree = "<group>"; };
 		DA2F1B0526F22DD0005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/AppearanceSettingsViewController.strings; sourceTree = "<group>"; };
@@ -414,6 +413,7 @@
 				2F39CB042AD9A93C00B749FD /* Sparkle in Frameworks */,
 				DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */,
 				DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */,
+				DA13D7D02C19F8C300FA9E23 /* Defaults in Frameworks */,
 				DA009947256414800030E697 /* SwiftHEXColors in Frameworks */,
 				DA5154D82564102900C01004 /* Sauce in Frameworks */,
 				2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */,
@@ -466,7 +466,6 @@
 				DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */,
 				0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
-				DA2B0AF1234201E500EFAD72 /* UserDefaults+Configuration.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -568,7 +567,6 @@
 				DA1EDE442045B68700479723 /* MenuTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
-				DA2B0AF32343104600EFAD72 /* UserDefaultsTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
 			);
 			path = MaccyTests;
@@ -640,6 +638,7 @@
 				DAB082952A2B7B850053E463 /* AppStoreReview.swift */,
 				DA0EF1871E444B2A00E58577 /* Clipboard.swift */,
 				DAB65DFE2440AE29000AECA8 /* CoreDataManager.swift */,
+				DA13D7D12C19F91B00FA9E23 /* Defaults.swift */,
 				DA6DB59620AA7D55003C255E /* GlobalHotKey.swift */,
 				DAD665652898A1C000975096 /* KeyChord.swift */,
 				DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */,
@@ -724,6 +723,7 @@
 				2F39CB032AD9A93C00B749FD /* Sparkle */,
 				2F39CB092AD9AE1F00B749FD /* Settings */,
 				DA13D7C92C19F52B00FA9E23 /* LaunchAtLogin */,
+				DA13D7CF2C19F8C300FA9E23 /* Defaults */,
 			);
 			productName = Maccy;
 			productReference = DAEE38431E3DBEB100DD2966 /* Maccy.app */;
@@ -797,6 +797,7 @@
 				2F39CB022AD9A93C00B749FD /* XCRemoteSwiftPackageReference "Sparkle" */,
 				2F39CB082AD9AE1F00B749FD /* XCRemoteSwiftPackageReference "Settings" */,
 				DA13D7C82C19F43E00FA9E23 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
+				DA13D7CE2C19F8C300FA9E23 /* XCRemoteSwiftPackageReference "Defaults" */,
 			);
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
 			projectDirPath = "";
@@ -867,7 +868,6 @@
 				DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */,
 				DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */,
 				DAD0862D24545C66002AFAEC /* Storage.xcdatamodeld in Sources */,
-				DA2B0AF42343104600EFAD72 /* UserDefaultsTests.swift in Sources */,
 				DA1EDE432045B35300479723 /* HistoryMenuItemTests.swift in Sources */,
 				DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */,
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
@@ -887,6 +887,7 @@
 				DA043DE1247D171C00488756 /* AppearanceSettingsViewController.swift in Sources */,
 				DA6DB59720AA7D55003C255E /* GlobalHotKey.swift in Sources */,
 				DA68F91828BD6E21007E2F25 /* Intents.intentdefinition in Sources */,
+				DA13D7D22C19F91B00FA9E23 /* Defaults.swift in Sources */,
 				2F3205B92AE3EDCA002EA545 /* MenuController.swift in Sources */,
 				DAB9442D2B0583D700451E7C /* DeleteIntentHandler.swift in Sources */,
 				DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */,
@@ -899,7 +900,6 @@
 				DA57C64E249E2A550032707A /* MenuFooter.swift in Sources */,
 				DAB65DFF2440AE29000AECA8 /* CoreDataManager.swift in Sources */,
 				2F73DF2C2AE2749E00DB654E /* PreviewMenuItem.swift in Sources */,
-				DA2B0AF2234201E500EFAD72 /* UserDefaults+Configuration.swift in Sources */,
 				DAC7AFAF2A801C92006081BB /* RunLoopLocalEventMonitor.swift in Sources */,
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
 				5AA9C8402AD80E1B003340F9 /* IgnorePasteboardTypesViewController.swift in Sources */,
@@ -1576,6 +1576,14 @@
 				minimumVersion = 1.1.0;
 			};
 		};
+		DA13D7CE2C19F8C300FA9E23 /* XCRemoteSwiftPackageReference "Defaults" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/sindresorhus/Defaults";
+			requirement = {
+				kind = upToNextMinorVersion;
+				minimumVersion = 8.2.0;
+			};
+		};
 		DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Clipy/Sauce";
@@ -1616,6 +1624,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA13D7C82C19F43E00FA9E23 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */;
 			productName = LaunchAtLogin;
+		};
+		DA13D7CF2C19F8C300FA9E23 /* Defaults */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA13D7CE2C19F8C300FA9E23 /* XCRemoteSwiftPackageReference "Defaults" */;
+			productName = Defaults;
 		};
 		DA5154D72564102900C01004 /* Sauce */ = {
 			isa = XCSwiftPackageProductDependency;

@@ -1,4 +1,5 @@
 import Cocoa
+import Defaults
 import KeyboardShortcuts
 import Settings
 
@@ -38,41 +39,33 @@ class Maccy: NSObject {
     ]
   )
 
-  private var clipboardCheckIntervalObserver: NSKeyValueObservation?
-  private var enabledPasteboardTypesObserver: NSKeyValueObservation?
-  private var ignoreEventsObserver: NSKeyValueObservation?
-  private var imageHeightObserver: NSKeyValueObservation?
-  private var hideFooterObserver: NSKeyValueObservation?
-  private var hideSearchObserver: NSKeyValueObservation?
-  private var hideTitleObserver: NSKeyValueObservation?
-  private var maxMenuItemLengthObserver: NSKeyValueObservation?
-  private var pasteByDefaultObserver: NSKeyValueObservation?
-  private var pinToObserver: NSKeyValueObservation?
-  private var removeFormattingByDefaultObserver: NSKeyValueObservation?
-  private var sortByObserver: NSKeyValueObservation?
-  private var showSpecialSymbolsObserver: NSKeyValueObservation?
-  private var showRecentCopyInMenuBarObserver: NSKeyValueObservation?
-  private var statusItemConfigurationObserver: NSKeyValueObservation?
+  private var clipboardCheckIntervalObserver: Defaults.Observation?
+  private var enabledPasteboardTypesObserver: Defaults.Observation?
+  private var ignoreEventsObserver: Defaults.Observation?
+  private var imageHeightObserver: Defaults.Observation?
+  private var hideFooterObserver: Defaults.Observation?
+  private var hideSearchObserver: Defaults.Observation?
+  private var hideTitleObserver: Defaults.Observation?
+  private var maxMenuItemLengthObserver: Defaults.Observation?
+  private var pasteByDefaultObserver: Defaults.Observation?
+  private var pinToObserver: Defaults.Observation?
+  private var removeFormattingByDefaultObserver: Defaults.Observation?
+  private var sortByObserver: Defaults.Observation?
+  private var showSpecialSymbolsObserver: Defaults.Observation?
+  private var showRecentCopyInMenuBarObserver: Defaults.Observation?
+  private var statusItemConfigurationObserver: Defaults.Observation?
   private var statusItemVisibilityObserver: NSKeyValueObservation?
-  private var statusItemChangeObserver: NSKeyValueObservation?
+  private var statusItemChangeObserver: Defaults.Observation?
 
   override init() {
-    UserDefaults.standard.register(defaults: [
-      UserDefaults.Keys.clipboardCheckInterval: UserDefaults.Values.clipboardCheckInterval,
-      UserDefaults.Keys.imageMaxHeight: UserDefaults.Values.imageMaxHeight,
-      UserDefaults.Keys.maxMenuItems: UserDefaults.Values.maxMenuItems,
-      UserDefaults.Keys.maxMenuItemLength: UserDefaults.Values.maxMenuItemLength,
-      UserDefaults.Keys.previewDelay: UserDefaults.Values.previewDelay,
-      UserDefaults.Keys.showInStatusBar: UserDefaults.Values.showInStatusBar,
-      UserDefaults.Keys.showSpecialSymbols: UserDefaults.Values.showSpecialSymbols
-    ])
-
     super.init()
-    initializeObservers()
-    disableUnusedGlobalHotkeys()
 
     menu = Menu(history: history, clipboard: Clipboard.shared)
     menuController = MenuController(menu, statusItem)
+
+    initializeObservers()
+    disableUnusedGlobalHotkeys()
+
     start()
   }
 
@@ -122,9 +115,9 @@ class Maccy: NSObject {
 
   private func start() {
     statusItem.behavior = .removalAllowed
-    statusItem.isVisible = UserDefaults.standard.showInStatusBar
+    statusItem.isVisible = Defaults[.showInStatusBar]
 
-    updateStatusMenuIcon(UserDefaults.standard.menuIcon)
+    updateStatusMenuIcon(Defaults[.menuIcon])
 
     clipboard.onNewCopy(history.add)
     clipboard.onNewCopy(menu.add)
@@ -207,7 +200,7 @@ class Maccy: NSObject {
   }
 
   private func withClearAlert(suppressClearAlert: Bool, _ closure: @escaping () -> Void) {
-    if suppressClearAlert || UserDefaults.standard.suppressClearAlert {
+    if suppressClearAlert || Defaults[.suppressClearAlert] {
       closure()
     } else {
       Maccy.returnFocusToPreviousApp = false
@@ -215,7 +208,7 @@ class Maccy: NSObject {
       DispatchQueue.main.async {
         if alert.runModal() == NSApplication.ModalResponse.alertFirstButtonReturn {
           if alert.suppressionButton?.state == .on {
-            UserDefaults.standard.suppressClearAlert = true
+            Defaults[.suppressClearAlert] = true
           }
           closure()
         }
@@ -234,7 +227,7 @@ class Maccy: NSObject {
   }
 
   private func updateMenuTitle(_ item: HistoryItem? = nil) {
-    guard UserDefaults.standard.showRecentCopyInMenuBar else {
+    guard Defaults[.showRecentCopyInMenuBar] else {
       statusItem.button?.title = ""
       return
     }
@@ -269,71 +262,68 @@ class Maccy: NSObject {
   }
 
   private func updateStatusItemEnabledness() {
-    statusItem.button?.appearsDisabled = UserDefaults.standard.ignoreEvents ||
-      UserDefaults.standard.enabledPasteboardTypes.isEmpty
+    statusItem.button?.appearsDisabled = Defaults[.ignoreEvents] ||
+      Defaults[.enabledPasteboardTypes].isEmpty
   }
 
   // swiftlint:disable function_body_length
   private func initializeObservers() {
-    clipboardCheckIntervalObserver = UserDefaults.standard.observe(\.clipboardCheckInterval, options: .new) { _, _ in
+    clipboardCheckIntervalObserver = Defaults.observe(.clipboardCheckInterval, options: []) { _ in
       self.clipboard.restart()
     }
-    enabledPasteboardTypesObserver = UserDefaults.standard.observe(\.enabledPasteboardTypes, options: .new) { _, _ in
+    enabledPasteboardTypesObserver = Defaults.observe(.enabledPasteboardTypes, options: []) { _ in
       self.updateStatusItemEnabledness()
     }
-    ignoreEventsObserver = UserDefaults.standard.observe(\.ignoreEvents, options: .new) { _, _ in
+    ignoreEventsObserver = Defaults.observe(.ignoreEvents, options: []) { _ in
       self.updateStatusItemEnabledness()
     }
-    imageHeightObserver = UserDefaults.standard.observe(\.imageMaxHeight, options: .new) { _, _ in
+    imageHeightObserver = Defaults.observe(.imageMaxHeight, options: []) { _ in
       self.menu.resizeImageMenuItems()
     }
-    maxMenuItemLengthObserver = UserDefaults.standard.observe(\.maxMenuItemLength, options: .new) { _, _ in
+    maxMenuItemLengthObserver = Defaults.observe(.maxMenuItemLength, options: []) { _ in
       self.menu.regenerateMenuItemTitles()
       CoreDataManager.shared.saveContext()
     }
-    hideFooterObserver = UserDefaults.standard.observe(\.hideFooter, options: .new) { _, _ in
+    hideFooterObserver = Defaults.observe(.hideFooter, options: []) { _ in
       self.updateFooter()
     }
-    hideSearchObserver = UserDefaults.standard.observe(\.hideSearch, options: .new) { _, _ in
+    hideSearchObserver = Defaults.observe(.hideSearch, options: []) { _ in
       self.updateHeader()
     }
-    hideTitleObserver = UserDefaults.standard.observe(\.hideTitle, options: .new) { _, _ in
+    hideTitleObserver = Defaults.observe(.hideTitle, options: []) { _ in
       self.updateHeader()
     }
-    pasteByDefaultObserver = UserDefaults.standard.observe(\.pasteByDefault, options: .new) { _, _ in
+    pasteByDefaultObserver = Defaults.observe(.pasteByDefault, options: []) { _ in
       self.rebuild()
     }
-    pinToObserver = UserDefaults.standard.observe(\.pinTo, options: .new) { _, _ in
+    pinToObserver = Defaults.observe(.pinTo, options: []) { _ in
       self.rebuild()
     }
-    removeFormattingByDefaultObserver = UserDefaults.standard.observe(\.removeFormattingByDefault,
-                                                                      options: .new) { _, _ in
+    removeFormattingByDefaultObserver = Defaults.observe(.removeFormattingByDefault, options: []) { _ in
       self.rebuild()
     }
-    sortByObserver = UserDefaults.standard.observe(\.sortBy, options: .new) { _, _ in
+    sortByObserver = Defaults.observe(.sortBy, options: []) { _ in
       self.rebuild()
     }
-    showSpecialSymbolsObserver = UserDefaults.standard.observe(\.showSpecialSymbols, options: .new) { _, _ in
+    showSpecialSymbolsObserver = Defaults.observe(.showSpecialSymbols, options: []) { _ in
       self.menu.regenerateMenuItemTitles()
       CoreDataManager.shared.saveContext()
     }
-    showRecentCopyInMenuBarObserver = UserDefaults.standard.observe(\.showRecentCopyInMenuBar,
-                                                                    options: .new) { _, _ in
+    showRecentCopyInMenuBarObserver = Defaults.observe(.showRecentCopyInMenuBar, options: []) { _ in
       self.updateMenuTitle()
     }
-    statusItemConfigurationObserver = UserDefaults.standard.observe(\.showInStatusBar,
-                                                                    options: .new) { _, change in
-      if self.statusItem.isVisible != change.newValue! {
-        self.statusItem.isVisible = change.newValue!
+    statusItemConfigurationObserver = Defaults.observe(.showInStatusBar, options: []) { change in
+      if self.statusItem.isVisible != change.newValue {
+        self.statusItem.isVisible = change.newValue
       }
     }
     statusItemVisibilityObserver = observe(\.statusItem.isVisible, options: .new) { _, change in
-      if UserDefaults.standard.showInStatusBar != change.newValue! {
-        UserDefaults.standard.showInStatusBar = change.newValue!
+      if Defaults[.showInStatusBar] != change.newValue! {
+        Defaults[.showInStatusBar] = change.newValue!
       }
     }
-    statusItemChangeObserver = UserDefaults.standard.observe(\.menuIcon, options: .new) { _, change in
-      self.updateStatusMenuIcon(change.newValue!)
+    statusItemChangeObserver = Defaults.observe(.menuIcon, options: []) { change in
+      self.updateStatusMenuIcon(change.newValue)
     }
   }
   // swiftlint:enable function_body_length

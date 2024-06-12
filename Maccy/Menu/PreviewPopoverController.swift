@@ -1,10 +1,11 @@
 import AppKit
+import Defaults
 
 class PreviewPopoverController {
   private static let popoverGap = 5.0
   private static let subsequentPreviewDelay = 0.2
 
-  private var initialPreviewDelay: Double { Double(UserDefaults.standard.previewDelay) / 1000 }
+  private var initialPreviewDelay: Double { Double(Defaults[.previewDelay]) / 1000 }
   private lazy var previewThrottle = Throttler(minimumDelay: initialPreviewDelay)
 
   private var previewPopover: NSPopover?

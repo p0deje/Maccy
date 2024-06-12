@@ -1,6 +1,7 @@
 import AppKit
+import Defaults
 
-extension NSPasteboard.PasteboardType {
+extension NSPasteboard.PasteboardType: Defaults.Serializable {
   static let jpeg = NSPasteboard.PasteboardType(rawValue: "public.jpeg")
   static let universalClipboard = NSPasteboard.PasteboardType(rawValue: "com.apple.is-remote-clipboard")
 

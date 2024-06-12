@@ -1,4 +1,5 @@
 import Cocoa
+import Defaults
 import Settings
 
 class StorageSettingsViewController: NSViewController, SettingsPane {
@@ -33,23 +34,23 @@ class StorageSettingsViewController: NSViewController, SettingsPane {
   }
 
   @IBAction func sizeFieldChanged(_ sender: NSTextField) {
-    UserDefaults.standard.size = sender.integerValue
+    Defaults[.size] = sender.integerValue
     sizeStepper.integerValue = sender.integerValue
   }
 
   @IBAction func sizeStepperChanged(_ sender: NSStepper) {
-    UserDefaults.standard.size = sender.integerValue
+    Defaults[.size] = sender.integerValue
     sizeTextField.integerValue = sender.integerValue
   }
 
   @IBAction func sortByChanged(_ sender: NSPopUpButton) {
     switch sender.selectedTag() {
     case 2:
-      UserDefaults.standard.sortBy = "numberOfCopies"
+      Defaults[.sortBy] = "numberOfCopies"
     case 1:
-      UserDefaults.standard.sortBy = "firstCopiedAt"
+      Defaults[.sortBy] = "firstCopiedAt"
     default:
-      UserDefaults.standard.sortBy = "lastCopiedAt"
+      Defaults[.sortBy] = "lastCopiedAt"
     }
   }
 
@@ -95,12 +96,12 @@ class StorageSettingsViewController: NSViewController, SettingsPane {
   }
 
   private func populateSize() {
-    sizeTextField.integerValue = UserDefaults.standard.size
-    sizeStepper.integerValue = UserDefaults.standard.size
+    sizeTextField.integerValue = Defaults[.size]
+    sizeStepper.integerValue = Defaults[.size]
   }
 
   private func populateSortBy() {
-    switch UserDefaults.standard.sortBy {
+    switch Defaults[.sortBy] {
     case "numberOfCopies":
       sortByButton.selectItem(withTag: 2)
     case "firstCopiedAt":
@@ -111,17 +112,17 @@ class StorageSettingsViewController: NSViewController, SettingsPane {
   }
 
   private func populateStoredTypes() {
-    let types = UserDefaults.standard.enabledPasteboardTypes
+    let types = Defaults[.enabledPasteboardTypes]
     storeFilesButton.state = types.contains(.fileURL) ? .on : .off
     storeImagesButton.state = types.isSuperset(of: [.tiff, .png]) ? .on : .off
     storeTextButton.state = types.contains(.string) ? .on : .off
   }
 
   private func addEnabledTypes(_ types: Set<NSPasteboard.PasteboardType>) {
-    UserDefaults.standard.enabledPasteboardTypes = UserDefaults.standard.enabledPasteboardTypes.union(types)
+    Defaults[.enabledPasteboardTypes] = Defaults[.enabledPasteboardTypes].union(types)
   }
 
   private func removeEnabledTypes(_ types: Set<NSPasteboard.PasteboardType>) {
-    UserDefaults.standard.enabledPasteboardTypes = UserDefaults.standard.enabledPasteboardTypes.subtracting(types)
+    Defaults[.enabledPasteboardTypes] = Defaults[.enabledPasteboardTypes].subtracting(types)
   }
 }

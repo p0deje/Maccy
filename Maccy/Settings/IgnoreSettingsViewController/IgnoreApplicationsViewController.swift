@@ -1,4 +1,5 @@
 import Cocoa
+import Defaults
 
 class IgnoreApplicationsViewController: NSViewController, NSTableViewDataSource, NSTableViewDelegate {
   @IBOutlet weak var ignoredItemsTable: NSTableView!
@@ -18,8 +19,8 @@ class IgnoreApplicationsViewController: NSViewController, NSTableViewDataSource,
   }
 
   private var ignoredApps: [String] {
-    get { UserDefaults.standard.ignoredApps }
-    set { UserDefaults.standard.ignoredApps = newValue }
+    get { Defaults[.ignoredApps] }
+    set { Defaults[.ignoredApps] = newValue }
   }
 
   func numberOfRows(in tableView: NSTableView) -> Int {
@@ -59,7 +60,7 @@ class IgnoreApplicationsViewController: NSViewController, NSTableViewDataSource,
   }
 
   @IBAction func ignoredAllAppsExceptListedChanged(_ sender: NSButton) {
-    UserDefaults.standard.ignoreAllAppsExceptListed = (sender.state == .on)
+    Defaults[.ignoreAllAppsExceptListed] = (sender.state == .on)
   }
 
   private func addIgnoredApp() {

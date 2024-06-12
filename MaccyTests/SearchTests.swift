@@ -1,8 +1,9 @@
 import XCTest
+import Defaults
 @testable import Maccy
 
 class SearchTests: XCTestCase {
-  let savedSearchMode = UserDefaults.standard.searchMode
+  let savedSearchMode = Defaults[.searchMode]
   var items: [Search.Searchable]!
 
   override func setUp() {
@@ -13,11 +14,11 @@ class SearchTests: XCTestCase {
   override func tearDown() {
     super.tearDown()
     CoreDataManager.inMemory = false
-    UserDefaults.standard.searchMode = savedSearchMode
+    Defaults[.searchMode] = savedSearchMode
   }
 
   func testSimpleSearchInTitle() {
-    UserDefaults.standard.searchMode = Search.Mode.exact.rawValue
+    Defaults[.searchMode] = Search.Mode.exact.rawValue
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
@@ -49,7 +50,7 @@ class SearchTests: XCTestCase {
   }
 
   func testSimpleSearchInContents() {
-    UserDefaults.standard.searchMode = Search.Mode.exact.rawValue
+    Defaults[.searchMode] = Search.Mode.exact.rawValue
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
@@ -81,7 +82,7 @@ class SearchTests: XCTestCase {
   }
 
   func testFuzzySearchInTitle() {
-    UserDefaults.standard.searchMode = Search.Mode.fuzzy.rawValue
+    Defaults[.searchMode] = Search.Mode.fuzzy.rawValue
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
@@ -118,7 +119,7 @@ class SearchTests: XCTestCase {
   }
 
   func testFuzzySearchInContents() {
-    UserDefaults.standard.searchMode = Search.Mode.fuzzy.rawValue
+    Defaults[.searchMode] = Search.Mode.fuzzy.rawValue
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
@@ -155,7 +156,7 @@ class SearchTests: XCTestCase {
   }
 
   func testRegexpSearchInTitle() {
-    UserDefaults.standard.searchMode = Search.Mode.regexp.rawValue
+    Defaults[.searchMode] = Search.Mode.regexp.rawValue
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
@@ -192,7 +193,7 @@ class SearchTests: XCTestCase {
   }
 
   func testRegexpSearchInContents() {
-    UserDefaults.standard.searchMode = Search.Mode.regexp.rawValue
+    Defaults[.searchMode] = Search.Mode.regexp.rawValue
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),

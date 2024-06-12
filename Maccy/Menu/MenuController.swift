@@ -1,4 +1,5 @@
 import AppKit
+import Defaults
 import KeyboardShortcuts
 
 class MenuController {
@@ -38,10 +39,10 @@ class MenuController {
       let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
 
       if modifierFlags.contains(.option) {
-        UserDefaults.standard.ignoreEvents = !UserDefaults.standard.ignoreEvents
+        Defaults[.ignoreEvents] = !Defaults[.ignoreEvents]
 
         if modifierFlags.contains(.shift) {
-          UserDefaults.standard.ignoreOnlyNextEvent = UserDefaults.standard.ignoreEvents
+          Defaults[.ignoreOnlyNextEvent] = Defaults[.ignoreEvents]
         }
 
         return
@@ -112,11 +113,11 @@ class MenuController {
   //
   // It's also possible to completely skip this activation
   // and fallback to default NSMenu behavior by enabling
-  // UserDefaults.standard.avoidTakingFocus.
+  // Defaults[.avoidTakingFocus].
   private func withFocus(_ closure: @escaping () -> Void) {
     KeyboardShortcuts.disable(.popup)
 
-    if UserDefaults.standard.avoidTakingFocus {
+    if Defaults[.avoidTakingFocus] {
       closure()
       KeyboardShortcuts.enable(.popup)
     } else {

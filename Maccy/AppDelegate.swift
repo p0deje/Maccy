@@ -1,5 +1,7 @@
 import Cocoa
 import Intents
+
+import Defaults
 import KeyboardShortcuts
 import LaunchAtLogin
 import Sauce
@@ -36,7 +38,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationWillTerminate(_ notification: Notification) {
-    if UserDefaults.standard.clearOnQuit {
+    if Defaults[.clearOnQuit] {
       maccy.clearUnpinned(suppressClearAlert: true)
     }
     CoreDataManager.shared.saveContext()
@@ -58,6 +60,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func migrateUserDefaults() {
+    // Start 2.x from scratch
+    Defaults.reset(.migrations)
   }
 
   private func clearOrphanRecords() {

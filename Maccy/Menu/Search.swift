@@ -1,4 +1,5 @@
 import AppKit
+import Defaults
 import Fuse
 
 class Search {
@@ -25,7 +26,7 @@ class Search {
       return within.map({ SearchResult(score: nil, object: $0, titleMatches: [])})
     }
 
-    switch Mode(rawValue: UserDefaults.standard.searchMode) {
+    switch Mode(rawValue: Defaults[.searchMode]) {
     case .mixed:
       return mixedSearch(string: string, within: within)
     case .regexp:

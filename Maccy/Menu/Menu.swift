@@ -1,5 +1,6 @@
 // swiftlint:disable file_length
 import AppKit
+import Defaults
 
 // Custom menu supporting "search-as-you-type" based on https://github.com/mikekazakov/MGKMenuWithFilter.
 // swiftlint:disable type_body_length
@@ -64,7 +65,7 @@ class Menu: NSMenu, NSMenuDelegate {
       firstPinnedMenuItems.first
   }
 
-  private var maxMenuItems: Int { min(UserDefaults.standard.maxMenuItems, UserDefaults.standard.size) }
+  private var maxMenuItems: Int { min(Defaults[.maxMenuItems], Defaults[.size]) }
   private var maxVisibleItems: Int { maxMenuItems * historyMenuItemsGroup }
   private var lastMenuLocation: PopupLocation?
   private var menuHeader: MenuHeaderView? { items.first?.view as? MenuHeaderView }

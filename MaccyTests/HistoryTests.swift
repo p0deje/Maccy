@@ -1,24 +1,25 @@
 import XCTest
+import Defaults
 @testable import Maccy
 
 class HistoryTests: XCTestCase {
-  let savedSize = UserDefaults.standard.size
-  let savedSortBy = UserDefaults.standard.sortBy
+  let savedSize = Defaults[.size]
+  let savedSortBy = Defaults[.sortBy]
   let history = History()
 
   override func setUp() {
     super.setUp()
     CoreDataManager.inMemory = true
     history.clear()
-    UserDefaults.standard.size = 10
-    UserDefaults.standard.sortBy = "firstCopiedAt"
+    Defaults[.size] = 10
+    Defaults[.sortBy] = "firstCopiedAt"
   }
 
   override func tearDown() {
     super.tearDown()
     CoreDataManager.inMemory = false
-    UserDefaults.standard.size = savedSize
-    UserDefaults.standard.sortBy = savedSortBy
+    Defaults[.size] = savedSize
+    Defaults[.sortBy] = savedSortBy
   }
 
   func testDefaultIsEmpty() {
@@ -188,7 +189,7 @@ class HistoryTests: XCTestCase {
       items.append(item)
       history.add(item)
     }
-    UserDefaults.standard.size = 5
+    Defaults[.size] = 5
 
     XCTAssertEqual(history.all.count, 5)
     XCTAssertTrue(history.all.contains(items[10]))
