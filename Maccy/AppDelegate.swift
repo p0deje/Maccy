@@ -1,5 +1,5 @@
+import AppIntents
 import Cocoa
-import Intents
 
 import Defaults
 import KeyboardShortcuts
@@ -30,6 +30,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     maccy = Maccy()
     hotKey = GlobalHotKey(maccy.popUp)
+
+    AppDependencyManager.shared.add(key: "maccy", dependency: self.maccy)
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -42,21 +44,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       maccy.clearUnpinned(suppressClearAlert: true)
     }
     CoreDataManager.shared.saveContext()
-  }
-
-  @available(macOS 11.0, *)
-  func application(_ application: NSApplication, handlerFor intent: INIntent) -> Any? {
-    if intent is SelectIntent {
-      return SelectIntentHandler(maccy)
-    } else if intent is ClearIntent {
-      return ClearIntentHandler(maccy)
-    } else if intent is GetIntent {
-      return GetIntentHandler(maccy)
-    } else if intent is DeleteIntent {
-      return DeleteIntentHandler(maccy)
-    }
-
-    return nil
   }
 
   private func migrateUserDefaults() {
