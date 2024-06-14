@@ -1,0 +1,13 @@
+"Title" = "Depolama";
+"Save" = "Kaydet:";
+"Files" = "Dosyalar";
+"Images" = "Görseller";
+"Text" = "Metin";
+"SaveDescription" = "Ne tür kopyalanmış içerik türlerinin depolanacağını değiştirin.";
+"Size" = "Sayı:";
+"SizeTooltip" = "Tutulacak geçmiş ögesi sayısı.\nSaptanmış: 200.";
+"SortBy" = "Şuna göre sırala:";
+"LastCopiedAt" = "Son kopyanın zamanı";
+"FirstCopiedAt" = "İlk kopyanın zamanı";
+"NumberOfCopies" = "Kopya sayısı";
+"SortByTooltip" = "Saptanmış: Son kopyanın zamanı.";

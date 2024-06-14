@@ -1,0 +1,13 @@
+"Title" = "Stockage";
+"Save" = "Sauver :";
+"Files" = "Fichiers";
+"Images" = "Images";
+"Text" = "Texte";
+"SaveDescription" = "Modifiez les types de contenu copié à stocker.";
+"Size" = "Taille :";
+"SizeTooltip" = "Nombre d'éléments à garder dans l'historique.\nPar défaut : 200.";
+"SortBy" = "Trier par :";
+"LastCopiedAt" = "Date de dernière copie";
+"FirstCopiedAt" = "Date de première copie";
+"NumberOfCopies" = "Nombre de copies";
+"SortByTooltip" = "Par défaut : Date de dernière copie.";

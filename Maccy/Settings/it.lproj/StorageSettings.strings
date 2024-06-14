@@ -1,0 +1,13 @@
+"Title" = "Memoria";
+"Save" = "Salva:";
+"Files" = "File";
+"Images" = "Immagini";
+"Text" = "Testo";
+"SaveDescription" = "Cambia il tipo dei contenuti copiati che dovrebbero essere salvati.";
+"Size" = "Dimensione:";
+"SizeTooltip" = "Numero di elementi da tenere nella cronologia.\nDefault: 200.";
+"SortBy" = "Ordina per:";
+"LastCopiedAt" = "Tempo dell'ultima copia";
+"FirstCopiedAt" = "Tempo della prima copia";
+"NumberOfCopies" = "Numero di copie";
+"SortByTooltip" = "Default: Tempo dell'ultima copia.";

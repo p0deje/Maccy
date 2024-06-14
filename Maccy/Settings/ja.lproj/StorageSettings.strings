@@ -1,0 +1,13 @@
+"Title" = "保管";
+"Save" = "保存：";
+"Files" = "ファイル";
+"Images" = "画像";
+"Text" = "テキスト";
+"SaveDescription" = "保管するコピーコンテンツタイプを変更します。";
+"Size" = "サイズ:";
+"SizeTooltip" = "保管する履歴の項目数。\nデフォルト：200。";
+"SortBy" = "並び替え:";
+"LastCopiedAt" = "最後にコピーした日時";
+"FirstCopiedAt" = "最初にコピーした日時";
+"NumberOfCopies" = "コピー回数";
+"SortByTooltip" = "デフォルト：最後にコピーした日時。";

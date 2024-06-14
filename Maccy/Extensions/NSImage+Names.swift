@@ -2,11 +2,11 @@ import Cocoa
 
 extension NSImage {
   static let gearshape = NSImage(systemSymbolName: "gearshape", accessibilityDescription: "gearshape")
+  static let externaldrive = NSImage(systemSymbolName: "externaldrive", accessibilityDescription: "externaldrive")
 }
 
 extension NSImage.Name {
   static let clipboard = NSImage.Name("clipboard.fill")
-  static let externaldrive = loadName("externaldrive")
   static let gearshape2 = loadName("gearshape.2")
   static let maccyStatusBar = NSImage.Name("StatusBarMenuImage")
   static let nosign = loadName("nosign")

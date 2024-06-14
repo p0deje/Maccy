@@ -24,17 +24,17 @@ class SorterTests: XCTestCase {
   }
 
   func testSortByLastCopiedAt() {
-    let sorter = Sorter(by: "lastCopiedAt")
+    let sorter = Sorter(by: .lastCopiedAt)
     XCTAssertEqual(sorter.sort([item1, item2, item3]), [item1, item3, item2])
   }
 
   func testSortByFirstCopiedAt() {
-    let sorter = Sorter(by: "firstCopiedAt")
+    let sorter = Sorter(by: .firstCopiedAt)
     XCTAssertEqual(sorter.sort([item1, item2, item3]), [item3, item1, item2])
   }
 
   func testSortByNumberOfCopies() {
-    let sorter = Sorter(by: "numberOfCopies")
+    let sorter = Sorter(by: .numberOfCopies)
     XCTAssertEqual(sorter.sort([item1, item2, item3]), [item1, item2, item3])
   }
 
@@ -43,7 +43,7 @@ class SorterTests: XCTestCase {
 
     item1.pin = "a"
     item3.pin = "b"
-    let sorter = Sorter(by: "lastCopiedAt")
+    let sorter = Sorter(by: .lastCopiedAt)
     XCTAssertEqual(sorter.sort([item1, item2, item3]), [item1, item3, item2])
   }
 
@@ -52,7 +52,7 @@ class SorterTests: XCTestCase {
 
     item1.pin = "a"
     item3.pin = "b"
-    let sorter = Sorter(by: "lastCopiedAt")
+    let sorter = Sorter(by: .lastCopiedAt)
     XCTAssertEqual(sorter.sort([item1, item2, item3]), [item2, item1, item3])
   }
 

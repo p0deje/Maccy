@@ -12,7 +12,6 @@
 "preferences_appearance" = "Görünüş";
 "preferences_ignore" = "Yok Say";
 "preferences_pins" = "İğneler";
-"preferences_storage" = "Depolama";
 "copy_modifiers_config" = "• Ögeyi kopyalamak için %@ basılı tutarak seçin.";
 "paste_modifiers_config" = "• Ögeyi kopyalayıp yapıştırmak için %@ basılı tutarak seçin.";
 "format_modifiers_config" = "• Kopyalamak, biçimlendirmeyi temizlemek ve yapıştırmak için %@ basılı tutarak seçin.";

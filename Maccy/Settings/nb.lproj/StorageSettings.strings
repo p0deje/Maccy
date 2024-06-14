@@ -1,0 +1,13 @@
+"Title" = "Lagring";
+"Save" = "Lagre:";
+"Files" = "Filer";
+"Images" = "Bilder";
+"Text" = "Tekst";
+"SaveDescription" = "Endre hvilke typer kopiert innhold som skal lagres.";
+"Size" = "Størrelse:";
+"SizeTooltip" = "Antall ønskede elementer i historikk.\nStandard: 200.";
+"SortBy" = "Sorter etter:";
+"LastCopiedAt" = "Tidspunkt siste kopiering";
+"FirstCopiedAt" = "Tidspunkt første kopiering";
+"NumberOfCopies" = "Antall ganger kopiert";
+"SortByTooltip" = "Standard: Tidspunkt siste kopiering.";

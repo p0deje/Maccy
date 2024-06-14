@@ -12,7 +12,6 @@
 "preferences_appearance" = "外見";
 "preferences_ignore" = "無視";
 "preferences_pins" = "ピン留め";
-"preferences_storage" = "保管";
 "copy_modifiers_config" = "• %を押しながら選択すると項目をコピーします。";
 "paste_modifiers_config" = "• %@を押しながら選択すると項目をコピーして貼り付けます。";
 "format_modifiers_config" = "• %@を押しながら選択すると項目をコピーし、 書式なしで貼り付けます。";

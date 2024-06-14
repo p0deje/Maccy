@@ -1,0 +1,13 @@
+"Title" = "儲存";
+"Save" = "儲存：";
+"Files" = "檔案";
+"Images" = "圖片";
+"Text" = "文字";
+"SaveDescription" = "選擇應儲存的複製內容類型。";
+"Size" = "大小：";
+"SizeTooltip" = "要保留的歷史記錄項目數量。\n預設：200。";
+"SortBy" = "排序方式：";
+"LastCopiedAt" = "上次拷貝時間";
+"FirstCopiedAt" = "首次拷貝時間";
+"NumberOfCopies" = "拷貝次數";
+"SortByTooltip" = "預設：上次拷貝時間。";

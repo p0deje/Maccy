@@ -12,7 +12,6 @@
 "preferences_appearance" = "Utseende";
 "preferences_ignore" = "Overse";
 "preferences_pins" = "Merker";
-"preferences_storage" = "Lagring";
 "copy_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere element.";
 "paste_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere og lime inn element.";
 "format_modifiers_config" = "• Velg med %@ nedtrykket for å kopiere, slette formattering og lime inn element.";

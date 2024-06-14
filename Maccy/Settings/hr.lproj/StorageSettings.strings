@@ -1,0 +1,13 @@
+"Title" = "Skladištenje";
+"Save" = "Spremi:";
+"Files" = "Datoteke";
+"Images" = "Slike";
+"Text" = "Tekst";
+"SaveDescription" = "Promijeni vrstu kopiranog sadržaja koji će se spremati.";
+"Size" = "Veličina:";
+"SizeTooltip" = "Broj elemenata koji se čuvaju u povijesti.\nStandardno: 200.";
+"SortBy" = "Redoslijed:";
+"LastCopiedAt" = "Vrijeme zadnje kopije";
+"FirstCopiedAt" = "Vrijeme prve kopije";
+"NumberOfCopies" = "Broj kopija";
+"SortByTooltip" = "Standardno: Vrijeme zadnje kopije.";

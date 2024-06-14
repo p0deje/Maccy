@@ -1,0 +1,13 @@
+"Title" = "Speicher";
+"Save" = "Sichern:";
+"Files" = "Dateien";
+"Images" = "Bilder";
+"Text" = "Text";
+"SaveDescription" = "Ändere, welche Dateitypen kopierter Inhalte gesichert werden sollen.";
+"Size" = "Verlauf:";
+"SizeTooltip" = "Maximale Anzahl von Einträgen.\nStandard: 200.";
+"SortBy" = "Sortieren:";
+"LastCopiedAt" = "Neuester Eintrag zuerst";
+"FirstCopiedAt" = "Ältester Eintrag zuerst";
+"NumberOfCopies" = "Häufigkeit";
+"SortByTooltip" = "Standard: Neuester Eintrag zuerst.";

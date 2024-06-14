@@ -1,0 +1,13 @@
+"Title" = "Opslag";
+"Save" = "Winkel:";
+"Files" = "Bestanden";
+"Images" = "Afbeeldingen";
+"Text" = "Tekst";
+"SaveDescription" = "Verander welke soorten gekopieerde inhoud moeten worden opgeslagen.";
+"Size" = "Grootte:";
+"SizeTooltip" = "Aantal te bewaren geschiedenisitems.\nStandaard: 200.";
+"SortBy" = "Sorteer op:";
+"LastCopiedAt" = "Tijd van laatste kopie";
+"FirstCopiedAt" = "Tijd van eerste kopie";
+"NumberOfCopies" = "Aantal kopieën";
+"SortByTooltip" = "Standaard: Tijd van laatste kopie.";

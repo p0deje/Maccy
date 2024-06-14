@@ -12,7 +12,6 @@
 "preferences_appearance" = "Izgled";
 "preferences_ignore" = "Zanemari";
 "preferences_pins" = "Pribadače";
-"preferences_storage" = "Skladištenje";
 "copy_modifiers_config" = "• Za kopiranje elementa odaberi zajedno s pritisnutom tipkom %@.";
 "paste_modifiers_config" = "• Za kopiranje i umetanje elementa odaberi zajedno s pritisnutom tipkom %@.";
 "format_modifiers_config" = "• Za kopiranje, uklanjanje formata i umetanje elementa odaberi zajedno s pritisnutom tipkom %@.";

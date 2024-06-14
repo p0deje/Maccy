@@ -12,7 +12,6 @@
 "preferences_appearance" = "Izgled";
 "preferences_ignore" = "Ignoriši";
 "preferences_pins" = "Zakačke";
-"preferences_storage" = "Pohrana";
 "copy_modifiers_config" = "• Označi sa %@ da kopiraš stavku.";
 "paste_modifiers_config" = "• Označi sa %@ da kopiraš i zalijepiš stavku.";
 "format_modifiers_config" = "• Označi sa %@ kopiraš, očistiš formatiranje i zalijepiš stavku.";
