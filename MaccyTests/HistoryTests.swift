@@ -12,7 +12,7 @@ class HistoryTests: XCTestCase {
     CoreDataManager.inMemory = true
     history.clear()
     Defaults[.size] = 10
-    Defaults[.sortBy] = "firstCopiedAt"
+    Defaults[.sortBy] = .firstCopiedAt
   }
 
   override func tearDown() {

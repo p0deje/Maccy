@@ -12,7 +12,6 @@
 "preferences_appearance" = "Виявлення";
 "preferences_ignore" = "Ігнорувати";
 "preferences_pins" = "Прикріплення";
-"preferences_storage" = "Зберігання";
 "copy_modifiers_config" = "• Виберіть, натиснувши %@, щоб скопіювати елемент.";
 "paste_modifiers_config" = "• Виберіть, натиснувши %@, щоб скопіювати та вставити елемент.";
 "format_modifiers_config" = "• Виберіть, натиснувши %@, щоб скопіювати, очистити форматування та вставити елемент.";

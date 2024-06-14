@@ -12,7 +12,6 @@
 "preferences_appearance" = "Erscheinungsbild";
 "preferences_ignore" = "Ignorieren";
 "preferences_pins" = "Pins";
-"preferences_storage" = "Speicher";
 "copy_modifiers_config" = "• Drücke %@, um den gewählten Eintrag zu kopieren.";
 "paste_modifiers_config" = "• Drücke %@, um den gewählten Eintrag zu kopieren und einzufügen.";
 "format_modifiers_config" = "• Drücke %@, um den gewählten Eintrag zu kopieren und unformatiert einzufügen.";

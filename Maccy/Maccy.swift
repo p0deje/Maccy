@@ -40,6 +40,18 @@ class Maccy: NSObject {
     return Settings.PaneHostingController(pane: paneView)
   }
 
+  private let StorageSettingsViewController: () -> SettingsPane = {
+    let paneView = Settings.Pane(
+      identifier: Settings.PaneIdentifier.storage,
+      title: NSLocalizedString("Title", tableName: "StorageSettings", comment: ""),
+      toolbarIcon: NSImage.externaldrive!
+    ) {
+      StorageSettingsPane()
+    }
+
+    return Settings.PaneHostingController(pane: paneView)
+  }
+
   private lazy var settingsWindowController = SettingsWindowController(
     panes: [
       GeneralSettingsViewController(),

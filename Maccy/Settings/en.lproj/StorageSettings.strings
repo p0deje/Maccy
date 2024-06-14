@@ -1,0 +1,13 @@
+"Title" = "Storage";
+"Save" = "Save:";
+"Files" = "Files";
+"Images" = "Images";
+"Text" = "Text";
+"SaveDescription" = "Change what types of copied content should be stored.";
+"Size" = "Size:";
+"SizeTooltip" = "Number of history items to keep.\nDefault: 200.";
+"SortBy" = "Sort by:";
+"LastCopiedAt" = "Time of last copy";
+"FirstCopiedAt" = "Time of first copy";
+"NumberOfCopies" = "Number of copies";
+"SortByTooltip" = "Default: Time of last copy.";

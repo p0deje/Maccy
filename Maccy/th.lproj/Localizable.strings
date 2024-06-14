@@ -12,7 +12,6 @@
 "preferences_appearance" = "หน้าตา";
 "preferences_ignore" = "ไม่สนใจ";
 "preferences_pins" = "ปักหมุด";
-"preferences_storage" = "พื้นที่";
 "copy_modifiers_config" = "• เลือกแล้วกด %@ เพื่อคัดลอก";
 "paste_modifiers_config" = "• เลือกแล้วกด %@ เพื่อคัดลอกและวางรายการ";
 "format_modifiers_config" = "• เลือกแล้วกด %@ เพื่อคัดลอก, ล้างรูปแบบและวางรายการ";

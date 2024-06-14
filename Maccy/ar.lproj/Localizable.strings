@@ -12,7 +12,6 @@
 "preferences_appearance" = "المظهر";
 "preferences_ignore" = "تجاهل";
 "preferences_pins" = "مثبتة";
-"preferences_storage" = "التخزين";
 "copy_modifiers_config" = "• حدد مع الضغط على %@ لنسخ العنصر.";
 "paste_modifiers_config" = "• حدد مع الضغط على %@ لنسخ العنصر ولصقه.";
 "format_modifiers_config" = "• حدد مع الضغط على %@ للنسخ ومسح التنسيق ولصق العنصر.";

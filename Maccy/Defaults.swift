@@ -44,6 +44,6 @@ extension Defaults.Keys {
   static let showRecentCopyInMenuBar = Key<Bool>("showRecentCopyInMenuBar", default: false)
   static let showSpecialSymbols = Key<Bool>("showSpecialSymbols", default: true)
   static let size = Key<Int>("historySize", default: 200)
-  static let sortBy = Key<String>("sortBy", default: "lastCopiedAt")
+  static let sortBy = Key<Sorter.By>("sortBy", default: .lastCopiedAt)
   static let suppressClearAlert = Key<Bool>("suppressClearAlert", default: false)
 }

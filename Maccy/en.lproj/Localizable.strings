@@ -12,7 +12,6 @@
 "preferences_appearance" = "Appearance";
 "preferences_ignore" = "Ignore";
 "preferences_pins" = "Pins";
-"preferences_storage" = "Storage";
 "copy_modifiers_config" = "• Select with %@ pressed to copy item.";
 "paste_modifiers_config" = "• Select with %@ pressed to copy and paste item.";
 "format_modifiers_config" = "• Select with %@ pressed to copy, clear formatting and paste item.";

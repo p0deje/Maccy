@@ -1,0 +1,13 @@
+"Title" = "存储";
+"Save" = "保存：";
+"Files" = "文件";
+"Images" = "图像";
+"Text" = "文本";
+"SaveDescription" = "设置何种类型的内容会被保存。";
+"Size" = "数量：";
+"SizeTooltip" = "保留条历史记录。\n默认: 200。";
+"SortBy" = "排序方式：";
+"LastCopiedAt" = "上次复制时间";
+"FirstCopiedAt" = "首次复制时间";
+"NumberOfCopies" = "复制次数";
+"SortByTooltip" = "默认：上次复制时间。";

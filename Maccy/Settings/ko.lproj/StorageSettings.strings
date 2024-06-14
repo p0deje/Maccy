@@ -1,0 +1,13 @@
+"Title" = "보관";
+"Save" = "저장:";
+"Files" = "파일";
+"Images" = "이미지";
+"Text" = "텍스트";
+"SaveDescription" = "보관할 복사 컨텐츠 타입을 변경합니다.";
+"Size" = "크기:";
+"SizeTooltip" = "보관할 기록 항목 수.\n기본값: 200.";
+"SortBy" = "정렬 기준:";
+"LastCopiedAt" = "마지막 복사한 시간";
+"FirstCopiedAt" = "처음 복사한 시간";
+"NumberOfCopies" = "복사 횟수";
+"SortByTooltip" = "기본값: 마지막 복사한 시간.";
