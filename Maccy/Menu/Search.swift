@@ -3,11 +3,26 @@ import Defaults
 import Fuse
 
 class Search {
-  enum Mode: String, CaseIterable {
+  enum Mode: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
     case exact
     case fuzzy
     case regexp
     case mixed
+
+    var id: Self { self }
+
+    var description: String {
+      switch self {
+      case .exact:
+        return NSLocalizedString("Exact", tableName: "GeneralSettings", comment: "")
+      case .fuzzy:
+        return NSLocalizedString("Fuzzy", tableName: "GeneralSettings", comment: "")
+      case .regexp:
+        return NSLocalizedString("Regex", tableName: "GeneralSettings", comment: "")
+      case .mixed:
+        return NSLocalizedString("Mixed", tableName: "GeneralSettings", comment: "")
+      }
+    }
   }
 
   struct SearchResult: Equatable {
@@ -26,7 +41,7 @@ class Search {
       return within.map({ SearchResult(score: nil, object: $0, titleMatches: [])})
     }
 
-    switch Mode(rawValue: Defaults[.searchMode]) {
+    switch Defaults[.searchMode] {
     case .mixed:
       return mixedSearch(string: string, within: within)
     case .regexp:

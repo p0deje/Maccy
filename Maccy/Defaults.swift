@@ -39,7 +39,7 @@ extension Defaults.Keys {
   static let popupScreen = Key<Int>("popupScreen", default: 0)
   static let previewDelay = Key<Int>("previewDelay", default: 1500)
   static let removeFormattingByDefault = Key<Bool>("removeFormattingByDefault", default: false)
-  static let searchMode = Key<String>("searchMode", default: "exact")
+  static let searchMode = Key<Search.Mode>("searchMode", default: .exact)
   static let showInStatusBar = Key<Bool>("showInStatusBar", default: true)
   static let showRecentCopyInMenuBar = Key<Bool>("showRecentCopyInMenuBar", default: false)
   static let showSpecialSymbols = Key<Bool>("showSpecialSymbols", default: true)

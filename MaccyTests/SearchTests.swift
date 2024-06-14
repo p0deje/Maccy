@@ -18,7 +18,7 @@ class SearchTests: XCTestCase {
   }
 
   func testSimpleSearchInTitle() {
-    Defaults[.searchMode] = Search.Mode.exact.rawValue
+    Defaults[.searchMode] = Search.Mode.exact
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
@@ -50,7 +50,7 @@ class SearchTests: XCTestCase {
   }
 
   func testSimpleSearchInContents() {
-    Defaults[.searchMode] = Search.Mode.exact.rawValue
+    Defaults[.searchMode] = Search.Mode.exact
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
@@ -82,7 +82,7 @@ class SearchTests: XCTestCase {
   }
 
   func testFuzzySearchInTitle() {
-    Defaults[.searchMode] = Search.Mode.fuzzy.rawValue
+    Defaults[.searchMode] = Search.Mode.fuzzy
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
@@ -119,7 +119,7 @@ class SearchTests: XCTestCase {
   }
 
   func testFuzzySearchInContents() {
-    Defaults[.searchMode] = Search.Mode.fuzzy.rawValue
+    Defaults[.searchMode] = Search.Mode.fuzzy
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
@@ -156,7 +156,7 @@ class SearchTests: XCTestCase {
   }
 
   func testRegexpSearchInTitle() {
-    Defaults[.searchMode] = Search.Mode.regexp.rawValue
+    Defaults[.searchMode] = Search.Mode.regexp
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
@@ -193,7 +193,7 @@ class SearchTests: XCTestCase {
   }
 
   func testRegexpSearchInContents() {
-    Defaults[.searchMode] = Search.Mode.regexp.rawValue
+    Defaults[.searchMode] = Search.Mode.regexp
     items = [
       Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
       Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),

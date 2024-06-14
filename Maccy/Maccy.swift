@@ -28,6 +28,18 @@ class Maccy: NSObject {
     return alert
   }
 
+  private let GeneralSettingsViewController: () -> SettingsPane = {
+    let paneView = Settings.Pane(
+      identifier: Settings.PaneIdentifier.general,
+      title: NSLocalizedString("Title", tableName: "GeneralSettings", comment: ""),
+      toolbarIcon: NSImage.gearshape!
+    ) {
+      GeneralSettingsPane()
+    }
+
+    return Settings.PaneHostingController(pane: paneView)
+  }
+
   private lazy var settingsWindowController = SettingsWindowController(
     panes: [
       GeneralSettingsViewController(),
