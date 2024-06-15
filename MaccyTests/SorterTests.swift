@@ -39,7 +39,7 @@ class SorterTests: XCTestCase {
   }
 
   func testSortByPinToTop() {
-    Defaults[.pinTo] = "top"
+    Defaults[.pinTo] = .top
 
     item1.pin = "a"
     item3.pin = "b"
@@ -48,7 +48,7 @@ class SorterTests: XCTestCase {
   }
 
   func testSortByPinToBottom() {
-    Defaults[.pinTo] = "bottom"
+    Defaults[.pinTo] = .bottom
 
     item1.pin = "a"
     item3.pin = "b"

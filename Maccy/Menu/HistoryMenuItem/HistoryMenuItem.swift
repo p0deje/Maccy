@@ -155,9 +155,9 @@ class HistoryMenuItem: NSMenuItem {
 
       if Range(highlightRange, in: title) != nil {
         switch Defaults[.highlightMatch] {
-        case "italic":
+        case .italic:
           attributedTitle.addAttribute(.font, value: systemItalicFont, range: highlightRange)
-        case "underline":
+        case .underline:
           attributedTitle.addAttributes([
             .underlineStyle: NSUnderlineStyle.single.rawValue,
             .font: systemFont

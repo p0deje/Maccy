@@ -4,7 +4,7 @@ import Defaults
 
 // swiftlint:disable force_cast
 class MenuFooterTests: XCTestCase {
-  let savedHideFooter = Defaults[.hideFooter]
+  let savedShowFooter = Defaults[.showFooter]
 
   let expected: KeyValuePairs<String, [String: Any]> = [
     "separator": [
@@ -61,12 +61,12 @@ class MenuFooterTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
-    Defaults[.hideFooter] = false
+    Defaults[.showFooter] = true
   }
 
   override func tearDown() {
     super.tearDown()
-    Defaults[.hideFooter] = savedHideFooter
+    Defaults[.showFooter] = savedShowFooter
   }
 
   func testIsAlternate() {
@@ -95,7 +95,7 @@ class MenuFooterTests: XCTestCase {
   }
 
   func testHiddenFooter() {
-    Defaults[.hideFooter] = true
+    Defaults[.showFooter] = false
     XCTAssertEqual(Set(actual.map({ $0.isAlternate })), [false])
     XCTAssertEqual(Set(actual.map({ $0.isHidden })), [true])
   }

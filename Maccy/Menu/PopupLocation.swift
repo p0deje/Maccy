@@ -9,13 +9,13 @@ enum PopupLocation {
 
   static var forUserDefaults: PopupLocation {
     switch Defaults[.popupPosition] {
-    case "center":
+    case .center:
       if let frame = NSScreen.forPopup?.visibleFrame {
         return .centeredInScreen(frame: frame)
       }
-    case "statusItem":
+    case .statusItem:
       return .inMenuBar
-    case "window":
+    case .window:
       if let windowFrame = NSWorkspace.shared.frontmostApplication?.windowFrame {
         return .centeredInWindow(frame: windowFrame)
       }

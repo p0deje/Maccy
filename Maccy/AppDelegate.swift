@@ -47,8 +47,20 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func migrateUserDefaults() {
-    // Start 2.x from scratch
-    Defaults.reset(.migrations)
+    if Defaults[.migrations]["2024-07-01-version-2"] != true {
+      // Start 2.x from scratch.
+      Defaults.reset(.migrations)
+
+      // Inverse hide* configuration keys.
+      Defaults[.showFooter] = !UserDefaults.standard.bool(forKey: "hideFooter")
+      Defaults[.showSearch] = !UserDefaults.standard.bool(forKey: "hideSearch")
+      Defaults[.showTitle] = !UserDefaults.standard.bool(forKey: "hideTitle")
+      UserDefaults.standard.removeObject(forKey: "hideFooter")
+      UserDefaults.standard.removeObject(forKey: "hideSearch")
+      UserDefaults.standard.removeObject(forKey: "hideTitle")
+
+      Defaults[.migrations]["2024-07-01-version-2"] = true
+    }
   }
 
   private func clearOrphanRecords() {
