@@ -11,8 +11,8 @@ enum MenuFooter: Int, CaseIterable {
 
   var menuItem: NSMenuItem {
     let item = self == .separator ? NSMenuItem.separator() : NSMenuItem()
-    item.isAlternate = isAlternate && !Defaults[.hideFooter]
-    item.isHidden = Defaults[.hideFooter]
+    item.isAlternate = isAlternate && Defaults[.showFooter]
+    item.isHidden = !Defaults[.showFooter]
     item.keyEquivalent = keyEquivalent
     item.keyEquivalentModifierMask = keyEquivalentModifierMask
     item.tag = rawValue

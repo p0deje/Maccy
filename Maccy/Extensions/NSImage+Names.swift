@@ -3,6 +3,7 @@ import Cocoa
 extension NSImage {
   static let gearshape = NSImage(systemSymbolName: "gearshape", accessibilityDescription: "gearshape")
   static let externaldrive = NSImage(systemSymbolName: "externaldrive", accessibilityDescription: "externaldrive")
+  static let paintpalette = NSImage(systemSymbolName: "paintpalette", accessibilityDescription: "paintpalette")
 }
 
 extension NSImage.Name {

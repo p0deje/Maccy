@@ -26,7 +26,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
   }
 
   private lazy var customMenu: Menu? = self.enclosingMenuItem?.menu as? Menu
-  private lazy var headerHeight = Defaults[.hideSearch] ? 1 : 28
+  private lazy var headerHeight = !Defaults[.showSearch] ? 1 : 28
   private lazy var headerSize = NSSize(width: Menu.menuWidth, height: headerHeight)
 
   override func awakeFromNib() {
@@ -41,12 +41,12 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       horizontalRightPadding.constant = macOSXRightPadding
     }
 
-    if Defaults[.hideTitle] {
+    if !Defaults[.showTitle] {
       titleField.isHidden = true
       removeConstraint(titleAndSearchSpacing)
     }
 
-    if Defaults[.hideSearch] {
+    if !Defaults[.showSearch] {
       constraints.forEach(removeConstraint)
     }
   }

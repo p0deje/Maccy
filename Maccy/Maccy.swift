@@ -52,6 +52,18 @@ class Maccy: NSObject {
     return Settings.PaneHostingController(pane: paneView)
   }
 
+  private let AppearanceSettingsViewController: () -> SettingsPane = {
+    let paneView = Settings.Pane(
+      identifier: Settings.PaneIdentifier.appearance,
+      title: NSLocalizedString("Title", tableName: "AppearanceSettings", comment: ""),
+      toolbarIcon: NSImage.paintpalette!
+    ) {
+      AppearanceSettingsPane()
+    }
+
+    return Settings.PaneHostingController(pane: paneView)
+  }
+
   private lazy var settingsWindowController = SettingsWindowController(
     panes: [
       GeneralSettingsViewController(),
@@ -266,17 +278,17 @@ class Maccy: NSObject {
     statusItem.button?.title = String(title.prefix(statusItemTitleMaxLength))
   }
 
-  private func updateStatusMenuIcon(_ newIcon: String) {
+  private func updateStatusMenuIcon(_ newIcon: MenuIcon) {
     guard let button = statusItem.button else {
       return
     }
 
     switch newIcon {
-    case "scissors":
+    case .scissors:
       button.image = NSImage(named: .scissors)
-    case "paperclip":
+    case .paperclip:
       button.image = NSImage(named: .paperclip)
-    case "clipboard":
+    case .clipboard:
       button.image = NSImage(named: .clipboard)
     default:
       button.image = NSImage(named: .maccyStatusBar)
@@ -308,13 +320,13 @@ class Maccy: NSObject {
       self.menu.regenerateMenuItemTitles()
       CoreDataManager.shared.saveContext()
     }
-    hideFooterObserver = Defaults.observe(.hideFooter, options: []) { _ in
+    hideFooterObserver = Defaults.observe(.showFooter, options: []) { _ in
       self.updateFooter()
     }
-    hideSearchObserver = Defaults.observe(.hideSearch, options: []) { _ in
+    hideSearchObserver = Defaults.observe(.showSearch, options: []) { _ in
       self.updateHeader()
     }
-    hideTitleObserver = Defaults.observe(.hideTitle, options: []) { _ in
+    hideTitleObserver = Defaults.observe(.showTitle, options: []) { _ in
       self.updateHeader()
     }
     pasteByDefaultObserver = Defaults.observe(.pasteByDefault, options: []) { _ in
