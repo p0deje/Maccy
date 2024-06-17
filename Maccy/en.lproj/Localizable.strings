@@ -9,7 +9,6 @@
 "quit" = "Quit";
 "preferences" = "Preferences…";
 "preferences_advanced" = "Advanced";
-"preferences_ignore" = "Ignore";
 "preferences_pins" = "Pins";
 "copy_modifiers_config" = "• Select with %@ pressed to copy item.";
 "paste_modifiers_config" = "• Select with %@ pressed to copy and paste item.";

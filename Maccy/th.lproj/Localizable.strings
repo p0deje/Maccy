@@ -9,7 +9,6 @@
 "quit" = "ออก";
 "preferences" = "ตั้งค่า…";
 "preferences_advanced" = "ขั้นสูง";
-"preferences_ignore" = "ไม่สนใจ";
 "preferences_pins" = "ปักหมุด";
 "copy_modifiers_config" = "• เลือกแล้วกด %@ เพื่อคัดลอก";
 "paste_modifiers_config" = "• เลือกแล้วกด %@ เพื่อคัดลอกและวางรายการ";

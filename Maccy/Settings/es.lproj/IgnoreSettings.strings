@@ -1,0 +1,8 @@
+"Title" = "Ignorar";
+"ApplicationsTab" = "Aplicaciones";
+"IgnoredAppsDescription" = "Es posible ignorar las copias que provienen de ciertas aplicaciones.\nTenga en cuenta que la forma en que funciona no es a prueba de balas, por lo que es mejor usar tipos de cartón cuando sea posible.";
+"IgnoredAllAppsExceptListed" = "Ignorar todas las aplicaciones excepto las enumeradas";
+"PasteboardTypesTab" = "Tipos";
+"IgnoredPasteboardTypesDescription" = "Es posible ignorar ciertos tipos de portapapeles.\nPor defecto hay definidos algunos portapapeles de aplicaciones conocidas. Puedes borrar y añadir tantos como quieras.";
+"RegexpTab" = "Expresiones regulares";
+"IgnoredRegexpsDescription" = "Es posible ignorar ciertas copias para que no se recuerden en función de expresiones regulares definidas.";

@@ -18,9 +18,6 @@ class Menu: NSMenu, NSMenuDelegate {
       self.value = value
       self.item = item
       self.menuItems = menuItems
-      if #unavailable(macOS 14) {
-        self.popoverAnchor = HistoryMenuItem.PreviewMenuItem()
-      }
     }
   }
 

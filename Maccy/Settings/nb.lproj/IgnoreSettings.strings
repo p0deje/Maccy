@@ -1,0 +1,8 @@
+"Title" = "Overse";
+"ApplicationsTab" = "Applikasjoner";
+"IgnoredAppsDescription" = "Det er mulig å ignorere kopier som kommer fra bestemte applikasjoner.\nVær oppmerksom på at måten den fungerer ikke er skuddsikker, så det er bedre å bruke papptypetyper når det er mulig.";
+"IgnoredAllAppsExceptListed" = "Ignorer alle applikasjoner unntatt de oppførte";
+"PasteboardTypesTab" = "Typer";
+"IgnoredPasteboardTypesDescription" = "Det er mulig å ignorere visse typer utklippstavle elementer fra å bli husket.\nPSom standard er noen kjente program-spesifikke typer definert. Hvis du øsnker, kan du fjerne dem og legge til egne tilpassede typer.";
+"RegexpTab" = "Vanlig uttrykk";
+"IgnoredRegexpsDescription" = "Det er mulig å ignorere visse kopier fra å huske basert på definerte regulære uttrykk.";

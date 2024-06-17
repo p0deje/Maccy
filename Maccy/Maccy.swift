@@ -64,6 +64,18 @@ class Maccy: NSObject {
     return Settings.PaneHostingController(pane: paneView)
   }
 
+  private let IgnoreSettingsViewController: () -> SettingsPane = {
+    let paneView = Settings.Pane(
+      identifier: Settings.PaneIdentifier.ignore,
+      title: NSLocalizedString("Title", tableName: "IgnoreSettings", comment: ""),
+      toolbarIcon: NSImage.nosign!
+    ) {
+      IgnoreSettingsPane()
+    }
+
+    return Settings.PaneHostingController(pane: paneView)
+  }
+
   private lazy var settingsWindowController = SettingsWindowController(
     panes: [
       GeneralSettingsViewController(),

@@ -21,7 +21,8 @@ extension Defaults.Keys {
       "Pasteboard generator type",
       "com.agilebits.onepassword",
       "com.typeit4me.clipping",
-      "de.petermaurer.TransientPasteboardType"
+      "de.petermaurer.TransientPasteboardType",
+      "net.antelle.keeweb"
     ])
   static let imageMaxHeight = Key<Int>("imageMaxHeight", default: 40)
   static let lastReviewRequestedAt = Key<Date>("lastReviewRequestedAt", default: Date.now)

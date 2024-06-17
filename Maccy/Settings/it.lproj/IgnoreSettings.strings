@@ -1,0 +1,8 @@
+"Title" = "Ignora";
+"ApplicationsTab" = "Applicazioni";
+"IgnoredAppsDescription" = "È possibile ignorare le copie provenienti da alcune applicazioni.\nPrendi nota del fatto che il modo in cui questo funziona non è a prova di proiettile, quindi è meglio utilizzare tipi pasteboard quando possibile.";
+"IgnoredAllAppsExceptListed" = "Ignora tutte le applicazioni tranne elencate";
+"PasteboardTypesTab" = "Tipi";
+"IgnoredPasteboardTypesDescription" = "È possibile escludere alcuni tipi di elementi dall'essere ricordati.\nDi default, sono definiti i tipi dei gile di alcune applicazioni specifiche. Puoi aggiungere e rimuovere tipi personalizzati come ti pare.";
+"RegexpTab" = "Espressioni regolari";
+"IgnoredRegexpsDescription" = "È possibile ignorare alcune copie in modo che vengano ricordate in base a espressioni regolari definite.";

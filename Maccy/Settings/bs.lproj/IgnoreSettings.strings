@@ -1,0 +1,8 @@
+"Title" = "Ignoriši";
+"ApplicationsTab" = "Aplikacije";
+"IgnoredAppsDescription" = "Moguće je zanemariti kopije koje dolaze iz određenih aplikacija.\nNapominjemo da način na koji radi nije u potpunosti precizan, pa je bolje koristiti tipove zalijepljenih stavki kada je to moguće.";
+"IgnoredAllAppsExceptListed" = "Zanemarite sve aplikacije osim navedenih";
+"PasteboardTypesTab" = "Vrste zalijepljenih stavki";
+"IgnoredPasteboardTypesDescription" = "Moguće je zanemariti određene tipove zalijepljenih stavki iz memorije.\nZadano, neki poznati tipovi specifični za aplikaciju su definirani. Možeš ih ukloniti i dodati bilo koje prilagođene tipove koje želite.";
+"RegexpTab" = "Regularni izrazi";
+"IgnoredRegexpsDescription" = "Moguće je zanemariti određene kopije od pamćenja na osnovu definisanih regularnih izraza.";

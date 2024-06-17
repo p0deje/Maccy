@@ -9,7 +9,6 @@
 "quit" = "Вийти";
 "preferences" = "Налаштування…";
 "preferences_advanced" = "Розширені опції";
-"preferences_ignore" = "Ігнорувати";
 "preferences_pins" = "Прикріплення";
 "copy_modifiers_config" = "• Виберіть, натиснувши %@, щоб скопіювати елемент.";
 "paste_modifiers_config" = "• Виберіть, натиснувши %@, щоб скопіювати та вставити елемент.";
