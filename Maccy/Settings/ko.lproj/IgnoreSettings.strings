@@ -1,0 +1,8 @@
+"Title" = "제외";
+"ApplicationsTab" = "어플리케이션";
+"IgnoredAppsDescription" = "특정 어플리케이션에서의 복사는 제외하는 것이 가능합니다.\n작동 방식이 완전하지 않으므로 가능하면 클립보드 타입을 사용하는 것이 좋습니다.";
+"IgnoredAllAppsExceptListed" = "나열된 애플리케이션을 제외한 모든 애플리케이션 무시";
+"PasteboardTypesTab" = "클립보드 타입";
+"IgnoredPasteboardTypesDescription" = "특정 클립보드 항목 타입을 제외할 수 있습니다.\n기본으로 일부 알려진 특정 어플리케이션 타입이 정의되어 있습니다. 그것들을 제거하거나 커스텀 타입을 추가할 수 있습니다.";
+"RegexpTab" = "정규식";
+"IgnoredRegexpsDescription" = "정의된 정규식을 기반으로 특정 복사본을 기억하지 못하도록 무시할 수 있습니다.";

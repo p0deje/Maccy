@@ -9,7 +9,6 @@
 "quit" = "Zatvori";
 "preferences" = "Podešavanja…";
 "preferences_advanced" = "Napredno";
-"preferences_ignore" = "Ignoriši";
 "preferences_pins" = "Zakačke";
 "copy_modifiers_config" = "• Označi sa %@ da kopiraš stavku.";
 "paste_modifiers_config" = "• Označi sa %@ da kopiraš i zalijepiš stavku.";

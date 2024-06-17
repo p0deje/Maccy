@@ -9,7 +9,6 @@
 "quit" = "Sluit";
 "preferences" = "Voorkeuren…";
 "preferences_advanced" = "Geavanceerd";
-"preferences_ignore" = "Negeer";
 "preferences_pins" = "Spelden";
 "copy_modifiers_config" = "• Selecteer met %@ ingedrukt om item te kopiëren.";
 "paste_modifiers_config" = "• Selecteer met %@ ingedrukt om het item te kopiëren en te plakken.";

@@ -1,0 +1,8 @@
+"Title" = "Zanemari";
+"ApplicationsTab" = "Programi";
+"IgnoredAppsDescription" = "Moguće je zanemariti kopije koje dolaze iz određenih programa.\nNapominjemo da taj način rada nije sto posto siguran, pa je bolje koristiti vrste međuspremnika kad je to moguće.";
+"IgnoredAllAppsExceptListed" = "Zanemarite sve aplikacije osim navedenih";
+"PasteboardTypesTab" = "Vrste međuspremnika";
+"IgnoredPasteboardTypesDescription" = "Moguće je zanemariti pamćenje određenih vrsta elemenata međuspremnika.\nNeke poznate vrste specifične za programe su definirane. Možeš ih ukloniti i dodati bilo koje prilagođene vrste koje želiš.";
+"RegexpTab" = "Regularni izrazi";
+"IgnoredRegexpsDescription" = "Moguće je ignorirati određene kopije iz pamćenja na temelju definiranih regularnih izraza.";

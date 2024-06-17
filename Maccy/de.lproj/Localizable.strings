@@ -9,7 +9,6 @@
 "quit" = "Beenden";
 "preferences" = "Einstellungen…";
 "preferences_advanced" = "Erweitert";
-"preferences_ignore" = "Ignorieren";
 "preferences_pins" = "Pins";
 "copy_modifiers_config" = "• Drücke %@, um den gewählten Eintrag zu kopieren.";
 "paste_modifiers_config" = "• Drücke %@, um den gewählten Eintrag zu kopieren und einzufügen.";
