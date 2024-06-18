@@ -1,0 +1,12 @@
+"Title" = "Erweitert";
+"TurnOff" = "Deaktivieren";
+"TurnOffDescription" = "Vorrübergehend alle neue Einträge ignorieren. Zum Beispiel während dem Kopieren von sensiblen Daten.\nDies kann über das Terminal aktiviert und deaktiviert werden mit.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# Einträge wieder kopieren\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Um Maccy zu deaktivieren, klicke auf das Menüleistensymbol und halte dabei ⌥ gedrückt.\nUm nur die nächste Kopie zu ignorieren, klicke und halte ⌥⇧ gedrückt.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# Einträge wieder kopieren";
+"AvoidTakingApplicationFocus" = "Verhindert das Wegnehmen des Fokus der aktiven Anwendung";
+"AvoidTakingApplicationFocusTooltip" = "“Maccy” nimmt der aktiven Anwendung den Fokus kurzzeitig weg, während das Popup angezeigt wird. Dabei wird der Fokus automatisch zum Suchfeld von “Maccy” platziert, was die Benutzerfreundlichkeit erhöht. Das Aktivieren dieser Option würde “Maccy” daran hindern, den Fokus zu übernehmen. Dies kann in bestimmten Situationen nützlich sein: zum Beispiel beim Einfügen in einen Texteditor, der Code automatisch formatiert, wenn dieser den Fokus verliert.";
+"ClearHistoryOnQuit" = "Verlauf beim Beenden löschen";
+"ClearHistoryOnQuitTooltip" = "Alle nicht angehefteten Elemente werden vor dem Beenden der Anwendung automatisch entfernt.";
+"ClearSystemClipboard" = "Löschen Sie auch die Zwischenablage des Systems";
+"ClearSystemClipboardTooltip" = "Wenn diese Option aktiviert ist, wird durch das Löschen des Verlaufs auch die aktuelle Systemzwischenablage gelöscht.";

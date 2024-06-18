@@ -1,0 +1,12 @@
+"Title" = "Avansert";
+"TurnOff" = "Deaktiver";
+"TurnOffDescription" = "Midlertidig ignorer alle nye kopier.\nDu vil mest sannsynlig bruke det programmatisk og deaktivere programmet ved kopiering av sensitive data.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# kopier data\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Du kan også klikke på menyikonet med ⌥ trykket.\nFor å ignorere bare den neste kopien, klikk med ⌥⇧.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# kopier data";
+"AvoidTakingApplicationFocus" = "Unngå applikasjonsfokus";
+"AvoidTakingApplicationFocusTooltip" = "Maccy programmet kommer i fokus når popup'en blir synlig og avgir fokus når den blir lukket. Fokuset er nødvendig for avansert håndtering av informasjon som f.eks ved en Kinesisk hjelpe-meny eller en aksent-meny. Aktivering av dette alternativet ville forhindre Maccy fra å ta fokus. Det er visse situasjoner hvor dette kan være nyttig: f.eks. ved å lime inn i en tekstredigerer som auto-formatterer kode når det mister fokus.";
+"ClearHistoryOnQuit" = "Tøm historikk når du slutter";
+"ClearHistoryOnQuitTooltip" = "Fjern alle ikke-festede elementer automatisk før du avslutter applikasjonen.";
+"ClearSystemClipboard" = "Tøm systemets utklippstavle også";
+"ClearSystemClipboardTooltip" = "Når den er aktivert, vil tømming av loggen også tømme gjeldende systemutklippstavle.";

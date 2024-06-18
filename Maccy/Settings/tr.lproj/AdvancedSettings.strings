@@ -1,0 +1,12 @@
+"Title" = "Gelişmiş";
+"TurnOff" = "Kapat";
+"TurnOffDescription" = "Geçici olarak tüm yeni kopyaları yok say.\nBunu, büyük olasılıkla programsal olarak kullanırsınız ve önemli verilerinizi kopyalarken uygulamayı devre dışı bırakırsınız.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# verileri kopyala\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Aynı zamanda, ⌥ basılıyken menü simgesine tıklayabilirsiniz.\nYalnızca sonraki kopyayı yok saymak için ⌥⇧ ile tıklayın.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# verileri kopyala";
+"AvoidTakingApplicationFocus" = "Uygulama odağını almaktan kaçın";
+"AvoidTakingApplicationFocusTooltip" = "Maccy, açılır pencere gösterildiğinde etkin uygulamanın odağını alır ve kapatıldığında geri verir. Odak, gelişmiş macOS girdi işlemesi için gereklidir; örn. Çince yardımcısı veya vurgu menüsü. Bu seçeneği etkinleştirmek, Maccy'nin odağı alamamasına neden olur. Bunun yararlı olabileceği kimi durumlar vardır; örneğin odağı kaybettiğinde kodu kendiliğinden biçimlendiren bir metin düzenleyiciye yapıştırırken.";
+"ClearHistoryOnQuit" = "Çıkışta geçmişi temizle";
+"ClearHistoryOnQuitTooltip" = "Uygulamadan çıkmadan önce tüm iğnesi çıkarılmış ögeleri kendiliğinden kaldır.";
+"ClearSystemClipboard" = "Sistem panosunu da temizle";
+"ClearSystemClipboardTooltip" = "Etkinleştirildiğinde, geçmişin temizlenmesi mevcut sistem panosunu da temizler.";

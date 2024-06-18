@@ -1,0 +1,12 @@
+"Title" = "고급";
+"TurnOff" = "끄기";
+"TurnOffDescription" = "일시적으로 모든 새로운 복사를 무시합니다.\n중요한 데이터를 복사하는 동안 프로그래밍 방식을 이용해 어플리케이션을 비활성화할 수 있습니다.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# 데이터 복사\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "⌥를 누른 상태에서 메뉴 아이콘을 클릭할 수도 있습니다.\n다음 사본만 무시하려면 ⌥⇧로 클릭하십시오.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# 데이터 복사";
+"AvoidTakingApplicationFocus" = "어플리케이션 포커싱 방지";
+"AvoidTakingApplicationFocusTooltip" = "Maccy는 팝업이 표시될 때 활성 어플리케이션 포커스를 가져오고 닫힐 때 다시 포커스를 제공합니다. 중국어 도우미 또는 액센트 메뉴와 같은 macOS 고급 입력 처리에는 포커스가 필요합니다. 이 옵션을 활성화하면 Maccy가 포커스를 가져오는 것을 방지할 수 있습니다. 이것이 유용할 수 있는 특정 상황들이 있습니다. 예: 포커스를 잃을 때 코드를 자동으로 서식 지정하는 텍스트 에디터에 붙여넣을 때.";
+"ClearHistoryOnQuit" = "종료시 기록 지우기";
+"ClearHistoryOnQuitTooltip" = "애플리케이션을 종료하기 전에 고정 해제된 모든 항목을 자동으로 제거합니다.";
+"ClearSystemClipboard" = "시스템 클립보드도 지우기";
+"ClearSystemClipboardTooltip" = "활성화되면 기록을 지우면 현재 시스템 클립보드도 지워집니다.";

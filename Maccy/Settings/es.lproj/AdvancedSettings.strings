@@ -1,0 +1,12 @@
+"Title" = "Avanzado";
+"TurnOff" = "Desactivar";
+"TurnOffDescription" = "Ignora temporalmente los nuevos elementos copiados.\nTambién se puede (des)activar la opción por consola para evitar copiar datos sensibles.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# volver a copiar elementos\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "También puede hacer clic en el icono de menú con ⌥ presionado.\nPara ignorar solo la siguiente copia, haga clic con ⌥⇧.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# volver a copiar elementos";
+"AvoidTakingApplicationFocus" = "Evite centrarse en la aplicación";
+"AvoidTakingApplicationFocusTooltip" = "Maccy toma un enfoque de aplicación activo cuando se muestra la ventana emergente y devuelve el enfoque cuando está cerrado. El enfoque es necesario para el manejo avanzado de entradas de macOS, como el asistente chino o el menú de acento. Habilitar esta opción evitaría que Maccy se enfocara. Hay ciertas situaciones en las que esto puede ser útil: por ejemplo, pegar en un editor de texto que formatea automáticamente el código cuando pierde el foco.";
+"ClearHistoryOnQuit" = "Borrar el historial al salir";
+"ClearHistoryOnQuitTooltip" = "Elimina automáticamente todos los elementos no anclados antes de salir de la aplicación.";
+"ClearSystemClipboard" = "Limpia también el portapapeles del sistema";
+"ClearSystemClipboardTooltip" = "Cuando está habilitado, borrar el historial también borrará el portapapeles del sistema actual.";
