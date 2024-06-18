@@ -1,0 +1,12 @@
+"Title" = "Geavanceerd";
+"TurnOff" = "Zet uit";
+"TurnOffDescription" = "Negeer tijdelijk alle nieuwe kopieën.\nJe zult het waarschijnlijk programmatisch gebruiken en de apps uitschakelen tijdens het kopiëren van gevoelige gegevens.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# kopieer data\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Je kunt ook op het menu-icoontje klikken terwijl je ⌥ ingedrukt houdt.\nOm alleen de volgende kopie te negeren, klik met ⌥⇧.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# kopieer data";
+"AvoidTakingApplicationFocus" = "Vermijd focus op de app";
+"AvoidTakingApplicationFocusTooltip" = "Maccy neemt de focus van een actieve app als de popup wordt weergegeven en geeft de focus weer terug als deze wordt gesloten. De focus is nodig voor geavanceerde macOS-invoerverwerking, zoals Chinese helper of accentmenu. Door deze optie in te schakelen wordt voorkomen dat Maccy de focus neemt. Er zijn bepaalde situaties waarin dit nuttig kan zijn: bijvoorbeeld plakken in een teksteditor die code automatisch opmaakt wanneer de focus verloren gaat.";
+"ClearHistoryOnQuit" = "Wis geschiedenis bij afsluiten";
+"ClearHistoryOnQuitTooltip" = "Verwijder automatisch alle niet vastgemaakte items voordat u de app afsluit.";
+"ClearSystemClipboard" = "Wis ook het systeemklembord";
+"ClearSystemClipboardTooltip" = "Als dit is ingeschakeld, wordt bij het wissen van de geschiedenis ook het huidige klembord van het systeem gewist..";

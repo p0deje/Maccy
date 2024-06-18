@@ -1,0 +1,12 @@
+"Title" = "詳細";
+"TurnOff" = "オフにする";
+"TurnOffDescription" = "このオプションを有効にすると、一時的に全ての新規コピーを無視します。\nまた、重要なデータをコピーする場合は、下記のコマンドを用いてMaccyを無効にすることもできます。";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# データコピー\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "⌥ を押したままメニュー アイコンをクリックすることもできます。\n次のコピーだけを無視するには、⌥⇧でクリックします。";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# データコピー";
+"AvoidTakingApplicationFocus" = "アプリケーションのフォーカスを取らない";
+"AvoidTakingApplicationFocusTooltip" = "Maccyは、ポップアップを表示するとアクティブなアプリケーションのフォーカスを取り、閉じられるとフォーカスを戻します。一方で、中国語ヘルパーやアクセントメニューなど、macOSの予測入力処理にはフォーカスが必要とされます。このオプションを有効にすると、Maccyはフォーカスを取らないようになります。次の例のようにこのオプションが役立つ特別な状況もあります。※例：フォーカスを失ったときにコードを自動フォーマットするテキストエディターに貼り付ける場合。";
+"ClearHistoryOnQuit" = "終了時、履歴をクリアする";
+"ClearHistoryOnQuitTooltip" = "アプリケーションを終了する前に、ピン留めされていない項目をすべて自動的に削除します。";
+"ClearSystemClipboard" = "システムのクリップボードもクリア";
+"ClearSystemClipboardTooltip" = "有効にすると、履歴をクリアすると現在のシステム クリップボードもクリアされます。";

@@ -1,0 +1,12 @@
+"Title" = "ขั้นสูง";
+"TurnOff" = "ปิด";
+"TurnOffDescription" = "ไม่สนใจการคัดลอกทั้งหมดชั่วคราว.\nดูเหมือนว่าคุณตั้งค่าปิดการทำงานแอปขณะคัดลอกข้อมูลสำคัญ";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# คัดลอกข้อมูล\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "คุณยังสามารถคลิกไอคอนเมนูโดยกด ⌥\nหากต้องการละเว้นเฉพาะสำเนาถัดไป ให้คลิกด้วย ⌥⇧";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# คัดลอกข้อมูล";
+"AvoidTakingApplicationFocus" = "หลีกเลี่ยงแอปหลุดการทำงาน";
+"AvoidTakingApplicationFocusTooltip" = "Maccy จะทำการกับแอป Active อยู่. จำเป็นต้องมีตั้งค่าสำหรับการจัดการ input ของ macOS ในระดับสูง เช่น ตัวช่วยการพิมพ์ภาษาจีนหรือเมนูอื่นๆ. เปิดตัวเลือกนี้ป้องกันไม่ให้ Maccy หลุดการทำงาน. มีบางสถาการณ์ที่จะเป็นประโยชน์ เช่น การวางลงแอปแก้ไขข้อความ เพื่อป้องกันการหลุดการทำงาน";
+"ClearHistoryOnQuit" = "ล้างประวัติเมื่อออก";
+"ClearHistoryOnQuitTooltip" = "ลบรายการที่เลิกปักหมุดทั้งหมดออกโดยอัตโนมัติก่อนออกจากแอปพลิเคชัน";
+"ClearSystemClipboard" = "ล้างคลิปบอร์ดของระบบด้วย";
+"ClearSystemClipboardTooltip" = "เมื่อเปิดใช้งาน การล้างประวัติจะเป็นการล้างคลิปบอร์ดของระบบปัจจุบันด้วย";

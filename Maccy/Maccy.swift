@@ -76,6 +76,18 @@ class Maccy: NSObject {
     return Settings.PaneHostingController(pane: paneView)
   }
 
+  private let AdvancedSettingsViewController: () -> SettingsPane = {
+    let paneView = Settings.Pane(
+      identifier: Settings.PaneIdentifier.advanced,
+      title: NSLocalizedString("Title", tableName: "AdvancedSettings", comment: ""),
+      toolbarIcon: NSImage.gearshape2!
+    ) {
+      AdvancedSettingsPane()
+    }
+
+    return Settings.PaneHostingController(pane: paneView)
+  }
+
   private lazy var settingsWindowController = SettingsWindowController(
     panes: [
       GeneralSettingsViewController(),
