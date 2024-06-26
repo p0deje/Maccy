@@ -1,1 +1,43 @@
 
+
+
+/* Class = "NSTextFieldCell"; title = "Table View Cell"; ObjectID = "Rfe-XX-kt3"; */
+"Rfe-XX-kt3.title" = "Célula da Visualização de Tabela";
+
+/* Class = "NSButtonCell"; title = "Ignore all applications except listed"; ObjectID = "Zb2-M8-Pky"; */
+"Zb2-M8-Pky.title" = "Ignorar todos os aplicativos exceto os listados";
+
+/* Class = "NSTabViewItem"; label = "Pasteboard types"; ObjectID = "b7c-gy-SzX"; */
+"b7c-gy-SzX.label" = "Tipos de cópia";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible."; ObjectID = "cCb-x7-Qin"; */
+"cCb-x7-Qin.title" = "É possível ignorar cópias provenientes de determinados aplicativos.\nPor favor, note que a forma como isso funciona não é infalível, por isso é melhor usar tipos de cópia quando possível.";
+
+/* Class = "NSTabViewItem"; label = "Regular expressions"; ObjectID = "oR1-gy-AKV"; */
+"oR1-gy-AKV.label" = "Expressões regulares";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "rOG-Q7-qpw"; */
+"rOG-Q7-qpw.title" = "Célula de texto";
+
+/* Class = "NSTabViewItem"; label = "Applications"; ObjectID = "uWq-uc-eIR"; */
+"uWq-uc-eIR.label" = "Aplicativos";
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain copies from remembering based on defined regular expressions."; ObjectID = "76n-GS-0HQ"; */
+"76n-GS-0HQ.title" = "É possível ignorar certas cópias para não lembrar com base em expressões regulares definidas.";
+
+/* Class = "NSTableColumn"; headerCell.title = "Pasteboard types"; ObjectID = "8Ox-ex-Bkl"; */
+"8Ox-ex-Bkl.headerCell.title" = "Tipos de cópia";
+
+/* Class = "NSTextFieldCell"; title = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want."; ObjectID = "CB1-s7-UXJ"; */
+"CB1-s7-UXJ.title" = "É possível ignorar certos tipos de itens de cópia para não lembrar.\nPor padrão, alguns tipos específicos de aplicativos conhecidos são definidos. Você pode removê-los e adicionar qualquer tipo personalizado que você quiser.";
+
+/* Class = "NSTableColumn"; headerCell.title = "Applications"; ObjectID = "DCt-Nk-VNS"; */
+"DCt-Nk-VNS.headerCell.title" = "Aplicativos";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "Goj-ts-fal"; */
+"Goj-ts-fal.title" = "Célula de texto";
+
+/* Class = "NSTableColumn"; headerCell.title = "Regular expressions"; ObjectID = "Hef-1G-Irp"; */
+"Hef-1G-Irp.headerCell.title" = "Expressões regulares";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "ItS-bj-BFG"; */
+"ItS-bj-BFG.title" = "Célula de texto";
