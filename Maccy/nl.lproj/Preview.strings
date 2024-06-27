@@ -1,0 +1,6 @@
+"Application" = "App:";
+"FirstCopyTime" = "Eerste kopie:";
+"LastCopyTime" = "Laatste kopie:";
+"NumberOfCopies" = "Aantal kopieën:";
+"PinKey" = "Druk op {pinKey} om te (ont)pinnen.";
+"DeleteKey" = "Druk op {deleteKey} om te verwijderen.";

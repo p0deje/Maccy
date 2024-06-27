@@ -32,7 +32,7 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
   }
 
   func perform() async throws -> some IntentResult & ReturnsValue<HistoryItemAppEntity> {
-    var item: HistoryItem?
+    var item: HistoryItemL?
     if selected {
       item = maccy.selectedItem
     } else {

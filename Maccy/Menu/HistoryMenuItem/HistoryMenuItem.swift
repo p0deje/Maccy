@@ -3,7 +3,7 @@ import Defaults
 
 class HistoryMenuItem: NSMenuItem {
   var isPinned = false
-  var item: HistoryItem?
+  var item: HistoryItemL?
   var value = ""
 
   internal var clipboard: Clipboard!
@@ -54,7 +54,7 @@ class HistoryMenuItem: NSMenuItem {
     super.init(coder: coder)
   }
 
-  init(item: HistoryItem, clipboard: Clipboard) {
+  init(item: HistoryItemL, clipboard: Clipboard) {
     super.init(title: "", action: #selector(onSelect(_:)), keyEquivalent: "")
 
     self.clipboard = clipboard
@@ -171,27 +171,27 @@ class HistoryMenuItem: NSMenuItem {
     self.attributedTitle = attributedTitle
   }
 
-  private func isImage(_ item: HistoryItem) -> Bool {
+  private func isImage(_ item: HistoryItemL) -> Bool {
     return item.image != nil
   }
 
-  private func isFile(_ item: HistoryItem) -> Bool {
+  private func isFile(_ item: HistoryItemL) -> Bool {
     return !item.fileURLs.isEmpty
   }
 
-  private func isRTF(_ item: HistoryItem) -> Bool {
+  private func isRTF(_ item: HistoryItemL) -> Bool {
     return item.rtf != nil
   }
 
-  private func isHTML(_ item: HistoryItem) -> Bool {
+  private func isHTML(_ item: HistoryItemL) -> Bool {
     return item.html != nil
   }
 
-  private func isText(_ item: HistoryItem) -> Bool {
+  private func isText(_ item: HistoryItemL) -> Bool {
     return item.text != nil
   }
 
-  private func loadImage(_ item: HistoryItem) {
+  private func loadImage(_ item: HistoryItemL) {
     guard let image = item.image else {
       return
     }
@@ -211,7 +211,7 @@ class HistoryMenuItem: NSMenuItem {
     self.title = imageTitle
   }
 
-  private func loadFile(_ item: HistoryItem) {
+  private func loadFile(_ item: HistoryItemL) {
     guard !item.fileURLs.isEmpty else {
       return
     }
@@ -223,7 +223,7 @@ class HistoryMenuItem: NSMenuItem {
     self.image = ColorImage.from(title)
   }
 
-  private func loadRTF(_ item: HistoryItem) {
+  private func loadRTF(_ item: HistoryItemL) {
     guard let string = item.rtf?.string else {
       return
     }
@@ -233,7 +233,7 @@ class HistoryMenuItem: NSMenuItem {
     self.image = ColorImage.from(title)
   }
 
-  private func loadHTML(_ item: HistoryItem) {
+  private func loadHTML(_ item: HistoryItemL) {
     guard let string = item.html?.string else {
       return
     }
@@ -243,7 +243,7 @@ class HistoryMenuItem: NSMenuItem {
     self.image = ColorImage.from(title)
   }
 
-  private func loadText(_ item: HistoryItem) {
+  private func loadText(_ item: HistoryItemL) {
     guard let string = item.text else {
       return
     }

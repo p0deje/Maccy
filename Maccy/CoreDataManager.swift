@@ -1,4 +1,5 @@
 import CoreData
+import SwiftData
 
 class CoreDataManager {
   static public let shared = CoreDataManager()
@@ -8,7 +9,7 @@ class CoreDataManager {
     return CoreDataManager.shared.persistentContainer.viewContext
   }
 
-  lazy private var persistentContainer: NSPersistentContainer = {
+  lazy var persistentContainer: NSPersistentContainer = {
     let container = NSPersistentContainer(name: "Storage")
 
     if CoreDataManager.inMemory {
@@ -16,6 +17,18 @@ class CoreDataManager {
       description.type = NSInMemoryStoreType
       description.shouldAddStoreAsynchronously = false
       container.persistentStoreDescriptions = [description]
+    } else {
+      let description = NSPersistentStoreDescription()
+      description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+//      description.url = description.url?.deletingLastPathComponent().appending(path: "default.store")
+      description.shouldMigrateStoreAutomatically = true
+      description.shouldInferMappingModelAutomatically = true
+      description.url = URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite")
+      container.persistentStoreDescriptions = [description]
+//      if let description = container.persistentStoreDescriptions.first {
+//        description.url = CoreDataManager.storeURL
+//        description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+//      }
     }
 
     // Enable persistent history tracking in anticipation for SwiftData migration.
@@ -46,3 +59,16 @@ class CoreDataManager {
     }
   }
 }
+
+
+//class SwiftDataManager {
+//  static public let shared = try! SwiftDataManager()
+//
+//  let container: ModelContainer
+//
+//  init(useInMemoryStore: Bool = false) throws {
+//    let storeURL = CoreDataManager.shared.persistentContainer.persistentStoreDescriptions.first!.url!
+//    let config = ModelConfiguration(url: URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite"))
+//    container = try ModelContainer(for: HistoryItem.self, configurations: config)
+//  }
+//}

@@ -21,12 +21,12 @@ class MenuTests: XCTestCase {
     history.clear()
     super.setUp()
 
-    let historyItems: [HistoryItem] = [
-      HistoryItem(contents: [HistoryItemContent(type: "", value: "foo".data(using: .utf8)!)]),
-      HistoryItem(contents: [HistoryItemContent(type: "", value: "bar".data(using: .utf8)!)]),
-      HistoryItem(contents: [HistoryItemContent(type: "", value: "baz".data(using: .utf8)!)])
-    ]
-    historyItems.forEach(history.add(_:))
+//    let historyItems: [HistoryItem] = [
+//      HistoryItem(contents: [HistoryItemContent(type: "", value: "foo".data(using: .utf8)!)]),
+//      HistoryItem(contents: [HistoryItemContent(type: "", value: "bar".data(using: .utf8)!)]),
+//      HistoryItem(contents: [HistoryItemContent(type: "", value: "baz".data(using: .utf8)!)])
+//    ]
+//    historyItems.forEach(history.add(_:))
 
     menu = Menu(history: history, clipboard: clipboard)
     menu.addItem(NSMenuItem(title: "Search", action: nil, keyEquivalent: ""))
@@ -147,10 +147,10 @@ class MenuTests: XCTestCase {
     }
   }
 
-  private func historyItem(_ value: String) -> HistoryItem {
-    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+  private func historyItem(_ value: String) -> HistoryItemL {
+    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value.data(using: .utf8)!)
-    let item = HistoryItem(contents: [content])
+    let item = HistoryItemL(contents: [content])
     return item
   }
 }

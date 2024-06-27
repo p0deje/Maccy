@@ -35,7 +35,7 @@ class About {
   }
 
   @objc
-  func openAbout(_ sender: NSMenuItem) {
+  func openAbout(_ sender: NSMenuItem?) {
     NSApp.activate(ignoringOtherApps: true)
     NSApp.orderFrontStandardAboutPanel(options: [NSApplication.AboutPanelOptionKey.credits: credits])
   }

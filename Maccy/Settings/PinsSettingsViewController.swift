@@ -16,6 +16,6 @@ class PinsSettingsViewController: NSViewController, SettingsPane {
     super.viewDidLoad()
     self.context = CoreDataManager.shared.viewContext
     itemsController.fetchPredicate = fetchPinnedPredicate
-    itemsController.sortDescriptors = [HistoryItem.sortByFirstCopiedAt]
+    itemsController.sortDescriptors = [HistoryItemL.sortByFirstCopiedAt]
   }
 }

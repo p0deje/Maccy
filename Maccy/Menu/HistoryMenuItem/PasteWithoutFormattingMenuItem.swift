@@ -1,5 +1,6 @@
 import AppKit
 import Defaults
+import SwiftUI
 
 extension HistoryMenuItem {
   class PasteWithoutFormattingMenuItem: HistoryMenuItem {
@@ -15,9 +16,21 @@ extension HistoryMenuItem {
       }
     }
 
+    static var modifiers: EventModifiers {
+      if Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault] {
+        return EventModifiers(arrayLiteral: [.command, .shift])
+      } else if !Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault] {
+        return .option
+      } else if !Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault] {
+        return EventModifiers(arrayLiteral: [.option, .shift])
+      } else {
+        return .command
+      }
+    }
+
     override func select() {
-      clipboard.copy(item, removeFormatting: true)
-      clipboard.paste()
+//      clipboard.copy(item, removeFormatting: true)
+//      clipboard.paste()
     }
 
     override func alternate() {

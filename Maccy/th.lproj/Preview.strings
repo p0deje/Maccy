@@ -1,0 +1,6 @@
+"Application" = "แอปพลิเคชัน:";
+"FirstCopyTime" = "เวลาคัดลอกครั้งแรก:";
+"LastCopyTime" = "เวลาคัดลอกสุดท้าย:";
+"NumberOfCopies" = "จำนวนการคัดลอก:";
+"PinKey" = "กด {pinKey} เพื่อปักหมุด";
+"DeleteKey" = "กด {deleteKey} เพื่อลบ";

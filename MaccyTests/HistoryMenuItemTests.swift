@@ -138,9 +138,9 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   private func historyMenuItem(_ value: String?, application: String? = "com.apple.finder") -> HistoryMenuItem {
-    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))
-    let item = HistoryItem(contents: [content])
+    let item = HistoryItemL(contents: [content])
     item.application = application
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
@@ -149,9 +149,9 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   private func historyMenuItem(_ value: Data?, _ type: NSPasteboard.PasteboardType) -> HistoryMenuItem {
-    let content = HistoryItemContent(type: type.rawValue,
+    let content = HistoryItemContentL(type: type.rawValue,
                                      value: value)
-    let item = HistoryItem(contents: [content])
+    let item = HistoryItemL(contents: [content])
     item.application = "com.apple.finder"
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
@@ -160,9 +160,9 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   private func historyMenuItem(_ value: NSImage) -> HistoryMenuItem {
-    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.tiff.rawValue,
+    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.tiff.rawValue,
                                      value: value.tiffRepresentation!)
-    let item = HistoryItem(contents: [content])
+    let item = HistoryItemL(contents: [content])
     item.application = "com.apple.finder"
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
@@ -171,15 +171,15 @@ class HistoryMenuItemTests: XCTestCase {
   }
 
   private func historyMenuItem(_ value: URL) -> HistoryMenuItem {
-    let fileURLContent = HistoryItemContent(
+    let fileURLContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.fileURL.rawValue,
       value: value.dataRepresentation
     )
-    let fileNameContent = HistoryItemContent(
+    let fileNameContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.string.rawValue,
       value: value.lastPathComponent.data(using: .utf8)
     )
-    let item = HistoryItem(contents: [fileURLContent, fileNameContent])
+    let item = HistoryItemL(contents: [fileURLContent, fileNameContent])
     item.application = "com.apple.finder"
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt

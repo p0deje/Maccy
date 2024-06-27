@@ -8,7 +8,7 @@ class Maccy: NSObject {
   static var returnFocusToPreviousApp = true
 
   @objc let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
-  var selectedItem: HistoryItem? { menu.lastSelectedItem?.item }
+  var selectedItem: HistoryItemL? { menu.lastSelectedItem?.item }
 
   private let statusItemTitleMaxLength = 20
 
@@ -117,6 +117,7 @@ class Maccy: NSObject {
   private var statusItemVisibilityObserver: NSKeyValueObservation?
   private var statusItemChangeObserver: Defaults.Observation?
 
+  @MainActor
   override init() {
     super.init()
 
@@ -160,7 +161,7 @@ class Maccy: NSObject {
     return menu.delete(position: position)
   }
 
-  func item(at position: Int) -> HistoryItem? {
+  func item(at position: Int) -> HistoryItemL? {
     return menu.historyItem(at: position)
   }
 
@@ -173,6 +174,7 @@ class Maccy: NSObject {
     }
   }
 
+  @MainActor
   private func start() {
     statusItem.behavior = .removalAllowed
     statusItem.isVisible = Defaults[.showInStatusBar]
@@ -180,8 +182,8 @@ class Maccy: NSObject {
     updateStatusMenuIcon(Defaults[.menuIcon])
 
     clipboard.onNewCopy(history.add)
-    clipboard.onNewCopy(menu.add)
-    clipboard.onNewCopy(updateMenuTitle)
+//    clipboard.onNewCopy(menu.add)
+//    clipboard.onNewCopy(updateMenuTitle)
     clipboard.start()
 
     populateHeader()
@@ -294,8 +296,8 @@ class Maccy: NSObject {
 
     var title = ""
     if let item = item {
-      title = HistoryMenuItem(item: item, clipboard: clipboard).title
-    } else if let item = menu.firstUnpinnedHistoryMenuItem {
+//      title = HistoryMenuItem(item: item, clipboard: clipboard).title
+//    } else if let item = menu.firstUnpinnedHistoryMenuItem {
       title = item.title
     }
 

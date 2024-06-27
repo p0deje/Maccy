@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="21754" systemVersion="22F66" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="HistoryItem" representedClassName="HistoryItem" syncable="YES">
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="HistoryItem" representedClassName="HistoryItemL" syncable="YES">
         <attribute name="application" optional="YES" attributeType="String"/>
         <attribute name="firstCopiedAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastCopiedAt" attributeType="Date" usesScalarValueType="NO"/>
@@ -9,7 +9,7 @@
         <attribute name="title" optional="YES" attributeType="String" maxValueString="203"/>
         <relationship name="contents" toMany="YES" deletionRule="Cascade" destinationEntity="HistoryItemContent" inverseName="item" inverseEntity="HistoryItemContent"/>
     </entity>
-    <entity name="HistoryItemContent" representedClassName="HistoryItemContent" syncable="YES">
+    <entity name="HistoryItemContent" representedClassName="HistoryItemContentL" syncable="YES">
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="value" optional="YES" attributeType="Binary"/>
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HistoryItem" inverseName="contents" inverseEntity="HistoryItem"/>

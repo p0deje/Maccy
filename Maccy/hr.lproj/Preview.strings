@@ -1,0 +1,6 @@
+"Application" = "Program:";
+"FirstCopyTime" = "Vrijeme prve kopije:";
+"LastCopyTime" = "Vrijeme zadnje kopije:";
+"NumberOfCopies" = "Broj kopija:";
+"PinKey" = "Prikvači/otkvači pomoću tipki {pinKey}.";
+"DeleteKey" = "Izbriši pomoću tipki {deleteKey}.";

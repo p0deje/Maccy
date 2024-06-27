@@ -1,0 +1,6 @@
+"Application" = "Додаток:";
+"FirstCopyTime" = "Час першої копії:";
+"LastCopyTime" = "Час останньої копії:";
+"NumberOfCopies" = "Кількість копій:";
+"PinKey" = "Натисніть {pinKey}, щоб (від)кріпити.";
+"DeleteKey" = "Натисніть {deleteKey}, щоб видалити.";

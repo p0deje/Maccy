@@ -172,7 +172,7 @@ class MenuHeaderView: NSView, NSSearchFieldDelegate {
       performMenuItemAction(MenuFooter.preferences.rawValue)
       return true
     case .paste:
-      if HistoryItem.pinned.contains(where: { $0.pin == key.rawValue }) {
+      if HistoryItemL.pinned.contains(where: { $0.pin == key.rawValue }) {
         return false
       } else {
         queryField.becomeFirstResponder()
