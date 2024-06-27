@@ -1,1 +1,61 @@
 
+
+
+/* Class = "NSButtonCell"; title = "Check now"; ObjectID = "8Rb-OS-d59"; */
+"8Rb-OS-d59.title" = "Zkontrolovat teď";
+/* Class = "NSTextFieldCell"; title = "Pin:"; ObjectID = "1Tw-Z5-00F"; */
+"1Tw-Z5-00F.title" = "Připnout:";
+
+/* Class = "NSButtonCell"; title = "Paste without formatting"; ObjectID = "5NO-0n-i7l"; */
+"5NO-0n-i7l.title" = "Vložit bez formátování";
+
+/* Class = "NSButtonCell"; title = "Notifications and sounds 􀱁"; ObjectID = "CQh-gW-fw6"; */
+"CQh-gW-fw6.title" = "Notifikace a zvuky 􀱁";
+
+/* Class = "NSButtonCell"; title = "Launch at login"; ObjectID = "Cfl-qm-UkM"; */
+"Cfl-qm-UkM.title" = "Spustit při přihlášení";
+
+/* Class = "NSTextFieldCell"; title = "Behavior:"; ObjectID = "HJa-3L-ffW"; */
+"HJa-3L-ffW.title" = "Chování:";
+
+/* Class = "NSMenuItem"; title = "Fuzzy"; ObjectID = "IGh-5B-6RG"; */
+"IGh-5B-6RG.title" = "Přibližné";
+
+/* Class = "NSView"; ibShadowedToolTip = "Shortcut key to delete history item.\nDefault: ⌥⌫."; ObjectID = "MWj-5S-7C8"; */
+"MWj-5S-7C8.ibShadowedToolTip" = "Zkratka pro smazání položky historie.\nVýchozí: ⌥⌫.";
+
+/* Class = "NSMenuItem"; title = "Exact"; ObjectID = "OJz-OA-cKK"; */
+"OJz-OA-cKK.title" = "Přesné";
+
+/* Class = "NSTextFieldCell"; title = "Customize the behavior when selecting item:"; ObjectID = "ZSa-vg-zWi"; */
+"ZSa-vg-zWi.title" = "Přizpůsob chování při volbě položky:";
+
+/* Class = "NSButtonCell"; title = "Check for updates automatically"; ObjectID = "avb-QJ-T0h"; */
+"avb-QJ-T0h.title" = "Automaticky kontrolovat aktualizace";
+
+/* Class = "NSMenuItem"; title = "Mixed"; ObjectID = "dTc-O1-HqW"; */
+"dTc-O1-HqW.title" = "Smíšené";
+
+/* Class = "NSTextFieldCell"; title = "Search:"; ObjectID = "eLD-CL-D8J"; */
+"eLD-CL-D8J.title" = "Vyhledávání:";
+
+/* Class = "NSView"; ibShadowedToolTip = "Global shortcut key to open application.\nDefault: ⇧⌘C."; ObjectID = "gv6-rV-zkI"; */
+"gv6-rV-zkI.ibShadowedToolTip" = "Globální klávesová zkratka pro otevření aplikace.\nVýchozí: ⇧⌘C.";
+
+/* Class = "NSTextFieldCell"; title = "Open:"; ObjectID = "hdM-75-pvO"; */
+"hdM-75-pvO.title" = "Otevřít:";
+
+/* Class = "NSButtonCell"; title = "Paste automatically"; ObjectID = "kK4-kG-DIY"; */
+"kK4-kG-DIY.title" = "Vložit automaticky";
+
+/* Class = "NSMenuItem"; title = "Regular expressions"; ObjectID = "mhw-kS-4Wk"; */
+"mhw-kS-4Wk.title" = "Regulární výrazy";
+
+/* Class = "NSView"; ibShadowedToolTip = "Shortcut key to pin history item.\nDefault: ⌥P."; ObjectID = "pPs-rF-k8m"; */
+"pPs-rF-k8m.ibShadowedToolTip" = "Klávesová zkratka pro připnutí položky.\nVýchozí: ⌥P.";
+
+/* Class = "NSTextFieldCell"; title = "• Select with ⌘ pressed to copy item.\n• Select with ⌥ pressed to copy and paste item.\n• Select with ⌥⇧ pressed to copy, clear formatting and paste item."; ObjectID = "EdO-Bo-TeB"; */
+"EdO-Bo-TeB.title" = "• Vyber se stisknutím ⌘ pro zkopírování položky.\n• Vyber se stisknutím ⌥ pro zkopírování a vložení položky.\n• Vyber se stisknutím ⌥⇧ pro zkopírování, odstranění formátování a vložení položky.";
+
+/* Class = "NSTextFieldCell"; title = "Delete:"; ObjectID = "r50-bG-RWB"; */
+"r50-bG-RWB.title" = "Smazat:";
