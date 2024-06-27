@@ -1,1 +1,28 @@
 
+
+
+/* Class = "NSButtonCell"; title = "Clear history on quit"; ObjectID = "JvB-ng-8vt"; */
+"JvB-ng-8vt.title" = "Vymazat historii při ukončení";
+
+/* Class = "NSButtonCell"; title = "Turn off"; ObjectID = "RA0-eh-Udt"; */
+"RA0-eh-Udt.title" = "Vypnout";
+
+/* Class = "NSButtonCell"; title = "Clear the system clipboard too"; ObjectID = "WSh-1o-SG8"; */
+"WSh-1o-SG8.title" = "Vymazat taky systémovou schránku";
+
+/* Class = "NSTextFieldCell"; title = "Temporarily ignore all new copies.\nYou are likely to use it programmatically and disable application while copying sensitive data."; ObjectID = "Ejh-zi-AFs"; */
+"Ejh-zi-AFs.title" = "Dočasně ignorovat všechny nové kopie.\nPravděpodobně toto použiješ programově a zakážeš aplikaci při kopírování citlivých dat.";
+
+/* Class = "NSButton"; ibShadowedToolTip = "Automatically remove all unpinned items before quitting the application."; ObjectID = "O2y-qd-u6c"; */
+"O2y-qd-u6c.ibShadowedToolTip" = "Automaticky odebrat všechny nepřipnuté položky před ukončením aplikace.";
+
+/* Class = "NSButtonCell"; title = "Avoid taking application focus"; ObjectID = "jjU-HE-iIA"; */
+"jjU-HE-iIA.title" = "Nepřebírat pozici aktivní aplikace";
+
+/* Class = "NSButton"; ibShadowedToolTip = "When enabled, clearing the history would also clear the current system clipboard."; ObjectID = "lGE-3K-m2Y"; */
+"lGE-3K-m2Y.ibShadowedToolTip" = "Pokud je povoleno, smazání historie smaže i aktuální systémovou schránku.";
+
+/* Class = "NSTextFieldCell"; title = "You can also click the menu icon with ⌥ pressed.\nTo ignore only the next copy, click with ⌥⇧."; ObjectID = "lwS-2p-WwS"; */
+"lwS-2p-WwS.title" = "Můžeš také kliknut na menu ikonu při stisknutí ⌥.\nPro ignorování následující kopie stiskni s ⌥⇧.";
+/* Class = "NSButton"; ibShadowedToolTip = "Maccy takes an active application focus when the popup is shown and gives focus back when it's closed. The focus is needed for advanced macOS input handling such as Chinese helper or accent menu. Enabling this option would prevent Maccy from taking focus. There are certain situations when this can be useful: for example, pasting to a text editor that auto-formats code when it loses focus."; ObjectID = "4MH-H4-Ce2"; */
+"4MH-H4-Ce2.ibShadowedToolTip" = "Maccy přebírá pozici aktivní aplikace, když je zobrazený popup a předává ji zpět když je zavřen. Pozice je potřeba pro pokročilé funkce macOS nakládání se vstupy jako je čínská pomoc, nebo menu diakritiky. Povolení této možnosti by zamezilo Maccy převzít pozici aktivní aplikace. Jsou některé situace, kdy to může být užitečné, jako například vkládání do textového editoru, který autoformátuje kód při ztrátě pozice aktivní aplikace.";
