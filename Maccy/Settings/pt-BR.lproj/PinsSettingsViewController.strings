@@ -1,0 +1,16 @@
+
+
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "juh-Mt-VZK"; */
+"juh-Mt-VZK.title" = "Text Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Key"; ObjectID = "qRS-YB-ZPI"; */
+"qRS-YB-ZPI.headerCell.title" = "Tecla";
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "bdM-5c-VDK"; */
+"bdM-5c-VDK.title" = "Text Cell";
+
+/* Class = "NSTableColumn"; headerCell.title = "Title"; ObjectID = "bsY-ZI-mU2"; */
+"bsY-ZI-mU2.headerCell.title" = "Título";
+
+/* Class = "NSTextFieldCell"; title = "You can customize the title and hotkey of every pinned item.\nTo edit, double-click it and enter new value."; ObjectID = "jBl-gB-eEV"; */
+"jBl-gB-eEV.title" = "Você pode personalizar o título e a tecla de atalho de cada item fixado.\nPara editar, clique duas vezes e digite um novo valor.";
