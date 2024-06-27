@@ -243,6 +243,14 @@
 		DA360DB21E3DF137005C6F6B /* HistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HistoryTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DA360DB41E3DF137005C6F6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA384E85232746D800603999 /* SearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTests.swift; sourceTree = "<group>"; };
+		DA3B30662C2CE3D800853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Preview.strings"; sourceTree = "<group>"; };
+		DA3B30672C2CE3D800853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/AdvancedSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA3B30682C2CE3D900853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/AppearanceSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA3B30692C2CE3D900853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/GeneralSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA3B306A2C2CE3D900853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/PinsSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA3B306B2C2CE3D900853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/IgnoreSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA3B306C2C2CE3D900853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/StorageSettingsViewController.strings"; sourceTree = "<group>"; };
+		DA3B306D2C2CE46800853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipboardTests.swift; sourceTree = "<group>"; };
 		DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSApplication+Windows.swift"; sourceTree = "<group>"; };
 		DA48AE882A5F0548006D4894 /* guy.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guy.jpeg; sourceTree = "<group>"; };
@@ -770,6 +778,7 @@
 				he,
 				nl,
 				ar,
+				"pt-BR",
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			packageReferences = (
@@ -992,6 +1001,7 @@
 				DA7E87232B7EC74100CA9EDF /* he */,
 				3EBDD1E32BBEF22800C57500 /* nl */,
 				DA4C056C2BD416F000FE5FEC /* ar */,
+				DA3B306D2C2CE46800853E9E /* pt-BR */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1019,6 +1029,7 @@
 				3EBDD1DF2BBEF22800C57500 /* nl */,
 				DA4C05672BD40E3400FE5FEC /* ar */,
 				DA1864792BD6F4FA0085C47C /* en */,
+				DA3B30692C2CE3D900853E9E /* pt-BR */,
 			);
 			name = GeneralSettingsViewController.xib;
 			sourceTree = "<group>";
@@ -1046,6 +1057,7 @@
 				3EBDD1DE2BBEF22700C57500 /* nl */,
 				DA4C05662BD40E3400FE5FEC /* ar */,
 				DA1864772BD6F4F30085C47C /* en */,
+				DA3B30682C2CE3D900853E9E /* pt-BR */,
 			);
 			name = AppearanceSettingsViewController.xib;
 			sourceTree = "<group>";
@@ -1073,6 +1085,7 @@
 				3EBDD1DD2BBEF22700C57500 /* nl */,
 				DA4C05652BD40E3400FE5FEC /* ar */,
 				DA1864752BD6F4CC0085C47C /* en */,
+				DA3B30672C2CE3D800853E9E /* pt-BR */,
 			);
 			name = AdvancedSettingsViewController.xib;
 			sourceTree = "<group>";
@@ -1100,6 +1113,7 @@
 				3EBDD1E22BBEF22800C57500 /* nl */,
 				DA4C056A2BD40E3400FE5FEC /* ar */,
 				DA18647F2BD6F5060085C47C /* en */,
+				DA3B306C2C2CE3D900853E9E /* pt-BR */,
 			);
 			name = StorageSettingsViewController.xib;
 			sourceTree = "<group>";
@@ -1127,6 +1141,7 @@
 				3EBDD1E12BBEF22800C57500 /* nl */,
 				DA4C05692BD40E3400FE5FEC /* ar */,
 				DA18647D2BD6F5040085C47C /* en */,
+				DA3B306B2C2CE3D900853E9E /* pt-BR */,
 			);
 			name = IgnoreSettingsViewController.xib;
 			sourceTree = "<group>";
@@ -1154,6 +1169,7 @@
 				3EBDD1DC2BBEF22700C57500 /* nl */,
 				DA4C056B2BD40E3800FE5FEC /* ar */,
 				DA1864812BD6F5100085C47C /* en */,
+				DA3B30662C2CE3D800853E9E /* pt-BR */,
 			);
 			name = Preview.xib;
 			sourceTree = "<group>";
@@ -1181,6 +1197,7 @@
 				3EBDD1E02BBEF22800C57500 /* nl */,
 				DA4C05682BD40E3400FE5FEC /* ar */,
 				DA18647B2BD6F5010085C47C /* en */,
+				DA3B306A2C2CE3D900853E9E /* pt-BR */,
 			);
 			name = PinsSettingsViewController.xib;
 			sourceTree = "<group>";
