@@ -25,6 +25,7 @@ Maccy works on macOS Mojave 10.14 or higher.
   * [Why doesn't it paste when I select an item in history?](#why-doesnt-it-paste-when-i-select-an-item-in-history)
   * [When assigning a hotkey to open Maccy, it says that this hotkey is already used in some system setting.](#when-assigning-a-hotkey-to-open-maccy-it-says-that-this-hotkey-is-already-used-in-some-system-setting)
   * [How to restore hidden footer?](#how-to-restore-hidden-footer)
+* [Translations](#translations)
 * [Motivation](#motivation)
 * [License](#license)
 
@@ -147,6 +148,13 @@ If for some reason it doesn't work, run the following command in Terminal.app:
 defaults delete org.p0deje.Maccy hideFooter
 ```
 
+## Translations
+
+The translations are hosted in [Weblate](https://hosted.weblate.org/engage/maccy/).
+You can use it to suggest changes in translations and localize the application to a new language.
+
+[![Translation status](https://hosted.weblate.org/widget/maccy/multi-auto.svg)](https://hosted.weblate.org/engage/maccy/)
+
 ## Motivation
 
 There are dozens of similar applications out there, so why build another?
@@ -155,6 +163,7 @@ a clipboard manager that is as free and simple as [Parcellite](http://parcellite
 but I couldn't. So I've decided to build one.
 
 Also, I wanted to learn Swift and get acquainted with macOS application development.
+
 
 ## License
 
