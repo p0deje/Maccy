@@ -1,5 +1,6 @@
 import Cocoa
 import Defaults
+import SwiftUI
 
 enum MenuFooter: Int, CaseIterable {
   case separator = 100
@@ -55,6 +56,21 @@ enum MenuFooter: Int, CaseIterable {
       return [.command]
     default:
       return []
+    }
+  }
+
+  var eventModifiers: EventModifiers {
+    switch self {
+    case .clear:
+      return .init(arrayLiteral: [.command, .option])
+    case .clearAll:
+      return .init(arrayLiteral: [.command, .option, .shift])
+    case .quit:
+      return .init(arrayLiteral: [.command])
+    case .preferences:
+      return .init(arrayLiteral: [.command])
+    default:
+      return .init(arrayLiteral: [])
     }
   }
 

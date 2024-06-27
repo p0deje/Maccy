@@ -1,0 +1,6 @@
+"Application" = "Applicazione:";
+"FirstCopyTime" = "Tempo della prima copia:";
+"LastCopyTime" = "Tempo dell'ultima copia:";
+"NumberOfCopies" = "Numero di copie:";
+"PinKey" = "Premi {pinKey} per (s)bloccare.";
+"DeleteKey" = "Premi {deleteKey} per cancellare.";

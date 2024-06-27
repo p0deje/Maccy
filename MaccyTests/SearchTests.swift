@@ -233,16 +233,16 @@ class SearchTests: XCTestCase {
     return Search().search(string: string, within: items)
   }
 
-  private func historyItemWithTitle(_ value: String?) -> HistoryItem {
-    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+  private func historyItemWithTitle(_ value: String?) -> HistoryItemL {
+    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))
-    return HistoryItem(contents: [content])
+    return HistoryItemL(contents: [content])
   }
 
-  private func historyItemWithoutTitle(_ value: String?) -> HistoryItem {
-    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+  private func historyItemWithoutTitle(_ value: String?) -> HistoryItemL {
+    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))
-    let item = HistoryItem(contents: [content])
+    let item = HistoryItemL(contents: [content])
     item.title = ""
     return item
   }

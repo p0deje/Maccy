@@ -10,11 +10,11 @@ class Menu: NSMenu, NSMenuDelegate {
   class IndexedItem: NSObject {
     var value: String
     var title: String { item?.title ?? "" }
-    var item: HistoryItem?
+    var item: HistoryItemL?
     var menuItems: [HistoryMenuItem]
     var popoverAnchor: NSMenuItem?
 
-    init(value: String, item: HistoryItem?, menuItems: [HistoryMenuItem]) {
+    init(value: String, item: HistoryItemL?, menuItems: [HistoryMenuItem]) {
       self.value = value
       self.item = item
       self.menuItems = menuItems
@@ -141,47 +141,47 @@ class Menu: NSMenu, NSMenuDelegate {
   }
 
   func add(_ item: HistoryItem) {
-    let sortedItems = history.all
-    guard let insertionIndex = sortedItems.firstIndex(where: { $0 == item }) else {
-      return
-    }
-
-    let menuItems = buildMenuItems(item)
-    guard let menuItem = menuItems.first else {
-      return
-    }
-    let indexedItem = IndexedItem(
-      value: menuItem.value,
-      item: item,
-      menuItems: menuItems
-    )
-    indexedItems.insert(indexedItem, at: insertionIndex)
-
-    ensureInEventTrackingModeIfVisible {
-      var menuItemInsertionIndex = insertionIndex
-      // Keep pins on the same place.
-      if item.pin != nil {
-        if let index = self.historyMenuItems.firstIndex(where: {
-          if let historyItem = $0.item {
-            return item.supersedes(historyItem)
-          } else {
-            return false
-          }
-        }) {
-          menuItemInsertionIndex = (index + self.previewMenuItemOffset)
-        }
-      } else {
-        menuItemInsertionIndex *= (self.historyMenuItemsGroup + self.previewMenuItemOffset)
-      }
-      menuItemInsertionIndex += self.historyMenuItemOffset
-      self.insertPopoverAnchor(indexedItem, menuItemInsertionIndex)
-
-      for menuItem in menuItems.reversed() {
-        self.safeInsertItem(menuItem, at: menuItemInsertionIndex)
-      }
-
-      self.clearRemovedItems()
-    }
+//    let sortedItems = history.all
+//    guard let insertionIndex = sortedItems.firstIndex(where: { $0 == item }) else {
+//      return
+//    }
+//
+//    let menuItems = buildMenuItems(item)
+//    guard let menuItem = menuItems.first else {
+//      return
+//    }
+//    let indexedItem = IndexedItem(
+//      value: menuItem.value,
+//      item: item,
+//      menuItems: menuItems
+//    )
+//    indexedItems.insert(indexedItem, at: insertionIndex)
+//
+//    ensureInEventTrackingModeIfVisible {
+//      var menuItemInsertionIndex = insertionIndex
+//      // Keep pins on the same place.
+//      if item.pin != nil {
+//        if let index = self.historyMenuItems.firstIndex(where: {
+//          if let historyItem = $0.item {
+//            return item.supersedes(historyItem)
+//          } else {
+//            return false
+//          }
+//        }) {
+//          menuItemInsertionIndex = (index + self.previewMenuItemOffset)
+//        }
+//      } else {
+//        menuItemInsertionIndex *= (self.historyMenuItemsGroup + self.previewMenuItemOffset)
+//      }
+//      menuItemInsertionIndex += self.historyMenuItemOffset
+//      self.insertPopoverAnchor(indexedItem, menuItemInsertionIndex)
+//
+//      for menuItem in menuItems.reversed() {
+//        self.safeInsertItem(menuItem, at: menuItemInsertionIndex)
+//      }
+//
+//      self.clearRemovedItems()
+//    }
   }
 
   func clearAll() {
@@ -250,7 +250,7 @@ class Menu: NSMenu, NSMenuDelegate {
     if let item = highlightedItem {
       performActionForItem(at: index(of: item))
     } else if !searchQuery.isEmpty && historyMenuItems.isEmpty {
-      clipboard.copy(searchQuery)
+//      clipboard.copy(searchQuery)
       updateFilter(filter: searchQuery)
     }
     cancelTrackingWithoutAnimation()
@@ -266,7 +266,7 @@ class Menu: NSMenu, NSMenuDelegate {
     return indexedItems[position].value
   }
 
-  func historyItem(at position: Int) -> HistoryItem? {
+  func historyItem(at position: Int) -> HistoryItemL? {
     guard indexedItems.indices.contains(position) else {
       return nil
     }
@@ -303,7 +303,7 @@ class Menu: NSMenu, NSMenuDelegate {
         }
       }
 
-      history.remove(historyItemToRemove.item)
+//      history.remove(historyItemToRemove.item)
 
       updateUnpinnedItemsVisibility()
       setKeyEquivalents(historyMenuItems)
@@ -321,7 +321,7 @@ class Menu: NSMenu, NSMenuDelegate {
 
     removePopoverAnchor(indexedItem)
     indexedItem.menuItems.forEach(safeRemoveItem)
-    history.remove(indexedItem.item)
+//    history.remove(indexedItem.item)
     indexedItems.remove(at: position)
 
     return value
@@ -343,7 +343,7 @@ class Menu: NSMenu, NSMenuDelegate {
       }
       removePopoverAnchor(historyItem)
     } else {
-      let pin = HistoryItem.randomAvailablePin
+      let pin = HistoryItemL.randomAvailablePin
       for menuItem in historyItem.menuItems {
         menuItem.pin(pin)
         safeRemoveItem(menuItem)
@@ -552,7 +552,7 @@ class Menu: NSMenu, NSMenuDelegate {
     }
   }
 
-  private func buildMenuItems(_ item: HistoryItem) -> [HistoryMenuItem] {
+  private func buildMenuItems(_ item: HistoryItemL) -> [HistoryMenuItem] {
     let menuItems = [
       HistoryMenuItem.CopyMenuItem(item: item, clipboard: clipboard),
       HistoryMenuItem.PasteMenuItem(item: item, clipboard: clipboard),

@@ -101,47 +101,47 @@ class HistoryItemTests: XCTestCase {
 
   func testTextFromUniversalClipboard() {
     let url = URL(fileURLWithPath: "/tmp/foo.bar")
-    let fileURLContent = HistoryItemContent(
+    let fileURLContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.fileURL.rawValue,
       value: url.dataRepresentation
     )
-    let textContent = HistoryItemContent(
+    let textContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.string.rawValue,
       value: url.lastPathComponent.data(using: .utf8)
     )
-    let universalClipboardContent = HistoryItemContent(
+    let universalClipboardContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.universalClipboard.rawValue,
       value: "".data(using: .utf8)
     )
-    let item = HistoryItem(contents: [fileURLContent, textContent, universalClipboardContent])
+    let item = HistoryItemL(contents: [fileURLContent, textContent, universalClipboardContent])
     XCTAssertEqual(item.title, "foo.bar")
   }
 
   func testImageFromUniversalClipboard() {
     let url = Bundle(for: type(of: self)).url(forResource: "guy", withExtension: "jpeg")!
-    let fileURLContent = HistoryItemContent(
+    let fileURLContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.fileURL.rawValue,
       value: url.dataRepresentation
     )
-    let universalClipboardContent = HistoryItemContent(
+    let universalClipboardContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.universalClipboard.rawValue,
       value: "".data(using: .utf8)
     )
-    let item = HistoryItem(contents: [fileURLContent, universalClipboardContent])
+    let item = HistoryItemL(contents: [fileURLContent, universalClipboardContent])
     XCTAssertEqual(item.image!.tiffRepresentation, NSImage(data: try! Data(contentsOf: url))!.tiffRepresentation)
   }
 
   func testFileFromUniversalClipboard() {
     let url = URL(fileURLWithPath: "/tmp/foo.bar")
-    let fileURLContent = HistoryItemContent(
+    let fileURLContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.fileURL.rawValue,
       value: url.dataRepresentation
     )
-    let universalClipboardContent = HistoryItemContent(
+    let universalClipboardContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.universalClipboard.rawValue,
       value: "".data(using: .utf8)
     )
-    let item = HistoryItem(contents: [fileURLContent, universalClipboardContent])
+    let item = HistoryItemL(contents: [fileURLContent, universalClipboardContent])
     XCTAssertEqual(item.title, "file:///tmp/foo.bar")
   }
 
@@ -187,34 +187,34 @@ class HistoryItemTests: XCTestCase {
     XCTAssertEqual(item2.pin, "")
   }
 
-  private func historyItem(_ value: String?) -> HistoryItem {
-    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+  private func historyItem(_ value: String?) -> HistoryItemL {
+    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.string.rawValue,
                                      value: value?.data(using: .utf8))
-    return HistoryItem(contents: [content])
+    return HistoryItemL(contents: [content])
   }
 
-  private func historyItem(_ data: Data?, _ type: NSPasteboard.PasteboardType) -> HistoryItem {
-    let content = HistoryItemContent(type: type.rawValue,
+  private func historyItem(_ data: Data?, _ type: NSPasteboard.PasteboardType) -> HistoryItemL {
+    let content = HistoryItemContentL(type: type.rawValue,
                                      value: data)
-    return HistoryItem(contents: [content])
+    return HistoryItemL(contents: [content])
   }
 
-  private func historyItem(_ value: NSImage) -> HistoryItem {
-    let content = HistoryItemContent(type: NSPasteboard.PasteboardType.tiff.rawValue,
+  private func historyItem(_ value: NSImage) -> HistoryItemL {
+    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.tiff.rawValue,
                                      value: value.tiffRepresentation!)
-    return HistoryItem(contents: [content])
+    return HistoryItemL(contents: [content])
   }
 
-  private func historyItem(_ value: URL) -> HistoryItem {
-    let fileURLContent = HistoryItemContent(
+  private func historyItem(_ value: URL) -> HistoryItemL {
+    let fileURLContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.fileURL.rawValue,
       value: value.dataRepresentation
     )
-    let fileNameContent = HistoryItemContent(
+    let fileNameContent = HistoryItemContentL(
       type: NSPasteboard.PasteboardType.string.rawValue,
       value: value.lastPathComponent.data(using: .utf8)
     )
-    return HistoryItem(contents: [fileURLContent, fileNameContent])
+    return HistoryItemL(contents: [fileURLContent, fileNameContent])
   }
 }
 // swiftlint:enable force_try

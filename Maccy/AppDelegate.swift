@@ -6,8 +6,9 @@ import KeyboardShortcuts
 import LaunchAtLogin
 import Sauce
 import Sparkle
+import Settings
 
-@NSApplicationMain
+//@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
   @IBOutlet weak var pasteMenuItem: NSMenuItem!
 
@@ -29,7 +30,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     clearOrphanRecords()
 
     maccy = Maccy()
-    hotKey = GlobalHotKey(maccy.popUp)
+    hotKey = GlobalHotKey {
+      if NSApp.isActive {
+        NSApp.hide(self)
+      } else {
+        NSApplication.shared.activate(ignoringOtherApps: true)
+        NSApp.windows.first?.orderFrontRegardless()
+      }
+    }
 
     AppDependencyManager.shared.add(key: "maccy", dependency: self.maccy)
   }
@@ -64,7 +72,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func clearOrphanRecords() {
-    let fetchRequest = NSFetchRequest<HistoryItemContent>(entityName: "HistoryItemContent")
+    let fetchRequest = NSFetchRequest<HistoryItemContentL>(entityName: "HistoryItemContent")
     fetchRequest.predicate = NSPredicate(format: "item == nil")
     do {
       try CoreDataManager.shared.viewContext

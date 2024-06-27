@@ -63,13 +63,15 @@ class Clipboard {
     start()
   }
 
+  @MainActor 
   func copy(_ string: String) {
     pasteboard.clearContents()
     pasteboard.setString(string, forType: .string)
     checkForChangesInPasteboard()
   }
 
-  func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
+  @MainActor 
+  func copy(_ item: HistoryItemL?, removeFormatting: Bool = false) {
     guard let item else { return }
 
     pasteboard.clearContents()
@@ -111,35 +113,78 @@ class Clipboard {
     checkForChangesInPasteboard()
   }
 
+  @MainActor
+  func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
+    guard let item else { return }
+
+    pasteboard.clearContents()
+    var contents = item.contents
+
+    if removeFormatting {
+      let stringContents = contents.filter({
+        NSPasteboard.PasteboardType($0.type) == .string
+      })
+
+      // If there is no string representation of data,
+      // behave like we didn't have to remove formatting.
+      if !stringContents.isEmpty {
+        contents = stringContents
+      }
+    }
+
+    for content in contents {
+      guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
+      pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
+    }
+
+    // Use writeObjects for file URLs so that multiple files that are copied actually work.
+    // Only do this for file URLs because it causes an issue with some other data types (like formatted text)
+    // where the item is pasted more than once.
+    let fileURLItems: [NSPasteboardItem] = contents.compactMap { item in
+      guard item.type == NSPasteboard.PasteboardType.fileURL.rawValue else { return nil }
+      guard let value = item.value else { return nil }
+      let pasteItem = NSPasteboardItem()
+      pasteItem.setData(value, forType: NSPasteboard.PasteboardType(item.type))
+      return pasteItem
+    }
+    pasteboard.writeObjects(fileURLItems)
+
+    pasteboard.setString("", forType: .fromMaccy)
+
+    Task {
+      Notifier.notify(body: item.title, sound: .knock)
+      checkForChangesInPasteboard()
+    }
+  }
+
+
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
   func paste() {
     Accessibility.check()
 
-    DispatchQueue.main.async {
-      // Add flag that left/right modifier key has been pressed.
-      // See https://github.com/TermiT/Flycut/pull/18 for details.
-      let cmdFlag = CGEventFlags(rawValue: UInt64(KeyChord.pasteKeyModifiers.rawValue) | 0x000008)
-      var vCode = Sauce.shared.keyCode(for: KeyChord.pasteKey)
+    // Add flag that left/right modifier key has been pressed.
+    // See https://github.com/TermiT/Flycut/pull/18 for details.
+    let cmdFlag = CGEventFlags(rawValue: UInt64(KeyChord.pasteKeyModifiers.rawValue) | 0x000008)
+    var vCode = Sauce.shared.keyCode(for: KeyChord.pasteKey)
 
-      // Force QWERTY keycode when keyboard layout switches to
-      // QWERTY upon pressing ⌘ key (e.g. "Dvorak - QWERTY ⌘").
-      // See https://github.com/p0deje/Maccy/issues/482 for details.
-      if KeyboardLayout.current.commandSwitchesToQWERTY && cmdFlag.contains(.maskCommand) {
-        vCode = KeyChord.pasteKey.QWERTYKeyCode
-      }
-
-      let source = CGEventSource(stateID: .combinedSessionState)
-      // Disable local keyboard events while pasting
-      source?.setLocalEventsFilterDuringSuppressionState([.permitLocalMouseEvents, .permitSystemDefinedEvents],
-                                                         state: .eventSuppressionStateSuppressionInterval)
-
-      let keyVDown = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: true)
-      let keyVUp = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: false)
-      keyVDown?.flags = cmdFlag
-      keyVUp?.flags = cmdFlag
-      keyVDown?.post(tap: .cgAnnotatedSessionEventTap)
-      keyVUp?.post(tap: .cgAnnotatedSessionEventTap)
+    // Force QWERTY keycode when keyboard layout switches to
+    // QWERTY upon pressing ⌘ key (e.g. "Dvorak - QWERTY ⌘").
+    // See https://github.com/p0deje/Maccy/issues/482 for details.
+    if KeyboardLayout.current.commandSwitchesToQWERTY && cmdFlag.contains(.maskCommand) {
+      vCode = KeyChord.pasteKey.QWERTYKeyCode
     }
+
+    let source = CGEventSource(stateID: .combinedSessionState)
+    // Disable local keyboard events while pasting
+    source?.setLocalEventsFilterDuringSuppressionState([.permitLocalMouseEvents, .permitSystemDefinedEvents],
+                                                       state: .eventSuppressionStateSuppressionInterval)
+
+    let keyVDown = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: true)
+    let keyVUp = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: false)
+    keyVDown?.flags = cmdFlag
+    keyVUp?.flags = cmdFlag
+    keyVDown?.post(tap: .cgAnnotatedSessionEventTap)
+    keyVUp?.post(tap: .cgAnnotatedSessionEventTap)
   }
 
   func clear() {
@@ -151,6 +196,7 @@ class Clipboard {
   }
 
   @objc
+  @MainActor
   func checkForChangesInPasteboard() {
     guard pasteboard.changeCount != changeCount else {
       return
@@ -182,7 +228,7 @@ class Clipboard {
     // so it's better to merge all data into a single record.
     // - https://github.com/p0deje/Maccy/issues/78
     // - https://github.com/p0deje/Maccy/issues/472
-    var contents: [HistoryItemContent] = []
+    var contents = [HistoryItemContent]()
     pasteboard.pasteboardItems?.forEach({ item in
       var types = Set(item.types)
       if types.contains(.string) && isEmptyString(item) && !richText(item) {
@@ -214,7 +260,13 @@ class Clipboard {
       return
     }
 
-    let historyItem = HistoryItem(contents: contents, application: sourceApp?.bundleIdentifier)
+    let historyItem = HistoryItem()
+    SwiftDataManager.shared.container.mainContext.insert(historyItem)
+
+    historyItem.contents = contents
+    historyItem.application = sourceApp?.bundleIdentifier
+    historyItem.title = historyItem.generateTitle()
+
     onNewCopyHooks.forEach({ $0(historyItem) })
   }
 

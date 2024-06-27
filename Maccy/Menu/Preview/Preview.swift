@@ -13,9 +13,9 @@ class Preview: NSViewController {
 
   private let maxTextSize = 1_500
 
-  private var item: HistoryItem?
+  private var item: HistoryItemL?
 
-  convenience init(item: HistoryItem?) {
+  convenience init(item: HistoryItemL?) {
     self.init()
     self.item = item
   }
@@ -85,7 +85,7 @@ class Preview: NSViewController {
     return formatter.string(from: date)
   }
 
-  private func loadApplication(_ item: HistoryItem) {
+  private func loadApplication(_ item: HistoryItemL) {
     if item.universalClipboard {
       applicationValueLabel.stringValue = "iCloud"
       return

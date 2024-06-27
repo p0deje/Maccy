@@ -1,0 +1,6 @@
+"Application" = "应用:";
+"FirstCopyTime" = "首次复制时间:";
+"LastCopyTime" = "上次复制时间:";
+"NumberOfCopies" = "复制次数:";
+"PinKey" = "按 {pinKey} (取消)固定。";
+"DeleteKey" = "按 {deleteKey} 删除。";

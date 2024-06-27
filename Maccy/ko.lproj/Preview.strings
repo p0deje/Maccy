@@ -1,0 +1,6 @@
+"Application" = "어플리케이션:";
+"FirstCopyTime" = "처음 복사한 시간:";
+"LastCopyTime" = "마지막 복사한 시간:";
+"NumberOfCopies" = "복사 횟수:";
+"PinKey" = "{pinKey}를 눌러 고정(해제)합니다.";
+"DeleteKey" = "{deleteKey}를 눌러 제거합니다.";

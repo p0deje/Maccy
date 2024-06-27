@@ -3,8 +3,8 @@ import CoreData
 import Defaults
 import Sauce
 
-@objc(HistoryItem)
-class HistoryItem: NSManagedObject {
+@objc(HistoryItemL)
+class HistoryItemL: NSManagedObject {
   static var availablePins: Set<String> {
     var keys = Set([
       "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
@@ -12,20 +12,20 @@ class HistoryItem: NSManagedObject {
     ])
 
     if let deleteKey = KeyChord.deleteKey {
-      keys.remove(Sauce.shared.character(for: Int(deleteKey.QWERTYKeyCode), cocoaModifiers: []) ?? "")
+      keys.remove(String(deleteKey.character))
     }
     if let pinKey = KeyChord.pinKey {
-      keys.remove(Sauce.shared.character(for: Int(pinKey.QWERTYKeyCode), cocoaModifiers: []) ?? "")
+      keys.remove(String(pinKey.character))
     }
 
     return keys
   }
 
-  static let sortByFirstCopiedAt = NSSortDescriptor(key: #keyPath(HistoryItem.firstCopiedAt), ascending: false)
+  static let sortByFirstCopiedAt = NSSortDescriptor(key: #keyPath(HistoryItemL.firstCopiedAt), ascending: false)
 
-  static var all: [HistoryItem] {
-    let fetchRequest = NSFetchRequest<HistoryItem>(entityName: "HistoryItem")
-    fetchRequest.sortDescriptors = [HistoryItem.sortByFirstCopiedAt]
+  static var all: [HistoryItemL] {
+    let fetchRequest = NSFetchRequest<HistoryItemL>(entityName: "HistoryItem")
+    fetchRequest.sortDescriptors = [HistoryItemL.sortByFirstCopiedAt]
     do {
       return try CoreDataManager.shared.viewContext.fetch(fetchRequest)
     } catch {
@@ -33,11 +33,11 @@ class HistoryItem: NSManagedObject {
     }
   }
 
-  static var pinned: [HistoryItem] {
+  static var pinned: [HistoryItemL] {
     all.filter({ $0.pin != nil })
   }
 
-  static var unpinned: [HistoryItem] {
+  static var unpinned: [HistoryItemL] {
     all.filter({ $0.pin == nil })
   }
 
@@ -128,13 +128,13 @@ class HistoryItem: NSManagedObject {
   }
 
   // swiftlint:disable nsobject_prefer_isequal
-  // Class 'HistoryItem' for entity 'HistoryItem' has an illegal override of NSManagedObject -isEqual
-  static func == (lhs: HistoryItem, rhs: HistoryItem) -> Bool {
+  // Class 'HistoryItemL' for entity 'HistoryItemL' has an illegal override of NSManagedObject -isEqual
+  static func == (lhs: HistoryItemL, rhs: HistoryItemL) -> Bool {
     return lhs.getContents().count == rhs.getContents().count && lhs.supersedes(rhs)
   }
   // swiftlint:enable nsobject_prefer_isequal
 
-  convenience init(contents: [HistoryItemContent], application: String? = nil) {
+  convenience init(contents: [HistoryItemContentL], application: String? = nil) {
     let entity = NSEntityDescription.entity(forEntityName: "HistoryItem",
                                             in: CoreDataManager.shared.viewContext)!
     self.init(entity: entity, insertInto: CoreDataManager.shared.viewContext)
@@ -156,13 +156,13 @@ class HistoryItem: NSManagedObject {
   }
 
   @objc(addContentsObject:)
-  @NSManaged public func addToContents(_ value: HistoryItemContent)
+  @NSManaged public func addToContents(_ value: HistoryItemContentL)
 
-  func getContents() -> [HistoryItemContent] {
-    return (contents?.allObjects as? [HistoryItemContent]) ?? []
+  func getContents() -> [HistoryItemContentL] {
+    return (contents?.allObjects as? [HistoryItemContentL]) ?? []
   }
 
-  func supersedes(_ item: HistoryItem) -> Bool {
+  func supersedes(_ item: HistoryItemL) -> Bool {
     return item.getContents()
       .filter { content in
         ![
@@ -175,7 +175,7 @@ class HistoryItem: NSManagedObject {
       }
   }
 
-  func generateTitle(_ contents: [HistoryItemContent]) -> String {
+  func generateTitle(_ contents: [HistoryItemContentL]) -> String {
     var title = ""
 
     guard image == nil else {
@@ -212,7 +212,7 @@ class HistoryItem: NSManagedObject {
   }
 
   private func validatePin(_ pin: String) throws {
-    for item in HistoryItem.all {
+    for item in HistoryItemL.all {
       if let existingPin = item.pin, !pin.isEmpty, existingPin == pin, item != self {
         throw NSError(
           domain: "keyUsed",

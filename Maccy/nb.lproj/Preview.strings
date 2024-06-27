@@ -1,0 +1,6 @@
+"Application" = "Applikasjon:";
+"FirstCopyTime" = "Tidspunkt første kopiering:";
+"LastCopyTime" = "Tidspunkt siste kopiering:";
+"NumberOfCopies" = "Antall ganger kopiert:";
+"PinKey" = "Trykk {pinKey} for å (av)merke.";
+"DeleteKey" = "Trykk {deleteKey} for å slette.";

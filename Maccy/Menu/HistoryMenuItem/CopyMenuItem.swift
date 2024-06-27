@@ -1,5 +1,6 @@
 import AppKit
 import Defaults
+import SwiftUI
 
 extension HistoryMenuItem {
   class CopyMenuItem: HistoryMenuItem {
@@ -11,8 +12,16 @@ extension HistoryMenuItem {
       }
     }
 
+    static var modifiers: EventModifiers {
+      if Defaults[.pasteByDefault] {
+        return .option
+      } else {
+        return .command
+      }
+    }
+
     override func select() {
-      clipboard.copy(item)
+//      clipboard.copy(item)
     }
 
     override func alternate() {
