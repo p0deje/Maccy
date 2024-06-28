@@ -1,0 +1,34 @@
+/* Class = "NSTextFieldCell"; title = "Size:"; ObjectID = "5og-JF-cpR"; */
+"5og-JF-cpR.title" = "Velikost:";
+
+/* Class = "NSButtonCell"; title = "Files"; ObjectID = "Pr2-Ic-sUM"; */
+"Pr2-Ic-sUM.title" = "Soubory";
+
+/* Class = "NSButtonCell"; title = "Text"; ObjectID = "TyZ-pU-eZ3"; */
+"TyZ-pU-eZ3.title" = "Text";
+
+/* Class = "NSStackView"; ibShadowedToolTip = "Number of history items to keep.\nDefault: 200."; ObjectID = "b49-c6-irW"; */
+"b49-c6-irW.ibShadowedToolTip" = "Počet položek uchovávaných v historii.\nVýchozí: 200.";
+
+/* Class = "NSMenuItem"; title = "Number of copies"; ObjectID = "mf5-QH-x1u"; */
+"mf5-QH-x1u.title" = "Počet kopírování";
+
+/* Class = "NSMenuItem"; title = "Time of last copy"; ObjectID = "zrg-H1-TjU"; */
+"zrg-H1-TjU.title" = "Čas posledního kopírování";
+
+/* Class = "NSMenuItem"; title = "Time of first copy"; ObjectID = "2yi-R0-4up"; */
+"2yi-R0-4up.title" = "Čas prvního kopírování";
+/* Class = "NSTextFieldCell"; title = "Sort by:"; ObjectID = "0Vh-es-5I5"; */
+"0Vh-es-5I5.title" = "Řadit podle:";
+
+/* Class = "NSTextFieldCell"; title = "Change what types of copied content should be stored."; ObjectID = "GDB-hB-d75"; */
+"GDB-hB-d75.title" = "Vyber jaké typy kopírovaného obsahu mají být ukládány.";
+
+/* Class = "NSTextFieldCell"; title = "Save:"; ObjectID = "Cal-Kj-TqV"; */
+"Cal-Kj-TqV.title" = "Ukládat:";
+
+/* Class = "NSButtonCell"; title = "Images"; ObjectID = "IT6-JX-vi3"; */
+"IT6-JX-vi3.title" = "Obrázky";
+
+/* Class = "NSPopUpButton"; ibShadowedToolTip = "Default: Time of last copy."; ObjectID = "PWC-Rx-PPN"; */
+"PWC-Rx-PPN.ibShadowedToolTip" = "Výchozí: Čas posledního kopírování.";
