@@ -18,6 +18,12 @@ class CoreDataManager {
       container.persistentStoreDescriptions = [description]
     }
 
+    // Enable persistent history tracking in anticipation for SwiftData migration.
+    // https://developer.apple.com/documentation/coredata/adopting_swiftdata_for_a_core_data_app
+    if let description = container.persistentStoreDescriptions.first {
+      description.setOption(true as NSNumber, forKey: NSPersistentHistoryTrackingKey)
+    }
+
     container.loadPersistentStores(completionHandler: { (_, error) in
       if let error = error as NSError? {
         print("Unresolved error \(error), \(error.userInfo)")
