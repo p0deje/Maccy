@@ -6,26 +6,27 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>0.31.0</title>
+      <title>1.0.0</title>
       <description>
         <![CDATA[
+          <h4>This is the first release in 1.x version branch. Please note, that older versions of Maccy (0.x) will not work correctly after the upgrade. Read more at <a href="https://github.com/p0deje/Maccy/discussions/790">https://github.com/p0deje/Maccy/discussions/790</a>. ⚠️</h4>
           <ul>
-            <li>Added Arabic translation.</li>
-            <li>Added Dutch translation.</li>
-            <li>Improved performance of showing/hiding header and footer.</li>
-            <li>Fixed issue with copying cross-reference links in Microsoft Word.</li>
-            <li>Fixed duplicated items during search in macOS 13 and older.</li>
-            <li>Fixed auto-update sandbox warning.</li>
+            <li>Enabled persistent history tracking in storage. This forces read-only mode in Maccy 0.x.</li>
+            <li>Added Czech translation.</li>
+            <li>Added Portuguese (Brazil) translation.</li>
+            <li>Improved German and Spanish translations.</li>
+            <li>Fixed the "Get Item from Clipboard History" action not working for selected items.</li>
+            <li>Fixed the "Clear Clipboard History" action.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2024-04-28</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/0.31.0</releaseNotesLink>
+      <pubDate>2024-07-08</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/1.0.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>10.14</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/0.31.0/Maccy.app.zip"
-        sparkle:version="30"
-        sparkle:shortVersionString="0.31.0"
+        url="https://github.com/p0deje/Maccy/releases/download/1.0.0/Maccy.app.zip"
+        sparkle:version="31"
+        sparkle:shortVersionString="1.0.0"
         length="0"
         type="application/octet-stream"
       />
