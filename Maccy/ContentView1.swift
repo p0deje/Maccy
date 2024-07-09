@@ -6,42 +6,6 @@ import Settings
 import SwiftData
 import SwiftUI
 
-struct KeyModifierFlags: EnvironmentKey {
-  static let defaultValue = NSEvent.ModifierFlags([])
-}
-
-extension EnvironmentValues {
-  var keyModifierFlags: NSEvent.ModifierFlags {
-    get { self[KeyModifierFlags.self] }
-    set { self[KeyModifierFlags.self] = newValue.intersection(.deviceIndependentFlagsMask) }
-  }
-}
-
-struct ModifierFlagEnvironment<Content>: View where Content: View {
-  @StateObject var flagState = ModifierFlags()
-  let content: Content
-
-  init(@ViewBuilder content: () -> Content) {
-    self.content = content()
-  }
-
-  var body: some View {
-    content
-      .environment(\.keyModifierFlags, flagState.modifierFlags)
-  }
-}
-
-final class ModifierFlags: ObservableObject {
-  @Published var modifierFlags = NSEvent.ModifierFlags([])
-
-  init() {
-    NSEvent.addLocalMonitorForEvents(matching: .flagsChanged) { [weak self] event in
-      self?.modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
-      return event
-    }
-  }
-}
-
 @MainActor
 class HistoryItemsViewModel: ObservableObject {
   static let shared = HistoryItemsViewModel()
@@ -537,7 +501,7 @@ struct ContentView1: View {
   @Environment(\.scenePhase) private var scenePhase
 
   @StateObject private var historyItemsList = HistoryItemsViewModel.shared
-  @StateObject private var modifierFlags = ModifierFlags()
+  @State private var modifierFlags = ModifierFlags()
 
   @FocusState private var searchFocused: Bool
 
@@ -553,7 +517,6 @@ struct ContentView1: View {
         historyItemsList: historyItemsList,
         historyItems: historyItemsList.historyItems,
         footerItems: historyItemsList.footerItems,
-        modifierFlags: modifierFlags,
         selection: $historyItemsList.selectionUUID,
         searchFocused: $searchFocused
       )
@@ -573,6 +536,7 @@ struct ContentView1: View {
         }
       }
     }
+    .environment(modifierFlags)
   }
 }
 extension NSTextField {
@@ -748,7 +712,7 @@ struct Header: View {
         return .ignored
       }
     }
-    //    .background(.random)
+//        .background(.random)
     .padding(.horizontal)
     .padding(.top, 10)
   }
@@ -768,7 +732,6 @@ struct HistoryItemsList: View {
   var historyItemsList: HistoryItemsViewModel
   var historyItems: [HistoryItemViewModel]
   var footerItems: [FooterItemViewModel]
-  var modifierFlags: ModifierFlags
 
   @Binding var selection: UUID?
   @FocusState.Binding var searchFocused: Bool
@@ -783,7 +746,6 @@ struct HistoryItemsList: View {
         if historyItem.key != nil {
           ShortcutHistoryItemView(
             historyItem: historyItem,
-            modifierFlags: modifierFlags,
             historyItemsList: historyItemsList
           )
           .listRowSeparator(.hidden)
@@ -803,7 +765,6 @@ struct HistoryItemsList: View {
         ForEach(footerItems, id: \.id) { footerItem in
           FooterItemView(
             item: footerItem,
-            modifierFlags: modifierFlags,
             historyItemsList: historyItemsList
           )
           .listRowSeparator(.hidden)
@@ -889,27 +850,22 @@ struct HistoryItemsList: View {
 }
 
 struct ShortcutHistoryItemView: View {
-  @ObservedObject var historyItem: HistoryItemViewModel
-  @ObservedObject var modifierFlags: ModifierFlags
-
-  @Default(.pasteByDefault) private var pasteByDefault
-  @Default(.removeFormattingByDefault) private var removeFormattingByDefault
-
-  var historyItemsList: HistoryItemsViewModel
+  @StateObject var historyItem: HistoryItemViewModel
+  @Environment(ModifierFlags.self) private var modifierFlags
 
   private var shortcutText: String {
     if let key = historyItem.key,
       let character = Sauce.shared.character(for: Int(key.QWERTYKeyCode), cocoaModifiers: [])?
         .capitalized
     {
-      if modifierFlags.modifierFlags.contains(.option) {
-        if modifierFlags.modifierFlags.contains(.shift) && !pasteByDefault {
+      if modifierFlags.flags.contains(.option) {
+        if modifierFlags.flags.contains(.shift) && !pasteByDefault {
           return "⌥⇧\(character)"
         } else {
           return "⌥\(character)"
         }
       } else {
-        if modifierFlags.modifierFlags.contains(.shift) && pasteByDefault {
+        if modifierFlags.flags.contains(.shift) && pasteByDefault {
           return "⇧⌘\(character)"
         } else {
           return "⌘\(character)"
@@ -919,6 +875,11 @@ struct ShortcutHistoryItemView: View {
 
     return ""
   }
+
+  @Default(.pasteByDefault) private var pasteByDefault
+  @Default(.removeFormattingByDefault) private var removeFormattingByDefault
+
+  var historyItemsList: HistoryItemsViewModel
 
   @Default(.imageMaxHeight) private var imageMaxHeight
 
@@ -959,16 +920,18 @@ struct ShortcutHistoryItemView: View {
   }
 }
 
+
+
 struct FooterItemView: View {
   var item: FooterItemViewModel
-  @ObservedObject var modifierFlags: ModifierFlags
+  @Environment(ModifierFlags.self) private var modifierFlags
 
   var historyItemsList: HistoryItemsViewModel
 
   var isAlternate: Bool {
     if let alternateModifierFlags = item.alternateModifierFlags,
-      !modifierFlags.modifierFlags.isEmpty,
-      modifierFlags.modifierFlags.contains(alternateModifierFlags.subtracting(item.modifierFlags))
+      !modifierFlags.flags.isEmpty,
+      modifierFlags.flags.contains(alternateModifierFlags.subtracting(item.modifierFlags))
     {
       return true
     }
@@ -1041,7 +1004,7 @@ struct FooterItemView: View {
 }
 
 struct HistoryItemView: View {
-  @ObservedObject var historyItem: HistoryItemViewModel
+  @StateObject var historyItem: HistoryItemViewModel
 
   var historyItemsList: HistoryItemsViewModel
 
@@ -1085,7 +1048,7 @@ struct HistoryItemView: View {
 }
 
 struct PreviewView: View {
-  @ObservedObject var historyItem: HistoryItemViewModel
+  @StateObject var historyItem: HistoryItemViewModel
 
   var body: some View {
     VStack(alignment: .leading) {

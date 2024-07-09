@@ -55,6 +55,7 @@
 		DA2C752C2029FE990090965D /* Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA2C752B2029FE990090965D /* Menu.swift */; };
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
 		DA384E86232746D800603999 /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA384E85232746D800603999 /* SearchTests.swift */; };
+		DA3BCB8E2C3E015000B01BC1 /* ModifierFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */; };
 		DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */; };
 		DA3EAE0C2AE30F7500F39108 /* NSApplication+Windows.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */; };
 		DA4054632C32FEB200A993AF /* HistoryItemsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA4054622C32FEB200A993AF /* HistoryItemsView.swift */; };
@@ -210,6 +211,7 @@
 		DA3B30662C2CE3D800853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Preview.strings"; sourceTree = "<group>"; };
 		DA3B306A2C2CE3D900853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/PinsSettingsViewController.strings"; sourceTree = "<group>"; };
 		DA3B306D2C2CE46800853E9E /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModifierFlags.swift; sourceTree = "<group>"; };
 		DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipboardTests.swift; sourceTree = "<group>"; };
 		DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSApplication+Windows.swift"; sourceTree = "<group>"; };
 		DA4054622C32FEB200A993AF /* HistoryItemsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemsView.swift; sourceTree = "<group>"; };
@@ -681,6 +683,7 @@
 				DAEE384D1E3DBEB100DD2966 /* Info.plist */,
 				4762D6992467226100B3A2BA /* Localizable.strings */,
 				DAB8CE4024E3677F00A2500E /* Maccy.entitlements */,
+				DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */,
 				DAB65DFB2440AD63000AECA8 /* Storage.xcdatamodeld */,
 				DAAEB195219694AE00A7883C /* About.swift */,
 				DA6D98E12AEABE03008A77CE /* Accessibility.swift */,
@@ -1015,6 +1018,7 @@
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
 				DA2C13762C2356AB004714FE /* ContentView.swift in Sources */,
+				DA3BCB8E2C3E015000B01BC1 /* ModifierFlags.swift in Sources */,
 				DA181177247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift in Sources */,
 				DA4E37972C2A1DCF00C496E8 /* SwiftUIView.swift in Sources */,
 				DAE28500232257D20080E394 /* ColorImage.swift in Sources */,
