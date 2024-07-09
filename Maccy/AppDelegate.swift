@@ -7,6 +7,7 @@ import LaunchAtLogin
 import Sauce
 import Sparkle
 import Settings
+import SwiftUI
 
 //@NSApplicationMain
 class AppDelegate: NSObject, NSApplicationDelegate {
@@ -29,15 +30,55 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     migrateUserDefaults()
     clearOrphanRecords()
 
-    maccy = Maccy()
-    hotKey = GlobalHotKey {
-      if NSApp.isActive {
-        NSApp.hide(self)
+
+    var isPresented = true
+    let panel = FloatingPanel(
+      view: {
+        ZStack {
+          VisualEffectView(material: .popover, blendingMode: .behindWindow)
+          ContentView1()
+        }
+      },
+      contentRect: NSRect(x: 0, y: 0, width: 400, height: 500),
+      isPresented: Binding(get: { isPresented }, set: { newValue in isPresented = newValue })
+    )
+    panel.center()
+    panel.orderFrontRegardless()
+    panel.makeKey()
+
+    KeyboardShortcuts.onKeyUp(for: .popup) {
+      if isPresented {
+        NSApp.activate()
+        panel.orderFrontRegardless()
+        panel.makeKey()
       } else {
-        NSApplication.shared.activate(ignoringOtherApps: true)
-        NSApp.windows.first?.orderFrontRegardless()
+        panel.orderOut(self)
+        panel.close()
+        NSApp.hide(self)
       }
+
+      isPresented.toggle()
     }
+
+//    panel.makeMain()
+//    panel.contentView = NSHostingView(
+//      rootView: ContentView1()
+////        .ignoresSafeArea()
+//        //        .environment(\.floatingPanel, self))
+//    )
+//    panel.orderFrontRegardless()
+//    panel.becomeKey()
+
+
+//    maccy = Maccy()
+//    hotKey = GlobalHotKey {
+//      if NSApp.isActive {
+//        NSApp.hide(self)
+//      } else {
+//        NSApplication.shared.activate(ignoringOtherApps: true)
+//        NSApp.windows.first?.orderFrontRegardless()
+//      }
+//    }
 
     AppDependencyManager.shared.add(key: "maccy", dependency: self.maccy)
   }
