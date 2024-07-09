@@ -6,12 +6,6 @@ import Settings
 import SwiftData
 import SwiftUI
 
-extension Collection where Indices.Iterator.Element == Index {
-  public subscript(safe index: Index) -> Iterator.Element? {
-    return (startIndex <= index && index < endIndex) ? self[index] : nil
-  }
-}
-
 struct KeyModifierFlags: EnvironmentKey {
   static let defaultValue = NSEvent.ModifierFlags([])
 }
@@ -75,16 +69,20 @@ class HistoryItemsViewModel: ObservableObject {
   @Published var selection: (any MenuItemViewModel)? = nil
   {
     didSet {
-      historyItems.forEach {
-        if $0.showPreview {
-          $0.showPreview = false
+      Task {
+        historyItems.forEach {
+          if $0.showPreview {
+            $0.showPreview = false
+          }
         }
-      }
-      previewThrottle.cancel()
-      previewThrottle.throttle {
-        if let selection = self.selection as? HistoryItemViewModel {
-          self.previewThrottle.minimumDelay = self.subsequentPreviewDelay
-          selection.showPreview = true
+        previewThrottle.cancel()
+        previewThrottle.throttle {
+          Task {
+            if let selection = self.selection as? HistoryItemViewModel {
+              self.previewThrottle.minimumDelay = self.subsequentPreviewDelay
+              selection.showPreview = true
+            }
+          }
         }
       }
     }
@@ -278,29 +276,41 @@ class HistoryItemsViewModel: ObservableObject {
   }
 
   func moveToFirst() {
-    selectionUUID = allItems.first?.id
+    Task {
+      selectionUUID = allItems.first?.id
+    }
   }
 
   func moveToPrevious() {
-    if let _selection = selectionUUID,
-      let index = allItems.firstIndex(where: { $0.id == _selection }),
-      let prev = allItems[safe: allItems.index(before: index)]
-    {
-      selectionUUID = prev.id
+    Task {
+      if let _selection = selectionUUID,
+         let index = allItems.firstIndex(where: { $0.id == _selection })
+      {
+        let prevIndex = allItems.index(before: index)
+        if prevIndex >= allItems.startIndex {
+          selectionUUID = allItems[prevIndex].id
+        }
+      }
     }
   }
 
   func moveToNext() {
-    if let _selection = selectionUUID,
-      let index = allItems.firstIndex(where: { $0.id == _selection }),
-      let next = allItems[safe: allItems.index(after: index)]
-    {
-      selectionUUID = next.id
+    Task {
+      if let _selection = selectionUUID,
+         let index = allItems.firstIndex(where: { $0.id == _selection })
+      {
+        let prevIndex = allItems.index(after: index)
+        if prevIndex < allItems.endIndex {
+          selectionUUID = allItems[prevIndex].id
+        }
+      }
     }
   }
 
   func moveToLast() {
-    selectionUUID = historyItems.last?.id
+    Task {
+      selectionUUID = historyItems.last?.id
+    }
   }
 
   func select(_ item: (any MenuItemViewModel)?, alternate: Bool = false) {
@@ -327,7 +337,9 @@ class HistoryItemsViewModel: ObservableObject {
           Clipboard.shared.paste()
         }
       }
-      searchQuery = ""
+      Task {
+        searchQuery = ""
+      }
       moveToFirst()
     } else if let footerItem = item as? FooterItemViewModel {
       if let alternateSelect = footerItem.alternateSelect, alternate {
@@ -415,7 +427,7 @@ class FooterItemViewModel: ObservableObject, Equatable, Hashable, Identifiable, 
     return lhs.id == rhs.id
   }
 
-  let id = UUID()
+  var id = UUID()
 
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
@@ -471,7 +483,7 @@ class HistoryItemViewModel: ObservableObject, Equatable, Hashable, Identifiable,
     return lhs.id == rhs.id
   }
 
-  let id = UUID()
+  var id = UUID()
 
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
@@ -545,8 +557,12 @@ struct ContentView1: View {
         selection: $historyItemsList.selectionUUID,
         searchFocused: $searchFocused
       )
+      .onAppear(perform: {
+        searchFocused = true
+      })
       .onChange(of: scenePhase) {
         if scenePhase == .active {
+          searchFocused = true
           historyItemsList.resetPreviewDelay()
           historyItemsList.moveToFirst()
         }
@@ -559,7 +575,64 @@ struct ContentView1: View {
     }
   }
 }
+extension NSTextField {
+  open override var focusRingType: NSFocusRingType {
+    get { .none }
+    set { }
+  }
+}
 
+struct SearchTextField: View {
+  @Binding var query: String
+  @State var isFocused: Bool = false
+  var placeholder: String = "Search..."
+  var body: some View {
+    ZStack {
+//      VisualEffectView(material: .popover, blendingMode: .behindWindow)
+
+      RoundedRectangle(cornerRadius: 5, style: .continuous)
+      .fill(Color.secondary)
+      .opacity(0.1)
+      .frame(height: 23)
+//        .overlay(
+//          RoundedRectangle(cornerRadius: 5, style: .continuous)
+//            .stroke(isFocused ? Color.blue.opacity(0.7) : Color.gray.opacity(0.4), lineWidth: isFocused ? 3 : 1)
+//            .frame(height: 22)
+//      )
+
+      HStack {
+        Image(systemName: "magnifyingglass")
+//          .resizable()
+//          .aspectRatio(contentMode: .fill)
+          .frame(width:11, height: 11)
+          .padding(.leading, 5)
+          .opacity(0.8)
+        TextField(placeholder, text: $query, onEditingChanged: { (editingChanged) in
+          if editingChanged {
+            self.isFocused = true
+          } else {
+            self.isFocused = false
+          }
+        })
+          .textFieldStyle(PlainTextFieldStyle())
+        if query != "" {
+          Button(action: {
+              self.query = ""
+          }) {
+            Image(systemName: "xmark.circle.fill")
+//              .resizable()
+//              .aspectRatio(contentMode: .fit)
+              .frame(width:11, height: 11)
+              .padding(.trailing, 5)
+          }
+          .buttonStyle(PlainButtonStyle())
+          .opacity(self.query == "" ? 0 : 0.9)
+        }
+      }
+
+    }
+  }
+}
 struct Header: View {
   var historyItemsList: HistoryItemsViewModel
 
@@ -573,14 +646,22 @@ struct Header: View {
     HStack {
       if showTitle {
         Text("Maccy")
+          .foregroundStyle(.secondary)
       }
 
-      TextField(text: $searchQuery) {
-        Text("type to search")
-      }
+      SearchTextField(query: $searchQuery, placeholder: "type to search…")
+//
+//      TextField(text: $searchQuery) {
+//        Text("type to search")
+//      }
       .disableAutocorrection(true)
-      .textFieldStyle(.roundedBorder)
-      .focusEffectDisabled()
+//      .padding(.all, 2)
+//      .textFieldStyle(.plain)
+      .frame(maxWidth: .infinity)
+//      .background(Color.red)
+//      .cornerRadius(5.0)
+//      .shadow(color: Color.black.opacity(0.08), radius: 60, x: 0.0, y: 16)
+//      .accentColor(Color.accentColor)
       .focused($searchFocused)
       .onKeyPress { press in
         switch KeyChord(press.key, press.modifiers) {
@@ -669,6 +750,7 @@ struct Header: View {
     }
     //    .background(.random)
     .padding(.horizontal)
+    .padding(.top, 10)
   }
 }
 
@@ -705,12 +787,14 @@ struct HistoryItemsList: View {
             historyItemsList: historyItemsList
           )
           .listRowSeparator(.hidden)
+          .listRowBackground(selection == historyItem.id ? Color.accentColor.opacity(0.7) : .none)
         } else {
           HistoryItemView(
             historyItem: historyItem,
             historyItemsList: historyItemsList
           )
           .listRowSeparator(.hidden)
+          .listRowBackground(selection == historyItem.id ? Color.accentColor.opacity(0.7) : .none)
         }
       }
 
@@ -723,9 +807,14 @@ struct HistoryItemsList: View {
             historyItemsList: historyItemsList
           )
           .listRowSeparator(.hidden)
+          .listRowBackground(selection == footerItem.id ? Color.accentColor.opacity(0.7) : .none)
         }
       }
     }
+    .listStyle(.plain)
+    .padding(.horizontal, 3)
+    .padding(.bottom, 5)
+    .scrollContentBackground(.hidden)
     .onKeyPress { press in
       switch KeyChord(press.key, press.modifiers) {
       case .clearHistory:
@@ -842,15 +931,13 @@ struct ShortcutHistoryItemView: View {
         Text(historyItem.title)
           .lineLimit(1)
           .truncationMode(.middle)
-          .foregroundColor(.primary)
       }
       Spacer()
       Text(shortcutText)
         .lineLimit(1)
-        .foregroundColor(.secondary)
         .frame(width: 45, alignment: .trailing)
         .tracking(2.0)
-        .opacity(shortcutText.isEmpty ? 0 : 1)
+        .opacity(shortcutText.isEmpty ? 0 : 0.7)
     }
     .id(historyItem.id)
     .frame(maxWidth: .infinity, alignment: .leading)
@@ -864,8 +951,8 @@ struct ShortcutHistoryItemView: View {
     }
     .popover(
       isPresented: $historyItem.showPreview,
-      attachmentAnchor: .point(.leading),
-      arrowEdge: .leading
+      attachmentAnchor: .point(.init(x: 0.99, y: 0.5)),
+      arrowEdge: .trailing
     ) {
       PreviewView(historyItem: historyItem)
     }
@@ -919,7 +1006,6 @@ struct FooterItemView: View {
       Text(LocalizedStringKey(title))
         .lineLimit(1)
         .truncationMode(.middle)
-        .foregroundColor(.primary)
 
       Spacer()
       Text(shortcutText)
@@ -927,7 +1013,7 @@ struct FooterItemView: View {
         .foregroundColor(.secondary)
         .frame(width: 60, alignment: .trailing)
         .tracking(2.0)
-        .opacity(shortcutText.isEmpty ? 0 : 1)
+        .opacity(shortcutText.isEmpty ? 0 : 0.7)
     }
     .id(item.id)
     .frame(maxWidth: .infinity, alignment: .leading)
@@ -970,17 +1056,15 @@ struct HistoryItemView: View {
         Text(historyItem.title)
           .lineLimit(1)
           .truncationMode(.middle)
-          .foregroundColor(.primary)
       }
       Spacer()
       Text("    ")
         .lineLimit(1)
-        .foregroundColor(.secondary)
         .frame(width: 45, alignment: .trailing)
         .tracking(2.0)
         .opacity(0)
     }
-    .id(historyItem.item.id.hashValue)
+    .id(historyItem.id)
     .frame(maxWidth: .infinity, alignment: .leading)
     .onTapGesture {
       historyItemsList.select(historyItem)
@@ -992,8 +1076,8 @@ struct HistoryItemView: View {
     }
     .popover(
       isPresented: $historyItem.showPreview,
-      attachmentAnchor: .point(.leading),
-      arrowEdge: .leading
+      attachmentAnchor: .point(.init(x: 0.99, y: 0.5)),
+      arrowEdge: .trailing
     ) {
       PreviewView(historyItem: historyItem)
     }
