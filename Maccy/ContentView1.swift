@@ -6,6 +6,186 @@ import Settings
 import SwiftData
 import SwiftUI
 
+
+
+@Observable
+class AppState {
+  static let shared = AppState()
+
+  let about = About()
+
+//  var items: [MenuItem] = []
+  var history = HistoryN()
+  var footer = Footer()
+
+  var selection: UUID?
+
+  func openAbout() {
+    about.openAbout(nil)
+  }
+
+  func quit() {
+    NSApp.terminate(self)
+  }
+}
+
+class HistoryN {
+
+}
+
+@Observable
+class Footer {
+  var items: [FooterItem] = []
+
+  init() {
+    Task {
+      for await value in Defaults.updates(.showFooter) {
+        if value {
+          await load()
+        } else {
+          items = []
+        }
+      }
+    }
+  }
+
+  func load() async {
+    items = [
+      FooterItem(
+        title: "clear",
+        shorcut: KeyShortcut(key: .c, modifierFlags: [.command, .option]),
+        help: "clear_tooltip"
+      ) {
+        print("Cleared")
+      },
+      FooterItem(
+        title: "clear_all",
+        shorcut: KeyShortcut(key: .c, modifierFlags: [.command, .option, .shift]),
+        help: "clear_all_tooltip"
+      ) {
+        print("Cleared all")
+      },
+      FooterItem(
+        title: "preferences",
+        shorcut: KeyShortcut(key: .comma, modifierFlags: .command)
+      ) {
+        // TODO
+      },
+      FooterItem(
+        title: "about",
+        help: "about_tooltip"
+      ) {
+        AppState.shared.openAbout()
+      },
+      FooterItem(
+        title: "quit",
+        shorcut: KeyShortcut(key: .q, modifierFlags: .command),
+        help: "quit_tooltip"
+      ) {
+        AppState.shared.quit()
+      },
+    ]
+  }
+}
+
+struct FooterItem: Identifiable {
+  let id = UUID()
+
+  var title: LocalizedStringKey
+  var shorcut: KeyShortcut?
+  var help: LocalizedStringKey?
+  var action: () -> Void
+}
+
+
+struct KeyShortcut {
+  var key: Key
+  var modifierFlags: NSEvent.ModifierFlags = []
+
+  var description: String {
+    guard let character = Sauce.shared.character(
+      for: Int(key.QWERTYKeyCode),
+      cocoaModifiers: []
+    ) else {
+      return ""
+    }
+
+    return "\(modifierFlags)\(character.capitalized)"
+  }
+}
+
+
+//@Observable
+//class HistoryItemDecorator {
+//
+//}
+
+
+
+@Observable
+class HistoryS {
+  var items: [HistoryItemViewModel] = []
+
+  var selection: UUID? = nil
+  private(set) var selectedItem: HistoryItemViewModel?
+
+  var searchQuery: String = "" {
+    didSet {
+      updateItems(
+//        limit(
+          sorter.sort(
+            search.search(string: searchQuery, within: items.map({ $0.item })).map { $0.object }
+          )
+//        )
+      )
+
+//      moveToFirst()
+    }
+  }
+
+  private let search = Search()
+  private let sessionLog: [Int: HistoryItem] = [:]
+  private let sorter = Sorter(by: Defaults[.sortBy])
+
+  func load() async throws {
+    var index = 0
+    let descriptor = FetchDescriptor<HistoryItem>()
+    let results = try await SwiftDataManager.shared.container.mainContext.fetch(descriptor)
+    items = sorter.sort(results).map { item in
+      if let pin = item.pin {
+        return HistoryItemViewModel(item, key: Key(character: pin, virtualKeyCode: nil))
+      } else if index < 9 {
+        index += 1
+        return HistoryItemViewModel(item, key: Key(character: String(index), virtualKeyCode: nil))
+      } else {
+        return HistoryItemViewModel(item)
+      }
+    }
+
+  }
+
+  private func updateItems(_ newItems: [HistoryItem]) {
+    for item in items {
+      if newItems.contains(where: { $0 == item.item }) {
+        if item.isHidden {
+          item.isHidden = false
+        }
+      } else {
+        if !item.isHidden {
+          item.isHidden = true
+        }
+      }
+    }
+
+    var index = 1
+    for item in items.filter({ $0.item.pin == nil && !$0.isHidden }).prefix(10) {
+      item.key = Key(character: String(index), virtualKeyCode: nil)
+      index += 1
+    }
+  }
+}
+
+
 @MainActor
 class HistoryItemsViewModel: ObservableObject {
   static let shared = HistoryItemsViewModel()
@@ -449,6 +629,8 @@ class HistoryItemViewModel: ObservableObject, Equatable, Hashable, Identifiable,
 
   var id = UUID()
 
+  @Published var isHidden: Bool = false
+
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
     hasher.combine(key)
@@ -484,7 +666,7 @@ class HistoryItemViewModel: ObservableObject, Equatable, Hashable, Identifiable,
     }
   }
 
-  @Published private(set) var key: Key? = nil
+  @Published var key: Key? = nil
   @Published var showPreview: Bool = false
 
   private(set) var item: HistoryItem
@@ -501,7 +683,10 @@ struct ContentView1: View {
   @Environment(\.scenePhase) private var scenePhase
 
   @StateObject private var historyItemsList = HistoryItemsViewModel.shared
+  
+  @State private var appState = AppState()
   @State private var modifierFlags = ModifierFlags()
+  @State private var history = HistoryS()
 
   @FocusState private var searchFocused: Bool
 
@@ -510,7 +695,7 @@ struct ContentView1: View {
       Header(
         historyItemsList: historyItemsList,
         searchFocused: $searchFocused,
-        searchQuery: $historyItemsList.searchQuery
+        searchQuery: $history.searchQuery
       )
 
       HistoryItemsList(
@@ -518,11 +703,12 @@ struct ContentView1: View {
         historyItems: historyItemsList.historyItems,
         footerItems: historyItemsList.footerItems,
         selection: $historyItemsList.selectionUUID,
-        searchFocused: $searchFocused
+        searchFocused: $searchFocused, 
+        history: history
       )
-      .onAppear(perform: {
+      .onAppear {
         searchFocused = true
-      })
+      }
       .onChange(of: scenePhase) {
         if scenePhase == .active {
           searchFocused = true
@@ -537,6 +723,12 @@ struct ContentView1: View {
       }
     }
     .environment(modifierFlags)
+    .environment(appState)
+    .environment(history)
+    .task {
+      try? await history.load()
+    }
+    .animation(.default, value: history.items)
   }
 }
 extension NSTextField {
@@ -597,6 +789,7 @@ struct SearchTextField: View {
     }
   }
 }
+
 struct Header: View {
   var historyItemsList: HistoryItemsViewModel
 
@@ -736,39 +929,45 @@ struct HistoryItemsList: View {
   @Binding var selection: UUID?
   @FocusState.Binding var searchFocused: Bool
 
+  @Environment(AppState.self) private var appState
+  @Bindable var history: HistoryS
+
+//  @Binding private var selection1: HistoryS
+
   @Default(.pasteByDefault) private var pasteByDefault
   @Default(.removeFormattingByDefault) private var removeFormattingByDefault
   @Default(.showFooter) private var showFooter
 
   var body: some View {
-    List(selection: $selection) {
-      ForEach(historyItems, id: \.id) { historyItem in
-        if historyItem.key != nil {
+    List(selection: $history.selection) {
+      ForEach(history.items, id: \.id) { item in
+        if item.key != nil {
           ShortcutHistoryItemView(
-            historyItem: historyItem,
+            historyItem: item,
             historyItemsList: historyItemsList
           )
           .listRowSeparator(.hidden)
-          .listRowBackground(selection == historyItem.id ? Color.accentColor.opacity(0.7) : .none)
+          .listRowBackground(selection == item.id ? Color.accentColor.opacity(0.7) : .none)
         } else {
           HistoryItemView(
-            historyItem: historyItem,
+            historyItem: item,
             historyItemsList: historyItemsList
           )
           .listRowSeparator(.hidden)
-          .listRowBackground(selection == historyItem.id ? Color.accentColor.opacity(0.7) : .none)
+          .listRowBackground(selection == item.id ? Color.accentColor.opacity(0.7) : .none)
         }
       }
 
-      if showFooter {
+      if !appState.footer.items.isEmpty {
+        FooterView()
         Divider()
-        ForEach(footerItems, id: \.id) { footerItem in
+        ForEach(appState.footer.items) { item in
           FooterItemView(
-            item: footerItem,
-            historyItemsList: historyItemsList
+            item: item
+//            historyItemsList: historyItemsList
           )
-          .listRowSeparator(.hidden)
-          .listRowBackground(selection == footerItem.id ? Color.accentColor.opacity(0.7) : .none)
+//          .listRowSeparator(.hidden)
+//          .listRowBackground(selection == item.id ? Color.accentColor.opacity(0.7) : .none)
         }
       }
     }
@@ -849,6 +1048,122 @@ struct HistoryItemsList: View {
   }
 }
 
+struct FooterView: View {
+  @Environment(AppState.self) private var appState
+
+  var body: some View {
+    ForEach(appState.footer.items) { item in
+      FooterItemViewN(item: item)
+    }
+  }
+}
+
+struct FooterItemViewN: View {
+  var item: FooterItem
+
+  var body: some View {
+    ListItemView(
+      id: item.id,
+      title: item.title,
+//      keys: [item.shorcut],
+      help: ""
+    )
+  }
+}
+
+struct ListItemView: View {
+  
+
+//  @Environment(AppState)
+  var id: UUID
+  var title: LocalizedStringKey
+  var keys: [KeyShortcut] = []
+  var help: LocalizedStringKey = ""
+
+//  @Binding var selection:
+
+  private var shortcutText: String {
+    guard let mainShortcut = keys.first else {
+      return ""
+    }
+
+    return mainShortcut.modifierFlags.description
+
+
+    //  var isAlternate: Bool {
+    //    if let alternateModifierFlags = item.alternateModifierFlags,
+    //      !modifierFlags.flags.isEmpty,
+    //      modifierFlags.flags.contains(alternateModifierFlags.subtracting(item.modifierFlags))
+    //    {
+    //      return true
+    //    }
+    //
+    //    return false
+    //  }
+
+    //  private var title: String {
+    //    if let alternateTitle = item.alternateTitle, isAlternate {
+    //      return alternateTitle
+    //    } else {
+    //      return item.title
+    //    }
+    //  }
+    //  private var shortcutText: String {
+    //    if let key = item.key,
+    //      let character = Sauce.shared.character(for: Int(key.QWERTYKeyCode), cocoaModifiers: [])?
+    //        .capitalized
+    //    {
+    //      if let alternateModifierFlags = item.alternateModifierFlags, isAlternate {
+    //        return "\(alternateModifierFlags)\(character)"
+    //      } else {
+    //        return "\(item.modifierFlags)\(character)"
+    //      }
+    //    }
+    //
+    //    return ""
+    //  }
+  }
+
+  var body: some View {
+    HStack {
+      Text(title)
+        .lineLimit(1)
+        .truncationMode(.middle)
+      Spacer()
+      if !keys.isEmpty {
+        Text(shortcutText)
+          .lineLimit(1)
+          .foregroundColor(.secondary)
+          .frame(width: 60, alignment: .trailing)
+          .tracking(2.0)
+          .opacity(shortcutText.isEmpty ? 0 : 0.7)
+      }
+    }
+    .id(id)
+    .frame(maxWidth: .infinity, alignment: .leading)
+    .onTapGesture {
+//      item.confirm(view: self, suppress: suppressClearAlert) {
+//        self.historyItemsList.select(item, alternate: isAlternate)
+//      }
+    }
+    .onHover { hovering in
+//      if hovering {
+//        historyItemsList.selectionUUID = item.id
+//      }
+    }
+    .help(help)
+//    .confirmationDialog("clear_alert_message", isPresented: $showConfirmation) {
+//      Text("clear_alert_comment")
+//      Button("clear_alert_confirm", role: .destructive) {
+//        // TODO: Support alernate
+//        historyItemsList.select(item, alternate: isAlternate)
+//      }
+//      Button("clear_alert_cancel", role: .cancel) {}
+//    }
+//    .dialogSuppressionToggle(isSuppressed: $suppressClearAlert)
+  }
+}
+
 struct ShortcutHistoryItemView: View {
   @StateObject var historyItem: HistoryItemViewModel
   @Environment(ModifierFlags.self) private var modifierFlags
@@ -884,38 +1199,40 @@ struct ShortcutHistoryItemView: View {
   @Default(.imageMaxHeight) private var imageMaxHeight
 
   var body: some View {
-    HStack {
-      if let image = historyItem.item.image {
-        Image
-          .thumbnailImage(image, maxHeight: imageMaxHeight)
-      } else {
-        Text(historyItem.title)
+    if !historyItem.isHidden {
+      HStack {
+        if let image = historyItem.item.image {
+          Image
+            .thumbnailImage(image, maxHeight: imageMaxHeight)
+        } else {
+          Text(historyItem.title)
+            .lineLimit(1)
+            .truncationMode(.middle)
+        }
+        Spacer()
+        Text(shortcutText)
           .lineLimit(1)
-          .truncationMode(.middle)
+          .frame(width: 45, alignment: .trailing)
+          .tracking(2.0)
+          .opacity(shortcutText.isEmpty ? 0 : 0.7)
       }
-      Spacer()
-      Text(shortcutText)
-        .lineLimit(1)
-        .frame(width: 45, alignment: .trailing)
-        .tracking(2.0)
-        .opacity(shortcutText.isEmpty ? 0 : 0.7)
-    }
-    .id(historyItem.id)
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .onTapGesture {
-      historyItemsList.select(historyItem)
-    }
-    .onHover { hovering in
-      if hovering {
-        historyItemsList.selectionUUID = historyItem.id
+      .id(historyItem.id)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .onTapGesture {
+        historyItemsList.select(historyItem)
       }
-    }
-    .popover(
-      isPresented: $historyItem.showPreview,
-      attachmentAnchor: .point(.init(x: 0.99, y: 0.5)),
-      arrowEdge: .trailing
-    ) {
-      PreviewView(historyItem: historyItem)
+      .onHover { hovering in
+        if hovering {
+          historyItemsList.selectionUUID = historyItem.id
+        }
+      }
+      .popover(
+        isPresented: $historyItem.showPreview,
+        attachmentAnchor: .point(.init(x: 0.99, y: 0.5)),
+        arrowEdge: .trailing
+      ) {
+        PreviewView(historyItem: historyItem)
+      }
     }
   }
 }
@@ -923,83 +1240,85 @@ struct ShortcutHistoryItemView: View {
 
 
 struct FooterItemView: View {
-  var item: FooterItemViewModel
+  var item: FooterItem
+
+  @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
 
-  var historyItemsList: HistoryItemsViewModel
+//  var historyItemsList: HistoryItemsViewModel
 
-  var isAlternate: Bool {
-    if let alternateModifierFlags = item.alternateModifierFlags,
-      !modifierFlags.flags.isEmpty,
-      modifierFlags.flags.contains(alternateModifierFlags.subtracting(item.modifierFlags))
-    {
-      return true
-    }
+//  var isAlternate: Bool {
+//    if let alternateModifierFlags = item.alternateModifierFlags,
+//      !modifierFlags.flags.isEmpty,
+//      modifierFlags.flags.contains(alternateModifierFlags.subtracting(item.modifierFlags))
+//    {
+//      return true
+//    }
+//
+//    return false
+//  }
 
-    return false
-  }
-
-  private var title: String {
-    if let alternateTitle = item.alternateTitle, isAlternate {
-      return alternateTitle
-    } else {
-      return item.title
-    }
-  }
-  private var shortcutText: String {
-    if let key = item.key,
-      let character = Sauce.shared.character(for: Int(key.QWERTYKeyCode), cocoaModifiers: [])?
-        .capitalized
-    {
-      if let alternateModifierFlags = item.alternateModifierFlags, isAlternate {
-        return "\(alternateModifierFlags)\(character)"
-      } else {
-        return "\(item.modifierFlags)\(character)"
-      }
-    }
-
-    return ""
-  }
+//  private var title: String {
+//    if let alternateTitle = item.alternateTitle, isAlternate {
+//      return alternateTitle
+//    } else {
+//      return item.title
+//    }
+//  }
+//  private var shortcutText: String {
+//    if let key = item.key,
+//      let character = Sauce.shared.character(for: Int(key.QWERTYKeyCode), cocoaModifiers: [])?
+//        .capitalized
+//    {
+//      if let alternateModifierFlags = item.alternateModifierFlags, isAlternate {
+//        return "\(alternateModifierFlags)\(character)"
+//      } else {
+//        return "\(item.modifierFlags)\(character)"
+//      }
+//    }
+//
+//    return ""
+//  }
 
   @Default(.suppressClearAlert) private var suppressClearAlert
   @State var showConfirmation: Bool = false
 
   var body: some View {
     HStack {
-      Text(LocalizedStringKey(title))
+      Text(item.title)
         .lineLimit(1)
         .truncationMode(.middle)
 
       Spacer()
-      Text(shortcutText)
-        .lineLimit(1)
-        .foregroundColor(.secondary)
-        .frame(width: 60, alignment: .trailing)
-        .tracking(2.0)
-        .opacity(shortcutText.isEmpty ? 0 : 0.7)
+//      Text(item.)
+//        .lineLimit(1)
+//        .foregroundColor(.secondary)
+//        .frame(width: 60, alignment: .trailing)
+//        .tracking(2.0)
+//        .opacity(shortcutText.isEmpty ? 0 : 0.7)
     }
     .id(item.id)
     .frame(maxWidth: .infinity, alignment: .leading)
     .onTapGesture {
-      item.confirm(view: self, suppress: suppressClearAlert) {
-        self.historyItemsList.select(item, alternate: isAlternate)
-      }
+//      item.confirm(view: self, suppress: suppressClearAlert) {
+//        self.historyItemsList.select(item, alternate: isAlternate)
+//      }
     }
     .onHover { hovering in
-      if hovering {
-        historyItemsList.selectionUUID = item.id
-      }
+//      if hovering {
+//        historyItemsList.selectionUUID = item.id
+//      }
     }
-    .help(LocalizedStringKey(isAlternate ? item.alternateHelp : item.help))
-    .confirmationDialog("clear_alert_message", isPresented: $showConfirmation) {
-      Text("clear_alert_comment")
-      Button("clear_alert_confirm", role: .destructive) {
-        // TODO: Support alernate
-        historyItemsList.select(item, alternate: isAlternate)
-      }
-      Button("clear_alert_cancel", role: .cancel) {}
-    }
-    .dialogSuppressionToggle(isSuppressed: $suppressClearAlert)
+    .help(item.help ?? "")
+//    .confirmationDialog("clear_alert_message", isPresented: $showConfirmation) {
+//      Text("clear_alert_comment")
+//      Button("clear_alert_confirm", role: .destructive) {
+//        // TODO: Support alernate
+//        historyItemsList.select(item, alternate: isAlternate)
+//      }
+//      Button("clear_alert_cancel", role: .cancel) {}
+//    }
+//    .dialogSuppressionToggle(isSuppressed: $suppressClearAlert)
   }
 }
 
@@ -1011,38 +1330,40 @@ struct HistoryItemView: View {
   @Default(.imageMaxHeight) private var imageMaxHeight
 
   var body: some View {
-    HStack {
-      if let image = historyItem.item.image {
-        Image
-          .thumbnailImage(image, maxHeight: imageMaxHeight)
-      } else {
-        Text(historyItem.title)
+    if !historyItem.isHidden {
+      HStack {
+        if let image = historyItem.item.image {
+          Image
+            .thumbnailImage(image, maxHeight: imageMaxHeight)
+        } else {
+          Text(historyItem.title)
+            .lineLimit(1)
+            .truncationMode(.middle)
+        }
+        Spacer()
+        Text("    ")
           .lineLimit(1)
-          .truncationMode(.middle)
+          .frame(width: 45, alignment: .trailing)
+          .tracking(2.0)
+          .opacity(0)
       }
-      Spacer()
-      Text("    ")
-        .lineLimit(1)
-        .frame(width: 45, alignment: .trailing)
-        .tracking(2.0)
-        .opacity(0)
-    }
-    .id(historyItem.id)
-    .frame(maxWidth: .infinity, alignment: .leading)
-    .onTapGesture {
-      historyItemsList.select(historyItem)
-    }
-    .onHover { hovering in
-      if hovering {
-        historyItemsList.selectionUUID = historyItem.id
+      .id(historyItem.id)
+      .frame(maxWidth: .infinity, alignment: .leading)
+      .onTapGesture {
+        historyItemsList.select(historyItem)
       }
-    }
-    .popover(
-      isPresented: $historyItem.showPreview,
-      attachmentAnchor: .point(.init(x: 0.99, y: 0.5)),
-      arrowEdge: .trailing
-    ) {
-      PreviewView(historyItem: historyItem)
+      .onHover { hovering in
+        if hovering {
+          historyItemsList.selectionUUID = historyItem.id
+        }
+      }
+      .popover(
+        isPresented: $historyItem.showPreview,
+        attachmentAnchor: .point(.init(x: 0.99, y: 0.5)),
+        arrowEdge: .trailing
+      ) {
+        PreviewView(historyItem: historyItem)
+      }
     }
   }
 }
