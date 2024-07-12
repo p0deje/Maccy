@@ -14,7 +14,7 @@ class Maccy: NSObject {
 
   private let about = About()
   private let clipboard = Clipboard.shared
-  private let history = History()
+  private let history = HistoryL()
   private var menu: Menu!
   private var menuController: MenuController!
 

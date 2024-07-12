@@ -4,7 +4,7 @@ import Defaults
 
 class MenuTests: XCTestCase {
   let clipboard = Clipboard.shared
-  let history = History()
+  let history = HistoryL()
 
   let savedPasteByDefault = Defaults[.pasteByDefault]
   let savedRemoveFormattingByDefault = Defaults[.removeFormattingByDefault]

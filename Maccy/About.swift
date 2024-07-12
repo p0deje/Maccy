@@ -2,7 +2,7 @@ import Cocoa
 
 class About {
   private let familyCredits = NSAttributedString(
-    string: "Special thank you to Tonia & Guy! ❤️",
+    string: "Special thank you to Tonia, Anna & Guy! ❤️",
     attributes: [NSAttributedString.Key.foregroundColor: NSColor.labelColor]
   )
 
