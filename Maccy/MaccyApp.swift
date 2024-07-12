@@ -4,63 +4,29 @@ import Settings
 import SwiftData
 import SwiftUI
 
-//@MainActor
-//final class AppState: ObservableObject {
-//  @Published var popupShown = true
-//
-//  init() {
-//    KeyboardShortcuts.onKeyUp(for: .popup) { [self] in
-//      if !popupShown {
-//        NSApp.  activate()
-//      }
-//      popupShown.toggle()
-//    }
-//  }
-//}
-
 @main
 struct MaccyApp: App {
   @NSApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
-  @Environment(\.scenePhase) private var scenePhase
-
-//  @StateObject var appState = AppState()
 
   init() {
-    //    NSApp.setActivationPolicy(.accessory)
-
-//    Task { [self]
-//      KeyboardShortcuts.onKeyUp(for: .popup) {
-//        self.popupShown.toggle()
-//      }
-//    }
-    Clipboard.shared.onNewCopy(HistoryItemsViewModel.shared.add)
+    Clipboard.shared.onNewCopy(History.shared.add)
+    Clipboard.shared.start()
   }
 
   @Default(.menuIcon) private var menuIcon
   @Default(.showInStatusBar) private var showMenuIcon
   @Default(.showRecentCopyInMenuBar) private var showRecentCopyInMenuBar
 
+  @State private var history = History.shared
+
   var body: some Scene {
-//    Window("maccy", id: "org.p0deje.Maccy") {
-//      Text("")
-//      .floatingPanel(isPresented: $appState.popupShown) {
-//        ContentView1()
-//      }
-//    }
-//    .defaultSize(width: 0, height: 0)
     MenuBarExtra(isInserted: $showMenuIcon) {
-      Text("")
-//        .floatingPanel(isPresented: $appState.popupShown) {
-//          ContentView1()
-//        }
+      EmptyView()
     } label: {
-      HStack {
-        if showRecentCopyInMenuBar {
-          Text(HistoryItemsViewModel.shared.historyItems.first?.title ?? "")
-            .frame(maxWidth: 50)
-        }
-        Image(nsImage: menuIcon.image)
+      if showRecentCopyInMenuBar {
+        Text(history.firstUnpinnedItem?.title.shortened(to: 20) ?? "")
       }
+      Image(nsImage: menuIcon.image)
     }
   }
 }

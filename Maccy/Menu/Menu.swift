@@ -46,7 +46,7 @@ class Menu: NSMenu, NSMenuDelegate {
   private var previewMenuItemOffset = 0
 
   private var clipboard: Clipboard!
-  private var history: History!
+  private var history: HistoryL!
 
   private var indexedItems: [IndexedItem] = []
 
@@ -72,7 +72,7 @@ class Menu: NSMenu, NSMenuDelegate {
     super.init(coder: decoder)
   }
 
-  init(history: History, clipboard: Clipboard) {
+  init(history: HistoryL, clipboard: Clipboard) {
     super.init(title: "Maccy")
 
     self.history = history

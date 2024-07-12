@@ -2,7 +2,7 @@ import AppKit
 import Defaults
 import SwiftData
 
-class History {
+class HistoryL {
   var all: [HistoryItemL] {
 //    let sorter = Sorter(by: Defaults[.sortBy])
 //    var unpinned = sorter.sort(HistoryItemL.unpinned)

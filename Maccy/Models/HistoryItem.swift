@@ -34,10 +34,9 @@ class HistoryItem {
   var firstCopiedAt: Date
   var lastCopiedAt: Date
   var numberOfCopies: Int = 1
-  @Attribute(.unique) 
-  var pin: String?
+  @Attribute(.unique) var pin: String?
   var title = ""
-  
+
   @Relationship(deleteRule: .cascade)
   var contents: [HistoryItemContent] = []
 
@@ -61,23 +60,11 @@ class HistoryItem {
   }
 
   func generateTitle() -> String {
-    var title = ""
-
     guard image == nil else {
-      return title
+      return ""
     }
 
-    if !fileURLs.isEmpty {
-      title = fileURLs
-        .compactMap { $0.absoluteString.removingPercentEncoding }
-        .joined(separator: "\n")
-    } else if let text = text {
-      title = text
-    } else if title.isEmpty, let rtf = rtf {
-      title = rtf.string
-    } else if title.isEmpty, let html = html {
-      title = html.string
-    }
+    var title = previewableText
 
     if Defaults[.showSpecialSymbols] {
       if let range = title.range(of: "^ +", options: .regularExpression) {
@@ -95,7 +82,23 @@ class HistoryItem {
 
     return title
   }
-  
+
+  var previewableText: String {
+    if !fileURLs.isEmpty {
+      fileURLs
+        .compactMap { $0.absoluteString.removingPercentEncoding }
+        .joined(separator: "\n")
+    } else if let text = text, !text.isEmpty {
+      text
+    } else if let rtf = rtf, !rtf.string.isEmpty {
+      rtf.string
+    } else if let html = html, !html.string.isEmpty {
+      html.string
+    } else {
+      title
+    }
+  }
+
   var fileURLs: [URL] {
     guard !universalClipboardText else {
       return []

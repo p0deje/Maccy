@@ -5,7 +5,7 @@ import Defaults
 class HistoryTests: XCTestCase {
   let savedSize = Defaults[.size]
   let savedSortBy = Defaults[.sortBy]
-  let history = History()
+  let history = HistoryL()
 
   override func setUp() {
     super.setUp()

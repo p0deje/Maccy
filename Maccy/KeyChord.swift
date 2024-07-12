@@ -185,24 +185,23 @@ enum KeyChord: CaseIterable {
     case (.init("w"), .init(arrayLiteral: [.control])):
       self = .deleteLastWordFromSearch
     case (.downArrow, []),
+         (.downArrow, .init(arrayLiteral: [.shift])),
          (.init("j"), .init(arrayLiteral: [.control])):
       self = .moveToNext
-    case (.downArrow, .init(arrayLiteral: [.command])):
+    case (.downArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option):
       self = .moveToLast
     case (.upArrow, []),
+         (.upArrow, .init(arrayLiteral: [.shift])),
          (.init("k"), .init(arrayLiteral: [.control])):
       self = .moveToPrevious
-    case (.upArrow, .init(arrayLiteral: [.command])):
+    case (.upArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option):
       self = .moveToFirst
     case (KeyChord.pinKey, KeyChord.pinModifiers):
       self = .pinOrUnpin
     case (.init(","), MenuFooter.preferences.eventModifiers):
       self = .openPreferences
-//    case (KeyChord.pasteKey, KeyChord.pasteKeyModifiers):
-//      self = .paste
     case (.return, _):
       self = .selectCurrentItem
-//    case (_, _) where Self.keysToSkip.contains(key) || !modifierFlags.isDisjoint(with: [.command, .control, .option]):
     case (_, _) where !modifierFlags.isDisjoint(with: [.command, .control, .option]):
       self = .ignored
     default:
@@ -211,7 +210,7 @@ enum KeyChord: CaseIterable {
   }
   // swiftlint:enable cyclomatic_complexity
 
-  private static let keysToSkip = [
+  static let keysToSkip = [
     Key.home,
     Key.pageUp,
     Key.pageDown,
