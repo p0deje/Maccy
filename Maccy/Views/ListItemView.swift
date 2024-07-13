@@ -17,9 +17,7 @@ struct ListItemView: View {
   var body: some View {
     HStack {
       if let image {
-        Image
-          .thumbnailImage(image, maxHeight: imageMaxHeight)
-          .frame(maxHeight: CGFloat(imageMaxHeight))
+        Image(nsImage: image)
           .padding(.leading, 10)
           .padding(.vertical, 5)
       } else {
