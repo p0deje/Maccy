@@ -34,7 +34,7 @@ struct MaccyApp: App {
       EmptyView()
     } label: {
       if showRecentCopyInMenuBar {
-        Text(history.firstUnpinnedItem?.text.trimmingCharacters(in: .whitespacesAndNewlines).shortened(to: 20) ?? "")
+        Text(appState.menuIconText)
       }
       Image(nsImage: menuIcon.image)
     }

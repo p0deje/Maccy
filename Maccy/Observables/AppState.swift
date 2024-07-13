@@ -25,6 +25,10 @@ class AppState {
     }
   }
 
+  var menuIconText: String {
+    history.firstUnpinnedItem?.text.trimmingCharacters(in: .whitespacesAndNewlines).shortened(to: 20) ?? ""
+  }
+
   private let about = About()
 
   init() {
