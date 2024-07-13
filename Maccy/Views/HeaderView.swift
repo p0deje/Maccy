@@ -7,6 +7,7 @@ struct HeaderView: View {
   @FocusState.Binding var searchFocused: Bool
   @Binding var searchQuery: String
 
+  @Default(.showSearch) private var showSearch
   @Default(.showTitle) private var showTitle
 
   var body: some View {
@@ -25,7 +26,8 @@ struct HeaderView: View {
           }
         }
     }
-    .padding(.horizontal, 10)
-    .padding(.top, 10)
+    .frame(height: showSearch ? 22 : 0)
+    .opacity(showSearch ? 1 : 0)
+    .padding([.horizontal, .top], showSearch ? 10 : 0)
   }
 }
