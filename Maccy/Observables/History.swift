@@ -69,6 +69,16 @@ class History {
         try? await load()
       }
     }
+
+    Task {
+      for await _ in Defaults.updates(.showSpecialSymbols, initial: false) {
+        items.forEach { item in
+          let title = item.item.generateTitle()
+          item.title = title
+          item.item.title = title
+        }
+      }
+    }
   }
 
   @MainActor
