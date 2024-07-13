@@ -184,7 +184,7 @@ class History {
       .subtracting(.capsLock) ?? []
 
     if modifierFlags.isEmpty {
-      NSApp.hide(self)
+      AppState.shared.popup.close()
       Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
       if Defaults[.pasteByDefault] {
         Clipboard.shared.paste()
@@ -192,14 +192,14 @@ class History {
     } else {
       switch HistoryItemAction(modifierFlags) {
       case .copy:
-        NSApp.hide(self)
+        AppState.shared.popup.close()
         Clipboard.shared.copy(item.item)
       case .paste:
-        NSApp.hide(self)
+        AppState.shared.popup.close()
         Clipboard.shared.copy(item.item)
         Clipboard.shared.paste()
       case .pasteWithoutFormatting:
-        NSApp.hide(self)
+        AppState.shared.popup.close()
         Clipboard.shared.copy(item.item, removeFormatting: true)
         Clipboard.shared.paste()
       case .unknown:

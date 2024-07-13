@@ -6,8 +6,11 @@ import Settings
 class AppState {
   static let shared = AppState()
 
+  var popup: Popup
   var history: History
   var footer: Footer
+
+  var appDelegate: AppDelegate? = nil
 
   var selection: UUID? = nil {
     didSet {
@@ -27,6 +30,7 @@ class AppState {
   init() {
     history = History.shared
     footer = Footer()
+    popup = Popup()
   }
 
   func highlightFirst() {
