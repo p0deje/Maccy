@@ -15,6 +15,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private var hotKey: GlobalHotKey!
   private var maccy: Maccy!
 
+  private var panel: FloatingPanel<ContentView>!
+
   func applicationWillFinishLaunching(_ notification: Notification) {
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
       SPUUpdater(hostBundle: Bundle.main,
@@ -29,36 +31,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     migrateUserDefaults()
     clearOrphanRecords()
 
-    let panel = FloatingPanel(
-      contentRect: NSRect(x: 0, y: 0, width: 400, height: 500),
+    panel = FloatingPanel(
+      contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
       title: Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy"
     ) {
       ContentView()
     }
 
-    panel.center()
-    panel.open()
-
     KeyboardShortcuts.onKeyUp(for: .popup) {
-      if !panel.isPresented {
-        panel.open()
-      } else {
-        panel.close()
-      }
+      self.panel.toggle()
     }
 
     AppDependencyManager.shared.add(key: "maccy", dependency: self.maccy)
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-    maccy.popUp()
+    panel.toggle()
     return true
   }
 
   func applicationWillTerminate(_ notification: Notification) {
     if Defaults[.clearOnQuit] {
-      maccy.clearUnpinned(suppressClearAlert: true)
+      AppState.shared.history.clear()
     }
+    Defaults[.windowSize] = panel.frame.size
     CoreDataManager.shared.saveContext()
   }
 

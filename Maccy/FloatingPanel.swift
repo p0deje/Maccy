@@ -51,7 +51,16 @@ class FloatingPanel<Content: View>: NSPanel {
     )
   }
 
+  func toggle() {
+    if isPresented {
+      close()
+    } else {
+      open()
+    }
+  }
+
   func open() {
+    setFrameOrigin(PopupPosition.origin(for: frame.size))
     orderFrontRegardless()
     makeKey()
     isPresented = true
