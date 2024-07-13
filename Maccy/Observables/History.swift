@@ -20,13 +20,21 @@ class History {
 
   var searchQuery: String = "" {
     didSet {
-      updateItems(
-        sorter.sort(
-          search
-            .search(string: searchQuery, within: items.map(\.item))
-            .map(\.object)
+      throttler.throttle { [self] in
+        updateItems(
+          sorter.sort(
+            search
+              .search(string: searchQuery, within: items.map(\.item))
+              .map(\.object)
+          )
         )
-      )
+
+        if searchQuery.isEmpty {
+          AppState.shared.selection = firstUnpinnedItem?.id
+        } else {
+          AppState.shared.highlightFirst()
+        }
+      }
     }
   }
 
@@ -53,6 +61,7 @@ class History {
 
   private let search = Search()
   private var sorter = Sorter(by: Defaults[.sortBy])
+  private let throttler = Throttler(minimumDelay: 0.2)
 
   private var sessionLog: [Int: HistoryItem] = [:]
 
