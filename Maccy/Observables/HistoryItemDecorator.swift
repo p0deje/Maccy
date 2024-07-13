@@ -67,7 +67,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
     // TODO: Use 0.2 delay after first preview is shown.
     self.throttler = Throttler(minimumDelay: Double(Defaults[.previewDelay]) / 1000)
   }
-  
+
   func highlight(_ query: String) {
     guard !query.isEmpty, !title.isEmpty else {
       self.attributedTitle = nil

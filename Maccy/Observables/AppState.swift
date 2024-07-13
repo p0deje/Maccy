@@ -30,7 +30,7 @@ class AppState {
   }
 
   func highlightFirst() {
-    selection = history.items.filter(\.isVisible).first?.id
+    selection = history.items.first(where: \.isVisible)?.id
   }
 
   func highlightPrevious() {
@@ -41,8 +41,8 @@ class AppState {
     } else if let selectedItem = footer.selectedItem {
       if let nextItem = footer.items.filter(\.isVisible).item(before: selectedItem) {
         selection = nextItem.id
-      } else if selectedItem == footer.items.filter(\.isVisible).first {
-        selection = history.items.filter(\.isVisible).last?.id
+      } else if selectedItem == footer.items.first(where: \.isVisible) {
+        selection = history.items.last(where: \.isVisible)?.id
       }
     }
   }
@@ -52,7 +52,7 @@ class AppState {
       if let nextItem = history.items.filter(\.isVisible).item(after: selectedItem) {
         selection = nextItem.id
       } else if selectedItem == history.items.filter(\.isVisible).last {
-        selection = footer.items.filter(\.isVisible).first?.id
+        selection = footer.items.first(where: \.isVisible)?.id
       }
     } else if let selectedItem = footer.selectedItem {
       if let nextItem = footer.items.filter(\.isVisible).item(after: selectedItem) {
@@ -64,12 +64,12 @@ class AppState {
   func highlightLast() {
     if let selectedItem = history.selectedItem {
       if selectedItem == history.items.filter(\.isVisible).last {
-        selection = footer.items.filter(\.isVisible).first?.id
+        selection = footer.items.first(where: \.isVisible)?.id
       } else {
-        selection = history.items.filter(\.isVisible).last?.id
+        selection = history.items.last(where: \.isVisible)?.id
       }
     } else if footer.selectedItem != nil {
-      selection = footer.items.filter(\.isVisible).last?.id
+      selection = footer.items.last(where: \.isVisible)?.id
     }
   }
 

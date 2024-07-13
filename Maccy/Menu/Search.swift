@@ -197,8 +197,7 @@ class Search {
 
   private func simpleSearch(string: String, within: [Searchable2], options: NSString.CompareOptions) -> [SearchResult2] {
     return within.compactMap({ item in
-      simpleSearch(for: string, in: item.title, of: item, options: options) ??
-        simpleSearch(for: string, in: item.title, of: item, options: options)
+      simpleSearch(for: string, in: item.title, of: item, options: options)
     })
   }
 
@@ -214,23 +213,11 @@ class Search {
       range: nil,
       locale: nil
     ) != nil {
-      var result = SearchResult2(
+      return SearchResult2(
         score: nil,
         object: item,
         titleMatches: []
       )
-
-      let title = item.title
-      if let titleRange = title.range(of: string, options: options, range: nil, locale: nil) {
-        let lowerBound = title.distance(from: title.startIndex, to: titleRange.lowerBound)
-        var upperBound = title.distance(from: title.startIndex, to: titleRange.upperBound)
-        if upperBound > lowerBound {
-          upperBound -= 1
-        }
-        result.titleMatches.append(lowerBound...upperBound)
-      }
-
-      return result
     } else {
       return nil
     }

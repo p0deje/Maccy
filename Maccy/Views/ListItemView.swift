@@ -23,17 +23,7 @@ struct ListItemView: View {
           .padding(.leading, 10)
           .padding(.vertical, 5)
       } else {
-        if let attributedTitle {
-          Text(attributedTitle)
-            .lineLimit(1)
-            .truncationMode(.middle)
-            .padding(.leading, 10)
-        } else {
-          Text(LocalizedStringKey(title))
-            .lineLimit(1)
-            .truncationMode(.middle)
-            .padding(.leading, 10)
-        }
+        ListItemTitleView(attributedTitle: attributedTitle, title: title)
       }
       Spacer()
       if !shortcuts.isEmpty {

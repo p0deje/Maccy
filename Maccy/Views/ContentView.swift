@@ -26,13 +26,6 @@ struct ContentView: View {
                 searchQuery: $appState.history.searchQuery,
                 searchFocused: $searchFocused
               )
-              .onChange(of: appState.history.searchQuery) {
-                if appState.history.searchQuery.isEmpty {
-                  appState.selection = appState.history.firstUnpinnedItem?.id
-                } else {
-                  appState.highlightFirst()
-                }
-              }
               .onChange(of: appState.selection) {
                 if let selection = appState.selection {
                   proxy.scrollTo(selection)
