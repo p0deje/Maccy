@@ -6,8 +6,12 @@ struct PreviewItemView: View {
 
   var body: some View {
     VStack(alignment: .leading) {
-      if let image = item.image {
-        Image(nsImage: image)
+      if let image = item.previewImage {
+          Image(nsImage: image)
+          .resizable()
+          .aspectRatio(contentMode: .fit)
+          .frame(maxHeight: HistoryItemDecorator.previewImageSize.height / 0.8)
+          .clipShape(.rect(cornerRadius: 5))
       } else {
         Text(item.text)
           .controlSize(.regular)

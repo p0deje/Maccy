@@ -23,6 +23,7 @@
 		DA05B5112C234CB2006980FE /* MaccyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA05B5102C234CB1006980FE /* MaccyApp.swift */; };
 		DA05B5142C234DCF006980FE /* HistoryItemContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA05B5122C234DCF006980FE /* HistoryItemContent.swift */; };
 		DA05B5152C234DCF006980FE /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA05B5132C234DCF006980FE /* HistoryItem.swift */; };
+		DA083A6E2C42E8E8004259A0 /* NSImage+Resized.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */; };
 		DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EE7B8204657830025FC60 /* MaccyUITests.swift */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
 		DA11AE962693DD7100D640D2 /* MenuLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA11AE952693DD7100D640D2 /* MenuLoader.swift */; };
@@ -40,7 +41,6 @@
 		DA1969102C3F0AAC00258481 /* KeyShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19690F2C3F0AAC00258481 /* KeyShortcut.swift */; };
 		DA1969122C3F0DD200258481 /* HistoryItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1969112C3F0DD200258481 /* HistoryItemView.swift */; };
 		DA1969142C3F11D600258481 /* PreviewItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1969132C3F11D600258481 /* PreviewItemView.swift */; };
-		DA1969162C3F124500258481 /* Image+Thumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1969152C3F124500258481 /* Image+Thumbnail.swift */; };
 		DA1969182C3F327500258481 /* SearchFieldView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1969172C3F327500258481 /* SearchFieldView.swift */; };
 		DA19691A2C3F369800258481 /* HeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1969192C3F369800258481 /* HeaderView.swift */; };
 		DA19691C2C3F3EAC00258481 /* Collection+Surrounding.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19691B2C3F3EAC00258481 /* Collection+Surrounding.swift */; };
@@ -190,6 +190,7 @@
 		DA05B5102C234CB1006980FE /* MaccyApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaccyApp.swift; sourceTree = "<group>"; };
 		DA05B5122C234DCF006980FE /* HistoryItemContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemContent.swift; sourceTree = "<group>"; };
 		DA05B5132C234DCF006980FE /* HistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItem.swift; sourceTree = "<group>"; };
+		DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Resized.swift"; sourceTree = "<group>"; };
 		DA08FDE4282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/PinsSettingsViewController.strings"; sourceTree = "<group>"; };
 		DA08FDE7282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,7 +211,6 @@
 		DA19690F2C3F0AAC00258481 /* KeyShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyShortcut.swift; sourceTree = "<group>"; };
 		DA1969112C3F0DD200258481 /* HistoryItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemView.swift; sourceTree = "<group>"; };
 		DA1969132C3F11D600258481 /* PreviewItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewItemView.swift; sourceTree = "<group>"; };
-		DA1969152C3F124500258481 /* Image+Thumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Image+Thumbnail.swift"; sourceTree = "<group>"; };
 		DA1969172C3F327500258481 /* SearchFieldView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFieldView.swift; sourceTree = "<group>"; };
 		DA1969192C3F369800258481 /* HeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderView.swift; sourceTree = "<group>"; };
 		DA19691B2C3F3EAC00258481 /* Collection+Surrounding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Collection+Surrounding.swift"; sourceTree = "<group>"; };
@@ -540,19 +540,19 @@
 				DAA072E42C41ED23006DDFD2 /* AttributedString+Ranges.swift */,
 				DA19691B2C3F3EAC00258481 /* Collection+Surrounding.swift */,
 				DAA072D22C40A961006DDFD2 /* Color+Random.swift */,
-				DA1969152C3F124500258481 /* Image+Thumbnail.swift */,
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */,
 				DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */,
 				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
+				DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */,
 				DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */,
 				DA49EE7428B59468002752E0 /* NSRect+Centered.swift */,
 				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
 				DA6491AF29ABCF2400837D93 /* NSScreen+ForPopup.swift */,
+				DAA072E62C423617006DDFD2 /* NSSize+DefaultsSerializable.swift */,
 				DA20FA772B082E1A00056DD5 /* NSSound+Named.swift */,
 				0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */,
 				DA9C3C462C20B91D0056795D /* String+Identifiable.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
-				DAA072E62C423617006DDFD2 /* NSSize+DefaultsSerializable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1100,7 +1100,6 @@
 				DAA072DB2C41C5DD006DDFD2 /* FooterItem.swift in Sources */,
 				DA196A9328AB0D4500ADD8A2 /* MenuHeaderView.swift in Sources */,
 				DA689FC62C1D14F10009B887 /* PopupPosition.swift in Sources */,
-				DA1969162C3F124500258481 /* Image+Thumbnail.swift in Sources */,
 				DA573EAD1EDD410F00561FB2 /* HistoryMenuItem.swift in Sources */,
 				DA1B0FD6289DFEA200E641BE /* PinComboBoxCell.swift in Sources */,
 				DA2C752C2029FE990090965D /* Menu.swift in Sources */,
@@ -1108,6 +1107,7 @@
 				DA9C3C602C20E1890056795D /* IgnorePasteboardTypesSettingsView.swift in Sources */,
 				DAF65F4A24D396FE00F3978F /* CopyMenuItem.swift in Sources */,
 				DA8953B91E446A4E00884EAB /* Maccy.swift in Sources */,
+				DA083A6E2C42E8E8004259A0 /* NSImage+Resized.swift in Sources */,
 				DAA072E12C41C6E8006DDFD2 /* FooterView.swift in Sources */,
 				DAA072DD2C41C61F006DDFD2 /* FooterItemView.swift in Sources */,
 				DA3EAE0C2AE30F7500F39108 /* NSApplication+Windows.swift in Sources */,

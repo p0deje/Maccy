@@ -10,6 +10,9 @@ class HistoryItemDecorator: Identifiable, Hashable {
     return lhs.id == rhs.id
   }
 
+  static var previewImageSize: NSSize { NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536) }
+  static var thumbnailImageSize: NSSize { NSSize(width: 340, height: Defaults[.imageMaxHeight]) }
+
   let id = UUID()
 
   var title: String = ""
@@ -45,7 +48,9 @@ class HistoryItemDecorator: Identifiable, Hashable {
     return url.deletingPathExtension().lastPathComponent
   }
 
-  var image: NSImage? { item.image }
+  var previewImage: NSImage? = nil
+  var thumbnailImage: NSImage? = nil
+
   var text: String { item.previewableText }
 
   var isPinned: Bool { item.pin != nil }
@@ -66,6 +71,19 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
     // TODO: Use 0.2 delay after first preview is shown.
     self.throttler = Throttler(minimumDelay: Double(Defaults[.previewDelay]) / 1000)
+
+    Task {
+      sizeImages()
+    }
+  }
+
+  func sizeImages() {
+    guard let image = item.image else {
+      return
+    }
+
+    previewImage = image.resized(to: HistoryItemDecorator.previewImageSize)
+    thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
   }
 
   func highlight(_ query: String) {
