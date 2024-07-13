@@ -52,7 +52,7 @@ class History {
   }
 
   private let search = Search()
-  private let sorter = Sorter(by: Defaults[.sortBy])
+  private var sorter = Sorter(by: Defaults[.sortBy])
 
   private var sessionLog: [Int: HistoryItem] = [:]
 
@@ -60,6 +60,13 @@ class History {
     Task {
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
         updateShortcuts()
+      }
+    }
+
+    Task {
+      for await value in Defaults.updates(.sortBy, initial: false) {
+        sorter = Sorter(by: value)
+        try? await load()
       }
     }
   }
