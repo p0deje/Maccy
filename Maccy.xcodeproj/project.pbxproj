@@ -113,6 +113,7 @@
 		DAA072E12C41C6E8006DDFD2 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E02C41C6E8006DDFD2 /* FooterView.swift */; };
 		DAA072E32C41D1D5006DDFD2 /* ListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E22C41D1D5006DDFD2 /* ListItemView.swift */; };
 		DAA072E52C41ED23006DDFD2 /* AttributedString+Ranges.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E42C41ED23006DDFD2 /* AttributedString+Ranges.swift */; };
+		DAA072E72C423617006DDFD2 /* NSSize+DefaultsSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E62C423617006DDFD2 /* NSSize+DefaultsSerializable.swift */; };
 		DAA54BFA2C3C951900B7FDD8 /* FloatingPanel.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA54BF92C3C951900B7FDD8 /* FloatingPanel.swift */; };
 		DAA5ACB22C1B3F8800B58513 /* GeneralSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA5ACB12C1B3F8800B58513 /* GeneralSettingsPane.swift */; };
 		DAA5ACB52C1B803000B58513 /* GeneralSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAA5ACB32C1B803000B58513 /* GeneralSettings.strings */; };
@@ -390,6 +391,7 @@
 		DAA072E02C41C6E8006DDFD2 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		DAA072E22C41D1D5006DDFD2 /* ListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemView.swift; sourceTree = "<group>"; };
 		DAA072E42C41ED23006DDFD2 /* AttributedString+Ranges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributedString+Ranges.swift"; sourceTree = "<group>"; };
+		DAA072E62C423617006DDFD2 /* NSSize+DefaultsSerializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSize+DefaultsSerializable.swift"; sourceTree = "<group>"; };
 		DAA2BDCE24676CA7007FE090 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAA54BF92C3C951900B7FDD8 /* FloatingPanel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FloatingPanel.swift; sourceTree = "<group>"; };
 		DAA5ACB12C1B3F8800B58513 /* GeneralSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeneralSettingsPane.swift; sourceTree = "<group>"; };
@@ -513,7 +515,6 @@
 				DA689FCB2C1D1D510009B887 /* MenuIcon.swift */,
 				DA11AE952693DD7100D640D2 /* MenuLoader.swift */,
 				DA2C752B2029FE990090965D /* Menu.swift */,
-				2F89CC922AE2C9E000959C91 /* PopupLocation.swift */,
 				2F3C6B502B5EFC1D00FA41BE /* PreviewPopoverController.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 			);
@@ -549,6 +550,7 @@
 				0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */,
 				DA9C3C462C20B91D0056795D /* String+Identifiable.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
+				DAA072E62C423617006DDFD2 /* NSSize+DefaultsSerializable.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -772,6 +774,7 @@
 				DA05B5102C234CB1006980FE /* MaccyApp.swift */,
 				DA20FA712B082DD600056DD5 /* Notifier.swift */,
 				DA689FC72C1D15140009B887 /* PinsPosition.swift */,
+				2F89CC922AE2C9E000959C91 /* PopupLocation.swift */,
 				DA689FC52C1D14F10009B887 /* PopupPosition.swift */,
 				DAC7AFAE2A801C92006081BB /* RunLoopLocalEventMonitor.swift */,
 				DAA5ACC92C1BEE8A00B58513 /* SoftwareUpdater.swift */,
@@ -1037,6 +1040,7 @@
 				DAD665662898A1C000975096 /* KeyChord.swift in Sources */,
 				DA689FC42C1CF0F00009B887 /* AppearanceSettingsPane.swift in Sources */,
 				DAEE38541E3DD6F100DD2966 /* HistoryL.swift in Sources */,
+				DAA072E72C423617006DDFD2 /* NSSize+DefaultsSerializable.swift in Sources */,
 				DA9C3C452C207AF80056795D /* IgnoreSettingsPane.swift in Sources */,
 				DA13D7D82C1A223E00FA9E23 /* Select.swift in Sources */,
 				DA689FC82C1D15140009B887 /* PinsPosition.swift in Sources */,
