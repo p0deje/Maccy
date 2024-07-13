@@ -40,17 +40,29 @@ struct MaccyApp: App {
     }
     .menuBarExtraAccess(isPresented: $appState.popup.menuPresented) { statusItem in
       self.statusItem = statusItem
+      if let panel = appState.popup.appDelegate?.panel, panel.menuBarButton == nil {
+        panel.menuBarButton = statusItem.button
+      }
+    }
+    .onChange(of: appState.popup.menuPresented) {
+      if let event = NSApp.currentEvent, event.type == .leftMouseUp {
+        let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
 
-      if let panel = appState.popup.appDelegate?.panel {
-        if panel.menuBarButton == nil {
-          panel.menuBarButton = statusItem.button
-        }
+        if modifierFlags.contains(.option) {
+          ignoreEvents.toggle()
+          if modifierFlags.contains(.shift) {
+            Defaults[.ignoreOnlyNextEvent] = ignoreEvents
+          }
 
-        if appState.popup.menuPresented {
-          panel.open(at: .statusItem)
-        } else {
-          panel.close()
+          statusItem?.button?.isHighlighted = false
+          return
         }
+      }
+
+      if appState.popup.menuPresented {
+        appState.popup.appDelegate?.panel.open(at: .statusItem)
+      } else {
+        appState.popup.appDelegate?.panel.close()
       }
     }
     .onChange(of: ignoreEvents) {
