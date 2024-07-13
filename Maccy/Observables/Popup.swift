@@ -5,23 +5,7 @@ import Observation
 
 @Observable
 class Popup {
-  var menuPresented = false {
-    didSet {
-      if let event = NSApp.currentEvent, event.type == .leftMouseUp {
-        let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
-
-        if modifierFlags.contains(.option) {
-          Defaults[.ignoreEvents].toggle()
-
-          if modifierFlags.contains(.shift) {
-            Defaults[.ignoreOnlyNextEvent] = Defaults[.ignoreEvents]
-          }
-
-          // TODO: Prevent menu from showing
-        }
-      }
-    }
-  }
+  var menuPresented = false
   var isPresented = false
   var appDelegate: AppDelegate? = nil
 
