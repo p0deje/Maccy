@@ -1,9 +1,11 @@
+import Defaults
 import SwiftUI
 
 /// An NSPanel subclass that implements floating panel traits.
 /// https://stackoverflow.com/questions/46023769/how-to-show-a-window-without-stealing-focus-on-macos
 class FloatingPanel<Content: View>: NSPanel {
   var isPresented: Bool = false
+  var menuBarButton: NSStatusBarButton? = nil
 
   init(
     contentRect: NSRect,
@@ -51,16 +53,16 @@ class FloatingPanel<Content: View>: NSPanel {
     )
   }
 
-  func toggle() {
+  func toggle(at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     if isPresented {
       close()
     } else {
-      open()
+      open(at: popupPosition)
     }
   }
 
-  func open() {
-    setFrameOrigin(PopupPosition.origin(for: frame.size))
+  func open(at popupPosition: PopupPosition = Defaults[.popupPosition]) {
+    setFrameOrigin(popupPosition.origin(size: frame.size, menuBarButton: menuBarButton))
     orderFrontRegardless()
     makeKey()
     isPresented = true
@@ -79,6 +81,7 @@ class FloatingPanel<Content: View>: NSPanel {
   override func close() {
     super.close()
     isPresented = false
+    menuBarButton?.state = .off
   }
 
   /// `canBecomeKey` is required so that text inputs inside the panel can receive focus

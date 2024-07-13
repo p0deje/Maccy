@@ -15,7 +15,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private var hotKey: GlobalHotKey!
   private var maccy: Maccy!
 
-  private var panel: FloatingPanel<ContentView>!
+  var panel: FloatingPanel<ContentView>!
 
   func applicationWillFinishLaunching(_ notification: Notification) {
     if ProcessInfo.processInfo.arguments.contains("ui-testing") {
@@ -36,10 +36,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       title: Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy"
     ) {
       ContentView()
-    }
-
-    KeyboardShortcuts.onKeyUp(for: .popup) {
-      self.panel.toggle()
     }
 
     AppDependencyManager.shared.add(key: "maccy", dependency: self.maccy)
