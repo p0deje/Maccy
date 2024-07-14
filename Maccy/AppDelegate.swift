@@ -69,6 +69,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
       Defaults[.migrations]["2024-07-01-version-2"] = true
     }
+
+    // The following defaults are not used in Maccy 2.x
+    // and should be removed in 3.x.
+    // - LaunchAtLogin__hasMigrated
+    // - avoidTakingFocus
+    // - saratovSeparator
+    // - maxMenuItemLength
+    // - maxMenuItems
   }
 
   private func clearOrphanRecords() {
