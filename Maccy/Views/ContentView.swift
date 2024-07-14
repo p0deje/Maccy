@@ -1,3 +1,4 @@
+import Defaults
 import SwiftData
 import SwiftUI
 
@@ -8,6 +9,7 @@ struct ContentView: View {
   @State private var modifierFlags = ModifierFlags()
 
   @FocusState private var searchFocused: Bool
+  @Default(.previewDelay) private var previewDelay
 
   var body: some View {
     ZStack {
@@ -39,6 +41,7 @@ struct ContentView: View {
                     proxy.scrollTo(appState.history.items.first?.id)
                   }
                 } else {
+                  HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
                   modifierFlags.flags = []
                 }
               }
