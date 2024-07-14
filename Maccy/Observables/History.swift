@@ -177,7 +177,9 @@ class History {
 
   @MainActor
   func select(_ item: HistoryItemDecorator?) {
-    guard let item else { return }
+    guard let item else {
+      return
+    }
 
     let modifierFlags = NSApp.currentEvent?.modifierFlags
       .intersection(.deviceIndependentFlagsMask)
