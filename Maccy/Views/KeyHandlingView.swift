@@ -13,13 +13,31 @@ struct KeyHandlingView<Content: View>: View {
       .onKeyPress { press in
         switch KeyChord(press.key, press.modifiers) {
         case .clearHistory:
-          // TODO: Confirmation
-          appState.history.clear()
-          return .handled
+          if let item = appState.footer.items.first(where: { $0.title == "clear" }),
+             let _ = item.confirmation,
+             let suppressConfirmation = item.suppressConfirmation {
+            if suppressConfirmation.wrappedValue {
+              item.action()
+            } else {
+              item.showConfirmation = true
+            }
+            return .handled
+          } else {
+            return .ignored
+          }
         case .clearHistoryAll:
-          // TODO: Confirmation
-          appState.history.clearAll()
-          return .handled
+          if let item = appState.footer.items.first(where: { $0.title == "clear_all" }),
+             let _ = item.confirmation,
+             let suppressConfirmation = item.suppressConfirmation {
+            if suppressConfirmation.wrappedValue {
+              item.action()
+            } else {
+              item.showConfirmation = true
+            }
+            return .handled
+          } else {
+            return .ignored
+          }
         case .clearSearch:
           searchQuery = ""
           return .handled
