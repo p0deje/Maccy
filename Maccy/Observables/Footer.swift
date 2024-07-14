@@ -34,7 +34,7 @@ class Footer {
     items = [
       FooterItem(
         title: "clear",
-        shortcuts: [KeyShortcut(key: .c, modifierFlags: [.command, .option])],
+        shortcuts: [KeyShortcut(key: .delete, modifierFlags: [.command, .option])],
         help: "clear_tooltip",
         confirmation: .init(
           message: "clear_alert_message",
@@ -48,7 +48,7 @@ class Footer {
       },
       FooterItem(
         title: "clear_all",
-        shortcuts: [KeyShortcut(key: .c, modifierFlags: [.command, .option, .shift])],
+        shortcuts: [KeyShortcut(key: .delete, modifierFlags: [.command, .option, .shift])],
         help: "clear_all_tooltip",
         confirmation: .init(
           message: "clear_alert_message",
