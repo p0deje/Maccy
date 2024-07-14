@@ -127,6 +127,7 @@ class AppState {
       )
     }
     settingsWindowController?.show()
+    settingsWindowController?.window?.orderFrontRegardless()
   }
 
   func quit() {
