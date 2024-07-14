@@ -10,8 +10,6 @@ class AppState {
   var history: History
   var footer: Footer
 
-  var appDelegate: AppDelegate? = nil
-
   var selection: UUID? = nil {
     didSet {
       history.selectedItem = nil
@@ -30,6 +28,7 @@ class AppState {
   }
 
   private let about = About()
+  private var settingsWindowController: SettingsWindowController? = nil
 
   init() {
     history = History.shared
@@ -86,46 +85,48 @@ class AppState {
   }
 
   func openPreferences() {
-    let settingsWindowController = SettingsWindowController(
-      panes: [
-        Settings.Pane(
-          identifier: Settings.PaneIdentifier.general,
-          title: NSLocalizedString("Title", tableName: "GeneralSettings", comment: ""),
-          toolbarIcon: NSImage.gearshape!
-        ) {
-          GeneralSettingsPane()
-        },
-        Settings.Pane(
-          identifier: Settings.PaneIdentifier.storage,
-          title: NSLocalizedString("Title", tableName: "StorageSettings", comment: ""),
-          toolbarIcon: NSImage.externaldrive!
-        ) {
-          StorageSettingsPane()
-        },
-        Settings.Pane(
-          identifier: Settings.PaneIdentifier.appearance,
-          title: NSLocalizedString("Title", tableName: "AppearanceSettings", comment: ""),
-          toolbarIcon: NSImage.paintpalette!
-        ) {
-          AppearanceSettingsPane()
-        },
-        Settings.Pane(
-          identifier: Settings.PaneIdentifier.ignore,
-          title: NSLocalizedString("Title", tableName: "IgnoreSettings", comment: ""),
-          toolbarIcon: NSImage.nosign!
-        ) {
-          IgnoreSettingsPane()
-        },
-        Settings.Pane(
-          identifier: Settings.PaneIdentifier.advanced,
-          title: NSLocalizedString("Title", tableName: "AdvancedSettings", comment: ""),
-          toolbarIcon: NSImage.gearshape2!
-        ) {
-          AdvancedSettingsPane()
-        },
-      ]
-    )
-    settingsWindowController.show()
+    if settingsWindowController == nil {
+      settingsWindowController = SettingsWindowController(
+        panes: [
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.general,
+            title: NSLocalizedString("Title", tableName: "GeneralSettings", comment: ""),
+            toolbarIcon: NSImage.gearshape!
+          ) {
+            GeneralSettingsPane()
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.storage,
+            title: NSLocalizedString("Title", tableName: "StorageSettings", comment: ""),
+            toolbarIcon: NSImage.externaldrive!
+          ) {
+            StorageSettingsPane()
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.appearance,
+            title: NSLocalizedString("Title", tableName: "AppearanceSettings", comment: ""),
+            toolbarIcon: NSImage.paintpalette!
+          ) {
+            AppearanceSettingsPane()
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.ignore,
+            title: NSLocalizedString("Title", tableName: "IgnoreSettings", comment: ""),
+            toolbarIcon: NSImage.nosign!
+          ) {
+            IgnoreSettingsPane()
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.advanced,
+            title: NSLocalizedString("Title", tableName: "AdvancedSettings", comment: ""),
+            toolbarIcon: NSImage.gearshape2!
+          ) {
+            AdvancedSettingsPane()
+          },
+        ]
+      )
+    }
+    settingsWindowController?.show()
   }
 
   func quit() {
