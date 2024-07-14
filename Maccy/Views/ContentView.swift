@@ -38,6 +38,8 @@ struct ContentView: View {
                   Task {
                     proxy.scrollTo(appState.history.items.first?.id)
                   }
+                } else {
+                  modifierFlags.flags = []
                 }
               }
             }
