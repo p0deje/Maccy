@@ -6,7 +6,6 @@ import Observation
 @Observable
 class Popup {
   var menuPresented = false
-  var isPresented = false
   var appDelegate: AppDelegate? = nil
 
   init() {
@@ -14,7 +13,7 @@ class Popup {
   }
 
   func toggle() {
-    if isPresented {
+    if appDelegate?.panel.isPresented == true {
       close()
     } else {
       open()
@@ -27,7 +26,6 @@ class Popup {
     } else {
       appDelegate?.panel.open()
     }
-    isPresented = true
   }
 
   func close() {
@@ -36,6 +34,5 @@ class Popup {
     } else {
       appDelegate?.panel.close()
     }
-    isPresented = false
   }
 }
