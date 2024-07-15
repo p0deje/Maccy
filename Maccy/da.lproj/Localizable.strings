@@ -1,1 +1,36 @@
 
+
+"clear_all_tooltip" = "Ryd alle elementer.";
+"about_tooltip" = "Læs mere om applikationen.";
+"quit_tooltip" = "Luk applikationen";
+"clear" = "Ryd";
+"clear_all" = "Ryd alle";
+"about" = "Om os";
+"quit" = "Luk";
+"preferences_advanced" = "Advanceret";
+"preferences_appearance" = "Udseende";
+"preferences_ignore" = "Ignorer";
+"preferences_pins" = "Fastgjorte elementer";
+"preferences_storage" = "Hukommelse";
+"copy_modifiers_config" = "• Vælg med %@ tasten presset for at kopiere elementet.";
+"paste_modifiers_config" = "• Vælg med %@ presset for at kopiere og indsætte et element.";
+"format_modifiers_config" = "• Vælg med %@ presset for at kopiere, ryde formatering og indsætte element.";
+"accessibility_alert_comment" = "Giv adgang til denne applikation i {pane}, beliggende i {settings}.\n\nKlik på + knappen, vælg Maccy, og tjek afkrydsningsfeltet ud for det.";
+"accessibility_alert_open" = "Åbn Systemindstillinger";
+"clear_alert_message" = "Er du sikker på at du vil rydde historikken?";
+"clear_alert_comment" = "Du kan ikke fortryde denne handling.";
+"clear_alert_cancel" = "Annuller";
+"clear_alert_confirm" = "Ryd";
+"key_used_error" = "Tasten bruges allerede.";
+"screen" = "Skærm";
+"system_settings_name" = "Systemindstillinger";
+"system_settings_pane" = "Cookie- og sikkerhedsindstillinger";
+"system_preferences_name" = "Systemindstillinger";
+"system_preferences_pane" = "Sikkerhed og privatlivspræferencer";
+"search_placeholder" = "skriv for a søge…";
+"active_screen" = "Aktiv skærm";
+"clear_tooltip" = "Frigiv fastgjorte elementer.\nVælg med ⇧ for at frigive alle.";
+"preferences" = "Indstillinger..";
+"preferences_general" = "Generelt";
+"accessibility_alert_message" = "\"Maccy\" vil gerne styre denne computer ved hjælp af tilgængelighedsfunktioner.";
+"accessibility_alert_deny" = "Afvis";
