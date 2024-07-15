@@ -21,7 +21,11 @@ struct ListItemView: View {
           .padding(.leading, 10)
           .padding(.vertical, 5)
       } else {
-        ListItemTitleView(attributedTitle: attributedTitle, title: title)
+        ListItemTitleView(
+          attributedTitle: attributedTitle,
+          title: title,
+          isSelected: isSelected
+        )
       }
       Spacer()
       if !shortcuts.isEmpty {
