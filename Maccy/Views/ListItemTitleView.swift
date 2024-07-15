@@ -3,6 +3,7 @@ import SwiftUI
 struct ListItemTitleView: View {
   var attributedTitle: AttributedString? = nil
   var title: String
+  var isSelected: Bool
 
   var body: some View {
     if let attributedTitle {
@@ -15,6 +16,7 @@ struct ListItemTitleView: View {
         .lineLimit(1)
         .truncationMode(.middle)
         .padding(.leading, 10)
+        .tint(isSelected ? .white : .accentColor)
     }
   }
 }
