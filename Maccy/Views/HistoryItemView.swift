@@ -10,7 +10,7 @@ struct HistoryItemView: View {
     if item.isVisible {
       ListItemView(
         id: item.id,
-        image: item.thumbnailImage,
+        image: item.thumbnailImage ?? ColorImage.from(item.title),
         attributedTitle: item.attributedTitle,
         title: item.title,
         shortcuts: item.shortcuts,

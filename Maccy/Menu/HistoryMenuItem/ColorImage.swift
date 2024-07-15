@@ -7,9 +7,9 @@ class ColorImage {
       return nil
     }
 
-    let image = NSImage(size: NSSize(width: 10, height: 10))
+    let image = NSImage(size: NSSize(width: 12, height: 12))
     image.lockFocus()
-    color.drawSwatch(in: NSRect(x: 0, y: 0, width: 10, height: 10))
+    color.drawSwatch(in: NSRect(x: 0, y: 0, width: 12, height: 12))
     image.unlockFocus()
 
     return image
