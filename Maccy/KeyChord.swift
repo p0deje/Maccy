@@ -124,6 +124,7 @@ enum KeyChord: CaseIterable {
   case paste
   case pinOrUnpin
   case selectCurrentItem
+  case close
   case unknown
 
   // swiftlint:disable cyclomatic_complexity
@@ -202,6 +203,8 @@ enum KeyChord: CaseIterable {
       self = .openPreferences
     case (.return, _):
       self = .selectCurrentItem
+    case (.escape, _):
+      self = .close
     case (_, _) where !modifierFlags.isDisjoint(with: [.command, .control, .option]):
       self = .ignored
     default:
@@ -219,7 +222,6 @@ enum KeyChord: CaseIterable {
     Key.leftArrow,
     Key.rightArrow,
     Key.upArrow,
-    Key.escape,
     Key.tab,
     Key.f1,
     Key.f2,
