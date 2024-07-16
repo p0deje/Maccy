@@ -111,6 +111,9 @@ struct KeyHandlingView<Content: View>: View {
             searchQuery = ""
           }
           return .handled
+        case .close:
+          appState.popup.close()
+          return .handled
         default:
           ()
         }
