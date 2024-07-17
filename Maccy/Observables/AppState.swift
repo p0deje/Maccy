@@ -24,7 +24,9 @@ class AppState {
   }
 
   var menuIconText: String {
-    history.firstUnpinnedItem?.text.trimmingCharacters(in: .whitespacesAndNewlines).shortened(to: 20) ?? ""
+    var title = history.firstUnpinnedItem?.text.shortened(to: 100).trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    title.unicodeScalars.removeAll(where: CharacterSet.newlines.contains)
+    return title.shortened(to: 20)
   }
 
   private let about = About()
