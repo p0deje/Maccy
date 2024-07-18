@@ -34,6 +34,8 @@ class History {
         } else {
           AppState.shared.highlightFirst()
         }
+
+        AppState.shared.needsResize = true
       }
     }
   }

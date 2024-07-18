@@ -10,6 +10,7 @@ class AppState {
   var history: History
   var footer: Footer
 
+  var needsResize = false
   var selection: UUID? = nil {
     didSet {
       history.selectedItem = nil
