@@ -1,15 +1,12 @@
-import Defaults
 import SwiftData
 import SwiftUI
 
 struct ContentView: View {
-  @State private var scenePhase: ScenePhase = .background
-  
   @State private var appState = AppState.shared
   @State private var modifierFlags = ModifierFlags()
+  @State private var scenePhase: ScenePhase = .background
 
   @FocusState private var searchFocused: Bool
-  @Default(.previewDelay) private var previewDelay
 
   var body: some View {
     ZStack {
@@ -22,32 +19,10 @@ struct ContentView: View {
             searchQuery: $appState.history.searchQuery
           )
 
-          ScrollView {
-            ScrollViewReader { proxy in
-              HistoryListView(
-                searchQuery: $appState.history.searchQuery,
-                searchFocused: $searchFocused
-              )
-              .onChange(of: appState.selection) {
-                if let selection = appState.selection {
-                  proxy.scrollTo(selection)
-                }
-              }
-              .onChange(of: scenePhase) {
-                if scenePhase == .active {
-                  searchFocused = true
-                  appState.selection = appState.history.firstUnpinnedItem?.id
-                  Task {
-                    proxy.scrollTo(appState.history.items.first?.id)
-                  }
-                } else {
-                  HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
-                  modifierFlags.flags = []
-                }
-              }
-            }
-          }
-          .contentMargins(.leading, 10, for: .scrollIndicators)
+          HistoryListView(
+            searchQuery: $appState.history.searchQuery,
+            searchFocused: $searchFocused
+          )
 
           FooterView(footer: appState.footer)
         }
