@@ -40,6 +40,7 @@ struct MaccyApp: App {
     }
     .menuBarExtraAccess(isPresented: $appState.popup.menuPresented) { statusItem in
       self.statusItem = statusItem
+      statusItem.button?.appearsDisabled = menuIconAppearsDisable
       if let panel = appState.popup.appDelegate?.panel, panel.menuBarButton == nil {
         panel.menuBarButton = statusItem.button
       }
