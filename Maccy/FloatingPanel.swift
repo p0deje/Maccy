@@ -3,7 +3,7 @@ import SwiftUI
 
 /// An NSPanel subclass that implements floating panel traits.
 /// https://stackoverflow.com/questions/46023769/how-to-show-a-window-without-stealing-focus-on-macos
-class FloatingPanel<Content: View>: NSPanel {
+class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   var isPresented: Bool = false
   var menuBarButton: NSStatusBarButton? = nil
 
@@ -19,6 +19,9 @@ class FloatingPanel<Content: View>: NSPanel {
         backing: .buffered,
         defer: false
     )
+
+    Defaults[.windowSize] = contentRect.size
+    delegate = self
 
     /// Allow the panel to be on top of other windows
     isFloatingPanel = true
@@ -66,6 +69,21 @@ class FloatingPanel<Content: View>: NSPanel {
     orderFrontRegardless()
     makeKey()
     isPresented = true
+  }
+
+  func resizeContentHeight(to newHeight: CGFloat) {
+    var newSize = Defaults[.windowSize]
+    if newHeight < newSize.height {
+      newSize.height = newHeight
+    }
+
+    setContentSize(newSize)
+  }
+
+  func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
+    Defaults[.windowSize] = frameSize
+    
+    return frameSize
   }
 
   /// Close automatically when out of focus, e.g. outside click

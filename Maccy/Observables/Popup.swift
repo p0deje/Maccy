@@ -8,6 +8,18 @@ class Popup {
   var menuPresented = false
   var appDelegate: AppDelegate? = nil
 
+  var historyHeightOffset: CGFloat {
+    if Defaults[.showSearch] && Defaults[.showFooter] {
+      return 150
+    } else if Defaults[.showSearch] {
+      return 45
+    } else if Defaults[.showFooter] {
+      return 118
+    } else {
+      return 13
+    }
+  }
+
   init() {
     KeyboardShortcuts.onKeyUp(for: .popup, action: toggle)
   }
@@ -34,5 +46,10 @@ class Popup {
     } else {
       appDelegate?.panel.close()
     }
+  }
+
+  func resize(height: CGFloat) {
+    appDelegate?.panel.resizeContentHeight(to: height + historyHeightOffset)
+    AppState.shared.needsResize = false
   }
 }

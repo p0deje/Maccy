@@ -12,5 +12,16 @@ struct HistoryListView: View {
         HistoryItemView(item: item)
       }
     }
+    // Use overlay to calculate the total height inside a scroll view.
+    .overlay(
+      GeometryReader { geo in
+        EmptyView()
+          .onChange(of: appState.needsResize) {
+            if appState.needsResize {
+              appState.popup.resize(height: geo.size.height)
+            }
+          }
+      }
+    )
   }
 }

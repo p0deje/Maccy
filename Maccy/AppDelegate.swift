@@ -50,7 +50,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     if Defaults[.clearOnQuit] {
       AppState.shared.history.clear()
     }
-    Defaults[.windowSize] = panel.frame.size
     CoreDataManager.shared.saveContext()
   }
 
