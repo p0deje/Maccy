@@ -82,7 +82,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
     Defaults[.windowSize] = frameSize
-    
+
     return frameSize
   }
 
