@@ -25,7 +25,7 @@ class AppState {
   }
 
   var menuIconText: String {
-    var title = history.firstUnpinnedItem?.text.shortened(to: 100).trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    var title = history.unpinnedItems.first?.text.shortened(to: 100).trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     title.unicodeScalars.removeAll(where: CharacterSet.newlines.contains)
     return title.shortened(to: 20)
   }

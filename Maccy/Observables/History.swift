@@ -18,6 +18,9 @@ class History {
     }
   }
 
+  var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
+  var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
+
   var searchQuery: String = "" {
     didSet {
       throttler.throttle { [self] in
@@ -30,7 +33,7 @@ class History {
         )
 
         if searchQuery.isEmpty {
-          AppState.shared.selection = firstUnpinnedItem?.id
+          AppState.shared.selection = unpinnedItems.first?.id
         } else {
           AppState.shared.highlightFirst()
         }
@@ -55,10 +58,6 @@ class History {
 
     let key = Sauce.shared.key(for: Int(event.keyCode))
     return items.first { $0.shortcuts.contains(where: { $0.key == key }) }
-  }
-
-  var firstUnpinnedItem: HistoryItemDecorator? {
-    items.first(where: \.isUnpinned)
   }
 
   private let search = Search()
@@ -272,7 +271,7 @@ class History {
   }
 
   private func updateShortcuts() {
-    for item in items.filter(\.isPinned) {
+    for item in pinnedItems {
       if let pin = item.item.pin {
         item.shortcuts = KeyShortcut.create(character: pin)
       }
@@ -282,7 +281,7 @@ class History {
   }
 
   private func updateUnpinnedShortcuts() {
-    let visibleUnpinnedItems = items.filter { $0.isVisible && $0.isUnpinned }
+    let visibleUnpinnedItems = unpinnedItems.filter(\.isVisible)
     for item in visibleUnpinnedItems {
       item.shortcuts = []
     }

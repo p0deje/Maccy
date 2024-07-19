@@ -9,13 +9,22 @@ struct HistoryListView: View {
   @Environment(ModifierFlags.self) private var modifierFlags
   @Environment(\.scenePhase) private var scenePhase
   
+  @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
 
   var body: some View {
+    if !appState.history.pinnedItems.isEmpty, pinTo == .top {
+      LazyVStack(spacing: 0) {
+        ForEach(appState.history.pinnedItems) { item in
+          HistoryItemView(item: item)
+        }
+      }
+    }
+
     ScrollView {
       ScrollViewReader { proxy in
         LazyVStack(spacing: 0) {
-          ForEach(appState.history.items) { item in
+          ForEach(appState.history.unpinnedItems) { item in
             HistoryItemView(item: item)
           }
         }
@@ -27,10 +36,7 @@ struct HistoryListView: View {
         .onChange(of: scenePhase) {
           if scenePhase == .active {
             searchFocused = true
-            appState.selection = appState.history.firstUnpinnedItem?.id
-            Task {
-              proxy.scrollTo(appState.history.items.first?.id)
-            }
+            appState.selection = appState.history.unpinnedItems.first?.id
           } else {
             HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
             modifierFlags.flags = []
@@ -49,6 +55,15 @@ struct HistoryListView: View {
         )
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
+    }
+    
+
+    if !appState.history.pinnedItems.isEmpty, pinTo == .bottom {
+      LazyVStack(spacing: 0) {
+        ForEach(appState.history.pinnedItems) { item in
+          HistoryItemView(item: item)
+        }
+      }
     }
   }
 }
