@@ -15,13 +15,15 @@ struct Select: AppIntent, CustomIntentMigratedAppIntent {
 
   private let positionOffset = 1
 
-  @Dependency(key: "maccy")
-  private var maccy: Maccy
-
   func perform() async throws -> some IntentResult & ReturnsValue<String> {
-    guard let value = maccy.select(position: number - positionOffset) else {
+    let items = AppState.shared.history.items
+    let index = number - positionOffset
+    guard items.count >= index else {
       throw AppIntentError.notFound
     }
+
+    let value = items[index].title
+    await AppState.shared.history.select(items[index])
 
     return .result(value: value)
   }

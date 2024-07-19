@@ -37,8 +37,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     ) {
       ContentView()
     }
-
-    AppDependencyManager.shared.add(key: "maccy", dependency: self.maccy)
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {

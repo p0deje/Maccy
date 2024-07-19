@@ -30,12 +30,6 @@
 	<string>Application</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
-	<key>NSUserActivityTypes</key>
-	<array>
-		<string>DeleteIntent</string>
-		<string>GetIntent</string>
-		<string>SelectIntent</string>
-	</array>
 	<key>SUEnableDownloaderService</key>
 	<true/>
 	<key>SUEnableInstallerLauncherService</key>

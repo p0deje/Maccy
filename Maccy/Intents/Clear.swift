@@ -11,15 +11,12 @@ struct Clear: AppIntent, CustomIntentMigratedAppIntent {
     Summary("Clear Clipboard History")
   }
 
-  @Dependency(key: "maccy")
-  private var maccy: Maccy
-
   func perform() async throws -> some IntentResult {
     if !Defaults[.suppressClearAlert] {
       try await requestConfirmation()
     }
 
-    maccy.clearUnpinned(suppressClearAlert: true)
+    await AppState.shared.history.clear()
     return .result()
   }
 }
