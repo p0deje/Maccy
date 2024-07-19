@@ -15,9 +15,6 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
 
   private let positionOffset = 1
 
-  @Dependency(key: "maccy")
-  private var maccy: Maccy
-
   static var parameterSummary: some ParameterSummary {
     When(\.$selected, .equalTo, false) {
       Summary {
@@ -32,15 +29,17 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
   }
 
   func perform() async throws -> some IntentResult & ReturnsValue<HistoryItemAppEntity> {
-    var item: HistoryItemL?
+    var item: HistoryItem?
     if selected {
-      item = maccy.selectedItem
+      item = AppState.shared.history.selectedItem?.item
     } else {
       let index = number - positionOffset
-      item = maccy.item(at: index)
+      if AppState.shared.history.items.count >= index {
+        item = AppState.shared.history.items[index].item
+      }
     }
 
-    guard let item = item else {
+    guard let item else {
       throw AppIntentError.notFound
     }
 

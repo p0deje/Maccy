@@ -15,13 +15,14 @@ struct Delete: AppIntent, CustomIntentMigratedAppIntent {
 
   private let positionOffset = 1
 
-  @Dependency(key: "maccy")
-  private var maccy: Maccy
-
   func perform() async throws -> some IntentResult {
-    guard let value = maccy.delete(position: number - positionOffset) else {
+    let items = AppState.shared.history.items
+    let index = number - positionOffset
+    guard items.count >= index else {
       throw AppIntentError.notFound
     }
+
+    await AppState.shared.history.delete(items[index])
 
     return .result()
   }
