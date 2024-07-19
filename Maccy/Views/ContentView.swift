@@ -12,7 +12,7 @@ struct ContentView: View {
     ZStack {
       VisualEffectView(material: .popover, blendingMode: .behindWindow)
 
-      VStack(alignment: .leading) {
+      VStack(alignment: .leading, spacing: 0) {
         KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
           HeaderView(
             searchFocused: $searchFocused,
@@ -28,7 +28,8 @@ struct ContentView: View {
         }
       }
       .animation(.default, value: appState.history.items)
-      .padding([.bottom, .horizontal], 5)
+      .padding(.horizontal, 5)
+      .padding(.vertical, Popup.verticalPadding)
       .task { try? await appState.history.load() }
     }
     .environment(appState)

@@ -17,10 +17,12 @@ struct FooterView: View {
   }
 
   var body: some View {
-    if !footer.items.isEmpty {
-      Divider()
-        .padding(.horizontal, 10)
-      VStack(spacing: 0) {
+    VStack(spacing: 0) {
+      if !footer.items.isEmpty {
+        Divider()
+          .padding(.horizontal, 10)
+          .padding(.vertical, 6)
+
         ZStack {
           FooterItemView(item: footer.items[0])
             .opacity(clearOpacity)
@@ -50,6 +52,14 @@ struct FooterView: View {
         ForEach(footer.items.suffix(from: 2)) { item in
           FooterItemView(item: item)
         }
+      }
+    }
+    .background {
+      GeometryReader { geo in
+        Color.clear
+          .task(id: geo.size.height) {
+            appState.popup.footerHeight = geo.size.height
+          }
       }
     }
   }

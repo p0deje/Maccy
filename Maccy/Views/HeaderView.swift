@@ -2,10 +2,11 @@ import Defaults
 import SwiftUI
 
 struct HeaderView: View {
-  @Environment(\.scenePhase) private var scenePhase
-
   @FocusState.Binding var searchFocused: Bool
   @Binding var searchQuery: String
+
+  @Environment(AppState.self) private var appState
+  @Environment(\.scenePhase) private var scenePhase
 
   @Default(.showSearch) private var showSearch
   @Default(.showTitle) private var showTitle
@@ -26,8 +27,17 @@ struct HeaderView: View {
           }
         }
     }
-    .frame(height: showSearch ? 22 : 0)
+    .frame(height: showSearch ? 25 : 0)
     .opacity(showSearch ? 1 : 0)
-    .padding([.horizontal, .top], showSearch ? 10 : 0)
+    .padding(.horizontal, 10)
+    .padding(.bottom, showSearch ? 5 : 0)
+    .background {
+      GeometryReader { geo in
+        Color.clear
+          .task(id: geo.size.height) {
+            appState.popup.headerHeight = geo.size.height
+          }
+      }
+    }
   }
 }
