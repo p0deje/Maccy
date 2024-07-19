@@ -19,11 +19,7 @@ struct HistoryItemView: View {
       .onTapGesture {
         appState.history.select(item)
       }
-      .popover(
-        isPresented: $item.showPreview,
-        attachmentAnchor: .point(.init(x: 0.99, y: 0.5)),
-        arrowEdge: .trailing
-      ) {
+      .popover(isPresented: $item.showPreview, arrowEdge: .trailing) {
         PreviewItemView(item: item)
       }
     }
