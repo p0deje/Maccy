@@ -5,20 +5,14 @@ import Observation
 
 @Observable
 class Popup {
+  static let verticalPadding: CGFloat = 5
+
   var menuPresented = false
   var appDelegate: AppDelegate? = nil
 
-  var historyHeightOffset: CGFloat {
-    if Defaults[.showSearch] && Defaults[.showFooter] {
-      return 150
-    } else if Defaults[.showSearch] {
-      return 45
-    } else if Defaults[.showFooter] {
-      return 118
-    } else {
-      return 13
-    }
-  }
+  var headerHeight: CGFloat = 0
+  var pinnedItemsHeight: CGFloat = 0
+  var footerHeight: CGFloat = 0
 
   init() {
     KeyboardShortcuts.onKeyUp(for: .popup, action: toggle)
@@ -49,7 +43,8 @@ class Popup {
   }
 
   func resize(height: CGFloat) {
-    appDelegate?.panel.resizeContentHeight(to: height + historyHeightOffset)
+    let newHeight = height + headerHeight + pinnedItemsHeight + footerHeight + (Popup.verticalPadding * 2)
+    appDelegate?.panel.resizeContentHeight(to: newHeight)
     AppState.shared.needsResize = false
   }
 }

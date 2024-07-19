@@ -19,6 +19,14 @@ struct HistoryListView: View {
           HistoryItemView(item: item)
         }
       }
+      .background {
+        GeometryReader { geo in
+          Color.clear
+            .task(id: geo.size.height) {
+              appState.popup.pinnedItemsHeight = geo.size.height
+            }
+        }
+      }
     }
 
     ScrollView {
@@ -42,26 +50,33 @@ struct HistoryListView: View {
             modifierFlags.flags = []
           }
         }
-        // Use overlay to calculate the total height inside a scroll view.
-        .overlay(
+        // Calculate the total height inside a scroll view.
+        .background {
           GeometryReader { geo in
-            EmptyView()
-              .onChange(of: appState.needsResize) {
+            Color.clear
+              .task(id: appState.needsResize) {
                 if appState.needsResize {
                   appState.popup.resize(height: geo.size.height)
                 }
               }
           }
-        )
+        }
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
     }
-    
 
     if !appState.history.pinnedItems.isEmpty, pinTo == .bottom {
       LazyVStack(spacing: 0) {
         ForEach(appState.history.pinnedItems) { item in
           HistoryItemView(item: item)
+        }
+      }
+      .background {
+        GeometryReader { geo in
+          Color.clear
+            .task(id: geo.size.height) {
+              appState.popup.pinnedItemsHeight = geo.size.height
+            }
         }
       }
     }
