@@ -60,6 +60,7 @@ struct PreviewItemView: View {
       }
     }
     .controlSize(.small)
+    .frame(maxWidth: 800)
     .padding()
   }
 }
