@@ -1,0 +1,12 @@
+"Title" = "Pokročilé";
+"TurnOff" = "Vypnout";
+"TurnOffDescription" = "Dočasně ignorovat všechny nové kopie.\nPravděpodobně toto použiješ programově a zakážeš aplikaci při kopírování citlivých dat.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# kopírovat data\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Můžeš také kliknut na menu ikonu při stisknutí ⌥.\nPro ignorování následující kopie stiskni s ⌥⇧.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# kopírovat data";
+"AvoidTakingApplicationFocus" = "Nepřebírat pozici aktivní aplikace";
+"AvoidTakingApplicationFocusTooltip" = "Maccy přebírá pozici aktivní aplikace, když je zobrazený popup a předává ji zpět když je zavřen. Pozice je potřeba pro pokročilé funkce macOS nakládání se vstupy jako je čínská pomoc, nebo menu diakritiky. Povolení této možnosti by zamezilo Maccy převzít pozici aktivní aplikace. Jsou některé situace, kdy to může být užitečné, jako například vkládání do textového editoru, který autoformátuje kód při ztrátě pozice aktivní aplikace.";
+"ClearHistoryOnQuit" = "Vymazat historii při ukončení";
+"ClearHistoryOnQuitTooltip" = "Automaticky odebrat všechny nepřipnuté položky před ukončením aplikace.";
+"ClearSystemClipboard" = "Vymazat taky systémovou schránku";
+"ClearSystemClipboardTooltip" = "Pokud je povoleno, smazání historie smaže i aktuální systémovou schránku.";

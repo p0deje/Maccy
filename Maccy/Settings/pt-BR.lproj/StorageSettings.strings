@@ -1,0 +1,13 @@
+"Title" = "Armazenamento";
+"Save" = "Salvar:";
+"Files" = "Arquivos";
+"Images" = "Imagens";
+"Text" = "Texto";
+"SaveDescription" = "Alterar que tipos de conteúdo copiados devem ser armazenados.";
+"Size" = "Tamanho:";
+"SizeTooltip" = "Número de itens do histórico para manter.\nPadrão: 200.";
+"SortBy" = "Ordenar por:";
+"LastCopiedAt" = "Data da última cópia";
+"FirstCopiedAt" = "Data da primeira cópia";
+"NumberOfCopies" = "Número de cópias";
+"SortByTooltip" = "Padrão: Data de última cópia.";

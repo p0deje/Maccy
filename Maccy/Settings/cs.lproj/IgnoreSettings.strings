@@ -1,0 +1,8 @@
+"Title" = "Ignorovat";
+"ApplicationsTab" = "Aplikace";
+"IgnoredAppsDescription" = "Je možné ignorovat kopie z určitých aplikací.\nPamatuj že způsob fungování této metody není neprůstřelný, pokud je to možné, je lepší použít typy schránek.";
+"IgnoredAllAppsExceptListed" = "Ignorovat všechny aplikace kromě zalistovaných";
+"PasteboardTypesTab" = "Typy schránek";
+"IgnoredPasteboardTypesDescription" = "Je možné ignorovat určité typy položek ve schránce ze zapamatování.\nOd základu jsou definované některé typy dle aplikací. Můežeš je odstranit a přidat vlastní typy, pokud chceš.";
+"RegexpTab" = "Regulární výrazy";
+"IgnoredRegexpsDescription" = "Je možné ignorovat určité kopie ze zapamatování na základě definovaných regulárních výrazů.";
