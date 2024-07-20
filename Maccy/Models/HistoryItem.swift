@@ -4,7 +4,7 @@ import SwiftData
 
 @Model
 class HistoryItem {
-  static var availablePins: Set<String> {
+  static var supportedPins: Set<String> {
     var keys = Set([
       "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
       "n", "o", "p", "r", "s", "t", "u", "v", "w", "x", "y", "z" // "q" reserved for quit
@@ -21,14 +21,17 @@ class HistoryItem {
   }
 
   @MainActor
-  static var randomAvailablePin: String {
+  static var availablePins: [String] {
     let descriptor = FetchDescriptor<HistoryItem>(
       predicate: #Predicate { $0.pin != nil }
     )
     let pins = try! SwiftDataManager.shared.container.mainContext.fetch(descriptor).compactMap({ $0.pin })
     let assignedPins = Set(pins)
-    return availablePins.subtracting(assignedPins).randomElement() ?? ""
+    return Array(supportedPins.subtracting(assignedPins))
   }
+
+  @MainActor
+  static var randomAvailablePin: String { availablePins.randomElement() ?? "" }
 
   var application: String?
   var firstCopiedAt: Date
@@ -36,6 +39,7 @@ class HistoryItem {
   var numberOfCopies: Int = 1
   @Attribute(.unique) var pin: String?
   var title = ""
+  var unwrappedPin: String { pin ?? "" }
 
   @Relationship(deleteRule: .cascade)
   var contents: [HistoryItemContent] = []
