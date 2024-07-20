@@ -1,0 +1,13 @@
+"Title" = "Úložistě";
+"Save" = "Ukládat:";
+"Files" = "Soubory";
+"Images" = "Obrázky";
+"Text" = "Text";
+"SaveDescription" = "Vyber jaké typy kopírovaného obsahu mají být ukládány.";
+"Size" = "Velikost:";
+"SizeTooltip" = "Počet položek uchovávaných v historii.\nVýchozí: 200.";
+"SortBy" = "Řadit podle:";
+"LastCopiedAt" = "Čas posledního kopírování";
+"FirstCopiedAt" = "Čas prvního kopírování";
+"NumberOfCopies" = "Počet kopírování";
+"SortByTooltip" = "Výchozí: Čas posledního kopírování.";
