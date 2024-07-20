@@ -7,7 +7,7 @@
 "Size" = "Verlauf:";
 "SizeTooltip" = "Maximale Anzahl von Einträgen.\nStandard: 200.";
 "SortBy" = "Sortieren:";
-"LastCopiedAt" = "Neuester Eintrag zuerst";
-"FirstCopiedAt" = "Ältester Eintrag zuerst";
-"NumberOfCopies" = "Häufigkeit";
-"SortByTooltip" = "Standard: Neuester Eintrag zuerst.";
+"LastCopiedAt" = "Zeitpunkt des letzten Eintrags";
+"FirstCopiedAt" = "Zeitpunkt des ersten Eintrags";
+"NumberOfCopies" = "Häufigkeit der Einträge";
+"SortByTooltip" = "Standard: Zeitpunkt des letzten Eintrags.";
