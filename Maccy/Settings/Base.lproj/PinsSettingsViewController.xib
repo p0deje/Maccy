@@ -91,7 +91,7 @@
                             </scrollView>
                         </gridCell>
                         <gridCell row="blo-k0-0wL" column="UAs-ob-LWJ" id="8JK-5C-Zus">
-                            <textField key="contentView" focusRingType="none" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UQR-eA-hk9">
+                            <textField key="contentView" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="UQR-eA-hk9">
                                 <rect key="frame" x="-2" y="9" width="464" height="28"/>
                                 <textFieldCell key="cell" selectable="YES" id="jBl-gB-eEV">
                                     <font key="font" metaFont="controlContent" size="11"/>
