@@ -16,7 +16,7 @@ struct ListItemTitleView: View {
         .lineLimit(1)
         .truncationMode(.middle)
         .padding(.leading, 10)
-        .tint(isSelected ? .white : .accentColor)
+        .tint(isSelected ? .white : .primary)
     }
   }
 }
