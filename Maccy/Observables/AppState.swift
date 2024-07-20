@@ -96,6 +96,7 @@ class AppState {
     about.openAbout(nil)
   }
 
+  @MainActor 
   func openPreferences() {
     if settingsWindowController == nil {
       settingsWindowController = SettingsWindowController(
@@ -120,6 +121,14 @@ class AppState {
             toolbarIcon: NSImage.paintpalette!
           ) {
             AppearanceSettingsPane()
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.pins,
+            title: NSLocalizedString("Title", tableName: "PinsSettings", comment: ""),
+            toolbarIcon: NSImage.pincircle!
+          ) {
+            PinsSettingsPane()
+              .modelContainer(SwiftDataManager.shared.container)
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.ignore,

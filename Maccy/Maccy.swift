@@ -64,6 +64,18 @@ class Maccy: NSObject {
     return Settings.PaneHostingController(pane: paneView)
   }
 
+  private let PinsSettingsViewController: () -> SettingsPane = {
+    let paneView = Settings.Pane(
+      identifier: Settings.PaneIdentifier.pins,
+      title: NSLocalizedString("Title", tableName: "PinsSettings", comment: ""),
+      toolbarIcon: NSImage.pincircle!
+    ) {
+      PinsSettingsPane()
+    }
+
+    return Settings.PaneHostingController(pane: paneView)
+  }
+  
   private let IgnoreSettingsViewController: () -> SettingsPane = {
     let paneView = Settings.Pane(
       identifier: Settings.PaneIdentifier.ignore,
