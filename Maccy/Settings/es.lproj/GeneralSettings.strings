@@ -11,7 +11,7 @@
 "Behavior" = "Comportamiento:";
 "PasteAutomatically" = "Pegar automáticamente";
 "PasteWithoutFormatting" = "Pegar sin formatear";
-"Modifiers" = "Personalice el comportamiento al seleccionar un elemento:\n• Seleccione con %@ presionado para copiar el elemento.\n• Seleccione con %@ presionado para copiar y pegar el elemento.\n• Seleccione con %@ presionado para copiar, borrar el formato y pegar el elemento.";
+"Modifiers" = "Personalice el comportamiento al seleccionar un elemento:\n• Seleccione presionando %@ para copiar el elemento.\n• Seleccione presionando %@ para copiar y pegar un elemento.\n• Seleccione presionando %@ para copiar, quitar formato y pegar un elemento.";
 "Search" = "Búsqueda:";
 "Exact" = "Exacta";
 "Fuzzy" = "Aproximada";
