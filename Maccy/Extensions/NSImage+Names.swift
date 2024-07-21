@@ -14,12 +14,4 @@ extension NSImage.Name {
   static let maccyStatusBar = NSImage.Name("StatusBarMenuImage")
   static let scissors = NSImage.Name("scissors")
   static let paperclip = NSImage.Name("paperclip")
-
-  private static func loadName(_ name: String) -> NSImage.Name {
-    if #available(macOS 11, *) {
-      return NSImage.Name("\(name).svg")
-    } else {
-      return NSImage.Name("\(name).png")
-    }
-  }
 }

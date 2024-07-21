@@ -64,6 +64,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     }
   }
 
+  // TODO: Check https://github.com/p0deje/Maccy/issues/473.
   func open(at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     setFrameOrigin(popupPosition.origin(size: frame.size, menuBarButton: menuBarButton))
     orderFrontRegardless()

@@ -12,9 +12,16 @@ struct MaccyApp: App {
   init() {
     Clipboard.shared.onNewCopy(History.shared.add)
     Clipboard.shared.start()
+    // Bridge FloatingPanel and NIB via AppDelegate.
+    appState.appDelegate = appDelegate
 
-    // FloatingPanel is only accessible via AppDelegate.
-    appState.popup.appDelegate = appDelegate
+    disableUnusedGlobalHotkeys()
+
+    Task {
+      for await _ in Defaults.updates(.clipboardCheckInterval, initial: false) {
+        Clipboard.shared.restart()
+      }
+    }
   }
 
   @Default(.menuIcon) private var menuIcon
@@ -41,7 +48,7 @@ struct MaccyApp: App {
     .menuBarExtraAccess(isPresented: $appState.popup.menuPresented) { statusItem in
       self.statusItem = statusItem
       statusItem.button?.appearsDisabled = menuIconAppearsDisable
-      if let panel = appState.popup.appDelegate?.panel, panel.menuBarButton == nil {
+      if let panel = appState.appDelegate?.panel, panel.menuBarButton == nil {
         panel.menuBarButton = statusItem.button
       }
     }
@@ -61,9 +68,9 @@ struct MaccyApp: App {
       }
 
       if appState.popup.menuPresented {
-        appState.popup.appDelegate?.panel.open(at: .statusItem)
+        appState.appDelegate?.panel.open(at: .statusItem)
       } else {
-        appState.popup.appDelegate?.panel.close()
+        appState.appDelegate?.panel.close()
       }
     }
     .onChange(of: ignoreEvents) {
@@ -71,6 +78,21 @@ struct MaccyApp: App {
     }
     .onChange(of: enabledPasteboardTypes) {
       statusItem?.button?.appearsDisabled = menuIconAppearsDisable
+    }
+  }
+
+  private func disableUnusedGlobalHotkeys() {
+    let names: [KeyboardShortcuts.Name] = [.delete, .pin]
+    KeyboardShortcuts.disable(names)
+
+    NotificationCenter.default.addObserver(
+      forName: Notification.Name("KeyboardShortcuts_shortcutByNameDidChange"),
+      object: nil,
+      queue: nil
+    ) { notification in
+      if let name = notification.userInfo?["name"] as? KeyboardShortcuts.Name, names.contains(name) {
+        KeyboardShortcuts.disable(name)
+      }
     }
   }
 }

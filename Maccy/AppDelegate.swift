@@ -10,11 +10,6 @@ import Settings
 import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-  @IBOutlet weak var pasteMenuItem: NSMenuItem!
-
-  private var hotKey: GlobalHotKey!
-  private var maccy: Maccy!
-
   var panel: FloatingPanel<ContentView>!
 
   func applicationWillFinishLaunching(_ notification: Notification) {
@@ -29,7 +24,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
-    clearOrphanRecords()
 
     panel = FloatingPanel(
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
@@ -48,7 +42,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     if Defaults[.clearOnQuit] {
       AppState.shared.history.clear()
     }
-    CoreDataManager.shared.saveContext()
   }
 
   private func migrateUserDefaults() {
@@ -74,18 +67,5 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // - saratovSeparator
     // - maxMenuItemLength
     // - maxMenuItems
-  }
-
-  private func clearOrphanRecords() {
-    let fetchRequest = NSFetchRequest<HistoryItemContentL>(entityName: "HistoryItemContent")
-    fetchRequest.predicate = NSPredicate(format: "item == nil")
-    do {
-      try CoreDataManager.shared.viewContext
-        .fetch(fetchRequest)
-        .forEach(CoreDataManager.shared.viewContext.delete(_:))
-      CoreDataManager.shared.saveContext()
-    } catch {
-      // Something went wrong, but it's no big deal.
-    }
   }
 }

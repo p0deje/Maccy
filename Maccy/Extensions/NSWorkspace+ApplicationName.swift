@@ -1,4 +1,4 @@
-import AppKit
+import AppKit.NSWorkspace
 
 extension NSWorkspace {
   func applicationName(url: URL) -> String {

@@ -50,11 +50,7 @@ struct ContentView: View {
 }
 
 #Preview {
-  let config = ModelConfiguration(
-    url: URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite")
-  )
-  let container = try! ModelContainer(for: HistoryItem.self, configurations: config)
-
-  return ContentView()
-    .modelContainer(container)
+  ContentView()
+    .environment(\.locale, .init(identifier: "en"))
+    .modelContainer(SwiftDataManager.shared.container)
 }

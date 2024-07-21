@@ -26,8 +26,6 @@
 	<true/>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © Alexey Rodionov</string>
-	<key>NSMainNibFile</key>
-	<string>Application</string>
 	<key>NSPrincipalClass</key>
 	<string>NSApplication</string>
 	<key>SUEnableDownloaderService</key>

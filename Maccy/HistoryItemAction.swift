@@ -31,4 +31,29 @@ enum HistoryItemAction {
       self = .unknown
     }
   }
+
+  var modifierFlags: NSEvent.ModifierFlags {
+    switch self {
+    case .copy where !Defaults[.pasteByDefault]:
+      return .command
+    case .paste where Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
+      return .command
+    case .pasteWithoutFormatting where Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault]:
+      return .command
+    case .paste where !Defaults[.pasteByDefault]:
+      return .option
+    case .copy where Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
+      return .option
+    case .pasteWithoutFormatting where !Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
+      return [.option, .shift]
+    case .paste where !Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault]:
+      return [.option, .shift]
+    case .pasteWithoutFormatting where Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
+      return [.command, .shift]
+    case .paste where Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault]:
+      return [.command, .shift]
+    default:
+      return []
+    }
+  }
 }

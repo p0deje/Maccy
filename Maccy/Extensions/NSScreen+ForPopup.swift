@@ -1,4 +1,4 @@
-import AppKit
+import AppKit.NSScreen
 import Defaults
 
 extension NSScreen {
