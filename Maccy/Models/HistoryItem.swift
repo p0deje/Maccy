@@ -39,7 +39,6 @@ class HistoryItem {
   var numberOfCopies: Int = 1
   @Attribute(.unique) var pin: String?
   var title = ""
-  var unwrappedPin: String { pin ?? "" }
 
   @Relationship(deleteRule: .cascade)
   var contents: [HistoryItemContent] = []
@@ -108,11 +107,11 @@ class HistoryItem {
       return []
     }
 
-    return allContentData(filePasteboardTypes)
+    return allContentData([.fileURL])
       .compactMap { URL(dataRepresentation: $0, relativeTo: nil, isAbsolute: true) }
   }
 
-  var htmlData: Data? { contentData(htmlPasteboardTypes) }
+  var htmlData: Data? { contentData([.html]) }
   var html: NSAttributedString? {
     guard let data = htmlData else {
       return nil
@@ -123,7 +122,7 @@ class HistoryItem {
 
   var image: NSImage? {
     var data: Data?
-    data = contentData(imagePasteboardTypes)
+    data = contentData([.tiff, .png, .jpeg])
     if data == nil, universalClipboardImage, let url = fileURLs.first {
       data = try? Data(contentsOf: url)
     }
@@ -135,7 +134,7 @@ class HistoryItem {
     return NSImage(data: data)
   }
 
-  var rtfData: Data? { contentData(rtfPasteboardTypes) }
+  var rtfData: Data? { contentData([.rtf]) }
   var rtf: NSAttributedString? {
     guard let data = rtfData else {
       return nil
@@ -145,7 +144,7 @@ class HistoryItem {
   }
 
   var text: String? {
-    guard let data = contentData(textPasteboardTypes) else {
+    guard let data = contentData([.string]) else {
       return nil
     }
 
@@ -164,18 +163,10 @@ class HistoryItem {
   var fromMaccy: Bool { contentData([.fromMaccy]) != nil }
   var universalClipboard: Bool { contentData([.universalClipboard]) != nil }
 
-  @Transient private let filePasteboardTypes: [NSPasteboard.PasteboardType] = [.fileURL]
-  @Transient private let htmlPasteboardTypes: [NSPasteboard.PasteboardType] = [.html]
-  @Transient private let imagePasteboardTypes: [NSPasteboard.PasteboardType] = [.tiff, .png, .jpeg]
-  @Transient private let rtfPasteboardTypes: [NSPasteboard.PasteboardType] = [.rtf]
-  @Transient private let textPasteboardTypes: [NSPasteboard.PasteboardType] = [.string]
-
   private var universalClipboardImage: Bool { universalClipboard && fileURLs.first?.pathExtension == "jpeg" }
   private var universalClipboardText: Bool {
-     universalClipboard &&
-      contentData(htmlPasteboardTypes + imagePasteboardTypes + rtfPasteboardTypes + textPasteboardTypes) != nil
+    universalClipboard && contentData([.html, .tiff, .png, .jpeg, .rtf, .string]) != nil
   }
-
 
   private func contentData(_ types: [NSPasteboard.PasteboardType]) -> Data? {
     let content = contents.first(where: { content in

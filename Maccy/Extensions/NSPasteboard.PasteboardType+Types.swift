@@ -1,4 +1,4 @@
-import AppKit
+import AppKit.NSPasteboard
 import Defaults
 
 extension NSPasteboard.PasteboardType: Defaults.Serializable {

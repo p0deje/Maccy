@@ -1,4 +1,4 @@
-import AppKit
+import AppKit.NSSound
 
 extension NSSound {
   static let knock = NSSound(

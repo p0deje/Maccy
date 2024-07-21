@@ -70,49 +70,6 @@ class Clipboard {
     checkForChangesInPasteboard()
   }
 
-  @MainActor 
-  func copy(_ item: HistoryItemL?, removeFormatting: Bool = false) {
-    guard let item else { return }
-
-    pasteboard.clearContents()
-    var contents = item.getContents()
-
-    if removeFormatting {
-      let stringContents = contents.filter({
-        NSPasteboard.PasteboardType($0.type) == .string
-      })
-
-      // If there is no string representation of data,
-      // behave like we didn't have to remove formatting.
-      if !stringContents.isEmpty {
-        contents = stringContents
-      }
-    }
-
-    for content in contents {
-      guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
-      pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
-    }
-
-    // Use writeObjects for file URLs so that multiple files that are copied actually work.
-    // Only do this for file URLs because it causes an issue with some other data types (like formatted text)
-    // where the item is pasted more than once.
-    let fileURLItems: [NSPasteboardItem] = contents.compactMap { item in
-      guard item.type == NSPasteboard.PasteboardType.fileURL.rawValue else { return nil }
-      guard let value = item.value else { return nil }
-      let pasteItem = NSPasteboardItem()
-      pasteItem.setData(value, forType: NSPasteboard.PasteboardType(item.type))
-      return pasteItem
-    }
-    pasteboard.writeObjects(fileURLItems)
-
-    pasteboard.setString("", forType: .fromMaccy)
-
-    Notifier.notify(body: item.title, sound: .knock)
-
-    checkForChangesInPasteboard()
-  }
-
   @MainActor
   func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
     guard let item else { return }
@@ -157,7 +114,6 @@ class Clipboard {
     }
   }
 
-
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
   func paste() {
     Accessibility.check()
@@ -167,6 +123,8 @@ class Clipboard {
     let cmdFlag = CGEventFlags(rawValue: UInt64(KeyChord.pasteKeyModifiers.rawValue) | 0x000008)
     var vCode = Sauce.shared.keyCode(for: KeyChord.pasteKey)
 
+    // TODO: Fix pasting in the scenario below.
+    //
     // Force QWERTY keycode when keyboard layout switches to
     // QWERTY upon pressing ⌘ key (e.g. "Dvorak - QWERTY ⌘").
     // See https://github.com/p0deje/Maccy/issues/482 for details.

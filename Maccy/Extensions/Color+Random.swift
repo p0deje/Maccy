@@ -1,5 +1,6 @@
 import SwiftUI
 
+// Useful to debug SwiftUI view redraws: .background(.random).
 extension ShapeStyle where Self == Color {
   static var random: Color {
     Color(

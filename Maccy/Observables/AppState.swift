@@ -6,6 +6,7 @@ import Settings
 class AppState {
   static let shared = AppState()
 
+  var appDelegate: AppDelegate? = nil
   var popup: Popup
   var history: History
   var footer: Footer

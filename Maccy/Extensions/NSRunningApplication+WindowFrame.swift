@@ -1,4 +1,4 @@
-import AppKit
+import AppKit.NSRunningApplication
 import Carbon
 
 extension NSRunningApplication {

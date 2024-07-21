@@ -11,9 +11,9 @@ struct GeneralSettingsPane: View {
 
   @Default(.searchMode) private var searchMode
 
-  @State private var copyModifier = HistoryMenuItem.CopyMenuItem.keyEquivalentModifierMask.description
-  @State private var pasteModifier = HistoryMenuItem.PasteMenuItem.keyEquivalentModifierMask.description
-  @State private var pasteWithoutFormatting = HistoryMenuItem.PasteWithoutFormattingMenuItem.keyEquivalentModifierMask.description
+  @State private var copyModifier = HistoryItemAction.copy.modifierFlags.description
+  @State private var pasteModifier = HistoryItemAction.paste.modifierFlags.description
+  @State private var pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
 
   @StateObject private var updater = SoftwareUpdater()
 
@@ -87,9 +87,9 @@ struct GeneralSettingsPane: View {
   }
 
   private func refreshModifiers(_ sender: Sendable) {
-    copyModifier = HistoryMenuItem.CopyMenuItem.keyEquivalentModifierMask.description
-    pasteModifier = HistoryMenuItem.PasteMenuItem.keyEquivalentModifierMask.description
-    pasteWithoutFormatting = HistoryMenuItem.PasteWithoutFormattingMenuItem.keyEquivalentModifierMask.description
+    copyModifier = HistoryItemAction.copy.modifierFlags.description
+    pasteModifier = HistoryItemAction.paste.modifierFlags.description
+    pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
   }
 }
 

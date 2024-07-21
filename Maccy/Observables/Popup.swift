@@ -8,7 +8,6 @@ class Popup {
   static let verticalPadding: CGFloat = 5
 
   var menuPresented = false
-  var appDelegate: AppDelegate? = nil
 
   var headerHeight: CGFloat = 0
   var pinnedItemsHeight: CGFloat = 0
@@ -19,7 +18,7 @@ class Popup {
   }
 
   func toggle() {
-    if appDelegate?.panel.isPresented == true {
+    if AppState.shared.appDelegate?.panel.isPresented == true {
       close()
     } else {
       open()
@@ -30,7 +29,7 @@ class Popup {
     if Defaults[.popupPosition] == .statusItem {
       menuPresented = true
     } else {
-      appDelegate?.panel.open()
+      AppState.shared.appDelegate?.panel.open()
     }
   }
 
@@ -38,13 +37,13 @@ class Popup {
     if Defaults[.popupPosition] == .statusItem {
       menuPresented = false
     } else {
-      appDelegate?.panel.close()
+      AppState.shared.appDelegate?.panel.close()
     }
   }
 
   func resize(height: CGFloat) {
     let newHeight = height + headerHeight + pinnedItemsHeight + footerHeight + (Popup.verticalPadding * 2)
-    appDelegate?.panel.resizeContentHeight(to: newHeight)
+    AppState.shared.appDelegate?.panel.resizeContentHeight(to: newHeight)
     AppState.shared.needsResize = false
   }
 }

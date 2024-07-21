@@ -28,7 +28,7 @@ class Sorter {
     self.by = by
   }
 
-  public func sort(_ items: [HistoryItem]) -> [HistoryItem] {
+  func sort(_ items: [HistoryItem]) -> [HistoryItem] {
     return items.sorted(by: bySortingAlgorithm(_:_:)).sorted(by: byPinned(_:_:))
   }
 
