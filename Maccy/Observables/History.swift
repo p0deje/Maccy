@@ -98,8 +98,8 @@ class History {
 
     Task {
       for await _ in Defaults.updates(.imageMaxHeight, initial: false) {
-        items.forEach { item in
-          item.sizeImages()
+        for item in items {
+          await item.sizeImages()
         }
       }
     }

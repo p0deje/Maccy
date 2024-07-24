@@ -71,10 +71,11 @@ class HistoryItemDecorator: Identifiable, Hashable {
     self.title = item.title
 
     Task {
-      sizeImages()
+      await sizeImages()
     }
   }
 
+  @MainActor
   func sizeImages() {
     guard let image = item.image else {
       return

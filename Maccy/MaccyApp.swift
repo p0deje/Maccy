@@ -39,12 +39,17 @@ struct MaccyApp: App {
   var body: some Scene {
     MenuBarExtra(isInserted: $showMenuIcon) {
       EmptyView()
+        .introspectMenuBarExtraWindow { window in
+          window.hasShadow = false
+          window.level = .normal
+        }
     } label: {
       if showRecentCopyInMenuBar {
         Text(appState.menuIconText)
       }
       Image(nsImage: menuIcon.image)
     }
+    .menuBarExtraStyle(.window) // required on Sequoia
     .menuBarExtraAccess(isPresented: $appState.popup.menuPresented) { statusItem in
       self.statusItem = statusItem
       statusItem.button?.appearsDisabled = menuIconAppearsDisable
