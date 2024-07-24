@@ -1,36 +1,37 @@
 import Sparkle
 
-class SoftwareUpdater: NSObject, ObservableObject, SPUUpdaterDelegate {
-  @Published
+@Observable
+class SoftwareUpdater {
   var automaticallyChecksForUpdates = false {
     didSet {
-      updater?.automaticallyChecksForUpdates = automaticallyChecksForUpdates
+      updater.automaticallyChecksForUpdates = automaticallyChecksForUpdates
     }
   }
 
-  private var updater: SPUUpdater?
+  private var updater: SPUUpdater
   private var automaticallyChecksForUpdatesObservation: NSKeyValueObservation?
 
-  override init() {
-    super.init()
+  private let updaterController = SPUStandardUpdaterController(
+    startingUpdater: true,
+    updaterDelegate: nil,
+    userDriverDelegate: nil
+  )
 
-    updater = SPUStandardUpdaterController(
-      startingUpdater: true,
-      updaterDelegate: self,
-      userDriverDelegate: nil
-    ).updater
-
-    automaticallyChecksForUpdatesObservation = updater?.observe(
+  init() {
+    updater = updaterController.updater
+    automaticallyChecksForUpdatesObservation = updater.observe(
       \.automaticallyChecksForUpdates,
-      options: [.initial, .new, .old],
-      changeHandler: { [unowned self] updater, change in
-        guard change.newValue != change.oldValue else { return }
-        self.automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates
+      options: [.initial, .new, .old]
+    ) { [unowned self] updater, change in
+      guard change.newValue != change.oldValue else {
+        return
       }
-    )
+
+      self.automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates
+    }
   }
 
   func checkForUpdates() {
-    updater?.checkForUpdates()
+    updater.checkForUpdates()
   }
 }
