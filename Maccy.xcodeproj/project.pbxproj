@@ -401,6 +401,16 @@
 		DAEE38461E3DBEB100DD2966 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DAEE384D1E3DBEB100DD2966 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DAF4741E27BB568000B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DAF74FF92C517B1A0027DBCE /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
+		DAF74FFA2C517B1E0027DBCE /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/AdvancedSettings.strings"; sourceTree = "<group>"; };
+		DAF74FFB2C517B260027DBCE /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
+		DAF74FFC2C517B280027DBCE /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/AppearanceSettings.strings"; sourceTree = "<group>"; };
+		DAF74FFD2C517B2F0027DBCE /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
+		DAF74FFE2C517B320027DBCE /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/GeneralSettings.strings"; sourceTree = "<group>"; };
+		DAF74FFF2C517B370027DBCE /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/IgnoreSettings.strings; sourceTree = "<group>"; };
+		DAF750002C517B390027DBCE /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/IgnoreSettings.strings"; sourceTree = "<group>"; };
+		DAF750012C517B3E0027DBCE /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/StorageSettings.strings; sourceTree = "<group>"; };
+		DAF750022C517B400027DBCE /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/StorageSettings.strings"; sourceTree = "<group>"; };
 		DAFE2DD9268A521A00990986 /* String+Shortened.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Shortened.swift"; sourceTree = "<group>"; };
 		DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTests.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Shortcuts.swift"; sourceTree = "<group>"; };
@@ -1065,6 +1075,8 @@
 				DA689FC02C1CD41B0009B887 /* th */,
 				DA689FC12C1CD41B0009B887 /* tr */,
 				DA689FC22C1CD41C0009B887 /* uk */,
+				DAF750012C517B3E0027DBCE /* cs */,
+				DAF750022C517B400027DBCE /* pt-BR */,
 			);
 			name = StorageSettings.strings;
 			sourceTree = "<group>";
@@ -1091,6 +1103,8 @@
 				DA689FDF2C1DEE6A0009B887 /* th */,
 				DA689FE02C1DEE6B0009B887 /* tr */,
 				DA689FE12C1DEE6C0009B887 /* uk */,
+				DAF74FFB2C517B260027DBCE /* cs */,
+				DAF74FFC2C517B280027DBCE /* pt-BR */,
 			);
 			name = AppearanceSettings.strings;
 			sourceTree = "<group>";
@@ -1117,6 +1131,8 @@
 				DA740D8A2C21E6C0007B1A36 /* th */,
 				DA740D8B2C21E6C0007B1A36 /* tr */,
 				DA740D8C2C21E6C1007B1A36 /* uk */,
+				DAF74FF92C517B1A0027DBCE /* cs */,
+				DAF74FFA2C517B1E0027DBCE /* pt-BR */,
 			);
 			name = AdvancedSettings.strings;
 			sourceTree = "<group>";
@@ -1143,6 +1159,8 @@
 				DA9C3C5A2C20D4CA0056795D /* th */,
 				DA9C3C5B2C20D4CB0056795D /* tr */,
 				DA9C3C5C2C20D4CB0056795D /* uk */,
+				DAF74FFF2C517B370027DBCE /* cs */,
+				DAF750002C517B390027DBCE /* pt-BR */,
 			);
 			name = IgnoreSettings.strings;
 			sourceTree = "<group>";
@@ -1197,6 +1215,8 @@
 				DAA5ACC62C1BA35C00B58513 /* th */,
 				DAA5ACC72C1BA35D00B58513 /* tr */,
 				DAA5ACC82C1BA35E00B58513 /* uk */,
+				DAF74FFD2C517B2F0027DBCE /* cs */,
+				DAF74FFE2C517B320027DBCE /* pt-BR */,
 			);
 			name = GeneralSettings.strings;
 			sourceTree = "<group>";
