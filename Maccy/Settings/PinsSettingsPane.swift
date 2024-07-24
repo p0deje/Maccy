@@ -67,5 +67,5 @@ struct PinsSettingsPane: View {
 #Preview {
   return PinsSettingsPane()
     .environment(\.locale, .init(identifier: "en"))
-    .modelContainer(SwiftDataManager.shared.container)
+    .modelContainer(Storage.shared.container)
 }

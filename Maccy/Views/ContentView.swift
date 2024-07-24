@@ -52,5 +52,5 @@ struct ContentView: View {
 #Preview {
   ContentView()
     .environment(\.locale, .init(identifier: "en"))
-    .modelContainer(SwiftDataManager.shared.container)
+    .modelContainer(Storage.shared.container)
 }

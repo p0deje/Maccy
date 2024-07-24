@@ -3,7 +3,7 @@ import Foundation
 import Settings
 
 @Observable
-class AppState {
+class AppState: Sendable {
   static let shared = AppState()
 
   var appDelegate: AppDelegate? = nil
@@ -129,7 +129,7 @@ class AppState {
             toolbarIcon: NSImage.pincircle!
           ) {
             PinsSettingsPane()
-              .modelContainer(SwiftDataManager.shared.container)
+              .modelContainer(Storage.shared.container)
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.ignore,

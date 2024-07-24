@@ -1,11 +1,12 @@
 import Foundation
 import SwiftData
 
-class SwiftDataManager {
-  static let shared = SwiftDataManager()
+@MainActor
+class Storage {
+  static let shared = Storage()
 
-  @MainActor
   var container: ModelContainer
+  var context: ModelContext { container.mainContext }
 
   init() {
     let config = ModelConfiguration(url: URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite"))

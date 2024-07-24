@@ -219,7 +219,7 @@ class Clipboard {
     }
 
     let historyItem = HistoryItem()
-    SwiftDataManager.shared.container.mainContext.insert(historyItem)
+    Storage.shared.context.insert(historyItem)
 
     historyItem.contents = contents
     historyItem.application = sourceApp?.bundleIdentifier

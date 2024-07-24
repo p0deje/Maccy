@@ -25,7 +25,7 @@ class HistoryItem {
     let descriptor = FetchDescriptor<HistoryItem>(
       predicate: #Predicate { $0.pin != nil }
     )
-    let pins = try! SwiftDataManager.shared.container.mainContext.fetch(descriptor).compactMap({ $0.pin })
+    let pins = try! Storage.shared.context.fetch(descriptor).compactMap({ $0.pin })
     let assignedPins = Set(pins)
     return Array(supportedPins.subtracting(assignedPins))
   }
@@ -34,8 +34,8 @@ class HistoryItem {
   static var randomAvailablePin: String { availablePins.randomElement() ?? "" }
 
   var application: String?
-  var firstCopiedAt: Date
-  var lastCopiedAt: Date
+  var firstCopiedAt: Date = Date.now
+  var lastCopiedAt: Date = Date.now
   var numberOfCopies: Int = 1
   @Attribute(.unique) var pin: String?
   var title = ""
@@ -43,7 +43,7 @@ class HistoryItem {
   @Relationship(deleteRule: .cascade)
   var contents: [HistoryItemContent] = []
 
-  init(firstCopiedAt: Date = Date.now, lastCopiedAt: Date = Date.now, contents: [HistoryItemContent] = []) {
+  init(contents: [HistoryItemContent] = []) {
     self.firstCopiedAt = firstCopiedAt
     self.lastCopiedAt = lastCopiedAt
     self.contents = contents

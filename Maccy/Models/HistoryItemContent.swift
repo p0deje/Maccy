@@ -3,7 +3,7 @@ import SwiftData
 
 @Model
 class HistoryItemContent {
-  var type: String
+  var type: String = ""
   var value: Data?
   var item: HistoryItem?
 
