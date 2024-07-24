@@ -21,25 +21,25 @@ struct PreviewItemView: View {
 
       if let application = item.application {
         HStack(spacing: 3) {
-          Text("Application", tableName: "Preview")
+          Text("Application", tableName: "PreviewItemView")
           Text(application)
         }
       }
 
       HStack(spacing: 3) {
-        Text("FirstCopyTime", tableName: "Preview")
+        Text("FirstCopyTime", tableName: "PreviewItemView")
         Text(item.item.firstCopiedAt, style: .date)
         Text(item.item.firstCopiedAt, style: .time)
       }
 
       HStack(spacing: 3) {
-        Text("LastCopyTime", tableName: "Preview")
+        Text("LastCopyTime", tableName: "PreviewItemView")
         Text(item.item.lastCopiedAt, style: .date)
         Text(item.item.lastCopiedAt, style: .time)
       }
 
       HStack(spacing: 3) {
-        Text("NumberOfCopies", tableName: "Preview")
+        Text("NumberOfCopies", tableName: "PreviewItemView")
         Text(String(item.item.numberOfCopies))
       }
       
@@ -47,14 +47,14 @@ struct PreviewItemView: View {
 
       if let pinKey = KeyboardShortcuts.Shortcut(name: .pin) {
         Text(
-          NSLocalizedString("PinKey", tableName: "Preview", comment: "")
+          NSLocalizedString("PinKey", tableName: "PreviewItemView", comment: "")
             .replacingOccurrences(of: "{pinKey}", with: pinKey.description)
         )
       }
 
       if let deleteKey = KeyboardShortcuts.Shortcut(name: .delete) {
         Text(
-          NSLocalizedString("DeleteKey", tableName: "Preview", comment: "")
+          NSLocalizedString("DeleteKey", tableName: "PreviewItemView", comment: "")
             .replacingOccurrences(of: "{deleteKey}", with: deleteKey.description)
         )
       }
