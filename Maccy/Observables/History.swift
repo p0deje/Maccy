@@ -108,7 +108,7 @@ class History {
   @MainActor
   func load() async throws {
     let descriptor = FetchDescriptor<HistoryItem>()
-    let results = try SwiftDataManager.shared.container.mainContext.fetch(descriptor)
+    let results = try Storage.shared.context.fetch(descriptor)
     items = sorter.sort(results).map { HistoryItemDecorator($0) }
 
     updateShortcuts()
@@ -127,7 +127,7 @@ class History {
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
       }
-      SwiftDataManager.shared.container.mainContext.delete(existingHistoryItem)
+      Storage.shared.context.delete(existingHistoryItem)
       items.removeAll { $0.item == existingHistoryItem }
     } else {
       Task {
@@ -155,7 +155,7 @@ class History {
   @MainActor
   func clear() {
     items.removeAll(where: \.isUnpinned)
-    try? SwiftDataManager.shared.container.mainContext.delete(
+    try? Storage.shared.context.delete(
       model: HistoryItem.self,
       where: #Predicate { $0.pin == nil }
     )
@@ -164,14 +164,14 @@ class History {
   @MainActor
   func clearAll() {
     items.removeAll()
-    try? SwiftDataManager.shared.container.mainContext.delete(model: HistoryItem.self)
+    try? Storage.shared.context.delete(model: HistoryItem.self)
   }
 
   @MainActor
   func delete(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
-    SwiftDataManager.shared.container.mainContext.delete(item.item)
+    Storage.shared.context.delete(item.item)
     items.removeAll { $0 == item }
     updateUnpinnedShortcuts()
   }
@@ -233,7 +233,7 @@ class History {
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
     let descriptor = FetchDescriptor<HistoryItem>()
-    if let all = try? SwiftDataManager.shared.container.mainContext.fetch(descriptor) {
+    if let all = try? Storage.shared.context.fetch(descriptor) {
       let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
       if duplicates.count > 1 {
         return duplicates.first(where: { $0 != item })
