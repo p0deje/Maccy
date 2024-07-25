@@ -1,14 +1,14 @@
 import Defaults
 import SwiftUI
 
-struct ListItemView: View {
+struct ListItemView<Title: View>: View {
   var id: UUID
   var image: NSImage? = nil
   var attributedTitle: AttributedString? = nil
-  var title: String
   var shortcuts: [KeyShortcut]
   var isSelected: Bool
   var help: LocalizedStringKey? = nil
+  @ViewBuilder var title: () -> Title
 
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
@@ -21,11 +21,7 @@ struct ListItemView: View {
           .padding(.leading, 10)
           .padding(.vertical, 5)
       } else {
-        ListItemTitleView(
-          attributedTitle: attributedTitle,
-          title: title,
-          isSelected: isSelected
-        )
+        ListItemTitleView(attributedTitle: attributedTitle, isSelected: isSelected, title: title)
       }
       Spacer()
       if !shortcuts.isEmpty {

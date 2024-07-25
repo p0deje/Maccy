@@ -12,10 +12,11 @@ struct HistoryItemView: View {
         id: item.id,
         image: item.thumbnailImage ?? ColorImage.from(item.title),
         attributedTitle: item.attributedTitle,
-        title: item.title,
         shortcuts: item.shortcuts,
         isSelected: item.isSelected
-      )
+      ) {
+        Text(verbatim: item.title)
+      }
       .onTapGesture {
         appState.history.select(item)
       }
