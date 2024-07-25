@@ -25,7 +25,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
     /// Allow the panel to be on top of other windows
     isFloatingPanel = true
-    level = .floating
+    level = .statusBar
 
     /// Allow the panel to be overlaid in a fullscreen space
     collectionBehavior = [.auxiliary, .stationary, .moveToActiveSpace, .fullScreenAuxiliary]
