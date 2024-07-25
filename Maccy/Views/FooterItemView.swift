@@ -8,12 +8,9 @@ struct FooterItemView: View {
 
   var body: some View {
     ConfirmationView(item: item) {
-      ListItemView(
-        id: item.id,
-        title: item.title,
-        shortcuts: item.shortcuts, 
-        isSelected: item.isSelected
-      )
+      ListItemView(id: item.id, shortcuts: item.shortcuts, isSelected: item.isSelected) {
+        Text(LocalizedStringKey(item.title))
+      }
     }
   }
 }

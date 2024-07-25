@@ -1,9 +1,9 @@
 import SwiftUI
 
-struct ListItemTitleView: View {
+struct ListItemTitleView<Title: View>: View {
   var attributedTitle: AttributedString? = nil
-  var title: String
   var isSelected: Bool
+  @ViewBuilder var title: () -> Title
 
   var body: some View {
     if let attributedTitle {
@@ -12,11 +12,10 @@ struct ListItemTitleView: View {
         .truncationMode(.middle)
         .padding(.leading, 10)
     } else {
-      Text(LocalizedStringKey(title))
+      title()
         .lineLimit(1)
         .truncationMode(.middle)
         .padding(.leading, 10)
-        .tint(isSelected ? .white : .primary)
     }
   }
 }
