@@ -141,8 +141,8 @@ class Clipboard {
     let keyVUp = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: false)
     keyVDown?.flags = cmdFlag
     keyVUp?.flags = cmdFlag
-    keyVDown?.post(tap: .cgAnnotatedSessionEventTap)
-    keyVUp?.post(tap: .cgAnnotatedSessionEventTap)
+    keyVDown?.post(tap: .cgSessionEventTap)
+    keyVUp?.post(tap: .cgSessionEventTap)
   }
 
   func clear() {
