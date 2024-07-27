@@ -71,6 +71,12 @@ class HistoryItemDecorator: Identifiable, Hashable {
     self.title = item.title
 
     Task {
+      await observeItemPin()
+    }
+    Task {
+      await observeItemTitle()
+    }
+    Task {
       await sizeImages()
     }
   }
@@ -110,11 +116,45 @@ class HistoryItemDecorator: Identifiable, Hashable {
   func togglePin() {
     if item.pin != nil {
       item.pin = nil
-      shortcuts = []
     } else {
       let pin = HistoryItem.randomAvailablePin
       item.pin = pin
-      shortcuts = KeyShortcut.create(character: pin)
+    }
+  }
+
+  private func observeItemPin() async {
+    let pinSet = AsyncStream {
+      await withCheckedContinuation { continuation in
+        let _ = withObservationTracking {
+          self.item.pin
+        } onChange: {
+          continuation.resume()
+        }
+      }
+
+      return self.item.pin
+    }
+
+    for await pin in pinSet {
+      self.shortcuts = KeyShortcut.create(character: pin)
+    }
+  }
+
+  private func observeItemTitle() async {
+    let titleSet = AsyncStream {
+      await withCheckedContinuation { continuation in
+        let _ = withObservationTracking {
+          self.item.title
+        } onChange: {
+          continuation.resume()
+        }
+      }
+
+      return self.item.title
+    }
+
+    for await title in titleSet {
+      self.title = title
     }
   }
 }
