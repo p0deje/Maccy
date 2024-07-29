@@ -15,14 +15,13 @@ struct ListItemView<Title: View>: View {
   @Default(.imageMaxHeight) private var imageMaxHeight
 
   var body: some View {
-    HStack {
+    HStack(spacing: 0) {
       if let image {
         Image(nsImage: image)
           .padding(.leading, 10)
           .padding(.vertical, 5)
-      } else {
-        ListItemTitleView(attributedTitle: attributedTitle, isSelected: isSelected, title: title)
       }
+      ListItemTitleView(attributedTitle: attributedTitle, isSelected: isSelected, title: title)
       Spacer()
       if !shortcuts.isEmpty {
         ZStack {
