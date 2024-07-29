@@ -7,7 +7,7 @@ struct PreviewItemView: View {
   var body: some View {
     VStack(alignment: .leading) {
       if let image = item.previewImage {
-          Image(nsImage: image)
+        Image(nsImage: image)
           .resizable()
           .aspectRatio(contentMode: .fit)
           .frame(maxHeight: HistoryItemDecorator.previewImageSize.height / 0.8)
@@ -15,6 +15,7 @@ struct PreviewItemView: View {
       } else {
         Text(item.text)
           .controlSize(.regular)
+          .lineLimit(100)
       }
 
       Divider()
