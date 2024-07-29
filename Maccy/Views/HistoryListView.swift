@@ -36,7 +36,10 @@ struct HistoryListView: View {
             HistoryItemView(item: item)
           }
         }
-        .onChange(of: appState.selection) {
+        .task(id: appState.selection) {
+          try? await Task.sleep(for: .milliseconds(10))
+          guard !Task.isCancelled else { return }
+
           if let selection = appState.selection {
             proxy.scrollTo(selection)
           }
