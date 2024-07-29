@@ -5,7 +5,7 @@ struct PreviewItemView: View {
   var item: HistoryItemDecorator
 
   var body: some View {
-    VStack(alignment: .leading) {
+    VStack(alignment: .leading, spacing: 0) {
       if let image = item.previewImage {
         Image(nsImage: image)
           .resizable()
@@ -19,6 +19,7 @@ struct PreviewItemView: View {
       }
 
       Divider()
+        .padding(.vertical)
 
       if let application = item.application {
         HStack(spacing: 3) {
@@ -43,8 +44,7 @@ struct PreviewItemView: View {
         Text("NumberOfCopies", tableName: "PreviewItemView")
         Text(String(item.item.numberOfCopies))
       }
-      
-      Divider()
+      .padding(.bottom)
 
       if let pinKey = KeyboardShortcuts.Shortcut(name: .pin) {
         Text(
