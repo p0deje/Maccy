@@ -46,9 +46,12 @@ struct ContentView: View {
         scenePhase = .background
       }
     }
-    // Prevent NSPopover from becoming first responder.
     .onReceive(NotificationCenter.default.publisher(for: NSPopover.willShowNotification)) {
       if let popover = $0.object as? NSPopover {
+        // Prevent NSPopover from showing close animation when
+        // quickly toggling FloatingPanel while popover is visible.
+        popover.animates = false
+        // Prevent NSPopover from becoming first responder.
         popover.behavior = .semitransient
       }
     }
