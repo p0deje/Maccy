@@ -55,8 +55,7 @@ class Search {
   private func fuzzySearch(string: String, within: [Searchable]) -> [SearchResult] {
     let pattern = fuse.createPattern(from: string)
     let searchResults: [SearchResult] = within.compactMap({ item in
-      fuzzySearch(for: pattern, in: item.title, of: item) ??
-        fuzzySearch(for: pattern, in: item.title, of: item)
+      fuzzySearch(for: pattern, in: item.title, of: item)
     })
     let sortedResults = searchResults.sorted(by: { ($0.score ?? 0) < ($1.score ?? 0) })
     return sortedResults
