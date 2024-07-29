@@ -46,6 +46,12 @@ struct ContentView: View {
         scenePhase = .background
       }
     }
+    // Prevent NSPopover from becoming first responder.
+    .onReceive(NotificationCenter.default.publisher(for: NSPopover.willShowNotification)) {
+      if let popover = $0.object as? NSPopover {
+        popover.behavior = .semitransient
+      }
+    }
   }
 }
 
