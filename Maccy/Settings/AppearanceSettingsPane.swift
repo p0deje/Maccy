@@ -16,7 +16,7 @@ struct AppearanceSettingsPane: View {
   @Default(.showInStatusBar) private var showInStatusBar
   @Default(.showFooter) private var showFooter
 
-  private let screens = NSScreen.screens
+  @State private var screens = NSScreen.screens
 
   private let imageHeightFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
@@ -54,8 +54,8 @@ struct AppearanceSettingsPane: View {
             if position == .center {
               if screens.count > 1 {
                 Picker(position.description, selection: $popupScreen) {
-                  ForEach(screens.indices) { index in
-                    Text(screens[index].localizedName)
+                  ForEach(screens, id: \.localizedName) { screen in
+                    Text(screen.localizedName)
                   }
                 }
 
@@ -165,6 +165,9 @@ struct AppearanceSettingsPane: View {
           .controlSize(.small)
           .foregroundStyle(.gray)
       }
+    }
+    .onReceive(NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)) { _ in
+      screens = NSScreen.screens
     }
   }
 }
