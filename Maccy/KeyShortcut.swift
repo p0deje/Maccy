@@ -17,7 +17,7 @@ struct KeyShortcut: Identifiable {
   var modifierFlags: NSEvent.ModifierFlags = [.command]
 
   var description: String {
-    guard let key, let character = Sauce.shared.character(
+    guard let key, let character = Sauce.shared.currentASCIICapableCharacter(
       for: Int(Sauce.shared.keyCode(for: key)),
       cocoaModifiers: []
     ) else {
