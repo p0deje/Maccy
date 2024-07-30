@@ -17,9 +17,9 @@ class AppState: Sendable {
       history.selectedItem = nil
       footer.selectedItem = nil
 
-      if let item = history.items.first { $0.id == selection } {
+      if let item = history.items.first(where: { $0.id == selection }) {
         history.selectedItem = item
-      } else if var item = footer.items.first { $0.id == selection } {
+      } else if let item = footer.items.first(where: { $0.id == selection }) {
         footer.selectedItem = item
       }
     }
