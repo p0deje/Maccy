@@ -61,6 +61,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
     hasher.combine(title)
+    hasher.combine(attributedTitle)
   }
 
   private(set) var item: HistoryItem
@@ -93,11 +94,11 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
   func highlight(_ query: String) {
     guard !query.isEmpty, !title.isEmpty else {
-      self.attributedTitle = nil
+      attributedTitle = nil
       return
     }
 
-    var attributedString = AttributedString(title)
+    var attributedString = AttributedString(title.shortened(to: 500))
     for range in attributedString.ranges(of: query, options: .caseInsensitive) {
       switch Defaults[.highlightMatch] {
       case .italic:
@@ -109,7 +110,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
       }
     }
 
-    self.attributedTitle = attributedString
+    attributedTitle = attributedString
   }
 
   @MainActor
