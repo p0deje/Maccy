@@ -46,16 +46,12 @@ enum KeyChord: CaseIterable {
     case (.delete, .init(arrayLiteral: [.command, .option, .shift])),
          (.backspace, .init(arrayLiteral: [.command, .option, .shift])):
       self = .clearHistoryAll
-    case (.delete, .init(arrayLiteral: [.command])),
-         (.backspace, .init(arrayLiteral: [.command])),
-         (.init("u"), .init(arrayLiteral: [.control])):
+    case (.init("u"), .init(arrayLiteral: [.control])):
       self = .clearSearch
     case (KeyChord.deleteKey, KeyChord.deleteModifiers),
          (.backspace, KeyChord.deleteModifiers) where KeyChord.deleteKey == .delete:
       self = .deleteCurrentItem
-    case (.delete, .init(arrayLiteral: [])),
-         (.backspace, .init(arrayLiteral: [])),
-         (.init("h"), .init(arrayLiteral: [.control])):
+    case (.init("h"), .init(arrayLiteral: [.control])):
       self = .deleteOneCharFromSearch
     case (.init("w"), .init(arrayLiteral: [.control])):
       self = .deleteLastWordFromSearch
