@@ -33,7 +33,7 @@ class StorageSettingsViewModel: ObservableObject {
   var saveText = false {
     didSet {
       Defaults.withoutPropagation {
-        if saveFiles {
+        if saveText {
           Defaults[.enabledPasteboardTypes].formUnion([.html, .rtf, .string])
         } else {
           Defaults[.enabledPasteboardTypes].subtract([.html, .rtf, .string])
