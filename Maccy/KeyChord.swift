@@ -4,15 +4,13 @@ import Sauce
 import SwiftUI
 
 enum KeyChord: CaseIterable {
-  // TODO: Fetch paste from Edit / Paste menu item.
-  // Fallback to ⌘V if unavailable.
-  static var pasteKey: Key {
-    Key.v
+  static var pasteKey: Key { pasteMenuItem?.key ?? Key.v }
+  static var pasteKeyModifiers: NSEvent.ModifierFlags { pasteMenuItem?.keyEquivalentModifierMask ?? .command }
+  private static var pasteMenuItem: NSMenuItem? {
+    NSApp.mainMenu?.items
+      .flatMap { $0.submenu?.items ?? [] }
+      .first { $0.action == #selector(NSText.paste) }
   }
-  static var pasteKeyModifiers: NSEvent.ModifierFlags {
-    .command
-  }
-
   static var deleteKey: KeyEquivalent? { KeyboardShortcuts.Shortcut(name: .delete)?.toKeyEquivalent() }
   static var deleteModifiers: SwiftUI.EventModifiers? { KeyboardShortcuts.Shortcut(name: .delete)?.toEventModifiers() }
 

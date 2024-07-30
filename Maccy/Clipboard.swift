@@ -123,8 +123,6 @@ class Clipboard {
     let cmdFlag = CGEventFlags(rawValue: UInt64(KeyChord.pasteKeyModifiers.rawValue) | 0x000008)
     var vCode = Sauce.shared.keyCode(for: KeyChord.pasteKey)
 
-    // TODO: Fix pasting in the scenario below.
-    //
     // Force QWERTY keycode when keyboard layout switches to
     // QWERTY upon pressing ⌘ key (e.g. "Dvorak - QWERTY ⌘").
     // See https://github.com/p0deje/Maccy/issues/482 for details.
