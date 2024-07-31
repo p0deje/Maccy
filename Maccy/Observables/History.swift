@@ -120,6 +120,10 @@ class History {
 
   @MainActor
   func add(_ item: HistoryItem) {
+    while items.filter(\.isUnpinned).count >= Defaults[.size] {
+      delete(items.last(where: \.isUnpinned))
+    }
+
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
         item.contents = existingHistoryItem.contents
