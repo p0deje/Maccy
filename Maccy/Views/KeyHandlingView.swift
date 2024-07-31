@@ -127,22 +127,6 @@ struct KeyHandlingView<Content: View>: View {
           return .handled
         }
 
-        if let event = NSApp.currentEvent, !searchFocused {
-          if let key = Sauce.shared.key(for: Int(event.keyCode)),
-             KeyChord.keysToSkip.contains(key) {
-            return .ignored
-          }
-
-          if let character = Sauce.shared.character(for: Int(event.keyCode), cocoaModifiers: event.modifierFlags) {
-            searchFocused = true
-            Task {
-              try! await Task.sleep(for: .milliseconds(5))
-              searchQuery.append(character)
-            }
-            return .handled
-          }
-        }
-
         return .ignored
       }
   }
