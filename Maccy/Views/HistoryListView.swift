@@ -13,7 +13,7 @@ struct HistoryListView: View {
   @Default(.previewDelay) private var previewDelay
 
   var body: some View {
-    if !appState.history.pinnedItems.isEmpty, pinTo == .top {
+    if pinTo == .top {
       LazyVStack(spacing: 0) {
         ForEach(appState.history.pinnedItems) { item in
           HistoryItemView(item: item)
@@ -68,7 +68,7 @@ struct HistoryListView: View {
       .contentMargins(.leading, 10, for: .scrollIndicators)
     }
 
-    if !appState.history.pinnedItems.isEmpty, pinTo == .bottom {
+    if pinTo == .bottom {
       LazyVStack(spacing: 0) {
         ForEach(appState.history.pinnedItems) { item in
           HistoryItemView(item: item)

@@ -112,6 +112,10 @@ class History {
     items = sorter.sort(results).map { HistoryItemDecorator($0) }
 
     updateShortcuts()
+    // Ensure that panel size is proper *after* loading all items.
+    Task {
+      AppState.shared.needsResize = true
+    }
   }
 
   @MainActor
@@ -150,6 +154,7 @@ class History {
     }
 
     updateUnpinnedShortcuts()
+    AppState.shared.needsResize = true
   }
 
   @MainActor
@@ -159,12 +164,18 @@ class History {
       model: HistoryItem.self,
       where: #Predicate { $0.pin == nil }
     )
+    Task {
+      AppState.shared.needsResize = true
+    }
   }
 
   @MainActor
   func clearAll() {
     items.removeAll()
     try? Storage.shared.context.delete(model: HistoryItem.self)
+    Task {
+      AppState.shared.needsResize = true
+    }
   }
 
   @MainActor
@@ -173,7 +184,11 @@ class History {
 
     Storage.shared.context.delete(item.item)
     items.removeAll { $0 == item }
+
     updateUnpinnedShortcuts()
+    Task {
+      AppState.shared.needsResize = true
+    }
   }
 
   @MainActor

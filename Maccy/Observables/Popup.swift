@@ -25,11 +25,11 @@ class Popup {
     }
   }
 
-  func open() {
+  func open(height: CGFloat = AppState.shared.height) {
     if Defaults[.popupPosition] == .statusItem {
       menuPresented = true
     } else {
-      AppState.shared.appDelegate?.panel.open()
+      AppState.shared.appDelegate?.panel.open(height: height)
     }
   }
 
@@ -43,7 +43,8 @@ class Popup {
 
   func resize(height: CGFloat) {
     let newHeight = height + headerHeight + pinnedItemsHeight + footerHeight + (Popup.verticalPadding * 2)
-    AppState.shared.appDelegate?.panel.resizeContentHeight(to: newHeight)
+    AppState.shared.height = newHeight
+    AppState.shared.appDelegate?.panel.verticallyResize(to: newHeight)
     AppState.shared.needsResize = false
   }
 }
