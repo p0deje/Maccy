@@ -30,6 +30,7 @@ struct ContentView: View {
       .animation(.default, value: appState.history.items)
       .padding(.horizontal, 5)
       .padding(.vertical, Popup.verticalPadding)
+      .onAppear { searchFocused = true }
       .task { try? await appState.history.load() }
     }
     .environment(appState)
