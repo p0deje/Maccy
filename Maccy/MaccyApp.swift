@@ -73,7 +73,7 @@ struct MaccyApp: App {
       }
 
       if appState.popup.menuPresented {
-        appState.appDelegate?.panel.open(at: .statusItem)
+        appState.appDelegate?.panel.open(height: appState.height, at: .statusItem)
       } else {
         appState.appDelegate?.panel.close()
       }

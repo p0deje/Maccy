@@ -56,29 +56,33 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     )
   }
 
-  func toggle(at popupPosition: PopupPosition = Defaults[.popupPosition]) {
+  func toggle(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     if isPresented {
       close()
     } else {
-      open(at: popupPosition)
+      open(height: height, at: popupPosition)
     }
   }
 
-  // TODO: Check https://github.com/p0deje/Maccy/issues/473.
-  func open(at popupPosition: PopupPosition = Defaults[.popupPosition]) {
+  func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
+    setContentSize(NSSize(width: frame.width, height: min(height, Defaults[.windowSize].height)))
     setFrameOrigin(popupPosition.origin(size: frame.size, menuBarButton: menuBarButton))
     orderFrontRegardless()
     makeKey()
     isPresented = true
   }
 
-  func resizeContentHeight(to newHeight: CGFloat) {
+  func verticallyResize(to newHeight: CGFloat) {
     var newSize = Defaults[.windowSize]
-    if newHeight < newSize.height {
-      newSize.height = newHeight
-    }
+    newSize.height = min(newHeight, newSize.height)
 
-    setContentSize(newSize)
+    var newOrigin = frame.origin
+    newOrigin.y = newOrigin.y + (frame.height - newSize.height)
+
+    NSAnimationContext.runAnimationGroup { (context) in
+      context.duration = 0.2
+      animator().setFrame(NSRect(origin: newOrigin, size: newSize), display: true)
+    }
   }
 
   func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
