@@ -66,7 +66,7 @@ struct StorageSettingsPane: View {
   private let sizeFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.minimum = 1
-    formatter.maximum = 999
+    formatter.maximum = 9999
     return formatter
   }()
 
@@ -97,7 +97,7 @@ struct StorageSettingsPane: View {
           TextField("", value: $size, formatter: sizeFormatter)
             .frame(width: 80)
             .help(Text("SizeTooltip", tableName: "StorageSettings"))
-          Stepper("", value: $size, in: 1...999)
+          Stepper("", value: $size, in: 1...9999)
             .labelsHidden()
         }
       }
