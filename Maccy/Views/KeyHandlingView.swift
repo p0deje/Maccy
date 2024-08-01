@@ -93,24 +93,6 @@ struct KeyHandlingView<Content: View>: View {
         case .pinOrUnpin:
           appState.history.togglePin(appState.history.selectedItem)
           return .handled
-        case .selectCurrentItem:
-          guard NSApp.characterPickerWindow == nil else {
-            return .ignored
-          }
-
-          if appState.history.selectedItem != nil {
-            appState.history.select(appState.history.selectedItem)
-          } else if let item = appState.footer.selectedItem {
-            if item.confirmation != nil {
-              item.showConfirmation = true
-            } else {
-              item.action()
-            }
-          } else {
-            Clipboard.shared.copy(searchQuery)
-            searchQuery = ""
-          }
-          return .handled
         case .close:
           appState.popup.close()
           return .handled
