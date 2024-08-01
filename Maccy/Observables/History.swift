@@ -229,7 +229,9 @@ class History {
       }
     }
 
-    searchQuery = ""
+    Task {
+      searchQuery = ""
+    }
   }
 
   @MainActor

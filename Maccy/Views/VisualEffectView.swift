@@ -35,6 +35,7 @@ struct VisualEffectView: NSViewRepresentable {
     }
   }
 }
+
 #Preview {
   VisualEffectView(
     material: .popover,

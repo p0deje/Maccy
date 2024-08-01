@@ -4,6 +4,8 @@ struct SearchFieldView: View {
   var placeholder: LocalizedStringKey
   @Binding var query: String
 
+  @Environment(AppState.self) private var appState
+
   var body: some View {
     ZStack {
       RoundedRectangle(cornerRadius: 5, style: .continuous)
@@ -20,6 +22,20 @@ struct SearchFieldView: View {
         TextField(placeholder, text: $query)
           .disableAutocorrection(true)
           .textFieldStyle(.plain)
+          .onSubmit {
+            if appState.history.selectedItem != nil {
+              appState.history.select(appState.history.selectedItem)
+            } else if let item = appState.footer.selectedItem {
+              if item.confirmation != nil {
+                item.showConfirmation = true
+              } else {
+                item.action()
+              }
+            } else {
+              Clipboard.shared.copy(query)
+              query = ""
+            }
+          }
 
         if !query.isEmpty {
           Button {
