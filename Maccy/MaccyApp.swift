@@ -40,8 +40,7 @@ struct MaccyApp: App {
     MenuBarExtra(isInserted: $showMenuIcon) {
       EmptyView()
         .introspectMenuBarExtraWindow { window in
-          window.hasShadow = false
-          window.level = .normal
+          window.contentView?.translatesAutoresizingMaskIntoConstraints = false
         }
     } label: {
       if showRecentCopyInMenuBar {
