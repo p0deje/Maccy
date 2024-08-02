@@ -4,6 +4,7 @@
 "PopupAtMenuBarIcon" = "Menu icon";
 "PopupAtWindowCenter" = "Window center";
 "PopupAtScreenCenter" = "Screen center";
+"PopupAtSpotlight" = "Spotlight";
 "PopupAtTooltip" = "Change the location where popup appears.\nDefault: Cursor.";
 "PinTo" = "Pin to:";
 "PinToTop" = "Top";

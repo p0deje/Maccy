@@ -51,7 +51,7 @@ struct AppearanceSettingsPane: View {
       Settings.Section(label: { Text("PopupAt", tableName: "AppearanceSettings") }) {
         Picker("", selection: $popupAt) {
           ForEach(PopupPosition.allCases) { position in
-            if position == .center {
+            if position == .center || position == .spotlight {
               if screens.count > 1 {
                 Picker(position.description, selection: $popupScreen) {
                   ForEach(screens, id: \.localizedName) { screen in
