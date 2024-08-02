@@ -99,7 +99,9 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func windowDidMove(_ notification: Notification) {
+    // Only update position if the window is visible to avoid accumulating floating point errors.
     guard isVisible else { return }
+
     if let screenFrame = screen?.visibleFrame {
       let anchorX = frame.minX + frame.width / 2 - screenFrame.minX
       let anchorY = frame.maxY - screenFrame.minY
