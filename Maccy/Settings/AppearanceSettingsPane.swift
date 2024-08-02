@@ -54,20 +54,28 @@ struct AppearanceSettingsPane: View {
             if position == .center {
               if screens.count > 1 {
                 Picker(position.description, selection: $popupScreen) {
-                  ForEach(screens, id: \.localizedName) { screen in
+                  Text("ActiveScreen", tableName: "AppearanceSettings")
+                    .tag(0)
+
+                  ForEach(Array(screens.enumerated()), id: \.element) { index, screen in
                     Text(screen.localizedName)
+                      .tag(index + 1)
                   }
                 }
-
+                .onChange(of: popupScreen) {
+                  popupAt = .center
+                }
               } else {
                 Text(position.description)
               }
-
             } else {
               Text(position.description)
             }
           }
-        }.labelsHidden().frame(width: 141).help(Text("PopupAtTooltip", tableName: "AppearanceSettings"))
+        }
+        .labelsHidden()
+        .frame(width: 141)
+        .help(Text("PopupAtTooltip", tableName: "AppearanceSettings"))
       }
 
       Settings.Section(label: { Text("PinTo", tableName: "AppearanceSettings") }) {
@@ -75,7 +83,10 @@ struct AppearanceSettingsPane: View {
           ForEach(PinsPosition.allCases) { position in
             Text(position.description)
           }
-        }.labelsHidden().frame(width: 141).help(Text("PinToTooltip", tableName: "AppearanceSettings"))
+        }
+        .labelsHidden()
+        .frame(width: 141)
+        .help(Text("PinToTooltip", tableName: "AppearanceSettings"))
       }
 
       Settings.Section(label: { Text("ImageHeight", tableName: "AppearanceSettings") }) {
@@ -126,13 +137,17 @@ struct AppearanceSettingsPane: View {
           ForEach(HighlightMatch.allCases) { match in
             Text(match.description)
           }
-        }.labelsHidden().frame(width: 141).help(Text("HighlightMatchesTooltip", tableName: "AppearanceSettings"))
+        }
+        .labelsHidden()
+        .frame(width: 141)
+        .help(Text("HighlightMatchesTooltip", tableName: "AppearanceSettings"))
       }
 
       Settings.Section(title: "") {
         Defaults.Toggle(key: .showSpecialSymbols) {
           Text("ShowSpecialSymbols", tableName: "AppearanceSettings")
-        }.help(Text("ShowSpecialSymbolsTooltip", tableName: "AppearanceSettings"))
+        }
+        .help(Text("ShowSpecialSymbolsTooltip", tableName: "AppearanceSettings"))
 
         HStack {
           Defaults.Toggle(key: .showInStatusBar) {
@@ -143,11 +158,13 @@ struct AppearanceSettingsPane: View {
             ForEach(MenuIcon.allCases) { icon in
               Image(nsImage: icon.image)
             }
-          }.labelsHidden()
-           .frame(width: 40)
-           .disabled(!showInStatusBar)
-           .controlSize(.small)
+          }
+          .labelsHidden()
+          .frame(width: 40)
+          .disabled(!showInStatusBar)
+          .controlSize(.small)
         }
+
         Defaults.Toggle(key: .showRecentCopyInMenuBar) {
           Text("ShowRecentCopyInMenuBar", tableName: "AppearanceSettings")
         }
@@ -157,6 +174,7 @@ struct AppearanceSettingsPane: View {
         Defaults.Toggle(key: .showTitle) {
           Text("ShowTitleBeforeSearchField", tableName: "AppearanceSettings")
         }
+
         Defaults.Toggle(key: .showFooter) {
           Text("ShowFooter", tableName: "AppearanceSettings")
         }

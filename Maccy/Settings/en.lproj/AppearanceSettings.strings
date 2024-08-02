@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "Window center";
 "PopupAtScreenCenter" = "Screen center";
 "PopupAtTooltip" = "Change the location where popup appears.\nDefault: Cursor.";
+"ActiveScreen" = "Active screen";
 "PinTo" = "Pin to:";
 "PinToTop" = "Top";
 "PinToBottom" = "Bottom";

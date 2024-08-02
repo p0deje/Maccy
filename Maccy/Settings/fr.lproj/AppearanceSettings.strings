@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "Centre de la fenêtre";
 "PopupAtScreenCenter" = "Centre de l'écran";
 "PopupAtTooltip" = "Changer la localisation de l'apparition du popup.\nPar défaut : Curseur.";
+"ActiveScreen" = "Écran actif";
 "PinTo" = "Epingler à :";
 "PinToTop" = "Haut";
 "PinToBottom" = "Bas";

@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "窗口中心";
 "PopupAtScreenCenter" = "屏幕中央";
 "PopupAtTooltip" = "更改弹窗显示的位置。\n默认：光标。";
+"ActiveScreen" = "活动屏幕";
 "PinTo" = "固定项目位置：";
 "PinToTop" = "顶部";
 "PinToBottom" = "底部";

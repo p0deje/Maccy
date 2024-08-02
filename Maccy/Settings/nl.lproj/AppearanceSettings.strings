@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "Venstercentrum";
 "PopupAtScreenCenter" = "Schermcentrum";
 "PopupAtTooltip" = "Wijzig de locatie waar de pop-up verschijnt.\nStandaard: Cursor.";
+"ActiveScreen" = "Actief scherm";
 "PinTo" = "Maak vast:";
 "PinToTop" = "Boven";
 "PinToBottom" = "Onder";

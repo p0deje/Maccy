@@ -4,7 +4,8 @@
 "PopupAtMenuBarIcon" = "Ícone do menu";
 "PopupAtWindowCenter" = "Centro da janela";
 "PopupAtScreenCenter" = "Centro da tela";
-"PopupAtTooltip" = "Final";
+"PopupAtTooltip" = "Altere o local onde o pop-up aparece.\nPadrão: Cursor.";
+"ActiveScreen" = "Tela ativa";
 "PinTo" = "Fixar em:";
 "PinToTop" = "Topo";
 "PinToBottom" = "Final";

@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "Středu okna";
 "PopupAtScreenCenter" = "Středu obrazovky";
 "PopupAtTooltip" = "Dolů";
+"ActiveScreen" = "Aktivní obrazovka";
 "PinTo" = "Připnout:";
 "PinToTop" = "Nahoru";
 "PinToBottom" = "Dolů";

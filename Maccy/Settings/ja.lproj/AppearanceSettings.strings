@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "窓の中央";
 "PopupAtScreenCenter" = "画面の中央";
 "PopupAtTooltip" = "ポップアップが表れる場所を変更します。\nデフォルト：カーソル。";
+"ActiveScreen" = "アクティブスクリーン";
 "PinTo" = "ピン留め場所:";
 "PinToTop" = "上段";
 "PinToBottom" = "下段";

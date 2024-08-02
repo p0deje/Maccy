@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "Pencere merkezi";
 "PopupAtScreenCenter" = "Ekran merkezi";
 "PopupAtTooltip" = "Açılır pencerenin göründüğü konumu değiştirin.\nSaptanmış: İmleç.";
+"ActiveScreen" = "Aktif ekran";
 "PinTo" = "Şuraya iğnele:";
 "PinToTop" = "Üst";
 "PinToBottom" = "Alt";
