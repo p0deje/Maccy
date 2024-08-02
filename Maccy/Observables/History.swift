@@ -168,6 +168,7 @@ class History {
       model: HistoryItem.self,
       where: #Predicate { $0.pin == nil }
     )
+    AppState.shared.popup.close()
     Task {
       AppState.shared.needsResize = true
     }
@@ -177,6 +178,7 @@ class History {
   func clearAll() {
     items.removeAll()
     try? Storage.shared.context.delete(model: HistoryItem.self)
+    AppState.shared.popup.close()
     Task {
       AppState.shared.needsResize = true
     }
