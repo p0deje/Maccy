@@ -80,11 +80,13 @@ struct AppearanceSettingsPane: View {
           .help(Text("PopupAtTooltip", tableName: "AppearanceSettings"))
 
           if popupAt == .lastPosition {
-            Button(action: {
+            Button {
               _windowPosition.reset()
-            }) {
-              Text("PopupAtLastLocationReset", tableName: "AppearanceSettings")
+            } label: {
+              Image(systemName: "arrow.uturn.backward")
             }
+            .buttonStyle(.borderless)
+            .help(Text("PopupAtLastLocationReset", tableName: "AppearanceSettings"))
             .disabled(windowPosition == _windowPosition.defaultValue)
           }
         }

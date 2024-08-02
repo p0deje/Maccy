@@ -46,8 +46,8 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
     case .lastPosition:
       if let frame = NSScreen.forPopup?.visibleFrame {
         let relativePos = Defaults[.windowPosition]
-        let anchorX = frame.minX + frame.width * relativePos.width
-        let anchorY = frame.minY + frame.height * relativePos.height
+        let anchorX = frame.minX + frame.width * relativePos.x
+        let anchorY = frame.minY + frame.height * relativePos.y
         // Anchor is top middle of frame
         return NSPoint(x: anchorX - size.width / 2, y: anchorY - size.height)
       }

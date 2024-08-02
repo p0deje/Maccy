@@ -93,7 +93,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   override var isMovable: Bool {
     get {
-      return Defaults[.popupPosition] == .lastPosition
+      return Defaults[.popupPosition] != .statusItem
     }
     set {}
   }
@@ -103,7 +103,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     if let screenFrame = screen?.visibleFrame {
       let anchorX = frame.minX + frame.width / 2 - screenFrame.minX
       let anchorY = frame.maxY - screenFrame.minY
-      Defaults[.windowPosition] = NSSize(width: anchorX / screenFrame.width, height: anchorY / screenFrame.height)
+      Defaults[.windowPosition] = NSPoint(x: anchorX / screenFrame.width, y: anchorY / screenFrame.height)
     }
   }
 
