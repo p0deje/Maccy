@@ -31,6 +31,7 @@ enum KeyChord: CaseIterable {
   case openPreferences
   case paste
   case pinOrUnpin
+  case selectCurrentItem
   case close
   case unknown
 
@@ -68,6 +69,8 @@ enum KeyChord: CaseIterable {
       self = .pinOrUnpin
     case (.init(","), .init(arrayLiteral: [.command])):
       self = .openPreferences
+    case (.return, _) where !modifierFlags.isEmpty:
+      self = .selectCurrentItem
     case (.escape, _):
       self = .close
     case (_, _) where !modifierFlags.isDisjoint(with: [.command, .control, .option]):

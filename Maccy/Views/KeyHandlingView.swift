@@ -93,6 +93,9 @@ struct KeyHandlingView<Content: View>: View {
         case .pinOrUnpin:
           appState.history.togglePin(appState.history.selectedItem)
           return .handled
+        case .selectCurrentItem:
+          appState.select()
+          return .handled
         case .close:
           appState.popup.close()
           return .handled
