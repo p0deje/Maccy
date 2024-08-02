@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "מרכז החלון";
 "PopupAtScreenCenter" = "מרכז המסך";
 "PopupAtTooltip" = "החלפת מקום הופעת החלונית הצצה.\nברירת מחדל: סמן.";
+"ActiveScreen" = "מסך פעיל";
 "PinTo" = "הצמדה אל:";
 "PinToTop" = "למעלה";
 "PinToBottom" = "למטה";

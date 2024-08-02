@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "مركز النافذة";
 "PopupAtScreenCenter" = "مركز الشاشة";
 "PopupAtTooltip" = "تغيير موقع ظهور الإنبثاق.\nالافتراضي: المؤشر.";
+"ActiveScreen" = "شاشة نشطة";
 "PinTo" = "تثبيت إلى:";
 "PinToTop" = "الأعلى";
 "PinToBottom" = "الأسفل";

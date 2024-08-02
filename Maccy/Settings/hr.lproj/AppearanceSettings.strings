@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "Središte prozora";
 "PopupAtScreenCenter" = "Sredina ekrana";
 "PopupAtTooltip" = "Promijeni mjesto gdje će se skočni prozor pojaviti.\nStandardno: Kursor.";
+"ActiveScreen" = "Aktivni ekran";
 "PinTo" = "Prikvači:";
 "PinToTop" = "Gore";
 "PinToBottom" = "Dolje";

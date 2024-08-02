@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "Centar prozora";
 "PopupAtScreenCenter" = "Centar zaslona";
 "PopupAtTooltip" = "Promijeni lokaciju na kojoj se pojavljuje priručni prozor.\nZadano: Kursor.";
+"ActiveScreen" = "Aktivni zaslon";
 "PinTo" = "Zakači na:";
 "PinToTop" = "Vrh";
 "PinToBottom" = "Dno";

@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "Vindussenter";
 "PopupAtScreenCenter" = "Skjermsenter";
 "PopupAtTooltip" = "Forandre plassering av hvor popup vises.\nStandard: Musepeker.";
+"ActiveScreen" = "Aktiv skjerm";
 "PinTo" = "Fest til:";
 "PinToTop" = "Øverst";
 "PinToBottom" = "Nederst";

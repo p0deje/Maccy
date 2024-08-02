@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "창의 중앙";
 "PopupAtScreenCenter" = "화면 중앙";
 "PopupAtTooltip" = "팝업이 나타나는 위치를 변경합니다.\n기본값: 커서.";
+"ActiveScreen" = "활성 화면";
 "PinTo" = "고정 위치:";
 "PinToTop" = "상단";
 "PinToBottom" = "하단";

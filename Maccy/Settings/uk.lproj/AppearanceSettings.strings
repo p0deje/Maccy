@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "Центр вікна";
 "PopupAtScreenCenter" = "Центр екрану";
 "PopupAtTooltip" = "Змініть розташування спливаючого вікна.\nЗа замовчуванням: Курсор.";
+"ActiveScreen" = "Активний екран";
 "PinTo" = "Закріпити:";
 "PinToTop" = "Зверху";
 "PinToBottom" = "Знизу";

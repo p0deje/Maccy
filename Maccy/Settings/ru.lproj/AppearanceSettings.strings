@@ -5,6 +5,7 @@
 "PopupAtWindowCenter" = "Центра окна";
 "PopupAtScreenCenter" = "Центра экрана";
 "PopupAtTooltip" = "Изменить место для появления всплывающего окна.\nПо умолчанию: Курсор.";
+"ActiveScreen" = "Активный экран";
 "PinTo" = "Прикреплять к:";
 "PinToTop" = "Верху";
 "PinToBottom" = "Низу";
