@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "סמל תפריט";
 "PopupAtWindowCenter" = "מרכז החלון";
 "PopupAtScreenCenter" = "מרכז המסך";
+"PopupAtLastPosition" = "TODO";
+"PopupAtLastLocationReset" = "TODO";
 "PopupAtTooltip" = "החלפת מקום הופעת החלונית הצצה.\nברירת מחדל: סמן.";
 "ActiveScreen" = "מסך פעיל";
 "PinTo" = "הצמדה אל:";

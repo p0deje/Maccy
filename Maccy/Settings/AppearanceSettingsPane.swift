@@ -15,6 +15,7 @@ struct AppearanceSettingsPane: View {
   @Default(.menuIcon) private var menuIcon
   @Default(.showInStatusBar) private var showInStatusBar
   @Default(.showFooter) private var showFooter
+  @Default(.windowPosition) private var windowPosition
 
   @State private var screens = NSScreen.screens
 
@@ -49,33 +50,44 @@ struct AppearanceSettingsPane: View {
   var body: some View {
     Settings.Container(contentWidth: 650) {
       Settings.Section(label: { Text("PopupAt", tableName: "AppearanceSettings") }) {
-        Picker("", selection: $popupAt) {
-          ForEach(PopupPosition.allCases) { position in
-            if position == .center {
-              if screens.count > 1 {
-                Picker(position.description, selection: $popupScreen) {
-                  Text("ActiveScreen", tableName: "AppearanceSettings")
-                    .tag(0)
+        HStack {
+          Picker("", selection: $popupAt) {
+            ForEach(PopupPosition.allCases) { position in
+              if position == .center || position == .lastPosition {
+                if screens.count > 1 {
+                  Picker(position.description, selection: $popupScreen) {
+                    Text("ActiveScreen", tableName: "AppearanceSettings")
+                      .tag(0)
 
-                  ForEach(Array(screens.enumerated()), id: \.element) { index, screen in
-                    Text(screen.localizedName)
-                      .tag(index + 1)
+                    ForEach(Array(screens.enumerated()), id: \.element) { index, screen in
+                      Text(screen.localizedName)
+                        .tag(index + 1)
+                    }
                   }
-                }
-                .onChange(of: popupScreen) {
-                  popupAt = .center
+                  .onChange(of: popupScreen) {
+                    popupAt = position
+                  }
+                } else {
+                  Text(position.description)
                 }
               } else {
                 Text(position.description)
               }
-            } else {
-              Text(position.description)
             }
           }
+          .labelsHidden()
+          .frame(width: 141)
+          .help(Text("PopupAtTooltip", tableName: "AppearanceSettings"))
+
+          if popupAt == .lastPosition {
+            Button(action: {
+              _windowPosition.reset()
+            }) {
+              Text("PopupAtLastLocationReset", tableName: "AppearanceSettings")
+            }
+            .disabled(windowPosition == _windowPosition.defaultValue)
+          }
         }
-        .labelsHidden()
-        .frame(width: 141)
-        .help(Text("PopupAtTooltip", tableName: "AppearanceSettings"))
       }
 
       Settings.Section(label: { Text("PinTo", tableName: "AppearanceSettings") }) {

@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "Ikona u izborniku";
 "PopupAtWindowCenter" = "Središte prozora";
 "PopupAtScreenCenter" = "Sredina ekrana";
+"PopupAtLastPosition" = "TODO";
+"PopupAtLastLocationReset" = "TODO";
 "PopupAtTooltip" = "Promijeni mjesto gdje će se skočni prozor pojaviti.\nStandardno: Kursor.";
 "ActiveScreen" = "Aktivni ekran";
 "PinTo" = "Prikvači:";

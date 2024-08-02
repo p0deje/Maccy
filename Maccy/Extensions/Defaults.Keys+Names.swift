@@ -48,4 +48,5 @@ extension Defaults.Keys {
   static let sortBy = Key<Sorter.By>("sortBy", default: .lastCopiedAt)
   static let suppressClearAlert = Key<Bool>("suppressClearAlert", default: false)
   static let windowSize = Key<NSSize>("windowSize", default: NSSize(width: 450, height: 800))
+  static let windowPosition = Key<NSSize>("windowPosition", default: NSSize(width: 0.5, height: 0.8))
 }

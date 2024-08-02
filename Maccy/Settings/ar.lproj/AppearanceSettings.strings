@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "أيقونة القائمة";
 "PopupAtWindowCenter" = "مركز النافذة";
 "PopupAtScreenCenter" = "مركز الشاشة";
+"PopupAtLastPosition" = "TODO";
+"PopupAtLastLocationReset" = "TODO";
 "PopupAtTooltip" = "تغيير موقع ظهور الإنبثاق.\nالافتراضي: المؤشر.";
 "ActiveScreen" = "شاشة نشطة";
 "PinTo" = "تثبيت إلى:";

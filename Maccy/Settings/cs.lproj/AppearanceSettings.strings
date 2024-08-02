@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "Menu ikony";
 "PopupAtWindowCenter" = "Středu okna";
 "PopupAtScreenCenter" = "Středu obrazovky";
+"PopupAtLastPosition" = "TODO";
+"PopupAtLastLocationReset" = "TODO";
 "PopupAtTooltip" = "Dolů";
 "ActiveScreen" = "Aktivní obrazovka";
 "PinTo" = "Připnout:";

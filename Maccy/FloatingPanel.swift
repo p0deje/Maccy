@@ -91,6 +91,22 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     return frameSize
   }
 
+  override var isMovable: Bool {
+    get {
+      return Defaults[.popupPosition] == .lastPosition
+    }
+    set {}
+  }
+
+  func windowDidMove(_ notification: Notification) {
+    guard isVisible else { return }
+    if let screenFrame = screen?.visibleFrame {
+      let anchorX = frame.minX + frame.width / 2 - screenFrame.minX
+      let anchorY = frame.maxY - screenFrame.minY
+      Defaults[.windowPosition] = NSSize(width: anchorX / screenFrame.width, height: anchorY / screenFrame.height)
+    }
+  }
+
   /// Close automatically when out of focus, e.g. outside click
   override func resignKey() {
     super.resignKey()

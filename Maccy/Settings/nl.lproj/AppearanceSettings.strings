@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "Menu-icoon";
 "PopupAtWindowCenter" = "Venstercentrum";
 "PopupAtScreenCenter" = "Schermcentrum";
+"PopupAtLastPosition" = "TODO";
+"PopupAtLastLocationReset" = "TODO";
 "PopupAtTooltip" = "Wijzig de locatie waar de pop-up verschijnt.\nStandaard: Cursor.";
 "ActiveScreen" = "Actief scherm";
 "PinTo" = "Maak vast:";
