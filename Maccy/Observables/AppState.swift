@@ -42,6 +42,22 @@ class AppState: Sendable {
     popup = Popup()
   }
 
+  @MainActor
+  func select() {
+    if history.selectedItem != nil {
+      history.select(history.selectedItem)
+    } else if let item = footer.selectedItem {
+      if item.confirmation != nil {
+        item.showConfirmation = true
+      } else {
+        item.action()
+      }
+    } else {
+      Clipboard.shared.copy(history.searchQuery)
+      history.searchQuery = ""
+    }
+  }
+
   func highlightFirst() {
     if let item = history.items.first(where: \.isVisible) {
       selection = item.id

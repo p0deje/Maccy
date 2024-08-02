@@ -21,20 +21,10 @@ struct SearchFieldView: View {
         
         TextField(placeholder, text: $query)
           .disableAutocorrection(true)
+          .lineLimit(1)
           .textFieldStyle(.plain)
           .onSubmit {
-            if appState.history.selectedItem != nil {
-              appState.history.select(appState.history.selectedItem)
-            } else if let item = appState.footer.selectedItem {
-              if item.confirmation != nil {
-                item.showConfirmation = true
-              } else {
-                item.action()
-              }
-            } else {
-              Clipboard.shared.copy(query)
-              query = ""
-            }
+            appState.select()
           }
 
         if !query.isEmpty {
