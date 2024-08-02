@@ -44,8 +44,8 @@ class AppState: Sendable {
 
   @MainActor
   func select() {
-    if history.selectedItem != nil {
-      history.select(history.selectedItem)
+    if let item = history.selectedItem, item.isVisible {
+      history.select(item)
     } else if let item = footer.selectedItem {
       if item.confirmation != nil {
         item.showConfirmation = true
