@@ -83,7 +83,8 @@ struct AppearanceSettingsPane: View {
             Button {
               _windowPosition.reset()
             } label: {
-              Image(systemName: "arrow.uturn.backward")
+              Image(systemName: "arrow.uturn.backward.circle.fill")
+                .imageScale(.large)
             }
             .buttonStyle(.borderless)
             .help(Text("PopupAtLastLocationReset", tableName: "AppearanceSettings"))
