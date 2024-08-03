@@ -52,7 +52,16 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     /// Set the content view.
     /// The safe area is ignored because the title bar still interferes with the geometry
     contentView = NSHostingView(
-      rootView: view().ignoresSafeArea()
+      rootView: view()
+        .ignoresSafeArea()
+        .gesture(DragGesture()
+          .onChanged { _ in
+            if let screenFrame = self.screen?.visibleFrame {
+              let anchorX = self.frame.minX + self.frame.width / 2 - screenFrame.minX
+              let anchorY = self.frame.maxY - screenFrame.minY
+              Defaults[.windowPosition] = NSPoint(x: anchorX / screenFrame.width, y: anchorY / screenFrame.height)
+            }
+        })
     )
   }
 
@@ -96,17 +105,6 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
       return Defaults[.popupPosition] != .statusItem
     }
     set {}
-  }
-
-  func windowDidMove(_ notification: Notification) {
-    // Only update position if the window is visible to avoid accumulating floating point errors.
-    guard isVisible else { return }
-
-    if let screenFrame = screen?.visibleFrame {
-      let anchorX = frame.minX + frame.width / 2 - screenFrame.minX
-      let anchorY = frame.maxY - screenFrame.minY
-      Defaults[.windowPosition] = NSPoint(x: anchorX / screenFrame.width, y: anchorY / screenFrame.height)
-    }
   }
 
   /// Close automatically when out of focus, e.g. outside click
