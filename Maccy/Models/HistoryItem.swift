@@ -120,14 +120,18 @@ class HistoryItem {
     return NSAttributedString(html: data, documentAttributes: nil)
   }
 
-  var image: NSImage? {
+  var imageData: Data? {
     var data: Data?
     data = contentData([.tiff, .png, .jpeg])
     if data == nil, universalClipboardImage, let url = fileURLs.first {
       data = try? Data(contentsOf: url)
     }
 
-    guard let data = data else {
+    return data
+  }
+
+  var image: NSImage? {
+    guard let data = imageData else {
       return nil
     }
 
