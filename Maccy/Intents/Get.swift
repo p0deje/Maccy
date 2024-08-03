@@ -51,19 +51,13 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
     }
 
     if let fileURL = item.fileURLs.first {
-      intentItem.file = IntentFile(
-        fileURL: fileURL,
-        filename: "",
-        type: nil
-      )
+      intentItem.file = fileURL
     }
 
-    if let image = item.image?.tiffRepresentation {
-      intentItem.image = IntentFile(
-        data: image,
-        filename: "",
-        type: nil
-      )
+    if let imageData = item.imageData {
+      let file = URL.documentsDirectory.appending(path: "image.png")
+      try imageData.write(to: file, options: [.atomic, .completeFileProtection])
+      intentItem.image = file
     }
 
     if let rtf = item.rtfData {
