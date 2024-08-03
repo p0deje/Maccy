@@ -5,7 +5,7 @@ import Settings
 import SwiftUI
 
 @Observable
-class AppState: Sendable {
+final class AppState: Sendable {
   static let shared = AppState(history: History.shared, footer: Footer())
 
   var appDelegate: AppDelegate?
@@ -13,6 +13,14 @@ class AppState: Sendable {
   var history: History
   var footer: Footer
   var navigator: NavigationManager
+  var preview: PreviewController
+
+  var previewItem: HistoryItemDecorator? {
+    get {
+      return navigator.leadHistoryItem
+    }
+    set {}
+  }
 
   var searchVisible: Bool {
     if !Defaults[.showSearch] { return false }
@@ -37,6 +45,7 @@ class AppState: Sendable {
     self.footer = footer
     popup = Popup()
     navigator = NavigationManager(history: history, footer: footer)
+    preview = PreviewController()
   }
 
   @MainActor

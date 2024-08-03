@@ -7,7 +7,7 @@ struct ContentView: View {
   @State private var scenePhase: ScenePhase = .background
 
   @FocusState private var searchFocused: Bool
-
+  
   var body: some View {
     ZStack {
       if #available(macOS 26.0, *) {
@@ -15,32 +15,37 @@ struct ContentView: View {
       } else {
         VisualEffectView()
       }
+      
+      SlideoutView {
+        VStack(alignment: .leading, spacing: 0) {
+          KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
+            HeaderView(
+              searchFocused: $searchFocused,
+              searchQuery: $appState.history.searchQuery
+            )
 
-      VStack(alignment: .leading, spacing: 0) {
-        KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
-          HeaderView(
-            searchFocused: $searchFocused,
-            searchQuery: $appState.history.searchQuery
-          )
+            HistoryListView(
+              searchQuery: $appState.history.searchQuery,
+              searchFocused: $searchFocused
+            )
 
-          HistoryListView(
-            searchQuery: $appState.history.searchQuery,
-            searchFocused: $searchFocused
-          )
-
-          FooterView(footer: appState.footer)
+            FooterView(footer: appState.footer)
+          }
         }
+        .animation(.default.speed(3), value: appState.history.items)
+        .animation(.default.speed(3), value: appState.history.pasteStack?.id)
+        .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
+        .padding(.horizontal, Popup.horizontalPadding)
+        .onAppear {
+          searchFocused = true
+        }
+        .onMouseMove {
+          appState.navigator.isKeyboardNavigating = false
+        }
+      } slideout: {
+        SlideoutContentView()
       }
-      .animation(.default.speed(3), value: appState.history.items)
-      .animation(.default.speed(3), value: appState.history.pasteStack?.id)
-      .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
-      .padding(.horizontal, Popup.horizontalPadding)
-      .onAppear {
-        searchFocused = true
-      }
-      .onMouseMove {
-        appState.navigator.isKeyboardNavigating = false
-      }
+      .frame(maxWidth: .infinity, alignment: .leading)
       .task {
         try? await appState.history.load()
       }
@@ -63,13 +68,9 @@ struct ContentView: View {
         scenePhase = .background
       }
     }
-    .onReceive(NotificationCenter.default.publisher(for: NSPopover.willShowNotification)) {
-      if let popover = $0.object as? NSPopover {
-        // Prevent NSPopover from showing close animation when
-        // quickly toggling FloatingPanel while popover is visible.
-        popover.animates = false
-        // Prevent NSPopover from becoming first responder.
-        popover.behavior = .semitransient
+    .onReceive(NotificationCenter.default.publisher(for: NSPopover.didCloseNotification)) {
+      if $0.object is NSPopover {
+        appState.preview.state = .closed
       }
     }
   }
@@ -80,3 +81,4 @@ struct ContentView: View {
     .environment(\.locale, .init(identifier: "en"))
     .modelContainer(Storage.shared.container)
 }
+

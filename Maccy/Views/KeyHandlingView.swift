@@ -1,4 +1,5 @@
 import Sauce
+import Defaults
 import SwiftUI
 
 struct KeyHandlingView<Content: View>: View {
@@ -153,6 +154,9 @@ struct KeyHandlingView<Content: View>: View {
           return .handled
         case .close:
           appState.popup.close()
+          return .handled
+        case .togglePreview:
+          appState.preview.togglePreview()
           return .handled
         default:
           ()

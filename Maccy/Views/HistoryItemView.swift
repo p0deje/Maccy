@@ -58,11 +58,5 @@ struct HistoryItemView: View {
         }
       }
     }
-    .popover(isPresented: $item.showPreview, arrowEdge: .trailing) {
-      PreviewItemView(item: item)
-        .onAppear {
-          item.ensurePreviewImage()
-        }
-    }
   }
 }
