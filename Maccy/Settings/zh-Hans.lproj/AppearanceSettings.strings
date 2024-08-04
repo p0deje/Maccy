@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "菜单栏图标";
 "PopupAtWindowCenter" = "窗口中心";
 "PopupAtScreenCenter" = "屏幕中央";
+"PopupAtLastPosition" = "最后位置";
+"PopupAtLastLocationReset" = "重置位置";
 "PopupAtTooltip" = "更改弹窗显示的位置。\n默认：光标。";
 "ActiveScreen" = "活动屏幕";
 "PinTo" = "固定项目位置：";

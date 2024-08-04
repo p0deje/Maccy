@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "Meni ikona";
 "PopupAtWindowCenter" = "Centar prozora";
 "PopupAtScreenCenter" = "Centar zaslona";
+"PopupAtLastPosition" = "Poslednja pozicija";
+"PopupAtLastLocationReset" = "Resetuj poziciju";
 "PopupAtTooltip" = "Promijeni lokaciju na kojoj se pojavljuje priručni prozor.\nZadano: Kursor.";
 "ActiveScreen" = "Aktivni zaslon";
 "PinTo" = "Zakači na:";
