@@ -55,7 +55,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
       rootView: view()
         .ignoresSafeArea()
         .gesture(DragGesture()
-          .onChanged { _ in
+          .onEnded { _ in
             if let screenFrame = self.screen?.visibleFrame {
               let anchorX = self.frame.minX + self.frame.width / 2 - screenFrame.minX
               let anchorY = self.frame.maxY - screenFrame.minY
