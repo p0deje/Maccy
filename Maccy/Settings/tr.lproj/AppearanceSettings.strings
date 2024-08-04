@@ -4,8 +4,8 @@
 "PopupAtMenuBarIcon" = "Menü simgesi";
 "PopupAtWindowCenter" = "Pencere merkezi";
 "PopupAtScreenCenter" = "Ekran merkezi";
-"PopupAtLastPosition" = "TODO";
-"PopupAtLastLocationReset" = "TODO";
+"PopupAtLastPosition" = "Son pozisyon";
+"PopupAtLastLocationReset" = "Pozisyonu sıfırla";
 "PopupAtTooltip" = "Açılır pencerenin göründüğü konumu değiştirin.\nSaptanmış: İmleç.";
 "ActiveScreen" = "Aktif ekran";
 "PinTo" = "Şuraya iğnele:";

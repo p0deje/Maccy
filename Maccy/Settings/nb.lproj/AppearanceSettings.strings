@@ -4,8 +4,8 @@
 "PopupAtMenuBarIcon" = "Meny ikon";
 "PopupAtWindowCenter" = "Vindussenter";
 "PopupAtScreenCenter" = "Skjermsenter";
-"PopupAtLastPosition" = "TODO";
-"PopupAtLastLocationReset" = "TODO";
+"PopupAtLastPosition" = "Siste posisjon";
+"PopupAtLastLocationReset" = "Tilbakestill posisjon";
 "PopupAtTooltip" = "Forandre plassering av hvor popup vises.\nStandard: Musepeker.";
 "ActiveScreen" = "Aktiv skjerm";
 "PinTo" = "Fest til:";
