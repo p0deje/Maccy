@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "Значок меню";
 "PopupAtWindowCenter" = "Центр вікна";
 "PopupAtScreenCenter" = "Центр екрану";
+"PopupAtLastPosition" = "Остання позиція";
+"PopupAtLastLocationReset" = "Скинути позицію";
 "PopupAtTooltip" = "Змініть розташування спливаючого вікна.\nЗа замовчуванням: Курсор.";
 "ActiveScreen" = "Активний екран";
 "PinTo" = "Закріпити:";

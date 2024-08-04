@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "Menüleistensymbol";
 "PopupAtWindowCenter" = "Fenstermitte";
 "PopupAtScreenCenter" = "Bildschirmmitte";
+"PopupAtLastPosition" = "Letzte Position";
+"PopupAtLastLocationReset" = "Position zurücksetzen";
 "PopupAtTooltip" = "Ändere die Position des Popup-Fensters.\nStandard: Mauszeiger.";
 "ActiveScreen" = "Aktiver Bildschirm";
 "PinTo" = "Angeheftete Einträge:";

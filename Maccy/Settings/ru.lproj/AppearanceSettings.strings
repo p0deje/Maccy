@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "Иконки в меню";
 "PopupAtWindowCenter" = "Центра окна";
 "PopupAtScreenCenter" = "Центра экрана";
+"PopupAtLastPosition" = "Последнее положение";
+"PopupAtLastLocationReset" = "Сбросить позицию";
 "PopupAtTooltip" = "Изменить место для появления всплывающего окна.\nПо умолчанию: Курсор.";
 "ActiveScreen" = "Активный экран";
 "PinTo" = "Прикреплять к:";

@@ -4,6 +4,8 @@
 "PopupAtMenuBarIcon" = "メニューアイコン";
 "PopupAtWindowCenter" = "窓の中央";
 "PopupAtScreenCenter" = "画面の中央";
+"PopupAtLastPosition" = "最終位置";
+"PopupAtLastLocationReset" = "リセット位置";
 "PopupAtTooltip" = "ポップアップが表れる場所を変更します。\nデフォルト：カーソル。";
 "ActiveScreen" = "アクティブスクリーン";
 "PinTo" = "ピン留め場所:";
