@@ -124,6 +124,7 @@ class History {
       delete(items.last(where: \.isUnpinned))
     }
 
+    var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
         item.contents = existingHistoryItem.contents
@@ -136,7 +137,10 @@ class History {
         item.application = existingHistoryItem.application
       }
       Storage.shared.context.delete(existingHistoryItem)
-      items.removeAll { $0.item == existingHistoryItem }
+      removedItemIndex = items.firstIndex(where: { $0.item == existingHistoryItem })
+      if let removedItemIndex {
+        items.remove(at: removedItemIndex)
+      }
     } else {
       Task {
         Notifier.notify(body: item.title, sound: .write)
@@ -148,17 +152,21 @@ class History {
     var itemDecorator: HistoryItemDecorator
     if let pin = item.pin {
       itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
+      // Keep pins in the same place.
+      if let removedItemIndex {
+        items.insert(itemDecorator, at: removedItemIndex)
+      }
     } else {
       itemDecorator = HistoryItemDecorator(item)
-    }
 
-    let sortedItems = sorter.sort(items.map(\.item) + [item])
-    if let index = sortedItems.firstIndex(of: item) {
-      items.insert(itemDecorator, at: index)
-    }
+      let sortedItems = sorter.sort(items.map(\.item) + [item])
+      if let index = sortedItems.firstIndex(of: item) {
+        items.insert(itemDecorator, at: index)
+      }
 
-    updateUnpinnedShortcuts()
-    AppState.shared.needsResize = true
+      updateUnpinnedShortcuts()
+      AppState.shared.needsResize = true
+    }
   }
 
   @MainActor
