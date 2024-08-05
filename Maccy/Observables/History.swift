@@ -258,7 +258,10 @@ class History {
     }
 
     updateUnpinnedShortcuts()
-    // TODO: Scroll to pinned item
+    AppState.shared.selection = item.id
+    if (item.isUnpinned) {
+      AppState.shared.scrollTarget = item.id
+    }
   }
 
   @MainActor
