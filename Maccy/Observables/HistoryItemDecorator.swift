@@ -71,12 +71,8 @@ class HistoryItemDecorator: Identifiable, Hashable {
     self.shortcuts = shortcuts
     self.title = item.title
 
-    Task {
-      await observeItemPin()
-    }
-    Task {
-      await observeItemTitle()
-    }
+    synchronizeItemPin()
+    synchronizeItemTitle()
     Task {
       await sizeImages()
     }
@@ -123,39 +119,27 @@ class HistoryItemDecorator: Identifiable, Hashable {
     }
   }
 
-  private func observeItemPin() async {
-    let pinSet = AsyncStream {
-      await withCheckedContinuation { continuation in
-        let _ = withObservationTracking {
-          self.item.pin
-        } onChange: {
-          continuation.resume()
+  private func synchronizeItemPin() {
+    _ = withObservationTracking {
+      item.pin
+    } onChange: {
+      DispatchQueue.main.async {
+        if let pin = self.item.pin {
+          self.shortcuts = KeyShortcut.create(character: pin)
         }
+        self.synchronizeItemPin()
       }
-
-      return self.item.pin
-    }
-
-    for await pin in pinSet {
-      self.shortcuts = KeyShortcut.create(character: pin)
     }
   }
 
-  private func observeItemTitle() async {
-    let titleSet = AsyncStream {
-      await withCheckedContinuation { continuation in
-        let _ = withObservationTracking {
-          self.item.title
-        } onChange: {
-          continuation.resume()
-        }
+  private func synchronizeItemTitle() {
+    _ = withObservationTracking {
+      item.title
+    } onChange: {
+      DispatchQueue.main.async {
+        self.title = self.item.title
+        self.synchronizeItemTitle()
       }
-
-      return self.item.title
-    }
-
-    for await title in titleSet {
-      self.title = title
     }
   }
 }
