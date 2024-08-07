@@ -44,7 +44,11 @@ struct ListItemView<Title: View>: View {
     .clipShape(.rect(cornerRadius: 4))
     .onHover { hovering in
       if hovering {
-        appState.selection = id
+        if !appState.isKeyboardNavigating {
+          appState.selection = id
+        } else {
+          appState.hoverSelectionWhileKeyboardNavigating = id
+        }
       }
     }
     .help(help ?? "")
