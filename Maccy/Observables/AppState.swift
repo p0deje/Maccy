@@ -31,6 +31,16 @@ class AppState: Sendable {
     }
   }
 
+  var hoverSelectionWhileKeyboardNavigating: UUID? = nil
+  var isKeyboardNavigating: Bool = false {
+    didSet {
+      if let hoverSelection = hoverSelectionWhileKeyboardNavigating {
+        hoverSelectionWhileKeyboardNavigating = nil
+        selection = hoverSelection
+      }
+    }
+  }
+
   var menuIconText: String {
     var title = history.unpinnedItems.first?.text.shortened(to: 100).trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     title.unicodeScalars.removeAll(where: CharacterSet.newlines.contains)
@@ -62,23 +72,29 @@ class AppState: Sendable {
     }
   }
 
+  private func selectFromKeyboardNavigation(_ id: UUID?) {
+    isKeyboardNavigating = true
+    selection = id
+  }
+
   func highlightFirst() {
     if let item = history.items.first(where: \.isVisible) {
-      selection = item.id
+      selectFromKeyboardNavigation(item.id)
     }
   }
 
   func highlightPrevious() {
+    isKeyboardNavigating = true
     if let selectedItem = history.selectedItem {
       if let nextItem = history.items.filter(\.isVisible).item(before: selectedItem) {
-        selection = nextItem.id
+        selectFromKeyboardNavigation(nextItem.id)
       }
     } else if let selectedItem = footer.selectedItem {
       if let nextItem = footer.items.filter(\.isVisible).item(before: selectedItem) {
-        selection = nextItem.id
+        selectFromKeyboardNavigation(nextItem.id)
       } else if selectedItem == footer.items.first(where: \.isVisible),
                 let nextItem = history.items.last(where: \.isVisible) {
-        selection = nextItem.id
+        selectFromKeyboardNavigation(nextItem.id)
       }
     }
   }
@@ -86,17 +102,17 @@ class AppState: Sendable {
   func highlightNext() {
     if let selectedItem = history.selectedItem {
       if let nextItem = history.items.filter(\.isVisible).item(after: selectedItem) {
-        selection = nextItem.id
+        selectFromKeyboardNavigation(nextItem.id)
       } else if selectedItem == history.items.filter(\.isVisible).last,
                 let nextItem = footer.items.first(where: \.isVisible) {
-        selection = nextItem.id
+        selectFromKeyboardNavigation(nextItem.id)
       }
     } else if let selectedItem = footer.selectedItem {
       if let nextItem = footer.items.filter(\.isVisible).item(after: selectedItem) {
-        selection = nextItem.id
+        selectFromKeyboardNavigation(nextItem.id)
       }
     } else {
-      selection = footer.items.first(where: \.isVisible)?.id
+      selectFromKeyboardNavigation(footer.items.first(where: \.isVisible)?.id)
     }
   }
 
@@ -104,14 +120,14 @@ class AppState: Sendable {
     if let selectedItem = history.selectedItem {
       if selectedItem == history.items.filter(\.isVisible).last,
          let nextItem = footer.items.first(where: \.isVisible) {
-        selection = nextItem.id
+        selectFromKeyboardNavigation(nextItem.id)
       } else {
-        selection = history.items.last(where: \.isVisible)?.id
+        selectFromKeyboardNavigation(history.items.last(where: \.isVisible)?.id)
       }
     } else if footer.selectedItem != nil {
-      selection = footer.items.last(where: \.isVisible)?.id
+      selectFromKeyboardNavigation(footer.items.last(where: \.isVisible)?.id)
     } else {
-      selection = footer.items.first(where: \.isVisible)?.id
+      selectFromKeyboardNavigation(footer.items.first(where: \.isVisible)?.id)
     }
   }
 
