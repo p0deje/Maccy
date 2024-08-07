@@ -31,6 +31,9 @@ struct ContentView: View {
       .padding(.horizontal, 5)
       .padding(.vertical, Popup.verticalPadding)
       .onAppear { searchFocused = true }
+      .onContinuousHover(coordinateSpace: .local) { phase in
+        appState.isKeyboardNavigating = false
+      }
       .task { try? await appState.history.load() }
     }
     .environment(appState)
