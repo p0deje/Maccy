@@ -17,9 +17,6 @@ class AppState: Sendable {
   var scrollTarget: UUID?
   var selection: UUID? = nil {
     didSet {
-      // Cancel scrolling
-      scrollTarget = nil
-
       history.selectedItem = nil
       footer.selectedItem = nil
 
@@ -28,6 +25,7 @@ class AppState: Sendable {
       } else if let item = footer.items.first(where: { $0.id == selection }) {
         footer.selectedItem = item
       }
+      scrollTarget = selection
     }
   }
 
