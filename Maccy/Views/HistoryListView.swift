@@ -34,15 +34,16 @@ struct HistoryListView: View {
         LazyVStack(spacing: 0) {
           ForEach(appState.history.unpinnedItems) { item in
             HistoryItemView(item: item)
-              .id(item.item.id)
           }
         }
-        .task(id: appState.selection) {
+        .task(id: appState.scrollTarget) {
+          guard appState.scrollTarget != nil else { return }
           try? await Task.sleep(for: .milliseconds(10))
           guard !Task.isCancelled else { return }
 
-          if let selection = appState.selection {
+          if let selection = appState.scrollTarget {
             proxy.scrollTo(selection)
+            appState.scrollTarget = nil
           }
         }
         .onChange(of: scenePhase) {
@@ -52,13 +53,6 @@ struct HistoryListView: View {
           } else {
             HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
             modifierFlags.flags = []
-          }
-        }
-        .onChange(of: appState.scrollTarget) { _, _ in
-          // Recheck if the target has been cleared in the meantime, due to navigation
-          if let targetId = appState.scrollTarget {
-            proxy.scrollTo(targetId, anchor: .bottom)
-            appState.scrollTarget = nil
           }
         }
         // Calculate the total height inside a scroll view.
