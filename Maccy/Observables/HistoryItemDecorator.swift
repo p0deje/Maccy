@@ -10,7 +10,13 @@ class HistoryItemDecorator: Identifiable, Hashable {
     return lhs.id == rhs.id
   }
 
-  static var previewThrottler = Throttler(minimumDelay: Double(Defaults[.previewDelay]) / 1000)
+  static var defaultThrottlerDelay: TimeInterval {
+    get {
+      return Double(Defaults[.previewDelay]) / 1000
+    }
+  }
+
+  static var previewThrottler = Throttler(minimumDelay: defaultThrottlerDelay)
   static var previewImageSize: NSSize { NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536) }
   static var thumbnailImageSize: NSSize { NSSize(width: 340, height: Defaults[.imageMaxHeight]) }
 
@@ -24,7 +30,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
     didSet {
       if isSelected {
         Self.previewThrottler.throttle {
-          Self.previewThrottler.minimumDelay = 0.2
+          Self.previewThrottler.minimumDelay = Self.defaultThrottlerDelay
           self.showPreview = true
         }
       } else {
