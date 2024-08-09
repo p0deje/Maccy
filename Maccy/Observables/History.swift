@@ -258,7 +258,6 @@ class History {
     }
 
     updateUnpinnedShortcuts()
-    AppState.shared.selection = item.id
     if (item.isUnpinned) {
       AppState.shared.scrollTarget = item.id
     }
