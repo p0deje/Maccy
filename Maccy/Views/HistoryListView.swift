@@ -34,7 +34,6 @@ struct HistoryListView: View {
         LazyVStack(spacing: 0) {
           ForEach(appState.history.unpinnedItems) { item in
             HistoryItemView(item: item)
-              .id(item.item.id)
           }
         }
         .task(id: appState.selection) {
@@ -54,10 +53,10 @@ struct HistoryListView: View {
             modifierFlags.flags = []
           }
         }
-        .onChange(of: appState.scrollTarget) { _, _ in
+        .onChange(of: appState.scrollTarget) {
           // Recheck if the target has been cleared in the meantime, due to navigation
           if let targetId = appState.scrollTarget {
-            proxy.scrollTo(targetId, anchor: .bottom)
+            proxy.scrollTo(targetId)
             appState.scrollTarget = nil
           }
         }
@@ -66,6 +65,9 @@ struct HistoryListView: View {
           GeometryReader { geo in
             Color.clear
               .task(id: appState.needsResize) {
+                try? await Task.sleep(for: .milliseconds(10))
+                guard !Task.isCancelled else { return }
+                
                 if appState.needsResize {
                   appState.popup.resize(height: geo.size.height)
                 }
