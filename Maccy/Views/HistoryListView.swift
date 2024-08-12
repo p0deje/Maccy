@@ -50,6 +50,7 @@ struct HistoryListView: View {
             appState.selection = appState.history.unpinnedItems.first?.id
           } else {
             HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
+            HistoryItemDecorator.previewThrottler.cancel()
             modifierFlags.flags = []
           }
         }
@@ -67,7 +68,7 @@ struct HistoryListView: View {
               .task(id: appState.needsResize) {
                 try? await Task.sleep(for: .milliseconds(10))
                 guard !Task.isCancelled else { return }
-                
+
                 if appState.needsResize {
                   appState.popup.resize(height: geo.size.height)
                 }
