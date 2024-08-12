@@ -2,66 +2,65 @@ import SwiftUI
 import Defaults
 import Settings
 
-class StorageSettingsViewModel: ObservableObject {
-  @Published
-  var saveFiles = false {
-    didSet {
-      Defaults.withoutPropagation {
-        if saveFiles {
-          Defaults[.enabledPasteboardTypes].insert(.fileURL)
-        } else {
-          Defaults[.enabledPasteboardTypes].remove(.fileURL)
-        }
-      }
-    }
-  }
-
-  @Published
-  var saveImages = false {
-    didSet {
-      Defaults.withoutPropagation {
-        if saveImages {
-          Defaults[.enabledPasteboardTypes].formUnion([.tiff, .png])
-        } else {
-          Defaults[.enabledPasteboardTypes].subtract([.tiff, .png])
-        }
-      }
-    }
-  }
-
-  @Published
-  var saveText = false {
-    didSet {
-      Defaults.withoutPropagation {
-        if saveText {
-          Defaults[.enabledPasteboardTypes].formUnion([.html, .rtf, .string])
-        } else {
-          Defaults[.enabledPasteboardTypes].subtract([.html, .rtf, .string])
-        }
-      }
-    }
-  }
-
-  private var observer: Defaults.Observation?
-
-  init() {
-    observer = Defaults.observe(.enabledPasteboardTypes) { change in
-      self.saveFiles = change.newValue.contains(.fileURL)
-      self.saveImages = change.newValue.isSuperset(of: [.tiff, .png])
-      self.saveText = change.newValue.isSuperset(of: [.html, .rtf, .string])
-    }
-  }
-
-  deinit {
-    observer?.invalidate()
-  }
-}
 
 struct StorageSettingsPane: View {
+  @Observable
+  class ViewModel {
+    var saveFiles = false {
+      didSet {
+        Defaults.withoutPropagation {
+          if saveFiles {
+            Defaults[.enabledPasteboardTypes].insert(.fileURL)
+          } else {
+            Defaults[.enabledPasteboardTypes].remove(.fileURL)
+          }
+        }
+      }
+    }
+
+    var saveImages = false {
+      didSet {
+        Defaults.withoutPropagation {
+          if saveImages {
+            Defaults[.enabledPasteboardTypes].formUnion([.tiff, .png])
+          } else {
+            Defaults[.enabledPasteboardTypes].subtract([.tiff, .png])
+          }
+        }
+      }
+    }
+
+    var saveText = false {
+      didSet {
+        Defaults.withoutPropagation {
+          if saveText {
+            Defaults[.enabledPasteboardTypes].formUnion([.html, .rtf, .string])
+          } else {
+            Defaults[.enabledPasteboardTypes].subtract([.html, .rtf, .string])
+          }
+        }
+      }
+    }
+
+    private var observer: Defaults.Observation?
+
+    init() {
+      observer = Defaults.observe(.enabledPasteboardTypes) { change in
+        self.saveFiles = change.newValue.contains(.fileURL)
+        self.saveImages = change.newValue.isSuperset(of: [.tiff, .png])
+        self.saveText = change.newValue.isSuperset(of: [.html, .rtf, .string])
+      }
+    }
+
+    deinit {
+      observer?.invalidate()
+    }
+  }
+
   @Default(.size) private var size
   @Default(.sortBy) private var sortBy
 
-  @StateObject private var storageSettingsViewModel = StorageSettingsViewModel()
+  @State private var viewModel = ViewModel()
 
   private let sizeFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
@@ -77,19 +76,20 @@ struct StorageSettingsPane: View {
         label: { Text("Save", tableName: "StorageSettings") }
       ) {
         Toggle(
-          isOn: $storageSettingsViewModel.saveFiles,
+          isOn: $viewModel.saveFiles,
           label: { Text("Files", tableName: "StorageSettings") }
         )
         Toggle(
-          isOn: $storageSettingsViewModel.saveImages,
+          isOn: $viewModel.saveImages,
           label: { Text("Images", tableName: "StorageSettings") }
         )
         Toggle(
-          isOn: $storageSettingsViewModel.saveText,
+          isOn: $viewModel.saveText,
           label: { Text("Text", tableName: "StorageSettings") }
         )
         Text("SaveDescription", tableName: "StorageSettings")
-          .controlSize(.small).foregroundStyle(.gray)
+          .controlSize(.small)
+          .foregroundStyle(.gray)
       }
 
       Settings.Section(label: { Text("Size", tableName: "StorageSettings") }) {
@@ -107,8 +107,10 @@ struct StorageSettingsPane: View {
           ForEach(Sorter.By.allCases) { mode in
             Text(mode.description)
           }
-        }.labelsHidden().frame(width: 160)
-          .help(Text("SortByTooltip", tableName: "StorageSettings"))
+        }
+        .labelsHidden()
+        .frame(width: 160)
+        .help(Text("SortByTooltip", tableName: "StorageSettings"))
       }
     }
   }
