@@ -65,7 +65,7 @@ struct StorageSettingsPane: View {
   private let sizeFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.minimum = 1
-    formatter.maximum = 9999
+    formatter.maximum = 999
     return formatter
   }()
 
