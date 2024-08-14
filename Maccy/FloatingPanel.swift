@@ -1,18 +1,23 @@
 import Defaults
 import SwiftUI
 
-/// An NSPanel subclass that implements floating panel traits.
-/// https://stackoverflow.com/questions/46023769/how-to-show-a-window-without-stealing-focus-on-macos
+// An NSPanel subclass that implements floating panel traits.
+// https://stackoverflow.com/questions/46023769/how-to-show-a-window-without-stealing-focus-on-macos
 class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   var isPresented: Bool = false
-  var menuBarButton: NSStatusBarButton? = nil
+  var statusBarButton: NSStatusBarButton? = nil
+
+  override var isMovable: Bool {
+    get { Defaults[.popupPosition] != .statusItem }
+    set {}
+  }
 
   init(
     contentRect: NSRect,
     title: String = "",
+    statusBarButton: NSStatusBarButton? = nil,
     view: () -> Content
   ) {
-    /// Init the window as usual
     super.init(
         contentRect: contentRect,
         styleMask: [.nonactivatingPanel, .titled, .resizable, .closable, .fullSizeContentView],
@@ -20,39 +25,30 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
         defer: false
     )
 
+    self.statusBarButton = statusBarButton
+    self.title = title
+
     Defaults[.windowSize] = contentRect.size
     delegate = self
 
-    /// Allow the panel to be on top of other windows
+    animationBehavior = .none
     isFloatingPanel = true
     level = .statusBar
-
-    /// Allow the panel to be overlaid in a fullscreen space
     collectionBehavior = [.auxiliary, .stationary, .moveToActiveSpace, .fullScreenAuxiliary]
-
-    /// Don't show a window title, even if it's set
-    self.title = title
     titleVisibility = .hidden
     titlebarAppearsTransparent = true
-
-    /// Since there is no title bar make the window moveable by dragging on the background
     isMovableByWindowBackground = true
-
-    /// Don't hide when unfocused
     hidesOnDeactivate = false
 
-    /// Hide all traffic light buttons
+    // Hide all traffic light buttons
     standardWindowButton(.closeButton)?.isHidden = true
     standardWindowButton(.miniaturizeButton)?.isHidden = true
     standardWindowButton(.zoomButton)?.isHidden = true
 
-    /// Sets animations accordingly
-    animationBehavior = .none
 
-    /// Set the content view.
-    /// The safe area is ignored because the title bar still interferes with the geometry
     contentView = NSHostingView(
       rootView: view()
+        // The safe area is ignored because the title bar still interferes with the geometry
         .ignoresSafeArea()
         .gesture(DragGesture()
           .onEnded { _ in
@@ -71,10 +67,16 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     setContentSize(NSSize(width: frame.width, height: min(height, Defaults[.windowSize].height)))
-    setFrameOrigin(popupPosition.origin(size: frame.size, menuBarButton: menuBarButton))
+    setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
     orderFrontRegardless()
     makeKey()
     isPresented = true
+
+    if popupPosition == .statusItem {
+      DispatchQueue.main.async {
+        self.statusBarButton?.isHighlighted = true
+      }
+    }
   }
 
   func verticallyResize(to newHeight: CGFloat) {
@@ -106,14 +108,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     return frameSize
   }
 
-  override var isMovable: Bool {
-    get {
-      return Defaults[.popupPosition] != .statusItem
-    }
-    set {}
-  }
 
-  /// Close automatically when out of focus, e.g. outside click
+  // Close automatically when out of focus, e.g. outside click.
   override func resignKey() {
     super.resignKey()
     // Don't hide if confirmation is shown.
@@ -122,14 +118,13 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     }
   }
 
-  /// Close and toggle presentation, so that it matches the current state of the panel
   override func close() {
     super.close()
     isPresented = false
-    menuBarButton?.state = .off
+    statusBarButton?.isHighlighted = false
   }
 
-  /// `canBecomeKey` is required so that text inputs inside the panel can receive focus
+  // Allow text inputs inside the panel can receive focus
   override var canBecomeKey: Bool {
     return true
   }
