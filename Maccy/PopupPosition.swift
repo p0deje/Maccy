@@ -26,7 +26,7 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
     }
   }
 
-  func origin(size: NSSize, menuBarButton: NSStatusBarButton?) -> NSPoint {
+  func origin(size: NSSize, statusBarButton: NSStatusBarButton?) -> NSPoint {
     switch self {
     case .center:
       if let frame = NSScreen.forPopup?.visibleFrame {
@@ -37,9 +37,9 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
         return NSRect.centered(ofSize: size, in: frame).origin
       }
     case .statusItem:
-      if let menuBarButton {
-        let rectInWindow = menuBarButton.convert(menuBarButton.bounds, to: nil)
-        if let screenRect = menuBarButton.window?.convertToScreen(rectInWindow) {
+      if let statusBarButton {
+        let rectInWindow = statusBarButton.convert(statusBarButton.bounds, to: nil)
+        if let screenRect = statusBarButton.window?.convertToScreen(rectInWindow) {
           return screenRect.origin
         }
       }

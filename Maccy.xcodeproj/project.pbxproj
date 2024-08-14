@@ -117,7 +117,6 @@
 		DAD665662898A1C000975096 /* KeyChord.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD665652898A1C000975096 /* KeyChord.swift */; };
 		DAE28500232257D20080E394 /* ColorImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE284FF232257D20080E394 /* ColorImage.swift */; };
 		DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE2850123225BD90080E394 /* ColorImageTests.swift */; };
-		DAE8F5D22C4317A300851CA9 /* MenuBarExtraAccess in Frameworks */ = {isa = PBXBuildFile; productRef = DAE8F5D12C4317A300851CA9 /* MenuBarExtraAccess */; };
 		DAE8F5D42C43262B00851CA9 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8F5D32C43262B00851CA9 /* Popup.swift */; };
 		DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE38461E3DBEB100DD2966 /* AppDelegate.swift */; };
 		DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD9268A521A00990986 /* String+Shortened.swift */; };
@@ -445,7 +444,6 @@
 				DA5154D82564102900C01004 /* Sauce in Frameworks */,
 				2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */,
 				DA13D7CA2C19F52B00FA9E23 /* LaunchAtLogin in Frameworks */,
-				DAE8F5D22C4317A300851CA9 /* MenuBarExtraAccess in Frameworks */,
 				DA009940256414560030E697 /* Fuse in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -745,7 +743,6 @@
 				2F39CB092AD9AE1F00B749FD /* Settings */,
 				DA13D7C92C19F52B00FA9E23 /* LaunchAtLogin */,
 				DA13D7CF2C19F8C300FA9E23 /* Defaults */,
-				DAE8F5D12C4317A300851CA9 /* MenuBarExtraAccess */,
 			);
 			productName = Maccy;
 			productReference = DAEE38431E3DBEB100DD2966 /* Maccy.app */;
@@ -820,7 +817,6 @@
 				2F39CB082AD9AE1F00B749FD /* XCRemoteSwiftPackageReference "Settings" */,
 				DA13D7C82C19F43E00FA9E23 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 				DA13D7CE2C19F8C300FA9E23 /* XCRemoteSwiftPackageReference "Defaults" */,
-				DAE8F5D02C4317A300851CA9 /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */,
 			);
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
 			projectDirPath = "";
@@ -1624,14 +1620,6 @@
 				minimumVersion = 2.4.1;
 			};
 		};
-		DAE8F5D02C4317A300851CA9 /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/orchetect/MenuBarExtraAccess";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 1.0.5;
-			};
-		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1674,11 +1662,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */;
 			productName = Sauce;
-		};
-		DAE8F5D12C4317A300851CA9 /* MenuBarExtraAccess */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DAE8F5D02C4317A300851CA9 /* XCRemoteSwiftPackageReference "MenuBarExtraAccess" */;
-			productName = MenuBarExtraAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
