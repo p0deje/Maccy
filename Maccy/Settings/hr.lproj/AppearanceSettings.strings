@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Zadnja pozicija";
 "PopupAtLastLocationReset" = "Resetiraj položaj";
 "PopupAtTooltip" = "Promijeni mjesto gdje će se skočni prozor pojaviti.\nStandardno: Kursor.";
+"SearchVisibilityAlways" = "Uvijek";
+"SearchVisibilityDuringSearch" = "Tijekom pretrage";
 "ActiveScreen" = "Aktivni ekran";
 "PinTo" = "Prikvači:";
 "PinToTop" = "Gore";

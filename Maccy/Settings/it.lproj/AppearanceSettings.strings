@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Ultima posizione";
 "PopupAtLastLocationReset" = "Azzeramento della posizione";
 "PopupAtTooltip" = "Cambia la posizione in cui appare il popup.\nDefault: Cursore.";
+"SearchVisibilityAlways" = "Sempre";
+"SearchVisibilityDuringSearch" = "Durante la ricerca";
 "ActiveScreen" = "Schermo attivo";
 "PinTo" = "Blocca su:";
 "PinToTop" = "Parte superiore";

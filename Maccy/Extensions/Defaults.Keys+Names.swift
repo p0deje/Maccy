@@ -40,6 +40,7 @@ extension Defaults.Keys {
   static let showInStatusBar = Key<Bool>("showInStatusBar", default: true)
   static let showRecentCopyInMenuBar = Key<Bool>("showRecentCopyInMenuBar", default: false)
   static let showSearch = Key<Bool>("showSearch", default: true)
+  static let searchVisibility = Key<SearchVisibility>("searchVisibility", default: .always)
   static let showSpecialSymbols = Key<Bool>("showSpecialSymbols", default: true)
   static let showTitle = Key<Bool>("showTitle", default: true)
   static let size = Key<Int>("historySize", default: 200)

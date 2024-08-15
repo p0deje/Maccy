@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Siste posisjon";
 "PopupAtLastLocationReset" = "Tilbakestill posisjon";
 "PopupAtTooltip" = "Forandre plassering av hvor popup vises.\nStandard: Musepeker.";
+"SearchVisibilityAlways" = "Alltid";
+"SearchVisibilityDuringSearch" = "Under søk";
 "ActiveScreen" = "Aktiv skjerm";
 "PinTo" = "Fest til:";
 "PinToTop" = "Øverst";

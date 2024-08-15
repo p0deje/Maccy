@@ -8,7 +8,6 @@ struct HeaderView: View {
   @Environment(AppState.self) private var appState
   @Environment(\.scenePhase) private var scenePhase
 
-  @Default(.showSearch) private var showSearch
   @Default(.showTitle) private var showTitle
 
   var body: some View {
@@ -27,12 +26,12 @@ struct HeaderView: View {
           }
         }
     }
-    .frame(height: showSearch ? 25 : 0)
-    .opacity(showSearch ? 1 : 0)
+    .frame(height: appState.searchVisible ? 25 : 0)
+    .opacity(appState.searchVisible ? 1 : 0)
     .padding(.horizontal, 10)
     // 2px is needed to prevent items from showing behind top pinned items during scrolling
     // https://github.com/p0deje/Maccy/issues/832
-    .padding(.bottom, showSearch ? 5 : 2)
+    .padding(.bottom, appState.searchVisible ? 5 : 2)
     .background {
       GeometryReader { geo in
         Color.clear
