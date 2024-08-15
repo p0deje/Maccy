@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Последнее положение";
 "PopupAtLastLocationReset" = "Сбросить позицию";
 "PopupAtTooltip" = "Изменить место для появления всплывающего окна.\nПо умолчанию: Курсор.";
+"SearchVisibilityAlways" = "Всегда";
+"SearchVisibilityDuringSearch" = "Во время поиска";
 "ActiveScreen" = "Активный экран";
 "PinTo" = "Прикреплять к:";
 "PinToTop" = "Верху";

@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "最終位置";
 "PopupAtLastLocationReset" = "リセット位置";
 "PopupAtTooltip" = "ポップアップが表れる場所を変更します。\nデフォルト：カーソル。";
+"SearchVisibilityAlways" = "常に";
+"SearchVisibilityDuringSearch" = "検索中";
 "ActiveScreen" = "アクティブスクリーン";
 "PinTo" = "ピン留め場所:";
 "PinToTop" = "上段";

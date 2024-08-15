@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Son pozisyon";
 "PopupAtLastLocationReset" = "Pozisyonu sıfırla";
 "PopupAtTooltip" = "Açılır pencerenin göründüğü konumu değiştirin.\nSaptanmış: İmleç.";
+"SearchVisibilityAlways" = "Her zaman";
+"SearchVisibilityDuringSearch" = "Arama sırasında";
 "ActiveScreen" = "Aktif ekran";
 "PinTo" = "Şuraya iğnele:";
 "PinToTop" = "Üst";

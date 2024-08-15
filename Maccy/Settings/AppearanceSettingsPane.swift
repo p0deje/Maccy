@@ -14,6 +14,8 @@ struct AppearanceSettingsPane: View {
   @Default(.highlightMatch) private var highlightMatch
   @Default(.menuIcon) private var menuIcon
   @Default(.showInStatusBar) private var showInStatusBar
+  @Default(.showSearch) private var showSearch
+  @Default(.searchVisibility) private var searchVisibility
   @Default(.showFooter) private var showFooter
   @Default(.windowPosition) private var windowPosition
 
@@ -175,7 +177,7 @@ struct AppearanceSettingsPane: View {
             }
           }
           .labelsHidden()
-          .frame(width: 40)
+          .scaledToFit()
           .disabled(!showInStatusBar)
           .controlSize(.small)
         }
@@ -183,8 +185,20 @@ struct AppearanceSettingsPane: View {
         Defaults.Toggle(key: .showRecentCopyInMenuBar) {
           Text("ShowRecentCopyInMenuBar", tableName: "AppearanceSettings")
         }
-        Defaults.Toggle(key: .showSearch) {
-          Text("ShowSearchField", tableName: "AppearanceSettings")
+        HStack {
+          Defaults.Toggle(key: .showSearch) {
+            Text("ShowSearchField", tableName: "AppearanceSettings")
+          }
+
+          Picker("", selection: $searchVisibility) {
+            ForEach(SearchVisibility.allCases) { type in
+              Text(type.description)
+            }
+          }
+          .labelsHidden()
+          .scaledToFit()
+          .disabled(!showSearch)
+          .controlSize(.small)
         }
         Defaults.Toggle(key: .showTitle) {
           Text("ShowTitleBeforeSearchField", tableName: "AppearanceSettings")

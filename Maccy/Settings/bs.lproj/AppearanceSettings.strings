@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Poslednja pozicija";
 "PopupAtLastLocationReset" = "Resetuj poziciju";
 "PopupAtTooltip" = "Promijeni lokaciju na kojoj se pojavljuje priručni prozor.\nZadano: Kursor.";
+"SearchVisibilityAlways" = "Uvijek";
+"SearchVisibilityDuringSearch" = "Tokom pretrage";
 "ActiveScreen" = "Aktivni zaslon";
 "PinTo" = "Zakači na:";
 "PinToTop" = "Vrh";

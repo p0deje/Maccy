@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Остання позиція";
 "PopupAtLastLocationReset" = "Скинути позицію";
 "PopupAtTooltip" = "Змініть розташування спливаючого вікна.\nЗа замовчуванням: Курсор.";
+"SearchVisibilityAlways" = "Завжди";
+"SearchVisibilityDuringSearch" = "Під час обшуку";
 "ActiveScreen" = "Активний екран";
 "PinTo" = "Закріпити:";
 "PinToTop" = "Зверху";

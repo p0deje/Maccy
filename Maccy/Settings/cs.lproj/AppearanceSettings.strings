@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Poslední pozice";
 "PopupAtLastLocationReset" = "Vynulování polohy";
 "PopupAtTooltip" = "Dolů";
+"SearchVisibilityAlways" = "Vždy";
+"SearchVisibilityDuringSearch" = "Během vyhledávání";
 "ActiveScreen" = "Aktivní obrazovka";
 "PinTo" = "Připnout:";
 "PinToTop" = "Nahoru";
