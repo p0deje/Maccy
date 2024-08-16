@@ -17,13 +17,13 @@ struct HistoryListView: View {
       ScrollView {
         LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders, .sectionFooters]) {
           Section {
-            ForEach(appState.history.unpinnedItems) { item in
+            ForEach(appState.history.unpinnedItems.filter(\.isVisible)) { item in
               HistoryItemView(item: item)
             }
           } header: {
             if pinTo == .top {
               LazyVStack(spacing: 0) {
-                ForEach(appState.history.pinnedItems) { item in
+                ForEach(appState.history.pinnedItems.filter(\.isVisible)) { item in
                   HistoryItemView(item: item)
                 }
               }
@@ -32,7 +32,7 @@ struct HistoryListView: View {
           } footer: {
             if pinTo == .bottom {
               LazyVStack(spacing: 0) {
-                ForEach(appState.history.pinnedItems) { item in
+                ForEach(appState.history.pinnedItems.filter(\.isVisible)) { item in
                   HistoryItemView(item: item)
                 }
               }
