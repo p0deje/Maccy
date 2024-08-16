@@ -5,10 +5,12 @@ import Observation
 
 @Observable
 class Popup {
-  static let verticalPadding: CGFloat = 5
+  let verticalPadding: CGFloat = 5
 
+  var needsResize = false
+
+  var height: CGFloat = 0
   var headerHeight: CGFloat = 0
-  var pinnedItemsHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
 
   init() {
@@ -18,10 +20,10 @@ class Popup {
   }
 
   func toggle(at popupPosition: PopupPosition = Defaults[.popupPosition]) {
-    AppState.shared.appDelegate?.panel.toggle(height: AppState.shared.height, at: popupPosition)
+    AppState.shared.appDelegate?.panel.toggle(height: height, at: popupPosition)
   }
 
-  func open(height: CGFloat = AppState.shared.height, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
+  func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     AppState.shared.appDelegate?.panel.open(height: height, at: popupPosition)
   }
 
@@ -30,9 +32,8 @@ class Popup {
   }
 
   func resize(height: CGFloat) {
-    let newHeight = height + headerHeight + pinnedItemsHeight + footerHeight + (Popup.verticalPadding * 2)
-    AppState.shared.height = newHeight
-    AppState.shared.appDelegate?.panel.verticallyResize(to: newHeight)
-    AppState.shared.needsResize = false
+    self.height = height + headerHeight + footerHeight + (verticalPadding * 2)
+    AppState.shared.appDelegate?.panel.verticallyResize(to: self.height)
+    needsResize = false
   }
 }

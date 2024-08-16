@@ -10,7 +10,7 @@ struct ContentView: View {
 
   var body: some View {
     ZStack {
-      VisualEffectView(material: .popover, blendingMode: .behindWindow)
+      VisualEffectView()
 
       VStack(alignment: .leading, spacing: 0) {
         KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
@@ -29,7 +29,7 @@ struct ContentView: View {
       }
       .animation(.default, value: appState.history.items)
       .padding(.horizontal, 5)
-      .padding(.vertical, Popup.verticalPadding)
+      .padding(.vertical, appState.popup.verticalPadding)
       .onAppear { searchFocused = true }
       .onContinuousHover(coordinateSpace: .local) { phase in
         appState.isKeyboardNavigating = false

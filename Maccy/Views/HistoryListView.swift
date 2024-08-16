@@ -13,27 +13,31 @@ struct HistoryListView: View {
   @Default(.previewDelay) private var previewDelay
 
   var body: some View {
-    if pinTo == .top {
-      LazyVStack(spacing: 0) {
-        ForEach(appState.history.pinnedItems) { item in
-          HistoryItemView(item: item)
-        }
-      }
-      .background {
-        GeometryReader { geo in
-          Color.clear
-            .task(id: geo.size.height) {
-              appState.popup.pinnedItemsHeight = geo.size.height
+    ScrollViewReader { proxy in
+      ScrollView {
+        LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders, .sectionFooters]) {
+          Section {
+            ForEach(appState.history.unpinnedItems) { item in
+              HistoryItemView(item: item)
             }
-        }
-      }
-    }
-
-    ScrollView {
-      ScrollViewReader { proxy in
-        LazyVStack(spacing: 0) {
-          ForEach(appState.history.unpinnedItems) { item in
-            HistoryItemView(item: item)
+          } header: {
+            if pinTo == .top {
+              LazyVStack(spacing: 0) {
+                ForEach(appState.history.pinnedItems) { item in
+                  HistoryItemView(item: item)
+                }
+              }
+              .background(VisualEffectView())
+            }
+          } footer: {
+            if pinTo == .bottom {
+              LazyVStack(spacing: 0) {
+                ForEach(appState.history.pinnedItems) { item in
+                  HistoryItemView(item: item)
+                }
+              }
+              .background(VisualEffectView())
+            }
           }
         }
         .task(id: appState.scrollTarget) {
@@ -60,11 +64,11 @@ struct HistoryListView: View {
         .background {
           GeometryReader { geo in
             Color.clear
-              .task(id: appState.needsResize) {
+              .task(id: appState.popup.needsResize) {
                 try? await Task.sleep(for: .milliseconds(10))
                 guard !Task.isCancelled else { return }
 
-                if appState.needsResize {
+                if appState.popup.needsResize {
                   appState.popup.resize(height: geo.size.height)
                 }
               }
@@ -72,22 +76,6 @@ struct HistoryListView: View {
         }
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
-    }
-
-    if pinTo == .bottom {
-      LazyVStack(spacing: 0) {
-        ForEach(appState.history.pinnedItems) { item in
-          HistoryItemView(item: item)
-        }
-      }
-      .background {
-        GeometryReader { geo in
-          Color.clear
-            .task(id: geo.size.height) {
-              appState.popup.pinnedItemsHeight = geo.size.height
-            }
-        }
-      }
     }
   }
 }

@@ -100,7 +100,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
-    panel.toggle(height: AppState.shared.height)
+    panel.toggle(height: AppState.shared.popup.height)
     return true
   }
 
@@ -151,7 +151,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       }
     }
 
-    panel.toggle(height: AppState.shared.height, at: .statusItem)
+    panel.toggle(height: AppState.shared.popup.height, at: .statusItem)
   }
 
   private func synchronizeMenuIconText() {
