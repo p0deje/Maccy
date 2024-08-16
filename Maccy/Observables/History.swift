@@ -38,7 +38,7 @@ class History {
           AppState.shared.highlightFirst()
         }
 
-        AppState.shared.needsResize = true
+        AppState.shared.popup.needsResize = true
       }
     }
   }
@@ -114,7 +114,7 @@ class History {
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
     Task {
-      AppState.shared.needsResize = true
+      AppState.shared.popup.needsResize = true
     }
   }
 
@@ -165,7 +165,7 @@ class History {
       }
 
       updateUnpinnedShortcuts()
-      AppState.shared.needsResize = true
+      AppState.shared.popup.needsResize = true
     }
   }
 
@@ -178,7 +178,7 @@ class History {
     )
     AppState.shared.popup.close()
     Task {
-      AppState.shared.needsResize = true
+      AppState.shared.popup.needsResize = true
     }
   }
 
@@ -188,7 +188,7 @@ class History {
     try? Storage.shared.context.delete(model: HistoryItem.self)
     AppState.shared.popup.close()
     Task {
-      AppState.shared.needsResize = true
+      AppState.shared.popup.needsResize = true
     }
   }
 
@@ -201,7 +201,7 @@ class History {
 
     updateUnpinnedShortcuts()
     Task {
-      AppState.shared.needsResize = true
+      AppState.shared.popup.needsResize = true
     }
   }
 

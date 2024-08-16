@@ -11,9 +11,6 @@ class AppState: Sendable {
   var history: History
   var footer: Footer
 
-  var height: CGFloat = 0
-  var needsResize = false
-
   var scrollTarget: UUID?
   var selection: UUID? = nil {
     didSet {
