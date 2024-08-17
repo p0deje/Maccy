@@ -21,6 +21,7 @@
 "PreviewDelay" = "預覽延遲:";
 "PreviewDelayTooltip" = "顯示預覽彈出視窗的延遲，單位為毫秒。\n預設：1500。";
 "HighlightMatches" = "凸顯相符項目：";
+"HighlightMatchColor" = "顏色";
 "HighlightMatchBold" = "粗體";
 "HighlightMatchItalic" = "斜體";
 "HighlightMatchUnderline" = "底線";

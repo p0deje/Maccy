@@ -21,6 +21,7 @@
 "PreviewDelay" = "Forsinkelse for forhåndsvisning:";
 "PreviewDelayTooltip" = "Utsett i millisekunder til en forhåndsvisningspopup vises.\nStandard: 1500.";
 "HighlightMatches" = "Fremhev kamper:";
+"HighlightMatchColor" = "Farge";
 "HighlightMatchBold" = "Fet";
 "HighlightMatchItalic" = "Kursiv";
 "HighlightMatchUnderline" = "Understreke";

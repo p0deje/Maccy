@@ -21,6 +21,7 @@
 "PreviewDelay" = "Задержка предварительного просмотра:";
 "PreviewDelayTooltip" = "Задержка в миллисекундах до появления всплывающего окна предварительного просмотра.\nПо умолчанию: 1500.";
 "HighlightMatches" = "Выделить совпадения:";
+"HighlightMatchColor" = "Цвет";
 "HighlightMatchBold" = "Жирный";
 "HighlightMatchItalic" = "Курсив";
 "HighlightMatchUnderline" = "Подчеркнутый";

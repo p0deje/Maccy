@@ -15,11 +15,13 @@ subpathsToIgnore = [".git", "carthage", "pods", "build", ".build", "docs"]
 translator = "deepL"
 secret = "<replace>"
 sourceLocale = "en"
+separateWithEmptyLine = false
 
 [update.normalize]
 paths = ["Maccy"]
 subpathsToIgnore = [".git", "carthage", "pods", "build", ".build", "docs"]
 separateWithEmptyLine = false
+sortByKeys = false
 
 [lint]
 paths = ["Maccy"]

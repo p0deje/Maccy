@@ -21,6 +21,7 @@
 "PreviewDelay" = "Затримка попереднього перегляду:";
 "PreviewDelayTooltip" = "Затримка в мілісекундах до появи спливаючого вікна попереднього перегляду.\nЗа замовчуванням: 1500.";
 "HighlightMatches" = "Виділіть збіги:";
+"HighlightMatchColor" = "Колір";
 "HighlightMatchBold" = "Жирний";
 "HighlightMatchItalic" = "Курсив";
 "HighlightMatchUnderline" = "Підкреслити";

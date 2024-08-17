@@ -21,6 +21,7 @@
 "PreviewDelay" = "プレビューの遅延：";
 "PreviewDelayTooltip" = "プレビュー ポップアップが表示されるまでのミリ秒単位の遅延。\nデフォルト：1500。";
 "HighlightMatches" = "一致を強調表示する:";
+"HighlightMatchColor" = "カラー";
 "HighlightMatchBold" = "太字";
 "HighlightMatchItalic" = "イタリック";
 "HighlightMatchUnderline" = "下線";

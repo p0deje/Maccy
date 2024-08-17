@@ -21,6 +21,7 @@
 "PreviewDelay" = "Atraso de pré-visualização:";
 "PreviewDelayTooltip" = "Atraso em milissegundos até que um popup de pré-visualização seja mostrado.\nPadrão: 1500.";
 "HighlightMatches" = "Destacar resultados:";
+"HighlightMatchColor" = "Cor";
 "HighlightMatchBold" = "Negrito";
 "HighlightMatchItalic" = "Itálico";
 "HighlightMatchUnderline" = "Sublinhado";

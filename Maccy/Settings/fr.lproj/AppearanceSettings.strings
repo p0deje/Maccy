@@ -21,6 +21,7 @@
 "PreviewDelay" = "Délai de prévisualisation :";
 "PreviewDelayTooltip" = "Délai en millisecondes jusqu'à ce qu'une fenêtre d'aperçu s'affiche.\nPar défaut : 1500.";
 "HighlightMatches" = "Matchs phares :";
+"HighlightMatchColor" = "Couleur";
 "HighlightMatchBold" = "Gras";
 "HighlightMatchItalic" = "Italique";
 "HighlightMatchUnderline" = "Souligner";

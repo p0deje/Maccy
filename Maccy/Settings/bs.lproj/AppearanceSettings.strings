@@ -21,6 +21,7 @@
 "PreviewDelay" = "Kašnjenje pregleda:";
 "PreviewDelayTooltip" = "Kašnjenje u milisekundama dok se ne prikaže skočni prozor za pregled.\nZadano: 1500.";
 "HighlightMatches" = "Istaknite utakmice:";
+"HighlightMatchColor" = "Boja";
 "HighlightMatchBold" = "Podebljano";
 "HighlightMatchItalic" = "Kurziv";
 "HighlightMatchUnderline" = "Podvući";

@@ -21,6 +21,7 @@
 "PreviewDelay" = "Anteprima ritardo:";
 "PreviewDelayTooltip" = "Ritardo in millisecondi prima che venga visualizzato un popup di anteprima.\nDefault: 1500.";
 "HighlightMatches" = "Evidenzia le partite:";
+"HighlightMatchColor" = "Colore";
 "HighlightMatchBold" = "Grassetto";
 "HighlightMatchItalic" = "Corsiva";
 "HighlightMatchUnderline" = "Sottolineare";

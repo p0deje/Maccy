@@ -21,6 +21,7 @@
 "PreviewDelay" = "미리보기 지연:";
 "PreviewDelayTooltip" = "미리보기 팝업이 표시될 때까지 밀리초 단위로 지연됩니다.\n기본값: 1500.";
 "HighlightMatches" = "경기 하이라이트:";
+"HighlightMatchColor" = "색상";
 "HighlightMatchBold" = "굵게";
 "HighlightMatchItalic" = "이탤릭체";
 "HighlightMatchUnderline" = "밑줄";

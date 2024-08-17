@@ -21,6 +21,7 @@
 "PreviewDelay" = "Vertraging:";
 "PreviewDelayTooltip" = "Vertraging in milliseconden totdat een voorbeeldpop-up wordt weergegeven.\nStandaard: 1500.";
 "HighlightMatches" = "Markeer overeenkomsten:";
+"HighlightMatchColor" = "Kleur";
 "HighlightMatchBold" = "Vetgedrukt";
 "HighlightMatchItalic" = "Cursief";
 "HighlightMatchUnderline" = "Onderstreep";

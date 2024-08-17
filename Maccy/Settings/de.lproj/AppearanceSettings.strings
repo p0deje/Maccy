@@ -21,6 +21,7 @@
 "PreviewDelay" = "Vorschauverzögerung:";
 "PreviewDelayTooltip" = "Verzögerung in Millisekunden, bis ein Vorschau-Popup angezeigt wird.\nStandard: 1500.";
 "HighlightMatches" = "Übereinstimmungen hervorheben:";
+"HighlightMatchColor" = "Farbe";
 "HighlightMatchBold" = "Fett";
 "HighlightMatchItalic" = "Kursiv";
 "HighlightMatchUnderline" = "Unterstreichen";

@@ -97,12 +97,15 @@ class HistoryItemDecorator: Identifiable, Hashable {
     var attributedString = AttributedString(title.shortened(to: 500))
     for range in attributedString.ranges(of: query, options: .caseInsensitive) {
       switch Defaults[.highlightMatch] {
+      case .bold:
+        attributedString[range].font = .bold(.body)()
       case .italic:
         attributedString[range].font = .italic(.body)()
       case .underline:
         attributedString[range].underlineStyle = .single
       default:
-        attributedString[range].font = .bold(.body)()
+        attributedString[range].backgroundColor = .findHighlightColor
+        attributedString[range].foregroundColor = .black
       }
     }
 

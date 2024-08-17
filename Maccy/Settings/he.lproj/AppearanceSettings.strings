@@ -21,6 +21,7 @@
 "PreviewDelay" = "השהיית תצוגה מקדימה:";
 "PreviewDelayTooltip" = "השהיה באלפיות השנייה עד להופעת חלונית תצוגה מקדימה.\nברירת מחדל: 1500.";
 "HighlightMatches" = "הדגשת תוצאות:";
+"HighlightMatchColor" = "צֶבַע";
 "HighlightMatchBold" = "מודגש";
 "HighlightMatchItalic" = "נטוי";
 "HighlightMatchUnderline" = "קו תחתי";
