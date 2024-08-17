@@ -21,6 +21,7 @@
 "PreviewDelay" = "Retraso de vista previa:";
 "PreviewDelayTooltip" = "Retraso en milisegundos hasta que se muestra una ventana emergente de vista previa.\nPor defecto: 1500.";
 "HighlightMatches" = "Partidos destacados:";
+"HighlightMatchColor" = "Color";
 "HighlightMatchBold" = "Negrita";
 "HighlightMatchItalic" = "Itálica";
 "HighlightMatchUnderline" = "Subrayar";

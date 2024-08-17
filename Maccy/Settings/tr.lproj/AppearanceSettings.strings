@@ -21,6 +21,7 @@
 "PreviewDelay" = "Önizleme gecikmesi:";
 "PreviewDelayTooltip" = "Önizleme açılır penceresi gösterilene kadar milisaniye cinsinden gecikme.\nSaptanmış: 1500.";
 "HighlightMatches" = "Maçları vurgula:";
+"HighlightMatchColor" = "Renk";
 "HighlightMatchBold" = "Kalın";
 "HighlightMatchItalic" = "Italik";
 "HighlightMatchUnderline" = "Altını çizmek";

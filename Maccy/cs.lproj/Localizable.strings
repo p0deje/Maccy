@@ -5,8 +5,6 @@
 "quit" = "Ukončit";
 "preferences" = "Předvolby…";
 "preferences_advanced" = "Pokročilé";
-"preferences_appearance" = "Vzhled";
-"preferences_general" = "Obecné";
 "preferences_pins" = "Připnuté";
 "accessibility_alert_message" = "„Maccy” by ráda ovládala tento počítač přes fuknce Zpřístupnění.";
 "accessibility_alert_deny" = "Odmítnout";
@@ -28,7 +26,5 @@
 "quit_tooltip" = "Ukončit aplikaci.";
 "accessibility_alert_comment" = "Uděl aplikaci přístup v {pane}, umístěném v {settings}.\n\nKlikni na tlačítko +, vyber Maccy a zapni přepínač vedle názvu.";
 "about" = "O aplikaci";
-"preferences_ignore" = "Ignorovat";
-"preferences_storage" = "Úložistě";
 "copy_modifiers_config" = "• Vyber se stisknutím %@ pro zkopírování položky.";
 "format_modifiers_config" = "• Vyber se stisknutím %@ pro zkopírování, odstranění formátování a vložení položky.";

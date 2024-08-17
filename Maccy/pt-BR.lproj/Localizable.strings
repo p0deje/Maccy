@@ -2,10 +2,6 @@
 "about" = "Sobre";
 "preferences" = "Preferências…";
 "preferences_advanced" = "Avançado";
-"preferences_appearance" = "Aparência";
-"preferences_ignore" = "Ignorar";
-"preferences_general" = "Geral";
-"preferences_storage" = "Armazenamento";
 "clear_all" = "Limpar tudo";
 "clear_all_tooltip" = "Limpar todos os itens.";
 "about_tooltip" = "Ler mais sobre o aplicativo.";

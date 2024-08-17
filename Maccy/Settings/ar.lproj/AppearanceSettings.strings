@@ -21,6 +21,7 @@
 "PreviewDelay" = "تأخير المعاينة:";
 "PreviewDelayTooltip" = "التأخير بالميللي ثانية حتى يتم عرض معاينة النافذة المنبثقة.\nالافتراضي: 1500.";
 "HighlightMatches" = "تسليط الضوء على التطابقات:";
+"HighlightMatchColor" = "اللون";
 "HighlightMatchBold" = "عريض";
 "HighlightMatchItalic" = "مائل";
 "HighlightMatchUnderline" = "تسطير";

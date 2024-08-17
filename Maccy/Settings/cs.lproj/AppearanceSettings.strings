@@ -21,6 +21,7 @@
 "PreviewDelay" = "Zpoždení náhledu:";
 "PreviewDelayTooltip" = "Zpoždění v milisekundách před zobrazením popup okna.\nVýchozí: 1500.";
 "HighlightMatches" = "Zvýraznit shody:";
+"HighlightMatchColor" = "Barva";
 "HighlightMatchBold" = "Tučně";
 "HighlightMatchItalic" = "Kurzívou";
 "HighlightMatchUnderline" = "Podtržením";

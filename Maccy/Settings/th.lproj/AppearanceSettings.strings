@@ -21,6 +21,7 @@
 "PreviewDelay" = "ความล่าช้าในการดูตัวอย่าง:";
 "PreviewDelayTooltip" = "หน่วงเวลาเป็นมิลลิวินาทีจนกว่าจะแสดงตัวอย่างป๊อปอัป.\nค่าเริ่มต้น: 1500";
 "HighlightMatches" = "ไฮไลท์การแข่งขัน:";
+"HighlightMatchColor" = "สี";
 "HighlightMatchBold" = "ตัวหนา";
 "HighlightMatchItalic" = "ตัวเอียง";
 "HighlightMatchUnderline" = "ขีดเส้นใต้";

@@ -21,6 +21,7 @@
 "PreviewDelay" = "Preview delay:";
 "PreviewDelayTooltip" = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500.";
 "HighlightMatches" = "Highlight matches:";
+"HighlightMatchColor" = "Color";
 "HighlightMatchBold" = "Bold";
 "HighlightMatchItalic" = "Italic";
 "HighlightMatchUnderline" = "Underline";

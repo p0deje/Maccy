@@ -21,6 +21,7 @@
 "PreviewDelay" = "预览延迟：";
 "PreviewDelayTooltip" = "延迟以毫秒为单位，直到显示预览弹出窗口。\n默认：1500。";
 "HighlightMatches" = "高亮匹配：";
+"HighlightMatchColor" = "颜色";
 "HighlightMatchBold" = "粗体";
 "HighlightMatchItalic" = "斜体";
 "HighlightMatchUnderline" = "强调";

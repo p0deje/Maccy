@@ -21,6 +21,7 @@
 "PreviewDelay" = "Odgoda pregleda:";
 "PreviewDelayTooltip" = "Odgoda u milisekundama dok se ne prikaže skočni prozor za pregled.\nStandardno: 1500.";
 "HighlightMatches" = "Označite podudaranja:";
+"HighlightMatchColor" = "Boja";
 "HighlightMatchBold" = "Podebljano";
 "HighlightMatchItalic" = "Kurziv";
 "HighlightMatchUnderline" = "Naglasiti";
