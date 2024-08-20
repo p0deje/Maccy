@@ -24,13 +24,8 @@ class History {
   var searchQuery: String = "" {
     didSet {
       throttler.throttle { [self] in
-        updateItems(
-          sorter.sort(
-            search
-              .search(string: searchQuery, within: items.map(\.item))
-              .map(\.object)
-          )
-        )
+        // TODO: Fix sorting for fuzzy search
+        updateItems(search.search(string: searchQuery, within: items.map(\.item)))
 
         if searchQuery.isEmpty {
           AppState.shared.selection = unpinnedItems.first?.id
@@ -286,10 +281,10 @@ class History {
     return nil
   }
 
-  private func updateItems(_ newItems: [HistoryItem]) {
+  private func updateItems(_ newItems: [Search.SearchResult]) {
     for item in items {
-      if newItems.contains(where: { $0 == item.item }) {
-        item.highlight(searchQuery)
+      if let foundItem = newItems.first(where: { $0.object == item.item }) {
+        item.highlight(searchQuery, foundItem.ranges)
         if !item.isVisible {
           item.isVisible = true
         }
