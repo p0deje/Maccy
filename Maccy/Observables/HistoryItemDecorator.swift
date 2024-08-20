@@ -88,24 +88,27 @@ class HistoryItemDecorator: Identifiable, Hashable {
     thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
   }
 
-  func highlight(_ query: String) {
+  func highlight(_ query: String, _ ranges: [Range<String.Index>]) {
     guard !query.isEmpty, !title.isEmpty else {
       attributedTitle = nil
       return
     }
 
     var attributedString = AttributedString(title.shortened(to: 500))
-    for range in attributedString.ranges(of: query, options: .caseInsensitive) {
-      switch Defaults[.highlightMatch] {
-      case .bold:
-        attributedString[range].font = .bold(.body)()
-      case .italic:
-        attributedString[range].font = .italic(.body)()
-      case .underline:
-        attributedString[range].underlineStyle = .single
-      default:
-        attributedString[range].backgroundColor = .findHighlightColor
-        attributedString[range].foregroundColor = .black
+    for range in ranges {
+      if let lowerBound = AttributedString.Index(range.lowerBound, within: attributedString),
+         let upperBound = AttributedString.Index(range.upperBound, within: attributedString) {
+        switch Defaults[.highlightMatch] {
+        case .bold:
+          attributedString[lowerBound..<upperBound].font = .bold(.body)()
+        case .italic:
+          attributedString[lowerBound..<upperBound].font = .italic(.body)()
+        case .underline:
+          attributedString[lowerBound..<upperBound].underlineStyle = .single
+        default:
+          attributedString[lowerBound..<upperBound].backgroundColor = .findHighlightColor
+          attributedString[lowerBound..<upperBound].foregroundColor = .black
+        }
       }
     }
 
