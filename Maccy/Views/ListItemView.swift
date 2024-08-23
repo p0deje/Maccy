@@ -12,7 +12,6 @@ struct ListItemView<Title: View>: View {
 
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
-  @Default(.imageMaxHeight) private var imageMaxHeight
 
   var body: some View {
     HStack(spacing: 0) {
@@ -21,7 +20,7 @@ struct ListItemView<Title: View>: View {
           .padding(.leading, 10)
           .padding(.vertical, 5)
       }
-      ListItemTitleView(attributedTitle: attributedTitle, isSelected: isSelected, title: title)
+      ListItemTitleView(attributedTitle: attributedTitle, title: title)
       Spacer()
       if !shortcuts.isEmpty {
         ZStack {

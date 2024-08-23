@@ -29,7 +29,6 @@ enum KeyChord: CaseIterable {
   case moveToPrevious
   case moveToFirst
   case openPreferences
-  case paste
   case pinOrUnpin
   case selectCurrentItem
   case close
@@ -80,42 +79,4 @@ enum KeyChord: CaseIterable {
     }
   }
   // swiftlint:enable cyclomatic_complexity
-
-  static let keysToSkip = [
-    Key.home,
-    Key.pageUp,
-    Key.pageDown,
-    Key.end,
-    Key.downArrow,
-    Key.leftArrow,
-    Key.rightArrow,
-    Key.upArrow,
-    Key.tab,
-    Key.f1,
-    Key.f2,
-    Key.f3,
-    Key.f4,
-    Key.f5,
-    Key.f6,
-    Key.f7,
-    Key.f8,
-    Key.f9,
-    Key.f10,
-    Key.f11,
-    Key.f12,
-    Key.f13,
-    Key.f14,
-    Key.f15,
-    Key.f16,
-    Key.f17,
-    Key.f18,
-    Key.f19,
-    Key.eisu,
-    Key.kana
-  ]
-  private static let modifiersToSkip = NSEvent.ModifierFlags([
-    .command,
-    .control,
-    .option
-  ])
 }
