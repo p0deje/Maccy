@@ -17,6 +17,7 @@ struct ListItemView<Title: View>: View {
     HStack(spacing: 0) {
       if let image {
         Image(nsImage: image)
+          .accessibilityIdentifier("copy-history-item")
           .padding(.leading, 10)
           .padding(.vertical, 5)
       }

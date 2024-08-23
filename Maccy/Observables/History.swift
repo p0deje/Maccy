@@ -266,6 +266,7 @@ class History {
 
     items = all
 
+    searchQuery = ""
     updateUnpinnedShortcuts()
     if (item.isUnpinned) {
       AppState.shared.scrollTarget = item.id

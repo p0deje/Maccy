@@ -7,11 +7,13 @@ struct ListItemTitleView<Title: View>: View {
   var body: some View {
     if let attributedTitle {
       Text(attributedTitle)
+        .accessibilityIdentifier("copy-history-item")
         .lineLimit(1)
         .truncationMode(.middle)
         .padding(.leading, 10)
     } else {
       title()
+        .accessibilityIdentifier("copy-history-item")
         .lineLimit(1)
         .truncationMode(.middle)
         .padding(.leading, 10)
