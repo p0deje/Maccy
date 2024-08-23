@@ -53,11 +53,13 @@ struct KeyHandlingView<Content: View>: View {
           return .handled
         case .deleteLastWordFromSearch:
           searchFocused = true
-          searchQuery =
-          searchQuery
-            .split(separator: " ")
-            .dropLast()
-            .joined(separator: " ")
+          let newQuery = searchQuery.split(separator: " ").dropLast().joined(separator: " ")
+          if newQuery.isEmpty {
+            searchQuery = ""
+          } else {
+            searchQuery = "\(newQuery) "
+          }
+
           return .handled
         case .moveToNext:
           guard NSApp.characterPickerWindow == nil else {
@@ -106,7 +108,7 @@ struct KeyHandlingView<Content: View>: View {
         if let item = appState.history.pressedShortcutItem {
           appState.selection = item.id
           Task {
-            try! await Task.sleep(for: .milliseconds(50))
+            try? await Task.sleep(for: .milliseconds(50))
             appState.history.select(item)
           }
           return .handled

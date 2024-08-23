@@ -34,7 +34,12 @@ struct ContentView: View {
       .onContinuousHover(coordinateSpace: .local) { phase in
         appState.isKeyboardNavigating = false
       }
-      .task { try? await appState.history.load() }
+      .task {
+        try? await appState.history.load()
+        if ProcessInfo.processInfo.arguments.contains("ui-testing") {
+          appState.history.clearAll()
+        }
+      }
     }
     .environment(appState)
     .environment(modifierFlags)
