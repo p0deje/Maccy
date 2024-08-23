@@ -24,8 +24,7 @@ class History {
   var searchQuery: String = "" {
     didSet {
       throttler.throttle { [self] in
-        // TODO: Fix sorting for fuzzy search
-        updateItems(search.search(string: searchQuery, within: items.map(\.item)))
+        updateItems(search.search(string: searchQuery, within: all))
 
         if searchQuery.isEmpty {
           AppState.shared.selection = unpinnedItems.first?.id
@@ -56,10 +55,17 @@ class History {
   }
 
   private let search = Search()
-  private var sorter = Sorter(by: Defaults[.sortBy])
+  private let sorter = Sorter()
   private let throttler = Throttler(minimumDelay: 0.2)
 
+  @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
+  
+  // The distinction between `all` and `items` is the following:
+  // - `all` stores all history items, even the ones that are currently hidden by a search
+  // - `items` stores only visible history items, updated during a search
+  @ObservationIgnored
+  private var all: [HistoryItemDecorator] = []
 
   init() {
     Task {
@@ -69,8 +75,7 @@ class History {
     }
 
     Task {
-      for await value in Defaults.updates(.sortBy, initial: false) {
-        sorter = Sorter(by: value)
+      for await _ in Defaults.updates(.sortBy, initial: false) {
         try? await load()
       }
     }
@@ -104,7 +109,8 @@ class History {
   func load() async throws {
     let descriptor = FetchDescriptor<HistoryItem>()
     let results = try Storage.shared.context.fetch(descriptor)
-    items = sorter.sort(results).map { HistoryItemDecorator($0) }
+    all = sorter.sort(results).map { HistoryItemDecorator($0) }
+    items = all
 
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
@@ -115,8 +121,8 @@ class History {
 
   @MainActor
   func add(_ item: HistoryItem) {
-    while items.filter(\.isUnpinned).count >= Defaults[.size] {
-      delete(items.last(where: \.isUnpinned))
+    while all.filter(\.isUnpinned).count >= Defaults[.size] {
+      delete(all.last(where: \.isUnpinned))
     }
 
     var removedItemIndex: Int?
@@ -132,9 +138,9 @@ class History {
         item.application = existingHistoryItem.application
       }
       Storage.shared.context.delete(existingHistoryItem)
-      removedItemIndex = items.firstIndex(where: { $0.item == existingHistoryItem })
+      removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
       if let removedItemIndex {
-        items.remove(at: removedItemIndex)
+        all.remove(at: removedItemIndex)
       }
     } else {
       Task {
@@ -149,16 +155,17 @@ class History {
       itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
       // Keep pins in the same place.
       if let removedItemIndex {
-        items.insert(itemDecorator, at: removedItemIndex)
+        all.insert(itemDecorator, at: removedItemIndex)
       }
     } else {
       itemDecorator = HistoryItemDecorator(item)
 
-      let sortedItems = sorter.sort(items.map(\.item) + [item])
+      let sortedItems = sorter.sort(all.map(\.item) + [item])
       if let index = sortedItems.firstIndex(of: item) {
-        items.insert(itemDecorator, at: index)
+        all.insert(itemDecorator, at: index)
       }
 
+      items = all
       updateUnpinnedShortcuts()
       AppState.shared.popup.needsResize = true
     }
@@ -166,11 +173,13 @@ class History {
 
   @MainActor
   func clear() {
-    items.removeAll(where: \.isUnpinned)
+    all.removeAll(where: \.isUnpinned)
+    items = all
     try? Storage.shared.context.delete(
       model: HistoryItem.self,
       where: #Predicate { $0.pin == nil }
     )
+    Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
       AppState.shared.popup.needsResize = true
@@ -179,8 +188,10 @@ class History {
 
   @MainActor
   func clearAll() {
-    items.removeAll()
+    all.removeAll()
+    items = all
     try? Storage.shared.context.delete(model: HistoryItem.self)
+    Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
       AppState.shared.popup.needsResize = true
@@ -192,6 +203,7 @@ class History {
     guard let item else { return }
 
     Storage.shared.context.delete(item.item)
+    all.removeAll { $0 == item }
     items.removeAll { $0 == item }
 
     updateUnpinnedShortcuts()
@@ -245,12 +257,14 @@ class History {
 
     item.togglePin()
 
-    let sortedItems = sorter.sort(items.map(\.item))
-    if let currentIndex = items.firstIndex(of: item),
+    let sortedItems = sorter.sort(all.map(\.item))
+    if let currentIndex = all.firstIndex(of: item),
        let newIndex = sortedItems.firstIndex(of: item.item) {
-      items.remove(at: currentIndex)
-      items.insert(item, at: newIndex)
+      all.remove(at: currentIndex)
+      all.insert(item, at: newIndex)
     }
+
+    items = all
 
     updateUnpinnedShortcuts()
     if (item.isUnpinned) {
@@ -282,17 +296,11 @@ class History {
   }
 
   private func updateItems(_ newItems: [Search.SearchResult]) {
-    for item in items {
-      if let foundItem = newItems.first(where: { $0.object == item.item }) {
-        item.highlight(searchQuery, foundItem.ranges)
-        if !item.isVisible {
-          item.isVisible = true
-        }
-      } else {
-        if item.isVisible {
-          item.isVisible = false
-        }
-      }
+    items = newItems.map { result in
+      let item = result.object
+      item.highlight(searchQuery, result.ranges)
+
+      return item
     }
 
     updateUnpinnedShortcuts()

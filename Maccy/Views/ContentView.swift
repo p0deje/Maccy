@@ -27,7 +27,7 @@ struct ContentView: View {
           FooterView(footer: appState.footer)
         }
       }
-      .animation(.default, value: appState.history.items)
+      .animation(.default.speed(3), value: appState.history.items)
       .padding(.horizontal, 5)
       .padding(.vertical, appState.popup.verticalPadding)
       .onAppear { searchFocused = true }

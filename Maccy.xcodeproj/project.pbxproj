@@ -15,7 +15,6 @@
 		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
 		DA009932256411F90030E697 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DA00992D256411F90030E697 /* README.md */; };
 		DA009934256411F90030E697 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = DA00992F256411F90030E697 /* LICENSE */; };
-		DA009940256414560030E697 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = DA00993F256414560030E697 /* Fuse */; };
 		DA009947256414800030E697 /* SwiftHEXColors in Frameworks */ = {isa = PBXBuildFile; productRef = DA009946256414800030E697 /* SwiftHEXColors */; };
 		DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */ = {isa = PBXBuildFile; productRef = DA009954256414E60030E697 /* KeyboardShortcuts */; };
 		DA05B5112C234CB2006980FE /* MaccyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA05B5102C234CB1006980FE /* MaccyApp.swift */; };
@@ -98,7 +97,6 @@
 		DAA072DF2C41C63C006DDFD2 /* ConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072DE2C41C63C006DDFD2 /* ConfirmationView.swift */; };
 		DAA072E12C41C6E8006DDFD2 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E02C41C6E8006DDFD2 /* FooterView.swift */; };
 		DAA072E32C41D1D5006DDFD2 /* ListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E22C41D1D5006DDFD2 /* ListItemView.swift */; };
-		DAA072E52C41ED23006DDFD2 /* AttributedString+Ranges.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E42C41ED23006DDFD2 /* AttributedString+Ranges.swift */; };
 		DAA072E72C423617006DDFD2 /* NSSize+DefaultsSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E62C423617006DDFD2 /* NSSize+DefaultsSerializable.swift */; };
 		DAA072E92C42C6AA006DDFD2 /* ListItemTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E82C42C6AA006DDFD2 /* ListItemTitleView.swift */; };
 		DAA365CE2C4BF9DD00A394F8 /* PinsSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA365CD2C4BF9DD00A394F8 /* PinsSettingsPane.swift */; };
@@ -109,6 +107,8 @@
 		DAA5ACB22C1B3F8800B58513 /* GeneralSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA5ACB12C1B3F8800B58513 /* GeneralSettingsPane.swift */; };
 		DAA5ACB52C1B803000B58513 /* GeneralSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAA5ACB32C1B803000B58513 /* GeneralSettings.strings */; };
 		DAA5ACCA2C1BEE8A00B58513 /* SoftwareUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA5ACC92C1BEE8A00B58513 /* SoftwareUpdater.swift */; };
+		DAAAAB902C76647A004FBC3C /* Ifrit in Frameworks */ = {isa = PBXBuildFile; productRef = DAAAAB8F2C76647A004FBC3C /* Ifrit */; };
+		DAAAAB932C7664A2004FBC3C /* Ifrit in Embed Frameworks */ = {isa = PBXBuildFile; productRef = DAAAAB8F2C76647A004FBC3C /* Ifrit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DAAEB196219694AE00A7883C /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAEB195219694AE00A7883C /* About.swift */; };
 		DAB082962A2B7B850053E463 /* AppStoreReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB082952A2B7B850053E463 /* AppStoreReview.swift */; };
 		DABDE97F2974706C005B32E9 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */; };
@@ -140,6 +140,20 @@
 			remoteInfo = Maccy;
 		};
 /* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		DAAAAB942C7664A2004FBC3C /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				DAAAAB932C7664A2004FBC3C /* Ifrit in Embed Frameworks */,
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		088F4DA628BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -337,7 +351,6 @@
 		DAA072DE2C41C63C006DDFD2 /* ConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationView.swift; sourceTree = "<group>"; };
 		DAA072E02C41C6E8006DDFD2 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
 		DAA072E22C41D1D5006DDFD2 /* ListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemView.swift; sourceTree = "<group>"; };
-		DAA072E42C41ED23006DDFD2 /* AttributedString+Ranges.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AttributedString+Ranges.swift"; sourceTree = "<group>"; };
 		DAA072E62C423617006DDFD2 /* NSSize+DefaultsSerializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSize+DefaultsSerializable.swift"; sourceTree = "<group>"; };
 		DAA072E82C42C6AA006DDFD2 /* ListItemTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemTitleView.swift; sourceTree = "<group>"; };
 		DAA2BDCE24676CA7007FE090 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -436,6 +449,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DAAAAB902C76647A004FBC3C /* Ifrit in Frameworks */,
 				2F39CB042AD9A93C00B749FD /* Sparkle in Frameworks */,
 				DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */,
 				DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */,
@@ -444,7 +458,6 @@
 				DA5154D82564102900C01004 /* Sauce in Frameworks */,
 				2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */,
 				DA13D7CA2C19F52B00FA9E23 /* LaunchAtLogin in Frameworks */,
-				DA009940256414560030E697 /* Fuse in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -454,7 +467,6 @@
 		2FBB7A252B5FECBB00C65BBE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				DAA072E42C41ED23006DDFD2 /* AttributedString+Ranges.swift */,
 				DA19691B2C3F3EAC00258481 /* Collection+Surrounding.swift */,
 				DAA072D22C40A961006DDFD2 /* Color+Random.swift */,
 				DA13D7D12C19F91B00FA9E23 /* Defaults.Keys+Names.swift */,
@@ -728,6 +740,7 @@
 				DAEE383F1E3DBEB100DD2966 /* Sources */,
 				DAEE38401E3DBEB100DD2966 /* Frameworks */,
 				DAEE38411E3DBEB100DD2966 /* Resources */,
+				DAAAAB942C7664A2004FBC3C /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -736,13 +749,13 @@
 			name = Maccy;
 			packageProductDependencies = (
 				DA5154D72564102900C01004 /* Sauce */,
-				DA00993F256414560030E697 /* Fuse */,
 				DA009946256414800030E697 /* SwiftHEXColors */,
 				DA009954256414E60030E697 /* KeyboardShortcuts */,
 				2F39CB032AD9A93C00B749FD /* Sparkle */,
 				2F39CB092AD9AE1F00B749FD /* Settings */,
 				DA13D7C92C19F52B00FA9E23 /* LaunchAtLogin */,
 				DA13D7CF2C19F8C300FA9E23 /* Defaults */,
+				DAAAAB8F2C76647A004FBC3C /* Ifrit */,
 			);
 			productName = Maccy;
 			productReference = DAEE38431E3DBEB100DD2966 /* Maccy.app */;
@@ -810,13 +823,13 @@
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			packageReferences = (
 				DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */,
-				DA00993E256414560030E697 /* XCRemoteSwiftPackageReference "fuse-swift" */,
 				DA009945256414800030E697 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */,
 				DA009953256414E60030E697 /* XCRemoteSwiftPackageReference "KeyboardShortcuts" */,
 				2F39CB022AD9A93C00B749FD /* XCRemoteSwiftPackageReference "Sparkle" */,
 				2F39CB082AD9AE1F00B749FD /* XCRemoteSwiftPackageReference "Settings" */,
 				DA13D7C82C19F43E00FA9E23 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 				DA13D7CE2C19F8C300FA9E23 /* XCRemoteSwiftPackageReference "Defaults" */,
+				DAAAAB8E2C76647A004FBC3C /* XCRemoteSwiftPackageReference "Ifrit" */,
 			);
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
 			projectDirPath = "";
@@ -967,7 +980,6 @@
 				DAA072DD2C41C61F006DDFD2 /* FooterItemView.swift in Sources */,
 				DA3EAE0C2AE30F7500F39108 /* NSApplication+Windows.swift in Sources */,
 				DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */,
-				DAA072E52C41ED23006DDFD2 /* AttributedString+Ranges.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
 				DAA072DF2C41C63C006DDFD2 /* ConfirmationView.swift in Sources */,
@@ -1572,14 +1584,6 @@
 				minimumVersion = 3.1.1;
 			};
 		};
-		DA00993E256414560030E697 /* XCRemoteSwiftPackageReference "fuse-swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/krisk/fuse-swift";
-			requirement = {
-				kind = upToNextMinorVersion;
-				minimumVersion = 1.4.0;
-			};
-		};
 		DA009945256414800030E697 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/thii/SwiftHEXColors";
@@ -1620,6 +1624,14 @@
 				minimumVersion = 2.4.1;
 			};
 		};
+		DAAAAB8E2C76647A004FBC3C /* XCRemoteSwiftPackageReference "Ifrit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ukushu/Ifrit.git";
+			requirement = {
+				branch = main;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -1632,11 +1644,6 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2F39CB082AD9AE1F00B749FD /* XCRemoteSwiftPackageReference "Settings" */;
 			productName = Settings;
-		};
-		DA00993F256414560030E697 /* Fuse */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = DA00993E256414560030E697 /* XCRemoteSwiftPackageReference "fuse-swift" */;
-			productName = Fuse;
 		};
 		DA009946256414800030E697 /* SwiftHEXColors */ = {
 			isa = XCSwiftPackageProductDependency;
@@ -1662,6 +1669,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */;
 			productName = Sauce;
+		};
+		DAAAAB8F2C76647A004FBC3C /* Ifrit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DAAAAB8E2C76647A004FBC3C /* XCRemoteSwiftPackageReference "Ifrit" */;
+			productName = Ifrit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

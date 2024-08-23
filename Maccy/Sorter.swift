@@ -22,17 +22,13 @@ class Sorter {
     }
   }
 
-  private var by: By
-
-  init(by: By) {
-    self.by = by
+  func sort(_ items: [HistoryItem], by: By = Defaults[.sortBy]) -> [HistoryItem] {
+    return items
+      .sorted(by: { return bySortingAlgorithm($0, $1, by) })
+      .sorted(by: byPinned)
   }
 
-  func sort(_ items: [HistoryItem]) -> [HistoryItem] {
-    return items.sorted(by: bySortingAlgorithm(_:_:)).sorted(by: byPinned(_:_:))
-  }
-
-  private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem) -> Bool {
+  private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
     switch by {
     case .firstCopiedAt:
       return lhs.firstCopiedAt > rhs.firstCopiedAt
