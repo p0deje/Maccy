@@ -1,6 +1,6 @@
 import AppKit
 import Defaults
-import Fuse
+import Ifrit
 
 class Search {
   enum Mode: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
@@ -27,11 +27,11 @@ class Search {
 
   struct SearchResult: Equatable {
     var score: Double? = nil
-    var object: HistoryItem
+    var object: Searchable
     var ranges: [Range<String.Index>] = []
   }
 
-  typealias Searchable = HistoryItem
+  typealias Searchable = HistoryItemDecorator
 
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
@@ -79,10 +79,10 @@ class Search {
         score: fuzzyResult.score,
         object: item,
         ranges: fuzzyResult.ranges.map { 
-          let startIndex = searchString.utf16.startIndex
-          let lowerBound = searchString.utf16.index(startIndex, offsetBy: $0.lowerBound)
-          let upperBound = searchString.utf16.index(startIndex, offsetBy: $0.upperBound)
-          
+          let startIndex = searchString.startIndex
+          let lowerBound = searchString.index(startIndex, offsetBy: $0.lowerBound)
+          let upperBound = searchString.index(startIndex, offsetBy: $0.upperBound + 1)
+
           return lowerBound..<upperBound
         }
       )
