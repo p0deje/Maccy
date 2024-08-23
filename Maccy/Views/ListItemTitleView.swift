@@ -2,7 +2,6 @@ import SwiftUI
 
 struct ListItemTitleView<Title: View>: View {
   var attributedTitle: AttributedString? = nil
-  var isSelected: Bool
   @ViewBuilder var title: () -> Title
 
   var body: some View {

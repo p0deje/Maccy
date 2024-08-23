@@ -116,7 +116,7 @@ struct AppearanceSettingsPane: View {
 
       Settings.Section(label: { Text("NumberOfItems", tableName: "AppearanceSettings") }) {
         HStack {
-          TextField("", value: $numberOfItems, formatter: imageHeightFormatter)
+          TextField("", value: $numberOfItems, formatter: numberOfItemsFormatter)
             .frame(width: 120)
             .help(Text("NumberOfItemsTooltip", tableName: "AppearanceSettings"))
           Stepper("", value: $numberOfItems, in: 0...100)

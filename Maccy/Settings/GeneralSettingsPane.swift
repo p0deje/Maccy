@@ -56,7 +56,9 @@ struct GeneralSettingsPane: View {
           ForEach(Search.Mode.allCases) { mode in
             Text(mode.description)
           }
-        }.labelsHidden().frame(width: 180)
+        }
+        .labelsHidden()
+        .frame(width: 180)
       }
 
       Settings.Section(
@@ -65,15 +67,23 @@ struct GeneralSettingsPane: View {
       ) {
         Defaults.Toggle(key: .pasteByDefault) {
           Text("PasteAutomatically", tableName: "GeneralSettings")
-        }.onChange(refreshModifiers).fixedSize()
+        }
+        .onChange(refreshModifiers)
+        .fixedSize()
+
         Defaults.Toggle(key: .removeFormattingByDefault) {
           Text("PasteWithoutFormatting", tableName: "GeneralSettings")
-        }.onChange(refreshModifiers).fixedSize()
+        }
+        .onChange(refreshModifiers)
+        .fixedSize()
 
         Text(String(
           format: NSLocalizedString("Modifiers", tableName: "GeneralSettings", comment: ""),
           copyModifier, pasteModifier, pasteWithoutFormatting
-        )).fixedSize(horizontal: false, vertical: true).foregroundStyle(.gray).controlSize(.small)
+        ))
+        .fixedSize(horizontal: false, vertical: true)
+        .foregroundStyle(.gray)
+        .controlSize(.small)
       }
 
       Settings.Section(title: "") {

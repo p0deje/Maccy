@@ -1,8 +1,6 @@
 import SwiftUI
 
 struct KeyboardShortcutView: View {
-  @Environment(ModifierFlags.self) private var modifierFlags
-
   var shortcut: KeyShortcut?
 
   var modifiers: String {
@@ -12,6 +10,7 @@ struct KeyboardShortcutView: View {
     }
     return ""
   }
+
   var character: String {
     return shortcut?.description.last?.description ?? ""
   }

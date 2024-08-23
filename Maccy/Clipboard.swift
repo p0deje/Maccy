@@ -29,7 +29,6 @@ class Clipboard {
     .concealed,
     .transient
   ]
-  private let modifiedTypes: Set<NSPasteboard.PasteboardType> = [.modified]
 
   private var enabledTypes: Set<NSPasteboard.PasteboardType> { Defaults[.enabledPasteboardTypes] }
   private var disabledTypes: Set<NSPasteboard.PasteboardType> { supportedTypes.subtracting(enabledTypes) }

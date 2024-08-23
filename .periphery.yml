@@ -1,0 +1,6 @@
+project: Maccy.xcodeproj
+retain_objc_accessible: true
+schemes:
+- Maccy
+targets:
+- Maccy
