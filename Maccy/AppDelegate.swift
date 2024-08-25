@@ -92,7 +92,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     panel = FloatingPanel(
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
-      title: Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy",
+      identifier: Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy",
       statusBarButton: statusItem.button
     ) {
       ContentView()

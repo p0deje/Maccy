@@ -46,12 +46,16 @@ struct ContentView: View {
     .environment(\.scenePhase, scenePhase)
     // FloatingPanel is not a scene, so let's implement custom scenePhase..
     .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) {
-      if ($0.object as? NSWindow)?.title == Bundle.main.bundleIdentifier {
+      if let window = $0.object as? NSWindow,
+         let bundleIdentifier = Bundle.main.bundleIdentifier,
+         window.identifier == NSUserInterfaceItemIdentifier(bundleIdentifier) {
         scenePhase = .active
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: NSWindow.didResignKeyNotification)) {
-      if ($0.object as? NSWindow)?.title == Bundle.main.bundleIdentifier {
+      if let window = $0.object as? NSWindow,
+         let bundleIdentifier = Bundle.main.bundleIdentifier,
+         window.identifier == NSUserInterfaceItemIdentifier(bundleIdentifier) {
         scenePhase = .background
       }
     }
