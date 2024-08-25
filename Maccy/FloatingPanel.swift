@@ -14,7 +14,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   init(
     contentRect: NSRect,
-    title: String = "",
+    identifier: String = "",
     statusBarButton: NSStatusBarButton? = nil,
     view: () -> Content
   ) {
@@ -26,7 +26,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     )
 
     self.statusBarButton = statusBarButton
-    self.title = title
+    self.identifier = NSUserInterfaceItemIdentifier(identifier)
 
     Defaults[.windowSize] = contentRect.size
     delegate = self
@@ -44,7 +44,6 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     standardWindowButton(.closeButton)?.isHidden = true
     standardWindowButton(.miniaturizeButton)?.isHidden = true
     standardWindowButton(.zoomButton)?.isHidden = true
-
 
     contentView = NSHostingView(
       rootView: view()
