@@ -62,7 +62,6 @@
 		DA49EE7528B59468002752E0 /* NSRect+Centered.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EE7428B59468002752E0 /* NSRect+Centered.swift */; };
 		DA49EE7928B594DC002752E0 /* NSRunningApplication+WindowFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */; };
 		DA5154D82564102900C01004 /* Sauce in Frameworks */ = {isa = PBXBuildFile; productRef = DA5154D72564102900C01004 /* Sauce */; };
-		DA57C650249E3C8F0032707A /* MenuFoooterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA57C64F249E3C8F0032707A /* MenuFoooterTests.swift */; };
 		DA5E62802C39E53F00F4C710 /* PreviewItemView.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA5E627E2C39E53F00F4C710 /* PreviewItemView.strings */; };
 		DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DA5F464F2020E4DF00425C11 /* Carbon.framework */; };
 		DA6373981E4AB9BB00263391 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DA6373971E4AB9BB00263391 /* Assets.xcassets */; };
@@ -220,7 +219,6 @@
 		DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRunningApplication+WindowFrame.swift"; sourceTree = "<group>"; };
 		DA4B706A271B7B5300FF324C /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA4C056C2BD416F000FE5FEC /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
-		DA57C64F249E3C8F0032707A /* MenuFoooterTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuFoooterTests.swift; sourceTree = "<group>"; };
 		DA5E627F2C39E53F00F4C710 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
 		DA5E62812C39E54A00F4C710 /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
 		DA5E62822C39E54B00F4C710 /* bs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = bs; path = bs.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
@@ -572,7 +570,6 @@
 			children = (
 				DA48AE852A5F0077006D4894 /* Fixtures */,
 				DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */,
-				DA57C64F249E3C8F0032707A /* MenuFoooterTests.swift */,
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				DAE2850123225BD90080E394 /* ColorImageTests.swift */,
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
@@ -902,7 +899,6 @@
 				DA1EDE452045B68700479723 /* MenuTests.swift in Sources */,
 				DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,
-				DA57C650249E3C8F0032707A /* MenuFoooterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1468,7 +1464,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 44;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1483,7 +1479,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.0.0.beta.12;
+				MARKETING_VERSION = 2.0.0.beta.13;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1503,7 +1499,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 43;
+				CURRENT_PROJECT_VERSION = 44;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1518,7 +1514,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.0.0.beta.12;
+				MARKETING_VERSION = 2.0.0.beta.13;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
