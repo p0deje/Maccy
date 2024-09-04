@@ -13,35 +13,32 @@ struct HistoryListView: View {
   @Default(.previewDelay) private var previewDelay
 
   var body: some View {
-    ScrollViewReader { proxy in
-      ScrollView {
-        LazyVStack(spacing: 0, pinnedViews: [.sectionHeaders, .sectionFooters]) {
-          Section {
-            ForEach(appState.history.unpinnedItems.filter(\.isVisible)) { item in
-              HistoryItemView(item: item)
+    if pinTo == .top {
+      LazyVStack(spacing: 0) {
+        ForEach(appState.history.pinnedItems.filter(\.isVisible)) { item in
+          HistoryItemView(item: item)
+        }
+      }
+      .background {
+        GeometryReader { geo in
+          Color.clear
+            .task(id: geo.size.height) {
+              appState.popup.pinnedItemsHeight = geo.size.height
             }
-          } header: {
-            if pinTo == .top {
-              LazyVStack(spacing: 0) {
-                ForEach(appState.history.pinnedItems.filter(\.isVisible)) { item in
-                  HistoryItemView(item: item)
-                }
-              }
-              .background(VisualEffectView())
-            }
-          } footer: {
-            if pinTo == .bottom {
-              LazyVStack(spacing: 0) {
-                ForEach(appState.history.pinnedItems.filter(\.isVisible)) { item in
-                  HistoryItemView(item: item)
-                }
-              }
-              .background(VisualEffectView())
-            }
+        }
+      }
+    }
+
+    ScrollView {
+      ScrollViewReader { proxy in
+        LazyVStack(spacing: 0) {
+          ForEach(appState.history.unpinnedItems) { item in
+            HistoryItemView(item: item)
           }
         }
         .task(id: appState.scrollTarget) {
           guard appState.scrollTarget != nil else { return }
+          
           try? await Task.sleep(for: .milliseconds(10))
           guard !Task.isCancelled else { return }
 
@@ -76,6 +73,22 @@ struct HistoryListView: View {
         }
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
+    }
+
+    if pinTo == .bottom {
+      LazyVStack(spacing: 0) {
+        ForEach(appState.history.pinnedItems.filter(\.isVisible)) { item in
+          HistoryItemView(item: item)
+        }
+      }
+      .background {
+        GeometryReader { geo in
+          Color.clear
+            .task(id: geo.size.height) {
+              appState.popup.pinnedItemsHeight = geo.size.height
+            }
+        }
+      }
     }
   }
 }
