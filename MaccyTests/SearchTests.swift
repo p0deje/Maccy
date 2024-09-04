@@ -7,223 +7,118 @@ class SearchTests: XCTestCase {
   var items: [Search.Searchable]!
 
   override func setUp() {
-    CoreDataManager.inMemory = true
     super.setUp()
   }
 
   override func tearDown() {
     super.tearDown()
-    CoreDataManager.inMemory = false
     Defaults[.searchMode] = savedSearchMode
   }
 
-  func testSimpleSearchInTitle() {
+  @MainActor
+  func testSimpleSearch() {
     Defaults[.searchMode] = Search.Mode.exact
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithTitle("xxx yyy zzz"), menuItems: [])
+      HistoryItemDecorator(historyItemWithTitle("foo bar baz")),
+      HistoryItemDecorator(historyItemWithTitle("foo bar zaz")),
+      HistoryItemDecorator(historyItemWithTitle("xxx yyy zzz"))
     ]
 
     XCTAssertEqual(search(""), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
+      Search.SearchResult(score: nil, object: items[0], ranges: []),
+      Search.SearchResult(score: nil, object: items[1], ranges: []),
+      Search.SearchResult(score: nil, object: items[2], ranges: [])
     ])
     XCTAssertEqual(search("z"), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: [10...10]),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [8...8]),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [8...8])
+      Search.SearchResult(score: nil, object: items[0], ranges: [range(from: 10, to: 10, in: items[0])]),
+      Search.SearchResult(score: nil, object: items[1], ranges: [range(from: 8, to: 8, in: items[1])]),
+      Search.SearchResult(score: nil, object: items[2], ranges: [range(from: 8, to: 8, in: items[2])])
     ])
     XCTAssertEqual(search("foo"), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: [0...2]),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [0...2])
+      Search.SearchResult(score: nil, object: items[0], ranges: [range(from: 0, to: 2, in: items[0])]),
+      Search.SearchResult(score: nil, object: items[1], ranges: [range(from: 0, to: 2, in: items[1])])
     ])
     XCTAssertEqual(search("za"), [
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [8...9])
+      Search.SearchResult(score: nil, object: items[1], ranges: [range(from: 8, to: 9, in: items[1])])
     ])
     XCTAssertEqual(search("yyy"), [
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [4...6])
+      Search.SearchResult(score: nil, object: items[2], ranges: [range(from: 4, to: 6, in: items[2])])
     ])
     XCTAssertEqual(search("fbb"), [])
     XCTAssertEqual(search("m"), [])
   }
 
-  func testSimpleSearchInContents() {
-    Defaults[.searchMode] = Search.Mode.exact
-    items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithoutTitle("xxx yyy zzz"), menuItems: [])
-    ]
-
-    XCTAssertEqual(search(""), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
-    ])
-    XCTAssertEqual(search("z"), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
-    ])
-    XCTAssertEqual(search("foo"), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [])
-    ])
-    XCTAssertEqual(search("za"), [
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [])
-    ])
-    XCTAssertEqual(search("yyy"), [
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
-    ])
-    XCTAssertEqual(search("fbb"), [])
-    XCTAssertEqual(search("m"), [])
-  }
-
-  func testFuzzySearchInTitle() {
+  @MainActor
+  func testFuzzySearch() {
     Defaults[.searchMode] = Search.Mode.fuzzy
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithTitle("xxx yyy zzz"), menuItems: [])
+      HistoryItemDecorator(historyItemWithTitle("foo bar baz")),
+      HistoryItemDecorator(historyItemWithTitle("foo bar zaz")),
+      HistoryItemDecorator(historyItemWithTitle("xxx yyy zzz"))
     ]
 
     XCTAssertEqual(search(""), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
+      Search.SearchResult(score: nil, object: items[0], ranges: []),
+      Search.SearchResult(score: nil, object: items[1], ranges: []),
+      Search.SearchResult(score: nil, object: items[2], ranges: [])
     ])
     XCTAssertEqual(search("z"), [
-      Search.SearchResult(score: 0.08, object: items[1], titleMatches: [8...8, 10...10]),
-      Search.SearchResult(score: 0.08, object: items[2], titleMatches: [8...10]),
-      Search.SearchResult(score: 0.1, object: items[0], titleMatches: [10...10])
+      Search.SearchResult(score: 0.08, object: items[1], ranges: [range(from: 8, to: 8, in: items[1]), range(from: 10, to: 10, in: items[1])]),
+      Search.SearchResult(score: 0.08, object: items[2], ranges: [range(from: 8, to: 10, in: items[2])]),
+      Search.SearchResult(score: 0.1, object: items[0], ranges: [range(from: 10, to: 10, in: items[0])])
     ])
     XCTAssertEqual(search("foo"), [
-      Search.SearchResult(score: 0.0, object: items[0], titleMatches: [0...2]),
-      Search.SearchResult(score: 0.0, object: items[1], titleMatches: [0...2])
+      Search.SearchResult(score: 0.0, object: items[0], ranges: [range(from: 0, to: 2, in: items[0])]),
+      Search.SearchResult(score: 0.0, object: items[1], ranges: [range(from: 0, to: 2, in: items[1])]),
     ])
     XCTAssertEqual(search("za"), [
-      Search.SearchResult(score: 0.08, object: items[1], titleMatches: [5...5, 8...9]),
-      Search.SearchResult(score: 0.54, object: items[0], titleMatches: [5...5, 9...10]),
-      Search.SearchResult(score: 0.58, object: items[2], titleMatches: [8...10])
+      Search.SearchResult(score: 0.08, object: items[1], ranges: [range(from: 5, to: 5, in: items[1]), range(from: 8, to: 9, in: items[1])]),
+      Search.SearchResult(score: 0.54, object: items[0], ranges: [range(from: 5, to: 5, in: items[0]), range(from: 9, to: 10, in: items[0])]),
+      Search.SearchResult(score: 0.58, object: items[2], ranges: [range(from: 8, to: 10, in: items[2])]),
     ])
     XCTAssertEqual(search("yyy"), [
-      Search.SearchResult(score: 0.04, object: items[2], titleMatches: [4...6])
+      Search.SearchResult(score: 0.04, object: items[2], ranges: [range(from: 4, to: 6, in: items[2])]),
     ])
     XCTAssertEqual(search("fbb"), [
-      Search.SearchResult(score: 0.6666666666666666, object: items[0], titleMatches: [0...0, 4...4, 8...8]),
-      Search.SearchResult(score: 0.6666666666666666, object: items[1], titleMatches: [0...0, 4...4])
+      Search.SearchResult(score: 0.6666666666666666, object: items[0], ranges: [range(from: 0, to: 0, in: items[0]), range(from: 4, to: 4, in: items[0]), range(from: 8, to: 8, in: items[0])]),
+      Search.SearchResult(score: 0.6666666666666666, object: items[1], ranges: [range(from: 0, to: 0, in: items[1]), range(from: 4, to: 4, in: items[1])])
     ])
     XCTAssertEqual(search("m"), [])
   }
 
-  func testFuzzySearchInContents() {
-    Defaults[.searchMode] = Search.Mode.fuzzy
-    items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithoutTitle("xxx yyy zzz"), menuItems: [])
-    ]
-
-    XCTAssertEqual(search(""), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
-    ])
-    XCTAssertEqual(search("z"), [
-      Search.SearchResult(score: 0.08, object: items[1], titleMatches: []),
-      Search.SearchResult(score: 0.08, object: items[2], titleMatches: []),
-      Search.SearchResult(score: 0.1, object: items[0], titleMatches: [])
-    ])
-    XCTAssertEqual(search("foo"), [
-      Search.SearchResult(score: 0.0, object: items[0], titleMatches: []),
-      Search.SearchResult(score: 0.0, object: items[1], titleMatches: [])
-    ])
-    XCTAssertEqual(search("za"), [
-      Search.SearchResult(score: 0.08, object: items[1], titleMatches: []),
-      Search.SearchResult(score: 0.54, object: items[0], titleMatches: []),
-      Search.SearchResult(score: 0.58, object: items[2], titleMatches: [])
-    ])
-    XCTAssertEqual(search("yyy"), [
-      Search.SearchResult(score: 0.04, object: items[2], titleMatches: [])
-    ])
-    XCTAssertEqual(search("fbb"), [
-      Search.SearchResult(score: 0.6666666666666666, object: items[0], titleMatches: []),
-      Search.SearchResult(score: 0.6666666666666666, object: items[1], titleMatches: [])
-    ])
-    XCTAssertEqual(search("m"), [])
-  }
-
-  func testRegexpSearchInTitle() {
+  @MainActor
+  func testRegexpSearch() {
     Defaults[.searchMode] = Search.Mode.regexp
     items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithTitle("xxx yyy zzz"), menuItems: [])
+      HistoryItemDecorator(historyItemWithTitle("foo bar baz")),
+      HistoryItemDecorator(historyItemWithTitle("foo bar zaz")),
+      HistoryItemDecorator(historyItemWithTitle("xxx yyy zzz"))
     ]
 
     XCTAssertEqual(search(""), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
+      Search.SearchResult(score: nil, object: items[0], ranges: []),
+      Search.SearchResult(score: nil, object: items[1], ranges: []),
+      Search.SearchResult(score: nil, object: items[2], ranges: [])
     ])
     XCTAssertEqual(search("z+"), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: [10...10]),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [8...8]),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [8...10])
+      Search.SearchResult(score: nil, object: items[0], ranges: [range(from: 10, to: 10, in: items[0])]),
+      Search.SearchResult(score: nil, object: items[1], ranges: [range(from: 8, to: 8, in: items[1])]),
+      Search.SearchResult(score: nil, object: items[2], ranges: [range(from: 8, to: 10, in: items[2])])
     ])
     XCTAssertEqual(search("z*"), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: [0...0]),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [0...0]),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [0...0])
+      Search.SearchResult(score: nil, object: items[0], ranges: [range(from: 0, to: -1, in: items[0])]),
+      Search.SearchResult(score: nil, object: items[1], ranges: [range(from: 0, to: -1, in: items[1])]),
+      Search.SearchResult(score: nil, object: items[2], ranges: [range(from: 0, to: -1, in: items[2])])
     ])
     XCTAssertEqual(search("^foo"), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: [0...2]),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [0...2])
+      Search.SearchResult(score: nil, object: items[0], ranges: [range(from: 0, to: 2, in: items[0])]),
+      Search.SearchResult(score: nil, object: items[1], ranges: [range(from: 0, to: 2, in: items[1])])
     ])
     XCTAssertEqual(search(" za"), [
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [7...9])
+      Search.SearchResult(score: nil, object: items[1], ranges: [range(from: 7, to: 9, in: items[1])])
     ])
     XCTAssertEqual(search("[y]+"), [
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [4...6])
-    ])
-    XCTAssertEqual(search("fbb"), [])
-    XCTAssertEqual(search("m"), [])
-  }
-
-  func testRegexpSearchInContents() {
-    Defaults[.searchMode] = Search.Mode.regexp
-    items = [
-      Menu.IndexedItem(value: "foo bar baz", item: historyItemWithoutTitle("foo bar baz"), menuItems: []),
-      Menu.IndexedItem(value: "foo bar zaz", item: historyItemWithoutTitle("foo bar zaz"), menuItems: []),
-      Menu.IndexedItem(value: "xxx yyy zzz", item: historyItemWithoutTitle("xxx yyy zzz"), menuItems: [])
-    ]
-
-    XCTAssertEqual(search(""), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
-    ])
-    XCTAssertEqual(search("z+"), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
-    ])
-    XCTAssertEqual(search("z*"), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: [0...0]),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [0...0]),
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [0...0])
-    ])
-    XCTAssertEqual(search("^foo"), [
-      Search.SearchResult(score: nil, object: items[0], titleMatches: []),
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [])
-    ])
-    XCTAssertEqual(search(" za"), [
-      Search.SearchResult(score: nil, object: items[1], titleMatches: [])
-    ])
-    XCTAssertEqual(search("[y]+"), [
-      Search.SearchResult(score: nil, object: items[2], titleMatches: [])
+      Search.SearchResult(score: nil, object: items[2], ranges: [range(from: 4, to: 6, in: items[2])])
     ])
     XCTAssertEqual(search("fbb"), [])
     XCTAssertEqual(search("m"), [])
@@ -233,17 +128,27 @@ class SearchTests: XCTestCase {
     return Search().search(string: string, within: items)
   }
 
-  private func historyItemWithTitle(_ value: String?) -> HistoryItemL {
-    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.string.rawValue,
-                                     value: value?.data(using: .utf8))
-    return HistoryItemL(contents: [content])
+  private func range(from: Int, to: Int, in item: HistoryItemDecorator) -> Range<String.Index> {
+    let startIndex = item.title.startIndex
+    let lowerBound = item.title.index(startIndex, offsetBy: from)
+    let upperBound = item.title.index(startIndex, offsetBy: to + 1)
+
+    return lowerBound..<upperBound
   }
 
-  private func historyItemWithoutTitle(_ value: String?) -> HistoryItemL {
-    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.string.rawValue,
-                                     value: value?.data(using: .utf8))
-    let item = HistoryItemL(contents: [content])
-    item.title = ""
+  @MainActor
+  private func historyItemWithTitle(_ value: String?) -> HistoryItem {
+    let contents = [
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.string.rawValue,
+        value: value?.data(using: .utf8)
+      )
+    ]
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = contents
+    item.title = item.generateTitle()
+
     return item
   }
 }

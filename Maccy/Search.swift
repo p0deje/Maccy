@@ -1,6 +1,6 @@
 import AppKit
 import Defaults
-import Ifrit
+import Fuse
 
 class Search {
   enum Mode: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {

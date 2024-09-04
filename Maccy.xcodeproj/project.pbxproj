@@ -105,11 +105,10 @@
 		DAA5ACB22C1B3F8800B58513 /* GeneralSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA5ACB12C1B3F8800B58513 /* GeneralSettingsPane.swift */; };
 		DAA5ACB52C1B803000B58513 /* GeneralSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = DAA5ACB32C1B803000B58513 /* GeneralSettings.strings */; };
 		DAA5ACCA2C1BEE8A00B58513 /* SoftwareUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA5ACC92C1BEE8A00B58513 /* SoftwareUpdater.swift */; };
-		DAAAAB902C76647A004FBC3C /* Ifrit in Frameworks */ = {isa = PBXBuildFile; productRef = DAAAAB8F2C76647A004FBC3C /* Ifrit */; };
-		DAAAAB932C7664A2004FBC3C /* Ifrit in Embed Frameworks */ = {isa = PBXBuildFile; productRef = DAAAAB8F2C76647A004FBC3C /* Ifrit */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		DAAEB196219694AE00A7883C /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAEB195219694AE00A7883C /* About.swift */; };
 		DAB082962A2B7B850053E463 /* AppStoreReview.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB082952A2B7B850053E463 /* AppStoreReview.swift */; };
 		DABDE97F2974706C005B32E9 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */; };
+		DAC0CA3E2C88E7A4003BF498 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = DAC0CA3D2C88E7A4003BF498 /* Fuse */; };
 		DAC14124232367B200FCFA30 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC14123232367B200FCFA30 /* Search.swift */; };
 		DAC929D7297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */; };
 		DAD665662898A1C000975096 /* KeyChord.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD665652898A1C000975096 /* KeyChord.swift */; };
@@ -146,7 +145,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				DAAAAB932C7664A2004FBC3C /* Ifrit in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -445,9 +443,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DAAAAB902C76647A004FBC3C /* Ifrit in Frameworks */,
 				2F39CB042AD9A93C00B749FD /* Sparkle in Frameworks */,
 				DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */,
+				DAC0CA3E2C88E7A4003BF498 /* Fuse in Frameworks */,
 				DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */,
 				DA13D7D02C19F8C300FA9E23 /* Defaults in Frameworks */,
 				DA009947256414800030E697 /* SwiftHEXColors in Frameworks */,
@@ -749,7 +747,7 @@
 				2F39CB092AD9AE1F00B749FD /* Settings */,
 				DA13D7C92C19F52B00FA9E23 /* LaunchAtLogin */,
 				DA13D7CF2C19F8C300FA9E23 /* Defaults */,
-				DAAAAB8F2C76647A004FBC3C /* Ifrit */,
+				DAC0CA3D2C88E7A4003BF498 /* Fuse */,
 			);
 			productName = Maccy;
 			productReference = DAEE38431E3DBEB100DD2966 /* Maccy.app */;
@@ -823,7 +821,7 @@
 				2F39CB082AD9AE1F00B749FD /* XCRemoteSwiftPackageReference "Settings" */,
 				DA13D7C82C19F43E00FA9E23 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 				DA13D7CE2C19F8C300FA9E23 /* XCRemoteSwiftPackageReference "Defaults" */,
-				DAAAAB8E2C76647A004FBC3C /* XCRemoteSwiftPackageReference "Ifrit" */,
+				DAC0CA3C2C88E7A4003BF498 /* XCRemoteSwiftPackageReference "fuse-swift" */,
 			);
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
 			projectDirPath = "";
@@ -1616,12 +1614,12 @@
 				minimumVersion = 2.4.1;
 			};
 		};
-		DAAAAB8E2C76647A004FBC3C /* XCRemoteSwiftPackageReference "Ifrit" */ = {
+		DAC0CA3C2C88E7A4003BF498 /* XCRemoteSwiftPackageReference "fuse-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/ukushu/Ifrit.git";
+			repositoryURL = "https://github.com/krisk/fuse-swift";
 			requirement = {
-				branch = main;
-				kind = branch;
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.4.0;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
@@ -1662,10 +1660,10 @@
 			package = DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */;
 			productName = Sauce;
 		};
-		DAAAAB8F2C76647A004FBC3C /* Ifrit */ = {
+		DAC0CA3D2C88E7A4003BF498 /* Fuse */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = DAAAAB8E2C76647A004FBC3C /* XCRemoteSwiftPackageReference "Ifrit" */;
-			productName = Ifrit;
+			package = DAC0CA3C2C88E7A4003BF498 /* XCRemoteSwiftPackageReference "fuse-swift" */;
+			productName = Fuse;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
