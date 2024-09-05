@@ -5,9 +5,11 @@ import SwiftData
 @Model
 class HistoryItem {
   static var supportedPins: Set<String> {
+    // "q" reserved for quit
+    // "v" reserved for paste
     var keys = Set([
-      "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m",
-      "n", "o", "p", "r", "s", "t", "u", "v", "w", "x", "y", "z" // "q" reserved for quit
+      "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", 
+      "m", "n", "o", "p", "r", "s", "t", "u", "w", "x", "y", "z"
     ])
 
     if let deleteKey = KeyChord.deleteKey {
