@@ -14,10 +14,6 @@
 "PinToTooltip" = "Cambiar la ubicación de los artículos anclados.\nPor defecto: Parte superior.";
 "ImageHeight" = "Altura de imagen:";
 "ImageHeightTooltip" = "Tamaño máximo de la previsualización de la imagen.\nPor defecto: 40.\nNota: Selecciona 16 para igualar el tamaño del texto.";
-"NumberOfItems" = "Número de elementos:";
-"NumberOfItemsTooltip" = "Número de elementos visibles.\nLos elementos ocultos permanecen en el historial y pueden encontrarse usando el buscador.\nSelecciona 0 para verlos todos.\nPor defecto: 0.";
-"TitleLength" = "Longitud del título:";
-"TitleLengthTooltip" = "Número máximo de caracteres en el título del elemento.\nPor defecto: 50.";
 "PreviewDelay" = "Retraso de vista previa:";
 "PreviewDelayTooltip" = "Retraso en milisegundos hasta que se muestra una ventana emergente de vista previa.\nPor defecto: 1500.";
 "HighlightMatches" = "Partidos destacados:";

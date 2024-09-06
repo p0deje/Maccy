@@ -2,7 +2,6 @@ import AppKit
 import Defaults
 
 extension Defaults.Keys {
-  static let avoidTakingFocus = Key<Bool>("avoidTakingFocus", default: false)
   static let clearOnQuit = Key<Bool>("clearOnQuit", default: false)
   static let clearSystemClipboard = Key<Bool>("clearSystemClipboard", default: false)
   static let clipboardCheckInterval = Key<Double>("clipboardCheckInterval", default: 0.5)
@@ -26,8 +25,6 @@ extension Defaults.Keys {
     ])
   static let imageMaxHeight = Key<Int>("imageMaxHeight", default: 40)
   static let lastReviewRequestedAt = Key<Date>("lastReviewRequestedAt", default: Date.now)
-  static let maxMenuItemLength = Key<Int>("maxMenuItemLength", default: 50)
-  static let maxMenuItems = Key<Int>("maxMenuItems", default: 0)
   static let menuIcon = Key<MenuIcon>("menuIcon", default: .maccy)
   static let migrations = Key<[String: Bool]>("migrations", default: [:])
   static let numberOfUsages = Key<Int>("numberOfUsages", default: 0)

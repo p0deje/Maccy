@@ -8,8 +8,6 @@ struct AppearanceSettingsPane: View {
   @Default(.popupScreen) private var popupScreen
   @Default(.pinTo) private var pinTo
   @Default(.imageMaxHeight) private var imageHeight
-  @Default(.maxMenuItems) private var numberOfItems
-  @Default(.maxMenuItemLength) private var titleLength
   @Default(.previewDelay) private var previewDelay
   @Default(.highlightMatch) private var highlightMatch
   @Default(.menuIcon) private var menuIcon
@@ -110,26 +108,6 @@ struct AppearanceSettingsPane: View {
             .frame(width: 120)
             .help(Text("ImageHeightTooltip", tableName: "AppearanceSettings"))
           Stepper("", value: $imageHeight, in: 1...200)
-            .labelsHidden()
-        }
-      }
-
-      Settings.Section(label: { Text("NumberOfItems", tableName: "AppearanceSettings") }) {
-        HStack {
-          TextField("", value: $numberOfItems, formatter: numberOfItemsFormatter)
-            .frame(width: 120)
-            .help(Text("NumberOfItemsTooltip", tableName: "AppearanceSettings"))
-          Stepper("", value: $numberOfItems, in: 0...100)
-            .labelsHidden()
-        }
-      }
-
-      Settings.Section(label: { Text("TitleLength", tableName: "AppearanceSettings") }) {
-        HStack {
-          TextField("", value: $titleLength, formatter: titleLengthFormatter)
-            .frame(width: 120)
-            .help(Text("TitleLengthTooltip", tableName: "AppearanceSettings"))
-          Stepper("", value: $titleLength, in: 30...200)
             .labelsHidden()
         }
       }

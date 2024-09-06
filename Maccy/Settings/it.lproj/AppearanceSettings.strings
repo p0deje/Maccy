@@ -14,10 +14,6 @@
 "PinToTooltip" = "Cambia la posizione degli elementi bloccati.\nDefault: Parte superiore.";
 "ImageHeight" = "Altezza dell'immagine:";
 "ImageHeightTooltip" = "Altezza massima preview immagine.\nDefault: 40.\nSuggerimento: Impostala a 16 per farla sembrare come gli elementi testuali.";
-"NumberOfItems" = "Numero di elementi:";
-"NumberOfItemsTooltip" = "Numero di elementi visibili.\nGli elementi nascosti sono salvati lo stesso nella cronologia e possono essere trovati utilizzando la ricerca.\nImposta a 0 per rendere visibili tutti gli elementi.\nDefault: 0.";
-"TitleLength" = "Lunghezza del titolo:";
-"TitleLengthTooltip" = "Numero massimo di caratteri nel titolo dell'elemento.\nDefault: 50.";
 "PreviewDelay" = "Anteprima ritardo:";
 "PreviewDelayTooltip" = "Ritardo in millisecondi prima che venga visualizzato un popup di anteprima.\nDefault: 1500.";
 "HighlightMatches" = "Evidenzia le partite:";

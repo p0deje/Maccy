@@ -14,10 +14,6 @@
 "PinToTooltip" = "Promjeni lokaciju zakačenih stavki.\nZadano: Vrh.";
 "ImageHeight" = "Visina slike:";
 "ImageHeightTooltip" = "Maksimalna visina pregleda slike.\nZadano: 40.\nSavjet: Postavite na 16 da izgledaju kao tekstualne stavke.";
-"NumberOfItems" = "Broj stavki:";
-"NumberOfItemsTooltip" = "Broj vidljivih stavki.\nSkrivene stavke se i dalje čuvaju u historiji i mogu se pronaći pomoću pretrage.\nPostavi na 0 da sve stavke budu vidljive.\nZadano: 0.";
-"TitleLength" = "Dužina naslova:";
-"TitleLengthTooltip" = "Maksimalan broj znakova u naslovu stavke.\nZadano: 50.";
 "PreviewDelay" = "Kašnjenje pregleda:";
 "PreviewDelayTooltip" = "Kašnjenje u milisekundama dok se ne prikaže skočni prozor za pregled.\nZadano: 1500.";
 "HighlightMatches" = "Istaknite utakmice:";

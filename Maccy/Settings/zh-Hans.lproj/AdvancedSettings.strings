@@ -4,8 +4,6 @@
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# 执行上述命令后再进行复制，复制完成后执行\ndefaults write org.p0deje.Maccy ignoreEvents false";
 "TurnOffViaMenuIconDescription" = "您也可以按下 ⌥ 并单击菜单图标。\n要仅忽略下一个副本，请单击 ⌥⇧。";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# 执行上述命令后再进行复制，复制完成后执行";
-"AvoidTakingApplicationFocus" = "不允许获取焦点";
-"AvoidTakingApplicationFocusTooltip" = "允许 Maccy 的剪贴板弹窗获取焦点，弹窗关闭时返还给前台应用。高级 macOS 输入程序（如中文输入法或变音符号菜单）需要获取焦点才能使用。启用此选项后 Maccy 将不会获取焦点。 某些时候这会有所帮助，比如要粘贴文本到一个设置了失去焦点时会自动格式化代码的文本编辑器时。";
 "ClearHistoryOnQuit" = "退出时清除历史记录";
 "ClearHistoryOnQuitTooltip" = "退出应用时仅保留已固定的项目。";
 "ClearSystemClipboard" = "同时清除系统剪贴板";

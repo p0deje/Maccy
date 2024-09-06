@@ -4,8 +4,6 @@
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# העתקת נתונים\ndefaults write org.p0deje.Maccy ignoreEvents false";
 "TurnOffViaMenuIconDescription" = "אפשר ללחוץ על סמל התפריט תוך הזחקה של ⌥.\nכדי להתעלם רק מהעותק הבא, יש ללחוץ עם העכבר תוך החזקה של ⌥⇧.";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# העתקת נתונים";
-"AvoidTakingApplicationFocus" = "הימנעות מחטיפת המיקוד של היישום";
-"AvoidTakingApplicationFocusTooltip" = "Maccy חוטף את המיקוד של היישום הפעיל כאשר החלונית הקופצת מופיעה ומחזיר את המיקוד עם הסגירה. המיקוד נחוץ לטיפול מתקדם בקלט של macOS מסייע לכתיבה בסינית או תפריט סימונים. הפעלת האפשרות הזאת עלולה למנוע מ־Maccy לחטוף את המיקוד. יש מגוון מצבים שבהם ההגדרה הזאת יכולה להיות שימושית: למשל, הדבקה לעורך טקסט שמעצב קוד אוטומטית כשהוא מאבד את המיקוד..";
 "ClearHistoryOnQuit" = "פינוי היסטוריה עם היציאה";
 "ClearHistoryOnQuitTooltip" = "להסיר את כל הפריטים שאינם נעוצים בטרם יציאה מהיישום.";
 "ClearSystemClipboard" = "פינוי לוח הגזירים של המערכת בנוסף";

@@ -14,10 +14,6 @@
 "PinToTooltip" = "Altera a localização de itens fixados.\nPadrão: Topo.";
 "ImageHeight" = "Altura da imagem:";
 "ImageHeightTooltip" = "Altura máxima da pré-visualização de imagem.\nPadrão: 40.\nDica: Defina 16 para parecer itens de texto.";
-"NumberOfItems" = "Número de itens:";
-"NumberOfItemsTooltip" = "Número de itens visíveis.\nOs itens ocultos ainda são mantidos no histórico e podem ser encontrados usando a pesquisa.\nDefina 0 para tornar todos os itens visíveis.\nPadrão: 0.";
-"TitleLength" = "Comprimento do título:";
-"TitleLengthTooltip" = "Número máximo de caracteres no título do item.\nPadrão: 50.";
 "PreviewDelay" = "Atraso de pré-visualização:";
 "PreviewDelayTooltip" = "Atraso em milissegundos até que um popup de pré-visualização seja mostrado.\nPadrão: 1500.";
 "HighlightMatches" = "Destacar resultados:";

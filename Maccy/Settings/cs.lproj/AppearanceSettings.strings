@@ -14,10 +14,6 @@
 "PinToTooltip" = "Změnit umístění připnutí položek.\nVýchozí: Nahoru.";
 "ImageHeight" = "Výška obrázku:";
 "ImageHeightTooltip" = "Maximální výška náhledu obrázku.\nVýchozí: 40.\nTip: Zvol 16 pro stejnou podobu jako textové položky.";
-"NumberOfItems" = "Počet položek:";
-"NumberOfItemsTooltip" = "Počet viditelných položek.\nSkryté položky jsou stále uchovány v historii a mohou být použité vyhledáváním.\nNastav 0 pro všechny položky viditelné.\nVýchozí: 0.";
-"TitleLength" = "Délka názvu:";
-"TitleLengthTooltip" = "Maximální počet znaků názvu položky.\nVýchozí: 50.";
 "PreviewDelay" = "Zpoždení náhledu:";
 "PreviewDelayTooltip" = "Zpoždění v milisekundách před zobrazením popup okna.\nVýchozí: 1500.";
 "HighlightMatches" = "Zvýraznit shody:";

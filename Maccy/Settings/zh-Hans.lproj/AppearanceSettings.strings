@@ -14,10 +14,6 @@
 "PinToTooltip" = "更改固定项目的位置。\n默认：顶部。";
 "ImageHeight" = "图片高度：";
 "ImageHeightTooltip" = "图像预览最大高度。\n默认: 40\n提示：设置为 16 以匹配文本项目的大小。";
-"NumberOfItems" = "数量：";
-"NumberOfItemsTooltip" = "在菜单中显示条项目。\n隐藏项仍保留在历史记录中，可以通过搜索找到。\n设置为 0 以显示所有项目。\n默认：0。";
-"TitleLength" = "标题长度：";
-"TitleLengthTooltip" = "项目标题中的最大字符数。\n默认：50。";
 "PreviewDelay" = "预览延迟：";
 "PreviewDelayTooltip" = "延迟以毫秒为单位，直到显示预览弹出窗口。\n默认：1500。";
 "HighlightMatches" = "高亮匹配：";
