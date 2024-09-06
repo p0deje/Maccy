@@ -14,10 +14,6 @@
 "PinToTooltip" = "Change la localisation des élements épinglés.\nPar défaut : Haut.";
 "ImageHeight" = "Hauteur de l'image :";
 "ImageHeightTooltip" = "Hauteur maximale de l'aperçu de l'image.\nPar défaut : 40.\nAstuce : réglez sur 16 pour qu'ils ressemblent à des éléments de texte.";
-"NumberOfItems" = "Nombre d'éléments :";
-"NumberOfItemsTooltip" = "Nombre d'éléments visibles.\nLes éléments cachés sont toujours stockés dans l'historique et peuvent être trouvés à l'aide de la barre de recherche.\nRéglez sur 0 pour afficher tous les éléments.\nPar défaut : 0.";
-"TitleLength" = "Longueur du titre :";
-"TitleLengthTooltip" = "Nombre maximal de caractères dans le titre de l'élément.\nPar défaut : 50.";
 "PreviewDelay" = "Délai de prévisualisation :";
 "PreviewDelayTooltip" = "Délai en millisecondes jusqu'à ce qu'une fenêtre d'aperçu s'affiche.\nPar défaut : 1500.";
 "HighlightMatches" = "Matchs phares :";

@@ -14,10 +14,6 @@
 "PinToTooltip" = "更改固定項目的位置。\n預設：置頂。";
 "ImageHeight" = "圖片高度：";
 "ImageHeightTooltip" = "圖片預覽最高。\n預設：40\n提示：設定 16 可符合文字項目大小。";
-"NumberOfItems" = "東西的個數：";
-"NumberOfItemsTooltip" = "在選單中顯示條項目。\n隱藏項目仍保留在歷史記錄，可透過搜尋查找。\n設定為 0 以顯示所有項目。\n預設：0。";
-"TitleLength" = "標題長度:";
-"TitleLengthTooltip" = "項目標題的最大字元數。\n預設：50。";
 "PreviewDelay" = "預覽延遲:";
 "PreviewDelayTooltip" = "顯示預覽彈出視窗的延遲，單位為毫秒。\n預設：1500。";
 "HighlightMatches" = "凸顯相符項目：";

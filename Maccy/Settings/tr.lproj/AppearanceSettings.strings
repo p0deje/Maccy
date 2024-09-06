@@ -14,10 +14,6 @@
 "PinToTooltip" = "İğnelenen ögelerin konumunu değiştir.\nSaptanmış: Üst.";
 "ImageHeight" = "Görsel boyu:";
 "ImageHeightTooltip" = "En yüksek görsel önizlemesi boyu.\nSaptanmış: 40.\nİpucu: Metin ögeleri gibi görünmeleri için 16 olarak ayarlayın.";
-"NumberOfItems" = "Öğe sayısı:";
-"NumberOfItemsTooltip" = "Görünür ögelerin sayısı.\nGizli ögeler yine de geçmişte tutulurlar ve arama kullanarak bulunabilirler.\nTüm ögeleri görünür yapmak için 0 olarak ayarlayın.\nSaptanmış: 0.";
-"TitleLength" = "Başlık uzunluğu:";
-"TitleLengthTooltip" = "Öğe başlığındaki maksimum karakter sayısı.\nSaptanmış: 50.";
 "PreviewDelay" = "Önizleme gecikmesi:";
 "PreviewDelayTooltip" = "Önizleme açılır penceresi gösterilene kadar milisaniye cinsinden gecikme.\nSaptanmış: 1500.";
 "HighlightMatches" = "Maçları vurgula:";

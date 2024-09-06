@@ -4,8 +4,6 @@
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copia dei dati\ndefaults write org.p0deje.Maccy ignoreEvents false";
 "TurnOffViaMenuIconDescription" = "Puoi anche fare clic sull'icona del menu premendo ⌥.\nPer ignorare solo la copia successiva, fare clic con ⌥⇧.";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copia dei dati";
-"AvoidTakingApplicationFocus" = "Impedisci di prendere il focus dell'applicazione";
-"AvoidTakingApplicationFocusTooltip" = "Maccy attiva il focus dell'applicazione quando viene mostrato il popup e lo restituisce quando viene chiuso. Il focus è necessario per la gestione avanzata dell'input macOS come l'helper per il cinese o il menu degli accenti. Abilitare questa opzione impedirebbe a Maccy di prendere il focus. Ci sono alcune situazioni in cui questo può essere utile: ad esempio, incollare in un editor di testo che formatta automaticamente il codice quando perde il focus.";
 "ClearHistoryOnQuit" = "Elimina la cronologia e chiudi";
 "ClearHistoryOnQuitTooltip" = "Rimuovi automaticamente gli elementi non bloccati prima di chiudere l'applicazione.";
 "ClearSystemClipboard" = "Cancella anche gli appunti di sistema";

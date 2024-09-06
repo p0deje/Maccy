@@ -4,8 +4,6 @@
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\nنسخ البيانات #\ndefaults write org.p0deje.Maccy ignoreEvents false";
 "TurnOffViaMenuIconDescription" = "يمكنك أيضًا النقر على أيقونة القائمة مع ⌥ مضغوط.\nلتجاهل النسخة التالية فقط، انقر بـ ⌥⇧.";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\nنسخ البيانات #";
-"AvoidTakingApplicationFocus" = "تجنب وضع التركيز للتطبيق";
-"AvoidTakingApplicationFocusTooltip" = "يأخذ Maccy تركيز التطبيق النشط عند عرض القائمة المنبثقة ويعيد التركيز عند إغلاقها. التركيز مطلوب لمعالجة إدخال macOS المتقدمة مثل مساعد اللغة الصينية أو قائمة اللهجات. سيؤدي تمكين هذا الخيار إلى منع Maccy من التركيز. هناك حالات معينة يمكن فيها أن يكون ذلك مفيدًا: على سبيل المثال، لصق في محرر نصوص يقوم بتنسيق الكود تلقائيًا عند فقدان التركيز.";
 "ClearHistoryOnQuit" = "مسح السجل عند الخروج";
 "ClearHistoryOnQuitTooltip" = "إزالة جميع العناصر غير المثبتة تلقائيًا قبل إغلاق التطبيق.";
 "ClearSystemClipboard" = "مسح حافظة النظام أيضًا";

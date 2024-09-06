@@ -14,10 +14,6 @@
 "PinToTooltip" = "Wijzig de locatie van vastgemaakte items.\nStandaard: Boven.";
 "ImageHeight" = "Afbeeldingshoogte:";
 "ImageHeightTooltip" = "Maximale hoogte afbeeldingsvoorbeeld.\nStandaard: 40.\nHint: Stel in op 16 zodat het lijkt op tekstitems.";
-"NumberOfItems" = "Aantal items:";
-"NumberOfItemsTooltip" = "Aantal zichtbare items.\nVerborgen items worden nog steeds bewaard in de geschiedenis en kunnen worden gevonden door te zoeken.\nStel in op 0 om alle items zichtbaar te maken.\nStandaard: 0.";
-"TitleLength" = "Titellengte:";
-"TitleLengthTooltip" = "Maximum aantal tekens in de titel van het item.\nStandaard: 50.";
 "PreviewDelay" = "Vertraging:";
 "PreviewDelayTooltip" = "Vertraging in milliseconden totdat een voorbeeldpop-up wordt weergegeven.\nStandaard: 1500.";
 "HighlightMatches" = "Markeer overeenkomsten:";

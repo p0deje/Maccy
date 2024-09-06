@@ -14,10 +14,6 @@
 "PinToTooltip" = "Promijeni mjesto prikvačenih elemenata.\nStandardno: Gore.";
 "ImageHeight" = "Visina slike:";
 "ImageHeightTooltip" = "Maksimalna visina slike pregleda.\nStandardno: 40.\nSavjet: Postavi na 16 da bi sličilo tekstu.";
-"NumberOfItems" = "Broj elemenata:";
-"NumberOfItemsTooltip" = "Broj vidljivih elemenata.\nSkriveni elementi se i dalje čuvaju u povijesti te se mogu pronaći putem pretrage.\nZa prikaz svih elemenata, postavi na 0.\nStandardno: 0.";
-"TitleLength" = "Dužina naslova:";
-"TitleLengthTooltip" = "Maksimalan broj znakova u naslovu stavke.\nStandardno: 50.";
 "PreviewDelay" = "Odgoda pregleda:";
 "PreviewDelayTooltip" = "Odgoda u milisekundama dok se ne prikaže skočni prozor za pregled.\nStandardno: 1500.";
 "HighlightMatches" = "Označite podudaranja:";

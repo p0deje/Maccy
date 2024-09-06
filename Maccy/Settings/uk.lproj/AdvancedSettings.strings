@@ -4,8 +4,6 @@
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# копіювати данні\ndefaults write org.p0deje.Maccy ignoreEvents false";
 "TurnOffViaMenuIconDescription" = "Ви також можете натиснути значок меню, утримуючи ⌥.\nЩоб проігнорувати лише наступну копію, натисніть ⌥⇧.";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# копіювати данні";
-"AvoidTakingApplicationFocus" = "Уникайте фокусування програми";
-"AvoidTakingApplicationFocusTooltip" = "Maccy приймає фокус активної програми, коли відображається спливаюче вікно, і повертає фокус, коли воно закривається. Фокус потрібен для розширеної обробки вводу в macOS, як-от китайський помічник або меню акцентів. Якщо ввімкнути цю опцію, Maccy не сфокусується. Є певні ситуації, коли це може бути корисним: наприклад, вставлення в текстовий редактор, який автоматично форматує код, коли він втрачає фокус.";
 "ClearHistoryOnQuit" = "Очистити історію після виходу";
 "ClearHistoryOnQuitTooltip" = "Автоматично видаляйте всі незакріплені елементи перед виходом із програми.";
 "ClearSystemClipboard" = "Також очистіть системний буфер обміну";

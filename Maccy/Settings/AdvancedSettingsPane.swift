@@ -30,10 +30,6 @@ struct AdvancedSettingsPane: View {
 
       Divider()
 
-      Defaults.Toggle(key: .avoidTakingFocus) {
-        Text("AvoidTakingApplicationFocus", tableName: "AdvancedSettings")
-      }.help(Text("AvoidTakingApplicationFocusTooltip", tableName: "AdvancedSettings"))
-
       Defaults.Toggle(key: .clearOnQuit) {
         Text("ClearHistoryOnQuit", tableName: "AdvancedSettings")
       }.help(Text("ClearHistoryOnQuitTooltip", tableName: "AdvancedSettings"))

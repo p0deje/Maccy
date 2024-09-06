@@ -4,8 +4,6 @@
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# kopirati podatke\ndefaults write org.p0deje.Maccy ignoreEvents false";
 "TurnOffViaMenuIconDescription" = "Takođe možeš kliknuti na ikonu menija sa pritisnutim ⌥.\nDa zanemariš samo sljedeću kopiju, kliknite sa ⌥⇧.";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# kopirati podatke";
-"AvoidTakingApplicationFocus" = "Izbjegni fokusiranje na aplikaciju";
-"AvoidTakingApplicationFocusTooltip" = "Maccy preuzima aktivan fokus aplikacije kada se prikaže iskačući prozor i vraća fokus kada je zatvoren. Fokus je potreban za napredno rukovanje unosom u macOS-u kao što je kineski pomoćnik ili meni za naglaske. Omogućavanje ove opcije spriječilo bi Maccyja da se fokusira. Postoje određene situacije kada ovo može biti korisno: na primjer, lijepljenje u uređivač teksta koji automatski formatira kod kada izgubi fokus.";
 "ClearHistoryOnQuit" = "Očisti historiju pri izlasku iz aplikacije";
 "ClearHistoryOnQuitTooltip" = "Automatski ukloni sve zakačene stavke prije zatvaranja aplikacije.";
 "ClearSystemClipboard" = "Očistite i sistemski međuspremnik";

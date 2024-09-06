@@ -14,10 +14,6 @@
 "PinToTooltip" = "ピン留め項目の場所を変更します。\nデフォルト：上段。";
 "ImageHeight" = "画像の高さ：";
 "ImageHeightTooltip" = "プレビュー時の画像の最大の高さ。\nデフォルト：40。\nヒント：16に設定するとテキスト項目と同じように見えます。";
-"NumberOfItems" = "アイテム数：";
-"NumberOfItemsTooltip" = "表示される項目の数。\n表示されない項目はずっと履歴に残り、検索で探すことができます。\n0に設定すると全ての項目を表示します。\nデフォルト：0。";
-"TitleLength" = "タイトルの長さ：";
-"TitleLengthTooltip" = "アイテム タイトルの最大文字数。\nデフォルト：50。";
 "PreviewDelay" = "プレビューの遅延：";
 "PreviewDelayTooltip" = "プレビュー ポップアップが表示されるまでのミリ秒単位の遅延。\nデフォルト：1500。";
 "HighlightMatches" = "一致を強調表示する:";
