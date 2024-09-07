@@ -6,10 +6,6 @@ class SearchTests: XCTestCase {
   let savedSearchMode = Defaults[.searchMode]
   var items: [Search.Searchable]!
 
-  override func setUp() {
-    super.setUp()
-  }
-
   override func tearDown() {
     super.tearDown()
     Defaults[.searchMode] = savedSearchMode
@@ -69,15 +65,15 @@ class SearchTests: XCTestCase {
     ])
     XCTAssertEqual(search("foo"), [
       Search.SearchResult(score: 0.0, object: items[0], ranges: [range(from: 0, to: 2, in: items[0])]),
-      Search.SearchResult(score: 0.0, object: items[1], ranges: [range(from: 0, to: 2, in: items[1])]),
+      Search.SearchResult(score: 0.0, object: items[1], ranges: [range(from: 0, to: 2, in: items[1])])
     ])
     XCTAssertEqual(search("za"), [
       Search.SearchResult(score: 0.08, object: items[1], ranges: [range(from: 5, to: 5, in: items[1]), range(from: 8, to: 9, in: items[1])]),
       Search.SearchResult(score: 0.54, object: items[0], ranges: [range(from: 5, to: 5, in: items[0]), range(from: 9, to: 10, in: items[0])]),
-      Search.SearchResult(score: 0.58, object: items[2], ranges: [range(from: 8, to: 10, in: items[2])]),
+      Search.SearchResult(score: 0.58, object: items[2], ranges: [range(from: 8, to: 10, in: items[2])])
     ])
     XCTAssertEqual(search("yyy"), [
-      Search.SearchResult(score: 0.04, object: items[2], ranges: [range(from: 4, to: 6, in: items[2])]),
+      Search.SearchResult(score: 0.04, object: items[2], ranges: [range(from: 4, to: 6, in: items[2])])
     ])
     XCTAssertEqual(search("fbb"), [
       Search.SearchResult(score: 0.6666666666666666, object: items[0], ranges: [range(from: 0, to: 0, in: items[0]), range(from: 4, to: 4, in: items[0]), range(from: 8, to: 8, in: items[0])]),

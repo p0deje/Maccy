@@ -2,7 +2,6 @@ import SwiftUI
 import Defaults
 import Settings
 
-
 struct StorageSettingsPane: View {
   @Observable
   class ViewModel {

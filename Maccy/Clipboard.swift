@@ -62,7 +62,7 @@ class Clipboard {
     start()
   }
 
-  @MainActor 
+  @MainActor
   func copy(_ string: String) {
     pasteboard.clearContents()
     pasteboard.setString(string, forType: .string)

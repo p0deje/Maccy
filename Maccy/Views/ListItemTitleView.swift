@@ -1,7 +1,7 @@
 import SwiftUI
 
 struct ListItemTitleView<Title: View>: View {
-  var attributedTitle: AttributedString? = nil
+  var attributedTitle: AttributedString?
   @ViewBuilder var title: () -> Title
 
   var body: some View {

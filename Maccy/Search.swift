@@ -26,7 +26,7 @@ class Search {
   }
 
   struct SearchResult: Equatable {
-    var score: Double? = nil
+    var score: Double?
     var object: Searchable
     var ranges: [Range<String.Index>] = []
   }
@@ -78,7 +78,7 @@ class Search {
       return SearchResult(
         score: fuzzyResult.score,
         object: item,
-        ranges: fuzzyResult.ranges.map { 
+        ranges: fuzzyResult.ranges.map {
           let startIndex = searchString.startIndex
           let lowerBound = searchString.index(startIndex, offsetBy: $0.lowerBound)
           let upperBound = searchString.index(startIndex, offsetBy: $0.upperBound + 1)

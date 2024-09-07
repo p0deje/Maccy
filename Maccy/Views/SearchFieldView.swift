@@ -18,7 +18,7 @@ struct SearchFieldView: View {
           .frame(width: 11, height: 11)
           .padding(.leading, 5)
           .opacity(0.8)
-        
+
         TextField(placeholder, text: $query)
           .disableAutocorrection(true)
           .lineLimit(1)

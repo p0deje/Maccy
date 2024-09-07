@@ -19,9 +19,9 @@ class FooterItem: Equatable, Identifiable {
   var shortcuts: [KeyShortcut] = []
   var help: LocalizedStringKey?
   var isSelected: Bool = false
-  var confirmation: Confirmation? = nil
+  var confirmation: Confirmation?
   var showConfirmation: Bool = false
-  var suppressConfirmation: Binding<Bool>? = nil
+  var suppressConfirmation: Binding<Bool>?
   var isVisible: Bool = true
   var action: () -> Void
 
