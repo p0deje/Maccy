@@ -24,7 +24,7 @@ struct KeyShortcut: Identifiable {
       return ""
     }
 
-    return "\(modifierFlags)\(character.capitalized)"
+    return "\(modifierFlags.description)\(character.capitalized)"
   }
 
   func isVisible(_ all: [KeyShortcut], _ pressedModifierFlags: NSEvent.ModifierFlags) -> Bool {

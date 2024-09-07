@@ -23,6 +23,7 @@
 		DA083A6E2C42E8E8004259A0 /* NSImage+Resized.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */; };
 		DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EE7B8204657830025FC60 /* MaccyUITests.swift */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
+		DA0FFA2A2C8D100C00A66C97 /* ModifierFlags+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0FFA292C8D0FEC00A66C97 /* ModifierFlags+Description.swift */; };
 		DA13D7CA2C19F52B00FA9E23 /* LaunchAtLogin in Frameworks */ = {isa = PBXBuildFile; productRef = DA13D7C92C19F52B00FA9E23 /* LaunchAtLogin */; };
 		DA13D7D02C19F8C300FA9E23 /* Defaults in Frameworks */ = {isa = PBXBuildFile; productRef = DA13D7CF2C19F8C300FA9E23 /* Defaults */; };
 		DA13D7D22C19F91B00FA9E23 /* Defaults.Keys+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7D12C19F91B00FA9E23 /* Defaults.Keys+Names.swift */; };
@@ -174,6 +175,7 @@
 		DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0EE7B8204657830025FC60 /* MaccyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaccyUITests.swift; sourceTree = "<group>"; };
 		DA0EF1871E444B2A00E58577 /* Clipboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
+		DA0FFA292C8D0FEC00A66C97 /* ModifierFlags+Description.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ModifierFlags+Description.swift"; sourceTree = "<group>"; };
 		DA13D7D12C19F91B00FA9E23 /* Defaults.Keys+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Defaults.Keys+Names.swift"; sourceTree = "<group>"; };
 		DA13D7D32C1A223E00FA9E23 /* Select.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Select.swift; sourceTree = "<group>"; };
 		DA13D7D42C1A223E00FA9E23 /* Get.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Get.swift; sourceTree = "<group>"; };
@@ -467,6 +469,7 @@
 				DAA365E82C4C581100A394F8 /* KeyboardShortcuts+SwiftUI.swift */,
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */,
 				DAA365E62C4C57E600A394F8 /* KeyEquivalent+Keys.swift */,
+				DA0FFA292C8D0FEC00A66C97 /* ModifierFlags+Description.swift */,
 				DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */,
 				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
 				DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */,
@@ -971,6 +974,7 @@
 				DA3EAE0C2AE30F7500F39108 /* NSApplication+Windows.swift in Sources */,
 				DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
+				DA0FFA2A2C8D100C00A66C97 /* ModifierFlags+Description.swift in Sources */,
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
 				DAA072DF2C41C63C006DDFD2 /* ConfirmationView.swift in Sources */,
 				DAA365CE2C4BF9DD00A394F8 /* PinsSettingsPane.swift in Sources */,
@@ -1587,7 +1591,7 @@
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 2.0.1;
+				minimumVersion = 2.0.2;
 			};
 		};
 		DA13D7C82C19F43E00FA9E23 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
