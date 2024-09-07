@@ -5,7 +5,7 @@ import SwiftUI
 // https://stackoverflow.com/questions/46023769/how-to-show-a-window-without-stealing-focus-on-macos
 class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   var isPresented: Bool = false
-  var statusBarButton: NSStatusBarButton? = nil
+  var statusBarButton: NSStatusBarButton?
 
   override var isMovable: Bool {
     get { Defaults[.popupPosition] != .statusItem }
@@ -106,7 +106,6 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
     return frameSize
   }
-
 
   // Close automatically when out of focus, e.g. outside click.
   override func resignKey() {

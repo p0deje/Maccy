@@ -17,7 +17,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
   let id = UUID()
 
   var title: String = ""
-  var attributedTitle: AttributedString? = nil
+  var attributedTitle: AttributedString?
 
   var isVisible: Bool = true
   var isSelected: Bool = false {
@@ -50,8 +50,8 @@ class HistoryItemDecorator: Identifiable, Hashable {
     return url.deletingPathExtension().lastPathComponent
   }
 
-  var previewImage: NSImage? = nil
-  var thumbnailImage: NSImage? = nil
+  var previewImage: NSImage?
+  var thumbnailImage: NSImage?
 
   var text: String { item.previewableText }
 

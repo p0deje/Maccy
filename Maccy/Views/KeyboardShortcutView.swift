@@ -5,7 +5,7 @@ struct KeyboardShortcutView: View {
 
   var modifiers: String {
     if var shortcut = shortcut?.description {
-      let _ = shortcut.popLast()
+      _ = shortcut.popLast()
       return shortcut
     }
     return ""

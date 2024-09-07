@@ -3,11 +3,11 @@ import SwiftUI
 
 struct ListItemView<Title: View>: View {
   var id: UUID
-  var image: NSImage? = nil
-  var attributedTitle: AttributedString? = nil
+  var image: NSImage?
+  var attributedTitle: AttributedString?
   var shortcuts: [KeyShortcut]
   var isSelected: Bool
-  var help: LocalizedStringKey? = nil
+  var help: LocalizedStringKey?
   @ViewBuilder var title: () -> Title
 
   @Environment(AppState.self) private var appState

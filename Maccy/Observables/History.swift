@@ -60,7 +60,7 @@ class History {
 
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
-  
+
   // The distinction between `all` and `items` is the following:
   // - `all` stores all history items, even the ones that are currently hidden by a search
   // - `items` stores only visible history items, updated during a search
@@ -268,7 +268,7 @@ class History {
 
     searchQuery = ""
     updateUnpinnedShortcuts()
-    if (item.isUnpinned) {
+    if item.isUnpinned {
       AppState.shared.scrollTarget = item.id
     }
   }

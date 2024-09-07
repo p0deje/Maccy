@@ -185,7 +185,7 @@ class MaccyUITests: XCTestCase {
     app.typeKey(.enter, modifierFlags: [])
     assertPasteboardStringEquals(copy1)
   }
-  
+
   func testControlJ() {
     popUpWithMouse()
     app.typeKey("j", modifierFlags: [.control])

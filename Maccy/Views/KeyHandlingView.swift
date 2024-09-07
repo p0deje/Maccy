@@ -49,7 +49,7 @@ struct KeyHandlingView<Content: View>: View {
           return .handled
         case .deleteOneCharFromSearch:
           searchFocused = true
-          let _ = searchQuery.popLast()
+          _ = searchQuery.popLast()
           return .handled
         case .deleteLastWordFromSearch:
           searchFocused = true

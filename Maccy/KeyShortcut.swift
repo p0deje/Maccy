@@ -7,13 +7,13 @@ struct KeyShortcut: Identifiable {
     return [
       KeyShortcut(key: Key(character: character, virtualKeyCode: nil)),
       KeyShortcut(key: Key(character: character, virtualKeyCode: nil), modifierFlags: [.option]),
-      KeyShortcut(key: Key(character: character, virtualKeyCode: nil), modifierFlags: [Defaults[.pasteByDefault] ? .command : .option, .shift]),
+      KeyShortcut(key: Key(character: character, virtualKeyCode: nil), modifierFlags: [Defaults[.pasteByDefault] ? .command : .option, .shift])
     ]
   }
 
   let id = UUID()
 
-  var key: Key? = nil
+  var key: Key?
   var modifierFlags: NSEvent.ModifierFlags = [.command]
 
   var description: String {
@@ -36,7 +36,7 @@ struct KeyShortcut: Identifiable {
       return true
     }
 
-    if modifierFlags == [.command], !pressedModifierFlags.isEmpty, 
+    if modifierFlags == [.command], !pressedModifierFlags.isEmpty,
        !all.contains(where: { $0.id != id && $0.modifierFlags == pressedModifierFlags }) {
       return true
     }

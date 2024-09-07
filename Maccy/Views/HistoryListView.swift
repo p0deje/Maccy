@@ -8,7 +8,7 @@ struct HistoryListView: View {
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
   @Environment(\.scenePhase) private var scenePhase
-  
+
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
 
@@ -38,7 +38,7 @@ struct HistoryListView: View {
         }
         .task(id: appState.scrollTarget) {
           guard appState.scrollTarget != nil else { return }
-          
+
           try? await Task.sleep(for: .milliseconds(10))
           guard !Task.isCancelled else { return }
 

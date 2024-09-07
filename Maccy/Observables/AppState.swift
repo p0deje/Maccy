@@ -6,13 +6,13 @@ import Settings
 class AppState: Sendable {
   static let shared = AppState()
 
-  var appDelegate: AppDelegate? = nil
+  var appDelegate: AppDelegate?
   var popup: Popup
   var history: History
   var footer: Footer
 
   var scrollTarget: UUID?
-  var selection: UUID? = nil {
+  var selection: UUID? {
     didSet {
       history.selectedItem = nil
       footer.selectedItem = nil
@@ -26,7 +26,7 @@ class AppState: Sendable {
     }
   }
 
-  var hoverSelectionWhileKeyboardNavigating: UUID? = nil
+  var hoverSelectionWhileKeyboardNavigating: UUID?
   var isKeyboardNavigating: Bool = false {
     didSet {
       if let hoverSelection = hoverSelectionWhileKeyboardNavigating {
@@ -43,7 +43,7 @@ class AppState: Sendable {
   }
 
   private let about = About()
-  private var settingsWindowController: SettingsWindowController? = nil
+  private var settingsWindowController: SettingsWindowController?
 
   init() {
     history = History.shared
@@ -130,7 +130,7 @@ class AppState: Sendable {
     about.openAbout(nil)
   }
 
-  @MainActor 
+  @MainActor
   func openPreferences() {
     if settingsWindowController == nil {
       settingsWindowController = SettingsWindowController(
@@ -177,7 +177,7 @@ class AppState: Sendable {
             toolbarIcon: NSImage.gearshape2!
           ) {
             AdvancedSettingsPane()
-          },
+          }
         ]
       )
     }

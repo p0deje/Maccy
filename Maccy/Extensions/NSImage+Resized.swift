@@ -18,7 +18,7 @@ extension NSImage {
     return NSImage(size: newSize, flipped: false) { destRect in
       if let context = NSGraphicsContext.current {
         context.imageInterpolation = .high
-        self.draw(in: destRect, from: NSZeroRect, operation: .copy, fraction: 1)
+        self.draw(in: destRect, from: NSRect.zero, operation: .copy, fraction: 1)
       }
 
       return true

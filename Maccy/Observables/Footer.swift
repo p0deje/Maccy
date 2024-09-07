@@ -78,7 +78,7 @@ class Footer {
         help: "quit_tooltip"
       ) {
         AppState.shared.quit()
-      },
+      }
     ]
   }
 }
