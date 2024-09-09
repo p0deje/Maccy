@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "忽略除了列表中的所有應用程式";
 "PasteboardTypesTab" = "剪貼簿類型";
 "IgnoredPasteboardTypesDescription" = "可以忽略特定的剪貼簿項目類型。\n預設已定義一些已知的特定應用程式類型。您可刪除預設類型並根據需要新增自訂類型。";
+"IgnoredPasteboardTypesReset" = "重設";
 "RegexpTab" = "正規表示式";
 "IgnoredRegexpsDescription" = "可以根據所設的正規表示式來忽略特定的拷貝。";

@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "Ignorieren Sie alle Anwendungen außer den aufgelisteten";
 "PasteboardTypesTab" = "Pasteboard Typen";
 "IgnoredPasteboardTypesDescription" = "Es ist möglich, bestimmte Pasteboard-Typen zu ignorieren.\nStandardmäßig sind einige bekannte anwendungsspezifische Typen definiert. Du kannst diese entfernen und beliebige benutzerdefinierte Typen hinzufügen.";
+"IgnoredPasteboardTypesReset" = "Zurücksetzen";
 "RegexpTab" = "Reguläre Ausdrücke";
 "IgnoredRegexpsDescription" = "Es ist möglich, bestimmte Kopien basierend auf definierten regulären Ausdrücken aus der Speicherung zu ignorieren.";

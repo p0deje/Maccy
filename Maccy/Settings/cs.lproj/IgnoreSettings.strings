@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "Ignorovat všechny aplikace kromě zalistovaných";
 "PasteboardTypesTab" = "Typy schránek";
 "IgnoredPasteboardTypesDescription" = "Je možné ignorovat určité typy položek ve schránce ze zapamatování.\nOd základu jsou definované některé typy dle aplikací. Můežeš je odstranit a přidat vlastní typy, pokud chceš.";
+"IgnoredPasteboardTypesReset" = "Obnovení";
 "RegexpTab" = "Regulární výrazy";
 "IgnoredRegexpsDescription" = "Je možné ignorovat určité kopie ze zapamatování na základě definovaných regulárních výrazů.";

@@ -1,5 +1,5 @@
-import SwiftUI
 import Defaults
+import SwiftUI
 
 struct IgnorePasteboardTypesSettingsView: View {
   @Default(.ignoredPasteboardTypes) private var ignoredPasteboardTypes
@@ -18,12 +18,15 @@ struct IgnorePasteboardTypesSettingsView: View {
               guard !$0.isEmpty, type != $0 else { return }
               edit = $0
             })
-          ).onSubmit {
+          )
+          .onSubmit {
             remove(type)
             ignoredPasteboardTypes.insert(edit)
-          }.focused($focus, equals: type)
+          }
+          .focused($focus, equals: type)
         }
-      }.onDeleteCommand {
+      }
+      .onDeleteCommand {
         remove(selection)
       }
 
@@ -36,12 +39,15 @@ struct IgnorePasteboardTypesSettingsView: View {
           Button("", systemImage: "minus") {
             remove(selection)
           }
-        }.frame(width: 50)
+        }
+        .frame(width: 50)
+
         Spacer()
+
         Button {
           Defaults.reset(.ignoredPasteboardTypes)
         } label: {
-          Text("Reset") // TODO: Translate to all languages
+          Text("IgnoredPasteboardTypesReset", tableName: "IgnoreSettings")
         }
       }
 
@@ -49,7 +55,8 @@ struct IgnorePasteboardTypesSettingsView: View {
         .fixedSize(horizontal: false, vertical: true)
         .foregroundStyle(.gray)
         .controlSize(.small)
-    }.padding()
+    }
+    .padding()
   }
 
   private func remove(_ type: String?) {

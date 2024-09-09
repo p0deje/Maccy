@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "התעלמות מכל היישומים חוץ מאלו הרשומים";
 "PasteboardTypesTab" = "סוגי לוחות הדבקה";
 "IgnoredPasteboardTypesDescription" = "אפשר להתעלם מזכירת סוגי פריטים מסוימים בלוח ההדבקה.\nכברירת מחדל, מספר סוגים נקודתיים ליישומים מוגדרים. אפשר להסיר אותם ולהוסיף איזה סוג מותאם משלך שנחוץ לך.";
+"IgnoredPasteboardTypesReset" = "אִתחוּל";
 "RegexpTab" = "ביטויים רגולריים";
 "IgnoredRegexpsDescription" = "אפשר להתעלם מזכירת עותקים מסוימים לפי ביטויים רגולריים מוגדרים.";

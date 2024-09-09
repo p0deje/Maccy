@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "ละเว้นแอปพลิเคชันทั้งหมดยกเว้นในรายการ";
 "PasteboardTypesTab" = "ประเภทการรูปแบบการวาง";
 "IgnoredPasteboardTypesDescription" = "เป็นไปได้ที่จะไม่สนใจรูปแบบการวาง.\nตามค่าเริ่มต้น, บางรายการจะถูกกำหนดแล้ว แต่คุณสามารถลบ แล้วเพิ่มประเภทตามที่ต้องการ";
+"IgnoredPasteboardTypesReset" = "รีเซ็ต";
 "RegexpTab" = "การแสดงออกปกติ";
 "IgnoredRegexpsDescription" = "เป็นไปได้ที่จะเพิกเฉยต่อสำเนาบางสำเนาจากการจดจำตามนิพจน์ทั่วไปที่กำหนดไว้";

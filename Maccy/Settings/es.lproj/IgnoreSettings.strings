@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "Ignorar todas las aplicaciones excepto las enumeradas";
 "PasteboardTypesTab" = "Tipos";
 "IgnoredPasteboardTypesDescription" = "Es posible ignorar ciertos tipos de portapapeles.\nPor defecto hay definidos algunos portapapeles de aplicaciones conocidas. Puedes borrar y añadir tantos como quieras.";
+"IgnoredPasteboardTypesReset" = "Restablecer";
 "RegexpTab" = "Expresiones regulares";
 "IgnoredRegexpsDescription" = "Es posible ignorar ciertas copias para que no se recuerden en función de expresiones regulares definidas.";
