@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "تجاهل جميع التطبيقات ما عدا المُدرجة";
 "PasteboardTypesTab" = "أنواع الحافظة";
 "IgnoredPasteboardTypesDescription" = "من الممكن تجاهل بعض أنواع عناصر الحافظة من التذكر.\nبشكل افتراضي، تم تحديد بعض الأنواع المعروفة المحددة للتطبيق. يمكنك إزالتها وإضافة أي أنواع مخصصة ترغب فيها.";
+"IgnoredPasteboardTypesReset" = "إعادة تعيين";
 "RegexpTab" = "التعبيرات العادية";
 "IgnoredRegexpsDescription" = "من الممكن تجاهل بعض النسخ من التذكر استنادًا إلى التعبيرات العادية المحددة.";

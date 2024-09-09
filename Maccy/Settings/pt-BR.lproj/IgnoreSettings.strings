@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "Ignorar todos os aplicativos exceto os listados";
 "PasteboardTypesTab" = "Tipos de cópia";
 "IgnoredPasteboardTypesDescription" = "É possível ignorar certos tipos de itens de cópia para não lembrar.\nPor padrão, alguns tipos específicos de aplicativos conhecidos são definidos. Você pode removê-los e adicionar qualquer tipo personalizado que você quiser.";
+"IgnoredPasteboardTypesReset" = "Reiniciar";
 "RegexpTab" = "Expressões regulares";
 "IgnoredRegexpsDescription" = "É possível ignorar certas cópias para não lembrar com base em expressões regulares definidas.";

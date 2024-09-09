@@ -16,13 +16,14 @@ extension Defaults.Keys {
   static let ignoredApps = Key<[String]>("ignoredApps", default: [])
   static let ignoredPasteboardTypes = Key<Set<String>>(
     "ignoredPasteboardTypes",
-    default: [
+    default: Set([
       "Pasteboard generator type",
       "com.agilebits.onepassword",
       "com.typeit4me.clipping",
       "de.petermaurer.TransientPasteboardType",
       "net.antelle.keeweb"
     ])
+  )
   static let imageMaxHeight = Key<Int>("imageMaxHeight", default: 40)
   static let lastReviewRequestedAt = Key<Date>("lastReviewRequestedAt", default: Date.now)
   static let menuIcon = Key<MenuIcon>("menuIcon", default: .maccy)

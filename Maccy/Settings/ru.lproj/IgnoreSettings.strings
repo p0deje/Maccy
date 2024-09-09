@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "Игнорировать все приложения, кроме перечисленных";
 "PasteboardTypesTab" = "Типы";
 "IgnoredPasteboardTypesDescription" = "Определённые типы копируемых данных (pasteboard types) можно игнорировать.\nПо умолчанию содержит некоторые типы, специфичные для известных приложений. Вы можете их удалить и добавить свои типы.";
+"IgnoredPasteboardTypesReset" = "Сброс";
 "RegexpTab" = "Регулярные выражения";
 "IgnoredRegexpsDescription" = "Определенные копирования можно игнорировать на основе регулярных выражений.";

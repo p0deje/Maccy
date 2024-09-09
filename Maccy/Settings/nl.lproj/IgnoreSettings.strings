@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "Negeer alle apps behalve de vermelde";
 "PasteboardTypesTab" = "Typen plakbord";
 "IgnoredPasteboardTypesDescription" = "Het is mogelijk om bepaalde typen items op het plakbord te negeren bij het onthouden.\nStandaard zijn enkele bekende applicatiespecifieke typen gedefinieerd. Je kunt deze verwijderen en aangepaste types toevoegen.";
+"IgnoredPasteboardTypesReset" = "Reset";
 "RegexpTab" = "Reguliere expressies";
 "IgnoredRegexpsDescription" = "Het is mogelijk om bepaalde kopieën uit het onthouden te negeren op basis van gedefinieerde reguliere expressies.";

@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "リストされているものを除くすべてのアプリケーションを無視する";
 "PasteboardTypesTab" = "クリップボードタイプ";
 "IgnoredPasteboardTypesDescription" = "特定のクリップボードタイプを除外できます。\nデフォルトでは、既知の特定のアプリケーションタイプが指定されています。また、これらを削除したり、カスタムタイプを追加することもできます。";
+"IgnoredPasteboardTypesReset" = "リセット";
 "RegexpTab" = "正規表現";
 "IgnoredRegexpsDescription" = "定義された正規表現に基づいて、特定のコピーを記憶から無視することができます。";

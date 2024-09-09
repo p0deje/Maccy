@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "Listelenenler dışındaki tüm uygulamaları yoksay";
 "PasteboardTypesTab" = "Pano türleri";
 "IgnoredPasteboardTypesDescription" = "Kimi pano ögesi türlerini anımsamayı yok sayabilirsiniz.\nSaptanmış olarak, kimi bilinen uygulamaya özel türler tanımlanmıştır. Bunları kaldırabilir ve istediğiniz herhangi bir özel türü ekleyebilirsiniz.";
+"IgnoredPasteboardTypesReset" = "Sıfırla";
 "RegexpTab" = "Düzenli ifadeler";
 "IgnoredRegexpsDescription" = "Tanımlanmış düzenli ifadelere dayalı olarak belirli kopyaların hatırlanmasını göz ardı etmek mümkündür.";

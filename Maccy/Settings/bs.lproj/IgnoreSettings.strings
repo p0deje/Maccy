@@ -4,5 +4,6 @@
 "IgnoredAllAppsExceptListed" = "Zanemarite sve aplikacije osim navedenih";
 "PasteboardTypesTab" = "Vrste zalijepljenih stavki";
 "IgnoredPasteboardTypesDescription" = "Moguće je zanemariti određene tipove zalijepljenih stavki iz memorije.\nZadano, neki poznati tipovi specifični za aplikaciju su definirani. Možeš ih ukloniti i dodati bilo koje prilagođene tipove koje želite.";
+"IgnoredPasteboardTypesReset" = "Reset";
 "RegexpTab" = "Regularni izrazi";
 "IgnoredRegexpsDescription" = "Moguće je zanemariti određene kopije od pamćenja na osnovu definisanih regularnih izraza.";
