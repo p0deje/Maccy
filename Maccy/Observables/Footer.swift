@@ -39,7 +39,7 @@ class Footer {
         confirmation: .init(
           message: "clear_alert_message",
           comment: "clear_alert_comment",
-          ok: "clear_alert_confirm",
+          confirm: "clear_alert_confirm",
           cancel: "clear_alert_cancel"
         ),
         suppressConfirmation: suppressClearAlert
@@ -53,7 +53,7 @@ class Footer {
         confirmation: .init(
           message: "clear_alert_message",
           comment: "clear_alert_comment",
-          ok: "clear_alert_confirm",
+          confirm: "clear_alert_confirm",
           cancel: "clear_alert_cancel"
         ),
         suppressConfirmation: suppressClearAlert

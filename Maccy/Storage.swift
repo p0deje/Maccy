@@ -10,6 +10,10 @@ class Storage {
 
   init() {
     let config = ModelConfiguration(url: URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite"))
-    container = try! ModelContainer(for: HistoryItem.self, configurations: config)
+    do {
+      container = try ModelContainer(for: HistoryItem.self, configurations: config)
+    } catch let error {
+      fatalError("Cannot load database: \(error.localizedDescription).")
+    }
   }
 }

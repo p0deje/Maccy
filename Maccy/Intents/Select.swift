@@ -4,7 +4,10 @@ struct Select: AppIntent, CustomIntentMigratedAppIntent {
   static let intentClassName = "SelectIntent"
 
   static var title: LocalizedStringResource = "Select Item in Clipboard History"
-  static var description = IntentDescription("Selects an item in Maccy clipboard history. Depending on Maccy settings, it might trigger pasting of the selected item.")
+  static var description = IntentDescription("""
+  Selects an item in Maccy clipboard history.
+  Depending on Maccy settings, it might trigger pasting of the selected item.
+  """)
 
   static var parameterSummary: some ParameterSummary {
     Summary("Select \(\.$number) Item in Clipboard History")

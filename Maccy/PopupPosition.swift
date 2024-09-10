@@ -56,8 +56,7 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
     }
 
     var point = NSEvent.mouseLocation
-    point.y = point.y - size.height
+    point.y -= size.height
     return point
   }
-
 }

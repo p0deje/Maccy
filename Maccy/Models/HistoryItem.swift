@@ -31,8 +31,8 @@ class HistoryItem {
     let descriptor = FetchDescriptor<HistoryItem>(
       predicate: #Predicate { $0.pin != nil }
     )
-    let pins = try! Storage.shared.context.fetch(descriptor).compactMap({ $0.pin })
-    let assignedPins = Set(pins)
+    let pins = try? Storage.shared.context.fetch(descriptor).compactMap({ $0.pin })
+    let assignedPins = Set(pins ?? [])
     return Array(supportedPins.subtracting(assignedPins))
   }
 

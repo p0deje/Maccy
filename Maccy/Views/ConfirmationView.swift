@@ -16,7 +16,7 @@ struct ConfirmationView<Content: View>: View {
         }
         .confirmationDialog(confirmation.message, isPresented: $item.showConfirmation) {
           Text(confirmation.comment)
-          Button(confirmation.ok, role: .destructive) {
+          Button(confirmation.confirm, role: .destructive) {
             item.action()
           }
           Button(confirmation.cancel, role: .cancel) {}

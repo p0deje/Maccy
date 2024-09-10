@@ -122,7 +122,10 @@ class HistoryItemDecoratorTests: XCTestCase {
 
   func testHighlight() {
     let itemDecorator = historyItemDecorator("foo bar baz")
-    itemDecorator.highlight("random", [range(from: 1, to: 2, in: itemDecorator), range(from: 8, to: 10, in: itemDecorator)])
+    itemDecorator.highlight("random", [
+      range(from: 1, to: 2, in: itemDecorator),
+      range(from: 8, to: 10, in: itemDecorator)
+    ])
     var expectedTitle = AttributedString("foo bar baz")
     expectedTitle[expectedTitle.range(of: "oo")!].font = .bold(.body)()
     expectedTitle[expectedTitle.range(of: "baz")!].font = .bold(.body)()
@@ -131,7 +134,10 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.attributedTitle, nil)
   }
 
-  private func historyItemDecorator(_ value: String?, application: String? = "com.apple.finder") -> HistoryItemDecorator {
+  private func historyItemDecorator(
+    _ value: String?,
+    application: String? = "com.apple.finder"
+  ) -> HistoryItemDecorator {
     let contents = [
       HistoryItemContent(
         type: NSPasteboard.PasteboardType.string.rawValue,
@@ -149,7 +155,10 @@ class HistoryItemDecoratorTests: XCTestCase {
     return HistoryItemDecorator(item)
   }
 
-  private func historyItemDecorator(_ value: Data?, _ type: NSPasteboard.PasteboardType) -> HistoryItemDecorator {
+  private func historyItemDecorator(
+    _ value: Data?,
+    _ type: NSPasteboard.PasteboardType
+  ) -> HistoryItemDecorator {
     let contents = [
       HistoryItemContent(
         type: type.rawValue,
@@ -210,6 +219,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     return HistoryItemDecorator(item)
   }
 
+  // swiftlint:disable:next identifier_name
   private func range(from: Int, to: Int, in item: HistoryItemDecorator) -> Range<String.Index> {
     let startIndex = item.title.startIndex
     let lowerBound = item.title.index(startIndex, offsetBy: from)
