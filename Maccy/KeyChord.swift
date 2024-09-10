@@ -1,7 +1,6 @@
-import AppKit
+import AppKit.NSEvent
 import KeyboardShortcuts
 import Sauce
-import SwiftUI
 
 enum KeyChord: CaseIterable {
   static var pasteKey: Key { pasteMenuItem?.key ?? Key.v }
@@ -11,11 +10,12 @@ enum KeyChord: CaseIterable {
       .flatMap { $0.submenu?.items ?? [] }
       .first { $0.action == #selector(NSText.paste) }
   }
-  static var deleteKey: KeyEquivalent? { KeyboardShortcuts.Shortcut(name: .delete)?.toKeyEquivalent() }
-  static var deleteModifiers: SwiftUI.EventModifiers? { KeyboardShortcuts.Shortcut(name: .delete)?.toEventModifiers() }
 
-  static var pinKey: KeyEquivalent? { KeyboardShortcuts.Shortcut(name: .pin)?.toKeyEquivalent() }
-  static var pinModifiers: SwiftUI.EventModifiers? { KeyboardShortcuts.Shortcut(name: .pin)?.toEventModifiers() }
+  static var deleteKey: Key? { Sauce.shared.key(shortcut: .delete) }
+  static var deleteModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .delete)?.modifiers }
+
+  static var pinKey: Key? { Sauce.shared.key(shortcut: .pin) }
+  static var pinModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .pin)?.modifiers }
 
   case clearHistory
   case clearHistoryAll
@@ -34,41 +34,54 @@ enum KeyChord: CaseIterable {
   case close
   case unknown
 
-  // TODO: why .delete doesn't work?
-  init(_ key: KeyEquivalent, _ modifierFlags: SwiftUI.EventModifiers) {
-    switch (key, modifierFlags.subtracting([.numericPad, .function])) {
-    case (.delete, .init(arrayLiteral: [.command, .option])),
-         (.backspace, .init(arrayLiteral: [.command, .option])):
+  init(_ event: NSEvent?) {
+    guard let event, event.type == .keyDown,
+          let key = Sauce.shared.key(for: Int(event.keyCode)) else {
+      self = .unknown
+      return
+    }
+
+    self.init(
+      key,
+      event.modifierFlags
+        .intersection(.deviceIndependentFlagsMask)
+        .subtracting([.capsLock, .numericPad, .function])
+    )
+  }
+
+  init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) {
+    switch (key, modifierFlags) {
+    case (.delete, [.command, .option]):
       self = .clearHistory
-    case (.delete, .init(arrayLiteral: [.command, .option, .shift])),
-         (.backspace, .init(arrayLiteral: [.command, .option, .shift])):
+    case (.delete, [.command, .option, .shift]):
       self = .clearHistoryAll
-    case (.init("u"), .init(arrayLiteral: [.control])):
+    case (.u, [.control]):
       self = .clearSearch
-    case (KeyChord.deleteKey, KeyChord.deleteModifiers),
-         (.backspace, KeyChord.deleteModifiers) where KeyChord.deleteKey == .delete:
+    case (KeyChord.deleteKey, KeyChord.deleteModifiers):
       self = .deleteCurrentItem
-    case (.init("h"), .init(arrayLiteral: [.control])):
+    case (.h, [.control]):
       self = .deleteOneCharFromSearch
-    case (.init("w"), .init(arrayLiteral: [.control])):
+    case (.w, [.control]):
       self = .deleteLastWordFromSearch
     case (.downArrow, []),
-         (.downArrow, .init(arrayLiteral: [.shift])),
-         (.init("j"), .init(arrayLiteral: [.control])):
+         (.downArrow, [.shift]),
+         (.j, [.control]):
+      print("next")
       self = .moveToNext
     case (.downArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option):
       self = .moveToLast
     case (.upArrow, []),
-         (.upArrow, .init(arrayLiteral: [.shift])),
-         (.init("k"), .init(arrayLiteral: [.control])):
+         (.upArrow, [.shift]),
+         (.k, [.control]):
       self = .moveToPrevious
     case (.upArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option):
       self = .moveToFirst
     case (KeyChord.pinKey, KeyChord.pinModifiers):
       self = .pinOrUnpin
-    case (.init(","), .init(arrayLiteral: [.command])):
+    case (.comma, [.command]):
       self = .openPreferences
-    case (.return, _) where !modifierFlags.isEmpty:
+    case (.return, _),
+         (.keypadEnter, _):
       self = .selectCurrentItem
     case (.escape, _):
       self = .close

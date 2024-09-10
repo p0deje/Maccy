@@ -10,8 +10,12 @@ struct KeyHandlingView<Content: View>: View {
 
   var body: some View {
     content()
-      .onKeyPress { press in
-        switch KeyChord(press.key, press.modifiers) {
+      .onKeyPress { _ in
+        // Unfortunately, key presses don't allow access to
+        // key code and don't properly work with multiple inputs,
+        // so pressing ⌘, on non-English layout doesn't open
+        // preferences. Stick to NSEvent to fix this behavior.
+        switch KeyChord(NSApp.currentEvent) {
         case .clearHistory:
           if let item = appState.footer.items.first(where: { $0.title == "clear" }),
              item.confirmation != nil,

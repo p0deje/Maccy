@@ -1,5 +1,6 @@
 import AppKit
 import Defaults
+import Sauce
 import SwiftData
 
 @Model
@@ -12,11 +13,14 @@ class HistoryItem {
       "m", "n", "o", "p", "r", "s", "t", "u", "w", "x", "y", "z"
     ])
 
-    if let deleteKey = KeyChord.deleteKey {
-      keys.remove(String(deleteKey.character))
+    if let deleteKey = KeyChord.deleteKey,
+       let character = Sauce.shared.character(for: Int(deleteKey.QWERTYKeyCode), cocoaModifiers: []) {
+      keys.remove(character)
     }
-    if let pinKey = KeyChord.pinKey {
-      keys.remove(String(pinKey.character))
+
+    if let pinKey = KeyChord.pinKey,
+       let character = Sauce.shared.character(for: Int(pinKey.QWERTYKeyCode), cocoaModifiers: []) {
+      keys.remove(character)
     }
 
     return keys

@@ -223,7 +223,7 @@ class History {
 
     let modifierFlags = NSApp.currentEvent?.modifierFlags
       .intersection(.deviceIndependentFlagsMask)
-      .subtracting(.capsLock) ?? []
+      .subtracting([.capsLock, .numericPad, .function]) ?? []
 
     if modifierFlags.isEmpty {
       AppState.shared.popup.close()
