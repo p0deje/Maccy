@@ -65,7 +65,7 @@ class History {
   // - `all` stores all history items, even the ones that are currently hidden by a search
   // - `items` stores only visible history items, updated during a search
   @ObservationIgnored
-  private var all: [HistoryItemDecorator] = []
+   var all: [HistoryItemDecorator] = []
 
   init() {
     Task {
@@ -119,8 +119,9 @@ class History {
     }
   }
 
+  @discardableResult
   @MainActor
-  func add(_ item: HistoryItem) {
+  func add(_ item: HistoryItem) -> HistoryItemDecorator {
     while all.filter(\.isUnpinned).count >= Defaults[.size] {
       delete(all.last(where: \.isUnpinned))
     }
@@ -131,7 +132,7 @@ class History {
         item.contents = existingHistoryItem.contents
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
-      item.numberOfCopies += existingHistoryItem.numberOfCopies
+      item.numberOfCopies = item.numberOfCopies + existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
       item.title = existingHistoryItem.title
       if !item.fromMaccy {
@@ -169,6 +170,8 @@ class History {
       updateUnpinnedShortcuts()
       AppState.shared.popup.needsResize = true
     }
+
+    return itemDecorator
   }
 
   @MainActor

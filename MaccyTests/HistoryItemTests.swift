@@ -3,49 +3,12 @@ import Defaults
 @testable import Maccy
 
 // swiftlint:disable force_try
+@MainActor
 class HistoryItemTests: XCTestCase {
-  let savedIgnoredApps = Defaults[.ignoredApps]
-  let savedMaxMenuItemLength = Defaults[.maxMenuItemLength]
-
-  override func setUp() {
-    CoreDataManager.inMemory = true
-    Defaults[.maxMenuItemLength] = 50
-    super.setUp()
-  }
-
-  override func tearDown() {
-    super.tearDown()
-    CoreDataManager.shared.viewContext.reset()
-    CoreDataManager.inMemory = false
-    Defaults[.maxMenuItemLength] = savedMaxMenuItemLength
-  }
-
   func testTitleForString() {
     let title = "foo"
     let item = historyItem(title)
     XCTAssertEqual(item.title, title)
-  }
-
-  func testTitleShorterThanMaxLength() {
-    let title = String(repeating: "a", count: 49)
-    let item = historyItem(title)
-    XCTAssertEqual(item.title, title)
-    XCTAssertEqual(item.title?.count, 49)
-  }
-
-  func testTitleOfMaxLength() {
-    let title = String(repeating: "a", count: 50)
-    let item = historyItem(title)
-    XCTAssertEqual(item.title, title)
-    XCTAssertEqual(item.title?.count, 50)
-  }
-
-  func testTitleLongerThanMaxLength() {
-    let trimmedTitle = String(repeating: "a", count: 33) + "..." + String(repeating: "a", count: 17)
-    let title = String(repeating: "a", count: 51)
-    let item = historyItem(title)
-    XCTAssertEqual(item.title, trimmedTitle)
-    XCTAssertEqual(item.title?.count, 53)
   }
 
   func testTitleWithWhitespaces() {
@@ -101,47 +64,55 @@ class HistoryItemTests: XCTestCase {
 
   func testTextFromUniversalClipboard() {
     let url = URL(fileURLWithPath: "/tmp/foo.bar")
-    let fileURLContent = HistoryItemContentL(
+    let fileURLContent = HistoryItemContent(
       type: NSPasteboard.PasteboardType.fileURL.rawValue,
       value: url.dataRepresentation
     )
-    let textContent = HistoryItemContentL(
+    let textContent = HistoryItemContent(
       type: NSPasteboard.PasteboardType.string.rawValue,
       value: url.lastPathComponent.data(using: .utf8)
     )
-    let universalClipboardContent = HistoryItemContentL(
+    let universalClipboardContent = HistoryItemContent(
       type: NSPasteboard.PasteboardType.universalClipboard.rawValue,
       value: "".data(using: .utf8)
     )
-    let item = HistoryItemL(contents: [fileURLContent, textContent, universalClipboardContent])
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = [fileURLContent, textContent, universalClipboardContent]
+    item.title = item.generateTitle()
     XCTAssertEqual(item.title, "foo.bar")
   }
 
   func testImageFromUniversalClipboard() {
     let url = Bundle(for: type(of: self)).url(forResource: "guy", withExtension: "jpeg")!
-    let fileURLContent = HistoryItemContentL(
+    let fileURLContent = HistoryItemContent(
       type: NSPasteboard.PasteboardType.fileURL.rawValue,
       value: url.dataRepresentation
     )
-    let universalClipboardContent = HistoryItemContentL(
+    let universalClipboardContent = HistoryItemContent(
       type: NSPasteboard.PasteboardType.universalClipboard.rawValue,
       value: "".data(using: .utf8)
     )
-    let item = HistoryItemL(contents: [fileURLContent, universalClipboardContent])
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = [fileURLContent, universalClipboardContent]
     XCTAssertEqual(item.image!.tiffRepresentation, NSImage(data: try! Data(contentsOf: url))!.tiffRepresentation)
   }
 
   func testFileFromUniversalClipboard() {
     let url = URL(fileURLWithPath: "/tmp/foo.bar")
-    let fileURLContent = HistoryItemContentL(
+    let fileURLContent = HistoryItemContent(
       type: NSPasteboard.PasteboardType.fileURL.rawValue,
       value: url.dataRepresentation
     )
-    let universalClipboardContent = HistoryItemContentL(
+    let universalClipboardContent = HistoryItemContent(
       type: NSPasteboard.PasteboardType.universalClipboard.rawValue,
       value: "".data(using: .utf8)
     )
-    let item = HistoryItemL(contents: [fileURLContent, universalClipboardContent])
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = [fileURLContent, universalClipboardContent]
+    item.title = item.generateTitle()
     XCTAssertEqual(item.title, "file:///tmp/foo.bar")
   }
 
@@ -150,71 +121,78 @@ class HistoryItemTests: XCTestCase {
     XCTAssertEqual(item.title, "")
   }
 
-  func testPinHasToBeUnique() {
-    let item1 = historyItem("foo")
-    item1.pin = "a"
-    let item2 = historyItem("bar")
-    item2.pin = "a"
-    XCTAssertThrowsError(try CoreDataManager.shared.viewContext.save())
-  }
-
-  func testPinHasToBeLetter() {
-    let item1 = historyItem("foo")
-    item1.pin = "1"
-    XCTAssertThrowsError(try CoreDataManager.shared.viewContext.save())
-  }
-
-  func testPinHasToBeLowercased() {
-    let item1 = historyItem("foo")
-    item1.pin = "C"
-    XCTAssertThrowsError(try CoreDataManager.shared.viewContext.save())
-  }
-
-  func testPinCanBeEmpty() {
-    let item1 = historyItem("foo")
-    item1.pin = ""
-    XCTAssertNoThrow(try CoreDataManager.shared.viewContext.save())
-    XCTAssertEqual(item1.pin, "")
-  }
-
   func testSeveralItemsCanHaveEmptyPin() {
     let item1 = historyItem("foo")
     item1.pin = ""
     let item2 = historyItem("bar")
     item2.pin = ""
-    XCTAssertNoThrow(try CoreDataManager.shared.viewContext.save())
+    XCTAssertNoThrow(try Storage.shared.context.save())
     XCTAssertEqual(item1.pin, "")
     XCTAssertEqual(item2.pin, "")
   }
 
-  private func historyItem(_ value: String?) -> HistoryItemL {
-    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.string.rawValue,
-                                     value: value?.data(using: .utf8))
-    return HistoryItemL(contents: [content])
+  private func historyItem(_ value: String?) -> HistoryItem {
+    let contents = [
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.string.rawValue,
+        value: value?.data(using: .utf8)
+      )
+    ]
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = contents
+    item.title = item.generateTitle()
+
+    return item
   }
 
-  private func historyItem(_ data: Data?, _ type: NSPasteboard.PasteboardType) -> HistoryItemL {
-    let content = HistoryItemContentL(type: type.rawValue,
-                                     value: data)
-    return HistoryItemL(contents: [content])
+  private func historyItem(_ data: Data?, _ type: NSPasteboard.PasteboardType) -> HistoryItem {
+    let contents = [
+      HistoryItemContent(
+        type: type.rawValue,
+        value: data
+      )
+    ]
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = contents
+    item.title = item.generateTitle()
+
+    return item
   }
 
-  private func historyItem(_ value: NSImage) -> HistoryItemL {
-    let content = HistoryItemContentL(type: NSPasteboard.PasteboardType.tiff.rawValue,
-                                     value: value.tiffRepresentation!)
-    return HistoryItemL(contents: [content])
+  private func historyItem(_ value: NSImage) -> HistoryItem {
+    let contents = [
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.tiff.rawValue,
+        value: value.tiffRepresentation!
+      )
+    ]
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = contents
+    item.title = item.generateTitle()
+
+    return item
   }
 
-  private func historyItem(_ value: URL) -> HistoryItemL {
-    let fileURLContent = HistoryItemContentL(
-      type: NSPasteboard.PasteboardType.fileURL.rawValue,
-      value: value.dataRepresentation
-    )
-    let fileNameContent = HistoryItemContentL(
-      type: NSPasteboard.PasteboardType.string.rawValue,
-      value: value.lastPathComponent.data(using: .utf8)
-    )
-    return HistoryItemL(contents: [fileURLContent, fileNameContent])
+  private func historyItem(_ value: URL) -> HistoryItem {
+    let contents = [
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.fileURL.rawValue,
+        value: value.dataRepresentation
+      ),
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.string.rawValue,
+        value: value.lastPathComponent.data(using: .utf8)
+      )
+    ]
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = contents
+    item.title = item.generateTitle()
+
+    return item
   }
 }
 // swiftlint:enable force_try

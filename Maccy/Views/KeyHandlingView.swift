@@ -14,7 +14,7 @@ struct KeyHandlingView<Content: View>: View {
         switch KeyChord(press.key, press.modifiers) {
         case .clearHistory:
           if let item = appState.footer.items.first(where: { $0.title == "clear" }),
-             let _ = item.confirmation,
+             item.confirmation != nil,
              let suppressConfirmation = item.suppressConfirmation {
             if suppressConfirmation.wrappedValue {
               item.action()
@@ -27,7 +27,7 @@ struct KeyHandlingView<Content: View>: View {
           }
         case .clearHistoryAll:
           if let item = appState.footer.items.first(where: { $0.title == "clear_all" }),
-             let _ = item.confirmation,
+             item.confirmation != nil,
              let suppressConfirmation = item.suppressConfirmation {
             if suppressConfirmation.wrappedValue {
               item.action()
