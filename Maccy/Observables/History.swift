@@ -7,7 +7,7 @@ import Settings
 import SwiftData
 
 @Observable
-class History {
+class History { // swiftlint:disable:this type_body_length
   static let shared = History()
 
   var items: [HistoryItemDecorator] = []
@@ -132,7 +132,7 @@ class History {
         item.contents = existingHistoryItem.contents
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
-      item.numberOfCopies = item.numberOfCopies + existingHistoryItem.numberOfCopies
+      item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
       item.title = existingHistoryItem.title
       if !item.fromMaccy {

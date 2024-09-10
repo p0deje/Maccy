@@ -49,7 +49,7 @@ enum KeyChord: CaseIterable {
     )
   }
 
-  init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) {
+  init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) { // swiftlint:disable:this cyclomatic_complexity
     switch (key, modifierFlags) {
     case (.delete, [.command, .option]):
       self = .clearHistory
@@ -91,5 +91,4 @@ enum KeyChord: CaseIterable {
       self = .unknown
     }
   }
-  // swiftlint:enable cyclomatic_complexity
 }

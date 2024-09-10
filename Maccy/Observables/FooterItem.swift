@@ -5,7 +5,7 @@ class FooterItem: Equatable, Identifiable {
   struct Confirmation {
     var message: LocalizedStringKey
     var comment: LocalizedStringKey
-    var ok: LocalizedStringKey
+    var confirm: LocalizedStringKey
     var cancel: LocalizedStringKey
   }
 

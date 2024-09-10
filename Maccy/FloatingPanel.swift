@@ -83,7 +83,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     newSize.height = min(newHeight, newSize.height)
 
     var newOrigin = frame.origin
-    newOrigin.y = newOrigin.y + (frame.height - newSize.height)
+    newOrigin.y += (frame.height - newSize.height)
 
     NSAnimationContext.runAnimationGroup { (context) in
       context.duration = 0.2

@@ -2,6 +2,7 @@ import AppKit
 import Defaults
 
 // swiftlint:disable identifier_name
+// swiftlint:disable type_name
 class Sorter {
   enum By: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
     case lastCopiedAt
@@ -48,3 +49,4 @@ class Sorter {
   }
 }
 // swiftlint:enable identifier_name
+// swiftlint:enable type_name

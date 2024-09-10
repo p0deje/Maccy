@@ -37,7 +37,8 @@ class AppState: Sendable {
   }
 
   var menuIconText: String {
-    var title = history.unpinnedItems.first?.text.shortened(to: 100).trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
+    var title = history.unpinnedItems.first?.text.shortened(to: 100)
+      .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     title.unicodeScalars.removeAll(where: CharacterSet.newlines.contains)
     return title.shortened(to: 20)
   }
@@ -131,7 +132,7 @@ class AppState: Sendable {
   }
 
   @MainActor
-  func openPreferences() {
+  func openPreferences() { // swiftlint:disable:this function_body_length
     if settingsWindowController == nil {
       settingsWindowController = SettingsWindowController(
         panes: [

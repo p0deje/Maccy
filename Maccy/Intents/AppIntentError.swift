@@ -5,7 +5,7 @@ enum AppIntentError: Swift.Error, CustomLocalizedStringResourceConvertible {
 
   var localizedStringResource: LocalizedStringResource {
     switch self {
-      case .notFound: return "Clipboard item not found"
+    case .notFound: return "Clipboard item not found"
     }
   }
 }

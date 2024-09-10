@@ -1,0 +1,6 @@
+disabled_rules:
+  - multiple_closures_with_trailing_closure
+  - non_optional_string_data_conversion
+  - todo
+line_length:
+  ignores_comments: true
