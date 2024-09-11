@@ -1,8 +1,22 @@
 
 
-"7SP-tN-nLD.ibShadowedToolTip" = "تاخیر تا پنجره ی پیش نمایش، نمایش داده شود به میلی ثانیه.\nپیش فرض: ۱۵۰۰.";
+"7SP-tN-nLD.ibShadowedToolTip" = "تاخیر تا پاپ آپ پیش نمایش، نمایش داده شود به میلی ثانیه.\nپیش فرض: ۱۵۰۰.";
 "Ab6-Jt-UI5.title" = "پررنگ";
 "B41-eW-cJt.ibShadowedToolTip" = "تغییر دادن سبک برجسته کردن موارد جستجو.\nپیش فرض: پررنگ.";
 "0h4-CZ-fwT.title" = "نماد منو";
 "0tN-4z-p8T.title" = "وقتی پاورقی پنهان است ⌘ را فشار دهید تا تنظیمات باز شود.";
 "2vE-8q-6tq.title" = "نمایش کپی های اخیر کنار نماد منو";
+"Ccp-5J-8nw.title" = "نشانگر";
+"ClZ-IS-YKz.title" = "نمایش پاورقی";
+"DKE-JI-oLS.title" = "بالا";
+"GhW-Kv-rhO.title" = "سنجاق به:";
+"MKb-cW-gpg.title" = "ارتفاع عکس:";
+"N8k-nW-lzS.title" = "وسط صفحه";
+"OHf-E4-lFq.title" = "مورب";
+"UPc-L7-OTE.title" = "زیر خطکشی";
+"Yio-8e-oaa.title" = "پایین";
+"R7Y-UN-Edt.title" = "پاپ آپ در:";
+"TgE-eS-5nT.title" = "طول عنوان:";
+"Pud-2o-NKc.title" = "نمایش نماد منو";
+"Tsp-4i-Mym.ibShadowedToolTip" = "حداکثر ارتفاع عکس پیش نمایش.\nپیش فرض: ۴۰.\nنکته:‌ روی ۱۶ تنظیم کنید تا مانند موارد نوشتاری شود.";
+"XGd-Fg-wS9.ibShadowedToolTip" = "حداکثر تعداد کاراکتر در عنوان موارد.\nپیش فرض: ۵۰.";
