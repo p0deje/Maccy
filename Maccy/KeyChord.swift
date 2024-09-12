@@ -66,7 +66,6 @@ enum KeyChord: CaseIterable {
     case (.downArrow, []),
          (.downArrow, [.shift]),
          (.j, [.control]):
-      print("next")
       self = .moveToNext
     case (.downArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option):
       self = .moveToLast
