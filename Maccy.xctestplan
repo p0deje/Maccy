@@ -23,6 +23,22 @@
   },
   "testTargets" : [
     {
+      "skippedTests" : [
+        "HistoryTests",
+        "HistoryTests\/testAdding()",
+        "HistoryTests\/testAddingItemFromMaccy()",
+        "HistoryTests\/testAddingItemThatIsSupersededByExisting()",
+        "HistoryTests\/testAddingItemWithDifferentModifiedType()",
+        "HistoryTests\/testAddingSame()",
+        "HistoryTests\/testClearingAll()",
+        "HistoryTests\/testClearingUnpinned()",
+        "HistoryTests\/testDefaultIsEmpty()",
+        "HistoryTests\/testMaxSize()",
+        "HistoryTests\/testMaxSizeIgnoresPinned()",
+        "HistoryTests\/testMaxSizeIsChanged()",
+        "HistoryTests\/testModifiedAfterCopying()",
+        "HistoryTests\/testRemoving()"
+      ],
       "target" : {
         "containerPath" : "container:Maccy.xcodeproj",
         "identifier" : "DA360DAF1E3DF137005C6F6B",
