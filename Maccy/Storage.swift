@@ -8,8 +8,17 @@ class Storage {
   var container: ModelContainer
   var context: ModelContext { container.mainContext }
 
+  private let url = URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite")
+
   init() {
-    let config = ModelConfiguration(url: URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite"))
+    var config = ModelConfiguration(url: url)
+
+    #if DEBUG
+    if CommandLine.arguments.contains("enable-testing") {
+      config = ModelConfiguration(isStoredInMemoryOnly: true)
+    }
+    #endif
+
     do {
       container = try ModelContainer(for: HistoryItem.self, configurations: config)
     } catch let error {

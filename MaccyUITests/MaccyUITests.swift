@@ -46,7 +46,7 @@ class MaccyUITests: XCTestCase {
 
   override func setUp() {
     super.setUp()
-    app.launchArguments.append("ui-testing")
+    app.launchArguments.append("enable-testing")
     app.launch()
 
     copyToClipboard(copy2)

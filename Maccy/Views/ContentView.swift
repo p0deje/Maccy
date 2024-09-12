@@ -36,9 +36,6 @@ struct ContentView: View {
       }
       .task {
         try? await appState.history.load()
-        if ProcessInfo.processInfo.arguments.contains("ui-testing") {
-          appState.history.clearAll()
-        }
       }
     }
     .environment(appState)

@@ -23,14 +23,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
-  func applicationWillFinishLaunching(_ notification: Notification) {
-    if ProcessInfo.processInfo.arguments.contains("ui-testing") {
+  func applicationWillFinishLaunching(_ notification: Notification) { // swiftlint:disable:this function_body_length
+    #if DEBUG
+    if CommandLine.arguments.contains("enable-testing") {
       SPUUpdater(hostBundle: Bundle.main,
                  applicationBundle: Bundle.main,
                  userDriver: SPUStandardUserDriver(hostBundle: Bundle.main, delegate: nil),
                  delegate: nil)
       .automaticallyChecksForUpdates = false
     }
+    #endif
 
     // Bridge FloatingPanel via AppDelegate.
     AppState.shared.appDelegate = self
