@@ -1,1 +1,21 @@
 
+
+"clear_alert_cancel" = "Cancelar";
+"clear_alert_confirm" = "Apagar";
+"active_screen" = "Ecrã activo";
+"quit" = "Fechar";
+"system_preferences_pane" = "Preferências de Segurança e Privacidade";
+"quit_tooltip" = "Fechar aplicação";
+"preferences" = "Preferências…";
+"clear" = "Apagar";
+"about" = "Sobre";
+"accessibility_alert_open" = "Abrir Preferências do Sistema";
+"clear_alert_message" = "Tem a certeza que pretende apagar o histórico?";
+"key_used_error" = "Chave já em uso.";
+"screen" = "Ecrã";
+"clear_all" = "Apagar tudo";
+"preferences_advanced" = "Avançado";
+"accessibility_alert_deny" = "Recusar";
+"system_settings_name" = "Definições do Sistema";
+"system_settings_pane" = "Definições de Segurança e Privacidade";
+"system_preferences_name" = "Preferências do Sistema";
