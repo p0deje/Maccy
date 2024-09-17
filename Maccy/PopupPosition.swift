@@ -40,7 +40,7 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
       if let statusBarButton {
         let rectInWindow = statusBarButton.convert(statusBarButton.bounds, to: nil)
         if let screenRect = statusBarButton.window?.convertToScreen(rectInWindow) {
-          return screenRect.origin
+          return NSPoint(x: screenRect.minX, y: screenRect.minY - size.height)
         }
       }
     case .lastPosition:
