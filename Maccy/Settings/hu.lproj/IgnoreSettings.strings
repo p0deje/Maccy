@@ -1,1 +1,7 @@
 
+
+"PasteboardTypesTab" = "Pasteboard types";
+"Title" = "Mellőzés";
+"ApplicationsTab" = "Alkalmazások";
+"IgnoredAppsDescription" = "Lehetőség van bizonyos alkalmazásokban a másolások figyelmen kívül hagyására.\nVedd figyelembe, hogy ez nem mindennel működik, tehát jobb ha a Pasteboard types listát használod.";
+"IgnoredAllAppsExceptListed" = "Az összes alkalmazás figyelmen kívül hagyása kivéve a listázottakat";
