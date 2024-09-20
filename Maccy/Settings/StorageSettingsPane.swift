@@ -9,9 +9,9 @@ struct StorageSettingsPane: View {
       didSet {
         Defaults.withoutPropagation {
           if saveFiles {
-            Defaults[.enabledPasteboardTypes].insert(.fileURL)
+            Defaults[.enabledPasteboardTypes].formUnion(StorageType.files.types)
           } else {
-            Defaults[.enabledPasteboardTypes].remove(.fileURL)
+            Defaults[.enabledPasteboardTypes].subtract(StorageType.files.types)
           }
         }
       }
@@ -21,9 +21,9 @@ struct StorageSettingsPane: View {
       didSet {
         Defaults.withoutPropagation {
           if saveImages {
-            Defaults[.enabledPasteboardTypes].formUnion([.tiff, .png])
+            Defaults[.enabledPasteboardTypes].formUnion(StorageType.images.types)
           } else {
-            Defaults[.enabledPasteboardTypes].subtract([.tiff, .png])
+            Defaults[.enabledPasteboardTypes].subtract(StorageType.images.types)
           }
         }
       }
@@ -33,9 +33,9 @@ struct StorageSettingsPane: View {
       didSet {
         Defaults.withoutPropagation {
           if saveText {
-            Defaults[.enabledPasteboardTypes].formUnion([.html, .rtf, .string])
+            Defaults[.enabledPasteboardTypes].formUnion(StorageType.text.types)
           } else {
-            Defaults[.enabledPasteboardTypes].subtract([.html, .rtf, .string])
+            Defaults[.enabledPasteboardTypes].subtract(StorageType.text.types)
           }
         }
       }
@@ -45,9 +45,9 @@ struct StorageSettingsPane: View {
 
     init() {
       observer = Defaults.observe(.enabledPasteboardTypes) { change in
-        self.saveFiles = change.newValue.contains(.fileURL)
-        self.saveImages = change.newValue.isSuperset(of: [.tiff, .png])
-        self.saveText = change.newValue.isSuperset(of: [.html, .rtf, .string])
+        self.saveFiles = change.newValue.isSubset(of: StorageType.files.types)
+        self.saveImages = change.newValue.isSuperset(of: StorageType.images.types)
+        self.saveText = change.newValue.isSuperset(of: StorageType.text.types)
       }
     }
 

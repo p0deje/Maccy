@@ -1,12 +1,21 @@
 import AppKit
 import Defaults
 
+struct StorageType {
+  static let files = StorageType(types: [.fileURL])
+  static let images = StorageType(types: [.png, .tiff])
+  static let text = StorageType(types: [.html, .rtf, .string])
+  static let all = StorageType(types: files.types + images.types + text.types)
+
+  var types: [NSPasteboard.PasteboardType]
+}
+
 extension Defaults.Keys {
   static let clearOnQuit = Key<Bool>("clearOnQuit", default: false)
   static let clearSystemClipboard = Key<Bool>("clearSystemClipboard", default: false)
   static let clipboardCheckInterval = Key<Double>("clipboardCheckInterval", default: 0.5)
   static let enabledPasteboardTypes = Key<Set<NSPasteboard.PasteboardType>>(
-    "enabledPasteboardTypes", default: [.fileURL, .png, .string, .tiff]
+    "enabledPasteboardTypes", default: Set(StorageType.all.types)
   )
   static let highlightMatch = Key<HighlightMatch>("highlightMatch", default: .bold)
   static let ignoreAllAppsExceptListed = Key<Bool>("ignoreAllAppsExceptListed", default: false)
