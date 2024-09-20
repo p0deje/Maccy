@@ -18,19 +18,6 @@ class Footer {
   )
 
   init() {
-    Task {
-      for await value in Defaults.updates(.showFooter) {
-        if value {
-          await load()
-        } else {
-          items = []
-        }
-      }
-    }
-  }
-
-  @MainActor
-  func load() {
     items = [
       FooterItem(
         title: "clear",
@@ -44,7 +31,9 @@ class Footer {
         ),
         suppressConfirmation: suppressClearAlert
       ) {
-        AppState.shared.history.clear()
+        Task { @MainActor in
+          AppState.shared.history.clear()
+        }
       },
       FooterItem(
         title: "clear_all",
@@ -58,13 +47,17 @@ class Footer {
         ),
         suppressConfirmation: suppressClearAlert
       ) {
-        AppState.shared.history.clearAll()
+        Task { @MainActor in
+          AppState.shared.history.clearAll()
+        }
       },
       FooterItem(
         title: "preferences",
         shortcuts: [KeyShortcut(key: .comma)]
       ) {
-        AppState.shared.openPreferences()
+        Task { @MainActor in
+          AppState.shared.openPreferences()
+        }
       },
       FooterItem(
         title: "about",
