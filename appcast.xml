@@ -17,13 +17,13 @@
           </ul>
         ]]>
       </description>
-      <pubDate>2024-09-16</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.0.0</releaseNotesLink>
+      <pubDate>2024-09-20</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.0.1</releaseNotesLink>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/2.0.0/Maccy.app.zip"
-        sparkle:version="46"
-        sparkle:shortVersionString="2.0.0"
+        url="https://github.com/p0deje/Maccy/releases/download/2.0.1/Maccy.app.zip"
+        sparkle:version="48"
+        sparkle:shortVersionString="2.0.1"
         length="0"
         type="application/octet-stream"
       />
