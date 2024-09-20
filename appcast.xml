@@ -6,38 +6,15 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>2.0.0</title>
+      <title>2.0.1</title>
       <description>
         <![CDATA[
-          <h4>Maccy 2.0 - the biggest release in 7 years!</h4>
-          <p>Read more at <a href="https://github.com/p0deje/Maccy/discussions/790">https://github.com/p0deje/Maccy/discussions/790</a>.</p>
-
-          <h5>Highlights of 2.0</h5>
           <ul>
-            <li>The user interface has been rewritten from AppKit + NSMenu to SwiftUI + NSPanel.</li>
-            <li>Storage has been rewritten from Core Data to SwiftData.</li>
-            <li>Requires macOS 14 Sonoma or newer.</li>
-            <li>Backward compatibility with Maccy 1.x. You can downgrade to 1.0 if you don't like the new version or encounter bugs.</li>
-            <li>No backward compatibility with Maccy０.x.</li>
-            <li>New setting to pop up at the last position Maccy was opened at (#829).</li>
-            <li>New search highlight matches mode with a yellow color similar to Safari (#830).</li>
-            <li>Improved memory usage for copying large images.</li>
-            <li>Fixed multiple issues with Japanese/Chinese/Korean language input in search.</li>
-            <li>Fixed an issue when Maccy could not be shown over password fields.</li>
-            <li>Fixed an issue when Maccy would not paste to the Spotlight window.</li>
-            <li>Fixed an issue when Maccy would not open over full-screen windows.</li>
+            <li>Fixed an issue when the popup is shown on the screen above the menu bar.</li>
+            <li>Fixed an issue with footer shortcuts not working when it's hidden.</li>
+            <li>A pin letter "A" can no longer be used since it's reserved for a system paste shortcut.</li>
+            <li>A pin letter "W" can no longer be used since it's reserved for a close current window shortcut.</li>
           </ul>
-
-          <h5>Differences from 1.0</h5>
-          <ul>
-            <li>The window can be resized like any other window and the history list is now scrollable.</li>
-            <li>Pinned items are shown without dots and stick to the scrollable history list.</li>
-            <li>Appearance preference <b>Number of items</b> removed. Instead, vertically resize the main panel window according to your needs.</li>
-            <li>Appearance preference <b>Title length</b> removed. Instead, horizontally resize the main panel window according to your needs.</li>
-            <li>Advanced preference <b>Avoid taking application focus</b> removed. The focus will always remain on the active application, similar to how Spotlight works.</li>
-            <li>A pin letter "V" can no longer be used since it's reserved for a system paste shortcut.</li>
-          </ul>
-
         ]]>
       </description>
       <pubDate>2024-09-16</pubDate>
