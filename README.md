@@ -24,6 +24,7 @@ Maccy works on macOS Sonoma 14 or higher.
   * [Why doesn't it paste when I select an item in history?](#why-doesnt-it-paste-when-i-select-an-item-in-history)
   * [When assigning a hotkey to open Maccy, it says that this hotkey is already used in some system setting.](#when-assigning-a-hotkey-to-open-maccy-it-says-that-this-hotkey-is-already-used-in-some-system-setting)
   * [How to restore hidden footer?](#how-to-restore-hidden-footer)
+  * [How to ignore copies from Universal Clipboard?](#how-to-ignore-copies-from-universal-clipboard)
 * [Translations](#translations)
 * [Motivation](#motivation)
 * [License](#license)
@@ -135,6 +136,11 @@ If for some reason it doesn't work, run the following command in Terminal.app:
 ```sh
 defaults delete org.p0deje.Maccy hideFooter
 ```
+
+### How to ignore copies from [Universal Clipboard](https://support.apple.com/en-us/102430)?
+
+1. Open Preferences -> Ignore -> Pasteboard Types.
+2. Add `com.apple.is-remote-clipboard`.
 
 ## Translations
 
