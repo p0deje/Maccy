@@ -20,7 +20,7 @@
 "ActiveScreen" = "Aktīvais ekrāns";
 "PopupAtScreenCenter" = "Ekrāna centram";
 "PopupAtTooltip" = "Mainiet atrašanās vietu, kur tiek parādīts uznirstošais logs.\nNoklusējums: blakus kursoram.";
-"PinTo" = "Piespraust pie";
+"PinTo" = "Piespraust pie:";
 "PreviewDelayTooltip" = "Aizkave milisekundēs, līdz tiek parādīts priekšskatījuma uznirstošais logs.\nNoklusējums: 1500.";
 "PinToTooltip" = "Mainiet piesprausto vienumu atrašanās vietu.\nNoklusējums: augšā.";
 "ImageHeight" = "Attēla augstums:";
