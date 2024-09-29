@@ -1,1 +1,34 @@
 
+
+"PopupAt" = "Rādīt blakus:";
+"PopupAtCursor" = "Kursoram";
+"PopupAtWindowCenter" = "Logu centram";
+"PopupAtLastPosition" = "Pēdējā pozīcijā";
+"PopupAtLastLocationReset" = "Atiestatīt pozīciju";
+"PinToTop" = "Augšas";
+"PinToBottom" = "Apakšas";
+"PreviewDelay" = "Priekšskatījuma aizkave:";
+"HighlightMatches" = "Iezīmēt atbilstības:";
+"HighlightMatchColor" = "Ar krāsu";
+"HighlightMatchBold" = "Treknrakstā";
+"HighlightMatchItalic" = "Slīprakstā";
+"ShowSpecialSymbols" = "Rādīt īpašus simbolus";
+"ShowMenuIcon" = "Rādīt izvēlnes ikonu";
+"OpenPreferencesWarning" = "⚠️ Nospiediet taustiņu ⌘, lai atvērtu preferences, ja kājene ir paslēpta.";
+"Title" = "Izskats";
+"PopupAtMenuBarIcon" = "Izvēlnes ikonai";
+"ActiveScreen" = "Aktīvais ekrāns";
+"PopupAtScreenCenter" = "Ekrāna centram";
+"PopupAtTooltip" = "Mainiet atrašanās vietu, kur tiek parādīts uznirstošais logs.\nNoklusējums: blakus kursoram.";
+"PinTo" = "Piespraust pie";
+"PreviewDelayTooltip" = "Aizkave milisekundēs, līdz tiek parādīts priekšskatījuma uznirstošais logs.\nNoklusējums: 1500.";
+"PinToTooltip" = "Mainiet piesprausto vienumu atrašanās vietu.\nNoklusējums: augšā.";
+"ImageHeight" = "Attēla augstums:";
+"ImageHeightTooltip" = "Maksimālais attēla priekšskatījuma augstums.\nNoklusējums: 40.\nIeteikums: iestatiet uz 16, lai izskatītos kā teksta vienumi.";
+"ShowSearchField" = "Rādīt meklēšanas lauku";
+"HighlightMatchUnderline" = "Pasvītrojot";
+"HighlightMatchesTooltip" = "Mainiet meklēšanas atbilstību iezīmēšanas stilu.\nNoklusējums: treknraksts.";
+"ShowSpecialSymbolsTooltip" = "Rādīt jaunas līnijas, cilnes, sākuma un beigu atstarpes, izmantojot īpašus simbolus.";
+"ShowRecentCopyInMenuBar" = "Rādīt neseno kopiju blakus izvēlnes ikonai";
+"ShowTitleBeforeSearchField" = "Rādīt virsrakstu pirms meklēšanas lauka";
+"ShowFooter" = "Rādīt kājeni";
