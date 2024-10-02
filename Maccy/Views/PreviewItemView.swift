@@ -10,7 +10,6 @@ struct PreviewItemView: View {
         Image(nsImage: image)
           .resizable()
           .aspectRatio(contentMode: .fit)
-          .frame(maxHeight: HistoryItemDecorator.previewImageSize.height / 0.8)
           .clipShape(.rect(cornerRadius: 5))
       } else {
         Text(item.text)
