@@ -408,6 +408,14 @@
 		DAB626642CAD7E77001B720E /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/StorageSettings.strings; sourceTree = "<group>"; };
 		DAB626652CAD7E96001B720E /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAB626662CAD7EA8001B720E /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
+		DAB626682CAD7FB8001B720E /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/PinsSettings.strings; sourceTree = "<group>"; };
+		DAB626692CAD7FBE001B720E /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
+		DAB6266A2CAD7FC2001B720E /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
+		DAB6266B2CAD7FC6001B720E /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
+		DAB6266C2CAD7FC9001B720E /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/IgnoreSettings.strings; sourceTree = "<group>"; };
+		DAB6266D2CAD7FCF001B720E /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/StorageSettings.strings; sourceTree = "<group>"; };
+		DAB6266E2CAD7FD6001B720E /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
+		DAB6266F2CAD7FDA001B720E /* lv */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lv; path = lv.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAB8CE4024E3677F00A2500E /* Maccy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Maccy.entitlements; sourceTree = "<group>"; };
 		DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayout.swift; sourceTree = "<group>"; };
 		DAC14123232367B200FCFA30 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
@@ -827,6 +835,7 @@
 				"pt-BR",
 				cs,
 				hu,
+				lv,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			packageReferences = (
@@ -1042,6 +1051,7 @@
 				DA3B306D2C2CE46800853E9E /* pt-BR */,
 				DADFF1382C2F58D000DB261D /* cs */,
 				DAB626652CAD7E96001B720E /* hu */,
+				DAB6266F2CAD7FDA001B720E /* lv */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1071,6 +1081,7 @@
 				DA5E62912C39E55500F4C710 /* tr */,
 				DA5E62922C39E55500F4C710 /* uk */,
 				DAB626662CAD7EA8001B720E /* hu */,
+				DAB6266E2CAD7FD6001B720E /* lv */,
 			);
 			name = PreviewItemView.strings;
 			sourceTree = "<group>";
@@ -1100,6 +1111,7 @@
 				DA689FC12C1CD41B0009B887 /* tr */,
 				DA689FC22C1CD41C0009B887 /* uk */,
 				DAB626642CAD7E77001B720E /* hu */,
+				DAB6266D2CAD7FCF001B720E /* lv */,
 			);
 			name = StorageSettings.strings;
 			sourceTree = "<group>";
@@ -1129,6 +1141,7 @@
 				DA689FE02C1DEE6B0009B887 /* tr */,
 				DA689FE12C1DEE6C0009B887 /* uk */,
 				DAB626612CAD7E6B001B720E /* hu */,
+				DAB6266A2CAD7FC2001B720E /* lv */,
 			);
 			name = AppearanceSettings.strings;
 			sourceTree = "<group>";
@@ -1158,6 +1171,7 @@
 				DA740D8B2C21E6C0007B1A36 /* tr */,
 				DA740D8C2C21E6C1007B1A36 /* uk */,
 				DAB626602CAD7E59001B720E /* hu */,
+				DAB626692CAD7FBE001B720E /* lv */,
 			);
 			name = AdvancedSettings.strings;
 			sourceTree = "<group>";
@@ -1187,6 +1201,7 @@
 				DA9C3C5B2C20D4CB0056795D /* tr */,
 				DA9C3C5C2C20D4CB0056795D /* uk */,
 				DAB626632CAD7E73001B720E /* hu */,
+				DAB6266C2CAD7FC9001B720E /* lv */,
 			);
 			name = IgnoreSettings.strings;
 			sourceTree = "<group>";
@@ -1216,6 +1231,7 @@
 				DAA365E42C4C148C00A394F8 /* tr */,
 				DAA365E52C4C148C00A394F8 /* uk */,
 				DAB6265F2CAD7E4F001B720E /* hu */,
+				DAB626682CAD7FB8001B720E /* lv */,
 			);
 			name = PinsSettings.strings;
 			sourceTree = "<group>";
@@ -1245,6 +1261,7 @@
 				DAA5ACC72C1BA35D00B58513 /* tr */,
 				DAA5ACC82C1BA35E00B58513 /* uk */,
 				DAB626622CAD7E6E001B720E /* hu */,
+				DAB6266B2CAD7FC6001B720E /* lv */,
 			);
 			name = GeneralSettings.strings;
 			sourceTree = "<group>";

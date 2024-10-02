@@ -1,0 +1,13 @@
+"Title" = "Glabāšana";
+"Save" = "Saglabāt:";
+"Files" = "Datnes";
+"Images" = "Attēlus";
+"Text" = "Tekstus";
+"SaveDescription" = "Mainiet, kāda veida kopētais saturs ir jāsaglabā.";
+"Size" = "Vienumu skaits:";
+"SizeTooltip" = "Saglabājamo vēstures vienumu skaits.\nNoklusējums: 200.";
+"SortBy" = "Kārtot pēc:";
+"LastCopiedAt" = "Pēdējās kopijas laiks";
+"FirstCopiedAt" = "Pirmās kopijas laiks";
+"NumberOfCopies" = "Kopiju skaits";
+"SortByTooltip" = "Noklusējums: pēdējās kopijas laiks.";

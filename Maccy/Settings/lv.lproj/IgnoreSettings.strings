@@ -1,0 +1,9 @@
+"ApplicationsTab" = "Lietotnes";
+"IgnoredAllAppsExceptListed" = "Ignorēt visas lietojumprogrammas, izņemot norādītās";
+"PasteboardTypesTab" = "Starpliktuves tipi";
+"IgnoredPasteboardTypesReset" = "Atiestatīt";
+"RegexpTab" = "Regulārās izteiksmes";
+"IgnoredRegexpsDescription" = "Ir iespējams ignorēt noteiktas datu kopijas, pamatojoties uz definētām regulārām izteiksmēm.";
+"Title" = "Ignorēt";
+"IgnoredAppsDescription" = "Ir iespējams ignorēt kopijas, kas nāk no noteiktām lietojumprogrammām.\nLūdzu, ņemiet vērā, ka tas var nedarboties visos gadījumos, tāpēc, kad vien iespējams, labāk noteikt starpliktuves datu tipus.";
+"IgnoredPasteboardTypesDescription" = "Dažus starpliktuves datu tipus iespējams ignorēt.\nPēc noklusējuma tiek definēti daži zināmi lietotnei raksturīgi tipi. Tos var noņemt un pievienot visus vajadzīgos pielāgotos tipus.";

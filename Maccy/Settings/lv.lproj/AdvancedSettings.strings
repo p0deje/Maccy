@@ -1,0 +1,10 @@
+"TurnOffDescription" = "Īslaicīgi ignorēt visas jaunās kopijas.\nIespējams, ka to izmantosiet programmatiski un atspējosiet lietojumprogrammu, kopējot sensitīvus datus.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# tad kopēt datus\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Varat arī noklikšķināt uz izvēlnes ikonas, nospiežot ⌥.\nLai ignorētu tikai nākamo kopiju, noklikšķiniet ar ⌥ ⇧.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# tad kopēt datus";
+"ClearHistoryOnQuit" = "Notīrīt vēsturi, izejot no programmas";
+"Title" = "Papildu";
+"ClearHistoryOnQuitTooltip" = "Pirms lietojumprogrammas aizvēršanas automātiski notīrīt visus nepiespraustos vienumus.";
+"TurnOff" = "Izslēgt";
+"ClearSystemClipboard" = "Notīrīt arī sistēmas starpliktuvi";
+"ClearSystemClipboardTooltip" = "Ja šī opcija ir iespējota, vēstures notīrīšana notīrīs arī pašreizējo sistēmas starpliktuvi.";
