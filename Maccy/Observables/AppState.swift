@@ -1,4 +1,5 @@
 import AppKit
+import Defaults
 import Foundation
 import Settings
 
@@ -33,6 +34,14 @@ class AppState: Sendable {
         hoverSelectionWhileKeyboardNavigating = nil
         selection = hoverSelection
       }
+    }
+  }
+
+  var searchVisible: Bool {
+    if !Defaults[.showSearch] { return false }
+    switch Defaults[.searchVisibility] {
+    case .always: return true
+    case .duringSearch: return !history.searchQuery.isEmpty
     }
   }
 

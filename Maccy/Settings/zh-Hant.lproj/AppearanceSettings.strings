@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "最後位置";
 "PopupAtLastLocationReset" = "重設位置";
 "PopupAtTooltip" = "更改彈窗顯示位置。\n預設：指標。";
+"SearchVisibilityAlways" = "總是";
+"SearchVisibilityDuringSearch" = "搜尋期間";
 "ActiveScreen" = "使用中的螢幕";
 "PinTo" = "固定項目位置：";
 "PinToTop" = "置頂";

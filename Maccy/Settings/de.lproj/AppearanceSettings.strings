@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Letzte Position";
 "PopupAtLastLocationReset" = "Position zurücksetzen";
 "PopupAtTooltip" = "Ändere die Position des Popup-Fensters.\nStandard: Mauszeiger.";
+"SearchVisibilityAlways" = "Immer";
+"SearchVisibilityDuringSearch" = "Während der Suche";
 "ActiveScreen" = "Aktiver Bildschirm";
 "PinTo" = "Angeheftete Einträge:";
 "PinToTop" = "Oben";

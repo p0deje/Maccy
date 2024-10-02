@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Laatste positie";
 "PopupAtLastLocationReset" = "Positie terugzetten";
 "PopupAtTooltip" = "Wijzig de locatie waar de pop-up verschijnt.\nStandaard: Cursor.";
+"SearchVisibilityAlways" = "Altijd";
+"SearchVisibilityDuringSearch" = "Tijdens het zoeken";
 "ActiveScreen" = "Actief scherm";
 "PinTo" = "Maak vast:";
 "PinToTop" = "Boven";

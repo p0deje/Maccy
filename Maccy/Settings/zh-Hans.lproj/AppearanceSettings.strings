@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "最后位置";
 "PopupAtLastLocationReset" = "重置位置";
 "PopupAtTooltip" = "更改弹窗显示的位置。\n默认：光标。";
+"SearchVisibilityAlways" = "始终";
+"SearchVisibilityDuringSearch" = "在搜索过程中";
 "ActiveScreen" = "活动屏幕";
 "PinTo" = "固定项目位置：";
 "PinToTop" = "顶部";

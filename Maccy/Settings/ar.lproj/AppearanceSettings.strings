@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "الموضع الأخير";
 "PopupAtLastLocationReset" = "إعادة تعيين الموضع";
 "PopupAtTooltip" = "تغيير موقع ظهور الإنبثاق.\nالافتراضي: المؤشر.";
+"SearchVisibilityAlways" = "دائمًا";
+"SearchVisibilityDuringSearch" = "أثناء البحث";
 "ActiveScreen" = "شاشة نشطة";
 "PinTo" = "تثبيت إلى:";
 "PinToTop" = "الأعلى";

@@ -28,6 +28,7 @@ struct ContentView: View {
         }
       }
       .animation(.default.speed(3), value: appState.history.items)
+      .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
       .padding(.horizontal, 5)
       .padding(.vertical, appState.popup.verticalPadding)
       .onAppear { searchFocused = true }

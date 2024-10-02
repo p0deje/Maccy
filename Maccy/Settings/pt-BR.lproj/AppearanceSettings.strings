@@ -7,6 +7,8 @@
 "PopupAtLastPosition" = "Última posição";
 "PopupAtLastLocationReset" = "Redefinir posição";
 "PopupAtTooltip" = "Altere o local onde o pop-up aparece.\nPadrão: Cursor.";
+"SearchVisibilityAlways" = "Sempre";
+"SearchVisibilityDuringSearch" = "Durante a pesquisa";
 "ActiveScreen" = "Tela ativa";
 "PinTo" = "Fixar em:";
 "PinToTop" = "Topo";
