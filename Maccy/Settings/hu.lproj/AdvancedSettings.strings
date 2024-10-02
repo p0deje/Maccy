@@ -1,0 +1,10 @@
+"Title" = "Haladó";
+"TurnOffViaMenuIconDescription" = "A menü ikonra is kattinthatsz a ⌥ gomb lenyomása közben.\nCsak a következő másolás figyelmen kívül hagyásához, kattints a ⌥⇧ gombokat lenyomva.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# adatok másolása";
+"ClearHistoryOnQuit" = "Előzmények törlése kilépésnél";
+"ClearHistoryOnQuitTooltip" = "Az összes kitűzetlen elem automatikus törlése mielőtt az alkalmazás bezáródik.";
+"ClearSystemClipboard" = "A rendszer vágólapjának is a törlése";
+"ClearSystemClipboardTooltip" = "Ha be van kapcsolva, az előzmények törlésével a rendszer aktuális vágólapját is törli.";
+"TurnOff" = "Kikapcsolás";
+"TurnOffDescription" = "Az összes új másolás figyelmen kívül hagyása.\nValószínűleg programozottan használod, és kikapcsolod az alkalmazást bizalmas adatok másolása közben.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# adatok másolása\ndefaults write org.p0deje.Maccy ignoreEvents false";

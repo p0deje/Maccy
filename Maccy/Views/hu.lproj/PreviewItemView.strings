@@ -1,0 +1,6 @@
+"Application" = "Alkalmazás:";
+"FirstCopyTime" = "Első másolás ideje:";
+"LastCopyTime" = "Utolsó másolás ideje:";
+"NumberOfCopies" = "Másolások száma:";
+"PinKey" = "Nyomd meg a {pinKey} gombokat a kitűzéshez és a kitűzés levételéhez.";
+"DeleteKey" = "Nyomd meg a {deleteKey} gombokat a törléshez.";

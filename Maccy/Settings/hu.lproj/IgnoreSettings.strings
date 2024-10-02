@@ -1,0 +1,9 @@
+"PasteboardTypesTab" = "Vágólap típusok";
+"Title" = "Mellőzés";
+"ApplicationsTab" = "Alkalmazások";
+"IgnoredAppsDescription" = "Lehetőséged van bizonyos alkalmazásokban a másolások figyelmen kívül hagyására.\nVedd figyelembe, hogy ez nem mindennel működik, tehát jobb ha a vágólap típusokat használod.";
+"IgnoredAllAppsExceptListed" = "Az összes alkalmazás figyelmen kívül hagyása kivéve a listázottakat";
+"IgnoredPasteboardTypesDescription" = "Lehetőséged van vágólap elem típusok megjegyzésének a figyelmen kívül hagyására.\nNéhány ismert alkalmazásspecifikus lista alapértelmezetten létre van hozva. Kitörölheted őket és hozzáadhatsz bármilyen személyreszabott típust.";
+"IgnoredPasteboardTypesReset" = "Visszaállítás";
+"RegexpTab" = "Reguláris kifejezések";
+"IgnoredRegexpsDescription" = "Meghatározott reguláris kifejezések alapján figyelmen kívül lehet hagyni bizonyos másolásokat.";

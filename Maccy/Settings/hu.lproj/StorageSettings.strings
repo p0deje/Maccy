@@ -1,0 +1,13 @@
+"Title" = "Tárhely";
+"Save" = "Mentés:";
+"Files" = "Fájlok";
+"Text" = "Szöveg";
+"SaveDescription" = "Válaszd ki, milyen típusú másolt tartalom legyen tárolva.";
+"Size" = "Méret:";
+"SizeTooltip" = "A megtartott előzmények száma.\nAlapértelmezett: 200.";
+"SortBy" = "Rendezés:";
+"LastCopiedAt" = "Utolsó másolás ideje";
+"FirstCopiedAt" = "Első másolás ideje";
+"NumberOfCopies" = "Másolások száma";
+"SortByTooltip" = "Alapértelmezett: Utolsó másolás ideje.";
+"Images" = "Képek";
