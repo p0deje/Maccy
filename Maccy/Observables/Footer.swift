@@ -17,7 +17,7 @@ class Footer {
     set: { Defaults[.suppressClearAlert] = $0 }
   )
 
-  init() {
+  init() { // swiftlint:disable:this function_body_length
     items = [
       FooterItem(
         title: "clear",

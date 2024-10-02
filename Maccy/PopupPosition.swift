@@ -26,6 +26,7 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
     }
   }
 
+  // swiftlint:disable:next cyclomatic_complexity
   func origin(size: NSSize, statusBarButton: NSStatusBarButton?) -> NSPoint {
     switch self {
     case .center:
@@ -37,10 +38,16 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
         return NSRect.centered(ofSize: size, in: frame).origin
       }
     case .statusItem:
-      if let statusBarButton {
+      if let statusBarButton, let screen = NSScreen.main {
         let rectInWindow = statusBarButton.convert(statusBarButton.bounds, to: nil)
         if let screenRect = statusBarButton.window?.convertToScreen(rectInWindow) {
-          return NSPoint(x: screenRect.minX, y: screenRect.minY - size.height)
+          var topLeftPoint = NSPoint(x: screenRect.minX, y: screenRect.minY - size.height)
+          // Ensure that window doesn't spill over to the right screen.
+          if (topLeftPoint.x + size.width) > screen.frame.maxX {
+            topLeftPoint.x = screen.frame.maxX - size.width
+          }
+
+          return topLeftPoint
         }
       }
     case .lastPosition:
