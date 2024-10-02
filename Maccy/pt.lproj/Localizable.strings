@@ -5,7 +5,7 @@
 "active_screen" = "Ecrã activo";
 "quit" = "Fechar";
 "system_preferences_pane" = "Preferências de Segurança e Privacidade";
-"quit_tooltip" = "Fechar aplicação";
+"quit_tooltip" = "Fechar aplicação.";
 "preferences" = "Preferências…";
 "clear" = "Apagar";
 "about" = "Sobre";
@@ -19,3 +19,12 @@
 "system_settings_name" = "Definições do Sistema";
 "system_settings_pane" = "Definições de Segurança e Privacidade";
 "system_preferences_name" = "Preferências do Sistema";
+"clear_all_tooltip" = "Apagar todos os items.";
+"about_tooltip" = "Ler mais sobre a aplicação.";
+"preferences_pins" = "Pins";
+"copy_modifiers_config" = "• Selecione com %@ premido para copiar item.";
+"paste_modifiers_config" = "• Selecione com %@ premido para copiar e colar item.";
+"format_modifiers_config" = "• Selecione com %@ premido para copiar, limpar formatação e colar item.";
+"accessibility_alert_message" = "“Maccy” gostaria de controlar este computador usando recursos de accessibilidade.";
+"accessibility_alert_comment" = "Conceda acesso a esta aplicação em {pane}, localizado em {settings}.\n\nClique o botão +, selecione Maccy, e ative a caixa de seleção ao lado.";
+"clear_alert_comment" = "Não é possível desfazer esta ação.";
