@@ -6,24 +6,26 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>2.0.1</title>
+      <title>2.1.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Fixed an issue when the popup is shown on the screen above the menu bar.</li>
-            <li>Fixed an issue with footer shortcuts not working when it's hidden.</li>
-            <li>A pin letter "A" can no longer be used since it's reserved for a system paste shortcut.</li>
-            <li>A pin letter "W" can no longer be used since it's reserved for a close current window shortcut.</li>
+            <li>Added option to only show search field during the search.</li>
+            <li>Added Hungarian translation.</li>
+            <li>Added Latvian translation.</li>
+            <li>Fixed a preview image sizing.</li>
+            <li>Fixed an issue where a popup could be shown on the right-hand display instead of the main one.</li>
+            <li>Fixed an issue where navigation with ⌃N/⌃P would not work.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2024-09-20</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.0.1</releaseNotesLink>
+      <pubDate>2024-10-02</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.1.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/2.0.1/Maccy.app.zip"
-        sparkle:version="48"
-        sparkle:shortVersionString="2.0.1"
+        url="https://github.com/p0deje/Maccy/releases/download/2.1.0/Maccy.app.zip"
+        sparkle:version="49"
+        sparkle:shortVersionString="2.1.0"
         length="0"
         type="application/octet-stream"
       />
