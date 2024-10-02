@@ -65,15 +65,21 @@ enum KeyChord: CaseIterable {
       self = .deleteLastWordFromSearch
     case (.downArrow, []),
          (.downArrow, [.shift]),
+         (.n, [.control]),
+         (.n, [.control, .shift]),
          (.j, [.control]):
       self = .moveToNext
-    case (.downArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option):
+    case (.downArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
+         (.n, [.control, .option]):
       self = .moveToLast
     case (.upArrow, []),
          (.upArrow, [.shift]),
+         (.p, [.control]),
+         (.p, [.control, .shift]),
          (.k, [.control]):
       self = .moveToPrevious
-    case (.upArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option):
+    case (.upArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
+         (.p, [.control, .option]):
       self = .moveToFirst
     case (KeyChord.pinKey, KeyChord.pinModifiers):
       self = .pinOrUnpin
