@@ -1,0 +1,13 @@
+"Title" = "Miejsce";
+"Save" = "Zapisz:";
+"Files" = "Pliki";
+"Images" = "Obrazy";
+"Text" = "Tekst";
+"SaveDescription" = "Wybierz jakie typy kopiowanej treści powinny być przechowywane.";
+"Size" = "Rozmiar:";
+"SizeTooltip" = "Liczba pozycji przechowywana w historii.\nDomyślnie: 200.";
+"SortBy" = "Sortuj po:";
+"LastCopiedAt" = "Czas ostatniego kopiowania";
+"FirstCopiedAt" = "Czas pierwszego kopiowania";
+"NumberOfCopies" = "Liczba kopii";
+"SortByTooltip" = "Domyślnie: Czas ostatniego kopiowania.";

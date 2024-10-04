@@ -1,0 +1,9 @@
+"Title" = "Ignoruj";
+"ApplicationsTab" = "Aplikacje";
+"IgnoredAppsDescription" = "Możesz ignorować kopiowanie w niektórych aplikacjach.\nSposób działania tego systemu nie jest idealny, więc lepiej jest użyć typów pasteboard jeżeli to możliwe.";
+"IgnoredAllAppsExceptListed" = "Ignoruj wszystkie aplikacje oprócz wybranych";
+"PasteboardTypesTab" = "Typy pasteboard";
+"IgnoredPasteboardTypesDescription" = "Możesz ignorować zapamiętywanie wpisów od niektórych pasteboard'ów.\nDomyślnie, niektóre, znane, właściwe aplikacjom typy są już zdefiniowane. Możesz je usunąć i dodać inne, wybrane przez Ciebie.";
+"IgnoredPasteboardTypesReset" = "Zresetuj";
+"RegexpTab" = "Wyrażenia regularne";
+"IgnoredRegexpsDescription" = "Możesz ignorować zapamiętywanie niektórych wpisów na podstawie wyrażeń regularnych.";

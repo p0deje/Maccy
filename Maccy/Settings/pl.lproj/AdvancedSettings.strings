@@ -1,0 +1,10 @@
+"Title" = "Zaawansowane";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# skopiuj dane";
+"ClearHistoryOnQuit" = "Wyczyść historię przy wyjściu z aplikacji";
+"ClearSystemClipboardTooltip" = "Kiedy ta opcja jest wybrana, wyczyszczenie historii wyczyści także aktualny wpis ze schowka systemowego.";
+"TurnOff" = "Wyłącz";
+"TurnOffDescription" = "Tymczasowo ignoruj wszystkie akcje kopiowania.\nMożesz użyć tego ustawienia w skrypcie aby automatycznie wyłączyć zapisywanie kopiując wrażliwe dane.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# skopiuj dane\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Możesz też kliknąć na ikonę menu z wciśniętym klawiszem ⌥.\nAby zignorować tylko następną akcję kopiowania, kliknij ikonę z wciśniętymi klawiszami ⌥⇧.";
+"ClearSystemClipboard" = "Wyczyść także schowek systemowy";
+"ClearHistoryOnQuitTooltip" = "Automatycznie wyczyść wszystkie nieprzypięte wpisy przed wyjściem z aplikacji.";

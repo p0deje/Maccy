@@ -215,6 +215,14 @@
 		DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSApplication+Windows.swift"; sourceTree = "<group>"; };
 		DA3F1B442C90083800267632 /* Sauce+KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sauce+KeyboardShortcuts.swift"; sourceTree = "<group>"; };
 		DA44C5E32C1C858400819834 /* StorageSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageSettingsPane.swift; sourceTree = "<group>"; };
+		DA4566C22CB0320200059A82 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
+		DA4566C32CB0320200059A82 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
+		DA4566C42CB0320200059A82 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
+		DA4566C52CB0320200059A82 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/IgnoreSettings.strings; sourceTree = "<group>"; };
+		DA4566C62CB0320200059A82 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/StorageSettings.strings; sourceTree = "<group>"; };
+		DA4566C72CB0320200059A82 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/PinsSettings.strings; sourceTree = "<group>"; };
+		DA4566C82CB0320200059A82 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
+		DA4566C92CB0320200059A82 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA48AE882A5F0548006D4894 /* guy.jpeg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = guy.jpeg; sourceTree = "<group>"; };
 		DA49EE7428B59468002752E0 /* NSRect+Centered.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRect+Centered.swift"; sourceTree = "<group>"; };
 		DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRunningApplication+WindowFrame.swift"; sourceTree = "<group>"; };
@@ -836,6 +844,7 @@
 				cs,
 				hu,
 				lv,
+				pl,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			packageReferences = (
@@ -1052,6 +1061,7 @@
 				DADFF1382C2F58D000DB261D /* cs */,
 				DAB626652CAD7E96001B720E /* hu */,
 				DAB6266F2CAD7FDA001B720E /* lv */,
+				DA4566C92CB0320200059A82 /* pl */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1082,6 +1092,7 @@
 				DA5E62922C39E55500F4C710 /* uk */,
 				DAB626662CAD7EA8001B720E /* hu */,
 				DAB6266E2CAD7FD6001B720E /* lv */,
+				DA4566C82CB0320200059A82 /* pl */,
 			);
 			name = PreviewItemView.strings;
 			sourceTree = "<group>";
@@ -1112,6 +1123,7 @@
 				DA689FC22C1CD41C0009B887 /* uk */,
 				DAB626642CAD7E77001B720E /* hu */,
 				DAB6266D2CAD7FCF001B720E /* lv */,
+				DA4566C62CB0320200059A82 /* pl */,
 			);
 			name = StorageSettings.strings;
 			sourceTree = "<group>";
@@ -1142,6 +1154,7 @@
 				DA689FE12C1DEE6C0009B887 /* uk */,
 				DAB626612CAD7E6B001B720E /* hu */,
 				DAB6266A2CAD7FC2001B720E /* lv */,
+				DA4566C32CB0320200059A82 /* pl */,
 			);
 			name = AppearanceSettings.strings;
 			sourceTree = "<group>";
@@ -1172,6 +1185,7 @@
 				DA740D8C2C21E6C1007B1A36 /* uk */,
 				DAB626602CAD7E59001B720E /* hu */,
 				DAB626692CAD7FBE001B720E /* lv */,
+				DA4566C22CB0320200059A82 /* pl */,
 			);
 			name = AdvancedSettings.strings;
 			sourceTree = "<group>";
@@ -1202,6 +1216,7 @@
 				DA9C3C5C2C20D4CB0056795D /* uk */,
 				DAB626632CAD7E73001B720E /* hu */,
 				DAB6266C2CAD7FC9001B720E /* lv */,
+				DA4566C52CB0320200059A82 /* pl */,
 			);
 			name = IgnoreSettings.strings;
 			sourceTree = "<group>";
@@ -1232,6 +1247,7 @@
 				DAA365E52C4C148C00A394F8 /* uk */,
 				DAB6265F2CAD7E4F001B720E /* hu */,
 				DAB626682CAD7FB8001B720E /* lv */,
+				DA4566C72CB0320200059A82 /* pl */,
 			);
 			name = PinsSettings.strings;
 			sourceTree = "<group>";
@@ -1262,6 +1278,7 @@
 				DAA5ACC82C1BA35E00B58513 /* uk */,
 				DAB626622CAD7E6E001B720E /* hu */,
 				DAB6266B2CAD7FC6001B720E /* lv */,
+				DA4566C42CB0320200059A82 /* pl */,
 			);
 			name = GeneralSettings.strings;
 			sourceTree = "<group>";
