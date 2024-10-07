@@ -1,1 +1,15 @@
 
+
+"SortByTooltip" = "Numatytoji reikšmė: Paskutinės kopijos laikas.";
+"Save" = "Išsaugoti:";
+"Images" = "Vaizdai";
+"Text" = "Tekstas";
+"SaveDescription" = "Pakeiskite, kokių tipų nukopijuotas turinys turėtų būti saugomas.";
+"Size" = "Dydis:";
+"SortBy" = "Rikiuoti pagal:";
+"LastCopiedAt" = "Paskutinės kopijos padarymo laikas";
+"FirstCopiedAt" = "Pirmosios kopijos laikas";
+"NumberOfCopies" = "Kopijų skaičius";
+"Title" = "Saugojimas";
+"Files" = "Failai";
+"SizeTooltip" = "Saugotinų istorijos elementų skaičius.\nNumatytoji reikšmė: 200.";
