@@ -8,3 +8,5 @@
 "ClearHistoryOnQuitTooltip" = "Automatiškai pašalinti visus neprisegtus elementus prieš išeinant iš programos.";
 "ClearSystemClipboard" = "Taip pat išvalyti ir sistemos talpyklą";
 "ClearSystemClipboardTooltip" = "Jei ši funkcija įjungta, istorijos ištrynimas taip pat ištrina dabartinę sistemos iškarpinę.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# kopijuoti duomenis\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# kopijuoti duomenis";
