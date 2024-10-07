@@ -4,12 +4,12 @@
 "Save" = "Išsaugoti:";
 "Images" = "Vaizdai";
 "Text" = "Tekstas";
-"SaveDescription" = "Pakeiskite, kokių tipų nukopijuotas turinys turėtų būti saugomas.";
+"SaveDescription" = "Pakeiskite, kokių tipų nukopijuotas turinys turėtų būti išsaugomas.";
 "Size" = "Dydis:";
 "SortBy" = "Rikiuoti pagal:";
 "LastCopiedAt" = "Paskutinės kopijos padarymo laikas";
 "FirstCopiedAt" = "Pirmosios kopijos laikas";
 "NumberOfCopies" = "Kopijų skaičius";
-"Title" = "Saugojimas";
+"Title" = "Išsaugojimas";
 "Files" = "Failai";
-"SizeTooltip" = "Saugotinų istorijos elementų skaičius.\nNumatytoji reikšmė: 200.";
+"SizeTooltip" = "Išsaugotinų istorijos elementų skaičius.\nNumatytoji reikšmė: 200.";
