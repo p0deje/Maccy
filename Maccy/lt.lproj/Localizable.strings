@@ -8,8 +8,8 @@
 "quit" = "Išeiti";
 "clear_all_tooltip" = "Išvalyti visus elementus.";
 "preferences" = "Parinktys…";
-"preferences_advanced" = "Papildomi";
-"preferences_pins" = "Prisegti";
+"preferences_advanced" = "Išplėstiniai nustatymai";
+"preferences_pins" = "Prisegtukai";
 "copy_modifiers_config" = "- Pasirinkite paspaudę %@, kad nukopijuotumėte elementą.";
 "format_modifiers_config" = "- Pasirinkite paspaudę %@, kad nukopijuotumėte, panaikintumėte formatavimą ir įklijuotumėte elementą.";
 "accessibility_alert_message" = "„Maccy“ norėtų valdyti šį kompiuterį naudodamasis prieinamumo funkcijomis.";
