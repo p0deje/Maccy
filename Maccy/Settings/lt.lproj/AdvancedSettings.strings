@@ -1,1 +1,10 @@
 
+
+"Title" = "Išplėstiniai nustatymai";
+"TurnOff" = "Išjungti";
+"TurnOffDescription" = "Laikinai ignoruokite visas naujas kopijas.\nTikėtina, kad ją naudosite programiškai ir išjungsite programą kopijuodami jautrius duomenis.";
+"TurnOffViaMenuIconDescription" = "Taip pat galite spustelėti meniu piktogramą paspaudę ⌥.\nJei norite ignoruoti tik kitą kopiją, spustelėkite paspaudę ⌥⇧.";
+"ClearHistoryOnQuit" = "Ištrinti istoriją išeinant";
+"ClearHistoryOnQuitTooltip" = "Automatiškai pašalinti visus neprisegtus elementus prieš išeinant iš programos.";
+"ClearSystemClipboard" = "Taip pat išvalyti ir sistemos talpyklą";
+"ClearSystemClipboardTooltip" = "Jei ši funkcija įjungta, istorijos ištrynimas taip pat ištrina dabartinę sistemos iškarpinę.";
