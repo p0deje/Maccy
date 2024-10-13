@@ -1,0 +1,9 @@
+"PasteboardTypesTab" = "Iškarpų tipai";
+"IgnoredPasteboardTypesDescription" = "Galima nepaisyti tam tikrų iškarpų lentelės elementų tipų.\nPagal numatytuosius nustatymus apibrėžiami kai kurie žinomų konkrečių programų tipai. Galite juos pašalinti ir pridėti bet kokius norimus pasirinktinius tipus.";
+"IgnoredAllAppsExceptListed" = "Nepaisyti visų programų, išskyrus įtrauktas";
+"IgnoredPasteboardTypesReset" = "Nustatyti iš naujo";
+"RegexpTab" = "Reguliarios išraiškos";
+"IgnoredRegexpsDescription" = "Pagal apibrėžtas reguliarias išraiškas galima nepaisyti tam tikrų iškarpų.";
+"Title" = "Nepaisyti";
+"ApplicationsTab" = "Programos";
+"IgnoredAppsDescription" = "Galima nepaisyti iškarpų, gaunamų iš tam tikrų programų.\nAtkreipkite dėmesį, kad šis veikimo būdas nėra nepralaidus, todėl, kai įmanoma, geriau naudoti iškarpų tipus.";

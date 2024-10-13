@@ -1,0 +1,10 @@
+"Title" = "Išplėstiniai nustatymai";
+"TurnOff" = "Išjungti";
+"TurnOffDescription" = "Laikinai nepaisykite visų naujų kopijų.\nTikėtina, kad tai naudosite programiškai ir išjungsite programą kopijuodami jautrius duomenis.";
+"TurnOffViaMenuIconDescription" = "Taip pat galite spustelėti meniu piktogramą paspaudę ⌥.\nJei norite ignoruoti tik kitą kopiją, spustelėkite paspaudę ⌥⇧.";
+"ClearHistoryOnQuit" = "Ištrinti istoriją išjungiant";
+"ClearHistoryOnQuitTooltip" = "Automatiškai pašalinti visus neprisegtus elementus prieš išjungiant programą.";
+"ClearSystemClipboard" = "Taip pat išvalyti sistemos iškarpinę";
+"ClearSystemClipboardTooltip" = "Jei ši funkcija įjungta, istorijos ištrynimas taip pat ištrina dabartinę sistemos iškarpinę.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# kopijuoti duomenis\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# kopijuoti duomenis";
