@@ -45,7 +45,7 @@ struct StorageSettingsPane: View {
 
     init() {
       observer = Defaults.observe(.enabledPasteboardTypes) { change in
-        self.saveFiles = change.newValue.isSubset(of: StorageType.files.types)
+        self.saveFiles = change.newValue.isSuperset(of: StorageType.files.types)
         self.saveImages = change.newValue.isSuperset(of: StorageType.images.types)
         self.saveText = change.newValue.isSuperset(of: StorageType.text.types)
       }
