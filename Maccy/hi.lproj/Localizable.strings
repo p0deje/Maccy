@@ -1,1 +1,32 @@
 
+
+"about_tooltip" = "एप्लिकेशन के बारे में अधिक पढ़ें।";
+"quit_tooltip" = "एप्लिकेशन बंद करें।";
+"clear" = "साफ़ करें";
+"clear_all" = "सभी साफ़ करें";
+"preferences_advanced" = "विस्तृत विकल्प";
+"preferences_pins" = "पिन्स";
+"copy_modifiers_config" = "• %@ दबाकर आइटम कॉपी करने के लिए चुनें।";
+"accessibility_alert_message" = "“मैकी” इस कंप्यूटर को एक्सेसिबिलिटी फ़ीचर्स का उपयोग करके नियंत्रित करना चाहता है।";
+"accessibility_alert_deny" = "अस्वीकृत करें";
+"accessibility_alert_open" = "सिस्टम विकल्प खोलें";
+"clear_alert_message" = "क्या आप सुनिश्चित हैं कि आप इतिहास साफ़ करना चाहते हैं?";
+"clear_alert_comment" = "आप इस कार्रवाई को वापस नहीं ले सकते।";
+"clear_alert_cancel" = "रद्द करें";
+"clear_alert_confirm" = "साफ़ करें";
+"key_used_error" = "key पहले से उपयोग में है।";
+"active_screen" = "Active स्क्रीन";
+"screen" = "स्क्रीन";
+"system_settings_name" = "सिस्टम सेटिंग्स";
+"system_settings_pane" = "गोपनीयता और सुरक्षा सेटिंग्स";
+"system_preferences_name" = "सिस्टम प्राथमिकताएँ";
+"system_preferences_pane" = "सुरक्षा और गोपनीयता प्राथमिकताएँ";
+"search_placeholder" = "खोजने के लिए टाइप करें…";
+"clear_all_tooltip" = "सभी वस्तुओं को हटाएँ।";
+"preferences" = "विकल्प…";
+"clear_tooltip" = "अनपिन की गई वस्तुओं को हटाएँ। सभी हटाने के लिए ⇧ के साथ चयन करें।";
+"about" = "अधिक जानकारी";
+"quit" = "बंद करें";
+"format_modifiers_config" = "• %@ दबाकर आइटम को कॉपी, फॉर्मेटिंग साफ़ करें और पेस्ट करने के लिए चुनें।";
+"paste_modifiers_config" = "• %@ दबाकर आइटम को कॉपी और पेस्ट करने के लिए चुनें।";
+"accessibility_alert_comment" = "इस एप्लिकेशन को {pane} में, जो कि {settings} में स्थित है, एक्सेस दें।\n\n+ बटन पर क्लिक करें, मैकी का चयन करें, और उसके बगल में स्थित चेकबॉक्स को सक्रिय करें।";
