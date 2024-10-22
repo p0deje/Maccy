@@ -1,1 +1,32 @@
 
+
+"clear_all_tooltip" = "সমস্ত আইটেম মুছুন।";
+"quit_tooltip" = "অ্যাপলিকেশনটি বন্ধ করুন।";
+"clear" = "মুছুন";
+"clear_all" = "সবগুলো মুছুন";
+"about" = "সম্পর্ক";
+"quit" = "বন্ধ";
+"preferences" = "পছন্দসমূহ…";
+"preferences_advanced" = "উন্নত";
+"preferences_pins" = "পিনগুলো";
+"copy_modifiers_config" = "• আইটেম কপি করতে %@ চাপ দিয়ে নির্বাচন করুন।";
+"accessibility_alert_comment" = "{settings}-এ অবস্থিত {pane}-এ এই অ্যাপ্লিকেশনটিতে অ্যাক্সেস মঞ্জুর করুন৷\n\n+ বোতামে ক্লিক করুন, Maccy নির্বাচন করুন এবং এর পাশের চেকবক্সে টগল করুন।";
+"clear_alert_comment" = "আপনি এই ক্রিয়াটিকে পূর্বাবস্থায় ফেরাতে পারবেন না।";
+"clear_alert_cancel" = "বাতিল করুন";
+"clear_alert_confirm" = "মুছুন";
+"key_used_error" = "কি ইতিমধ্যে ব্যবহার করা হয়েছে।";
+"active_screen" = "সক্রিয় স্ক্রিন";
+"system_settings_pane" = "গোপনীয়তা এবং নিরাপত্তা সেটিংস";
+"system_preferences_name" = "সিস্টেম পছন্দসমূহ";
+"system_preferences_pane" = "নিরাপত্তা এবং গোপনীয়তা পছন্দ";
+"search_placeholder" = "খুঁজতে টাইপ করুন…";
+"clear_tooltip" = "আনপিন করা আইটেমগুলি মুছুন।\nসব মুছতে ⇧ দিয়ে নির্বাচন করুন।";
+"about_tooltip" = "অ্যাপলিকেশন সম্পর্কে আরো পড়ুন।";
+"paste_modifiers_config" = "• আইটেম কপি এবং পেস্ট করতে %@ চাপ দিয়ে নির্বাচন করুন।";
+"format_modifiers_config" = "• অনুলিপি করতে %@ চাপ দিয়ে নির্বাচন করুন, বিন্যাস পরিষ্কার করুন এবং আইটেম পেস্ট করুন।";
+"accessibility_alert_open" = "সিস্টেম পছন্দগুলি খুলুন";
+"accessibility_alert_message" = "\"Maccy\" অ্যাক্সেসিবিলিটি বৈশিষ্ট্যগুলি ব্যবহার করে এই কম্পিউটারটিকে নিয়ন্ত্রণ করতে চায়।";
+"accessibility_alert_deny" = "অস্বীকার";
+"clear_alert_message" = "আপনি কি নিশ্চিত আপনি ইতিহাস মুছে ফেলতে চান?";
+"system_settings_name" = "সিস্টেম সেটিংস";
+"screen" = "স্ক্রিন";
