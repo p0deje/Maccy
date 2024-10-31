@@ -1,8 +1,11 @@
-"PopupAtLastPosition" = "Ostatnia pozycja";
+"Title" = "Wygląd";
 "PopupAt" = "Pozycja wyskakującego okienka:";
 "PopupAtCursor" = "Wskaźnik myszy";
 "PopupAtMenuBarIcon" = "Ikona menu";
 "PopupAtWindowCenter" = "Środek okna";
+"PopupAtScreenCenter" = "Środek ekranu";
+"PopupAtLastPosition" = "Ostatnia pozycja";
+"PopupAtLastLocationReset" = "Zresetuj pozycję";
 "PopupAtTooltip" = "Zmień miejsce gdzie pokazuje się wyskakujące okienko.\nDomyślnie: Wskaźnik myszy.";
 "SearchVisibilityAlways" = "Zawsze";
 "SearchVisibilityDuringSearch" = "Podczas wyszukiwania";
@@ -13,6 +16,8 @@
 "PinToTooltip" = "Zmień pozycję przypiętych wpisów.\nDomyślnie: góra.";
 "ImageHeight" = "Wysokość obrazków:";
 "ImageHeightTooltip" = "Maksymalna wysokość podglądu obrazka.\nDomyślnie: 40.\nWskazówka: Wybierz 16 aby obrazek był takiej samej wysokości jak wpis tekstowy.";
+"PreviewDelay" = "Opóźnienie podglądu:";
+"PreviewDelayTooltip" = "Opóźnienie w milisekundach zanim pojawi się okienko podglądu.\nDomyślnie: 1500.";
 "HighlightMatches" = "Podkreśl dopasowania:";
 "HighlightMatchColor" = "Kolor";
 "HighlightMatchBold" = "Pogrubione";
@@ -26,9 +31,5 @@
 "ShowSearchField" = "Pokaż pole wyszukiwania";
 "ShowTitleBeforeSearchField" = "Pokaż tytuł przed polem wyszukiwania";
 "ShowFooter" = "Pokaż stopkę";
+"ShowApplicationIcons" = "Pokaż ikony aplikacji";
 "OpenPreferencesWarning" = "⚠️ Naciśnij ⌘, aby otworzyć ustawienia, kiedy stopka jest ukryta.";
-"Title" = "Wygląd";
-"PopupAtScreenCenter" = "Środek ekranu";
-"PopupAtLastLocationReset" = "Zresetuj pozycję";
-"PreviewDelay" = "Opóźnienie podglądu:";
-"PreviewDelayTooltip" = "Opóźnienie w milisekundach zanim pojawi się okienko podglądu.\nDomyślnie: 1500.";

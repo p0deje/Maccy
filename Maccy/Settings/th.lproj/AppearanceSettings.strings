@@ -32,3 +32,4 @@
 "ShowTitleBeforeSearchField" = "แสดงหัวข้อก่อนช่องค้นหา";
 "ShowFooter" = "แสดงส่วนท้าย";
 "OpenPreferencesWarning" = "⚠️ กด ⌘, เพื่อเปิดการตั้งค่าเมื่อส่วนท้ายซ่อน";
+"ShowApplicationIcons" = "แสดงไอคอนแอปพลิเคชั่น";

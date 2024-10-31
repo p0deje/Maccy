@@ -31,4 +31,5 @@
 "ShowSearchField" = "Keresőmező megjelenítése";
 "ShowTitleBeforeSearchField" = "Cím megjelenítése a keresőmező előtt";
 "ShowFooter" = "Lábléc megjelenítése";
+"ShowApplicationIcons" = "Alkalmazás ikonok megjelenítése";
 "OpenPreferencesWarning" = "⚠️ Nyomd meg a ⌘ gombot a Preferenciák megnyitásához, ha a lábléc el van rejtve.";

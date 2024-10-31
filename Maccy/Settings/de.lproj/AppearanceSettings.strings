@@ -31,4 +31,5 @@
 "ShowSearchField" = "Suchfeld anzeigen";
 "ShowTitleBeforeSearchField" = "Titel neben dem Suchfeld anzeigen";
 "ShowFooter" = "Menü anzeigen";
+"ShowApplicationIcons" = "Anwendungssymbole anzeigen";
 "OpenPreferencesWarning" = "⚠️ Um die Einstellungen zu öffnen, halte ⌘, gedrückt.";

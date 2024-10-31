@@ -31,4 +31,5 @@
 "ShowSearchField" = "Arama alanını göster";
 "ShowTitleBeforeSearchField" = "Arama alanı öncesi başlığı göster";
 "ShowFooter" = "Altbilgiyi göster";
+"ShowApplicationIcons" = "Uygulama simgelerini göster";
 "OpenPreferencesWarning" = "⚠️ Altbilgi gizliyken ayarları açmak için ⌘,'a basın.";

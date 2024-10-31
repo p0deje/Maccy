@@ -31,4 +31,5 @@
 "ShowSearchField" = "Mostrar campo de búsqueda";
 "ShowTitleBeforeSearchField" = "Mostrar título antes del buscador";
 "ShowFooter" = "Mostrar footer";
+"ShowApplicationIcons" = "Mostrar iconos de aplicaciones";
 "OpenPreferencesWarning" = "⚠️ Presiona ⌘, para abrir las preferencias cuando el footer esté oculto.";

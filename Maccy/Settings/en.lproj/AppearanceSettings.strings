@@ -30,5 +30,6 @@
 "ShowRecentCopyInMenuBar" = "Show recent copy next to menu icon";
 "ShowSearchField" = "Show search field";
 "ShowTitleBeforeSearchField" = "Show title before search field";
+"ShowApplicationIcons" = "Show application icons";
 "ShowFooter" = "Show footer";
 "OpenPreferencesWarning" = "⚠️ Press ⌘, to open preferences when footer is hidden.";

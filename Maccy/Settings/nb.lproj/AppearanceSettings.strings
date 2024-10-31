@@ -31,4 +31,5 @@
 "ShowSearchField" = "Vis søkefelt";
 "ShowTitleBeforeSearchField" = "Vis tittel før søkefelt";
 "ShowFooter" = "Vis bunntekst";
+"ShowApplicationIcons" = "Vis applikasjonsikoner";
 "OpenPreferencesWarning" = "⚠️ Trykk ⌘, for å åpne valg når bunntekst er skjult.";

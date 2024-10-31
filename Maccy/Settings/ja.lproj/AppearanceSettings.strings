@@ -31,4 +31,5 @@
 "ShowSearchField" = "検索フィールド表示";
 "ShowTitleBeforeSearchField" = "検索フィールドの前にタイトル表示";
 "ShowFooter" = "フッター表示";
+"ShowApplicationIcons" = "アプリケーションのアイコンを表示する";
 "OpenPreferencesWarning" = "⚠️ フッターが隠されている時に設定を開くには⌘,を押してください。";

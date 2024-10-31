@@ -52,6 +52,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
+  var applicationImage: ApplicationImage
 
   var text: String { item.previewableText }
 
@@ -70,6 +71,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
     self.item = item
     self.shortcuts = shortcuts
     self.title = item.title
+    self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
 
     synchronizeItemPin()
     synchronizeItemTitle()

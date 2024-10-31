@@ -31,4 +31,5 @@
 "ShowSearchField" = "검색 필드 표시";
 "ShowTitleBeforeSearchField" = "검색 필드 앞에 타이틀 표시";
 "ShowFooter" = "푸터 표시";
+"ShowApplicationIcons" = "애플리케이션 아이콘 표시";
 "OpenPreferencesWarning" = "⚠️ 푸터가 숨겨져 있을 때 설정을 열려면 ⌘,를 누르세요.";

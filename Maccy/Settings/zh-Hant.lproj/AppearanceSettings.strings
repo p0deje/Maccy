@@ -31,4 +31,5 @@
 "ShowSearchField" = "顯示搜尋框";
 "ShowTitleBeforeSearchField" = "搜尋列旁顯示 Maccy";
 "ShowFooter" = "顯示底部操作選單";
+"ShowApplicationIcons" = "顯示應用程式圖示";
 "OpenPreferencesWarning" = "⚠️ 隱藏底部選單時，可按 ⌘, 顯示偏好設定。";
