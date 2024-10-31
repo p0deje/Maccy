@@ -3,6 +3,7 @@ import SwiftUI
 
 struct ListItemView<Title: View>: View {
   var id: UUID
+  var appIcon: ApplicationImage?
   var image: NSImage?
   var attributedTitle: AttributedString?
   var shortcuts: [KeyShortcut]
@@ -10,18 +11,30 @@ struct ListItemView<Title: View>: View {
   var help: LocalizedStringKey?
   @ViewBuilder var title: () -> Title
 
+  @Default(.showApplicationIcons) private var showIcons
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
 
   var body: some View {
     HStack(spacing: 0) {
+      if showIcons, let appIcon {
+        VStack {
+          Image(nsImage: appIcon.nsImage)
+            .resizable()
+            .frame(width: 15, height: 15)
+          Spacer(minLength: 0)
+        }
+        .padding(.leading, 5)
+        .padding(.vertical, 5)
+      }
       if let image {
         Image(nsImage: image)
           .accessibilityIdentifier("copy-history-item")
-          .padding(.leading, 10)
+          .padding(.leading, 5)
           .padding(.vertical, 5)
       }
       ListItemTitleView(attributedTitle: attributedTitle, title: title)
+        .padding(.leading, showIcons ? 0 : 5)
       Spacer()
       if !shortcuts.isEmpty {
         ZStack {

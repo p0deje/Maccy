@@ -16,6 +16,7 @@ struct AppearanceSettingsPane: View {
   @Default(.searchVisibility) private var searchVisibility
   @Default(.showFooter) private var showFooter
   @Default(.windowPosition) private var windowPosition
+  @Default(.showApplicationIcons) private var showApplicationIcons
 
   @State private var screens = NSScreen.screens
 
@@ -180,6 +181,9 @@ struct AppearanceSettingsPane: View {
         }
         Defaults.Toggle(key: .showTitle) {
           Text("ShowTitleBeforeSearchField", tableName: "AppearanceSettings")
+        }
+        Defaults.Toggle(key: .showApplicationIcons) {
+          Text("ShowApplicationIcons", tableName: "AppearanceSettings")
         }
 
         Defaults.Toggle(key: .showFooter) {

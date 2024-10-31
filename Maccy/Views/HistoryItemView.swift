@@ -9,6 +9,7 @@ struct HistoryItemView: View {
   var body: some View {
     ListItemView(
       id: item.id,
+      appIcon: item.applicationImage,
       image: item.thumbnailImage ?? ColorImage.from(item.title),
       attributedTitle: item.attributedTitle,
       shortcuts: item.shortcuts,

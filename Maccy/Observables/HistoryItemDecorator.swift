@@ -13,6 +13,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
   static var previewThrottler = Throttler(minimumDelay: Double(Defaults[.previewDelay]) / 1000)
   static var previewImageSize: NSSize { NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536) }
   static var thumbnailImageSize: NSSize { NSSize(width: 340, height: Defaults[.imageMaxHeight]) }
+  static let applicationImageCache = ApplicationImageCache()
 
   let id = UUID()
 
@@ -52,6 +53,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
+  var applicationImage: ApplicationImage
 
   var text: String { item.previewableText }
 
@@ -70,6 +72,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
     self.item = item
     self.shortcuts = shortcuts
     self.title = item.title
+    self.applicationImage = Self.applicationImageCache.getImage(item: item)
 
     synchronizeItemPin()
     synchronizeItemTitle()
