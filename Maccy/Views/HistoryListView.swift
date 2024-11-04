@@ -11,6 +11,7 @@ struct HistoryListView: View {
 
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
+  @Default(.showFooter) private var showFooter
 
   var body: some View {
     if pinTo == .top {
@@ -73,6 +74,8 @@ struct HistoryListView: View {
         }
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
+      .padding(.top, 3)
+      .padding(.bottom, showFooter ? 0 : 5)
     }
 
     if pinTo == .bottom {

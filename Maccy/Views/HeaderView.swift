@@ -28,10 +28,10 @@ struct HeaderView: View {
     }
     .frame(height: appState.searchVisible ? 25 : 0)
     .opacity(appState.searchVisible ? 1 : 0)
-    .padding(.horizontal, 10)
     // 2px is needed to prevent items from showing behind top pinned items during scrolling
     // https://github.com/p0deje/Maccy/issues/832
-    .padding(.bottom, appState.searchVisible ? 5 : 2)
+    .padding(.top, appState.searchVisible ? 5 : 2)
+    .background(.clear)
     .background {
       GeometryReader { geo in
         Color.clear
