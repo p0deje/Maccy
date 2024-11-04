@@ -1,1 +1,36 @@
 
+
+"Title" = "Videz";
+"PopupAt" = "Pojavno okno na:";
+"PopupAtWindowCenter" = "Središču okna";
+"PopupAtScreenCenter" = "Središču zaslona";
+"PopupAtLastPosition" = "Zadnji poziciji";
+"PopupAtTooltip" = "Spremenite lokacijo pojavnega okna.\nPrivzeto: Kazalec miške.";
+"ActiveScreen" = "Aktivni zaslon";
+"PinTo" = "Pripni:";
+"PinToTop" = "Zgoraj";
+"PinToTooltip" = "Spremenite lokacijo pripetih elementov.\nPrivzeto: Zgoraj.";
+"ImageHeight" = "Višina slike:";
+"PreviewDelay" = "Zakasnitev predogleda:";
+"HighlightMatches" = "Označite ujemanja:";
+"HighlightMatchColor" = "Barva";
+"HighlightMatchBold" = "Krepko";
+"HighlightMatchItalic" = "Poševno";
+"HighlightMatchUnderline" = "Podčrtaj";
+"HighlightMatchesTooltip" = "Spremenite slog označevanja za iskana ujemanja.\nPrivzeto: Krepko.";
+"ShowSpecialSymbols" = "Prikaži posebne simbole";
+"ShowSpecialSymbolsTooltip" = "Prikaži nove vrstice, zavihke, presledke na začetku in na koncu s posebnimi simboli.";
+"ShowRecentCopyInMenuBar" = "Pokaži nedavno kopijo poleg ikone menija";
+"ShowSearchField" = "Pokaži polje za iskanje";
+"ShowTitleBeforeSearchField" = "Prikaži naslov pred poljem za iskanje";
+"ShowFooter" = "Prikaži nogo";
+"OpenPreferencesWarning" = "⚠️ Pritisnite ⌘, da odprete nastavitve, ko je noga skrita.";
+"PopupAtCursor" = "Kazalcu miške";
+"PopupAtMenuBarIcon" = "Ikoni menija";
+"PopupAtLastLocationReset" = "Ponastavi položaj";
+"SearchVisibilityAlways" = "Vedno";
+"SearchVisibilityDuringSearch" = "Med iskanjem";
+"PinToBottom" = "Spodaj";
+"ImageHeightTooltip" = "Največja višina predogleda slike.\nPrivzeto: 40.\nNamig: nastavite na 16, da bodo slike videti kot besedilni elementi.";
+"PreviewDelayTooltip" = "Zakasnitev v milisekundah, dokler se ne prikaže pojavno okno za predogled.\nPrivzeto: 1500.";
+"ShowMenuIcon" = "Prikaži ikono menija";
