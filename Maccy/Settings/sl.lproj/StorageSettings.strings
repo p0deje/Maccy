@@ -8,7 +8,7 @@
 "Size" = "Velikost:";
 "LastCopiedAt" = "Čas zadnjega kopiranja";
 "FirstCopiedAt" = "Čas prvega kopiranja";
-"NumberOfCopies" = "Število kopij";
+"NumberOfCopies" = "Število kopiranj";
 "SaveDescription" = "Spremenite, katere vrste kopirane vsebine naj bodo shranjene.";
 "SizeTooltip" = "Število zgodovinskih elementov za ohranjanje.\nPrivzeto: 200.";
 "SortBy" = "Razvrsti po:";
