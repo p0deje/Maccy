@@ -1,1 +1,32 @@
 
+
+"about_tooltip" = "Даведацца больш аб дадатку.";
+"quit_tooltip" = "Выйсці з дадатку.";
+"clear" = "Выдаліць";
+"clear_all" = "Выдаліць усё";
+"about" = "Аб дадатку";
+"quit" = "Зачыніць прыкладанне";
+"preferences" = "Налады…";
+"preferences_advanced" = "Прасунутыя";
+"preferences_pins" = "Прымацоўваныя";
+"copy_modifiers_config" = "• Выберыце, націснуўшы %@, каб скапіяваць элемент.";
+"paste_modifiers_config" = "• Выберыце, націснуўшы %@, каб скапіяваць і ўставіць элемент.";
+"format_modifiers_config" = "• Выберыце, націснуўшы %@, каб скапіяваць, ачысціць фарматаванне і ўставіць элемент.";
+"accessibility_alert_message" = "«Maccy» хацеў бы кіраваць гэтым кампутарам выкарыстоўваючы спецыяльных магчымасцяў.";
+"accessibility_alert_comment" = "Падайце правы доступу гэтай праграме ў наладах {pane} у {settings}.\n\nНацісніце кнопку «+», абярыце «Maccy» і ўсталюеце сцяжок побач з ім.";
+"accessibility_alert_deny" = "Адмовіць";
+"accessibility_alert_open" = "Адкрыйце «Сістэмныя налады»";
+"clear_alert_message" = "Вы сапраўды хочаце ачысціць гісторыю?";
+"clear_alert_comment" = "Вы не можаце адмяніць гэта дзеянне.";
+"clear_alert_cancel" = "Адмяніць";
+"clear_alert_confirm" = "Выдаліць";
+"key_used_error" = "Клавіша ўжо выкарыстоўваецца.";
+"active_screen" = "Актыўны экран";
+"screen" = "Экран";
+"system_settings_pane" = "«Налады прыватнасці і бяспекі»";
+"system_preferences_pane" = "«Налады прыватнасці і бяспекі»";
+"system_settings_name" = "Сістэмных наладах";
+"search_placeholder" = "пачніце пісаць для пошуку…";
+"clear_tooltip" = "Выдаліць ня замацаваныя элементы.\nВыберыце з ⇧, каб выдаліць усе.";
+"clear_all_tooltip" = "Выдаліць усе элементы.";
+"system_preferences_name" = "Сістэмных наладах";
