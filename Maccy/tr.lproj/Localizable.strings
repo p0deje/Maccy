@@ -1,5 +1,5 @@
 "search_placeholder" = "aramak için yazın…";
-"clear_tooltip" = "Sabitlenmemiş öğeleri temizle.\Hepsini temizlemek için ⇧ ile seçin.";
+"clear_tooltip" = "Sabitlenmemiş öğeleri temizle.\nHepsini temizlemek için ⇧ ile seçin.";
 "clear_all_tooltip" = "Tüm ögeleri temizle.";
 "about_tooltip" = "Uygulama hakkında daha fazla bilgi edinin.";
 "quit_tooltip" = "Uygulamadan çık.";
