@@ -11,3 +11,4 @@
 "FirstCopiedAt" = "מועד העותק הראשון";
 "NumberOfCopies" = "מספר עותקים";
 "SortByTooltip" = "ברירת מחדל: מועד העותק האחרון.";
+"CurrentSizeTooltip" = "גודל נוכחי בדיסק.";

@@ -6,6 +6,7 @@
 "SaveDescription" = "Verander welke soorten gekopieerde inhoud moeten worden opgeslagen.";
 "Size" = "Grootte:";
 "SizeTooltip" = "Aantal te bewaren geschiedenisitems.\nStandaard: 200.";
+"CurrentSizeTooltip" = "Huidige grootte op schijf.";
 "SortBy" = "Sorteer op:";
 "LastCopiedAt" = "Tijd van laatste kopie";
 "FirstCopiedAt" = "Tijd van eerste kopie";

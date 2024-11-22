@@ -6,6 +6,7 @@
 "SaveDescription" = "保管するコピーコンテンツタイプを変更します。";
 "Size" = "サイズ:";
 "SizeTooltip" = "保管する履歴の項目数。\nデフォルト：200。";
+"CurrentSizeTooltip" = "ディスク上の現在のサイズ。";
 "SortBy" = "並び替え:";
 "LastCopiedAt" = "最後にコピーした日時";
 "FirstCopiedAt" = "最初にコピーした日時";

@@ -6,6 +6,7 @@
 "SaveDescription" = "Mainiet, kāda veida kopētais saturs ir jāsaglabā.";
 "Size" = "Vienumu skaits:";
 "SizeTooltip" = "Saglabājamo vēstures vienumu skaits.\nNoklusējums: 200.";
+"CurrentSizeTooltip" = "Pašreizējais izmērs diskā.";
 "SortBy" = "Kārtot pēc:";
 "LastCopiedAt" = "Pēdējās kopijas laiks";
 "FirstCopiedAt" = "Pirmās kopijas laiks";

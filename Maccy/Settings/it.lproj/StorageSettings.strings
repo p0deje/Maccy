@@ -6,6 +6,7 @@
 "SaveDescription" = "Cambia il tipo dei contenuti copiati che dovrebbero essere salvati.";
 "Size" = "Dimensione:";
 "SizeTooltip" = "Numero di elementi da tenere nella cronologia.\nDefault: 200.";
+"CurrentSizeTooltip" = "Dimensione attuale su disco.";
 "SortBy" = "Ordina per:";
 "LastCopiedAt" = "Tempo dell'ultima copia";
 "FirstCopiedAt" = "Tempo della prima copia";

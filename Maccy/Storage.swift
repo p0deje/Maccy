@@ -7,6 +7,13 @@ class Storage {
 
   var container: ModelContainer
   var context: ModelContext { container.mainContext }
+  var size: String {
+    guard let size = try? Data(contentsOf: url), size.count > 1 else {
+      return ""
+    }
+
+    return ByteCountFormatter().string(fromByteCount: Int64(size.count))
+  }
 
   private let url = URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite")
 

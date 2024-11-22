@@ -6,6 +6,7 @@
 "SaveDescription" = "Ne tür kopyalanmış içerik türlerinin depolanacağını değiştirin.";
 "Size" = "Sayı:";
 "SizeTooltip" = "Tutulacak geçmiş ögesi sayısı.\nSaptanmış: 200.";
+"CurrentSizeTooltip" = "Diskteki geçerli boyut.";
 "SortBy" = "Şuna göre sırala:";
 "LastCopiedAt" = "Son kopyanın zamanı";
 "FirstCopiedAt" = "İlk kopyanın zamanı";

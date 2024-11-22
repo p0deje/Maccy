@@ -6,6 +6,7 @@
 "SaveDescription" = "设置何种类型的内容会被保存。";
 "Size" = "数量：";
 "SizeTooltip" = "保留条历史记录。\n默认: 200。";
+"CurrentSizeTooltip" = "磁盘上的当前大小。";
 "SortBy" = "排序方式：";
 "LastCopiedAt" = "上次复制时间";
 "FirstCopiedAt" = "首次复制时间";

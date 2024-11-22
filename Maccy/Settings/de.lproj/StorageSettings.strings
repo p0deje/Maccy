@@ -6,6 +6,7 @@
 "SaveDescription" = "Ändere, welche Dateitypen kopierter Inhalte gesichert werden sollen.";
 "Size" = "Verlauf:";
 "SizeTooltip" = "Maximale Anzahl von Einträgen.\nStandard: 200.";
+"CurrentSizeTooltip" = "Aktuelle Größe auf der Festplatte.";
 "SortBy" = "Sortieren:";
 "LastCopiedAt" = "Zeitpunkt des letzten Eintrags";
 "FirstCopiedAt" = "Zeitpunkt des ersten Eintrags";

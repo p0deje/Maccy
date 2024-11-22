@@ -6,6 +6,7 @@
 "SaveDescription" = "Wybierz jakie typy kopiowanej treści powinny być przechowywane.";
 "Size" = "Rozmiar:";
 "SizeTooltip" = "Liczba pozycji przechowywana w historii.\nDomyślnie: 200.";
+"CurrentSizeTooltip" = "Aktualny rozmiar na dysku.";
 "SortBy" = "Sortuj po:";
 "LastCopiedAt" = "Czas ostatniego kopiowania";
 "FirstCopiedAt" = "Czas pierwszego kopiowania";

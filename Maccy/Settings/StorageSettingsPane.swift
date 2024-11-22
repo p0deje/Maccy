@@ -98,6 +98,10 @@ struct StorageSettingsPane: View {
             .help(Text("SizeTooltip", tableName: "StorageSettings"))
           Stepper("", value: $size, in: 1...9999)
             .labelsHidden()
+          Text(Storage.shared.size)
+            .controlSize(.small)
+            .foregroundStyle(.gray)
+            .help(Text("CurrentSizeTooltip", tableName: "StorageSettings"))
         }
       }
 

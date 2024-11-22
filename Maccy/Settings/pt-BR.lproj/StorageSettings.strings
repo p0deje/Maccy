@@ -6,6 +6,7 @@
 "SaveDescription" = "Alterar que tipos de conteúdo copiados devem ser armazenados.";
 "Size" = "Tamanho:";
 "SizeTooltip" = "Número de itens do histórico para manter.\nPadrão: 200.";
+"CurrentSizeTooltip" = "Tamanho atual no disco.";
 "SortBy" = "Ordenar por:";
 "LastCopiedAt" = "Data da última cópia";
 "FirstCopiedAt" = "Data da primeira cópia";

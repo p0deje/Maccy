@@ -11,3 +11,4 @@
 "FirstCopiedAt" = "Vrijeme prve kopije";
 "NumberOfCopies" = "Broj kopija";
 "SortByTooltip" = "Standardno: Vrijeme zadnje kopije.";
+"CurrentSizeTooltip" = "Trenutna veličina na disku.";

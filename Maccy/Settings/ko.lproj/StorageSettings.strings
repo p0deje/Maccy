@@ -6,6 +6,7 @@
 "SaveDescription" = "보관할 복사 컨텐츠 타입을 변경합니다.";
 "Size" = "크기:";
 "SizeTooltip" = "보관할 기록 항목 수.\n기본값: 200.";
+"CurrentSizeTooltip" = "디스크의 현재 크기입니다.";
 "SortBy" = "정렬 기준:";
 "LastCopiedAt" = "마지막 복사한 시간";
 "FirstCopiedAt" = "처음 복사한 시간";
