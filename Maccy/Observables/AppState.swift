@@ -28,7 +28,7 @@ class AppState: Sendable {
   }
 
   var hoverSelectionWhileKeyboardNavigating: UUID?
-  var isKeyboardNavigating: Bool = false {
+  var isKeyboardNavigating: Bool = true {
     didSet {
       if let hoverSelection = hoverSelectionWhileKeyboardNavigating {
         hoverSelectionWhileKeyboardNavigating = nil
