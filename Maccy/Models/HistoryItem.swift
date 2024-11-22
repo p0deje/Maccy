@@ -10,9 +10,10 @@ class HistoryItem {
     // "q" reserved for quit
     // "v" reserved for paste
     // "w" reserved for close window
+    // "z" reserved for undo/redo
     var keys = Set([
       "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-      "m", "n", "o", "p", "r", "s", "t", "u", "x", "y", "z"
+      "m", "n", "o", "p", "r", "s", "t", "u", "x", "y"
     ])
 
     if let deleteKey = KeyChord.deleteKey,
