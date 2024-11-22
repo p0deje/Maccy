@@ -1,0 +1,10 @@
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# kopiranje podatkov\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Prav tako lahko kliknete ikono menija s pritisnjenim ⌥.\nČe želite prezreti samo naslednjo kopijo, kliknite z ⌥⇧.";
+"ClearHistoryOnQuit" = "Počisti zgodovino pri izhodu";
+"ClearSystemClipboard" = "Počistite tudi sistemsko odložišče";
+"ClearSystemClipboardTooltip" = "Ko je ta možnost omogočena, bi brisanje zgodovine počistilo tudi trenutno sistemsko odložišče.";
+"Title" = "Napredno";
+"TurnOff" = "Izklopi";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# kopiranje podatkov";
+"ClearHistoryOnQuitTooltip" = "Preden zaprete aplikacijo, samodejno odstranite vse nepripete elemente.";
+"TurnOffDescription" = "Začasno prezrite vse nove kopije.\nVerjetno ga boste uporabili programsko in med kopiranjem občutljivih podatkov onemogočili aplikacijo.";

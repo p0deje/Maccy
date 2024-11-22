@@ -1,0 +1,9 @@
+"Title" = "Ignoriraj";
+"PasteboardTypesTab" = "Vrste lepenke";
+"RegexpTab" = "Regularni izrazi - Regex";
+"ApplicationsTab" = "Aplikacije";
+"IgnoredAppsDescription" = "Kopije, ki prihajajo iz določenih aplikacij, je mogoče prezreti.\nUpoštevajte, da način delovanja ni neprebojen, zato je bolje, da uporabite lepenke, kadar je to mogoče.";
+"IgnoredAllAppsExceptListed" = "Prezri vse aplikacije razen navedenih";
+"IgnoredPasteboardTypesDescription" = "Določene vrste elementov je mogoče prezreti pri shranjevanju.\nPrivzeto so definirani nekateri znani tipi, specifični za aplikacijo. Lahko jih odstranite in dodate poljubne vrste po meri.";
+"IgnoredPasteboardTypesReset" = "Ponastavi";
+"IgnoredRegexpsDescription" = "Na podlagi definiranih regularnih izrazov je možno prezreti določene kopije pri pomnjenju.";

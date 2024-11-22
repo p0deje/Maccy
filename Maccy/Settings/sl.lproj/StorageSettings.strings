@@ -1,0 +1,14 @@
+"Title" = "Shranjevanje";
+"Save" = "Shrani:";
+"Files" = "Datoteke";
+"Images" = "Slike";
+"Text" = "Besedilo";
+"SaveDescription" = "Spremenite, katere vrste kopirane vsebine naj bodo shranjene.";
+"Size" = "Velikost:";
+"SizeTooltip" = "Število zgodovinskih elementov za ohranjanje.\nPrivzeto: 200.";
+"CurrentSizeTooltip" = "Trenutna velikost na disku.";
+"SortBy" = "Razvrsti po:";
+"LastCopiedAt" = "Čas zadnjega kopiranja";
+"FirstCopiedAt" = "Čas prvega kopiranja";
+"NumberOfCopies" = "Število kopiranj";
+"SortByTooltip" = "Privzeto: Čas zadnjega kopiranja.";
