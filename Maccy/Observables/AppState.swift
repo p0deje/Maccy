@@ -172,6 +172,7 @@ class AppState: Sendable {
             toolbarIcon: NSImage.pincircle!
           ) {
             PinsSettingsPane()
+              .environment(self)
               .modelContainer(Storage.shared.container)
           },
           Settings.Pane(

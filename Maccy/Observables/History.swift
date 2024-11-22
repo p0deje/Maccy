@@ -65,7 +65,7 @@ class History { // swiftlint:disable:this type_body_length
   // - `all` stores all history items, even the ones that are currently hidden by a search
   // - `items` stores only visible history items, updated during a search
   @ObservationIgnored
-   var all: [HistoryItemDecorator] = []
+  var all: [HistoryItemDecorator] = []
 
   init() {
     Task {

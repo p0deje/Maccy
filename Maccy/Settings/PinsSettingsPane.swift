@@ -28,6 +28,7 @@ struct PinTitleView: View {
 }
 
 struct PinsSettingsPane: View {
+  @Environment(AppState.self) private var appState
   @Environment(\.modelContext) private var modelContext
 
   @Query(filter: #Predicate<HistoryItem> { $0.pin != nil }, sort: \.firstCopiedAt)
@@ -53,6 +54,14 @@ struct PinsSettingsPane: View {
       }
       .onAppear {
         availablePins = HistoryItem.availablePins
+      }
+      .onDeleteCommand {
+        guard let selection,
+              let item = appState.history.items.first(where: { $0.item.id == selection }) else {
+          return
+        }
+
+        appState.history.delete(item)
       }
 
       Text("PinCustomizationDescription", tableName: "PinsSettings")
