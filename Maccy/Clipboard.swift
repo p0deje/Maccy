@@ -66,6 +66,7 @@ class Clipboard {
   func copy(_ string: String) {
     pasteboard.clearContents()
     pasteboard.setString(string, forType: .string)
+    sync()
     checkForChangesInPasteboard()
   }
 
@@ -106,6 +107,7 @@ class Clipboard {
     pasteboard.writeObjects(fileURLItems)
 
     pasteboard.setString("", forType: .fromMaccy)
+    sync()
 
     Task {
       Notifier.notify(body: item.title, sound: .knock)
@@ -279,5 +281,16 @@ class Clipboard {
     }
 
     return false
+  }
+
+  // Chrome Remote Desktop requires window be unfocused and focused back to sync the clipboard.
+  private func sync() {
+    guard let url = sourceApp?.bundleURL,
+          url.lastPathComponent == "Chrome Remote Desktop.app" else {
+      return
+    }
+
+    NSApp.activate(ignoringOtherApps: true)
+    NSApp.hide(self)
   }
 }
