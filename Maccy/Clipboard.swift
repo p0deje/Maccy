@@ -283,10 +283,13 @@ class Clipboard {
     return false
   }
 
-  // Chrome Remote Desktop requires window be unfocused and focused back to sync the clipboard.
+  // Some applications requires window be unfocused and focused back to sync the clipboard.
+  // - Chrome Remote Desktop (https://github.com/p0deje/Maccy/issues/948)
+  // - Netbeans (https://github.com/p0deje/Maccy/issues/879)
   private func sync() {
-    guard let url = sourceApp?.bundleURL,
-          url.lastPathComponent == "Chrome Remote Desktop.app" else {
+    guard let app = sourceApp,
+          app.bundleURL?.lastPathComponent == "Chrome Remote Desktop.app" ||
+            app.localizedName == "NetBeans" else {
       return
     }
 
