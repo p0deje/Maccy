@@ -23,6 +23,14 @@ struct MouseMovedViewModifier: ViewModifier {
     )
   }
 
+  private class Coordinator: NSResponder {
+    var mouseMoved: (() -> Void)?
+
+    override func mouseMoved(with event: NSEvent) {
+      mouseMoved?()
+    }
+  }
+
   private struct Representable: NSViewRepresentable {
     let mouseMoved: () -> Void
     let frame: NSRect
@@ -33,21 +41,13 @@ struct MouseMovedViewModifier: ViewModifier {
       return coordinator
     }
 
-    class Coordinator: NSResponder {
-      var mouseMoved: (() -> Void)?
-
-      override func mouseMoved(with event: NSEvent) {
-        mouseMoved?()
-      }
-    }
-
     func makeNSView(context: Context) -> NSView {
       let view = NSView(frame: frame)
 
       let options: NSTrackingArea.Options = [
         .activeInKeyWindow,
         .inVisibleRect,
-        .mouseMoved,
+        .mouseMoved
       ]
 
       let trackingArea = NSTrackingArea(
