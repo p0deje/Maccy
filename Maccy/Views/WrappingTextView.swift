@@ -6,8 +6,8 @@ struct WrappingTextView: View {
   let text: String
   let maxWidth: CGFloat
 
-  private let charHeight: CGFloat = 10
-  private let charWidth: CGFloat = 6
+  private let charHeight: CGFloat = 20
+  private let charWidth: CGFloat = 7
 
   private var approxWidth: CGFloat {
     let width = CGFloat(text.count) * charWidth
@@ -16,7 +16,7 @@ struct WrappingTextView: View {
 
   private var approxHeight: CGFloat {
     let width = CGFloat(text.count) * charWidth
-    return width / min(max(width, 50), maxWidth) * charHeight * 3
+    return width / approxWidth * charHeight * 3
   }
 
   var body: some View {
