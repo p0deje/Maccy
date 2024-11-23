@@ -6,30 +6,23 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>2.2.0</title>
+      <title>2.2.1</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added an option to show source application icons in the history. It's disabled by default and can be turned on in Settings / Appearance.</li>
-            <li>Added Polish translation,</li>
-            <li>Added Lithuanian translation.</li>
-            <li>Added Slovenian translation.</li>
-            <li>Added information about the database size on disk in Settings / Storage.</li>
-            <li>Improved support for copying and pasting to Chrome Remote Desktop application.</li>
             <li>Improved support for copying and pasting to Netbeans IDE application.</li>
-            <li>Fixed an issue when single-text text would not wrap in the preview.</li>
-            <li>Fixed an issue when "Files" could not be checked in Settings / Storage.</li>
-            <li>A pin letter "Z" can no longer be used since it's reserved for a system undo shortcut.</li>
+            <li>Improved wrapping of single-line text in the preview.</li>
+            <li>Improved mouse movement handling to prevent accidental hovers.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2024-11-22</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.2.0</releaseNotesLink>
+      <pubDate>2024-11-23</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.2.1</releaseNotesLink>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/2.2.0/Maccy.app.zip"
-        sparkle:version="50"
-        sparkle:shortVersionString="2.2.0"
+        url="https://github.com/p0deje/Maccy/releases/download/2.2.1/Maccy.app.zip"
+        sparkle:version="53"
+        sparkle:shortVersionString="2.2.1"
         length="0"
         type="application/octet-stream"
       />
