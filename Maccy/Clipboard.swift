@@ -289,7 +289,7 @@ class Clipboard {
   private func sync() {
     guard let app = sourceApp,
           app.bundleURL?.lastPathComponent == "Chrome Remote Desktop.app" ||
-            app.localizedName == "NetBeans" else {
+            app.localizedName?.contains("NetBeans") == true else {
       return
     }
 
