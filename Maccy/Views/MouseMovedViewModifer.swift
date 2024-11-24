@@ -18,7 +18,8 @@ struct MouseMovedViewModifier: ViewModifier {
       GeometryReader { geo in
         Representable(
           mouseMoved: mouseMoved,
-          frame: geo.frame(in: .global))
+          frame: geo.frame(in: .global)
+        )
       }
     )
   }
