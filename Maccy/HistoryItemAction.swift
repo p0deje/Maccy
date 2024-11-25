@@ -15,9 +15,13 @@ enum HistoryItemAction {
       self = .paste
     case .command where Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault]:
       self = .pasteWithoutFormatting
-    case .option where !Defaults[.pasteByDefault]:
+    case .option where !Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
       self = .paste
+    case .option where !Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault]:
+      self = .pasteWithoutFormatting
     case .option where Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
+      self = .copy
+    case .option where Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault]:
       self = .copy
     case [.option, .shift] where !Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
       self = .pasteWithoutFormatting
@@ -40,9 +44,13 @@ enum HistoryItemAction {
       return .command
     case .pasteWithoutFormatting where Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault]:
       return .command
-    case .paste where !Defaults[.pasteByDefault]:
+    case .paste where !Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
+      return .option
+    case .pasteWithoutFormatting where !Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault]:
       return .option
     case .copy where Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
+      return .option
+    case .copy where Defaults[.pasteByDefault] && Defaults[.removeFormattingByDefault]:
       return .option
     case .pasteWithoutFormatting where !Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
       return [.option, .shift]
