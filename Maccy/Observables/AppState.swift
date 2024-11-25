@@ -15,15 +15,19 @@ class AppState: Sendable {
   var scrollTarget: UUID?
   var selection: UUID? {
     didSet {
-      history.selectedItem = nil
-      footer.selectedItem = nil
-
-      if let item = history.items.first(where: { $0.id == selection }) {
-        history.selectedItem = item
-      } else if let item = footer.items.first(where: { $0.id == selection }) {
-        footer.selectedItem = item
-      }
+      selectWithoutScrolling(selection)
       scrollTarget = selection
+    }
+  }
+
+  func selectWithoutScrolling(_ item: UUID?) {
+    history.selectedItem = nil
+    footer.selectedItem = nil
+
+    if let item = history.items.first(where: { $0.id == item }) {
+      history.selectedItem = item
+    } else if let item = footer.items.first(where: { $0.id == item }) {
+      footer.selectedItem = item
     }
   }
 
