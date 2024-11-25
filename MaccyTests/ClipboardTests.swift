@@ -224,6 +224,7 @@ class ClipboardTests: XCTestCase {
   func testCopyWithoutFormatting() {
     let contents = [
       HistoryItemContent(type: stringType.rawValue, value: "foo".data(using: .utf8)!),
+      HistoryItemContent(type: fileURLType.rawValue, value: "file://foo.bar".data(using: .utf8)!),
       HistoryItemContent(type: rtfType.rawValue,
                          value: coloredString.rtf(from: NSRange(location: 0, length: coloredString.length),
                                                   documentAttributes: [:]))
@@ -234,6 +235,7 @@ class ClipboardTests: XCTestCase {
     clipboard.copy(item, removeFormatting: true)
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
     XCTAssertEqual(pasteboard.string(forType: .fromMaccy), "")
+    XCTAssertEqual(pasteboard.string(forType: .fileURL), "file://foo.bar")
     XCTAssertNil(pasteboard.data(forType: .rtf))
   }
 

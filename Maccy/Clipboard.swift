@@ -78,15 +78,7 @@ class Clipboard {
     var contents = item.contents
 
     if removeFormatting {
-      let stringContents = contents.filter({
-        NSPasteboard.PasteboardType($0.type) == .string
-      })
-
-      // If there is no string representation of data,
-      // behave like we didn't have to remove formatting.
-      if !stringContents.isEmpty {
-        contents = stringContents
-      }
+      contents = clearFormatting(contents)
     }
 
     for content in contents {
@@ -295,5 +287,25 @@ class Clipboard {
 
     NSApp.activate(ignoringOtherApps: true)
     NSApp.hide(self)
+  }
+
+  private func clearFormatting(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {
+    var newContents: [HistoryItemContent] = contents
+    let stringContents = contents.filter { NSPasteboard.PasteboardType($0.type) == .string }
+
+    // If there is no string representation of data,
+    // behave like we didn't have to remove formatting.
+    if !stringContents.isEmpty {
+      newContents = stringContents
+
+      // Preserve file URLs.
+      // https://github.com/p0deje/Maccy/issues/962
+      let fileURLContents = contents.filter { NSPasteboard.PasteboardType($0.type) == .fileURL }
+      if !fileURLContents.isEmpty {
+        newContents += fileURLContents
+      }
+    }
+
+    return newContents
   }
 }
