@@ -33,7 +33,6 @@ struct ContentView: View {
       .padding(.vertical, appState.popup.verticalPadding)
       .onAppear {
         searchFocused = true
-        appState.isKeyboardNavigating = true
       }
       .onMouseMove {
         appState.isKeyboardNavigating = false

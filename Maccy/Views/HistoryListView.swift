@@ -52,9 +52,11 @@ struct HistoryListView: View {
             searchFocused = true
             HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
             HistoryItemDecorator.previewThrottler.cancel()
+            appState.isKeyboardNavigating = true
             appState.selection = appState.history.unpinnedItems.first?.id
           } else {
             modifierFlags.flags = []
+            appState.isKeyboardNavigating = true
           }
         }
         // Calculate the total height inside a scroll view.
