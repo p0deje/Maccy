@@ -63,6 +63,6 @@ struct FooterView: View {
       }
     }
     .opacity(showFooter ? 1 : 0)
-    .frame(height: showFooter ? .infinity : 0)
+    .frame(maxHeight: showFooter ? nil : 0)
   }
 }
