@@ -69,7 +69,7 @@ struct HistoryListView: View {
             HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
             HistoryItemDecorator.previewThrottler.cancel()
             appState.isKeyboardNavigating = true
-            appState.selection = appState.history.unpinnedItems.first?.id
+            appState.selection = appState.history.unpinnedItems.first?.id ?? appState.history.pinnedItems.first?.id
           } else {
             modifierFlags.flags = []
             appState.isKeyboardNavigating = true
