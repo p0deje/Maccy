@@ -2,8 +2,8 @@
 
 "about_tooltip" = "Даведацца больш аб дадатку.";
 "quit_tooltip" = "Выйсці з дадатку.";
-"clear" = "Выдаліць";
-"clear_all" = "Выдаліць усё";
+"clear" = "Ачысціць";
+"clear_all" = "Ачысціць усё";
 "about" = "Аб дадатку";
 "quit" = "Зачыніць дадатак";
 "preferences" = "Налады…";
@@ -12,14 +12,14 @@
 "copy_modifiers_config" = "• Выберыце, націснуўшы %@, каб скапіяваць элемент.";
 "paste_modifiers_config" = "• Выберыце, націснуўшы %@, каб скапіяваць і ўставіць элемент.";
 "format_modifiers_config" = "• Выберыце, націснуўшы %@, каб скапіяваць, ачысціць фарматаванне і ўставіць элемент.";
-"accessibility_alert_message" = "«Maccy» хацеў бы кіраваць гэтым кампутарам выкарыстоўваючы спецыяльных магчымасцяў.";
+"accessibility_alert_message" = "«Maccy» хацеў бы кіраваць гэтым кампутарам ужываючы функцыі магчымасцяў даступнасці.";
 "accessibility_alert_comment" = "Дазвольце доступ гэтаму дадатку ў наладах {pane} у {settings}.\n\nНацісніце кнопку «+», абярыце «Maccy» і ўсталюйце сцяжок побач з ім.";
 "accessibility_alert_deny" = "Адмовіць";
 "accessibility_alert_open" = "Адкрыйце «Сістэмныя налады»";
 "clear_alert_message" = "Вы сапраўды хочаце ачысціць гісторыю?";
 "clear_alert_comment" = "Вы не можаце адмяніць гэта дзеянне.";
 "clear_alert_cancel" = "Адмяніць";
-"clear_alert_confirm" = "Выдаліць";
+"clear_alert_confirm" = "Ачысціць";
 "key_used_error" = "Клавіша ўжо выкарыстоўваецца.";
 "active_screen" = "Актыўны экран";
 "screen" = "Экран";
@@ -27,6 +27,6 @@
 "system_preferences_pane" = "«Налады прыватнасці і бяспекі»";
 "system_settings_name" = "Сістэмных наладах";
 "search_placeholder" = "пачніце пісаць для пошуку…";
-"clear_tooltip" = "Выдаліць незамацаваныя элементы.\nВыберыце з ⇧, каб выдаліць усе.";
-"clear_all_tooltip" = "Выдаліць усе элементы.";
+"clear_tooltip" = "Ачысціць незамацаваныя элементы.\nВыберыце з ⇧, каб выдаліць усе.";
+"clear_all_tooltip" = "Ачысціць усе элементы.";
 "system_preferences_name" = "Сістэмных наладах";
