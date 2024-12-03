@@ -7,7 +7,7 @@ enum HistoryItemAction {
   case paste
   case pasteWithoutFormatting
 
-  init(_ modifierFlags: NSEvent.ModifierFlags) {
+  init(_ modifierFlags: NSEvent.ModifierFlags) {  // swiftlint:disable:this cyclomatic_complexity
     switch modifierFlags {
     case .command where !Defaults[.pasteByDefault]:
       self = .copy

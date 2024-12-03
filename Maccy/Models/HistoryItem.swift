@@ -132,7 +132,7 @@ class HistoryItem {
 
   var imageData: Data? {
     var data: Data?
-    data = contentData([.tiff, .png, .jpeg])
+    data = contentData([.tiff, .png, .jpeg, .heic])
     if data == nil, universalClipboardImage, let url = fileURLs.first {
       data = try? Data(contentsOf: url)
     }
@@ -179,7 +179,7 @@ class HistoryItem {
 
   private var universalClipboardImage: Bool { universalClipboard && fileURLs.first?.pathExtension == "jpeg" }
   private var universalClipboardText: Bool {
-    universalClipboard && contentData([.html, .tiff, .png, .jpeg, .rtf, .string]) != nil
+    universalClipboard && contentData([.html, .tiff, .png, .jpeg, .rtf, .string, .heic]) != nil
   }
 
   private func contentData(_ types: [NSPasteboard.PasteboardType]) -> Data? {
