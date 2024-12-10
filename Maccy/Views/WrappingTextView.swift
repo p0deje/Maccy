@@ -2,54 +2,61 @@ import SwiftUI
 
 // A text view that properly wraps single-line content without extra horizontal or vertical spaces.
 // https://www.reddit.com/r/SwiftUI/comments/1gx1w6v/how_to_wrap_a_text_inside_a_macos_popover/
-struct WrappingTextView: View {
-  let text: String
-  let maxWidth: CGFloat
+struct WrappingTextView: Layout {
+  let maxWidth: CGFloat = 800
+  let targetRatio: CGFloat = 1.2
 
-  var body: some View {
-    let approxSize = spaceNeeded(for: text, maxWidth: maxWidth)
-    Text(text)
-      .frame(idealWidth: approxSize.width, maxHeight: approxSize.height, alignment: .leading)
-      .font(.body)
+  func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+    guard let text = subviews.first else {
+      return .zero
+    }
+
+    let maxHeight = NSScreen.main?.visibleFrame.height ?? 1000
+    let textSize = text.sizeThatFits(.unspecified)
+
+    // First, handle width constraints and scaling to targetRatio if needed
+    let width: CGFloat
+    let height: CGFloat
+
+    if textSize.width > maxWidth {
+      // If we need to scale down the width, recalculate height based on targetRatio
+      width = maxWidth
+      let scaledSize = text.sizeThatFits(.init(width: maxWidth, height: nil))
+      height = min(scaledSize.height, maxHeight)
+    } else {
+      width = textSize.width
+      height = min(textSize.height, maxHeight)
+    }
+
+    return CGSize(width: width, height: height)
   }
 
-  private func spaceNeeded(
-    for text: String,
-    maxWidth: CGFloat,
-    targetRatio: CGFloat = 1.2,
-    charWidth: CGFloat = 7,
-    charHeight: CGFloat = 15
-  ) -> NSSize {
-    // Split text into lines
-    let lines = text.components(separatedBy: .newlines)
-
-    // Calculate total number of wrapped lines
-    var totalLines = 0
-    var maxLineWidth: CGFloat = 0
-
-    for line in lines {
-      let lineWidth = CGFloat(line.count) * charWidth
-      maxLineWidth = max(maxLineWidth, lineWidth)
-
-      if lineWidth > maxWidth {
-        // Calculate how many lines this will wrap into
-        totalLines += Int(ceil(lineWidth / maxWidth))
-      } else {
-        totalLines += 1
-      }
+  func placeSubviews(
+    in bounds: CGRect,
+    proposal: ProposedViewSize,
+    subviews: Subviews,
+    cache: inout ()
+  ) {
+    guard let text = subviews.first else {
+      return
     }
 
-    // Calculate base width and height
-    let width = min(maxLineWidth, maxWidth)
-    var height = CGFloat(totalLines) * charHeight
+    let maxHeight = NSScreen.main?.visibleFrame.height ?? 1000
+    let textSize = text.sizeThatFits(.unspecified)
 
-    // Adjust dimensions to maintain target ratio
-    let currentRatio = width / height
-    if currentRatio > targetRatio {
-      // Too wide, adjust height
-      height = width / targetRatio
-    }
+    // Apply the same width-based scaling logic
+    let scaledSize = textSize.width > maxWidth
+      ? text.sizeThatFits(.init(width: maxWidth, height: nil))
+      : textSize
 
-    return NSSize(width: width, height: height)
+    let needsScrolling = scaledSize.height > maxHeight
+
+    text.place(
+      at: bounds.origin,
+      proposal: ProposedViewSize(
+        width: bounds.width,
+        height: needsScrolling ? scaledSize.height : bounds.height
+      )
+    )
   }
 }

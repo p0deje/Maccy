@@ -4,8 +4,6 @@ import SwiftUI
 struct PreviewItemView: View {
   var item: HistoryItemDecorator
 
-  private let maxWidth: CGFloat = 800
-
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       if let image = item.previewImage {
@@ -14,7 +12,12 @@ struct PreviewItemView: View {
           .aspectRatio(contentMode: .fit)
           .clipShape(.rect(cornerRadius: 5))
       } else {
-        WrappingTextView(text: item.text, maxWidth: maxWidth)
+        ScrollView {
+          WrappingTextView {
+            Text(item.text)
+              .font(.body)
+          }
+        }
       }
 
       Divider()
@@ -63,7 +66,6 @@ struct PreviewItemView: View {
       }
     }
     .controlSize(.small)
-    .frame(maxWidth: maxWidth)
     .padding()
   }
 }
