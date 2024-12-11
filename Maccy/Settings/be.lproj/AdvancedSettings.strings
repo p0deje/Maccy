@@ -1,0 +1,10 @@
+"Title" = "Прасунутыя";
+"TurnOff" = "Выключыць";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# капіяваць дадзеныя\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# капіяваць дадзеныя";
+"ClearHistoryOnQuit" = "Ачысціць гісторыю пры зачыненні";
+"ClearSystemClipboard" = "Таксама ачысціць сістэмны буфер абмену";
+"ClearSystemClipboardTooltip" = "Калі гэты параметр улучаны, ачыстка гісторыі таксама ачысціць бягучы сістэмны буфер абмену.";
+"TurnOffDescription" = "Часова ігнараваць усе новыя капіяванні.\nВы можаце скарыстаць гэту наладу праграмна і адключыць дадатак на час капіявання прыватных дадзеных.";
+"TurnOffViaMenuIconDescription" = "Вы таксама можаце клікнуць значок меню з націснутым ⌥.\nКаб ігнараваць толькі наступную копію, клікніце з ⌥⇧.";
+"ClearHistoryOnQuitTooltip" = "Аўтаматычна падаляць усе незамацаваныя запісы перад зачыненнем дадатку.";
