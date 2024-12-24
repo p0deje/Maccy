@@ -2,6 +2,7 @@ import AppKit
 import Defaults
 import Sauce
 import SwiftData
+import Vision
 
 @Model
 class HistoryItem {
@@ -73,6 +74,9 @@ class HistoryItem {
 
   func generateTitle() -> String {
     guard image == nil else {
+      Task {
+        self.performTextRecognition()
+      }
       return ""
     }
 
@@ -194,5 +198,33 @@ class HistoryItem {
     return contents
       .filter { types.contains(NSPasteboard.PasteboardType($0.type)) }
       .compactMap { $0.value }
+  }
+
+  private func performTextRecognition() {
+    guard let cgImage = image?.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+      return
+    }
+
+    let requestHandler = VNImageRequestHandler(cgImage: cgImage)
+    let request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
+    request.recognitionLevel = .fast
+
+    do {
+      try requestHandler.perform([request])
+    } catch {
+      print("Unable to perform the request: \(error).")
+    }
+  }
+
+  private func recognizeTextHandler(request: VNRequest, error: Error?) {
+    guard let observations = request.results as? [VNRecognizedTextObservation] else {
+      return
+    }
+
+    let recognizedStrings = observations.compactMap { observation in
+      return observation.topCandidates(1).first?.string
+    }
+
+    self.title = recognizedStrings.joined(separator: "\n")
   }
 }

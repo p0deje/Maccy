@@ -35,10 +35,10 @@ struct ListItemView<Title: View>: View {
           .padding(.leading, showIcons ? 5 : 10)
           .padding(.trailing, 5)
           .padding(.vertical, 5)
+      } else {
+        ListItemTitleView(attributedTitle: attributedTitle, title: title)
+          .padding(.leading, showIcons ? 0 : 5)
       }
-
-      ListItemTitleView(attributedTitle: attributedTitle, title: title)
-        .padding(.leading, showIcons ? 0 : 5)
 
       Spacer()
 
