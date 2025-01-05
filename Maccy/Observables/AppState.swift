@@ -66,9 +66,9 @@ class AppState: Sendable {
   }
 
   @MainActor
-  func select() {
+  func select(flags: NSEvent.ModifierFlags? = nil) {
     if let item = history.selectedItem, history.items.contains(item) {
-      history.select(item)
+      history.select(item, flags: flags)
     } else if let item = footer.selectedItem {
       if item.confirmation != nil {
         item.showConfirmation = true
