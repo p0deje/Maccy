@@ -18,5 +18,5 @@
 "Regex" = "Regular expressions";
 "Mixed" = "Mixed";
 "NotificationsAndSounds" = "Notifications and sounds 􀱁";
-"CycleSelection" = "Cycle selection:";
+"CycleSelection" = "Cycle selection on repeated press";
 "CycleSelectionHelp" = "When enabled, pressing the key shortcut again while keeping modifiers pressed will select the next item in the clipboard history. Releasing all keys will confirm selection and close Maccy popup.";

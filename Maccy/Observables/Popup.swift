@@ -15,11 +15,7 @@ class Popup {
   var cycleSelection: CycleSelection?
 
   init() {
-    KeyboardShortcuts.onKeyUp(for: .popup) {
-      self.toggle()
-    }
-
-    if let shortcut = KeyboardShortcuts.getShortcut(for: .cycleSelection) {
+    if let shortcut = KeyboardShortcuts.getShortcut(for: .popup) {
       cycleSelection = CycleSelection(shortcut)
     }
   }
@@ -37,7 +33,7 @@ class Popup {
   }
 
   func close() {
-    self.cycleSelection?.isOpeningReason = false  // reset
+    self.cycleSelection?.cycleMode = false  // reset
     AppState.shared.appDelegate?.panel.close()
   }
 

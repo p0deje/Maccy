@@ -7,7 +7,7 @@ class Notifier {
   static func authorize() {
     center.requestAuthorization(options: [.alert, .sound]) { _, error in
       if error != nil {
-        NSLog("Failed to authorize notifications: \(String(describing: error))")
+//        NSLog("Failed to authorize notifications: \(String(describing: error))")
       }
     }
   }

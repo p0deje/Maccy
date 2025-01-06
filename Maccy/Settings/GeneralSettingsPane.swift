@@ -35,19 +35,24 @@ struct GeneralSettingsPane: View {
       Settings.Section(label: { Text("Open", tableName: "GeneralSettings") }) {
         KeyboardShortcuts.Recorder(for: .popup)
           .help(Text("OpenTooltip", tableName: "GeneralSettings"))
-      }
-
-      Settings.Section(label: { Text("CycleSelection", tableName: "GeneralSettings") }) {
-        KeyboardShortcuts.Recorder(for: .cycleSelection) { newShortcut in
-          guard let shortcut = newShortcut else {
-            AppState.shared.popup.cycleSelection = nil
-              return
-            }
-
-          AppState.shared.popup.cycleSelection = CycleSelection(shortcut)
+        
+        Defaults.Toggle(key: .cycleSelection) {
+          Text("CycleSelection", tableName: "GeneralSettings")
         }
         .help(Text("CycleSelectionHelp", tableName: "GeneralSettings"))
       }
+
+//      Settings.Section(label: { }) {
+//        KeyboardShortcuts.Recorder(for: .cycleSelection) { newShortcut in
+//          guard let shortcut = newShortcut else {
+//            AppState.shared.popup.cycleSelection = nil
+//              return
+//            }
+//
+//          AppState.shared.popup.cycleSelection = CycleSelection(shortcut)
+//        }
+//        .help(Text("CycleSelectionHelp", tableName: "GeneralSettings"))
+//      }
 
       Settings.Section(label: { Text("Pin", tableName: "GeneralSettings") }) {
         KeyboardShortcuts.Recorder(for: .pin)
