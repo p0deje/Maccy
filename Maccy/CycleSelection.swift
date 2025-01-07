@@ -1,39 +1,43 @@
 import AppKit
 import KeyboardShortcuts
 
-/// Represents a popup action that cycles through clipboard history items.
+// MARK: - Cycle selection manager
+
+/// Manages the popup action that cycles through clipboard history items.
 final class CycleSelection {
-  
-  /// Track whether the popup was opened in "cycle" mode or "normal" mode
+  /// Indicates whether the popup is in "cycle" mode. Otherwise we are in "normal" mode
   var cycleMode = false
-  /// Transition state that happens between when the user starts pressing the shortcut and the app decides whether we are in "cycle" mode or "normal" mode
+  /// Indicates whether the user started pressing the shortcut (but the mode hasn't been decided).
   var isOpening = false
-  /// Task that decides whether to enter cycle mode or normal mode
-  private var task: DispatchWorkItem?
-  /// The event tap reference.
+  
+  /// Reference to the event tap.
   private var eventTap: CFMachPort?
   /// The event tap's run loop source.
   private var runLoopSource: CFRunLoopSource?
-  /// Pointer to callback context data (holding keyCode and modifiers).
+  /// Pointer to callback context data.
   private var callbackContextPtr: UnsafeMutableRawPointer?
-  
-  /// Initializes the popup cycle action and sets up the event tap for the popup shortcut.
-  init?(_ shortcut: KeyboardShortcuts.Shortcut) {
     
-    // Shortcut is defined by keycode & modifierts
+  init?(_ shortcut: KeyboardShortcuts.Shortcut) {
+    // Shortcut is defined by keycode & modifiers
     let keyCode: Int = shortcut.carbonKeyCode
     let modifiers: UInt64 = UInt64(shortcut.modifiers.rawValue)
     
-    // Events that we want to capture
+    // Events we want to capture
     let eventMask: CGEventMask = (1 << CGEventType.keyDown.rawValue)
-      | (1 << CGEventType.keyUp.rawValue)
       | (1 << CGEventType.flagsChanged.rawValue)
     
-    // Create and retain the context to pass along in the event callback.
-    let context = CycleSelectionCallbackContext(keyCode: keyCode, modifiers: modifiers, task: task)
-    self.callbackContextPtr = UnsafeMutableRawPointer(Unmanaged.passRetained(context).toOpaque())
+    // Create a context object for passing data to the callback
+    let context = CycleSelectionCallbackContext(
+      keyCode: keyCode,
+      modifiers: modifiers
+    )
     
-    // Create the event tap. If this fails, something is wrong at the system level.
+    // Retain and convert to an opaque pointer
+    self.callbackContextPtr = UnsafeMutableRawPointer(
+      Unmanaged.passRetained(context).toOpaque()
+    )
+    
+    // Create the event tap
     guard let eventTap = CGEvent.tapCreate(
       tap: .cgSessionEventTap,
       place: .headInsertEventTap,
@@ -47,35 +51,30 @@ final class CycleSelection {
     }
     self.eventTap = eventTap
     
-    // Wrap the tap in a run loop source and add it to the current run loop.
-    self.runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0)
+    // Create a run loop source for the tap and add it to the current run loop
+    let runLoopSource = CFMachPortCreateRunLoopSource(kCFAllocatorDefault, eventTap, 0)
+    self.runLoopSource = runLoopSource
     CFRunLoopAddSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
     
-    // Enable the event tap.
+    // Enable the event tap
     CGEvent.tapEnable(tap: eventTap, enable: true)
   }
   
-  /// Clean up resources to avoid leaks and ensure event taps are disabled on deinit.
   deinit {
-    
-    // Cancel and delete the task if created
-    task?.cancel()
-    task = nil
-    
-    // Disable and invalidate the event tap if it exists.
+    // Disable and invalidate the event tap if it exists
     if let eventTap = eventTap {
       CGEvent.tapEnable(tap: eventTap, enable: false)
       CFMachPortInvalidate(eventTap)
     }
     eventTap = nil
     
-    // Remove the run loop source if it was added.
+    // Remove the run loop source if it was added
     if let runLoopSource = runLoopSource {
       CFRunLoopRemoveSource(CFRunLoopGetCurrent(), runLoopSource, .commonModes)
     }
     runLoopSource = nil
     
-    // Release the callback context pointer if it was created.
+    // Release the retained context
     if let contextPtr = callbackContextPtr {
       Unmanaged<CycleSelectionCallbackContext>.fromOpaque(contextPtr).release()
     }
@@ -83,90 +82,81 @@ final class CycleSelection {
   }
 }
 
-/// Object that can be passed to the callback with necessary information
+// MARK: - Callback Context
+
+/// Holds info we need inside the event callback function.
 private class CycleSelectionCallbackContext {
   let keyCode: Int
   let modifiers: UInt64
-  var task: DispatchWorkItem?
   
-  init(keyCode: Int, modifiers: UInt64, task: DispatchWorkItem?) {
+  init(keyCode: Int, modifiers: UInt64) {
     self.keyCode = keyCode
     self.modifiers = modifiers
-    self.task = task
   }
 }
 
-/// The callback function that receives low-level keyboard events.
+// MARK: - Callback Function
+
+/// The low-level callback for keyboard events.
 private func cycleSelectionCallback(
   proxy: CGEventTapProxy,
   eventType: CGEventType,
   event: CGEvent,
   userInfo: UnsafeMutableRawPointer?
 ) -> Unmanaged<CGEvent>? {
-  // Make sure we can get back the context we stored.
+
   guard let userInfo = userInfo else {
-    // If there's no context, return the event unmodified.
+    NSLog("Error: Missing userInfo in cycleSelectionCallback")
     return Unmanaged.passRetained(event)
   }
   
-  // Pull out the context without transferring ownership.
-  let context = Unmanaged<CycleSelectionCallbackContext>.fromOpaque(userInfo).takeUnretainedValue()
-  let cycleSelection = AppState.shared.popup.cycleSelection!
+  let context = Unmanaged<CycleSelectionCallbackContext>
+    .fromOpaque(userInfo)
+    .takeUnretainedValue()
+
+  let popup = AppState.shared.popup
+  guard let cycleSelection = popup.cycleSelection else {
+    NSLog("Error: Missing cycleSelection reference in cycleSelectionCallback")
+    return Unmanaged.passRetained(event)
+  }
+  
   let eventFlags = parseFlags(event.flags)
   
   switch eventType {
   case .keyDown:
-    // Check for matching keyCode + modifiers
-    if isKeyCode(event, matching: context.keyCode) && isModifiers(eventFlags, matching: context.modifiers) {
-      
-      if !AppState.shared.popup.isOpen() {
-        cycleSelection.isOpening = true
-        AppState.shared.popup.open(height: AppState.shared.popup.height)
-        return nil
-      }
-      
-      // If C is kept pressed, consider that the user wants to enter cycle mode
-      if cycleSelection.isOpening {
-        context.task?.cancel()
-        cycleSelection.cycleMode = true
-        cycleSelection.isOpening = false
-        // next if will return nil after highlighting next item
-      }
-      
-      if cycleSelection.cycleMode {
-        AppState.shared.highlightNext()
-        return nil
-      }
-      
-      if AppState.shared.popup.isOpen() {
-        AppState.shared.popup.close()
-        return nil
-      }
+    // Check if this is the designated shortcut (key + modifiers) or return
+    if !isKeyCode(event, matching: context.keyCode) || !isModifiers(eventFlags, matching: context.modifiers) {
+        return Unmanaged.passRetained(event)
     }
     
-  case .keyUp:
-    if isKeyCode(event, matching: context.keyCode) && cycleSelection.isOpening {
-      // We create a task to dispatch an event after a delta. This is in case the main key is released closely but not exactly at
-      // the same time as the modifiers. Within the delta timeframe, we will assume that they were released together.
-      context.task?.cancel()
-      let task = DispatchWorkItem {
-        let flagsNewValue = parseFlags(CGEventSource.flagsState(.combinedSessionState))
-        cycleSelection.isOpening = false
-        if isModifiers(flagsNewValue, matching: context.modifiers) {
-          cycleSelection.cycleMode = true  // Keep Maccy open and put in Cycle mode
-        }  // else do nothing, just keep Maccy Open in "normal" mode
-        
-      }
-      context.task = task
-      let delta = 0.2  // seconds
-      DispatchQueue.main.asyncAfter(deadline: .now() + delta, execute: task)
-      
+    // If popup is not open, open it
+    if !popup.isOpen() {
+      cycleSelection.isOpening = true
+      popup.open(height: popup.height)
+      return nil
+    }
+    
+    // If the user presses again in opening mode, switch to cycle mode
+    if cycleSelection.isOpening {
+      cycleSelection.cycleMode = true
+      cycleSelection.isOpening = false
+      // Next 'if' will highlight next item and then return nil
+    }
+    
+    // In cycle mode, just highlight the next item
+    if cycleSelection.cycleMode {
+      AppState.shared.highlightNext()
+      return nil
+    }
+    
+    // Otherwise, if the popup is open and we are in normal mode, close it
+    if popup.isOpen() {
+      popup.close()
       return nil
     }
     
   case .flagsChanged:
-    // If the popup is open in cycle mode and the event's modifiers are released,
-    // perform a selection action and consume the event.
+    // If we are in cycle mode, releasing modifiers triggers a selection
     if cycleSelection.cycleMode && !isModifiers(eventFlags, matching: context.modifiers) {
       DispatchQueue.main.async {
         AppState.shared.select(flags: NSEvent.ModifierFlags(event.flags))
@@ -174,40 +164,52 @@ private func cycleSelectionCallback(
       return nil
     }
     
+    // Otherwise if in opening mode, enter normal mode
+    if cycleSelection.isOpening {
+      cycleSelection.isOpening = false
+      return nil
+    }
+    
   default:
     break
   }
   
-  // Cases we don't handle. Default to returning the event so that other parts of the system can see or use it.
+  // Pass any unhandled events on
   return Unmanaged.passRetained(event)
 }
 
-/// Helper function to parse the raw value of the modifier flags. Device dependent bits are filtered out
+// MARK: - Flag Parsing & Helpers
+
+/// Mask for device-independent modifier flags.
+private let deviceIndependentFlagsMask: UInt64 =
+UInt64(NSEvent.ModifierFlags.deviceIndependentFlagsMask.rawValue)
+
+/// Extracts device-independent modifier bits from `CGEventFlags`.
 private func parseFlags(_ flags: CGEventFlags) -> UInt64 {
-  return UInt64(flags.rawValue) & UInt64(NSEvent.ModifierFlags.deviceIndependentFlagsMask.rawValue)
+  return UInt64(flags.rawValue) & deviceIndependentFlagsMask
 }
 
-/// Check if a `CGEvent` has the specified key code.
+/// Returns `true` if the event's keycode matches the specified code.
 private func isKeyCode(_ event: CGEvent, matching keyCode: Int) -> Bool {
   return event.getIntegerValueField(.keyboardEventKeycode) == keyCode
 }
 
-/// Check if a `CGEvent` has (at least) the specified modifier flags.
+/// Returns `true` if `eventFlags` contain at least the given `modifiers`.
 private func isModifiers(_ eventFlags: UInt64, matching modifiers: UInt64) -> Bool {
   return (eventFlags & modifiers) == modifiers
 }
 
-/// Extension to convert CGEventFlags to NSEvent.ModifierFlags
+/// Converts `CGEventFlags` to `NSEvent.ModifierFlags`.
 private extension NSEvent.ModifierFlags {
   init(_ flags: CGEventFlags) {
     self = []
-    if flags.contains(.maskAlphaShift) { self.insert(.capsLock) }
-    if flags.contains(.maskShift) { self.insert(.shift) }
-    if flags.contains(.maskControl) { self.insert(.control) }
-    if flags.contains(.maskAlternate) { self.insert(.option) }
-    if flags.contains(.maskCommand) { self.insert(.command) }
-    if flags.contains(.maskNumericPad) { self.insert(.numericPad) }
-    if flags.contains(.maskHelp) { self.insert(.help) }
-    if flags.contains(.maskSecondaryFn) { self.insert(.function) }
+    if flags.contains(.maskAlphaShift)   { insert(.capsLock) }
+    if flags.contains(.maskShift)        { insert(.shift) }
+    if flags.contains(.maskControl)      { insert(.control) }
+    if flags.contains(.maskAlternate)    { insert(.option) }
+    if flags.contains(.maskCommand)      { insert(.command) }
+    if flags.contains(.maskNumericPad)   { insert(.numericPad) }
+    if flags.contains(.maskHelp)         { insert(.help) }
+    if flags.contains(.maskSecondaryFn)  { insert(.function) }
   }
 }

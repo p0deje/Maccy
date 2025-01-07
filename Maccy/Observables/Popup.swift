@@ -34,6 +34,7 @@ class Popup {
 
   func close() {
     self.cycleSelection?.cycleMode = false  // reset
+    self.cycleSelection?.isOpening = false  // reset
     AppState.shared.appDelegate?.panel.close()
   }
 
