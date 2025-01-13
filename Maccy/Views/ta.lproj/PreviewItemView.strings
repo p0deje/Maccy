@@ -1,1 +1,6 @@
-
+"Application" = "பயன்பாடு:";
+"FirstCopyTime" = "முதல் நகல் நேரம்:";
+"LastCopyTime" = "கடைசி நகல் நேரம்:";
+"NumberOfCopies" = "பிரதிகளின் எண்ணிக்கை:";
+"PinKey" = "{pinKey} பெறுநர் (un) முள் அழுத்தவும்.";
+"DeleteKey" = "நீக்க {deleteKey} ஐ அழுத்தவும்.";
