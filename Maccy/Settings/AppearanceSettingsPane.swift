@@ -56,7 +56,13 @@ struct AppearanceSettingsPane: View {
             ForEach(PopupPosition.allCases) { position in
               if position == .center || position == .lastPosition {
                 if screens.count > 1 {
-                  Picker(position.description, selection: $popupScreen) {
+                  let screenBinding: Binding<Int> = Binding {
+                    return popupScreen
+                  } set: {
+                    popupScreen = $0
+                    popupAt = position
+                  }
+                  Picker(position.description, selection: screenBinding) {
                     Text("ActiveScreen", tableName: "AppearanceSettings")
                       .tag(0)
 
@@ -64,9 +70,6 @@ struct AppearanceSettingsPane: View {
                       Text(screen.localizedName)
                         .tag(index + 1)
                     }
-                  }
-                  .onChange(of: popupScreen) {
-                    popupAt = position
                   }
                 } else {
                   Text(position.description)
