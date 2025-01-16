@@ -43,6 +43,12 @@ class HistoryItem {
   @MainActor
   static var randomAvailablePin: String { availablePins.randomElement() ?? "" }
 
+  private static let transientTypes: [String] = [
+    NSPasteboard.PasteboardType.modified.rawValue,
+    NSPasteboard.PasteboardType.fromMaccy.rawValue,
+    "com.apple.linkpresentation.metadata"
+  ]
+
   var application: String?
   var firstCopiedAt: Date = Date.now
   var lastCopiedAt: Date = Date.now
@@ -62,10 +68,7 @@ class HistoryItem {
   func supersedes(_ item: HistoryItem) -> Bool {
     return item.contents
       .filter { content in
-        ![
-          NSPasteboard.PasteboardType.modified.rawValue,
-          NSPasteboard.PasteboardType.fromMaccy.rawValue
-        ].contains(content.type)
+        !Self.transientTypes.contains(content.type)
       }
       .allSatisfy { content in
         contents.contains(where: { $0.type == content.type && $0.value == content.value })
