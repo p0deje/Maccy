@@ -57,8 +57,7 @@ struct AppearanceSettingsPane: View {
   }
 
   @ViewBuilder private func screenPicker(for position: PopupPosition)
-    -> some View
-  {
+    -> some View {
     let screenBinding: Binding<Int> = Binding {
       return popupScreen
     } set: {
@@ -89,8 +88,7 @@ struct AppearanceSettingsPane: View {
           Picker("", selection: $popupAt) {
             ForEach(PopupPosition.allCases) { position in
               if position == .center || position == .lastPosition,
-                screens.count > 1
-              {
+                screens.count > 1 {
                 screenPicker(for: position)
               } else {
                 Text(position.description)
