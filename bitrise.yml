@@ -1,0 +1,61 @@
+---
+format_version: '8'
+default_step_lib_source: https://github.com/bitrise-io/bitrise-steplib.git
+project_type: macos
+trigger_map:
+- push_branch: appstore
+  workflow: no-op
+- push_branch: gh-pages
+  workflow: no-op
+- push_branch: "*"
+  workflow: primary
+- pull_request_source_branch: "*"
+  workflow: primary
+workflows:
+  no-op: {}
+  primary:
+    after_run: []
+    steps:
+    - git-clone@7: {}
+    - cache-pull@2: {}
+    - certificate-and-profile-installer@1: {}
+    - recreate-user-schemes@1: {}
+    - swiftlint@0:
+        inputs:
+        - lint_config_file: ''
+        - strict: 'yes'
+        - linting_path: "$BITRISE_SOURCE_DIR"
+    - script@1:
+        inputs:
+        - script_file_path:
+        - content: |-
+            #!/usr/bin/env bash
+            # fail if any commands fails
+            set -e
+            # make pipelines' return status equal the last command to exit with a non-zero status, or zero if all commands exit successfully
+            set -o pipefail
+            # debug log
+            set -x
+
+            # Based on https://github.com/jacobsalmela/tccutil/blob/main/tccutil.py
+            sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "SELECT * FROM access;"
+            sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "INSERT INTO access VALUES(''kTCCServicePostEvent,'org.p0deje.MaccyUITests.xctrunner',0,2,4,1,NULL,NULL,0,'UNUSED',NULL,0,1726224559,NULL,NULL,'UNUSED',1726224559);"
+            sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "INSERT INTO access VALUES('kTCCServiceAccessibility','org.p0deje.MaccyUITests.xctrunner',0,2,4,1,NULL,NULL,0,'UNUSED',NULL,0,1726224559,NULL,NULL,'UNUSED',1726224559);"
+            sudo sqlite3 "/Library/Application Support/com.apple.TCC/TCC.db" "INSERT INTO access VALUES('kTCCServiceAccessibility','org.p0deje.Maccy',0,2,4,1,NULL,NULL,0,'UNUSED',NULL,0,1726224559,NULL,NULL,'UNUSED',1726224559);"
+
+            # Based on https://support.bitrise.io/en/articles/9676606-enabling-ui-automation-for-macos-tests
+            sudo automationmodetool enable-automationmode-without-authentication
+    - xcode-test-mac@1:
+        inputs:
+        - xcodebuild_options: CODE_SIGNING_ALLOWED='NO' -testPlan Maccy
+    - deploy-to-bitrise-io@2: {}
+    - cache-push@2: {}
+meta:
+  bitrise.io:
+    stack: osx-xcode-16.0.x
+    machine_type_id: g2-m1.4core
+app:
+  envs:
+  - BITRISE_PROJECT_PATH: Maccy.xcodeproj
+  - BITRISE_SCHEME: Maccy
+
