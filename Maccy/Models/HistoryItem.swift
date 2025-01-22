@@ -47,7 +47,8 @@ class HistoryItem {
     NSPasteboard.PasteboardType.modified.rawValue,
     NSPasteboard.PasteboardType.fromMaccy.rawValue,
     NSPasteboard.PasteboardType.linkPresentationMetadata.rawValue,
-    NSPasteboard.PasteboardType.customPasteboardData.rawValue
+    NSPasteboard.PasteboardType.customPasteboardData.rawValue,
+    NSPasteboard.PasteboardType.source.rawValue
   ]
 
   var application: String?
