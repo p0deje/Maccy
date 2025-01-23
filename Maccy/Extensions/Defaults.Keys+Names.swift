@@ -56,6 +56,7 @@ extension Defaults.Keys {
   static let size = Key<Int>("historySize", default: 200)
   static let sortBy = Key<Sorter.By>("sortBy", default: .lastCopiedAt)
   static let suppressClearAlert = Key<Bool>("suppressClearAlert", default: false)
+  static let historyListHeight = Key<CGFloat>("historyListHeight", default: 132) // 22 (height of HistoryItemView) * 6 items
   static let windowSize = Key<NSSize>("windowSize", default: NSSize(width: 450, height: 800))
   static let windowPosition = Key<NSPoint>("windowPosition", default: NSPoint(x: 0.5, y: 0.8))
   static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: false)

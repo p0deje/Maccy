@@ -17,6 +17,7 @@ struct AppearanceSettingsPane: View {
   @Default(.showFooter) private var showFooter
   @Default(.windowPosition) private var windowPosition
   @Default(.showApplicationIcons) private var showApplicationIcons
+  @Default(.historyListHeight) private var historyListHeight
 
   @State private var screens = NSScreen.screens
 
@@ -46,6 +47,13 @@ struct AppearanceSettingsPane: View {
     formatter.minimum = 200
     formatter.maximum = 100_000
     return formatter
+  }()
+    
+  private let historyListHeightFormatter: NumberFormatter = {
+        let formatter = NumberFormatter()
+        formatter.minimum = 100
+        formatter.maximum = 600
+        return formatter
   }()
 
   var body: some View {
@@ -99,6 +107,16 @@ struct AppearanceSettingsPane: View {
             .labelsHidden()
         }
       }
+        
+    Settings.Section(label: { Text("HistoryListHeight", tableName: "AppearanceSettings") }) {
+      HStack {
+        TextField("", value: $historyListHeight, formatter: historyListHeightFormatter)
+          .frame(width: 120)
+          .help(Text("HistoryListHeightTooltip", tableName: "AppearanceSettings"))
+        Stepper("", value: $historyListHeight, in: 100...600)
+          .labelsHidden()
+      }
+    }
 
       Settings.Section(label: { Text("PreviewDelay", tableName: "AppearanceSettings") }) {
         HStack {

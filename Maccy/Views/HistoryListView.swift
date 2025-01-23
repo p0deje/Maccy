@@ -11,6 +11,7 @@ struct HistoryListView: View {
 
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
+  @Default(.historyListHeight) private var historyListHeight
 
   private var pinnedItems: [HistoryItemDecorator] {
     appState.history.pinnedItems.filter(\.isVisible)
@@ -92,7 +93,8 @@ struct HistoryListView: View {
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
     }
-
+    .frame(minHeight: historyListHeight)
+    
     if pinTo == .bottom {
       LazyVStack(spacing: 0) {
         if showPinsSeparator {
