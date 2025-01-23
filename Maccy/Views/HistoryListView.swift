@@ -101,7 +101,7 @@ struct HistoryListView: View {
       .contentMargins(.leading, 10, for: .scrollIndicators)
     }
     .frame(minHeight: historyListHeight)
-    
+
     if pinTo == .bottom {
       LazyVStack(spacing: 0) {
         if showPinsSeparator {

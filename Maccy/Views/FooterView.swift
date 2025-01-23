@@ -8,7 +8,7 @@ struct FooterView: View {
   @Default(.showFooter) private var showFooter
   @Default(.popupOrigin) private var popupOrigin
 
-  var isVisible : Bool {
+  var isVisible: Bool {
       showFooter || popupOrigin == .statusItem
   }
 

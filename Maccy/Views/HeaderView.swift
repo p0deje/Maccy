@@ -21,7 +21,6 @@ struct HeaderView: View {
           .layoutPriority(1.5)
           .frame(width: 40)
       }
-        
 
       SearchFieldView(placeholder: "search_placeholder", query: $searchQuery)
         .focused($searchFocused)
