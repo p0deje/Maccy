@@ -7,6 +7,7 @@ struct FooterView: View {
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
   @Default(.showFooter) private var showFooter
+  @Default(.popupOrigin) private var popupOrigin
   @State private var clearOpacity: Double = 1
   @State private var clearAllOpacity: Double = 0
 
@@ -16,6 +17,10 @@ struct FooterView: View {
     return !modifierFlags.flags.isEmpty
       && !modifierFlags.flags.isSubset(of: clearModifiers)
       && modifierFlags.flags.isSubset(of: clearAllModifiers)
+  }
+    
+  var isVisible : Bool {
+      showFooter || popupOrigin == .statusItem
   }
 
   var body: some View {
@@ -62,7 +67,7 @@ struct FooterView: View {
           }
       }
     }
-    .opacity(showFooter ? 1 : 0)
-    .frame(maxHeight: showFooter ? nil : 0)
+    .opacity(isVisible ? 1 : 0)
+    .frame(maxHeight: isVisible ? nil : 0)
   }
 }

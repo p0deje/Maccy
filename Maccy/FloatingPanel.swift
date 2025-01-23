@@ -59,7 +59,9 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   func toggle(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     if isPresented {
       close()
+      Defaults[.popupOrigin] = Defaults[.popupPosition]
     } else {
+      Defaults[.popupOrigin] = popupPosition
       open(height: height, at: popupPosition)
     }
   }
