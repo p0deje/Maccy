@@ -49,8 +49,15 @@ struct HistoryListView: View {
     ScrollView {
       ScrollViewReader { proxy in
         LazyVStack(spacing: 0) {
-          ForEach(unpinnedItems) { item in
-            HistoryItemView(item: item)
+          if pinnedItems.isEmpty && unpinnedItems.isEmpty {
+            Text("No clipboard items found.")
+              .foregroundColor(.secondary)
+              .padding(.top, 20)
+              .padding(.horizontal, 10)
+          } else {
+            ForEach(unpinnedItems) { item in
+              HistoryItemView(item: item)
+            }
           }
         }
         .task(id: appState.scrollTarget) {

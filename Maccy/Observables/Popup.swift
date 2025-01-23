@@ -5,7 +5,7 @@ import Observation
 
 @Observable
 class Popup {
-  let verticalPadding: CGFloat = 5
+  let verticalPadding: CGFloat = 10
 
   var needsResize = false
   var height: CGFloat = 0

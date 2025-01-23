@@ -68,7 +68,6 @@ struct ContentView: View {
         popover.behavior = .semitransient
       }
     }
-    .padding(.vertical, 10)
   }
 }
 
