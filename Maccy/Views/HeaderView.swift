@@ -35,7 +35,7 @@ struct HeaderView: View {
           .opacity(clearAllOpacity)
       }
       .layoutPriority(1.5)
-      .frame(width: 130)
+      .frame(width: 150)
       .onChange(of: modifierFlags.flags) {
         if clearAllModifiersPressed {
           clearOpacity = 0
