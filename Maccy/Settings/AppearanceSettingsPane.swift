@@ -48,7 +48,7 @@ struct AppearanceSettingsPane: View {
     formatter.maximum = 100_000
     return formatter
   }()
-    
+
   private let historyListHeightFormatter: NumberFormatter = {
         let formatter = NumberFormatter()
         formatter.minimum = 100
@@ -107,7 +107,7 @@ struct AppearanceSettingsPane: View {
             .labelsHidden()
         }
       }
-        
+
     Settings.Section(label: { Text("HistoryListHeight", tableName: "AppearanceSettings") }) {
       HStack {
         TextField("", value: $historyListHeight, formatter: historyListHeightFormatter)
