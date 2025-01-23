@@ -35,18 +35,28 @@ enum KeyChord: CaseIterable {
   case unknown
 
   init(_ event: NSEvent?) {
-    guard let event, event.type == .keyDown,
-          let key = Sauce.shared.key(for: Int(event.keyCode)) else {
+    guard let event, event.type == .keyDown else {
       self = .unknown
       return
     }
 
-    self.init(
-      key,
-      event.modifierFlags
-        .intersection(.deviceIndependentFlagsMask)
-        .subtracting([.capsLock, .numericPad, .function])
-    )
+    let modifierFlags = event.modifierFlags
+      .intersection(.deviceIndependentFlagsMask)
+      .subtracting([.capsLock, .numericPad, .function])
+    var key: Key?
+
+    if KeyboardLayout.current.commandSwitchesToQWERTY, modifierFlags.contains(.command) {
+      key = Key(QWERTYKeyCode: Int(event.keyCode))
+    } else {
+      key = Sauce.shared.key(for: Int(event.keyCode))
+    }
+
+    guard let key else {
+      self = .unknown
+      return
+    }
+
+    self.init(key, modifierFlags)
   }
 
   init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) { // swiftlint:disable:this cyclomatic_complexity
