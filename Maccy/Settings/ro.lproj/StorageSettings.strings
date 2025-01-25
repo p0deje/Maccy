@@ -1,1 +1,13 @@
-
+"SaveDescription" = "Modifică ce tip de conținut copiat ar trebui să fie stocat.";
+"FirstCopiedAt" = "Data primei copii";
+"Title" = "Stocare";
+"Images" = "Imagini";
+"SizeTooltip" = "Numărul de elemente din istoric de păstrat.\nImplicit: 200.";
+"LastCopiedAt" = "Data ultimei copii";
+"NumberOfCopies" = "Numărul de copii";
+"SortBy" = "Sortare după:";
+"Size" = "Dimensiune:";
+"Save" = "Salvează:";
+"Text" = "Text";
+"Files" = "Fișiere";
+"SortByTooltip" = "Implicit: Data ultimei copii.";
