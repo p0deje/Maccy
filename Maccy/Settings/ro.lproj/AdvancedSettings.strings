@@ -1,1 +1,10 @@
-
+"Title" = "Avansat";
+"TurnOff" = "Oprește";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copiază datele\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"ClearHistoryOnQuit" = "Șterge istoricul la închiderea aplicației";
+"ClearHistoryOnQuitTooltip" = "Elimină automat toate elementele nefixate înainte de a închide aplicația.";
+"ClearSystemClipboardTooltip" = "Când este activat, ștergerea istoricului va șterge și clipboard-ul actual al sistemului.";
+"ClearSystemClipboard" = "Șterge și clipboard-ul sistemului";
+"TurnOffViaMenuIconDescription" = "Poți de asemenea să faci clic pe simbolul din meniu cu tasta ⌥ apăsată.\nPentru a ignora doar următoarea copie, fă clic cu ⌥⇧.";
+"TurnOffDescription" = "Ignorați temporar toate copiile noi.\nProbabil vei folosi această opțiune programatic și vei dezactiva aplicația în timp ce copiezi date sensibile.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copiază datele";
