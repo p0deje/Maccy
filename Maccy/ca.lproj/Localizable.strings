@@ -1,1 +1,20 @@
-
+"search_placeholder" = "comença a escriure per buscar…";
+"about_tooltip" = "Llegeix més sobre l'aplicació.";
+"quit_tooltip" = "Tanca l'aplicació.";
+"clear" = "Neteja";
+"clear_all" = "Neteja tots";
+"about" = "Sobre";
+"quit" = "Tanca";
+"preferences" = "Preferències…";
+"preferences_advanced" = "Avançat";
+"preferences_pins" = "Fixats";
+"paste_modifiers_config" = "• Selecciona pressionant %@ per copiar i enganxar l'element.";
+"copy_modifiers_config" = "• Selecciona pressionant %@ per copiar element.";
+"accessibility_alert_message" = "“Maccy” demana accés per controlar aquest ordinador mitjançant les funcionalitats d'accessibilitat.";
+"accessibility_alert_deny" = "Denegar";
+"accessibility_alert_open" = "Obre les Preferències del Sistema";
+"clear_alert_message" = "Estàs segur que vols esborrar l'històric?";
+"clear_tooltip" = "Neteja elements no fixats.\nSelecciona amb ⇧ per netejar tots els elements.";
+"accessibility_alert_comment" = "Dóna accés a aquesta aplicació al {panell}, dins els {ajustaments}.\n\nFes clic al botó +, selecciona Maccy, i confirma la casella de selecció al costat d'aquest.";
+"clear_all_tooltip" = "Neteja tots els elements.";
+"format_modifiers_config" = "• Selecciona pressionant %@ per copiar, netejar-ne el format i enganxar l'element.";
