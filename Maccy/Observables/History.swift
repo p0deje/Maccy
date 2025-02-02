@@ -216,12 +216,12 @@ class History { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
-  func select(_ item: HistoryItemDecorator?) {
+  func select(_ item: HistoryItemDecorator?, flags: NSEvent.ModifierFlags? = nil) {
     guard let item else {
       return
     }
 
-    let modifierFlags = NSApp.currentEvent?.modifierFlags
+    let modifierFlags = flags ?? NSApp.currentEvent?.modifierFlags
       .intersection(.deviceIndependentFlagsMask)
       .subtracting([.capsLock, .numericPad, .function]) ?? []
 
