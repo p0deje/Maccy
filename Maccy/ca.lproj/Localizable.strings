@@ -18,3 +18,13 @@
 "accessibility_alert_comment" = "Dóna accés a aquesta aplicació al {panell}, dins els {ajustaments}.\n\nFes clic al botó +, selecciona Maccy, i confirma la casella de selecció al costat d'aquest.";
 "clear_all_tooltip" = "Neteja tots els elements.";
 "format_modifiers_config" = "• Selecciona pressionant %@ per copiar, netejar-ne el format i enganxar l'element.";
+"clear_alert_comment" = "Aquesta acció no és pot desfer.";
+"clear_alert_cancel" = "Anul·lar";
+"clear_alert_confirm" = "Esborra";
+"key_used_error" = "Clau ja utilitzada.";
+"active_screen" = "Pantalla activa";
+"screen" = "Pantalla";
+"system_settings_name" = "Ajustaments del Sistema";
+"system_settings_pane" = "Ajustaments de Privacitat & Seguretat";
+"system_preferences_name" = "Ajustaments del Sistema";
+"system_preferences_pane" = "Ajustaments de Seguretat & Privacitat";
