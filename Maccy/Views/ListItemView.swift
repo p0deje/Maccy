@@ -5,6 +5,7 @@ struct ListItemView<Title: View>: View {
   var id: UUID
   var appIcon: ApplicationImage?
   var image: NSImage?
+  var accessoryImage: NSImage?
   var attributedTitle: AttributedString?
   var shortcuts: [KeyShortcut]
   var isSelected: Bool
@@ -25,19 +26,28 @@ struct ListItemView<Title: View>: View {
             .frame(width: 15, height: 15)
           Spacer(minLength: 0)
         }
-        .padding(.leading, 10)
+        .padding(.leading, 4)
         .padding(.vertical, 5)
+      }
+
+      Spacer()
+        .frame(width: showIcons ? 5 : 10)
+
+      if let accessoryImage {
+        Image(nsImage: accessoryImage)
+          .accessibilityIdentifier("copy-history-item")
+          .padding(.trailing, 5)
+          .padding(.vertical, 5)
       }
 
       if let image {
         Image(nsImage: image)
           .accessibilityIdentifier("copy-history-item")
-          .padding(.leading, showIcons ? 5 : 10)
           .padding(.trailing, 5)
           .padding(.vertical, 5)
       } else {
         ListItemTitleView(attributedTitle: attributedTitle, title: title)
-          .padding(.leading, showIcons ? 0 : 5)
+          .padding(.trailing, 5)
       }
 
       Spacer()

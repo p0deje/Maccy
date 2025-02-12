@@ -10,7 +10,8 @@ struct HistoryItemView: View {
     ListItemView(
       id: item.id,
       appIcon: item.applicationImage,
-      image: item.thumbnailImage ?? ColorImage.from(item.title),
+      image: item.thumbnailImage,
+      accessoryImage: item.thumbnailImage != nil ? nil : ColorImage.from(item.title),
       attributedTitle: item.attributedTitle,
       shortcuts: item.shortcuts,
       isSelected: item.isSelected

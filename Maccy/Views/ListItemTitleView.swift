@@ -10,13 +10,11 @@ struct ListItemTitleView<Title: View>: View {
         .accessibilityIdentifier("copy-history-item")
         .lineLimit(1)
         .truncationMode(.middle)
-        .padding(.leading, 5)
     } else {
       title()
         .accessibilityIdentifier("copy-history-item")
         .lineLimit(1)
         .truncationMode(.middle)
-        .padding(.leading, 5)
     }
   }
 }
