@@ -80,7 +80,8 @@ enum KeyChord: CaseIterable {
          (.j, [.control]):
       self = .moveToNext
     case (.downArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
-         (.n, [.control, .option]):
+         (.n, [.control, .option]),
+         (.pageDown, []):
       self = .moveToLast
     case (.upArrow, []),
          (.upArrow, [.shift]),
@@ -89,7 +90,8 @@ enum KeyChord: CaseIterable {
          (.k, [.control]):
       self = .moveToPrevious
     case (.upArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
-         (.p, [.control, .option]):
+         (.p, [.control, .option]),
+         (.pageUp, []):
       self = .moveToFirst
     case (KeyChord.pinKey, KeyChord.pinModifiers):
       self = .pinOrUnpin
