@@ -1,6 +1,6 @@
 "Application" = "Dastur:";
 "FirstCopyTime" = "Nusxalangan vaqti:";
 "LastCopyTime" = "Oxirgi nusxa olingan vaqti:";
-"NumberOfCopies" = "Nusxalar soni:";
+"NumberOfCopies" = "Nusxalar jami soni:";
 "PinKey" = "Biriktirish/o‘chirish uchun {pinKey} tugmasini bosing.";
 "DeleteKey" = "O‘chirish uchun {deleteKey} tugmasini bosing.";
