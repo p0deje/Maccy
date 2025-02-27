@@ -1,4 +1,4 @@
-"Title" = "Pins";
-"Key" = "Key";
-"Alias" = "Title";
-"PinCustomizationDescription" = "You can customize the title and hotkey of every pinned item.\nTo edit, double-click it and enter new value.";
+"Title" = "Qadalganlar";
+"Key" = "Kalit";
+"Alias" = "Sarlavha";
+"PinCustomizationDescription" = "Har bir qadalgan element sarlavhasi va tezkor tugmani sozlashingiz mumkin.\nTahrirlash uchun uni ikki marta bosing va yangi qiymatni kiriting.";
