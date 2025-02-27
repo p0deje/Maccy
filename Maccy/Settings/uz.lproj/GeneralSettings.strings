@@ -1,1 +1,20 @@
-
+"Fuzzy" = "Noaniq";
+"Mixed" = "Aralash";
+"NotificationsAndSounds" = "Bildirishnoma va tovushlar 􀱁";
+"Title" = "Asosiy";
+"LaunchAtLogin" = "Kirish paytida ishga tushirish";
+"CheckForUpdates" = "Yangilanishlarni avtomatik ravishda tekshirish";
+"CheckNow" = "Hozir tekshir";
+"Open" = "Ochish:";
+"OpenTooltip" = "Ilovani ochish uchun global shortcut. \nStandart: ⇧⌘C.";
+"Pin" = "Mustahkamlash:";
+"PinTooltip" = "Tarix elementini mahkamlash uchun yorliq tugmasi. \nStandart: ⌥P.";
+"Delete" = "O'chirish:";
+"DeleteTooltip" = "Tarix elementini o'chirish uchun yorliq tugmasi. \nStandart: ⌥⌫.";
+"Behavior" = "Xatti-harakat:";
+"PasteAutomatically" = "Avtomatik joylashtirish";
+"PasteWithoutFormatting" = "Formatlashsiz joylashtirish";
+"Modifiers" = "Elementni tanlashda harakatni moslashtiring: \n• Elementni nusxalash uchun %@ tugmasini bosgan holda tanlang. \n• Elementni nusxalash va joylashtirish uchun %@ bosilgan holda tanlang. \n• Nusxa olish, formatlashni tozalash va joylashtirish uchun %@ bosilganda tanlang.";
+"Search" = "Qidirish:";
+"Exact" = "Aniq";
+"Regex" = "Muntazam ifodalar";
