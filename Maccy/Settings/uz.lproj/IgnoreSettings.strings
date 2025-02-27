@@ -1,0 +1,9 @@
+"Title" = "Ignore";
+"ApplicationsTab" = "Applications";
+"IgnoredAppsDescription" = "It's possible to ignore copies coming from certain applications.\nPlease note that the way it works is not bullet-proof, so it's better to use pasteboard types when possible.";
+"IgnoredAllAppsExceptListed" = "Ignore all applications except listed";
+"PasteboardTypesTab" = "Pasteboard types";
+"IgnoredPasteboardTypesDescription" = "It's possible to ignore certain pasteboard item types from remembering.\nBy default, some known application-specific types are defined. You can remove them and add any custom types you want.";
+"IgnoredPasteboardTypesReset" = "Reset";
+"RegexpTab" = "Regular expressions";
+"IgnoredRegexpsDescription" = "It's possible to ignore certain copies from remembering based on defined regular expressions.";
