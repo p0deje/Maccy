@@ -13,7 +13,7 @@
 "PasteWithoutFormatting" = "Formatlashsiz joylashtirish";
 "Modifiers" = "Elementni tanlashda harakatni moslashtiring:\n• Elementni nusxalash uchun %@ tugmasini bosgan holda tanlang.\n• Elementni nusxalash va joylashtirish uchun %@ bosilgan holda tanlang.\n• Nusxa olish, formatlashni tozalash va joylashtirish uchun %@ bosilganda tanlang.";
 "Search" = "Qidirish:";
-"Exact" = "Exact";
+"Exact" = "Aniq";
 "Fuzzy" = "Noaniq";
 "Regex" = "Regular expressions";
 "Mixed" = "Aralash";
