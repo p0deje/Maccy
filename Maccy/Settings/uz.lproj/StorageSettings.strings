@@ -1,0 +1,14 @@
+"Title" = "Hotira";
+"Save" = "Saqlash:";
+"Files" = "Fayllar";
+"Images" = "Rasmlar";
+"Text" = "Matnlar";
+"SaveDescription" = "Qaysi turdagi nusxalarni saqlab qolish uchun belgilang.";
+"Size" = "Hajmi:";
+"SizeTooltip" = "Saqlanishi kerak bo'lgan oxirgi elementlari soni.\Standart: 200.";
+"CurrentSizeTooltip" = "Diskdagi joriy o'lcham.";
+"SortBy" = "Saralash turi:";
+"LastCopiedAt" = "Oxirgi nusxalangan";
+"FirstCopiedAt" = "Birinchi nusxalangan";
+"NumberOfCopies" = "Nusxalanganlar soni";
+"SortByTooltip" = "Standart: Eng oxirgi nusxalangan.";
