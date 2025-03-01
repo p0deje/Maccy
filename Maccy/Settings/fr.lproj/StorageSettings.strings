@@ -2,7 +2,7 @@
 "Save" = "Sauver :";
 "Files" = "Fichiers";
 "Images" = "Images";
-"Text" = "Texte";
+"Text" = "Textes";
 "SaveDescription" = "Modifiez les types de contenu copié à stocker.";
 "Size" = "Taille :";
 "SizeTooltip" = "Nombre d'éléments à garder dans l'historique.\nPar défaut : 200.";
