@@ -12,7 +12,7 @@ and lets you quickly navigate, search, and use previous clipboard contents.
 Maccy works on macOS Sonoma 14 or higher.
 
 > [!WARNING]
-> This product is habit forming. Once you go Maccy, you never go backy
+> This product is habit forming. Once you go Maccy, you never go backy.
 
 <!-- vim-markdown-toc GFM -->
 
