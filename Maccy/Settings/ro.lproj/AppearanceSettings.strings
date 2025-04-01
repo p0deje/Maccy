@@ -1,1 +1,10 @@
-
+"Title" = "Aspect";
+"PopupAt" = "Popup-ul apare:";
+"PopupAtCursor" = "Cursor";
+"PopupAtMenuBarIcon" = "Iconiță meniu";
+"PopupAtWindowCenter" = "Centrul ferestrei";
+"PopupAtScreenCenter" = "Centrul ecranului";
+"PopupAtLastPosition" = "Ultima locatie";
+"PopupAtLastLocationReset" = "Reseteaza locatia";
+"PopupAtTooltip" = "Schimba unde apare popup-ul.\nImplicit: Cursor.";
+"SearchVisibilityAlways" = "Întotdeauna";
