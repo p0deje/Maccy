@@ -83,7 +83,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
     self.item = item
     self.shortcuts = shortcuts
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
-    
+
     if item.secret && item.title.count > 2 {
       let first = String(item.title.prefix(1))
       let last = String(item.title.suffix(1))

@@ -258,7 +258,7 @@ class History { // swiftlint:disable:this type_body_length
         existing.secret = item.item.secret
       }
     }
-    
+
     Task {
       searchQuery = ""
     }
@@ -289,18 +289,18 @@ class History { // swiftlint:disable:this type_body_length
   @MainActor
   func toggleSecret(_ item: HistoryItemDecorator?) {
     guard let item else { return }
-    
+
     item.toggleSecret()
-    
+
     // Update the item title display immediately
     if let index = items.firstIndex(of: item) {
       items[index] = item
     }
-    
+
     if let index = all.firstIndex(of: item) {
       all[index] = item
     }
-    
+
     // If we're viewing the item, update it in realtime
     if item.isSelected {
       selectedItem = item
