@@ -53,9 +53,20 @@ class HistoryItemDecorator: Identifiable, Hashable {
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
+  var isSecret: Bool { item.secret }
 
   // 10k characters seems to be more than enough on large displays
-  var text: String { item.previewableText.shortened(to: 10_000) }
+  var text: String {
+    let originalText = item.previewableText.shortened(to: 10_000)
+    if item.secret && originalText.count > 2 {
+      let first = String(originalText.prefix(1))
+      let last = String(originalText.suffix(1))
+      let maskLength = min(originalText.count - 2, 10) // Use at most 10 asterisks
+      let mask = String(repeating: "*", count: maskLength)
+      return first + mask + last
+    }
+    return originalText
+  }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
@@ -71,8 +82,17 @@ class HistoryItemDecorator: Identifiable, Hashable {
   init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
     self.item = item
     self.shortcuts = shortcuts
-    self.title = item.title
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
+    
+    if item.secret && item.title.count > 2 {
+      let first = String(item.title.prefix(1))
+      let last = String(item.title.suffix(1))
+      let maskLength = min(item.title.count - 2, 10) // Use at most 10 asterisks
+      let mask = String(repeating: "*", count: maskLength)
+      self.title = first + mask + last
+    } else {
+      self.title = item.title
+    }
 
     synchronizeItemPin()
     synchronizeItemTitle()
@@ -128,6 +148,21 @@ class HistoryItemDecorator: Identifiable, Hashable {
     }
   }
 
+  @MainActor
+  func toggleSecret() {
+    item.secret.toggle()
+    // Update the title display immediately
+    if item.secret && item.title.count > 2 {
+      let first = String(item.title.prefix(1))
+      let last = String(item.title.suffix(1))
+      let maskLength = min(item.title.count - 2, 10)
+      let mask = String(repeating: "*", count: maskLength)
+      title = first + mask + last
+    } else {
+      title = item.title
+    }
+  }
+
   private func synchronizeItemPin() {
     _ = withObservationTracking {
       item.pin
@@ -146,7 +181,15 @@ class HistoryItemDecorator: Identifiable, Hashable {
       item.title
     } onChange: {
       DispatchQueue.main.async {
-        self.title = self.item.title
+        if self.item.secret && self.item.title.count > 2 {
+          let first = String(self.item.title.prefix(1))
+          let last = String(self.item.title.suffix(1))
+          let maskLength = min(self.item.title.count - 2, 10) // Use at most 10 asterisks
+          let mask = String(repeating: "*", count: maskLength)
+          self.title = first + mask + last
+        } else {
+          self.title = self.item.title
+        }
         self.synchronizeItemTitle()
       }
     }

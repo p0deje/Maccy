@@ -25,4 +25,7 @@ extension NSPasteboard.PasteboardType: Defaults.Serializable {
   // Safari preview and extra metadata that changes frequently.
   static let linkPresentationMetadata = NSPasteboard.PasteboardType(rawValue: "com.apple.linkpresentation.metadata")
   static let customPasteboardData = NSPasteboard.PasteboardType(rawValue: "com.apple.WebKit.custom-pasteboard-data")
+  
+  // Store secret status information
+  static let secret = NSPasteboard.PasteboardType(rawValue: "org.p0deje.Maccy.secret")
 }
