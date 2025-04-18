@@ -1,5 +1,6 @@
 import Defaults
 import SwiftUI
+import AppKit
 
 struct FooterView: View {
   @Bindable var footer: Footer
@@ -52,6 +53,32 @@ struct FooterView: View {
 
       ForEach(footer.items.suffix(from: 2)) { item in
         FooterItemView(item: item)
+      }
+      
+      // Display source URL if available
+      if let selectedItem = appState.history.selectedItem, 
+         let sourceURL = selectedItem.sourceURL, 
+         !sourceURL.isEmpty {
+        Divider()
+          .padding(.horizontal, 10)
+          .padding(.vertical, 2)
+        
+        HStack {
+            Image(systemName: "link")
+                .font(.caption)
+            
+            Text(sourceURL)
+                .font(.caption)
+                .lineLimit(1)
+                .truncationMode(.middle)
+        }
+        .foregroundColor(.secondary)
+        .padding(.horizontal, 4)
+        .padding(EdgeInsets(top: 0, leading: 0, bottom: 4, trailing: 0))
+        .onTapGesture {
+            guard let nsUrl = URL(string: sourceURL) else { return }
+            NSWorkspace.shared.open(nsUrl)
+        }
       }
     }
     .background {

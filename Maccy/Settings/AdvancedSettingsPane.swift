@@ -37,6 +37,12 @@ struct AdvancedSettingsPane: View {
       Defaults.Toggle(key: .clearSystemClipboard) {
         Text("ClearSystemClipboard", tableName: "AdvancedSettings")
       }.help(Text("ClearSystemClipboardTooltip", tableName: "AdvancedSettings"))
+
+      Divider()
+
+      Defaults.Toggle(key: .trackChromeURLs) {
+        Text("Track Chrome URLs")
+      }.help(Text("Captures the URL from Chrome tabs when copying content"))
     }
     .frame(minWidth: 350, maxWidth: 450)
     .padding()

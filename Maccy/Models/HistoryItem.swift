@@ -56,6 +56,7 @@ class HistoryItem {
   var lastCopiedAt: Date = Date.now
   var numberOfCopies: Int = 1
   var pin: String?
+  var sourceURL: String?
   var title = ""
 
   @Relationship(deleteRule: .cascade)

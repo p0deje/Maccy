@@ -34,5 +34,7 @@
 	<true/>
 	<key>SUFeedURL</key>
 	<string>https://raw.githubusercontent.com/p0deje/Maccy/master/appcast.xml</string>
+	<key>NSAppleEventsUsageDescription</key>
+	<string>Maccy needs permission to access browser information to track where you copied content from.</string>
 </dict>
 </plist>

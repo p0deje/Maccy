@@ -216,6 +216,11 @@ class Clipboard {
     historyItem.contents = contents
     historyItem.application = sourceApp?.bundleIdentifier
     historyItem.title = historyItem.generateTitle()
+    
+    // Capture URL from Chrome if applicable
+    if Defaults[.trackChromeURLs] && sourceApp?.bundleIdentifier?.contains("com.google.Chrome") == true {
+      historyItem.sourceURL = getCurrentChromeURL()
+    }
 
     onNewCopyHooks.forEach({ $0(historyItem) })
   }
@@ -308,5 +313,24 @@ class Clipboard {
     }
 
     return newContents
+  }
+
+  private func getCurrentChromeURL() -> String? {
+    guard sourceApp?.bundleIdentifier?.contains("com.google.Chrome") == true else {
+      return nil
+    }
+    
+    let script = """
+    tell application "Google Chrome"
+      get URL of active tab of first window
+    end tell
+    """
+    
+    var error: NSDictionary?
+    if let scriptObject = NSAppleScript(source: script) {
+      let output = scriptObject.executeAndReturnError(&error)
+      return error == nil ? output.stringValue : nil
+    }
+    return nil
   }
 }

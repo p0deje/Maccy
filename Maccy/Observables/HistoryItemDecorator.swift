@@ -59,6 +59,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
+  var sourceURL: String? { item.sourceURL }
 
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
