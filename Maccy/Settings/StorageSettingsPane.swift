@@ -96,7 +96,7 @@ struct StorageSettingsPane: View {
           TextField("", value: $size, formatter: sizeFormatter)
             .frame(width: 80)
             .help(Text("SizeTooltip", tableName: "StorageSettings"))
-          Stepper("", value: $size, in: 1...9999)
+          Stepper("", value: $size, in: 1...999)
             .labelsHidden()
           Text(Storage.shared.size)
             .controlSize(.small)
