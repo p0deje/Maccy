@@ -48,7 +48,8 @@ class HistoryItem {
     NSPasteboard.PasteboardType.fromMaccy.rawValue,
     NSPasteboard.PasteboardType.linkPresentationMetadata.rawValue,
     NSPasteboard.PasteboardType.customPasteboardData.rawValue,
-    NSPasteboard.PasteboardType.source.rawValue
+    NSPasteboard.PasteboardType.source.rawValue,
+    NSPasteboard.PasteboardType.secret.rawValue
   ]
 
   var application: String?
@@ -56,6 +57,7 @@ class HistoryItem {
   var lastCopiedAt: Date = Date.now
   var numberOfCopies: Int = 1
   var pin: String?
+  var secret: Bool = false
   var title = ""
 
   @Relationship(deleteRule: .cascade)

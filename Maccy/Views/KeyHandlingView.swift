@@ -99,6 +99,9 @@ struct KeyHandlingView<Content: View>: View {
         case .pinOrUnpin:
           appState.history.togglePin(appState.history.selectedItem)
           return .handled
+        case .secretOrUnsecret:
+          appState.history.toggleSecret(appState.history.selectedItem)
+          return .handled
         case .selectCurrentItem:
           appState.select()
           return .handled
