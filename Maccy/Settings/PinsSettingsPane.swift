@@ -93,7 +93,7 @@ struct PinsSettingsPane: View {
           PinTitleView(item: item)
         }
         
-        TableColumn(Text("Value", tableName: "PinsSettings")) { item in
+        TableColumn(Text("Content", tableName: "PinsSettings")) { item in
           PinValueView(item: item)
         }
       }

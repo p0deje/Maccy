@@ -1,5 +1,5 @@
 "Title" = "Pins";
 "Key" = "Key";
 "Alias" = "Title";
-"Value" = "Value";
-"PinCustomizationDescription" = "You can customize the title, value, and hotkey of every pinned item.\nTo edit, double-click it and enter new value.";
+"Content" = "Content";
+"PinCustomizationDescription" = "You can customize the title, content, and hotkey of every pinned item.\nTo edit, double-click it and enter new value.";
