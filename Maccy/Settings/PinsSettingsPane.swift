@@ -31,20 +31,20 @@ struct PinValueView: View {
   @Bindable var item: HistoryItem
   @State private var editableValue: String
   @State private var isTextContent: Bool
-  
+
   init(item: HistoryItem) {
     self.item = item
     self._editableValue = State(initialValue: item.previewableText)
-    
+
     // Check if this item has editable text content
     let hasPlainText = item.text != nil
     let hasImage = item.image != nil
     let hasFileURLs = !item.fileURLs.isEmpty
-    
+
     // Consider it text content only if it has plain text and doesn't have images or file URLs
     self._isTextContent = State(initialValue: hasPlainText && !hasImage && !hasFileURLs)
   }
-  
+
   var body: some View {
     Group {
       if isTextContent {
@@ -63,11 +63,11 @@ struct PinValueView: View {
       }
     }
   }
-  
+
   private func updateItemContent() {
     // Only update if we're dealing with text content
     guard isTextContent else { return }
-    
+
     // Find string content if it exists
     let stringType = NSPasteboard.PasteboardType.string.rawValue
     if let index = item.contents.firstIndex(where: { $0.type == stringType }) {
@@ -81,7 +81,7 @@ struct PinValueView: View {
         item.contents.append(newContent)
       }
     }
-    
+
     // We don't automatically update title here since we want to preserve
     // OCR-extracted titles for images and other non-text content
   }
@@ -111,7 +111,7 @@ struct PinsSettingsPane: View {
         TableColumn(Text("Alias", tableName: "PinsSettings")) { item in
           PinTitleView(item: item)
         }
-        
+
         TableColumn(Text("Content", tableName: "PinsSettings")) { item in
           PinValueView(item: item)
         }
