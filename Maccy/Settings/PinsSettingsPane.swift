@@ -27,6 +27,47 @@ struct PinTitleView: View {
   }
 }
 
+struct PinValueView: View {
+  @Bindable var item: HistoryItem
+  @State private var editableValue: String
+  
+  init(item: HistoryItem) {
+    self.item = item
+    self._editableValue = State(initialValue: item.previewableText)
+  }
+  
+  var body: some View {
+    TextField("", text: $editableValue)
+      .onSubmit {
+        updateItemContent()
+      }
+      .onChange(of: editableValue) { _, _ in
+        updateItemContent()
+      }
+  }
+  
+  private func updateItemContent() {
+    // Find string content if it exists
+    let stringType = NSPasteboard.PasteboardType.string.rawValue
+    if let index = item.contents.firstIndex(where: { $0.type == stringType }) {
+      if let data = editableValue.data(using: .utf8) {
+        item.contents[index].value = data
+      }
+    } else {
+      // Create new string content if it doesn't exist
+      if let data = editableValue.data(using: .utf8) {
+        let newContent = HistoryItemContent(type: stringType, value: data)
+        item.contents.append(newContent)
+      }
+    }
+    
+    // Update title if it's empty or was the same as previewableText
+    if item.title.isEmpty || item.title == item.previewableText {
+      item.title = editableValue
+    }
+  }
+}
+
 struct PinsSettingsPane: View {
   @Environment(AppState.self) private var appState
   @Environment(\.modelContext) private var modelContext
@@ -50,6 +91,10 @@ struct PinsSettingsPane: View {
 
         TableColumn(Text("Alias", tableName: "PinsSettings")) { item in
           PinTitleView(item: item)
+        }
+        
+        TableColumn(Text("Value", tableName: "PinsSettings")) { item in
+          PinValueView(item: item)
         }
       }
       .onAppear {
