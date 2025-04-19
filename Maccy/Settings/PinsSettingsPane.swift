@@ -30,23 +30,44 @@ struct PinTitleView: View {
 struct PinValueView: View {
   @Bindable var item: HistoryItem
   @State private var editableValue: String
+  @State private var isTextContent: Bool
   
   init(item: HistoryItem) {
     self.item = item
     self._editableValue = State(initialValue: item.previewableText)
+    
+    // Check if this item has editable text content
+    let hasPlainText = item.text != nil
+    let hasImage = item.image != nil
+    let hasFileURLs = !item.fileURLs.isEmpty
+    
+    // Consider it text content only if it has plain text and doesn't have images or file URLs
+    self._isTextContent = State(initialValue: hasPlainText && !hasImage && !hasFileURLs)
   }
   
   var body: some View {
-    TextField("", text: $editableValue)
-      .onSubmit {
-        updateItemContent()
+    Group {
+      if isTextContent {
+        TextField("", text: $editableValue)
+          .onSubmit {
+            updateItemContent()
+          }
+          .onChange(of: editableValue) { _, _ in
+            updateItemContent()
+          }
+      } else {
+        // Non-editable display for non-text content
+        Text("ContentIsNotText", tableName: "PinsSettings")
+          .foregroundStyle(.secondary)
+          .italic()
       }
-      .onChange(of: editableValue) { _, _ in
-        updateItemContent()
-      }
+    }
   }
   
   private func updateItemContent() {
+    // Only update if we're dealing with text content
+    guard isTextContent else { return }
+    
     // Find string content if it exists
     let stringType = NSPasteboard.PasteboardType.string.rawValue
     if let index = item.contents.firstIndex(where: { $0.type == stringType }) {
@@ -61,10 +82,8 @@ struct PinValueView: View {
       }
     }
     
-    // Update title if it's empty or was the same as previewableText
-    if item.title.isEmpty || item.title == item.previewableText {
-      item.title = editableValue
-    }
+    // We don't automatically update title here since we want to preserve
+    // OCR-extracted titles for images and other non-text content
   }
 }
 
