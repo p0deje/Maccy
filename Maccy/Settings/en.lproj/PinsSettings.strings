@@ -3,5 +3,5 @@
 "Alias" = "Title";
 "Content" = "Content";
 "ContentIsNotText" = "Non-editable content (image or file)";
-"RichTextEditWarning" = "Editing will discard all the formatting";
+"RichTextEditWarning" = "Editing will discard all formatting.";
 "PinCustomizationDescription" = "You can customize the hotkey, title, and content of any pinned item. To edit, double-click the item and enter a new value.\nPlease note that only plain text can be changed";
