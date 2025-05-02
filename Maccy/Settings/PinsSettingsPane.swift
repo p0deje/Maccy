@@ -69,20 +69,9 @@ struct PinValueView: View {
           if isRichText && isEditing {
             HStack(spacing: 0) {
               Spacer(minLength: 0)
-              Button(action: { showWarningPopover.toggle() }) {
-                Image(systemName: "exclamationmark.triangle.fill")
-                  .foregroundColor(.orange)
-              }
-              .buttonStyle(.plain)
-              .popover(isPresented: $showWarningPopover, arrowEdge: .trailing) {
-                Text("RichTextEditWarning", tableName: "PinsSettings")
-                  .padding(8)
-                  .frame(minWidth: 180)
-              }
-              .onHover { hovering in
-                showWarningPopover = hovering
-              }
-              .help(Text("RichTextEditWarning", tableName: "PinsSettings"))
+              Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundColor(.orange)
+                .help(Text("RichTextEditWarning", tableName: "PinsSettings"))
               Spacer().frame(width: 4)
             }
             .frame(maxHeight: .infinity, alignment: .center)
@@ -108,14 +97,14 @@ struct PinValueView: View {
 
     // Update or add the plain text content
     if let index = item.contents.firstIndex(where: { $0.type == stringType }) {
-        if let data = editableValue.data(using: .utf8) {
-            item.contents[index].value = data
-        }
+      if let data = editableValue.data(using: .utf8) {
+        item.contents[index].value = data
+      }
     } else {
-        if let data = editableValue.data(using: .utf8) {
-            let newContent = HistoryItemContent(type: stringType, value: data)
-            item.contents.append(newContent)
-        }
+      if let data = editableValue.data(using: .utf8) {
+        let newContent = HistoryItemContent(type: stringType, value: data)
+        item.contents.append(newContent)
+      }
     }
     // We don't automatically update title here since we want to preserve
     // OCR-extracted titles for images and other non-text content
