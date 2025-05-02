@@ -9,7 +9,7 @@
 Maccy is a lightweight clipboard manager for macOS. It keeps the history of what you copy
 and lets you quickly navigate, search, and use previous clipboard contents.
 
-Maccy works on macOS Sonoma 14 or higher.
+Maccy works on macOS Sonoma 14 or higher.b
 
 <!-- vim-markdown-toc GFM -->
 
