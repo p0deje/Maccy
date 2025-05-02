@@ -7,8 +7,10 @@ struct PinPickerView: View {
 
   var body: some View {
     if let pin = item.pin {
+      // Ensure unique pins for ForEach
+      let uniquePins = Array(Set(availablePins + [pin])).sorted()
       Picker("", selection: $item.pin) {
-        ForEach((availablePins + [pin]).sorted()) { pin in
+        ForEach(uniquePins, id: \.self) { pin in
           Text(pin)
             .tag(pin as String?)
         }
@@ -31,6 +33,9 @@ struct PinValueView: View {
   @Bindable var item: HistoryItem
   @State private var editableValue: String
   @State private var isTextContent: Bool
+  @State private var isRichText: Bool
+  @FocusState private var isEditing: Bool
+  @State private var showWarningPopover: Bool = false
 
   init(item: HistoryItem) {
     self.item = item
@@ -40,21 +45,50 @@ struct PinValueView: View {
     let hasPlainText = item.text != nil
     let hasImage = item.image != nil
     let hasFileURLs = !item.fileURLs.isEmpty
+    let hasRichText = item.rtf != nil || item.html != nil
 
     // Consider it text content only if it has plain text and doesn't have images or file URLs
     self._isTextContent = State(initialValue: hasPlainText && !hasImage && !hasFileURLs)
+    self._isRichText = State(initialValue: hasRichText && !hasImage && !hasFileURLs)
   }
 
   var body: some View {
     Group {
-      if isTextContent {
-        TextField("", text: $editableValue)
-          .onSubmit {
-            updateItemContent()
+      if isTextContent || isRichText {
+        ZStack(alignment: .trailing) {
+          TextField("", text: $editableValue)
+            .focused($isEditing)
+            .onSubmit {
+              updateItemContent()
+            }
+            .onChange(of: editableValue) { _, _ in
+              updateItemContent()
+            }
+            .padding(.trailing, isRichText ? 40 : 0) // increased space for icon
+
+          if isRichText && isEditing {
+            HStack(spacing: 0) {
+              Spacer(minLength: 0)
+              Button(action: { showWarningPopover.toggle() }) {
+                Image(systemName: "exclamationmark.triangle.fill")
+                  .foregroundColor(.orange)
+              }
+              .buttonStyle(.plain)
+              .popover(isPresented: $showWarningPopover, arrowEdge: .trailing) {
+                Text("RichTextEditWarning", tableName: "PinsSettings")
+                  .padding(8)
+                  .frame(minWidth: 180)
+              }
+              .onHover { hovering in
+                showWarningPopover = hovering
+              }
+              .help(Text("RichTextEditWarning", tableName: "PinsSettings"))
+              Spacer().frame(width: 4)
+            }
+            .frame(maxHeight: .infinity, alignment: .center)
+            .padding(.trailing, 4)
           }
-          .onChange(of: editableValue) { _, _ in
-            updateItemContent()
-          }
+        }
       } else {
         // Non-editable display for non-text content
         Text("ContentIsNotText", tableName: "PinsSettings")
@@ -65,23 +99,24 @@ struct PinValueView: View {
   }
 
   private func updateItemContent() {
-    // Only update if we're dealing with text content
-    guard isTextContent else { return }
+    // Only update if we're dealing with text or rich text content
+    guard isTextContent || isRichText else { return }
 
-    // Find string content if it exists
+    // Remove all non-plain-text content
     let stringType = NSPasteboard.PasteboardType.string.rawValue
-    if let index = item.contents.firstIndex(where: { $0.type == stringType }) {
-      if let data = editableValue.data(using: .utf8) {
-        item.contents[index].value = data
-      }
-    } else {
-      // Create new string content if it doesn't exist
-      if let data = editableValue.data(using: .utf8) {
-        let newContent = HistoryItemContent(type: stringType, value: data)
-        item.contents.append(newContent)
-      }
-    }
+    item.contents.removeAll { $0.type != stringType }
 
+    // Update or add the plain text content
+    if let index = item.contents.firstIndex(where: { $0.type == stringType }) {
+        if let data = editableValue.data(using: .utf8) {
+            item.contents[index].value = data
+        }
+    } else {
+        if let data = editableValue.data(using: .utf8) {
+            let newContent = HistoryItemContent(type: stringType, value: data)
+            item.contents.append(newContent)
+        }
+    }
     // We don't automatically update title here since we want to preserve
     // OCR-extracted titles for images and other non-text content
   }
