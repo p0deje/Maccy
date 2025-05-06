@@ -1,1 +1,10 @@
-
+"ClearHistoryOnQuit" = "বন্ধ করে ছেড়ে যাওয়ার সময় ইতিহাস সাফ করুন";
+"ClearHistoryOnQuitTooltip" = "অ্যাপ্লিকেশনটি ছাড়ার আগে সমস্ত আনপিন করা আইটেম স্বয়ংক্রিয়ভাবে সরিয়ে ফেলুন।";
+"Title" = "অত্যাধুনিক উন্নত";
+"TurnOff" = "বন্ধ করো";
+"TurnOffDescription" = "সমস্ত নতুন কপি সাময়িকভাবে উপেক্ষা করুন।\nআপনি এটি সম্ভবত প্রোগ্রাম্যাটিকভাবে ব্যবহার করবেন এবং সংবেদনশীল ডেটা কপি করার সময় অ্যাপ্লিকেশনটি অক্ষম করতে পারেন।";
+"TurnOffShellScript" = "ডিফল্ট লিখুন org.p0deje.Maccy ignoreEvents true\n# ডেটা কপি করুন\nডিফল্ট লিখুন org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "আপনি ⌥ চেপে মেনু আইকনেও ক্লিক করতে পারেন।\nশুধুমাত্র পরবর্তী কপিটি উপেক্ষা করতে, ⌥⇧ চেপে ধরে ক্লিক করুন।";
+"TurnOffNextShellScript" = "ডিফল্ট লিখুন org.p0deje.Maccy ignoreOnlyNextEvent true\n# ডেটা কপি করুন";
+"ClearSystemClipboard" = "সিস্টেম ক্লিপবোর্ডটিও সাফ করুন";
+"ClearSystemClipboardTooltip" = "সক্রিয় থাকাকালীন, ইতিহাস সাফ করলে বর্তমান সিস্টেম ক্লিপবোর্ডও সাফ হয়ে যাবে।";
