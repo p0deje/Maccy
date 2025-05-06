@@ -7,11 +7,11 @@
 "about" = "সম্পর্ক";
 "quit" = "বন্ধ";
 "preferences" = "পছন্দসমূহ…";
-"preferences_advanced" = "উন্নত";
+"preferences_advanced" = "অত্যাধুনিক উন্নত";
 "preferences_pins" = "পিনগুলো";
 "copy_modifiers_config" = "• আইটেম কপি করতে %@ চাপ দিয়ে নির্বাচন করুন।";
 "accessibility_alert_comment" = "{settings}-এ অবস্থিত {pane}-এ এই অ্যাপ্লিকেশনটিতে অ্যাক্সেস মঞ্জুর করুন৷\n\n+ বোতামে ক্লিক করুন, Maccy নির্বাচন করুন এবং এর পাশের চেকবক্সে টগল করুন।";
-"clear_alert_comment" = "আপনি এই ক্রিয়াটিকে পূর্বাবস্থায় ফেরাতে পারবেন না।";
+"clear_alert_comment" = "আপনি এই কাজটি করতে পারবেন না।";
 "clear_alert_cancel" = "বাতিল করুন";
 "clear_alert_confirm" = "মুছুন";
 "key_used_error" = "কি ইতিমধ্যে ব্যবহার করা হয়েছে।";
