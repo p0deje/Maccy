@@ -1,1 +1,9 @@
-
+"Title" = "Ignorera";
+"ApplicationsTab" = "Appar";
+"IgnoredAppsDescription" = "Det är möjligt att ignorera kopieringar från vissa appar.\nObservera att detta sätt inte är helt tillförlitligt, så det är bättre att använda urklippstyper om möjligt.";
+"IgnoredAllAppsExceptListed" = "Ignorera alla appar utom de som listas";
+"PasteboardTypesTab" = "Urklippstyper";
+"IgnoredPasteboardTypesReset" = "Återställ";
+"RegexpTab" = "Reguljära uttryck";
+"IgnoredRegexpsDescription" = "Det går att ignorera vissa kopieringar från att sparas baserat på definierade reguljära uttryck.";
+"IgnoredPasteboardTypesDescription" = "Det går att ignorera vissa typer av urklippsinnehåll från att sparas.\nSom standard är några kända, appspecifika typer definierade. Du kan ta bort dem och lägga till egna typer om du vill.";
