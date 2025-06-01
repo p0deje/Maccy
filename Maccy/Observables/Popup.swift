@@ -15,7 +15,7 @@ class Popup {
 
   var openShortcutManager: OpenShortcutManager?
   var isOpen: Bool { AppState.shared.appDelegate?.panel.isPresented ?? false }
-  
+
   init() {
     if let shortcut = KeyboardShortcuts.getShortcut(for: .popup) {
       openShortcutManager = OpenShortcutManager(shortcut)

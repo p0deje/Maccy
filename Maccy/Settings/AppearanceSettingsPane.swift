@@ -57,8 +57,7 @@ struct AppearanceSettingsPane: View {
   }
 
   @ViewBuilder private func screenPicker(for position: PopupPosition)
-    -> some View
-  {
+    -> some View {
     let screenBinding: Binding<Int> = Binding {
       return popupScreen
     } set: {
