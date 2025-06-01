@@ -1,7 +1,7 @@
 import AppKit
-import SwiftUI
 import Defaults
 import Settings
+import SwiftUI
 
 struct AppearanceSettingsPane: View {
   @Default(.popupPosition) private var popupAt
@@ -57,7 +57,8 @@ struct AppearanceSettingsPane: View {
   }
 
   @ViewBuilder private func screenPicker(for position: PopupPosition)
-    -> some View {
+    -> some View
+  {
     let screenBinding: Binding<Int> = Binding {
       return popupScreen
     } set: {
@@ -87,8 +88,7 @@ struct AppearanceSettingsPane: View {
         HStack {
           Picker("", selection: $popupAt) {
             ForEach(PopupPosition.allCases) { position in
-              if position == .center || position == .lastPosition,
-                screens.count > 1 {
+              if position == .center || position == .lastPosition, screens.count > 1 {
                 screenPicker(for: position)
               } else {
                 Text(position.description)
@@ -214,7 +214,9 @@ struct AppearanceSettingsPane: View {
           .foregroundStyle(.gray)
       }
     }
-    .onReceive(NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)) { _ in
+    .onReceive(
+      NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
+    ) { _ in
       screens = NSScreen.screens
     }
   }

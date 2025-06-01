@@ -1,9 +1,9 @@
 "Title" = "Ignorer";
 "ApplicationsTab" = "Applications";
-"IgnoredAppsDescription" = "Il est possible d'ignorer les copies provenant de certaines applications.\nVeuillez noter que la façon dont cela fonctionne n'est pas à l'épreuve des balles, il est donc préférable d'utiliser des types de carton lorsque cela est possible.";
-"IgnoredAllAppsExceptListed" = "Ignorer toutes les applications sauf listées";
+"IgnoredAppsDescription" = "Il est possible d’ignorer les copies provenant de certaines applications.\nVeuillez noter que la façon dont cela fonctionne n’est pas infaillible, il est donc préférable de filtrer le type de presse-papier lorsque cela est possible.";
+"IgnoredAllAppsExceptListed" = "Ignorer toutes les applications sauf celles listées";
 "PasteboardTypesTab" = "Types";
-"IgnoredPasteboardTypesDescription" = "Il est possible d'ignorer certains types de presse-papiers.\nPar défaut, certains types spécifiques à l'application sont définis. Vous pouvez les supprimer et ajouter tous les types personnalisés que vous souhaitez.";
+"IgnoredPasteboardTypesDescription" = "Il est possible d’ignorer certains types de presse-papiers.\nPar défaut, certains types spécifiques à l’application sont définis. Vous pouvez les supprimer et ajouter tous les types personnalisés que vous souhaitez.";
 "IgnoredPasteboardTypesReset" = "Remise à zéro";
 "RegexpTab" = "Expressions régulières";
-"IgnoredRegexpsDescription" = "Il est possible d'ignorer certaines copies de la mémorisation en fonction d'expressions régulières définies.";
+"IgnoredRegexpsDescription" = "Il est possible d’ignorer certaines copies de la mémorisation en fonction d’expressions régulières définies.";

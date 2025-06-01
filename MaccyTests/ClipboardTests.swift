@@ -213,11 +213,13 @@ class ClipboardTests: XCTestCase {
     let item = HistoryItem()
     Storage.shared.context.insert(item)
     item.contents = contents
+    item.application = "com.foo.bar"
     clipboard.copy(item)
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
     XCTAssertEqual(pasteboard.data(forType: .tiff), imageData)
     XCTAssertEqual(pasteboard.string(forType: .fileURL), "file://foo.bar")
     XCTAssertEqual(pasteboard.string(forType: .fromMaccy), "")
+    XCTAssertEqual(pasteboard.string(forType: .source), "com.foo.bar")
   }
 
   @MainActor
@@ -232,9 +234,11 @@ class ClipboardTests: XCTestCase {
     let item = HistoryItem()
     Storage.shared.context.insert(item)
     item.contents = contents
+    item.application = "com.foo.bar"
     clipboard.copy(item, removeFormatting: true)
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
     XCTAssertEqual(pasteboard.string(forType: .fromMaccy), "")
+    XCTAssertEqual(pasteboard.string(forType: .source), "com.foo.bar")
     XCTAssertEqual(pasteboard.string(forType: .fileURL), "file://foo.bar")
     XCTAssertNil(pasteboard.data(forType: .rtf))
   }

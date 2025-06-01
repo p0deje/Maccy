@@ -46,7 +46,9 @@ class HistoryItem {
   private static let transientTypes: [String] = [
     NSPasteboard.PasteboardType.modified.rawValue,
     NSPasteboard.PasteboardType.fromMaccy.rawValue,
-    "com.apple.linkpresentation.metadata"
+    NSPasteboard.PasteboardType.linkPresentationMetadata.rawValue,
+    NSPasteboard.PasteboardType.customPasteboardData.rawValue,
+    NSPasteboard.PasteboardType.source.rawValue
   ]
 
   var application: String?

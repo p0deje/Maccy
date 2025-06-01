@@ -1,0 +1,10 @@
+"Title" = "Qo'shimchalar";
+"TurnOff" = "O'chirib qo'yish";
+"TurnOffDescription" = "Vaqtinchalik barcha yangi nusxalarni e'tiborsiz qoldiring.\nEhtimol, siz undan dasturiy tarzda foydalanasiz va maxfiy ma'lumotlarni nusxalashda ilovani o'chirib qo'yishingiz mumkin.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# ma'lumotlarni nusxalash\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "⌥ tugmasini bosgan holda menyu belgisini ham bosishingiz mumkin.\nFaqat keyingi nusxaga e’tibor bermaslik uchun ⌥⇧ tugmasini bosing.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# ma'lumotni nusxalash";
+"ClearHistoryOnQuit" = "Dastur yopilganda tarixni tozalash";
+"ClearHistoryOnQuitTooltip" = "Ilovani yopishdan oldin barcha qo'shilmagan yozuvlarni avtomatik ravishda o'chirish.";
+"ClearSystemClipboard" = "Operatsion tizim buferini ham tozalang";
+"ClearSystemClipboardTooltip" = "Yoqilgan bo'lsa, tarixni tozalash joriy tizim buferini ham tozalaydi.";

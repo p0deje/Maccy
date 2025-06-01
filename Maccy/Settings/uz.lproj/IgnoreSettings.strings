@@ -1,0 +1,9 @@
+"Title" = "Istisno";
+"ApplicationsTab" = "Ilovalar";
+"IgnoredAppsDescription" = "Muayyan ilovalardan kelgan nusxalarni e'tiborsiz qoldirish mumkin. \nIltimos, uning ishlash usuli o'q o'tkazmasligiga e'tibor bering, shuning uchun iloji bo'lsa karton turlaridan foydalangan ma'qul.";
+"IgnoredAllAppsExceptListed" = "Ro'yxatdagilardan tashqari barcha ilovalarga e'tibor bermang";
+"PasteboardTypesTab" = "Joylashtirish turlari";
+"IgnoredPasteboardTypesDescription" = "Muayyan pasteboard buyumlari turlarini eslab qolishga e'tibor bermaslik mumkin.\nOdatiy bo'lib, ba'zi ma'lum ilovalarga xos turlar aniqlanadi. Siz ularni olib tashlashingiz va o'zingiz xohlagan har qanday maxsus turlarni qo'shishingiz mumkin.";
+"IgnoredPasteboardTypesReset" = "Tiklash";
+"RegexpTab" = "Maxsus ifodalar";
+"IgnoredRegexpsDescription" = "Belgilangan muntazam iboralar asosida eslab qolishdan ba'zi nusxalarni e'tiborsiz qoldirish mumkin.";

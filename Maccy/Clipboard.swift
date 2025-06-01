@@ -99,6 +99,7 @@ class Clipboard {
     pasteboard.writeObjects(fileURLItems)
 
     pasteboard.setString("", forType: .fromMaccy)
+    pasteboard.setString(item.application ?? "", forType: .source)
     sync()
 
     Task {

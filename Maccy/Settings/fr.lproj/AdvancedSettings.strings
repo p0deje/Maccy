@@ -1,10 +1,10 @@
 "Title" = "Avancé";
-"TurnOff" = "Éteindre";
-"TurnOffDescription" = "Ignorer temporairement toute nouvelle copie.\nVous êtes susceptible de l'utiliser pour le développement ou lors de la copie de données sensibles.";
+"TurnOff" = "Désactiver";
+"TurnOffDescription" = "Ignorer temporairement toute nouvelle copie.\nVous êtes susceptible de l’utiliser pour le développement ou lors de la copie de données sensibles.";
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copier des données\ndefaults write org.p0deje.Maccy ignoreEvents false";
-"TurnOffViaMenuIconDescription" = "Vous pouvez également cliquer sur l'icône du menu en appuyant sur ⌥.\nPour ignorer uniquement la copie suivante, cliquez avec ⌥⇧.";
+"TurnOffViaMenuIconDescription" = "Vous pouvez également cliquer sur l’icône du menu en appuyant sur ⌥.\nPour ignorer uniquement la copie suivante, cliquez avec ⌥⇧.";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copier des données";
-"ClearHistoryOnQuit" = "Effacer l'historique en quittant";
-"ClearHistoryOnQuitTooltip" = "Supprimez automatiquement tous les éléments non épinglés avant de quitter l'application.";
+"ClearHistoryOnQuit" = "Effacer l’historique en quittant";
+"ClearHistoryOnQuitTooltip" = "Supprimez automatiquement tous les éléments non épinglés avant de quitter l’application.";
 "ClearSystemClipboard" = "Effacer également le presse-papiers du système";
-"ClearSystemClipboardTooltip" = "Lorsqu'elle est activée, l'effacement de l'historique effacera également le presse-papiers du système actuel.";
+"ClearSystemClipboardTooltip" = "Lorsqu’elle est activée, l’effacement de l’historique effacera également le presse-papiers du système actuel.";
