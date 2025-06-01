@@ -126,8 +126,6 @@
 		DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */; };
 		DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */; };
 		FE5B372C2D26274E00A9BC20 /* OpenShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5B372B2D26274E00A9BC20 /* OpenShortcut.swift */; };
-		FE5B37302D26BC6C00A9BC20 /* OpenShortcutUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = FE5B372F2D26BC6C00A9BC20 /* OpenShortcutUITests.swift */; };
-		FED48BDC2D2A1AF800FC57AF /* BaseTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = FED48BDB2D2A1AF800FC57AF /* BaseTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -495,8 +493,6 @@
 		DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTests.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Shortcuts.swift"; sourceTree = "<group>"; };
 		FE5B372B2D26274E00A9BC20 /* OpenShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenShortcut.swift; sourceTree = "<group>"; };
-		FE5B372F2D26BC6C00A9BC20 /* OpenShortcutUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpenShortcutUITests.swift; sourceTree = "<group>"; };
-		FED48BDB2D2A1AF800FC57AF /* BaseTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseTest.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -582,8 +578,6 @@
 			isa = PBXGroup;
 			children = (
 				DA0EE7B8204657830025FC60 /* MaccyUITests.swift */,
-				FED48BDB2D2A1AF800FC57AF /* BaseTest.swift */,
-				FE5B372F2D26BC6C00A9BC20 /* OpenShortcutUITests.swift */,
 			);
 			path = MaccyUITests;
 			sourceTree = "<group>";
@@ -970,8 +964,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */,
-				FE5B37302D26BC6C00A9BC20 /* OpenShortcutUITests.swift in Sources */,
-				FED48BDC2D2A1AF800FC57AF /* BaseTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
