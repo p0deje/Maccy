@@ -17,7 +17,6 @@ enum OpenShortcutMode {
 
 /// Manages the popup action that cycles through clipboard history items.
 final class OpenShortcutManager {
-
   var mode: OpenShortcutMode = .normal
 
   private var eventTap: CFMachPort?
@@ -25,7 +24,6 @@ final class OpenShortcutManager {
   private var callbackContextPtr: UnsafeMutableRawPointer?
 
   init?(_ shortcut: KeyboardShortcuts.Shortcut) {
-
     let keyCode: Int = shortcut.carbonKeyCode
     let modifiers: UInt64 = UInt64(shortcut.modifiers.rawValue)
 
@@ -110,7 +108,7 @@ private func handleKeyDown(
       return Unmanaged.passRetained(event)
   }
 
-  if !popup.isOpen() {
+  if !popup.isOpen {
     manager.mode = .opening
     popup.open(height: popup.height)
     return nil
@@ -126,7 +124,7 @@ private func handleKeyDown(
     return nil
   }
 
-  if popup.isOpen() {
+  if popup.isOpen {
     popup.close()
     return nil
   }

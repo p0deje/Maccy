@@ -1,8 +1,11 @@
 import Carbon
 import XCTest
 
+// swiftlint:disable file_length
 // swiftlint:disable type_body_length
-class MaccyUITests: BaseTest {
+class MaccyUITests: XCTestCase {
+  let app = XCUIApplication()
+  let pasteboard = NSPasteboard.general
 
   let copy1 = UUID().uuidString
   let copy2 = UUID().uuidString
@@ -43,9 +46,16 @@ class MaccyUITests: BaseTest {
 
   override func setUp() {
     super.setUp()
+    app.launchArguments.append("enable-testing")
+    app.launch()
 
     copyToClipboard(copy2)
     copyToClipboard(copy1)
+  }
+
+  override func tearDown() {
+    super.tearDown()
+    app.terminate()
   }
 
   func testPopupWithHotkey() throws {
@@ -328,6 +338,71 @@ class MaccyUITests: BaseTest {
     assertExists(items["foo bar"])
   }
 
+  func testCycleAndSelectNextItem() throws {
+    // Simulate the popup hotkey press (Cmd + Shift + C).
+    let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
+    cDown.flags = [.maskCommand, .maskShift]
+    cDown.post(tap: .cghidEventTap)
+
+    waitUntilPoppedUp()
+
+    // Press C 1 more time while keeping the modifier keys pressed
+    cDown.post(tap: .cghidEventTap)
+
+    // Release the 'Shift' key and assert that the popup closes.
+    let shiftUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
+    shiftUp.flags = [.maskCommand] // Command remains active, Shift released
+    shiftUp.post(tap: .cghidEventTap)
+
+    waitUntilClosed()
+    assertPasteboardStringEquals(copy2)
+  }
+
+  private func popUpWithHotkey() {
+    simulatePopupHotkey()
+    waitUntilPoppedUp()
+  }
+
+  private func popUpWithMouse() {
+    app.statusItems.firstMatch.click()
+    waitUntilPoppedUp()
+  }
+
+  private func simulatePopupHotkey() {
+    let commandDown = CGEvent(
+      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: true)!
+    let commandUp = CGEvent(
+      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: false)!
+    let shiftDown = CGEvent(
+      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: true)!
+    let shiftUp = CGEvent(
+      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
+    shiftDown.flags = [.maskCommand]
+    shiftUp.flags = [.maskCommand]
+    let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
+    let cUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: false)!
+    cDown.flags = [.maskCommand, .maskShift]
+    cUp.flags = [.maskCommand, .maskShift]
+    commandDown.post(tap: .cghidEventTap)
+    shiftDown.post(tap: .cghidEventTap)
+    cDown.post(tap: .cghidEventTap)
+    cUp.post(tap: .cghidEventTap)
+    shiftUp.post(tap: .cghidEventTap)
+    commandUp.post(tap: .cghidEventTap)
+  }
+
+  private func waitUntilPoppedUp() {
+    if !app.staticTexts.firstMatch.waitForExistence(timeout: 3) {
+      XCTFail("Maccy did not pop up")
+    }
+  }
+
+  private func waitUntilClosed() {
+    if !app.staticTexts.firstMatch.waitForNonExistence(timeout: 3) {
+      XCTFail("Maccy did not close")
+    }
+  }
+
   private func copyToClipboard(_ content: String) {
     pasteboard.clearContents()
     pasteboard.setString(content, forType: .string)
@@ -355,10 +430,105 @@ class MaccyUITests: BaseTest {
     waitTillClipboardCheck()
   }
 
-  func pin(_ title: String) {
+  // Default interval for Maccy to check clipboard is 1 second
+  private func waitTillClipboardCheck() {
+    usleep(1_500_000)
+  }
+
+  private func pin(_ title: String) {
     hover(items[title].firstMatch)
     app.typeKey("p", modifierFlags: [.option])
     usleep(1_500_000)
   }
+
+  private func hover(_ element: XCUIElement) {
+    element.hover()
+    usleep(20000)
+  }
+
+  private func search(_ string: String) {
+    // NOTE: app.typeText is broken in Sonoma and causes some
+    //       Chars to be submitted with a .command mask (e.g. 'p', 'k' or 'j')
+    string.forEach {
+      app.typeKey("\($0)", modifierFlags: [])
+    }
+    waitForSearch()
+  }
+
+  private func waitForSearch() {
+    // NOTE: This is a hack and is flaky.
+    // Ideally we should wait for a proper condition to detect that search has settled down.
+    usleep(500000)  // wait for search throttle
+  }
+
+  private func assertExists(_ element: XCUIElement) {
+    expectation(for: NSPredicate(format: "exists = 1"), evaluatedWith: element)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertNotExists(_ element: XCUIElement) {
+    expectation(for: NSPredicate(format: "exists = 0"), evaluatedWith: element)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertNotVisible(_ element: XCUIElement) {
+    expectation(
+      for: NSPredicate(format: "(exists = 0) || (isHittable = 0)"), evaluatedWith: element)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertPasteboardDataEquals(
+    _ expected: Data?, forType: NSPasteboard.PasteboardType = .string
+  ) {
+    let predicate = NSPredicate { (object, _) -> Bool in
+      guard let copy = object as? Data else {
+        return false
+      }
+
+      return self.pasteboard.data(forType: forType) == copy
+    }
+    expectation(for: predicate, evaluatedWith: expected)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertPasteboardDataCountEquals(
+    _ expected: Int, forType: NSPasteboard.PasteboardType = .string
+  ) {
+    let predicate = NSPredicate { (object, _) -> Bool in
+      guard let count = object as? Int else {
+        return false
+      }
+
+      return self.pasteboard.data(forType: forType)!.count == count
+    }
+    expectation(for: predicate, evaluatedWith: expected)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertPasteboardStringEquals(
+    _ expected: String?, forType: NSPasteboard.PasteboardType = .string
+  ) {
+    let predicate = NSPredicate { (object, _) -> Bool in
+      guard let copy = object as? String else {
+        return false
+      }
+
+      return self.pasteboard.string(forType: forType) == copy
+    }
+    expectation(for: predicate, evaluatedWith: expected)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertSearchFieldValue(_ string: String) {
+    XCTAssertEqual(app.textFields.firstMatch.value as? String, string)
+  }
+
+  private func confirmClear() {
+    let button = app.dialogs.firstMatch.buttons["Clear"].firstMatch
+    expectation(for: NSPredicate(format: "isHittable = 1"), evaluatedWith: button)
+    waitForExpectations(timeout: 3)
+    button.click()
+  }
 }
 // swiftlint:enable type_body_length
+// swiftlint:enable file_length
