@@ -70,7 +70,9 @@ class AppState: Sendable {
     if let item = history.selectedItem, history.items.contains(item) {
       history.select(item)
     } else if let item = footer.selectedItem {
-      if item.confirmation != nil {
+      if item.confirmation != nil,
+            let supressConfirmation = item.suppressConfirmation?.wrappedValue,
+         supressConfirmation == false {
         item.showConfirmation = true
       } else {
         item.action()
