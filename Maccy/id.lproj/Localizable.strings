@@ -1,1 +1,15 @@
-
+"clear_all_tooltip" = "Bersihkan semuanya.";
+"clear_tooltip" = "Bersihkan item yang tak disematkan.\nKlik item bersamaan ⇧ untuk bersihkan.";
+"about_tooltip" = "Baca selengkapnya mengenai aplikasi.";
+"quit_tooltip" = "Keluar aplikasi.";
+"clear" = "Bersihkan";
+"clear_all" = "Bersihkan semua";
+"about" = "Mengenai";
+"quit" = "Keluar";
+"preferences" = "Preferensi…";
+"preferences_advanced" = "Lanjutan";
+"preferences_pins" = "Semat";
+"copy_modifiers_config" = "• Memilih dengan menekan %@ untuk menyalin.";
+"format_modifiers_config" = "• Memilih dengan menekan %@ untuk menyalin, membersikan format lalu menempel.";
+"paste_modifiers_config" = "• Memilih dengan menekan %@ untuk menyalin lalu menempel.";
+"search_placeholder" = "Ketik untuk mencari…";
