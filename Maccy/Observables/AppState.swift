@@ -70,7 +70,8 @@ class AppState: Sendable {
     if let item = history.selectedItem, history.items.contains(item) {
       history.select(item)
     } else if let item = footer.selectedItem {
-        if item.confirmation != nil, Defaults[.suppressClearAlert] == false {
+      // TODO: Use item.suppressConfirmation, but it's not updated!
+      if item.confirmation != nil, Defaults[.suppressClearAlert] == false {
         item.showConfirmation = true
       } else {
         item.action()
