@@ -13,9 +13,12 @@ class Popup {
   var pinnedItemsHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
 
+  var openShortcutManager: OpenShortcutManager?
+  var isOpen: Bool { AppState.shared.appDelegate?.panel.isPresented ?? false }
+
   init() {
-    KeyboardShortcuts.onKeyUp(for: .popup) {
-      self.toggle()
+    if let shortcut = KeyboardShortcuts.getShortcut(for: .popup) {
+      openShortcutManager = OpenShortcutManager(shortcut)
     }
   }
 
@@ -28,6 +31,7 @@ class Popup {
   }
 
   func close() {
+    self.openShortcutManager?.mode = .normal  // reset
     AppState.shared.appDelegate?.panel.close()
   }
 

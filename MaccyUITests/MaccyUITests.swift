@@ -338,6 +338,26 @@ class MaccyUITests: XCTestCase {
     assertExists(items["foo bar"])
   }
 
+  func testCycleAndSelectNextItem() throws {
+    // Simulate the popup hotkey press (Cmd + Shift + C).
+    let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
+    cDown.flags = [.maskCommand, .maskShift]
+    cDown.post(tap: .cghidEventTap)
+
+    waitUntilPoppedUp()
+
+    // Press C 1 more time while keeping the modifier keys pressed
+    cDown.post(tap: .cghidEventTap)
+
+    // Release the 'Shift' key and assert that the popup closes.
+    let shiftUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
+    shiftUp.flags = [.maskCommand] // Command remains active, Shift released
+    shiftUp.post(tap: .cghidEventTap)
+
+    waitUntilClosed()
+    assertPasteboardStringEquals(copy2)
+  }
+
   private func popUpWithHotkey() {
     simulatePopupHotkey()
     waitUntilPoppedUp()
@@ -374,6 +394,12 @@ class MaccyUITests: XCTestCase {
   private func waitUntilPoppedUp() {
     if !app.staticTexts.firstMatch.waitForExistence(timeout: 3) {
       XCTFail("Maccy did not pop up")
+    }
+  }
+
+  private func waitUntilClosed() {
+    if !app.staticTexts.firstMatch.waitForNonExistence(timeout: 3) {
+      XCTFail("Maccy did not close")
     }
   }
 
