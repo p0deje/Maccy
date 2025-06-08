@@ -9,6 +9,7 @@ struct AppearanceSettingsPane: View {
   @Default(.pinTo) private var pinTo
   @Default(.imageMaxHeight) private var imageHeight
   @Default(.previewDelay) private var previewDelay
+  @Default(.characterLimit) private var characterLimit
   @Default(.highlightMatch) private var highlightMatch
   @Default(.menuIcon) private var menuIcon
   @Default(.showInStatusBar) private var showInStatusBar
@@ -45,6 +46,12 @@ struct AppearanceSettingsPane: View {
     let formatter = NumberFormatter()
     formatter.minimum = 200
     formatter.maximum = 100_000
+    return formatter
+  }()
+
+  private let characterLimitFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.maximum = 50_000
     return formatter
   }()
 
@@ -109,6 +116,16 @@ struct AppearanceSettingsPane: View {
             .labelsHidden()
         }
       }
+        
+        Settings.Section(label: { Text("CharacterLimit", tableName: "AppearanceSettings") }) {
+          HStack {
+            TextField("", value: $characterLimit, formatter: characterLimitFormatter)
+              .frame(width: 120)
+              .help(Text("PreviewDelayTooltip", tableName: "AppearanceSettings"))
+            Stepper("", value: $characterLimit, in: 0...50_000)
+              .labelsHidden()
+          }
+        }
 
       Settings.Section(
         bottomDivider: true,
