@@ -76,12 +76,10 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
     synchronizeItemPin()
     synchronizeItemTitle()
-    Task {
-      await sizeImages()
-    }
+    // Size images immediately for better UI responsiveness
+    sizeImages()
   }
 
-  @MainActor
   func sizeImages() {
     guard let image = item.image else {
       return

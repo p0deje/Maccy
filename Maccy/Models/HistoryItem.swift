@@ -79,10 +79,17 @@ class HistoryItem {
 
   func generateTitle() -> String {
     guard image == nil else {
-      Task {
-        self.performTextRecognition()
+      // For images, provide a descriptive title
+      if !fileURLs.isEmpty {
+        // If we have file URLs for the image, show the filename
+        return fileURLs.compactMap { $0.lastPathComponent }.joined(separator: ", ")
+      } else {
+        // For clipboard images without file URLs, show a generic title
+        Task {
+          self.performTextRecognition()
+        }
+        return "📷 Image"
       }
-      return ""
     }
 
     // 1k characters is trade-off for performance
@@ -106,7 +113,10 @@ class HistoryItem {
   }
 
   var previewableText: String {
-    if !fileURLs.isEmpty {
+    // Prioritize image content when image data is available
+    if image != nil {
+      return ""
+    } else if !fileURLs.isEmpty {
       fileURLs
         .compactMap { $0.absoluteString.removingPercentEncoding }
         .joined(separator: "\n")
