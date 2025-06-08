@@ -116,7 +116,7 @@ struct AppearanceSettingsPane: View {
             .labelsHidden()
         }
       }
-        
+
         Settings.Section(label: { Text("CharacterLimit", tableName: "AppearanceSettings") }) {
           HStack {
             TextField("", value: $characterLimit, formatter: characterLimitFormatter)
