@@ -1,8 +1,0 @@
-"record_shortcut" = "设置快捷键";
-"press_shortcut" = "按下快捷键";
-"keyboard_shortcut_used_by_menu_item" = "当前快捷键无法使用，因为它已被用作菜单项 “%@” 的快捷键。";
-"keyboard_shortcut_used_by_system" = "当前快捷键无法使用，因为它已被用作系统快捷键。";
-"keyboard_shortcuts_can_be_changed" = "可以在 “系统设置 › 键盘 › 键盘快捷键” 中更改大多数系统快捷键。";
-"force_use_shortcut" = "强制使用";
-"ok" = "好";
-"space_key" = "空格";

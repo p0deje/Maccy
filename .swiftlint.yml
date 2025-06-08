@@ -4,3 +4,6 @@ disabled_rules:
   - todo
 line_length:
   ignores_comments: true
+file_length:
+  warning: 500
+  error: 600

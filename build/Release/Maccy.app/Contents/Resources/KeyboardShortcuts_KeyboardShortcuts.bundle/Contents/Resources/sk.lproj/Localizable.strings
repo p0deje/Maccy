@@ -1,8 +1,0 @@
-"record_shortcut" = "Nahraj skratku";
-"press_shortcut" = "Stlač skratku";
-"keyboard_shortcut_used_by_menu_item" = "Túto klávesovú skratku nemožno použiť, pretože ju už používa položka menu “%@”.";
-"keyboard_shortcut_used_by_system" = "Túto klávesovú skratku nemožno použiť, pretože je už použivaná pre celý systém.";
-"keyboard_shortcuts_can_be_changed" = "Väčšinu systémových klávesových skratiek môžeš zmeniť v “Systémové nastavenia › Klávesnica › Klávesové skratky”.";
-"force_use_shortcut" = "Použiť napriek tomu";
-"ok" = "OK";
-"space_key" = "Medzerník";

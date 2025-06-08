@@ -1,8 +1,0 @@
-"record_shortcut" = "キーを記録";
-"press_shortcut" = "キーを押してください";
-"keyboard_shortcut_used_by_menu_item" = "このショートカットは既に“%@”で使われており使えません。";
-"keyboard_shortcut_used_by_system" = "このショートカットキーは既にシステムで使われており使えません。";
-"keyboard_shortcuts_can_be_changed" = "システムで設定されているショートカットキーは“システム設定 › キーボード › キーボードショートカット”で変更できます。";
-"force_use_shortcut" = "強制使用";
-"ok" = "OK";
-"space_key" = "スペース";

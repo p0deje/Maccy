@@ -1,7 +1,0 @@
-"record_shortcut" = "Kurzbefehl aufnehmen";
-"press_shortcut" = "Kurzbefehl wählen…";
-"keyboard_shortcut_used_by_menu_item" = "Dieses Tastaturkürzel kann nicht verwendet werden, da es bereits durch den Menüpunkt „%@” belegt ist.";
-"keyboard_shortcut_used_by_system" = "Dieses Tastaturkürzel kann nicht verwendet werden, da es bereits systemweit verwendet wird.";
-"keyboard_shortcuts_can_be_changed" = "Die meisten systemweiten Tastaturkürzel können unter „Systemeinstellungen › Tastatur › Tastaturkurzbefehle“ geändert werden.";
-"ok" = "OK";
-"space_key" = "Leer";

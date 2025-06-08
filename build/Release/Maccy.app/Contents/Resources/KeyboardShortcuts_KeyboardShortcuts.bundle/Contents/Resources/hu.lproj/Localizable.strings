@@ -1,7 +1,0 @@
-"record_shortcut" = "Billentyűparancs rögzítése";
-"press_shortcut" = "Nyomja meg a billentyűparancsot";
-"keyboard_shortcut_used_by_menu_item" = "Ez a billentyűparancs nem használható mert már a “%@” menü elem használja.";
-"keyboard_shortcut_used_by_system" = "Ez a billentyűparancs nem használható mert már egy rendszerszintü billentyűparancs.";
-"keyboard_shortcuts_can_be_changed" = "A legtöbb rendszerszintü billentyűparancsot a “Rendszerbeállítások › Billentyűzet › Billentyűparancsok“ menüben meg lehet változtatni";
-"ok" = "OK";
-"space_key" = "Szóköz";

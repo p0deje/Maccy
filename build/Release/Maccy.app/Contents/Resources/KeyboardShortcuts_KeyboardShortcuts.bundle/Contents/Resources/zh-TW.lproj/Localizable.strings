@@ -1,8 +1,0 @@
-"record_shortcut" = "設定快速鍵";
-"press_shortcut" = "按下快速鍵";
-"keyboard_shortcut_used_by_menu_item" = "此快速鍵無法使用，因為它已被選單項目「%@」使用。";
-"keyboard_shortcut_used_by_system" = "此快速鍵無法使用，因為它已被系統使用。";
-"keyboard_shortcuts_can_be_changed" = "可以在「系統設定 › 鍵盤 › 鍵盤快速鍵」中更改大多數的系統快速鍵。";
-"force_use_shortcut" = "強制使用";
-"ok" = "好";
-"space_key" = "空格";

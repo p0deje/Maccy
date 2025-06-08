@@ -1,8 +1,0 @@
-"record_shortcut" = "Record Shortcut";
-"press_shortcut" = "Press Shortcut";
-"keyboard_shortcut_used_by_menu_item" = "This keyboard shortcut cannot be used as it’s already used by the “%@” menu item.";
-"keyboard_shortcut_used_by_system" = "This keyboard shortcut cannot be used as it’s already a system-wide keyboard shortcut.";
-"keyboard_shortcuts_can_be_changed" = "Most system-wide keyboard shortcuts can be changed in “System Settings › Keyboard › Keyboard Shortcuts”.";
-"force_use_shortcut" = "Use Anyway";
-"ok" = "OK";
-"space_key" = "Space";

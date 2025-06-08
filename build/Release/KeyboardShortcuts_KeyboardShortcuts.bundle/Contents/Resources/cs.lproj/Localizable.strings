@@ -1,7 +1,0 @@
-"record_shortcut" = "Přidat zkratku";
-"press_shortcut" = "Zadejte klávesy";
-"keyboard_shortcut_used_by_menu_item" = "Tuto zkratku nelze použít, protože je již využívána položkou „%@“";
-"keyboard_shortcut_used_by_system" = "Tuto zkratku nelze použít, protože už ji používá systém.";
-"keyboard_shortcuts_can_be_changed" = "Většinu systémových zkratek můžete změnit v „Nastavení systému › Klávesnice › Klávesové zkratky“.";
-"ok" = "OK";
-"space_key" = "Mezera";
