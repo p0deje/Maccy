@@ -4,10 +4,15 @@ import Foundation
 import Settings
 
 @Observable
-class AppState: Sendable {
+final class AppState: Sendable {
   static let shared = AppState()
 
-  var appDelegate: AppDelegate?
+  @MainActor private(set) var appDelegate: AppDelegate?
+
+  @MainActor func setAppDelegate(_ appDelegate: AppDelegate?) {
+    self.appDelegate = appDelegate
+  }
+
   var popup: Popup
   var history: History
   var footer: Footer

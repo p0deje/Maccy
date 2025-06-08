@@ -110,6 +110,13 @@ struct AppearanceSettingsPane: View {
         }
       }
 
+      Settings.Section(label: { Text("DocumentPreviews", tableName: "AppearanceSettings") }) {
+        Defaults.Toggle(key: .enableAdvancedPreviews) {
+          Text("EnableDocumentPreviews", tableName: "AppearanceSettings")
+        }
+        .help(Text("EnableDocumentPreviewsTooltip", tableName: "AppearanceSettings"))
+      }
+
       Settings.Section(
         bottomDivider: true,
         label: { Text("HighlightMatches", tableName: "AppearanceSettings") }
@@ -178,6 +185,16 @@ struct AppearanceSettingsPane: View {
           .opacity(showFooter ? 0 : 1)
           .controlSize(.small)
           .foregroundStyle(.gray)
+
+        Defaults.Toggle(key: .showDeleteButton) {
+          Text("ShowDeleteButton", tableName: "AppearanceSettings")
+        }
+        .help(Text("ShowDeleteButtonTooltip", tableName: "AppearanceSettings"))
+
+        Defaults.Toggle(key: .showPreviewButton) {
+          Text("ShowPreviewButton", tableName: "AppearanceSettings")
+        }
+        .help(Text("ShowPreviewButtonTooltip", tableName: "AppearanceSettings"))
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)) { _ in

@@ -35,7 +35,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     #endif
 
     // Bridge FloatingPanel via AppDelegate.
-    AppState.shared.appDelegate = self
+    AppState.shared.setAppDelegate(self)
 
     Clipboard.shared.onNewCopy { History.shared.add($0) }
     Clipboard.shared.start()
@@ -160,7 +160,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     _ = withObservationTracking {
       AppState.shared.menuIconText
     } onChange: {
-      DispatchQueue.main.async {
+      DispatchQueue.main.async { [weak self] in
+        guard let self = self else { return }
         if Defaults[.showRecentCopyInMenuBar] {
           self.statusItem.button?.title = AppState.shared.menuIconText
         }

@@ -19,6 +19,8 @@ class Clipboard {
   private let supportedTypes: Set<NSPasteboard.PasteboardType> = [
     .fileURL,
     .html,
+    .jpeg,
+    .heic,
     .png,
     .rtf,
     .string,
@@ -34,6 +36,11 @@ class Clipboard {
   private var disabledTypes: Set<NSPasteboard.PasteboardType> { supportedTypes.subtracting(enabledTypes) }
 
   private var sourceApp: NSRunningApplication? { NSWorkspace.shared.frontmostApplication }
+
+  // Image file extensions that we should load as image data
+  private let imageFileExtensions: Set<String> = [
+    "jpg", "jpeg", "png", "gif", "bmp", "tiff", "tif", "heic", "heif", "webp"
+  ]
 
   init() {
     changeCount = pasteboard.changeCount
@@ -79,6 +86,23 @@ class Clipboard {
 
     if removeFormatting {
       contents = clearFormatting(contents)
+    }
+
+    // Check if this item contains file URLs
+    let hasFileURL = contents.contains { $0.type == NSPasteboard.PasteboardType.fileURL.rawValue }
+    
+    // If item has file URLs, exclude image data to prevent pasting both file and thumbnail
+    if hasFileURL {
+      let imageTypes: Set<String> = [
+        NSPasteboard.PasteboardType.tiff.rawValue,
+        NSPasteboard.PasteboardType.png.rawValue,
+        NSPasteboard.PasteboardType.jpeg.rawValue,
+        NSPasteboard.PasteboardType.heic.rawValue
+      ]
+      contents = contents.filter { content in
+        // Keep file URLs and non-image types, but exclude image data
+        content.type == NSPasteboard.PasteboardType.fileURL.rawValue || !imageTypes.contains(content.type)
+      }
     }
 
     for content in contents {
@@ -210,6 +234,9 @@ class Clipboard {
       return
     }
 
+    // Add image data for any image file URLs
+    addImageDataFromFileURLs(&contents)
+
     let historyItem = HistoryItem()
     Storage.shared.context.insert(historyItem)
 
@@ -308,5 +335,57 @@ class Clipboard {
     }
 
     return newContents
+  }
+
+  private func isImageFile(_ url: URL) -> Bool {
+    let fileExtension = url.pathExtension.lowercased()
+    return imageFileExtensions.contains(fileExtension)
+  }
+
+  private func loadImageDataFromFileURL(_ url: URL) -> Data? {
+    guard isImageFile(url), FileManager.default.fileExists(atPath: url.path) else {
+      return nil
+    }
+    
+    return try? Data(contentsOf: url)
+  }
+
+  private func addImageDataFromFileURLs(_ contents: inout [HistoryItemContent]) {
+    // Find file URL contents
+    let fileURLContents = contents.filter { NSPasteboard.PasteboardType($0.type) == .fileURL }
+    
+    for fileURLContent in fileURLContents {
+      guard let urlData = fileURLContent.value,
+            let url = URL(dataRepresentation: urlData, relativeTo: nil, isAbsolute: true),
+            let imageData = loadImageDataFromFileURL(url) else {
+        continue
+      }
+      
+      // Determine the appropriate pasteboard type based on file extension
+      let fileExtension = url.pathExtension.lowercased()
+      let pasteboardType: NSPasteboard.PasteboardType
+      
+      switch fileExtension {
+      case "jpg", "jpeg":
+        pasteboardType = .jpeg
+      case "png":
+        pasteboardType = .png
+      case "tif", "tiff":
+        pasteboardType = .tiff
+      case "heic", "heif":
+        pasteboardType = .heic
+      default:
+        // For other image types, convert to TIFF as a fallback
+        if let nsImage = NSImage(data: imageData) {
+          if let tiffData = nsImage.tiffRepresentation {
+            contents.append(HistoryItemContent(type: NSPasteboard.PasteboardType.tiff.rawValue, value: tiffData))
+          }
+        }
+        continue
+      }
+      
+      // Add the image data as the appropriate type
+      contents.append(HistoryItemContent(type: pasteboardType.rawValue, value: imageData))
+    }
   }
 }

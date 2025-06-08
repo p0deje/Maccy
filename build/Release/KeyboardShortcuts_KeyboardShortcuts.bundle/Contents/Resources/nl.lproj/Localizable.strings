@@ -1,0 +1,7 @@
+"record_shortcut" = "Toetscombinatie opnemen";
+"press_shortcut" = "Voer toetscombinatie in";
+"keyboard_shortcut_used_by_menu_item" = "Deze toetscombinatie kan niet worden gebruikt omdat hij al wordt gebruikt door het menu item “%@”.";
+"keyboard_shortcut_used_by_system" = "Deze toetscombinatie kan niet worden gebruikt omdat hij al door het systeem gebruikt wordt.";
+"keyboard_shortcuts_can_be_changed" = "De meeste systeem toetscombinaties kunnen onder “Systeeminstellingen… > Toetsenbord > Toetscombinaties…” veranderd worden.";
+"ok" = "OK";
+"space_key" = "spatie";

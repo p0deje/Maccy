@@ -92,6 +92,25 @@ class HistoryItem {
       }
     }
 
+    // Check if we have file URLs (including non-image files)
+    if !fileURLs.isEmpty {
+      let imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "tiff", "tif", "heic", "heif", "webp"]
+      let hasImageFiles = fileURLs.contains { url in
+        imageExtensions.contains(url.pathExtension.lowercased())
+      }
+      
+      if hasImageFiles {
+        // For image files, show filename instead of full path
+        return fileURLs
+          .filter { url in imageExtensions.contains(url.pathExtension.lowercased()) }
+          .compactMap { $0.lastPathComponent }
+          .joined(separator: ", ")
+      } else {
+        // For non-image files, show filename with appropriate icon
+        return fileURLs.compactMap { $0.lastPathComponent }.joined(separator: ", ")
+      }
+    }
+
     // 1k characters is trade-off for performance
     var title = previewableText.shortened(to: 1_000)
 
@@ -117,17 +136,27 @@ class HistoryItem {
     if image != nil {
       return ""
     } else if !fileURLs.isEmpty {
-      fileURLs
-        .compactMap { $0.absoluteString.removingPercentEncoding }
-        .joined(separator: "\n")
+      // Check if file URLs are image files
+      let imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "tiff", "tif", "heic", "heif", "webp"]
+      let hasImageFiles = fileURLs.contains { url in
+        imageExtensions.contains(url.pathExtension.lowercased())
+      }
+      
+      // If we have image files, return empty string to show the image instead of file path
+      if hasImageFiles {
+        return ""
+      } else {
+        // For non-image files, return the filename to show alongside the file icon
+        return fileURLs.compactMap { $0.lastPathComponent }.joined(separator: ", ")
+      }
     } else if let text = text, !text.isEmpty {
-      text
+      return text
     } else if let rtf = rtf, !rtf.string.isEmpty {
-      rtf.string
+      return rtf.string
     } else if let html = html, !html.string.isEmpty {
-      html.string
+      return html.string
     } else {
-      title
+      return title
     }
   }
 
@@ -152,8 +181,17 @@ class HistoryItem {
   var imageData: Data? {
     var data: Data?
     data = contentData([.tiff, .png, .jpeg, .heic])
-    if data == nil, universalClipboardImage, let url = fileURLs.first {
-      data = try? Data(contentsOf: url)
+    
+    // If no direct image data, check if we have image file URLs
+    if data == nil {
+      let imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "tiff", "tif", "heic", "heif", "webp"]
+      if let imageURL = fileURLs.first(where: { url in
+        imageExtensions.contains(url.pathExtension.lowercased())
+      }) {
+        data = try? Data(contentsOf: imageURL)
+      } else if universalClipboardImage, let url = fileURLs.first {
+        data = try? Data(contentsOf: url)
+      }
     }
 
     return data
@@ -165,6 +203,26 @@ class HistoryItem {
     }
 
     return NSImage(data: data)
+  }
+
+  var fileIcon: NSImage? {
+    // Only show file icons for non-image files
+    guard !fileURLs.isEmpty else { 
+      return nil 
+    }
+    
+    let imageExtensions = ["jpg", "jpeg", "png", "gif", "bmp", "tiff", "tif", "heic", "heif", "webp"]
+    let nonImageFiles = fileURLs.filter { url in
+      !imageExtensions.contains(url.pathExtension.lowercased())
+    }
+    
+    // Return icon for the first non-image file
+    guard let firstFile = nonImageFiles.first else { 
+      return nil 
+    }
+    
+    let icon = NSWorkspace.shared.icon(forFile: firstFile.path)
+    return icon
   }
 
   var rtfData: Data? { contentData([.rtf]) }

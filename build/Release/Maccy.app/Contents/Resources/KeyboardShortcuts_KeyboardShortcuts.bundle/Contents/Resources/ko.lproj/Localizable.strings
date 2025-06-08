@@ -1,0 +1,7 @@
+"record_shortcut" = "단축키 등록";
+"press_shortcut" = "단축키 입력";
+"keyboard_shortcut_used_by_menu_item" = "이 키보드 단축키는 이미 “%@” 메뉴 항목에 사용되고 있으므로 등록할 수 없습니다.";
+"keyboard_shortcut_used_by_system" = "이 키보드 단축키는 이미 시스템상에서 사용되고 있으므로 등록할 수 없습니다.";
+"keyboard_shortcuts_can_be_changed" = "대부분의 시스템 키보드 단축키는 “시스템 설정 › 키보드 › 키보드 단축키”에서 변경 가능합니다.";
+"ok" = "확인";
+"space_key" = "빈칸";

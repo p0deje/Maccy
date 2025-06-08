@@ -10,19 +10,20 @@ struct HistoryItemView: View {
     ListItemView(
       id: item.id,
       appIcon: item.applicationImage,
-      image: item.thumbnailImage,
-      accessoryImage: item.thumbnailImage != nil ? nil : ColorImage.from(item.title),
+      image: item.thumbnailImage ?? item.fileIcon,
+      accessoryImage: (item.thumbnailImage != nil || item.fileIcon != nil) ? nil : ColorImage.from(item.title),
       attributedTitle: item.attributedTitle,
       shortcuts: item.shortcuts,
       isSelected: item.isSelected
     ) {
-      Text(verbatim: item.title)
+      Text(verbatim: item.text.isEmpty ? item.title : item.text)
     }
     .onTapGesture {
       appState.history.select(item)
     }
     .popover(isPresented: $item.showPreview, arrowEdge: .trailing) {
       PreviewItemView(item: item)
+        .frame(idealWidth: 520, idealHeight: 750) // Set ideal size for popover content
     }
   }
 }

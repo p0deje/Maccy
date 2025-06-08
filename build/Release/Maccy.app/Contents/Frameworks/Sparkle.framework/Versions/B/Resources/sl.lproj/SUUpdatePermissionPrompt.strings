@@ -1,0 +1,23 @@
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "43"; */
+"43.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "45"; */
+"45.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Anonymous system profile information is used to help us plan future development work. Please contact us if you have any questions about this.\n\nThis is the information that would be sent:"; ObjectID = "183"; */
+"183.title" = "Anonimni profil sistema se uporablja za načrtovanje nadaljnega razvoja programa. V primeru vprašanj nas lahko kontaktirate.\n\nPošljejo se sledeče informacije:";
+
+/* Class = "NSButtonCell"; title = "Don’t Check"; ObjectID = "cCJ-V0-aTi"; */
+"cCJ-V0-aTi.title" = "Ne preverjaj";
+
+/* Class = "NSTextFieldCell"; title = "Check for updates automatically?"; ObjectID = "gmh-T4-BO0"; */
+"gmh-T4-BO0.title" = "Naj občasno preverjam, če so na voljo posodobitve?";
+
+/* Class = "NSButtonCell"; title = "Include anonymous system profile"; ObjectID = "gz7-LM-gNf"; */
+"gz7-LM-gNf.title" = "Vključi anonimni profil sistema";
+
+/* Class = "NSButtonCell"; title = "Automatically download and install updates"; ObjectID = "AUc-33-qGN"; */
+"AUc-33-qGN.title" = "Samodejno namestite posodobitve";
+
+/* Class = "NSButtonCell"; title = "Check Automatically"; ObjectID = "OhZ-1K-DmA"; */
+"OhZ-1K-DmA.title" = "Samodejno preverjaj";

@@ -1,0 +1,23 @@
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "43"; */
+"43.title" = "Text Cell";
+
+/* Class = "NSTextFieldCell"; title = "Text Cell"; ObjectID = "45"; */
+"45.title" = "Text Cell";
+
+/* Class = "NSButtonCell"; title = "Check Automatically"; ObjectID = "176"; */
+"OhZ-1K-DmA.title" = "자동으로 확인";
+
+/* Class = "NSButtonCell"; title = "Don’t Check"; ObjectID = "177"; */
+"cCJ-V0-aTi.title" = "취소";
+
+/* Class = "NSTextFieldCell"; title = "Check for updates automatically?"; ObjectID = "178"; */
+"gmh-T4-BO0.title" = "업데이트를 자동으로 확인할까요?";
+
+/* Class = "NSButtonCell"; title = "Include anonymous system profile"; ObjectID = "180"; */
+"gz7-LM-gNf.title" = "익명 시스템 정보 포함";
+
+/* Class = "NSButtonCell"; title = "Automatically download and install updates"; ObjectID = "AUc-33-qGN"; */
+"AUc-33-qGN.title" = "업데이트 자동 다운로드 및 설치";
+
+/* Class = "NSTextFieldCell"; title = "Anonymous system profile information is used to help us plan future development work. Please contact us if you have any questions about this.\n\nThis is the information that would be sent:"; ObjectID = "183"; */
+"183.title" = "익명으로 보내지는 시스템 정보로 차후 프로그램 개발에 도움이 될 수 있습니다. 질문이 있으시면 연락 주십시오.\n\n아래 정보가 전송될 것입니다.";

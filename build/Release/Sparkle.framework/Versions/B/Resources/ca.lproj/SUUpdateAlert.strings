@@ -1,0 +1,17 @@
+/* Class = "NSWindow"; title = "Software Update"; ObjectID = "5"; */
+"5.title" = "Actualització del programari";
+
+/* Class = "NSTextFieldCell"; title = "Release Notes:"; ObjectID = "170"; */
+"170.title" = "Notes d'aquesta versió:";
+
+/* Class = "NSButtonCell"; title = "Remind Me Later"; ObjectID = "171"; */
+"171.title" = "Recorda-m'ho més tard";
+
+/* Class = "NSButtonCell"; title = "Skip This Version"; ObjectID = "172"; */
+"172.title" = "Omet aquesta versió";
+
+/* Class = "NSButtonCell"; title = "Install Update"; ObjectID = "173"; */
+"173.title" = "Instal·la l'actualització";
+
+/* Class = "NSButtonCell"; title = "Automatically download and install updates in the future"; ObjectID = "175"; */
+"175.title" = "Descarrega i instal·la les actualitzacions automàticament en el futur";

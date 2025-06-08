@@ -15,22 +15,28 @@ class Popup {
 
   init() {
     KeyboardShortcuts.onKeyUp(for: .popup) {
-      self.toggle()
+      Task { @MainActor in
+        self.toggle()
+      }
     }
   }
 
+  @MainActor
   func toggle(at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     AppState.shared.appDelegate?.panel.toggle(height: height, at: popupPosition)
   }
 
+  @MainActor
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     AppState.shared.appDelegate?.panel.open(height: height, at: popupPosition)
   }
 
+  @MainActor
   func close() {
     AppState.shared.appDelegate?.panel.close()
   }
 
+  @MainActor
   func resize(height: CGFloat) {
     self.height = height + headerHeight + pinnedItemsHeight + footerHeight + (verticalPadding * 2)
     AppState.shared.appDelegate?.panel.verticallyResize(to: self.height)

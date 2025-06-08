@@ -1,0 +1,7 @@
+"record_shortcut" = "Enregistrer le raccourci";
+"press_shortcut" = "Saisir un raccourci";
+"keyboard_shortcut_used_by_menu_item" = "Ce raccourci ne peut pas être utilisé, car il est déjà utilisé par le menu “%@”.";
+"keyboard_shortcut_used_by_system" = "Ce raccourci ne peut pas être utilisé car il s'agit d'un raccourci déjà présent dans le système.";
+"keyboard_shortcuts_can_be_changed" = "La plupart des raccourcis clavier de l'ensemble du système peuvent être modifiés en “Réglages du système… › Clavier › Raccourcis clavier…”.";
+"ok" = "OK";
+"space_key" = "Espace";
