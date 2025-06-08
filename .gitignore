@@ -32,3 +32,5 @@ build/
 # Xcode schemes
 *.xcscheme
 
+build1.sh
+build_log.txt
