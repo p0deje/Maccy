@@ -1,7 +1,7 @@
 import AppKit
-import SwiftUI
 import Defaults
 import Settings
+import SwiftUI
 
 struct AppearanceSettingsPane: View {
     @Default(.popupPosition) private var popupAt
@@ -17,6 +17,7 @@ struct AppearanceSettingsPane: View {
     @Default(.showFooter) private var showFooter
     @Default(.windowPosition) private var windowPosition
     @Default(.showApplicationIcons) private var showApplicationIcons
+    @Default(.appTheme) private var appTheme
 
     @State private var screens = NSScreen.screens
 
@@ -50,6 +51,20 @@ struct AppearanceSettingsPane: View {
 
     var body: some View {
         Settings.Container(contentWidth: 650) {
+            Settings.Section(label: { Text("Theme", tableName: "AppearanceSettings") }) {
+                Picker("", selection: $appTheme) {
+                    ForEach(AppTheme.allCases) { theme in
+                        Text(theme.description)
+                    }
+                }
+                .labelsHidden()
+                .frame(width: 141)
+                .help(Text("ThemeTooltip", tableName: "AppearanceSettings"))
+                .onChange(of: appTheme) { _, newValue in
+                    ThemeManager.shared.currentTheme = newValue
+                }
+            }
+
             Settings.Section(label: { Text("PopupAt", tableName: "AppearanceSettings") }) {
                 HStack {
                     Picker("", selection: $popupAt) {
@@ -198,7 +213,8 @@ struct AppearanceSettingsPane: View {
             }
         }
         .onReceive(
-          NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)
+            NotificationCenter.default.publisher(
+                for: NSApplication.didChangeScreenParametersNotification)
         ) { _ in
             screens = NSScreen.screens
         }

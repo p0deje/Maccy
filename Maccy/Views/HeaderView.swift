@@ -7,6 +7,7 @@ struct HeaderView: View {
 
     @Environment(AppState.self) private var appState
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(ThemeManager.self) private var themeManager
 
     @Default(.showTitle) private var showTitle
 
@@ -25,6 +26,17 @@ struct HeaderView: View {
                         searchQuery = ""
                     }
                 }
+
+            // Theme toggle button
+            Button(action: toggleTheme) {
+                Image(systemName: themeIconName)
+                    .foregroundColor(.secondary)
+                    .frame(width: 16, height: 16)
+                    .animation(.easeInOut(duration: 0.2), value: themeIconName)
+            }
+            .buttonStyle(.plain)
+            .help("Toggle theme (⇧⌘T)")
+            .transition(.opacity)
         }
         .frame(height: appState.searchVisible ? 25 : 0)
         .opacity(appState.searchVisible ? 1 : 0)
@@ -39,6 +51,28 @@ struct HeaderView: View {
                         appState.popup.headerHeight = geo.size.height
                     }
             }
+        }
+    }
+
+    private var themeIconName: String {
+        switch themeManager.currentTheme {
+        case .system:
+            return "circle.lefthalf.filled"
+        case .light:
+            return "sun.max"
+        case .dark:
+            return "moon"
+        }
+    }
+
+    private func toggleTheme() {
+        switch themeManager.currentTheme {
+        case .system:
+            themeManager.currentTheme = .light
+        case .light:
+            themeManager.currentTheme = .dark
+        case .dark:
+            themeManager.currentTheme = .system
         }
     }
 }

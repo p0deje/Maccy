@@ -18,8 +18,8 @@ struct KeyHandlingView<Content: View>: View {
                 switch KeyChord(NSApp.currentEvent) {
                 case .clearHistory:
                     if let item = appState.footer.items.first(where: { $0.title == "clear" }),
-                       item.confirmation != nil,
-                       let suppressConfirmation = item.suppressConfirmation {
+                        item.confirmation != nil,
+                        let suppressConfirmation = item.suppressConfirmation {
                         if suppressConfirmation.wrappedValue {
                             item.action()
                         } else {
@@ -31,8 +31,8 @@ struct KeyHandlingView<Content: View>: View {
                     }
                 case .clearHistoryAll:
                     if let item = appState.footer.items.first(where: { $0.title == "clear_all" }),
-                       item.confirmation != nil,
-                       let suppressConfirmation = item.suppressConfirmation {
+                        item.confirmation != nil,
+                        let suppressConfirmation = item.suppressConfirmation {
                         if suppressConfirmation.wrappedValue {
                             item.action()
                         } else {
@@ -57,7 +57,8 @@ struct KeyHandlingView<Content: View>: View {
                     return .handled
                 case .deleteLastWordFromSearch:
                     searchFocused = true
-                    let newQuery = searchQuery.split(separator: " ").dropLast().joined(separator: " ")
+                    let newQuery = searchQuery.split(separator: " ").dropLast().joined(
+                        separator: " ")
                     if newQuery.isEmpty {
                         searchQuery = ""
                     } else {
@@ -96,6 +97,7 @@ struct KeyHandlingView<Content: View>: View {
                 case .openPreferences:
                     appState.openPreferences()
                     return .handled
+
                 case .pinOrUnpin:
                     appState.history.togglePin(appState.history.selectedItem)
                     return .handled

@@ -4,7 +4,9 @@ import Sauce
 
 enum KeyChord: CaseIterable {
     static var pasteKey: Key { pasteMenuItem?.key ?? Key.v }
-    static var pasteKeyModifiers: NSEvent.ModifierFlags { pasteMenuItem?.keyEquivalentModifierMask ?? .command }
+    static var pasteKeyModifiers: NSEvent.ModifierFlags {
+        pasteMenuItem?.keyEquivalentModifierMask ?? .command
+    }
     private static var pasteMenuItem: NSMenuItem? {
         NSApp.mainMenu?.items
             .flatMap { $0.submenu?.items ?? [] }
@@ -12,10 +14,14 @@ enum KeyChord: CaseIterable {
     }
 
     static var deleteKey: Key? { Sauce.shared.key(shortcut: .delete) }
-    static var deleteModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .delete)?.modifiers }
+    static var deleteModifiers: NSEvent.ModifierFlags? {
+        KeyboardShortcuts.Shortcut(name: .delete)?.modifiers
+    }
 
     static var pinKey: Key? { Sauce.shared.key(shortcut: .pin) }
-    static var pinModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .pin)?.modifiers }
+    static var pinModifiers: NSEvent.ModifierFlags? {
+        KeyboardShortcuts.Shortcut(name: .pin)?.modifiers
+    }
 
     case clearHistory
     case clearHistoryAll
@@ -29,6 +35,7 @@ enum KeyChord: CaseIterable {
     case moveToPrevious
     case moveToFirst
     case openPreferences
+
     case pinOrUnpin
     case selectCurrentItem
     case close
@@ -59,7 +66,7 @@ enum KeyChord: CaseIterable {
         self.init(key, modifierFlags)
     }
 
-    init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) { // swiftlint:disable:this cyclomatic_complexity
+    init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) {  // swiftlint:disable:this cyclomatic_complexity
         switch (key, modifierFlags) {
         case (.delete, [.command, .option]):
             self = .clearHistory
@@ -74,31 +81,34 @@ enum KeyChord: CaseIterable {
         case (.w, [.control]):
             self = .deleteLastWordFromSearch
         case (.downArrow, []),
-             (.downArrow, [.shift]),
-             (.n, [.control]),
-             (.n, [.control, .shift]),
-             (.j, [.control]):
+            (.downArrow, [.shift]),
+            (.n, [.control]),
+            (.n, [.control, .shift]),
+            (.j, [.control]):
             self = .moveToNext
-        case (.downArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
-             (.n, [.control, .option]),
-             (.pageDown, []):
+        case (.downArrow, _)
+        where modifierFlags.contains(.command) || modifierFlags.contains(.option),
+            (.n, [.control, .option]),
+            (.pageDown, []):
             self = .moveToLast
         case (.upArrow, []),
-             (.upArrow, [.shift]),
-             (.p, [.control]),
-             (.p, [.control, .shift]),
-             (.k, [.control]):
+            (.upArrow, [.shift]),
+            (.p, [.control]),
+            (.p, [.control, .shift]),
+            (.k, [.control]):
             self = .moveToPrevious
-        case (.upArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
-             (.p, [.control, .option]),
-             (.pageUp, []):
+        case (.upArrow, _)
+        where modifierFlags.contains(.command) || modifierFlags.contains(.option),
+            (.p, [.control, .option]),
+            (.pageUp, []):
             self = .moveToFirst
         case (KeyChord.pinKey, KeyChord.pinModifiers):
             self = .pinOrUnpin
         case (.comma, [.command]):
             self = .openPreferences
+
         case (.return, _),
-             (.keypadEnter, _):
+            (.keypadEnter, _):
             self = .selectCurrentItem
         case (.escape, _):
             self = .close

@@ -24,4 +24,5 @@ extension NSImage {
             return true
         }
     }
+
 }

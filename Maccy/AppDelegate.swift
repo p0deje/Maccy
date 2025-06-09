@@ -1,3 +1,4 @@
+import AppKit
 import Defaults
 import KeyboardShortcuts
 import Sparkle
@@ -5,6 +6,10 @@ import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
     var panel: FloatingPanel<ContentView>!
+
+    @IBOutlet var menu: NSMenu!
+
+    private var clipboardCheckTask: Task<Void, Never>?
 
     @objc
     private lazy var statusItem: NSStatusItem = {
@@ -23,26 +28,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     private var statusItemVisibilityObserver: NSKeyValueObservation?
 
-    func applicationWillFinishLaunching(_ notification: Notification) { // swiftlint:disable:this function_body_length
+    // swiftlint:disable:next function_body_length cyclomatic_complexity
+    func applicationWillFinishLaunching(_ notification: Notification) {
         #if DEBUG
-        if CommandLine.arguments.contains("enable-testing") {
-            SPUUpdater(hostBundle: Bundle.main,
-                       applicationBundle: Bundle.main,
-                       userDriver: SPUStandardUserDriver(hostBundle: Bundle.main, delegate: nil),
-                       delegate: nil)
+            if CommandLine.arguments.contains("enable-testing") {
+                SPUUpdater(
+                    hostBundle: Bundle.main,
+                    applicationBundle: Bundle.main,
+                    userDriver: SPUStandardUserDriver(hostBundle: Bundle.main, delegate: nil),
+                    delegate: nil
+                )
                 .automaticallyChecksForUpdates = false
-        }
+            }
         #endif
+
+        migrateUserDefaults()
 
         // Bridge FloatingPanel via AppDelegate.
         AppState.shared.setAppDelegate(self)
 
         Clipboard.shared.onNewCopy { History.shared.add($0) }
-        Clipboard.shared.start()
 
         Task {
             for await _ in Defaults.updates(.clipboardCheckInterval, initial: false) {
-                Clipboard.shared.restart()
+                // Restart clipboard checking with new interval
+                clipboardCheckTask?.cancel()
+                startClipboardChecking()
             }
         }
 
@@ -86,22 +97,36 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                 statusItem.button?.appearsDisabled = isStatusItemDisabled
             }
         }
+
+        // Listen for theme toggle shortcut
+        KeyboardShortcuts.onKeyDown(for: .toggleTheme) {
+            let themeManager = ThemeManager.shared
+            switch themeManager.currentTheme {
+            case .system:
+                themeManager.currentTheme = .light
+            case .light:
+                themeManager.currentTheme = .dark
+            case .dark:
+                themeManager.currentTheme = .system
+            }
+        }
     }
 
     func applicationDidFinishLaunching(_ aNotification: Notification) {
-        migrateUserDefaults()
-        disableUnusedGlobalHotkeys()
-
-        panel = FloatingPanel(
+        // Initialize the floating panel
+        panel = FloatingPanel<ContentView>(
             contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
-            identifier: Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy",
             statusBarButton: statusItem.button
         ) {
             ContentView()
         }
+
+        startClipboardChecking()
     }
 
-    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
+    func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool)
+        -> Bool
+    {
         panel.toggle(height: AppState.shared.popup.height)
         return true
     }
@@ -110,6 +135,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         if Defaults[.clearOnQuit] {
             AppState.shared.history.clear()
         }
+        clipboardCheckTask?.cancel()
     }
 
     private func migrateUserDefaults() {
@@ -179,8 +205,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
             object: nil,
             queue: nil
         ) { notification in
-            if let name = notification.userInfo?["name"] as? KeyboardShortcuts.Name, names.contains(name) {
+            if let name = notification.userInfo?["name"] as? KeyboardShortcuts.Name,
+                names.contains(name)
+            {
                 KeyboardShortcuts.disable(name)
+            }
+        }
+    }
+
+    @objc
+    func menuWillOpen(_ menu: NSMenu) {
+        Clipboard.shared.checkForChangesInPasteboard()
+    }
+
+    private func startClipboardChecking() {
+        clipboardCheckTask = Task {
+            for await _ in Clipboard.shared.newCopyStream {
+                Clipboard.shared.checkForChangesInPasteboard()
             }
         }
     }

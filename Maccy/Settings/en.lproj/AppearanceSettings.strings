@@ -1,4 +1,9 @@
 "Title" = "Appearance";
+"Theme" = "Theme:";
+"ThemeSystem" = "System";
+"ThemeLight" = "Light";
+"ThemeDark" = "Dark";
+"ThemeTooltip" = "Choose the application theme.\nDefault: System.";
 "PopupAt" = "Popup at:";
 "PopupAtCursor" = "Cursor";
 "PopupAtMenuBarIcon" = "Menu icon";

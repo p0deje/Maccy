@@ -5,6 +5,7 @@ struct ContentView: View {
     @State private var appState = AppState.shared
     @State private var modifierFlags = ModifierFlags()
     @State private var scenePhase: ScenePhase = .background
+    @State private var themeManager = ThemeManager.shared
 
     @FocusState private var searchFocused: Bool
 
@@ -13,7 +14,9 @@ struct ContentView: View {
             VisualEffectView()
 
             VStack(alignment: .leading, spacing: 0) {
-                KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
+                KeyHandlingView(
+                    searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused
+                ) {
                     HeaderView(
                         searchFocused: $searchFocused,
                         searchQuery: $appState.history.searchQuery
@@ -29,6 +32,7 @@ struct ContentView: View {
             }
             .animation(.default.speed(3), value: appState.history.items)
             .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
+            .animation(.easeInOut(duration: 0.3), value: themeManager.currentTheme)
             .padding(.horizontal, 5)
             .padding(.vertical, appState.popup.verticalPadding)
             .onAppear {
@@ -43,19 +47,21 @@ struct ContentView: View {
         }
         .environment(appState)
         .environment(modifierFlags)
+        .environment(themeManager)
         .environment(\.scenePhase, scenePhase)
+        .preferredColorScheme(themeManager.currentTheme.colorScheme)
         // FloatingPanel is not a scene, so let's implement custom scenePhase..
         .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) {
             if let window = $0.object as? NSWindow,
-               let bundleIdentifier = Bundle.main.bundleIdentifier,
-               window.identifier == NSUserInterfaceItemIdentifier(bundleIdentifier) {
+                let bundleIdentifier = Bundle.main.bundleIdentifier,
+                window.identifier == NSUserInterfaceItemIdentifier(bundleIdentifier) {
                 scenePhase = .active
             }
         }
         .onReceive(NotificationCenter.default.publisher(for: NSWindow.didResignKeyNotification)) {
             if let window = $0.object as? NSWindow,
-               let bundleIdentifier = Bundle.main.bundleIdentifier,
-               window.identifier == NSUserInterfaceItemIdentifier(bundleIdentifier) {
+                let bundleIdentifier = Bundle.main.bundleIdentifier,
+                window.identifier == NSUserInterfaceItemIdentifier(bundleIdentifier) {
                 scenePhase = .background
             }
         }

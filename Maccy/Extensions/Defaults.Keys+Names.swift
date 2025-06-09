@@ -30,7 +30,7 @@ extension Defaults.Keys {
             "com.agilebits.onepassword",
             "com.typeit4me.clipping",
             "de.petermaurer.TransientPasteboardType",
-            "net.antelle.keeweb"
+            "net.antelle.keeweb",
         ])
     )
     static let imageMaxHeight = Key<Int>("imageMaxHeight", default: 40)
@@ -61,4 +61,5 @@ extension Defaults.Keys {
     static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: false)
     static let showDeleteButton = Key<Bool>("showDeleteButton", default: true)
     static let showPreviewButton = Key<Bool>("showPreviewButton", default: true)
+    // static let appTheme = Key<AppTheme>("appTheme", default: .system)
 }

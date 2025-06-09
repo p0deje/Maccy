@@ -1,4 +1,9 @@
 "Title" = "Apparence";
+"Theme" = "Thème:";
+"ThemeSystem" = "Système";
+"ThemeLight" = "Clair";
+"ThemeDark" = "Sombre";
+"ThemeTooltip" = "Choisissez le thème de l'application.\nPar défaut: Système.";
 "PopupAt" = "Popup sur :";
 "PopupAtCursor" = "Curseur";
 "PopupAtMenuBarIcon" = "Icône du menu";

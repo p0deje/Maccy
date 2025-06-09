@@ -7,7 +7,7 @@ import Settings
 import SwiftData
 
 @Observable
-class History { // swiftlint:disable:this type_body_length
+class History {
     static let shared = History()
 
     var items: [HistoryItemDecorator] = []
@@ -153,7 +153,8 @@ class History { // swiftlint:disable:this type_body_length
 
         var itemDecorator: HistoryItemDecorator
         if let pin = item.pin {
-            itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
+            itemDecorator = HistoryItemDecorator(
+                item, shortcuts: KeyShortcut.create(character: pin))
             // Keep pins in the same place.
             if let removedItemIndex {
                 all.insert(itemDecorator, at: removedItemIndex)
@@ -221,7 +222,8 @@ class History { // swiftlint:disable:this type_body_length
             return
         }
 
-        let modifierFlags = NSApp.currentEvent?.modifierFlags
+        let modifierFlags =
+            NSApp.currentEvent?.modifierFlags
             .intersection(.deviceIndependentFlagsMask)
             .subtracting([.capsLock, .numericPad, .function]) ?? []
 
@@ -262,7 +264,8 @@ class History { // swiftlint:disable:this type_body_length
 
         let sortedItems = sorter.sort(all.map(\.item))
         if let currentIndex = all.firstIndex(of: item),
-           let newIndex = sortedItems.firstIndex(of: item.item) {
+            let newIndex = sortedItems.firstIndex(of: item.item)
+        {
             all.remove(at: currentIndex)
             all.insert(item, at: newIndex)
         }

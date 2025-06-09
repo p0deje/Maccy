@@ -1,19 +1,21 @@
-import SwiftUI
 import Defaults
 import KeyboardShortcuts
 import LaunchAtLogin
 import Settings
+import SwiftUI
 
 struct GeneralSettingsPane: View {
     private let notificationsURL = URL(
-        string: "x-apple.systempreferences:com.apple.preference.notifications?id=\(Bundle.main.bundleIdentifier ?? "")"
+        string:
+            "x-apple.systempreferences:com.apple.preference.notifications?id=\(Bundle.main.bundleIdentifier ?? "")"
     )
 
     @Default(.searchMode) private var searchMode
 
     @State private var copyModifier = HistoryItemAction.copy.modifierFlags.description
     @State private var pasteModifier = HistoryItemAction.paste.modifierFlags.description
-    @State private var pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
+    @State private var pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting
+        .modifierFlags.description
 
     @State private var updater = SoftwareUpdater()
 
@@ -40,12 +42,24 @@ struct GeneralSettingsPane: View {
                 KeyboardShortcuts.Recorder(for: .pin)
                     .help(Text("PinTooltip", tableName: "GeneralSettings"))
             }
-            Settings.Section(
-                bottomDivider: true,
-                label: { Text("Delete", tableName: "GeneralSettings") }
-            ) {
+            Settings.Section(label: { Text("Delete", tableName: "GeneralSettings") }) {
                 KeyboardShortcuts.Recorder(for: .delete)
                     .help(Text("DeleteTooltip", tableName: "GeneralSettings"))
+            }
+
+            Settings.Section(
+                label: { Text("ToggleTheme", tableName: "GeneralSettings") }
+            ) {
+                KeyboardShortcuts.Recorder(for: .toggleTheme)
+                    .help(Text("ToggleThemeTooltip", tableName: "GeneralSettings"))
+            }
+
+            Settings.Section(
+                bottomDivider: true,
+                label: { Text("Language", tableName: "GeneralSettings") }
+            ) {
+                LanguagePicker()
+                    .help(Text("LanguageTooltip", tableName: "GeneralSettings"))
             }
 
             Settings.Section(
@@ -77,10 +91,13 @@ struct GeneralSettingsPane: View {
                 .onChange(refreshModifiers)
                 .fixedSize()
 
-                Text(String(
-                    format: NSLocalizedString("Modifiers", tableName: "GeneralSettings", comment: ""),
-                    copyModifier, pasteModifier, pasteWithoutFormatting
-                ))
+                Text(
+                    String(
+                        format: NSLocalizedString(
+                            "Modifiers", tableName: "GeneralSettings", comment: ""),
+                        copyModifier, pasteModifier, pasteWithoutFormatting
+                    )
+                )
                 .fixedSize(horizontal: false, vertical: true)
                 .foregroundStyle(.gray)
                 .controlSize(.small)
@@ -88,9 +105,11 @@ struct GeneralSettingsPane: View {
 
             Settings.Section(title: "") {
                 if let notificationsURL = notificationsURL {
-                    Link(destination: notificationsURL, label: {
-                        Text("NotificationsAndSounds", tableName: "GeneralSettings")
-                    })
+                    Link(
+                        destination: notificationsURL,
+                        label: {
+                            Text("NotificationsAndSounds", tableName: "GeneralSettings")
+                        })
                 }
             }
         }

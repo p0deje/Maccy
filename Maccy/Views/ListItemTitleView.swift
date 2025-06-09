@@ -11,14 +11,18 @@ struct ListItemTitleView<Title: View>: View {
                 Text(attributedTitle)
                     .accessibilityIdentifier("copy-history-item")
                     .font(.system(size: 12, weight: .medium))
-                    .lineLimit(1)
-                    .truncationMode(.middle)
+                    .lineLimit(2)
+                    .truncationMode(.tail)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
             } else {
                 title()
                     .accessibilityIdentifier("copy-history-item")
                     .font(.system(size: 12, weight: .medium))
-                    .lineLimit(1)
-                    .truncationMode(.middle)
+                    .lineLimit(2)
+                    .truncationMode(.tail)
+                    .multilineTextAlignment(.leading)
+                    .fixedSize(horizontal: false, vertical: true)
             }
             Spacer(minLength: 0)
         }

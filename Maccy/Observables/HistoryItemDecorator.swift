@@ -12,12 +12,12 @@ private class ThumbnailCache {
 
     private struct CacheEntry {
         let image: NSImage
-        let fileModificationDate: Date // Original modification date of the file when cached
+        let fileModificationDate: Date  // Original modification date of the file when cached
     }
 
     private var lruKeys: [String] = []
     private var cacheData: [String: CacheEntry] = [:]
-    private let maxCacheSize = 10 // Keep only 10 thumbnails in memory
+    private let maxCacheSize = 10  // Keep only 10 thumbnails in memory
 
     private init() {}
 
@@ -27,9 +27,10 @@ private class ThumbnailCache {
 
         // Check if file was modified since cache
         if let currentFileModDate = try? url.resourceValues(
-          forKeys: [.contentModificationDateKey]
+            forKeys: [.contentModificationDateKey]
         ).contentModificationDate,
-           currentFileModDate <= entry.fileModificationDate {
+            currentFileModDate <= entry.fileModificationDate
+        {
             // Move key to the end of lruKeys (most recently used)
             lruKeys.removeAll { $0 == key }
             lruKeys.append(key)
@@ -44,9 +45,11 @@ private class ThumbnailCache {
 
     func setThumbnail(_ image: NSImage, for url: URL) {
         let key = url.path
-        guard let fileModDate = try? url.resourceValues(
-          forKeys: [.contentModificationDateKey]
-        ).contentModificationDate else {
+        guard
+            let fileModDate = try? url.resourceValues(
+                forKeys: [.contentModificationDateKey]
+            ).contentModificationDate
+        else {
             // Cannot get modification date, do not cache
             return
         }
@@ -79,7 +82,9 @@ class HistoryItemDecorator: Identifiable, Hashable {
     }
 
     static var previewThrottler = Throttler(minimumDelay: Double(Defaults[.previewDelay]) / 1000)
-    static var previewImageSize: NSSize { NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536) }
+    static var previewImageSize: NSSize {
+        NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536)
+    }
     static var thumbnailImageSize: NSSize { NSSize(width: 340, height: Defaults[.imageMaxHeight]) }
 
     let id = UUID()
@@ -91,16 +96,17 @@ class HistoryItemDecorator: Identifiable, Hashable {
     var isSelected: Bool = false {
         didSet {
             if isSelected {
-                Self.previewThrottler.minimumDelay = Double(Defaults[.previewDelay]) / 1000 // Reset delay here
+                Self.previewThrottler.minimumDelay = Double(Defaults[.previewDelay]) / 1000  // Reset delay here
                 Self.previewThrottler.throttle {
-                    self.showPreview = true // This will trigger showPreview.didSet
+                    self.showPreview = true  // This will trigger showPreview.didSet
                 }
             } else {
                 Self.previewThrottler.cancel()
-                self.showPreview = false // This will trigger showPreview.didSet
+                self.showPreview = false  // This will trigger showPreview.didSet
             }
         }
     }
+
     var shortcuts: [KeyShortcut] = []
     var showPreview: Bool = false {
         didSet {
@@ -116,7 +122,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
                     QLThumbnailGenerator.shared.cancel(request)
                     currentThumbnailRequest = nil
                 }
-                self.quickLookThumbnail = nil // Actively clear thumbnail to save memory
+                self.quickLookThumbnail = nil  // Actively clear thumbnail to save memory
             }
         }
     }
@@ -127,7 +133,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
         }
 
         guard let bundle = item.application,
-              let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundle)
+            let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundle)
         else {
             return nil
         }
@@ -139,7 +145,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
     var thumbnailImage: NSImage?
     var fileIcon: NSImage?
     var applicationImage: ApplicationImage
-    var quickLookThumbnail: NSImage? // New property for advanced previews
+    var quickLookThumbnail: NSImage?  // New property for advanced previews
     private var currentThumbnailRequest: QLThumbnailGenerator.Request?
 
     // 10k characters seems to be more than enough on large displays
@@ -195,7 +201,8 @@ class HistoryItemDecorator: Identifiable, Hashable {
         var attributedString = AttributedString(title.shortened(to: 500))
         for range in ranges {
             if let lowerBound = AttributedString.Index(range.lowerBound, within: attributedString),
-               let upperBound = AttributedString.Index(range.upperBound, within: attributedString) {
+                let upperBound = AttributedString.Index(range.upperBound, within: attributedString)
+            {
                 switch Defaults[.highlightMatch] {
                 case .bold:
                     attributedString[lowerBound..<upperBound].font = .bold(.body)()
@@ -232,7 +239,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
         // Cancel any existing request before starting a new one
         cancelCurrentThumbnailRequest()
-        self.quickLookThumbnail = nil // Clear previous thumbnail immediately
+        self.quickLookThumbnail = nil  // Clear previous thumbnail immediately
 
         DispatchQueue.global(qos: .userInitiated).async { [weak self] in
             self?.generateThumbnailAsync()
@@ -264,7 +271,8 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
         // Use UTType for more accurate file type detection
         guard let utType = UTType(filenameExtension: fileURL.pathExtension.lowercased()),
-              self.isPreviewableType(utType) else {
+            self.isPreviewableType(utType)
+        else {
             DispatchQueue.main.async { [weak self] in
                 self?.quickLookThumbnail = nil
             }
@@ -276,7 +284,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
     private func requestThumbnailGeneration(for fileURL: URL) {
         // Larger thumbnail size for better preview visibility
-        let size = CGSize(width: 600, height: 800) // Increased size for better readability
+        let size = CGSize(width: 600, height: 800)  // Increased size for better readability
         let request = QLThumbnailGenerator.Request(
             fileAt: fileURL,
             size: size,
@@ -285,7 +293,8 @@ class HistoryItemDecorator: Identifiable, Hashable {
         )
         self.currentThumbnailRequest = request
 
-        QLThumbnailGenerator.shared.generateBestRepresentation(for: request) { [weak self] (thumbnail, _) in
+        QLThumbnailGenerator.shared.generateBestRepresentation(for: request) {
+            [weak self] (thumbnail, _) in
             guard let self = self else { return }
             guard self.currentThumbnailRequest == request else { return }
             self.currentThumbnailRequest = nil
@@ -305,17 +314,14 @@ class HistoryItemDecorator: Identifiable, Hashable {
     }
 
     private func isPreviewableType(_ utType: UTType) -> Bool {
-        return utType.conforms(to: .pdf) ||
-            utType.conforms(to: .presentation) ||
-            utType.conforms(to: .spreadsheet) ||
-            utType.conforms(to: .text) ||
-            utType.conforms(to: .rtf) ||
-            utType.conforms(to: .plainText) ||
+        return utType.conforms(to: .pdf) || utType.conforms(to: .presentation)
+            || utType.conforms(to: .spreadsheet) || utType.conforms(to: .text)
+            || utType.conforms(to: .rtf) || utType.conforms(to: .plainText)
             // Check for common document formats by identifier
-            utType.identifier == "org.openxmlformats.wordprocessingml.document" || // .docx
-            utType.identifier == "com.microsoft.word.doc" || // .doc
-            utType.identifier == "com.apple.iwork.pages.sffpages" || // .pages
-            utType.identifier == "org.oasis-open.opendocument.text" // .odt
+            || utType.identifier == "org.openxmlformats.wordprocessingml.document"  // .docx
+            || utType.identifier == "com.microsoft.word.doc"  // .doc
+            || utType.identifier == "com.apple.iwork.pages.sffpages"  // .pages
+            || utType.identifier == "org.oasis-open.opendocument.text"  // .odt
     }
 
     private func synchronizeItemPin() {
