@@ -1,6 +1,45 @@
 disabled_rules:
-  - multiple_closures_with_trailing_closure
-  - non_optional_string_data_conversion
-  - todo
+    - closure_parameter_position
+    - trailing_comma
+    - opening_brace
+    - identifier_name
+    - type_name
+    - missing_docs
+    - multiple_closures_with_trailing_closure
+    - todo
+
+opt_in_rules:
+    - empty_count
+
+excluded:
+    - DerivedData
+    - .build
+
 line_length:
-  ignores_comments: true
+    ignores_comments: true
+    warning: 120
+
+type_body_length:
+    - 300
+    - 400
+
+file_length:
+    warning: 500
+    error: 1200
+
+type_name:
+    min_length: 4
+    max_length:
+        warning: 40
+        error: 50
+    excluded: iPhone
+
+identifier_name:
+    min_length:
+        error: 4
+    excluded:
+        - id
+        - URL
+        - GlobalAPIKey
+
+reporter: "xcode"

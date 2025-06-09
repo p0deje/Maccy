@@ -1,0 +1,10 @@
+"Title" = "Nâng cao";
+"TurnOff" = "Tắt";
+"TurnOffDescription" = "Tạm thời bỏ qua tất cả các bản sao mới.\nBạn có thể sử dụng nó bằng chương trình và tắt ứng dụng khi sao chép dữ liệu nhạy cảm.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Bạn cũng có thể nhấp vào biểu tượng menu với ⌥ được nhấn.\nĐể chỉ bỏ qua bản sao tiếp theo, nhấp với ⌥⇧.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copy data";
+"ClearHistoryOnQuit" = "Xóa lịch sử khi thoát";
+"ClearHistoryOnQuitTooltip" = "Tự động xóa tất cả các mục chưa được ghim trước khi thoát ứng dụng.";
+"ClearSystemClipboard" = "Xóa clipboard hệ thống cũng";
+"ClearSystemClipboardTooltip" = "Khi được bật, việc xóa lịch sử cũng sẽ xóa clipboard hệ thống hiện tại."; 

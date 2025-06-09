@@ -101,7 +101,7 @@
 		DAA072DD2C41C61F006DDFD2 /* FooterItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072DC2C41C61F006DDFD2 /* FooterItemView.swift */; };
 		DAA072DF2C41C63C006DDFD2 /* ConfirmationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072DE2C41C63C006DDFD2 /* ConfirmationView.swift */; };
 		DAA072E12C41C6E8006DDFD2 /* FooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E02C41C6E8006DDFD2 /* FooterView.swift */; };
-		DAA072E32C41D1D5006DDFD2 /* ListItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E22C41D1D5006DDFD2 /* ListItemView.swift */; };
+
 		DAA072E72C423617006DDFD2 /* NSSize+DefaultsSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E62C423617006DDFD2 /* NSSize+DefaultsSerializable.swift */; };
 		DAA072E92C42C6AA006DDFD2 /* ListItemTitleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072E82C42C6AA006DDFD2 /* ListItemTitleView.swift */; };
 		DAA365CE2C4BF9DD00A394F8 /* PinsSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA365CD2C4BF9DD00A394F8 /* PinsSettingsPane.swift */; };
@@ -125,6 +125,9 @@
 		DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD9268A521A00990986 /* String+Shortened.swift */; };
 		DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */; };
 		DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */; };
+		C4236C29F60C460480935816 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = C32BDC32DD5643EDB7B9562D /* Theme.swift */; };
+		9fec297ddf444d24ab76ebfa /* LanguageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 295157b07b5546df8cb5e112 /* LanguageManager.swift */; };
+		8e040690fd344db29ea962a2 /* LanguagePicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = b0078fa9815447199d2688e9 /* LanguagePicker.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -397,7 +400,7 @@
 		DAA072DC2C41C61F006DDFD2 /* FooterItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterItemView.swift; sourceTree = "<group>"; };
 		DAA072DE2C41C63C006DDFD2 /* ConfirmationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationView.swift; sourceTree = "<group>"; };
 		DAA072E02C41C6E8006DDFD2 /* FooterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterView.swift; sourceTree = "<group>"; };
-		DAA072E22C41D1D5006DDFD2 /* ListItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemView.swift; sourceTree = "<group>"; };
+
 		DAA072E62C423617006DDFD2 /* NSSize+DefaultsSerializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSSize+DefaultsSerializable.swift"; sourceTree = "<group>"; };
 		DAA072E82C42C6AA006DDFD2 /* ListItemTitleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListItemTitleView.swift; sourceTree = "<group>"; };
 		DAA2BDCE24676CA7007FE090 /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -491,6 +494,17 @@
 		DAFE2DD9268A521A00990986 /* String+Shortened.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Shortened.swift"; sourceTree = "<group>"; };
 		DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTests.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Shortcuts.swift"; sourceTree = "<group>"; };
+		C32BDC32DD5643EDB7B9562D /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		295157b07b5546df8cb5e112 /* LanguageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguageManager.swift; sourceTree = "<group>"; };
+		b0078fa9815447199d2688e9 /* LanguagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LanguagePicker.swift; sourceTree = "<group>"; };
+		3077be550da84115bbf0a2e5 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
+		15ba2a360fc14fbe9daed739 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/IgnoreSettings.strings; sourceTree = "<group>"; };
+		33cd57cd73854f3a81730967 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/PinsSettings.strings; sourceTree = "<group>"; };
+		884a09b3cb2c4d1c9fb18355 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
+		54818ab240a64e03ac55a7ee /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/StorageSettings.strings; sourceTree = "<group>"; };
+		45acc312ae084950a557c8eb /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
+		45acc312ae084950a557c8e1 /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
+		64aff0a54806416fb53aaedb /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -589,6 +603,7 @@
 				DA689FCD2C1DEE570009B887 /* AppearanceSettings.strings */,
 				DAA5ACB12C1B3F8800B58513 /* GeneralSettingsPane.swift */,
 				DAA5ACB32C1B803000B58513 /* GeneralSettings.strings */,
+				b0078fa9815447199d2688e9 /* LanguagePicker.swift */,
 				DA9C3C632C20E1E80056795D /* IgnoreSettingsPane */,
 				DA9C3C442C207AF80056795D /* IgnoreSettingsPane.swift */,
 				DA9C3C482C20D4B40056795D /* IgnoreSettings.strings */,
@@ -613,7 +628,7 @@
 				DA19690D2C3EEFA900258481 /* KeyboardShortcutView.swift */,
 				DA19691E2C3F5F0600258481 /* KeyHandlingView.swift */,
 				DAA072E82C42C6AA006DDFD2 /* ListItemTitleView.swift */,
-				DAA072E22C41D1D5006DDFD2 /* ListItemView.swift */,
+
 				DA5078982CF2676400215488 /* MouseMovedViewModifer.swift */,
 				DA5E627E2C39E53F00F4C710 /* PreviewItemView.strings */,
 				DA1969132C3F11D600258481 /* PreviewItemView.swift */,
@@ -753,6 +768,8 @@
 				DAA5ACC92C1BEE8A00B58513 /* SoftwareUpdater.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DA243D132C2F66DD0012A27F /* Storage.swift */,
+				C32BDC32DD5643EDB7B9562D /* Theme.swift */,
+				295157b07b5546df8cb5e112 /* LanguageManager.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
 				DAB8CE4024E3677F00A2500E /* Maccy.entitlements */,
 				DAEE384D1E3DBEB100DD2966 /* Info.plist */,
@@ -849,7 +866,6 @@
 					};
 					DA360DAF1E3DF137005C6F6B = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = MN3X4648SC;
 						LastSwiftMigration = 1020;
 						ProvisioningStyle = Automatic;
 						TestTargetID = DAEE38421E3DBEB100DD2966;
@@ -893,6 +909,7 @@
 				sl,
 				be,
 				uz,
+				vi,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			packageReferences = (
@@ -1030,7 +1047,7 @@
 				DA05B5142C234DCF006980FE /* HistoryItemContent.swift in Sources */,
 				DAA072D32C40A961006DDFD2 /* Color+Random.swift in Sources */,
 				DA05B5152C234DCF006980FE /* HistoryItem.swift in Sources */,
-				DAA072E32C41D1D5006DDFD2 /* ListItemView.swift in Sources */,
+
 				DAA072D92C41C5AD006DDFD2 /* Footer.swift in Sources */,
 				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,
 				DAA072E92C42C6AA006DDFD2 /* ListItemTitleView.swift in Sources */,
@@ -1068,6 +1085,9 @@
 				DAE28500232257D20080E394 /* ColorImage.swift in Sources */,
 				DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */,
 				DA20FA782B082E1A00056DD5 /* NSSound+Named.swift in Sources */,
+				C4236C29F60C460480935816 /* Theme.swift in Sources */,
+				9fec297ddf444d24ab76ebfa /* LanguageManager.swift in Sources */,
+				8e040690fd344db29ea962a2 /* LanguagePicker.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1118,6 +1138,7 @@
 				DA555F102CF108EA009608BD /* sl */,
 				DA3874012D09EB7600E7B251 /* be */,
 				DA7A04602D720B3200743037 /* uz */,
+				3077be550da84115bbf0a2e5 /* vi */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1153,6 +1174,7 @@
 				DA555F0F2CF108EA009608BD /* sl */,
 				DA3874002D09EB7600E7B251 /* be */,
 				DA7A045F2D720B3200743037 /* uz */,
+				64aff0a54806416fb53aaedb /* vi */,
 			);
 			name = PreviewItemView.strings;
 			sourceTree = "<group>";
@@ -1188,6 +1210,7 @@
 				DA555F0D2CF108EA009608BD /* sl */,
 				DA3873FE2D09EB7600E7B251 /* be */,
 				DA7A045D2D720B3200743037 /* uz */,
+				54818ab240a64e03ac55a7ee /* vi */,
 			);
 			name = StorageSettings.strings;
 			sourceTree = "<group>";
@@ -1223,6 +1246,7 @@
 				DA555F0A2CF108EA009608BD /* sl */,
 				DA3873FB2D09EB7600E7B251 /* be */,
 				DA7A045A2D720B3200743037 /* uz */,
+				45acc312ae084950a557c8eb /* vi */,
 			);
 			name = AppearanceSettings.strings;
 			sourceTree = "<group>";
@@ -1258,6 +1282,7 @@
 				DA555F092CF108EA009608BD /* sl */,
 				DA3873FA2D09EB7600E7B251 /* be */,
 				DA7A04592D720B3200743037 /* uz */,
+				45acc312ae084950a557c8e1 /* vi */,
 			);
 			name = AdvancedSettings.strings;
 			sourceTree = "<group>";
@@ -1293,6 +1318,7 @@
 				DA555F0C2CF108EA009608BD /* sl */,
 				DA3873FD2D09EB7600E7B251 /* be */,
 				DA7A045C2D720B3200743037 /* uz */,
+				15ba2a360fc14fbe9daed739 /* vi */,
 			);
 			name = IgnoreSettings.strings;
 			sourceTree = "<group>";
@@ -1328,6 +1354,7 @@
 				DA555F0E2CF108EA009608BD /* sl */,
 				DA3873FF2D09EB7600E7B251 /* be */,
 				DA7A045E2D720B3200743037 /* uz */,
+				33cd57cd73854f3a81730967 /* vi */,
 			);
 			name = PinsSettings.strings;
 			sourceTree = "<group>";
@@ -1363,6 +1390,7 @@
 				DA555F0B2CF108EA009608BD /* sl */,
 				DA3873FC2D09EB7600E7B251 /* be */,
 				DA7A045B2D720B3200743037 /* uz */,
+				884a09b3cb2c4d1c9fb18355 /* vi */,
 			);
 			name = GeneralSettings.strings;
 			sourceTree = "<group>";
@@ -1432,7 +1460,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = K7DLV7FLG9;
 				INFOPLIST_FILE = MaccyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1456,7 +1484,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = K7DLV7FLG9;
 				INFOPLIST_FILE = MaccyTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1604,7 +1632,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 54;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = K7DLV7FLG9;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1639,7 +1667,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 54;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = K7DLV7FLG9;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

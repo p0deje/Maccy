@@ -1,0 +1,9 @@
+"Title" = "Bỏ qua";
+"ApplicationsTab" = "Ứng dụng";
+"IgnoredAppsDescription" = "Có thể bỏ qua các bản sao đến từ một số ứng dụng nhất định.\nLưu ý rằng cách thức hoạt động này không hoàn toàn chính xác, vì vậy tốt hơn là sử dụng loại pasteboard khi có thể.";
+"IgnoredAllAppsExceptListed" = "Bỏ qua tất cả ứng dụng ngoại trừ những ứng dụng được liệt kê";
+"PasteboardTypesTab" = "Loại pasteboard";
+"IgnoredPasteboardTypesDescription" = "Có thể bỏ qua một số loại mục pasteboard nhất định khỏi việc ghi nhớ.\nTheo mặc định, một số loại đặc thù của ứng dụng đã biết được định nghĩa. Bạn có thể xóa chúng và thêm bất kỳ loại tùy chỉnh nào bạn muốn.";
+"IgnoredPasteboardTypesReset" = "Đặt lại";
+"RegexpTab" = "Biểu thức chính quy";
+"IgnoredRegexpsDescription" = "Có thể bỏ qua một số bản sao nhất định khỏi việc ghi nhớ dựa trên các biểu thức chính quy đã định nghĩa."; 

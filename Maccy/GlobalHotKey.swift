@@ -4,15 +4,15 @@ import Sauce
 import SwiftUI
 
 class GlobalHotKey {
-  typealias Handler = () -> Void
+    typealias Handler = () -> Void
 
-  static public var key: KeyEquivalent? { KeyboardShortcuts.Shortcut(name: .popup)?.toKeyEquivalent() }
-  static public var modifierFlags: EventModifiers? { KeyboardShortcuts.Shortcut(name: .popup)?.toEventModifiers() }
+    static public var key: KeyEquivalent? { KeyboardShortcuts.Shortcut(name: .popup)?.toKeyEquivalent() }
+    static public var modifierFlags: EventModifiers? { KeyboardShortcuts.Shortcut(name: .popup)?.toEventModifiers() }
 
-  private var handler: Handler
+    private var handler: Handler
 
-  init(_ handler: @escaping Handler) {
-    self.handler = handler
-//    KeyboardShortcuts.onKeyDown(for: .popup, action: handler)
-  }
+    init(_ handler: @escaping Handler) {
+        self.handler = handler
+        //    KeyboardShortcuts.onKeyDown(for: .popup, action: handler)
+    }
 }

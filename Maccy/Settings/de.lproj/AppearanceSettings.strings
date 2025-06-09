@@ -1,4 +1,9 @@
 "Title" = "Erscheinungsbild";
+"Theme" = "Theme:";
+"ThemeSystem" = "System";
+"ThemeLight" = "Hell";
+"ThemeDark" = "Dunkel";
+"ThemeTooltip" = "Wählen Sie das Anwendungsthema.\nStandard: System.";
 "PopupAt" = "Position des Popup-Fensters:";
 "PopupAtCursor" = "Mauszeiger";
 "PopupAtMenuBarIcon" = "Menüleistensymbol";

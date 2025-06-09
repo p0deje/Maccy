@@ -3,3 +3,34 @@ Maccy.xcodeproj/project.xcworkspace/xcshareddata
 .idea
 .DS_Store
 Maccy/.DS_Store
+# Xcode
+*.xcuserstate
+*.xcuserdatad
+*.xcscmblueprint
+# Swift Package Manager
+*.xcodeproj/project.xcworkspace/xcuserdata
+# CocoaPods
+Pods/
+# Carthage
+Carthage/
+# SwiftPM
+.build/
+# Derived data
+DerivedData/
+# Archives
+*.xcarchive
+# Build products
+build/
+# Logs
+*.log
+# Temporary files
+*.tmp
+# User-specific files
+*.swp
+# Xcode specific
+*.xcuserdatad
+# Xcode schemes
+*.xcscheme
+
+build1.sh
+build_log.txt

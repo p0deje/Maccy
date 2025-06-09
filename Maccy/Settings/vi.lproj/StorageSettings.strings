@@ -1,0 +1,14 @@
+"Title" = "Lưu trữ";
+"Save" = "Lưu:";
+"Files" = "Tệp";
+"Images" = "Hình ảnh";
+"Text" = "Văn bản";
+"SaveDescription" = "Thay đổi loại nội dung được sao chép nào nên được lưu trữ.";
+"Size" = "Kích thước:";
+"SizeTooltip" = "Số lượng mục lịch sử cần giữ.\nMặc định: 200.";
+"CurrentSizeTooltip" = "Kích thước hiện tại trên đĩa.";
+"SortBy" = "Sắp xếp theo:";
+"LastCopiedAt" = "Thời gian sao chép gần nhất";
+"FirstCopiedAt" = "Thời gian sao chép đầu tiên";
+"NumberOfCopies" = "Số lần sao chép";
+"SortByTooltip" = "Mặc định: Thời gian sao chép gần nhất."; 

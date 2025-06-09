@@ -1,4 +1,9 @@
 "Title" = "Appearance";
+"Theme" = "Theme:";
+"ThemeSystem" = "System";
+"ThemeLight" = "Light";
+"ThemeDark" = "Dark";
+"ThemeTooltip" = "Choose the application theme.\nDefault: System.";
 "PopupAt" = "Popup at:";
 "PopupAtCursor" = "Cursor";
 "PopupAtMenuBarIcon" = "Menu icon";
@@ -18,6 +23,9 @@
 "ImageHeightTooltip" = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items.";
 "PreviewDelay" = "Preview delay:";
 "PreviewDelayTooltip" = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500.";
+"DocumentPreviews" = "Document previews:";
+"EnableDocumentPreviews" = "Enable advanced document previews";
+"EnableDocumentPreviewsTooltip" = "Show QuickLook thumbnails for PDF, Word, Excel, PowerPoint and other document files in preview popover.\nDefault: Enabled.";
 "HighlightMatches" = "Highlight matches:";
 "HighlightMatchColor" = "Color";
 "HighlightMatchBold" = "Bold";
@@ -33,3 +41,7 @@
 "ShowApplicationIcons" = "Show application icons";
 "ShowFooter" = "Show footer";
 "OpenPreferencesWarning" = "⚠️ Press ⌘, to open preferences when footer is hidden.";
+"ShowDeleteButton" = "Show delete button";
+"ShowDeleteButtonTooltip" = "Show delete button in history item preview.\nDefault: Enabled.";
+"ShowPreviewButton" = "Show preview button";
+"ShowPreviewButtonTooltip" = "Show preview button for history items.\nDefault: Enabled.";
