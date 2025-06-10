@@ -1,4 +1,7 @@
 "Title" = "Pribadače";
 "Key" = "Tipka";
 "Alias" = "Naslov";
-"PinCustomizationDescription" = "Možeš prilagoditi naslov i prečac za svaki prikvačeni element.\nZa mijenjanje, pritisni ga dvaput i upiši novu vrijednost.";
+"Content" = "Sadržaj";
+"ContentIsNotText" = "Sadržaj koji se ne može uređivati ​​(slika ili datoteka)";
+"RichTextEditWarning" = "Uređivanjem će se odbaciti svo formatiranje.";
+"PinCustomizationDescription" = "Možete prilagoditi prečac, naslov i sadržaj bilo koje prikvačene stavke. Za uređivanje dvaput kliknite stavku i unesite novu vrijednost.\nImajte na umu da se može promijeniti samo običan tekst.";

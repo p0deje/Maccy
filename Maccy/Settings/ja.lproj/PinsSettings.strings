@@ -1,4 +1,7 @@
 "Title" = "ピン留め";
 "Key" = "キー";
 "Alias" = "タイトル";
-"PinCustomizationDescription" = "全てのピン留め項目についてショートカットとタイトルをカスタマイズ可能です。\n修正するには、ダブルクリックし新しい値を入力してください。";
+"Content" = "内容";
+"ContentIsNotText" = "編集不可能なコンテンツ（画像またはファイル）";
+"RichTextEditWarning" = "編集すると、すべてのフォーマットが破棄されます。";
+"PinCustomizationDescription" = "ピン留めした項目のホットキー、タイトル、内容をカスタマイズできます。\n編集するには、項目をダブルクリックして新しい値を入力します。";

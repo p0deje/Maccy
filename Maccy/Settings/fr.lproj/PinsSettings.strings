@@ -1,4 +1,7 @@
 "Title" = "Épingles";
 "Key" = "Clé";
 "Alias" = "Titre";
-"PinCustomizationDescription" = "Vous pouvez personnaliser le titre et le raccourci clavier de chaque élément épinglé.\nPour le modifier, double-cliquez dessus et saisissez une nouvelle valeur.";
+"Content" = "Contenu";
+"ContentIsNotText" = "Contenu non modifiable (image ou fichier)";
+"RichTextEditWarning" = "L'édition ne tient pas compte de la mise en forme.";
+"PinCustomizationDescription" = "Vous pouvez personnaliser le raccourci clavier, le titre et le contenu de tout élément épinglé.\nPour les modifier, double-cliquez sur l'élément et entrez une nouvelle valeur. Veuillez noter que seul le texte en clair peut être modifié";

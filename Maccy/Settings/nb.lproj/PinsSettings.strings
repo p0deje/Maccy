@@ -1,4 +1,7 @@
 "Title" = "Merker";
 "Key" = "Nøkkel";
 "Alias" = "Tittel";
-"PinCustomizationDescription" = "Du kan tilpasse tittelen og hurtigtasten til hvert festet element.\nFor å redigere, dobbeltklikk på den og skriv inn ny verdi.";
+"Content" = "Innhold";
+"ContentIsNotText" = "Ikke-redigerbart innhold (bilde eller fil)";
+"RichTextEditWarning" = "Hvis du redigerer, slettes all formatering.";
+"PinCustomizationDescription" = "Du kan tilpasse hurtigtasten, tittelen og innholdet i alle festede elementer. Du redigerer ved å dobbeltklikke på elementet og angi en ny verdi.\nVær oppmerksom på at det bare er ren tekst som kan endres";

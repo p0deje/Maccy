@@ -1,4 +1,7 @@
 "Title" = "Zakačke";
 "Key" = "Dugme";
 "Alias" = "Naziv";
-"PinCustomizationDescription" = "Možeš prilagoditi naslov i dugme za prečicu svake zakačene stavke.\nDa urediš, dvaput klikni na nju i unesi novu vrijednost.";
+"Content" = "Sadržaj";
+"ContentIsNotText" = "Sadržaj koji se ne može uređivati ​​(slika ili datoteka)";
+"RichTextEditWarning" = "Uređivanjem će se odbaciti svo formatiranje.";
+"PinCustomizationDescription" = "Možete prilagoditi prečicu, naslov i sadržaj bilo koje prikvačene stavke. Za uređivanje, dvaput kliknite na stavku i unesite novu vrijednost.\nImajte na umu da se može mijenjati samo običan tekst.";

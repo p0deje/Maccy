@@ -1,4 +1,7 @@
 "Title" = "Anclas";
 "Key" = "Clave";
 "Alias" = "Título";
-"PinCustomizationDescription" = "Puede personalizar el título y la tecla de acceso rápido de cada elemento fijado.\nPara editarlo, haga doble clic en él e ingrese un nuevo valor.";
+"Content" = "Contenido";
+"ContentIsNotText" = "Contenido no editable (imagen o archivo)";
+"RichTextEditWarning" = "La edición descartará todo el formato.";
+"PinCustomizationDescription" = "Puedes personalizar la tecla de acceso rápido, el título y el contenido de cualquier elemento anclado.\nPara editarlo, haga doble clic en el elemento e introduzca un nuevo valor.";

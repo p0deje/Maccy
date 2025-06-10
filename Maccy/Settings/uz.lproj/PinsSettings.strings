@@ -1,4 +1,7 @@
 "Title" = "Qadalganlar";
 "Key" = "Kalit";
 "Alias" = "Sarlavha";
-"PinCustomizationDescription" = "Har bir qadalgan element sarlavhasi va tezkor tugmani sozlashingiz mumkin.\nTahrirlash uchun uni ikki marta bosing va yangi qiymatni kiriting.";
+"Content" = "Kontent";
+"ContentIsNotText" = "Tahrirlanmaydigan kontent (rasm yoki fayl)";
+"RichTextEditWarning" = "Tahrirlash barcha formatlashni bekor qiladi.";
+"PinCustomizationDescription" = "Har qanday mahkamlangan elementning tezkor tugmasi, sarlavhasi va mazmunini sozlashingiz mumkin. Tahrirlash uchun elementni ikki marta bosing va yangi qiymat kiriting.\nYodda tutingki, faqat oddiy matnni oʻzgartirish mumkin.";

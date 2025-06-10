@@ -1,4 +1,7 @@
-"Key" = "Klavišas";
 "Title" = "Prisegtukai";
+"Key" = "Klavišas";
 "Alias" = "Pavadinimas";
-"PinCustomizationDescription" = "Galite tinkinti kiekvieno prisegto elemento pavadinimą ir spartųjį klavišą.\nNorėdami redaguoti, dukart spustelėkite jį ir įveskite naują reikšmę.";
+"Content" = "Turinys";
+"ContentIsNotText" = "Neredaguojamas turinys (vaizdas arba failas)";
+"RichTextEditWarning" = "Redaguojant bus panaikintas visas formatavimas.";
+"PinCustomizationDescription" = "Galite pritaikyti bet kurio prisegto elemento sparčiuosius klavišus, pavadinimą ir turinį. Norėdami redaguoti, dukart spustelėkite elementą ir įveskite naują reikšmę.\nAtkreipkite dėmesį, kad galima keisti tik paprastą tekstą.";

@@ -1,4 +1,7 @@
 "Title" = "Pins";
 "Key" = "Hotkey";
 "Alias" = "Titel";
-"PinCustomizationDescription" = "Du kannst den Titel und den Hotkey jedes angehefteten Elements anpassen.\nZum Bearbeiten doppelklicke auf das Element und gib einen neuen Wert ein.";
+"Content" = "Inhalt";
+"ContentIsNotText" = "Nicht editierbarer Inhalt (Bild oder Datei)";
+"RichTextEditWarning" = "Bei der Bearbeitung werden alle Formatierungen verworfen.";
+"PinCustomizationDescription" = "Sie können den Hotkey, den Titel und den Inhalt jedes angehefteten Elements anpassen. Zum Bearbeiten doppelklicken Sie auf das Element und geben einen neuen Wert ein.\nBitte beachten Sie, dass nur einfacher Text geändert werden kann";

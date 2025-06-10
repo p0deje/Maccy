@@ -1,4 +1,7 @@
 "Title" = "Pini";
 "Key" = "Ključ";
 "Alias" = "Naslov";
-"PinCustomizationDescription" = "Naslov in bližnjično tipko lahko prilagodite vsakemu pripetemu elementu.\nČe ga želite urediti, dvokliknite nanj in vnesite novo vrednost.";
+"Content" = "Vsebina";
+"ContentIsNotText" = "Vsebina, ki je ni mogoče urejati (slika ali datoteka)";
+"RichTextEditWarning" = "Pri urejanju se bodo izgubile vse oblike.";
+"PinCustomizationDescription" = "Prilagodite lahko tipko za hitri dostop, naslov in vsebino vsakega pripetega elementa. Za urejanje dvakrat kliknite element in vnesite novo vrednost.\nUpoštevajte, da lahko spremenite samo navadno besedilo.";

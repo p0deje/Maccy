@@ -1,4 +1,7 @@
 "Title" = "釘選項目";
 "Key" = "快捷鍵";
 "Alias" = "標題";
-"PinCustomizationDescription" = "您可以自訂每個釘選項目的標題和快捷鍵。\n若要編輯，對項目點擊兩次並輸入新值。";
+"Content" = "內容";
+"ContentIsNotText" = "不可編輯的內容（影像或檔案）";
+"RichTextEditWarning" = "編輯時會捨棄所有格式。";
+"PinCustomizationDescription" = "您可以自訂任何釘選項目的熱鍵、標題和內容。\n若要編輯，請按兩下該項目，然後輸入新值。";

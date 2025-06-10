@@ -1,4 +1,7 @@
 "Title" = "Kitűzések";
 "Key" = "Gomb";
 "Alias" = "Cím";
-"PinCustomizationDescription" = "Mindegyik kitűzott elem címét és gyorsbillentyűjét személyre szabhatod.\nDupla-klikkelj rá a szerkesztéshez és írd be az új értéket.";
+"Content" = "Tartalom";
+"ContentIsNotText" = "Nem szerkeszthető tartalom (kép vagy fájl)";
+"RichTextEditWarning" = "A szerkesztés elveti az összes formázást.";
+"PinCustomizationDescription" = "Testre szabhatja bármelyik kitűzött elem gyorsbillentyűjét, címét és tartalmát. A szerkesztéshez kattintson duplán az elemre, és írja be az új értéket.\nFigyeljen arra, hogy csak egyszerű szöveg módosítható.";

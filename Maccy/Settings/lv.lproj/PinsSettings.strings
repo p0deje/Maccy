@@ -1,4 +1,7 @@
 "Title" = "Piespraudes";
-"Alias" = "Nosaukums";
 "Key" = "Taustiņš";
-"PinCustomizationDescription" = "Jūs varat pielāgot katra piespraustā vienuma virsrakstu un īsinājumtaustiņu.\nLai rediģētu, veiciet uz tās dubultklikšķi un ievadiet jaunu vērtību.";
+"Alias" = "Nosaukums";
+"Content" = "Saturs";
+"ContentIsNotText" = "Nerediģējams saturs (attēls vai fails)";
+"RichTextEditWarning" = "Rediģējot tiks atteikts viss formatējums.";
+"PinCustomizationDescription" = "Varat pielāgot jebkura piespraustā elementa karsto taustiņu, nosaukumu un saturu. Lai rediģētu, divreiz noklikšķiniet uz elementa un ievadiet jaunu vērtību.\nPievērsiet uzmanību, ka var mainīt tikai vienkāršu tekstu.";

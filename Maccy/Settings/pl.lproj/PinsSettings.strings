@@ -1,4 +1,7 @@
+"Title" = "Przypięte";
 "Key" = "Klucz";
 "Alias" = "Tytuł";
-"Title" = "Przypięte";
-"PinCustomizationDescription" = "Możesz dostosować tytuł i skrót dla każdego przypiętego wpisu.\nAby edytować, dwukrotnie kliknij wpis i wpisz nową wartość.";
+"Content" = "Treść";
+"ContentIsNotText" = "Zawartość nieedytowalna (obraz lub plik)";
+"RichTextEditWarning" = "Edycja spowoduje usunięcie całego formatowania.";
+"PinCustomizationDescription" = "Można dostosować klawisz skrótu, tytuł i zawartość dowolnego przypiętego elementu.\nAby edytować, kliknij dwukrotnie element i wprowadź nową wartość. Należy pamiętać, że można zmienić tylko zwykły tekst.";
