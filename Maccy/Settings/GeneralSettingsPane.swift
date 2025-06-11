@@ -33,9 +33,17 @@ struct GeneralSettingsPane: View {
       }
 
       Settings.Section(label: { Text("Open", tableName: "GeneralSettings") }) {
-        KeyboardShortcuts.Recorder(for: .popup)
-          .help(Text("OpenTooltip", tableName: "GeneralSettings"))
+        KeyboardShortcuts.Recorder(for: .popup) { newShortcut in
+          guard let shortcut = newShortcut else {
+            AppState.shared.popup.openShortcutManager = nil
+            return
+          }
+
+          AppState.shared.popup.openShortcutManager = OpenShortcutManager(shortcut)
+        }
+        .help(Text("OpenTooltip", tableName: "GeneralSettings"))
       }
+
       Settings.Section(label: { Text("Pin", tableName: "GeneralSettings") }) {
         KeyboardShortcuts.Recorder(for: .pin)
           .help(Text("PinTooltip", tableName: "GeneralSettings"))
