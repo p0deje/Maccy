@@ -1,2 +1,10 @@
 "Title" = "Tampilan";
 "PopupAt" = "Muncul lewat:";
+"PopupAtCursor" = "Kursor";
+"PopupAtMenuBarIcon" = "Ikon Menu";
+"PopupAtWindowCenter" = "Pusat jendela";
+"PopupAtScreenCenter" = "Pusat layar";
+"PopupAtLastPosition" = "Posisi akhir";
+"PopupAtLastLocationReset" = "Atur ulang posisi";
+"ImageHeight" = "Tinggi gambar:";
+"ImageHeightTooltip" = "Tinggi maksimum pratinjau gambar.\nBawaan: 40.\nPetunjuk: Atur ke 16 agar tampil seperti item teks.";
