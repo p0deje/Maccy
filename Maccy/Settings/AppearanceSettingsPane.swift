@@ -9,6 +9,7 @@ struct AppearanceSettingsPane: View {
   @Default(.pinTo) private var pinTo
   @Default(.imageMaxHeight) private var imageHeight
   @Default(.previewDelay) private var previewDelay
+  @Default(.previewImageScale) private var previewImageScale
   @Default(.highlightMatch) private var highlightMatch
   @Default(.menuIcon) private var menuIcon
   @Default(.showInStatusBar) private var showInStatusBar
@@ -45,6 +46,14 @@ struct AppearanceSettingsPane: View {
     let formatter = NumberFormatter()
     formatter.minimum = 200
     formatter.maximum = 100_000
+    return formatter
+  }()
+
+  private let previewImageScaleFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 0.1
+    formatter.maximum = 1.0
+    formatter.numberStyle = .percent
     return formatter
   }()
 
@@ -96,6 +105,16 @@ struct AppearanceSettingsPane: View {
             .frame(width: 120)
             .help(Text("ImageHeightTooltip", tableName: "AppearanceSettings"))
           Stepper("", value: $imageHeight, in: 1...200)
+            .labelsHidden()
+        }
+      }
+
+      Settings.Section(label: { Text("PreviewImageScale", tableName: "AppearanceSettings") }) {
+        HStack {
+          TextField("", value: $previewImageScale, formatter: previewImageScaleFormatter)
+            .frame(width: 120)
+            .help(Text("PreviewImageScaleTooltip", tableName: "AppearanceSettings"))
+          Stepper("", value: $previewImageScale, in: 0.1...1.0, step: 0.05)
             .labelsHidden()
         }
       }
