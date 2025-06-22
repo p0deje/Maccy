@@ -33,9 +33,18 @@ struct GeneralSettingsPane: View {
       }
 
       Settings.Section(label: { Text("Open", tableName: "GeneralSettings") }) {
-        KeyboardShortcuts.Recorder(for: .popup)
+        KeyboardShortcuts.Recorder(for: .popup, onChange: { newShortcut in
+          if newShortcut == nil {
+            // No shortcut is recorded. Remove flags monitor
+            AppState.shared.popup.deinitFlagsMonitor()
+          } else {
+            // User is using shortcut. Ensure flags monitor is initialized
+            AppState.shared.popup.initFlagsMonitor()
+          }
+        })
           .help(Text("OpenTooltip", tableName: "GeneralSettings"))
       }
+
       Settings.Section(label: { Text("Pin", tableName: "GeneralSettings") }) {
         KeyboardShortcuts.Recorder(for: .pin)
           .help(Text("PinTooltip", tableName: "GeneralSettings"))
