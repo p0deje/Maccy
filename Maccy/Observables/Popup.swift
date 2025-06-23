@@ -66,7 +66,6 @@ class Popup {
   }
 
   private func handleKeyDown() {
-
     if isClosed() {
       open(height: height)
       state = .opening
@@ -92,7 +91,6 @@ class Popup {
   }
 
   private func handleFlagsChanged(_ event: NSEvent) -> NSEvent? {
-
     // If we are in cycle mode, releasing modifiers triggers a selection
     if state == .cycle && allModifiersReleased(event) {
       DispatchQueue.main.async {
@@ -109,12 +107,12 @@ class Popup {
 
     return event
   }
-}
 
-private func allModifiersReleased(_ event: NSEvent) -> Bool {
-  guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
-    return false
+  private func allModifiersReleased(_ event: NSEvent) -> Bool {
+    guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
+      return false
+    }
+
+    return event.modifierFlags.isDisjoint(with: shortcut.modifiers)
   }
-
-  return event.modifierFlags.intersection(shortcut.modifiers).isEmpty
 }
