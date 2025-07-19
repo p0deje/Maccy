@@ -120,6 +120,9 @@ class AppState: Sendable {
     } else if let selectedItem = footer.selectedItem {
       if let nextItem = footer.items.filter(\.isVisible).item(after: selectedItem) {
         selectFromKeyboardNavigation(nextItem.id)
+      } else {
+        // End of footer; cycle to the beginning
+        highlightFirst()
       }
     } else {
       selectFromKeyboardNavigation(footer.items.first(where: \.isVisible)?.id)
