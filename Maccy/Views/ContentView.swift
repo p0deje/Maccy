@@ -37,6 +37,13 @@ struct ContentView: View {
       .onMouseMove {
         appState.isKeyboardNavigating = false
       }
+      .background {
+        PopoverView(item: $appState.previewItem) { content in
+          if let item = content {
+            PreviewItemView(item: item)
+          }
+        }
+      }
       .task {
         try? await appState.history.load()
       }
@@ -59,13 +66,9 @@ struct ContentView: View {
         scenePhase = .background
       }
     }
-    .onReceive(NotificationCenter.default.publisher(for: NSPopover.willShowNotification)) {
-      if let popover = $0.object as? NSPopover {
-        // Prevent NSPopover from showing close animation when
-        // quickly toggling FloatingPanel while popover is visible.
-        popover.animates = false
-        // Prevent NSPopover from becoming first responder.
-        popover.behavior = .semitransient
+    .onReceive(NotificationCenter.default.publisher(for: NSPopover.didCloseNotification)) {
+      if $0.object is NSPopover {
+        appState.showPreview = false
       }
     }
   }
