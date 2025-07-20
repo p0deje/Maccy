@@ -3,7 +3,7 @@
 "CheckForUpdates" = "Controlla automaticamente la presenza di aggiornamenti";
 "CheckNow" = "Controlla ora";
 "Open" = "Aprire:";
-"OpenTooltip" = "Combinazione di tasti globale per aprire l'applicazione.\nDefault: %@C.";
+"OpenTooltip" = "Una pressione ripetuta del tasto principale mentre si tengono premuti i modificatori seleziona la voce successiva dell'elenco.\nIn questa modalità, rilasciando i tasti modificatori si conferma la selezione e si chiude il popup.\nDefault: ⇧⌘C.";
 "Pin" = "Bloccare:";
 "PinTooltip" = "Combinazione di tasti per bloccare l'elemento della cronologia.\nDefault: %@P.";
 "Delete" = "Cancellare:";

@@ -3,7 +3,7 @@
 "CheckForUpdates" = "Controleer automatisch op updates";
 "CheckNow" = "Controleer nu";
 "Open" = "Open:";
-"OpenTooltip" = "Algemene sneltoets om app te openen.\nStandaard: %@C.";
+"OpenTooltip" = "Een herhaalde druk op de hoofdtoets terwijl de modificatietoetsen ingedrukt worden gehouden, selecteert het volgende item in de lijst. In deze modus zal het loslaten van de modificatietoetsen de selectie bevestigen en het popupvenster sluiten.\nStandaard: ⇧⌘C.";
 "Pin" = "Pin:";
 "PinTooltip" = "Sneltoets om geschiedenisitem vast te zetten.\nStandaard: %@P.";
 "Delete" = "Verwijder:";

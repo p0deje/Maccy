@@ -3,7 +3,7 @@
 "CheckForUpdates" = "Vérifier les mises à jour automatiquement";
 "CheckNow" = "Vérifier maintenant";
 "Open" = "Ouvrir :";
-"OpenTooltip" = "Raccourci pour ouvrir l’application.\nPar défaut : %@C.";
+"OpenTooltip" = "Touche de raccourci globale pour ouvrir l'application.\nUne pression répétée sur la touche principale tout en maintenant les modificateurs enfoncés permet de sélectionner l'élément suivant dans la liste. Dans ce mode, le relâchement des touches de modification confirmera la sélection et fermera la fenêtre contextuelle.\nPar défaut : %@C.";
 "Pin" = "Épingler :";
 "PinTooltip" = "Touche de raccourci pour épingler un élément de l’historique.\nPar défaut : %@P.";
 "Delete" = "Supprimer :";

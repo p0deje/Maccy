@@ -3,11 +3,11 @@
 "CheckForUpdates" = "Yangilanishlarni avtomatik ravishda tekshirish";
 "CheckNow" = "Hozir tekshirish";
 "Open" = "Ochish:";
-"OpenTooltip" = "Ilovani ochish uchun global shortcut.\nStandart: ⇧⌘C.";
+"OpenTooltip" = "Ilovani ochish uchun global yorliq.\nOʻzgartirgichlarni ushlab turganda asosiy tugmani qayta-qayta bosish roʻyxatdagi keyingi elementni tanlaydi. Bu rejimda modifikator tugmachalarini bo‘shatish tanlovni tasdiqlaydi va qalqib chiquvchi oynani yopadi.\nStandart: ⇧⌘C.";
 "Pin" = "Mustahkamlash:";
 "PinTooltip" = "Tarix elementini mahkamlash uchun yorliq tugmasi.\nStandart: ⌥P.";
 "Delete" = "O'chirish:";
-"DeleteTooltip" = "Shortcut key to delete history item.\nDefault: ⌥⌫.";
+"DeleteTooltip" = "Shortcut key to delete history item.\nStandart: ⌥⌫.";
 "Behavior" = "Xatti-harakat:";
 "PasteAutomatically" = "Avtomatik joylashtirish";
 "PasteWithoutFormatting" = "Formatlashsiz joylashtirish";

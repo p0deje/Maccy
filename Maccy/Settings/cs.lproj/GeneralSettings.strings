@@ -3,7 +3,7 @@
 "CheckForUpdates" = "Automaticky kontrolovat aktualizace";
 "CheckNow" = "Zkontrolovat teď";
 "Open" = "Otevřít:";
-"OpenTooltip" = "Vyhledávání:";
+"OpenTooltip" = "Globální klávesová zkratka pro otevření aplikace.\nPakliže opakovaně stisknete hlavní klávesu a podržíte modifikátory, vyberete další položku v seznamu. V tomto režimu uvolnění modifikátorových kláves potvrdí výběr a zavře vyskakovací okno.\nVýchozí: ⇧⌘C.";
 "Pin" = "Připnout:";
 "PinTooltip" = "Klávesová zkratka pro připnutí položky.\nVýchozí: ⌥P.";
 "Delete" = "Smazat:";

@@ -3,7 +3,7 @@
 "CheckForUpdates" = "Automatski provjeri aktualnost";
 "CheckNow" = "Provjeri sada";
 "Open" = "Otvoriti:";
-"OpenTooltip" = "Globalni prečac za otvaranje programa.\nStandardno: %@C.";
+"OpenTooltip" = "Globalna tipkovnica prečaca za otvaranje aplikacije.\nPonovljenim pritiskom na glavnu tipku dok držite modifikatore odabrat ćete sljedeću stavku na popisu. U ovom načinu rada, otpuštanjem modifikatorskih tipki potvrdit ćete odabir i zatvoriti skočni prozor.\nZadano: ⇧⌘C.";
 "Pin" = "Prikačiti:";
 "PinTooltip" = "Tipka prečaca za prikvačivanje stavke povijesti.\nStandardno: %@P.";
 "Delete" = "Izbrisati:";
