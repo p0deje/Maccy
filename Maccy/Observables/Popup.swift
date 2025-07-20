@@ -107,7 +107,7 @@ class Popup {
       }
 
       if state == .cycle {
-        AppState.shared.highlightNext()
+        AppState.shared.highlightNext(allowCycle: true)
         return nil
       }
 
