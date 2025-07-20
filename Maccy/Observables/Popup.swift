@@ -49,7 +49,7 @@ class Popup {
 
   func deinitEventsMonitor() {
     guard let eventsMonitor else { return }
-    
+
     NSEvent.removeMonitor(eventsMonitor)
   }
 
