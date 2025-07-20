@@ -130,7 +130,7 @@ class Popup {
     }
 
     // Otherwise if in opening mode, enter toggle mode
-    if state == .opening {
+    if state == .opening && allModifiersReleased(event) {
       state = .toggle
       return event
     }
