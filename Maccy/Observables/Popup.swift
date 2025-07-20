@@ -4,12 +4,14 @@ import KeyboardShortcuts
 import Observation
 
 enum PopupState {
-  /// Default; shortcut will toggle the popup
+  // Default; shortcut will toggle the popup
   case toggle
-  /// In this mode, every additional press of the main key will cycle to the next item in the paste history list.
-  ///  Releasing the modifier keys will accept selection and close the popup
+  // In this mode, every additional press of the main key
+  // will cycle to the next item in the paste history list.
+  // Releasing the modifier keys will accept selection and close the popup
   case cycle
-  /// Transition state when the shortcut is first pressed and we don't know whether we are in "toggle" or "cycle" mode.
+  // Transition state when the shortcut is first pressed and
+  // we don't know whether we are in "toggle" or "cycle" mode.
   case opening
 }
 
@@ -37,13 +39,18 @@ class Popup {
   }
 
   func initEventsMonitor() {
-    if eventsMonitor != nil { return }
-    eventsMonitor = NSEvent.addLocalMonitorForEvents(matching: [.flagsChanged, .keyDown], handler: handleEvent)
+    guard let eventsMonitor else { return }
+
+    self.eventsMonitor = NSEvent.addLocalMonitorForEvents(
+      matching: [.flagsChanged, .keyDown],
+      handler: handleEvent
+    )
   }
 
   func deinitEventsMonitor() {
-    guard let monitor = eventsMonitor else { return }
-    NSEvent.removeMonitor(monitor)
+    guard let eventsMonitor else { return }
+    
+    NSEvent.removeMonitor(eventsMonitor)
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
@@ -70,7 +77,6 @@ class Popup {
   }
 
   private func handleFirstKeyDown() {
-
     if isClosed() {
       open(height: height)
       state = .opening
@@ -94,32 +100,27 @@ class Popup {
   }
 
   private func handleKeyDown(_ event: NSEvent) -> NSEvent? {
+    if isHotKeyCode(Int(event.keyCode)) {
+      if state == .opening {
+        state = .cycle
+        // Next 'if' will highlight next item and then return nil
+      }
 
-    // Ensure the event is related to the shortcut
-    if allModifiersReleased(event) || isNotKey(event) {
-      return event
-    }
+      if state == .cycle {
+        AppState.shared.highlightNext()
+        return nil
+      }
 
-    if state == .opening {
-      state = .cycle
-      // Next 'if' will highlight next item and then return nil
-    }
-
-    if state == .cycle {
-      AppState.shared.highlightNext()
-      return nil
-    }
-
-    if state == .toggle {
-      close()
-      return nil
+      if state == .toggle && isHotKeyModifiers(event.modifierFlags) {
+        close()
+        return nil
+      }
     }
 
     return event
   }
 
   private func handleFlagsChanged(_ event: NSEvent) -> NSEvent? {
-
     // If we are in cycle mode, releasing modifiers triggers a selection
     if state == .cycle && allModifiersReleased(event) {
       DispatchQueue.main.async {
@@ -129,27 +130,32 @@ class Popup {
     }
 
     // Otherwise if in opening mode, enter toggle mode
-    if state == .opening && allModifiersReleased(event) {
+    if state == .opening {
       state = .toggle
-      return nil
+      return event
     }
 
     return event
   }
-}
 
-private func isNotKey(_ event: NSEvent) -> Bool {
-  guard let rawValue = KeyboardShortcuts.Name.popup.shortcut?.key?.rawValue else {
-    return true
+  private func isHotKeyCode(_ keyCode: Int) -> Bool {
+    guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
+      return false
+    }
+
+    return shortcut.key?.rawValue == keyCode
   }
 
-  return rawValue != event.keyCode
-}
+  private func isHotKeyModifiers(_ modifiers: NSEvent.ModifierFlags) -> Bool {
+    guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
+      return false
+    }
 
-private func allModifiersReleased(_ event: NSEvent) -> Bool {
-  guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
-    return false
+    return modifiers.intersection(.deviceIndependentFlagsMask) ==
+      shortcut.modifiers.intersection(.deviceIndependentFlagsMask)
   }
 
-  return event.modifierFlags.isDisjoint(with: shortcut.modifiers)
+  private func allModifiersReleased(_ event: NSEvent) -> Bool {
+    return event.modifierFlags.isDisjoint(with: .deviceIndependentFlagsMask)
+  }
 }
