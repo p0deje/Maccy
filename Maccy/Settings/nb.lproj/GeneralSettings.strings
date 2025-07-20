@@ -3,7 +3,7 @@
 "CheckForUpdates" = "Sjekk for oppdateringer automatisk";
 "CheckNow" = "Sjekk nå";
 "Open" = "Åpen:";
-"OpenTooltip" = "Global hurtigtast for åpning av program.\nStandard: %@C.";
+"OpenTooltip" = "Global hurtigtast for å åpne programmet.\nEt gjentatt trykk på hovedtasten mens modifikatortasten holdes inne, velger neste element i listen. I denne modusen vil du bekrefte valget og lukke popup-vinduet ved å slippe modifikatortastene.\nStandard: ⇧⌘C.";
 "Pin" = "Merke:";
 "PinTooltip" = "Hurtigtast for å merke historikkelement.\nStandard: %@P.";
 "Delete" = "Slett:";

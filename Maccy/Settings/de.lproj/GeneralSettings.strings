@@ -3,7 +3,7 @@
 "CheckForUpdates" = "Automatisch nach Updates suchen";
 "CheckNow" = "Jetzt prüfen";
 "Open" = "Öffnen:";
-"OpenTooltip" = "Tastenkürzel um die Applikation zu öffnen.\nStandard: %@C.";
+"OpenTooltip" = "Globales Tastenkürzel zum Öffnen der Anwendung.\nEin wiederholtes Drücken der Haupttaste bei gleichzeitigem Halten der Modifikatortasten wählt das nächste Element in der Liste aus. In diesem Modus wird durch Loslassen der Modifikatortasten die Auswahl bestätigt und das Popup geschlossen.\nStandard: ⇧⌘C.";
 "Pin" = "Anheften:";
 "PinTooltip" = "Tastenkombination zum Anheften eines Verlaufselements.\nStandard: %@P.";
 "Delete" = "Löschen:";

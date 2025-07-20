@@ -6,6 +6,7 @@ import SwiftUI
 class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   var isPresented: Bool = false
   var statusBarButton: NSStatusBarButton?
+  let onClose: () -> Void
 
   override var isMovable: Bool {
     get { Defaults[.popupPosition] != .statusItem }
@@ -16,8 +17,11 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     contentRect: NSRect,
     identifier: String = "",
     statusBarButton: NSStatusBarButton? = nil,
+    onClose: @escaping () -> Void,
     view: () -> Content
   ) {
+    self.onClose = onClose
+
     super.init(
         contentRect: contentRect,
         styleMask: [.nonactivatingPanel, .titled, .resizable, .closable, .fullSizeContentView],
@@ -121,6 +125,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     super.close()
     isPresented = false
     statusBarButton?.isHighlighted = false
+    onClose()
   }
 
   // Allow text inputs inside the panel can receive focus

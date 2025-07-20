@@ -1,4 +1,9 @@
-"OpenTooltip" = "Skrót klawiszowy do otwarcia aplikacji\nDomyślnie: ⇧⌘C.";
+"Title" = "Ogólne";
+"LaunchAtLogin" = "Uruchom przy logowaniu";
+"CheckForUpdates" = "Automatycznie sprawdzaj aktualizacje";
+"CheckNow" = "Sprawdź teraz";
+"Open" = "Otwórz:";
+"OpenTooltip" = "Globalny skrót klawiszowy do otwierania aplikacji.\nKrotne naciśnięcie klawisza głównego przy jednoczesnym przytrzymaniu klawiszy modyfikujących spowoduje wybranie następnego elementu na liście. W tym trybie zwolnienie klawiszy modyfikatorów potwierdzi wybór i zamknie wyskakujące okienko.\nDomyślnie: ⇧⌘C.";
 "Pin" = "Przypnij:";
 "PinTooltip" = "Skrót do przypięcia wpisu w historii.\nDomyślnie: ⌥P.";
 "Delete" = "Usuń:";
@@ -7,14 +12,9 @@
 "PasteAutomatically" = "Wklej automatycznie";
 "PasteWithoutFormatting" = "Wklej bez formatowania";
 "Modifiers" = "Dostosuj zachowanie przy wybieraniu wpisu:\n• Wybierz z wciśniętym %@ aby skopiować.\n• Wybierz z wciśniętym %@ aby skopiować i wkleić.\n• Wybierz z wciśniętym %@ aby skopiować i wkleić z wyczyszczonym formatowaniem.";
-"Exact" = "Dokładne";
 "Search" = "Wyszukiwanie:";
+"Exact" = "Dokładne";
 "Fuzzy" = "Rozmyte";
 "Regex" = "Wyrażenia regularne";
 "Mixed" = "Mieszane";
 "NotificationsAndSounds" = "Dźwięki i powiadomienia 􀱁";
-"Title" = "Ogólne";
-"LaunchAtLogin" = "Uruchom przy logowaniu";
-"CheckForUpdates" = "Automatycznie sprawdzaj aktualizacje";
-"CheckNow" = "Sprawdź teraz";
-"Open" = "Otwórz:";

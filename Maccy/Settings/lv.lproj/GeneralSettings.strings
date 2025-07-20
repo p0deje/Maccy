@@ -3,7 +3,7 @@
 "CheckForUpdates" = "Automātiski pārbaudīt, vai nav atjauninājumu";
 "CheckNow" = "Pārbaudīt tagad";
 "Open" = "Atvērt:";
-"OpenTooltip" = "Globālais īsinājumtaustiņš, lai atvērtu programmu.\nNoklusējums: ⇧⌘C.";
+"OpenTooltip" = "Globālais īsceļu taustiņš, lai atvērtu programmu.\\nPakāpeniski nospiežot galveno taustiņu, vienlaikus turot modifikatorus, tiek atlasīts nākamais elements sarakstā. Šajā režīmā, atlaižot modifikatoru taustiņus, tiks apstiprināta izvēle un aizvērts uznirstošais logs.\\nNo noklusējuma: ⇧⌘C.";
 "Pin" = "Piespraust:";
 "PinTooltip" = "Īsinājumtaustiņš, lai piespraust vēstures vienumu.\nNoklusējums: ⌥P.";
 "Delete" = "Dzēst:";
