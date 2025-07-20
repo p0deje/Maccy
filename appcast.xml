@@ -6,29 +6,33 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>2.3.0</title>
+      <title>2.4.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added Belarusian translation.</li>
-            <li>Added separator line between pinned and unpinned items.</li>
-            <li>Added scrolling support for large texts in preview popover.</li>
-            <li>Added preview for HEIC image files.</li>
-            <li>Improved performance for large text copies.</li>
-            <li>Improved handling of hovered items.</li>
-            <li>Fixed paste + paste without formatting combination.</li>
-            <li>Fixed issue when file URLs were removed when pasting without formatting.</li>
-            <li>Fixed the issue when the first pinned item was not pre-selected and there were no unpinned items.</li>
+            <li>Added support for searching text inside images using OCR.</li>
+            <li>Added support for `org.nspasteboard.source` pasteboard type that shows the original app the copy is from.</li>
+            <li>Added Uzbek translation.</li>
+            <li>Added support for navigating with page up/down keys.</li>
+            <li>Added support for editing pin content in Settings.</li>
+            <li>Added support for cycling through the history by holding the popup key modifier keys pressed (⇧⌘), repeatedly pressing the main popup key (C) to find the needed item, and releasing the modifier keys to confirm the selection.</li>
+            <li>Improved copies of Safari URLs to not create duplicates.</li>
+            <li>Improved copies from Google Sheets to not create duplicates.</li>
+            <li>Improved color HEX copies to show both the color image and text.</li>
+            <li>Improved handling of shared screen to exclude the pop-up window from being shown.</li>
+            <li>Fixed issue when selecting a specific screen to pop up at was not saved.</li>
+            <li>Fixed a regression in Dvorak - QWERTY ⌘ layout support introduced in 2.0.</li>
+            <li>Fixed an issue when clearing history by pressing "Enter" would always show confirmation.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2024-12-11</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.3.0</releaseNotesLink>
+      <pubDate>2025-06-20</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.4.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/2.3.0/Maccy.app.zip"
-        sparkle:version="54"
-        sparkle:shortVersionString="2.3.0"
+        url="https://github.com/p0deje/Maccy/releases/download/2.4.0/Maccy.app.zip"
+        sparkle:version="55"
+        sparkle:shortVersionString="2.4.0"
         length="0"
         type="application/octet-stream"
       />
