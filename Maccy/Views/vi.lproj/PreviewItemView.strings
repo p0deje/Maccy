@@ -1,1 +1,6 @@
-
+"Application" = "Ứng dụng:";
+"FirstCopyTime" = "Sao chép lần đầu:";
+"LastCopyTime" = "Sao chép lần cuối:";
+"NumberOfCopies" = "Số lần sao chép:";
+"PinKey" = "Nhấn {pinKey} để (bỏ)ghim.";
+"DeleteKey" = "Nhấn {deleteKey} để xóa.";
