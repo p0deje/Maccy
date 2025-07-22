@@ -1,1 +1,10 @@
 "Title" = "Nâng cao";
+"TurnOff" = "Tắt";
+"TurnOffDescription" = "Tạm thời bỏ qua tất cả các bản sao mới.\nBạn có thể sẽ sử dụng tính năng này thông qua lập trình và tắt ứng dụng khi sao chép dữ liệu nhạy cảm.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Bạn cũng có thể nhấp vào biểu tượng menu khi giữ phím ⌥ .\nĐể chỉ bỏ qua lần sao chép tiếp theo, hãy nhấp khi giữ đồng thời ⌥ ⇧ .";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copy data";
+"ClearHistoryOnQuit" = "Xóa lịch sử khi thoát";
+"ClearHistoryOnQuitTooltip" = "Tự động xóa bỏ tất cả các mục không được ghim khi thoát khỏi ứng dụng.";
+"ClearSystemClipboard" = "Xóa cả bảng nhớ tạm của hệ thống nữa";
+"ClearSystemClipboardTooltip" = "Khi được kích hoạt, việc xóa lịch sử cũng sẽ xóa bảng nhớ tạm hiện tại của hệ thống.";
