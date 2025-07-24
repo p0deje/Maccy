@@ -6,33 +6,21 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>2.4.0</title>
+      <title>2.4.1</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added support for searching text inside images using OCR.</li>
-            <li>Added support for `org.nspasteboard.source` pasteboard type that shows the original app the copy is from.</li>
-            <li>Added Uzbek translation.</li>
-            <li>Added support for navigating with page up/down keys.</li>
-            <li>Added support for editing pin content in Settings.</li>
-            <li>Added support for cycling through the history by holding the popup key modifier keys pressed (⇧⌘), repeatedly pressing the main popup key (C) to find the needed item, and releasing the modifier keys to confirm the selection.</li>
-            <li>Improved copies of Safari URLs to not create duplicates.</li>
-            <li>Improved copies from Google Sheets to not create duplicates.</li>
-            <li>Improved color HEX copies to show both the color image and text.</li>
-            <li>Improved handling of shared screen to exclude the pop-up window from being shown.</li>
-            <li>Fixed issue when selecting a specific screen to pop up at was not saved.</li>
-            <li>Fixed a regression in Dvorak - QWERTY ⌘ layout support introduced in 2.0.</li>
-            <li>Fixed an issue when clearing history by pressing "Enter" would always show confirmation.</li>
+            <li>Reverted screensharing privacy mode which also made windows invisible on external monitors connected via DisplayPort.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2025-06-20</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.4.0</releaseNotesLink>
+      <pubDate>2025-07-24</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.4.1</releaseNotesLink>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/2.4.0/Maccy.app.zip"
-        sparkle:version="55"
-        sparkle:shortVersionString="2.4.0"
+        url="https://github.com/p0deje/Maccy/releases/download/2.4.1/Maccy.app.zip"
+        sparkle:version="56"
+        sparkle:shortVersionString="2.4.1"
         length="0"
         type="application/octet-stream"
       />
