@@ -66,8 +66,6 @@ struct ContentView: View {
         popover.animates = false
         // Prevent NSPopover from becoming first responder.
         popover.behavior = .semitransient
-        // Prevent popover from showing while sharing the screen
-        popover.contentViewController?.view.window?.sharingType = .none
       }
     }
   }

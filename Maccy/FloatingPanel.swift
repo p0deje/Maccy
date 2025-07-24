@@ -31,7 +31,6 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
     self.statusBarButton = statusBarButton
     self.identifier = NSUserInterfaceItemIdentifier(identifier)
-    self.sharingType = .none
 
     Defaults[.windowSize] = contentRect.size
     delegate = self
