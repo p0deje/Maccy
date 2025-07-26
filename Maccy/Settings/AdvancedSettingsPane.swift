@@ -42,20 +42,20 @@ struct AdvancedSettingsPane: View {
       Defaults.Toggle(key: .privacyMode) {
         Text("PrivacyMode", tableName: "AdvancedSettings")
       }.disabled(Defaults[.displayLinkDetected])
-
-      if Defaults[.displayLinkDetected] {
-        Text("PrivacyDisplayLinkExplain", tableName: "AdvancedSettings")
-          .fixedSize(horizontal: false, vertical: true)
-          .foregroundStyle(.gray)
-          .controlSize(.small)
-      }
-      Text("PrivacyExplain", tableName: "AdvancedSettings")
-        .fixedSize(horizontal: false, vertical: true)
-        .foregroundStyle(.gray)
-        .controlSize(.small)
+        .help(privacyModeToolTip())
     }
     .frame(minWidth: 350, maxWidth: 450)
     .padding()
+  }
+  
+  private func privacyModeToolTip() -> Text{
+    var text: Text = Text("")
+    if Defaults[.displayLinkDetected] {
+      text = Text("PrivacyDisplayLinkExplain", tableName: "AdvancedSettings") + Text("\n")
+    }
+    text = text + Text("PrivacyExplain", tableName: "AdvancedSettings")
+    return text
+      
   }
 }
 
