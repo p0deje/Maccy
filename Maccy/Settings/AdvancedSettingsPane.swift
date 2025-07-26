@@ -37,9 +37,23 @@ struct AdvancedSettingsPane: View {
       Defaults.Toggle(key: .clearSystemClipboard) {
         Text("ClearSystemClipboard", tableName: "AdvancedSettings")
       }.help(Text("ClearSystemClipboardTooltip", tableName: "AdvancedSettings"))
+
+      Divider()
+      Defaults.Toggle(key: .privacyMode) {
+        Text("PrivacyMode", tableName: "AdvancedSettings")
+      }.disabled(Defaults[.displayLinkDetected])
+        .help(privacyModeToolTip())
     }
     .frame(minWidth: 350, maxWidth: 450)
     .padding()
+  }
+
+  private func privacyModeToolTip() -> Text {
+    var text: Text = Text("")
+    if Defaults[.displayLinkDetected] {
+      text = Text("PrivacyDisplayLinkExplain", tableName: "AdvancedSettings") + Text("\n")
+    }
+    return text + Text("PrivacyExplain", tableName: "AdvancedSettings")
   }
 }
 
