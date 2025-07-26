@@ -1,0 +1,8 @@
+"Title" = "Lanjutan";
+"TurnOff" = "Matikan";
+"TurnOffDescription" = "Abaikan sementara semua salinan baru.\nKemungkinan Anda menggunakannya secara terprogram dan menonaktifkan aplikasi saat menyalin data sensitif.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# salin data\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Anda juga dapat mengklik ikon menu dengan menekan ⌥.\nUntuk mengabaikan hanya salinan berikutnya, klik dengan menekan ⌥⇧.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# salin data";
+"ClearHistoryOnQuit" = "Hapus riwayat saat keluar";
+"ClearHistoryOnQuitTooltip" = "Hapus otomatis semua item yang tidak dipin sebelum keluar dari aplikasi.";

@@ -1,0 +1,13 @@
+"Title" = "Emmagatzematge";
+"Save" = "Desa:";
+"Files" = "Arxius";
+"Images" = "Imatges";
+"Text" = "Text";
+"FirstCopiedAt" = "Temps de la primera còpia";
+"NumberOfCopies" = "Nombre de còpies";
+"SortByTooltip" = "Per defecte: Temps de l'última còpia.";
+"SaveDescription" = "Canvia quins tipus de contingut copiat ha de ser guardat.";
+"Size" = "Mida:";
+"SortBy" = "Ordenar per:";
+"SizeTooltip" = "Nombre d'elements guardats a l'històric.\nPer defecte: 200.";
+"LastCopiedAt" = "Temps de l'última còpia";
