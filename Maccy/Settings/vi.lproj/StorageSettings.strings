@@ -1,0 +1,14 @@
+"Title" = "Lưu trữ";
+"Save" = "Lưu:";
+"Files" = "Tập tin";
+"Images" = "Hình ảnh";
+"Text" = "Văn bản";
+"SaveDescription" = "Chọn loại nội dung sao chép nào sẽ được lưu trữ.";
+"Size" = "Kích thước:";
+"SizeTooltip" = "Số mục lịch sử cần giữ lại.\nMặc định: 200.";
+"SortBy" = "Sắp xếp theo:";
+"LastCopiedAt" = "Sao chép mới nhất";
+"FirstCopiedAt" = "Sao chép cũ nhất";
+"NumberOfCopies" = "Sao chép nhiều nhất";
+"SortByTooltip" = "Mặc định: Sao chép mới nhất.";
+"CurrentSizeTooltip" = "";

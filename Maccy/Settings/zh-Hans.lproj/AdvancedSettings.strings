@@ -1,10 +1,10 @@
 "Title" = "高级";
 "TurnOff" = "暂停";
-"TurnOffDescription" = "暂停记录新的剪贴板项目。\n此选项通常用于在复制敏感数据时通过程序调用来禁用本程序。";
-"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# 执行上述命令后再进行复制，复制完成后执行\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffDescription" = "暂停记录新的剪贴板项目。\n如果您想在复制敏感数据时通过程序调用来禁用本程序。";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# 执行上述命令后再进行复制，然后执行\ndefaults write org.p0deje.Maccy ignoreEvents false";
 "TurnOffViaMenuIconDescription" = "您也可以按下 ⌥ 并单击菜单图标。\n要仅忽略下一个副本，请单击 ⌥⇧。";
-"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# 执行上述命令后再进行复制，复制完成后执行";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# 执行上述命令后再进行复制，只对下一次复制有效";
 "ClearHistoryOnQuit" = "退出时清除历史记录";
-"ClearHistoryOnQuitTooltip" = "退出应用时仅保留已固定的项目。";
+"ClearHistoryOnQuitTooltip" = "退出应用时仅保留已固定的项目(其他历史记录将被抛弃)。";
 "ClearSystemClipboard" = "同时清除系统剪贴板";
 "ClearSystemClipboardTooltip" = "启用后，清除历史记录也会清除当前系统剪贴板。";

@@ -1,0 +1,9 @@
+"ApplicationsTab" = "Applicații";
+"PasteboardTypesTab" = "Tipuri „pasteboard”";
+"IgnoredRegexpsDescription" = "Este posibil să ignori anumite copii pentru a nu le reține, pe baza expresiilor regulate definite.";
+"IgnoredPasteboardTypesDescription" = "Este posibil să ignori elemente de un anumit tip de „pasteboard” pentru a nu le reține.\nÎn mod implicit, sunt definite câteva tipuri specifice aplicațiilor cunoscute. Le poți elimina și adăuga orice tipuri personalizate dorești.";
+"Title" = "Ignoră";
+"IgnoredAppsDescription" = "Este posibil să ignori copiile provenind din anumite aplicații.\nTotuși, ține cont că modul în care funcționează nu est infailibil, așa că este mai bine să folosești tipurile „pasteboard” atunci când este posibil.";
+"IgnoredAllAppsExceptListed" = "Ignoră toate aplicațiile cu excepția celor din listă";
+"IgnoredPasteboardTypesReset" = "Resetează";
+"RegexpTab" = "Expresii regulate";

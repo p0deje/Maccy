@@ -1,9 +1,9 @@
-"Title" = "Ignorar";
+"Title" = "Exclusiones";
 "ApplicationsTab" = "Aplicaciones";
-"IgnoredAppsDescription" = "Es posible ignorar las copias que provienen de ciertas aplicaciones.\nTenga en cuenta que la forma en que funciona no es a prueba de balas, por lo que es mejor usar tipos de cartón cuando sea posible.";
-"IgnoredAllAppsExceptListed" = "Ignorar todas las aplicaciones excepto las enumeradas";
+"IgnoredAppsDescription" = "Es posible excluir la copia desde ciertas aplicaciones.\nAún así, esta función no es a prueba de balas. Por lo que, de ser posible, se aconseja optar en su lugar por una exclusión en base a su tipo.";
+"IgnoredAllAppsExceptListed" = "Excluir todas las aplicaciones excepto las añadidas";
 "PasteboardTypesTab" = "Tipos";
-"IgnoredPasteboardTypesDescription" = "Es posible ignorar ciertos tipos de portapapeles.\nPor defecto hay definidos algunos portapapeles de aplicaciones conocidas. Puedes borrar y añadir tantos como quieras.";
+"IgnoredPasteboardTypesDescription" = "Es posible excluir la copia en base al tipo de portapapeles.\nPor defecto, ya se excluyen ciertos tipos de portapapeles usados por algunas aplicaciones populares. Puedes borrar o añadir tantos como desees.";
 "IgnoredPasteboardTypesReset" = "Restablecer";
 "RegexpTab" = "Expresiones regulares";
-"IgnoredRegexpsDescription" = "Es posible ignorar ciertas copias para que no se recuerden en función de expresiones regulares definidas.";
+"IgnoredRegexpsDescription" = "Es posible excluir la copia en base a expresiones regulares.";
