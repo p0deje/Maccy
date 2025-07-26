@@ -11,3 +11,4 @@
 "FirstCopiedAt" = "Sao chép cũ nhất";
 "NumberOfCopies" = "Sao chép nhiều nhất";
 "SortByTooltip" = "Mặc định: Sao chép mới nhất.";
+"CurrentSizeTooltip" = "";

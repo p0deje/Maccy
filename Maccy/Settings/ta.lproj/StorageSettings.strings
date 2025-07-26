@@ -11,3 +11,4 @@
 "FirstCopiedAt" = "முதல் நகலின் நேரம்";
 "NumberOfCopies" = "பிரதிகளின் எண்ணிக்கை";
 "SortByTooltip" = "இயல்புநிலை: கடைசி நகலின் நேரம்.";
+"CurrentSizeTooltip" = "";

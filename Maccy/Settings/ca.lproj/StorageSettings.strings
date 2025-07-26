@@ -11,3 +11,4 @@
 "SortBy" = "Ordenar per:";
 "SizeTooltip" = "Nombre d'elements guardats a l'històric.\nPer defecte: 200.";
 "LastCopiedAt" = "Temps de l'última còpia";
+"CurrentSizeTooltip" = "";
