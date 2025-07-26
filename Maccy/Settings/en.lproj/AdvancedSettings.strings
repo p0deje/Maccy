@@ -8,6 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Automatically remove all unpinned items before quitting the application.";
 "ClearSystemClipboard" = "Clear the system clipboard too";
 "ClearSystemClipboardTooltip" = "When enabled, clearing the history would also clear the current system clipboard.";
-"PrivacyMode" = "Hide while screen sharing";
-"PrivacyExplain" = "Maccy will be hidden from others when sharing the screen. \nAlso disables Maccy from showing up on screenshots and screen recordings.\nMaccy will still be recorded by native screen recording.";
+"PrivacyMode" = "Hide from screen capture";
+"PrivacyExplain" = "Hides application windows for screenshots and screen sharing.\nHowever, the system's built-in screen recorder is not affected.";
 "PrivacyDisplayLinkExplain" = "Hiding Maccy doesn't work with DisplayLink. To enable it, close DisplayLink Manager and restart Maccy.";
