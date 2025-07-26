@@ -47,15 +47,13 @@ struct AdvancedSettingsPane: View {
     .frame(minWidth: 350, maxWidth: 450)
     .padding()
   }
-  
-  private func privacyModeToolTip() -> Text{
+
+  private func privacyModeToolTip() -> Text {
     var text: Text = Text("")
     if Defaults[.displayLinkDetected] {
       text = Text("PrivacyDisplayLinkExplain", tableName: "AdvancedSettings") + Text("\n")
     }
-    text = text + Text("PrivacyExplain", tableName: "AdvancedSettings")
-    return text
-      
+    return text + Text("PrivacyExplain", tableName: "AdvancedSettings")
   }
 }
 
