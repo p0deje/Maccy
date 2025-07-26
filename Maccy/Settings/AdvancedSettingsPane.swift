@@ -37,6 +37,22 @@ struct AdvancedSettingsPane: View {
       Defaults.Toggle(key: .clearSystemClipboard) {
         Text("ClearSystemClipboard", tableName: "AdvancedSettings")
       }.help(Text("ClearSystemClipboardTooltip", tableName: "AdvancedSettings"))
+
+      Divider()
+      Defaults.Toggle(key: .privacyMode) {
+        Text("PrivacyMode", tableName: "AdvancedSettings")
+      }.disabled(Defaults[.displayLinkDetected])
+
+      if Defaults[.displayLinkDetected] {
+        Text("PrivacyDisplayLinkExplain", tableName: "AdvancedSettings")
+          .fixedSize(horizontal: false, vertical: true)
+          .foregroundStyle(.gray)
+          .controlSize(.small)
+      }
+      Text("PrivacyExplain", tableName: "AdvancedSettings")
+        .fixedSize(horizontal: false, vertical: true)
+        .foregroundStyle(.gray)
+        .controlSize(.small)
     }
     .frame(minWidth: 350, maxWidth: 450)
     .padding()
