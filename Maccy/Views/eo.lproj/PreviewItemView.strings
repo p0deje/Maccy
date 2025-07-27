@@ -1,6 +1,6 @@
 "Application" = "Aplikaĵo:";
-"FirstCopyTime" = "";
-"LastCopyTime" = "";
-"NumberOfCopies" = "";
-"PinKey" = "";
-"DeleteKey" = "";
+"FirstCopyTime" = "Unue kopiita:";
+"LastCopyTime" = "Laste kopiita:";
+"NumberOfCopies" = "Nombro de kopioj:";
+"PinKey" = "Premu {pinKey} por (mal)fiksi.";
+"DeleteKey" = "Premu {deleteKey} por forigi.";
