@@ -99,7 +99,7 @@ struct PreviewItemView: View {
       return
     }
     let requestHandler = VNImageRequestHandler(cgImage: cgImage, options: [:])
-    let request = VNRecognizeTextRequest { request, error in
+    let request = VNRecognizeTextRequest { request, _ in
       DispatchQueue.main.async {
         isExtracting = false
         if let results = request.results as? [VNRecognizedTextObservation] {
