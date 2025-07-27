@@ -1,9 +1,9 @@
-"Title" = "";
-"ApplicationsTab" = "";
+"Title" = "Ignori";
+"ApplicationsTab" = "Aplikaĵoj";
 "IgnoredAppsDescription" = "";
-"IgnoredAllAppsExceptListed" = "";
+"IgnoredAllAppsExceptListed" = "Ignori ĉiujn aplikaĵojn krom la listigitajn";
 "PasteboardTypesTab" = "";
 "IgnoredPasteboardTypesDescription" = "";
-"IgnoredPasteboardTypesReset" = "";
-"RegexpTab" = "";
-"IgnoredRegexpsDescription" = "";
+"IgnoredPasteboardTypesReset" = "Restarigi";
+"RegexpTab" = "Regulaj esprimoj";
+"IgnoredRegexpsDescription" = "Eblas ignori iujn kopiojn de la memoro surbaze de difinitaj regulaj esprimoj.";
