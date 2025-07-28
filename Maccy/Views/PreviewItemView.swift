@@ -3,7 +3,6 @@ import SwiftUI
 
 struct PreviewItemView: View {
   var item: HistoryItemDecorator
-    
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       if let image = item.previewImage {

@@ -8,7 +8,6 @@ struct KeyHandlingView<Content: View>: View {
 
   @Environment(AppState.self) private var appState
 
-  // swiftlint:disable function_body_length
   var body: some View {
     content()
       .onKeyPress { _ in
@@ -16,7 +15,6 @@ struct KeyHandlingView<Content: View>: View {
         // key code and don't properly work with multiple inputs,
         // so pressing ⌘, on non-English layout doesn't open
         // preferences. Stick to NSEvent to fix this behavior.
-        // swiftlint:disable cyclomatic_complexity
         switch KeyChord(NSApp.currentEvent) {
         case .clearHistory:
           if let item = appState.footer.items.first(where: { $0.title == "clear" }),
@@ -120,7 +118,6 @@ struct KeyHandlingView<Content: View>: View {
         default:
           ()
         }
-        // swiftlint:enable cyclomatic_complexity
 
         if let item = appState.history.pressedShortcutItem {
           appState.selection = item.id
@@ -134,5 +131,4 @@ struct KeyHandlingView<Content: View>: View {
         return .ignored
       }
   }
-  // swiftlint:enable function_body_length
 }
