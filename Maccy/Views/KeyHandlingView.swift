@@ -8,6 +8,7 @@ struct KeyHandlingView<Content: View>: View {
 
   @Environment(AppState.self) private var appState
 
+  // swiftlint:disable function_body_length
   var body: some View {
     content()
       .onKeyPress { _ in
@@ -15,6 +16,7 @@ struct KeyHandlingView<Content: View>: View {
         // key code and don't properly work with multiple inputs,
         // so pressing ⌘, on non-English layout doesn't open
         // preferences. Stick to NSEvent to fix this behavior.
+        // swiftlint:disable cyclomatic_complexity
         switch KeyChord(NSApp.currentEvent) {
         case .clearHistory:
           if let item = appState.footer.items.first(where: { $0.title == "clear" }),
@@ -100,17 +102,15 @@ struct KeyHandlingView<Content: View>: View {
           appState.history.togglePin(appState.history.selectedItem)
           return .handled
         case .selectCurrentItem:
-          // swiftlint:disable:next cyclomatic_complexity function_body_length
+          // Handle Option+Shift+Enter for "paste without formatting"
           if let event = NSApp.currentEvent,
              let selectedItem = appState.history.selectedItem?.item,
              event.modifierFlags.contains(.option),
              event.modifierFlags.contains(.shift) {
-            // Handle "paste without formatting" for the selected item
             Clipboard.shared.copy(selectedItem, removeFormatting: true)
-            appState.popup.close() // Close popup before paste
-            Clipboard.shared.paste() // Paste the formatted content
+            appState.popup.close()
+            Clipboard.shared.paste()
           } else {
-            // Default selection behavior
             appState.select()
           }
           return .handled
@@ -120,6 +120,7 @@ struct KeyHandlingView<Content: View>: View {
         default:
           ()
         }
+        // swiftlint:enable cyclomatic_complexity
 
         if let item = appState.history.pressedShortcutItem {
           appState.selection = item.id
@@ -133,4 +134,5 @@ struct KeyHandlingView<Content: View>: View {
         return .ignored
       }
   }
+  // swiftlint:enable function_body_length
 }
