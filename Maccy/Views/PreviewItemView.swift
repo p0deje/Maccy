@@ -7,7 +7,9 @@ struct PreviewItemView: View {
   @State private var isExtracting = false
   @State private var showAlert = false
   @State private var alertMessage = ""
+    
 
+    
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       if let image = item.previewImage {

@@ -2,9 +2,11 @@ import Defaults
 import KeyboardShortcuts
 import Sparkle
 import SwiftUI
+import Cocoa // Ensure Cocoa is imported for NSEvent
 
 class AppDelegate: NSObject, NSApplicationDelegate {
   var panel: FloatingPanel<ContentView>!
+  var pasteWithoutFormattingMonitor: Any? // Add this property
 
   @objc
   private lazy var statusItem: NSStatusItem = {
@@ -86,6 +88,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.appearsDisabled = isStatusItemDisabled
       }
     }
+      
+    
+    
+    // Register Paste without formatting shortcut
+    KeyboardShortcuts.onKeyUp(for: .pasteWithoutFormatting) { [weak self] in
+      guard let self = self else { return }
+      let selectedItem = AppState.shared.history.selectedItem?.item
+      Clipboard.shared.copy(selectedItem, removeFormatting: true)
+      Clipboard.shared.paste()
+    }
+    // To set the shortcut, add a KeyboardShortcuts.Recorder in your preferences UI, or set it in System Preferences > Keyboard Shortcuts if exposed.
   }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -100,6 +113,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     ) {
       ContentView()
     }
+
+    // Register hardcoded Cmd+Shift+V shortcut for Paste without formatting
+    pasteWithoutFormattingMonitor = NSEvent.addGlobalMonitorForEvents(matching: .keyDown) { [weak self] event in
+      guard let self = self else { return }
+      if event.modifierFlags.contains(.command) &&
+         event.modifierFlags.contains(.shift) &&
+         event.charactersIgnoringModifiers?.lowercased() == "v" {
+        let selectedItem = AppState.shared.history.selectedItem?.item
+        Clipboard.shared.copy(selectedItem, removeFormatting: true)
+        Clipboard.shared.paste()
+      }
+    }
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -110,6 +135,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationWillTerminate(_ notification: Notification) {
     if Defaults[.clearOnQuit] {
       AppState.shared.history.clear()
+    }
+    if let monitor = pasteWithoutFormattingMonitor {
+      NSEvent.removeMonitor(monitor)
     }
   }
 

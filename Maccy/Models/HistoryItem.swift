@@ -186,6 +186,13 @@ class HistoryItem {
   var fromMaccy: Bool { contentData([.fromMaccy]) != nil }
   var universalClipboard: Bool { contentData([.universalClipboard]) != nil }
 
+  var isImage: Bool {
+    contents.contains { content in
+      let type = NSPasteboard.PasteboardType(content.type)
+      return type == .tiff || type == .png || type == .jpeg || type == .heic
+    }
+  }
+
   private var universalClipboardImage: Bool { universalClipboard && fileURLs.first?.pathExtension == "jpeg" }
   private var universalClipboardText: Bool {
     universalClipboard && contentData([.html, .tiff, .png, .jpeg, .rtf, .string, .heic]) != nil

@@ -70,45 +70,53 @@ class Clipboard {
     checkForChangesInPasteboard()
   }
 
-  @MainActor
-  func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
-    guard let item else { return }
+    @MainActor
+    func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
+      guard let item else { return }
 
-    pasteboard.clearContents()
-    var contents = item.contents
+      pasteboard.clearContents()
+      
+      // Special handling for images with text when removeFormatting is true
+      if removeFormatting && item.image != nil && !item.title.isEmpty {
+        // For images with text recognition, just paste the title as plain text
+        pasteboard.setString(item.title, forType: .string)
+      } else {
+        // Regular handling for other content types
+        var contents = item.contents
+        
+        if removeFormatting {
+          contents = clearFormatting(contents)
+        }
 
-    if removeFormatting {
-      contents = clearFormatting(contents)
+        for content in contents {
+          guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
+          pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
+        }
+
+        // Use writeObjects for file URLs so that multiple files that are copied actually work.
+        // Only do this for file URLs because it causes an issue with some other data types (like formatted text)
+        // where the item is pasted more than once.
+        let fileURLItems: [NSPasteboardItem] = contents.compactMap { item in
+          guard item.type == NSPasteboard.PasteboardType.fileURL.rawValue else { return nil }
+          guard let value = item.value else { return nil }
+          let pasteItem = NSPasteboardItem()
+          pasteItem.setData(value, forType: NSPasteboard.PasteboardType(item.type))
+          return pasteItem
+        }
+        pasteboard.writeObjects(fileURLItems)
+      }
+
+      pasteboard.setString("", forType: .fromMaccy)
+      pasteboard.setString(item.application ?? "", forType: .source)
+      sync()
+
+      Task {
+        Notifier.notify(body: item.title, sound: .knock)
+        checkForChangesInPasteboard()
+      }
     }
-
-    for content in contents {
-      guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
-      pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
-    }
-
-    // Use writeObjects for file URLs so that multiple files that are copied actually work.
-    // Only do this for file URLs because it causes an issue with some other data types (like formatted text)
-    // where the item is pasted more than once.
-    let fileURLItems: [NSPasteboardItem] = contents.compactMap { item in
-      guard item.type == NSPasteboard.PasteboardType.fileURL.rawValue else { return nil }
-      guard let value = item.value else { return nil }
-      let pasteItem = NSPasteboardItem()
-      pasteItem.setData(value, forType: NSPasteboard.PasteboardType(item.type))
-      return pasteItem
-    }
-    pasteboard.writeObjects(fileURLItems)
-
-    pasteboard.setString("", forType: .fromMaccy)
-    pasteboard.setString(item.application ?? "", forType: .source)
-    sync()
-
-    Task {
-      Notifier.notify(body: item.title, sound: .knock)
-      checkForChangesInPasteboard()
-    }
-  }
-
-  // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
+    
+    
   func paste() {
     Accessibility.check()
 
