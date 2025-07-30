@@ -1,12 +1,12 @@
 "Title" = "";
 "LaunchAtLogin" = "";
-"CheckForUpdates" = "";
+"CheckForUpdates" = "Cek pembaruan secara otomatis";
 "CheckNow" = "";
 "Open" = "";
 "OpenTooltip" = "";
 "Pin" = "";
 "PinTooltip" = "";
-"Delete" = "";
+"Delete" = "Hapus:";
 "DeleteTooltip" = "";
 "Behavior" = "";
 "PasteAutomatically" = "";
