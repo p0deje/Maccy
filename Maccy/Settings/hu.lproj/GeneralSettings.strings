@@ -3,7 +3,7 @@
 "CheckForUpdates" = "Frissítések automatikus keresése";
 "CheckNow" = "Ellenőrzés most";
 "Open" = "Megnyitás:";
-"OpenTooltip" = "Globális gyorsbillentyű az alkalmazás megnyitásához.\\nA fő billentyű ismételt lenyomása a módosítók lenyomva tartása mellett a következő elemet választja ki a listában. Ebben az üzemmódban a módosító billentyűk elengedése megerősíti a kiválasztást és bezárja a felugró ablakot.\\nEgyértelmezett: ⇧⌘C.";
+"OpenTooltip" = "Globális gyorsbillentyű az alkalmazás megnyitásához.\nA fő billentyű ismételt lenyomása a módosítók lenyomva tartása mellett a következő elemet választja ki a listában. Ebben az üzemmódban a módosító billentyűk elengedése megerősíti a kiválasztást és bezárja a felugró ablakot.\nEgyértelmezett: ⇧⌘C.";
 "Pin" = "Kitűzés:";
 "PinTooltip" = "Gyorsbillentyű az előzmény elem kitűzéséhez.\nAlapértelmezett: ⌥P.";
 "Delete" = "Törlés:";
