@@ -1,6 +1,6 @@
 "Title" = "";
-"ApplicationsTab" = "";
-"IgnoredAppsDescription" = "";
+"ApplicationsTab" = "Aplikasi";
+"IgnoredAppsDescription" = "Mengabaikan salinan yang berasal dari aplikasi tertentu mungkin dilakukan.\nHarap dicatat bahwa cara itu tidak selalu bekerja, lebih baik gunakan tipe papan tempel jika mungkin.";
 "IgnoredAllAppsExceptListed" = "";
 "PasteboardTypesTab" = "";
 "IgnoredPasteboardTypesDescription" = "";
