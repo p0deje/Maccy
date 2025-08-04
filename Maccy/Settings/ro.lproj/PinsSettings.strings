@@ -1,7 +1,7 @@
 "Key" = "Tastă";
 "Alias" = "Titlu";
-"PinCustomizationDescription" = "Poți personaliza titlul și tasta rapidă pentru fiecare element fixat.\nPentru a edita, fă dublu-clic pe acesta și introduce noua valoare.";
+"PinCustomizationDescription" = "Poți personaliza tasta rapidă, titlul și conținutul oricărui element fixat. Pentru a edita, fă dublu-clic pe acesta și introduce noua valoare.\nNotă: doar textul fără formatare poate fi modificat.";
 "Title" = "Elemente fixate";
-"Content" = "";
-"ContentIsNotText" = "";
-"RichTextEditWarning" = "";
+"Content" = "Conținut";
+"ContentIsNotText" = "Conținut needitabil (imagine sau fișier)";
+"RichTextEditWarning" = "Editarea va șterge formatarea existentă.";
