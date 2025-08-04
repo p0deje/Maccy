@@ -2,7 +2,7 @@
 "PinTooltip" = "Tastă de comandă rapidă pentru a fixa un element din istoric.\nImplicit: ⌥P.";
 "LaunchAtLogin" = "Deschide la login";
 "CheckNow" = "Verifică acum";
-"OpenTooltip" = "Tastă globală de comandă rapidă pentru a deschide aplicația.\nImplicit: ⇧⌘C.";
+"OpenTooltip" = "Tastă globală de comandă rapidă pentru a deschide aplicația.\nO apăsare repetată a tastei principale, în timp ce taste \"modifier\" sunt menținute apăsate, va selecta următorul element din listă. Eliberare unei taste \"modifier\" va confirma selecția și va închide fereastra popup.\nImplicit: ⇧⌘C.";
 "Pin" = "Fixează:";
 "PasteAutomatically" = "Lipește automat";
 "Fuzzy" = "Aproximativă";
