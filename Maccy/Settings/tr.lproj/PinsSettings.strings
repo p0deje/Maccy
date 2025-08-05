@@ -4,4 +4,4 @@
 "Content" = "İçerik";
 "ContentIsNotText" = "Düzenlenemeyen içerik (resim veya dosya)";
 "RichTextEditWarning" = "Düzenleme tüm biçimlendirmeyi atacaktır.";
-"PinCustomizationDescription" = "Sabitlenmiş herhangi bir öğenin kısayol tuşunu, başlığını ve içeriğini özelleştirebilirsiniz. Düzenlemek için öğeye çift tıklayın ve yeni bir değer girin.\nLütfen yalnızca düz metnin değiştirilebileceğini unutmayın";
+"PinCustomizationDescription" = "Sabitlenmiş herhangi bir öğenin kısayol tuşunu, başlığını ve içeriğini özelleştirebilirsiniz. Düzenlemek için öğeye çift tıklayın ve yeni bir değer girin.\nLütfen yalnızca düz metnin değiştirilebileceğini unutmayın.";
