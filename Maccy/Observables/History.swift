@@ -189,6 +189,9 @@ class History { // swiftlint:disable:this type_body_length
       model: HistoryItem.self,
       where: #Predicate { $0.pin == nil }
     )
+    Storage.shared.context.processPendingChanges()
+    try? Storage.shared.context.save()
+
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
@@ -206,6 +209,9 @@ class History { // swiftlint:disable:this type_body_length
     items = all
 
     try? Storage.shared.context.delete(model: HistoryItem.self)
+    Storage.shared.context.processPendingChanges()
+    try? Storage.shared.context.save()
+
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
