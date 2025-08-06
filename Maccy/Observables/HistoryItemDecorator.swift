@@ -64,10 +64,14 @@ final class HistoryItemDecorator: Identifiable, Hashable, Sendable {
     hasher.combine(id)
   }
 
-  private(set) var item: HistoryItem
+  private static var nullHistoryItem: HistoryItem = .init()
+  private(set) weak var itemStorage: HistoryItem?
+  var item: HistoryItem {
+    itemStorage ?? Self.nullHistoryItem
+  }
 
   init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
-    self.item = item
+    self.itemStorage = item
     self.shortcuts = shortcuts
     self.title = item.title
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
