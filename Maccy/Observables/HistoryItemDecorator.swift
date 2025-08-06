@@ -5,7 +5,7 @@ import Observation
 import Sauce
 
 @Observable
-class HistoryItemDecorator: Identifiable, Hashable {
+final class HistoryItemDecorator: Identifiable, Hashable, Sendable {
   static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
   }
@@ -62,8 +62,6 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
-    hasher.combine(title)
-    hasher.combine(attributedTitle)
   }
 
   private(set) var item: HistoryItem
