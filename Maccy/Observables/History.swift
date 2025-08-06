@@ -176,6 +176,11 @@ class History { // swiftlint:disable:this type_body_length
 
   @MainActor
   func clear() {
+    all.forEach { item in
+      if item.isUnpinned {
+        cleanup(item)
+      }
+    }
     all.removeAll(where: \.isUnpinned)
     sessionLog.removeValues { $0.pin == nil }
     items = all
@@ -193,6 +198,9 @@ class History { // swiftlint:disable:this type_body_length
 
   @MainActor
   func clearAll() {
+    all.forEach { item in
+      cleanup(item)
+    }
     all.removeAll()
     sessionLog.removeAll()
     items = all
@@ -218,6 +226,14 @@ class History { // swiftlint:disable:this type_body_length
     Task {
       AppState.shared.popup.needsResize = true
     }
+  }
+
+  private func cleanup(_ item: HistoryItemDecorator) {
+    item.imageGenerationTask?.cancel()
+    item.thumbnailImage?.recache()
+    item.previewImage?.recache()
+    item.thumbnailImage = nil
+    item.previewImage = nil
   }
 
   @MainActor
