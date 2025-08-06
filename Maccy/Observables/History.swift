@@ -177,7 +177,9 @@ class History { // swiftlint:disable:this type_body_length
   @MainActor
   func clear() {
     all.removeAll(where: \.isUnpinned)
+    sessionLog.removeValues { $0.pin == nil }
     items = all
+
     try? Storage.shared.context.delete(
       model: HistoryItem.self,
       where: #Predicate { $0.pin == nil }
@@ -192,7 +194,9 @@ class History { // swiftlint:disable:this type_body_length
   @MainActor
   func clearAll() {
     all.removeAll()
+    sessionLog.removeAll()
     items = all
+
     try? Storage.shared.context.delete(model: HistoryItem.self)
     Clipboard.shared.clear()
     AppState.shared.popup.close()
@@ -208,6 +212,7 @@ class History { // swiftlint:disable:this type_body_length
     Storage.shared.context.delete(item.item)
     all.removeAll { $0 == item }
     items.removeAll { $0 == item }
+    sessionLog.removeValues { $0 == item.item }
 
     updateUnpinnedShortcuts()
     Task {
