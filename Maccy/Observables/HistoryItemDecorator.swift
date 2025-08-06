@@ -50,6 +50,7 @@ final class HistoryItemDecorator: Identifiable, Hashable, Sendable {
     return url.deletingPathExtension().lastPathComponent
   }
 
+  var imageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
@@ -78,7 +79,7 @@ final class HistoryItemDecorator: Identifiable, Hashable, Sendable {
 
     synchronizeItemPin()
     synchronizeItemTitle()
-    Task {
+    imageGenerationTask = Task {
       await sizeImages()
     }
   }
@@ -90,7 +91,17 @@ final class HistoryItemDecorator: Identifiable, Hashable, Sendable {
     }
 
     previewImage = image.resized(to: HistoryItemDecorator.previewImageSize)
+    if Task.isCancelled {
+      previewImage = nil
+      return
+    }
+
     thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
+    if Task.isCancelled {
+      previewImage = nil
+      thumbnailImage = nil
+      return
+    }
   }
 
   func highlight(_ query: String, _ ranges: [Range<String.Index>]) {
