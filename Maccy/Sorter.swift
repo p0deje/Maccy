@@ -23,20 +23,30 @@ class Sorter {
     }
   }
 
-  func sort(_ items: [HistoryItem], by: By = Defaults[.sortBy]) -> [HistoryItem] {
-    return items
+  func sort(_ items: [HistoryItem], by: By = Defaults[.sortBy], pushPastedToBottom: Bool = Defaults[.pushPastedToBottom]) -> [HistoryItem] {
+    var sortedItems = items
       .sorted(by: { return bySortingAlgorithm($0, $1, by) })
-      .sorted(by: byPinned)
+
+    if pushPastedToBottom {
+      sortedItems.sort {
+        $0.lastPastedAt < $1.lastPastedAt
+      }
+    }
+
+    return sortedItems
+      .sort(by: byPinned)
   }
 
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
     switch by {
     case .firstCopiedAt:
       return lhs.firstCopiedAt > rhs.firstCopiedAt
+    case .lastCopiedAt:
+      return lhs.lastCopiedAt > rhs.lastCopiedAt
     case .numberOfCopies:
       return lhs.numberOfCopies > rhs.numberOfCopies
     default:
-      return lhs.lastCopiedAt > rhs.lastCopiedAt
+      throw Error("unsupported sorting criterion")
     }
   }
 
