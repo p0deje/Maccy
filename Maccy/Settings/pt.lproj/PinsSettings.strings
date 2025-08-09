@@ -1,1 +1,7 @@
-
+"Content" = "Conteúdo";
+"ContentIsNotText" = "Conteúdo não editável (imagem ou ficheiro)";
+"RichTextEditWarning" = "A edição elimina toda a formatação.";
+"PinCustomizationDescription" = "É possível personalizar a tecla de atalho, o título e o conteúdo de qualquer elemento fixado. Para editar, faça duplo clique no elemento e introduza um novo valor.\nPor favor, note que apenas o texto simples pode ser alterado.";
+"Title" = "Pinos";
+"Alias" = "Titlo";
+"Key" = "Chave";
