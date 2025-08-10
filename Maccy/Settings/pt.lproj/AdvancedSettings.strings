@@ -1,1 +1,10 @@
-
+"TurnOff" = "Desativar";
+"TurnOffDescription" = "Ignorar temporariamente todas as novas cópias.\nÉ provável que o use de forma programática e desative a aplicação ao copiar dados confidenciais.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copiar dados\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "Também pode clicar no ícone do menu com ⌥ pressionado.\nPara ignorar apenas a próxima cópia, clique com ⌥⇧.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copiar dados";
+"ClearHistoryOnQuit" = "Limpar histórico ao sair";
+"ClearHistoryOnQuitTooltip" = "Remova automaticamente todos os elementos não fixados antes de sair da aplicação.";
+"ClearSystemClipboard" = "Limpar também a área de transferência do sistema";
+"ClearSystemClipboardTooltip" = "Quando ativado, limpar o histórico também limparia a área de transferência atual do sistema.";
+"Title" = "Avançado";
