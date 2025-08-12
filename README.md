@@ -25,6 +25,7 @@ Maccy works on macOS Sonoma 14 or higher.
   * [When assigning a hotkey to open Maccy, it says that this hotkey is already used in some system setting.](#when-assigning-a-hotkey-to-open-maccy-it-says-that-this-hotkey-is-already-used-in-some-system-setting)
   * [How to restore hidden footer?](#how-to-restore-hidden-footer)
   * [How to ignore copies from Universal Clipboard?](#how-to-ignore-copies-from-universal-clipboard)
+  * [My keyboard shortcut stopped working in password fields. How do I fix this?](#my-keyboard-shortcut-stopped-working-in-password-fields-how-do-i-fix-this)
 * [Translations](#translations)
 * [Motivation](#motivation)
 * [License](#license)
@@ -141,6 +142,10 @@ defaults write org.p0deje.Maccy showFooter 1
 
 1. Open Preferences -> Ignore -> Pasteboard Types.
 2. Add `com.apple.is-remote-clipboard`.
+
+### My keyboard shortcut stopped working in password fields. How do I fix this?
+
+If your shortcut produces a character (like `Option+C` → "ç"), macOS security may block it in password fields. Use [Karabiner-Elements](https://karabiner-elements.pqrs.org/) to remap your shortcut to a different combination like `Cmd+Shift+C`. [See detailed solution](docs/keyboard-shortcut-password-fields.md).
 
 ## Translations
 
