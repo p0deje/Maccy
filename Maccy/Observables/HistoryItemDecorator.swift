@@ -5,7 +5,7 @@ import Observation
 import Sauce
 
 @Observable
-class HistoryItemDecorator: Identifiable, Hashable {
+final class HistoryItemDecorator: Identifiable, Hashable, Sendable {
   static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
   }
@@ -50,6 +50,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
     return url.deletingPathExtension().lastPathComponent
   }
 
+  var imageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
@@ -62,21 +63,23 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
   func hash(into hasher: inout Hasher) {
     hasher.combine(id)
-    hasher.combine(title)
-    hasher.combine(attributedTitle)
   }
 
-  private(set) var item: HistoryItem
+  private static var nullHistoryItem: HistoryItem = .init()
+  private(set) weak var itemStorage: HistoryItem?
+  var item: HistoryItem {
+    itemStorage ?? Self.nullHistoryItem
+  }
 
   init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
-    self.item = item
+    self.itemStorage = item
     self.shortcuts = shortcuts
     self.title = item.title
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
 
     synchronizeItemPin()
     synchronizeItemTitle()
-    Task {
+    imageGenerationTask = Task {
       await sizeImages()
     }
   }
@@ -88,7 +91,17 @@ class HistoryItemDecorator: Identifiable, Hashable {
     }
 
     previewImage = image.resized(to: HistoryItemDecorator.previewImageSize)
+    if Task.isCancelled {
+      previewImage = nil
+      return
+    }
+
     thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
+    if Task.isCancelled {
+      previewImage = nil
+      thumbnailImage = nil
+      return
+    }
   }
 
   func highlight(_ query: String, _ ranges: [Range<String.Index>]) {
