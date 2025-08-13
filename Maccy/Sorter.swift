@@ -33,8 +33,10 @@ class Sorter {
       }
     }
 
-    return sortedItems
+    sortedItems
       .sort(by: byPinned)
+    
+    return sortedItems
   }
 
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
