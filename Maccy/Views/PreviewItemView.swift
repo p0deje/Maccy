@@ -44,6 +44,12 @@ struct PreviewItemView: View {
         Text(item.item.lastCopiedAt, style: .date)
         Text(item.item.lastCopiedAt, style: .time)
       }
+      
+      HStack(spacing: 3) {
+        Text("LastPasteTime", tableName: "PreviewItemView")
+        Text(item.item.lastPastedAt, style: .date)
+        Text(item.item.lastPastedAt, style: .time)
+      }
 
       HStack(spacing: 3) {
         Text("NumberOfCopies", tableName: "PreviewItemView")

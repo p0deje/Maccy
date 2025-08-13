@@ -58,6 +58,7 @@ struct StorageSettingsPane: View {
 
   @Default(.size) private var size
   @Default(.sortBy) private var sortBy
+  @Default(.pushPastedToBottom) private var pushPastedToBottom
 
   @State private var viewModel = ViewModel()
 
@@ -114,6 +115,15 @@ struct StorageSettingsPane: View {
         .labelsHidden()
         .frame(width: 160)
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
+      }
+
+      Settings.Section(
+        label: { Text("On item paste:", tableName: "StorageSettings") }
+      ) {
+        Toggle(
+          isOn: $pushPastedToBottom,
+          label: { Text("push item to bottom of list  (only via Maccy!)", tableName: "StorageSettings") }
+        )
       }
     }
   }

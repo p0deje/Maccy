@@ -1,6 +1,7 @@
 "Application" = "Application:";
-"FirstCopyTime" = "First copy time:";
-"LastCopyTime" = "Last copy time:";
+"FirstCopyTime" = "First copied at:";
+"LastCopyTime" = "Last copied at:";
+"LastPasteTime" = "Last pasted at:";
 "NumberOfCopies" = "Number of copies:";
 "PinKey" = "Press {pinKey} to (un)pin.";
 "DeleteKey" = "Press {deleteKey} to delete.";
