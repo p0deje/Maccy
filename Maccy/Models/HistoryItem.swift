@@ -65,6 +65,7 @@ class HistoryItem {
   init(contents: [HistoryItemContent] = []) {
     self.firstCopiedAt = firstCopiedAt
     self.lastCopiedAt = lastCopiedAt
+    self.lastPastedAt = lastPastedAt
     self.contents = contents
   }
 
