@@ -118,12 +118,13 @@ struct StorageSettingsPane: View {
       }
 
       Settings.Section(
-        label: { Text("On item paste (only via Maccy!)", tableName: "StorageSettings") }
+        label: { Text("On item paste:", tableName: "StorageSettings") }
       ) {
         Toggle(
           isOn: $pushPastedToBottom,
-          label: { Text("push item to bottom of list", tableName: "StorageSettings") }
+          label: { Text("push item to bottom of list  (only via Maccy!)", tableName: "StorageSettings") }
         )
+      }
     }
   }
 }
