@@ -132,6 +132,7 @@ class History { // swiftlint:disable:this type_body_length
         item.contents = existingHistoryItem.contents
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
+      item.lastPastedAt = existingHistoryItem.lastPastedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
       item.title = existingHistoryItem.title
