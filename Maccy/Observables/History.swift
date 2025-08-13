@@ -229,7 +229,7 @@ class History { // swiftlint:disable:this type_body_length
       AppState.shared.popup.close()
       Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
       if Defaults[.pasteByDefault] {
-        Clipboard.shared.paste()
+        Clipboard.shared.paste(item.item)
       }
     } else {
       switch HistoryItemAction(modifierFlags) {
