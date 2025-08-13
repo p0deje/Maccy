@@ -43,12 +43,10 @@ class Sorter {
     switch by {
     case .firstCopiedAt:
       return lhs.firstCopiedAt > rhs.firstCopiedAt
-    case .lastCopiedAt:
-      return lhs.lastCopiedAt > rhs.lastCopiedAt
     case .numberOfCopies:
       return lhs.numberOfCopies > rhs.numberOfCopies
     default:
-      throw Error("unsupported sorting criterion")
+      return lhs.lastCopiedAt > rhs.lastCopiedAt
     }
   }
 
