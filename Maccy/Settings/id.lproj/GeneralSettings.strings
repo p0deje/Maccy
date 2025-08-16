@@ -4,7 +4,7 @@
 "CheckNow" = "Periksa sekarang";
 "Open" = "Buka:";
 "OpenTooltip" = "Tombol pintasan global untuk membuka aplikasi.\nTekan berulang kali tombol utama sambil menahan tombol modifikasi akan memilih item berikutnya dalam daftar. Dalam mode ini, melepaskan tombol modifikasi akan mengonfirmasi pemilihan dan menutup popup.\nDefault: ⇧⌘C.";
-"Pin" = "";
+"Pin" = "Semat:";
 "PinTooltip" = "";
 "Delete" = "Hapus:";
 "DeleteTooltip" = "";
