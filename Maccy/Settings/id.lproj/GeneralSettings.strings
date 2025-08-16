@@ -1,9 +1,9 @@
-"Title" = "";
-"LaunchAtLogin" = "";
+"Title" = "Umum";
+"LaunchAtLogin" = "Luncurkan saat login";
 "CheckForUpdates" = "Cek pembaruan secara otomatis";
-"CheckNow" = "";
-"Open" = "";
-"OpenTooltip" = "";
+"CheckNow" = "Periksa sekarang";
+"Open" = "Buka:";
+"OpenTooltip" = "Tombol pintasan global untuk membuka aplikasi.\nTekan berulang kali tombol utama sambil menahan tombol modifikasi akan memilih item berikutnya dalam daftar. Dalam mode ini, melepaskan tombol modifikasi akan mengonfirmasi pemilihan dan menutup popup.\nDefault: ⇧⌘C.";
 "Pin" = "";
 "PinTooltip" = "";
 "Delete" = "Hapus:";
