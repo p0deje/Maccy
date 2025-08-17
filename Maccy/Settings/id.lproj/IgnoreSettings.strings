@@ -5,5 +5,5 @@
 "PasteboardTypesTab" = "Jenis papan tempel";
 "IgnoredPasteboardTypesDescription" = "Anda dapat mengabaikan jenis item papan klip tertentu agar tidak disimpan.\nSecara default, beberapa jenis aplikasi tertentu yang sudah dikenal telah didefinisikan. Anda dapat menghapusnya dan menambahkan jenis kustom apa pun yang Anda inginkan.";
 "IgnoredPasteboardTypesReset" = "Atur Ulang";
-"RegexpTab" = "";
-"IgnoredRegexpsDescription" = "";
+"RegexpTab" = "Ekspresi reguler";
+"IgnoredRegexpsDescription" = "Memungkinan untuk mengabaikan salinan tertentu dari proses penyimpanan berdasarkan ekspresi reguler yang telah didefinisikan.";
