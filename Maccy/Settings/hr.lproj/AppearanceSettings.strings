@@ -31,5 +31,5 @@
 "ShowSearchField" = "Prikaži polje pretrage";
 "ShowTitleBeforeSearchField" = "Prikaži naslov prije polja pretrage";
 "ShowFooter" = "Prikaži podnožje";
-"OpenPreferencesWarning" = "⚠️ Za otvaranje postavaka kad je podnožje skriveno, pritisni ⌘.";
+"OpenPreferencesWarning" = "⚠️ Za otvaranje postavaka kad je podnožje skriveno, pritisni ⌘, (command+comma).";
 "ShowApplicationIcons" = "Prikaži ikone aplikacija";

@@ -32,4 +32,4 @@
 "ShowTitleBeforeSearchField" = "Afișează titlul înaintea câmpului de căutare";
 "ShowApplicationIcons" = "Afișează iconițele aplicațiilor";
 "ShowFooter" = "Afișează subsolul";
-"OpenPreferencesWarning" = "⚠️ Apasă ⌘, pentru a deschide preferințele atunci când subsolul este ascuns.";
+"OpenPreferencesWarning" = "⚠️ Apasă ⌘, (command+comma) pentru a deschide preferințele atunci când subsolul este ascuns.";

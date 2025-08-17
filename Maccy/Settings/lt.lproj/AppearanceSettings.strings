@@ -32,4 +32,4 @@
 "ShowTitleBeforeSearchField" = "Rodyti pavadinimą prieš paieškos laukelį";
 "ShowFooter" = "Rodyti paraštę";
 "ShowApplicationIcons" = "Rodyti programų piktogramas";
-"OpenPreferencesWarning" = "⚠️ Paspauskite ⌘ ir , norėdami atidaryti nustatymus, kai paraštė yra paslėpta.";
+"OpenPreferencesWarning" = "⚠️ Paspauskite ⌘, (command+comma) norėdami atidaryti nustatymus, kai paraštė yra paslėpta.";

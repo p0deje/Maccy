@@ -32,4 +32,4 @@
 "ShowTitleBeforeSearchField" = "Показати назву перед полем пошуку";
 "ShowFooter" = "Показати нижній колонтитул";
 "ShowApplicationIcons" = "Показати іконки програм";
-"OpenPreferencesWarning" = "⚠️ Натисніть ⌘, щоб відкрити параметри, коли нижній колонтитул приховано.";
+"OpenPreferencesWarning" = "⚠️ Натисніть ⌘, (command+comma) щоб відкрити параметри, коли нижній колонтитул приховано.";

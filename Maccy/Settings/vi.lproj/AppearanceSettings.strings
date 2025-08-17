@@ -32,4 +32,4 @@
 "ShowTitleBeforeSearchField" = "Hiển thị tiêu đề trước ô tìm kiếm";
 "ShowApplicationIcons" = "Hiển thị biểu tượng ứng dụng";
 "ShowFooter" = "Hiển thị phần chân trang";
-"OpenPreferencesWarning" = "⚠️ Nhấn phím ⌘ để mở cài đặt khi phần chân trang bị ẩn.";
+"OpenPreferencesWarning" = "⚠️ Nhấn phím ⌘, (command+comma) để mở cài đặt khi phần chân trang bị ẩn.";

@@ -32,4 +32,4 @@
 "ShowTitleBeforeSearchField" = "Mostrar título antes do campo de pesquisa";
 "ShowApplicationIcons" = "Mostrar ícones de aplicações";
 "ShowFooter" = "Mostrar rodapé";
-"OpenPreferencesWarning" = "⚠️ Pressione ⌘, para abrir as preferências quando o rodapé estiver oculto.";
+"OpenPreferencesWarning" = "⚠️ Pressione ⌘, (command+comma) para abrir as preferências quando o rodapé estiver oculto.";

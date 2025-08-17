@@ -32,4 +32,4 @@
 "ShowTitleBeforeSearchField" = "إظهار العنوان قبل حقل البحث";
 "ShowFooter" = "إظهار التذييل";
 "ShowApplicationIcons" = "إظهار أيقونات التطبيقات";
-"OpenPreferencesWarning" = "⚠️ اضغط ⌘، لفتح التفضيلات عندما يكون التذييل مخفيًا.";
+"OpenPreferencesWarning" = "⚠️ اضغط على ⌘، (command+comma) لفتح التفضيلات عندما يكون التذييل مخفيًا.";

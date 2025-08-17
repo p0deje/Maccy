@@ -31,5 +31,5 @@
 "ShowSearchField" = "הצגת שדה חיפוש";
 "ShowTitleBeforeSearchField" = "הצגת כותרת לפני שדה החיפוש";
 "ShowFooter" = "הצגת כותרת תחתונה";
-"OpenPreferencesWarning" = "⚠️ יש ללחוץ על ⌘, כדי לפתוח העדפות כאשר הכותרת התחתונה מוסתרת.";
+"OpenPreferencesWarning" = "⚠️ לחצו ⌘, (command+פסיק) כדי לפתוח את ההעדפות כאשר הכותרת התחתונה מוסתרת.";
 "ShowApplicationIcons" = "הצג סמלי יישומים";
