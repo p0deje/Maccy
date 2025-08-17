@@ -6,5 +6,5 @@
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# salin data";
 "ClearHistoryOnQuit" = "Hapus riwayat saat keluar";
 "ClearHistoryOnQuitTooltip" = "Hapus otomatis semua item yang tidak dipin sebelum keluar dari aplikasi.";
-"ClearSystemClipboard" = "";
-"ClearSystemClipboardTooltip" = "";
+"ClearSystemClipboard" = "Hapus juga clipboard sistem";
+"ClearSystemClipboardTooltip" = "Ketika diaktifkan, menghapus riwayat juga akan menghapus clipboard sistem saat ini.";
