@@ -1,10 +1,10 @@
-"Title" = "";
-"Save" = "";
-"Files" = "";
-"Images" = "";
-"Text" = "";
+"Title" = "Penyimpanan";
+"Save" = "Simpan:";
+"Files" = "Berkas";
+"Images" = "Gambar";
+"Text" = "Teks";
 "SaveDescription" = "Mengubah jenis konten tersalin yang disimpan.";
-"Size" = "";
+"Size" = "Ukuran:";
 "SizeTooltip" = "";
 "CurrentSizeTooltip" = "";
 "SortBy" = "";
