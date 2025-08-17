@@ -1,9 +1,9 @@
-"Title" = "";
+"Title" = "Abaikan";
 "ApplicationsTab" = "Aplikasi";
 "IgnoredAppsDescription" = "Mengabaikan salinan yang berasal dari aplikasi tertentu mungkin dilakukan.\nHarap dicatat bahwa cara itu tidak selalu bekerja, lebih baik gunakan tipe papan tempel jika mungkin.";
-"IgnoredAllAppsExceptListed" = "";
-"PasteboardTypesTab" = "";
-"IgnoredPasteboardTypesDescription" = "";
-"IgnoredPasteboardTypesReset" = "";
+"IgnoredAllAppsExceptListed" = "Abaikan semua aplikasi kecuali yang terdaftar";
+"PasteboardTypesTab" = "Jenis papan tempel";
+"IgnoredPasteboardTypesDescription" = "Anda dapat mengabaikan jenis item papan klip tertentu agar tidak disimpan.\nSecara default, beberapa jenis aplikasi tertentu yang sudah dikenal telah didefinisikan. Anda dapat menghapusnya dan menambahkan jenis kustom apa pun yang Anda inginkan.";
+"IgnoredPasteboardTypesReset" = "Atur Ulang";
 "RegexpTab" = "";
 "IgnoredRegexpsDescription" = "";
