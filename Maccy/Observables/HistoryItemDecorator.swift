@@ -67,14 +67,10 @@ class HistoryItemDecorator: Identifiable, Hashable {
     hasher.combine(attributedTitle)
   }
 
-  private static var nullHistoryItem: HistoryItem = .init()
-  private(set) weak var itemStorage: HistoryItem?
-  var item: HistoryItem {
-    itemStorage ?? Self.nullHistoryItem
-  }
+  private(set) var item: HistoryItem
 
   init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
-    self.itemStorage = item
+    self.item = item
     self.shortcuts = shortcuts
     self.title = item.title
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
