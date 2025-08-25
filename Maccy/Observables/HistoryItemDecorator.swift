@@ -62,6 +62,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
   var isUnpinned: Bool { item.pin == nil }
 
   func hash(into hasher: inout Hasher) {
+    // We need to hash title and attributedTitle, so SwiftUI knows it needs to update the view if they chage
     hasher.combine(id)
     hasher.combine(title)
     hasher.combine(attributedTitle)
