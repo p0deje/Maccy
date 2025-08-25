@@ -4,7 +4,7 @@ import Foundation
 import Settings
 
 @Observable
-final class AppState: Sendable {
+class AppState: Sendable {
   static let shared = AppState()
 
   var appDelegate: AppDelegate?
