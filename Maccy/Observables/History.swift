@@ -178,15 +178,15 @@ class History { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func withLogging(_ msg: String, _ block: () throws -> Void) rethrows {
-    let historyItemCountBefore = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItem>())
-    let historyContentCountBefore = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
-    logger.info("\(msg) Before: HistoryItem=\(historyItemCountBefore ?? 0) HistoryItemContent=\(historyContentCountBefore ?? 0)")
+    func dataCounts() -> String {
+      let historyItemCount = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItem>())
+      let historyContentCount = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
+      return "HistoryItem=\(historyItemCount ?? 0) HistoryItemContent=\(historyContentCount ?? 0)"
+    }
 
+    logger.info("\(msg) Before: \(dataCounts())")
     try? block()
-
-    let historyItemCountAfter = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItem>())
-    let historyContentCountAfter = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
-    logger.info("\(msg) After: HistoryItem=\(historyItemCountAfter ?? 0) HistoryItemContent=\(historyContentCountAfter ?? 0)")
+    logger.info("\(msg) After: \(dataCounts())")
   }
 
   @MainActor
@@ -230,7 +230,6 @@ class History { // swiftlint:disable:this type_body_length
       sessionLog.removeAll()
       items = all
 
-
       try? Storage.shared.context.delete(model: HistoryItem.self)
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
@@ -248,7 +247,6 @@ class History { // swiftlint:disable:this type_body_length
     guard let item else { return }
 
     cleanup(item)
-  
     withLogging("Removing history item") {
       Storage.shared.context.delete(item.item)
       try? Storage.shared.context.save()
