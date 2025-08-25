@@ -1,6 +1,7 @@
 import AppKit.NSRunningApplication
 import Defaults
 import Foundation
+import Logging
 import Observation
 import Sauce
 import Settings
@@ -9,6 +10,7 @@ import SwiftData
 @Observable
 class History { // swiftlint:disable:this type_body_length
   static let shared = History()
+  let logger = Logger(label: "org.p0deje.Maccy")
 
   var items: [HistoryItemDecorator] = []
   var selectedItem: HistoryItemDecorator? {
@@ -175,13 +177,42 @@ class History { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  private func withLogging(_ msg: String, _ block: () throws -> Void) rethrows {
+    func dataCounts() -> String {
+      let historyItemCount = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItem>())
+      let historyContentCount = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
+      return "HistoryItem=\(historyItemCount ?? 0) HistoryItemContent=\(historyContentCount ?? 0)"
+    }
+
+    logger.info("\(msg) Before: \(dataCounts())")
+    try? block()
+    logger.info("\(msg) After: \(dataCounts())")
+  }
+
+  @MainActor
   func clear() {
-    all.removeAll(where: \.isUnpinned)
-    items = all
-    try? Storage.shared.context.delete(
-      model: HistoryItem.self,
-      where: #Predicate { $0.pin == nil }
-    )
+    withLogging("Clearing history") {
+      all.forEach { item in
+        if item.isUnpinned {
+          cleanup(item)
+        }
+      }
+      all.removeAll(where: \.isUnpinned)
+      sessionLog.removeValues { $0.pin == nil }
+      items = all
+
+      try? Storage.shared.context.delete(
+        model: HistoryItem.self,
+        where: #Predicate { $0.pin == nil }
+      )
+      try? Storage.shared.context.delete(
+        model: HistoryItemContent.self,
+        where: #Predicate { $0.item?.pin == nil }
+      )
+      Storage.shared.context.processPendingChanges()
+      try? Storage.shared.context.save()
+    }
+
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
@@ -191,9 +222,19 @@ class History { // swiftlint:disable:this type_body_length
 
   @MainActor
   func clearAll() {
-    all.removeAll()
-    items = all
-    try? Storage.shared.context.delete(model: HistoryItem.self)
+    withLogging("Clearing all history") {
+      all.forEach { item in
+        cleanup(item)
+      }
+      all.removeAll()
+      sessionLog.removeAll()
+      items = all
+
+      try? Storage.shared.context.delete(model: HistoryItem.self)
+      Storage.shared.context.processPendingChanges()
+      try? Storage.shared.context.save()
+    }
+
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
@@ -205,14 +246,28 @@ class History { // swiftlint:disable:this type_body_length
   func delete(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
-    Storage.shared.context.delete(item.item)
+    cleanup(item)
+    withLogging("Removing history item") {
+      Storage.shared.context.delete(item.item)
+      try? Storage.shared.context.save()
+    }
+
     all.removeAll { $0 == item }
     items.removeAll { $0 == item }
+    sessionLog.removeValues { $0 == item.item }
 
     updateUnpinnedShortcuts()
     Task {
       AppState.shared.popup.needsResize = true
     }
+  }
+
+  private func cleanup(_ item: HistoryItemDecorator) {
+    item.imageGenerationTask?.cancel()
+    item.thumbnailImage?.recache()
+    item.previewImage?.recache()
+    item.thumbnailImage = nil
+    item.previewImage = nil
   }
 
   @MainActor

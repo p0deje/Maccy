@@ -50,6 +50,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
     return url.deletingPathExtension().lastPathComponent
   }
 
+  var imageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
@@ -61,6 +62,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
   var isUnpinned: Bool { item.pin == nil }
 
   func hash(into hasher: inout Hasher) {
+    // We need to hash title and attributedTitle, so SwiftUI knows it needs to update the view if they chage
     hasher.combine(id)
     hasher.combine(title)
     hasher.combine(attributedTitle)
@@ -76,7 +78,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
     synchronizeItemPin()
     synchronizeItemTitle()
-    Task {
+    imageGenerationTask = Task {
       await sizeImages()
     }
   }
@@ -88,7 +90,17 @@ class HistoryItemDecorator: Identifiable, Hashable {
     }
 
     previewImage = image.resized(to: HistoryItemDecorator.previewImageSize)
+    if Task.isCancelled {
+      previewImage = nil
+      return
+    }
+
     thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
+    if Task.isCancelled {
+      previewImage = nil
+      thumbnailImage = nil
+      return
+    }
   }
 
   func highlight(_ query: String, _ ranges: [Range<String.Index>]) {
