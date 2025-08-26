@@ -1,9 +1,10 @@
 import KeyboardShortcuts
 import SwiftUI
+import Defaults
 
 struct PreviewItemView: View {
   var item: HistoryItemDecorator
-
+    @Default(.previewMaxSize) private var previewMaxSize: Int
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       if let image = item.previewImage {
@@ -67,5 +68,9 @@ struct PreviewItemView: View {
     }
     .controlSize(.small)
     .padding()
+    .frame(
+      maxWidth:  CGFloat(previewMaxSize),
+      maxHeight: CGFloat(previewMaxSize)
+    )
   }
 }

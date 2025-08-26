@@ -43,6 +43,8 @@ extension Defaults.Keys {
   static let popupPosition = Key<PopupPosition>("popupPosition", default: .cursor)
   static let popupScreen = Key<Int>("popupScreen", default: 0)
   static let previewDelay = Key<Int>("previewDelay", default: 1500)
+  static let previewMaxSize = Key<Int>("previewMaxSize", default: 700)
+  static let previewOnHover = Key<Bool>("previewOnHover", default: false)
   static let removeFormattingByDefault = Key<Bool>("removeFormattingByDefault", default: false)
   static let searchMode = Key<Search.Mode>("searchMode", default: .exact)
   static let showFooter = Key<Bool>("showFooter", default: true)
@@ -57,5 +59,5 @@ extension Defaults.Keys {
   static let suppressClearAlert = Key<Bool>("suppressClearAlert", default: false)
   static let windowSize = Key<NSSize>("windowSize", default: NSSize(width: 450, height: 800))
   static let windowPosition = Key<NSPoint>("windowPosition", default: NSPoint(x: 0.5, y: 0.8))
-  static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: false)
+  static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: true)
 }

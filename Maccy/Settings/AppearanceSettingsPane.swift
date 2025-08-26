@@ -17,7 +17,7 @@ struct AppearanceSettingsPane: View {
   @Default(.showFooter) private var showFooter
   @Default(.windowPosition) private var windowPosition
   @Default(.showApplicationIcons) private var showApplicationIcons
-
+  @Default(.previewMaxSize)   private var previewMaxSize
   @State private var screens = NSScreen.screens
 
   private let imageHeightFormatter: NumberFormatter = {
@@ -46,6 +46,13 @@ struct AppearanceSettingsPane: View {
     formatter.minimum = 200
     formatter.maximum = 100_000
     return formatter
+  }()
+
+  private let previewSizeFormatter: NumberFormatter = {
+    let f = NumberFormatter()
+    f.minimum = 100
+    f.maximum = 5000
+    return f
   }()
 
   var body: some View {
@@ -109,6 +116,18 @@ struct AppearanceSettingsPane: View {
             .labelsHidden()
         }
       }
+
+      Settings.Section(label: { Text("Max preview size") }) {
+          HStack {
+            TextField("", value: $previewMaxSize, formatter: previewSizeFormatter)
+              .frame(width: 120)
+            Stepper("", value: $previewMaxSize, in: 200...3000, step: 50)
+              .labelsHidden()
+          }
+          Text("Caps the image/text preview popover’s width and height.")
+            .foregroundStyle(.secondary)
+            .font(.footnote)
+        }
 
       Settings.Section(
         bottomDivider: true,
