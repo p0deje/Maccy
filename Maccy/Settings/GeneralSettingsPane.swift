@@ -97,9 +97,14 @@ struct GeneralSettingsPane: View {
 
       Settings.Section(title: "") {
         if let notificationsURL = notificationsURL {
-          Link(destination: notificationsURL, label: {
-            Text("NotificationsAndSounds", tableName: "GeneralSettings")
-          })
+          VStack(alignment: .leading, spacing: 2) {
+            Link(destination: notificationsURL, label: {
+              Text("NotificationsAndSounds", tableName: "GeneralSettings")
+            })
+            Text("NotificationsHint", tableName: "GeneralSettings")
+              .foregroundStyle(.secondary)
+              .font(.footnote)
+          }
         }
       }
     }
