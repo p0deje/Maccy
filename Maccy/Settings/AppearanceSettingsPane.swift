@@ -49,10 +49,10 @@ struct AppearanceSettingsPane: View {
   }()
 
   private let previewSizeFormatter: NumberFormatter = {
-    let f = NumberFormatter()
-    f.minimum = 100
-    f.maximum = 5000
-    return f
+    let formatter = NumberFormatter()
+    formatter.minimum = 100
+    formatter.maximum = 5000
+    return formatter
   }()
 
   var body: some View {

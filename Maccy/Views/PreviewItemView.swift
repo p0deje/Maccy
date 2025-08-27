@@ -69,7 +69,7 @@ struct PreviewItemView: View {
     .controlSize(.small)
     .padding()
     .frame(
-      maxWidth:  CGFloat(previewMaxSize),
+      maxWidth: CGFloat(previewMaxSize),
       maxHeight: CGFloat(previewMaxSize)
     )
   }

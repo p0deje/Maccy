@@ -18,7 +18,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
     // Cap by unified user preference (same value for width & height)
     let cap = CGFloat(Defaults[.previewMaxSize])
-    return NSSize(width: min(screen.width,  cap),
+    return NSSize(width: min(screen.width, cap),
                   height: min(screen.height, cap))
   }
   static var thumbnailImageSize: NSSize { NSSize(width: 340, height: Defaults[.imageMaxHeight]) }
