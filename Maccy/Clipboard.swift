@@ -214,10 +214,10 @@ class Clipboard {
       return
     }
 
-    let historyItem = HistoryItem()
+    let historyItem = HistoryItem(contents: contents)
     Storage.shared.context.insert(historyItem)
+    try? Storage.shared.context.save()
 
-    historyItem.contents = contents
     historyItem.application = sourceApp?.bundleIdentifier
     historyItem.title = historyItem.generateTitle()
 

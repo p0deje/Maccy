@@ -6,21 +6,25 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>2.4.1</title>
+      <title>2.5.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Reverted screensharing privacy mode which also made windows invisible on external monitors connected via DisplayPort.</li>
+            <li>Added Romanian translation.</li>
+            <li>Added Vietnamese translation.</li>
+            <li>Improved memory utilization.</li>
+            <li>Fixed an issue when the database disk size was not updated in Storage preferences.</li>
+            <li>Fixed an issue when the cycle mode interfered with pinned item shortcut.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2025-07-24</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.4.1</releaseNotesLink>
+      <pubDate>2025-08-29</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.5.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/2.4.1/Maccy.app.zip"
-        sparkle:version="56"
-        sparkle:shortVersionString="2.4.1"
+        url="https://github.com/p0deje/Maccy/releases/download/2.5.0/Maccy.app.zip"
+        sparkle:version="57"
+        sparkle:shortVersionString="2.5.0"
         length="0"
         type="application/octet-stream"
       />

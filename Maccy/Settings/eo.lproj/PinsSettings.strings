@@ -1,7 +1,7 @@
-"Title" = "";
-"Key" = "";
-"Alias" = "";
-"Content" = "";
-"ContentIsNotText" = "";
-"RichTextEditWarning" = "";
+"Title" = "Fiksitaj eroj";
+"Key" = "Klavo";
+"Alias" = "Titolo";
+"Content" = "Enhavo";
+"ContentIsNotText" = "Ne-redaktebla enhavo (bildo aŭ dosiero)";
+"RichTextEditWarning" = "Redaktado forigos ĉian tekstaranĝon.";
 "PinCustomizationDescription" = "";

@@ -1,5 +1,5 @@
 "Title" = "Tashqi ko'rinish";
-"OpenPreferencesWarning" = "⚠️ ⌘ ni bosing, pastgi qisimni yashiradi.";
+"OpenPreferencesWarning" = "⚠️ Altbilgi yashirilganda afzalliklarni ochish uchun ⌘, (command+comma) tugmasini bosing.";
 "PopupAtLastPosition" = "Oxirgi pozitsiya";
 "SearchVisibilityDuringSearch" = "Qidiruv paytida";
 "ShowMenuIcon" = "Menyu belgisini ko'rsatish";

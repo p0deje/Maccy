@@ -31,5 +31,5 @@
 "ShowSearchField" = "Prikaži polje za pretragu";
 "ShowTitleBeforeSearchField" = "Prikaži naslov prije polja za pretraživanje";
 "ShowFooter" = "Prikaži footer";
-"OpenPreferencesWarning" = "⚠️ Pritisni ⌘, da otvorite postavke kada je podnožje skriveno.";
+"OpenPreferencesWarning" = "⚠️ Pritisni ⌘, (command+comma) da otvorite postavke kada je podnožje skriveno.";
 "ShowApplicationIcons" = "Prikaži ikone aplikacija";

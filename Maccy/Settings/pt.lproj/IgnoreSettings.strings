@@ -1,0 +1,9 @@
+"ApplicationsTab" = "Aplicações";
+"IgnoredAppsDescription" = "É possível ignorar cópias provenientes de determinados aplicações.\nPor favor, note que a forma como isso funciona não é infalível, por isso é melhor usar tipos de cópia quando possível.";
+"IgnoredAllAppsExceptListed" = "Ignorar todas as aplicações exceto as listadas";
+"PasteboardTypesTab" = "Tipos de cópia";
+"IgnoredPasteboardTypesDescription" = "É possível ignorar certos tipos de elementos de cópia para não lembrar.\nPor padrão, alguns tipos específicos de aplicações conhecidos são definidos. Pode removê-los e adicionar qualquer tipo personalizado que quiser.";
+"IgnoredPasteboardTypesReset" = "Reiniciar";
+"RegexpTab" = "Expressões regulares";
+"IgnoredRegexpsDescription" = "É possível ignorar certas cópias para não lembrar com base em expressões regulares definidas.";
+"Title" = "Ignorar";

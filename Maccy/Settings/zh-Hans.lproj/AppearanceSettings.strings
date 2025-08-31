@@ -32,4 +32,4 @@
 "ShowTitleBeforeSearchField" = "在搜索框前显示应用名";
 "ShowFooter" = "显示底部菜单";
 "ShowApplicationIcons" = "显示应用程序图标";
-"OpenPreferencesWarning" = "⚠️ 隐藏底部菜单时仍可按 ⌘, 打开偏好设置。";
+"OpenPreferencesWarning" = "⚠️ 隐藏底部菜单时仍可按 ⌘, (command+comma) 打开偏好设置。";

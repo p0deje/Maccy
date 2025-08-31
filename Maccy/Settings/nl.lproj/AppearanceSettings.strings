@@ -32,4 +32,4 @@
 "ShowTitleBeforeSearchField" = "Toon titel voor zoekveld";
 "ShowFooter" = "Toon voettekst";
 "ShowApplicationIcons" = "Toepassingspictogrammen weergeven";
-"OpenPreferencesWarning" = "⚠️ Druk op ⌘, om voorkeuren te openen wanneer de voettekst verborgen is.";
+"OpenPreferencesWarning" = "⚠️ Druk op ⌘, (command+comma) om voorkeuren te openen wanneer de voettekst verborgen is.";

@@ -32,4 +32,4 @@
 "ShowTitleBeforeSearchField" = "Prikaži naslov pred poljem za iskanje";
 "ShowApplicationIcons" = "Prikaži ikone aplikacij";
 "ShowFooter" = "Prikaži nogo";
-"OpenPreferencesWarning" = "⚠️ Pritisnite ⌘, da odprete nastavitve, ko je noga skrita.";
+"OpenPreferencesWarning" = "⚠️ Pritisnite ⌘, (command+comma) da odprete nastavitve, ko je noga skrita.";

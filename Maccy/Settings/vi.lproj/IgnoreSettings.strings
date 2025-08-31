@@ -1,0 +1,9 @@
+"Title" = "Loại trừ";
+"ApplicationsTab" = "Ứng dụng";
+"IgnoredAppsDescription" = "Có thể bỏ qua các sao chép trong một số ứng dụng cụ thể.\nLưu ý rằng cách hoạt động này không hoàn toàn an toàn, do đó tốt nhất nên sử dụng các loại bảng tạm khi có thể.";
+"IgnoredAllAppsExceptListed" = "Loại trừ tất cả các ứng dụng trừ những ứng dụng được liệt kê";
+"PasteboardTypesTab" = "Kiểu dữ liệu trên bảng tạm";
+"IgnoredPasteboardTypesDescription" = "Bạn có thể bỏ qua một số loại mục trong bảng tạm để không bị lưu lại.\nTheo mặc định, một số loại dữ liệu riêng của ứng dụng đã được xác định sẵn. Bạn có thể xóa chúng và thêm bất kỳ loại tùy chỉnh nào mà bạn muốn.";
+"IgnoredPasteboardTypesReset" = "Đặt lại";
+"RegexpTab" = "Biểu thức chính quy";
+"IgnoredRegexpsDescription" = "Có thể bỏ qua một số bản sao nhất định khỏi việc ghi nhớ, dựa trên các biểu thức chính quy đã được định nghĩa.";

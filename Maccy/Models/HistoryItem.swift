@@ -58,7 +58,7 @@ class HistoryItem {
   var pin: String?
   var title = ""
 
-  @Relationship(deleteRule: .cascade)
+  @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
   var contents: [HistoryItemContent] = []
 
   init(contents: [HistoryItemContent] = []) {

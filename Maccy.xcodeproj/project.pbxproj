@@ -8,10 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		0ABDD5122BB47F1E0054963B /* NSWorkspace+ApplicationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */; };
+		2F12271E2E5C932200A1592A /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 2F12271D2E5C932200A1592A /* Logging */; };
 		2F1A79C02C6DFB7800C98EBD /* SearchVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */; };
 		2F39CB042AD9A93C00B749FD /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB032AD9A93C00B749FD /* Sparkle */; };
 		2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB092AD9AE1F00B749FD /* Settings */; };
 		2F8B9DE62C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B9DE52C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift */; };
+		2FA81FE02E43D9B700C12F92 /* Dictionary+RemoveItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA81FDF2E43D9A600C12F92 /* Dictionary+RemoveItem.swift */; };
 		2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
 		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
@@ -164,6 +166,7 @@
 		11EB892C281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVisibility.swift; sourceTree = "<group>"; };
 		2F8B9DE52C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPoint+DefaultsSerializable.swift"; sourceTree = "<group>"; };
+		2FA81FDF2E43D9A600C12F92 /* Dictionary+RemoveItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+RemoveItem.swift"; sourceTree = "<group>"; };
 		2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationImage.swift; sourceTree = "<group>"; };
 		3EBDD1E32BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -179,6 +182,22 @@
 		DA05B5132C234DCF006980FE /* HistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItem.swift; sourceTree = "<group>"; };
 		DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Resized.swift"; sourceTree = "<group>"; };
 		DA08FDE7282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		DA0D57762E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
+		DA0D57772E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
+		DA0D57782E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
+		DA0D57792E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/IgnoreSettings.strings; sourceTree = "<group>"; };
+		DA0D577A2E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/StorageSettings.strings; sourceTree = "<group>"; };
+		DA0D577B2E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/PinsSettings.strings; sourceTree = "<group>"; };
+		DA0D577C2E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
+		DA0D577D2E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DA0D577E2E424784005101AF /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
+		DA0D577F2E424784005101AF /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
+		DA0D57802E424784005101AF /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
+		DA0D57812E424784005101AF /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/IgnoreSettings.strings; sourceTree = "<group>"; };
+		DA0D57822E424784005101AF /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/StorageSettings.strings; sourceTree = "<group>"; };
+		DA0D57832E424784005101AF /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/PinsSettings.strings; sourceTree = "<group>"; };
+		DA0D57842E424784005101AF /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
+		DA0D57852E424784005101AF /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA0EE7B6204657830025FC60 /* MaccyUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA0EE7B8204657830025FC60 /* MaccyUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaccyUITests.swift; sourceTree = "<group>"; };
 		DA0EF1871E444B2A00E58577 /* Clipboard.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Clipboard.swift; sourceTree = "<group>"; };
@@ -516,6 +535,7 @@
 				DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */,
 				DAC0CA3E2C88E7A4003BF498 /* Fuse in Frameworks */,
 				DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */,
+				2F12271E2E5C932200A1592A /* Logging in Frameworks */,
 				DA13D7D02C19F8C300FA9E23 /* Defaults in Frameworks */,
 				DA009947256414800030E697 /* SwiftHEXColors in Frameworks */,
 				DA5154D82564102900C01004 /* Sauce in Frameworks */,
@@ -530,6 +550,7 @@
 		2FBB7A252B5FECBB00C65BBE /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				2FA81FDF2E43D9A600C12F92 /* Dictionary+RemoveItem.swift */,
 				DA19691B2C3F3EAC00258481 /* Collection+Surrounding.swift */,
 				DAA072D22C40A961006DDFD2 /* Color+Random.swift */,
 				DA13D7D12C19F91B00FA9E23 /* Defaults.Keys+Names.swift */,
@@ -824,6 +845,7 @@
 				DA13D7C92C19F52B00FA9E23 /* LaunchAtLogin */,
 				DA13D7CF2C19F8C300FA9E23 /* Defaults */,
 				DAC0CA3D2C88E7A4003BF498 /* Fuse */,
+				2F12271D2E5C932200A1592A /* Logging */,
 			);
 			productName = Maccy;
 			productReference = DAEE38431E3DBEB100DD2966 /* Maccy.app */;
@@ -893,6 +915,8 @@
 				sl,
 				be,
 				uz,
+				ro,
+				vi,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
 			packageReferences = (
@@ -904,6 +928,7 @@
 				DA13D7C82C19F43E00FA9E23 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 				DA13D7CE2C19F8C300FA9E23 /* XCRemoteSwiftPackageReference "Defaults" */,
 				DAC0CA3C2C88E7A4003BF498 /* XCRemoteSwiftPackageReference "fuse-swift" */,
+				2F12271C2E5C932200A1592A /* XCRemoteSwiftPackageReference "swift-log" */,
 			);
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
 			projectDirPath = "";
@@ -1013,6 +1038,7 @@
 				DA9C3C472C20B91D0056795D /* String+Identifiable.swift in Sources */,
 				DAA365E72C4C57E600A394F8 /* KeyEquivalent+Keys.swift in Sources */,
 				DA9C3C652C211B5F0056795D /* AdvancedSettingsPane.swift in Sources */,
+				2FA81FE02E43D9B700C12F92 /* Dictionary+RemoveItem.swift in Sources */,
 				DAA5ACCA2C1BEE8A00B58513 /* SoftwareUpdater.swift in Sources */,
 				DAA5ACB22C1B3F8800B58513 /* GeneralSettingsPane.swift in Sources */,
 				DA1969122C3F0DD200258481 /* HistoryItemView.swift in Sources */,
@@ -1118,6 +1144,8 @@
 				DA555F102CF108EA009608BD /* sl */,
 				DA3874012D09EB7600E7B251 /* be */,
 				DA7A04602D720B3200743037 /* uz */,
+				DA0D577D2E4246B3005101AF /* ro */,
+				DA0D57852E424784005101AF /* vi */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
@@ -1153,6 +1181,8 @@
 				DA555F0F2CF108EA009608BD /* sl */,
 				DA3874002D09EB7600E7B251 /* be */,
 				DA7A045F2D720B3200743037 /* uz */,
+				DA0D577C2E4246B3005101AF /* ro */,
+				DA0D57842E424784005101AF /* vi */,
 			);
 			name = PreviewItemView.strings;
 			sourceTree = "<group>";
@@ -1188,6 +1218,8 @@
 				DA555F0D2CF108EA009608BD /* sl */,
 				DA3873FE2D09EB7600E7B251 /* be */,
 				DA7A045D2D720B3200743037 /* uz */,
+				DA0D577A2E4246B3005101AF /* ro */,
+				DA0D57822E424784005101AF /* vi */,
 			);
 			name = StorageSettings.strings;
 			sourceTree = "<group>";
@@ -1223,6 +1255,8 @@
 				DA555F0A2CF108EA009608BD /* sl */,
 				DA3873FB2D09EB7600E7B251 /* be */,
 				DA7A045A2D720B3200743037 /* uz */,
+				DA0D57772E4246B3005101AF /* ro */,
+				DA0D577F2E424784005101AF /* vi */,
 			);
 			name = AppearanceSettings.strings;
 			sourceTree = "<group>";
@@ -1258,6 +1292,8 @@
 				DA555F092CF108EA009608BD /* sl */,
 				DA3873FA2D09EB7600E7B251 /* be */,
 				DA7A04592D720B3200743037 /* uz */,
+				DA0D57762E4246B3005101AF /* ro */,
+				DA0D577E2E424784005101AF /* vi */,
 			);
 			name = AdvancedSettings.strings;
 			sourceTree = "<group>";
@@ -1293,6 +1329,8 @@
 				DA555F0C2CF108EA009608BD /* sl */,
 				DA3873FD2D09EB7600E7B251 /* be */,
 				DA7A045C2D720B3200743037 /* uz */,
+				DA0D57792E4246B3005101AF /* ro */,
+				DA0D57812E424784005101AF /* vi */,
 			);
 			name = IgnoreSettings.strings;
 			sourceTree = "<group>";
@@ -1328,6 +1366,8 @@
 				DA555F0E2CF108EA009608BD /* sl */,
 				DA3873FF2D09EB7600E7B251 /* be */,
 				DA7A045E2D720B3200743037 /* uz */,
+				DA0D577B2E4246B3005101AF /* ro */,
+				DA0D57832E424784005101AF /* vi */,
 			);
 			name = PinsSettings.strings;
 			sourceTree = "<group>";
@@ -1363,6 +1403,8 @@
 				DA555F0B2CF108EA009608BD /* sl */,
 				DA3873FC2D09EB7600E7B251 /* be */,
 				DA7A045B2D720B3200743037 /* uz */,
+				DA0D57782E4246B3005101AF /* ro */,
+				DA0D57802E424784005101AF /* vi */,
 			);
 			name = GeneralSettings.strings;
 			sourceTree = "<group>";
@@ -1602,7 +1644,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1617,7 +1659,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1637,7 +1679,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 56;
+				CURRENT_PROJECT_VERSION = 57;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = MN3X4648SC;
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -1652,7 +1694,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 2.4.1;
+				MARKETING_VERSION = 2.5.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1702,6 +1744,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		2F12271C2E5C932200A1592A /* XCRemoteSwiftPackageReference "swift-log" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-log";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.6.4;
+			};
+		};
 		2F39CB022AD9A93C00B749FD /* XCRemoteSwiftPackageReference "Sparkle" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
@@ -1769,6 +1819,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		2F12271D2E5C932200A1592A /* Logging */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2F12271C2E5C932200A1592A /* XCRemoteSwiftPackageReference "swift-log" */;
+			productName = Logging;
+		};
 		2F39CB032AD9A93C00B749FD /* Sparkle */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 2F39CB022AD9A93C00B749FD /* XCRemoteSwiftPackageReference "Sparkle" */;

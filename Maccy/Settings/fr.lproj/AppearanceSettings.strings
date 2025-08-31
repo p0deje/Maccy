@@ -32,4 +32,4 @@
 "ShowTitleBeforeSearchField" = "Afficher le titre avant la barre de recherche";
 "ShowFooter" = "Afficher le bas de l’application";
 "ShowApplicationIcons" = "Afficher les icônes des applications";
-"OpenPreferencesWarning" = "⚠️ Pressez ⌘, pour ouvrir les préférences quand le bas de l’application est caché.";
+"OpenPreferencesWarning" = "⚠️ Pressez ⌘, (command+comma) pour ouvrir les préférences quand le bas de l’application est caché.";
