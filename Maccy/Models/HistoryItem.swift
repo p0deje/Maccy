@@ -13,8 +13,8 @@ class HistoryItem {
     // "w" reserved for close window
     // "z" reserved for undo/redo
     var keys = Set([
-      "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-      "m", "n", "o", "p", "r", "s", "t", "u", "x", "y"
+      "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+      "m", "n", "o", "p", "r", "s", "t", "u", "x", "y", "z"
     ])
 
     if let deleteKey = KeyChord.deleteKey,
