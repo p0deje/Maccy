@@ -52,6 +52,12 @@ struct PreviewItemView: View {
         }
         .padding(.bottom)
 
+      HStack(spacing: 3) {
+        Text("PinShortcutKey", tableName: "PreviewItemView")
+        Text(item.item.pin ?? "")
+      }
+      .padding(.bottom)
+          
         if let pinKey = KeyboardShortcuts.Shortcut(name: .pin) {
           Text(
             NSLocalizedString("PinKey", tableName: "PreviewItemView", comment: "")

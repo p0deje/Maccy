@@ -8,6 +8,7 @@ class Sorter {
     case lastCopiedAt
     case firstCopiedAt
     case numberOfCopies
+    case pinShortcutKey
 
     var id: Self { self }
 
@@ -19,6 +20,8 @@ class Sorter {
         return NSLocalizedString("FirstCopiedAt", tableName: "StorageSettings", comment: "")
       case .numberOfCopies:
         return NSLocalizedString("NumberOfCopies", tableName: "StorageSettings", comment: "")
+      case .pinShortcutKey:
+        return NSLocalizedString("PinShortcutKey", tableName: "StorageSettings", comment: "")
       }
     }
   }
@@ -35,6 +38,8 @@ class Sorter {
       return lhs.firstCopiedAt > rhs.firstCopiedAt
     case .numberOfCopies:
       return lhs.numberOfCopies > rhs.numberOfCopies
+    case .pinShortcutKey:
+        return (lhs.pin ?? "").localizedCaseInsensitiveCompare(rhs.pin ?? "") == .orderedAscending
     default:
       return lhs.lastCopiedAt > rhs.lastCopiedAt
     }
