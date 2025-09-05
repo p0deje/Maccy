@@ -349,7 +349,6 @@ class History { // swiftlint:disable:this type_body_length
 
     items = all
 
-    searchQuery = ""
     updateUnpinnedShortcuts()
     if item.isUnpinned {
       AppState.shared.scrollTarget = item.id
