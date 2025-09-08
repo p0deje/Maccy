@@ -1,0 +1,20 @@
+// Title for the Pins settings tab
+"Title" = "چەسپێنراوەکان";
+
+// Column header for the assigned hotkey of a pinned item
+"Key" = "دوگمە";
+
+// Column header for the user-defined title (alias) of a pinned item
+"Alias" = "ناونیشان";
+
+// Column header for the content of a pinned item
+"Content" = "ناوەڕۆک";
+
+// Status message for non-editable content like images or files
+"ContentIsNotText" = "ناوەڕۆکی دەستکارینەکراو (وێنە یان فایل)";
+
+// Warning message that editing rich text will strip its formatting
+"RichTextEditWarning" = "دەستکاریکردن هەموو فۆرماتەکە لادەبات.";
+
+// Instructional text explaining how to customize pinned items
+"PinCustomizationDescription" = "تۆ دەتوانیت کورتەدوگمە، ناونیشان، و ناوەڕۆکی هەر ئایتمێکی چەسپێنراو بەدڵی خۆت بگۆڕیت. بۆ دەستکاریکردن، دوو-کلیک لەسەر ئایتمەکە بکە و بەهایەکی نوێ داغڵ بکە.\nتکایە ئاگاداربە کە تەنها دەقی سادە دەتوانرێت بگۆڕدرێت.";

@@ -1,0 +1,41 @@
+// Title for the Storage settings tab
+"Title" = "کۆگا";
+
+// Label for the setting that controls which content types are saved
+"Save" = "پاشەکەوتکردن:";
+
+// Checkbox label for saving files
+"Files" = "فایلەکان";
+
+// Checkbox label for saving images
+"Images" = "وێنەکان";
+
+// Checkbox label for saving text
+"Text" = "دەق";
+
+// Description for the content type saving setting
+"SaveDescription" = "دیاریبکە کام جۆرە ناوەڕۆکی کۆپیکراو پاشەکەوت بکرێت.";
+
+// Label for the history size (number of items) setting
+"Size" = "قەبارە:";
+
+// Tooltip for the history size setting
+"SizeTooltip" = "ژمارەی ئەو ئایتەمە مێژووییانەی کە دەهێڵرێنەوە.\nبنەڕەت: ٢٠٠.";
+
+// Tooltip showing the current disk space used by the history
+"CurrentSizeTooltip" = "قەبارەی ئێستا لەسەر دیسک.";
+
+// Label for the history sort order setting
+"SortBy" = "ڕیزکردن بەپێی:";
+
+// Sort option: time of last copy
+"LastCopiedAt" = "کاتی دوایین کۆپی";
+
+// Sort option: time of first copy
+"FirstCopiedAt" = "کاتی یەکەم کۆپی";
+
+// Sort option: number of copies
+"NumberOfCopies" = "ژمارەی کۆپییەکان";
+
+// Tooltip for the history sort order setting
+"SortByTooltip" = "بنەڕەت: کاتی دوایین کۆپی.";

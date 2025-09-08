@@ -1,0 +1,104 @@
+// Title for the Appearance settings tab
+"Title" = "ڕووکار";
+
+// Label for the popup location setting
+"PopupAt" = "شوێنی دەرکەوتنی پۆپئەپ:";
+
+// Popup location option: at the cursor
+"PopupAtCursor" = "نیشاندەر";
+
+// Popup location option: near the menu bar icon
+"PopupAtMenuBarIcon" = "ئایکۆنی مێنو";
+
+// Popup location option: at the center of the active window
+"PopupAtWindowCenter" = "ناوەڕاستی پەنجەرە";
+
+// Popup location option: at the center of the screen
+"PopupAtScreenCenter" = "ناوەڕاستی شاشە";
+
+// Popup location option: at its last position
+"PopupAtLastPosition" = "دوایین شوێن";
+
+// Button to reset the last known popup position
+"PopupAtLastLocationReset" = "ڕێکخستنەوەی شوێن";
+
+// Tooltip for the popup location setting
+"PopupAtTooltip" = "شوێنی دەرکەوتنی پۆپئەپەکە بگۆڕە.\nبنەڕەت: نیشاندەر.";
+
+// Search field visibility option: always visible
+"SearchVisibilityAlways" = "هەمیشە";
+
+// Search field visibility option: visible only during a search
+"SearchVisibilityDuringSearch" = "لەکاتی گەڕاندا";
+
+// Label for the setting that determines which screen the popup appears on
+"ActiveScreen" = "شاشەی چالاک";
+
+// Label for the pinned items location setting
+"PinTo" = "چەسپاندن بۆ:";
+
+// Pinned items location option: top of the list
+"PinToTop" = "سەرەوە";
+
+// Pinned items location option: bottom of the list
+"PinToBottom" = "خوارەوە";
+
+// Tooltip for the pinned items location setting
+"PinToTooltip" = "شوێنی ئایتەمە چەسپێنراوەکان بگۆڕە.\nبنەڕەت: سەرەوە.";
+
+// Label for the image preview height setting
+"ImageHeight" = "بەرزیی وێنە:";
+
+// Tooltip for the image preview height setting
+"ImageHeightTooltip" = "بەرزترین بەرزیی پێشبینیی وێنە.\nبنەڕەت: ٤٠.\nئاماژە: بیکە بە ١٦ بۆ ئەوەی لە ئایتەمی دەقی بچێت.";
+
+// Label for the preview popup delay setting
+"PreviewDelay" = "دواکەوتنی پێشبینی:";
+
+// Tooltip for the preview popup delay setting
+"PreviewDelayTooltip" = "دواکەوتن بە میلی چرکە تاوەکو پۆپئەپی پێشبینی پیشان دەدرێت.\nبنەڕەت: ١٥٠٠.";
+
+// Label for the search match highlighting style setting
+"HighlightMatches" = "دیاریکردنی هاوشێوەکان:";
+
+// Highlighting style option: Color
+"HighlightMatchColor" = "ڕەنگ";
+
+// Highlighting style option: Bold
+"HighlightMatchBold" = "تۆخ";
+
+// Highlighting style option: Italic
+"HighlightMatchItalic" = "لار";
+
+// Highlighting style option: Underline
+"HighlightMatchUnderline" = "ژێرهێڵ";
+
+// Tooltip for the search match highlighting style setting
+"HighlightMatchesTooltip" = "شێوازی دیاریکردنی ئەنجامە هاوشێوەکانی گەڕان بگۆڕە.\nبنەڕەت: تۆخ.";
+
+// Checkbox label for showing special symbols (newlines, tabs, etc.)
+"ShowSpecialSymbols" = "پیشاندانی هێما تایبەتەکان";
+
+// Tooltip for the show special symbols setting
+"ShowSpecialSymbolsTooltip" = "پیشاندانی دێڕی نوێ، تاب، و بۆشاییە سەرەتا و کۆتاییەکان لەرێگەی هێمای تایبەتەوە.";
+
+// Checkbox label for showing the application icon in the menu bar
+"ShowMenuIcon" = "پیشاندانی ئایکۆنی مێنو";
+
+// Checkbox label for showing a preview of the recent copy in the menu bar
+"ShowRecentCopyInMenuBar" = "پیشاندانی دوایین کۆپی لەتەنیشت ئایکۆنی مێنووەوە";
+
+// Checkbox label for showing the search field
+"ShowSearchField" = "پیشاندانی خانەی گەڕان";
+
+// Checkbox label for showing the window title above the search field
+"ShowTitleBeforeSearchField" = "پیشاندانی ناونیشان پێش خانەی گەڕان";
+
+// Checkbox label for showing source application icons next to history items
+"ShowApplicationIcons" = "پیشاندانی ئایکۆنی بەرنامەکان";
+
+// Checkbox label for showing the footer section
+"ShowFooter" = "پیشاندانی فووتەر";
+
+// Warning message explaining how to open preferences when the footer is hidden
+"OpenPreferencesWarning" = "⚠️ دوگمەی ⌘, (کۆماند+کۆما) دابگرە بۆ کردنەوەی هەڵبژاردەکان کاتێک فووتەر شاراوەیە.";

@@ -1,0 +1,89 @@
+// Placeholder text for the search field
+"search_placeholder" = "بنووسە بۆ گەڕان…";
+
+// Tooltip for the 'Clear' button, which clears unpinned items and explains the shift-click action
+"clear_tooltip" = "پاککردنەوەی ئایتەمە دەستنەکراوەکان.\nهەڵبژێرە لەگەڵ ⇧ بۆ پاککردنەوەی هەموو.";
+
+// Tooltip for the 'Clear All' button
+"clear_all_tooltip" = "پاککردنەوەی هەموو ئایتەمەکان.";
+
+// Tooltip for the 'About' menu item
+"about_tooltip" = "زیاتر بخوێنەرەوە دەربارەی ئەپلیکەیشنەکە.";
+
+// Tooltip for the 'Quit' menu item
+"quit_tooltip" = "چوونە دەرەوە لە ئەپلیکەیشنەکە.";
+
+// Label for the 'Clear' menu item
+"clear" = "پاککردنەوە";
+
+// Label for the 'Clear All' menu item
+"clear_all" = "پاککردنەوەی هەموو";
+
+// Label for the 'About' menu item
+"about" = "دەربارە";
+
+// Label for the 'Quit' menu item
+"quit" = "چوونە دەرەوە";
+
+// Label for the 'Preferences' menu item
+"preferences" = "رێکخستنەکان…";
+
+// Label for the 'Advanced' tab in preferences
+"preferences_advanced" = "رێکخستنە پێشکەوتووەکان";
+
+// Label for the 'Pins' tab in preferences
+"preferences_pins" = "دەستکراوەکان";
+
+// Instructional text for the 'copy only' modifier key
+"copy_modifiers_config" = "• هەڵبژێرە لەگەڵ پەنجەدانان لەسەر %@ بۆ کۆپیکردنی ئایتەمەکە.";
+
+// Instructional text for the 'copy and paste' modifier key
+"paste_modifiers_config" = "• هەڵبژێرە لەگەڵ پەنجەدانان لەسەر %@ بۆ کۆپی و پاستکردنی ئایتەمەکە.";
+
+// Instructional text for the 'paste without formatting' modifier key
+"format_modifiers_config" = "• هەڵبژێرە لەگەڵ پەنجەدانان لەسەر %@ بۆ کۆپیکردن، پاککردنەوەی فۆرمات و پاستکردنی ئایتەمەکە.";
+
+// Main message of the alert asking for Accessibility permissions
+"accessibility_alert_message" = "“Maccy” دەیەوێت کۆنترۆڵی ئەم کۆمپیوتەرە بکات بە بەکارهێنانی تایبەتمەندییە دەستڕاگەیشتنەکان.";
+
+// Informative text/comment within the Accessibility permission alert
+"accessibility_alert_comment" = "دەستڕاگەیشتن بدە بەم ئەپلیکەیشنە لە {pane}، کە لە {settings} دایە.\n\nکلیک لەسەر دوگمەی +، Maccy هەڵبژێرە، و سندوقچەکەی تەنیشتی چالاک بکە.";
+
+// 'Deny' button on the Accessibility permission alert
+"accessibility_alert_deny" = "ڕەتکردنەوە";
+
+// 'Open System Settings' button on the Accessibility permission alert
+"accessibility_alert_open" = "کردنەوەی رێکخستنەکانی سیستەم";
+
+// Main message of the alert confirming history clearing
+"clear_alert_message" = "دڵنیایت دەتەوێت مێژووەکە پاک بکەیتەوە؟";
+
+// Informative text/comment within the clear history alert
+"clear_alert_comment" = "ناتوانیت ئەم کردەوەیە بگەڕێنیتەوە.";
+
+// 'Cancel' button on a confirmation alert
+"clear_alert_cancel" = "هەڵوەشاندنەوە";
+
+// 'Confirm' button on the clear history alert
+"clear_alert_confirm" = "پاککردنەوە";
+
+// Error message shown when a chosen hotkey is already assigned
+"key_used_error" = "کلیلەکە پێشتر بەکارهێنراوە.";
+
+// Label for the 'Active screen' option in display settings
+"active_screen" = "شاشەی چالاک";
+
+// Generic term for 'Screen', used for identifying displays (e.g., Screen 1, Screen 2)
+"screen" = "شاشە";
+
+// The name of the 'System Settings' application (macOS Ventura and newer)
+"system_settings_name" = "رێکخستنەکانی سیستەم";
+
+// The name of the 'Privacy & Security' pane in System Settings
+"system_settings_pane" = "رێکخستنەکانی تایبەتێتی و ئاسایش";
+
+// The name of the 'System Preferences' application (macOS Monterey and older)
+"system_preferences_name" = "هەڵبژاردەکانی سیستەم";
+
+// The name of the 'Security & Privacy' pane in System Preferences
+"system_preferences_pane" = "هەڵبژاردەکانی ئاسایش و تایبەتێti";
