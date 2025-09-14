@@ -39,7 +39,7 @@ struct ContentView: View {
         searchFocused = true
       }
       .onMouseMove {
-        appState.isKeyboardNavigating = false
+        appState.navigator.isKeyboardNavigating = false
       }
       .task {
         try? await appState.history.load()

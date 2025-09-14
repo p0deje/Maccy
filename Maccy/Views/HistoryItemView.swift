@@ -8,7 +8,7 @@ struct HistoryItemView: View {
   var index: Int
 
   private var visualIndex: Int? {
-    if appState.isMultiSelectInProgress && item.selectionIndex >= 0 {
+    if appState.navigator.isMultiSelectInProgress && item.selectionIndex >= 0 {
       return item.selectionIndex
     }
     return nil
@@ -51,7 +51,7 @@ struct HistoryItemView: View {
     }
     .onTapGesture {
       if NSEvent.modifierFlags.contains(.command) {
-        appState.addToSelection(item: item)
+        appState.navigator.addToSelection(item: item)
       } else {
         Task {
           appState.history.select(item)
