@@ -100,15 +100,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     .foregroundStyle(isSelected ? Color.white : .primary)
     .background(isSelected ? Color.accentColor.opacity(0.8) : .clear)
     .clipShape(selectionAppearance.rect(cornerRadius: 4))
-    .onHover { hovering in
-      if hovering {
-        if !appState.isKeyboardNavigating {
-          appState.selectWithoutScrolling(id: selectionId)
-        } else {
-          appState.hoverSelectionWhileKeyboardNavigating = selectionId
-        }
-      }
-    }
+    .hoverSelectionId(selectionId)
     .help(help ?? "")
   }
 }
