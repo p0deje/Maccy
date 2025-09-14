@@ -35,14 +35,7 @@ struct HistoryListView: View {
             .padding(.vertical, 3)
         }
       }
-      .background {
-        GeometryReader { geo in
-          Color.clear
-            .task(id: geo.size.height) {
-              appState.popup.pinnedItemsHeight = geo.size.height
-            }
-        }
-      }
+      .readHeight(appState, into: \.popup.pinnedItemsHeight)
     }
 
     ScrollView {
@@ -105,14 +98,7 @@ struct HistoryListView: View {
           HistoryItemView(item: item)
         }
       }
-      .background {
-        GeometryReader { geo in
-          Color.clear
-            .task(id: geo.size.height) {
-              appState.popup.pinnedItemsHeight = geo.size.height
-            }
-        }
-      }
+      .readHeight(appState, into: \.popup.pinnedItemsHeight)
     }
   }
 }
