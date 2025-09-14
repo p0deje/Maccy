@@ -18,9 +18,16 @@ class AppState: Sendable {
     if let item = leadHistoryItem {
       return item.id
     }
-    return footer.selectedItem?.id
+    if let footerItem = footer.selectedItem {
+      return footerItem.id
+    }
+    return history.pasteStack?.id
   }
   private(set) var leadHistoryItem: HistoryItemDecorator?
+
+  var pasteStackSelected: Bool {
+    return leadSelection == history.pasteStack?.id
+  }
 
   private func scroll(to id: UUID?, item: HistoryItemDecorator? = nil) {
     scrollTarget = id
@@ -93,7 +100,10 @@ class AppState: Sendable {
   }
 
   func selectWithoutScrolling(id: UUID) {
-    if let item = history.items.first(where: { $0.id == id }) {
+    if let stack = history.pasteStack,
+       stack.id == id {
+      selectWithoutScrolling(item: nil, footerItem: nil)
+    } else if let item = history.items.first(where: { $0.id == id }) {
       if !isMultiSelectInProgress {
         selectWithoutScrolling(item: item, footerItem: nil)
       }
@@ -225,6 +235,8 @@ class AppState: Sendable {
     if let historyItem = history.visibleItems.first(where: { $0.id == lead }) {
       if let nextItem = history.visibleItems.item(before: historyItem) {
         selectFromKeyboardNavigation(item: nextItem)
+      } else if history.pasteStack != nil {
+        selectFromKeyboardNavigation(item: nil)
       } else {
         highlightFirst()
       }
@@ -239,6 +251,11 @@ class AppState: Sendable {
 
   func highlightNext(allowCycle: Bool = false) {
     guard let lead = leadSelection else { return }
+
+    if leadSelection == history.pasteStack?.id {
+      highlightFirst()
+      return
+    }
 
     if let historyItem = history.visibleItems.first(where: { $0.id == lead }) {
       if let nextItem = history.visibleItems.item(after: historyItem) {
