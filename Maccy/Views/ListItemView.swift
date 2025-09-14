@@ -102,15 +102,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     // The slight opcaity white background is a workaround
     .background(isSelected ? Color.accentColor.opacity(0.8) : .white.opacity(0.001))
     .clipShape(selectionAppearance.rect(cornerRadius: Popup.cornerRadius))
-    .onHover { hovering in
-      if hovering {
-        if !appState.isKeyboardNavigating {
-          appState.selectWithoutScrolling(id: selectionId)
-        } else {
-          appState.hoverSelectionWhileKeyboardNavigating = selectionId
-        }
-      }
-    }
+    .hoverSelectionId(selectionId)
     .help(help ?? "")
   }
 }
