@@ -108,6 +108,30 @@ struct KeyHandlingView<Content: View>: View {
 
           appState.highlightFirst()
           return .handled
+        case .extendToNext:
+          guard NSApp.characterPickerWindow == nil else {
+            return .ignored
+          }
+          appState.extendHighlightToNext()
+          return .handled
+        case .extendToLast:
+          guard NSApp.characterPickerWindow == nil else {
+            return .ignored
+          }
+          appState.extendHighlightToLast()
+          return .handled
+        case .extendToPrevious:
+          guard NSApp.characterPickerWindow == nil else {
+            return .ignored
+          }
+          appState.extendHighlightToPrevious()
+          return .handled
+        case .extendToFirst:
+          guard NSApp.characterPickerWindow == nil else {
+            return .ignored
+          }
+          appState.extendHighlightToFirst()
+          return .handled
         case .openPreferences:
           appState.openPreferences()
           return .handled
