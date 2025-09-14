@@ -6,10 +6,8 @@ struct PinsView: View {
   var items: [HistoryItemDecorator]
 
   var body: some View {
-    LazyVStack(spacing: 0) {
-      ForEach(items) { item in
-        HistoryItemView(item: item)
-      }
+    MultipleSelectionListView(items: items) { previous, item, next, index in
+      HistoryItemView(item: item, previous: previous, next: next, index: index)
     }
     .readHeight(appState, into: \.popup.pinnedItemsHeight)
   }

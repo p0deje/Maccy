@@ -3,6 +3,31 @@ import SwiftUI
 
 struct HistoryItemView: View {
   @Bindable var item: HistoryItemDecorator
+  var previous: HistoryItemDecorator?
+  var next: HistoryItemDecorator?
+  var index: Int
+
+  private var visualIndex: Int? {
+    if appState.isMultiSelectInProgress && item.selectionIndex >= 0 {
+      return item.selectionIndex
+    }
+    return nil
+  }
+
+  private var selectionAppearance: SelectionAppearance {
+    let previousSelected = previous?.isSelected ?? false
+    let nextSelected = next?.isSelected ?? false
+    switch (previousSelected, nextSelected) {
+    case (true, false):
+      return .topConnection
+    case (false, true):
+      return .bottomConnection
+    case (true, true):
+      return .topBottomConnection
+    default:
+      return .none
+    }
+  }
 
   @Environment(AppState.self) private var appState
 
@@ -14,7 +39,8 @@ struct HistoryItemView: View {
       accessoryImage: item.thumbnailImage != nil ? nil : ColorImage.from(item.title),
       attributedTitle: item.attributedTitle,
       shortcuts: item.shortcuts,
-      isSelected: item.isSelected
+      isSelected: item.isSelected,
+      selectionAppearance: selectionAppearance
     ) {
       Text(verbatim: item.title)
     }
