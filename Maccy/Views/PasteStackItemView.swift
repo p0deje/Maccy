@@ -31,6 +31,7 @@ struct PasteStackItemView: View {
       attributedTitle: item.attributedTitle,
       shortcuts: [],
       isSelected: isSelected,
+      selectionIndex: index,
       selectionAppearance: .none
     ) {
       Text(verbatim: item.title)
