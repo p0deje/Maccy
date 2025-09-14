@@ -11,6 +11,7 @@ struct HistoryListView: View {
 
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
+  @Default(.showFooter) private var showFooter
 
   private var pinnedItems: [HistoryItemDecorator] {
     appState.history.pinnedItems.filter(\.isVisible)
@@ -19,24 +20,62 @@ struct HistoryListView: View {
     appState.history.unpinnedItems.filter(\.isVisible)
   }
   private var showPinsSeparator: Bool {
-    !pinnedItems.isEmpty && !unpinnedItems.isEmpty && appState.history.searchQuery.isEmpty
+    pinsVisible && !unpinnedItems.isEmpty && appState.history.searchQuery.isEmpty
+  }
+
+  private var pinsVisible: Bool {
+    return !pinnedItems.isEmpty
+  }
+
+  private var topPadding: CGFloat {
+    // TODO Comment
+    return appState.searchVisible
+      ? Popup.verticalSeparatorPadding
+      : (Popup.verticalSeparatorPadding - Popup.scrollFixPadding)
+  }
+
+  private var bottomPadding: CGFloat {
+    return showFooter
+      ? Popup.verticalSeparatorPadding
+      : (Popup.verticalSeparatorPadding - 1)
+  }
+
+  private func topSeparator() -> some View {
+    Divider()
+      .padding(.horizontal, Popup.horizontalSeparatorPadding)
+      .padding(.top, Popup.verticalSeparatorPadding)
+  }
+
+  @ViewBuilder
+  private func bottomSeparator() -> some View {
+    Divider()
+      .padding(.horizontal, Popup.horizontalSeparatorPadding)
+      .padding(.bottom, Popup.verticalSeparatorPadding)
+  }
+
+  @ViewBuilder
+  private func separator() -> some View {
+    Divider()
+      .padding(.horizontal, Popup.horizontalSeparatorPadding)
+      .padding(.vertical, Popup.verticalSeparatorPadding)
   }
 
   var body: some View {
-    if pinTo == .top {
-      LazyVStack(spacing: 0) {
-        ForEach(pinnedItems) { item in
-          HistoryItemView(item: item)
-        }
+    let topPinsVisible = pinTo == .top && pinsVisible
+    let bottomPinsVisible = pinTo == .bottom && pinsVisible
+    let topSeparatorVisible = topPinsVisible
+    let bottomSeparatorVisible = bottomPinsVisible
 
-        if showPinsSeparator {
-          Divider()
-            .padding(.horizontal, 10)
-            .padding(.vertical, 3)
-        }
+    VStack(spacing: 0) {
+      if topPinsVisible {
+        PinsView(items: pinnedItems)
       }
-      .readHeight(appState, into: \.popup.pinnedItemsHeight)
+
+      if topSeparatorVisible {
+        topSeparator()
+      }
     }
+    .padding(.top, topSeparatorVisible ? topPadding : 0)
 
     ScrollView {
       ScrollViewReader { proxy in
@@ -85,20 +124,18 @@ struct HistoryListView: View {
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
     }
+    .safeAreaPadding(.top, topSeparatorVisible ? Popup.verticalSeparatorPadding : topPadding)
+    .safeAreaPadding(.bottom, bottomSeparatorVisible ? Popup.verticalSeparatorPadding : bottomPadding)
 
-    if pinTo == .bottom {
-      LazyVStack(spacing: 0) {
-        if showPinsSeparator {
-          Divider()
-            .padding(.horizontal, 10)
-            .padding(.vertical, 3)
-        }
-
-        ForEach(pinnedItems) { item in
-          HistoryItemView(item: item)
-        }
+    VStack(spacing: 0) {
+      if bottomSeparatorVisible {
+        bottomSeparator()
       }
-      .readHeight(appState, into: \.popup.pinnedItemsHeight)
+
+      if bottomPinsVisible {
+        PinsView(items: pinnedItems)
+      }
     }
+    .padding(.bottom, bottomSeparatorVisible ? bottomPadding : 0)
   }
 }

@@ -17,7 +17,10 @@ enum PopupState {
 
 @Observable
 class Popup {
-  let verticalPadding: CGFloat = 5
+  static let verticalSeparatorPadding = 6.0
+  static let horizontalSeparatorPadding = 6.0
+  static let verticalPadding: CGFloat = 5
+  static let scrollFixPadding: CGFloat = 2
 
   var needsResize = false
   var height: CGFloat = 0
@@ -71,7 +74,7 @@ class Popup {
   }
 
   func resize(height: CGFloat) {
-    self.height = height + headerHeight + pinnedItemsHeight + footerHeight + (verticalPadding * 2)
+    self.height = height + headerHeight + pinnedItemsHeight + footerHeight + (Popup.verticalPadding * 2)
     AppState.shared.appDelegate?.panel.verticallyResize(to: self.height)
     needsResize = false
   }
