@@ -17,6 +17,23 @@ class Footer {
     set: { Defaults[.suppressClearAlert] = $0 }
   )
 
+  private var showFooter: Bool {
+    return Defaults[.showFooter]
+  }
+
+  var visibleItems: [FooterItem] {
+    guard showFooter else { return [] }
+    return self.items.filter(\.isVisible)
+  }
+  var firstVisibleItem: FooterItem? {
+    guard showFooter else { return nil }
+    return self.items.first(where: \.isVisible)
+  }
+  var lastVisibleItem: FooterItem? {
+    guard showFooter else { return nil }
+    return self.items.last(where: \.isVisible)
+  }
+
   init() { // swiftlint:disable:this function_body_length
     items = [
       FooterItem(

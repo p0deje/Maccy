@@ -14,10 +14,10 @@ class History { // swiftlint:disable:this type_body_length
   let logger = Logger(label: "org.p0deje.Maccy")
 
   var items: [HistoryItemDecorator] = []
-  var selectedItem: HistoryItemDecorator? {
+  var selection: Selection<HistoryItemDecorator> = Selection() {
     willSet {
-      selectedItem?.isSelected = false
-      newValue?.isSelected = true
+      selection.forEach { _, item in item.selectionIndex = -1 }
+      newValue.forEach { index, item in item.selectionIndex = index }
     }
   }
 
@@ -30,7 +30,7 @@ class History { // swiftlint:disable:this type_body_length
         updateItems(search.search(string: searchQuery, within: all))
 
         if searchQuery.isEmpty {
-          AppState.shared.selection = unpinnedItems.first?.id
+          AppState.shared.select(item: unpinnedItems.first)
         } else {
           AppState.shared.highlightFirst()
         }
@@ -55,6 +55,16 @@ class History { // swiftlint:disable:this type_body_length
 
     let key = Sauce.shared.key(for: Int(event.keyCode))
     return items.first { $0.shortcuts.contains(where: { $0.key == key }) }
+  }
+
+  var visibleItems: [HistoryItemDecorator] {
+    return self.items.filter(\.isVisible)
+  }
+  var firstVisibleItem: HistoryItemDecorator? {
+    return self.items.first(where: \.isVisible)
+  }
+  var lastVisibleItem: HistoryItemDecorator? {
+    return self.items.last(where: \.isVisible)
   }
 
   private let search = Search()
