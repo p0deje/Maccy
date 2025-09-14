@@ -9,6 +9,5 @@ struct PinsView: View {
     MultipleSelectionListView(items: items) { previous, item, next, index in
       HistoryItemView(item: item, previous: previous, next: next, index: index)
     }
-    .readHeight(appState, into: \.popup.pinnedItemsHeight)
   }
 }

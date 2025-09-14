@@ -76,6 +76,7 @@ struct HistoryListView: View {
       }
     }
     .padding(.top, topSeparatorVisible ? topPadding : 0)
+    .readHeight(appState, into: \.popup.extraTopHeight)
 
     ScrollView {
       ScrollViewReader { proxy in
@@ -135,5 +136,6 @@ struct HistoryListView: View {
       }
     }
     .padding(.bottom, bottomSeparatorVisible ? bottomPadding : 0)
+    .readHeight(appState, into: \.popup.extraBottomHeight)
   }
 }

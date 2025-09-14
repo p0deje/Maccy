@@ -40,7 +40,8 @@ class Popup {
   var needsResize = false
   var height: CGFloat = 0
   var headerHeight: CGFloat = 0
-  var pinnedItemsHeight: CGFloat = 0
+  var extraTopHeight: CGFloat = 0
+  var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
 
   private var eventsMonitor: Any?
@@ -89,7 +90,7 @@ class Popup {
   }
 
   func resize(height: CGFloat) {
-    self.height = height + headerHeight + pinnedItemsHeight + footerHeight + (Popup.verticalPadding * 2)
+    self.height = height + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
     AppState.shared.appDelegate?.panel.verticallyResize(to: self.height)
     needsResize = false
   }
