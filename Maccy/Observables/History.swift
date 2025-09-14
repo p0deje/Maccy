@@ -15,12 +15,6 @@ class History { // swiftlint:disable:this type_body_length
 
   var items: [HistoryItemDecorator] = []
   var pasteStack: PasteStack?
-  var selection: Selection<HistoryItemDecorator> = Selection() {
-    willSet {
-      selection.forEach { _, item in item.selectionIndex = -1 }
-      newValue.forEach { index, item in item.selectionIndex = index }
-    }
-  }
 
   var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
@@ -31,9 +25,9 @@ class History { // swiftlint:disable:this type_body_length
         updateItems(search.search(string: searchQuery, within: all))
 
         if searchQuery.isEmpty {
-          AppState.shared.select(item: unpinnedItems.first)
+          AppState.shared.navigator.select(item: unpinnedItems.first)
         } else {
-          AppState.shared.highlightFirst()
+          AppState.shared.navigator.highlightFirst()
         }
 
         AppState.shared.popup.needsResize = true
@@ -350,7 +344,7 @@ class History { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
-  func startPasteStack() {
+  func startPasteStack(selection: inout Selection<HistoryItemDecorator>) {
     guard let item = selection.first else { return }
     PasteStack.initializeIfNeeded()
 
@@ -453,7 +447,7 @@ class History { // swiftlint:disable:this type_body_length
 
     updateUnpinnedShortcuts()
     if item.isUnpinned {
-      AppState.shared.scrollTarget = item.id
+      AppState.shared.navigator.scrollTarget = item.id
     }
   }
 

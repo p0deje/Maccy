@@ -99,15 +99,15 @@ struct HistoryListView: View {
         MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
           HistoryItemView(item: item, previous: previous, next: next, index: index)
         }
-        .task(id: appState.scrollTarget) {
-          guard appState.scrollTarget != nil else { return }
+        .task(id: appState.navigator.scrollTarget) {
+          guard appState.navigator.scrollTarget != nil else { return }
 
           try? await Task.sleep(for: .milliseconds(10))
           guard !Task.isCancelled else { return }
 
-          if let selection = appState.scrollTarget {
+          if let selection = appState.navigator.scrollTarget {
             proxy.scrollTo(selection)
-            appState.scrollTarget = nil
+            appState.navigator.scrollTarget = nil
           }
         }
         .onChange(of: scenePhase) {
@@ -115,11 +115,11 @@ struct HistoryListView: View {
             searchFocused = true
             HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
             HistoryItemDecorator.previewThrottler.cancel()
-            appState.isKeyboardNavigating = true
-            appState.select(item: appState.history.unpinnedItems.first ?? appState.history.pinnedItems.first)
+            appState.navigator.isKeyboardNavigating = true
+            appState.navigator.select(item: appState.history.unpinnedItems.first ?? appState.history.pinnedItems.first)
           } else {
             modifierFlags.flags = []
-            appState.isKeyboardNavigating = true
+            appState.navigator.isKeyboardNavigating = true
           }
         }
         // Calculate the total height inside a scroll view.
