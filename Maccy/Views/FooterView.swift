@@ -21,8 +21,8 @@ struct FooterView: View {
   var body: some View {
     VStack(spacing: 0) {
       Divider()
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
+        .padding(.horizontal, Popup.horizontalSeparatorPadding)
+        .padding(.bottom, Popup.verticalSeparatorPadding)
 
       ZStack {
         FooterItemView(item: footer.items[0])
@@ -54,15 +54,9 @@ struct FooterView: View {
         FooterItemView(item: item)
       }
     }
-    .background {
-      GeometryReader { geo in
-        Color.clear
-          .task(id: geo.size.height) {
-            appState.popup.footerHeight = geo.size.height
-          }
-      }
-    }
     .opacity(showFooter ? 1 : 0)
     .frame(maxHeight: showFooter ? nil : 0)
+    .padding(.bottom, showFooter ? Popup.verticalPadding : 0)
+    .readHeight(appState, into: \.popup.footerHeight)
   }
 }
