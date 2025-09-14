@@ -34,13 +34,6 @@ struct HeaderView: View {
     // 2px is needed to prevent items from showing behind top pinned items during scrolling
     // https://github.com/p0deje/Maccy/issues/832
     .padding(.bottom, appState.searchVisible ? 5 : 2)
-    .background {
-      GeometryReader { geo in
-        Color.clear
-          .task(id: geo.size.height) {
-            appState.popup.headerHeight = geo.size.height
-          }
-      }
-    }
+    .readHeight(appState, into: \.popup.headerHeight)
   }
 }
