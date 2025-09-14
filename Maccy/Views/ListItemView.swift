@@ -1,6 +1,33 @@
 import Defaults
 import SwiftUI
 
+enum SelectionAppearance {
+  case none
+  case topConnection
+  case bottomConnection
+  case topBottomConnection
+
+  func rect(cornerRadius: CGFloat) -> some Shape {
+    var cornerRadii = RectangleCornerRadii()
+    switch self {
+    case .none:
+      cornerRadii.topLeading = cornerRadius
+      cornerRadii.topTrailing = cornerRadius
+      cornerRadii.bottomLeading = cornerRadius
+      cornerRadii.bottomTrailing = cornerRadius
+    case .topConnection:
+      cornerRadii.bottomLeading = cornerRadius
+      cornerRadii.bottomTrailing = cornerRadius
+    case .bottomConnection:
+      cornerRadii.topLeading = cornerRadius
+      cornerRadii.topTrailing = cornerRadius
+    case .topBottomConnection:
+      break
+    }
+    return .rect(cornerRadii: cornerRadii)
+  }
+}
+
 struct ListItemView<Title: View>: View {
   var id: UUID
   var appIcon: ApplicationImage?
@@ -10,6 +37,7 @@ struct ListItemView<Title: View>: View {
   var shortcuts: [KeyShortcut]
   var isSelected: Bool
   var help: LocalizedStringKey?
+  var selectionAppearance: SelectionAppearance = .none
   @ViewBuilder var title: () -> Title
 
   @Default(.showApplicationIcons) private var showIcons
@@ -72,7 +100,7 @@ struct ListItemView<Title: View>: View {
     // macOS 26 broke hovering if no background is present.
     // The slight opcaity white background is a workaround
     .background(isSelected ? Color.accentColor.opacity(0.8) : .white.opacity(0.001))
-    .clipShape(.rect(cornerRadius: Popup.cornerRadius))
+    .clipShape(selectionAppearance.rect(cornerRadius: Popup.cornerRadius))
     .onHover { hovering in
       if hovering {
         if !appState.isKeyboardNavigating {
