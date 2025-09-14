@@ -178,7 +178,7 @@ class AppState: Sendable {
     if !history.selection.isEmpty {
       if isMultiSelectInProgress {
         isManualMultiSelect = false
-        // TODO: Start paste stack
+        history.startPasteStack()
       } else {
         history.select(history.selection.first)
       }
