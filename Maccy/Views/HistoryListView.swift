@@ -79,10 +79,8 @@ struct HistoryListView: View {
 
     ScrollView {
       ScrollViewReader { proxy in
-        LazyVStack(spacing: 0) {
-          ForEach(unpinnedItems) { item in
-            HistoryItemView(item: item)
-          }
+        MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
+          HistoryItemView(item: item, previous: previous, next: next, index: index)
         }
         .task(id: appState.scrollTarget) {
           guard appState.scrollTarget != nil else { return }
