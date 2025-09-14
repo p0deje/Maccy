@@ -36,7 +36,6 @@ class AppState: Sendable {
     }
   }
 
-
   func select(item: HistoryItemDecorator? = nil, footerItem: FooterItem? = nil) {
     withTransaction(Transaction()) {
       selectWithoutScrolling(item: item, footerItem: footerItem)
@@ -255,6 +254,46 @@ class AppState: Sendable {
       selectFromKeyboardNavigation(footerItem: footer.lastVisibleItem)
     } else {
       selectFromKeyboardNavigation(footerItem: footer.firstVisibleItem)
+    }
+  }
+
+  func extendHighlightToNext() {
+    if let leadSelection,
+       let leadItem = history.visibleItems.first(where: {$0.id == leadSelection}) {
+      guard let nextItem = history.visibleItems.item(after: leadItem) else { return }
+      extendHistorySelectionFromKeyboardNavigation(from: leadItem, to: nextItem, isRange: false)
+    } else {
+      highlightNext()
+    }
+  }
+
+  func extendHighlightToPrevious() {
+    if let leadSelection,
+       let leadItem = history.visibleItems.first(where: {$0.id == leadSelection}) {
+      guard let nextItem = history.visibleItems.item(before: leadItem) else { return }
+      extendHistorySelectionFromKeyboardNavigation(from: leadItem, to: nextItem, isRange: false)
+    } else {
+      highlightPrevious()
+    }
+  }
+
+  func extendHighlightToFirst() {
+    if let leadSelection,
+       let leadItem = history.visibleItems.first(where: {$0.id == leadSelection}) {
+      guard let nextItem = history.firstVisibleItem else { return }
+      extendHistorySelectionFromKeyboardNavigation(from: leadItem, to: nextItem, isRange: true)
+    } else {
+      highlightFirst()
+    }
+  }
+
+  func extendHighlightToLast() {
+    if let leadSelection,
+       let leadItem = history.visibleItems.first(where: {$0.id == leadSelection}) {
+      guard let nextItem = history.lastVisibleItem else { return }
+      extendHistorySelectionFromKeyboardNavigation(from: leadItem, to: nextItem, isRange: true)
+    } else {
+      highlightFirst()
     }
   }
 
