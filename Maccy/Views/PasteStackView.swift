@@ -94,14 +94,6 @@ struct PasteStackView: View {
         }
       }
     }
-    .onHover { hovering in
-      if hovering {
-        if !appState.isKeyboardNavigating {
-          appState.selectWithoutScrolling(id: stack.id)
-        } else {
-          appState.hoverSelectionWhileKeyboardNavigating = stack.id
-        }
-      }
-    }
+    .hoverSelectionId(stack.id)
   }
 }
