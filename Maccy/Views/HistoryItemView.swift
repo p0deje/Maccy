@@ -22,7 +22,13 @@ struct HistoryItemView: View {
       item.ensureThumbnailImage()
     }
     .onTapGesture {
-      appState.history.select(item)
+      if NSEvent.modifierFlags.contains(.command) {
+        appState.addToSelection(item: item)
+      } else {
+        Task {
+          appState.history.select(item)
+        }
+      }
     }
     .popover(isPresented: $item.showPreview, arrowEdge: .trailing) {
       PreviewItemView(item: item)
