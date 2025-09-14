@@ -514,7 +514,7 @@ class History { // swiftlint:disable:this type_body_length
     }
 
     var index = 1
-    for item in visibleUnpinnedItems.prefix(10) {
+    for item in visibleUnpinnedItems.prefix(9) {
       item.shortcuts = KeyShortcut.create(character: String(index))
       index += 1
     }
