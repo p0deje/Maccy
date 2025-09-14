@@ -56,8 +56,14 @@ struct KeyHandlingView<Content: View>: View {
           searchQuery = ""
           return .handled
         case .deleteCurrentItem:
-          if let leadItem = appState.leadHistoryItem,
-             let item = appState.history.visibleItems.nearest(to: leadItem, where: { !$0.isSelected }) {
+          if appState.pasteStackSelected {
+            appState.history.interruptPasteStack()
+            appState.highlightFirst()
+          } else if let leadItem = appState.leadHistoryItem,
+            let item = appState.history.visibleItems.nearest(
+              to: leadItem,
+              where: { !$0.isSelected }
+            ) {
             withTransaction(Transaction()) {
               appState.history.selection.forEach { _, item in
                 appState.history.delete(item)

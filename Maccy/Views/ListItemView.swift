@@ -28,8 +28,9 @@ enum SelectionAppearance {
   }
 }
 
-struct ListItemView<Title: View>: View {
-  var id: UUID
+struct ListItemView<Title: View, ID: Hashable>: View {
+  var id: ID
+  var selectionId: UUID
   var appIcon: ApplicationImage?
   var image: NSImage?
   var accessoryImage: NSImage?
@@ -104,9 +105,9 @@ struct ListItemView<Title: View>: View {
     .onHover { hovering in
       if hovering {
         if !appState.isKeyboardNavigating {
-          appState.selectWithoutScrolling(id: id)
+          appState.selectWithoutScrolling(id: selectionId)
         } else {
-          appState.hoverSelectionWhileKeyboardNavigating = id
+          appState.hoverSelectionWhileKeyboardNavigating = selectionId
         }
       }
     }

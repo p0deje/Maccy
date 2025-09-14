@@ -32,6 +32,7 @@ struct ContentView: View {
         }
       }
       .animation(.default.speed(3), value: appState.history.items)
+      .animation(.default.speed(3), value: appState.history.pasteStack?.id)
       .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
       .padding(.horizontal, Popup.horizontalPadding)
       .onAppear {

@@ -34,6 +34,7 @@ struct HistoryItemView: View {
   var body: some View {
     ListItemView(
       id: item.id,
+      selectionId: item.id,
       appIcon: item.applicationImage,
       image: item.thumbnailImage,
       accessoryImage: item.thumbnailImage != nil ? nil : ColorImage.from(item.title),

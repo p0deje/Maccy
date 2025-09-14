@@ -20,15 +20,22 @@ struct HistoryListView: View {
     appState.history.unpinnedItems.filter(\.isVisible)
   }
   private var showPinsSeparator: Bool {
-    pinsVisible && !unpinnedItems.isEmpty && appState.history.searchQuery.isEmpty
+    pinsVisible && !unpinnedItems.isEmpty
   }
 
   private var pinsVisible: Bool {
     return !pinnedItems.isEmpty
   }
 
+  private var pasteStackVisible: Bool {
+    if let stack = appState.history.pasteStack,
+       !stack.items.isEmpty {
+      return true
+    }
+    return false
+  }
+
   private var topPadding: CGFloat {
-    // TODO Comment
     return appState.searchVisible
       ? Popup.verticalSeparatorPadding
       : (Popup.verticalSeparatorPadding - Popup.scrollFixPadding)
@@ -63,10 +70,19 @@ struct HistoryListView: View {
   var body: some View {
     let topPinsVisible = pinTo == .top && pinsVisible
     let bottomPinsVisible = pinTo == .bottom && pinsVisible
-    let topSeparatorVisible = topPinsVisible
+    let topSeparatorVisible = topPinsVisible || pasteStackVisible
     let bottomSeparatorVisible = bottomPinsVisible
 
     VStack(spacing: 0) {
+      if let stack = appState.history.pasteStack,
+         !stack.items.isEmpty {
+        PasteStackView(stack: stack)
+
+        if topPinsVisible {
+          separator()
+        }
+      }
+
       if topPinsVisible {
         PinsView(items: pinnedItems)
       }
