@@ -47,7 +47,11 @@ class AppState: Sendable {
     var newSelectionState = history.selection
 
     if item.isSelected {
-      newSelectionState.remove(item)
+      if history.selection.count <= 1 {
+        isManualMultiSelect = !isManualMultiSelect
+      } else {
+        newSelectionState.remove(item)
+      }
     } else {
       newSelectionState.add(item)
     }
@@ -90,7 +94,9 @@ class AppState: Sendable {
 
   func selectWithoutScrolling(id: UUID) {
     if let item = history.items.first(where: { $0.id == id }) {
-      selectWithoutScrolling(item: item, footerItem: nil)
+      if !isMultiSelectInProgress {
+        selectWithoutScrolling(item: item, footerItem: nil)
+      }
     } else if let item = footer.items.first(where: { $0.id == id }) {
       selectWithoutScrolling(item: nil, footerItem: item)
     } else {
@@ -121,14 +127,22 @@ class AppState: Sendable {
 
   private func selectInFooter(_ item: FooterItem) {
     leadHistoryItem = nil
-    history.selection = .init()
+    if !isMultiSelectInProgress {
+      history.selection = .init()
+    }
     footer.selectedItem = item
+  }
+
+  private var isManualMultiSelect: Bool = false
+  var isMultiSelectInProgress: Bool {
+    return isManualMultiSelect || history.selection.count > 1
   }
 
   var hoverSelectionWhileKeyboardNavigating: UUID?
   var isKeyboardNavigating: Bool = true {
     didSet {
-      if let hoverSelection = hoverSelectionWhileKeyboardNavigating {
+      if !isKeyboardNavigating && !isMultiSelectInProgress,
+         let hoverSelection = hoverSelectionWhileKeyboardNavigating {
         hoverSelectionWhileKeyboardNavigating = nil
         select(id: hoverSelection)
       }
@@ -162,7 +176,12 @@ class AppState: Sendable {
   @MainActor
   func select() {
     if !history.selection.isEmpty {
-      history.select(history.selection.first)
+      if isMultiSelectInProgress {
+        isManualMultiSelect = false
+        // TODO: Start paste stack
+      } else {
+        history.select(history.selection.first)
+      }
     } else if let item = footer.selectedItem {
       // TODO: Use item.suppressConfirmation, but it's not updated!
       if item.confirmation != nil, Defaults[.suppressClearAlert] == false {
@@ -181,6 +200,7 @@ class AppState: Sendable {
     footerItem: FooterItem? = nil
   ) {
     isKeyboardNavigating = true
+    isManualMultiSelect = false
     select(item: item, footerItem: footerItem)
   }
 
