@@ -20,7 +20,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
   var attributedTitle: AttributedString?
 
   var isVisible: Bool = true
-  var isSelected: Bool = false {
+  var selectionIndex: Int = -1 {
     didSet {
       if isSelected {
         Self.previewThrottler.throttle {
@@ -32,6 +32,9 @@ class HistoryItemDecorator: Identifiable, Hashable {
         self.showPreview = false
       }
     }
+  }
+  var isSelected: Bool {
+    return selectionIndex != -1
   }
   var shortcuts: [KeyShortcut] = []
   var showPreview: Bool = false

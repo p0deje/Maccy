@@ -37,7 +37,7 @@ struct FooterView: View {
           footer.items[0].isVisible = false
           footer.items[1].isVisible = true
           if appState.footer.selectedItem == footer.items[0] {
-            appState.selection = footer.items[1].id
+            appState.select(footerItem: footer.items[1])
           }
         } else {
           clearOpacity = 1
@@ -45,7 +45,7 @@ struct FooterView: View {
           footer.items[0].isVisible = true
           footer.items[1].isVisible = false
           if appState.footer.selectedItem == footer.items[1] {
-            appState.selection = footer.items[0].id
+            appState.select(footerItem: footer.items[0])
           }
         }
       }

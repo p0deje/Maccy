@@ -34,7 +34,7 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
   func perform() async throws -> some IntentResult & ReturnsValue<HistoryItemAppEntity> {
     var item: HistoryItem?
     if selected {
-      item = AppState.shared.history.selectedItem?.item
+      item = AppState.shared.history.selection.first?.item
     } else {
       let index = number - positionOffset
       if AppState.shared.history.items.count >= index {

@@ -56,9 +56,14 @@ struct KeyHandlingView<Content: View>: View {
           searchQuery = ""
           return .handled
         case .deleteCurrentItem:
-          if let item = appState.history.selectedItem {
-            appState.highlightNext()
-            appState.history.delete(item)
+          if let leadItem = appState.leadHistoryItem,
+             let item = appState.history.visibleItems.nearest(to: leadItem, where: { !$0.isSelected }) {
+            withTransaction(Transaction()) {
+              appState.history.selection.forEach { _, item in
+                appState.history.delete(item)
+              }
+              appState.select(item: item)
+            }
           }
           return .handled
         case .deleteOneCharFromSearch:
@@ -107,7 +112,11 @@ struct KeyHandlingView<Content: View>: View {
           appState.openPreferences()
           return .handled
         case .pinOrUnpin:
-          appState.history.togglePin(appState.history.selectedItem)
+          withTransaction(Transaction()) {
+            appState.history.selection.forEach { _, item in
+              appState.history.togglePin(item)
+            }
+          }
           return .handled
         case .selectCurrentItem:
           appState.select()
@@ -120,7 +129,7 @@ struct KeyHandlingView<Content: View>: View {
         }
 
         if let item = appState.history.pressedShortcutItem {
-          appState.selection = item.id
+          appState.select(item: item)
           Task {
             try? await Task.sleep(for: .milliseconds(50))
             appState.history.select(item)
