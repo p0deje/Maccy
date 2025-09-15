@@ -27,9 +27,7 @@ struct PreviewItemView: View {
         if let application = item.application {
           HStack(spacing: 3) {
             Text("Application", tableName: "PreviewItemView")
-            Image(nsImage: item.applicationImage.nsImage)
-              .resizable()
-              .frame(width: 11, height: 11)
+            AppImageView(appImage: item.applicationImage, size: NSSize(width: 11, height: 11))
             Text(application)
           }
         }
