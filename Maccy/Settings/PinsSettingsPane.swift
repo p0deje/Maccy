@@ -115,7 +115,7 @@ struct PinsSettingsPane: View {
   @Environment(AppState.self) private var appState
   @Environment(\.modelContext) private var modelContext
 
-  @Query(filter: #Predicate<HistoryItem> { $0.pin != nil }, sort: \.firstCopiedAt)
+  @Query(filter: #Predicate<HistoryItem> { $0.pin != nil }, sort: \.pin)
   private var items: [HistoryItem]
 
   @State private var availablePins: [String] = []
