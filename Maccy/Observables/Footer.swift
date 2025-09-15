@@ -2,7 +2,7 @@ import Defaults
 import SwiftUI
 
 @Observable
-class Footer {
+class Footer: ItemsContainer {
   var items: [FooterItem] = []
 
   var selectedItem: FooterItem? {
@@ -20,18 +20,8 @@ class Footer {
   private var showFooter: Bool {
     return Defaults[.showFooter]
   }
-
-  var visibleItems: [FooterItem] {
-    guard showFooter else { return [] }
-    return self.items.filter(\.isVisible)
-  }
-  var firstVisibleItem: FooterItem? {
-    guard showFooter else { return nil }
-    return self.items.first(where: \.isVisible)
-  }
-  var lastVisibleItem: FooterItem? {
-    guard showFooter else { return nil }
-    return self.items.last(where: \.isVisible)
+  var containerVisible: Bool {
+    return showFooter
   }
 
   init() { // swiftlint:disable:this function_body_length

@@ -1,7 +1,7 @@
 import SwiftUI
 
 @Observable
-class FooterItem: Equatable, Identifiable {
+class FooterItem: Equatable, Identifiable, HasVisibility {
   struct Confirmation {
     var message: LocalizedStringKey
     var comment: LocalizedStringKey

@@ -11,7 +11,7 @@ import SwiftData
 // swiftlint:disable file_length
 
 @Observable
-class History { // swiftlint:disable:this type_body_length
+class History: ItemsContainer { // swiftlint:disable:this type_body_length
   static let shared = History()
   let logger = Logger(label: "org.p0deje.Maccy")
 
@@ -52,16 +52,6 @@ class History { // swiftlint:disable:this type_body_length
 
     let key = Sauce.shared.key(for: Int(event.keyCode))
     return items.first { $0.shortcuts.contains(where: { $0.key == key }) }
-  }
-
-  var visibleItems: [HistoryItemDecorator] {
-    return self.items.filter(\.isVisible)
-  }
-  var firstVisibleItem: HistoryItemDecorator? {
-    return self.items.first(where: \.isVisible)
-  }
-  var lastVisibleItem: HistoryItemDecorator? {
-    return self.items.last(where: \.isVisible)
   }
 
   private let search = Search()

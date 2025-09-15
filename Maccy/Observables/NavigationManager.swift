@@ -184,7 +184,7 @@ class NavigationManager { // swiftlint:disable:this type_body_length
   }
 
   func highlightFirst() {
-    if let item = history.items.first(where: \.isVisible) {
+    if let item = history.firstVisibleItem {
       selectFromKeyboardNavigation(item: item)
     }
   }
@@ -192,16 +192,16 @@ class NavigationManager { // swiftlint:disable:this type_body_length
   func highlightPrevious() {
     guard let lead = leadSelection else { return }
 
-    if let historyItem = history.visibleItems.first(where: { $0.id == lead }) {
-      if let nextItem = history.visibleItems.item(before: historyItem) {
+    if let historyItem = history.firstVisibleItem(where: { $0.id == lead }) {
+      if let nextItem = history.visibleItem(before: historyItem) {
         selectFromKeyboardNavigation(item: nextItem)
       } else if history.pasteStack != nil {
         selectWithoutScrolling(item: nil)
       } else {
         highlightFirst()
       }
-    } else if let footerItem = footer.visibleItems.first(where: { $0.id == lead }) {
-      if let nextItem = footer.visibleItems.item(before: footerItem) {
+    } else if let footerItem = footer.firstVisibleItem(where: { $0.id == lead }) {
+      if let nextItem = footer.visibleItem(before: footerItem) {
         selectFromKeyboardNavigation(footerItem: nextItem)
       } else if let nextItem = history.lastVisibleItem {
         selectFromKeyboardNavigation(item: nextItem)
@@ -217,16 +217,16 @@ class NavigationManager { // swiftlint:disable:this type_body_length
       return
     }
 
-    if let historyItem = history.visibleItems.first(where: { $0.id == lead }) {
-      if let nextItem = history.visibleItems.item(after: historyItem) {
+    if let historyItem = history.firstVisibleItem(where: { $0.id == lead }) {
+      if let nextItem = history.visibleItem(after: historyItem) {
         selectFromKeyboardNavigation(item: nextItem)
       } else if let nextItem = footer.firstVisibleItem {
         selectFromKeyboardNavigation(footerItem: nextItem)
       } else if allowCycle {
         highlightFirst()
       }
-    } else if let footerItem = footer.visibleItems.first(where: { $0.id == lead }) {
-      if let nextItem = footer.visibleItems.item(after: footerItem) {
+    } else if let footerItem = footer.firstVisibleItem(where: { $0.id == lead }) {
+      if let nextItem = footer.visibleItem(after: footerItem) {
         selectFromKeyboardNavigation(footerItem: nextItem)
       } else if let nextItem = footer.firstVisibleItem {
         selectFromKeyboardNavigation(footerItem: nextItem)
@@ -240,7 +240,7 @@ class NavigationManager { // swiftlint:disable:this type_body_length
   func highlightLast() {
     guard let lead = leadSelection else { return }
 
-    if let historyItem = history.visibleItems.first(where: { $0.id == lead }) {
+    if let historyItem = history.firstVisibleItem(where: { $0.id == lead }) {
       if historyItem == history.lastVisibleItem,
          let nextItem = footer.firstVisibleItem {
         selectFromKeyboardNavigation(footerItem: nextItem)
@@ -256,8 +256,8 @@ class NavigationManager { // swiftlint:disable:this type_body_length
 
   func extendHighlightToNext() {
     if let leadSelection,
-       let leadItem = history.visibleItems.first(where: {$0.id == leadSelection}) {
-      guard let nextItem = history.visibleItems.item(after: leadItem) else { return }
+       let leadItem = history.firstVisibleItem(where: {$0.id == leadSelection}) {
+      guard let nextItem = history.visibleItem(after: leadItem) else { return }
       extendHistorySelectionFromKeyboardNavigation(from: leadItem, to: nextItem, isRange: false)
     } else {
       highlightNext()
@@ -266,8 +266,8 @@ class NavigationManager { // swiftlint:disable:this type_body_length
 
   func extendHighlightToPrevious() {
     if let leadSelection,
-       let leadItem = history.visibleItems.first(where: {$0.id == leadSelection}) {
-      guard let nextItem = history.visibleItems.item(before: leadItem) else { return }
+       let leadItem = history.firstVisibleItem(where: {$0.id == leadSelection}) {
+      guard let nextItem = history.visibleItem(before: leadItem) else { return }
       extendHistorySelectionFromKeyboardNavigation(from: leadItem, to: nextItem, isRange: false)
     } else {
       highlightPrevious()
@@ -276,7 +276,7 @@ class NavigationManager { // swiftlint:disable:this type_body_length
 
   func extendHighlightToFirst() {
     if let leadSelection,
-       let leadItem = history.visibleItems.first(where: {$0.id == leadSelection}) {
+       let leadItem = history.firstVisibleItem(where: {$0.id == leadSelection}) {
       guard let nextItem = history.firstVisibleItem else { return }
       extendHistorySelectionFromKeyboardNavigation(from: leadItem, to: nextItem, isRange: true)
     } else {
@@ -286,7 +286,7 @@ class NavigationManager { // swiftlint:disable:this type_body_length
 
   func extendHighlightToLast() {
     if let leadSelection,
-       let leadItem = history.visibleItems.first(where: {$0.id == leadSelection}) {
+       let leadItem = history.firstVisibleItem(where: {$0.id == leadSelection}) {
       guard let nextItem = history.lastVisibleItem else { return }
       extendHistorySelectionFromKeyboardNavigation(from: leadItem, to: nextItem, isRange: true)
     } else {
