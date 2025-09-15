@@ -1,1 +1,6 @@
-
+"Application" = "بەرنامە:";
+"FirstCopyTime" = "کاتی یەکەم کۆپی:";
+"LastCopyTime" = "دوایین کاتی کۆپی:";
+"NumberOfCopies" = "ژمارەی کۆپییەکان:";
+"PinKey" = "دوگمەی {pinKey} دابگرە بۆ چەسپاندن یان لابردنی.";
+"DeleteKey" = "دوگمەی {deleteKey} دابگرە بۆ سڕینەوە.";
