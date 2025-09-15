@@ -32,4 +32,5 @@
 "ShowTitleBeforeSearchField" = "Mostrar título antes del buscador";
 "ShowFooter" = "Mostrar footer";
 "ShowApplicationIcons" = "Mostrar iconos de aplicaciones";
+"ShowFavicons" = "Mostrar favicones";
 "OpenPreferencesWarning" = "⚠️ Presionar ⌘, (command+comma) para abrir las preferencias cuando el footer esté oculto.";

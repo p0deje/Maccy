@@ -26,6 +26,7 @@
 "HighlightMatchItalic" = "Yotiq";
 "HighlightMatchesTooltip" = "Qidiruv mosliklari uchun ta'kidlash uslubini o'zgartiring.\nStandart: Qalin.";
 "ShowApplicationIcons" = "Ilova piktogrammalarini ko'rsatish";
+"ShowFavicons" = "Favikonlarni ko'rsatish";
 "ShowSpecialSymbols" = "Maxsus belgilarni ko'rsating";
 "ShowSpecialSymbolsTooltip" = "Yangi qatorlarni, yorliqlarni, bosh va keyingi bo'shliqlarni maxsus belgilar orqali ko'rsatish.";
 "ShowRecentCopyInMenuBar" = "Menyu belgisi yonida oxirgi nusxani ko'rsatish";

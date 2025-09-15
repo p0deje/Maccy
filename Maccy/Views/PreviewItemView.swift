@@ -1,8 +1,11 @@
 import KeyboardShortcuts
 import SwiftUI
+import Defaults
 
 struct PreviewItemView: View {
   var item: HistoryItemDecorator
+  
+  @Default(.showFavicons) private var showFavicons
 
   @ViewBuilder
   func previewImage(content: () -> some View) -> some View {
@@ -64,11 +67,19 @@ struct PreviewItemView: View {
       if let application = item.application {
         HStack(spacing: 3) {
           Text("Application", tableName: "PreviewItemView")
-          AppImageView(
-            appImage: item.applicationImage,
-            size: NSSize(width: 11, height: 11)
-          )
+          AppImageView(appImage: item.applicationImage, showFavicon: false, size: NSSize(width: 11, height: 11))
           Text(application)
+          if let urlContext = item.urlContext {
+            if showFavicons {
+              HStack(spacing: 0) {
+                Text("(")
+                AppImageView(appImage: item.applicationImage, showFavicon: true, size: NSSize(width: 11, height: 11))
+                Text(" \(urlContext))")
+              }
+            } else {
+              Text("(\(urlContext))")
+            }
+          }
         }
       }
 

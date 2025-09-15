@@ -47,6 +47,7 @@ struct HistoryItemView: View {
       Text(verbatim: item.title)
     }
     .onAppear {
+      item.ensureApplicationImage()
       item.ensureThumbnailImage()
     }
     .onTapGesture {

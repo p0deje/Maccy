@@ -60,6 +60,7 @@ class HistoryItem {
   ]
 
   var application: String?
+  var contextUrl: URL?
   var firstCopiedAt: Date = Date.now
   var lastCopiedAt: Date = Date.now
   var numberOfCopies: Int = 1
@@ -83,6 +84,10 @@ class HistoryItem {
       .allSatisfy { content in
         contents.contains(where: { $0.type == content.type && $0.value == content.value })
       }
+  }
+
+  func generateContextUrl() -> URL? {
+    return ContextUrlSniffer().sniffContextUrl(item: self)
   }
 
   func generateTitle() -> String {

@@ -170,6 +170,10 @@ struct AppearanceSettingsPane: View {
         Defaults.Toggle(key: .showApplicationIcons) {
           Text("ShowApplicationIcons", tableName: "AppearanceSettings")
         }
+        Defaults.Toggle(key: .showFavicons) {
+          Text("ShowFavicons", tableName: "AppearanceSettings")
+        }
+        .disabled(!showApplicationIcons)
 
         Defaults.Toggle(key: .showFooter) {
           Text("ShowFooter", tableName: "AppearanceSettings")

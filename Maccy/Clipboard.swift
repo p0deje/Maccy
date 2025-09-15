@@ -224,6 +224,8 @@ class Clipboard {
     }
 
     historyItem.application = sourceApp?.bundleIdentifier
+    historyItem.contextUrl = historyItem.generateContextUrl()
+
     historyItem.title = historyItem.generateTitle()
 
     onNewCopyHooks.forEach({ $0(historyItem) })

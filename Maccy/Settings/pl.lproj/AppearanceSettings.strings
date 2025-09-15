@@ -32,4 +32,5 @@
 "ShowTitleBeforeSearchField" = "Pokaż tytuł przed polem wyszukiwania";
 "ShowFooter" = "Pokaż stopkę";
 "ShowApplicationIcons" = "Pokaż ikony aplikacji";
+"ShowFavicons" = "Pokaż favikony";
 "OpenPreferencesWarning" = "⚠️ Naciśnij ⌘, (command+comma) aby otworzyć ustawienia, kiedy stopka jest ukryta.";

@@ -31,5 +31,6 @@
 "ShowSearchField" = "";
 "ShowTitleBeforeSearchField" = "";
 "ShowApplicationIcons" = "";
+"ShowFavicons" = "Εμφάνιση favicon";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";

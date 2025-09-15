@@ -32,4 +32,5 @@
 "ShowTitleBeforeSearchField" = "Zobrazovat název aplikace před vyhledávacím polem";
 "ShowFooter" = "Zobrazovat patičku";
 "ShowApplicationIcons" = "Zobrazení ikon aplikací";
+"ShowFavicons" = "Zobrazit favikony";
 "OpenPreferencesWarning" = "⚠️ Stiskni ⌘, (command+comma) pro otevření předvoleb, když je skrytá patička.";

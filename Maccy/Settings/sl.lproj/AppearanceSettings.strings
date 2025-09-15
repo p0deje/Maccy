@@ -31,5 +31,6 @@
 "ShowSearchField" = "Pokaži polje za iskanje";
 "ShowTitleBeforeSearchField" = "Prikaži naslov pred poljem za iskanje";
 "ShowApplicationIcons" = "Prikaži ikone aplikacij";
+"ShowFavicons" = "Prikaži favikone";
 "ShowFooter" = "Prikaži nogo";
 "OpenPreferencesWarning" = "⚠️ Pritisnite ⌘, (command+comma) da odprete nastavitve, ko je noga skrita.";

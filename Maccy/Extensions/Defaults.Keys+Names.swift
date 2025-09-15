@@ -52,6 +52,7 @@ extension Defaults.Keys {
   static let searchVisibility = Key<SearchVisibility>("searchVisibility", default: .always)
   static let showSpecialSymbols = Key<Bool>("showSpecialSymbols", default: true)
   static let showTitle = Key<Bool>("showTitle", default: true)
+  static let showFavicons = Key<Bool>("showFavicons", default: true)
   static let size = Key<Int>("historySize", default: 200)
   static let sortBy = Key<Sorter.By>("sortBy", default: .lastCopiedAt)
   static let suppressClearAlert = Key<Bool>("suppressClearAlert", default: false)

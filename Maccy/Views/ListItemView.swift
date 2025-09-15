@@ -31,7 +31,7 @@ enum SelectionAppearance {
 struct ListItemView<Title: View, ID: Hashable>: View {
   var id: ID
   var selectionId: UUID
-  var appIcon: ApplicationImage?
+  var appIcon: AppImage?
   var image: NSImage?
   var accessoryImage: NSImage?
   var attributedTitle: AttributedString?
@@ -43,6 +43,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   @ViewBuilder var title: () -> Title
 
   @Default(.showApplicationIcons) private var showIcons
+  @Default(.showFavicons) private var showFavicons
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
 
@@ -51,7 +52,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       if showIcons, let appIcon {
         VStack {
           Spacer(minLength: 0)
-          AppImageView(appImage: appIcon, size: NSSize(width: 15, height: 15))
+          AppImageView(appImage: appIcon, showFavicon: showFavicons, size: NSSize(width: 15, height: 15))
           Spacer(minLength: 0)
         }
         .padding(.leading, 4)

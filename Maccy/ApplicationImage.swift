@@ -1,14 +1,20 @@
 import Defaults
 import SwiftUI
 
-class ApplicationImage {
+protocol ApplicationImageProtocol {
+  var nsImage: NSImage { get }
+  var remoteUrl: URL? { get }
+}
+
+typealias AppImage = any ApplicationImageProtocol
+
+class ApplicationImage: ApplicationImageProtocol {
   fileprivate static let fallbackImage = NSImage(
-    systemSymbolName: "questionmark.app.dashed",
-    accessibilityDescription: nil
-  )!
+    systemSymbolName: "questionmark.app.dashed", accessibilityDescription: nil)!
   private static let retryInterval: TimeInterval = 60 * 60
 
   let bundleIdentifier: String?
+
   private var image: NSImage?
   private var lastChecked: Date?
   private var eventSource: (any DispatchSourceFileSystemObject)?
@@ -18,26 +24,27 @@ class ApplicationImage {
     self.image = image
   }
 
-  var nsImage: NSImage {
-    guard let bundleIdentifier else {
-      return Self.fallbackImage
-    }
+  var remoteUrl: URL? {
+    return nil
+  }
 
-    if let image {
-      return image
-    }
+  var nsImage: NSImage {
+    guard let bundleIdentifier else { return Self.fallbackImage }
+
+    if let image { return image }
 
     // The image has been queried before but since the application has been deleted.
     // Check from time to time if the application has returned.
     if let lastChecked,
-      Date().timeIntervalSince(lastChecked) < Self.retryInterval {
+      Date().timeIntervalSince(lastChecked) < Self.retryInterval
+    {
       return Self.fallbackImage
     }
     lastChecked = .now
 
     if let appURL = NSWorkspace.shared.urlForApplication(
-      withBundleIdentifier: bundleIdentifier
-    ) {
+      withBundleIdentifier: bundleIdentifier)
+    {
       let img = NSWorkspace.shared.icon(forFile: appURL.path)
       image = img
 
@@ -46,7 +53,8 @@ class ApplicationImage {
         let errorCode = errno
         print("Error code: \(errorCode)")
         print("Error message: \(String(cString: strerror(errorCode)))")
-      } else if descriptor > 0 {
+      }
+      if descriptor > 0 {
         let source = DispatchSource.makeFileSystemObjectSource(
           fileDescriptor: descriptor,
           eventMask: [.write, .delete],
@@ -76,7 +84,27 @@ class ApplicationImage {
 
       return img
     }
-
     return Self.fallbackImage
   }
 }
+
+class FaviconApplicationImage: ApplicationImageProtocol {
+  private let appImage: ApplicationImage
+  private let originUrl: URL
+
+  init(appImage: ApplicationImage, originUrl: URL) {
+    self.appImage = appImage
+    self.originUrl = originUrl
+  }
+
+  var nsImage: NSImage {
+    return appImage.nsImage
+  }
+
+  var remoteUrl: URL? {
+    return originUrl
+  }
+
+}
+
+

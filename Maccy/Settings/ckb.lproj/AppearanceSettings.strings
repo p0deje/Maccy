@@ -31,5 +31,6 @@
 "ShowSearchField" = "پیشاندانی خانەی گەڕان";
 "ShowTitleBeforeSearchField" = "پیشاندانی ناونیشان پێش خانەی گەڕان";
 "ShowApplicationIcons" = "پیشاندانی ئایکۆنی بەرنامەکان";
+"ShowFavicons" = "فەیڤئایکۆنەکان پیشان بدە";
 "ShowFooter" = "پیشاندانی فووتەر";
 "OpenPreferencesWarning" = "⚠️ دوگمەی ⌘, (کۆماند+کۆما) دابگرە بۆ کردنەوەی هەڵبژاردەکان کاتێک فووتەر شاراوەیە.";

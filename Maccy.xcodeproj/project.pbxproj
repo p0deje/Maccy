@@ -33,6 +33,12 @@
 		2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */; };
 		2FF2E94E2E774B5B0093D72C /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94D2E774B570093D72C /* NavigationManager.swift */; };
 		2FF2E9502E7808470093D72C /* AppImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94F2E7808420093D72C /* AppImageView.swift */; };
+		2FFC1B9B2CE27D8600518A8A /* ContextUrl.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFC1B9A2CE27D8200518A8A /* ContextUrl.swift */; };
+		2FFF8BC42CE0E1A200235A78 /* URL+Host.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF8BC32CE0E19D00235A78 /* URL+Host.swift */; };
+		2FFF8BC72CE2048500235A78 /* AsyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF8BC62CE2048100235A78 /* AsyncView.swift */; };
+		2FFF8BC92CE209BB00235A78 /* FaviconFinder in Frameworks */ = {isa = PBXBuildFile; productRef = 2FFF8BC82CE209BB00235A78 /* FaviconFinder */; };
+		2FFF8BCE2CE20DA100235A78 /* CachedAsyncImage in Frameworks */ = {isa = PBXBuildFile; productRef = 2FFF8BCD2CE20DA100235A78 /* CachedAsyncImage */; };
+		2FFF8BD02CE2116D00235A78 /* Data+Encoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FFF8BCF2CE2116600235A78 /* Data+Encoding.swift */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
 		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
 		DA009932256411F90030E697 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DA00992D256411F90030E697 /* README.md */; };
@@ -204,6 +210,11 @@
 		2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationImage.swift; sourceTree = "<group>"; };
 		2FF2E94D2E774B570093D72C /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		2FF2E94F2E7808420093D72C /* AppImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImageView.swift; sourceTree = "<group>"; };
+		2FFC1B9A2CE27D8200518A8A /* ContextUrl.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContextUrl.swift; sourceTree = "<group>"; };
+		2FFF8BC12CE0DBE600235A78 /* AppImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImageView.swift; sourceTree = "<group>"; };
+		2FFF8BC32CE0E19D00235A78 /* URL+Host.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Host.swift"; sourceTree = "<group>"; };
+		2FFF8BC62CE2048100235A78 /* AsyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncView.swift; sourceTree = "<group>"; };
+		2FFF8BCF2CE2116600235A78 /* Data+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Encoding.swift"; sourceTree = "<group>"; };
 		2FFF8BCF2CE2116600235A78 /* Data+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Encoding.swift"; sourceTree = "<group>"; };
 		3EBDD1E32BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -577,6 +588,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				2F39CB042AD9A93C00B749FD /* Sparkle in Frameworks */,
+				2FFF8BC92CE209BB00235A78 /* FaviconFinder in Frameworks */,
 				DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */,
 				DAC0CA3E2C88E7A4003BF498 /* Fuse in Frameworks */,
 				DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */,
@@ -586,6 +598,7 @@
 				DA5154D82564102900C01004 /* Sauce in Frameworks */,
 				2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */,
 				DA13D7CA2C19F52B00FA9E23 /* LaunchAtLogin in Frameworks */,
+				2FFF8BCE2CE20DA100235A78 /* CachedAsyncImage in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -596,6 +609,8 @@
 			isa = PBXGroup;
 			children = (
 				2FA81FDF2E43D9A600C12F92 /* Dictionary+RemoveItem.swift */,
+				2FFF8BCF2CE2116600235A78 /* Data+Encoding.swift */,
+				2FFF8BC32CE0E19D00235A78 /* URL+Host.swift */,
 				DA19691B2C3F3EAC00258481 /* Collection+Surrounding.swift */,
 				DAA072D22C40A961006DDFD2 /* Color+Random.swift */,
 				DA13D7D12C19F91B00FA9E23 /* Defaults.Keys+Names.swift */,
@@ -671,6 +686,7 @@
 			children = (
 				2F1091D62F2B6E8100F5C454 /* AsyncView.swift */,
 				2FF2E94F2E7808420093D72C /* AppImageView.swift */,
+				2FFF8BC62CE2048100235A78 /* AsyncView.swift */,
 				DAA072DE2C41C63C006DDFD2 /* ConfirmationView.swift */,
 				DA243D112C2F64820012A27F /* ContentView.swift */,
 				DAA072DC2C41C61F006DDFD2 /* FooterItemView.swift */,
@@ -819,6 +835,7 @@
 				DA555F072CF0F98F009608BD /* ApplicationImageCache.swift */,
 				DA0EF1871E444B2A00E58577 /* Clipboard.swift */,
 				DAE284FF232257D20080E394 /* ColorImage.swift */,
+				2FFC1B9A2CE27D8200518A8A /* ContextUrl.swift */,
 				DAA54BF92C3C951900B7FDD8 /* FloatingPanel.swift */,
 				DA689FC92C1D18890009B887 /* HighlightMatch.swift */,
 				DA1969202C3F6C6800258481 /* HistoryItemAction.swift */,
@@ -909,6 +926,8 @@
 				DA13D7CF2C19F8C300FA9E23 /* Defaults */,
 				DAC0CA3D2C88E7A4003BF498 /* Fuse */,
 				2F12271D2E5C932200A1592A /* Logging */,
+				2FFF8BC82CE209BB00235A78 /* FaviconFinder */,
+				2FFF8BCD2CE20DA100235A78 /* CachedAsyncImage */,
 			);
 			productName = Maccy;
 			productReference = DAEE38431E3DBEB100DD2966 /* Maccy.app */;
@@ -993,6 +1012,8 @@
 				DA13D7CE2C19F8C300FA9E23 /* XCRemoteSwiftPackageReference "Defaults" */,
 				DAC0CA3C2C88E7A4003BF498 /* XCRemoteSwiftPackageReference "fuse-swift" */,
 				2F12271C2E5C932200A1592A /* XCRemoteSwiftPackageReference "swift-log" */,
+				2FFF8BC52CE203E300235A78 /* XCRemoteSwiftPackageReference "FaviconFinder" */,
+				2FFF8BCC2CE20DA000235A78 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */,
 			);
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
 			projectDirPath = "";
@@ -1080,6 +1101,7 @@
 				DAB082962A2B7B850053E463 /* AppStoreReview.swift in Sources */,
 				2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */,
 				DA13D7D22C19F91B00FA9E23 /* Defaults.Keys+Names.swift in Sources */,
+				2FFF8BD02CE2116D00235A78 /* Data+Encoding.swift in Sources */,
 				2F0EC77D2E773314003E2EA9 /* Selection.swift in Sources */,
 				DA1969102C3F0AAC00258481 /* KeyShortcut.swift in Sources */,
 				DA9C3C622C20E1BF0056795D /* IgnoreRegexpsSettingsView.swift in Sources */,
@@ -1107,6 +1129,7 @@
 				DAA072D12C4089D3006DDFD2 /* VisualEffectView.swift in Sources */,
 				DA555F122CF155A8009608BD /* WrappingTextView.swift in Sources */,
 				DAC929D7297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift in Sources */,
+				2FFF8BC42CE0E1A200235A78 /* URL+Host.swift in Sources */,
 				DA9C3C472C20B91D0056795D /* String+Identifiable.swift in Sources */,
 				DAA365E72C4C57E600A394F8 /* KeyEquivalent+Keys.swift in Sources */,
 				DA9C3C652C211B5F0056795D /* AdvancedSettingsPane.swift in Sources */,
@@ -1164,7 +1187,9 @@
 				DAA072DD2C41C61F006DDFD2 /* FooterItemView.swift in Sources */,
 				DA3EAE0C2AE30F7500F39108 /* NSApplication+Windows.swift in Sources */,
 				DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */,
+				2FFC1B9B2CE27D8600518A8A /* ContextUrl.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
+				2FFF8BC72CE2048500235A78 /* AsyncView.swift in Sources */,
 				DA0FFA2A2C8D100C00A66C97 /* ModifierFlags+Description.swift in Sources */,
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
 				DAA072DF2C41C63C006DDFD2 /* ConfirmationView.swift in Sources */,
@@ -1858,6 +1883,22 @@
 				minimumVersion = 3.1.1;
 			};
 		};
+		2FFF8BC52CE203E300235A78 /* XCRemoteSwiftPackageReference "FaviconFinder" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/will-lumley/FaviconFinder.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.1.4;
+			};
+		};
+		2FFF8BCC2CE20DA000235A78 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/lorenzofiamingo/swiftui-cached-async-image";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.1.1;
+			};
+		};
 		DA009945256414800030E697 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/thii/SwiftHEXColors";
@@ -1923,6 +1964,16 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2F39CB082AD9AE1F00B749FD /* XCRemoteSwiftPackageReference "Settings" */;
 			productName = Settings;
+		};
+		2FFF8BC82CE209BB00235A78 /* FaviconFinder */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FFF8BC52CE203E300235A78 /* XCRemoteSwiftPackageReference "FaviconFinder" */;
+			productName = FaviconFinder;
+		};
+		2FFF8BCD2CE20DA100235A78 /* CachedAsyncImage */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2FFF8BCC2CE20DA000235A78 /* XCRemoteSwiftPackageReference "swiftui-cached-async-image" */;
+			productName = CachedAsyncImage;
 		};
 		DA009946256414800030E697 /* SwiftHEXColors */ = {
 			isa = XCSwiftPackageProductDependency;

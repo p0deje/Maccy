@@ -1,5 +1,5 @@
 {
-  "originHash" : "f942e634855df514d2ad3df28082c064282b9265128929b3ff6924f0bae466c1",
+  "originHash" : "8dceffde4e03ae37a123c5db2c5d70e0290daffcfd9b8d00c77940cb4cf40a2f",
   "pins" : [
     {
       "identity" : "defaults",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "38925e3cfacf3fb89a81a35b1cd44fd5a5b7e0fa",
         "version" : "8.2.0"
+      }
+    },
+    {
+      "identity" : "faviconfinder",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/will-lumley/FaviconFinder.git",
+      "state" : {
+        "revision" : "9279f4371f4877ca302ba3bf1015f3f58ae4a56c",
+        "version" : "5.1.4"
       }
     },
     {
@@ -80,6 +89,24 @@
       "state" : {
         "revision" : "1f886cb20fedda14a5ac75efd09bc99c95b43a18",
         "version" : "1.4.1"
+      }
+    },
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup.git",
+      "state" : {
+        "revision" : "0837db354faf9c9deb710dc597046edaadf5360f",
+        "version" : "2.7.6"
+      }
+    },
+    {
+      "identity" : "swiftui-cached-async-image",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/lorenzofiamingo/swiftui-cached-async-image",
+      "state" : {
+        "revision" : "467a3d17479887943ab917a379e62bbaff60ac8a",
+        "version" : "2.1.1"
       }
     }
   ],

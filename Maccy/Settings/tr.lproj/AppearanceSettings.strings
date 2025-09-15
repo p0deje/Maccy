@@ -32,4 +32,5 @@
 "ShowTitleBeforeSearchField" = "Arama alanı öncesi başlığı göster";
 "ShowFooter" = "Altbilgiyi göster";
 "ShowApplicationIcons" = "Uygulama simgelerini göster";
+"ShowFavicons" = "Faviconları göster";
 "OpenPreferencesWarning" = "⚠️ Altbilgi gizliyken ayarları açmak için ⌘, (command+comma)'a basın.";

@@ -31,5 +31,6 @@
 "ShowSearchField" = "";
 "ShowTitleBeforeSearchField" = "";
 "ShowApplicationIcons" = "";
+"ShowFavicons" = "Mostra les favicones";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";

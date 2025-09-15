@@ -31,5 +31,6 @@
 "ShowSearchField" = "Tampilkan kolom pencarian";
 "ShowTitleBeforeSearchField" = "Tampilkan judul sebelum kolom pencarian";
 "ShowApplicationIcons" = "Tampilkan ikon aplikasi";
+"ShowFavicons" = "Tampilkan favicon";
 "ShowFooter" = "Tampilkan footer";
 "OpenPreferencesWarning" = "⚠️ Tekan ⌘ untuk buka preferensi ketika footer tersembunyi.";

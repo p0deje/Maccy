@@ -33,3 +33,4 @@
 "ShowFooter" = "הצגת כותרת תחתונה";
 "OpenPreferencesWarning" = "⚠️ לחצו ⌘, (command+פסיק) כדי לפתוח את ההעדפות כאשר הכותרת התחתונה מוסתרת.";
 "ShowApplicationIcons" = "הצג סמלי יישומים";
+"ShowFavicons" = "הצג סמלי אתרים";

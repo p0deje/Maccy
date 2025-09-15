@@ -32,4 +32,5 @@
 "ShowTitleBeforeSearchField" = "Показывать название перед поиском";
 "ShowFooter" = "Показывать нижний колонтитул";
 "ShowApplicationIcons" = "Показать значки приложений";
+"ShowFavicons" = "Показать фавиконы";
 "OpenPreferencesWarning" = "⚠️ Нажмите ⌘, (command+comma) чтобы открыть настройки когда нижний колонтитул скрыт.";
