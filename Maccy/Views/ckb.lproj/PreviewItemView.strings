@@ -1,20 +1,6 @@
-// Instructional text explaining how to copy an item with a modifier key
-"SelectToCopy" = "• بە داگرتنی %@ دیاریبکە بۆ کۆپیکردنی ئایتم.";
-
-// Label showing the source application of a history item
 "Application" = "بەرنامە:";
-
-// Label showing when a history item was first copied
 "FirstCopyTime" = "کاتی یەکەم کۆپی:";
-
-// Label showing when a history item was last copied
 "LastCopyTime" = "دوایین کاتی کۆپی:";
-
-// Label showing the total number of times a history item has been copied
 "NumberOfCopies" = "ژمارەی کۆپییەکان:";
-
-// Instructional text for the pin/unpin keyboard shortcut
 "PinKey" = "دوگمەی {pinKey} دابگرە بۆ چەسپاندن یان لابردنی.";
-
-// Instructional text for the delete keyboard shortcut
 "DeleteKey" = "دوگمەی {deleteKey} دابگرە بۆ سڕینەوە.";

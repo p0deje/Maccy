@@ -1,26 +1,9 @@
-// Title for the Ignore settings tab
 "Title" = "پشتگوێخستن";
-
-// Title for the 'Applications' sub-tab within Ignore settings
 "ApplicationsTab" = "بەرنامەکان";
-
-// Description for the ignored applications feature
 "IgnoredAppsDescription" = "دەکرێت ئەو کۆپیانەی لە هەندێک بەرنامەی دیاریکراوەوە دێن پشتگوێ بخرێن.\nتکایە ئاگاداربە کە شێوازی کارکردنی بێ کێشە نییە، بۆیە باشترە جۆرەکانی پێستبۆرد بەکاربهێنیت ئەگەر بکرێت.";
-
-// Checkbox label to invert the ignore logic for applications
 "IgnoredAllAppsExceptListed" = "پشتگوێخستنی هەموو بەرنامەکان جگە لەوانەی لیستکراون";
-
-// Title for the 'Pasteboard types' sub-tab within Ignore settings
 "PasteboardTypesTab" = "جۆرەکانی پێستبۆرد";
-
-// Description for the ignored pasteboard types feature
 "IgnoredPasteboardTypesDescription" = "دەتوانرێت ڕێگری بکرێت لە پاشەکەوتکردنی هەندێک جۆری دیاریکراوی ئایتەمی پێستبۆرد.\nبە شێوەی بنەڕەتی، هەندێک جۆری ناسراوی تایبەت بە بەرنامەکان پێناسە کراون. دەتوانیت بیان سڕیتەوە و هەر جۆرێکی تایبەتی خۆت کە دەتەوێت زیادی بکەیت.";
-
-// Button to reset the list of ignored pasteboard types to default
 "IgnoredPasteboardTypesReset" = "ڕێکخستنەوە";
-
-// Title for the 'Regular expressions' sub-tab within Ignore settings
 "RegexpTab" = "ڕێجێکسەکان";
-
-// Description for the ignored regular expressions feature
 "IgnoredRegexpsDescription" = "دەکرێت هەندێک کۆپی دیاریکراو پشتگوێ بخرێن لە پاشەکەوتکردن، ئەمەش بەپێی ئەو ڕێجێکسانەی کە پێناسە کراون.";

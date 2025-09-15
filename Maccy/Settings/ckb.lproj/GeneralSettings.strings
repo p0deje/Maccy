@@ -1,59 +1,20 @@
-// Title for the General settings tab
 "Title" = "گشتی";
-
-// Checkbox label for the 'Launch at login' setting
 "LaunchAtLogin" = "کارپێکردن لەکاتی چوونەژوورەوەدا";
-
-// Checkbox label for automatically checking for updates
 "CheckForUpdates" = "پشکنینی خۆکارانە بۆ نوێکارییەکان";
-
-// Button to manually check for updates
 "CheckNow" = "ئێستا بپشکنە";
-
-// Label for the 'Open' global hotkey setting
 "Open" = "کردنەوە:";
-
-// Tooltip for the 'Open' hotkey setting, explaining its behavior
 "OpenTooltip" = "کورتەدوگمەی گشتی بۆ کردنەوەی بەرنامەکە.\nداگرتنی دووبارەی دوگمە سەرەکییەکە لەکاتی هێشتنەوەی دوگمە یارمەتیدەرەکان، ئایتەمی دواتر لە لیستەکەدا دیاری دەکات. لەم حاڵەتەدا، بەردانی دوگمە یارمەتیدەرەکان دیاریکردنەکە پشتڕاست دەکاتەوە و پۆپئەپەکە دادەخات.\nبنەڕەت: ⇧⌘C.";
-
-// Label for the 'Pin' hotkey setting
 "Pin" = "چەسپاندن:";
-
-// Tooltip for the 'Pin' hotkey setting
 "PinTooltip" = "کورتەدوگمە بۆ چەسپاندنی ئایتەمی مێژوو.\nبنەڕەت: ⌥P.";
-
-// Label for the 'Delete' hotkey setting
 "Delete" = "سڕینەوە:";
-
-// Tooltip for the 'Delete' hotkey setting
 "DeleteTooltip" = "کورتەدوگمە بۆ سڕینەوەی ئایتەمی مێژوو.\nبنەڕەت: ⌥⌫.";
-
-// Section header for behavior-related settings
 "Behavior" = "ڕەفتار:";
-
-// Checkbox label for the 'Paste automatically' setting
 "PasteAutomatically" = "پەیستکردنی خۆکارانە";
-
-// Checkbox label for the 'Paste without formatting' setting
 "PasteWithoutFormatting" = "پەیستکردن بەبێ فۆرمات";
-
-// Instructional text explaining the different modifier key actions
 "Modifiers" = "ڕەفتاری بەرنامەکە لە کاتی دیاریکردنی ئایتەمدا بگۆڕە:\n• بە داگرتنی %@ دیاریبکە بۆ کۆپیکردنی ئایتەم.\n• بە داگرتنی %@ دیاریبکە بۆ کۆپیکردن و پەیستکردنی ئایتەم.\n• بە داگرتنی %@ دیاریبکە بۆ کۆپیکردن، سڕینەوەی فۆرمات، و پەیستکردنی ئایتەم.";
-
-// Label for the search mode setting
 "Search" = "گەڕان:";
-
-// Search mode option: Exact match
 "Exact" = "تەواو";
-
-// Search mode option: Fuzzy match
 "Fuzzy" = "لێکچوو";
-
-// Search mode option: Regular expressions
 "Regex" = "ڕێجێکسەکان";
-
-// Search mode option: Mixed (Fuzzy and Exact)
 "Mixed" = "تێکەڵ";
-
-// Link/Button to open system settings for Notifications and Sounds
 "NotificationsAndSounds" = "ئاگادارییەکان و دەنگەکان 􀱁";

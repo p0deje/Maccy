@@ -1,29 +1,10 @@
-// Title for the Advanced settings tab
 "Title" = "پێشکەوتوو";
-
-// Label for the setting to temporarily disable the application
 "TurnOff" = "ناچالاککردن";
-
-// Description for the 'Turn off' feature
 "TurnOffDescription" = "پشتگوێخستنی کاتیی هەموو کۆپییە نوێیەکان.\nئەگەری هەیە ئەمە بەشێوەی پرۆگرامی بەکاربهێنیت و بەرنامەکە ناچالاک بکەیت لەکati کۆپیکردنی داتای هەستیاردا.";
-
-// Example shell script for toggling the 'Turn off' feature
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false";
-
-// Instructional text for the menu icon shortcuts to ignore copies
 "TurnOffViaMenuIconDescription" = "هەروەها دەتوانیت کلیک لەسەر ئایکۆنی مێنوەکە بکەیت بە داگرتنی دوگمەی ⌥.\nبۆ پشتگوێخستنی تەنها کۆپیی داهاتوو، کلیک بکە لەگەڵ داگرتنی ⌥⇧.";
-
-// Example shell script for ignoring only the next copy
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copy data";
-
-// Checkbox label for the 'Clear history on quit' setting
 "ClearHistoryOnQuit" = "سڕینەوەی مێژوو لەکاتی داخستندا";
-
-// Tooltip for the 'Clear history on quit' setting
 "ClearHistoryOnQuitTooltip" = "بەشێوەیەکی خۆکارانە هەموو ئایتەمە نەچەسپێنراوەکان لادەبات پێش داخستنی بەرنامەکە.";
-
-// Checkbox label for also clearing the system clipboard
 "ClearSystemClipboard" = "سڕینەوەی کلیپبۆردی سیستەمیش";
-
-// Tooltip for the 'Clear system clipboard' setting
 "ClearSystemClipboardTooltip" = "کاتێک کارا دەکرێت، سڕینەوەی مێژوو، کلیپبۆردی ئێستای سیستەمیش دەسڕێتەوە.";
