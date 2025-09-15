@@ -51,9 +51,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       if showIcons, let appIcon {
         VStack {
           Spacer(minLength: 0)
-          Image(nsImage: appIcon.nsImage)
-            .resizable()
-            .frame(width: 15, height: 15)
+          AppImageView(appImage: appIcon, size: NSSize(width: 15, height: 15))
           Spacer(minLength: 0)
         }
         .padding(.leading, 4)
