@@ -11,4 +11,5 @@
 "LastCopiedAt" = "Time of last copy";
 "FirstCopiedAt" = "Time of first copy";
 "NumberOfCopies" = "Number of copies";
+"PinShortcutKey" = "Pin shortcut key";
 "SortByTooltip" = "Default: Time of last copy.";
