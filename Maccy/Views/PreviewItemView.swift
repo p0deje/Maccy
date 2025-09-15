@@ -2,9 +2,7 @@ import KeyboardShortcuts
 import SwiftUI
 
 struct PreviewItemView: View {
-  weak var item: HistoryItemDecorator?
-
-  var body: some View {
+  var item: HistoryItemDecorator
     if let item = item {
       VStack(alignment: .leading, spacing: 0) {
         if let image = item.previewImage {
