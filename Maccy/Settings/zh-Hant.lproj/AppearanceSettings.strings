@@ -16,6 +16,8 @@
 "PinToTooltip" = "更改固定項目的位置。\n預設：置頂。";
 "ImageHeight" = "圖片高度：";
 "ImageHeightTooltip" = "圖片預覽最高。\n預設：40\n提示：設定 16 可符合文字項目大小。";
+"PreviewImageSize" = "預覽圖片大小：";
+"PreviewImageSizeTooltip" = "彈出預覽中圖像的最大尺寸。\n預設：400。\n不會超過螢幕尺寸。";
 "PreviewDelay" = "預覽延遲:";
 "PreviewDelayTooltip" = "顯示預覽彈出視窗的延遲，單位為毫秒。\n預設：1500。";
 "HighlightMatches" = "凸顯相符項目：";

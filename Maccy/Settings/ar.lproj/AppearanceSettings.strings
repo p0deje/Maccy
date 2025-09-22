@@ -18,6 +18,8 @@
 "ImageHeightTooltip" = "أقصى ارتفاع معاينة الصورة.\nالافتراضي: 40.\nتلميح: قم بتعيينه إلى 16 ليبدو مثل عناصر النص.";
 "PreviewDelay" = "تأخير المعاينة:";
 "PreviewDelayTooltip" = "التأخير بالميللي ثانية حتى يتم عرض معاينة النافذة المنبثقة.\nالافتراضي: 1500.";
+"PreviewImageSize" = "حجم صورة المعاينة:";
+"PreviewImageSizeTooltip" = "الحد الأقصى لحجم الصور في نافذة المعاينة المنبثقة.\nالافتراضي: 400.";
 "HighlightMatches" = "تسليط الضوء على التطابقات:";
 "HighlightMatchColor" = "اللون";
 "HighlightMatchBold" = "عريض";
