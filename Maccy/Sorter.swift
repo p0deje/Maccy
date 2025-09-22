@@ -4,11 +4,15 @@ import Defaults
 // swiftlint:disable identifier_name
 // swiftlint:disable type_name
 class Sorter {
+// ...existing code...
+// ...existing code...
+// Add Defaults key for pinSortBy
+
   enum By: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
     case lastCopiedAt
     case firstCopiedAt
     case numberOfCopies
-    case pinShortcutKey
+    case pinKey
 
     var id: Self { self }
 
@@ -20,8 +24,8 @@ class Sorter {
         return NSLocalizedString("FirstCopiedAt", tableName: "StorageSettings", comment: "")
       case .numberOfCopies:
         return NSLocalizedString("NumberOfCopies", tableName: "StorageSettings", comment: "")
-      case .pinShortcutKey:
-        return NSLocalizedString("PinShortcutKey", tableName: "StorageSettings", comment: "")
+      case .pinKey:
+        return NSLocalizedString("Pins", tableName: "StorageSettings", comment: "")
       }
     }
   }
@@ -38,7 +42,7 @@ class Sorter {
       return lhs.firstCopiedAt > rhs.firstCopiedAt
     case .numberOfCopies:
       return lhs.numberOfCopies > rhs.numberOfCopies
-    case .pinShortcutKey:
+    case .pinKey:
         return (lhs.pin ?? "").localizedCaseInsensitiveCompare(rhs.pin ?? "") == .orderedAscending
     default:
       return lhs.lastCopiedAt > rhs.lastCopiedAt

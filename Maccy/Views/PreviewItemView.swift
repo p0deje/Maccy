@@ -53,7 +53,7 @@ struct PreviewItemView: View {
         .padding(.bottom)
 
       HStack(spacing: 3) {
-        Text("PinShortcutKey", tableName: "PreviewItemView")
+        Text("Pins", tableName: "PreviewItemView")
         Text(item.item.pin ?? "")
       }
       .padding(.bottom)

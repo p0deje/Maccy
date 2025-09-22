@@ -110,8 +110,9 @@ struct StorageSettingsPane: View {
       }
 
       Settings.Section(label: { Text("SortBy", tableName: "StorageSettings") }) {
+        // Only show regular sorting methods, not pinKey
         Picker("", selection: $sortBy) {
-          ForEach(Sorter.By.allCases) { mode in
+          ForEach(Sorter.By.allCases.filter { $0 != .pinKey }) { mode in
             Text(mode.description)
           }
         }

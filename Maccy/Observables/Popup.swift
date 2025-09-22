@@ -54,7 +54,9 @@ class Popup {
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
-    AppState.shared.appDelegate?.panel.open(height: height, at: popupPosition)
+    Task { @MainActor in
+      AppState.shared.appDelegate?.panel.open(height: height, at: popupPosition)
+    }
   }
 
   func reset() {
@@ -63,16 +65,24 @@ class Popup {
   }
 
   func close() {
-    AppState.shared.appDelegate?.panel.close()  // close() calls reset
+    Task { @MainActor in
+      AppState.shared.appDelegate?.panel.close()  // close() calls reset
+    }
   }
 
   func isClosed() -> Bool {
-    AppState.shared.appDelegate?.panel.isPresented != true
+    var isClosed = true
+    Task { @MainActor in
+      isClosed = AppState.shared.appDelegate?.panel.isPresented != true
+    }
+    return isClosed
   }
 
   func resize(height: CGFloat) {
     self.height = height + headerHeight + pinnedItemsHeight + footerHeight + (verticalPadding * 2)
-    AppState.shared.appDelegate?.panel.verticallyResize(to: self.height)
+    Task { @MainActor in
+      AppState.shared.appDelegate?.panel.verticallyResize(to: self.height)
+    }
     needsResize = false
   }
 

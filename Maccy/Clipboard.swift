@@ -110,6 +110,13 @@ class Clipboard {
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
   func paste() {
+  // Check Accessibility permission
+  let trusted = AXIsProcessTrusted()
+
+  // Log frontmost application
+  if let frontApp = NSWorkspace.shared.frontmostApplication {
+  } else {
+  }
     Accessibility.check()
 
     // Add flag that left/right modifier key has been pressed.
@@ -129,12 +136,12 @@ class Clipboard {
     source?.setLocalEventsFilterDuringSuppressionState([.permitLocalMouseEvents, .permitSystemDefinedEvents],
                                                        state: .eventSuppressionStateSuppressionInterval)
 
-    let keyVDown = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: true)
-    let keyVUp = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: false)
-    keyVDown?.flags = cmdFlag
-    keyVUp?.flags = cmdFlag
-    keyVDown?.post(tap: .cgSessionEventTap)
-    keyVUp?.post(tap: .cgSessionEventTap)
+  let keyVDown = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: true)
+  let keyVUp = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: false)
+  keyVDown?.flags = cmdFlag
+  keyVUp?.flags = cmdFlag
+  keyVDown?.post(tap: .cghidEventTap)
+  keyVUp?.post(tap: .cghidEventTap)
   }
 
   func clear() {

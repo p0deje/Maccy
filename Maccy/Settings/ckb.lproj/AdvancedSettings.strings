@@ -1,0 +1,10 @@
+"Title" = "پێشکەوتوو";
+"TurnOff" = "ناچالاککردن";
+"TurnOffDescription" = "پشتگوێخستنی کاتیی هەموو کۆپییە نوێیەکان.\nئەگەری هەیە ئەمە بەشێوەی پرۆگرامی بەکاربهێنیت و بەرنامەکە ناچالاک بکەیت لەکati کۆپیکردنی داتای هەستیاردا.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# copy data\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "هەروەها دەتوانیت کلیک لەسەر ئایکۆنی مێنوەکە بکەیت بە داگرتنی دوگمەی ⌥.\nبۆ پشتگوێخستنی تەنها کۆپیی داهاتوو، کلیک بکە لەگەڵ داگرتنی ⌥⇧.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copy data";
+"ClearHistoryOnQuit" = "سڕینەوەی مێژوو لەکاتی داخستندا";
+"ClearHistoryOnQuitTooltip" = "بەشێوەیەکی خۆکارانە هەموو ئایتەمە نەچەسپێنراوەکان لادەبات پێش داخستنی بەرنامەکە.";
+"ClearSystemClipboard" = "سڕینەوەی کلیپبۆردی سیستەمیش";
+"ClearSystemClipboardTooltip" = "کاتێک کارا دەکرێت، سڕینەوەی مێژوو، کلیپبۆردی ئێستای سیستەمیش دەسڕێتەوە.";

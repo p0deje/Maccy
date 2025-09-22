@@ -143,7 +143,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
   private func synchronizeItemPin() {
     _ = withObservationTracking {
       item.pin
-    } onChange: {
+    } onChange: { [unowned self] in
       DispatchQueue.main.async {
         if let pin = self.item.pin {
           self.shortcuts = KeyShortcut.create(character: pin)

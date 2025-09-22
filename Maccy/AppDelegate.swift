@@ -160,12 +160,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private func synchronizeMenuIconText() {
     _ = withObservationTracking {
       AppState.shared.menuIconText
-    } onChange: {
+    } onChange: { [weak self] in
       DispatchQueue.main.async {
         if Defaults[.showRecentCopyInMenuBar] {
-          self.statusItem.button?.title = AppState.shared.menuIconText
+          self?.statusItem.button?.title = AppState.shared.menuIconText
         }
-        self.synchronizeMenuIconText()
+        self?.synchronizeMenuIconText()
       }
     }
   }
