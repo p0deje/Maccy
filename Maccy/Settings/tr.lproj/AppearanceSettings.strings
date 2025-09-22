@@ -19,7 +19,7 @@
 "PreviewDelay" = "Önizleme gecikmesi:";
 "PreviewDelayTooltip" = "Önizleme açılır penceresi gösterilene kadar milisaniye cinsinden gecikme.\nSaptanmış: 1500.";
 "PreviewImageSize" = "Önizleme görsel boyutu:";
-"PreviewImageSizeTooltip" = "Önizleme açılır penceresindeki görsellerin en büyük boyutu.\nSaptanmış: 400.";
+"PreviewImageSizeTooltip" = "Önizleme açılır penceresindeki görsellerin en büyük boyutu.\nSaptanmış: 600.";
 "HighlightMatches" = "Maçları vurgula:";
 "HighlightMatchColor" = "Renk";
 "HighlightMatchBold" = "Kalın";

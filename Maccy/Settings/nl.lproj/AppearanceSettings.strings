@@ -19,7 +19,7 @@
 "PreviewDelay" = "Vertraging:";
 "PreviewDelayTooltip" = "Vertraging in milliseconden totdat een voorbeeldpop-up wordt weergegeven.\nStandaard: 1500.";
 "PreviewImageSize" = "Voorbeeldafbeeldingsgrootte:";
-"PreviewImageSizeTooltip" = "Maximale grootte van afbeeldingen in de voorbeeldpop-up.\nStandaard: 400.";
+"PreviewImageSizeTooltip" = "Maximale grootte van afbeeldingen in de voorbeeldpop-up.\nStandaard: 600.";
 "HighlightMatches" = "Markeer overeenkomsten:";
 "HighlightMatchColor" = "Kleur";
 "HighlightMatchBold" = "Vetgedrukt";

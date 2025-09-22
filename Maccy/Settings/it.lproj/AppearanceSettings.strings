@@ -17,7 +17,7 @@
 "ImageHeight" = "Altezza dell'immagine:";
 "ImageHeightTooltip" = "Altezza massima preview immagine.\nDefault: 40.\nSuggerimento: Impostala a 16 per farla sembrare come gli elementi testuali.";
 "PreviewImageSize" = "Dimensione immagine anteprima:";
-"PreviewImageSizeTooltip" = "Dimensione massima per le immagini nelle anteprime popup.\nDefault: 400.\nNon supererà le dimensioni dello schermo.";
+"PreviewImageSizeTooltip" = "Dimensione massima per le immagini nelle anteprime popup.\nDefault: 600.\nNon supererà le dimensioni dello schermo.";
 "PreviewDelay" = "Anteprima ritardo:";
 "PreviewDelayTooltip" = "Ritardo in millisecondi prima che venga visualizzato un popup di anteprima.\nDefault: 1500.";
 "HighlightMatches" = "Evidenzia le partite:";

@@ -1,6 +1,6 @@
 "Title" = "Apparence";
 "PreviewImageSize" = "Taille de l'image d'aperçu :";
-"PreviewImageSizeTooltip" = "Taille maximale des images dans les aperçus en popup.\nPar défaut : 400.\nNe dépassera pas les dimensions de l'écran.";
+"PreviewImageSizeTooltip" = "Taille maximale des images dans les aperçus en popup.\nPar défaut : 600.\nNe dépassera pas les dimensions de l'écran.";
 "PopupAt" = "Popup sur :";
 "PopupAtCursor" = "Curseur";
 "PopupAtMenuBarIcon" = "Icône du menu";

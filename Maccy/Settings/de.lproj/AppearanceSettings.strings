@@ -17,7 +17,7 @@
 "ImageHeight" = "Bildhöhe:";
 "ImageHeightTooltip" = "Maximale Höhe für Bildvorschau in Pixel.\nStandard: 40.\nHinweis: Wähle 16, wenn das Bild gleich groß dargestellt werden soll, wie Text.";
 "PreviewImageSize" = "Vorschaubildgröße:";
-"PreviewImageSizeTooltip" = "Maximale Größe für Bilder in Popup-Vorschauen.\nStandard: 400.\nÜberschreitet nicht die Bildschirmabmessungen.";
+"PreviewImageSizeTooltip" = "Maximale Größe für Bilder in Popup-Vorschauen.\nStandard: 600.\nÜberschreitet nicht die Bildschirmabmessungen.";
 "PreviewDelay" = "Vorschauverzögerung:";
 "PreviewDelayTooltip" = "Verzögerung in Millisekunden, bis ein Vorschau-Popup angezeigt wird.\nStandard: 1500.";
 "HighlightMatches" = "Übereinstimmungen hervorheben:";

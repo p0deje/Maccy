@@ -19,7 +19,7 @@
 "PreviewDelay" = "Temporizare previzualizare:";
 "PreviewDelayTooltip" = "Întârzierea în milisecunde până la afișarea ferestrei popup de previzualizare.\nImplicit: 1500.";
 "PreviewImageSize" = "Dimensiunea imaginii de previzualizare:";
-"PreviewImageSizeTooltip" = "Dimensiunea maximă a imaginilor în fereastra popup de previzualizare.\nImplicit: 400.";
+"PreviewImageSizeTooltip" = "Dimensiunea maximă a imaginilor în fereastra popup de previzualizare.\nImplicit: 600.";
 "HighlightMatches" = "Evidențiere potriviri:";
 "HighlightMatchColor" = "Culoare";
 "HighlightMatchBold" = "Aldin (bold)";

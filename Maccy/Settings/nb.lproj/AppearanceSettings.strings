@@ -19,7 +19,7 @@
 "PreviewDelay" = "Forsinkelse for forhåndsvisning:";
 "PreviewDelayTooltip" = "Utsett i millisekunder til en forhåndsvisningspopup vises.\nStandard: 1500.";
 "PreviewImageSize" = "Forhåndsvisning bildestørrelse:";
-"PreviewImageSizeTooltip" = "Maksimal størrelse for bilder i forhåndsvisningspopup.\nStandard: 400.";
+"PreviewImageSizeTooltip" = "Maksimal størrelse for bilder i forhåndsvisningspopup.\nStandard: 600.";
 "HighlightMatches" = "Fremhev kamper:";
 "HighlightMatchColor" = "Farge";
 "HighlightMatchBold" = "Fet";

@@ -19,7 +19,7 @@
 "PreviewDelay" = "Előnézet késleltetése:";
 "PreviewDelayTooltip" = "A késleltetés milliszekundumokban mielőtt a felugró előnézet megjelenik.\nAlapértelmezett: 1500.";
 "PreviewImageSize" = "Előnézeti kép mérete:";
-"PreviewImageSizeTooltip" = "A képek maximális mérete a felugró előnézetben.\nAlapértelmezett: 400.";
+"PreviewImageSizeTooltip" = "A képek maximális mérete a felugró előnézetben.\nAlapértelmezett: 600.";
 "HighlightMatches" = "Egyezések kiemelése:";
 "HighlightMatchColor" = "Szín";
 "HighlightMatchBold" = "Vastag";

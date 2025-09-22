@@ -19,7 +19,7 @@
 "PreviewDelay" = "미리보기 지연:";
 "PreviewDelayTooltip" = "미리보기 팝업이 표시될 때까지 밀리초 단위로 지연됩니다.\n기본값: 1500.";
 "PreviewImageSize" = "미리보기 이미지 크기:";
-"PreviewImageSizeTooltip" = "미리보기 팝업에서 이미지의 최대 크기입니다.\n기본값: 400.";
+"PreviewImageSizeTooltip" = "미리보기 팝업에서 이미지의 최대 크기입니다.\n기본값: 600.";
 "HighlightMatches" = "매칭된 항목 하이라이트:";
 "HighlightMatchColor" = "색상";
 "HighlightMatchBold" = "굵게";
