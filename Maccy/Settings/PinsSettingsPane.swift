@@ -123,6 +123,7 @@ struct PinsSettingsPane: View {
   @State private var selection: PersistentIdentifier?
   @Default(.pinSortBy) private var pinSortBy: Sorter.By
   @Default(.pinSortAscending) private var pinSortAscending: Bool
+  @Default(.sortBy) private var sortBy: Sorter.By
 
   private var sortedItems: [HistoryItem] {
     allItems.sorted {
@@ -143,26 +144,23 @@ struct PinsSettingsPane: View {
   var body: some View {
     VStack(alignment: .leading) {
       Section {
-        HStack {
-          Picker("", selection: $pinSortBy) {
-            ForEach(Sorter.By.allCases) { mode in
-              Text(mode.description)
+        VStack(alignment: .leading, spacing: 12) {
+          HStack {
+            Text("Sort by")
+              .frame(minWidth: 60, alignment: .leading)
+            SortDropdownView(sortBy: $pinSortBy, helpText: "SortByTooltip")
+            HStack(spacing: 8) {
+              Text("Descending")
+              Toggle(isOn: $pinSortAscending) {
+                EmptyView()
+              }
+              .toggleStyle(.switch)
+              .frame(width: 40)
+              Text("Ascending")
             }
+            .help(Text("SortOrderTooltip", tableName: "PinsSettings"))
           }
-          .labelsHidden()
-          .frame(width: 160)
-          .help(Text("SortByTooltip", tableName: "PinsSettings"))
-
-          HStack(spacing: 8) {
-            Text("Descending")
-            Toggle(isOn: $pinSortAscending) {
-              EmptyView()
-            }
-            .toggleStyle(.switch)
-            .frame(width: 40)
-            Text("Ascending")
-          }
-          .help(Text("SortOrderTooltip", tableName: "PinsSettings"))
+          // Only keep main sort dropdown and toggle
         }
       }
 

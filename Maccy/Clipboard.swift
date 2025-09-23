@@ -111,13 +111,13 @@ class Clipboard {
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
   func paste() {
   // Check Accessibility permission
-  let trusted = AXIsProcessTrusted()
+  _ = AXIsProcessTrusted()
 
   // Log frontmost application
-  if let frontApp = NSWorkspace.shared.frontmostApplication {
-  } else {
+  if NSWorkspace.shared.frontmostApplication != nil {
+    // frontApp exists, do nothing
   }
-    Accessibility.check()
+  Accessibility.check()
 
     // Add flag that left/right modifier key has been pressed.
     // See https://github.com/TermiT/Flycut/pull/18 for details.

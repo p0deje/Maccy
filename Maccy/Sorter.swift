@@ -8,7 +8,7 @@ class Sorter {
 // ...existing code...
 // Add Defaults key for pinSortBy
 
-  enum By: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
+  public enum By: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
     case lastCopiedAt
     case firstCopiedAt
     case numberOfCopies

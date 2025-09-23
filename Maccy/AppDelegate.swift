@@ -157,11 +157,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     panel.toggle(height: AppState.shared.popup.height, at: .statusItem)
   }
 
+  @MainActor
   private func synchronizeMenuIconText() {
     _ = withObservationTracking {
       AppState.shared.menuIconText
     } onChange: { [weak self] in
-      DispatchQueue.main.async {
+      DispatchQueue.main.async { [weak self] in
         if Defaults[.showRecentCopyInMenuBar] {
           self?.statusItem.button?.title = AppState.shared.menuIconText
         }
