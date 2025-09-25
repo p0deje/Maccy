@@ -69,7 +69,10 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
-    setContentSize(NSSize(width: frame.width, height: min(height, Defaults[.windowSize].height)))
+    // Use the saved window size instead of limiting to the minimum
+    let savedSize = Defaults[.windowSize]
+    let targetHeight = max(height, savedSize.height) // Use the larger of content height or saved height
+    setContentSize(NSSize(width: frame.width, height: targetHeight))
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
     orderFrontRegardless()
     makeKey()
@@ -83,8 +86,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func verticallyResize(to newHeight: CGFloat) {
-    var newSize = Defaults[.windowSize]
-    newSize.height = min(newHeight, newSize.height)
+    let newSize = NSSize(width: Defaults[.windowSize].width, height: newHeight)
 
     var newOrigin = frame.origin
     newOrigin.y += (frame.height - newSize.height)
@@ -93,6 +95,9 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
       context.duration = 0.2
       animator().setFrame(NSRect(origin: newOrigin, size: newSize), display: true)
     }
+    
+    // Save the new window size
+    saveWindowFrame(frame: NSRect(origin: newOrigin, size: newSize))
   }
 
   func saveWindowFrame(frame: NSRect) {
@@ -111,6 +116,11 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     return frameSize
   }
 
+  func windowDidResize(_ notification: Notification) {
+    // Save window size after resize is complete
+    saveWindowFrame(frame: frame)
+  }
+
   // Close automatically when out of focus, e.g. outside click.
   override func resignKey() {
     super.resignKey()
@@ -121,6 +131,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   override func close() {
+    // Save current window size before closing
+    saveWindowFrame(frame: frame)
     super.close()
     isPresented = false
     statusBarButton?.isHighlighted = false

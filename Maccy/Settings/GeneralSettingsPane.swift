@@ -86,6 +86,11 @@ struct GeneralSettingsPane: View {
         .onChange(refreshModifiers)
         .fixedSize()
 
+        Defaults.Toggle(key: .enableTabPages) {
+          Text("EnableTabPages", tableName: "GeneralSettings")
+        }
+        .fixedSize()
+
         Text(String(
           format: NSLocalizedString("Modifiers", tableName: "GeneralSettings", comment: ""),
           copyModifier, pasteModifier, pasteWithoutFormatting

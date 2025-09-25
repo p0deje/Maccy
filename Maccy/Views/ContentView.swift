@@ -1,5 +1,63 @@
 import SwiftData
 import SwiftUI
+import Defaults
+
+struct TabBarView: View {
+  @Binding var selectedTab: Tab
+  
+  @Environment(AppState.self) private var appState
+  @Default(.enableTabPages) private var enableTabPages
+  
+  var body: some View {
+    if enableTabPages {
+      HStack(spacing: 0) {
+        ForEach(Tab.allCases, id: \.self) { tab in
+          TabItemView(
+            tab: tab,
+            isSelected: selectedTab == tab,
+            action: { selectedTab = tab }
+          )
+        }
+      }
+      .frame(height: 30)
+      .background(
+        VisualEffectView(
+          material: .popover,
+          blendingMode: .behindWindow
+        )
+      )
+      .overlay(
+        Rectangle()
+          .frame(height: 1)
+          .foregroundColor(Color(NSColor.separatorColor)),
+        alignment: .bottom
+      )
+      .padding(.horizontal, 10)
+    }
+  }
+}
+
+struct TabItemView: View {
+  let tab: Tab
+  let isSelected: Bool
+  let action: () -> Void
+  
+  var body: some View {
+    Button(action: action) {
+      Text(tab.title)
+        .font(.system(size: 12, weight: isSelected ? .semibold : .regular))
+        .foregroundColor(isSelected ? .primary : .secondary)
+        .padding(.horizontal, 12)
+        .padding(.vertical, 6)
+        .background(
+          RoundedRectangle(cornerRadius: 4)
+            .fill(isSelected ? Color.accentColor.opacity(0.2) : Color.clear)
+        )
+    }
+    .buttonStyle(PlainButtonStyle())
+    .frame(maxWidth: .infinity)
+  }
+}
 
 struct ContentView: View {
   @State private var appState = AppState.shared
@@ -18,6 +76,8 @@ struct ContentView: View {
             searchFocused: $searchFocused,
             searchQuery: $appState.history.searchQuery
           )
+
+          TabBarView(selectedTab: $appState.selectedTab)
 
           HistoryListView(
             searchQuery: $appState.history.searchQuery,

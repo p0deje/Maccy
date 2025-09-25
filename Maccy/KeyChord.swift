@@ -32,6 +32,7 @@ enum KeyChord: CaseIterable {
   case pinOrUnpin
   case selectCurrentItem
   case close
+  case cycleTab
   case unknown
 
   init(_ event: NSEvent?) {
@@ -100,6 +101,8 @@ enum KeyChord: CaseIterable {
     case (.return, _),
          (.keypadEnter, _):
       self = .selectCurrentItem
+    case (.tab, []):
+      self = .cycleTab
     case (.escape, _):
       self = .close
     case (_, _) where !modifierFlags.isDisjoint(with: [.command, .control, .option]):
