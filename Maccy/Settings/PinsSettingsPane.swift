@@ -11,8 +11,13 @@ struct PinPickerView: View {
       let uniquePins = Array(Set(availablePins + [pin])).sorted()
       Picker("", selection: $item.pin) {
         ForEach(uniquePins, id: \.self) { pin in
-          Text(pin)
-            .tag(pin as String?)
+          if pin == "_" {
+            Text("-")
+              .tag(pin as String?)
+          } else {
+            Text(pin)
+              .tag(pin as String?)
+          }
         }
       }
       .controlSize(.small)
