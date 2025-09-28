@@ -72,28 +72,16 @@ class Popup {
 
   func resize(height: CGFloat) {
     let contentHeight = height + headerHeight + pinnedItemsHeight + footerHeight + (verticalPadding * 2)
-    let currentWindowHeight = AppState.shared.appDelegate?.panel.frame.height ?? Defaults[.windowSize].height
-    let savedWindowHeight = Defaults[.windowSize].height
+    let userAdjustedHeight = Defaults[.userAdjustedWindowSize].height
     
-    // Determine the appropriate target height
-    var targetHeight: CGFloat
-    
-    // If the current window is larger than saved size, it means user manually resized it
-    // In this case, prefer to keep the current size unless content really needs more space
-    if currentWindowHeight > savedWindowHeight {
-      // User has manually enlarged the window, keep it large unless content needs even more space
-      targetHeight = max(contentHeight, currentWindowHeight)
-    } else {
-      // Use the larger of content height or saved user preference
-      targetHeight = max(contentHeight, savedWindowHeight)
-    }
+    // 始终使用用户手动调整的窗口高度，不管是否在搜索
+    // 这样可以确保窗口大小保持一致，不会因为搜索而变化
+    let targetHeight = userAdjustedHeight
     
     self.height = contentHeight
     
-    // Only actually resize the window if the target is different from current
-    if abs(targetHeight - currentWindowHeight) > 1 { // 1px tolerance to avoid unnecessary resizing
-      AppState.shared.appDelegate?.panel.verticallyResize(to: targetHeight)
-    }
+    // Always apply the resize to ensure consistency
+    AppState.shared.appDelegate?.panel.verticallyResize(to: targetHeight)
     
     needsResize = false
   }

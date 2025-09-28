@@ -55,7 +55,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
         .ignoresSafeArea()
         .gesture(DragGesture()
           .onEnded { _ in
-            self.saveWindowFrame(frame: self.frame)
+            self.saveUserAdjustedWindowFrame(frame: self.frame)
         })
     )
   }
@@ -69,10 +69,10 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
-    // Use the saved window size instead of limiting to the minimum
-    let savedSize = Defaults[.windowSize]
-    let targetHeight = max(height, savedSize.height) // Use the larger of content height or saved height
-    setContentSize(NSSize(width: frame.width, height: targetHeight))
+    // Always use user adjusted window size as the maximum height limit
+    let userAdjustedSize = Defaults[.userAdjustedWindowSize]
+    let targetHeight = min(height, userAdjustedSize.height) // Use the smaller of content height or user adjusted height
+    setContentSize(NSSize(width: userAdjustedSize.width, height: targetHeight))
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
     orderFrontRegardless()
     makeKey()
@@ -86,7 +86,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func verticallyResize(to newHeight: CGFloat) {
-    let newSize = NSSize(width: Defaults[.windowSize].width, height: newHeight)
+    let newSize = NSSize(width: Defaults[.userAdjustedWindowSize].width, height: newHeight)
 
     var newOrigin = frame.origin
     newOrigin.y += (frame.height - newSize.height)
@@ -96,7 +96,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
       animator().setFrame(NSRect(origin: newOrigin, size: newSize), display: true)
     }
     
-    // Save the new window size
+    // Only save current window size for internal tracking, don't overwrite user adjusted size
     saveWindowFrame(frame: NSRect(origin: newOrigin, size: newSize))
   }
 
@@ -109,16 +109,21 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
       Defaults[.windowPosition] = NSPoint(x: anchorX / screenFrame.width, y: anchorY / screenFrame.height)
     }
   }
+  
+  func saveUserAdjustedWindowFrame(frame: NSRect) {
+    Defaults[.userAdjustedWindowSize] = frame.size
+    saveWindowFrame(frame: frame)
+  }
 
   func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
-    saveWindowFrame(frame: NSRect(origin: frame.origin, size: frameSize))
+    saveUserAdjustedWindowFrame(frame: NSRect(origin: frame.origin, size: frameSize))
 
     return frameSize
   }
 
   func windowDidResize(_ notification: Notification) {
-    // Save window size after resize is complete
-    saveWindowFrame(frame: frame)
+    // Save window size after resize is complete - this is user manual resize
+    saveUserAdjustedWindowFrame(frame: frame)
   }
 
   // Close automatically when out of focus, e.g. outside click.
@@ -131,8 +136,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   override func close() {
-    // Save current window size before closing
-    saveWindowFrame(frame: frame)
+    // Don't save window size on close - it should only be saved on user manual resize
     super.close()
     isPresented = false
     statusBarButton?.isHighlighted = false
