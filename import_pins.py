@@ -52,20 +52,28 @@ class MaccyPinImporter:
     
     def check_duplicate_content(self, cursor, content):
         """检查是否存在重复内容"""
+        if not content or not content.strip():
+            return False
         cursor.execute("""
-            SELECT COUNT(*) FROM ZHISTORYITEMCONTENT 
+            SELECT COUNT(*) FROM ZHISTORYITEMCONTENT
             WHERE ZVALUE = ?
         """, (content.encode('utf-8'),))
         return cursor.fetchone()[0] > 0
     
     def create_history_item(self, cursor, content, pin=None):
         """创建新的历史条目"""
+        if not content or not content.strip():
+            print("❌ 跳过空内容")
+            return None
+            
         now = datetime.now()
         # SwiftData使用的时间戳格式（从2001年1月1日开始的秒数）
         timestamp = (now - datetime(2001, 1, 1)).total_seconds()
         
         # 生成标题（取前100个字符，保持单行显示）
         title = content.replace('\n', ' ').strip()[:100]
+        if not title:
+            title = "无标题"
         
         # 对于无快捷键的固定条目，使用特殊标记
         actual_pin = pin if pin else "_"
@@ -125,7 +133,8 @@ class MaccyPinImporter:
             if not entries and content.strip():
                 entries = [line.rstrip() for line in content.splitlines() if line.strip()]
             
-            lines = entries
+            # 过滤掉空条目
+            lines = [entry for entry in entries if entry and entry.strip()]
             
         except Exception as e:
             print(f"❌ 读取文件失败: {e}")
@@ -163,6 +172,11 @@ class MaccyPinImporter:
             shortcut_count = 0
             
             for i, line in enumerate(lines):
+                # 跳过空内容
+                if not line or not line.strip():
+                    skipped_count += 1
+                    continue
+                    
                 # 检查重复内容
                 if self.check_duplicate_content(cursor, line):
                     display_text = line.replace('\n', ' ')[:50]
@@ -178,6 +192,10 @@ class MaccyPinImporter:
                 
                 try:
                     item_id = self.create_history_item(cursor, line, pin)
+                    if item_id is None:
+                        skipped_count += 1
+                        continue
+                        
                     display_text = line.replace('\n', ' ')[:50]
                     if pin:
                         print(f"📌 导入固定条目 [{pin}]: {display_text}{'...' if len(line) > 50 else ''}")
