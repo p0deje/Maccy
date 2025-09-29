@@ -78,7 +78,7 @@ class MaccyPinImporter:
             ) VALUES (
                 NULL, 1, 1, ?, ?, ?, 1, ?, ?
             )
-        """, ("PinImporter", timestamp, timestamp, actual_pin, title))
+        """, ("com.maccy.import", timestamp, timestamp, actual_pin, title))
         
         item_id = cursor.lastrowid
         
@@ -107,18 +107,23 @@ class MaccyPinImporter:
             entries = []
             current_entry = []
             
-            for line in content.split('\n'):
-                line = line.strip()
-                if line:  # 非空行
-                    current_entry.append(line)
+            for line in content.splitlines():
+                stripped_line = line.rstrip()
+                if stripped_line:  # 非空行
+                    current_entry.append(stripped_line)
                 else:  # 空行，结束当前条目
                     if current_entry:
+                        # 保留原始格式，不合并多行
                         entries.append('\n'.join(current_entry))
                         current_entry = []
             
             # 处理最后一个条目（如果文件末尾没有空行）
             if current_entry:
                 entries.append('\n'.join(current_entry))
+            
+            # 如果没有空白行，每行作为一个条目
+            if not entries and content.strip():
+                entries = [line.rstrip() for line in content.splitlines() if line.strip()]
             
             lines = entries
             
