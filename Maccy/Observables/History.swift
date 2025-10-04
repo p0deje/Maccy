@@ -133,6 +133,7 @@ class History { // swiftlint:disable:this type_body_length
     }
     
     Storage.shared.context.insert(item)
+    Storage.shared.context.processPendingChanges()
     try? Storage.shared.context.save()
 
     var removedItemIndex: Int?
@@ -208,14 +209,16 @@ class History { // swiftlint:disable:this type_body_length
       sessionLog.removeValues { $0.pin == nil }
       items = all
 
-      try? Storage.shared.context.delete(
-        model: HistoryItem.self,
-        where: #Predicate { $0.pin == nil }
-      )
-      try? Storage.shared.context.delete(
-        model: HistoryItemContent.self,
-        where: #Predicate { $0.item?.pin == nil }
-      )
+      try? Storage.shared.context.transaction {
+        try? Storage.shared.context.delete(
+          model: HistoryItem.self,
+          where: #Predicate { $0.pin == nil }
+        )
+        try? Storage.shared.context.delete(
+          model: HistoryItemContent.self,
+          where: #Predicate { $0.item?.pin == nil }
+        )
+      }
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
@@ -256,6 +259,7 @@ class History { // swiftlint:disable:this type_body_length
     cleanup(item)
     withLogging("Removing history item") {
       Storage.shared.context.delete(item.item)
+      Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
 
