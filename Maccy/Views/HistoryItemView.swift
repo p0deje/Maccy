@@ -18,11 +18,17 @@ struct HistoryItemView: View {
     ) {
       Text(verbatim: item.title)
     }
+    .onAppear {
+      item.ensureThumbnailImage()
+    }
     .onTapGesture {
       appState.history.select(item)
     }
     .popover(isPresented: $item.showPreview, arrowEdge: .trailing) {
       PreviewItemView(item: item)
+        .onAppear {
+          item.ensurePreviewImage()
+        }
     }
   }
 }

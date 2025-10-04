@@ -101,7 +101,7 @@ class History { // swiftlint:disable:this type_body_length
     Task {
       for await _ in Defaults.updates(.imageMaxHeight, initial: false) {
         for item in items {
-          await item.sizeImages()
+          await item.cleanupImages()
         }
       }
     }
@@ -127,6 +127,9 @@ class History { // swiftlint:disable:this type_body_length
     while all.filter(\.isUnpinned).count >= Defaults[.size] {
       delete(all.last(where: \.isUnpinned))
     }
+    
+    Storage.shared.context.insert(item)
+    try? Storage.shared.context.save()
 
     var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
@@ -262,12 +265,9 @@ class History { // swiftlint:disable:this type_body_length
     }
   }
 
+  @MainActor
   private func cleanup(_ item: HistoryItemDecorator) {
-    item.imageGenerationTask?.cancel()
-    item.thumbnailImage?.recache()
-    item.previewImage?.recache()
-    item.thumbnailImage = nil
-    item.previewImage = nil
+    item.cleanupImages()
   }
 
   @MainActor
