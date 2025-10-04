@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import AppKit.NSRunningApplication
 import Defaults
 import Foundation
@@ -114,6 +115,8 @@ class History { // swiftlint:disable:this type_body_length
     all = sorter.sort(results).map { HistoryItemDecorator($0) }
     items = all
 
+    limitHistorySize(to: Defaults[.size])
+
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
     Task {
@@ -121,17 +124,19 @@ class History { // swiftlint:disable:this type_body_length
     }
   }
 
-  @discardableResult
   @MainActor
-  func add(_ item: HistoryItem) -> HistoryItemDecorator {
+  private func limitHistorySize(to maxSize: Int) {
     let unpinned = all.filter(\.isUnpinned)
-    let maxSize = Defaults[.size]
     if unpinned.count > maxSize {
       unpinned[maxSize...].forEach { item in
         delete(item)
       }
     }
-    
+  }
+
+  @discardableResult
+  @MainActor
+  func add(_ item: HistoryItem) -> HistoryItemDecorator {
     Storage.shared.context.insert(item)
     Storage.shared.context.processPendingChanges()
     try? Storage.shared.context.save()
@@ -158,6 +163,10 @@ class History { // swiftlint:disable:this type_body_length
         Notifier.notify(body: item.title, sound: .write)
       }
     }
+
+    // Remove exceeding items. Do this after the item is added to avoid removing something
+    // if a duplicate was found as then the size already stayed the same.
+    limitHistorySize(to: Defaults[.size])
 
     sessionLog[Clipboard.shared.changeCount] = item
 
