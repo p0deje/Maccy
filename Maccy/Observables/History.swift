@@ -124,8 +124,12 @@ class History { // swiftlint:disable:this type_body_length
   @discardableResult
   @MainActor
   func add(_ item: HistoryItem) -> HistoryItemDecorator {
-    while all.filter(\.isUnpinned).count >= Defaults[.size] {
-      delete(all.last(where: \.isUnpinned))
+    let unpinned = all.filter(\.isUnpinned)
+    let maxSize = Defaults[.size]
+    if unpinned.count > maxSize {
+      unpinned[maxSize...].forEach { item in
+        delete(item)
+      }
     }
     
     Storage.shared.context.insert(item)

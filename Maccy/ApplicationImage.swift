@@ -1,3 +1,4 @@
+import Defaults
 import SwiftUI
 
 class ApplicationImage {
