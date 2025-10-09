@@ -57,7 +57,7 @@ class MaccyPinImporter:
         cursor.execute("""
             SELECT COUNT(*) FROM ZHISTORYITEMCONTENT
             WHERE ZVALUE = ?
-        """, (content.encode('utf-8'),))
+        """, (content,))
         return cursor.fetchone()[0] > 0
     
     def create_history_item(self, cursor, content, pin=None):
@@ -97,7 +97,7 @@ class MaccyPinImporter:
             ) VALUES (
                 NULL, 2, 1, ?, ?, ?
             )
-        """, ("public.utf8-plain-text", content.encode('utf-8'), item_id))
+        """, ("public.utf8-plain-text", content, item_id))
         
         return item_id
     
