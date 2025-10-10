@@ -112,11 +112,6 @@ class Clipboard {
   func paste() {
   // Check Accessibility permission
   _ = AXIsProcessTrusted()
-
-  // Log frontmost application
-  if NSWorkspace.shared.frontmostApplication != nil {
-    // frontApp exists, do nothing
-  }
   Accessibility.check()
 
     // Add flag that left/right modifier key has been pressed.
@@ -140,8 +135,8 @@ class Clipboard {
   let keyVUp = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: false)
   keyVDown?.flags = cmdFlag
   keyVUp?.flags = cmdFlag
-  keyVDown?.post(tap: .cghidEventTap)
-  keyVUp?.post(tap: .cghidEventTap)
+  keyVDown?.post(tap: .cgSessionEventTap)
+  keyVUp?.post(tap: .cgSessionEventTap)
   }
 
   func clear() {
