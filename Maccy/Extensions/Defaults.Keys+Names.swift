@@ -11,6 +11,9 @@ struct StorageType {
 }
 
 extension Defaults.Keys {
+  static let pinSortAscending = Key<Bool>("pinSortAscending", default: false)
+  static let sortAscending = Key<Bool>("sortAscending", default: false)
+  static let pinSortBy = Key<Sorter.By>("pinSortBy", default: .lastCopiedAt)
   static let clearOnQuit = Key<Bool>("clearOnQuit", default: false)
   static let clearSystemClipboard = Key<Bool>("clearSystemClipboard", default: false)
   static let clipboardCheckInterval = Key<Double>("clipboardCheckInterval", default: 0.5)

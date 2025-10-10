@@ -109,16 +109,6 @@ struct StorageSettingsPane: View {
         }
       }
 
-      Settings.Section(label: { Text("SortBy", tableName: "StorageSettings") }) {
-        Picker("", selection: $sortBy) {
-          ForEach(Sorter.By.allCases) { mode in
-            Text(mode.description)
-          }
-        }
-        .labelsHidden()
-        .frame(width: 160)
-        .help(Text("SortByTooltip", tableName: "StorageSettings"))
-      }
     }
   }
 }

@@ -13,10 +13,37 @@ struct HistoryListView: View {
   @Default(.previewDelay) private var previewDelay
 
   private var pinnedItems: [HistoryItemDecorator] {
-    appState.history.pinnedItems.filter(\.isVisible)
+    let pinSortBy = Defaults[.pinSortBy]
+    let ascending = Defaults[.pinSortAscending]
+    return appState.history.pinnedItems.filter(\.isVisible).sorted {
+      switch pinSortBy {
+      case .firstCopiedAt:
+        return ascending ? ($0.item.firstCopiedAt < $1.item.firstCopiedAt) : ($0.item.firstCopiedAt > $1.item.firstCopiedAt)
+      case .lastCopiedAt:
+        return ascending ? ($0.item.lastCopiedAt < $1.item.lastCopiedAt) : ($0.item.lastCopiedAt > $1.item.lastCopiedAt)
+      case .numberOfCopies:
+        return ascending ? ($0.item.numberOfCopies < $1.item.numberOfCopies) : ($0.item.numberOfCopies > $1.item.numberOfCopies)
+      case .pinKey:
+        // Ascending: A-Z, Descending: Z-A
+        return ascending ? (($0.item.pin ?? "") < ($1.item.pin ?? "")) : (($0.item.pin ?? "") > ($1.item.pin ?? ""))
+      }
+    }
   }
   private var unpinnedItems: [HistoryItemDecorator] {
-    appState.history.unpinnedItems.filter(\.isVisible)
+    let sortBy = Defaults[.sortBy]
+    let ascending = Defaults[.sortAscending]
+    return appState.history.unpinnedItems.filter(\.isVisible).sorted {
+      switch sortBy {
+      case .firstCopiedAt:
+        return ascending ? ($0.item.firstCopiedAt < $1.item.firstCopiedAt) : ($0.item.firstCopiedAt > $1.item.firstCopiedAt)
+      case .lastCopiedAt:
+        return ascending ? ($0.item.lastCopiedAt < $1.item.lastCopiedAt) : ($0.item.lastCopiedAt > $1.item.lastCopiedAt)
+      case .numberOfCopies:
+        return ascending ? ($0.item.numberOfCopies < $1.item.numberOfCopies) : ($0.item.numberOfCopies > $1.item.numberOfCopies)
+      case .pinKey:
+        return ascending ? (($0.item.pin ?? "") < ($1.item.pin ?? "")) : (($0.item.pin ?? "") > ($1.item.pin ?? ""))
+      }
+    }
   }
   private var showPinsSeparator: Bool {
     !pinnedItems.isEmpty && !unpinnedItems.isEmpty && appState.history.searchQuery.isEmpty

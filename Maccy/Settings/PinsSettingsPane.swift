@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import Defaults
 
 struct PinPickerView: View {
   @Bindable var item: HistoryItem
@@ -115,15 +116,55 @@ struct PinsSettingsPane: View {
   @Environment(AppState.self) private var appState
   @Environment(\.modelContext) private var modelContext
 
-  @Query(filter: #Predicate<HistoryItem> { $0.pin != nil }, sort: \.firstCopiedAt)
-  private var items: [HistoryItem]
+  @Query(filter: #Predicate<HistoryItem> { $0.pin != nil })
+  private var allItems: [HistoryItem]
 
   @State private var availablePins: [String] = []
   @State private var selection: PersistentIdentifier?
+  @Default(.pinSortBy) private var pinSortBy: Sorter.By
+  @Default(.pinSortAscending) private var pinSortAscending: Bool
+  @Default(.sortBy) private var sortBy: Sorter.By
+
+  private var sortedItems: [HistoryItem] {
+    allItems.sorted {
+      switch pinSortBy {
+      case .firstCopiedAt:
+        return pinSortAscending ? ($0.firstCopiedAt < $1.firstCopiedAt) : ($0.firstCopiedAt > $1.firstCopiedAt)
+      case .lastCopiedAt:
+        return pinSortAscending ? ($0.lastCopiedAt < $1.lastCopiedAt) : ($0.lastCopiedAt > $1.lastCopiedAt)
+      case .numberOfCopies:
+        return pinSortAscending ? ($0.numberOfCopies < $1.numberOfCopies) : ($0.numberOfCopies > $1.numberOfCopies)
+      case .pinKey:
+        // Ascending: A-Z, Descending: Z-A
+        return pinSortAscending ? (($0.pin ?? "") < ($1.pin ?? "")) : (($0.pin ?? "") > ($1.pin ?? ""))
+      }
+    }
+  }
 
   var body: some View {
     VStack(alignment: .leading) {
-      Table(items, selection: $selection) {
+      Section {
+        VStack(alignment: .leading, spacing: 12) {
+          HStack {
+            Text("Sort by")
+              .frame(minWidth: 60, alignment: .leading)
+            SortDropdownView(sortBy: $pinSortBy, helpText: "SortByTooltip")
+            HStack(spacing: 8) {
+              Text("Descending")
+              Toggle(isOn: $pinSortAscending) {
+                EmptyView()
+              }
+              .toggleStyle(.switch)
+              .frame(width: 40)
+              Text("Ascending")
+            }
+            .help(Text("SortOrderTooltip", tableName: "PinsSettings"))
+          }
+          // Only keep main sort dropdown and toggle
+        }
+      }
+
+      Table(sortedItems, selection: $selection) {
         TableColumn(Text("Key", tableName: "PinsSettings")) { item in
           PinPickerView(item: item, availablePins: availablePins)
             .onChange(of: item.pin) {
