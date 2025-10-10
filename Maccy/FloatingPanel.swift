@@ -84,7 +84,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func verticallyResize(to newHeight: CGFloat) {
   var newSize = Defaults[.windowSize]
-  newSize.height = newHeight
+  newSize.height = min(newHeight, newSize.height)
 
     var newOrigin = frame.origin
     newOrigin.y += (frame.height - newSize.height)
