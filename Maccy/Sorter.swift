@@ -4,8 +4,6 @@ import Defaults
 // swiftlint:disable identifier_name
 // swiftlint:disable type_name
 class Sorter {
-// ...existing code...
-// ...existing code...
 // Add Defaults key for pinSortBy
 
   public enum By: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
