@@ -11,6 +11,7 @@ struct HistoryListView: View {
 
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
+  @Default(.enableTabPages) private var enableTabPages
 
   private var pinnedItems: [HistoryItemDecorator] {
     appState.history.pinnedItems.filter(\.isVisible)
@@ -19,11 +20,24 @@ struct HistoryListView: View {
     appState.history.unpinnedItems.filter(\.isVisible)
   }
   private var showPinsSeparator: Bool {
-    !pinnedItems.isEmpty && !unpinnedItems.isEmpty && appState.history.searchQuery.isEmpty
+    !enableTabPages && !pinnedItems.isEmpty && !unpinnedItems.isEmpty && appState.history.searchQuery.isEmpty
+  }
+
+  private var displayedItems: [HistoryItemDecorator] {
+    if enableTabPages {
+      switch appState.selectedTab {
+      case .history:
+        return unpinnedItems
+      case .pinned:
+        return pinnedItems
+      }
+    } else {
+      return appState.history.items.filter(\.isVisible)
+    }
   }
 
   var body: some View {
-    if pinTo == .top {
+    if !enableTabPages && pinTo == .top {
       LazyVStack(spacing: 0) {
         ForEach(pinnedItems) { item in
           HistoryItemView(item: item)
@@ -48,7 +62,7 @@ struct HistoryListView: View {
     ScrollView {
       ScrollViewReader { proxy in
         LazyVStack(spacing: 0) {
-          ForEach(unpinnedItems) { item in
+          ForEach(enableTabPages ? displayedItems : unpinnedItems) { item in
             HistoryItemView(item: item)
           }
         }
@@ -93,7 +107,7 @@ struct HistoryListView: View {
       .contentMargins(.leading, 10, for: .scrollIndicators)
     }
 
-    if pinTo == .bottom {
+    if !enableTabPages && pinTo == .bottom {
       LazyVStack(spacing: 0) {
         if showPinsSeparator {
           Divider()

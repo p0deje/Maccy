@@ -128,6 +128,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
       Defaults[.migrations]["2024-07-01-version-2"] = true
     }
+    
+    // Initialize userAdjustedWindowSize if it hasn't been set yet
+    if Defaults[.migrations]["2024-12-28-user-adjusted-window-size"] != true {
+      // If user has already adjusted window size, use current windowSize as userAdjustedWindowSize
+      Defaults[.userAdjustedWindowSize] = Defaults[.windowSize]
+      Defaults[.migrations]["2024-12-28-user-adjusted-window-size"] = true
+    }
 
     // The following defaults are not used in Maccy 2.x
     // and should be removed in 3.x.

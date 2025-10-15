@@ -71,8 +71,18 @@ class Popup {
   }
 
   func resize(height: CGFloat) {
-    self.height = height + headerHeight + pinnedItemsHeight + footerHeight + (verticalPadding * 2)
-    AppState.shared.appDelegate?.panel.verticallyResize(to: self.height)
+    let contentHeight = height + headerHeight + pinnedItemsHeight + footerHeight + (verticalPadding * 2)
+    let userAdjustedHeight = Defaults[.userAdjustedWindowSize].height
+    
+    // 始终使用用户手动调整的窗口高度，不管是否在搜索
+    // 这样可以确保窗口大小保持一致，不会因为搜索而变化
+    let targetHeight = userAdjustedHeight
+    
+    self.height = contentHeight
+    
+    // Always apply the resize to ensure consistency
+    AppState.shared.appDelegate?.panel.verticallyResize(to: targetHeight)
+    
     needsResize = false
   }
 

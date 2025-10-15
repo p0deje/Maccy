@@ -3,6 +3,20 @@ import Defaults
 import Foundation
 import Settings
 
+enum Tab: CaseIterable {
+  case history
+  case pinned
+  
+  var title: String {
+    switch self {
+    case .history:
+      return NSLocalizedString("History", comment: "History tab title")
+    case .pinned:
+      return NSLocalizedString("Pinned", comment: "Pinned tab title")
+    }
+  }
+}
+
 @Observable
 class AppState: Sendable {
   static let shared = AppState()
@@ -19,6 +33,8 @@ class AppState: Sendable {
       scrollTarget = selection
     }
   }
+
+  var selectedTab: Tab = .history
 
   func selectWithoutScrolling(_ item: UUID?) {
     history.selectedItem = nil
@@ -88,44 +104,85 @@ class AppState: Sendable {
   }
 
   func highlightFirst() {
-    if let item = history.items.first(where: \.isVisible) {
-      selectFromKeyboardNavigation(item.id)
+    if Defaults[.enableTabPages] {
+      let items = selectedTab == .history ? history.unpinnedItems.filter(\.isVisible) : history.pinnedItems.filter(\.isVisible)
+      if let item = items.first {
+        selectFromKeyboardNavigation(item.id)
+      }
+    } else {
+      if let item = history.items.first(where: \.isVisible) {
+        selectFromKeyboardNavigation(item.id)
+      }
     }
   }
 
   func highlightPrevious() {
     isKeyboardNavigating = true
-    if let selectedItem = history.selectedItem {
-      if let nextItem = history.items.filter(\.isVisible).item(before: selectedItem) {
-        selectFromKeyboardNavigation(nextItem.id)
+    if Defaults[.enableTabPages] {
+      let items = selectedTab == .history ? history.unpinnedItems.filter(\.isVisible) : history.pinnedItems.filter(\.isVisible)
+      if let selectedItem = history.selectedItem {
+        if let nextItem = items.item(before: selectedItem) {
+          selectFromKeyboardNavigation(nextItem.id)
+        }
+      } else if let selectedItem = footer.selectedItem {
+        if let nextItem = footer.items.filter(\.isVisible).item(before: selectedItem) {
+          selectFromKeyboardNavigation(nextItem.id)
+        } else if selectedItem == footer.items.first(where: \.isVisible),
+                  let nextItem = items.last {
+          selectFromKeyboardNavigation(nextItem.id)
+        }
       }
-    } else if let selectedItem = footer.selectedItem {
-      if let nextItem = footer.items.filter(\.isVisible).item(before: selectedItem) {
-        selectFromKeyboardNavigation(nextItem.id)
-      } else if selectedItem == footer.items.first(where: \.isVisible),
-                let nextItem = history.items.last(where: \.isVisible) {
-        selectFromKeyboardNavigation(nextItem.id)
+    } else {
+      if let selectedItem = history.selectedItem {
+        if let nextItem = history.items.filter(\.isVisible).item(before: selectedItem) {
+          selectFromKeyboardNavigation(nextItem.id)
+        }
+      } else if let selectedItem = footer.selectedItem {
+        if let nextItem = footer.items.filter(\.isVisible).item(before: selectedItem) {
+          selectFromKeyboardNavigation(nextItem.id)
+        } else if selectedItem == footer.items.first(where: \.isVisible),
+                  let nextItem = history.items.last(where: \.isVisible) {
+          selectFromKeyboardNavigation(nextItem.id)
+        }
       }
     }
   }
 
   func highlightNext(allowCycle: Bool = false) {
-    if let selectedItem = history.selectedItem {
-      if let nextItem = history.items.filter(\.isVisible).item(after: selectedItem) {
-        selectFromKeyboardNavigation(nextItem.id)
-      } else if selectedItem == history.items.filter(\.isVisible).last,
-                let nextItem = footer.items.first(where: \.isVisible) {
-        selectFromKeyboardNavigation(nextItem.id)
-      }
-    } else if let selectedItem = footer.selectedItem {
-      if let nextItem = footer.items.filter(\.isVisible).item(after: selectedItem) {
-        selectFromKeyboardNavigation(nextItem.id)
-      } else if allowCycle {
-        // End of footer; cycle to the beginning
-        highlightFirst()
+    if Defaults[.enableTabPages] {
+      let items = selectedTab == .history ? history.unpinnedItems.filter(\.isVisible) : history.pinnedItems.filter(\.isVisible)
+      if let selectedItem = history.selectedItem {
+        if let nextItem = items.item(after: selectedItem) {
+          selectFromKeyboardNavigation(nextItem.id)
+        } else if allowCycle {
+          highlightFirst()
+        }
+      } else if let selectedItem = footer.selectedItem {
+        if let nextItem = footer.items.filter(\.isVisible).item(after: selectedItem) {
+          selectFromKeyboardNavigation(nextItem.id)
+        } else if allowCycle {
+          highlightFirst()
+        }
+      } else {
+        selectFromKeyboardNavigation(footer.items.first(where: \.isVisible)?.id)
       }
     } else {
-      selectFromKeyboardNavigation(footer.items.first(where: \.isVisible)?.id)
+      if let selectedItem = history.selectedItem {
+        if let nextItem = history.items.filter(\.isVisible).item(after: selectedItem) {
+          selectFromKeyboardNavigation(nextItem.id)
+        } else if selectedItem == history.items.filter(\.isVisible).last,
+                  let nextItem = footer.items.first(where: \.isVisible) {
+          selectFromKeyboardNavigation(nextItem.id)
+        }
+      } else if let selectedItem = footer.selectedItem {
+        if let nextItem = footer.items.filter(\.isVisible).item(after: selectedItem) {
+          selectFromKeyboardNavigation(nextItem.id)
+        } else if allowCycle {
+          highlightFirst()
+        }
+      } else {
+        selectFromKeyboardNavigation(footer.items.first(where: \.isVisible)?.id)
+      }
     }
   }
 
@@ -142,6 +199,15 @@ class AppState: Sendable {
     } else {
       selectFromKeyboardNavigation(footer.items.first(where: \.isVisible)?.id)
     }
+  }
+
+  func cycleTab() {
+    guard Defaults[.enableTabPages] else { return }
+    let allTabs = Tab.allCases
+    guard let currentIndex = allTabs.firstIndex(of: selectedTab) else { return }
+    let nextIndex = (currentIndex + 1) % allTabs.count
+    selectedTab = allTabs[nextIndex]
+    highlightFirst()
   }
 
   func openAbout() {

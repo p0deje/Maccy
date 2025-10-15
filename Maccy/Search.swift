@@ -35,6 +35,7 @@ class Search {
 
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
+  private let searchTextLimit = 10_000
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
     guard !string.isEmpty else {
@@ -56,7 +57,8 @@ class Search {
   private func fuzzySearch(string: String, within: [Searchable]) -> [SearchResult] {
     let pattern = fuse.createPattern(from: string)
     let searchResults: [SearchResult] = within.compactMap { item in
-      fuzzySearch(for: pattern, in: item.title, of: item)
+      let searchText = searchableText(for: item)
+      return fuzzySearch(for: pattern, in: searchText, of: item)
     }
     let sortedResults = searchResults.sorted(by: { ($0.score ?? 0) < ($1.score ?? 0) })
     return sortedResults
@@ -91,12 +93,25 @@ class Search {
     }
   }
 
+  private func searchableText(for item: Searchable) -> String {
+    // Use the full text content instead of just the title
+    let fullText = item.text
+    if fullText.count > searchTextLimit {
+      let stopIndex = fullText.index(fullText.startIndex, offsetBy: searchTextLimit)
+      return String(fullText[...stopIndex])
+    }
+    return fullText
+  }
+
   private func simpleSearch(
     string: String,
     within: [Searchable],
     options: NSString.CompareOptions
   ) -> [SearchResult] {
-    return within.compactMap { simpleSearch(for: string, in: $0.title, of: $0, options: options) }
+    return within.compactMap { item in
+      let searchText = searchableText(for: item)
+      return simpleSearch(for: string, in: searchText, of: item, options: options)
+    }
   }
 
   private func simpleSearch(

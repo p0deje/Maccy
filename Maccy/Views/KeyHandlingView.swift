@@ -102,6 +102,9 @@ struct KeyHandlingView<Content: View>: View {
         case .selectCurrentItem:
           appState.select()
           return .handled
+        case .cycleTab:
+          appState.cycleTab()
+          return .handled
         case .close:
           appState.popup.close()
           return .handled
