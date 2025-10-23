@@ -112,9 +112,19 @@ class Clipboard {
   func paste() {
     Accessibility.check()
 
+    // Check if destination app is iTerm and clipboard contains an image
+    let destinationApp = NSWorkspace.shared.frontmostApplication
+    let isIterm = destinationApp?.bundleIdentifier == "com.googlecode.iterm2"
+    let imageTypes: Set<NSPasteboard.PasteboardType> = [.png, .tiff, .jpeg, .heic]
+    let pasteboardTypes = Set(pasteboard.types ?? [])
+    let hasImage = !imageTypes.isDisjoint(with: pasteboardTypes)
+
+    // Use Control modifier for iTerm with images, otherwise use Command
+    let pasteModifiers: NSEvent.ModifierFlags = (isIterm && hasImage) ? .control : KeyChord.pasteKeyModifiers
+
     // Add flag that left/right modifier key has been pressed.
     // See https://github.com/TermiT/Flycut/pull/18 for details.
-    let cmdFlag = CGEventFlags(rawValue: UInt64(KeyChord.pasteKeyModifiers.rawValue) | 0x000008)
+    let cmdFlag = CGEventFlags(rawValue: UInt64(pasteModifiers.rawValue) | 0x000008)
     var vCode = Sauce.shared.keyCode(for: KeyChord.pasteKey)
 
     // Force QWERTY keycode when keyboard layout switches to
