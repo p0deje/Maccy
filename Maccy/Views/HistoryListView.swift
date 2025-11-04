@@ -24,25 +24,7 @@ struct HistoryListView: View {
 
   var body: some View {
     if pinTo == .top {
-      LazyVStack(spacing: 0) {
-        ForEach(pinnedItems) { item in
-          HistoryItemView(item: item)
-        }
-
-        if showPinsSeparator {
-          Divider()
-            .padding(.horizontal, 10)
-            .padding(.vertical, 3)
-        }
-      }
-      .background {
-        GeometryReader { geo in
-          Color.clear
-            .task(id: geo.size.height) {
-              appState.popup.pinnedItemsHeight = geo.size.height
-            }
-        }
-      }
+      PinnedSectionView()
     }
 
     ScrollView {

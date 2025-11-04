@@ -11,6 +11,8 @@ class AppState: Sendable {
   var popup: Popup
   var history: History
   var footer: Footer
+  // 管理固定区域的开关（弹出面板顶部“Pinned”区域的“管理”模式）
+  var pinnedManageMode: Bool = false
 
   var scrollTarget: UUID?
   var selection: UUID? {
