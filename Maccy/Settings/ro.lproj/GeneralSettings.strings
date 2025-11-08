@@ -8,7 +8,6 @@
 "Fuzzy" = "Aproximativă";
 "Regex" = "Expresii regulate";
 "Mixed" = "Mixt";
-"NotificationsAndSounds" = "Notificări și sunet 􀱁";
 "CheckForUpdates" = "Verifică actualizările automat";
 "Modifiers" = "Personalizați comportamentul la selectarea unui element:\n- Selectați cu %@ apăsat pentru a copia un element.\n- Selectați cu %@ apăsat pentru a copia și lipi un element.\n- Selectați cu %@ apăsat pentru a copia, șterge formatarea și lipi un element.";
 "Behavior" = "Comportament:";
