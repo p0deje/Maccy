@@ -5,10 +5,6 @@ import LaunchAtLogin
 import Settings
 
 struct GeneralSettingsPane: View {
-  private let notificationsURL = URL(
-    string: "x-apple.systempreferences:com.apple.preference.notifications?id=\(Bundle.main.bundleIdentifier ?? "")"
-  )
-
   @Default(.searchMode) private var searchMode
 
   @State private var copyModifier = HistoryItemAction.copy.modifierFlags.description
@@ -93,14 +89,6 @@ struct GeneralSettingsPane: View {
         .fixedSize(horizontal: false, vertical: true)
         .foregroundStyle(.gray)
         .controlSize(.small)
-      }
-
-      Settings.Section(title: "") {
-        if let notificationsURL = notificationsURL {
-          Link(destination: notificationsURL, label: {
-            Text("NotificationsAndSounds", tableName: "GeneralSettings")
-          })
-        }
       }
     }
   }

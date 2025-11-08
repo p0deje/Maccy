@@ -147,7 +147,9 @@ class History { // swiftlint:disable:this type_body_length
       }
     } else {
       Task {
-        Notifier.notify(body: item.title, sound: .write)
+        if Defaults[.notifyOnCopy] {
+          Notifier.notify(body: item.title, sound: .write)
+        }
       }
     }
 

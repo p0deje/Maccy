@@ -37,6 +37,8 @@ extension Defaults.Keys {
   static let lastReviewRequestedAt = Key<Date>("lastReviewRequestedAt", default: Date.now)
   static let menuIcon = Key<MenuIcon>("menuIcon", default: .maccy)
   static let migrations = Key<[String: Bool]>("migrations", default: [:])
+  static let notifyOnCopy = Key<Bool>("notifyOnCopy", default: false)
+  static let notifyOnSelection = Key<Bool>("notifyOnSelection", default: false)
   static let numberOfUsages = Key<Int>("numberOfUsages", default: 0)
   static let pasteByDefault = Key<Bool>("pasteByDefault", default: false)
   static let pinTo = Key<PinsPosition>("pinTo", default: .top)

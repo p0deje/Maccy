@@ -161,6 +161,13 @@ class AppState: Sendable {
             GeneralSettingsPane()
           },
           Settings.Pane(
+            identifier: Settings.PaneIdentifier.notifications,
+            title: NSLocalizedString("Title", tableName: "NotificationsSettings", comment: ""),
+            toolbarIcon: NSImage.bell!
+          ) {
+            NotificationsSettingsPane()
+          },
+          Settings.Pane(
             identifier: Settings.PaneIdentifier.storage,
             title: NSLocalizedString("Title", tableName: "StorageSettings", comment: ""),
             toolbarIcon: NSImage.externaldrive!
