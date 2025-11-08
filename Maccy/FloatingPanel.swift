@@ -55,7 +55,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
         .ignoresSafeArea()
         .gesture(DragGesture()
           .onEnded { _ in
-            self.saveWindowFrame(frame: self.frame)
+            self.saveWindowPosition()
         })
     )
   }
@@ -95,14 +95,17 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     }
   }
 
-  func saveWindowFrame(frame: NSRect) {
-    Defaults[.windowSize] = frame.size
-
+  func saveWindowPosition() {
     if let screenFrame = screen?.visibleFrame {
       let anchorX = frame.minX + frame.width / 2 - screenFrame.minX
       let anchorY = frame.maxY - screenFrame.minY
       Defaults[.windowPosition] = NSPoint(x: anchorX / screenFrame.width, y: anchorY / screenFrame.height)
     }
+  }
+
+  func saveWindowFrame(frame: NSRect) {
+    Defaults[.windowSize] = frame.size
+    saveWindowPosition()
   }
 
   func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
