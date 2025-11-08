@@ -2,6 +2,7 @@ import Defaults
 import KeyboardShortcuts
 import Sparkle
 import SwiftUI
+import UserNotifications
 
 class AppDelegate: NSObject, NSApplicationDelegate {
   var panel: FloatingPanel<ContentView>!
@@ -127,6 +128,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       UserDefaults.standard.removeObject(forKey: "hideTitle")
 
       Defaults[.migrations]["2024-07-01-version-2"] = true
+    }
+
+    if Defaults[.migrations]["2025-01-notifications"] != true {
+      // Enable notification settings for users who have already granted permissions.
+      let center = UNUserNotificationCenter.current()
+      let semaphore = DispatchSemaphore(value: 0)
+
+      center.getNotificationSettings { settings in
+        if settings.authorizationStatus == .authorized {
+          Defaults[.notifyOnCopy] = true
+          Defaults[.notifyOnSelection] = true
+        }
+        semaphore.signal()
+      }
+
+      _ = semaphore.wait(timeout: .now() + 1)
+      Defaults[.migrations]["2025-01-notifications"] = true
     }
 
     // The following defaults are not used in Maccy 2.x
