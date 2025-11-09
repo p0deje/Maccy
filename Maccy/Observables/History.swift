@@ -8,6 +8,8 @@ import Sauce
 import Settings
 import SwiftData
 
+// swiftlint:disable file_length
+
 @Observable
 class History { // swiftlint:disable:this type_body_length
   static let shared = History()
