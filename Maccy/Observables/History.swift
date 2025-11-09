@@ -313,7 +313,21 @@ class History { // swiftlint:disable:this type_body_length
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
+    let previousPin = item.item.pin
     item.togglePin()
+
+    // Maintain stable pinned order in Defaults
+    var order = Defaults[.pinnedOrder]
+    if let prev = previousPin, item.item.pin == nil {
+      // Unpin: remove from order
+      order.removeAll { $0 == prev }
+    } else if let newPin = item.item.pin {
+      // Pin: append if missing
+      if !order.contains(newPin) {
+        order.append(newPin)
+      }
+    }
+    Defaults[.pinnedOrder] = order
 
     let sortedItems = sorter.sort(all.map(\.item))
     if let currentIndex = all.firstIndex(of: item),
@@ -329,6 +343,55 @@ class History { // swiftlint:disable:this type_body_length
     if item.isUnpinned {
       AppState.shared.scrollTarget = item.id
     }
+  }
+
+  // MARK: - Pinned items reordering
+  @MainActor
+  func movePinnedUp(_ item: HistoryItemDecorator) {
+    guard let pin = item.item.pin else { return }
+
+    var order = Defaults[.pinnedOrder]
+    if order.isEmpty {
+      order = pinnedItems.compactMap { $0.item.pin }
+    }
+
+    guard let idx = order.firstIndex(of: pin), idx > 0 else { return }
+    order.swapAt(idx, idx - 1)
+    Defaults[.pinnedOrder] = order
+
+    let sortedItems = sorter.sort(all.map(\.item))
+    var reordered: [HistoryItemDecorator] = []
+    for it in sortedItems {
+      if let dec = all.first(where: { $0.item == it }) {
+        reordered.append(dec)
+      }
+    }
+    all = reordered
+    items = all
+  }
+
+  @MainActor
+  func movePinnedDown(_ item: HistoryItemDecorator) {
+    guard let pin = item.item.pin else { return }
+
+    var order = Defaults[.pinnedOrder]
+    if order.isEmpty {
+      order = pinnedItems.compactMap { $0.item.pin }
+    }
+
+    guard let idx = order.firstIndex(of: pin), idx < (order.count - 1) else { return }
+    order.swapAt(idx, idx + 1)
+    Defaults[.pinnedOrder] = order
+
+    let sortedItems = sorter.sort(all.map(\.item))
+    var reordered: [HistoryItemDecorator] = []
+    for it in sortedItems {
+      if let dec = all.first(where: { $0.item == it }) {
+        reordered.append(dec)
+      }
+    }
+    all = reordered
+    items = all
   }
 
   @MainActor

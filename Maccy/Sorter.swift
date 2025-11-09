@@ -24,9 +24,36 @@ class Sorter {
   }
 
   func sort(_ items: [HistoryItem], by: By = Defaults[.sortBy]) -> [HistoryItem] {
-    return items
-      .sorted(by: { return bySortingAlgorithm($0, $1, by) })
-      .sorted(by: byPinned)
+    let byAlgorithm = items.sorted(by: { return bySortingAlgorithm($0, $1, by) })
+
+    let pinned = byAlgorithm.filter { $0.pin != nil }
+    let unpinned = byAlgorithm.filter { $0.pin == nil }
+
+    // Respect user-defined pinned order if present
+    let order = Defaults[.pinnedOrder]
+    let orderedPinned: [HistoryItem]
+    if order.isEmpty {
+      orderedPinned = pinned
+    } else {
+      var result: [HistoryItem] = []
+      // First, pins that are in the order list
+      for key in order {
+        if let item = pinned.first(where: { $0.pin == key }) {
+          result.append(item)
+        }
+      }
+      // Then, any remaining pins (e.g., new ones) keeping their algorithm order
+      for item in pinned where !order.contains(item.pin ?? "") {
+        result.append(item)
+      }
+      orderedPinned = result
+    }
+
+    if Defaults[.pinTo] == .bottom {
+      return unpinned + orderedPinned
+    } else {
+      return orderedPinned + unpinned
+    }
   }
 
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
