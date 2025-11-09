@@ -63,7 +63,8 @@ enum KeyChord: CaseIterable {
     self.init(key, modifierFlags)
   }
 
-  init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) { // swiftlint:disable:this cyclomatic_complexity
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
+  init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) {
     switch (key, modifierFlags) {
     case (.delete, [.command, .option]):
       self = .clearHistory
