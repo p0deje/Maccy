@@ -15,6 +15,16 @@ struct KeyHandlingView<Content: View>: View {
         // key code and don't properly work with multiple inputs,
         // so pressing ⌘, on non-English layout doesn't open
         // preferences. Stick to NSEvent to fix this behavior.
+
+        if searchFocused {
+          // Ignore input when candidate window is open
+          // https://stackoverflow.com/questions/73677444/how-to-detect-the-candidate-window-when-using-japanese-keyboard
+          if let inputClient = NSApp.keyWindow?.firstResponder as? NSTextInputClient,
+             inputClient.hasMarkedText() {
+            return .ignored
+          }
+        }
+
         switch KeyChord(NSApp.currentEvent) {
         case .clearHistory:
           if let item = appState.footer.items.first(where: { $0.title == "clear" }),
