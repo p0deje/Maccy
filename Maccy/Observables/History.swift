@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import AppKit.NSRunningApplication
 import Defaults
 import Foundation
@@ -101,7 +102,7 @@ class History { // swiftlint:disable:this type_body_length
     Task {
       for await _ in Defaults.updates(.imageMaxHeight, initial: false) {
         for item in items {
-          await item.sizeImages()
+          await item.cleanupImages()
         }
       }
     }
@@ -114,6 +115,8 @@ class History { // swiftlint:disable:this type_body_length
     all = sorter.sort(results).map { HistoryItemDecorator($0) }
     items = all
 
+    limitHistorySize(to: Defaults[.size])
+
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
     Task {
@@ -121,12 +124,22 @@ class History { // swiftlint:disable:this type_body_length
     }
   }
 
+  @MainActor
+  private func limitHistorySize(to maxSize: Int) {
+    let unpinned = all.filter(\.isUnpinned)
+    if unpinned.count > maxSize {
+      unpinned[maxSize...].forEach { item in
+        delete(item)
+      }
+    }
+  }
+
   @discardableResult
   @MainActor
   func add(_ item: HistoryItem) -> HistoryItemDecorator {
-    while all.filter(\.isUnpinned).count >= Defaults[.size] {
-      delete(all.last(where: \.isUnpinned))
-    }
+    Storage.shared.context.insert(item)
+    Storage.shared.context.processPendingChanges()
+    try? Storage.shared.context.save()
 
     var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
@@ -150,6 +163,10 @@ class History { // swiftlint:disable:this type_body_length
         Notifier.notify(body: item.title, sound: .write)
       }
     }
+
+    // Remove exceeding items. Do this after the item is added to avoid removing something
+    // if a duplicate was found as then the size already stayed the same.
+    limitHistorySize(to: Defaults[.size])
 
     sessionLog[Clipboard.shared.changeCount] = item
 
@@ -201,14 +218,16 @@ class History { // swiftlint:disable:this type_body_length
       sessionLog.removeValues { $0.pin == nil }
       items = all
 
-      try? Storage.shared.context.delete(
-        model: HistoryItem.self,
-        where: #Predicate { $0.pin == nil }
-      )
-      try? Storage.shared.context.delete(
-        model: HistoryItemContent.self,
-        where: #Predicate { $0.item?.pin == nil }
-      )
+      try? Storage.shared.context.transaction {
+        try? Storage.shared.context.delete(
+          model: HistoryItem.self,
+          where: #Predicate { $0.pin == nil }
+        )
+        try? Storage.shared.context.delete(
+          model: HistoryItemContent.self,
+          where: #Predicate { $0.item?.pin == nil }
+        )
+      }
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
@@ -249,6 +268,7 @@ class History { // swiftlint:disable:this type_body_length
     cleanup(item)
     withLogging("Removing history item") {
       Storage.shared.context.delete(item.item)
+      Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
 
@@ -262,12 +282,9 @@ class History { // swiftlint:disable:this type_body_length
     }
   }
 
+  @MainActor
   private func cleanup(_ item: HistoryItemDecorator) {
-    item.imageGenerationTask?.cancel()
-    item.thumbnailImage?.recache()
-    item.previewImage?.recache()
-    item.thumbnailImage = nil
-    item.previewImage = nil
+    item.cleanupImages()
   }
 
   @MainActor

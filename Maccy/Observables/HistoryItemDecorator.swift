@@ -50,7 +50,8 @@ class HistoryItemDecorator: Identifiable, Hashable {
     return url.deletingPathExtension().lastPathComponent
   }
 
-  var imageGenerationTask: Task<(), Error>?
+  var previewImageGenerationTask: Task<(), Error>?
+  var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
@@ -78,29 +79,70 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
     synchronizeItemPin()
     synchronizeItemTitle()
-    imageGenerationTask = Task {
-      await sizeImages()
+  }
+
+  @MainActor
+  func ensureThumbnailImage() {
+    guard item.image != nil else {
+      return
+    }
+    guard thumbnailImage == nil else {
+      return
+    }
+    guard thumbnailImageGenerationTask == nil else {
+      return
+    }
+    thumbnailImageGenerationTask = Task { [weak self] in
+      self?.generateThumbnailImage()
     }
   }
 
   @MainActor
-  func sizeImages() {
+  func ensurePreviewImage() {
+    guard item.image != nil else {
+      return
+    }
+    guard previewImage == nil else {
+      return
+    }
+    guard previewImageGenerationTask == nil else {
+      return
+    }
+    previewImageGenerationTask = Task { [weak self] in
+      self?.generatePreviewImage()
+    }
+  }
+
+  @MainActor
+  func cleanupImages() {
+    thumbnailImageGenerationTask?.cancel()
+    previewImageGenerationTask?.cancel()
+    thumbnailImage?.recache()
+    previewImage?.recache()
+    thumbnailImage = nil
+    previewImage = nil
+  }
+
+  @MainActor
+  private func generateThumbnailImage() {
     guard let image = item.image else {
       return
     }
-
-    previewImage = image.resized(to: HistoryItemDecorator.previewImageSize)
-    if Task.isCancelled {
-      previewImage = nil
-      return
-    }
-
     thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
-    if Task.isCancelled {
-      previewImage = nil
-      thumbnailImage = nil
+  }
+
+  @MainActor
+  private func generatePreviewImage() {
+    guard let image = item.image else {
       return
     }
+    previewImage = image.resized(to: HistoryItemDecorator.previewImageSize)
+  }
+
+  @MainActor
+  func sizeImages() {
+    generatePreviewImage()
+    generateThumbnailImage()
   }
 
   func highlight(_ query: String, _ ranges: [Range<String.Index>]) {
