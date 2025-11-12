@@ -105,6 +105,14 @@ class History { // swiftlint:disable:this type_body_length
         }
       }
     }
+
+    Task {
+      for await _ in Defaults.updates(.previewImageMaxSize, initial: false) {
+        for item in items {
+          await item.sizeImages()
+        }
+      }
+    }
   }
 
   @MainActor
