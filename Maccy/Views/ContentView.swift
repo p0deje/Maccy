@@ -10,7 +10,11 @@ struct ContentView: View {
 
   var body: some View {
     ZStack {
-      VisualEffectView()
+      if #available(macOS 26.0, *) {
+        GlassEffectView()
+      } else {
+        VisualEffectView()
+      }
 
       VStack(alignment: .leading, spacing: 0) {
         KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
@@ -29,8 +33,8 @@ struct ContentView: View {
       }
       .animation(.default.speed(3), value: appState.history.items)
       .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
-      .padding(.horizontal, 5)
-      .padding(.vertical, appState.popup.verticalPadding)
+      .padding(.vertical, Popup.verticalPadding)
+      .padding(.horizontal, Popup.horizontalPadding)
       .onAppear {
         searchFocused = true
       }
