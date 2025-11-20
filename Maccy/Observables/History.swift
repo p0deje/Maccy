@@ -91,10 +91,8 @@ class History { // swiftlint:disable:this type_body_length
 
     Task {
       for await _ in Defaults.updates(.showSpecialSymbols, initial: false) {
-        items.forEach { item in
-          let title = item.item.generateTitle()
-          item.title = title
-          item.item.title = title
+        for item in items {
+          await updateTitle(item: item, title: item.item.generateTitle())
         }
       }
     }
@@ -390,6 +388,12 @@ class History { // swiftlint:disable:this type_body_length
     }
 
     updateUnpinnedShortcuts()
+  }
+
+  @MainActor
+  private func updateTitle(item: HistoryItemDecorator, title: String) {
+    item.title = title
+    item.item.title = title
   }
 
   private func updateUnpinnedShortcuts() {
