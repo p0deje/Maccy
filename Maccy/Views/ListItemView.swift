@@ -65,7 +65,7 @@ struct ListItemView<Title: View>: View {
           .frame(width: 50)
       }
     }
-    .frame(minHeight: 22)
+    .frame(minHeight: Popup.itemHeight)
     .id(id)
     .frame(maxWidth: .infinity, alignment: .leading)
     .foregroundStyle(isSelected ? Color.white : .primary)
