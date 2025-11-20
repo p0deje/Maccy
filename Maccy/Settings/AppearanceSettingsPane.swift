@@ -62,7 +62,7 @@ struct AppearanceSettingsPane: View {
             }
           }
           .labelsHidden()
-          .frame(width: 141)
+          .frame(width: 141, alignment: .leading)
           .help(Text("PopupAtTooltip", tableName: "AppearanceSettings"))
 
           if popupAt == .lastPosition {
@@ -86,7 +86,7 @@ struct AppearanceSettingsPane: View {
           }
         }
         .labelsHidden()
-        .frame(width: 141)
+        .frame(width: 141, alignment: .leading)
         .help(Text("PinToTooltip", tableName: "AppearanceSettings"))
       }
 
@@ -120,7 +120,7 @@ struct AppearanceSettingsPane: View {
           }
         }
         .labelsHidden()
-        .frame(width: 141)
+        .frame(width: 141, alignment: .leading)
         .help(Text("HighlightMatchesTooltip", tableName: "AppearanceSettings"))
       }
 

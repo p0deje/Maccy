@@ -116,7 +116,7 @@ struct StorageSettingsPane: View {
           }
         }
         .labelsHidden()
-        .frame(width: 160)
+        .frame(width: 160, alignment: .leading)
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
       }
     }
