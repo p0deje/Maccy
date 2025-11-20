@@ -27,7 +27,7 @@ struct HeaderView: View {
           }
         }
     }
-    .frame(height: appState.searchVisible ? 25 : 0)
+    .frame(height: appState.searchVisible ? Popup.itemHeight + 3 : 0)
     .opacity(appState.searchVisible ? 1 : 0)
     .padding(.horizontal, 10)
     // 2px is needed to prevent items from showing behind top pinned items during scrolling
