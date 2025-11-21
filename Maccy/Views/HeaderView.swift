@@ -25,6 +25,8 @@ struct HeaderView: View {
             searchQuery = ""
           }
         }
+        // Only reliable way to disable the cursor. allowsHitTesting() does not work
+        .offset(y: appState.searchVisible ? 0 : -Popup.itemHeight)
     }
     .frame(height: appState.searchVisible ? Popup.itemHeight + 3 : 0)
     .opacity(appState.searchVisible ? 1 : 0)
