@@ -19,7 +19,6 @@ struct HeaderView: View {
 
       SearchFieldView(placeholder: "search_placeholder", query: $searchQuery)
         .focused($searchFocused)
-        .clipShape(Capsule())
         .frame(maxWidth: .infinity)
         .onChange(of: scenePhase) {
           if scenePhase == .background && !searchQuery.isEmpty {
