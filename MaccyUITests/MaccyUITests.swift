@@ -15,8 +15,8 @@ class MaccyUITests: XCTestCase {
   let image1 = NSImage(named: "NSAddTemplate")!
   let image2 = NSImage(named: "NSBluetoothTemplate")!
 
-  let file1 = URL(fileURLWithPath: "/tmp/file1")
-  let file2 = URL(fileURLWithPath: "/tmp/file2")
+  let file1 = URL.applicationSupportDirectory.appendingPathComponent("file1.txt")
+  let file2 = URL.applicationSupportDirectory.appendingPathComponent("file2.txt")
 
   let rtf1 = NSAttributedString(string: "foo").rtf(
     from: NSRange(0...2),
@@ -47,11 +47,16 @@ class MaccyUITests: XCTestCase {
 
   override func setUp() {
     super.setUp()
+
+    try? "Hello world".write(to: file1, atomically: true, encoding: .utf8)
+    try? "Hello world".write(to: file2, atomically: true, encoding: .utf8)
+
     app.launchArguments.append("enable-testing")
     app.launch()
 
     copyToClipboard(copy2)
     copyToClipboard(copy1)
+
   }
 
   override func tearDown() {
@@ -101,8 +106,8 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(file1)
     popUpWithMouse()
     search(file2.lastPathComponent)
-    assertExists(items[file2.absoluteString])
-    assertNotExists(items[file1.absoluteString])
+    assertExists(items[file2.absoluteString.removingPercentEncoding!])
+    assertNotExists(items[file1.absoluteString.removingPercentEncoding!])
   }
 
   func testCopyWithClick() {
@@ -144,23 +149,24 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(file1)
     popUpWithMouse()
 
-    XCTAssertEqual(itemTitles[0...1], [file1.absoluteString, file2.absoluteString])
+    XCTAssertEqual(itemTitles[0...1], [
+      file1.absoluteString.removingPercentEncoding!,
+      file2.absoluteString.removingPercentEncoding!
+    ])
 
-    items[file2.absoluteString].firstMatch.click()
+    items[file2.absoluteString.removingPercentEncoding!].firstMatch.click()
     assertPasteboardStringEquals(file2.absoluteString, forType: .fileURL)
   }
 
-  // This test does not work because NSPasteboardItem somehow becomes "empty".
-  //
-  // func testCopyRTF() {
-  //   copyToClipboard(rtf2, .rtf)
-  //   copyToClipboard(rtf1, .rtf)
-  //   popUpWithHotkey()
-  //   XCTAssertEqual(visibleMenuItemTitles()[1...2], ["foo", "bar"])
-  //
-  //   app.staticTexts["bar"].firstMatch.click()
-  //   XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
-  // }
+  func testCopyRTF() {
+    copyToClipboard(rtf2, .rtf)
+    copyToClipboard(rtf1, .rtf)
+    popUpWithHotkey()
+    XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
+
+    app.staticTexts["bar"].firstMatch.click()
+    XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
+  }
 
   func testCopyHTML() {
     copyToClipboard(html2, .html)
