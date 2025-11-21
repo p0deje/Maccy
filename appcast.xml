@@ -6,22 +6,25 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>2.5.1</title>
+      <title>2.6.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Added Kurdish (Sorani) translation.</li>
-            <li>Fixed a bug when text was flipped upside down on macOS 26.</li>
+            <li>Improved UI for macOS 26 Tahoe.</li>
+            <li>Improved memory management.</li>
+            <li>Fixed a crash when deleting multiple items in a row.</li>
+            <li>Fixed a bug when the pop-up would not grow automatically after being moved.</li>
+            <li>Fixed IME conversion confirmation on Japanese input.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2025-09-15</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.5.1</releaseNotesLink>
+      <pubDate>2025-11-21</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.6.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/2.5.1/Maccy.app.zip"
-        sparkle:version="58"
-        sparkle:shortVersionString="2.5.1"
+        url="https://github.com/p0deje/Maccy/releases/download/2.6.0/Maccy.app.zip"
+        sparkle:version="59"
+        sparkle:shortVersionString="2.6.0"
         length="0"
         type="application/octet-stream"
       />
