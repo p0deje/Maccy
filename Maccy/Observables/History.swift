@@ -84,6 +84,12 @@ class History { // swiftlint:disable:this type_body_length
     }
 
     Task {
+      for await _ in Defaults.updates(.sortOrder, initial: false) {
+        try? await load()
+      }
+    }
+    
+    Task {
       for await _ in Defaults.updates(.pinTo, initial: false) {
         try? await load()
       }
