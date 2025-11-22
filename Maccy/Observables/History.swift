@@ -70,6 +70,20 @@ class History { // swiftlint:disable:this type_body_length
   @ObservationIgnored
   var all: [HistoryItemDecorator] = []
 
+  // Pagination support for unlimited history
+  @ObservationIgnored
+  private let pageSize = 200
+  @ObservationIgnored
+  private var currentPage = 0
+  @ObservationIgnored
+  var totalCount = 0
+  @ObservationIgnored
+  var isLoadingMore = false
+  @ObservationIgnored
+  var hasMoreItems: Bool {
+    all.count < totalCount
+  }
+
   init() {
     Task {
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
@@ -108,17 +122,66 @@ class History { // swiftlint:disable:this type_body_length
 
   @MainActor
   func load() async throws {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    let results = try Storage.shared.context.fetch(descriptor)
-    all = sorter.sort(results).map { HistoryItemDecorator($0) }
+    currentPage = 0
+    all.removeAll()
+
+    // Get total count first
+    let countDescriptor = FetchDescriptor<HistoryItem>()
+    totalCount = (try? Storage.shared.context.fetchCount(countDescriptor)) ?? 0
+
+    // For unlimited history or if total count is within normal limits, use pagination
+    if Defaults[.isUnlimitedHistory] || totalCount > pageSize {
+      try await loadPage()
+    } else {
+      // Load all items for small histories
+      let descriptor = FetchDescriptor<HistoryItem>()
+      let results = try Storage.shared.context.fetch(descriptor)
+      all = sorter.sort(results).map { HistoryItemDecorator($0) }
+    }
+
     items = all
 
-    limitHistorySize(to: Defaults[.size])
+    // Only limit size if not unlimited
+    if !Defaults[.isUnlimitedHistory] {
+      limitHistorySize(to: Defaults[.size])
+    }
 
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
     Task {
       AppState.shared.popup.needsResize = true
+    }
+  }
+
+  @MainActor
+  private func loadPage() async throws {
+    let offset = currentPage * pageSize
+    var descriptor = FetchDescriptor<HistoryItem>(
+      sortBy: [SortDescriptor(\.lastCopiedAt, order: .reverse)]
+    )
+    descriptor.fetchLimit = pageSize
+    descriptor.fetchOffset = offset
+
+    let results = try Storage.shared.context.fetch(descriptor)
+    let newItems = sorter.sort(results).map { HistoryItemDecorator($0) }
+    all.append(contentsOf: newItems)
+    currentPage += 1
+  }
+
+  @MainActor
+  func loadMoreItems() async {
+    guard !isLoadingMore && hasMoreItems else { return }
+
+    isLoadingMore = true
+    defer { isLoadingMore = false }
+
+    do {
+      try await loadPage()
+      items = all
+      updateUnpinnedShortcuts()
+      AppState.shared.popup.needsResize = true
+    } catch {
+      logger.error("Failed to load more items: \(error.localizedDescription)")
     }
   }
 
@@ -162,7 +225,12 @@ class History { // swiftlint:disable:this type_body_length
 
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
-    limitHistorySize(to: Defaults[.size] - 1)
+    if !Defaults[.isUnlimitedHistory] {
+      limitHistorySize(to: Defaults[.size] - 1)
+    } else {
+      // Update total count for pagination
+      totalCount += 1
+    }
 
     sessionLog[Clipboard.shared.changeCount] = item
 
