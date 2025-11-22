@@ -1,5 +1,6 @@
 import SwiftData
 import SwiftUI
+import Defaults
 
 struct PinPickerView: View {
   @Bindable var item: HistoryItem
@@ -117,13 +118,21 @@ struct PinsSettingsPane: View {
 
   @Query(filter: #Predicate<HistoryItem> { $0.pin != nil }, sort: \.firstCopiedAt)
   private var items: [HistoryItem]
+  
+  @Default(.sortBy) private var sortBy
+  @Default(.sortOrder) private var sortOrder
+
+  private var sortedItems: [HistoryItem] {
+    _ = sortOrder
+    return Sorter().sort(items, by: sortBy)
+  }
 
   @State private var availablePins: [String] = []
   @State private var selection: PersistentIdentifier?
 
   var body: some View {
     VStack(alignment: .leading) {
-      Table(items, selection: $selection) {
+      Table(sortedItems, selection: $selection) {
         TableColumn(Text("Key", tableName: "PinsSettings")) { item in
           PinPickerView(item: item, availablePins: availablePins)
             .onChange(of: item.pin) {
