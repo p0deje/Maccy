@@ -35,13 +35,23 @@ class Search {
 
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
+  private let historySizeThreshold = 5_000 // Auto-disable fuzzy search above this size
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
     guard !string.isEmpty else {
       return within.map { SearchResult(object: $0) }
     }
 
-    switch Defaults[.searchMode] {
+    var effectiveSearchMode = Defaults[.searchMode]
+
+    // Auto-disable fuzzy search for large histories
+    if Defaults[.isUnlimitedHistory] && History.shared.totalCount > historySizeThreshold {
+      if effectiveSearchMode == .fuzzy || effectiveSearchMode == .mixed {
+        effectiveSearchMode = .exact
+      }
+    }
+
+    switch effectiveSearchMode {
     case .mixed:
       return mixedSearch(string: string, within: within)
     case .regexp:

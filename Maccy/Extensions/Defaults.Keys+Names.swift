@@ -53,6 +53,7 @@ extension Defaults.Keys {
   static let showSpecialSymbols = Key<Bool>("showSpecialSymbols", default: true)
   static let showTitle = Key<Bool>("showTitle", default: true)
   static let size = Key<Int>("historySize", default: 200)
+  static let isUnlimitedHistory = Key<Bool>("isUnlimitedHistory", default: false)
   static let sortBy = Key<Sorter.By>("sortBy", default: .lastCopiedAt)
   static let suppressClearAlert = Key<Bool>("suppressClearAlert", default: false)
   static let windowSize = Key<NSSize>("windowSize", default: NSSize(width: 450, height: 800))
