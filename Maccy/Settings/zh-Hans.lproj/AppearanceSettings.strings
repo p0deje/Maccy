@@ -16,6 +16,8 @@
 "PinToTooltip" = "更改固定项目的位置。\n默认：顶部。";
 "ImageHeight" = "图片高度：";
 "ImageHeightTooltip" = "图像预览最大高度。\n默认: 40\n提示：设置为 16 以匹配文本项目的大小。";
+"PreviewImageSize" = "预览图片大小：";
+"PreviewImageSizeTooltip" = "弹出预览中图像的最大尺寸。\n默认：400。\n不会超过屏幕尺寸。";
 "PreviewDelay" = "预览延迟：";
 "PreviewDelayTooltip" = "延迟以毫秒为单位，直到显示预览弹出窗口。\n默认：1500。";
 "HighlightMatches" = "高亮匹配：";

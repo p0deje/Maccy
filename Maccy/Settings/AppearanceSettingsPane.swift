@@ -8,6 +8,7 @@ struct AppearanceSettingsPane: View {
   @Default(.popupScreen) private var popupScreen
   @Default(.pinTo) private var pinTo
   @Default(.imageMaxHeight) private var imageHeight
+  @Default(.previewImageMaxSize) private var previewImageMaxSize
   @Default(.previewDelay) private var previewDelay
   @Default(.highlightMatch) private var highlightMatch
   @Default(.menuIcon) private var menuIcon
@@ -24,6 +25,13 @@ struct AppearanceSettingsPane: View {
     let formatter = NumberFormatter()
     formatter.minimum = 1
     formatter.maximum = 200
+    return formatter
+  }()
+
+  private let previewImageSizeFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 100
+    formatter.maximum = 2000
     return formatter
   }()
 
@@ -96,6 +104,16 @@ struct AppearanceSettingsPane: View {
             .frame(width: 120)
             .help(Text("ImageHeightTooltip", tableName: "AppearanceSettings"))
           Stepper("", value: $imageHeight, in: 1...200)
+            .labelsHidden()
+        }
+      }
+
+      Settings.Section(label: { Text("PreviewImageSize", tableName: "AppearanceSettings") }) {
+        HStack {
+          TextField("", value: $previewImageMaxSize, formatter: previewImageSizeFormatter)
+            .frame(width: 120)
+            .help(Text("PreviewImageSizeTooltip", tableName: "AppearanceSettings"))
+          Stepper("", value: $previewImageMaxSize, in: 100...2000)
             .labelsHidden()
         }
       }
