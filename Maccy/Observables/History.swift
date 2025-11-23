@@ -326,8 +326,19 @@ class History { // swiftlint:disable:this type_body_length
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
+    let willBePinned = item.isUnpinned
+
     item.togglePin()
 
+    // If the item was just pinned, assign it a pinOrder so custom order
+    // can be persisted and used by Sorter.
+    if willBePinned {
+      let currentMax = all.filter(\.isPinned).compactMap({ $0.item.pinOrder }).max() ?? 0
+      item.item.pinOrder = currentMax + 1
+      try? Storage.shared.context.save()
+    }
+
+    // Keep items array consistent with current sorting rules.
     let sortedItems = sorter.sort(all.map(\.item))
     if let currentIndex = all.firstIndex(of: item),
        let newIndex = sortedItems.firstIndex(of: item.item) {
@@ -342,6 +353,90 @@ class History { // swiftlint:disable:this type_body_length
     if item.isUnpinned {
       AppState.shared.scrollTarget = item.id
     }
+  }
+
+  @MainActor
+  func movePinned(_ item: HistoryItemDecorator?, before target: HistoryItemDecorator?) {
+    guard let item else { return }
+
+    // Only allow moving if the item is pinned.
+    guard item.isPinned else { return }
+
+    // Gather current pinned items in `all` in their existing order.
+    var pinnedInAll = all.filter(\.isPinned)
+
+    // Remove the item from its current position.
+    pinnedInAll.removeAll { $0 == item }
+
+    // Insert before target if provided, otherwise append to the end.
+    if let target, let targetIndex = pinnedInAll.firstIndex(of: target) {
+      pinnedInAll.insert(item, at: targetIndex)
+    } else {
+      pinnedInAll.append(item)
+    }
+
+    // Now reconstruct `all` preserving relative order of unpinned items.
+    var newAll: [HistoryItemDecorator] = []
+    if Defaults[.pinTo] == .top {
+      // pinned items first
+      newAll.append(contentsOf: pinnedInAll)
+      newAll.append(contentsOf: all.filter { !$0.isPinned })
+    } else {
+      // pinned items at bottom
+      newAll.append(contentsOf: all.filter { !$0.isPinned })
+      newAll.append(contentsOf: pinnedInAll)
+    }
+
+    // Persist new pinOrder values to match pinnedInAll order.
+    for (index, pinned) in pinnedInAll.enumerated() {
+      pinned.item.pinOrder = index
+    }
+
+    // Replace all with newAll and update visible items.
+    all = newAll
+    items = all
+
+    try? Storage.shared.context.save()
+    AppState.shared.popup.needsResize = true
+  }
+
+  @MainActor
+  func movePinnedUp(_ item: HistoryItemDecorator?) {
+    guard let item, item.isPinned else { return }
+    let pinned = all.filter(\.isPinned)
+    guard let idx = pinned.firstIndex(of: item), idx > 0 else { return }
+    let before = pinned[idx - 1]
+    movePinned(item, before: before)
+  }
+
+  @MainActor
+  func movePinnedDown(_ item: HistoryItemDecorator?) {
+    guard let item, item.isPinned else { return }
+    var pinned = all.filter(\.isPinned)
+    guard let idx = pinned.firstIndex(of: item), idx < pinned.count - 1 else { return }
+
+    // Move the item down by swapping with the next pinned entry.
+    pinned.remove(at: idx)
+    pinned.insert(item, at: idx + 1)
+
+    // Rebuild `all` using the new pinned order.
+    var newAll: [HistoryItemDecorator] = []
+    if Defaults[.pinTo] == .top {
+      newAll.append(contentsOf: pinned)
+      newAll.append(contentsOf: all.filter { !$0.isPinned })
+    } else {
+      newAll.append(contentsOf: all.filter { !$0.isPinned })
+      newAll.append(contentsOf: pinned)
+    }
+
+    for (index, pinnedItem) in pinned.enumerated() {
+      pinnedItem.item.pinOrder = index
+    }
+
+    all = newAll
+    items = all
+    try? Storage.shared.context.save()
+    AppState.shared.popup.needsResize = true
   }
 
   @MainActor
