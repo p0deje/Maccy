@@ -30,6 +30,8 @@ enum KeyChord: CaseIterable {
   case moveToFirst
   case openPreferences
   case pinOrUnpin
+  case movePinnedUp
+  case movePinnedDown
   case selectCurrentItem
   case close
   case unknown
@@ -61,6 +63,12 @@ enum KeyChord: CaseIterable {
 
   init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) { // swiftlint:disable:this cyclomatic_complexity
     switch (key, modifierFlags) {
+    // Move pinned item up/down when both Control and Option are held.
+    case (.upArrow, let mods) where mods.contains(.option):
+      self = .movePinnedUp
+    case (.downArrow, let mods) where mods.contains(.option):
+      self = .movePinnedDown
+
     case (.delete, [.command, .option]):
       self = .clearHistory
     case (.delete, [.command, .option, .shift]):
