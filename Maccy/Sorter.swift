@@ -50,28 +50,11 @@ class Sorter {
   }
 
   private func byPinned(_ lhs: HistoryItem, _ rhs: HistoryItem) -> Bool {
-    // If one is pinned and the other is not, ensure pinned items are placed
-    // according to `pinTo` setting. If both are pinned, preserve the
-    // custom `pinOrder` value so user-arranged order is kept.
-    let lhsPinned = lhs.pin != nil
-    let rhsPinned = rhs.pin != nil
-
-    if lhsPinned && !rhsPinned {
-      return Defaults[.pinTo] == .top
+    if Defaults[.pinTo] == .bottom {
+      return (lhs.pin == nil) && (rhs.pin != nil)
+    } else {
+      return (lhs.pin != nil) && (rhs.pin == nil)
     }
-
-    if !lhsPinned && rhsPinned {
-      return Defaults[.pinTo] != .top
-    }
-
-    // Both pinned or both unpinned — when both pinned prefer `pinOrder`.
-    if lhsPinned && rhsPinned {
-      return lhs.pinOrder < rhs.pinOrder
-    }
-
-    // Neither pinned — keep original order by returning false so other
-    // sort criteria decide.
-    return false
   }
 }
 // swiftlint:enable identifier_name

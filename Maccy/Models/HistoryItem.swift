@@ -56,9 +56,6 @@ class HistoryItem {
   var lastCopiedAt: Date = Date.now
   var numberOfCopies: Int = 1
   var pin: String?
-  // Order index used to persist custom ordering of pinned items.
-  // Lower numbers come first.
-  var pinOrder: Int = 0
   var title = ""
 
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
