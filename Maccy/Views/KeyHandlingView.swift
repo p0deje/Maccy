@@ -89,12 +89,6 @@ struct KeyHandlingView<Content: View>: View {
 
           appState.highlightLast()
           return .handled
-        case .movePinnedUp:
-          appState.history.movePinnedUp(appState.history.selectedItem)
-          return .handled
-        case .movePinnedDown:
-          appState.history.movePinnedDown(appState.history.selectedItem)
-          return .handled
         case .moveToPrevious:
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
