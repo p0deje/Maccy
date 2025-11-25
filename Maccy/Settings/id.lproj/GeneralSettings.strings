@@ -7,9 +7,9 @@
 "Pin" = "Semat:";
 "PinTooltip" = "Tombol pintasan untuk menyematkan item riwayat.\nDefault: ⌥P.";
 "Delete" = "Hapus:";
-"DeleteTooltip" = "";
-"Behavior" = "";
-"PasteAutomatically" = "";
+"DeleteTooltip" = "Tombol pintasan untuk hapus item riwayat.\nDefault: ⌥⌫.";
+"Behavior" = "Perilaku:";
+"PasteAutomatically" = "Salin otomatis";
 "PasteWithoutFormatting" = "";
 "Modifiers" = "";
 "Search" = "";
