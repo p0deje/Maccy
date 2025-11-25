@@ -8,7 +8,7 @@
 "PopupAtLastLocationReset" = "Atur ulang posisi";
 "ImageHeight" = "Tinggi gambar:";
 "ImageHeightTooltip" = "Tinggi maksimum pratinjau gambar.\nBawaan: 40.\nPetunjuk: Atur ke 16 agar tampil seperti item teks.";
-"PopupAtTooltip" = "Mengubah lokasi pop-up muncul.\nDefault: Kursor.";
+"PopupAtTooltip" = "Mengubah lokasi popup muncul.\nDefault: Kursor.";
 "SearchVisibilityAlways" = "Selalu";
 "SearchVisibilityDuringSearch" = "Saat pencarian";
 "ActiveScreen" = "Layar aktif";
@@ -16,9 +16,9 @@
 "PinToTop" = "Atas";
 "PinToBottom" = "Bawah";
 "PinToTooltip" = "Mengubah lokasi item tersemat.\nDefault: Atas.";
-"PreviewDelay" = "";
-"PreviewDelayTooltip" = "";
-"HighlightMatches" = "Sorot pencarian";
+"PreviewDelay" = "Penundaan pratinjau:";
+"PreviewDelayTooltip" = "Penundaan dalam mili detik sampai popup pratinjau ditampilkan.\nStandar: 1500.";
+"HighlightMatches" = "Sorot pencarian:";
 "HighlightMatchColor" = "Warna";
 "HighlightMatchBold" = "Tebal";
 "HighlightMatchItalic" = "Miring";
