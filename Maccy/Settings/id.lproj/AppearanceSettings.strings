@@ -12,7 +12,7 @@
 "SearchVisibilityAlways" = "";
 "SearchVisibilityDuringSearch" = "";
 "ActiveScreen" = "";
-"PinTo" = "";
+"PinTo" = "Login";
 "PinToTop" = "";
 "PinToBottom" = "";
 "PinToTooltip" = "";
