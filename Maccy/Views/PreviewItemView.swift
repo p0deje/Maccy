@@ -2,72 +2,35 @@ import KeyboardShortcuts
 import SwiftUI
 
 struct PreviewItemView: View {
-  weak var item: HistoryItemDecorator?
+  @Bindable var item: HistoryItemDecorator
 
   var body: some View {
-    if let item = item {
-      VStack(alignment: .leading, spacing: 0) {
+    VStack(alignment: .leading, spacing: 0) {
+      if item.item.image != nil {
         if let image = item.previewImage {
           Image(nsImage: image)
             .resizable()
             .aspectRatio(contentMode: .fit)
+            .frame(maxWidth: .infinity)
             .clipShape(.rect(cornerRadius: 5))
         } else {
-          ScrollView {
-            WrappingTextView {
-              Text(item.text)
-                .font(.body)
-            }
-          }
+          ProgressView()
+            .frame(maxWidth: .infinity, minHeight: 200)
         }
-
-        Divider()
-          .padding(.vertical)
-
-        if let application = item.application {
-          HStack(spacing: 3) {
-            Text("Application", tableName: "PreviewItemView")
-            Image(nsImage: item.applicationImage.nsImage)
-              .resizable()
-              .frame(width: 11, height: 11)
-            Text(application)
-          }
-        }
-
-        HStack(spacing: 3) {
-          Text("FirstCopyTime", tableName: "PreviewItemView")
-          Text(item.item.firstCopiedAt, style: .date)
-          Text(item.item.firstCopiedAt, style: .time)
-        }
-
-        HStack(spacing: 3) {
-          Text("LastCopyTime", tableName: "PreviewItemView")
-          Text(item.item.lastCopiedAt, style: .date)
-          Text(item.item.lastCopiedAt, style: .time)
-        }
-
-        HStack(spacing: 3) {
-          Text("NumberOfCopies", tableName: "PreviewItemView")
-          Text(String(item.item.numberOfCopies))
-        }
-        .padding(.bottom)
-
-        if let pinKey = KeyboardShortcuts.Shortcut(name: .pin) {
-          Text(
-            NSLocalizedString("PinKey", tableName: "PreviewItemView", comment: "")
-              .replacingOccurrences(of: "{pinKey}", with: pinKey.description)
-          )
-        }
-
-        if let deleteKey = KeyboardShortcuts.Shortcut(name: .delete) {
-          Text(
-            NSLocalizedString("DeleteKey", tableName: "PreviewItemView", comment: "")
-              .replacingOccurrences(of: "{deleteKey}", with: deleteKey.description)
-          )
-        }
+      } else {
+        Text(item.text)
+          .font(.body)
+          .textSelection(.enabled)
+          .frame(maxWidth: .infinity, alignment: .topLeading)
       }
-      .controlSize(.small)
-      .padding()
+    }
+    .controlSize(.small)
+    .padding()
+    .frame(maxWidth: .infinity, alignment: .topLeading)
+    .task(id: item.id) {
+      await MainActor.run {
+        item.ensurePreviewImage()
+      }
     }
   }
 }
