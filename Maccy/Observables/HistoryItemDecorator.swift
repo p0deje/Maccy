@@ -25,16 +25,13 @@ class HistoryItemDecorator: Identifiable, Hashable {
       if isSelected {
         Self.previewThrottler.throttle {
           Self.previewThrottler.minimumDelay = 0.2
-          self.showPreview = true
         }
       } else {
         Self.previewThrottler.cancel()
-        self.showPreview = false
       }
     }
   }
   var shortcuts: [KeyShortcut] = []
-  var showPreview: Bool = false
 
   var application: String? {
     if item.universalClipboard {
