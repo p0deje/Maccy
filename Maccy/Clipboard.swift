@@ -211,6 +211,12 @@ class Clipboard {
     }
 
     let historyItem = HistoryItem(contents: contents)
+
+    if #unavailable(macOS 15.0) {
+      // On macOS 14 the history item needs to be inserted into storage directly after creating it.
+      try? History.shared.insertIntoStorage(historyItem)
+    }
+
     historyItem.application = sourceApp?.bundleIdentifier
     historyItem.title = historyItem.generateTitle()
 
