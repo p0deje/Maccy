@@ -130,12 +130,23 @@ class History { // swiftlint:disable:this type_body_length
     }
   }
 
-  @discardableResult
   @MainActor
-  func add(_ item: HistoryItem) -> HistoryItemDecorator {
+  func insertIntoStorage(_ item: HistoryItem) throws {
+    logger.info("Inserting item with id '\(item.title)'")
     Storage.shared.context.insert(item)
     Storage.shared.context.processPendingChanges()
     try? Storage.shared.context.save()
+  }
+
+  @discardableResult
+  @MainActor
+  func add(_ item: HistoryItem) -> HistoryItemDecorator {
+    if #available(macOS 15.0, *) {
+      try? History.shared.insertIntoStorage(item)
+    } else {
+      // On macOS 14 the history item needs to be inserted into storage directly after creating it.
+      // It was already inserted after creation in Clipboard.swift
+    }
 
     var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
@@ -149,6 +160,7 @@ class History { // swiftlint:disable:this type_body_length
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
       }
+      logger.info("Removing duplicate item '\(item.title)'")
       Storage.shared.context.delete(existingHistoryItem)
       removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
       if let removedItemIndex {
