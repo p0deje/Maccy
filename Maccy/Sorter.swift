@@ -8,6 +8,7 @@ class Sorter {
     case lastCopiedAt
     case firstCopiedAt
     case numberOfCopies
+    case pinShortcutKey
 
     var id: Self { self }
 
@@ -19,6 +20,8 @@ class Sorter {
         return NSLocalizedString("FirstCopiedAt", tableName: "StorageSettings", comment: "")
       case .numberOfCopies:
         return NSLocalizedString("NumberOfCopies", tableName: "StorageSettings", comment: "")
+      case .pinShortcutKey:
+        return NSLocalizedString("PinShortcutKey", tableName: "StorageSettings", comment: "")
       }
     }
   }
@@ -30,14 +33,20 @@ class Sorter {
   }
 
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
+    let order = Defaults[.sortOrder]
+    let result: Bool
+
     switch by {
     case .firstCopiedAt:
-      return lhs.firstCopiedAt > rhs.firstCopiedAt
+      result = lhs.firstCopiedAt < rhs.firstCopiedAt
     case .numberOfCopies:
-      return lhs.numberOfCopies > rhs.numberOfCopies
+      result = lhs.numberOfCopies < rhs.numberOfCopies
+    case .pinShortcutKey:
+      result = (lhs.pin ?? "").localizedCaseInsensitiveCompare(rhs.pin ?? "") == .orderedAscending
     default:
-      return lhs.lastCopiedAt > rhs.lastCopiedAt
+      result = lhs.lastCopiedAt < rhs.lastCopiedAt
     }
+    return order ? result : !result
   }
 
   private func byPinned(_ lhs: HistoryItem, _ rhs: HistoryItem) -> Bool {

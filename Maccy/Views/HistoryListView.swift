@@ -13,7 +13,14 @@ struct HistoryListView: View {
   @Default(.previewDelay) private var previewDelay
 
   private var pinnedItems: [HistoryItemDecorator] {
-    appState.history.pinnedItems.filter(\.isVisible)
+    let pinned = appState.history.pinnedItems.filter(\.isVisible)
+    if pinned.isEmpty { return [] }
+
+    // Use Sorter to order pinned items according to current Sorter settings
+    let sortedItems = Sorter().sort(pinned.map(\.item))
+    return sortedItems.compactMap { model in
+      pinned.first(where: { $0.item == model })
+    }
   }
   private var unpinnedItems: [HistoryItemDecorator] {
     appState.history.unpinnedItems.filter(\.isVisible)

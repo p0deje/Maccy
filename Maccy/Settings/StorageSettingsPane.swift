@@ -58,6 +58,7 @@ struct StorageSettingsPane: View {
 
   @Default(.size) private var size
   @Default(.sortBy) private var sortBy
+  @Default(.sortOrder) private var sortOrder
 
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
@@ -118,6 +119,16 @@ struct StorageSettingsPane: View {
         .labelsHidden()
         .frame(width: 160, alignment: .leading)
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
+      }
+
+      Settings.Section(label: { Text("SortOrder", tableName: "StorageSettings") }) {        
+        Picker("", selection: $sortOrder) {
+          Text("Ascending").tag(true)
+          Text("Descending").tag(false)
+        }
+        .labelsHidden()
+        .frame(width: 160, alignment: .leading)
+        .help(Text("SortDirectionTooltip", tableName: "StorageSettings"))
       }
     }
   }
