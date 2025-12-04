@@ -8,7 +8,9 @@
 "SizeTooltip" = "Number of history items to keep.\nDefault: 200.";
 "CurrentSizeTooltip" = "Current size on disk.";
 "SortBy" = "Sort by:";
+"SortOrder" = "Sort order:";
 "LastCopiedAt" = "Time of last copy";
 "FirstCopiedAt" = "Time of first copy";
 "NumberOfCopies" = "Number of copies";
+"PinShortcutKey" = "Pin shortcut key";
 "SortByTooltip" = "Default: Time of last copy.";
