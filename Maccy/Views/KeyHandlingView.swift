@@ -56,9 +56,20 @@ struct KeyHandlingView<Content: View>: View {
           searchQuery = ""
           return .handled
         case .deleteCurrentItem:
-          if let item = appState.history.selectedItem {
-            appState.highlightNext()
-            appState.history.delete(item)
+          if appState.navigator.pasteStackSelected {
+            appState.history.interruptPasteStack()
+            appState.navigator.highlightFirst()
+          } else if let leadItem = appState.navigator.leadHistoryItem,
+            let item = appState.history.visibleItems.nearest(
+              to: leadItem,
+              where: { !$0.isSelected }
+            ) {
+            withTransaction(Transaction()) {
+              appState.navigator.selection.forEach { _, item in
+                appState.history.delete(item)
+              }
+              appState.navigator.select(item: item)
+            }
           }
           return .handled
         case .deleteOneCharFromSearch:
@@ -80,34 +91,62 @@ struct KeyHandlingView<Content: View>: View {
             return .ignored
           }
 
-          appState.highlightNext()
+          appState.navigator.highlightNext()
           return .handled
         case .moveToLast:
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
           }
 
-          appState.highlightLast()
+          appState.navigator.highlightLast()
           return .handled
         case .moveToPrevious:
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
           }
 
-          appState.highlightPrevious()
+          appState.navigator.highlightPrevious()
           return .handled
         case .moveToFirst:
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
           }
 
-          appState.highlightFirst()
+          appState.navigator.highlightFirst()
+          return .handled
+        case .extendToNext:
+          guard NSApp.characterPickerWindow == nil else {
+            return .ignored
+          }
+          appState.navigator.extendHighlightToNext()
+          return .handled
+        case .extendToLast:
+          guard NSApp.characterPickerWindow == nil else {
+            return .ignored
+          }
+          appState.navigator.extendHighlightToLast()
+          return .handled
+        case .extendToPrevious:
+          guard NSApp.characterPickerWindow == nil else {
+            return .ignored
+          }
+          appState.navigator.extendHighlightToPrevious()
+          return .handled
+        case .extendToFirst:
+          guard NSApp.characterPickerWindow == nil else {
+            return .ignored
+          }
+          appState.navigator.extendHighlightToFirst()
           return .handled
         case .openPreferences:
           appState.openPreferences()
           return .handled
         case .pinOrUnpin:
-          appState.history.togglePin(appState.history.selectedItem)
+          withTransaction(Transaction()) {
+            appState.navigator.selection.forEach { _, item in
+              appState.history.togglePin(item)
+            }
+          }
           return .handled
         case .selectCurrentItem:
           appState.select()
@@ -120,7 +159,7 @@ struct KeyHandlingView<Content: View>: View {
         }
 
         if let item = appState.history.pressedShortcutItem {
-          appState.selection = item.id
+          appState.navigator.select(item: item)
           Task {
             try? await Task.sleep(for: .milliseconds(50))
             appState.history.select(item)

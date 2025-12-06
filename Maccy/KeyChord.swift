@@ -28,6 +28,10 @@ enum KeyChord: CaseIterable {
   case moveToLast
   case moveToPrevious
   case moveToFirst
+  case extendToNext
+  case extendToLast
+  case extendToPrevious
+  case extendToFirst
   case openPreferences
   case pinOrUnpin
   case selectCurrentItem
@@ -59,7 +63,8 @@ enum KeyChord: CaseIterable {
     self.init(key, modifierFlags)
   }
 
-  init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) { // swiftlint:disable:this cyclomatic_complexity
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
+  init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) {
     switch (key, modifierFlags) {
     case (.delete, [.command, .option]):
       self = .clearHistory
@@ -73,22 +78,32 @@ enum KeyChord: CaseIterable {
       self = .deleteOneCharFromSearch
     case (.w, [.control]):
       self = .deleteLastWordFromSearch
+    case (.downArrow, [.shift]),
+         (.n, [.control, .shift]):
+      self = .extendToNext
     case (.downArrow, []),
-         (.downArrow, [.shift]),
          (.n, [.control]),
-         (.n, [.control, .shift]),
          (.j, [.control]):
       self = .moveToNext
+    case (.downArrow, [.command, .shift]),
+         (.downArrow, [.option, .shift]),
+         (.n, [.control, .option, .shift]):
+       self = .extendToLast
     case (.downArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
          (.n, [.control, .option]),
          (.pageDown, []):
       self = .moveToLast
+    case (.upArrow, [.shift]),
+         (.p, [.control, .shift]):
+      self = .extendToPrevious
     case (.upArrow, []),
-         (.upArrow, [.shift]),
          (.p, [.control]),
-         (.p, [.control, .shift]),
          (.k, [.control]):
       self = .moveToPrevious
+    case (.upArrow, [.command, .shift]),
+         (.upArrow, [.option, .shift]),
+         (.p, [.control, .option, .shift]):
+        self = .extendToFirst
     case (.upArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
          (.p, [.control, .option]),
          (.pageUp, []):
