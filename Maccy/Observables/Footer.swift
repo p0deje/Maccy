@@ -12,12 +12,15 @@ class Footer {
     }
   }
 
+  #if os(macOS)
   var suppressClearAlert = Binding<Bool>(
     get: { Defaults[.suppressClearAlert] },
     set: { Defaults[.suppressClearAlert] = $0 }
   )
+  #endif
 
   init() { // swiftlint:disable:this function_body_length
+    #if os(macOS)
     items = [
       FooterItem(
         title: "clear",
@@ -73,5 +76,26 @@ class Footer {
         AppState.shared.quit()
       }
     ]
+    #else
+    // iOS has simpler footer - just clear history
+    items = [
+      FooterItem(
+        title: "clear",
+        help: "clear_tooltip"
+      ) {
+        Task { @MainActor in
+          AppState.shared.history.clear()
+        }
+      },
+      FooterItem(
+        title: "clear_all",
+        help: "clear_all_tooltip"
+      ) {
+        Task { @MainActor in
+          AppState.shared.history.clearAll()
+        }
+      }
+    ]
+    #endif
   }
 }

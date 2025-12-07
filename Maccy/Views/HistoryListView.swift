@@ -6,7 +6,9 @@ struct HistoryListView: View {
   @FocusState.Binding var searchFocused: Bool
 
   @Environment(AppState.self) private var appState
+  #if os(macOS)
   @Environment(ModifierFlags.self) private var modifierFlags
+  #endif
   @Environment(\.scenePhase) private var scenePhase
 
   @Default(.pinTo) private var pinTo
@@ -35,6 +37,7 @@ struct HistoryListView: View {
             .padding(.vertical, 3)
         }
       }
+      #if os(macOS)
       .background {
         GeometryReader { geo in
           Color.clear
@@ -43,6 +46,7 @@ struct HistoryListView: View {
             }
         }
       }
+      #endif
     }
 
     ScrollView {
@@ -71,10 +75,13 @@ struct HistoryListView: View {
             appState.isKeyboardNavigating = true
             appState.selection = appState.history.unpinnedItems.first?.id ?? appState.history.pinnedItems.first?.id
           } else {
+            #if os(macOS)
             modifierFlags.flags = []
+            #endif
             appState.isKeyboardNavigating = true
           }
         }
+        #if os(macOS)
         // Calculate the total height inside a scroll view.
         .background {
           GeometryReader { geo in
@@ -89,6 +96,7 @@ struct HistoryListView: View {
               }
           }
         }
+        #endif
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
     }
@@ -105,6 +113,7 @@ struct HistoryListView: View {
           HistoryItemView(item: item)
         }
       }
+      #if os(macOS)
       .background {
         GeometryReader { geo in
           Color.clear
@@ -113,6 +122,7 @@ struct HistoryListView: View {
             }
         }
       }
+      #endif
     }
   }
 }

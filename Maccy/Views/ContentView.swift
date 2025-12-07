@@ -3,18 +3,24 @@ import SwiftUI
 
 struct ContentView: View {
   @State private var appState = AppState.shared
+  #if os(macOS)
   @State private var modifierFlags = ModifierFlags()
+  #endif
   @State private var scenePhase: ScenePhase = .background
 
   @FocusState private var searchFocused: Bool
 
   var body: some View {
     ZStack {
+      #if os(macOS)
       if #available(macOS 26.0, *) {
         GlassEffectView()
       } else {
         VisualEffectView()
       }
+      #else
+      VisualEffectView()
+      #endif
 
       VStack(alignment: .leading, spacing: 0) {
         KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
@@ -33,8 +39,12 @@ struct ContentView: View {
       }
       .animation(.default.speed(3), value: appState.history.items)
       .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
+      #if os(macOS)
       .padding(.vertical, Popup.verticalPadding)
       .padding(.horizontal, Popup.horizontalPadding)
+      #else
+      .padding()
+      #endif
       .onAppear {
         searchFocused = true
       }
@@ -46,8 +56,11 @@ struct ContentView: View {
       }
     }
     .environment(appState)
+    #if os(macOS)
     .environment(modifierFlags)
+    #endif
     .environment(\.scenePhase, scenePhase)
+    #if os(macOS)
     // FloatingPanel is not a scene, so let's implement custom scenePhase..
     .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) {
       if let window = $0.object as? NSWindow,
@@ -72,6 +85,11 @@ struct ContentView: View {
         popover.behavior = .semitransient
       }
     }
+    #else
+    .onChange(of: scenePhase) { _, newPhase in
+      self.scenePhase = newPhase
+    }
+    #endif
   }
 }
 

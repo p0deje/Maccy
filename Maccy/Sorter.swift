@@ -1,5 +1,5 @@
-import AppKit
 import Defaults
+import Foundation
 
 // swiftlint:disable identifier_name
 // swiftlint:disable type_name

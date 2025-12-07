@@ -1,8 +1,12 @@
+#if os(macOS)
 import AppKit.NSWorkspace
+import Sauce
+#else
+import UIKit
+#endif
 import Defaults
 import Foundation
 import Observation
-import Sauce
 
 @Observable
 class HistoryItemDecorator: Identifiable, Hashable {
@@ -11,8 +15,14 @@ class HistoryItemDecorator: Identifiable, Hashable {
   }
 
   static var previewThrottler = Throttler(minimumDelay: Double(Defaults[.previewDelay]) / 1000)
+
+  #if os(macOS)
   static var previewImageSize: NSSize { NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536) }
   static var thumbnailImageSize: NSSize { NSSize(width: 340, height: Defaults[.imageMaxHeight]) }
+  #else
+  static var previewImageSize: CGSize { UIScreen.main.bounds.size }
+  static var thumbnailImageSize: CGSize { CGSize(width: 340, height: Defaults[.imageMaxHeight]) }
+  #endif
 
   let id = UUID()
 
@@ -33,7 +43,9 @@ class HistoryItemDecorator: Identifiable, Hashable {
       }
     }
   }
+  #if os(macOS)
   var shortcuts: [KeyShortcut] = []
+  #endif
   var showPreview: Bool = false
 
   var application: String? {
@@ -41,6 +53,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
       return "iCloud"
     }
 
+    #if os(macOS)
     guard let bundle = item.application,
       let url = NSWorkspace.shared.urlForApplication(withBundleIdentifier: bundle)
     else {
@@ -48,13 +61,19 @@ class HistoryItemDecorator: Identifiable, Hashable {
     }
 
     return url.deletingPathExtension().lastPathComponent
+    #else
+    // On iOS, just return the bundle identifier formatted
+    return item.application
+    #endif
   }
 
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
-  var previewImage: NSImage?
-  var thumbnailImage: NSImage?
+  var previewImage: PlatformImage?
+  var thumbnailImage: PlatformImage?
+  #if os(macOS)
   var applicationImage: ApplicationImage
+  #endif
 
   // 10k characters seems to be more than enough on large displays
   var text: String { item.previewableText.shortened(to: 10_000) }
@@ -71,6 +90,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
 
   private(set) var item: HistoryItem
 
+  #if os(macOS)
   init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
     self.item = item
     self.shortcuts = shortcuts
@@ -80,6 +100,14 @@ class HistoryItemDecorator: Identifiable, Hashable {
     synchronizeItemPin()
     synchronizeItemTitle()
   }
+  #else
+  init(_ item: HistoryItem) {
+    self.item = item
+    self.title = item.title
+
+    synchronizeItemTitle()
+  }
+  #endif
 
   @MainActor
   func ensureThumbnailImage() {
@@ -182,6 +210,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
     }
   }
 
+  #if os(macOS)
   private func synchronizeItemPin() {
     _ = withObservationTracking {
       item.pin
@@ -194,6 +223,7 @@ class HistoryItemDecorator: Identifiable, Hashable {
       }
     }
   }
+  #endif
 
   private func synchronizeItemTitle() {
     _ = withObservationTracking {

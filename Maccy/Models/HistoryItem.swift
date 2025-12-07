@@ -1,11 +1,16 @@
+#if os(macOS)
 import AppKit
-import Defaults
 import Sauce
+#else
+import UIKit
+#endif
+import Defaults
 import SwiftData
 import Vision
 
 @Model
 class HistoryItem {
+  #if os(macOS)
   static var supportedPins: Set<String> {
     // "a" reserved for select all
     // "q" reserved for quit
@@ -42,17 +47,38 @@ class HistoryItem {
 
   @MainActor
   static var randomAvailablePin: String { availablePins.randomElement() ?? "" }
+  #else
+  static var supportedPins: Set<String> {
+    Set([
+      "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+      "m", "n", "o", "p", "r", "s", "t", "u", "x", "y"
+    ])
+  }
+
+  @MainActor
+  static var availablePins: [String] {
+    let descriptor = FetchDescriptor<HistoryItem>(
+      predicate: #Predicate { $0.pin != nil }
+    )
+    let pins = try? Storage.shared.context.fetch(descriptor).compactMap({ $0.pin })
+    let assignedPins = Set(pins ?? [])
+    return Array(supportedPins.subtracting(assignedPins))
+  }
+
+  @MainActor
+  static var randomAvailablePin: String { availablePins.randomElement() ?? "" }
+  #endif
 
   private static let transientTypes: [String] = [
-    NSPasteboard.PasteboardType.modified.rawValue,
-    NSPasteboard.PasteboardType.fromMaccy.rawValue,
-    NSPasteboard.PasteboardType.linkPresentationMetadata.rawValue,
-    NSPasteboard.PasteboardType.customWebKitPasteboardData.rawValue,
-    NSPasteboard.PasteboardType.source.rawValue,
-    NSPasteboard.PasteboardType.customChromiumWebData.rawValue,
-    NSPasteboard.PasteboardType.chromiumSourceUrl.rawValue,
-    NSPasteboard.PasteboardType.chromiumSourceToken.rawValue,
-    NSPasteboard.PasteboardType.notesRichText.rawValue
+    PasteboardType.modified.rawValue,
+    PasteboardType.fromMaccy.rawValue,
+    PasteboardType.linkPresentationMetadata.rawValue,
+    PasteboardType.customWebKitPasteboardData.rawValue,
+    PasteboardType.source.rawValue,
+    PasteboardType.customChromiumWebData.rawValue,
+    PasteboardType.chromiumSourceUrl.rawValue,
+    PasteboardType.chromiumSourceToken.rawValue,
+    PasteboardType.notesRichText.rawValue
   ]
 
   var application: String?
@@ -153,12 +179,12 @@ class HistoryItem {
     return data
   }
 
-  var image: NSImage? {
+  var image: PlatformImage? {
     guard let data = imageData else {
       return nil
     }
 
-    return NSImage(data: data)
+    return PlatformImage(data: data)
   }
 
   var rtfData: Data? { contentData([.rtf]) }
@@ -195,22 +221,22 @@ class HistoryItem {
     universalClipboard && contentData([.html, .tiff, .png, .jpeg, .rtf, .string, .heic]) != nil
   }
 
-  private func contentData(_ types: [NSPasteboard.PasteboardType]) -> Data? {
+  private func contentData(_ types: [PasteboardType]) -> Data? {
     let content = contents.first(where: { content in
-      return types.contains(NSPasteboard.PasteboardType(content.type))
+      return types.contains(PasteboardType(rawValue: content.type))
     })
 
     return content?.value
   }
 
-  private func allContentData(_ types: [NSPasteboard.PasteboardType]) -> [Data] {
+  private func allContentData(_ types: [PasteboardType]) -> [Data] {
     return contents
-      .filter { types.contains(NSPasteboard.PasteboardType($0.type)) }
+      .filter { types.contains(PasteboardType(rawValue: $0.type)) }
       .compactMap { $0.value }
   }
 
   private func performTextRecognition() {
-    guard let cgImage = image?.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+    guard let cgImage = image?.cgImageForProcessing else {
       return
     }
 

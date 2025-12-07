@@ -7,6 +7,7 @@ struct HistoryItemView: View {
   @Environment(AppState.self) private var appState
 
   var body: some View {
+    #if os(macOS)
     ListItemView(
       id: item.id,
       appIcon: item.applicationImage,
@@ -18,6 +19,17 @@ struct HistoryItemView: View {
     ) {
       Text(verbatim: item.title)
     }
+    #else
+    ListItemView(
+      id: item.id,
+      image: item.thumbnailImage,
+      accessoryImage: item.thumbnailImage != nil ? nil : ColorImage.from(item.title),
+      attributedTitle: item.attributedTitle,
+      isSelected: item.isSelected
+    ) {
+      Text(verbatim: item.title)
+    }
+    #endif
     .onAppear {
       item.ensureThumbnailImage()
     }

@@ -1,5 +1,6 @@
 import SwiftUI
 
+#if os(macOS)
 extension View {
   func onMouseMove(_ mouseMoved: @escaping () -> Void) -> some View {
     modifier(MouseMovedViewModifier(mouseMoved))
@@ -70,3 +71,11 @@ struct MouseMovedViewModifier: ViewModifier {
     }
   }
 }
+#else
+// iOS - no-op since there's no mouse
+extension View {
+  func onMouseMove(_ mouseMoved: @escaping () -> Void) -> some View {
+    self
+  }
+}
+#endif

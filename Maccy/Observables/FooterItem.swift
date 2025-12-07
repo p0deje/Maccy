@@ -16,7 +16,9 @@ class FooterItem: Equatable, Identifiable {
   let id = UUID()
 
   var title: String
+  #if os(macOS)
   var shortcuts: [KeyShortcut] = []
+  #endif
   var help: LocalizedStringKey?
   var isSelected: Bool = false
   var confirmation: Confirmation?
@@ -25,6 +27,7 @@ class FooterItem: Equatable, Identifiable {
   var isVisible: Bool = true
   var action: () -> Void
 
+  #if os(macOS)
   init(
     title: String,
     shortcuts: [KeyShortcut] = [],
@@ -40,4 +43,19 @@ class FooterItem: Equatable, Identifiable {
     self.suppressConfirmation = suppressConfirmation
     self.action = action
   }
+  #else
+  init(
+    title: String,
+    help: LocalizedStringKey? = nil,
+    confirmation: Confirmation? = nil,
+    suppressConfirmation: Binding<Bool>? = nil,
+    action: @escaping () -> Void
+  ) {
+    self.title = title
+    self.help = help
+    self.confirmation = confirmation
+    self.suppressConfirmation = suppressConfirmation
+    self.action = action
+  }
+  #endif
 }

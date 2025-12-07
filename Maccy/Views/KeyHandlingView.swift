@@ -1,6 +1,9 @@
+#if os(macOS)
 import Sauce
+#endif
 import SwiftUI
 
+#if os(macOS)
 struct KeyHandlingView<Content: View>: View {
   @Binding var searchQuery: String
   @FocusState.Binding var searchFocused: Bool
@@ -132,3 +135,15 @@ struct KeyHandlingView<Content: View>: View {
       }
   }
 }
+#else
+// iOS version - no keyboard handling, just pass through content
+struct KeyHandlingView<Content: View>: View {
+  @Binding var searchQuery: String
+  @FocusState.Binding var searchFocused: Bool
+  @ViewBuilder let content: () -> Content
+
+  var body: some View {
+    content()
+  }
+}
+#endif

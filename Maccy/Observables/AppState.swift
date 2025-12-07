@@ -1,14 +1,20 @@
+#if os(macOS)
 import AppKit
+import Settings
+#else
+import UIKit
+#endif
 import Defaults
 import Foundation
-import Settings
 
 @Observable
 class AppState: Sendable {
   static let shared = AppState()
 
+  #if os(macOS)
   var appDelegate: AppDelegate?
   var popup: Popup
+  #endif
   var history: History
   var footer: Footer
 
@@ -49,6 +55,7 @@ class AppState: Sendable {
     }
   }
 
+  #if os(macOS)
   var menuIconText: String {
     var title = history.unpinnedItems.first?.text.shortened(to: 100)
       .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -58,11 +65,14 @@ class AppState: Sendable {
 
   private let about = About()
   private var settingsWindowController: SettingsWindowController?
+  #endif
 
   init() {
     history = History.shared
     footer = Footer()
+    #if os(macOS)
     popup = Popup()
+    #endif
   }
 
   @MainActor
@@ -70,14 +80,22 @@ class AppState: Sendable {
     if let item = history.selectedItem, history.items.contains(item) {
       history.select(item)
     } else if let item = footer.selectedItem {
+      #if os(macOS)
       // TODO: Use item.suppressConfirmation, but it's not updated!
       if item.confirmation != nil, Defaults[.suppressClearAlert] == false {
         item.showConfirmation = true
       } else {
         item.action()
       }
+      #else
+      item.action()
+      #endif
     } else {
+      #if os(macOS)
       Clipboard.shared.copy(history.searchQuery)
+      #else
+      UIPasteboard.general.string = history.searchQuery
+      #endif
       history.searchQuery = ""
     }
   }
@@ -144,6 +162,7 @@ class AppState: Sendable {
     }
   }
 
+  #if os(macOS)
   func openAbout() {
     about.openAbout(nil)
   }
@@ -207,4 +226,5 @@ class AppState: Sendable {
   func quit() {
     NSApp.terminate(self)
   }
+  #endif
 }

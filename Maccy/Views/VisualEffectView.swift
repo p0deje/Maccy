@@ -1,5 +1,6 @@
 import SwiftUI
 
+#if os(macOS)
 struct VisualEffectView: NSViewRepresentable {
   let visualEffectView = NSVisualEffectView()
 
@@ -37,3 +38,15 @@ struct GlassEffectView: NSViewRepresentable {
     blendingMode: .behindWindow
   )
 }
+#else
+struct VisualEffectView: View {
+  var body: some View {
+    Rectangle()
+      .fill(.ultraThinMaterial)
+  }
+}
+
+#Preview {
+  VisualEffectView()
+}
+#endif

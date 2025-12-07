@@ -1,11 +1,15 @@
 // swiftlint:disable file_length
+#if os(macOS)
 import AppKit.NSRunningApplication
+import Sauce
+import Settings
+#else
+import UIKit
+#endif
 import Defaults
 import Foundation
 import Logging
 import Observation
-import Sauce
-import Settings
 import SwiftData
 
 @Observable
@@ -35,11 +39,14 @@ class History { // swiftlint:disable:this type_body_length
           AppState.shared.highlightFirst()
         }
 
+        #if os(macOS)
         AppState.shared.popup.needsResize = true
+        #endif
       }
     }
   }
 
+  #if os(macOS)
   var pressedShortcutItem: HistoryItemDecorator? {
     guard let event = NSApp.currentEvent else {
       return nil
@@ -56,13 +63,16 @@ class History { // swiftlint:disable:this type_body_length
     let key = Sauce.shared.key(for: Int(event.keyCode))
     return items.first { $0.shortcuts.contains(where: { $0.key == key }) }
   }
+  #endif
 
   private let search = Search()
   private let sorter = Sorter()
   private let throttler = Throttler(minimumDelay: 0.2)
 
+  #if os(macOS)
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
+  #endif
 
   // The distinction between `all` and `items` is the following:
   // - `all` stores all history items, even the ones that are currently hidden by a search
@@ -71,11 +81,13 @@ class History { // swiftlint:disable:this type_body_length
   var all: [HistoryItemDecorator] = []
 
   init() {
+    #if os(macOS)
     Task {
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
         updateShortcuts()
       }
     }
+    #endif
 
     Task {
       for await _ in Defaults.updates(.sortBy, initial: false) {
@@ -116,10 +128,12 @@ class History { // swiftlint:disable:this type_body_length
     limitHistorySize(to: Defaults[.size])
 
     updateShortcuts()
+    #if os(macOS)
     // Ensure that panel size is proper *after* loading all items.
     Task {
       AppState.shared.popup.needsResize = true
     }
+    #endif
   }
 
   @MainActor
@@ -138,6 +152,7 @@ class History { // swiftlint:disable:this type_body_length
     try? Storage.shared.context.save()
   }
 
+  #if os(macOS)
   @discardableResult
   @MainActor
   func add(_ item: HistoryItem) -> HistoryItemDecorator {
@@ -200,6 +215,7 @@ class History { // swiftlint:disable:this type_body_length
 
     return itemDecorator
   }
+  #endif
 
   @MainActor
   private func withLogging(_ msg: String, _ block: () throws -> Void) rethrows {
@@ -223,7 +239,9 @@ class History { // swiftlint:disable:this type_body_length
         }
       }
       all.removeAll(where: \.isUnpinned)
+      #if os(macOS)
       sessionLog.removeValues { $0.pin == nil }
+      #endif
       items = all
 
       try? Storage.shared.context.transaction {
@@ -240,11 +258,13 @@ class History { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
+    #if os(macOS)
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
       AppState.shared.popup.needsResize = true
     }
+    #endif
   }
 
   @MainActor
@@ -254,7 +274,9 @@ class History { // swiftlint:disable:this type_body_length
         cleanup(item)
       }
       all.removeAll()
+      #if os(macOS)
       sessionLog.removeAll()
+      #endif
       items = all
 
       try? Storage.shared.context.delete(model: HistoryItem.self)
@@ -262,11 +284,13 @@ class History { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
+    #if os(macOS)
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
       AppState.shared.popup.needsResize = true
     }
+    #endif
   }
 
   @MainActor
@@ -282,12 +306,16 @@ class History { // swiftlint:disable:this type_body_length
 
     all.removeAll { $0 == item }
     items.removeAll { $0 == item }
+    #if os(macOS)
     sessionLog.removeValues { $0 == item.item }
+    #endif
 
     updateUnpinnedShortcuts()
+    #if os(macOS)
     Task {
       AppState.shared.popup.needsResize = true
     }
+    #endif
   }
 
   @MainActor
@@ -301,6 +329,7 @@ class History { // swiftlint:disable:this type_body_length
       return
     }
 
+    #if os(macOS)
     let modifierFlags = NSApp.currentEvent?.modifierFlags
       .intersection(.deviceIndependentFlagsMask)
       .subtracting([.capsLock, .numericPad, .function]) ?? []
@@ -328,11 +357,32 @@ class History { // swiftlint:disable:this type_body_length
         return
       }
     }
+    #else
+    // iOS: Simply copy to clipboard, no paste simulation possible
+    copyToiOSClipboard(item.item)
+    #endif
 
     Task {
       searchQuery = ""
     }
   }
+
+  #if os(iOS)
+  private func copyToiOSClipboard(_ item: HistoryItem) {
+    if let text = item.text {
+      UIPasteboard.general.string = text
+    } else if let imageData = item.imageData, let image = UIImage(data: imageData) {
+      UIPasteboard.general.image = image
+    } else if let rtfData = item.rtfData {
+      UIPasteboard.general.setData(rtfData, forPasteboardType: "public.rtf")
+    } else if let htmlData = item.htmlData {
+      UIPasteboard.general.setData(htmlData, forPasteboardType: "public.html")
+    }
+    // Provide haptic feedback
+    let generator = UINotificationFeedbackGenerator()
+    generator.notificationOccurred(.success)
+  }
+  #endif
 
   @MainActor
   func togglePin(_ item: HistoryItemDecorator?) {
@@ -356,6 +406,7 @@ class History { // swiftlint:disable:this type_body_length
     }
   }
 
+  #if os(macOS)
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
     let descriptor = FetchDescriptor<HistoryItem>()
@@ -378,6 +429,7 @@ class History { // swiftlint:disable:this type_body_length
 
     return nil
   }
+  #endif
 
   private func updateItems(_ newItems: [Search.SearchResult]) {
     items = newItems.map { result in
@@ -391,11 +443,13 @@ class History { // swiftlint:disable:this type_body_length
   }
 
   private func updateShortcuts() {
+    #if os(macOS)
     for item in pinnedItems {
       if let pin = item.item.pin {
         item.shortcuts = KeyShortcut.create(character: pin)
       }
     }
+    #endif
 
     updateUnpinnedShortcuts()
   }
@@ -407,6 +461,7 @@ class History { // swiftlint:disable:this type_body_length
   }
 
   private func updateUnpinnedShortcuts() {
+    #if os(macOS)
     let visibleUnpinnedItems = unpinnedItems.filter(\.isVisible)
     for item in visibleUnpinnedItems {
       item.shortcuts = []
@@ -417,5 +472,6 @@ class History { // swiftlint:disable:this type_body_length
       item.shortcuts = KeyShortcut.create(character: String(index))
       index += 1
     }
+    #endif
   }
 }

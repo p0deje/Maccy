@@ -1,5 +1,5 @@
-import AppKit
 import Defaults
+import Foundation
 import Fuse
 
 class Search {
