@@ -1,2 +1,6 @@
 "Title" = "ظاهر";
 "PopupAt" = "مکان باز شدن پنجره:";
+"PopupAtCursor" = "مکان‌نما (Cursor)";
+"PopupAtMenuBarIcon" = "آیکون منو";
+"PopupAtWindowCenter" = "مرکز پنجره";
+"PopupAtScreenCenter" = "مرکز صفحه نمایش";
