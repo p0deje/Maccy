@@ -25,7 +25,7 @@ struct WrappingTextView: Layout {
       height = min(scaledSize.height, maxHeight)
     } else {
       width = textSize.width
-      height = min(textSize.height, maxHeight)
+      height = textSize.height
     }
 
     return CGSize(width: width, height: height)

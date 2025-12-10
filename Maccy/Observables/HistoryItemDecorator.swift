@@ -56,8 +56,8 @@ class HistoryItemDecorator: Identifiable, Hashable {
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
-  // 10k characters seems to be more than enough on large displays
-  var text: String { item.previewableText.shortened(to: 10_000) }
+  // Character limit is read from settings. Defaults to 10k
+  var text: String { item.previewableText.shortened(to: Defaults[.characterLimit]) }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
