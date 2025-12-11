@@ -8,7 +8,7 @@ struct SearchFieldView: View {
 
   var body: some View {
     ZStack {
-      RoundedRectangle(cornerRadius: 5, style: .continuous)
+      RoundedRectangle(cornerRadius: Popup.cornerRadius, style: .continuous)
         .fill(Color.secondary)
         .opacity(0.1)
         .frame(height: 23)
