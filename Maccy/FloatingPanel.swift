@@ -75,6 +75,11 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
     orderFrontRegardless()
     makeKey()
+    if Defaults[.privacyMode] {
+      self.sharingType = .none
+    } else {
+      self.sharingType = .readOnly
+    }
     isPresented = true
 
     if popupPosition == .statusItem {
