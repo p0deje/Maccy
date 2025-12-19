@@ -50,6 +50,27 @@ struct HistoryListView: View {
         LazyVStack(spacing: 0) {
           ForEach(unpinnedItems) { item in
             HistoryItemView(item: item)
+              .onAppear {
+                // Trigger loading more items when approaching the end
+                if let lastItem = unpinnedItems.last,
+                   item.id == lastItem.id,
+                   appState.history.hasMoreItems {
+                  Task {
+                    await appState.history.loadMoreItems()
+                  }
+                }
+              }
+          }
+
+          // Loading indicator
+          if appState.history.isLoadingMore {
+            HStack {
+              Spacer()
+              ProgressView()
+                .controlSize(.small)
+                .padding(.vertical, 10)
+              Spacer()
+            }
           }
         }
         .task(id: appState.scrollTarget) {
