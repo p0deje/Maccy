@@ -110,7 +110,17 @@ struct KeyHandlingView<Content: View>: View {
           appState.history.togglePin(appState.history.selectedItem)
           return .handled
         case .selectCurrentItem:
-          appState.select()
+          if let event = NSApp.currentEvent,
+             let selectedItem = appState.history.selectedItem?.item,
+             event.modifierFlags.contains(.option),
+             event.modifierFlags.contains(.shift) {
+            // Option+Shift+Enter: paste without formatting
+            Clipboard.shared.copy(selectedItem, removeFormatting: true)
+            appState.popup.close()
+            Clipboard.shared.paste()
+          } else {
+            appState.select()
+          }
           return .handled
         case .close:
           appState.popup.close()
