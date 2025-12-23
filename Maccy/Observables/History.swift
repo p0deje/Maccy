@@ -310,6 +310,7 @@ class History { // swiftlint:disable:this type_body_length
       Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
       if Defaults[.pasteByDefault] {
         Clipboard.shared.paste()
+        item.item.lastUsedAt = Date()
       }
     } else {
       switch HistoryItemAction(modifierFlags) {
@@ -320,10 +321,12 @@ class History { // swiftlint:disable:this type_body_length
         AppState.shared.popup.close()
         Clipboard.shared.copy(item.item)
         Clipboard.shared.paste()
+        item.item.lastUsedAt = Date()
       case .pasteWithoutFormatting:
         AppState.shared.popup.close()
         Clipboard.shared.copy(item.item, removeFormatting: true)
         Clipboard.shared.paste()
+        item.item.lastUsedAt = Date()
       case .unknown:
         return
       }

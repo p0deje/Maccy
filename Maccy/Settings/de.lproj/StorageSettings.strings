@@ -10,5 +10,6 @@
 "SortBy" = "Sortieren:";
 "LastCopiedAt" = "Zeitpunkt des letzten Eintrags";
 "FirstCopiedAt" = "Zeitpunkt des ersten Eintrags";
+"LastCopiedAtReversed" = "Zeit der letzten Kopie (umgekehrte Reihenfolge)";
 "NumberOfCopies" = "Häufigkeit der Einträge";
 "SortByTooltip" = "Standard: Zeitpunkt des letzten Eintrags.";

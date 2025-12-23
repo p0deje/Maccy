@@ -10,5 +10,6 @@
 "SortBy" = "Rikiuoti pagal:";
 "LastCopiedAt" = "Paskutinės kopijos padarymo laikas";
 "FirstCopiedAt" = "Pirmosios kopijos laikas";
+"LastCopiedAtReversed" = "Paskutinio kopijavimo laikas (atvirkštinė tvarka)";
 "NumberOfCopies" = "Kopijų skaičius";
 "SortByTooltip" = "Numatytoji reikšmė: Paskutinės kopijos laikas.";

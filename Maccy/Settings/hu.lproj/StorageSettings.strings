@@ -10,5 +10,6 @@
 "SortBy" = "Rendezés:";
 "LastCopiedAt" = "Utolsó másolás ideje";
 "FirstCopiedAt" = "Első másolás ideje";
+"LastCopiedAtReversed" = "Az utolsó másolás ideje (fordított sorrend)";
 "NumberOfCopies" = "Másolások száma";
 "SortByTooltip" = "Alapértelmezett: Utolsó másolás ideje.";

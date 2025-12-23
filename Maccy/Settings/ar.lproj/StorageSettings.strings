@@ -10,5 +10,6 @@
 "SortBy" = "الترتيب حسب:";
 "LastCopiedAt" = "وقت النسخة الأخيرة";
 "FirstCopiedAt" = "وقت النسخة الأولى";
+"LastCopiedAtReversed" = "وقت آخر نسخ (ترتيب عكسي)";
 "NumberOfCopies" = "عدد النسخ";
 "SortByTooltip" = "الافتراضي: وقت النسخة الأخيرة.";

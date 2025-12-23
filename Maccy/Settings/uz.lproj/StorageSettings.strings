@@ -8,6 +8,7 @@
 "SortBy" = "Saralash turi:";
 "LastCopiedAt" = "Oxirgi nusxa vaqti";
 "FirstCopiedAt" = "Birinchi nusxaning vaqti";
+"LastCopiedAtReversed" = "Oxirgi nusxalash vaqti (teskari tartib)";
 "NumberOfCopies" = "Nusxalar soni";
 "SortByTooltip" = "Standart: Oxirgi nusxa vaqti.";
 "Title" = "Hotira";

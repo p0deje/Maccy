@@ -10,5 +10,6 @@
 "SortBy" = "정렬 기준:";
 "LastCopiedAt" = "마지막 복사한 시간";
 "FirstCopiedAt" = "처음 복사한 시간";
+"LastCopiedAtReversed" = "마지막 복사 시간(역순)";
 "NumberOfCopies" = "복사 횟수";
 "SortByTooltip" = "기본값: 마지막 복사한 시간.";

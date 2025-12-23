@@ -9,6 +9,7 @@
 "SortBy" = "Sắp xếp theo:";
 "LastCopiedAt" = "Sao chép mới nhất";
 "FirstCopiedAt" = "Sao chép cũ nhất";
+"LastCopiedAtReversed" = "Thời gian sao chép gần nhất (thứ tự đảo ngược)";
 "NumberOfCopies" = "Sao chép nhiều nhất";
 "SortByTooltip" = "Mặc định: Sao chép mới nhất.";
 "CurrentSizeTooltip" = "Dung lượng hiện đang chiếm trên ổ đĩa.";

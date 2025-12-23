@@ -9,6 +9,7 @@
 "SortBy" = "סידור לפי:";
 "LastCopiedAt" = "מועד העותק האחרון";
 "FirstCopiedAt" = "מועד העותק הראשון";
+"LastCopiedAtReversed" = "זמן ההעתקה האחרונה (סדר הפוך)";
 "NumberOfCopies" = "מספר עותקים";
 "SortByTooltip" = "ברירת מחדל: מועד העותק האחרון.";
 "CurrentSizeTooltip" = "גודל נוכחי בדיסק.";

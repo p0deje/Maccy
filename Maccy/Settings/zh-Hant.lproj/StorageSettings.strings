@@ -10,5 +10,6 @@
 "SortBy" = "排序方式：";
 "LastCopiedAt" = "上次拷貝時間";
 "FirstCopiedAt" = "首次拷貝時間";
+"LastCopiedAtReversed" = "最後複製時間（逆序）";
 "NumberOfCopies" = "拷貝次數";
 "SortByTooltip" = "預設：上次拷貝時間。";

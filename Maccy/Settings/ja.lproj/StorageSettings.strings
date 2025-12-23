@@ -10,5 +10,6 @@
 "SortBy" = "並び替え:";
 "LastCopiedAt" = "最後にコピーした日時";
 "FirstCopiedAt" = "最初にコピーした日時";
+"LastCopiedAtReversed" = "最後のコピー時間（逆順）";
 "NumberOfCopies" = "コピー回数";
 "SortByTooltip" = "デフォルト：最後にコピーした日時。";

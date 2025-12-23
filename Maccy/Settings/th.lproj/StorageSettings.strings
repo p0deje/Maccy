@@ -9,6 +9,7 @@
 "SortBy" = "เรียงตาม:";
 "LastCopiedAt" = "เวลาคัดลอกสุดท้าย";
 "FirstCopiedAt" = "เวลาคัดลอกครั้งแรก";
+"LastCopiedAtReversed" = "เวลาการคัดลอกล่าสุด (ลำดับย้อนกลับ)";
 "NumberOfCopies" = "จำนวนการคัดลอก";
 "SortByTooltip" = "ค่าเริ่มต้น: เวลาคัดลอกสุดท้าย";
 "CurrentSizeTooltip" = "ขนาดปัจจุบันบนดิสก์";

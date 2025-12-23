@@ -10,5 +10,6 @@
 "SortBy" = "Sorter etter:";
 "LastCopiedAt" = "Tidspunkt siste kopiering";
 "FirstCopiedAt" = "Tidspunkt første kopiering";
+"LastCopiedAtReversed" = "Tidspunkt for siste kopiering (omvendt rekkefølge)";
 "NumberOfCopies" = "Antall ganger kopiert";
 "SortByTooltip" = "Standard: Tidspunkt siste kopiering.";

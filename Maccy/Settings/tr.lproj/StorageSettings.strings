@@ -10,5 +10,6 @@
 "SortBy" = "Şuna göre sırala:";
 "LastCopiedAt" = "Son kopyanın zamanı";
 "FirstCopiedAt" = "İlk kopyanın zamanı";
+"LastCopiedAtReversed" = "Son kopyalama zamanı (ters sıra)";
 "NumberOfCopies" = "Kopya sayısı";
 "SortByTooltip" = "Saptanmış: Son kopyanın zamanı.";

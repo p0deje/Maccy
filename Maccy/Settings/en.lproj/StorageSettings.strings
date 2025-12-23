@@ -10,5 +10,6 @@
 "SortBy" = "Sort by:";
 "LastCopiedAt" = "Time of last copy";
 "FirstCopiedAt" = "Time of first copy";
+"LastCopiedAtReversed" = "Time of last copy (Reversed)";
 "NumberOfCopies" = "Number of copies";
 "SortByTooltip" = "Default: Time of last copy.";

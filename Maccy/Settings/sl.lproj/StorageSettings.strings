@@ -10,5 +10,6 @@
 "SortBy" = "Razvrsti po:";
 "LastCopiedAt" = "Čas zadnjega kopiranja";
 "FirstCopiedAt" = "Čas prvega kopiranja";
+"LastCopiedAtReversed" = "Čas zadnjega kopiranja (obrnjen vrstni red)";
 "NumberOfCopies" = "Število kopiranj";
 "SortByTooltip" = "Privzeto: Čas zadnjega kopiranja.";

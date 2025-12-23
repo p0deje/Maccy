@@ -9,6 +9,7 @@
 "SortBy" = "Redoslijed:";
 "LastCopiedAt" = "Vrijeme zadnje kopije";
 "FirstCopiedAt" = "Vrijeme prve kopije";
+"LastCopiedAtReversed" = "Vrijeme zadnjeg kopiranja (obrnuti redoslijed)";
 "NumberOfCopies" = "Broj kopija";
 "SortByTooltip" = "Standardno: Vrijeme zadnje kopije.";
 "CurrentSizeTooltip" = "Trenutna veličina na disku.";

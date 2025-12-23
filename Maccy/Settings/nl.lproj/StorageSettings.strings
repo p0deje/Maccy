@@ -10,5 +10,6 @@
 "SortBy" = "Sorteer op:";
 "LastCopiedAt" = "Tijd van laatste kopie";
 "FirstCopiedAt" = "Tijd van eerste kopie";
+"LastCopiedAtReversed" = "Tijd van laatste kopie (omgekeerde volgorde)";
 "NumberOfCopies" = "Aantal kopieën";
 "SortByTooltip" = "Standaard: Tijd van laatste kopie.";

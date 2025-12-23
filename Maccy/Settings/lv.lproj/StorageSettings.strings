@@ -10,5 +10,6 @@
 "SortBy" = "Kārtot pēc:";
 "LastCopiedAt" = "Pēdējās kopijas laiks";
 "FirstCopiedAt" = "Pirmās kopijas laiks";
+"LastCopiedAtReversed" = "Pēdējās kopēšanas laiks (apgriezta secība)";
 "NumberOfCopies" = "Kopiju skaits";
 "SortByTooltip" = "Noklusējums: pēdējās kopijas laiks.";

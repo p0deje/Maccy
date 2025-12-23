@@ -58,6 +58,7 @@ class HistoryItem {
   var application: String?
   var firstCopiedAt: Date = Date.now
   var lastCopiedAt: Date = Date.now
+  var lastUsedAt: Date?
   var numberOfCopies: Int = 1
   var pin: String?
   var title = ""

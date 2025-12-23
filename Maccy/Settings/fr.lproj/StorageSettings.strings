@@ -10,5 +10,6 @@
 "SortBy" = "Trier par :";
 "LastCopiedAt" = "Date de dernière copie";
 "FirstCopiedAt" = "Date de première copie";
+"LastCopiedAtReversed" = "Heure de la dernière copie (ordre inversé)";
 "NumberOfCopies" = "Nombre de copies";
 "SortByTooltip" = "Par défaut : Date de dernière copie.";

@@ -5,6 +5,7 @@
 "SizeTooltip" = "Numărul de elemente din istoric de păstrat.\nImplicit: 200.";
 "LastCopiedAt" = "Data ultimei copii";
 "NumberOfCopies" = "Numărul de copii";
+"LastCopiedAtReversed" = "Timpul ultimei copieri (ordine inversă)";
 "SortBy" = "Sortare după:";
 "Size" = "Dimensiune:";
 "Save" = "Salvează:";
