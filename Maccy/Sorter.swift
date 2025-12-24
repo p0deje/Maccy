@@ -62,9 +62,9 @@ class Sorter {
         return lhs.lastCopiedAt < rhs.lastCopiedAt
 
       case .lastCopiedAt:
+        fallthrough
+      default:
         return lhs.lastCopiedAt > rhs.lastCopiedAt
-      // default:
-        // return lhs.lastCopiedAt > rhs.lastCopiedAt
       }
     }
 
