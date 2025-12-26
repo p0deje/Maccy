@@ -25,14 +25,21 @@ extension Collection where Element: Equatable {
     }
   }
 
-  func between(from fromElement: Element, to toElement: Element) -> Self.SubSequence? {
+  func between(from fromElement: Element, to toElement: Element, inOrder: Bool = false) -> [Element]? {
     guard let fromIndex = firstIndex(of: fromElement) else {
       return nil
     }
     guard let toIndex = firstIndex(of: toElement) else {
       return nil
     }
-    return self[Swift.min(fromIndex, toIndex)...Swift.max(fromIndex, toIndex)]
+    let startIndex = Swift.min(fromIndex, toIndex)
+    let endIndex = Swift.max(fromIndex, toIndex)
+    let items = self[startIndex...endIndex]
+    if !inOrder && fromIndex > toIndex {
+      return items.reversed()
+    } else {
+      return Array(items)
+    }
   }
 }
 
