@@ -2,7 +2,7 @@ import Defaults
 import SwiftUI
 
 @Observable
-class Footer {
+class Footer: ItemsContainer {
   var items: [FooterItem] = []
 
   var selectedItem: FooterItem? {
@@ -16,6 +16,13 @@ class Footer {
     get: { Defaults[.suppressClearAlert] },
     set: { Defaults[.suppressClearAlert] = $0 }
   )
+
+  private var showFooter: Bool {
+    return Defaults[.showFooter]
+  }
+  var containerVisible: Bool {
+    return showFooter
+  }
 
   init() { // swiftlint:disable:this function_body_length
     items = [

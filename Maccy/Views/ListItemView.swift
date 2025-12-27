@@ -1,15 +1,45 @@
 import Defaults
 import SwiftUI
 
-struct ListItemView<Title: View>: View {
-  var id: UUID
+enum SelectionAppearance {
+  case none
+  case topConnection
+  case bottomConnection
+  case topBottomConnection
+
+  func rect(cornerRadius: CGFloat) -> some Shape {
+    var cornerRadii = RectangleCornerRadii()
+    switch self {
+    case .none:
+      cornerRadii.topLeading = cornerRadius
+      cornerRadii.topTrailing = cornerRadius
+      cornerRadii.bottomLeading = cornerRadius
+      cornerRadii.bottomTrailing = cornerRadius
+    case .topConnection:
+      cornerRadii.bottomLeading = cornerRadius
+      cornerRadii.bottomTrailing = cornerRadius
+    case .bottomConnection:
+      cornerRadii.topLeading = cornerRadius
+      cornerRadii.topTrailing = cornerRadius
+    case .topBottomConnection:
+      break
+    }
+    return .rect(cornerRadii: cornerRadii)
+  }
+}
+
+struct ListItemView<Title: View, ID: Hashable>: View {
+  var id: ID
+  var selectionId: UUID
   var appIcon: ApplicationImage?
   var image: NSImage?
   var accessoryImage: NSImage?
   var attributedTitle: AttributedString?
   var shortcuts: [KeyShortcut]
   var isSelected: Bool
+  var selectionIndex: Int?
   var help: LocalizedStringKey?
+  var selectionAppearance: SelectionAppearance = .none
   @ViewBuilder var title: () -> Title
 
   @Default(.showApplicationIcons) private var showIcons
@@ -21,9 +51,7 @@ struct ListItemView<Title: View>: View {
       if showIcons, let appIcon {
         VStack {
           Spacer(minLength: 0)
-          Image(nsImage: appIcon.nsImage)
-            .resizable()
-            .frame(width: 15, height: 15)
+          AppImageView(appImage: appIcon, size: NSSize(width: 15, height: 15))
           Spacer(minLength: 0)
         }
         .padding(.leading, 4)
@@ -52,18 +80,31 @@ struct ListItemView<Title: View>: View {
 
       Spacer()
 
-      if !shortcuts.isEmpty {
-        ZStack {
-          ForEach(shortcuts) { shortcut in
-            KeyboardShortcutView(shortcut: shortcut)
-              .opacity(shortcut.isVisible(shortcuts, modifierFlags.flags) ? 1 : 0)
+      HStack(spacing: 5) {
+        if let index = selectionIndex {
+          Text("\(index + 1)")
+            .font(.caption)
+            .frame(minWidth: 10, alignment: .center)
+            .padding(3)
+            .background(
+              Color.secondary.opacity(isSelected ? 0.5 : 0.8),
+              in: Capsule()
+            )
+            .foregroundStyle(Color.white)
+        }
+
+        if !shortcuts.isEmpty {
+          ZStack(alignment: .trailing) {
+            ForEach(shortcuts) { shortcut in
+              let visible = shortcut.isVisible(shortcuts, modifierFlags.flags)
+              KeyboardShortcutView(shortcut: shortcut)
+                .opacity(visible ? 1 : 0)
+                .frame(width: visible ? nil : 0)
+            }
           }
         }
-        .padding(.trailing, 10)
-      } else {
-        Spacer()
-          .frame(width: 50)
       }
+      .padding(.trailing, 10)
     }
     .frame(minHeight: Popup.itemHeight)
     .id(id)
@@ -72,16 +113,8 @@ struct ListItemView<Title: View>: View {
     // macOS 26 broke hovering if no background is present.
     // The slight opcaity white background is a workaround
     .background(isSelected ? Color.accentColor.opacity(0.8) : .white.opacity(0.001))
-    .clipShape(.rect(cornerRadius: Popup.cornerRadius))
-    .onHover { hovering in
-      if hovering {
-        if !appState.isKeyboardNavigating {
-          appState.selectWithoutScrolling(id)
-        } else {
-          appState.hoverSelectionWhileKeyboardNavigating = id
-        }
-      }
-    }
+    .clipShape(selectionAppearance.rect(cornerRadius: Popup.cornerRadius))
+    .hoverSelectionId(selectionId)
     .help(help ?? "")
   }
 }

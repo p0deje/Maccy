@@ -32,14 +32,14 @@ struct ContentView: View {
         }
       }
       .animation(.default.speed(3), value: appState.history.items)
+      .animation(.default.speed(3), value: appState.history.pasteStack?.id)
       .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
-      .padding(.vertical, Popup.verticalPadding)
       .padding(.horizontal, Popup.horizontalPadding)
       .onAppear {
         searchFocused = true
       }
       .onMouseMove {
-        appState.isKeyboardNavigating = false
+        appState.navigator.isKeyboardNavigating = false
       }
       .task {
         try? await appState.history.load()
