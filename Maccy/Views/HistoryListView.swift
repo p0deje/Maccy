@@ -11,6 +11,7 @@ struct HistoryListView: View {
 
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
+  @Default(.showFooter) private var showFooter
 
   private var pinnedItems: [HistoryItemDecorator] {
     appState.history.pinnedItems.filter(\.isVisible)
@@ -19,60 +20,104 @@ struct HistoryListView: View {
     appState.history.unpinnedItems.filter(\.isVisible)
   }
   private var showPinsSeparator: Bool {
-    !pinnedItems.isEmpty && !unpinnedItems.isEmpty && appState.history.searchQuery.isEmpty
+    pinsVisible && !unpinnedItems.isEmpty
+  }
+
+  private var pinsVisible: Bool {
+    return !pinnedItems.isEmpty
+  }
+
+  private var pasteStackVisible: Bool {
+    if let stack = appState.history.pasteStack,
+       !stack.items.isEmpty {
+      return true
+    }
+    return false
+  }
+
+  private var topPadding: CGFloat {
+    return appState.searchVisible
+      ? Popup.verticalSeparatorPadding
+      : (Popup.verticalSeparatorPadding - Popup.scrollFixPadding)
+  }
+
+  private var bottomPadding: CGFloat {
+    return showFooter
+      ? Popup.verticalSeparatorPadding
+      : (Popup.verticalSeparatorPadding - 1)
+  }
+
+  private func topSeparator() -> some View {
+    Divider()
+      .padding(.horizontal, Popup.horizontalSeparatorPadding)
+      .padding(.top, Popup.verticalSeparatorPadding)
+  }
+
+  @ViewBuilder
+  private func bottomSeparator() -> some View {
+    Divider()
+      .padding(.horizontal, Popup.horizontalSeparatorPadding)
+      .padding(.bottom, Popup.verticalSeparatorPadding)
+  }
+
+  @ViewBuilder
+  private func separator() -> some View {
+    Divider()
+      .padding(.horizontal, Popup.horizontalSeparatorPadding)
+      .padding(.vertical, Popup.verticalSeparatorPadding)
   }
 
   var body: some View {
-    if pinTo == .top {
-      LazyVStack(spacing: 0) {
-        ForEach(pinnedItems) { item in
-          HistoryItemView(item: item)
-        }
+    let topPinsVisible = pinTo == .top && pinsVisible
+    let bottomPinsVisible = pinTo == .bottom && pinsVisible
+    let topSeparatorVisible = topPinsVisible || pasteStackVisible
+    let bottomSeparatorVisible = bottomPinsVisible
 
-        if showPinsSeparator {
-          Divider()
-            .padding(.horizontal, 10)
-            .padding(.vertical, 3)
+    VStack(spacing: 0) {
+      if let stack = appState.history.pasteStack,
+         !stack.items.isEmpty {
+        PasteStackView(stack: stack)
+
+        if topPinsVisible {
+          separator()
         }
       }
-      .background {
-        GeometryReader { geo in
-          Color.clear
-            .task(id: geo.size.height) {
-              appState.popup.pinnedItemsHeight = geo.size.height
-            }
-        }
+
+      if topPinsVisible {
+        PinsView(items: pinnedItems)
+      }
+
+      if topSeparatorVisible {
+        topSeparator()
       }
     }
+    .padding(.top, topSeparatorVisible ? topPadding : 0)
+    .readHeight(appState, into: \.popup.extraTopHeight)
 
     ScrollView {
       ScrollViewReader { proxy in
-        LazyVStack(spacing: 0) {
-          ForEach(unpinnedItems) { item in
-            HistoryItemView(item: item)
-          }
+        MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
+          HistoryItemView(item: item, previous: previous, next: next, index: index)
         }
-        .task(id: appState.scrollTarget) {
-          guard appState.scrollTarget != nil else { return }
+        .task(id: appState.navigator.scrollTarget) {
+          guard appState.navigator.scrollTarget != nil else { return }
 
           try? await Task.sleep(for: .milliseconds(10))
           guard !Task.isCancelled else { return }
 
-          if let selection = appState.scrollTarget {
+          if let selection = appState.navigator.scrollTarget {
             proxy.scrollTo(selection)
-            appState.scrollTarget = nil
+            appState.navigator.scrollTarget = nil
           }
         }
         .onChange(of: scenePhase) {
           if scenePhase == .active {
             searchFocused = true
-            HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
-            HistoryItemDecorator.previewThrottler.cancel()
-            appState.isKeyboardNavigating = true
-            appState.selection = appState.history.unpinnedItems.first?.id ?? appState.history.pinnedItems.first?.id
+            appState.navigator.isKeyboardNavigating = true
+            appState.navigator.select(item: appState.history.unpinnedItems.first ?? appState.history.pinnedItems.first)
           } else {
             modifierFlags.flags = []
-            appState.isKeyboardNavigating = true
+            appState.navigator.isKeyboardNavigating = true
           }
         }
         // Calculate the total height inside a scroll view.
@@ -92,27 +137,19 @@ struct HistoryListView: View {
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
     }
+    .safeAreaPadding(.top, topSeparatorVisible ? Popup.verticalSeparatorPadding : topPadding)
+    .safeAreaPadding(.bottom, bottomSeparatorVisible ? Popup.verticalSeparatorPadding : bottomPadding)
 
-    if pinTo == .bottom {
-      LazyVStack(spacing: 0) {
-        if showPinsSeparator {
-          Divider()
-            .padding(.horizontal, 10)
-            .padding(.vertical, 3)
-        }
-
-        ForEach(pinnedItems) { item in
-          HistoryItemView(item: item)
-        }
+    VStack(spacing: 0) {
+      if bottomSeparatorVisible {
+        bottomSeparator()
       }
-      .background {
-        GeometryReader { geo in
-          Color.clear
-            .task(id: geo.size.height) {
-              appState.popup.pinnedItemsHeight = geo.size.height
-            }
-        }
+
+      if bottomPinsVisible {
+        PinsView(items: pinnedItems)
       }
     }
+    .padding(.bottom, bottomSeparatorVisible ? bottomPadding : 0)
+    .readHeight(appState, into: \.popup.extraBottomHeight)
   }
 }

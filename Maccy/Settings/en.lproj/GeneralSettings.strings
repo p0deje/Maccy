@@ -8,6 +8,8 @@
 "PinTooltip" = "Shortcut key to pin history item.\nDefault: ⌥P.";
 "Delete" = "Delete:";
 "DeleteTooltip" = "Shortcut key to delete history item.\nDefault: ⌥⌫.";
+"ShowInfo" = "Toggle info:";
+"ShowInfoTooltip" = "Show popup with additinal information.\nDefault: ⌘I";
 "Behavior" = "Behavior:";
 "PasteAutomatically" = "Paste automatically";
 "PasteWithoutFormatting" = "Paste without formatting";

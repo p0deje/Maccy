@@ -21,6 +21,7 @@ class Popup {
   static let horizontalSeparatorPadding = 6.0
   static let verticalPadding: CGFloat = 5
   static let horizontalPadding: CGFloat = 5
+  static let scrollFixPadding: CGFloat = 2
 
   // Radius used for items inset by the padding. Ensures they visually have the same curvature
   // as the menu.
@@ -39,7 +40,8 @@ class Popup {
   var needsResize = false
   var height: CGFloat = 0
   var headerHeight: CGFloat = 0
-  var pinnedItemsHeight: CGFloat = 0
+  var extraTopHeight: CGFloat = 0
+  var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
 
   private var eventsMonitor: Any?
@@ -88,7 +90,7 @@ class Popup {
   }
 
   func resize(height: CGFloat) {
-    self.height = height + headerHeight + pinnedItemsHeight + footerHeight + (Popup.verticalPadding * 2)
+    self.height = height + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
     AppState.shared.appDelegate?.panel.verticallyResize(to: self.height)
     needsResize = false
   }
@@ -119,7 +121,7 @@ class Popup {
   private func handleKeyDown(_ event: NSEvent) -> NSEvent? {
     if isHotKeyCode(Int(event.keyCode)) {
       if let item = History.shared.pressedShortcutItem {
-        AppState.shared.selection = item.id
+        AppState.shared.navigator.select(item: item)
         Task { @MainActor in
           AppState.shared.history.select(item)
         }
@@ -132,7 +134,7 @@ class Popup {
       }
 
       if state == .cycle {
-        AppState.shared.highlightNext(allowCycle: true)
+        AppState.shared.navigator.highlightNext(allowCycle: true)
         return nil
       }
 

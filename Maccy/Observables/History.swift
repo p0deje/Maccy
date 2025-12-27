@@ -8,18 +8,15 @@ import Sauce
 import Settings
 import SwiftData
 
+// swiftlint:disable file_length
+
 @Observable
-class History { // swiftlint:disable:this type_body_length
+class History: ItemsContainer { // swiftlint:disable:this type_body_length
   static let shared = History()
   let logger = Logger(label: "org.p0deje.Maccy")
 
   var items: [HistoryItemDecorator] = []
-  var selectedItem: HistoryItemDecorator? {
-    willSet {
-      selectedItem?.isSelected = false
-      newValue?.isSelected = true
-    }
-  }
+  var pasteStack: PasteStack?
 
   var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
@@ -30,9 +27,9 @@ class History { // swiftlint:disable:this type_body_length
         updateItems(search.search(string: searchQuery, within: all))
 
         if searchQuery.isEmpty {
-          AppState.shared.selection = unpinnedItems.first?.id
+          AppState.shared.navigator.select(item: unpinnedItems.first)
         } else {
-          AppState.shared.highlightFirst()
+          AppState.shared.navigator.highlightFirst()
         }
 
         AppState.shared.popup.needsResize = true
@@ -295,15 +292,19 @@ class History { // swiftlint:disable:this type_body_length
     item.cleanupImages()
   }
 
+  private func currentModifierFlags() -> NSEvent.ModifierFlags {
+    return NSApp.currentEvent?.modifierFlags
+      .intersection(.deviceIndependentFlagsMask)
+      .subtracting([.capsLock, .numericPad, .function]) ?? []
+  }
+
   @MainActor
   func select(_ item: HistoryItemDecorator?) {
     guard let item else {
       return
     }
 
-    let modifierFlags = NSApp.currentEvent?.modifierFlags
-      .intersection(.deviceIndependentFlagsMask)
-      .subtracting([.capsLock, .numericPad, .function]) ?? []
+    let modifierFlags = currentModifierFlags()
 
     if modifierFlags.isEmpty {
       AppState.shared.popup.close()
@@ -335,6 +336,93 @@ class History { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  func startPasteStack(selection: inout Selection<HistoryItemDecorator>) {
+    guard let item = selection.first else { return }
+    PasteStack.initializeIfNeeded()
+
+    let modifierFlags = currentModifierFlags()
+
+    let stack = PasteStack(items: selection.items, modifierFlags: modifierFlags)
+    pasteStack = stack
+
+    logger.info("Initialising PasteStack with \(stack.items.count) items")
+    logger.info("Copying \(item.item.title) from PasteStack")
+
+    if modifierFlags.isEmpty {
+      AppState.shared.popup.close()
+      Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
+    } else {
+      switch HistoryItemAction(modifierFlags) {
+      case .copy:
+        AppState.shared.popup.close()
+        Clipboard.shared.copy(item.item)
+      case .paste:
+        AppState.shared.popup.close()
+        Clipboard.shared.copy(item.item)
+      case .pasteWithoutFormatting:
+        AppState.shared.popup.close()
+        Clipboard.shared.copy(item.item, removeFormatting: true)
+        Clipboard.shared.paste()
+      case .unknown:
+        return
+      }
+    }
+
+    Task {
+      searchQuery = ""
+    }
+  }
+
+  func handlePasteStack() {
+    guard let stack = pasteStack else {
+      return
+    }
+
+    guard let pasted = stack.items.first else {
+      pasteStack = nil
+      logger.info("PasteStack is empty")
+      return
+    }
+
+    logger.info("PasteStack pasted \(pasted.item.title)")
+
+    stack.items.removeFirst()
+
+    guard let item = stack.items.first else {
+      pasteStack = nil
+      logger.info("PasteStack is empty")
+      return
+    }
+
+    logger.info("Copying \(item.item.title) from PasteStack. \(stack.items.count) items remaining in stack.")
+
+    Task {
+      if stack.modifierFlags.isEmpty {
+        await Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
+      } else {
+        switch HistoryItemAction(stack.modifierFlags) {
+        case .copy:
+          await Clipboard.shared.copy(item.item)
+        case .paste:
+          await Clipboard.shared.copy(item.item)
+        case .pasteWithoutFormatting:
+          await Clipboard.shared.copy(item.item, removeFormatting: true)
+        case .unknown:
+          return
+        }
+      }
+    }
+  }
+
+  func interruptPasteStack() {
+    guard pasteStack != nil else {
+      return
+    }
+    logger.info("Interrupting PasteStack")
+    pasteStack = nil
+  }
+
+  @MainActor
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
@@ -349,10 +437,9 @@ class History { // swiftlint:disable:this type_body_length
 
     items = all
 
-    searchQuery = ""
     updateUnpinnedShortcuts()
     if item.isUnpinned {
-      AppState.shared.scrollTarget = item.id
+      AppState.shared.navigator.scrollTarget = item.id
     }
   }
 
@@ -413,7 +500,7 @@ class History { // swiftlint:disable:this type_body_length
     }
 
     var index = 1
-    for item in visibleUnpinnedItems.prefix(10) {
+    for item in visibleUnpinnedItems.prefix(9) {
       item.shortcuts = KeyShortcut.create(character: String(index))
       index += 1
     }

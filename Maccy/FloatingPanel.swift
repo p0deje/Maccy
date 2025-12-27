@@ -72,7 +72,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
-    setContentSize(NSSize(width: frame.width, height: min(height, Defaults[.windowSize].height)))
+    let size = Defaults[.windowSize]
+    setContentSize(NSSize(width: min(frame.width, size.width), height: min(height, size.height)))
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
     orderFrontRegardless()
     makeKey()
@@ -112,7 +113,12 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
-    saveWindowFrame(frame: NSRect(origin: frame.origin, size: frameSize))
+    if !AppState.shared.preview.state.isAnimating {
+      var size = frame.size
+      // Only store the size of the window without the preview
+      size.width = AppState.shared.preview.historyListWidth
+      saveWindowFrame(frame: NSRect(origin: frame.origin, size: size))
+    }
 
     return frameSize
   }
@@ -128,6 +134,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   override func close() {
     super.close()
+    AppState.shared.preview.state = .closed
     isPresented = false
     statusBarButton?.isHighlighted = false
     onClose()
