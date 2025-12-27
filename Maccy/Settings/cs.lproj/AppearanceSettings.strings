@@ -1,4 +1,6 @@
 "Title" = "Vzhled";
+"PreviewImageSize" = "Velikost náhledu obrázku:";
+"PreviewImageSizeTooltip" = "Maximální velikost obrázků v popup náhledu.\nVýchozí: 600.";
 "PopupAt" = "Zobrazovat popup vedle:";
 "PopupAtCursor" = "Kurzoru";
 "PopupAtMenuBarIcon" = "Menu ikony";

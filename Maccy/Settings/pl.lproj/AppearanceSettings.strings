@@ -1,4 +1,6 @@
 "Title" = "Wygląd";
+"PreviewImageSize" = "Rozmiar obrazka podglądu:";
+"PreviewImageSizeTooltip" = "Maksymalny rozmiar obrazków w okienku podglądu.\nDomyślnie: 600.";
 "PopupAt" = "Pozycja wyskakującego okienka:";
 "PopupAtCursor" = "Wskaźnik myszy";
 "PopupAtMenuBarIcon" = "Ikona menu";

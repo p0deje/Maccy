@@ -16,6 +16,8 @@
 "PinToTooltip" = "Altera a localização de itens fixados.\nPadrão: Topo.";
 "ImageHeight" = "Altura da imagem:";
 "ImageHeightTooltip" = "Altura máxima da pré-visualização de imagem.\nPadrão: 40.\nDica: Defina 16 para parecer itens de texto.";
+"PreviewImageSize" = "Tamanho da imagem de pré-visualização:";
+"PreviewImageSizeTooltip" = "Tamanho máximo para imagens em pré-visualizações popup.\nPadrão: 600.\nNão excederá as dimensões da tela.";
 "PreviewDelay" = "Atraso de pré-visualização:";
 "PreviewDelayTooltip" = "Atraso em milissegundos até que um popup de pré-visualização seja mostrado.\nPadrão: 1500.";
 "HighlightMatches" = "Destacar resultados:";

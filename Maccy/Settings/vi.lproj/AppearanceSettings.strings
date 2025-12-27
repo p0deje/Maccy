@@ -18,6 +18,8 @@
 "ImageHeightTooltip" = "Chiều cao xem trước hình ảnh tối đa.\nMặc định: 40.\nGợi ý: Đặt thành 16 sẽ trông giống như các mục văn bản.";
 "PreviewDelay" = "Trì hoãn xem trước:";
 "PreviewDelayTooltip" = "Thời gian trễ (tính bằng mili giây) trước khi hiển thị cửa sổ xem trước.\nMặc định: 1500.";
+"PreviewImageSize" = "Kích thước hình ảnh xem trước:";
+"PreviewImageSizeTooltip" = "Kích thước tối đa của hình ảnh trong cửa sổ xem trước.\nMặc định: 600.";
 "HighlightMatches" = "Đánh dấu kết quả khớp:";
 "HighlightMatchColor" = "Màu sắc";
 "HighlightMatchBold" = "In đậm";

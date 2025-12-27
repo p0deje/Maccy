@@ -18,6 +18,8 @@
 "ImageHeightTooltip" = "이미지 미리보기 최대 세로 높이.\n기본값: 40.\nHint: 16으로 설정하면 텍스트 항목과 같아 보입니다.";
 "PreviewDelay" = "미리보기 지연:";
 "PreviewDelayTooltip" = "미리보기 팝업이 표시될 때까지 밀리초 단위로 지연됩니다.\n기본값: 1500.";
+"PreviewImageSize" = "미리보기 이미지 크기:";
+"PreviewImageSizeTooltip" = "미리보기 팝업에서 이미지의 최대 크기입니다.\n기본값: 600.";
 "HighlightMatches" = "매칭된 항목 하이라이트:";
 "HighlightMatchColor" = "색상";
 "HighlightMatchBold" = "굵게";
