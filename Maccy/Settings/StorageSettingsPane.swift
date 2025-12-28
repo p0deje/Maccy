@@ -99,18 +99,18 @@ struct StorageSettingsPane: View {
           isOn: Binding(
             get: { isUnlimitedHistory },
             set: { newValue in
-              if newValue && size > Defaults.Keys.largeHistoryThreshold {
+              if newValue && History.shared.totalCount > Defaults.Keys.largeHistoryThreshold {
                 showWarning = true
               }
               isUnlimitedHistory = newValue
             }
           ),
-          label: { Text("Unlimited History", tableName: "StorageSettings") }
+          label: { Text("UnlimitedHistory", tableName: "StorageSettings") }
         )
-        .help(Text("Store unlimited clipboard items. Large histories may impact performance.", tableName: "StorageSettings"))
+        .help(Text("UnlimitedHistoryTooltip", tableName: "StorageSettings"))
 
         if isUnlimitedHistory {
-          Text("⚠️ Items are loaded on-demand for better performance.", tableName: "StorageSettings")
+          Text("UnlimitedHistoryWarning", tableName: "StorageSettings")
             .controlSize(.small)
             .foregroundStyle(.orange)
             .padding(.leading, 20)
@@ -146,7 +146,7 @@ struct StorageSettingsPane: View {
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
       }
     }
-    .alert("Enable Unlimited History?", isPresented: $showWarning) {
+    .alert(Text("UnlimitedHistoryAlertTitle", tableName: "StorageSettings"), isPresented: $showWarning) {
       Button("Cancel", role: .cancel) {
         isUnlimitedHistory = false
       }
@@ -154,7 +154,12 @@ struct StorageSettingsPane: View {
         // User confirmed, unlimited is already set
       }
     } message: {
-      Text("You currently have a large history (\(size) items). Enabling unlimited history may impact performance. Items will be loaded on-demand to maintain responsiveness.")
+      Text(
+        String(
+          format: NSLocalizedString("UnlimitedHistoryAlertMessage", tableName: "StorageSettings", comment: ""),
+          History.shared.totalCount
+        )
+      )
     }
   }
 }

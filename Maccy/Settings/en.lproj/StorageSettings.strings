@@ -12,3 +12,8 @@
 "FirstCopiedAt" = "Time of first copy";
 "NumberOfCopies" = "Number of copies";
 "SortByTooltip" = "Default: Time of last copy.";
+"UnlimitedHistory" = "Unlimited history";
+"UnlimitedHistoryTooltip" = "Store unlimited clipboard items. Large histories may impact performance.";
+"UnlimitedHistoryWarning" = "⚠️ Items are loaded on-demand for better performance.";
+"UnlimitedHistoryAlertTitle" = "Enable Unlimited History?";
+"UnlimitedHistoryAlertMessage" = "You currently have a large history (%d items). Enabling unlimited history may impact performance. Items will be loaded on-demand to maintain responsiveness.";

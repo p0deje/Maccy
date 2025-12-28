@@ -131,6 +131,15 @@ class History { // swiftlint:disable:this type_body_length
         }
       }
     }
+
+    Task {
+      for await value in Defaults.updates(.isUnlimitedHistory, initial: false) {
+        // When switching from unlimited to limited, trim history to size limit and reload
+        if !value {
+          try? await load()
+        }
+      }
+    }
   }
 
   @MainActor

@@ -189,6 +189,7 @@ class PaginationManager {
   }
 
   /// Handle new item being added to history
+  @MainActor
   func handleNewItem(_ decorator: HistoryItemDecorator) {
     // Remove from all pages if duplicate exists
     previousPage.removeAll { $0.item == decorator.item }
@@ -216,6 +217,7 @@ class PaginationManager {
   }
 
   /// Handle item being removed from history
+  @MainActor
   func handleItemRemoved(_ decorator: HistoryItemDecorator) {
     previousPage.removeAll { $0 == decorator }
     currentPage.removeAll { $0 == decorator }
@@ -229,6 +231,7 @@ class PaginationManager {
   }
 
   /// Update total count (e.g., after clearing history)
+  @MainActor
   func updateTotalCount(_ count: Int) {
     totalCount = count
   }
@@ -288,10 +291,11 @@ class PaginationManager {
   }
 
   /// Check if pages are too small and need reload
+  @MainActor
   private func validatePageSizes() {
     // If current page is too small and there are more pages, trigger reload
     if currentPage.count < minPageSize && totalCount > pageSize {
-      Task {
+      Task { @MainActor in
         try? await consolidatePages()
       }
     }
