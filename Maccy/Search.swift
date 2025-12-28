@@ -35,7 +35,7 @@ class Search {
 
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
-  private let historySizeThreshold = 5_000 // Auto-disable fuzzy search above this size
+  private var historySizeThreshold: Int { Defaults.Keys.largeHistoryThreshold }
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
     guard !string.isEmpty else {

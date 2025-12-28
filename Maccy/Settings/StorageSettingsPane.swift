@@ -99,7 +99,7 @@ struct StorageSettingsPane: View {
           isOn: Binding(
             get: { isUnlimitedHistory },
             set: { newValue in
-              if newValue && size > 5000 {
+              if newValue && size > Defaults.Keys.largeHistoryThreshold {
                 showWarning = true
               }
               isUnlimitedHistory = newValue
