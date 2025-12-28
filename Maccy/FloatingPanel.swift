@@ -24,7 +24,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
     super.init(
         contentRect: contentRect,
-        styleMask: [.nonactivatingPanel, .titled, .resizable, .closable, .fullSizeContentView],
+        styleMask: [.nonactivatingPanel, .resizable, .closable, .fullSizeContentView],
         backing: .buffered,
         defer: false
     )
@@ -60,6 +60,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
             self.saveWindowPosition()
         })
     )
+    contentView?.layer?.cornerRadius = Popup.cornerRadius + Popup.horizontalPadding
   }
 
   func toggle(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {

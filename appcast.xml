@@ -6,25 +6,22 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>2.6.0</title>
+      <title>2.6.1</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Improved UI for macOS 26 Tahoe.</li>
-            <li>Improved memory management.</li>
-            <li>Fixed a crash when deleting multiple items in a row.</li>
-            <li>Fixed a bug when the pop-up would not grow automatically after being moved.</li>
-            <li>Fixed IME conversion confirmation on Japanese input.</li>
+            <li>Fixed a crash when copying on macOS 14.</li>
+            <li>Fixed a text beam cursor when hovering a header with a hidden search field.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2025-11-21</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.6.0</releaseNotesLink>
+      <pubDate>2025-11-27</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.6.1</releaseNotesLink>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/2.6.0/Maccy.app.zip"
-        sparkle:version="59"
-        sparkle:shortVersionString="2.6.0"
+        url="https://github.com/p0deje/Maccy/releases/download/2.6.1/Maccy.app.zip"
+        sparkle:version="60"
+        sparkle:shortVersionString="2.6.1"
         length="0"
         type="application/octet-stream"
       />

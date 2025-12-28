@@ -1,2 +1,6 @@
 "Title" = "پیشرفته";
 "TurnOff" = "خاموش کردن";
+"TurnOffDescription" = "برای مدتی همهٔ کپی‌های جدید را نادیده بگیرید.\nاحتمالاً این گزینه را به‌صورت برنامه‌نویسی استفاده می‌کنید و برنامه را هنگام کپی کردن داده‌های حساس غیرفعال می‌کنید.";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# داده‌ها را کپی کنید\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"TurnOffViaMenuIconDescription" = "همچنین می‌توانید با نگه داشتن کلید ⌥ روی آیکون منو کلیک کنید.\nبرای نادیده گرفتن فقط کپی بعدی، با نگه داشتن ⌥⇧ کلیک کنید.";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# داده‌ها را کپی کنید";

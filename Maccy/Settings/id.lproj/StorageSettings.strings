@@ -5,10 +5,10 @@
 "Text" = "Teks";
 "SaveDescription" = "Mengubah jenis konten tersalin yang disimpan.";
 "Size" = "Ukuran:";
-"SizeTooltip" = "";
-"CurrentSizeTooltip" = "";
-"SortBy" = "";
-"LastCopiedAt" = "";
-"FirstCopiedAt" = "";
+"SizeTooltip" = "Jumlah item riwayat untuk disimpan.\nDefault: 200.";
+"CurrentSizeTooltip" = "Ukuran saat ini pada disk.";
+"SortBy" = "Menurut:";
+"LastCopiedAt" = "Waktu disalin terakhir";
+"FirstCopiedAt" = "Waktu salinan pertama";
 "NumberOfCopies" = "";
 "SortByTooltip" = "";
