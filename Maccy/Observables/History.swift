@@ -97,6 +97,16 @@ class History { // swiftlint:disable:this type_body_length
     paginationManager.hasMoreItemsBefore
   }
 
+  @ObservationIgnored
+  var windowStartIndex: Int {
+    paginationManager.windowStartIndex
+  }
+
+  @ObservationIgnored
+  var windowEndIndex: Int {
+    paginationManager.windowEndIndex
+  }
+
   init() {
     Task {
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
@@ -133,11 +143,10 @@ class History { // swiftlint:disable:this type_body_length
     }
 
     Task {
-      for await value in Defaults.updates(.isUnlimitedHistory, initial: false) {
-        // When switching from unlimited to limited, trim history to size limit and reload
-        if !value {
-          try? await load()
-        }
+      for await _ in Defaults.updates(.isUnlimitedHistory, initial: false) {
+        // Reload history when switching between limited and unlimited modes
+        // This ensures proper storage handling for both directions
+        try? await load()
       }
     }
   }
