@@ -53,6 +53,12 @@ struct HeaderView: View {
                 ? "sidebar.right" : "sidebar.left"
             )
           }
+          .shortcutKeyHelp(
+            name: .pin,
+            key: "PreviewKey",
+            tableName: "PreviewItemView",
+            replacementKey: "previewKey"
+          )
         }
         .padding(.trailing, Popup.horizontalPadding)
         .padding(

@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Number of copies:";
 "PinKey" = "Press {pinKey} to (un)pin.";
 "DeleteKey" = "Press {deleteKey} to delete.";
+"PreviewKey" = "Press {previewKey} to toggle preview.";
