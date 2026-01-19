@@ -1,4 +1,3 @@
-
 protocol HasVisibility {
   var isVisible: Bool { get }
 }

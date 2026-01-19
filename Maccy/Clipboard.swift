@@ -147,7 +147,7 @@ class Clipboard {
 
   @objc
   @MainActor
-  func checkForChangesInPasteboard() {
+  func checkForChangesInPasteboard() { // swiftlint:disable:this cyclomatic_complexity
     guard pasteboard.changeCount != changeCount else {
       return
     }

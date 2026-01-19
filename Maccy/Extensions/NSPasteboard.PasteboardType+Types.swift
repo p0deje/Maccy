@@ -24,13 +24,14 @@ extension NSPasteboard.PasteboardType: Defaults.Serializable {
 
   // Safari preview and extra metadata that changes frequently.
   static let linkPresentationMetadata = NSPasteboard.PasteboardType(rawValue: "com.apple.linkpresentation.metadata")
+  // swiftlint:disable:next line_length
   static let customWebKitPasteboardData = NSPasteboard.PasteboardType(rawValue: "com.apple.WebKit.custom-pasteboard-data")
-  
+
   // Chromium (VSCode)
   static let customChromiumWebData = NSPasteboard.PasteboardType(rawValue: "org.chromium.web-custom-data")
   static let chromiumSourceUrl = NSPasteboard.PasteboardType(rawValue: "org.chromium.source-url")
   static let chromiumSourceToken = NSPasteboard.PasteboardType(rawValue: "org.chromium.internal.source-rfh-token")
-  
+
   // Apple Notes
   static let notesRichText = NSPasteboard.PasteboardType(rawValue: "com.apple.notes.richtext")
 }
