@@ -18,11 +18,13 @@
 		2F0EC7892E7743D9003E2EA9 /* HoverSelectionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */; };
 		2F12271E2E5C932200A1592A /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 2F12271D2E5C932200A1592A /* Logging */; };
 		2F1A79C02C6DFB7800C98EBD /* SearchVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */; };
-		2F1BF75F2E84369800B2EC23 /* ItemsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1BF75E2E84369800B2EC23 /* ItemsProtocol.swift */; };
 		2F39CB042AD9A93C00B749FD /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB032AD9A93C00B749FD /* Sparkle */; };
 		2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB092AD9AE1F00B749FD /* Settings */; };
-		2F476EEC2E7892DB00C780B0 /* (null) in Sources */ = {isa = PBXBuildFile; };
+		2F578C3D2EFFE8400088B759 /* ItemsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C3C2EFFE8400088B759 /* ItemsProtocol.swift */; };
+		2F578C3F2EFFE8720088B759 /* SlideoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C3E2EFFE8720088B759 /* SlideoutController.swift */; };
+		2F578C432EFFE8920088B759 /* SlideoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C412EFFE8920088B759 /* SlideoutView.swift */; };
 		2F8B9DE62C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B9DE52C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift */; };
+		2F9B42EF2F1A494C006548E5 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B42EE2F1A4948006548E5 /* ListHeaderView.swift */; };
 		2FA81FE02E43D9B700C12F92 /* Dictionary+RemoveItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA81FDF2E43D9A600C12F92 /* Dictionary+RemoveItem.swift */; };
 		2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */; };
 		2FF2E94E2E774B5B0093D72C /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94D2E774B570093D72C /* NavigationManager.swift */; };
@@ -185,8 +187,11 @@
 		2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackItemView.swift; sourceTree = "<group>"; };
 		2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverSelectionModifier.swift; sourceTree = "<group>"; };
 		2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVisibility.swift; sourceTree = "<group>"; };
-		2F1BF75E2E84369800B2EC23 /* ItemsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsProtocol.swift; sourceTree = "<group>"; };
+		2F578C3C2EFFE8400088B759 /* ItemsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsProtocol.swift; sourceTree = "<group>"; };
+		2F578C3E2EFFE8720088B759 /* SlideoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideoutController.swift; sourceTree = "<group>"; };
+		2F578C412EFFE8920088B759 /* SlideoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideoutView.swift; sourceTree = "<group>"; };
 		2F8B9DE52C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPoint+DefaultsSerializable.swift"; sourceTree = "<group>"; };
+		2F9B42EE2F1A4948006548E5 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
 		2FA81FDF2E43D9A600C12F92 /* Dictionary+RemoveItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+RemoveItem.swift"; sourceTree = "<group>"; };
 		2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationImage.swift; sourceTree = "<group>"; };
 		2FF2E94D2E774B570093D72C /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
@@ -668,6 +673,7 @@
 				2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */,
 				DA19690D2C3EEFA900258481 /* KeyboardShortcutView.swift */,
 				DA19691E2C3F5F0600258481 /* KeyHandlingView.swift */,
+				2F9B42EE2F1A4948006548E5 /* ListHeaderView.swift */,
 				DAA072E82C42C6AA006DDFD2 /* ListItemTitleView.swift */,
 				DAA072E22C41D1D5006DDFD2 /* ListItemView.swift */,
 				DA5078982CF2676400215488 /* MouseMovedViewModifer.swift */,
@@ -678,6 +684,8 @@
 				DA5E627E2C39E53F00F4C710 /* PreviewItemView.strings */,
 				DA1969132C3F11D600258481 /* PreviewItemView.swift */,
 				DA1969172C3F327500258481 /* SearchFieldView.swift */,
+				2F578C402EFFE8920088B759 /* SlideoutContentView.swift */,
+				2F578C412EFFE8920088B759 /* SlideoutView.swift */,
 				DAA072D02C4089D3006DDFD2 /* VisualEffectView.swift */,
 				DA555F112CF155A2009608BD /* WrappingTextView.swift */,
 			);
@@ -720,6 +728,7 @@
 				DA3BCB932C3EECBB00B01BC1 /* HistoryItemDecorator.swift */,
 				DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */,
 				DAE8F5D32C43262B00851CA9 /* Popup.swift */,
+				2F578C3E2EFFE8720088B759 /* SlideoutController.swift */,
 			);
 			path = Observables;
 			sourceTree = "<group>";
@@ -802,7 +811,7 @@
 				DAA54BF92C3C951900B7FDD8 /* FloatingPanel.swift */,
 				DA689FC92C1D18890009B887 /* HighlightMatch.swift */,
 				DA1969202C3F6C6800258481 /* HistoryItemAction.swift */,
-				2F1BF75E2E84369800B2EC23 /* ItemsProtocol.swift */,
+				2F578C3C2EFFE8400088B759 /* ItemsProtocol.swift */,
 				DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */,
 				DAD665652898A1C000975096 /* KeyChord.swift */,
 				DA19690F2C3F0AAC00258481 /* KeyShortcut.swift */,
@@ -1055,6 +1064,7 @@
 				DA1969142C3F11D600258481 /* PreviewItemView.swift in Sources */,
 				2FF2E9502E7808470093D72C /* AppImageView.swift in Sources */,
 				DAA072D52C40AC52006DDFD2 /* HistoryListView.swift in Sources */,
+				2F578C432EFFE8920088B759 /* SlideoutView.swift in Sources */,
 				DAB082962A2B7B850053E463 /* AppStoreReview.swift in Sources */,
 				2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */,
 				DA13D7D22C19F91B00FA9E23 /* Defaults.Keys+Names.swift in Sources */,
@@ -1072,6 +1082,7 @@
 				DA9C3C452C207AF80056795D /* IgnoreSettingsPane.swift in Sources */,
 				DA13D7D82C1A223E00FA9E23 /* Select.swift in Sources */,
 				DA689FC82C1D15140009B887 /* PinsPosition.swift in Sources */,
+				2F9B42EF2F1A494C006548E5 /* ListHeaderView.swift in Sources */,
 				DA13D7D92C1A223E00FA9E23 /* Get.swift in Sources */,
 				2FF2E94E2E774B5B0093D72C /* NavigationManager.swift in Sources */,
 				DA1969182C3F327500258481 /* SearchFieldView.swift in Sources */,
@@ -1095,11 +1106,10 @@
 				DA689FCC2C1D1D510009B887 /* MenuIcon.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
 				DA6D98E22AEABE03008A77CE /* Accessibility.swift in Sources */,
-				2F476EEC2E7892DB00C780B0 /* (null) in Sources */,
 				2F0EC7792E7727E3003E2EA9 /* HeightReaderModifier.swift in Sources */,
+				2F578C3D2EFFE8400088B759 /* ItemsProtocol.swift in Sources */,
 				DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift in Sources */,
 				DA1969212C3F6C6800258481 /* HistoryItemAction.swift in Sources */,
-				2F1BF75F2E84369800B2EC23 /* ItemsProtocol.swift in Sources */,
 				0ABDD5122BB47F1E0054963B /* NSWorkspace+ApplicationName.swift in Sources */,
 				DA19691A2C3F369800258481 /* HeaderView.swift in Sources */,
 				DA555F082CF0F994009608BD /* ApplicationImageCache.swift in Sources */,
@@ -1128,6 +1138,7 @@
 				DA9C3C5E2C20E1190056795D /* IgnoreApplicationsSettingsView.swift in Sources */,
 				2F0EC7872E774099003E2EA9 /* PasteStackItemView.swift in Sources */,
 				DA20FA722B082DD600056DD5 /* Notifier.swift in Sources */,
+				2F578C3F2EFFE8720088B759 /* SlideoutController.swift in Sources */,
 				DAA072DB2C41C5DD006DDFD2 /* FooterItem.swift in Sources */,
 				DA689FC62C1D14F10009B887 /* PopupPosition.swift in Sources */,
 				DA49EE7528B59468002752E0 /* NSRect+Centered.swift in Sources */,

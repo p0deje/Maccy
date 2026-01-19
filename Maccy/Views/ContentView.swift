@@ -16,35 +16,47 @@ struct ContentView: View {
         VisualEffectView()
       }
 
-      VStack(alignment: .leading, spacing: 0) {
-        KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
+      KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
+        VStack(spacing: 0) {
           HeaderView(
-            searchFocused: $searchFocused,
-            searchQuery: $appState.history.searchQuery
-          )
-
-          HistoryListView(
-            searchQuery: $appState.history.searchQuery,
+            controller: appState.preview,
             searchFocused: $searchFocused
           )
 
-          FooterView(footer: appState.footer)
+          SlideoutView(controller: appState.preview) {
+            VStack(alignment: .leading, spacing: 0) {
+              HistoryListView(
+                searchQuery: $appState.history.searchQuery,
+                searchFocused: $searchFocused
+              )
+
+              FooterView(footer: appState.footer)
+            }
+            .animation(.default.speed(3), value: appState.history.items)
+            .animation(
+              .default.speed(3),
+              value: appState.history.pasteStack?.id
+            )
+            .padding(.horizontal, Popup.horizontalPadding)
+            .onAppear {
+              searchFocused = true
+            }
+            .onMouseMove {
+              appState.navigator.isKeyboardNavigating = false
+            }
+          } slideout: {
+            EmptyView()
+          }
+          .frame(minHeight: 0)
+          .layoutPriority(1)
         }
       }
-      .animation(.default.speed(3), value: appState.history.items)
-      .animation(.default.speed(3), value: appState.history.pasteStack?.id)
-      .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
-      .padding(.horizontal, Popup.horizontalPadding)
-      .onAppear {
-        searchFocused = true
-      }
-      .onMouseMove {
-        appState.navigator.isKeyboardNavigating = false
-      }
+      .frame(maxWidth: .infinity, alignment: .leading)
       .task {
         try? await appState.history.load()
       }
     }
+    .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
     .environment(appState)
     .environment(modifierFlags)
     .environment(\.scenePhase, scenePhase)

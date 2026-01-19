@@ -1,17 +1,26 @@
 import SwiftUI
 
-struct HeightReaderModifier<State>: ViewModifier {
-  let state: State
-  let keyPath: ReferenceWritableKeyPath<State, CGFloat>
+struct SizeReaderModifier<Value: Equatable>: ViewModifier {
+  @Binding var value: Value
+  let mapper: (CGSize) -> Value
 
   func body(content: Content) -> some View {
-    content.background(
-      GeometryReader { geo in
-        Color.clear
-          .task(id: geo.size.height) {
-            state[keyPath: keyPath] = geo.size.height
-          }
-      }
+    content.onGeometryChange(for: Value.self) { proxy in
+      mapper(proxy.size)
+    } action: { newValue in
+      value = newValue
+    }
+  }
+}
+
+fileprivate extension Binding {
+  init<State>(
+    _ object: State,
+    keyPath: ReferenceWritableKeyPath<State, Value>
+  ) {
+    self.init(
+      get: { object[keyPath: keyPath] },
+      set: { object[keyPath: keyPath] = $0 }
     )
   }
 }
@@ -21,6 +30,21 @@ extension View {
     _ state: State,
     into keyPath: ReferenceWritableKeyPath<State, CGFloat>
   ) -> some View {
-    modifier(HeightReaderModifier(state: state, keyPath: keyPath))
+    readHeight(Binding(state, keyPath: keyPath))
+  }
+
+  func readWidth<State>(
+    _ state: State,
+    into keyPath: ReferenceWritableKeyPath<State, CGFloat>
+  ) -> some View {
+    readWidth(Binding(state, keyPath: keyPath))
+  }
+
+  func readWidth(_ value: Binding<CGFloat>) -> some View {
+    modifier(SizeReaderModifier(value: value, mapper: \.width))
+  }
+
+  func readHeight(_ value: Binding<CGFloat>) -> some View {
+    modifier(SizeReaderModifier(value: value, mapper: \.height))
   }
 }

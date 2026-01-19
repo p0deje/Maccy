@@ -2,39 +2,77 @@ import Defaults
 import SwiftUI
 
 struct HeaderView: View {
+  @State private var appState = AppState.shared
+
+  let controller: SlideoutController
   @FocusState.Binding var searchFocused: Bool
-  @Binding var searchQuery: String
 
-  @Environment(AppState.self) private var appState
-  @Environment(\.scenePhase) private var scenePhase
+  var previewPlacement: SlideoutPlacement {
+    return controller.placement
+  }
 
-  @Default(.showTitle) private var showTitle
+  @ViewBuilder
+  private func toolbar(alignment: Alignment) -> some View {
+    HStack(spacing: 0) {
+      // TODO: Tolbar
+    }
+    .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
+  }
 
   var body: some View {
-    HStack {
-      if showTitle {
-        Text("Maccy")
-          .foregroundStyle(.secondary)
+    HStack(alignment: .top, spacing: 0) {
+      if previewPlacement == .left {
+        toolbar(alignment: .topTrailing)
       }
 
-      SearchFieldView(placeholder: "search_placeholder", query: $searchQuery)
-        .focused($searchFocused)
-        .frame(maxWidth: .infinity)
-        .onChange(of: scenePhase) {
-          if scenePhase == .background && !searchQuery.isEmpty {
-            searchQuery = ""
+      HStack(alignment: .center, spacing: 0) {
+        ListHeaderView(
+          searchFocused: $searchFocused,
+          searchQuery: $appState.history.searchQuery
+        )
+        .padding(.horizontal, Popup.horizontalPadding)
+        .frame(
+          maxWidth: previewPlacement == .right
+            ? controller.contentWidth : nil
+        )
+        .opacity(appState.searchVisible ? 1 : 0)
+
+        HStack {
+          Button {
+            controller.togglePreview()
+          } label: {
+            Image(
+              systemName: previewPlacement == .right
+                ? "sidebar.right" : "sidebar.left"
+            )
           }
         }
-        // Only reliable way to disable the cursor. allowsHitTesting() does not work
-        .offset(y: appState.searchVisible ? 0 : -Popup.itemHeight)
+        .padding(.trailing, Popup.horizontalPadding)
+        .padding(
+          .leading,
+          appState.preview.state.isOpen ? Popup.horizontalPadding : 0
+        )
+        .opacity(
+          !appState.preview.state.isOpen && !appState.searchVisible ? 0 : 1
+        )
+      }
+      .frame(
+        idealWidth: previewPlacement == .left
+          ? controller.contentWidth : nil,
+        maxWidth: previewPlacement == .left
+          ? controller.contentWidth : nil
+      )
+      .layoutPriority(1)
+
+      if previewPlacement == .right {
+        toolbar(alignment: .topLeading)
+      }
     }
-    .frame(height: appState.searchVisible ? Popup.itemHeight + 3 : 0)
-    .opacity(appState.searchVisible ? 1 : 0)
-    .padding(.horizontal, showTitle ? 5 : 0)
-    // 2px is needed to prevent items from showing behind top pinned items during scrolling
-    // https://github.com/p0deje/Maccy/issues/832
-    .padding(.top, appState.searchVisible ? Popup.verticalPadding : Popup.scrollFixPadding)
+    .padding(.top, Popup.verticalPadding)
+    .readHeight(appState, into: \.popup.realHeaderHeight)
+    .animation(.default.speed(3), value: appState.navigator.leadSelection)
     .background(.clear)
+    .frame(maxHeight: !appState.searchVisible ? 0 : nil, alignment: .top)
     .readHeight(appState, into: \.popup.headerHeight)
   }
 }

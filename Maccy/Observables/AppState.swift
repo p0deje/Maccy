@@ -13,6 +13,7 @@ class AppState: Sendable {
   var history: History
   var footer: Footer
   var navigator: NavigationManager
+  var preview: SlideoutController
 
   var searchVisible: Bool {
     if !Defaults[.showSearch] { return false }
@@ -37,6 +38,7 @@ class AppState: Sendable {
     self.footer = footer
     popup = Popup()
     navigator = NavigationManager(history: history, footer: footer)
+    preview = SlideoutController()
   }
 
   @MainActor
