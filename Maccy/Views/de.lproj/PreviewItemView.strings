@@ -2,5 +2,6 @@
 "FirstCopyTime" = "Zuerst kopiert:";
 "LastCopyTime" = "Zuletzt kopiert:";
 "NumberOfCopies" = "Anzahl der Kopien:";
-"PinKey" = "Drücke {pinKey} zum Anheften / Lösen.";
+"PinKey" = "Drücke {pinKey} zum Anheften.";
+"UnpinKey" = "Drücke {pinKey} zum Lösen.";
 "DeleteKey" = "Drücke {deleteKey} zum Löschen.";

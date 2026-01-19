@@ -2,5 +2,6 @@
 "FirstCopyTime" = "Čas prvního kopírování:";
 "LastCopyTime" = "Čas posledního kopírování:";
 "NumberOfCopies" = "Počet kopírování:";
-"PinKey" = "Stiskni {pinKey} pro připnutí/odepnutí.";
+"PinKey" = "Stiskni {pinKey} pro připnutí.";
+"UnpinKey" = "Stiskni {pinKey} pro odepnutí.";
 "DeleteKey" = "Stiskni {deleteKey} pro smazání.";

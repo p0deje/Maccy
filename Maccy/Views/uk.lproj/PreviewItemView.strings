@@ -2,5 +2,6 @@
 "FirstCopyTime" = "Час першої копії:";
 "LastCopyTime" = "Час останньої копії:";
 "NumberOfCopies" = "Кількість копій:";
-"PinKey" = "Натисніть {pinKey}, щоб (від)кріпити.";
+"PinKey" = "Натисніть {pinKey}, щоб кріпити.";
+"UnpinKey" = "Натисніть {pinKey}, щоб відкріпити.";
 "DeleteKey" = "Натисніть {deleteKey}, щоб видалити.";

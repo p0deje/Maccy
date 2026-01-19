@@ -3,4 +3,5 @@
 "LastCopyTime" = "Date de la dernière copie :";
 "NumberOfCopies" = "Nombre de copies :";
 "PinKey" = "Appuyez sur {pinKey} pour épingler.";
+"UnpinKey" = "Appuyez sur {pinKey} pour épingler.";
 "DeleteKey" = "Appuyez sur {deleteKey} pour supprimer.";

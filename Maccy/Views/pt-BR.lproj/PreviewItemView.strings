@@ -2,5 +2,6 @@
 "FirstCopyTime" = "Data da primeira cópia:";
 "LastCopyTime" = "Data da última cópia:";
 "NumberOfCopies" = "Número de cópias:";
-"PinKey" = "Pressione {pinKey} para (desa)fixar.";
+"PinKey" = "Pressione {pinKey} para fixar.";
+"UnpinKey" = "Pressione {pinKey} para desafixar.";
 "DeleteKey" = "Pressione {deleteKey} para excluir.";

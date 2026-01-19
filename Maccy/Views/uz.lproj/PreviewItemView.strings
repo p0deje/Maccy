@@ -2,5 +2,6 @@
 "FirstCopyTime" = "Nusxalangan vaqti:";
 "LastCopyTime" = "Oxirgi nusxa olingan vaqti:";
 "NumberOfCopies" = "Nusxalar jami soni:";
-"PinKey" = "Biriktirish/o‘chirish uchun {pinKey} tugmasini bosing.";
+"PinKey" = "Biriktirish uchun {pinKey} tugmasini bosing.";
+"UnpinKey" = "Biriktirishni o‘chirish uchun {pinKey} tugmasini bosing.";
 "DeleteKey" = "O‘chirish uchun {deleteKey} tugmasini bosing.";

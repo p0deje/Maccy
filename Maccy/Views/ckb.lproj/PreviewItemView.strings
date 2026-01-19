@@ -2,5 +2,6 @@
 "FirstCopyTime" = "کاتی یەکەم کۆپی:";
 "LastCopyTime" = "دوایین کاتی کۆپی:";
 "NumberOfCopies" = "ژمارەی کۆپییەکان:";
-"PinKey" = "دوگمەی {pinKey} دابگرە بۆ چەسپاندن یان لابردنی.";
+"PinKey" = "دوگمەی {pinKey} دابگرە بۆ چەسپاندن.";
+"UnpinKey" = "دوگمەی {pinKey} دابگرە بۆ لابردنی چەسپاندن.";
 "DeleteKey" = "دوگمەی {deleteKey} دابگرە بۆ سڕینەوە.";

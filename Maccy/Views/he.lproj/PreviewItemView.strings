@@ -3,4 +3,5 @@
 "LastCopyTime" = "מועד ההעתקה האחרונה:";
 "NumberOfCopies" = "מספר העותקים:";
 "PinKey" = "יש ללחוץ על {pinKey} כדי לנעוץ / לשחרר.";
+"UnpinKey" = "יש ללחוץ על {pinKey} כדי לנעוץ / לשחרר.";
 "DeleteKey" = "יש ללחוץ על {deleteKey} כדי למחוק.";

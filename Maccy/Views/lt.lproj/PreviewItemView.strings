@@ -3,4 +3,5 @@
 "DeleteKey" = "Paspauskite {deleteKey}, kad ištrintumėte.";
 "Application" = "Programa:";
 "NumberOfCopies" = "Kopijų skaičius:";
-"PinKey" = "Paspauskite {pinKey}, kad (ne)prisegtumėte.";
+"PinKey" = "Paspauskite {pinKey}, kad prisegtumėte.";
+"UnpinKey" = "Paspauskite {pinKey}, kad neprisegtumėte.";

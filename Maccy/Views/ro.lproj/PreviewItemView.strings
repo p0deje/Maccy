@@ -2,5 +2,6 @@
 "FirstCopyTime" = "Data primei copii:";
 "LastCopyTime" = "Data ultimei copii:";
 "NumberOfCopies" = "Numărul de copii:";
-"PinKey" = "Apasă {pinKey} pentru a fixa sau detașa.";
+"PinKey" = "Apasă {pinKey} pentru a fixa.";
+"UnpinKey" = "Apasă {pinKey} pentru a detașa.";
 "DeleteKey" = "Apasă {deleteKey} pentru a șterge.";

@@ -117,6 +117,15 @@ struct ToolbarView: View {
     case itemOptions
   }
 
+  private var shouldUnpin: Bool {
+    return appState.navigator.selection.items.allSatisfy { $0.isPinned }
+  }
+
+  private var pinActionDisabled: Bool {
+    return appState.navigator.selection.items.contains { $0.isPinned }
+      && appState.navigator.selection.items.contains { !$0.isPinned }
+  }
+
   var body: some View {
     HStack {
       if !appState.navigator.selection.isEmpty {
@@ -133,14 +142,11 @@ struct ToolbarView: View {
         }
         .shortcutKeyHelp(
           name: .pin,
-          key: "PinKey",
+          key: shouldUnpin ? "UnpinKey" : "PinKey",
           tableName: "PreviewItemView",
           replacementKey: "pinKey"
         )
-        .disabled(
-          appState.navigator.selection.items.contains { $0.isPinned }
-            && appState.navigator.selection.items.contains { !$0.isPinned }
-        )
+        .disabled(pinActionDisabled)
         .unionEffect(id: Section.itemOptions, namespace: unionNamespace)
 
         ToolbarButton {
