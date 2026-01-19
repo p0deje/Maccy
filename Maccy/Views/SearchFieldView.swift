@@ -35,8 +35,8 @@ struct SearchFieldView: View {
               .frame(width: 11, height: 11)
               .padding(.trailing, 5)
           }
-          .buttonStyle(PlainButtonStyle())
-          .opacity(query.isEmpty ? 0 : 0.9)
+          .buttonStyle(.plain)
+          .opacity(0.9)
         }
       }
     }
