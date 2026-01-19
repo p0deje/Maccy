@@ -31,7 +31,7 @@ class NavigationManager { // swiftlint:disable:this type_body_length
   private(set) var leadHistoryItem: HistoryItemDecorator?
 
   var pasteStackSelected: Bool {
-    return leadSelection == history.pasteStack?.id
+    return leadSelection != nil && leadSelection == history.pasteStack?.id
   }
 
   var isManualMultiSelect: Bool = false
@@ -186,6 +186,8 @@ class NavigationManager { // swiftlint:disable:this type_body_length
   func highlightFirst() {
     if let item = history.firstVisibleItem {
       selectFromKeyboardNavigation(item: item)
+    } else {
+      selectFromKeyboardNavigation(item: nil)
     }
   }
 

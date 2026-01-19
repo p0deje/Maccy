@@ -113,8 +113,6 @@ struct HistoryListView: View {
         .onChange(of: scenePhase) {
           if scenePhase == .active {
             searchFocused = true
-            HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
-            HistoryItemDecorator.previewThrottler.cancel()
             appState.navigator.isKeyboardNavigating = true
             appState.navigator.select(item: appState.history.unpinnedItems.first ?? appState.history.pinnedItems.first)
           } else {

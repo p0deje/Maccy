@@ -45,7 +45,8 @@ struct ContentView: View {
               appState.navigator.isKeyboardNavigating = false
             }
           } slideout: {
-            EmptyView()
+            SlideoutContentView()
+              .safeAreaPadding(.top, !appState.searchVisible ? appState.popup.realHeaderHeight : 0)
           }
           .frame(minHeight: 0)
           .layoutPriority(1)
@@ -75,15 +76,6 @@ struct ContentView: View {
         scenePhase = .background
       }
     }
-    .onReceive(NotificationCenter.default.publisher(for: NSPopover.willShowNotification)) {
-      if let popover = $0.object as? NSPopover {
-        // Prevent NSPopover from showing close animation when
-        // quickly toggling FloatingPanel while popover is visible.
-        popover.animates = false
-        // Prevent NSPopover from becoming first responder.
-        popover.behavior = .semitransient
-      }
-    }
   }
 }
 
@@ -92,3 +84,4 @@ struct ContentView: View {
     .environment(\.locale, .init(identifier: "en"))
     .modelContainer(Storage.shared.container)
 }
+

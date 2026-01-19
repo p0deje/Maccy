@@ -17,11 +17,13 @@
 		2F0EC7872E774099003E2EA9 /* PasteStackItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */; };
 		2F0EC7892E7743D9003E2EA9 /* HoverSelectionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */; };
 		2F12271E2E5C932200A1592A /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 2F12271D2E5C932200A1592A /* Logging */; };
+		2F162E802F1E7B30001FBAFF /* PasteStackPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F162E7F2F1E7B28001FBAFF /* PasteStackPreviewView.swift */; };
 		2F1A79C02C6DFB7800C98EBD /* SearchVisibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */; };
 		2F39CB042AD9A93C00B749FD /* Sparkle in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB032AD9A93C00B749FD /* Sparkle */; };
 		2F39CB0A2AD9AE1F00B749FD /* Settings in Frameworks */ = {isa = PBXBuildFile; productRef = 2F39CB092AD9AE1F00B749FD /* Settings */; };
 		2F578C3D2EFFE8400088B759 /* ItemsProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C3C2EFFE8400088B759 /* ItemsProtocol.swift */; };
 		2F578C3F2EFFE8720088B759 /* SlideoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C3E2EFFE8720088B759 /* SlideoutController.swift */; };
+		2F578C422EFFE8920088B759 /* SlideoutContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C402EFFE8920088B759 /* SlideoutContentView.swift */; };
 		2F578C432EFFE8920088B759 /* SlideoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C412EFFE8920088B759 /* SlideoutView.swift */; };
 		2F8B9DE62C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B9DE52C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift */; };
 		2F9B42EF2F1A494C006548E5 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B42EE2F1A4948006548E5 /* ListHeaderView.swift */; };
@@ -186,9 +188,11 @@
 		2F0EC7842E77407C003E2EA9 /* PasteStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackView.swift; sourceTree = "<group>"; };
 		2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackItemView.swift; sourceTree = "<group>"; };
 		2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverSelectionModifier.swift; sourceTree = "<group>"; };
+		2F162E7F2F1E7B28001FBAFF /* PasteStackPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackPreviewView.swift; sourceTree = "<group>"; };
 		2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVisibility.swift; sourceTree = "<group>"; };
 		2F578C3C2EFFE8400088B759 /* ItemsProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemsProtocol.swift; sourceTree = "<group>"; };
 		2F578C3E2EFFE8720088B759 /* SlideoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideoutController.swift; sourceTree = "<group>"; };
+		2F578C402EFFE8920088B759 /* SlideoutContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideoutContentView.swift; sourceTree = "<group>"; };
 		2F578C412EFFE8920088B759 /* SlideoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideoutView.swift; sourceTree = "<group>"; };
 		2F8B9DE52C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPoint+DefaultsSerializable.swift"; sourceTree = "<group>"; };
 		2F9B42EE2F1A4948006548E5 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
@@ -679,6 +683,7 @@
 				DA5078982CF2676400215488 /* MouseMovedViewModifer.swift */,
 				2F0EC77E2E773DBA003E2EA9 /* MultipleSelectionListView.swift */,
 				2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */,
+				2F162E7F2F1E7B28001FBAFF /* PasteStackPreviewView.swift */,
 				2F0EC7842E77407C003E2EA9 /* PasteStackView.swift */,
 				2F0EC77A2E772899003E2EA9 /* PinsView.swift */,
 				DA5E627E2C39E53F00F4C710 /* PreviewItemView.strings */,
@@ -1064,6 +1069,7 @@
 				DA1969142C3F11D600258481 /* PreviewItemView.swift in Sources */,
 				2FF2E9502E7808470093D72C /* AppImageView.swift in Sources */,
 				DAA072D52C40AC52006DDFD2 /* HistoryListView.swift in Sources */,
+				2F578C422EFFE8920088B759 /* SlideoutContentView.swift in Sources */,
 				2F578C432EFFE8920088B759 /* SlideoutView.swift in Sources */,
 				DAB082962A2B7B850053E463 /* AppStoreReview.swift in Sources */,
 				2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */,
@@ -1144,6 +1150,7 @@
 				DA49EE7528B59468002752E0 /* NSRect+Centered.swift in Sources */,
 				DA9C3C602C20E1890056795D /* IgnorePasteboardTypesSettingsView.swift in Sources */,
 				DA083A6E2C42E8E8004259A0 /* NSImage+Resized.swift in Sources */,
+				2F162E802F1E7B30001FBAFF /* PasteStackPreviewView.swift in Sources */,
 				DAA072E12C41C6E8006DDFD2 /* FooterView.swift in Sources */,
 				2F1A79C02C6DFB7800C98EBD /* SearchVisibility.swift in Sources */,
 				DAA072DD2C41C61F006DDFD2 /* FooterItemView.swift in Sources */,

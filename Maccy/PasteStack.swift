@@ -1,7 +1,8 @@
 import Foundation
 import AppKit
 
-class PasteStack: Identifiable {
+@Observable
+class PasteStack: Identifiable, Hashable {
   private static var listener: Any?
 
   static func initializeIfNeeded() {
@@ -35,4 +36,17 @@ class PasteStack: Identifiable {
     self.items = items
     self.modifierFlags = modifierFlags
   }
+
+  static func == (lhs: PasteStack, rhs: PasteStack) -> Bool {
+    return lhs.id == rhs.id
+      && lhs.items == rhs.items
+      && lhs.modifierFlags.rawValue == rhs.modifierFlags.rawValue
+  }
+
+  func hash(into hasher: inout Hasher) {
+    hasher.combine(id)
+    hasher.combine(items)
+    hasher.combine(modifierFlags.rawValue)
+  }
+
 }
