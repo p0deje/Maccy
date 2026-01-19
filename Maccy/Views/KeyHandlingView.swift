@@ -1,4 +1,5 @@
 import Sauce
+import Defaults
 import SwiftUI
 
 struct KeyHandlingView<Content: View>: View {
@@ -57,19 +58,9 @@ struct KeyHandlingView<Content: View>: View {
           return .handled
         case .deleteCurrentItem:
           if appState.navigator.pasteStackSelected {
-            appState.history.interruptPasteStack()
-            appState.navigator.highlightFirst()
-          } else if let leadItem = appState.navigator.leadHistoryItem,
-            let item = appState.history.visibleItems.nearest(
-              to: leadItem,
-              where: { !$0.isSelected }
-            ) {
-            withTransaction(Transaction()) {
-              appState.navigator.selection.forEach { _, item in
-                appState.history.delete(item)
-              }
-              appState.navigator.select(item: item)
-            }
+            appState.removePasteStack()
+          } else {
+            appState.deleteSelection()
           }
           return .handled
         case .deleteOneCharFromSearch:
@@ -142,17 +133,16 @@ struct KeyHandlingView<Content: View>: View {
           appState.openPreferences()
           return .handled
         case .pinOrUnpin:
-          withTransaction(Transaction()) {
-            appState.navigator.selection.forEach { _, item in
-              appState.history.togglePin(item)
-            }
-          }
+          appState.togglePin()
           return .handled
         case .selectCurrentItem:
           appState.select()
           return .handled
         case .close:
           appState.popup.close()
+          return .handled
+        case .togglePreview:
+          appState.preview.togglePreview()
           return .handled
         default:
           ()
