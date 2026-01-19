@@ -14,7 +14,14 @@ struct HeaderView: View {
   @ViewBuilder
   private func toolbar(alignment: Alignment) -> some View {
     HStack(spacing: 0) {
-      // TODO: Tolbar
+      if alignment == .topLeading {
+        Spacer()
+      }
+      ToolbarView()
+        .padding(.horizontal, Popup.horizontalPadding)
+      if alignment == .topTrailing {
+        Spacer()
+      }
     }
     .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
   }
@@ -38,7 +45,7 @@ struct HeaderView: View {
         .opacity(appState.searchVisible ? 1 : 0)
 
         HStack {
-          Button {
+          ToolbarButton {
             controller.togglePreview()
           } label: {
             Image(
