@@ -98,6 +98,7 @@ class SlideoutController {
       newSize.width += slideoutWidth
     }
     let popup = AppState.shared.popup
+    newSize.height = popup.preferredHeight(for: popup.height)
     return newSize
   }
 

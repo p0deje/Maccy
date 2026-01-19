@@ -36,9 +36,7 @@ struct HistoryListView: View {
   }
 
   private var topPadding: CGFloat {
-    return appState.searchVisible
-      ? Popup.verticalSeparatorPadding
-      : (Popup.verticalSeparatorPadding - Popup.scrollFixPadding)
+    return Popup.verticalSeparatorPadding
   }
 
   private var bottomPadding: CGFloat {
