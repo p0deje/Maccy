@@ -76,6 +76,20 @@ struct ContentView: View {
         scenePhase = .background
       }
     }
+    .onChange(of: appState.navigator.leadHistoryItem?.id) {
+      if appState.navigator.leadHistoryItem != nil {
+        appState.preview.startAutoOpen()
+      } else {
+        appState.preview.cancelAutoOpen()
+      }
+    }
+    .onChange(of: scenePhase) {
+      if scenePhase == .active {
+        appState.preview.startAutoOpen()
+      } else if scenePhase == .background {
+        appState.preview.cancelAutoOpen()
+      }
+    }
   }
 }
 

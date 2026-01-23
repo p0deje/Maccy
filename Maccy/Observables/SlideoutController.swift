@@ -72,6 +72,8 @@ class SlideoutController {
   private var windowAnimationOrigin: CGPoint?
   private var windowAnimationOriginBaseState: SlideoutState = .closed
 
+  private var autoOpenTask: Task<Void, Never>?
+
   private func togglePreviewStateWithAnimation(windowFrame: NSRect) {
     let newValue = state.toggleWithAnimation()
     if !state.isAnimating && newValue.isAnimating {
@@ -103,6 +105,7 @@ class SlideoutController {
   }
 
   func togglePreview() {
+    cancelAutoOpen()
     withAnimation(.easeInOut(duration: Self.animationDuration), completionCriteria: .removed) {
       if let window = nswindow {
         togglePreviewStateWithAnimation(windowFrame: window.frame)
@@ -141,5 +144,25 @@ class SlideoutController {
       }
     } completion: {
     }
+  }
+
+  func startAutoOpen() {
+    cancelAutoOpen()
+
+    guard !state.isOpen else { return }
+
+    autoOpenTask = Task { @MainActor in
+      try? await Task.sleep(for: .milliseconds(Defaults[.previewDelay]))
+      guard !Task.isCancelled else { return }
+
+      if !state.isOpen {
+        togglePreview()
+      }
+    }
+  }
+
+  func cancelAutoOpen() {
+    autoOpenTask?.cancel()
+    autoOpenTask = nil
   }
 }
