@@ -18,6 +18,8 @@ struct PreviewItemView: View {
         }
       }
 
+      Spacer(minLength: 0)
+
       Divider()
         .padding(.vertical)
 
