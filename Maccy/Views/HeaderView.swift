@@ -14,14 +14,8 @@ struct HeaderView: View {
   @ViewBuilder
   private func toolbar(alignment: Alignment) -> some View {
     HStack(spacing: 0) {
-      if alignment == .topLeading {
-        Spacer()
-      }
       ToolbarView()
         .padding(.horizontal, Popup.horizontalPadding)
-      if alignment == .topTrailing {
-        Spacer()
-      }
     }
     .frame(minWidth: 0, maxWidth: .infinity, alignment: alignment)
   }
@@ -43,31 +37,6 @@ struct HeaderView: View {
             ? controller.contentWidth : nil
         )
         .opacity(appState.searchVisible ? 1 : 0)
-
-        HStack {
-          ToolbarButton {
-            controller.togglePreview()
-          } label: {
-            Image(
-              systemName: previewPlacement == .right
-                ? "sidebar.right" : "sidebar.left"
-            )
-          }
-          .shortcutKeyHelp(
-            name: .pin,
-            key: "PreviewKey",
-            tableName: "PreviewItemView",
-            replacementKey: "previewKey"
-          )
-        }
-        .padding(.trailing, Popup.horizontalPadding)
-        .padding(
-          .leading,
-          appState.preview.state.isOpen ? Popup.horizontalPadding : 0
-        )
-        .opacity(
-          !appState.preview.state.isOpen && !appState.searchVisible ? 0 : 1
-        )
       }
       .frame(
         idealWidth: previewPlacement == .left

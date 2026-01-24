@@ -36,10 +36,9 @@ struct ToolbarButton<Label: View>: View {
   var body: some View {
     Button(action: action) {
       label()
-        .padding(1.5)
     }
-    .frame(width: 28, height: 28)
-    .modifier(ToolbarButtonModifier())
+    .buttonStyle(.plain)
+    .frame(height: 23)
     .onHover(perform: { inside in
       if let window = appState.appDelegate?.panel {
         window.isMovableByWindowBackground = !inside
@@ -65,49 +64,6 @@ struct ToolbarButton<Label: View>: View {
 
 }
 
-private struct ToolbarButtonModifier: ViewModifier {
-
-  func body(content: Content) -> some View {
-    if #available(macOS 26.0, *) {
-      content
-        .buttonStyle(.glass)
-        .buttonBorderShape(.circle)
-    } else {
-      content
-        .buttonStyle(.bordered)
-        .buttonBorderShape(.circle)
-    }
-  }
-
-}
-
-private struct ToolbarContainerModifier: ViewModifier {
-
-  func body(content: Content) -> some View {
-    if #available(macOS 26.0, *) {
-      GlassEffectContainer {
-        content
-      }
-    } else {
-      content
-    }
-  }
-
-}
-
-extension View {
-  @ViewBuilder fileprivate func unionEffect<ID: Hashable>(
-    id: ID,
-    namespace: Namespace.ID
-  ) -> some View {
-    if #available(macOS 26.0, *) {
-      self.glassEffectUnion(id: id, namespace: namespace)
-    } else {
-      self
-    }
-  }
-}
-
 struct ToolbarView: View {
   @State private var appState = AppState.shared
 
@@ -129,6 +85,24 @@ struct ToolbarView: View {
   var body: some View {
     HStack {
       if !appState.navigator.selection.isEmpty {
+        if appState.preview.state.isOpen {
+          ToolbarButton {
+            appState.preview.togglePreview()
+          } label: {
+            Image(systemName: "xmark.circle.fill")
+              .opacity(0.7)
+              .padding(.horizontal, 4)
+          }
+          .shortcutKeyHelp(
+            name: .togglePreview,
+            key: "PreviewKey",
+            tableName: "PreviewItemView",
+            replacementKey: "previewKey"
+          )
+        }
+
+        Spacer()
+
         ToolbarButton {
           withAnimation {
             appState.togglePin()
@@ -147,7 +121,6 @@ struct ToolbarView: View {
           replacementKey: "pinKey"
         )
         .disabled(pinActionDisabled)
-        .unionEffect(id: Section.itemOptions, namespace: unionNamespace)
 
         ToolbarButton {
           appState.deleteSelection()
@@ -160,8 +133,9 @@ struct ToolbarView: View {
           tableName: "PreviewItemView",
           replacementKey: "deleteKey"
         )
-        .unionEffect(id: Section.itemOptions, namespace: unionNamespace)
+        .padding(.trailing, 4)
       }
+
       if appState.navigator.pasteStackSelected {
         ToolbarButton {
           appState.removePasteStack()
@@ -170,6 +144,5 @@ struct ToolbarView: View {
         }
       }
     }
-    .modifier(ToolbarContainerModifier())
   }
 }
