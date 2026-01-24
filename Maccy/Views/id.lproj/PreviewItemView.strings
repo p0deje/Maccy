@@ -1,6 +1,6 @@
 "Application" = "Aplikasi:";
-"FirstCopyTime" = "Salinan pertama:";
-"LastCopyTime" = "Salinan terakhir:";
+"FirstCopyTime" = "Waktu menyalin pertama:";
+"LastCopyTime" = "Waktu menyalin terakhir:";
 "NumberOfCopies" = "Jumlah salinan:";
-"PinKey" = "Tekan tombol {pinKey} untuk (membuka) pin.";
-"DeleteKey" = "Tekan tombol {deleteKey} untuk menghapus.";
+"PinKey" = "Tekan {pinKey} untuk menyematkan.";
+"DeleteKey" = "Tekan {deleteKey} untuk menghapus.";
