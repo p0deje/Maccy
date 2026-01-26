@@ -90,7 +90,7 @@ struct ToolbarView: View {
             appState.preview.togglePreview()
           } label: {
             Image(systemName: "xmark.circle.fill")
-              .opacity(0.7)
+              .opacity(0.9)
               .padding(.horizontal, 4)
           }
           .shortcutKeyHelp(
