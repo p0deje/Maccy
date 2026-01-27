@@ -8,6 +8,8 @@
 "PinTooltip" = "Touche de raccourci pour épingler un élément de l’historique.\nPar défaut : %@P.";
 "Delete" = "Supprimer :";
 "DeleteTooltip" = "Touche de raccourci pour supprimer un élément de l’historique.\nPar défaut : %@⌫.";
+"ShowPreview" = "Aperçu :";
+"ShowPreviewTooltip" = "Afficher l'aperçu avec des informations supplémentaires.\nPar défaut : ⌘I.";
 "Behavior" = "Comportement :";
 "PasteAutomatically" = "Coller automatiquement";
 "PasteWithoutFormatting" = "Coller sans formatage";

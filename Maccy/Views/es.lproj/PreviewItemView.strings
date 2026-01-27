@@ -5,3 +5,4 @@
 "PinKey" = "Presiona {pinKey} para anclar.";
 "UnpinKey" = "Presiona {pinKey} para desanclar.";
 "DeleteKey" = "Presiona {deleteKey} para borrar.";
+"PreviewKey" = "Presiona {previewKey} para alternar la vista previa.";

@@ -4,3 +4,5 @@
 "PinKey" = "Pressione {pinKey} para (desa)fixar.";
 "DeleteKey" = "Pressione {deleteKey} para apagar.";
 "NumberOfCopies" = "Quantidade de cópias:";
+"UnpinKey" = "";
+"PreviewKey" = "Pressione {previewKey} para alternar a pré-visualização.";

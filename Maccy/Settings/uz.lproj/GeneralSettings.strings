@@ -8,9 +8,11 @@
 "Open" = "Ochish:";
 "OpenTooltip" = "Ilovani ochish uchun global yorliq.\nOʻzgartirgichlarni ushlab turganda asosiy tugmani qayta-qayta bosish roʻyxatdagi keyingi elementni tanlaydi. Bu rejimda modifikator tugmachalarini bo‘shatish tanlovni tasdiqlaydi va qalqib chiquvchi oynani yopadi.\nStandart: ⇧⌘C.";
 "Pin" = "Mustahkamlash:";
-"PinTooltip" = "Tarix elementini mahkamlash uchun yorliq tugmasi. \nStandart: ⌥P.";
+"PinTooltip" = "Tarix elementini mahkamlash uchun yorliq tugmasi.\nStandart: ⌥P.";
 "Delete" = "O'chirish:";
-"DeleteTooltip" = "Tarix elementini o'chirish uchun yorliq tugmasi. \nStandart: ⌥⌫.";
+"DeleteTooltip" = "Tarix elementini o'chirish uchun yorliq tugmasi.\nStandart: ⌥⌫.";
+"ShowPreview" = "Ko'rib chiqish:";
+"ShowPreviewTooltip" = "Qo'shimcha ma'lumot bilan ko'rib chiqishni ko'rsatish.\nStandart: ⌘I.";
 "Behavior" = "Xatti-harakat:";
 "PasteAutomatically" = "Avtomatik joylashtirish";
 "PasteWithoutFormatting" = "Formatlashsiz joylashtirish";

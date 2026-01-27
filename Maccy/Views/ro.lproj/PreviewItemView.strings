@@ -5,3 +5,4 @@
 "PinKey" = "Apasă {pinKey} pentru a fixa.";
 "UnpinKey" = "Apasă {pinKey} pentru a detașa.";
 "DeleteKey" = "Apasă {deleteKey} pentru a șterge.";
+"PreviewKey" = "Apasă {previewKey} pentru a comuta previzualizarea.";

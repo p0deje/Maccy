@@ -56,10 +56,10 @@ struct GeneralSettingsPane: View {
       }
       Settings.Section(
         bottomDivider: true,
-        label: { Text("ShowInfo", tableName: "GeneralSettings") }
+        label: { Text("ShowPreview", tableName: "GeneralSettings") }
       ) {
         KeyboardShortcuts.Recorder(for: .togglePreview)
-          .help(Text("ShowInfoTooltip", tableName: "GeneralSettings"))
+          .help(Text("ShowPreviewTooltip", tableName: "GeneralSettings"))
       }
 
       Settings.Section(

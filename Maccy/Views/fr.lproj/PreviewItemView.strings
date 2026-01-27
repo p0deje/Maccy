@@ -5,3 +5,4 @@
 "PinKey" = "Appuyez sur {pinKey} pour épingler.";
 "UnpinKey" = "Appuyez sur {pinKey} pour épingler.";
 "DeleteKey" = "Appuyez sur {deleteKey} pour supprimer.";
+"PreviewKey" = "Appuyez sur {previewKey} pour basculer l'aperçu.";

@@ -8,6 +8,8 @@
 "PinTooltip" = "Tastenkombination zum Anheften eines Verlaufselements.\nStandard: %@P.";
 "Delete" = "Löschen:";
 "DeleteTooltip" = "Tastenkombination zum Löschen eines Verlaufselements.\nStandard: %@⌫.";
+"ShowPreview" = "Vorschau:";
+"ShowPreviewTooltip" = "Vorschau mit zusätzlichen Informationen anzeigen.\nStandard: ⌘I.";
 "Behavior" = "Verhalten:";
 "PasteAutomatically" = "Automatisch einfügen";
 "PasteWithoutFormatting" = "Einfügen ohne Formatierung";

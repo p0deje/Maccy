@@ -5,3 +5,4 @@
 "PinKey" = "دوگمەی {pinKey} دابگرە بۆ چەسپاندن.";
 "UnpinKey" = "دوگمەی {pinKey} دابگرە بۆ لابردنی چەسپاندن.";
 "DeleteKey" = "دوگمەی {deleteKey} دابگرە بۆ سڕینەوە.";
+"PreviewKey" = "{previewKey} دابگرە بۆ گۆڕینی پێشبینین.";

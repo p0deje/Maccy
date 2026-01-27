@@ -8,6 +8,8 @@
 "PinTooltip" = "Phím tắt để ghim một mục.\nMặc định: ⌥P.";
 "Delete" = "Xóa:";
 "DeleteTooltip" = "Phím tắt để xóa một mục.\nMặc định: ⌥⌫.";
+"ShowPreview" = "Xem trước:";
+"ShowPreviewTooltip" = "Hiển thị xem trước với thông tin bổ sung.\nMặc định: ⌘I.";
 "Behavior" = "Hành vi:";
 "PasteAutomatically" = "Tự động dán";
 "PasteWithoutFormatting" = "Dán không định dạng";

@@ -5,3 +5,4 @@
 "PinKey" = "Nhấn {pinKey} để ghim.";
 "UnpinKey" = "Nhấn {pinKey} để bỏ ghim.";
 "DeleteKey" = "Nhấn {deleteKey} để xóa.";
+"PreviewKey" = "Nhấn {previewKey} để chuyển đổi xem trước.";

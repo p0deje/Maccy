@@ -8,6 +8,8 @@
 "PinTooltip" = "ปุ่มลัดเพื่อปักหมุดรายการประวัติ\nค่าเริ่มต้น: %@P";
 "Delete" = "อลบ:";
 "DeleteTooltip" = "ปุ่มลัดเพื่อลบรายการประวัติ\nค่าเริ่มต้น: %@⌫";
+"ShowPreview" = "แสดงตัวอย่าง:";
+"ShowPreviewTooltip" = "แสดงตัวอย่างพร้อมข้อมูลเพิ่มเติม\nค่าเริ่มต้น: ⌘I";
 "Behavior" = "พฤติกรรม:";
 "PasteAutomatically" = "วางอัตโนมัติ";
 "PasteWithoutFormatting" = "วางโดยไม่จัดรูปแบบ";

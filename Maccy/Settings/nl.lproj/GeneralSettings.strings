@@ -8,6 +8,8 @@
 "PinTooltip" = "Sneltoets om geschiedenisitem vast te zetten.\nStandaard: %@P.";
 "Delete" = "Verwijder:";
 "DeleteTooltip" = "Sneltoets om geschiedenisitem te verwijderen.\nStandaard: %@⌫.";
+"ShowPreview" = "Voorbeeld:";
+"ShowPreviewTooltip" = "Voorbeeld weergeven met aanvullende informatie.\nStandaard: ⌘I.";
 "Behavior" = "Gedrag:";
 "PasteAutomatically" = "Plak automatisch";
 "PasteWithoutFormatting" = "Plakken zonder opmaak";

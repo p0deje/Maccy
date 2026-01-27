@@ -8,6 +8,8 @@
 "PinTooltip" = "Tombol pintasan untuk menyematkan item riwayat.\nDefault: ⌥P.";
 "Delete" = "Hapus:";
 "DeleteTooltip" = "Tombol pintasan untuk hapus item riwayat.\nDefault: ⌥⌫.";
+"ShowPreview" = "Pratinjau:";
+"ShowPreviewTooltip" = "Tampilkan pratinjau dengan informasi tambahan.\nDefault: ⌘I.";
 "Behavior" = "Perilaku:";
 "PasteAutomatically" = "Salin otomatis";
 "PasteWithoutFormatting" = "";

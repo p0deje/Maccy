@@ -5,3 +5,4 @@
 "PinKey" = "Biriktirish uchun {pinKey} tugmasini bosing.";
 "UnpinKey" = "Biriktirishni o‘chirish uchun {pinKey} tugmasini bosing.";
 "DeleteKey" = "O‘chirish uchun {deleteKey} tugmasini bosing.";
+"PreviewKey" = "Biriktirish uchun {previewKey} tugmasini bosing.";

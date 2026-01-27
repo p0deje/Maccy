@@ -5,3 +5,4 @@
 "PinKey" = "Nyomd meg a {pinKey} gombokat a kitűzéshez és a kitűzés levételéhez.";
 "UnpinKey" = "Nyomd meg a {pinKey} gombokat a kitűzés levételéhez.";
 "DeleteKey" = "Nyomd meg a {deleteKey} gombokat a törléshez.";
+"PreviewKey" = "Nyomja meg a {previewKey} gombot az előnézet váltásához.";

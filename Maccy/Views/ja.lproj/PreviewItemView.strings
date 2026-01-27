@@ -4,3 +4,5 @@
 "NumberOfCopies" = "コピー回数:";
 "PinKey" = "{pinKey}でピン留め(外し)します。";
 "DeleteKey" = "{deleteKey}で削除します。";
+"UnpinKey" = "";
+"PreviewKey" = "{previewKey}でプレビューを切り替えます。";

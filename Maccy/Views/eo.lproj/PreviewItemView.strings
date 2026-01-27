@@ -4,3 +4,5 @@
 "NumberOfCopies" = "Nombro de kopioj:";
 "PinKey" = "Premu {pinKey} por (mal)fiksi.";
 "DeleteKey" = "Premu {deleteKey} por forigi.";
+"UnpinKey" = "";
+"PreviewKey" = "";

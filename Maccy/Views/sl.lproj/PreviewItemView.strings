@@ -5,3 +5,4 @@
 "LastCopyTime" = "Čas zadnjega kopiranja:";
 "PinKey" = "Pritisnite {pinKey} za zapenjanje.";
 "UnpinKey" = "Pritisnite {pinKey} za odzapenjanje.";
+"PreviewKey" = "Pritisnite {previewKey} za preklop predogleda.";

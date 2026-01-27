@@ -8,6 +8,8 @@
 "PinTooltip" = "Skrót do przypięcia wpisu w historii.\nDomyślnie: ⌥P.";
 "Delete" = "Usuń:";
 "DeleteTooltip" = "Skrót do usunięcia wpisu z historii.\nDomyślnie: ⌥⌫.";
+"ShowPreview" = "Podgląd:";
+"ShowPreviewTooltip" = "Pokaż podgląd z dodatkowymi informacjami.\nDomyślnie: ⌘I.";
 "Behavior" = "Zachowanie:";
 "PasteAutomatically" = "Wklej automatycznie";
 "PasteWithoutFormatting" = "Wklej bez formatowania";

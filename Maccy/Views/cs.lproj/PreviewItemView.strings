@@ -5,3 +5,4 @@
 "PinKey" = "Stiskni {pinKey} pro připnutí.";
 "UnpinKey" = "Stiskni {pinKey} pro odepnutí.";
 "DeleteKey" = "Stiskni {deleteKey} pro smazání.";
+"PreviewKey" = "Stiskni {previewKey} pro přepnutí náhledu.";

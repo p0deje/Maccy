@@ -5,3 +5,4 @@
 "PinKey" = "กด {pinKey} เพื่อปักหมุด";
 "UnpinKey" = "กด {pinKy} เพื่อลบเข็มกลัด";
 "DeleteKey" = "กด {deleteKey} เพื่อลบ";
+"PreviewKey" = "กด {previewKey} เพื่อสลับตัวอย่าง";

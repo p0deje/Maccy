@@ -8,6 +8,8 @@
 "PinTooltip" = "Bližnjična tipka za pripenjanje zgodovinskega elementa.\nPrivzeto: ⌥P.";
 "Delete" = "Izbriši:";
 "DeleteTooltip" = "Bližnjična tipka za brisanje zgodovinskega elementa.\nPrivzeto: ⌥⌫.";
+"ShowPreview" = "Predogled:";
+"ShowPreviewTooltip" = "Prikaži predogled z dodatnimi informacijami.\nPrivzeto: ⌘I.";
 "Behavior" = "Vedenje:";
 "PasteAutomatically" = "Samodejno prilepite";
 "PasteWithoutFormatting" = "Prilepite brez oblikovanja";

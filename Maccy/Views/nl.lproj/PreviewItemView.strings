@@ -5,3 +5,4 @@
 "PinKey" = "Druk op {pinKey} om te pinnen.";
 "UnpinKey" = "Druk op {pinKey} om te ontpinnen.";
 "DeleteKey" = "Druk op {deleteKey} om te verwijderen.";
+"PreviewKey" = "Druk op {previewKey} om voorbeeld te schakelen.";

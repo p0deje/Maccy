@@ -7,6 +7,9 @@
 "Delete" = "Ta bort:";
 "OpenTooltip" = "Globalt kortkommando för att öppna applikationen.\nFörval: ⇧⌘C.";
 "DeleteTooltip" = "Kortkommando för att ta bort historikpost\nFörval: ⌥⌫.";
+"ShowPreview" = "Förhandsvisning:";
+"ShowPreviewTooltip" = "Visa förhandsgranskning med ytterligare information.\nFörval: ⌘I.";
+"Behavior" = "Beteende:";
 "Search" = "Sök:";
 "Exact" = "Exakt";
 "Fuzzy" = "Ungefärlig";

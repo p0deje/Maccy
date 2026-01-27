@@ -4,3 +4,5 @@
 "NumberOfCopies" = "பிரதிகளின் எண்ணிக்கை:";
 "PinKey" = "{pinKey} பெறுநர் (un) முள் அழுத்தவும்.";
 "DeleteKey" = "நீக்க {deleteKey} ஐ அழுத்தவும்.";
+"UnpinKey" = "";
+"PreviewKey" = "முன்னோட்டத்தை மாற்ற {previewKey} அழுத்தவும்.";

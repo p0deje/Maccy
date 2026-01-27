@@ -5,3 +5,4 @@
 "PinKey" = "Premi {pinKey} per bloccare.";
 "UnpinKey" = "Premi {pinKey} per sbloccare.";
 "DeleteKey" = "Premi {deleteKey} per cancellare.";
+"PreviewKey" = "Premi {previewKey} per attivare/disattivare l'anteprima.";

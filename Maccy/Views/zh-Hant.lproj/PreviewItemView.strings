@@ -5,3 +5,4 @@
 "PinKey" = "按 {pinKey} (取消)固定。";
 "UnpinKey" = "按 {pinKey} (取消)固定。";
 "DeleteKey" = "按 {deleteKey} 刪除。";
+"PreviewKey" = "按 {previewKey} 切換預覽。";

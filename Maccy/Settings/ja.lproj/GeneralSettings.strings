@@ -8,6 +8,8 @@
 "PinTooltip" = "履歴項目を固定するショートカット キー。\nデフォルト：%@P.";
 "Delete" = "デリート:";
 "DeleteTooltip" = "履歴項目を削除するショートカット キー。\nデフォルト：%@⌫。";
+"ShowPreview" = "プレビュー:";
+"ShowPreviewTooltip" = "追加情報付きのプレビューを表示します。\nデフォルト：⌘I。";
 "Behavior" = "動作:";
 "PasteAutomatically" = "自動的に貼り付け";
 "PasteWithoutFormatting" = "書式なしで貼り付け";

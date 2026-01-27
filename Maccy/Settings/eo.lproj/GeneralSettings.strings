@@ -13,6 +13,9 @@
 "OpenTooltip" = "Ĝenerala fulmoklavo por malfermi la aplikaĵon.\nRipetita premo de la ĉefa klavo dum tenado de modifaj klavoj elektos la sekvan eron en la listo. En ĉi tiu reĝimo, liberigo de la modifaj klavoj konfirmos la elekton kaj fermos la ŝprucfenestron.\nDefaŭlta: ⇧⌘C.";
 "PinTooltip" = "Fulmoklavo por fiksi historian eron.\nDefaŭlta: ⌥P.";
 "DeleteTooltip" = "Fulmoklavo por forigi historian eron.\nDefaŭlta: ⌥⌫.";
+"ShowPreview" = "Antaŭrigardo:";
+"ShowPreviewTooltip" = "Montri antaŭrigardon kun aldonaj informoj.\nDefaŭlta: ⌘I.";
+"Behavior" = "Konduto:";
 "Modifiers" = "";
 "Exact" = "Ekzakta";
 "Fuzzy" = "Proksimuma";

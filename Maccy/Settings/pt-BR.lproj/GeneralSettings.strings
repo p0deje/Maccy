@@ -8,6 +8,8 @@
 "PinTooltip" = "Tecla de atalho para fixar item do histórico.\nPadrão: ⌥P.";
 "Delete" = "Excluir:";
 "DeleteTooltip" = "Aproximada";
+"ShowPreview" = "Pré-visualizar:";
+"ShowPreviewTooltip" = "Mostrar pré-visualização com informações adicionais.\nPadrão: ⌘I.";
 "Behavior" = "Comportamento:";
 "PasteAutomatically" = "Colar automaticamente";
 "PasteWithoutFormatting" = "Colar sem formatação";

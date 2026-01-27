@@ -4,3 +4,5 @@
 "NumberOfCopies" = "تعداد کپی‌ها:";
 "PinKey" = "برای (غیر)سنجاق کردن، کلید {pinKey} را فشار دهید.";
 "DeleteKey" = "برای حذف، کلید {deleteKey} را فشار دهید.";
+"UnpinKey" = "";
+"PreviewKey" = "{previewKey} را فشار دهید تا پیش‌نمایش تغییر کند.";

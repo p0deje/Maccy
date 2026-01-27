@@ -8,6 +8,8 @@
 "PinTooltip" = "Combinación de teclas para anclar un elemento del historial.\nPor defecto: ⌥P.";
 "Delete" = "Borrar:";
 "DeleteTooltip" = "Combinación de teclas para borrar un elemento del historial.\nPor defecto: ⌥⌫.";
+"ShowPreview" = "Vista previa:";
+"ShowPreviewTooltip" = "Mostrar vista previa con información adicional.\nPor defecto: ⌘I.";
 "Behavior" = "Comportamiento:";
 "PasteAutomatically" = "Pegar automáticamente";
 "PasteWithoutFormatting" = "Pegar sin formato";

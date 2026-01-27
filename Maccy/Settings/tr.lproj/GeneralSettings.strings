@@ -7,7 +7,9 @@
 "Pin" = "İğnelemek:";
 "PinTooltip" = "Geçmiş öğesini sabitlemek için kısayol düğmesi.\nVarsayılan: %@P.";
 "Delete" = "Silmek:";
-"DeleteTooltip" = "Geçmiş öğesini silmek için kısayol düğmesi.\nSaptanmış: %@⌫.";
+"DeleteTooltip" = "Geçmiş öğesini silmek için kısayol düğmesi.\nVarsayılan: %@⌫.";
+"ShowPreview" = "Önizleme:";
+"ShowPreviewTooltip" = "Ek bilgilerle önizleme göster.\nVarsayılan: ⌘I.";
 "Behavior" = "Davranış:";
 "PasteAutomatically" = "Otomatik olarak yapıştır";
 "PasteWithoutFormatting" = "Biçimlendirme olmadan yapıştır";

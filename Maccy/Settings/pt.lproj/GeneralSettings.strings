@@ -18,3 +18,6 @@
 "Title" = "Geral";
 "Fuzzy" = "Difuso";
 "DeleteTooltip" = "Atalho para apagar o elemento do histórico.\nPadrão: ⌥⌫.";
+"ShowPreview" = "Pré-visualizar:";
+"ShowPreviewTooltip" = "Mostrar pré-visualização com informação adicional.\nPadrão: ⌘I.";
+"Behavior" = "Comportamento:";

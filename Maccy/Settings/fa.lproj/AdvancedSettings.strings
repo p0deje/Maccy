@@ -4,3 +4,7 @@
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# داده‌ها را کپی کنید\ndefaults write org.p0deje.Maccy ignoreEvents false";
 "TurnOffViaMenuIconDescription" = "همچنین می‌توانید با نگه داشتن کلید ⌥ روی آیکون منو کلیک کنید.\nبرای نادیده گرفتن فقط کپی بعدی، با نگه داشتن ⌥⇧ کلیک کنید.";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# داده‌ها را کپی کنید";
+"ClearHistoryOnQuit" = "";
+"ClearHistoryOnQuitTooltip" = "";
+"ClearSystemClipboard" = "";
+"ClearSystemClipboardTooltip" = "";

@@ -8,6 +8,8 @@
 "PinTooltip" = "کورتەدوگمە بۆ چەسپاندنی ئایتەمی مێژوو.\nبنەڕەت: ⌥P.";
 "Delete" = "سڕینەوە:";
 "DeleteTooltip" = "کورتەدوگمە بۆ سڕینەوەی ئایتەمی مێژوو.\nبنەڕەت: ⌥⌫.";
+"ShowPreview" = "پێشبینین:";
+"ShowPreviewTooltip" = "پیشاندانی پێشبینین لەگەڵ زانیاری زیادە.\nبنەڕەت: ⌘I.";
 "Behavior" = "ڕەفتار:";
 "PasteAutomatically" = "پەیستکردنی خۆکارانە";
 "PasteWithoutFormatting" = "پەیستکردن بەبێ فۆرمات";

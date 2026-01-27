@@ -8,6 +8,8 @@
 "PinTooltip" = "Hurtigtast for å merke historikkelement.\nStandard: %@P.";
 "Delete" = "Slett:";
 "DeleteTooltip" = "Hurtigtast for å slette historieelement.\nStandard: %@⌫.";
+"ShowPreview" = "Forhåndsvisning:";
+"ShowPreviewTooltip" = "Vis forhåndsvisning med tilleggsinformasjon.\nStandard: ⌘I.";
 "Behavior" = "Oppførsel:";
 "PasteAutomatically" = "Lim in automatisk";
 "PasteWithoutFormatting" = "Lim inn uten formattering";

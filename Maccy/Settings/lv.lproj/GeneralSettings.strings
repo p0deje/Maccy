@@ -8,6 +8,8 @@
 "PinTooltip" = "Īsinājumtaustiņš, lai piespraust vēstures vienumu.\nNoklusējums: ⌥P.";
 "Delete" = "Dzēst:";
 "DeleteTooltip" = "Īsinājumtaustiņš vēstures vienuma dzēšanai.\nNoklusējums: ⌥ ⌫.";
+"ShowPreview" = "Priekšskatījums:";
+"ShowPreviewTooltip" = "Rādīt priekšskatījumu ar papildu informāciju.\nNoklusējums: ⌘I.";
 "Behavior" = "Rīcība:";
 "PasteAutomatically" = "Ielīmēt automātiski";
 "PasteWithoutFormatting" = "Ielīmēt bez formatējuma";

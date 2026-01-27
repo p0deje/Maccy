@@ -8,6 +8,8 @@
 "PinTooltip" = "צירוף מקשים לנעיצת פריט.\nברירת מחדל: %@P.";
 "Delete" = "מחיקה:";
 "DeleteTooltip" = "צירוף מקשים למחיקת פריט מההיסטוריה.\nברירת מחדל: %@⌫.";
+"ShowPreview" = "תצוגה מקדימה:";
+"ShowPreviewTooltip" = "הצג תצוגה מקדימה עם מידע נוסף.\nברירת מחדל: ⌘I.";
 "Behavior" = "התנהגות:";
 "PasteAutomatically" = "להדביק אוטומטית";
 "PasteWithoutFormatting" = "להדביק בלי עיצוב";

@@ -8,6 +8,8 @@
 "PinTooltip" = "Klávesová zkratka pro připnutí položky.\nVýchozí: ⌥P.";
 "Delete" = "Smazat:";
 "DeleteTooltip" = "Přibližné";
+"ShowPreview" = "Náhled:";
+"ShowPreviewTooltip" = "Zobrazit náhled s dodatečnými informacemi.\nVýchozí: ⌘I.";
 "Behavior" = "Chování:";
 "PasteAutomatically" = "Vložit automaticky";
 "PasteWithoutFormatting" = "Vložit bez formátování";

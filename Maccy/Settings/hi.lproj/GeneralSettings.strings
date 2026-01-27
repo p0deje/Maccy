@@ -8,6 +8,8 @@
 "PinTooltip" = "";
 "Delete" = "";
 "DeleteTooltip" = "";
+"ShowPreview" = "";
+"ShowPreviewTooltip" = "";
 "Behavior" = "";
 "PasteAutomatically" = "";
 "PasteWithoutFormatting" = "";

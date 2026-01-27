@@ -8,6 +8,8 @@
 "PinTooltip" = "고정 기록 항목에 대한 단축키입니다.\n기본값: %@P.";
 "Delete" = "삭제:";
 "DeleteTooltip" = "기록 항목 삭제 단축키입니다.\n기본값: %@⌫.";
+"ShowPreview" = "미리보기:";
+"ShowPreviewTooltip" = "추가 정보와 함께 미리보기를 표시합니다.\n기본값: ⌘I.";
 "Behavior" = "동작:";
 "PasteAutomatically" = "자동으로 붙여넣기";
 "PasteWithoutFormatting" = "서식없이 붙여넣기";

@@ -8,6 +8,8 @@
 "PinTooltip" = "Spartusis klavišas istorijos elementui prisegti.\nNumatytasis spartusis klavišas: ⌥P.";
 "Delete" = "Ištrinti:";
 "DeleteTooltip" = "Spartusis klavišas istorijos elementui ištrinti.\nNumatytasis spartusis klavišas: ⌥⌫.";
+"ShowPreview" = "Peržiūra:";
+"ShowPreviewTooltip" = "Rodyti peržiūrą su papildoma informacija.\nNumatytasis spartusis klavišas: ⌘I.";
 "Behavior" = "Elgsena:";
 "PasteAutomatically" = "Įklijuoti automatiškai";
 "PasteWithoutFormatting" = "Įklijuoti be formatavimo";
