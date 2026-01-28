@@ -12,7 +12,7 @@
 "Delete" = "O'chirish:";
 "DeleteTooltip" = "Tarix elementini o'chirish uchun yorliq tugmasi.\nStandart: ⌥⌫.";
 "ShowPreview" = "Ko'rib chiqish:";
-"ShowPreviewTooltip" = "Qo'shimcha ma'lumot bilan ko'rib chiqishni ko'rsatish.\nStandart: ⌘I.";
+"ShowPreviewTooltip" = "Qo'shimcha ma'lumot bilan ko'rib chiqishni ko'rsatish.\nStandart: ⌃Space.";
 "Behavior" = "Xatti-harakat:";
 "PasteAutomatically" = "Avtomatik joylashtirish";
 "PasteWithoutFormatting" = "Formatlashsiz joylashtirish";

@@ -9,7 +9,7 @@
 "Delete" = "Xóa:";
 "DeleteTooltip" = "Phím tắt để xóa một mục.\nMặc định: ⌥⌫.";
 "ShowPreview" = "Xem trước:";
-"ShowPreviewTooltip" = "Hiển thị xem trước với thông tin bổ sung.\nMặc định: ⌘I.";
+"ShowPreviewTooltip" = "Hiển thị xem trước với thông tin bổ sung.\nMặc định: ⌃Space.";
 "Behavior" = "Hành vi:";
 "PasteAutomatically" = "Tự động dán";
 "PasteWithoutFormatting" = "Dán không định dạng";

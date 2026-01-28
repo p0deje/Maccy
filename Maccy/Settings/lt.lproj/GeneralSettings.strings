@@ -9,7 +9,7 @@
 "Delete" = "Ištrinti:";
 "DeleteTooltip" = "Spartusis klavišas istorijos elementui ištrinti.\nNumatytasis spartusis klavišas: ⌥⌫.";
 "ShowPreview" = "Peržiūra:";
-"ShowPreviewTooltip" = "Rodyti peržiūrą su papildoma informacija.\nNumatytasis spartusis klavišas: ⌘I.";
+"ShowPreviewTooltip" = "Rodyti peržiūrą su papildoma informacija.\nNumatytasis spartusis klavišas: ⌃Space.";
 "Behavior" = "Elgsena:";
 "PasteAutomatically" = "Įklijuoti automatiškai";
 "PasteWithoutFormatting" = "Įklijuoti be formatavimo";

@@ -14,7 +14,7 @@
 "PinTooltip" = "Fulmoklavo por fiksi historian eron.\nDefaŭlta: ⌥P.";
 "DeleteTooltip" = "Fulmoklavo por forigi historian eron.\nDefaŭlta: ⌥⌫.";
 "ShowPreview" = "Antaŭrigardo:";
-"ShowPreviewTooltip" = "Montri antaŭrigardon kun aldonaj informoj.\nDefaŭlta: ⌘I.";
+"ShowPreviewTooltip" = "Montri antaŭrigardon kun aldonaj informoj.\nDefaŭlta: ⌃Space.";
 "Behavior" = "Konduto:";
 "Modifiers" = "";
 "Exact" = "Ekzakta";

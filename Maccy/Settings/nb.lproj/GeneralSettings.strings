@@ -9,7 +9,7 @@
 "Delete" = "Slett:";
 "DeleteTooltip" = "Hurtigtast for å slette historieelement.\nStandard: %@⌫.";
 "ShowPreview" = "Forhåndsvisning:";
-"ShowPreviewTooltip" = "Vis forhåndsvisning med tilleggsinformasjon.\nStandard: ⌘I.";
+"ShowPreviewTooltip" = "Vis forhåndsvisning med tilleggsinformasjon.\nStandard: ⌃Space.";
 "Behavior" = "Oppførsel:";
 "PasteAutomatically" = "Lim in automatisk";
 "PasteWithoutFormatting" = "Lim inn uten formattering";

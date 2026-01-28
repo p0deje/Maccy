@@ -9,7 +9,7 @@
 "Delete" = "Borrar:";
 "DeleteTooltip" = "Combinación de teclas para borrar un elemento del historial.\nPor defecto: ⌥⌫.";
 "ShowPreview" = "Vista previa:";
-"ShowPreviewTooltip" = "Mostrar vista previa con información adicional.\nPor defecto: ⌘I.";
+"ShowPreviewTooltip" = "Mostrar vista previa con información adicional.\nPor defecto: ⌃Space.";
 "Behavior" = "Comportamiento:";
 "PasteAutomatically" = "Pegar automáticamente";
 "PasteWithoutFormatting" = "Pegar sin formato";

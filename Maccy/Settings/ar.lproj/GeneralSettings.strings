@@ -9,7 +9,7 @@
 "Delete" = "حذف:";
 "DeleteTooltip" = "مفتاح الاختصار لحذف عنصر السجل.\nالافتراضي: %@⌫.";
 "ShowPreview" = "معاينة:";
-"ShowPreviewTooltip" = "إظهار المعاينة مع معلومات إضافية.\nالافتراضي: ⌘I.";
+"ShowPreviewTooltip" = "إظهار المعاينة مع معلومات إضافية.\nالافتراضي: ⌃Space.";
 "Behavior" = "الإجراء:";
 "PasteAutomatically" = "لصق تلقائيًا";
 "PasteWithoutFormatting" = "لصق بدون تنسيق";

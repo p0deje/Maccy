@@ -9,7 +9,7 @@
 "Delete" = "Hapus:";
 "DeleteTooltip" = "Tombol pintasan untuk hapus item riwayat.\nDefault: ⌥⌫.";
 "ShowPreview" = "Pratinjau:";
-"ShowPreviewTooltip" = "Tampilkan pratinjau dengan informasi tambahan.\nDefault: ⌘I.";
+"ShowPreviewTooltip" = "Tampilkan pratinjau dengan informasi tambahan.\nDefault: ⌃Space.";
 "Behavior" = "Perilaku:";
 "PasteAutomatically" = "Salin otomatis";
 "PasteWithoutFormatting" = "";

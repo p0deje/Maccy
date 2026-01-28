@@ -9,7 +9,7 @@
 "Delete" = "Verwijder:";
 "DeleteTooltip" = "Sneltoets om geschiedenisitem te verwijderen.\nStandaard: %@⌫.";
 "ShowPreview" = "Voorbeeld:";
-"ShowPreviewTooltip" = "Voorbeeld weergeven met aanvullende informatie.\nStandaard: ⌘I.";
+"ShowPreviewTooltip" = "Voorbeeld weergeven met aanvullende informatie.\nStandaard: ⌃Space.";
 "Behavior" = "Gedrag:";
 "PasteAutomatically" = "Plak automatisch";
 "PasteWithoutFormatting" = "Plakken zonder opmaak";

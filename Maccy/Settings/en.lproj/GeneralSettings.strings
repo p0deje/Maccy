@@ -9,7 +9,7 @@
 "Delete" = "Delete:";
 "DeleteTooltip" = "Shortcut key to delete history item.\nDefault: ⌥⌫.";
 "ShowPreview" = "Preview:";
-"ShowPreviewTooltip" = "Show preview with additional information.\nDefault: ⌘I.";
+"ShowPreviewTooltip" = "Show preview with additional information.\nDefault: ⌃Space.";
 "Behavior" = "Behavior:";
 "PasteAutomatically" = "Paste automatically";
 "PasteWithoutFormatting" = "Paste without formatting";

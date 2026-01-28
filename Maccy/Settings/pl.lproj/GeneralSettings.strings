@@ -9,7 +9,7 @@
 "Delete" = "Usuń:";
 "DeleteTooltip" = "Skrót do usunięcia wpisu z historii.\nDomyślnie: ⌥⌫.";
 "ShowPreview" = "Podgląd:";
-"ShowPreviewTooltip" = "Pokaż podgląd z dodatkowymi informacjami.\nDomyślnie: ⌘I.";
+"ShowPreviewTooltip" = "Pokaż podgląd z dodatkowymi informacjami.\nDomyślnie: ⌃Space.";
 "Behavior" = "Zachowanie:";
 "PasteAutomatically" = "Wklej automatycznie";
 "PasteWithoutFormatting" = "Wklej bez formatowania";

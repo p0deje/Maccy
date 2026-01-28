@@ -9,7 +9,7 @@
 "Delete" = "حذف:";
 "DeleteTooltip" = "میانبر برای حذف مورد تاریخچه.\nمقدار پیش‌فرض: ⌥⌫.";
 "ShowPreview" = "پیش‌نمایش:";
-"ShowPreviewTooltip" = "نمایش پیش‌نمایش با اطلاعات اضافی.\nمقدار پیش‌فرض: ⌘I.";
+"ShowPreviewTooltip" = "نمایش پیش‌نمایش با اطلاعات اضافی.\nمقدار پیش‌فرض: ⌃Space.";
 "Behavior" = "رفتار:";
 "PasteAutomatically" = "چسباندن خودکار";
 "PasteWithoutFormatting" = "چسباندن بدون قالب‌بندی";

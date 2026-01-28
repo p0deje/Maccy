@@ -9,7 +9,7 @@
 "Delete" = "Brisaniti:";
 "DeleteTooltip" = "Prečica za brisanje stavke historije.\nStandardno: %@⌫.";
 "ShowPreview" = "Pregled:";
-"ShowPreviewTooltip" = "Prikaži pregled sa dodatnim informacijama.\nStandardno: ⌘I.";
+"ShowPreviewTooltip" = "Prikaži pregled sa dodatnim informacijama.\nStandardno: ⌃Space.";
 "Behavior" = "Ponašanje:";
 "PasteAutomatically" = "Zalijepi automatski";
 "PasteWithoutFormatting" = "Zalijepi bez formatiranja";

@@ -9,7 +9,7 @@
 "Delete" = "Dzēst:";
 "DeleteTooltip" = "Īsinājumtaustiņš vēstures vienuma dzēšanai.\nNoklusējums: ⌥ ⌫.";
 "ShowPreview" = "Priekšskatījums:";
-"ShowPreviewTooltip" = "Rādīt priekšskatījumu ar papildu informāciju.\nNoklusējums: ⌘I.";
+"ShowPreviewTooltip" = "Rādīt priekšskatījumu ar papildu informāciju.\nNoklusējums: ⌃Space.";
 "Behavior" = "Rīcība:";
 "PasteAutomatically" = "Ielīmēt automātiski";
 "PasteWithoutFormatting" = "Ielīmēt bez formatējuma";

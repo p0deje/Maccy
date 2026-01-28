@@ -9,7 +9,7 @@
 "Delete" = "Törlés:";
 "DeleteTooltip" = "Gyorsbillentyű az előzmény elem törléséhez.\nAlapértelmezett: ⌥⌫.";
 "ShowPreview" = "Előnézet:";
-"ShowPreviewTooltip" = "Előnézet megjelenítése további információkkal.\nAlapértelmezett: ⌘I.";
+"ShowPreviewTooltip" = "Előnézet megjelenítése további információkkal.\nAlapértelmezett: ⌃Space.";
 "Behavior" = "Viselkedés:";
 "PasteAutomatically" = "Automatikus beillesztés";
 "PasteWithoutFormatting" = "Beillesztés formázások nélkül";

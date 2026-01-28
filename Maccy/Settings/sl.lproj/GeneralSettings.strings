@@ -9,7 +9,7 @@
 "Delete" = "Izbriši:";
 "DeleteTooltip" = "Bližnjična tipka za brisanje zgodovinskega elementa.\nPrivzeto: ⌥⌫.";
 "ShowPreview" = "Predogled:";
-"ShowPreviewTooltip" = "Prikaži predogled z dodatnimi informacijami.\nPrivzeto: ⌘I.";
+"ShowPreviewTooltip" = "Prikaži predogled z dodatnimi informacijami.\nPrivzeto: ⌃Space.";
 "Behavior" = "Vedenje:";
 "PasteAutomatically" = "Samodejno prilepite";
 "PasteWithoutFormatting" = "Prilepite brez oblikovanja";

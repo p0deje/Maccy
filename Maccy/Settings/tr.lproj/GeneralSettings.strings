@@ -9,7 +9,7 @@
 "Delete" = "Silmek:";
 "DeleteTooltip" = "Geçmiş öğesini silmek için kısayol düğmesi.\nVarsayılan: %@⌫.";
 "ShowPreview" = "Önizleme:";
-"ShowPreviewTooltip" = "Ek bilgilerle önizleme göster.\nVarsayılan: ⌘I.";
+"ShowPreviewTooltip" = "Ek bilgilerle önizleme göster.\nVarsayılan: ⌃Space.";
 "Behavior" = "Davranış:";
 "PasteAutomatically" = "Otomatik olarak yapıştır";
 "PasteWithoutFormatting" = "Biçimlendirme olmadan yapıştır";

@@ -9,7 +9,7 @@
 "Delete" = "Smazat:";
 "DeleteTooltip" = "Přibližné";
 "ShowPreview" = "Náhled:";
-"ShowPreviewTooltip" = "Zobrazit náhled s dodatečnými informacemi.\nVýchozí: ⌘I.";
+"ShowPreviewTooltip" = "Zobrazit náhled s dodatečnými informacemi.\nVýchozí: ⌃Space.";
 "Behavior" = "Chování:";
 "PasteAutomatically" = "Vložit automaticky";
 "PasteWithoutFormatting" = "Vložit bez formátování";

@@ -9,7 +9,7 @@
 "Delete" = "நீக்கு:";
 "DeleteTooltip" = "வரலாற்று உருப்படியை நீக்க குறுக்குவழி விசை.\n இயல்புநிலை:.";
 "ShowPreview" = "முன்னோட்டம்:";
-"ShowPreviewTooltip" = "கூடுதல் தகவல்களுடன் முன்னோட்டத்தைக் காட்டு.\nஇயல்புநிலை: ⌘I.";
+"ShowPreviewTooltip" = "கூடுதல் தகவல்களுடன் முன்னோட்டத்தைக் காட்டு.\nஇயல்புநிலை: ⌃Space.";
 "Behavior" = "நடத்தை:";
 "PasteAutomatically" = "தானாக ஒட்டவும்";
 "PasteWithoutFormatting" = "வடிவமைக்காமல் ஒட்டவும்";

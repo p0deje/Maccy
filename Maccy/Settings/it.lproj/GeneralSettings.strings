@@ -9,7 +9,7 @@
 "Delete" = "Cancellare:";
 "DeleteTooltip" = "Combinazione di tasti per cancellare l'elemento della cronologia.\nDefault: %@⌫.";
 "ShowPreview" = "Anteprima:";
-"ShowPreviewTooltip" = "Mostra anteprima con informazioni aggiuntive.\nDefault: ⌘I.";
+"ShowPreviewTooltip" = "Mostra anteprima con informazioni aggiuntive.\nDefault: ⌃Space.";
 "Behavior" = "Comportamento:";
 "PasteAutomatically" = "Incolla automaticamente";
 "PasteWithoutFormatting" = "Incolla senza formattazione";

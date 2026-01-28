@@ -17,7 +17,7 @@
 "Search" = "Căutare:";
 "DeleteTooltip" = "Tastă de comandă rapidă pentru a șterge un element din istoric.\nImplicit: ⌥⌫.";
 "ShowPreview" = "Previzualizare:";
-"ShowPreviewTooltip" = "Afișează previzualizarea cu informații suplimentare.\nImplicit: ⌘I.";
+"ShowPreviewTooltip" = "Afișează previzualizarea cu informații suplimentare.\nImplicit: ⌃Space.";
 "Behavior" = "Comportament:";
 "Delete" = "Șterge:";
 "Title" = "General";
