@@ -109,10 +109,16 @@ struct KeyHandlingView<Content: View>: View {
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
           }
+          guard AppState.shared.multiSelectionEnabled else {
+            return .ignored
+          }
           appState.navigator.extendHighlightToNext()
           return .handled
         case .extendToLast:
           guard NSApp.characterPickerWindow == nil else {
+            return .ignored
+          }
+          guard AppState.shared.multiSelectionEnabled else {
             return .ignored
           }
           appState.navigator.extendHighlightToLast()
@@ -121,10 +127,16 @@ struct KeyHandlingView<Content: View>: View {
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
           }
+          guard AppState.shared.multiSelectionEnabled else {
+            return .ignored
+          }
           appState.navigator.extendHighlightToPrevious()
           return .handled
         case .extendToFirst:
           guard NSApp.characterPickerWindow == nil else {
+            return .ignored
+          }
+          guard AppState.shared.multiSelectionEnabled else {
             return .ignored
           }
           appState.navigator.extendHighlightToFirst()

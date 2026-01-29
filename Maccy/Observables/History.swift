@@ -335,6 +335,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   func startPasteStack(selection: inout Selection<HistoryItemDecorator>) {
+    guard AppState.shared.multiSelectionEnabled else { return }
     guard let item = selection.first else { return }
     PasteStack.initializeIfNeeded()
 
