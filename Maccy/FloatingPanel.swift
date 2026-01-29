@@ -137,6 +137,14 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     determinePreviewPlacement()
   }
 
+  func windowWillStartLiveResize(_ notification: Notification) {
+    AppState.shared.preview.cancelAutoOpen()
+  }
+
+  func windowDidEndLiveResize(_ notification: Notification) {
+    AppState.shared.preview.startAutoOpen()
+  }
+
   // Close automatically when out of focus, e.g. outside click.
   override func resignKey() {
     super.resignKey()
