@@ -90,15 +90,15 @@ where Content: View, Slideout: View {
       }
       .environment(\.layoutDirection, .leftToRight)
       .frame(
-        maxWidth: isAnimating ? nil : (controller.state.isOpen ? nil : .infinity),
+        maxWidth: isAnimating ? nil : .infinity,
         alignment: .leading
       )
       // Note: Using conditionalWidth() breaks the layout during animation for some reason.
       .frame(
-        width: isAnimating ? controller.contentAnimationWidth : (controller.state.isOpen ? controller.contentWidth : nil),
+        width: isAnimating ? controller.contentAnimationWidth : nil,
       )
       .fixedSize(
-        horizontal: isAnimating || controller.state.isOpen,
+        horizontal: isAnimating,
         vertical: false
       )
       .readWidth(controller, into: \.contentWidth)
@@ -109,7 +109,7 @@ where Content: View, Slideout: View {
         slideout()
           .frame(
             idealWidth: controller.slideoutWidth,
-            maxWidth: isAnimating ? controller.slideoutWidth : nil,
+            maxWidth: controller.slideoutWidth,
             alignment: .leading
           )
           .conditionalWidth(
@@ -124,7 +124,7 @@ where Content: View, Slideout: View {
         vertical: false
       )
       .frame(
-        minWidth: controller.state != .open ? 0 : controller.slideoutWidth,
+        minWidth: controller.state != .open ? 0 : nil,
         maxWidth: controller.state == .closed ? 0 : nil
       )
       .clipped()
