@@ -50,12 +50,20 @@ enum SlideoutPlacement {
   case right
 }
 
+enum ResizingMode {
+  case none
+  case content
+  case slideout
+}
+
 @Observable
 class SlideoutController {
 
   private static let animationDuration = 0.25
 
+  let minimumContentWidth: CGFloat = 200
   var contentWidth: CGFloat = 0
+  var contentResizeWidth: CGFloat = 0
   var contentAnimationWidth: CGFloat?
 
   let minimumSlideoutWidth: CGFloat = 200
@@ -64,6 +72,7 @@ class SlideoutController {
 
   var placement: SlideoutPlacement = .right
   var state: SlideoutState = .closed
+  var resizingMode: ResizingMode = .none
 
   var nswindow: NSWindow? {
     return AppState.shared.appDelegate?.panel
@@ -145,6 +154,24 @@ class SlideoutController {
     } completion: {
     }
   }
+  
+  func startResize(mode: ResizingMode) {
+    resizingMode = mode
+    contentWidth = contentResizeWidth
+    slideoutWidth = slideoutResizeWidth
+  }
+  
+  func endResize() {
+    switch resizingMode {
+    case .none:
+      return
+    case .content:
+      contentWidth = contentResizeWidth
+    case .slideout:
+      slideoutWidth = slideoutResizeWidth
+    }
+    resizingMode = .none
+  }
 
   func startAutoOpen() {
     cancelAutoOpen()
@@ -156,7 +183,7 @@ class SlideoutController {
       guard !Task.isCancelled else { return }
 
       if !state.isOpen {
-        togglePreview()
+        // togglePreview()
       }
     }
   }

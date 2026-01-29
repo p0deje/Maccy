@@ -40,7 +40,7 @@ struct HeaderView: View {
         .padding(.horizontal, Popup.horizontalPadding)
         .frame(
           maxWidth: previewPlacement == .right
-            ? controller.contentWidth : nil
+            ? controller.contentResizeWidth : nil
         )
         .opacity(appState.searchVisible ? 1 : 0)
 
@@ -71,9 +71,9 @@ struct HeaderView: View {
       }
       .frame(
         idealWidth: previewPlacement == .left
-          ? controller.contentWidth : nil,
+          ? controller.contentResizeWidth : nil,
         maxWidth: previewPlacement == .left
-          ? controller.contentWidth : nil
+          ? controller.contentResizeWidth : nil
       )
       .layoutPriority(1)
 

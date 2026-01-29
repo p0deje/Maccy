@@ -122,6 +122,34 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
+    let preview = AppState.shared.preview
+
+    if inLiveResize && preview.resizingMode == .none {
+      let screenPoint = NSEvent.mouseLocation
+      let windowPoint = convertPoint(fromScreen: screenPoint)
+      let location: SlideoutPlacement = windowPoint.x <= frame.width / 2 ? .left : .right
+      if (location == preview.placement) && preview.state == .open {
+        preview.startResize(mode: .slideout)
+      } else {
+        preview.startResize(mode: .content)
+      }
+    }
+
+    var finalFrameSize = frameSize
+    var minContent = preview.minimumContentWidth
+    var minPreview = 0.0
+
+    if inLiveResize && preview.resizingMode != .none {
+      if preview.resizingMode == .content && preview.state == .open {
+        minPreview = preview.slideoutWidth
+      }
+      if preview.resizingMode == .slideout {
+        minPreview = preview.minimumSlideoutWidth
+        minContent = preview.contentWidth
+      }
+    }
+    finalFrameSize.width = max(finalFrameSize.width, minContent + minPreview)
+
     if !AppState.shared.preview.state.isAnimating {
       var size = frame.size
       // Only store the size of the window without the preview
@@ -129,7 +157,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
       saveWindowFrame(frame: NSRect(origin: frame.origin, size: size))
     }
 
-    return frameSize
+    return finalFrameSize
   }
 
   func windowWillMove(_ notification: Notification) {
@@ -146,6 +174,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func windowDidEndLiveResize(_ notification: Notification) {
     AppState.shared.preview.startAutoOpen()
+    AppState.shared.preview.endResize()
   }
 
   // Close automatically when out of focus, e.g. outside click.

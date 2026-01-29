@@ -38,6 +38,13 @@ where Content: View, Slideout: View {
   var isAnimating: Bool {
     return controller.state.isAnimating
   }
+  
+  var isContentResizing: Bool {
+    return controller.resizingMode == .content
+  }
+  var isSlideoutResizing: Bool {
+    return controller.resizingMode == .slideout
+  }
 
   @ViewBuilder
   private func resizeDivider() -> some View {
@@ -72,10 +79,7 @@ where Content: View, Slideout: View {
           })
           .onEnded({ _ in
             controller.slideoutWidth = controller.slideoutResizeWidth
-            if let window = controller.nswindow {
-              controller.contentWidth =
-                window.frame.size.width - controller.slideoutWidth
-            }
+            controller.contentWidth = controller.contentResizeWidth
           })
       )
       .disabled(controller.state != .open)
@@ -90,26 +94,24 @@ where Content: View, Slideout: View {
       }
       .environment(\.layoutDirection, .leftToRight)
       .frame(
-        maxWidth: isAnimating ? nil : .infinity,
+        minWidth: controller.minimumContentWidth,
+        idealWidth: !(isContentResizing || isDragging) ? controller.contentWidth : nil,
         alignment: .leading
       )
-      // Note: Using conditionalWidth() breaks the layout during animation for some reason.
-      .frame(
-        width: isAnimating ? controller.contentAnimationWidth : nil,
-      )
       .fixedSize(
-        horizontal: isAnimating,
+        horizontal: isAnimating || isSlideoutResizing,
         vertical: false
       )
-      .readWidth(controller, into: \.contentWidth)
+      .readWidth(controller, into: \.contentResizeWidth)
 
       resizeDivider()
 
       VStack(spacing: 0) {
         slideout()
           .frame(
-            idealWidth: controller.slideoutWidth,
-            maxWidth: controller.slideoutWidth,
+            minWidth: controller.minimumSlideoutWidth,
+            idealWidth: !(isSlideoutResizing || isDragging) ? controller.slideoutWidth : nil,
+            maxWidth: !(isSlideoutResizing || isDragging) ? controller.slideoutWidth : nil,
             alignment: .leading
           )
           .conditionalWidth(
@@ -120,7 +122,7 @@ where Content: View, Slideout: View {
       }
       .environment(\.layoutDirection, .leftToRight)
       .fixedSize(
-        horizontal: isAnimating,
+        horizontal: isAnimating || isContentResizing,
         vertical: false
       )
       .frame(

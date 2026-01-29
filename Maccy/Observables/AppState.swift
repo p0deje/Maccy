@@ -39,6 +39,7 @@ class AppState: Sendable {
     popup = Popup()
     navigator = NavigationManager(history: history, footer: footer)
     preview = SlideoutController()
+    preview.contentWidth = Defaults[.windowSize].width
   }
 
   @MainActor
