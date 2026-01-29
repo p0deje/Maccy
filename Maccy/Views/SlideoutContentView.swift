@@ -7,9 +7,6 @@ struct SlideoutContentView: View {
     VStack {
       if let item = appState.navigator.leadHistoryItem {
         PreviewItemView(item: item)
-          .onAppear {
-            item.ensurePreviewImage()
-          }
       } else if let pasteStack = appState.history.pasteStack,
         appState.navigator.pasteStackSelected {
         PasteStackPreviewView(pasteStack: pasteStack)

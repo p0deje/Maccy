@@ -38,6 +38,8 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
     return url.deletingPathExtension().lastPathComponent
   }
+  
+  var hasImage: Bool { item.image != nil }
 
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
@@ -100,6 +102,16 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     previewImageGenerationTask = Task { [weak self] in
       self?.generatePreviewImage()
     }
+  }
+  
+  @MainActor
+  func asyncGetPreviewImage() async -> NSImage? {
+    if let image = previewImage {
+      return image
+    }
+    ensurePreviewImage()
+    let _ = await previewImageGenerationTask?.result
+    return previewImage
   }
 
   @MainActor
