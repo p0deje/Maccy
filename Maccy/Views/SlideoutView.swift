@@ -71,7 +71,7 @@ where Content: View, Slideout: View {
       .gesture(
         DragGesture()
           .onChanged({ value in
-            if let window = AppState.shared.appDelegate?.panel {
+            if let window = controller.nswindow {
               controller.slideoutWidth = min(
                 max(
                   controller.minimumSlideoutWidth,
@@ -80,7 +80,6 @@ where Content: View, Slideout: View {
                 ),
                 window.frame.width - controller.minimumContentWidth
               )
-              print(controller.contentWidth, controller.slideoutWidth)
               controller.contentWidth = window.frame.width - controller.slideoutWidth
             }
           })

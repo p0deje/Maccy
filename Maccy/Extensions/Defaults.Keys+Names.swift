@@ -58,4 +58,5 @@ extension Defaults.Keys {
   static let windowSize = Key<NSSize>("windowSize", default: NSSize(width: 450, height: 800))
   static let windowPosition = Key<NSPoint>("windowPosition", default: NSPoint(x: 0.5, y: 0.8))
   static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: false)
+  static let previewWidth = Key<CGFloat>("previewWidth", default: 400)
 }

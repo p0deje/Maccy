@@ -40,8 +40,15 @@ class AppState: Sendable {
     self.footer = footer
     popup = Popup()
     navigator = NavigationManager(history: history, footer: footer)
-    preview = SlideoutController()
+    preview = SlideoutController(
+      onContentResize: { contentWidth in
+        Defaults[.windowSize].width = contentWidth
+      },
+      onSlideoutResize: { previewWidth in
+        Defaults[.previewWidth] = previewWidth
+      })
     preview.contentWidth = Defaults[.windowSize].width
+    preview.slideoutWidth = Defaults[.previewWidth]
   }
 
   @MainActor

@@ -1,4 +1,5 @@
 import Defaults
+import Logging
 import Observation
 import SwiftUI
 
@@ -58,17 +59,35 @@ enum ResizingMode {
 
 @Observable
 class SlideoutController {
-
+  let logger = Logger(label: "org.p0deje.Maccy")
   private static let animationDuration = 0.25
+  
+  let onContentResize: (CGFloat) -> ()
+  let onSlideoutResize: (CGFloat) -> ()
 
   let minimumContentWidth: CGFloat = 200
-  var contentWidth: CGFloat = 0
   var contentResizeWidth: CGFloat = 0
   var contentAnimationWidth: CGFloat?
 
   let minimumSlideoutWidth: CGFloat = 200
-  var slideoutWidth: CGFloat = 400
   var slideoutResizeWidth: CGFloat = 0
+  
+  private var _contentWidth: CGFloat = 0
+  var contentWidth: CGFloat {
+    set {
+      _contentWidth = max(minimumContentWidth, newValue)
+      onContentResize(_contentWidth)
+    }
+    get { return _contentWidth }
+  }
+  private var _slideoutWidth: CGFloat = 400
+  var slideoutWidth: CGFloat {
+    set {
+      _slideoutWidth = max(minimumSlideoutWidth, newValue)
+      onSlideoutResize(_slideoutWidth)
+    }
+    get { return _slideoutWidth }
+  }
 
   var placement: SlideoutPlacement = .right
   var state: SlideoutState = .closed
@@ -82,6 +101,11 @@ class SlideoutController {
   private var windowAnimationOriginBaseState: SlideoutState = .closed
 
   private var autoOpenTask: Task<Void, Never>?
+  
+  init(onContentResize: @escaping(CGFloat) -> (), onSlideoutResize: @escaping(CGFloat) -> ()) {
+    self.onContentResize = onContentResize
+    self.onSlideoutResize = onSlideoutResize
+  }
 
   private func togglePreviewStateWithAnimation(windowFrame: NSRect) {
     let newValue = state.toggleWithAnimation()
@@ -156,12 +180,14 @@ class SlideoutController {
   }
   
   func startResize(mode: ResizingMode) {
+    logger.info("Starting resize with mode \(mode)")
     resizingMode = mode
     contentWidth = contentResizeWidth
     slideoutWidth = slideoutResizeWidth
   }
   
   func endResize() {
+    logger.info("Ended resize. Mode was \(resizingMode)")
     switch resizingMode {
     case .none:
       return
