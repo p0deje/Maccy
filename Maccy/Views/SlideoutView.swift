@@ -71,11 +71,18 @@ where Content: View, Slideout: View {
       .gesture(
         DragGesture()
           .onChanged({ value in
-            controller.slideoutWidth = max(
-              controller.minimumSlideoutWidth,
-              controller.slideoutResizeWidth + (leftToRight ? -1 : 1)
-                * value.translation.width
-            )
+            if let window = AppState.shared.appDelegate?.panel {
+              controller.slideoutWidth = min(
+                max(
+                  controller.minimumSlideoutWidth,
+                  controller.slideoutResizeWidth + (leftToRight ? -1 : 1)
+                    * value.translation.width
+                ),
+                window.frame.width - controller.minimumContentWidth
+              )
+              print(controller.contentWidth, controller.slideoutWidth)
+              controller.contentWidth = window.frame.width - controller.slideoutWidth
+            }
           })
           .onEnded({ _ in
             controller.slideoutWidth = controller.slideoutResizeWidth
@@ -95,8 +102,11 @@ where Content: View, Slideout: View {
       .environment(\.layoutDirection, .leftToRight)
       .frame(
         minWidth: controller.minimumContentWidth,
-        idealWidth: !(isContentResizing || isDragging) ? controller.contentWidth : nil,
+        idealWidth: !isContentResizing ? controller.contentWidth : nil,
         alignment: .leading
+      )
+      .frame(
+        width: !isContentResizing ? controller.contentWidth : nil
       )
       .fixedSize(
         horizontal: isAnimating || isSlideoutResizing,
@@ -110,8 +120,8 @@ where Content: View, Slideout: View {
         slideout()
           .frame(
             minWidth: controller.minimumSlideoutWidth,
-            idealWidth: !(isSlideoutResizing || isDragging) ? controller.slideoutWidth : nil,
-            maxWidth: !(isSlideoutResizing || isDragging) ? controller.slideoutWidth : nil,
+            idealWidth: !isSlideoutResizing ? controller.slideoutWidth : nil,
+            maxWidth: !isSlideoutResizing ? controller.slideoutWidth : nil,
             alignment: .leading
           )
           .conditionalWidth(
