@@ -85,24 +85,6 @@ struct ToolbarView: View {
   var body: some View {
     HStack {
       if !appState.navigator.selection.isEmpty {
-        if appState.preview.state.isOpen {
-          ToolbarButton {
-            appState.preview.togglePreview()
-          } label: {
-            Image(systemName: "xmark.circle.fill")
-              .opacity(0.9)
-              .padding(.horizontal, 4)
-          }
-          .shortcutKeyHelp(
-            name: .togglePreview,
-            key: "PreviewKey",
-            tableName: "PreviewItemView",
-            replacementKey: "previewKey"
-          )
-        }
-
-        Spacer()
-
         ToolbarButton {
           withAnimation {
             appState.togglePin()
