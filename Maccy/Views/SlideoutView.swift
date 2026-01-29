@@ -38,7 +38,7 @@ where Content: View, Slideout: View {
   var isAnimating: Bool {
     return controller.state.isAnimating
   }
-  
+
   var isContentResizing: Bool {
     return controller.resizingMode == .content
   }

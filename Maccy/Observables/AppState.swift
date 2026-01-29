@@ -7,7 +7,7 @@ import SwiftUI
 @Observable
 class AppState: Sendable {
   static let shared = AppState(history: History.shared, footer: Footer())
-  
+
   let multiSelectionEnabled = false
 
   var appDelegate: AppDelegate?
