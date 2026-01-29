@@ -107,7 +107,10 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func saveWindowPosition() {
     if let screenFrame = screen?.visibleFrame {
-      let anchorX = frame.minX + frame.width / 2 - screenFrame.minX
+      // Only store the size of the window without the preview
+      let width = AppState.shared.preview.contentWidth
+      
+      let anchorX = frame.minX + width / 2 - screenFrame.minX
       let anchorY = frame.maxY - screenFrame.minY
       Defaults[.windowPosition] = NSPoint(x: anchorX / screenFrame.width, y: anchorY / screenFrame.height)
     }
