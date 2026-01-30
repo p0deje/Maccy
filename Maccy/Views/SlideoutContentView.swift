@@ -5,6 +5,8 @@ struct SlideoutContentView: View {
 
   var body: some View {
     VStack {
+      ToolbarView()
+
       if let item = appState.navigator.leadHistoryItem {
         PreviewItemView(item: item)
       } else if let pasteStack = appState.history.pasteStack,
@@ -14,7 +16,9 @@ struct SlideoutContentView: View {
         EmptyView()
       }
     }
-    .padding()
+    .padding(.horizontal)
+    .padding(.bottom)
+    .padding(.top, Popup.verticalPadding)
   }
 
 }

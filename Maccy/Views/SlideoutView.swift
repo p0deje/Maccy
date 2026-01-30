@@ -29,8 +29,8 @@ where Content: View, Slideout: View {
 
   let controller: SlideoutController
 
-  var content: () -> Content
-  var slideout: () -> Slideout
+  @ViewBuilder var content: () -> Content
+  @ViewBuilder var slideout: () -> Slideout
 
   var leftToRight: Bool {
     return controller.placement == .right

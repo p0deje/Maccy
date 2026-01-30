@@ -85,6 +85,8 @@ struct ToolbarView: View {
   var body: some View {
     HStack {
       if !appState.navigator.selection.isEmpty {
+        Spacer()
+
         ToolbarButton {
           withAnimation {
             appState.togglePin()
@@ -115,7 +117,6 @@ struct ToolbarView: View {
           tableName: "PreviewItemView",
           replacementKey: "deleteKey"
         )
-        .padding(.trailing, 4)
       }
 
       if appState.navigator.pasteStackSelected {

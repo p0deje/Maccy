@@ -40,7 +40,6 @@ class Popup {
   var needsResize = false
   var height: CGFloat = 0
   var headerHeight: CGFloat = 0
-  var realHeaderHeight: CGFloat = 0
   var extraTopHeight: CGFloat = 0
   var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0

@@ -18,12 +18,12 @@ struct ContentView: View {
 
       KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
         VStack(spacing: 0) {
-          HeaderView(
-            controller: appState.preview,
-            searchFocused: $searchFocused
-          )
-
           SlideoutView(controller: appState.preview) {
+            HeaderView(
+              controller: appState.preview,
+              searchFocused: $searchFocused
+            )
+
             VStack(alignment: .leading, spacing: 0) {
               HistoryListView(
                 searchQuery: $appState.history.searchQuery,
@@ -46,7 +46,6 @@ struct ContentView: View {
             }
           } slideout: {
             SlideoutContentView()
-              .safeAreaPadding(.top, !appState.searchVisible ? appState.popup.realHeaderHeight : 0)
           }
           .frame(minHeight: 0)
           .layoutPriority(1)
