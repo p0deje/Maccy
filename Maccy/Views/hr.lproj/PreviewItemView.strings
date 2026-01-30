@@ -2,7 +2,7 @@
 "FirstCopyTime" = "Vrijeme prve kopije:";
 "LastCopyTime" = "Vrijeme zadnje kopije:";
 "NumberOfCopies" = "Broj kopija:";
-"PinKey" = "Prikvači pomoću tipki {pinKey}.";
-"UnpinKey" = "Prikvači pomoću tipki {pinKey}.";
-"DeleteKey" = "Prikvači pomoću tipki {deleteKey}.";
-"PreviewKey" = "Prikvači pomoću {previewKey} za prebacivanje pregleda.";
+"PinKey" = "Pritisnite {pinKey} za prikvačivanje.";
+"UnpinKey" = "Pritisnite {pinKey} za otkvačivanje.";
+"DeleteKey" = "Pritisnite {deleteKey} za brisanje.";
+"PreviewKey" = "Pritisnite {previewKey} za uključivanje/isključivanje pregleda.";
