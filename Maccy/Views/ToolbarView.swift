@@ -112,7 +112,7 @@ struct ToolbarView: View {
           Image(systemName: "trash")
         }
         .shortcutKeyHelp(
-          name: .pin,
+          name: .delete,
           key: "DeleteKey",
           tableName: "PreviewItemView",
           replacementKey: "deleteKey"
