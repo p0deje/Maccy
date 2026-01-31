@@ -335,6 +335,73 @@ class History { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  func startEditing(_ item: HistoryItemDecorator?) {
+    guard let item, item.item.text != nil else { return }
+    item.editingText = item.item.text ?? item.title
+    item.isEditing = true
+  }
+
+  @MainActor
+  func saveEditing(_ item: HistoryItemDecorator?) {
+    guard let item, item.isEditing else { return }
+    item.isEditing = false
+
+    let newText = item.editingText
+    guard !newText.isEmpty else {
+      delete(item)
+      return
+    }
+
+    // Update the string content
+    if let content = item.item.contents.first(where: { $0.type == NSPasteboard.PasteboardType.string.rawValue }) {
+      content.value = newText.data(using: .utf8)
+    } else {
+      let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: newText.data(using: .utf8))
+      item.item.contents.append(content)
+    }
+
+    item.item.title = item.item.generateTitle()
+    item.title = item.item.title
+
+    Storage.shared.context.processPendingChanges()
+    try? Storage.shared.context.save()
+  }
+
+  @MainActor
+  func cancelEditing(_ item: HistoryItemDecorator?) {
+    guard let item, item.isEditing else { return }
+    item.isEditing = false
+    item.editingText = ""
+    // If the item has no title (newly created), delete it
+    if item.item.title.isEmpty && (item.item.text ?? "").isEmpty {
+      delete(item)
+    }
+  }
+
+  @discardableResult
+  @MainActor
+  func addNew() -> HistoryItemDecorator {
+    let content = HistoryItemContent(
+      type: NSPasteboard.PasteboardType.string.rawValue,
+      value: "".data(using: .utf8)
+    )
+    let historyItem = HistoryItem(contents: [content])
+    historyItem.application = Bundle.main.bundleIdentifier
+    historyItem.title = ""
+
+    if #unavailable(macOS 15.0) {
+      try? insertIntoStorage(historyItem)
+    }
+
+    let decorator = add(historyItem)
+    decorator.editingText = ""
+    decorator.isEditing = true
+
+    AppState.shared.selection = decorator.id
+    return decorator
+  }
+
+  @MainActor
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 

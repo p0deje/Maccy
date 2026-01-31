@@ -103,6 +103,9 @@ struct KeyHandlingView<Content: View>: View {
 
           appState.highlightFirst()
           return .handled
+        case .editCurrentItem:
+          appState.history.startEditing(appState.history.selectedItem)
+          return .handled
         case .openPreferences:
           appState.openPreferences()
           return .handled
