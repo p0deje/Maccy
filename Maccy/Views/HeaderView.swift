@@ -27,6 +27,15 @@ struct HeaderView: View {
         }
         // Only reliable way to disable the cursor. allowsHitTesting() does not work
         .offset(y: appState.searchVisible ? 0 : -Popup.itemHeight)
+
+      Button {
+        appState.history.addNew()
+      } label: {
+        Image(systemName: "plus")
+          .foregroundStyle(.secondary)
+      }
+      .buttonStyle(.plain)
+      .help(Text("add_new"))
     }
     .frame(height: appState.searchVisible ? Popup.itemHeight + 3 : 0)
     .opacity(appState.searchVisible ? 1 : 0)
