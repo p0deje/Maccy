@@ -11,6 +11,7 @@ struct HistoryListView: View {
 
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
+  @Default(.isUnlimitedHistory) private var isUnlimitedHistory
 
   private var pinnedItems: [HistoryItemDecorator] {
     let pinned = appState.history.pinnedItems.filter(\.isVisible)
@@ -31,27 +32,72 @@ struct HistoryListView: View {
 
   var body: some View {
     if pinTo == .top {
-      LazyVStack(spacing: 0) {
-        ForEach(pinnedItems) { item in
-          HistoryItemView(item: item)
-        }
-
-        if showPinsSeparator {
-          Divider()
-            .padding(.horizontal, 10)
-            .padding(.vertical, 3)
-        }
-      }
-      .background {
-        GeometryReader { geo in
-          Color.clear
-            .task(id: geo.size.height) {
-              appState.popup.pinnedItemsHeight = geo.size.height
-            }
-        }
-      }
+      pinnedItemsView
     }
 
+    if isUnlimitedHistory {
+      VirtualizedHistoryList(searchQuery: $searchQuery, searchFocused: $searchFocused)
+    } else {
+      standardScrollView
+    }
+
+    if pinTo == .bottom {
+      pinnedItemsBottomView
+    }
+  }
+
+  // MARK: - Pinned Items Views
+
+  @ViewBuilder
+  private var pinnedItemsView: some View {
+    LazyVStack(spacing: 0) {
+      ForEach(pinnedItems) { item in
+        HistoryItemView(item: item)
+      }
+
+      if showPinsSeparator {
+        Divider()
+          .padding(.horizontal, 10)
+          .padding(.vertical, 3)
+      }
+    }
+    .background {
+      GeometryReader { geo in
+        Color.clear
+          .task(id: geo.size.height) {
+            appState.popup.pinnedItemsHeight = geo.size.height
+          }
+      }
+    }
+  }
+
+  @ViewBuilder
+  private var pinnedItemsBottomView: some View {
+    LazyVStack(spacing: 0) {
+      if showPinsSeparator {
+        Divider()
+          .padding(.horizontal, 10)
+          .padding(.vertical, 3)
+      }
+
+      ForEach(pinnedItems) { item in
+        HistoryItemView(item: item)
+      }
+    }
+    .background {
+      GeometryReader { geo in
+        Color.clear
+          .task(id: geo.size.height) {
+            appState.popup.pinnedItemsHeight = geo.size.height
+          }
+      }
+    }
+  }
+
+  // MARK: - Standard Scroll View (for limited history)
+
+  @ViewBuilder
+  private var standardScrollView: some View {
     ScrollView {
       ScrollViewReader { proxy in
         LazyVStack(spacing: 0) {
@@ -76,13 +122,13 @@ struct HistoryListView: View {
             HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
             HistoryItemDecorator.previewThrottler.cancel()
             appState.isKeyboardNavigating = true
-            appState.selection = appState.history.unpinnedItems.first?.id ?? appState.history.pinnedItems.first?.id
+            appState.selection = appState.history.unpinnedItems.first?.id
+              ?? appState.history.pinnedItems.first?.id
           } else {
             modifierFlags.flags = []
             appState.isKeyboardNavigating = true
           }
         }
-        // Calculate the total height inside a scroll view.
         .background {
           GeometryReader { geo in
             Color.clear
@@ -98,28 +144,6 @@ struct HistoryListView: View {
         }
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
-    }
-
-    if pinTo == .bottom {
-      LazyVStack(spacing: 0) {
-        if showPinsSeparator {
-          Divider()
-            .padding(.horizontal, 10)
-            .padding(.vertical, 3)
-        }
-
-        ForEach(pinnedItems) { item in
-          HistoryItemView(item: item)
-        }
-      }
-      .background {
-        GeometryReader { geo in
-          Color.clear
-            .task(id: geo.size.height) {
-              appState.popup.pinnedItemsHeight = geo.size.height
-            }
-        }
-      }
     }
   }
 }

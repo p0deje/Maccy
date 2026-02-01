@@ -70,6 +70,43 @@ class History { // swiftlint:disable:this type_body_length
   @ObservationIgnored
   var all: [HistoryItemDecorator] = []
 
+  // Pagination support for unlimited history
+  @ObservationIgnored
+  private let paginationManager = PaginationManager()
+
+  @ObservationIgnored
+  var totalCount: Int {
+    if Defaults[.isUnlimitedHistory] {
+      return paginationManager.totalCount
+    }
+    return all.count
+  }
+
+  @ObservationIgnored
+  var isLoadingMore: Bool {
+    paginationManager.isLoading
+  }
+
+  @ObservationIgnored
+  var hasMoreItems: Bool {
+    paginationManager.hasMoreItemsAfter
+  }
+
+  @ObservationIgnored
+  var hasMoreItemsBefore: Bool {
+    paginationManager.hasMoreItemsBefore
+  }
+
+  @ObservationIgnored
+  var windowStartIndex: Int {
+    paginationManager.windowStartIndex
+  }
+
+  @ObservationIgnored
+  var windowEndIndex: Int {
+    paginationManager.windowEndIndex
+  }
+
   init() {
     Task {
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
@@ -110,21 +147,98 @@ class History { // swiftlint:disable:this type_body_length
         }
       }
     }
+
+    Task {
+      for await _ in Defaults.updates(.isUnlimitedHistory, initial: false) {
+        // Reload history when switching between limited and unlimited modes
+        // This ensures proper storage handling for both directions
+        try? await load()
+      }
+    }
   }
 
   @MainActor
   func load() async throws {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    let results = try Storage.shared.context.fetch(descriptor)
-    all = sorter.sort(results).map { HistoryItemDecorator($0) }
-    items = all
+    all.removeAll()
 
-    limitHistorySize(to: Defaults[.size])
+    if Defaults[.isUnlimitedHistory] {
+      // Use pagination manager for unlimited history
+      try await paginationManager.load()
+      all = paginationManager.allLoadedItems
+    } else {
+      // Load all items for limited history
+      let descriptor = FetchDescriptor<HistoryItem>()
+      let results = try Storage.shared.context.fetch(descriptor)
+      all = sorter.sort(results).map { HistoryItemDecorator($0) }
+      limitHistorySize(to: Defaults[.size])
+    }
+
+    items = all
 
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
     Task {
       AppState.shared.popup.needsResize = true
+    }
+  }
+
+  @MainActor
+  func loadMoreItems() async {
+    guard Defaults[.isUnlimitedHistory] else { return }
+
+    do {
+      try await paginationManager.loadNextWindow()
+      all = paginationManager.allLoadedItems
+      items = all
+      updateUnpinnedShortcuts()
+      AppState.shared.popup.needsResize = true
+    } catch {
+      logger.error("Failed to load more items: \(error.localizedDescription)")
+    }
+  }
+
+  @MainActor
+  func loadPreviousItems() async {
+    guard Defaults[.isUnlimitedHistory] else { return }
+
+    do {
+      try await paginationManager.loadPreviousWindow()
+      all = paginationManager.allLoadedItems
+      items = all
+      updateUnpinnedShortcuts()
+      AppState.shared.popup.needsResize = true
+    } catch {
+      logger.error("Failed to load previous items: \(error.localizedDescription)")
+    }
+  }
+
+  @MainActor
+  func jumpToFirst() async {
+    guard Defaults[.isUnlimitedHistory] else { return }
+
+    do {
+      try await paginationManager.jumpToFirst()
+      all = paginationManager.allLoadedItems
+      items = all
+      updateUnpinnedShortcuts()
+      AppState.shared.popup.needsResize = true
+    } catch {
+      logger.error("Failed to jump to first: \(error.localizedDescription)")
+    }
+  }
+
+  @MainActor
+  func jumpToLast() async {
+    guard Defaults[.isUnlimitedHistory] else { return }
+
+    do {
+      try await paginationManager.jumpToLast()
+      all = paginationManager.allLoadedItems
+      items = all
+      updateUnpinnedShortcuts()
+      AppState.shared.popup.needsResize = true
+    } catch {
+      logger.error("Failed to jump to last: \(error.localizedDescription)")
     }
   }
 
@@ -180,7 +294,9 @@ class History { // swiftlint:disable:this type_body_length
 
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
-    limitHistorySize(to: Defaults[.size] - 1)
+    if !Defaults[.isUnlimitedHistory] {
+      limitHistorySize(to: Defaults[.size] - 1)
+    }
 
     sessionLog[Clipboard.shared.changeCount] = item
 
@@ -194,9 +310,15 @@ class History { // swiftlint:disable:this type_body_length
     } else {
       itemDecorator = HistoryItemDecorator(item)
 
-      let sortedItems = sorter.sort(all.map(\.item) + [item])
-      if let index = sortedItems.firstIndex(of: item) {
-        all.insert(itemDecorator, at: index)
+      if Defaults[.isUnlimitedHistory] {
+        // Use pagination manager for unlimited history
+        paginationManager.handleNewItem(itemDecorator)
+        all = paginationManager.allLoadedItems
+      } else {
+        let sortedItems = sorter.sort(all.map(\.item) + [item])
+        if let index = sortedItems.firstIndex(of: item) {
+          all.insert(itemDecorator, at: index)
+        }
       }
 
       items = all
@@ -246,6 +368,13 @@ class History { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
+    // Update pagination manager total count
+    if Defaults[.isUnlimitedHistory] {
+      let countDescriptor = FetchDescriptor<HistoryItem>()
+      let count = (try? Storage.shared.context.fetchCount(countDescriptor)) ?? 0
+      paginationManager.updateTotalCount(count)
+    }
+
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
@@ -268,6 +397,11 @@ class History { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
+    // Update pagination manager total count
+    if Defaults[.isUnlimitedHistory] {
+      paginationManager.updateTotalCount(0)
+    }
+
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
@@ -286,7 +420,12 @@ class History { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
-    all.removeAll { $0 == item }
+    if Defaults[.isUnlimitedHistory] {
+      paginationManager.handleItemRemoved(item)
+      all = paginationManager.allLoadedItems
+    } else {
+      all.removeAll { $0 == item }
+    }
     items.removeAll { $0 == item }
     sessionLog.removeValues { $0 == item.item }
 
