@@ -360,6 +360,8 @@ class PaginationManager {
       return SortDescriptor(\.firstCopiedAt, order: .reverse)
     case .numberOfCopies:
       return SortDescriptor(\.numberOfCopies, order: .reverse)
+    case .pinShortcutKey:
+      return SortDescriptor(\.pin, order: .reverse)
     }
   }
 }
