@@ -14,7 +14,7 @@ struct HistoryListView: View {
   @Default(.isUnlimitedHistory) private var isUnlimitedHistory
 
   private var pinnedItems: [HistoryItemDecorator] {
-    let pinned = let pinned = appState.history.pinnedItems.filter(\.isVisible)
+    let pinned = appState.history.pinnedItems.filter(\.isVisible)
     if pinned.isEmpty { return [] }
 
     // Use Sorter to order pinned items according to current Sorter settings
