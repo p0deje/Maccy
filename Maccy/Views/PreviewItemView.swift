@@ -51,6 +51,12 @@ struct PreviewItemView: View {
           Text(String(item.item.numberOfCopies))
         }
         .padding(.bottom)
+        
+        HStack(spacing: 3) {
+          Text("PinShortcutKey", tableName: "PreviewItemView")
+          Text(item.item.pin ?? "")
+        }
+      .padding(.bottom)
 
         if let pinKey = KeyboardShortcuts.Shortcut(name: .pin) {
           Text(
