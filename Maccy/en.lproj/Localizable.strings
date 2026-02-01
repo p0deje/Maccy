@@ -28,3 +28,8 @@
 "system_settings_pane" = "Privacy & Security settings";
 "system_preferences_name" = "System Preferences";
 "system_preferences_pane" = "Security & Privacy preferences";
+"edit" = "Edit";
+"pin" = "Pin";
+"unpin" = "Unpin";
+"delete" = "Delete";
+"add_new" = "Add new item";
