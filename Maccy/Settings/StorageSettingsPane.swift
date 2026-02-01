@@ -60,6 +60,7 @@ struct StorageSettingsPane: View {
   @Default(.isUnlimitedHistory) private var isUnlimitedHistory
   @Default(.sortBy) private var sortBy
   @Default(.sortOrder) private var sortOrder
+  @Default(.pushPastedToBottom) private var pushPastedToBottom
 
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
@@ -147,7 +148,7 @@ struct StorageSettingsPane: View {
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
       }
 
-      Settings.Section(label: { Text("SortOrder", tableName: "StorageSettings") }) {        
+      Settings.Section(label: { Text("SortOrder", tableName: "StorageSettings") }) {
         Picker("", selection: $sortOrder) {
           Text("Ascending").tag(true)
           Text("Descending").tag(false)
@@ -171,6 +172,15 @@ struct StorageSettingsPane: View {
           History.shared.totalCount
         )
       )
+
+      Settings.Section(
+        label: { Text("On item paste:", tableName: "StorageSettings") }
+      ) {
+        Toggle(
+          isOn: $pushPastedToBottom,
+          label: { Text("push item to bottom of list  (only via Maccy!)", tableName: "StorageSettings") }
+        )
+      }
     }
   }
 }
