@@ -34,6 +34,7 @@ extension Defaults.Keys {
     ])
   )
   static let imageMaxHeight = Key<Int>("imageMaxHeight", default: 40)
+  static let previewImageMaxSize = Key<Int>("previewImageMaxSize", default: 600)
   static let lastReviewRequestedAt = Key<Date>("lastReviewRequestedAt", default: Date.now)
   static let menuIcon = Key<MenuIcon>("menuIcon", default: .maccy)
   static let migrations = Key<[String: Bool]>("migrations", default: [:])

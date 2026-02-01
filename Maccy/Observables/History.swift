@@ -125,7 +125,7 @@ class History { // swiftlint:disable:this type_body_length
         try? await load()
       }
     }
-    
+
     Task {
       for await _ in Defaults.updates(.pinTo, initial: false) {
         try? await load()
@@ -153,6 +153,30 @@ class History { // swiftlint:disable:this type_body_length
         // Reload history when switching between limited and unlimited modes
         // This ensures proper storage handling for both directions
         try? await load()
+      }
+    }
+
+    Task {
+      for await _ in Defaults.updates(.previewImageMaxSize, initial: false) {
+        for item in items {
+          await item.sizeImages()
+        }
+      }
+    }
+
+    Task {
+      for await _ in Defaults.updates(.isUnlimitedHistory, initial: false) {
+        // Reload history when switching between limited and unlimited modes
+        // This ensures proper storage handling for both directions
+        try? await load()
+      }
+    }
+
+    Task {
+      for await _ in Defaults.updates(.previewImageMaxSize, initial: false) {
+        for item in items {
+          await item.sizeImages()
+        }
       }
     }
   }
