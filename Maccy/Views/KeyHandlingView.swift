@@ -89,6 +89,12 @@ struct KeyHandlingView<Content: View>: View {
 
           appState.highlightLast()
           return .handled
+        case .movePinnedUp:
+          appState.history.movePinnedUp(appState.history.selectedItem)
+          return .handled
+        case .movePinnedDown:
+          appState.history.movePinnedDown(appState.history.selectedItem)
+          return .handled
         case .moveToPrevious:
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
@@ -103,14 +109,30 @@ struct KeyHandlingView<Content: View>: View {
 
           appState.highlightFirst()
           return .handled
+        case .editCurrentItem:
+          appState.history.startEditing(appState.history.selectedItem)
+          return .handled
         case .openPreferences:
           appState.openPreferences()
           return .handled
         case .pinOrUnpin:
           appState.history.togglePin(appState.history.selectedItem)
           return .handled
+        case .secretOrUnsecret:
+          appState.history.toggleSecret(appState.history.selectedItem)
+          return .handled
         case .selectCurrentItem:
-          appState.select()
+          if let event = NSApp.currentEvent,
+             let selectedItem = appState.history.selectedItem?.item,
+             event.modifierFlags.contains(.option),
+             event.modifierFlags.contains(.shift) {
+            // Option+Shift+Enter: paste without formatting
+            Clipboard.shared.copy(selectedItem, removeFormatting: true)
+            appState.popup.close()
+            Clipboard.shared.paste()
+          } else {
+            appState.select()
+          }
           return .handled
         case .close:
           appState.popup.close()

@@ -17,6 +17,9 @@ enum KeyChord: CaseIterable {
   static var pinKey: Key? { Sauce.shared.key(shortcut: .pin) }
   static var pinModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .pin)?.modifiers }
 
+  static var secretKey: Key? { Sauce.shared.key(shortcut: .secret) }
+  static var secretModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .secret)?.modifiers }
+
   case clearHistory
   case clearHistoryAll
   case clearSearch
@@ -30,7 +33,11 @@ enum KeyChord: CaseIterable {
   case moveToFirst
   case openPreferences
   case pinOrUnpin
+  case secretOrUnsecret
+  case movePinnedUp
+  case movePinnedDown
   case selectCurrentItem
+  case editCurrentItem
   case close
   case unknown
 
@@ -61,6 +68,12 @@ enum KeyChord: CaseIterable {
 
   init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) { // swiftlint:disable:this cyclomatic_complexity
     switch (key, modifierFlags) {
+    // Move pinned item up/down when both Control and Option are held.
+    case (.upArrow, let mods) where mods.contains(.option):
+      self = .movePinnedUp
+    case (.downArrow, let mods) where mods.contains(.option):
+      self = .movePinnedDown
+
     case (.delete, [.command, .option]):
       self = .clearHistory
     case (.delete, [.command, .option, .shift]):
@@ -95,6 +108,10 @@ enum KeyChord: CaseIterable {
       self = .moveToFirst
     case (KeyChord.pinKey, KeyChord.pinModifiers):
       self = .pinOrUnpin
+    case (KeyChord.secretKey, KeyChord.secretModifiers):
+      self = .secretOrUnsecret
+    case (.e, [.command]):
+      self = .editCurrentItem
     case (.comma, [.command]):
       self = .openPreferences
     case (.return, _),

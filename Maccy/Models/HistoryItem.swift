@@ -49,6 +49,7 @@ class HistoryItem {
     NSPasteboard.PasteboardType.linkPresentationMetadata.rawValue,
     NSPasteboard.PasteboardType.customWebKitPasteboardData.rawValue,
     NSPasteboard.PasteboardType.source.rawValue,
+    NSPasteboard.PasteboardType.secret.rawValue,
     NSPasteboard.PasteboardType.customChromiumWebData.rawValue,
     NSPasteboard.PasteboardType.chromiumSourceUrl.rawValue,
     NSPasteboard.PasteboardType.chromiumSourceToken.rawValue,
@@ -58,8 +59,13 @@ class HistoryItem {
   var application: String?
   var firstCopiedAt: Date = Date.now
   var lastCopiedAt: Date = Date.now
+  var lastPastedAt: Date = Date.distantPast
   var numberOfCopies: Int = 1
   var pin: String?
+  var secret: Bool = false
+  // Order index used to persist custom ordering of pinned items.
+  // Lower numbers come first.
+  var pinOrder: Int = 0
   var title = ""
 
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
@@ -68,6 +74,7 @@ class HistoryItem {
   init(contents: [HistoryItemContent] = []) {
     self.firstCopiedAt = firstCopiedAt
     self.lastCopiedAt = lastCopiedAt
+    self.lastPastedAt = lastPastedAt
     self.contents = contents
   }
 

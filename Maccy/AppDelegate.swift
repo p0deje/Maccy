@@ -91,6 +91,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
     disableUnusedGlobalHotkeys()
+    updatePrivacy()
 
     panel = FloatingPanel(
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
@@ -171,7 +172,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func disableUnusedGlobalHotkeys() {
-    let names: [KeyboardShortcuts.Name] = [.delete, .pin]
+    let names: [KeyboardShortcuts.Name] = [.delete, .pin, .secret]
     KeyboardShortcuts.disable(names)
 
     NotificationCenter.default.addObserver(
@@ -183,5 +184,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         KeyboardShortcuts.disable(name)
       }
     }
+  }
+
+  private func updatePrivacy() {
+    let isDisplayLinkRunning = NSRunningApplication.isDisplayLinkRunning()
+    Defaults[.privacyMode] =  !isDisplayLinkRunning
+    Defaults[.displayLinkDetected] = isDisplayLinkRunning
   }
 }
