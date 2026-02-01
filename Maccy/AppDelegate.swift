@@ -172,7 +172,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func disableUnusedGlobalHotkeys() {
-    let names: [KeyboardShortcuts.Name] = [.delete, .pin]
+    let names: [KeyboardShortcuts.Name] = [.delete, .pin, .secret]
     KeyboardShortcuts.disable(names)
 
     NotificationCenter.default.addObserver(

@@ -49,6 +49,7 @@ class HistoryItem {
     NSPasteboard.PasteboardType.linkPresentationMetadata.rawValue,
     NSPasteboard.PasteboardType.customWebKitPasteboardData.rawValue,
     NSPasteboard.PasteboardType.source.rawValue,
+    NSPasteboard.PasteboardType.secret.rawValue,
     NSPasteboard.PasteboardType.customChromiumWebData.rawValue,
     NSPasteboard.PasteboardType.chromiumSourceUrl.rawValue,
     NSPasteboard.PasteboardType.chromiumSourceToken.rawValue,
@@ -60,6 +61,7 @@ class HistoryItem {
   var lastCopiedAt: Date = Date.now
   var numberOfCopies: Int = 1
   var pin: String?
+  var secret: Bool = false
   var title = ""
 
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)

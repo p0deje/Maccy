@@ -2,5 +2,7 @@
 "FirstCopyTime" = "First copy time:";
 "LastCopyTime" = "Last copy time:";
 "NumberOfCopies" = "Number of copies:";
+"Secret" = "Secret:";
 "PinKey" = "Press {pinKey} to (un)pin.";
+"SecretKey" = "Press {secretKey} to toggle secret.";
 "DeleteKey" = "Press {deleteKey} to delete.";

@@ -51,11 +51,23 @@ struct PreviewItemView: View {
           Text(String(item.item.numberOfCopies))
         }
         .padding(.bottom)
-        
+
         HStack(spacing: 3) {
           Text("PinShortcutKey", tableName: "PreviewItemView")
           Text(item.item.pin ?? "")
         }
+      .padding(.bottom)
+
+      HStack(spacing: 3) {
+        Text("Secret", tableName: "PreviewItemView")
+        Text(item.isSecret ? "Yes" : "No")
+      }
+      .padding(.bottom)
+
+      HStack(spacing: 3) {
+        Text("Secret", tableName: "PreviewItemView")
+        Text(item.isSecret ? "Yes" : "No")
+      }
       .padding(.bottom)
 
         if let pinKey = KeyboardShortcuts.Shortcut(name: .pin) {
@@ -64,6 +76,13 @@ struct PreviewItemView: View {
               .replacingOccurrences(of: "{pinKey}", with: pinKey.description)
           )
         }
+
+      if let secretKey = KeyboardShortcuts.Shortcut(name: .secret) {
+        Text(
+          NSLocalizedString("SecretKey", tableName: "PreviewItemView", comment: "")
+            .replacingOccurrences(of: "{secretKey}", with: secretKey.description)
+        )
+      }
 
         if let deleteKey = KeyboardShortcuts.Shortcut(name: .delete) {
           Text(
