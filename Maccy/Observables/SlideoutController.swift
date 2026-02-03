@@ -51,6 +51,11 @@ enum SlideoutPlacement {
   case right
 }
 
+enum SlideoutToggleTrigger {
+  case autoOpen
+  case manual
+}
+
 enum ResizingMode {
   case none
   case content
@@ -101,6 +106,8 @@ class SlideoutController {
   private var windowAnimationOriginBaseState: SlideoutState = .closed
 
   private var autoOpenTask: Task<Void, Never>?
+  private var autoOpenSuppressed = false
+  private var autoOpenEnabled = true
 
   init(onContentResize: @escaping (CGFloat) -> Void, onSlideoutResize: @escaping (CGFloat) -> Void) {
     self.onContentResize = onContentResize
@@ -137,7 +144,20 @@ class SlideoutController {
     return newSize
   }
 
-  func togglePreview() {
+  func togglePreview(trigger: SlideoutToggleTrigger = .manual) {
+    if !state.isOpen {
+      let navigator = AppState.shared.navigator
+      guard navigator.leadHistoryItem != nil || navigator.pasteStackSelected else { return }
+    }
+
+    if trigger == .manual {
+      if state.isOpen {
+        autoOpenSuppressed = true
+      } else {
+        autoOpenSuppressed = false
+      }
+    }
+
     cancelAutoOpen()
     withAnimation(.easeInOut(duration: Self.animationDuration), completionCriteria: .removed) {
       if let window = nswindow {
@@ -202,6 +222,8 @@ class SlideoutController {
   func startAutoOpen() {
     cancelAutoOpen()
 
+    guard autoOpenEnabled else { return }
+    guard !autoOpenSuppressed else { return }
     guard !state.isOpen else { return }
 
     autoOpenTask = Task { @MainActor in
@@ -209,7 +231,7 @@ class SlideoutController {
       guard !Task.isCancelled else { return }
 
       if !state.isOpen {
-        // togglePreview()
+        togglePreview(trigger: .autoOpen)
       }
     }
   }
@@ -217,5 +239,18 @@ class SlideoutController {
   func cancelAutoOpen() {
     autoOpenTask?.cancel()
     autoOpenTask = nil
+  }
+
+  func enableAutoOpen() {
+    autoOpenEnabled = true
+  }
+
+  func disableAutoOpen() {
+    autoOpenEnabled = false
+    cancelAutoOpen()
+  }
+
+  func resetAutoOpenSuppression() {
+    autoOpenSuppressed = false
   }
 }
