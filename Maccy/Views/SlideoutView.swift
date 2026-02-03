@@ -101,11 +101,11 @@ where Content: View, Slideout: View {
       .environment(\.layoutDirection, .leftToRight)
       .frame(
         minWidth: controller.minimumContentWidth,
-        idealWidth: !isContentResizing ? controller.contentWidth : nil,
+        idealWidth: !isContentResizing ? controller.contentWidth.rounded() : nil,
         alignment: .leading
       )
       .frame(
-        width: !isContentResizing ? controller.contentWidth : nil
+        width: !isContentResizing ? controller.contentWidth.rounded() : nil
       )
       .fixedSize(
         horizontal: isAnimating || isSlideoutResizing,
@@ -119,12 +119,12 @@ where Content: View, Slideout: View {
         slideout()
           .frame(
             minWidth: controller.minimumSlideoutWidth,
-            idealWidth: !isSlideoutResizing ? controller.slideoutWidth : nil,
-            maxWidth: !isSlideoutResizing ? controller.slideoutWidth : nil,
+            idealWidth: !isSlideoutResizing ? controller.slideoutWidth.rounded() : nil,
+            maxWidth: !isSlideoutResizing ? controller.slideoutWidth.rounded() : nil,
             alignment: .leading
           )
           .conditionalWidth(
-            controller.slideoutWidth,
+            controller.slideoutWidth.rounded(),
             condition: isAnimating
           )
           .transition(.identity)

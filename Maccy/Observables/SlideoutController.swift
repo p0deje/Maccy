@@ -165,6 +165,9 @@ class SlideoutController {
         var newSize = window.frame.size
         newSize.width = contentWidth
         newSize = computeSizeWithPreview(newSize, state: self.state)
+        let alignedContentWidth = contentWidth.rounded()
+        let alignedSlideoutWidth = slideoutWidth.rounded()
+        newSize.width = alignedContentWidth + (self.state.isOpen ? alignedSlideoutWidth : 0)
         if state.isOpen {
           placement = computePlacement(window: window, for: newSize)
         }
@@ -173,12 +176,13 @@ class SlideoutController {
         NSAnimationContext.runAnimationGroup { (context) in
           var newOrigin = windowAnimationOrigin ?? window.frame.origin
           newOrigin.y += (window.frame.height - newSize.height)
+
           if placement == .left {
             if windowAnimationOriginBaseState == .closed && state.isOpen {
-              newOrigin.x -= slideoutWidth
+              newOrigin.x -= alignedSlideoutWidth
             } else if windowAnimationOriginBaseState == .open
               && !state.isOpen {
-              newOrigin.x += slideoutWidth
+              newOrigin.x += alignedSlideoutWidth
             }
             // Otherwise the base is the desired position
           }
