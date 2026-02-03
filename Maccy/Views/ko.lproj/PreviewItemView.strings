@@ -4,3 +4,4 @@
 "NumberOfCopies" = "복사 횟수:";
 "PinKey" = "{pinKey}를 눌러 고정(해제)합니다.";
 "DeleteKey" = "{deleteKey}를 눌러 제거합니다.";
+"CopyImageTextKey" = "{copyImageTextKey}를 눌러 텍스트를 추출합니다.";

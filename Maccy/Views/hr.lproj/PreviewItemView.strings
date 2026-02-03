@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Broj kopija:";
 "PinKey" = "Prikvači/otkvači pomoću tipki {pinKey}.";
 "DeleteKey" = "Izbriši pomoću tipki {deleteKey}.";
+"CopyImageTextKey" = "Izvuci tekst pomoću tipki {copyImageTextKey}.";

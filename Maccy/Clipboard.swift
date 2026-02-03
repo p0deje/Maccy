@@ -67,7 +67,11 @@ class Clipboard {
     pasteboard.clearContents()
     pasteboard.setString(string, forType: .string)
     sync()
-    checkForChangesInPasteboard()
+
+    Task {
+      Notifier.notify(body: string, sound: .knock)
+      checkForChangesInPasteboard()
+    }
   }
 
   @MainActor

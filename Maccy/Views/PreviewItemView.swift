@@ -56,14 +56,21 @@ struct PreviewItemView: View {
           Text(
             NSLocalizedString("PinKey", tableName: "PreviewItemView", comment: "")
               .replacingOccurrences(of: "{pinKey}", with: pinKey.description)
-          )
+              )
         }
 
         if let deleteKey = KeyboardShortcuts.Shortcut(name: .delete) {
           Text(
             NSLocalizedString("DeleteKey", tableName: "PreviewItemView", comment: "")
               .replacingOccurrences(of: "{deleteKey}", with: deleteKey.description)
-          )
+              )
+        }
+
+        if item.item.image != nil, let copyImageTextKey = KeyboardShortcuts.Shortcut(name: .copyImageText) {
+          Text(
+            NSLocalizedString("CopyImageTextKey", tableName: "PreviewItemView", comment: "")
+              .replacingOccurrences(of: "{copyImageTextKey}", with: copyImageTextKey.description)
+              )
         }
       }
       .controlSize(.small)

@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Kopya sayısı:";
 "PinKey" = "İğnelemek/kaldırmak için {pinKey}'a basın.";
 "DeleteKey" = "Silmek için {deleteKey}'a basın.";
+"CopyImageTextKey" = "Metin çıkarmak için {copyImageTextKey}'a basın.";

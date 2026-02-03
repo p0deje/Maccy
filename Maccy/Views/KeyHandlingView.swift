@@ -115,6 +115,11 @@ struct KeyHandlingView<Content: View>: View {
         case .close:
           appState.popup.close()
           return .handled
+        case .copyImageText:
+          if let item = appState.history.selectedItem {
+            appState.history.copyImageText(from: item)
+          }
+          return .handled
         default:
           ()
         }

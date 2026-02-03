@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Anzahl der Kopien:";
 "PinKey" = "Drücke {pinKey} zum Anheften / Lösen.";
 "DeleteKey" = "Drücke {deleteKey} zum Löschen.";
+"CopyImageTextKey" = "Drücke {copyImageTextKey} um Text zu extrahieren.";

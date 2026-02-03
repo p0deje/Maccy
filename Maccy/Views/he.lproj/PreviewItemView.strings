@@ -4,3 +4,4 @@
 "NumberOfCopies" = "מספר העותקים:";
 "PinKey" = "יש ללחוץ על {pinKey} כדי לנעוץ / לשחרר.";
 "DeleteKey" = "יש ללחוץ על {deleteKey} כדי למחוק.";
+"CopyImageTextKey" = "יש ללחוץ על {copyImageTextKey} כדי לחלץ טקסט.";

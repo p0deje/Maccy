@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Nombre de copies :";
 "PinKey" = "Appuyez sur {pinKey} pour épingler.";
 "DeleteKey" = "Appuyez sur {deleteKey} pour supprimer.";
+"CopyImageTextKey" = "Appuyez sur {copyImageTextKey} pour extraire le texte.";

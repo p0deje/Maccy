@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Počet kopírování:";
 "PinKey" = "Stiskni {pinKey} pro připnutí/odepnutí.";
 "DeleteKey" = "Stiskni {deleteKey} pro smazání.";
+"CopyImageTextKey" = "Stiskni {copyImageTextKey} pro extrakci textu.";

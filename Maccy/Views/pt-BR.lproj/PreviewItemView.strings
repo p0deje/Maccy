@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Número de cópias:";
 "PinKey" = "Pressione {pinKey} para (desa)fixar.";
 "DeleteKey" = "Pressione {deleteKey} para excluir.";
+"CopyImageTextKey" = "Pressione {copyImageTextKey} para extrair texto.";

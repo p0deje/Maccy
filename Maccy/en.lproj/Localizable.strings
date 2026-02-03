@@ -28,3 +28,11 @@
 "system_settings_pane" = "Privacy & Security settings";
 "system_preferences_name" = "System Preferences";
 "system_preferences_pane" = "Security & Privacy preferences";
+"no_text_found_in_image" = "No text found in image";
+"copy_image_text_key" = "Press {copyImageTextKey} to extract text.";
+"pin_key" = "Press {pinKey} to (un)pin.";
+"delete_key" = "Press {deleteKey} to delete.";
+"application" = "Application:";
+"first_copy_time" = "First copy time:";
+"last_copy_time" = "Last copy time:";
+"number_of_copies" = "Number of copies:";

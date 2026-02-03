@@ -20,6 +20,7 @@ enum KeyChord: CaseIterable {
   case clearHistory
   case clearHistoryAll
   case clearSearch
+  case copyImageText
   case deleteCurrentItem
   case deleteOneCharFromSearch
   case deleteLastWordFromSearch
@@ -102,6 +103,8 @@ enum KeyChord: CaseIterable {
       self = .selectCurrentItem
     case (.escape, _):
       self = .close
+    case (.t, [.option]):
+      self = .copyImageText
     case (_, _) where !modifierFlags.isDisjoint(with: [.command, .control, .option]):
       self = .ignored
     default:

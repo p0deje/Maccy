@@ -335,6 +335,36 @@ class History { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  func copyImageText(from item: HistoryItemDecorator) {
+    guard item.item.image != nil else {
+      return
+    }
+
+    AppState.shared.popup.close()
+
+    // If title is empty, OCR hasn't completed yet, trigger it asynchronously
+    if item.item.title.isEmpty {
+      Task {
+        _ = item.item.generateTitle()
+        // Wait a bit for OCR to complete
+        try? await Task.sleep(for: .milliseconds(100))
+
+        if !item.item.title.isEmpty {
+          Clipboard.shared.copy(item.item.title)
+        } else {
+          // OCR failed or returned empty text
+          Notifier.notify(
+            body: NSLocalizedString("no_text_found_in_image", comment: ""),
+            sound: nil
+          )
+        }
+      }
+    } else {
+      Clipboard.shared.copy(item.item.title)
+    }
+  }
+
+  @MainActor
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 

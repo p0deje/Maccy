@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Количество копирований:";
 "PinKey" = "Нажмите {pinKey}, чтобы прикрепить / открепить.";
 "DeleteKey" = "Нажмите {deleteKey}, чтобы удалить.";
+"CopyImageTextKey" = "Нажмите {copyImageTextKey}, чтобы извлечь текст.";

@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Numero di copie:";
 "PinKey" = "Premi {pinKey} per (s)bloccare.";
 "DeleteKey" = "Premi {deleteKey} per cancellare.";
+"CopyImageTextKey" = "Premi {copyImageTextKey} per estrarre il testo.";

@@ -3,4 +3,5 @@
 "LastCopyTime" = "Data da última cópia:";
 "PinKey" = "Pressione {pinKey} para (desa)fixar.";
 "DeleteKey" = "Pressione {deleteKey} para apagar.";
+"CopyImageTextKey" = "Pressione {copyImageTextKey} para extrair texto.";
 "NumberOfCopies" = "Quantidade de cópias:";

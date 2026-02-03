@@ -4,3 +4,4 @@
 "NumberOfCopies" = "تعداد کپی‌ها:";
 "PinKey" = "برای (غیر)سنجاق کردن، کلید {pinKey} را فشار دهید.";
 "DeleteKey" = "برای حذف، کلید {deleteKey} را فشار دهید.";
+"CopyImageTextKey" = "برای استخراج متن، کلید {copyImageTextKey} را فشار دهید.";

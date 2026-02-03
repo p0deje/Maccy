@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Numărul de copii:";
 "PinKey" = "Apasă {pinKey} pentru a fixa sau detașa.";
 "DeleteKey" = "Apasă {deleteKey} pentru a șterge.";
+"CopyImageTextKey" = "Apasă {copyImageTextKey} pentru a extrage text.";

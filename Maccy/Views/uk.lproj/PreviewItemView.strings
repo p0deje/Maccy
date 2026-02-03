@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Кількість копій:";
 "PinKey" = "Натисніть {pinKey}, щоб (від)кріпити.";
 "DeleteKey" = "Натисніть {deleteKey}, щоб видалити.";
+"CopyImageTextKey" = "Натисніть {copyImageTextKey}, щоб витягти текст.";

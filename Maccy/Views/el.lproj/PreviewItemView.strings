@@ -1,6 +1,7 @@
-"Application" = "";
-"FirstCopyTime" = "";
-"LastCopyTime" = "";
-"NumberOfCopies" = "";
-"PinKey" = "";
-"DeleteKey" = "";
+"Application" = "Εφαρμογή:";
+"FirstCopyTime" = "Ώρα πρώτης αντιγραφής:";
+"LastCopyTime" = "Ώρα τελευταίας αντιγραφής:";
+"NumberOfCopies" = "Αριθμός αντιγραφών:";
+"PinKey" = "Πατήστε {pinKey} για (απο)καθήλωση.";
+"DeleteKey" = "Πατήστε {deleteKey} για διαγραφή.";
+"CopyImageTextKey" = "Πατήστε {copyImageTextKey} για εξαγωγή κειμένου.";

@@ -4,3 +4,4 @@
 "NumberOfCopies" = "จำนวนการคัดลอก:";
 "PinKey" = "กด {pinKey} เพื่อปักหมุด";
 "DeleteKey" = "กด {deleteKey} เพื่อลบ";
+"CopyImageTextKey" = "กด {copyImageTextKey} เพื่อแยกข้อความ";

@@ -4,3 +4,4 @@
 "NumberOfCopies" = "عدد النسخ:";
 "PinKey" = "اضغط على {pinKey} للتثبيت أو إلغاء التثبيت.";
 "DeleteKey" = "اضغط على {deleteKey} للحذف.";
+"CopyImageTextKey" = "اضغط على {copyImageTextKey} لاستخراج النص.";

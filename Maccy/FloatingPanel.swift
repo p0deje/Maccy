@@ -24,7 +24,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
     super.init(
         contentRect: contentRect,
-        styleMask: [.nonactivatingPanel, .resizable, .closable, .fullSizeContentView],
+        styleMask: [.nonactivatingPanel, .titled, .resizable, .closable, .fullSizeContentView],
         backing: .buffered,
         defer: false
     )

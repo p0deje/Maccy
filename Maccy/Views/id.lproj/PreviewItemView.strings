@@ -4,3 +4,4 @@
 "NumberOfCopies" = "Jumlah salinan:";
 "PinKey" = "Tekan tombol {pinKey} untuk (membuka) pin.";
 "DeleteKey" = "Tekan tombol {deleteKey} untuk menghapus.";
+"CopyImageTextKey" = "Tekan tombol {copyImageTextKey} untuk mengekstrak teks.";
