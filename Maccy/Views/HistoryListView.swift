@@ -113,9 +113,13 @@ struct HistoryListView: View {
             searchFocused = true
             appState.navigator.isKeyboardNavigating = true
             appState.navigator.select(item: appState.history.unpinnedItems.first ?? appState.history.pinnedItems.first)
+            appState.preview.enableAutoOpen()
+            appState.preview.resetAutoOpenSuppression()
+            appState.preview.startAutoOpen()
           } else {
             modifierFlags.flags = []
             appState.navigator.isKeyboardNavigating = true
+            appState.preview.cancelAutoOpen()
           }
         }
         // Calculate the total height inside a scroll view.
