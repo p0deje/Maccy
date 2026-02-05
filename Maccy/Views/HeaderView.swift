@@ -29,7 +29,7 @@ struct HeaderView: View {
           )
         }
         .shortcutKeyHelp(
-          name: .pin,
+          name: .togglePreview,
           key: "PreviewKey",
           tableName: "PreviewItemView",
           replacementKey: "previewKey"
