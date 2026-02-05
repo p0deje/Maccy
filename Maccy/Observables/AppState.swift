@@ -90,17 +90,10 @@ class AppState: Sendable {
 
   @MainActor
   func deleteSelection() {
-    guard let leadItem = navigator.leadHistoryItem,
-       let item = history.visibleItems.nearest(
-        to: leadItem,
-        where: { !$0.isSelected }
-       ) else { return }
-
     withTransaction(Transaction()) {
       navigator.selection.forEach { _, item in
         history.delete(item)
       }
-      navigator.select(item: item)
     }
   }
 
