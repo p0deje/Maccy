@@ -2,7 +2,7 @@
 "FirstCopyTime" = "最初にコピーした日時:";
 "LastCopyTime" = "最後にコピーした日時:";
 "NumberOfCopies" = "コピー回数:";
-"PinKey" = "{pinKey}でピン留め(外し)します。";
+"PinKey" = "{pinKey}でピン留めします。";
 "DeleteKey" = "{deleteKey}で削除します。";
-"UnpinKey" = "";
+"UnpinKey" = "{pinKey}でピン留めを外します。";
 "PreviewKey" = "{previewKey}でプレビューを切り替えます。";

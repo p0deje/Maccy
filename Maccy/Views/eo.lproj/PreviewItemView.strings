@@ -2,7 +2,7 @@
 "FirstCopyTime" = "Unue kopiita:";
 "LastCopyTime" = "Laste kopiita:";
 "NumberOfCopies" = "Nombro de kopioj:";
-"PinKey" = "Premu {pinKey} por (mal)fiksi.";
+"PinKey" = "Premu {pinKey} por fiksi.";
 "DeleteKey" = "Premu {deleteKey} por forigi.";
-"UnpinKey" = "";
+"UnpinKey" = "Premu {pinKey} por malfiksi.";
 "PreviewKey" = "";

@@ -2,7 +2,7 @@
 "FirstCopyTime" = "முதல் நகல் நேரம்:";
 "LastCopyTime" = "கடைசி நகல் நேரம்:";
 "NumberOfCopies" = "பிரதிகளின் எண்ணிக்கை:";
-"PinKey" = "{pinKey} பெறுநர் (un) முள் அழுத்தவும்.";
+"PinKey" = "{pinKey} பெறுநர் முள் அழுத்தவும்.";
 "DeleteKey" = "நீக்க {deleteKey} ஐ அழுத்தவும்.";
-"UnpinKey" = "";
+"UnpinKey" = "முள்ளை அகற்ற {pinKey} ஐ அழுத்தவும்.";
 "PreviewKey" = "முன்னோட்டத்தை மாற்ற {previewKey} அழுத்தவும்.";
