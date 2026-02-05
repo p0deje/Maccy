@@ -144,7 +144,7 @@ class SlideoutController {
     return newSize
   }
 
-  func togglePreview(trigger: SlideoutToggleTrigger = .manual) {
+  func togglePreview(trigger: SlideoutToggleTrigger = .manual) { // swiftlint:disable:this function_body_length
     if !state.isOpen {
       let navigator = AppState.shared.navigator
       guard navigator.leadHistoryItem != nil || navigator.pasteStackSelected else { return }
