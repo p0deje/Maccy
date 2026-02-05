@@ -70,6 +70,8 @@ struct HistoryListView: View {
     let bottomPinsVisible = pinTo == .bottom && pinsVisible
     let topSeparatorVisible = topPinsVisible || pasteStackVisible
     let bottomSeparatorVisible = bottomPinsVisible
+    let scrollTopPadding = topSeparatorVisible ? Popup.verticalSeparatorPadding : topPadding
+    let scrollBottomPadding = bottomSeparatorVisible ? Popup.verticalSeparatorPadding : bottomPadding
 
     VStack(spacing: 0) {
       if let stack = appState.history.pasteStack,
@@ -97,6 +99,8 @@ struct HistoryListView: View {
         MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
           HistoryItemView(item: item, previous: previous, next: next, index: index)
         }
+        .padding(.top, scrollTopPadding)
+        .padding(.bottom, scrollBottomPadding)
         .task(id: appState.navigator.scrollTarget) {
           guard appState.navigator.scrollTarget != nil else { return }
 
@@ -138,9 +142,9 @@ struct HistoryListView: View {
         }
       }
       .contentMargins(.leading, 10, for: .scrollIndicators)
+      .contentMargins(.top, scrollTopPadding, for: .scrollIndicators)
+      .contentMargins(.bottom, scrollBottomPadding, for: .scrollIndicators)
     }
-    .safeAreaPadding(.top, topSeparatorVisible ? Popup.verticalSeparatorPadding : topPadding)
-    .safeAreaPadding(.bottom, bottomSeparatorVisible ? Popup.verticalSeparatorPadding : bottomPadding)
 
     VStack(spacing: 0) {
       if bottomSeparatorVisible {
