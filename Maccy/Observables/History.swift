@@ -279,7 +279,6 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     items.removeAll { $0 == item }
     sessionLog.removeValues { $0 == item.item }
 
-    searchQuery = ""
     updateUnpinnedShortcuts()
     Task {
       AppState.shared.popup.needsResize = true
