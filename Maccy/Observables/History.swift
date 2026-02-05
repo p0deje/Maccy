@@ -436,6 +436,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     items = all
 
+    searchQuery = ""
     updateUnpinnedShortcuts()
     if item.isUnpinned {
       AppState.shared.navigator.scrollTarget = item.id
