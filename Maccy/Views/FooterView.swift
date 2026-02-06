@@ -54,6 +54,8 @@ struct FooterView: View {
         FooterItemView(item: item)
       }
     }
+    .frame(maxHeight: showFooter ? nil : 0)
+    .opacity(showFooter ? 1 : 0)
     .background {
       GeometryReader { geo in
         Color.clear
@@ -62,7 +64,5 @@ struct FooterView: View {
           }
       }
     }
-    .opacity(showFooter ? 1 : 0)
-    .frame(maxHeight: showFooter ? nil : 0)
   }
 }
