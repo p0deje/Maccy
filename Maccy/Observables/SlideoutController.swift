@@ -81,7 +81,7 @@ class SlideoutController {
   var contentWidth: CGFloat {
     get { return _contentWidth }
     set {
-      _contentWidth = max(minimumContentWidth, newValue)
+      _contentWidth = max(minimumContentWidth, newValue).rounded()
       onContentResize(_contentWidth)
     }
   }
@@ -89,7 +89,7 @@ class SlideoutController {
   var slideoutWidth: CGFloat {
     get { return _slideoutWidth }
     set {
-      _slideoutWidth = max(minimumSlideoutWidth, newValue)
+      _slideoutWidth = max(minimumSlideoutWidth, newValue).rounded()
       onSlideoutResize(_slideoutWidth)
     }
   }
@@ -165,9 +165,6 @@ class SlideoutController {
         var newSize = window.frame.size
         newSize.width = contentWidth
         newSize = computeSizeWithPreview(newSize, state: self.state)
-        let alignedContentWidth = contentWidth.rounded()
-        let alignedSlideoutWidth = slideoutWidth.rounded()
-        newSize.width = alignedContentWidth + (self.state.isOpen ? alignedSlideoutWidth : 0)
         if state.isOpen {
           placement = computePlacement(window: window, for: newSize)
         }
@@ -179,10 +176,10 @@ class SlideoutController {
 
           if placement == .left {
             if windowAnimationOriginBaseState == .closed && state.isOpen {
-              newOrigin.x -= alignedSlideoutWidth
+              newOrigin.x -= slideoutWidth
             } else if windowAnimationOriginBaseState == .open
               && !state.isOpen {
-              newOrigin.x += alignedSlideoutWidth
+              newOrigin.x += slideoutWidth
             }
             // Otherwise the base is the desired position
           }
