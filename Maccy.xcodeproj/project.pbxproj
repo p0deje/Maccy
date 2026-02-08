@@ -206,7 +206,6 @@
 		2FC89B0A2F1F908F005168A9 /* StackedCardsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StackedCardsView.swift; sourceTree = "<group>"; };
 		2FF2E94D2E774B570093D72C /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		2FF2E94F2E7808420093D72C /* AppImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImageView.swift; sourceTree = "<group>"; };
-		2FFF8BCF2CE2116600235A78 /* Data+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Encoding.swift"; sourceTree = "<group>"; };
 		3EBDD1E32BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -1740,7 +1739,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 60;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = 243CH8R785;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1775,7 +1774,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 60;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = 243CH8R785;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
