@@ -175,6 +175,7 @@ struct AppearanceSettingsPane: View {
           Text("ShowFooter", tableName: "AppearanceSettings")
         }
         Text("OpenPreferencesWarning", tableName: "AppearanceSettings")
+          .fixedSize(horizontal: false, vertical: true)
           .opacity(showFooter ? 0 : 1)
           .controlSize(.small)
           .foregroundStyle(.gray)
