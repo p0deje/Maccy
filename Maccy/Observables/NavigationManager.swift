@@ -85,20 +85,25 @@ class NavigationManager { // swiftlint:disable:this type_body_length
 
   func addToSelection(item: HistoryItemDecorator) {
     var newSelectionState = selection
+    var newLeadItem = leadHistoryItem
 
     if item.isSelected {
       if newSelectionState.count <= 1 {
         isManualMultiSelect = !isManualMultiSelect
       } else {
         newSelectionState.remove(item)
+        if item == newLeadItem {
+          newLeadItem = newSelectionState.items.last ?? leadHistoryItem
+        }
       }
     } else {
       newSelectionState.add(item)
+      newLeadItem = item
     }
 
     withTransaction(Transaction()) {
       selection = newSelectionState
-      leadHistoryItem = item
+      leadHistoryItem = newLeadItem
       scrollTarget = leadSelection
     }
   }
