@@ -2,49 +2,61 @@ import KeyboardShortcuts
 import SwiftUI
 
 struct PreviewItemView: View {
-  weak var item: HistoryItemDecorator?
+  var item: HistoryItemDecorator
+
+  @ViewBuilder
+  func previewImage(content: () -> some View) -> some View {
+    content()
+      .aspectRatio(contentMode: .fit)
+      .clipShape(.rect(cornerRadius: 5))
+  }
 
   var body: some View {
-    if let item = item {
-      VStack(alignment: .leading, spacing: 0) {
-        if let image = item.previewImage {
-          Image(nsImage: image)
-            .resizable()
-            .aspectRatio(contentMode: .fit)
-            .clipShape(.rect(cornerRadius: 5))
-        } else {
-          ScrollView {
-            WrappingTextView {
-              Text(item.text)
-                .font(.body)
+    VStack(alignment: .leading, spacing: 0) {
+      if item.hasImage {
+        AsyncView<NSImage?, _, _> {
+          return await item.asyncGetPreviewImage()
+        } content: { image in
+          if let image = image {
+            previewImage {
+              Image(nsImage: image)
+                .resizable()
+            }
+          } else {
+            previewImage {
+              ZStack {
+                Color.gray.opacity(0.3)
+                  .frame(
+                    idealWidth: HistoryItemDecorator.previewImageSize.width,
+                    idealHeight: HistoryItemDecorator.previewImageSize.height
+                  )
+                Image(systemName: "photo.badge.exclamationmark")
+                  .symbolRenderingMode(.multicolor)
+                  .frame(alignment: .center)
+              }
+            }
+          }
+        } placeholder: {
+          previewImage {
+            ZStack {
+              Color.gray.opacity(0.3)
+                .frame(
+                  idealWidth: HistoryItemDecorator.previewImageSize.width,
+                  idealHeight: HistoryItemDecorator.previewImageSize.height
+                )
+              ProgressView()
+                .frame(alignment: .center)
             }
           }
         }
-
-        Divider()
-          .padding(.vertical)
-
-        if let application = item.application {
-          HStack(spacing: 3) {
-            Text("Application", tableName: "PreviewItemView")
-            Image(nsImage: item.applicationImage.nsImage)
-              .resizable()
-              .frame(width: 11, height: 11)
-            Text(application)
-          }
+      } else {
+        ScrollView {
+          Text(item.text)
+            .font(.body)
         }
+      }
 
-        HStack(spacing: 3) {
-          Text("FirstCopyTime", tableName: "PreviewItemView")
-          Text(item.item.firstCopiedAt, style: .date)
-          Text(item.item.firstCopiedAt, style: .time)
-        }
-
-        HStack(spacing: 3) {
-          Text("LastCopyTime", tableName: "PreviewItemView")
-          Text(item.item.lastCopiedAt, style: .date)
-          Text(item.item.lastCopiedAt, style: .time)
-        }
+      Spacer(minLength: 0)
 
         HStack(spacing: 3) {
           Text("NumberOfCopies", tableName: "PreviewItemView")
@@ -57,23 +69,37 @@ struct PreviewItemView: View {
           Text(item.item.pin ?? "")
         }
       .padding(.bottom)
+      Divider()
+        .padding(.vertical)
 
-        if let pinKey = KeyboardShortcuts.Shortcut(name: .pin) {
-          Text(
-            NSLocalizedString("PinKey", tableName: "PreviewItemView", comment: "")
-              .replacingOccurrences(of: "{pinKey}", with: pinKey.description)
+      if let application = item.application {
+        HStack(spacing: 3) {
+          Text("Application", tableName: "PreviewItemView")
+          AppImageView(
+            appImage: item.applicationImage,
+            size: NSSize(width: 11, height: 11)
           )
-        }
-
-        if let deleteKey = KeyboardShortcuts.Shortcut(name: .delete) {
-          Text(
-            NSLocalizedString("DeleteKey", tableName: "PreviewItemView", comment: "")
-              .replacingOccurrences(of: "{deleteKey}", with: deleteKey.description)
-          )
+          Text(application)
         }
       }
-      .controlSize(.small)
-      .padding()
+
+      HStack(spacing: 3) {
+        Text("FirstCopyTime", tableName: "PreviewItemView")
+        Text(item.item.firstCopiedAt, style: .date)
+        Text(item.item.firstCopiedAt, style: .time)
+      }
+
+      HStack(spacing: 3) {
+        Text("LastCopyTime", tableName: "PreviewItemView")
+        Text(item.item.lastCopiedAt, style: .date)
+        Text(item.item.lastCopiedAt, style: .time)
+      }
+
+      HStack(spacing: 3) {
+        Text("NumberOfCopies", tableName: "PreviewItemView")
+        Text(String(item.item.numberOfCopies))
+      }
     }
+    .controlSize(.small)
   }
 }

@@ -147,12 +147,18 @@ class Clipboard {
 
   @objc
   @MainActor
-  func checkForChangesInPasteboard() {
+  func checkForChangesInPasteboard() { // swiftlint:disable:this cyclomatic_complexity
     guard pasteboard.changeCount != changeCount else {
       return
     }
 
     changeCount = pasteboard.changeCount
+
+    if pasteboard.pasteboardItems?.contains(where: { $0.types.contains(.fromMaccy) }) != true {
+      // External copy occurred. Stop the current paste stack.
+      // Maybe queue it into the paste stack? Configurable behaviour?
+      AppState.shared.history.interruptPasteStack()
+    }
 
     if Defaults[.ignoreEvents] {
       if Defaults[.ignoreOnlyNextEvent] {

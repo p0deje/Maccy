@@ -17,7 +17,9 @@ struct KeyboardShortcutView: View {
 
   var body: some View {
     HStack(spacing: 1) {
-      Text(modifiers).frame(width: 55, alignment: .trailing)
+      ForEach(Array(modifiers.unicodeScalars), id: \.self) { scalar in
+          Text(String(scalar))
+      }
       Text(character).frame(width: 12, alignment: .center)
     }
     .lineLimit(1)

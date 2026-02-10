@@ -2,5 +2,7 @@
 "FirstCopyTime" = "Hora de la primera copia:";
 "LastCopyTime" = "Hora de la última copia:";
 "NumberOfCopies" = "Número de copias:";
-"PinKey" = "Presiona {pinKey} para (des)anclar.";
+"PinKey" = "Presiona {pinKey} para anclar.";
+"UnpinKey" = "Presiona {pinKey} para desanclar.";
 "DeleteKey" = "Presiona {deleteKey} para borrar.";
+"PreviewKey" = "Presiona {previewKey} para alternar la vista previa.";

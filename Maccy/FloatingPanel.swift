@@ -72,7 +72,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
-    setContentSize(NSSize(width: frame.width, height: min(height, Defaults[.windowSize].height)))
+    let size = Defaults[.windowSize]
+    setContentSize(NSSize(width: min(frame.width, size.width), height: min(height, size.height)))
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
     orderFrontRegardless()
     makeKey()
@@ -86,9 +87,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func verticallyResize(to newHeight: CGFloat) {
-    var newSize = Defaults[.windowSize]
-    newSize.height = min(newHeight, newSize.height)
-
+    var newSize = frame.size
+    newSize.height = newHeight
     var newOrigin = frame.origin
     newOrigin.y += (frame.height - newSize.height)
 
@@ -98,9 +98,19 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     }
   }
 
+  func determinePreviewPlacement() {
+    let preview = AppState.shared.preview
+    guard !preview.state.isOpen else { return }
+    let newSize = preview.computeSizeWithPreview(frame.size, state: .open)
+    preview.placement = preview.computePlacement(window: self, for: newSize)
+  }
+
   func saveWindowPosition() {
     if let screenFrame = screen?.visibleFrame {
-      let anchorX = frame.minX + frame.width / 2 - screenFrame.minX
+      // Only store the size of the window without the preview
+      let width = AppState.shared.preview.contentWidth
+
+      let anchorX = frame.minX + width / 2 - screenFrame.minX
       let anchorY = frame.maxY - screenFrame.minY
       Defaults[.windowPosition] = NSPoint(x: anchorX / screenFrame.width, y: anchorY / screenFrame.height)
     }
@@ -112,9 +122,71 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func windowWillResize(_ sender: NSWindow, to frameSize: NSSize) -> NSSize {
-    saveWindowFrame(frame: NSRect(origin: frame.origin, size: frameSize))
+    let preview = AppState.shared.preview
 
-    return frameSize
+    if inLiveResize && preview.resizingMode == .none {
+      let screenPoint = NSEvent.mouseLocation
+      let windowPoint = convertPoint(fromScreen: screenPoint)
+      let location: SlideoutPlacement = windowPoint.x <= frame.width / 2 ? .left : .right
+      if (location == preview.placement) && preview.state == .open {
+        preview.startResize(mode: .slideout)
+      } else {
+        preview.startResize(mode: .content)
+      }
+    }
+
+    var finalFrameSize = frameSize
+    var minContent = preview.minimumContentWidth
+    var minPreview = 0.0
+
+    if inLiveResize && preview.resizingMode != .none {
+      if preview.resizingMode == .content && preview.state == .open {
+        minPreview = preview.slideoutWidth
+      }
+      if preview.resizingMode == .slideout {
+        minPreview = preview.minimumSlideoutWidth
+        minContent = preview.contentWidth
+      }
+    }
+    finalFrameSize.width = max(finalFrameSize.width, minContent + minPreview)
+
+    if !AppState.shared.preview.state.isAnimating {
+      var size = frame.size
+      // Only store the size of the window without the preview
+      size.width = AppState.shared.preview.contentWidth
+      saveWindowFrame(frame: NSRect(origin: frame.origin, size: size))
+    }
+
+    return finalFrameSize
+  }
+
+  func windowWillMove(_ notification: Notification) {
+    determinePreviewPlacement()
+  }
+
+  func windowDidMove(_ notification: Notification) {
+    determinePreviewPlacement()
+  }
+
+  func windowWillStartLiveResize(_ notification: Notification) {
+    AppState.shared.preview.cancelAutoOpen()
+  }
+
+  func windowDidEndLiveResize(_ notification: Notification) {
+    AppState.shared.preview.startAutoOpen()
+    AppState.shared.preview.endResize()
+  }
+
+  func windowDidBecomeKey(_ notification: Notification) {
+    AppState.shared.preview.enableAutoOpen()
+
+    if AppState.shared.navigator.leadHistoryItem != nil {
+      AppState.shared.preview.startAutoOpen()
+    }
+  }
+
+  func windowDidResignKey(_ notification: Notification) {
+    AppState.shared.preview.disableAutoOpen()
   }
 
   // Close automatically when out of focus, e.g. outside click.
@@ -128,6 +200,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   override func close() {
     super.close()
+    AppState.shared.preview.state = .closed
     isPresented = false
     statusBarButton?.isHighlighted = false
     onClose()
