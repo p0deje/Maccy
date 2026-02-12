@@ -16,35 +16,47 @@ struct ContentView: View {
         VisualEffectView()
       }
 
-      VStack(alignment: .leading, spacing: 0) {
-        KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
-          HeaderView(
-            searchFocused: $searchFocused,
-            searchQuery: $appState.history.searchQuery
-          )
+      KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
+        VStack(spacing: 0) {
+          SlideoutView(controller: appState.preview) {
+            HeaderView(
+              controller: appState.preview,
+              searchFocused: $searchFocused
+            )
 
-          HistoryListView(
-            searchQuery: $appState.history.searchQuery,
-            searchFocused: $searchFocused
-          )
+            VStack(alignment: .leading, spacing: 0) {
+              HistoryListView(
+                searchQuery: $appState.history.searchQuery,
+                searchFocused: $searchFocused
+              )
 
-          FooterView(footer: appState.footer)
+              FooterView(footer: appState.footer)
+            }
+            .animation(.default.speed(3), value: appState.history.items)
+            .animation(
+              .default.speed(3),
+              value: appState.history.pasteStack?.id
+            )
+            .padding(.horizontal, Popup.horizontalPadding)
+            .onAppear {
+              searchFocused = true
+            }
+            .onMouseMove {
+              appState.navigator.isKeyboardNavigating = false
+            }
+          } slideout: {
+            SlideoutContentView()
+          }
+          .frame(minHeight: 0)
+          .layoutPriority(1)
         }
       }
-      .animation(.default.speed(3), value: appState.history.items)
-      .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
-      .padding(.vertical, Popup.verticalPadding)
-      .padding(.horizontal, Popup.horizontalPadding)
-      .onAppear {
-        searchFocused = true
-      }
-      .onMouseMove {
-        appState.isKeyboardNavigating = false
-      }
+      .frame(maxWidth: .infinity, alignment: .leading)
       .task {
         try? await appState.history.load()
       }
     }
+    .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
     .environment(appState)
     .environment(modifierFlags)
     .environment(\.scenePhase, scenePhase)
@@ -61,15 +73,6 @@ struct ContentView: View {
          let bundleIdentifier = Bundle.main.bundleIdentifier,
          window.identifier == NSUserInterfaceItemIdentifier(bundleIdentifier) {
         scenePhase = .background
-      }
-    }
-    .onReceive(NotificationCenter.default.publisher(for: NSPopover.willShowNotification)) {
-      if let popover = $0.object as? NSPopover {
-        // Prevent NSPopover from showing close animation when
-        // quickly toggling FloatingPanel while popover is visible.
-        popover.animates = false
-        // Prevent NSPopover from becoming first responder.
-        popover.behavior = .semitransient
       }
     }
   }

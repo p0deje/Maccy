@@ -21,6 +21,7 @@ class Popup {
   static let horizontalSeparatorPadding = 6.0
   static let verticalPadding: CGFloat = 5
   static let horizontalPadding: CGFloat = 5
+  static let minimumPreviewHeight: CGFloat = 150
 
   // Radius used for items inset by the padding. Ensures they visually have the same curvature
   // as the menu.
@@ -39,7 +40,8 @@ class Popup {
   var needsResize = false
   var height: CGFloat = 0
   var headerHeight: CGFloat = 0
-  var pinnedItemsHeight: CGFloat = 0
+  var extraTopHeight: CGFloat = 0
+  var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
 
   private var eventsMonitor: Any?
@@ -87,9 +89,24 @@ class Popup {
     AppState.shared.appDelegate?.panel.isPresented != true
   }
 
+  func preferredHeight(for newHeight: CGFloat) -> CGFloat {
+    var height = newHeight
+
+    var minimumHeight = 0.0
+    // If the preview is non-empty make sure the window accomodates for it to be visible.
+    if AppState.shared.preview.state.isOpen && AppState.shared.navigator.leadSelection != nil {
+      minimumHeight += Self.minimumPreviewHeight
+    }
+    minimumHeight = max(headerHeight + Self.verticalPadding, minimumHeight)
+
+    height = max(height, minimumHeight)
+    height = min(height, Defaults[.windowSize].height)
+    return height
+  }
+
   func resize(height: CGFloat) {
-    self.height = height + headerHeight + pinnedItemsHeight + footerHeight + (Popup.verticalPadding * 2)
-    AppState.shared.appDelegate?.panel.verticallyResize(to: self.height)
+    self.height = height + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
+    AppState.shared.appDelegate?.panel.verticallyResize(to: preferredHeight(for: self.height))
     needsResize = false
   }
 
@@ -119,7 +136,7 @@ class Popup {
   private func handleKeyDown(_ event: NSEvent) -> NSEvent? {
     if isHotKeyCode(Int(event.keyCode)) {
       if let item = History.shared.pressedShortcutItem {
-        AppState.shared.selection = item.id
+        AppState.shared.navigator.select(item: item)
         Task { @MainActor in
           AppState.shared.history.select(item)
         }
@@ -132,7 +149,7 @@ class Popup {
       }
 
       if state == .cycle {
-        AppState.shared.highlightNext(allowCycle: true)
+        AppState.shared.navigator.highlightNext(allowCycle: true)
         return nil
       }
 
