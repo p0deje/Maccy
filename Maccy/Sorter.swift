@@ -27,13 +27,13 @@ class Sorter {
   }
 
   func sort(_ items: [HistoryItem], by: By = Defaults[.sortBy]) -> [HistoryItem] {
+    let order = Defaults[.sortOrder]
     return items
-      .sorted(by: { return bySortingAlgorithm($0, $1, by) })
+      .sorted(by: { return bySortingAlgorithm($0, $1, by, order) })
       .sorted(by: byPinned)
   }
 
-  private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
-    let order = Defaults[.sortOrder]
+  private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By, _ order: Bool) -> Bool {
     let result: Bool
     switch by {
     case .firstCopiedAt:
