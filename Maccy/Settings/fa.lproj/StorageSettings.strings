@@ -4,3 +4,11 @@
 "Images" = "تصاویر";
 "Text" = "متن";
 "SaveDescription" = "تعیین کنید کدام نوع از محتوای کپی‌شده باید ذخیره شود.";
+"Size" = "";
+"SizeTooltip" = "";
+"CurrentSizeTooltip" = "";
+"SortBy" = "";
+"LastCopiedAt" = "";
+"FirstCopiedAt" = "";
+"NumberOfCopies" = "";
+"SortByTooltip" = "";

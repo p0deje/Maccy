@@ -21,8 +21,8 @@ struct FooterView: View {
   var body: some View {
     VStack(spacing: 0) {
       Divider()
-        .padding(.horizontal, 10)
-        .padding(.vertical, 6)
+        .padding(.horizontal, Popup.horizontalSeparatorPadding)
+        .padding(.bottom, Popup.verticalSeparatorPadding)
 
       ZStack {
         FooterItemView(item: footer.items[0])
@@ -37,7 +37,7 @@ struct FooterView: View {
           footer.items[0].isVisible = false
           footer.items[1].isVisible = true
           if appState.footer.selectedItem == footer.items[0] {
-            appState.selection = footer.items[1].id
+            appState.navigator.select(footerItem: footer.items[1])
           }
         } else {
           clearOpacity = 1
@@ -45,7 +45,7 @@ struct FooterView: View {
           footer.items[0].isVisible = true
           footer.items[1].isVisible = false
           if appState.footer.selectedItem == footer.items[1] {
-            appState.selection = footer.items[0].id
+            appState.navigator.select(footerItem: footer.items[0])
           }
         }
       }
@@ -54,15 +54,9 @@ struct FooterView: View {
         FooterItemView(item: item)
       }
     }
-    .background {
-      GeometryReader { geo in
-        Color.clear
-          .task(id: geo.size.height) {
-            appState.popup.footerHeight = geo.size.height
-          }
-      }
-    }
     .opacity(showFooter ? 1 : 0)
     .frame(maxHeight: showFooter ? nil : 0)
+    .padding(.bottom, showFooter ? Popup.verticalPadding : 0)
+    .readHeight(appState, into: \.popup.footerHeight)
   }
 }

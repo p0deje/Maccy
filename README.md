@@ -1,5 +1,5 @@
 
-<img width="128px" src="https://maccy.app/img/maccy/Logo.png" alt="Logo" align="left" />
+<img width="128px" src="https://maccy.app/img/maccy/Logo.png" alt="Logo" />
 
 # [Maccy](https://maccy.app)
 

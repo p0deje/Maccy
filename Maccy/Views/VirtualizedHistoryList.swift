@@ -56,28 +56,29 @@ struct VirtualizedHistoryList: View {
               }
             }
           )
-          .task(id: appState.scrollTarget) {
-            guard appState.scrollTarget != nil else { return }
+          .task(id: appState.navigator.scrollTarget) {
+            guard appState.navigator.scrollTarget != nil else { return }
 
             try? await Task.sleep(for: .milliseconds(10))
             guard !Task.isCancelled else { return }
 
-            if let selection = appState.scrollTarget {
+            if let selection = appState.navigator.scrollTarget {
               proxy.scrollTo(selection)
-              appState.scrollTarget = nil
+              appState.navigator.scrollTarget = nil
             }
           }
           .onChange(of: scenePhase) {
             if scenePhase == .active {
               searchFocused = true
-              HistoryItemDecorator.previewThrottler.minimumDelay = Double(previewDelay) / 1000
-              HistoryItemDecorator.previewThrottler.cancel()
-              appState.isKeyboardNavigating = true
-              appState.selection = appState.history.unpinnedItems.first?.id
-                ?? appState.history.pinnedItems.first?.id
+              appState.navigator.isKeyboardNavigating = true
+              appState.navigator.select(item: appState.history.unpinnedItems.first ?? appState.history.pinnedItems.first)
+              appState.preview.enableAutoOpen()
+              appState.preview.resetAutoOpenSuppression()
+              appState.preview.startAutoOpen()
             } else {
               modifierFlags.flags = []
-              appState.isKeyboardNavigating = true
+              appState.navigator.isKeyboardNavigating = true
+              appState.preview.cancelAutoOpen()
             }
           }
           .background {

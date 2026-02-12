@@ -2,5 +2,7 @@
 "FirstCopyTime" = "Tempo della prima copia:";
 "LastCopyTime" = "Tempo dell'ultima copia:";
 "NumberOfCopies" = "Numero di copie:";
-"PinKey" = "Premi {pinKey} per (s)bloccare.";
+"PinKey" = "Premi {pinKey} per bloccare.";
+"UnpinKey" = "Premi {pinKey} per sbloccare.";
 "DeleteKey" = "Premi {deleteKey} per cancellare.";
+"PreviewKey" = "Premi {previewKey} per attivare/disattivare l'anteprima.";
