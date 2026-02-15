@@ -74,13 +74,21 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     Task {
       for await _ in Defaults.updates(.sortBy, initial: false) {
-        try? await load()
+        do {
+          try await load()
+        } catch {
+          logger.error("Failed to reload history after sort change: \(error.localizedDescription)")
+        }
       }
     }
 
     Task {
       for await _ in Defaults.updates(.pinTo, initial: false) {
-        try? await load()
+        do {
+          try await load()
+        } catch {
+          logger.error("Failed to reload history after pin change: \(error.localizedDescription)")
+        }
       }
     }
 
@@ -130,14 +138,22 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     logger.info("Inserting item with id '\(item.title)'")
     Storage.shared.context.insert(item)
     Storage.shared.context.processPendingChanges()
-    try? Storage.shared.context.save()
+    do {
+      try Storage.shared.context.save()
+    } catch {
+      logger.error("Failed to save context after insert: \(error.localizedDescription)")
+    }
   }
 
   @discardableResult
   @MainActor
   func add(_ item: HistoryItem) -> HistoryItemDecorator {
     if #available(macOS 15.0, *) {
-      try? History.shared.insertIntoStorage(item)
+      do {
+        try History.shared.insertIntoStorage(item)
+      } catch {
+        logger.error("Failed to insert item into storage: \(error.localizedDescription)")
+      }
     } else {
       // On macOS 14 the history item needs to be inserted into storage directly after creating it.
       // It was already inserted after creation in Clipboard.swift
@@ -197,15 +213,24 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
-  private func withLogging(_ msg: String, _ block: () throws -> Void) rethrows {
+  private func withLogging(_ msg: String, _ block: () throws -> Void) {
     func dataCounts() -> String {
-      let historyItemCount = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItem>())
-      let historyContentCount = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
-      return "HistoryItem=\(historyItemCount ?? 0) HistoryItemContent=\(historyContentCount ?? 0)"
+      do {
+        let historyItemCount = try Storage.shared.context.fetchCount(FetchDescriptor<HistoryItem>())
+        let historyContentCount = try Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
+        return "HistoryItem=\(historyItemCount) HistoryItemContent=\(historyContentCount)"
+      } catch {
+        logger.error("Failed to fetch data counts: \(error.localizedDescription)")
+        return "HistoryItem=? HistoryItemContent=?"
+      }
     }
 
     logger.info("\(msg) Before: \(dataCounts())")
-    try? block()
+    do {
+      try block()
+    } catch {
+      logger.error("\(msg) failed: \(error.localizedDescription)")
+    }
     logger.info("\(msg) After: \(dataCounts())")
   }
 
@@ -221,18 +246,18 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       sessionLog.removeValues { $0.pin == nil }
       items = all
 
-      try? Storage.shared.context.transaction {
-        try? Storage.shared.context.delete(
+      try Storage.shared.context.transaction {
+        try Storage.shared.context.delete(
           model: HistoryItem.self,
           where: #Predicate { $0.pin == nil }
         )
-        try? Storage.shared.context.delete(
+        try Storage.shared.context.delete(
           model: HistoryItemContent.self,
           where: #Predicate { $0.item?.pin == nil }
         )
       }
       Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+      try Storage.shared.context.save()
     }
 
     Clipboard.shared.clear()
@@ -252,9 +277,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       sessionLog.removeAll()
       items = all
 
-      try? Storage.shared.context.delete(model: HistoryItem.self)
+      try Storage.shared.context.delete(model: HistoryItem.self)
       Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+      try Storage.shared.context.save()
     }
 
     Clipboard.shared.clear()
@@ -272,7 +297,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     withLogging("Removing history item") {
       Storage.shared.context.delete(item.item)
       Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+      try Storage.shared.context.save()
     }
 
     all.removeAll { $0 == item }
@@ -446,16 +471,18 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
     let descriptor = FetchDescriptor<HistoryItem>()
-    if let all = try? Storage.shared.context.fetch(descriptor) {
+    do {
+      let all = try Storage.shared.context.fetch(descriptor)
       let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
       if duplicates.count > 1 {
         return duplicates.first(where: { $0 != item })
       } else {
         return isModified(item)
       }
+    } catch {
+      logger.error("Failed to fetch items for duplicate check: \(error.localizedDescription)")
+      return item
     }
-
-    return item
   }
 
   private func isModified(_ item: HistoryItem) -> HistoryItem? {
