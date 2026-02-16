@@ -62,9 +62,14 @@ struct StorageSettingsPane: View {
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
   @State private var sizeText = ""
-  @State private var isSizeValid = true
 
   private static let sizeRange = 1...999
+
+  private func isValidSize() -> Bool {
+    if sizeText.isEmpty { return true }
+    guard let value = Int(sizeText) else { return false }
+    return Self.sizeRange.contains(value)
+  }
 
   var body: some View {
     Settings.Container(contentWidth: 450) {
@@ -94,29 +99,24 @@ struct StorageSettingsPane: View {
           TextField("", text: $sizeText)
             .frame(width: 80)
             .help(Text("SizeTooltip", tableName: "StorageSettings"))
-            .border(isSizeValid ? Color.clear : Color.red)
+            .border(isValidSize() ? Color.clear : Color.red)
             .onAppear { sizeText = "\(size)" }
             .onChange(of: sizeText) {
-              if let value = Int(sizeText), Self.sizeRange.contains(value) {
-                isSizeValid = true
+              if isValidSize(), let value = Int(sizeText) {
                 size = value
-              } else {
-                isSizeValid = sizeText.isEmpty ? true : false
               }
             }
             .onSubmit {
-              if let value = Int(sizeText), Self.sizeRange.contains(value) {
+              if isValidSize(), let value = Int(sizeText) {
                 size = value
               } else {
                 sizeText = "\(size)"
-                isSizeValid = true
               }
             }
           Stepper("", value: $size, in: Self.sizeRange)
             .labelsHidden()
             .onChange(of: size) {
               sizeText = "\(size)"
-              isSizeValid = true
             }
           Text(storageSize)
             .controlSize(.small)
