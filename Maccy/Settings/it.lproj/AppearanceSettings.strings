@@ -33,3 +33,5 @@
 "ShowFooter" = "Mostra footer";
 "ShowApplicationIcons" = "Mostra le icone delle applicazioni";
 "OpenPreferencesWarning" = "⚠️ Premi ⌘, (command+comma) per aprire le preferenze quando il footer è nascosto.";
+"ShowHexColorSwatch" = "";
+"ShowHexColorSwatchTooltip" = "";

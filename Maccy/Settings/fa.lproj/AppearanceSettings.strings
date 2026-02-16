@@ -33,3 +33,5 @@
 "ShowApplicationIcons" = "";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";
+"ShowHexColorSwatch" = "";
+"ShowHexColorSwatchTooltip" = "";

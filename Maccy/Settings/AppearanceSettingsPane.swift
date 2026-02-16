@@ -170,6 +170,10 @@ struct AppearanceSettingsPane: View {
         Defaults.Toggle(key: .showApplicationIcons) {
           Text("ShowApplicationIcons", tableName: "AppearanceSettings")
         }
+        Defaults.Toggle(key: .showHexColorSwatch) {
+          Text("ShowHexColorSwatch", tableName: "AppearanceSettings")
+        }
+        .help(Text("ShowHexColorSwatchTooltip", tableName: "AppearanceSettings"))
 
         Defaults.Toggle(key: .showFooter) {
           Text("ShowFooter", tableName: "AppearanceSettings")
