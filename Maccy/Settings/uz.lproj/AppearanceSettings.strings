@@ -33,5 +33,5 @@
 "ShowTitleBeforeSearchField" = "Qidiruv maydonidan oldin sarlavhani ko'rsatish";
 "ShowFooter" = "Pastgi qisimni ko'rsatish";
 "PinToTop" = "Yuqorida";
-"ShowHexColorSwatch" = "";
-"ShowHexColorSwatchTooltip" = "";
+"ShowHexColorSwatch" = "Hex rang namunasini koʻrsatish";
+"ShowHexColorSwatchTooltip" = "Hex rang kodlari yonida rang namunasini koʻrsatish.";

@@ -33,5 +33,5 @@
 "ShowApplicationIcons" = "";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";
-"ShowHexColorSwatch" = "";
-"ShowHexColorSwatchTooltip" = "";
+"ShowHexColorSwatch" = "Εμφάνιση δείγματος δεκαεξαδικού χρώματος";
+"ShowHexColorSwatchTooltip" = "Εμφάνιση δείγματος χρώματος δίπλα σε δεκαεξαδικούς κωδικούς χρωμάτων.";

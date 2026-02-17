@@ -33,5 +33,5 @@
 "ShowApplicationIcons" = "";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";
-"ShowHexColorSwatch" = "";
-"ShowHexColorSwatchTooltip" = "";
+"ShowHexColorSwatch" = "Visa hexadecimalt färgprov";
+"ShowHexColorSwatchTooltip" = "Visa färgprov bredvid hexadecimala färgkoder.";
