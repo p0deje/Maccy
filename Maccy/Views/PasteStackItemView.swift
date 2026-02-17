@@ -21,13 +21,20 @@ struct PasteStackItemView: View {
   var index: Int?
   var isSelected: Bool
 
+  @Default(.showHexColorSwatch) private var showHexColorSwatch
+
+  private var colorSwatchImage: NSImage? {
+    guard showHexColorSwatch else { return nil }
+    return ColorImage.from(item.title)
+  }
+
   var body: some View {
     ListItemView(
       id: PasteStackId(pasteStackId: stack.id, itemId: item.id),
       selectionId: stack.id,
       appIcon: item.applicationImage,
       image: index != nil ? item.thumbnailImage : nil,
-      accessoryImage: item.thumbnailImage != nil ? nil : ColorImage.from(item.title),
+      accessoryImage: item.thumbnailImage != nil ? nil : colorSwatchImage,
       attributedTitle: item.attributedTitle,
       shortcuts: [],
       isSelected: isSelected,

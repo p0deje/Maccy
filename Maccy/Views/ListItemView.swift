@@ -43,7 +43,6 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   @ViewBuilder var title: () -> Title
 
   @Default(.showApplicationIcons) private var showIcons
-  @Default(.showHexColorSwatch) private var showHexColorSwatch
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
 
@@ -62,7 +61,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       Spacer()
         .frame(width: showIcons ? 5 : 10)
 
-      if showHexColorSwatch, let accessoryImage {
+      if let accessoryImage {
         Image(nsImage: accessoryImage)
           .accessibilityIdentifier("copy-history-item")
           .padding(.trailing, 5)
