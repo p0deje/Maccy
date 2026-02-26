@@ -79,6 +79,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     let size = Defaults[.windowSize]
+    let privacyMode = Defaults[.privacyMode]
+    updateSharingType(isPrivacyModeEnabled: privacyMode)
     setContentSize(NSSize(width: min(frame.width, size.width), height: min(height, size.height)))
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
     orderFrontRegardless()

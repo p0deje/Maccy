@@ -14,7 +14,7 @@ body:
       options:
         - label: I have verified that there isn't already an issue reporting the same bug to prevent duplication.
           required: false
-        - label: I have disabled hiding from screen share so that Maccy can be seen in screenshots.
+        - label: I have disabled the 'Hide from screen capture' option in Preferences -> Advanced so that Maccy appears in screenshots.
           required: false
         - label: I have seen the [FAQ](https://github.com/p0deje/Maccy?tab=readme-ov-file#faq).
           required: false
