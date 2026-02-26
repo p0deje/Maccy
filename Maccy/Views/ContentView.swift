@@ -1,6 +1,5 @@
 import SwiftData
 import SwiftUI
-import Defaults
 
 struct ContentView: View {
   @State private var appState = AppState.shared
