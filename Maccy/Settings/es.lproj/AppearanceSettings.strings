@@ -18,6 +18,11 @@
 "ImageHeightTooltip" = "Tamaño máximo de la previsualización de imágenes.\nPor defecto: 40.\nNota: Seleccionar 16 para igualar al tamaño del texto.";
 "PreviewDelay" = "Retraso de vista previa:";
 "PreviewDelayTooltip" = "Retraso en milisegundos hasta que se muestra una ventana emergente de vista previa.\nPor defecto: 1500.";
+"WindowSize" = "Tamaño de la ventana emergente:";
+"PopupWidth" = "Ancho";
+"PopupHeight" = "Alto";
+"WindowSizeReset" = "Restablecer tamaño";
+"WindowSizeTooltip" = "Cambia el tamaño máximo de la ventana emergente. Puede encogerse si hay pocos elementos.";
 "HighlightMatches" = "Partidos destacados:";
 "HighlightMatchColor" = "Color";
 "HighlightMatchBold" = "Negrita";

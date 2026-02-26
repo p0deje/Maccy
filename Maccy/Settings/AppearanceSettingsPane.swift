@@ -15,6 +15,7 @@ struct AppearanceSettingsPane: View {
   @Default(.showSearch) private var showSearch
   @Default(.searchVisibility) private var searchVisibility
   @Default(.showFooter) private var showFooter
+  @Default(.windowSize) private var windowSize
   @Default(.windowPosition) private var windowPosition
   @Default(.showApplicationIcons) private var showApplicationIcons
 
@@ -47,6 +48,40 @@ struct AppearanceSettingsPane: View {
     formatter.maximum = 100_000
     return formatter
   }()
+
+  private let popupWidthFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 300
+    formatter.maximum = 1600
+    return formatter
+  }()
+
+  private let popupHeightFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 200
+    formatter.maximum = 2000
+    return formatter
+  }()
+
+  private var popupWidth: Binding<Double> {
+    Binding(get: {
+      Double(windowSize.width)
+    }, set: { newValue in
+      var size = windowSize
+      size.width = CGFloat(min(max(newValue, 300), 1600))
+      windowSize = size
+    })
+  }
+
+  private var popupHeight: Binding<Double> {
+    Binding(get: {
+      Double(windowSize.height)
+    }, set: { newValue in
+      var size = windowSize
+      size.height = CGFloat(min(max(newValue, 200), 2000))
+      windowSize = size
+    })
+  }
 
   var body: some View {
     Settings.Container(contentWidth: 650) {
@@ -108,6 +143,34 @@ struct AppearanceSettingsPane: View {
           Stepper("", value: $previewDelay, in: 200...100_000)
             .labelsHidden()
         }
+      }
+
+      Settings.Section(label: { Text("WindowSize", tableName: "AppearanceSettings") }) {
+        HStack {
+          Text("PopupWidth", tableName: "AppearanceSettings")
+          TextField("", value: popupWidth, formatter: popupWidthFormatter)
+            .frame(width: 80)
+          Stepper("", value: popupWidth, in: 300...1600, step: 10)
+            .labelsHidden()
+
+          Text("PopupHeight", tableName: "AppearanceSettings")
+            .padding(.leading, 8)
+          TextField("", value: popupHeight, formatter: popupHeightFormatter)
+            .frame(width: 80)
+          Stepper("", value: popupHeight, in: 200...2000, step: 10)
+            .labelsHidden()
+
+          Button {
+            _windowSize.reset()
+          } label: {
+            Image(systemName: "arrow.uturn.backward.circle.fill")
+              .imageScale(.large)
+          }
+          .buttonStyle(.borderless)
+          .help(Text("WindowSizeReset", tableName: "AppearanceSettings"))
+          .disabled(windowSize == _windowSize.defaultValue)
+        }
+        .help(Text("WindowSizeTooltip", tableName: "AppearanceSettings"))
       }
 
       Settings.Section(

@@ -23,10 +23,10 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     self.onClose = onClose
 
     super.init(
-        contentRect: contentRect,
-        styleMask: [.nonactivatingPanel, .resizable, .closable, .fullSizeContentView],
-        backing: .buffered,
-        defer: false
+      contentRect: contentRect,
+      styleMask: [.nonactivatingPanel, .resizable, .closable, .fullSizeContentView],
+      backing: .buffered,
+      defer: false
     )
 
     self.statusBarButton = statusBarButton
@@ -55,10 +55,11 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
       rootView: view()
         // The safe area is ignored because the title bar still interferes with the geometry
         .ignoresSafeArea()
-        .gesture(DragGesture()
-          .onEnded { _ in
-            self.saveWindowPosition()
-        })
+        .gesture(
+          DragGesture()
+            .onEnded { _ in
+              self.saveWindowPosition()
+            })
     )
     contentView?.layer?.cornerRadius = Popup.cornerRadius + Popup.horizontalPadding
   }
@@ -73,7 +74,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     let size = Defaults[.windowSize]
-    setContentSize(NSSize(width: min(frame.width, size.width), height: min(height, size.height)))
+    AppState.shared.preview.contentWidth = size.width
+    setContentSize(NSSize(width: size.width, height: min(height, size.height)))
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
     orderFrontRegardless()
     makeKey()
@@ -112,7 +114,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
       let anchorX = frame.minX + width / 2 - screenFrame.minX
       let anchorY = frame.maxY - screenFrame.minY
-      Defaults[.windowPosition] = NSPoint(x: anchorX / screenFrame.width, y: anchorY / screenFrame.height)
+      Defaults[.windowPosition] = NSPoint(
+        x: anchorX / screenFrame.width, y: anchorY / screenFrame.height)
     }
   }
 

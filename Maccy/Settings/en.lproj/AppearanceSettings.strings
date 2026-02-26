@@ -18,6 +18,11 @@
 "ImageHeightTooltip" = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items.";
 "PreviewDelay" = "Preview delay:";
 "PreviewDelayTooltip" = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500.";
+"WindowSize" = "Popup size:";
+"PopupWidth" = "Width";
+"PopupHeight" = "Height";
+"WindowSizeReset" = "Reset size";
+"WindowSizeTooltip" = "Change the maximum popup size. The popup may shrink if there are only a few items.";
 "HighlightMatches" = "Highlight matches:";
 "HighlightMatchColor" = "Color";
 "HighlightMatchBold" = "Bold";
