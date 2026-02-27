@@ -20,7 +20,7 @@ struct IgnoreSettingsPane: View {
           Text("TextLengthTab", tableName: "IgnoreSettings")
         }
     }
-    .frame(maxWidth: 500, minHeight: 400)
+    .frame(minWidth: 560, maxWidth: 700, minHeight: 400)
     .padding()
   }
 }
