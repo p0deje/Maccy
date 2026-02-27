@@ -15,6 +15,10 @@ struct IgnoreSettingsPane: View {
         .tabItem {
           Text("RegexpTab", tableName: "IgnoreSettings")
         }
+      IgnoreTextLengthSettingsView()
+        .tabItem {
+          Text("TextLengthTab", tableName: "IgnoreSettings")
+        }
     }
     .frame(maxWidth: 500, minHeight: 400)
     .padding()

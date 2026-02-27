@@ -7,3 +7,7 @@
 "IgnoredPasteboardTypesReset" = "Reset";
 "RegexpTab" = "Regular expressions";
 "IgnoredRegexpsDescription" = "It's possible to ignore certain copies from remembering based on defined regular expressions.";
+"TextLengthTab" = "Text length";
+"IgnoreByTextLengthEnabled" = "Ignore long copied text";
+"IgnoreByTextLengthLimitLabel" = "Maximum length:";
+"IgnoreByTextLengthDescription" = "Ignore copied plain text entries longer than the configured number of characters. This does not apply to non-text clipboard types.";
