@@ -2,7 +2,6 @@
 "TurnOff" = "Malŝalti";
 "TurnOffDescription" = "Provizore ignori ĉiujn novajn kopiojn.\nVi verŝajne uzos tion en programo kaj malŝaltos la aplikaĵon dum kopiado de tiklaj datumoj.";
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# kopii datumojn\ndefaults write org.p0deje.Maccy ignoreEvents false";
-"TurnOffViaMenuIconDescription" = "";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# kopii datumojn";
 "ClearHistoryOnQuit" = "Forigi la historion dum forlaso";
 "ClearHistoryOnQuitTooltip" = "Aŭtomate forigi ĉiujn nefiksitajn erojn antaŭ ol forlasi la aplikaĵon.";

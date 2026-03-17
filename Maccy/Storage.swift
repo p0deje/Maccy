@@ -28,8 +28,29 @@ class Storage {
 
     do {
       container = try ModelContainer(for: HistoryItem.self, configurations: config)
-    } catch let error {
-      fatalError("Cannot load database: \(error.localizedDescription).")
+    } catch {
+      // Recovery path: keep a backup of the broken store and recreate a fresh one.
+      try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
+      if FileManager.default.fileExists(atPath: url.path()) {
+        let backupURL = url.deletingPathExtension()
+          .appendingPathExtension("broken-\(Int(Date.now.timeIntervalSince1970)).sqlite")
+        try? FileManager.default.moveItem(at: url, to: backupURL)
+      }
+
+      do {
+        container = try ModelContainer(for: HistoryItem.self, configurations: config)
+      } catch {
+        assertionFailure("Cannot load database: \(error.localizedDescription). Falling back to in-memory store.")
+        do {
+          // Last resort so that app can still launch and users can export data manually.
+          container = try ModelContainer(
+            for: HistoryItem.self,
+            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+          )
+        } catch {
+          fatalError("Cannot initialize in-memory database: \(error.localizedDescription).")
+        }
+      }
     }
   }
 }
