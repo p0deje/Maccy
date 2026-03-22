@@ -25,7 +25,7 @@ struct HeaderView: View {
         } label: {
           Image(
             systemName: previewPlacement == .right
-              ? "sidebar.left" : "sidebar.right"
+              ? "sidebar.right" : "sidebar.left"
           )
         }
         .shortcutKeyHelp(
