@@ -63,7 +63,7 @@ struct PreviewItemView: View {
           Text(String(item.item.numberOfCopies))
         }
         .padding(.bottom)
-        
+
         HStack(spacing: 3) {
           Text("PinShortcutKey", tableName: "PreviewItemView")
           Text(item.item.pin ?? "")
@@ -98,6 +98,15 @@ struct PreviewItemView: View {
       HStack(spacing: 3) {
         Text("NumberOfCopies", tableName: "PreviewItemView")
         Text(String(item.item.numberOfCopies))
+      }
+
+      if !item.tags.isEmpty {
+        HStack(spacing: 3) {
+          Text("Tags", tableName: "PreviewItemView")
+          ForEach(item.tags, id: \.self) { tag in
+            TagChipView(tag: tag)
+          }
+        }
       }
 
       if item.hasImage, let image = item.item.image {

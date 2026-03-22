@@ -27,29 +27,27 @@ class Storage {
     #endif
 
     do {
-      container = try ModelContainer(for: HistoryItem.self, configurations: config)
+      container = try ModelContainer(
+        for: Schema(versionedSchema: StorageSchemaV2.self),
+        migrationPlan: StorageMigrationPlan.self,
+        configurations: config
+      )
     } catch {
-      // Recovery path: keep a backup of the broken store and recreate a fresh one.
-      try? FileManager.default.createDirectory(at: url.deletingLastPathComponent(), withIntermediateDirectories: true)
-      if FileManager.default.fileExists(atPath: url.path()) {
-        let backupURL = url.deletingPathExtension()
-          .appendingPathExtension("broken-\(Int(Date.now.timeIntervalSince1970)).sqlite")
-        try? FileManager.default.moveItem(at: url, to: backupURL)
+      print("Migration failed: \(error). Attempting recovery by recreating store.")
+      try? FileManager.default.removeItem(at: url)
+      for suffix in ["-wal", "-shm"] {
+        let sidecar = url.deletingPathExtension()
+          .appendingPathExtension(url.pathExtension + suffix)
+        try? FileManager.default.removeItem(at: sidecar)
       }
-
       do {
-        container = try ModelContainer(for: HistoryItem.self, configurations: config)
+        container = try ModelContainer(
+          for: Schema(versionedSchema: StorageSchemaV2.self),
+          migrationPlan: StorageMigrationPlan.self,
+          configurations: config
+        )
       } catch {
-        assertionFailure("Cannot load database: \(error.localizedDescription). Falling back to in-memory store.")
-        do {
-          // Last resort so that app can still launch and users can export data manually.
-          container = try ModelContainer(
-            for: HistoryItem.self,
-            configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-          )
-        } catch {
-          fatalError("Cannot initialize in-memory database: \(error.localizedDescription).")
-        }
+        fatalError("Cannot load database after recovery: \(error.localizedDescription).")
       }
     }
   }

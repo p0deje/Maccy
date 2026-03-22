@@ -11,6 +11,30 @@ class SearchTests: XCTestCase {
     Defaults[.searchMode] = savedSearchMode
   }
 
+  func testParsedQuery() {
+    // "#kod docker" -> tag: "kod", text: "docker"
+    let q1 = Search.ParsedQuery(from: "#kod docker")
+    XCTAssertEqual(q1.tag, "kod")
+    XCTAssertEqual(q1.text, "docker")
+
+    // "#" (alone) -> tag: "", text: ""
+    let q2 = Search.ParsedQuery(from: "#")
+    XCTAssertEqual(q2.tag, "")
+    XCTAssertEqual(q2.text, "")
+
+    // "docker" -> tag: nil, text: "docker"
+    let q3 = Search.ParsedQuery(from: "docker")
+    XCTAssertNil(q3.tag)
+    XCTAssertEqual(q3.text, "docker")
+
+    // Case sensitivity is handled in the init part with dropFirst().
+    // It was used with lowercased() in the search part.
+    // The parsed string should be directly "#İŞ" -> "İŞ".
+    let q4 = Search.ParsedQuery(from: "#İŞ")
+    XCTAssertEqual(q4.tag, "İŞ")
+    XCTAssertEqual(q4.text, "")
+  }
+
   @MainActor
   func testSimpleSearch() { // swiftlint:disable:this function_body_length
     Defaults[.searchMode] = Search.Mode.exact
@@ -233,6 +257,43 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
+  @MainActor
+  func testTagSearch() {
+    Defaults[.searchMode] = Search.Mode.exact
+    items = [
+      HistoryItemDecorator(historyItemWithTitle("foo bar baz", tags: ["work", "code"])),
+      HistoryItemDecorator(historyItemWithTitle("hello world", tags: ["personal"])),
+      HistoryItemDecorator(historyItemWithTitle("xxx yyy zzz", tags: []))
+    ]
+
+    // "#work" filters to items tagged "work"
+    let workResults = search("#work")
+    XCTAssertEqual(workResults.count, 1)
+    XCTAssertEqual(workResults[0].object.title, "foo bar baz")
+
+    // "#" alone returns all items with any tag
+    let hashResults = search("#")
+    XCTAssertEqual(hashResults.count, 2)
+
+    // "#work docker" filters by tag "work" then searches text "docker" (no match)
+    let noMatch = search("#work docker")
+    XCTAssertEqual(noMatch.count, 0)
+
+    // "#work foo" filters by tag "work" then searches text "foo"
+    let tagAndText = search("#work foo")
+    XCTAssertEqual(tagAndText.count, 1)
+    XCTAssertEqual(tagAndText[0].object.title, "foo bar baz")
+
+    // "#nonexistent" returns nothing
+    let noTag = search("#nonexistent")
+    XCTAssertEqual(noTag.count, 0)
+
+    // Normal search without "#" returns all matches
+    let normalSearch = search("yyy")
+    XCTAssertEqual(normalSearch.count, 1)
+    XCTAssertEqual(normalSearch[0].object.title, "xxx yyy zzz")
+  }
+
   private func search(_ string: String) -> [Search.SearchResult] {
     return Search().search(string: string, within: items)
   }
@@ -247,7 +308,7 @@ class SearchTests: XCTestCase {
   }
 
   @MainActor
-  private func historyItemWithTitle(_ value: String?) -> HistoryItem {
+  private func historyItemWithTitle(_ value: String?, tags: [String] = []) -> HistoryItem {
     let contents = [
       HistoryItemContent(
         type: NSPasteboard.PasteboardType.string.rawValue,
@@ -258,6 +319,7 @@ class SearchTests: XCTestCase {
     Storage.shared.context.insert(item)
     item.contents = contents
     item.title = item.generateTitle()
+    item.tags = tags
 
     return item
   }

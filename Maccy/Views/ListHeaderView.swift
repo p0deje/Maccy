@@ -12,23 +12,25 @@ struct ListHeaderView: View {
   @Default(.showTitle) private var showTitle
 
   var body: some View {
-    HStack {
-      if showTitle {
-        Text("Maccy")
-          .foregroundStyle(.secondary)
-          .padding(.leading, 5)
-      }
-
-      SearchFieldView(placeholder: "search_placeholder", query: $searchQuery)
-        .focused($searchFocused)
-        .frame(maxWidth: .infinity)
-        .onChange(of: scenePhase) {
-          if scenePhase == .background && !searchQuery.isEmpty {
-            searchQuery = ""
-          }
+    VStack(alignment: .leading, spacing: 0) {
+      HStack {
+        if showTitle {
+          Text("Maccy")
+            .foregroundStyle(.secondary)
+            .padding(.leading, 5)
         }
-        // Only reliable way to disable the cursor. allowsHitTesting() does not work
-        .offset(y: appState.searchVisible ? 0 : -Popup.itemHeight)
+
+        SearchFieldView(placeholder: "search_placeholder", query: $searchQuery)
+          .focused($searchFocused)
+          .frame(maxWidth: .infinity)
+          .onChange(of: scenePhase) {
+            if scenePhase == .background && !searchQuery.isEmpty {
+              searchQuery = ""
+            }
+          }
+          // Only reliable way to disable the cursor. allowsHitTesting() does not work
+          .offset(y: appState.searchVisible ? 0 : -Popup.itemHeight)
+      }
     }
   }
 }

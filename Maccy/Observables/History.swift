@@ -19,8 +19,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
 
+  var allTags: [String] {
+    Array(Set(all.flatMap(\.tags))).sorted()
+  }
+
   var searchQuery: String = "" {
     didSet {
+      guard oldValue != searchQuery else {
+        return
+      }
       throttler.throttle { [self] in
         updateItems(search.search(string: searchQuery, within: all))
 
@@ -37,6 +44,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   var pressedShortcutItem: HistoryItemDecorator? {
     guard let event = NSApp.currentEvent else {
+      return nil
+    }
+
+    if let chars = event.characters,
+       let rawChars = event.charactersIgnoringModifiers,
+       chars != rawChars {
       return nil
     }
 

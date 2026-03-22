@@ -72,4 +72,5 @@ extension Defaults.Keys {
 
   /// Threshold above which fuzzy/mixed search is auto-disabled for performance
   static let largeHistoryThreshold = 5_000
+  static let tagColors = Key<[String: TagColor]>("tagColors", default: [:])
 }

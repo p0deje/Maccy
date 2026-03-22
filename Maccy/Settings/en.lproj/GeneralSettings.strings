@@ -20,6 +20,8 @@
 "Regex" = "Regular expressions";
 "Mixed" = "Mixed";
 "SearchModeWarning" = "Fuzzy/mixed search is disabled for large histories (>5000 items) for performance.";
+"Tag" = "Tag:";
+"TagTooltip" = "Shortcut key to tag history item.\nDefault: ⌥T.";
 "NotificationsAndSounds" = "Notifications and sounds 􀱁";
 "AppendMode" = "Append Mode:";
 "EnableAppendMode" = "Enable append mode (CMD+C twice)";
