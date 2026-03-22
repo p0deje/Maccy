@@ -3,8 +3,10 @@
 "LastCopyTime" = "Last copy time:";
 "NumberOfCopies" = "Number of copies:";
 "Dimensions" = "Dimensions:";
+"Secret" = "Secret:";
 "PinKey" = "Press {pinKey} to pin.";
 "UnpinKey" = "Press {pinKey} to unpin.";
+"SecretKey" = "Press {secretKey} to toggle secret.";
 "DeleteKey" = "Press {deleteKey} to delete.";
 "TagKey" = "Press {tagKey} to tag.";
 "PreviewKey" = "Press {previewKey} to toggle preview.";

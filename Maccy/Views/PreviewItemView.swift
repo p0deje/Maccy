@@ -101,12 +101,32 @@ struct PreviewItemView: View {
       }
 
       if !item.tags.isEmpty {
+      HStack(spacing: 3) {
+        Text("Secret", tableName: "PreviewItemView")
+        Text(item.isSecret ? "Yes" : "No")
+      }
+      .padding(.bottom)
+
         HStack(spacing: 3) {
           Text("Tags", tableName: "PreviewItemView")
           ForEach(item.tags, id: \.self) { tag in
             TagChipView(tag: tag)
           }
         }
+      }
+
+      if let secretKey = KeyboardShortcuts.Shortcut(name: .secret) {
+        Text(
+          NSLocalizedString("SecretKey", tableName: "PreviewItemView", comment: "")
+            .replacingOccurrences(of: "{secretKey}", with: secretKey.description)
+        )
+      }
+
+      if let deleteKey = KeyboardShortcuts.Shortcut(name: .delete) {
+        Text(
+          NSLocalizedString("DeleteKey", tableName: "PreviewItemView", comment: "")
+            .replacingOccurrences(of: "{deleteKey}", with: deleteKey.description)
+        )
       }
 
       if item.hasImage, let image = item.item.image {

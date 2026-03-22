@@ -10,6 +10,8 @@
 "DeleteTooltip" = "Shortcut key to delete history item.\nDefault: ⌥⌫.";
 "ShowPreview" = "Preview:";
 "ShowPreviewTooltip" = "Show preview with additional information.\nDefault: ⌃Space.";
+"Secret" = "Secret:";
+"SecretTooltip" = "Shortcut key to toggle secret mode on history item.\nDefault: ⌥S.";
 "Behavior" = "Behavior:";
 "PasteAutomatically" = "Paste automatically";
 "PasteWithoutFormatting" = "Paste without formatting";

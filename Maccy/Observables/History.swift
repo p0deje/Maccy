@@ -353,6 +353,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
+      item.secret = existingHistoryItem.secret
       item.title = existingHistoryItem.title
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
@@ -375,6 +376,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       limitHistorySize(to: Defaults[.size] - 1)
     }
 
+    // Always update the sessionLog with the current item to ensure its properties are preserved
     sessionLog[Clipboard.shared.changeCount] = item
 
     var itemDecorator: HistoryItemDecorator
@@ -560,6 +562,14 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
     }
 
+    // Ensure we properly handle this item in subsequent operations
+    Task { @MainActor in
+      let currentChangeCount = Clipboard.shared.changeCount
+      if let existing = sessionLog[currentChangeCount], existing.secret != item.item.secret {
+        existing.secret = item.item.secret
+      }
+    }
+
     Task {
       searchQuery = ""
     }
@@ -671,6 +681,27 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     updateUnpinnedShortcuts()
     if item.isUnpinned {
       AppState.shared.navigator.scrollTarget = item.id
+    }
+  }
+
+  @MainActor
+  func toggleSecret(_ item: HistoryItemDecorator?) {
+    guard let item else { return }
+
+    item.toggleSecret()
+
+    // Update the item title display immediately
+    if let index = items.firstIndex(of: item) {
+      items[index] = item
+    }
+
+    if let index = all.firstIndex(of: item) {
+      all[index] = item
+    }
+
+    // If we're viewing the item, update it in realtime
+    if item.isSelected {
+      selectedItem = item
     }
   }
 

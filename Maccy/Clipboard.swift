@@ -102,6 +102,12 @@ class Clipboard {
 
     pasteboard.setString("", forType: .fromMaccy)
     pasteboard.setString(item.application ?? "", forType: .source)
+
+    // Save secret status
+    if item.secret {
+      pasteboard.setString("1", forType: .secret)
+    }
+
     sync()
 
     Task {
@@ -230,6 +236,11 @@ class Clipboard {
 
     historyItem.application = sourceAppBundle
     historyItem.title = historyItem.generateTitle()
+
+    // Check if we're copying a secret item from ourselves
+    if pasteboard.string(forType: .secret) != nil {
+      historyItem.secret = true
+    }
 
     var shouldAppend = false
     let now = Date.now

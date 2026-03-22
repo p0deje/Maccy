@@ -6,4 +6,5 @@ extension KeyboardShortcuts.Name {
   static let delete = Self("delete", default: Shortcut(.delete, modifiers: [.option]))
   static let togglePreview = Self("togglePreview", default: Shortcut(.space, modifiers: [.control]))
   static let tag = Self("tag", default: Shortcut(.t, modifiers: [.option]))
+  static let secret = Self("secret", default: Shortcut(.s, modifiers: [.option]))
 }
