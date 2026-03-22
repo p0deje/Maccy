@@ -6,3 +6,4 @@
 "UnpinKey" = "اضغط على {pinKey} للتثبيت أو إلغاء التثبيت.";
 "DeleteKey" = "اضغط على {deleteKey} للحذف.";
 "PreviewKey" = "اضغط على {previewKey} لتبديل المعاينة.";
+"Dimensions" = "الأبعاد:";

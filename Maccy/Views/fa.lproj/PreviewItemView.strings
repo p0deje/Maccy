@@ -6,3 +6,4 @@
 "DeleteKey" = "برای حذف، کلید {deleteKey} را فشار دهید.";
 "UnpinKey" = "برای برداشتن سنجاق، کلید {pinKey} را فشار دهید.";
 "PreviewKey" = "{previewKey} را فشار دهید تا پیش‌نمایش تغییر کند.";
+"Dimensions" = "ابعاد:";

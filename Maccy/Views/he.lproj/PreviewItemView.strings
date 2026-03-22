@@ -6,3 +6,4 @@
 "UnpinKey" = "יש ללחוץ על {pinKey} כדי לנעוץ / לשחרר.";
 "DeleteKey" = "יש ללחוץ על {deleteKey} כדי למחוק.";
 "PreviewKey" = "לחץ על {previewKey} כדי להחליף תצוגה מקדימה.";
+"Dimensions" = "ממדים:";

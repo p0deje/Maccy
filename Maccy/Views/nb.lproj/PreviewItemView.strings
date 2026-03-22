@@ -6,3 +6,4 @@
 "UnpinKey" = "Trykk {pinKey} for å avmerke.";
 "DeleteKey" = "Trykk {deleteKey} for å slette.";
 "PreviewKey" = "Trykk {previewKey} for å veksle forhåndsvisning.";
+"Dimensions" = "Dimensjoner:";
