@@ -180,7 +180,8 @@ class Clipboard {
       return
     }
 
-    if let sourceAppBundle = sourceApp?.bundleIdentifier, shouldIgnore(sourceAppBundle) {
+    let sourceAppBundle = sourceApplicationBundleIdentifier()
+    if let sourceAppBundle, shouldIgnore(sourceAppBundle) {
       return
     }
 
@@ -227,7 +228,7 @@ class Clipboard {
       try? History.shared.insertIntoStorage(historyItem)
     }
 
-    historyItem.application = sourceApp?.bundleIdentifier
+    historyItem.application = sourceAppBundle
     historyItem.title = historyItem.generateTitle()
 
     var shouldAppend = false
@@ -274,6 +275,16 @@ class Clipboard {
     } else {
       return Defaults[.ignoredApps].contains(sourceAppBundle)
     }
+  }
+
+  private func sourceApplicationBundleIdentifier() -> String? {
+    if let source = pasteboard.pasteboardItems?
+      .compactMap({ $0.string(forType: .source)?.trimmingCharacters(in: .whitespacesAndNewlines) })
+      .first(where: { !$0.isEmpty }) {
+      return source
+    }
+
+    return sourceApp?.bundleIdentifier
   }
 
   private func shouldIgnore(_ item: NSPasteboardItem) -> Bool {

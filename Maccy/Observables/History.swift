@@ -114,7 +114,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         try? await load()
       }
     }
-    
+
     Task {
       for await _ in Defaults.updates(.sortOrder, initial: false) {
         try? await load()
@@ -310,6 +310,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         item.contents = existingHistoryItem.contents
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
+      item.lastCopiedAt = Date.now
+      if item.lastCopiedAt <= item.firstCopiedAt {
+        item.lastCopiedAt = item.firstCopiedAt.addingTimeInterval(1)
+      }
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
       item.title = existingHistoryItem.title
@@ -339,9 +343,14 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     var itemDecorator: HistoryItemDecorator
     if let pin = item.pin {
       itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
-      // Keep pins in the same place.
+      // Keep pins in the same place for duplicate updates.
       if let removedItemIndex {
         all.insert(itemDecorator, at: removedItemIndex)
+      } else {
+        let sortedItems = sorter.sort(all.map(\.item) + [item])
+        if let index = sortedItems.firstIndex(of: item) {
+          all.insert(itemDecorator, at: index)
+        }
       }
     } else {
       itemDecorator = HistoryItemDecorator(item)
@@ -356,11 +365,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
           all.insert(itemDecorator, at: index)
         }
       }
-
-      items = all
-      updateUnpinnedShortcuts()
-      AppState.shared.popup.needsResize = true
     }
+
+    items = all
+    updateUnpinnedShortcuts()
+    AppState.shared.popup.needsResize = true
 
     return itemDecorator
   }
@@ -630,8 +639,14 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
-    if let duplicate = all.first(where: { $0.item.supersedes(item) }) {
-      return duplicate.item
+    let descriptor = FetchDescriptor<HistoryItem>()
+    guard let all = try? Storage.shared.context.fetch(descriptor) else {
+      return nil
+    }
+
+    let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
+    if duplicates.count > 1 {
+      return duplicates.first(where: { $0 != item })
     }
 
     return isModified(item)

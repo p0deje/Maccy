@@ -15,16 +15,7 @@
 "search_placeholder" = "Ketik untuk mencari…";
 "accessibility_alert_deny" = "Tolak";
 "accessibility_alert_open" = "Buka Preferensi Sistem";
-"accessibility_alert_message" = "";
-"accessibility_alert_comment" = "";
-"clear_alert_message" = "";
-"clear_alert_comment" = "";
 "clear_alert_cancel" = "Batal";
-"clear_alert_confirm" = "";
-"key_used_error" = "";
-"active_screen" = "";
-"screen" = "";
-"system_settings_name" = "";
 "system_settings_pane" = "Pengaturan Privasi & Keamanan";
 "system_preferences_name" = "Preferensi Sistem";
 "system_preferences_pane" = "Preferensi Keamanan & Privasi";

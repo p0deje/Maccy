@@ -1,9 +1,6 @@
 "Title" = "Ignori";
 "ApplicationsTab" = "Aplikaĵoj";
-"IgnoredAppsDescription" = "";
 "IgnoredAllAppsExceptListed" = "Ignori ĉiujn aplikaĵojn krom la listigitajn";
-"PasteboardTypesTab" = "";
-"IgnoredPasteboardTypesDescription" = "";
 "IgnoredPasteboardTypesReset" = "Restarigi";
 "RegexpTab" = "Regulaj esprimoj";
 "IgnoredRegexpsDescription" = "Eblas ignori iujn kopiojn de la memoro surbaze de difinitaj regulaj esprimoj.";

@@ -200,7 +200,8 @@ class ClipboardTests: XCTestCase {
       hookExpectation.fulfill()
     })
     clipboard.start()
-    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.declareTypes([.string, .source], owner: nil)
+    pasteboard.setString("com.apple.dt.Xcode", forType: .source)
     pasteboard.setString("bar", forType: .string)
     waitForExpectations(timeout: 2)
   }
@@ -214,7 +215,8 @@ class ClipboardTests: XCTestCase {
       hookExpectation.fulfill()
     })
     clipboard.start()
-    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.declareTypes([.string, .source], owner: nil)
+    pasteboard.setString("com.apple.dt.Xcode", forType: .source)
     pasteboard.setString("bar", forType: .string)
     waitForExpectations(timeout: 2)
   }

@@ -1,10 +1,1 @@
 "Title" = "Avancerad";
-"TurnOff" = "";
-"TurnOffDescription" = "";
-"TurnOffShellScript" = "";
-"TurnOffViaMenuIconDescription" = "";
-"TurnOffNextShellScript" = "";
-"ClearHistoryOnQuit" = "";
-"ClearHistoryOnQuitTooltip" = "";
-"ClearSystemClipboard" = "";
-"ClearSystemClipboardTooltip" = "";
