@@ -58,6 +58,17 @@ struct PreviewItemView: View {
 
       Spacer(minLength: 0)
 
+        HStack(spacing: 3) {
+          Text("NumberOfCopies", tableName: "PreviewItemView")
+          Text(String(item.item.numberOfCopies))
+        }
+        .padding(.bottom)
+        
+        HStack(spacing: 3) {
+          Text("PinShortcutKey", tableName: "PreviewItemView")
+          Text(item.item.pin ?? "")
+        }
+      .padding(.bottom)
       Divider()
         .padding(.vertical)
 

@@ -114,6 +114,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         try? await load()
       }
     }
+    
+    Task {
+      for await _ in Defaults.updates(.sortOrder, initial: false) {
+        try? await load()
+      }
+    }
 
     Task {
       for await _ in Defaults.updates(.pinTo, initial: false) {
