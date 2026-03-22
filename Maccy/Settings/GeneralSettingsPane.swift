@@ -17,6 +17,7 @@ struct GeneralSettingsPane: View {
   @State private var pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
 
   @State private var updater = SoftwareUpdater()
+  @Default(.appendModeTimeWindow) private var appendModeTimeWindow
 
   var body: some View {
     Settings.Container(contentWidth: 450) {
@@ -105,6 +106,24 @@ struct GeneralSettingsPane: View {
         .fixedSize(horizontal: false, vertical: true)
         .foregroundStyle(.gray)
         .controlSize(.small)
+      }
+
+      Settings.Section(
+        bottomDivider: true,
+        label: { Text("AppendMode", tableName: "GeneralSettings") }
+      ) {
+        Defaults.Toggle(key: .appendModeEnabled) {
+          Text("EnableAppendMode", tableName: "GeneralSettings")
+        }
+        .help(Text("EnableAppendModeTooltip", tableName: "GeneralSettings"))
+
+        HStack {
+          Text("AppendModeTimeWindow", tableName: "GeneralSettings")
+          TextField("", value: $appendModeTimeWindow, format: .number)
+            .frame(width: 60)
+          Text("seconds", tableName: "GeneralSettings")
+        }
+        .disabled(!Defaults[.appendModeEnabled])
       }
 
       Settings.Section(title: "") {

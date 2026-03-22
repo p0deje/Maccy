@@ -21,3 +21,7 @@
 "Mixed" = "Mixed";
 "SearchModeWarning" = "Fuzzy/mixed search is disabled for large histories (>5000 items) for performance.";
 "NotificationsAndSounds" = "Notifications and sounds 􀱁";
+"AppendMode" = "Append Mode:";
+"EnableAppendMode" = "Enable append mode (CMD+C twice)";
+"EnableAppendModeTooltip" = "When enabled, pressing CMD+C twice within the time window will append the new content to the most recent clipboard item instead of creating a new one.";
+"AppendModeTimeWindow" = "Time window:";

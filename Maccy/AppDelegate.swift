@@ -37,7 +37,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Bridge FloatingPanel via AppDelegate.
     AppState.shared.appDelegate = self
 
-    Clipboard.shared.onNewCopy { History.shared.add($0) }
+    Clipboard.shared.onNewCopy { item, isAppend in
+      History.shared.add(item, shouldAppend: isAppend)
+    }
     Clipboard.shared.start()
 
     Task {
