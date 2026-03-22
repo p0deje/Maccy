@@ -1,4 +1,6 @@
 "Title" = "Tashqi ko'rinish";
+"PreviewImageSize" = "Oldindan ko'rish rasm o'lchami:";
+"PreviewImageSizeTooltip" = "Oldindan ko'rish qalqib chiquvchi oynasidagi rasmlarning maksimal o'lchami.\nStandart: 600.";
 "OpenPreferencesWarning" = "⚠️ Altbilgi yashirilganda afzalliklarni ochish uchun ⌘, (command+comma) tugmasini bosing.";
 "PopupAtLastPosition" = "Oxirgi pozitsiya";
 "SearchVisibilityDuringSearch" = "Qidiruv paytida";

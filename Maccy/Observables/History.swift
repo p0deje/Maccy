@@ -163,6 +163,30 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         try? await load()
       }
     }
+
+    Task {
+      for await _ in Defaults.updates(.previewImageMaxSize, initial: false) {
+        for item in items {
+          await item.cleanupImages()
+        }
+      }
+    }
+
+    Task {
+      for await _ in Defaults.updates(.isUnlimitedHistory, initial: false) {
+        // Reload history when switching between limited and unlimited modes
+        // This ensures proper storage handling for both directions
+        try? await load()
+      }
+    }
+
+    Task {
+      for await _ in Defaults.updates(.previewImageMaxSize, initial: false) {
+        for item in items {
+          await item.sizeImages()
+        }
+      }
+    }
   }
 
   @MainActor
