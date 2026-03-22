@@ -169,7 +169,7 @@ struct KeyHandlingView<Content: View>: View {
           appState.startTagging()
           return .handled
         case .secretOrUnsecret:
-          appState.history.toggleSecret(appState.history.selectedItem)
+          appState.history.toggleSecret(appState.navigator.selection.first)
           return .handled
         case .selectCurrentItem:
           appState.select()
@@ -212,3 +212,4 @@ struct KeyHandlingView<Content: View>: View {
       }
   }
 }
+

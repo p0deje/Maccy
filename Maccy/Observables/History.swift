@@ -699,10 +699,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       all[index] = item
     }
 
-    // If we're viewing the item, update it in realtime
-    if item.isSelected {
-      selectedItem = item
-    }
+    // If we're viewing the item, the UI will reflect changes via navigator selection.
+    // No direct selection state is managed in History.
   }
 
   @MainActor
@@ -768,3 +766,4 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
   }
 }
+
