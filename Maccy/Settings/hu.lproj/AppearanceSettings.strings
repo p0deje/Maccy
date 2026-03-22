@@ -33,3 +33,5 @@
 "ShowFooter" = "Lábléc megjelenítése";
 "ShowApplicationIcons" = "Alkalmazás ikonok megjelenítése";
 "OpenPreferencesWarning" = "⚠️ Nyomd meg a ⌘, (command+comma) gombot a Preferenciák megnyitásához, ha a lábléc el van rejtve.";
+"ShowHexColorSwatch" = "Hex színminta megjelenítése";
+"ShowHexColorSwatchTooltip" = "Színminta megjelenítése a hex színkódok mellett.";

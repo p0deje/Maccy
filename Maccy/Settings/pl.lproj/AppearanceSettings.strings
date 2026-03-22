@@ -33,3 +33,5 @@
 "ShowFooter" = "Pokaż stopkę";
 "ShowApplicationIcons" = "Pokaż ikony aplikacji";
 "OpenPreferencesWarning" = "⚠️ Naciśnij ⌘, (command+comma) aby otworzyć ustawienia, kiedy stopka jest ukryta.";
+"ShowHexColorSwatch" = "Pokaż próbkę koloru hex";
+"ShowHexColorSwatchTooltip" = "Pokaż próbkę koloru obok kodów kolorów hex.";

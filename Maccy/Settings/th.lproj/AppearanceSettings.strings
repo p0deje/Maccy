@@ -33,3 +33,5 @@
 "ShowFooter" = "แสดงส่วนท้าย";
 "OpenPreferencesWarning" = "⚠️ กด ⌘, (command+comma) เพื่อเปิดการตั้งค่าเมื่อส่วนท้ายซ่อน";
 "ShowApplicationIcons" = "แสดงไอคอนแอปพลิเคชั่น";
+"ShowHexColorSwatch" = "แสดงตัวอย่างสีเลขฐานสิบหก";
+"ShowHexColorSwatchTooltip" = "แสดงตัวอย่างสีถัดจากรหัสสีเลขฐานสิบหก";

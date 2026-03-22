@@ -33,3 +33,5 @@
 "ShowFooter" = "Afficher le bas de l’application";
 "ShowApplicationIcons" = "Afficher les icônes des applications";
 "OpenPreferencesWarning" = "⚠️ Pressez ⌘, (command+comma) pour ouvrir les préférences quand le bas de l’application est caché.";
+"ShowHexColorSwatch" = "Afficher l'échantillon de couleur hexadécimale";
+"ShowHexColorSwatchTooltip" = "Afficher un échantillon de couleur à côté des codes couleur hexadécimaux.";

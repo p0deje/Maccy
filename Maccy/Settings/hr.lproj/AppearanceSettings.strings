@@ -33,3 +33,5 @@
 "ShowFooter" = "Prikaži podnožje";
 "OpenPreferencesWarning" = "⚠️ Za otvaranje postavaka kad je podnožje skriveno, pritisni ⌘, (command+comma).";
 "ShowApplicationIcons" = "Prikaži ikone aplikacija";
+"ShowHexColorSwatch" = "Prikaži uzorak hex boje";
+"ShowHexColorSwatchTooltip" = "Prikaži uzorak boje pored hex kodova boja.";

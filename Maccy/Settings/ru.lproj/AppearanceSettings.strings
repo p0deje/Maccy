@@ -33,3 +33,5 @@
 "ShowFooter" = "Показывать нижний колонтитул";
 "ShowApplicationIcons" = "Показать значки приложений";
 "OpenPreferencesWarning" = "⚠️ Нажмите ⌘, (command+comma) чтобы открыть настройки когда нижний колонтитул скрыт.";
+"ShowHexColorSwatch" = "Показывать образец hex-цвета";
+"ShowHexColorSwatchTooltip" = "Показывать образец цвета рядом с hex-кодами цветов.";

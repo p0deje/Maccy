@@ -33,3 +33,5 @@
 "ShowFooter" = "הצגת כותרת תחתונה";
 "OpenPreferencesWarning" = "⚠️ לחצו ⌘, (command+פסיק) כדי לפתוח את ההעדפות כאשר הכותרת התחתונה מוסתרת.";
 "ShowApplicationIcons" = "הצג סמלי יישומים";
+"ShowHexColorSwatch" = "הצג דוגמית צבע הקסדצימלי";
+"ShowHexColorSwatchTooltip" = "הצג דוגמית צבע ליד קודי צבע הקסדצימליים.";

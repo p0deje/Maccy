@@ -33,3 +33,5 @@
 "ShowApplicationIcons" = "Mostrar ícones de aplicações";
 "ShowFooter" = "Mostrar rodapé";
 "OpenPreferencesWarning" = "⚠️ Pressione ⌘, (command+comma) para abrir as preferências quando o rodapé estiver oculto.";
+"ShowHexColorSwatch" = "Mostrar amostra de cor hexadecimal";
+"ShowHexColorSwatchTooltip" = "Mostrar amostra de cor junto aos códigos de cor hexadecimais.";

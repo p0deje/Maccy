@@ -33,3 +33,5 @@
 "ShowFooter" = "푸터 표시";
 "ShowApplicationIcons" = "애플리케이션 아이콘 표시";
 "OpenPreferencesWarning" = "⚠️ 푸터가 숨겨져 있을 때 설정을 열려면 ⌘, (command+comma)를 누르세요.";
+"ShowHexColorSwatch" = "16진수 색상 견본 표시";
+"ShowHexColorSwatchTooltip" = "16진수 색상 코드 옆에 색상 견본을 표시합니다.";

@@ -33,3 +33,5 @@
 "ShowFooter" = "显示底部菜单";
 "ShowApplicationIcons" = "显示应用程序图标";
 "OpenPreferencesWarning" = "⚠️ 隐藏底部菜单时仍可按 ⌘, (command+comma) 打开偏好设置。";
+"ShowHexColorSwatch" = "显示十六进制颜色色块";
+"ShowHexColorSwatchTooltip" = "在十六进制颜色代码旁边显示颜色色块。";

@@ -33,3 +33,5 @@
 "ShowApplicationIcons" = "";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";
+"ShowHexColorSwatch" = "ஹெக்ஸ் நிற மாதிரி காட்டு";
+"ShowHexColorSwatchTooltip" = "ஹெக்ஸ் நிறக் குறியீடுகளுக்கு அருகில் நிற மாதிரியைக் காட்டு.";

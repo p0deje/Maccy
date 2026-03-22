@@ -33,3 +33,5 @@
 "ShowFooter" = "Zobrazovat patičku";
 "ShowApplicationIcons" = "Zobrazení ikon aplikací";
 "OpenPreferencesWarning" = "⚠️ Stiskni ⌘, (command+comma) pro otevření předvoleb, když je skrytá patička.";
+"ShowHexColorSwatch" = "Zobrazit vzorek hex barvy";
+"ShowHexColorSwatchTooltip" = "Zobrazit barevný vzorek vedle hex kódů barev.";

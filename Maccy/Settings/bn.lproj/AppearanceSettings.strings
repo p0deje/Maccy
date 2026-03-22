@@ -33,3 +33,5 @@
 "ShowApplicationIcons" = "";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";
+"ShowHexColorSwatch" = "হেক্স রঙের নমুনা দেখান";
+"ShowHexColorSwatchTooltip" = "হেক্স রঙ কোডের পাশে রঙের নমুনা দেখান।";

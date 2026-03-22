@@ -33,3 +33,5 @@
 "ShowApplicationIcons" = "Montri bildsimbolojn de aplikaĵoj";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";
+"ShowHexColorSwatch" = "Montri kolorspecimenon de deksesuma koloro";
+"ShowHexColorSwatchTooltip" = "Montri kolorspecimenon apud deksesumaj kolorkodoj.";

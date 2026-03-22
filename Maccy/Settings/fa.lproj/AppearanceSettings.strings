@@ -33,3 +33,5 @@
 "ShowApplicationIcons" = "";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";
+"ShowHexColorSwatch" = "نمایش نمونه رنگ هگزادسیمال";
+"ShowHexColorSwatchTooltip" = "نمایش نمونه رنگ در کنار کدهای رنگ هگزادسیمال.";

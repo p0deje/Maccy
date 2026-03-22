@@ -33,3 +33,5 @@
 "ShowFooter" = "Vis bunntekst";
 "ShowApplicationIcons" = "Vis applikasjonsikoner";
 "OpenPreferencesWarning" = "⚠️ Trykk ⌘, (command+comma) for å åpne valg når bunntekst er skjult.";
+"ShowHexColorSwatch" = "Vis heksadesimal fargeprøve";
+"ShowHexColorSwatchTooltip" = "Vis fargeprøve ved siden av heksadesimale fargekoder.";

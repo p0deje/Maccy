@@ -33,3 +33,5 @@
 "ShowApplicationIcons" = "";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";
+"ShowHexColorSwatch" = "Mostra la mostra de color hexadecimal";
+"ShowHexColorSwatchTooltip" = "Mostra la mostra de color al costat dels codis de color hexadecimals.";

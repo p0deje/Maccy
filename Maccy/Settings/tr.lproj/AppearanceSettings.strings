@@ -33,3 +33,5 @@
 "ShowFooter" = "Altbilgiyi göster";
 "ShowApplicationIcons" = "Uygulama simgelerini göster";
 "OpenPreferencesWarning" = "⚠️ Altbilgi gizliyken ayarları açmak için ⌘, (command+comma)'a basın.";
+"ShowHexColorSwatch" = "Hex renk örneğini göster";
+"ShowHexColorSwatchTooltip" = "Hex renk kodlarının yanında renk örneği göster.";

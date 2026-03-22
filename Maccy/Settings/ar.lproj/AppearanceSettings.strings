@@ -33,3 +33,5 @@
 "ShowFooter" = "إظهار التذييل";
 "ShowApplicationIcons" = "إظهار أيقونات التطبيقات";
 "OpenPreferencesWarning" = "⚠️ اضغط على ⌘، (command+comma) لفتح التفضيلات عندما يكون التذييل مخفيًا.";
+"ShowHexColorSwatch" = "إظهار عينة اللون الست عشري";
+"ShowHexColorSwatchTooltip" = "إظهار عينة اللون بجانب رموز الألوان الست عشرية.";

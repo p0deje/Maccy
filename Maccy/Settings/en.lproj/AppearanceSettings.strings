@@ -31,5 +31,7 @@
 "ShowSearchField" = "Show search field";
 "ShowTitleBeforeSearchField" = "Show title before search field";
 "ShowApplicationIcons" = "Show application icons";
+"ShowHexColorSwatch" = "Show hex color swatch";
+"ShowHexColorSwatchTooltip" = "Show color swatch next to hex color codes.";
 "ShowFooter" = "Show footer";
 "OpenPreferencesWarning" = "⚠️ Press ⌘, (command+comma) to open preferences when footer is hidden.";
