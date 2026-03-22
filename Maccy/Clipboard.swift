@@ -277,19 +277,37 @@ class Clipboard {
   }
 
   private func shouldIgnore(_ item: NSPasteboardItem) -> Bool {
+    let string = item.string(forType: .string)
+
+    if shouldIgnore(string) {
+      return true
+    }
+
+    guard let string else {
+      return false
+    }
+
     for regexp in Defaults[.ignoreRegexp] {
-      if let string = item.string(forType: .string) {
-        do {
-          let regex = try NSRegularExpression(pattern: regexp)
-          if regex.numberOfMatches(in: string, range: NSRange(string.startIndex..., in: string)) > 0 {
-            return true
-          }
-        } catch {
-          return false
+      do {
+        let regex = try NSRegularExpression(pattern: regexp)
+        if regex.numberOfMatches(in: string, range: NSRange(string.startIndex..., in: string)) > 0 {
+          return true
         }
+      } catch {
+        return false
       }
     }
     return false
+  }
+
+  private func shouldIgnore(_ string: String?) -> Bool {
+    guard let maxTextLengthToRemember = Defaults[.maxTextLengthToRemember],
+          maxTextLengthToRemember > 0,
+          let string else {
+      return false
+    }
+
+    return string.count > maxTextLengthToRemember
   }
 
   private func isEmptyString(_ item: NSPasteboardItem) -> Bool {

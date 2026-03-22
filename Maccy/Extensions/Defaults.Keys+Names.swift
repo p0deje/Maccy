@@ -22,6 +22,7 @@ extension Defaults.Keys {
   static let highlightMatch = Key<HighlightMatch>("highlightMatch", default: .bold)
   static let ignoreAllAppsExceptListed = Key<Bool>("ignoreAllAppsExceptListed", default: false)
   static let ignoreEvents = Key<Bool>("ignoreEvents", default: false)
+  static let maxTextLengthToRemember = Key<Int?>("maxTextLengthToRemember", default: nil)
   static let ignoreOnlyNextEvent = Key<Bool>("ignoreOnlyNextEvent", default: false)
   static let ignoreRegexp = Key<[String]>("ignoreRegexp", default: [])
   static let ignoredApps = Key<[String]>("ignoredApps", default: [])
