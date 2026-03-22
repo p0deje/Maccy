@@ -27,6 +27,7 @@
 		2F578C3F2EFFE8720088B759 /* SlideoutController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C3E2EFFE8720088B759 /* SlideoutController.swift */; };
 		2F578C422EFFE8920088B759 /* SlideoutContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C402EFFE8920088B759 /* SlideoutContentView.swift */; };
 		2F578C432EFFE8920088B759 /* SlideoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C412EFFE8920088B759 /* SlideoutView.swift */; };
+		2F8A4EAD2F4F100100ABC001 /* IgnoreTextLengthSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8A4EAC2F4F100100ABC001 /* IgnoreTextLengthSettingsView.swift */; };
 		2F8B9DE62C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B9DE52C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift */; };
 		2F9B42EF2F1A494C006548E5 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B42EE2F1A4948006548E5 /* ListHeaderView.swift */; };
 		2F9B42F12F1A499D006548E5 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B42F02F1A4999006548E5 /* ToolbarView.swift */; };
@@ -37,10 +38,10 @@
 		2FF2E9502E7808470093D72C /* AppImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94F2E7808420093D72C /* AppImageView.swift */; };
 		4126F4546318F7BF83C03D21 /* TagSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 06D20D121BE75F5273E54EBD /* TagSettings.strings */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
-		5932FA1B48F84E29A2CC94AC /* VirtualizedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988044BBEC0342D78AD2E4A6 /* VirtualizedLayout.swift */; };
-		800C48642E357045002A8036 /* NSRunningApplication+DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800C48632E35703F002A8036 /* NSRunningApplication+DisplayLink.swift */; };
 		54BA81C63A78FB352FC52F8E /* TagInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1ABD0858A5B769F1E1823B1 /* TagInputView.swift */; };
+		5932FA1B48F84E29A2CC94AC /* VirtualizedLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = 988044BBEC0342D78AD2E4A6 /* VirtualizedLayout.swift */; };
 		6653696A56EF86FFB0400E35 /* TagColorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7129493C4B718056924DEECE /* TagColorTests.swift */; };
+		800C48642E357045002A8036 /* NSRunningApplication+DisplayLink.swift in Sources */ = {isa = PBXBuildFile; fileRef = 800C48632E35703F002A8036 /* NSRunningApplication+DisplayLink.swift */; };
 		807350AA1A9662DA672066C7 /* TagSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 96EF0EE616F0F953CF4690FF /* TagSettingsPane.swift */; };
 		A06CAE6FFF22B2F1761DB672 /* TagAutocompleteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D0202583F08CC7617CFB0DE2 /* TagAutocompleteView.swift */; };
 		B1C2D3E4F5A6B7C8D9E0F1A2 /* TagChipView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C2D3E4F5A6B7C8D9E0F1A2B3 /* TagChipView.swift */; };
@@ -125,7 +126,6 @@
 		DA9C3C5E2C20E1190056795D /* IgnoreApplicationsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3C5D2C20E1190056795D /* IgnoreApplicationsSettingsView.swift */; };
 		DA9C3C602C20E1890056795D /* IgnorePasteboardTypesSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3C5F2C20E1890056795D /* IgnorePasteboardTypesSettingsView.swift */; };
 		DA9C3C622C20E1BF0056795D /* IgnoreRegexpsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3C612C20E1BF0056795D /* IgnoreRegexpsSettingsView.swift */; };
-		2F8A4EAD2F4F100100ABC001 /* IgnoreTextLengthSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8A4EAC2F4F100100ABC001 /* IgnoreTextLengthSettingsView.swift */; };
 		DA9C3C652C211B5F0056795D /* AdvancedSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3C642C211B5F0056795D /* AdvancedSettingsPane.swift */; };
 		DAA072D12C4089D3006DDFD2 /* VisualEffectView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072D02C4089D3006DDFD2 /* VisualEffectView.swift */; };
 		DAA072D32C40A961006DDFD2 /* Color+Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAA072D22C40A961006DDFD2 /* Color+Random.swift */; };
@@ -213,6 +213,7 @@
 		2F578C3E2EFFE8720088B759 /* SlideoutController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideoutController.swift; sourceTree = "<group>"; };
 		2F578C402EFFE8920088B759 /* SlideoutContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideoutContentView.swift; sourceTree = "<group>"; };
 		2F578C412EFFE8920088B759 /* SlideoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideoutView.swift; sourceTree = "<group>"; };
+		2F8A4EAC2F4F100100ABC001 /* IgnoreTextLengthSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreTextLengthSettingsView.swift; sourceTree = "<group>"; };
 		2F8B9DE52C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPoint+DefaultsSerializable.swift"; sourceTree = "<group>"; };
 		2F9B42EE2F1A4948006548E5 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
 		2F9B42F02F1A4999006548E5 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
@@ -236,8 +237,8 @@
 		7129493C4B718056924DEECE /* TagColorTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TagColorTests.swift; sourceTree = "<group>"; };
 		7CEEFDF124F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		800C48632E35703F002A8036 /* NSRunningApplication+DisplayLink.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSRunningApplication+DisplayLink.swift"; sourceTree = "<group>"; };
-		988044BBEC0342D78AD2E4A6 /* VirtualizedLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualizedLayout.swift; sourceTree = "<group>"; };
 		96EF0EE616F0F953CF4690FF /* TagSettingsPane.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TagSettingsPane.swift; sourceTree = "<group>"; };
+		988044BBEC0342D78AD2E4A6 /* VirtualizedLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VirtualizedLayout.swift; sourceTree = "<group>"; };
 		A1ABD0858A5B769F1E1823B1 /* TagInputView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TagInputView.swift; sourceTree = "<group>"; };
 		ABC72863283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		C2D3E4F5A6B7C8D9E0F1A2B3 /* TagChipView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = TagChipView.swift; sourceTree = "<group>"; };
@@ -479,7 +480,6 @@
 		DA9C3C5D2C20E1190056795D /* IgnoreApplicationsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreApplicationsSettingsView.swift; sourceTree = "<group>"; };
 		DA9C3C5F2C20E1890056795D /* IgnorePasteboardTypesSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnorePasteboardTypesSettingsView.swift; sourceTree = "<group>"; };
 		DA9C3C612C20E1BF0056795D /* IgnoreRegexpsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreRegexpsSettingsView.swift; sourceTree = "<group>"; };
-		2F8A4EAC2F4F100100ABC001 /* IgnoreTextLengthSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreTextLengthSettingsView.swift; sourceTree = "<group>"; };
 		DA9C3C642C211B5F0056795D /* AdvancedSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvancedSettingsPane.swift; sourceTree = "<group>"; };
 		DAA072D02C4089D3006DDFD2 /* VisualEffectView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VisualEffectView.swift; sourceTree = "<group>"; };
 		DAA072D22C40A961006DDFD2 /* Color+Random.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Random.swift"; sourceTree = "<group>"; };
@@ -1815,7 +1815,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 2.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1850,7 +1850,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 14.0;
+				MACOSX_DEPLOYMENT_TARGET = 26.0;
 				MARKETING_VERSION = 2.6.1;
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
