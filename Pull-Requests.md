@@ -69,10 +69,6 @@ git fetch origin pull/1358/head:1358
 git merge --no-ff --no-commit 1358
 git commit -m 'Fix clipboard/source attribution, history edge cases, and storage recovery'
 
-git fetch origin pull/1362/head:1362
-git merge --no-ff --no-commit 1362
-git commit -m 'Fix clipboard/source attribution, history edge cases, and storage recovery'
-
 ## With workarounds
 
 git fetch origin pull/1356/head:1356
@@ -130,78 +126,3 @@ git commit -m 'UI polish improvements'
 git fetch origin pull/1218/head:previewimage
 git merge --no-ff --no-commit previewimage
 git commit -m 'Add preview image size setting and update related UI components'
-
-
-## Apply PR from original master to my forked version
-
-To bring the latest changes from the original repo’s `master` (or `main`) into your local clone and fork, you add the original as an `upstream` remote, pull from it, and then push to your fork.
-
-Assuming you already have a local clone of your fork:
-
-```bash
-cd /path/to/your/local/clone
-```
-
-### 1. Add the original repo as `upstream` (one‑time)
-
-Find the original repository URL on GitHub (the one you forked from), then:
-
-# verify origin = your fork, upstream = original
-
-```bash
-git remote add upstream https://github.com/p0deje/Maccy.git
-git remote -v
-```
-
-You only do this once per clone.
-
-### 2. Fetch latest changes from the original
-
-```bash
-git fetch upstream
-```
-
-This brings in `upstream/master` (or `upstream/main`) to your local repo without touching your branches yet.
-
-### 3. Update your local default branch
-
-If the original uses `master`:
-
-```bash
-git checkout master
-git merge upstream/master
-# or: git rebase upstream/master   # if you prefer a linear history
-```
-
-Resolve any merge conflicts if prompted, then commit the merge (if using `merge`).
-
-### 4. Push the updated branch back to your fork on GitHub
-
-```bash
-git push origin master
-```
-
-Now:
-
-- Your **local** `master`/`main` is in sync with the original.
-- Your **forked repo on GitHub** (`origin`) is also up to date on that branch.
-
-### 5. Update your feature branches (if needed)
-
-If you have branches like `feature/my-change` based off your fork’s `master`:
-
-```bash
-git checkout feature/my-change
-git rebase master        # or merge: git merge master
-```
-
-This incorporates the new upstream commits into your feature work.
-
-Minimal repeat process next time:
-
-```bash
-git fetch upstream
-git checkout master
-git merge upstream/master
-git push origin master
-```
