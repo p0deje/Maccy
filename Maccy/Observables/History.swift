@@ -453,10 +453,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         Storage.shared.context.processPendingChanges()
         try Storage.shared.context.save()
 
-        // Drop any stale references/faults and re-fetch remaining (pinned) items
-        Storage.shared.context.reset()
+        // Re-fetch remaining (pinned) items using a fresh context to avoid stale references
+        let freshContext = ModelContext(Storage.shared.container)
         let pinnedDescriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin != nil })
-        let pinnedResults = try? Storage.shared.context.fetch(pinnedDescriptor) ?? []
+        let pinnedResults = (try? freshContext.fetch(pinnedDescriptor)) ?? []
         let refreshedPinned = sorter.sort(pinnedResults).map { HistoryItemDecorator($0) }
         all = refreshedPinned
         items = all
