@@ -438,18 +438,24 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       sessionLog.removeValues { $0.pin == nil }
       items = all
 
-      try? Storage.shared.context.transaction {
-        try? Storage.shared.context.delete(
-          model: HistoryItem.self,
-          where: #Predicate { $0.pin == nil }
-        )
-        try? Storage.shared.context.delete(
-          model: HistoryItemContent.self,
-          where: #Predicate { $0.item?.pin == nil }
-        )
+      do {
+        try Storage.shared.context.transaction {
+          // Delete children first to avoid relationship/constraint violations
+          try Storage.shared.context.delete(
+            model: HistoryItemContent.self,
+            where: #Predicate { $0.item?.pin == nil }
+          )
+          try Storage.shared.context.delete(
+            model: HistoryItem.self,
+            where: #Predicate { $0.pin == nil }
+          )
+        }
+        Storage.shared.context.processPendingChanges()
+        try Storage.shared.context.save()
+      } catch {
+        logger.error("Failed to clear history: \(error.localizedDescription)")
+        return
       }
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
     }
 
     // Update pagination manager total count
