@@ -155,53 +155,53 @@ git remote -v
 
 You only do this once per clone.
 
-### 2. Fetch latest changes from the original
+### 2. Fetch PR 1362 from `upstream` into a new local branch
+
+Use GitHub’s “pull/ID/head” ref:
 
 ```bash
-git fetch upstream
+git fetch upstream pull/1362/head:pr-1362
 ```
 
-This brings in `upstream/master` (or `upstream/main`) to your local repo without touching your branches yet.
+This:
 
-### 3. Update your local default branch
+- Contacts `upstream` (`p0deje/Maccy`).
+- Fetches the PR’s head commit.
+- Creates a new local branch `pr-1362` with those commits.[1][2][3]
 
-If the original uses `master`:
+Switch to it:
 
 ```bash
-git checkout master
-git merge upstream/master
-# or: git rebase upstream/master   # if you prefer a linear history
+git checkout pr-1362
+# or:
+git switch pr-1362
 ```
 
-Resolve any merge conflicts if prompted, then commit the merge (if using `merge`).
+Now your working tree contains exactly the changes from PR 1362.
 
-### 4. Push the updated branch back to your fork on GitHub
+### 3. Push that branch to your fork (optional but usually desired)
+
+If you want this branch on your fork on GitHub:
 
 ```bash
-git push origin master
+git push origin pr-1362
 ```
 
-Now:
+Your fork (`mithunsridharan/Maccy.local`) now has a `pr-1362` branch containing PR 1362’s code.
 
-- Your **local** `master`/`main` is in sync with the original.
-- Your **forked repo on GitHub** (`origin`) is also up to date on that branch.
+### 4. Merge PR 1362 into your own branch (if needed)
 
-### 5. Update your feature branches (if needed)
-
-If you have branches like `feature/my-change` based off your fork’s `master`:
+If you already have, say, `my-feature` in your fork and want PR 1362 merged into that:
 
 ```bash
-git checkout feature/my-change
-git rebase master        # or merge: git merge master
+git checkout my-feature        # or git switch my-feature
+git merge pr-1362              # or: git rebase pr-1362
 ```
 
-This incorporates the new upstream commits into your feature work.
-
-Minimal repeat process next time:
+Resolve any conflicts, commit if needed, then:
 
 ```bash
-git fetch upstream
-git checkout master
-git merge upstream/master
-git push origin master
+git push origin my-feature
 ```
+
+You can now work on top of those PR changes or open further PRs from your fork.
