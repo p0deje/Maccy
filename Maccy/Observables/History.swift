@@ -452,6 +452,14 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         }
         Storage.shared.context.processPendingChanges()
         try Storage.shared.context.save()
+
+        // Drop any stale references/faults and re-fetch remaining (pinned) items
+        Storage.shared.context.reset()
+        let pinnedDescriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin != nil })
+        let pinnedResults = try? Storage.shared.context.fetch(pinnedDescriptor) ?? []
+        let refreshedPinned = sorter.sort(pinnedResults).map { HistoryItemDecorator($0) }
+        all = refreshedPinned
+        items = all
       } catch {
         logger.error("Failed to clear history: \(error.localizedDescription)")
         return
