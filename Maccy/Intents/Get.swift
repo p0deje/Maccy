@@ -37,7 +37,7 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
       item = AppState.shared.navigator.selection.first?.item
     } else {
       let index = number - positionOffset
-      if index >= 0 && index < AppState.shared.history.items.count {
+      if AppState.shared.history.items.count >= index {
         item = AppState.shared.history.items[index].item
       }
     }

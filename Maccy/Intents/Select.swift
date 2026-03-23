@@ -21,7 +21,7 @@ struct Select: AppIntent, CustomIntentMigratedAppIntent {
   func perform() async throws -> some IntentResult & ReturnsValue<String> {
     let items = AppState.shared.history.items
     let index = number - positionOffset
-    guard index >= 0 && index < items.count else {
+    guard items.count >= index else {
       throw AppIntentError.notFound
     }
 

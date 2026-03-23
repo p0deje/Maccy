@@ -37,10 +37,6 @@ class Clipboard {
 
   private var sourceApp: NSRunningApplication? { NSWorkspace.shared.frontmostApplication }
 
-  // Cache compiled regexes to avoid recompiling on every clipboard poll
-  private var cachedIgnoreRegexps: [String] = []
-  private var cachedIgnoreRegexes: [NSRegularExpression] = []
-
   init() {
     changeCount = pasteboard.changeCount
   }
@@ -122,7 +118,7 @@ class Clipboard {
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
   func paste() {
-    guard Accessibility.check() else { return }
+    Accessibility.check()
 
     // Add flag that left/right modifier key has been pressed.
     // See https://github.com/TermiT/Flycut/pull/18 for details.
@@ -322,19 +318,8 @@ class Clipboard {
       } catch {
         return false
       }
-    guard let string = item.string(forType: .string) else {
-      return false
     }
-
-    // Recompile regexes only when the user's pattern list changes
-    let currentPatterns = Defaults[.ignoreRegexp]
-    if currentPatterns != cachedIgnoreRegexps {
-      cachedIgnoreRegexps = currentPatterns
-      cachedIgnoreRegexes = currentPatterns.compactMap { try? NSRegularExpression(pattern: $0) }
-    }
-
-    let range = NSRange(string.startIndex..., in: string)
-    return cachedIgnoreRegexes.contains { $0.numberOfMatches(in: string, range: range) > 0 }
+    return false
   }
 
   private func shouldIgnore(_ string: String?) -> Bool {
