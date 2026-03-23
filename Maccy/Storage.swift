@@ -29,29 +29,39 @@ class Storage {
     }
     #endif
 
-    do {
-      container = try ModelContainer(
-        for: Schema(versionedSchema: StorageSchemaV2.self),
-        migrationPlan: StorageMigrationPlan.self,
-        configurations: config
-      )
-    } catch {
-      print("Migration failed: \(error). Attempting recovery by recreating store.")
-      try? FileManager.default.removeItem(at: url)
-      for suffix in ["-wal", "-shm"] {
-        let sidecar = url.deletingPathExtension()
-          .appendingPathExtension(url.pathExtension + suffix)
-        try? FileManager.default.removeItem(at: sidecar)
+      logger.error("Database corrupted, recreating: \(error.localizedDescription)")
+      // Remove corrupt database files and retry
+      let sqliteFiles = [url, url.appendingPathExtension("shm"), url.appendingPathExtension("wal")]
+      for file in sqliteFiles {
+        try? FileManager.default.removeItem(at: file)
       }
       do {
-        container = try ModelContainer(
-          for: Schema(versionedSchema: StorageSchemaV2.self),
-          migrationPlan: StorageMigrationPlan.self,
-          configurations: config
-        )
-      } catch {
-        fatalError("Cannot load database after recovery: \(error.localizedDescription).")
+        container = try ModelContainer(for: HistoryItem.self, configurations: config)
+      } catch let retryError {
+        do {
+          container = try ModelContainer(
+            for: Schema(versionedSchema: StorageSchemaV2.self),
+            migrationPlan: StorageMigrationPlan.self,
+            configurations: config
+          )
+        } catch {
+          print("Migration failed: \(error). Attempting recovery by recreating store.")
+          try? FileManager.default.removeItem(at: url)
+          for suffix in ["-wal", "-shm"] {
+            let sidecar = url.deletingPathExtension()
+              .appendingPathExtension(url.pathExtension + suffix)
+            try? FileManager.default.removeItem(at: sidecar)
+          }
+          do {
+            container = try ModelContainer(
+              for: Schema(versionedSchema: StorageSchemaV2.self),
+              migrationPlan: StorageMigrationPlan.self,
+              configurations: config
+            )
+          } catch {
+            fatalError("Cannot load database after recovery: \(error.localizedDescription).")
+          }
+        }
       }
-    }
   }
 }
