@@ -245,6 +245,9 @@ class HistoryItem {
       return observation.topCandidates(1).first?.string
     }
 
-    self.title = recognizedStrings.joined(separator: "\n")
+    let recognizedText = recognizedStrings.joined(separator: "\n")
+    DispatchQueue.main.async { [weak self] in
+      self?.title = recognizedText
+    }
   }
 }

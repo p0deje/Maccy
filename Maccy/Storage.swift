@@ -1,9 +1,12 @@
 import Foundation
+import Logging
 import SwiftData
 
 @MainActor
 class Storage {
   static let shared = Storage()
+
+  let logger = Logger(label: "org.p0deje.Maccy.Storage")
 
   var container: ModelContainer
   var context: ModelContext { container.mainContext }
