@@ -69,6 +69,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   private let sorter = Sorter()
   private let throttler = Throttler(minimumDelay: 0.2)
 
+  // Batching for inserts/saves to reduce churn under heavy clipboard activity
+  @ObservationIgnored
+  private var pendingInserts: [HistoryItem] = []
+  @ObservationIgnored
+  private var saveWorkItem: DispatchWorkItem?
+
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
 
@@ -285,9 +291,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   func insertIntoStorage(_ item: HistoryItem) throws {
     logger.info("Inserting item with id '\(item.title)'")
-    Storage.shared.context.insert(item)
-    Storage.shared.context.processPendingChanges()
-    try? Storage.shared.context.save()
+    enqueueInsert(item)
   }
 
   @discardableResult
@@ -490,9 +494,24 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       sessionLog.removeAll()
       items = all
 
-      try? Storage.shared.context.delete(model: HistoryItem.self)
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+      do {
+        try Storage.shared.context.transaction {
+          try Storage.shared.context.delete(model: HistoryItem.self)
+        }
+        Storage.shared.context.processPendingChanges()
+        try Storage.shared.context.save()
+
+        // Rebuild arrays using a fresh context to avoid stale references
+        let freshContext = ModelContext(Storage.shared.container)
+        let pinnedDescriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin != nil })
+        let pinnedResults = (try? freshContext.fetch(pinnedDescriptor)) ?? []
+        let refreshedPinned = sorter.sort(pinnedResults).map { HistoryItemDecorator($0) }
+        all = refreshedPinned
+        items = all
+      } catch {
+        logger.error("Failed to clear all history: \(error.localizedDescription)")
+        return
+      }
     }
 
     // Update pagination manager total count
@@ -719,6 +738,19 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
+    // Prefer fast path using textDigest to narrow candidates
+    if let text = item.text, !text.isEmpty {
+      let digest = HistoryItem.makeTextDigest(text)
+      let descriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.textDigest == digest })
+      if let candidates = try? Storage.shared.context.fetch(descriptor) {
+        let duplicates = candidates.filter({ $0 == item || $0.supersedes(item) })
+        if duplicates.count > 1 { return duplicates.first(where: { $0 != item }) }
+        if let modified = isModified(item) { return modified }
+        return duplicates.first
+      }
+    }
+
+    // Fallback: fetch all if no text or digest
     let descriptor = FetchDescriptor<HistoryItem>()
     guard let all = try? Storage.shared.context.fetch(descriptor) else {
       return nil
@@ -778,6 +810,32 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       item.shortcuts = KeyShortcut.create(character: String(index))
       index += 1
     }
+  }
+
+  // MARK: - Batched insert support
+  @MainActor
+  private func enqueueInsert(_ item: HistoryItem) {
+    pendingInserts.append(item)
+    scheduleBatchedSave()
+  }
+  @MainActor
+  private func scheduleBatchedSave() {
+    saveWorkItem?.cancel()
+    let work = DispatchWorkItem { [weak self] in
+      guard let self else { return }
+      do {
+        for item in self.pendingInserts {
+          Storage.shared.context.insert(item)
+        }
+        self.pendingInserts.removeAll()
+        Storage.shared.context.processPendingChanges()
+        try Storage.shared.context.save()
+      } catch {
+        self.logger.error("Batched save failed: \(error.localizedDescription)")
+      }
+    }
+    saveWorkItem = work
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: work)
   }
 }
 
