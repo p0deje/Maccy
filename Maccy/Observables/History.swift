@@ -459,6 +459,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         let refreshedPinned = sorter.sort(pinnedResults).map { HistoryItemDecorator($0) }
         all = refreshedPinned
         items = all
+        updateShortcuts()
+        AppState.shared.popup.needsResize = true
       } catch {
         logger.error("Failed to clear history: \(error.localizedDescription)")
         return
@@ -503,6 +505,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         let refreshedPinned = sorter.sort(pinnedResults).map { HistoryItemDecorator($0) }
         all = refreshedPinned
         items = all
+        updateShortcuts()
+        AppState.shared.popup.needsResize = true
       } catch {
         logger.error("Failed to clear all history: \(error.localizedDescription)")
         return
