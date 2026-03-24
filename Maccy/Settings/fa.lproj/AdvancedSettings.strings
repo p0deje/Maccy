@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "";
 "ClearSystemClipboard" = "";
 "ClearSystemClipboardTooltip" = "";
+"PrivacyMode" = "پنهان‌سازی از ضبط صفحه‌نمایش";
+"PrivacyExplain" = "پنجره‌های برنامه را در اسکرین‌شات‌ها و اشتراک‌گذاری صفحه پنهان می‌کند.\nبا این حال، ضبط‌کنندهٔ صفحهٔ داخلی سیستم تحت تأثیر قرار نمی‌گیرد.";
+"PrivacyDisplayLinkExplain" = "اگر DisplayLink user agent در حال اجرا باشد، این تنظیم نادیده گرفته می‌شود.";

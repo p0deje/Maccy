@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Remova automaticamente todos os itens não fixados antes de sair do aplicativo.";
 "ClearSystemClipboard" = "Limpar também a área de transferência do sistema";
 "ClearSystemClipboardTooltip" = "Quando ativado, limpar o histórico também limparia a área de transferência atual do sistema.";
+"PrivacyMode" = "Ocultar da captura de tela";
+"PrivacyExplain" = "Oculta as janelas do aplicativo em capturas de tela e compartilhamento de tela.\nNo entanto, o gravador de tela integrado do sistema não é afetado.";
+"PrivacyDisplayLinkExplain" = "Esta configuração será ignorada se o agente de usuário do DisplayLink estiver em execução.";

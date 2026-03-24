@@ -8,3 +8,6 @@
 "TurnOffNextShellScript" = "ডিফল্ট লিখুন org.p0deje.Maccy ignoreOnlyNextEvent true\n# ডেটা কপি করুন";
 "ClearSystemClipboard" = "সিস্টেম ক্লিপবোর্ডটিও সাফ করুন";
 "ClearSystemClipboardTooltip" = "সক্রিয় থাকাকালীন, ইতিহাস সাফ করলে বর্তমান সিস্টেম ক্লিপবোর্ডও সাফ হয়ে যাবে।";
+"PrivacyMode" = "স্ক্রিন ক্যাপচার থেকে লুকান";
+"PrivacyExplain" = "স্ক্রিনশট এবং স্ক্রিন শেয়ারিং থেকে অ্যাপ্লিকেশনের উইন্ডোগুলো লুকিয়ে রাখে।\nতবে সিস্টেমের বিল্ট-ইন স্ক্রিন রেকর্ডার এতে প্রভাবিত হয় না।";
+"PrivacyDisplayLinkExplain" = "DisplayLink user agent চলমান থাকলে এই সেটিং উপেক্ষা করা হবে।";

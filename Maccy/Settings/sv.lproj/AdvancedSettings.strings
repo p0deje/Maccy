@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "";
 "ClearSystemClipboard" = "";
 "ClearSystemClipboardTooltip" = "";
+"PrivacyMode" = "Dölj från skärminspelning";
+"PrivacyExplain" = "Döljer appfönster från skärmbilder och skärmdelning.\nSystemets inbyggda skärminspelare påverkas dock inte.";
+"PrivacyDisplayLinkExplain" = "Den här inställningen ignoreras om DisplayLink user agent körs.";

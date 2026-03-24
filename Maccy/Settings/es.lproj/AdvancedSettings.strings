@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Elimina automáticamente todos los elementos no anclados antes de salir de la aplicación.";
 "ClearSystemClipboard" = "Limpia también el portapapeles del sistema";
 "ClearSystemClipboardTooltip" = "Cuando está habilitado, borrar el historial también borrará el portapapeles actual del sistema.";
+"PrivacyMode" = "Ocultar de la captura de pantalla";
+"PrivacyExplain" = "Oculta las ventanas de la aplicación en capturas de pantalla y al compartir pantalla.\nSin embargo, la grabadora de pantalla integrada del sistema no se ve afectada.";
+"PrivacyDisplayLinkExplain" = "Esta configuración se ignorará si el agente de usuario de DisplayLink está en ejecución.";

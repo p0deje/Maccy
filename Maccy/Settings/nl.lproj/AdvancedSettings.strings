@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Verwijder automatisch alle niet vastgemaakte items voordat u de app afsluit.";
 "ClearSystemClipboard" = "Wis ook het systeemklembord";
 "ClearSystemClipboardTooltip" = "Als dit is ingeschakeld, wordt bij het wissen van de geschiedenis ook het huidige klembord van het systeem gewist..";
+"PrivacyMode" = "Verbergen voor schermopname";
+"PrivacyExplain" = "Verbergt applicatievensters voor schermafbeeldingen en schermdeling.\nDe ingebouwde schermrecorder van het systeem wordt echter niet beïnvloed.";
+"PrivacyDisplayLinkExplain" = "Deze instelling wordt genegeerd als de DisplayLink user agent actief is.";

@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Supprimez automatiquement tous les éléments non épinglés avant de quitter l’application.";
 "ClearSystemClipboard" = "Effacer également le presse-papiers du système";
 "ClearSystemClipboardTooltip" = "Lorsqu’elle est activée, l’effacement de l’historique effacera également le presse-papiers du système actuel.";
+"PrivacyMode" = "Masquer des captures d’écran";
+"PrivacyExplain" = "Masque les fenêtres de l’application dans les captures d’écran et le partage d’écran.\nCependant, l’enregistreur d’écran intégré du système n’est pas affecté.";
+"PrivacyDisplayLinkExplain" = "Ce réglage sera ignoré si l’agent utilisateur DisplayLink est en cours d’exécution.";

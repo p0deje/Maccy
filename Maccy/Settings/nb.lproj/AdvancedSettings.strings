@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Fjern alle ikke-festede elementer automatisk før du avslutter applikasjonen.";
 "ClearSystemClipboard" = "Tøm systemets utklippstavle også";
 "ClearSystemClipboardTooltip" = "Når den er aktivert, vil tømming av loggen også tømme gjeldende systemutklippstavle.";
+"PrivacyMode" = "Skjul fra skjermopptak";
+"PrivacyExplain" = "Skjuler appvinduer fra skjermbilder og skjermdeling.\nSystemets innebygde skjermopptaker påvirkes imidlertid ikke.";
+"PrivacyDisplayLinkExplain" = "Denne innstillingen ignoreres hvis DisplayLink user agent kjører.";

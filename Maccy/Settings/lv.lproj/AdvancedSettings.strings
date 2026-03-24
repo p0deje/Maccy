@@ -8,3 +8,6 @@
 "TurnOff" = "Izslēgt";
 "ClearSystemClipboard" = "Notīrīt arī sistēmas starpliktuvi";
 "ClearSystemClipboardTooltip" = "Ja šī opcija ir iespējota, vēstures notīrīšana notīrīs arī pašreizējo sistēmas starpliktuvi.";
+"PrivacyMode" = "Paslēpt no ekrānuzņēmuma";
+"PrivacyExplain" = "Paslēpj lietotnes logus no ekrānuzņēmumiem un ekrāna koplietošanas.\nTomēr sistēmas iebūvētais ekrāna ierakstītājs netiek ietekmēts.";
+"PrivacyDisplayLinkExplain" = "Šis iestatījums tiks ignorēts, ja darbojas DisplayLink user agent.";
