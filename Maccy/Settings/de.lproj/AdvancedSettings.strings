@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Alle nicht angehefteten Elemente werden vor dem Beenden der Anwendung automatisch entfernt.";
 "ClearSystemClipboard" = "Löschen Sie auch die Zwischenablage des Systems";
 "ClearSystemClipboardTooltip" = "Wenn diese Option aktiviert ist, wird durch das Löschen des Verlaufs auch die aktuelle Systemzwischenablage gelöscht.";
+"PrivacyMode" = "Vor Bildschirmaufnahme verbergen";
+"PrivacyExplain" = "Blendet App-Fenster in Screenshots und bei Bildschirmfreigaben aus.\nDer integrierte Bildschirmrekorder des Systems ist davon jedoch nicht betroffen.";
+"PrivacyDisplayLinkExplain" = "Diese Einstellung wird ignoriert, wenn der DisplayLink user agent ausgeführt wird.";

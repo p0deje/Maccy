@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Tự động xóa bỏ tất cả các mục không được ghim khi thoát khỏi ứng dụng.";
 "ClearSystemClipboard" = "Xóa cả bảng nhớ tạm của hệ thống nữa";
 "ClearSystemClipboardTooltip" = "Khi được kích hoạt, việc xóa lịch sử cũng sẽ xóa bảng nhớ tạm hiện tại của hệ thống.";
+"PrivacyMode" = "Ẩn khỏi chụp màn hình";
+"PrivacyExplain" = "Ẩn các cửa sổ ứng dụng khỏi ảnh chụp màn hình và chia sẻ màn hình.\nTuy nhiên, trình ghi màn hình tích hợp của hệ thống không bị ảnh hưởng.";
+"PrivacyDisplayLinkExplain" = "Cài đặt này sẽ bị bỏ qua nếu DisplayLink user agent đang chạy.";

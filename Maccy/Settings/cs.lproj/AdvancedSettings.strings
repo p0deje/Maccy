@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Automaticky odebrat všechny nepřipnuté položky před ukončením aplikace.";
 "ClearSystemClipboard" = "Vymazat taky systémovou schránku";
 "ClearSystemClipboardTooltip" = "Pokud je povoleno, smazání historie smaže i aktuální systémovou schránku.";
+"PrivacyMode" = "Skrýt před snímáním obrazovky";
+"PrivacyExplain" = "Skryje okna aplikace před snímky obrazovky a sdílením obrazovky.\nVestavěný systémový záznamník obrazovky však ovlivněn není.";
+"PrivacyDisplayLinkExplain" = "Toto nastavení bude ignorováno, pokud běží DisplayLink user agent.";

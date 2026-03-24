@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "アプリケーションを終了する前に、ピン留めされていない項目をすべて自動的に削除します。";
 "ClearSystemClipboard" = "システムのクリップボードもクリア";
 "ClearSystemClipboardTooltip" = "有効にすると、履歴をクリアすると現在のシステム クリップボードもクリアされます。";
+"PrivacyMode" = "画面キャプチャから隠す";
+"PrivacyExplain" = "スクリーンショットや画面共有でアプリケーションのウィンドウを非表示にします。\nただし、システム内蔵の画面録画には影響しません。";
+"PrivacyDisplayLinkExplain" = "DisplayLink user agent が実行中の場合、この設定は無視されます。";

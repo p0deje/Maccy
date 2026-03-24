@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Aŭtomate forigi ĉiujn nefiksitajn erojn antaŭ ol forlasi la aplikaĵon.";
 "ClearSystemClipboard" = "Forigi ankaŭ la sisteman tondujon";
 "ClearSystemClipboardTooltip" = "Kiam ŝaltita, forigo de la historio ankaŭ forigus la nunan sisteman tondujon.";
+"PrivacyMode" = "Kaŝi de ekrankapto";
+"PrivacyExplain" = "Kaŝas aplikaĵajn fenestrojn por ekrankopioj kaj ekran-dividado.\nTamen, la enkonstruita sistema ekran-registrilo ne estas influita.";
+"PrivacyDisplayLinkExplain" = "Ĉi tiu agordo estos ignorata se DisplayLink user agent funkcias.";

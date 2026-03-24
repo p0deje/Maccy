@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "退出应用时仅保留已固定的项目(其他历史记录将被抛弃)。";
 "ClearSystemClipboard" = "同时清除系统剪贴板";
 "ClearSystemClipboardTooltip" = "启用后，清除历史记录也会清除当前系统剪贴板。";
+"PrivacyMode" = "从屏幕捕捉中隐藏";
+"PrivacyExplain" = "在截图和屏幕共享时隐藏应用窗口。\n但系统内置的屏幕录制器不受影响。";
+"PrivacyDisplayLinkExplain" = "如果 DisplayLink user agent 正在运行，此设置将被忽略。";

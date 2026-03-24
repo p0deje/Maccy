@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "להסיר את כל הפריטים שאינם נעוצים בטרם יציאה מהיישום.";
 "ClearSystemClipboard" = "פינוי לוח הגזירים של המערכת בנוסף";
 "ClearSystemClipboardTooltip" = "כאשר ההגדרה פעילה, פינוי ההיסטוריה יפנה גם את לוח הגזירים הנוכחי של המערכת.";
+"PrivacyMode" = "הסתר מצילום מסך";
+"PrivacyExplain" = "מסתיר את חלונות האפליקציה מצילומי מסך ומשיתוף מסך.\nעם זאת, מקליט המסך המובנה של המערכת אינו מושפע.";
+"PrivacyDisplayLinkExplain" = "הגדרה זו תתעלם אם DisplayLink user agent פועל.";

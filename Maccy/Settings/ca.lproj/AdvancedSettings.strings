@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "";
 "ClearSystemClipboard" = "";
 "ClearSystemClipboardTooltip" = "";
+"PrivacyMode" = "Amaga de la captura de pantalla";
+"PrivacyExplain" = "Amaga les finestres de l'aplicació de les captures de pantalla i de la compartició de pantalla.\nTanmateix, el gravador de pantalla integrat del sistema no es veu afectat.";
+"PrivacyDisplayLinkExplain" = "Aquesta opció s'ignorarà si l'agent d'usuari de DisplayLink està en execució.";
