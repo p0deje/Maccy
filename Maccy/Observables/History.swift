@@ -444,11 +444,6 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
       do {
         try Storage.shared.context.transaction {
-          // Delete children first to avoid relationship/constraint violations
-          try Storage.shared.context.delete(
-            model: HistoryItemContent.self,
-            where: #Predicate { $0.item?.pin == nil }
-          )
           try Storage.shared.context.delete(
             model: HistoryItem.self,
             where: #Predicate { $0.pin == nil }
