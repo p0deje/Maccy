@@ -22,6 +22,10 @@ codesign --force --deep -o runtime \
   --sign "Apple Development: mithun@gmx.net (YCZ77TRJ73)" \
   "Maccy.app"
 
+## Check code signing
+codesign -dv --verbose=4 "Maccy.app" 2>&1 | grep TeamIdentifier
+codesign -dv --verbose=4 "Maccy.app/Contents/Frameworks/Sparkle.framework" 2>&1 | grep TeamIdentifier
+
 ## Template
 
 git fetch origin pull/xxxx/head:xxxx
