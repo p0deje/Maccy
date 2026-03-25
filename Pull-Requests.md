@@ -1,6 +1,27 @@
 gh repo clone p0deje/Maccy
 cd Maccy
 
+## Code signing identity
+
+security find-identity -p codesigning -v
+
+## Command line build
+
+xcodebuild -project Maccy.xcodeproj \
+  -scheme Maccy \
+  -configuration Release \
+  -derivedDataPath /tmp/Maccy_DerivedData_$(date +%s)
+
+## Code signing
+
+codesign --force --deep -o runtime \
+  --sign "Apple Development: mithun@gmx.net (YCZ77TRJ73)" \
+  "Maccy.app/Contents/Frameworks/Sparkle.framework"
+
+codesign --force --deep -o runtime \
+  --sign "Apple Development: mithun@gmx.net (YCZ77TRJ73)" \
+  "Maccy.app"
+
 ## Template
 
 git fetch origin pull/xxxx/head:xxxx
@@ -28,10 +49,6 @@ git commit -m 'Unlimited history'
 git fetch origin pull/1320/head:1320
 git merge --no-ff --no-commit 1320
 git commit -m 'Clipboard Accumulation'
-
-git fetch origin pull/1322/head:1322
-git merge --no-ff --no-commit 1322
-git commit -m 'Feature: Sort pins alphabetically at both, popup and panels'
 
 git fetch origin pull/1324/head:1324
 git merge --no-ff --no-commit 1324
@@ -71,6 +88,10 @@ git commit -m 'Fix clipboard/source attribution, history edge cases, and storage
 
 ## With workarounds
 
+git fetch origin pull/1322/head:1322
+git merge --no-ff --no-commit 1322
+git commit -m 'Feature: Sort pins alphabetically at both, popup and panels'
+
 git fetch origin pull/1356/head:1356
 git merge --no-ff --no-commit 1356
 git commit -m 'Add Tag Feature'
@@ -87,18 +108,6 @@ git fetch origin pull/1078/head:1078
 git merge --no-ff --no-commit 1078
 git commit -m 'Add Secret Functionality with Keyboard Shortcut and UI Updates'
 
-git fetch origin pull/1262/head:1262
-git merge --no-ff --no-commit 1262
-git commit -m 'Unlimited History'
-
-git fetch origin pull/1318/head:1318
-git merge --no-ff --no-commit 1318
-git commit -m 'Add item editing functionality'
-
-git fetch origin pull/1265/head:1265
-git merge --no-ff --no-commit 1265
-git commit -m 'Re-arrange pins using Option keys'
-
 git fetch origin pull/1178/head:pushpasted
 git merge --no-ff --no-commit pushpasted
 git commit -m 'Add option to push pasted item to bottom of the list'
@@ -106,10 +115,6 @@ git commit -m 'Add option to push pasted item to bottom of the list'
 git fetch origin pull/1206/head:1206
 git merge --no-ff --no-commit 1206
 git commit -m 'Implement paste stack'
-
-git fetch origin pull/1110/head:previewitem
-git merge --no-ff --no-commit previewitem
-git commit -m 'Customize preview item character limit and size'
 
 git fetch origin pull/1218/head:previewimage
 git merge --no-ff --no-commit previewimage
@@ -123,6 +128,14 @@ git fetch origin pull/1247/head:uipolish
 git merge --no-ff --no-commit uipolish
 git commit -m 'UI polish improvements'
 
-git fetch origin pull/1218/head:previewimage
-git merge --no-ff --no-commit previewimage
-git commit -m 'Add preview image size setting and update related UI components'
+git fetch origin pull/1262/head:1262
+git merge --no-ff --no-commit 1262
+git commit -m 'Unlimited History'
+
+git fetch origin pull/1265/head:1265
+git merge --no-ff --no-commit 1265
+git commit -m 'Re-arrange pins using Option keys'
+
+git fetch origin pull/1318/head:1318
+git merge --no-ff --no-commit 1318
+git commit -m 'Add item editing functionality'
