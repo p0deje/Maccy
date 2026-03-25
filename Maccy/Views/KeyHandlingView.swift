@@ -208,7 +208,7 @@ struct KeyHandlingView<Content: View>: View {
           ()
         }
 
-        if !searchFocused, let item = appState.history.pressedShortcutItem {
+        if let item = appState.history.pressedShortcutItem {
           appState.navigator.select(item: item)
           Task {
             try? await Task.sleep(for: .milliseconds(50))
