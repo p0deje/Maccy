@@ -20,6 +20,12 @@ enum KeyChord: CaseIterable {
   static var previewKey: Key? { Sauce.shared.key(shortcut: .togglePreview) }
   static var previewModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .togglePreview)?.modifiers }
 
+  static var tagKey: Key? { Sauce.shared.key(shortcut: .tag) }
+  static var tagModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .tag)?.modifiers }
+
+  static var secretKey: Key? { Sauce.shared.key(shortcut: .secret) }
+  static var secretModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .secret)?.modifiers }
+
   case clearHistory
   case clearHistoryAll
   case clearSearch
@@ -37,6 +43,8 @@ enum KeyChord: CaseIterable {
   case extendToFirst
   case openPreferences
   case pinOrUnpin
+  case tagItem
+  case secretOrUnsecret
   case selectCurrentItem
   case close
   case togglePreview
@@ -84,7 +92,7 @@ enum KeyChord: CaseIterable {
       self = .deleteLastWordFromSearch
     case (.downArrow, [.shift]),
          (.n, [.control, .shift]):
-      self = AppState.shared.multiSelectionEnabled ? .extendToNext : .moveToNext
+      self = .extendToNext
     case (.downArrow, []),
          (.n, [.control]),
          (.j, [.control]):
@@ -92,14 +100,14 @@ enum KeyChord: CaseIterable {
     case (.downArrow, [.command, .shift]),
          (.downArrow, [.option, .shift]),
          (.n, [.control, .option, .shift]):
-      self = AppState.shared.multiSelectionEnabled ? .extendToLast : .moveToLast
+      self = .extendToLast
     case (.downArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
          (.n, [.control, .option]),
          (.pageDown, []):
       self = .moveToLast
     case (.upArrow, [.shift]),
          (.p, [.control, .shift]):
-      self = AppState.shared.multiSelectionEnabled ? .extendToPrevious : .moveToPrevious
+      self = .extendToPrevious
     case (.upArrow, []),
          (.p, [.control]),
          (.k, [.control]):
@@ -107,13 +115,17 @@ enum KeyChord: CaseIterable {
     case (.upArrow, [.command, .shift]),
          (.upArrow, [.option, .shift]),
          (.p, [.control, .option, .shift]):
-      self = AppState.shared.multiSelectionEnabled ? .extendToFirst : .moveToFirst
+      self = .extendToFirst
     case (.upArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
          (.p, [.control, .option]),
          (.pageUp, []):
       self = .moveToFirst
     case (KeyChord.pinKey, KeyChord.pinModifiers):
       self = .pinOrUnpin
+    case (KeyChord.tagKey, KeyChord.tagModifiers):
+      self = .tagItem
+    case (KeyChord.secretKey, KeyChord.secretModifiers):
+      self = .secretOrUnsecret
     case (.comma, [.command]):
       self = .openPreferences
     case (.return, _),

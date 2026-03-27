@@ -33,3 +33,5 @@
 "ShowApplicationIcons" = "Tampilkan ikon aplikasi";
 "ShowFooter" = "Tampilkan footer";
 "OpenPreferencesWarning" = "⚠️ Tekan ⌘ untuk buka preferensi ketika footer tersembunyi.";
+"ShowHexColorSwatch" = "Tampilkan contoh warna hex";
+"ShowHexColorSwatchTooltip" = "Tampilkan contoh warna di samping kode warna hex.";

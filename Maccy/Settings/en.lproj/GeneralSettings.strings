@@ -10,6 +10,8 @@
 "DeleteTooltip" = "Shortcut key to delete history item.\nDefault: ⌥⌫.";
 "ShowPreview" = "Preview:";
 "ShowPreviewTooltip" = "Show preview with additional information.\nDefault: ⌃Space.";
+"Secret" = "Secret:";
+"SecretTooltip" = "Shortcut key to toggle secret mode on history item.\nDefault: ⌥S.";
 "Behavior" = "Behavior:";
 "PasteAutomatically" = "Paste automatically";
 "PasteWithoutFormatting" = "Paste without formatting";
@@ -19,4 +21,11 @@
 "Fuzzy" = "Fuzzy";
 "Regex" = "Regular expressions";
 "Mixed" = "Mixed";
+"SearchModeWarning" = "Fuzzy/mixed search is disabled for large histories (>5000 items) for performance.";
+"Tag" = "Tag:";
+"TagTooltip" = "Shortcut key to tag history item.\nDefault: ⌥T.";
 "NotificationsAndSounds" = "Notifications and sounds 􀱁";
+"AppendMode" = "Append Mode:";
+"EnableAppendMode" = "Enable append mode (CMD+C twice)";
+"EnableAppendModeTooltip" = "When enabled, pressing CMD+C twice within the time window will append the new content to the most recent clipboard item instead of creating a new one.";
+"AppendModeTimeWindow" = "Time window:";

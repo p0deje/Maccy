@@ -11,10 +11,18 @@ struct HistoryListView: View {
 
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
+  @Default(.isUnlimitedHistory) private var isUnlimitedHistory
   @Default(.showFooter) private var showFooter
 
   private var pinnedItems: [HistoryItemDecorator] {
-    appState.history.pinnedItems.filter(\.isVisible)
+    let pinned = appState.history.pinnedItems.filter(\.isVisible)
+      if pinned.isEmpty { return [] }
+
+      // Use Sorter to order pinned items according to current Sorter settings
+      let sortedItems = Sorter().sort(pinned.map(\.item))
+      return sortedItems.compactMap { model in
+        pinned.first(where: { $0.item == model })
+      }
   }
   private var unpinnedItems: [HistoryItemDecorator] {
     appState.history.unpinnedItems.filter(\.isVisible)
@@ -94,6 +102,29 @@ struct HistoryListView: View {
     .padding(.top, topSeparatorVisible ? topPadding : 0)
     .readHeight(appState, into: \.popup.extraTopHeight)
 
+    if isUnlimitedHistory {
+      VirtualizedHistoryList(searchQuery: $searchQuery, searchFocused: $searchFocused)
+    } else {
+      standardScrollView(scrollTopPadding: scrollTopPadding, scrollBottomPadding: scrollBottomPadding)
+    }
+
+    VStack(spacing: 0) {
+      if bottomSeparatorVisible {
+        bottomSeparator()
+      }
+
+      if bottomPinsVisible {
+        PinsView(items: pinnedItems)
+      }
+    }
+    .padding(.bottom, bottomSeparatorVisible ? bottomPadding : 0)
+    .readHeight(appState, into: \.popup.extraBottomHeight)
+  }
+
+  // MARK: - Standard Scroll View (for limited history)
+
+  @ViewBuilder
+  private func standardScrollView(scrollTopPadding: CGFloat, scrollBottomPadding: CGFloat) -> some View {
     ScrollView {
       ScrollViewReader { proxy in
         MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
@@ -126,7 +157,6 @@ struct HistoryListView: View {
             appState.preview.cancelAutoOpen()
           }
         }
-        // Calculate the total height inside a scroll view.
         .background {
           GeometryReader { geo in
             Color.clear
@@ -145,17 +175,5 @@ struct HistoryListView: View {
       .contentMargins(.top, scrollTopPadding, for: .scrollIndicators)
       .contentMargins(.bottom, scrollBottomPadding, for: .scrollIndicators)
     }
-
-    VStack(spacing: 0) {
-      if bottomSeparatorVisible {
-        bottomSeparator()
-      }
-
-      if bottomPinsVisible {
-        PinsView(items: pinnedItems)
-      }
-    }
-    .padding(.bottom, bottomSeparatorVisible ? bottomPadding : 0)
-    .readHeight(appState, into: \.popup.extraBottomHeight)
   }
 }

@@ -6,3 +6,4 @@
 "UnpinKey" = "Drücke {pinKey} zum Lösen.";
 "DeleteKey" = "Drücke {deleteKey} zum Löschen.";
 "PreviewKey" = "Drücke {previewKey} um Vorschau umzuschalten.";
+"Dimensions" = "Abmessungen:";

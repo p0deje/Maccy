@@ -33,3 +33,5 @@
 "ShowFooter" = "Rodyti paraštę";
 "ShowApplicationIcons" = "Rodyti programų piktogramas";
 "OpenPreferencesWarning" = "⚠️ Paspauskite ⌘, (command+comma) norėdami atidaryti nustatymus, kai paraštė yra paslėpta.";
+"ShowHexColorSwatch" = "Rodyti šešioliktainės spalvos pavyzdį";
+"ShowHexColorSwatchTooltip" = "Rodyti spalvos pavyzdį šalia šešioliktainių spalvų kodų.";

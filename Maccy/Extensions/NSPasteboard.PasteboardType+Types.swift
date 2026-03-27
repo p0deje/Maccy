@@ -34,4 +34,7 @@ extension NSPasteboard.PasteboardType: Defaults.Serializable {
 
   // Apple Notes
   static let notesRichText = NSPasteboard.PasteboardType(rawValue: "com.apple.notes.richtext")
+
+  // Store secret status information
+  static let secret = NSPasteboard.PasteboardType(rawValue: "org.p0deje.Maccy.secret")
 }

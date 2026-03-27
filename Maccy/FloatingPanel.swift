@@ -61,6 +61,12 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
         })
     )
     contentView?.layer?.cornerRadius = Popup.cornerRadius + Popup.horizontalPadding
+    
+    Task {
+      for await privacyMode in Defaults.updates(.privacyMode) {
+        updateSharingType(isPrivacyModeEnabled: privacyMode)
+      }
+    }
   }
 
   func toggle(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
@@ -73,6 +79,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     let size = Defaults[.windowSize]
+    let privacyMode = Defaults[.privacyMode]
+    updateSharingType(isPrivacyModeEnabled: privacyMode)
     setContentSize(NSSize(width: min(frame.width, size.width), height: min(height, size.height)))
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
     orderFrontRegardless()
@@ -187,6 +195,14 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func windowDidResignKey(_ notification: Notification) {
     AppState.shared.preview.disableAutoOpen()
+  }
+  
+  func updateSharingType(isPrivacyModeEnabled: Bool) {
+    if isPrivacyModeEnabled && !NSRunningApplication.isDisplayLinkRunning() {
+      self.sharingType = .none
+    } else {
+      self.sharingType = .readOnly
+    }
   }
 
   // Close automatically when out of focus, e.g. outside click.

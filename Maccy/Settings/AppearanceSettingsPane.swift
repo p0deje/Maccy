@@ -8,7 +8,9 @@ struct AppearanceSettingsPane: View {
   @Default(.popupScreen) private var popupScreen
   @Default(.pinTo) private var pinTo
   @Default(.imageMaxHeight) private var imageHeight
+  @Default(.previewImageMaxSize) private var previewImageMaxSize
   @Default(.previewDelay) private var previewDelay
+  @Default(.characterLimit) private var characterLimit
   @Default(.highlightMatch) private var highlightMatch
   @Default(.menuIcon) private var menuIcon
   @Default(.showInStatusBar) private var showInStatusBar
@@ -24,6 +26,13 @@ struct AppearanceSettingsPane: View {
     let formatter = NumberFormatter()
     formatter.minimum = 1
     formatter.maximum = 200
+    return formatter
+  }()
+
+  private let previewImageSizeFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 100
+    formatter.maximum = 2000
     return formatter
   }()
 
@@ -45,6 +54,12 @@ struct AppearanceSettingsPane: View {
     let formatter = NumberFormatter()
     formatter.minimum = 200
     formatter.maximum = 100_000
+    return formatter
+  }()
+
+  private let characterLimitFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.maximum = 50_000
     return formatter
   }()
 
@@ -100,6 +115,16 @@ struct AppearanceSettingsPane: View {
         }
       }
 
+      Settings.Section(label: { Text("PreviewImageSize", tableName: "AppearanceSettings") }) {
+        HStack {
+          TextField("", value: $previewImageMaxSize, formatter: previewImageSizeFormatter)
+            .frame(width: 120)
+            .help(Text("PreviewImageSizeTooltip", tableName: "AppearanceSettings"))
+          Stepper("", value: $previewImageMaxSize, in: 100...2000)
+            .labelsHidden()
+        }
+      }
+
       Settings.Section(label: { Text("PreviewDelay", tableName: "AppearanceSettings") }) {
         HStack {
           TextField("", value: $previewDelay, formatter: previewDelayFormatter)
@@ -109,6 +134,16 @@ struct AppearanceSettingsPane: View {
             .labelsHidden()
         }
       }
+
+        Settings.Section(label: { Text("Preview Character Limit", tableName: "AppearanceSettings") }) {
+          HStack {
+            TextField("", value: $characterLimit, formatter: characterLimitFormatter)
+              .frame(width: 120)
+              .help(Text("PreviewDelayTooltip", tableName: "AppearanceSettings"))
+            Stepper("", value: $characterLimit, in: 0...50_000)
+              .labelsHidden()
+          }
+        }
 
       Settings.Section(
         bottomDivider: true,
@@ -170,11 +205,16 @@ struct AppearanceSettingsPane: View {
         Defaults.Toggle(key: .showApplicationIcons) {
           Text("ShowApplicationIcons", tableName: "AppearanceSettings")
         }
+        Defaults.Toggle(key: .showHexColorSwatch) {
+          Text("ShowHexColorSwatch", tableName: "AppearanceSettings")
+        }
+        .help(Text("ShowHexColorSwatchTooltip", tableName: "AppearanceSettings"))
 
         Defaults.Toggle(key: .showFooter) {
           Text("ShowFooter", tableName: "AppearanceSettings")
         }
         Text("OpenPreferencesWarning", tableName: "AppearanceSettings")
+          .fixedSize(horizontal: false, vertical: true)
           .opacity(showFooter ? 0 : 1)
           .controlSize(.small)
           .foregroundStyle(.gray)

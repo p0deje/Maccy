@@ -18,6 +18,8 @@
 "ImageHeightTooltip" = "Največja višina predogleda slike.\nPrivzeto: 40.\nNamig: nastavite na 16, da bodo slike videti kot besedilni elementi.";
 "PreviewDelay" = "Zakasnitev predogleda:";
 "PreviewDelayTooltip" = "Zakasnitev v milisekundah, dokler se ne prikaže pojavno okno za predogled.\nPrivzeto: 1500.";
+"PreviewImageSize" = "Velikost slike predogleda:";
+"PreviewImageSizeTooltip" = "Največja velikost slik v pojavnem oknu za predogled.\nPrivzeto: 600.";
 "HighlightMatches" = "Označite ujemanja:";
 "HighlightMatchColor" = "Barva";
 "HighlightMatchBold" = "Krepko";
@@ -33,3 +35,5 @@
 "ShowApplicationIcons" = "Prikaži ikone aplikacij";
 "ShowFooter" = "Prikaži nogo";
 "OpenPreferencesWarning" = "⚠️ Pritisnite ⌘, (command+comma) da odprete nastavitve, ko je noga skrita.";
+"ShowHexColorSwatch" = "Prikaži vzorec hex barve";
+"ShowHexColorSwatchTooltip" = "Prikaži barvni vzorec ob hex barvnih kodah.";

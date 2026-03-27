@@ -10,12 +10,14 @@ struct GeneralSettingsPane: View {
   )
 
   @Default(.searchMode) private var searchMode
+  @Default(.isUnlimitedHistory) private var isUnlimitedHistory
 
   @State private var copyModifier = HistoryItemAction.copy.modifierFlags.description
   @State private var pasteModifier = HistoryItemAction.paste.modifierFlags.description
   @State private var pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
 
   @State private var updater = SoftwareUpdater()
+  @Default(.appendModeTimeWindow) private var appendModeTimeWindow
 
   var body: some View {
     Settings.Container(contentWidth: 450) {
@@ -49,10 +51,15 @@ struct GeneralSettingsPane: View {
         KeyboardShortcuts.Recorder(for: .pin)
           .help(Text("PinTooltip", tableName: "GeneralSettings"))
       }
-      Settings.Section(label: { Text("Delete", tableName: "GeneralSettings") }
+      Settings.Section(
+        label: { Text("Delete", tableName: "GeneralSettings") }
       ) {
         KeyboardShortcuts.Recorder(for: .delete)
           .help(Text("DeleteTooltip", tableName: "GeneralSettings"))
+      }
+      Settings.Section(label: { Text("Tag", tableName: "GeneralSettings") }) {
+        KeyboardShortcuts.Recorder(for: .tag)
+          .help(Text("TagTooltip", tableName: "GeneralSettings"))
       }
       Settings.Section(
         bottomDivider: true,
@@ -60,6 +67,14 @@ struct GeneralSettingsPane: View {
       ) {
         KeyboardShortcuts.Recorder(for: .togglePreview)
           .help(Text("ShowPreviewTooltip", tableName: "GeneralSettings"))
+      }
+
+      Settings.Section(
+        bottomDivider: true,
+        label: { Text("Secret", tableName: "GeneralSettings") }
+      ) {
+        KeyboardShortcuts.Recorder(for: .secret)
+          .help(Text("SecretTooltip", tableName: "GeneralSettings"))
       }
 
       Settings.Section(
@@ -73,6 +88,12 @@ struct GeneralSettingsPane: View {
         }
         .labelsHidden()
         .frame(width: 180, alignment: .leading)
+
+        if shouldShowSearchModeWarning {
+          Text("SearchModeWarning", tableName: "GeneralSettings")
+            .controlSize(.small)
+            .foregroundStyle(.orange)
+        }
       }
 
       Settings.Section(
@@ -100,6 +121,24 @@ struct GeneralSettingsPane: View {
         .controlSize(.small)
       }
 
+      Settings.Section(
+        bottomDivider: true,
+        label: { Text("AppendMode", tableName: "GeneralSettings") }
+      ) {
+        Defaults.Toggle(key: .appendModeEnabled) {
+          Text("EnableAppendMode", tableName: "GeneralSettings")
+        }
+        .help(Text("EnableAppendModeTooltip", tableName: "GeneralSettings"))
+
+        HStack {
+          Text("AppendModeTimeWindow", tableName: "GeneralSettings")
+          TextField("", value: $appendModeTimeWindow, format: .number)
+            .frame(width: 60)
+          Text("seconds", tableName: "GeneralSettings")
+        }
+        .disabled(!Defaults[.appendModeEnabled])
+      }
+
       Settings.Section(title: "") {
         if let notificationsURL = notificationsURL {
           Link(destination: notificationsURL, label: {
@@ -114,6 +153,12 @@ struct GeneralSettingsPane: View {
     copyModifier = HistoryItemAction.copy.modifierFlags.description
     pasteModifier = HistoryItemAction.paste.modifierFlags.description
     pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
+  }
+
+  private var shouldShowSearchModeWarning: Bool {
+    guard isUnlimitedHistory else { return false }
+    guard searchMode == .fuzzy || searchMode == .mixed else { return false }
+    return History.shared.totalCount > Defaults.Keys.largeHistoryThreshold
   }
 }
 

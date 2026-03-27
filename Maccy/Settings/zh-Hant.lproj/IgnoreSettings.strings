@@ -7,3 +7,7 @@
 "IgnoredPasteboardTypesReset" = "重設";
 "RegexpTab" = "正規表示式";
 "IgnoredRegexpsDescription" = "可以根據所設的正規表示式來忽略特定的拷貝。";
+"TextLengthTab" = "文字長度";
+"IgnoreByTextLengthEnabled" = "忽略過長的複製文字";
+"IgnoreByTextLengthLimitLabel" = "最大長度：";
+"IgnoreByTextLengthDescription" = "當複製的純文字長度超過設定的字元數時將被忽略。此規則不適用於非文字剪貼簿類型。";

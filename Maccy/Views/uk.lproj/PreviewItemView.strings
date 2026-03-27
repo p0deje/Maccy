@@ -6,3 +6,4 @@
 "UnpinKey" = "Натисніть {pinKey}, щоб відкріпити.";
 "DeleteKey" = "Натисніть {deleteKey}, щоб видалити.";
 "PreviewKey" = "Натисніть {previewKey} для перемикання попереднього перегляду.";
+"Dimensions" = "Розміри:";

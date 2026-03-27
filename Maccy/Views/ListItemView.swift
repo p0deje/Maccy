@@ -39,6 +39,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var isSelected: Bool
   var selectionIndex: Int?
   var help: LocalizedStringKey?
+  var tagColors: [TagColor] = []
   var selectionAppearance: SelectionAppearance = .none
   @ViewBuilder var title: () -> Title
 
@@ -60,6 +61,22 @@ struct ListItemView<Title: View, ID: Hashable>: View {
 
       Spacer()
         .frame(width: showIcons ? 5 : 10)
+
+      if !tagColors.isEmpty {
+        HStack(spacing: 2) {
+          ForEach(Array(tagColors.prefix(3).enumerated()), id: \.offset) { _, tagColor in
+            Circle()
+              .fill(tagColor.color)
+              .frame(width: 8, height: 8)
+          }
+          if tagColors.count > 3 {
+            Text("+\(tagColors.count - 3)")
+              .font(.system(size: 8))
+              .foregroundStyle(.secondary)
+          }
+        }
+        .padding(.trailing, 3)
+      }
 
       if let accessoryImage {
         Image(nsImage: accessoryImage)

@@ -19,8 +19,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
 
+  var allTags: [String] {
+    Array(Set(all.flatMap(\.tags))).sorted()
+  }
+
   var searchQuery: String = "" {
     didSet {
+      guard oldValue != searchQuery else {
+        return
+      }
       throttler.throttle { [self] in
         updateItems(search.search(string: searchQuery, within: all))
 
@@ -40,6 +47,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       return nil
     }
 
+    if let chars = event.characters,
+       let rawChars = event.charactersIgnoringModifiers,
+       chars != rawChars {
+      return nil
+    }
+
     let modifierFlags = event.modifierFlags
       .intersection(.deviceIndependentFlagsMask)
       .subtracting(.capsLock)
@@ -56,6 +69,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   private let sorter = Sorter()
   private let throttler = Throttler(minimumDelay: 0.2)
 
+  // Batching for inserts/saves to reduce churn under heavy clipboard activity
+  @ObservationIgnored
+  private var pendingInserts: [HistoryItem] = []
+  @ObservationIgnored
+  private var saveWorkItem: DispatchWorkItem?
+
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
 
@@ -64,6 +83,43 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   // - `items` stores only visible history items, updated during a search
   @ObservationIgnored
   var all: [HistoryItemDecorator] = []
+
+  // Pagination support for unlimited history
+  @ObservationIgnored
+  private let paginationManager = PaginationManager()
+
+  @ObservationIgnored
+  var totalCount: Int {
+    if Defaults[.isUnlimitedHistory] {
+      return paginationManager.totalCount
+    }
+    return all.count
+  }
+
+  @ObservationIgnored
+  var isLoadingMore: Bool {
+    paginationManager.isLoading
+  }
+
+  @ObservationIgnored
+  var hasMoreItems: Bool {
+    paginationManager.hasMoreItemsAfter
+  }
+
+  @ObservationIgnored
+  var hasMoreItemsBefore: Bool {
+    paginationManager.hasMoreItemsBefore
+  }
+
+  @ObservationIgnored
+  var windowStartIndex: Int {
+    paginationManager.windowStartIndex
+  }
+
+  @ObservationIgnored
+  var windowEndIndex: Int {
+    paginationManager.windowEndIndex
+  }
 
   init() {
     Task {
@@ -74,6 +130,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     Task {
       for await _ in Defaults.updates(.sortBy, initial: false) {
+        try? await load()
+      }
+    }
+
+    Task {
+      for await _ in Defaults.updates(.sortOrder, initial: false) {
         try? await load()
       }
     }
@@ -99,21 +161,122 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         }
       }
     }
+
+    Task {
+      for await _ in Defaults.updates(.isUnlimitedHistory, initial: false) {
+        // Reload history when switching between limited and unlimited modes
+        // This ensures proper storage handling for both directions
+        try? await load()
+      }
+    }
+
+    Task {
+      for await _ in Defaults.updates(.previewImageMaxSize, initial: false) {
+        for item in items {
+          await item.cleanupImages()
+        }
+      }
+    }
+
+    Task {
+      for await _ in Defaults.updates(.isUnlimitedHistory, initial: false) {
+        // Reload history when switching between limited and unlimited modes
+        // This ensures proper storage handling for both directions
+        try? await load()
+      }
+    }
+
+    Task {
+      for await _ in Defaults.updates(.previewImageMaxSize, initial: false) {
+        for item in items {
+          await item.sizeImages()
+        }
+      }
+    }
   }
 
   @MainActor
   func load() async throws {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    let results = try Storage.shared.context.fetch(descriptor)
-    all = sorter.sort(results).map { HistoryItemDecorator($0) }
-    items = all
+    all.removeAll()
 
-    limitHistorySize(to: Defaults[.size])
+    if Defaults[.isUnlimitedHistory] {
+      // Use pagination manager for unlimited history
+      try await paginationManager.load()
+      all = paginationManager.allLoadedItems
+    } else {
+      // Load all items for limited history
+      let descriptor = FetchDescriptor<HistoryItem>()
+      let results = try Storage.shared.context.fetch(descriptor)
+      all = sorter.sort(results).map { HistoryItemDecorator($0) }
+      limitHistorySize(to: Defaults[.size])
+    }
+
+    items = all
 
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
     Task {
       AppState.shared.popup.needsResize = true
+    }
+  }
+
+  @MainActor
+  func loadMoreItems() async {
+    guard Defaults[.isUnlimitedHistory] else { return }
+
+    do {
+      try await paginationManager.loadNextWindow()
+      all = paginationManager.allLoadedItems
+      items = all
+      updateUnpinnedShortcuts()
+      AppState.shared.popup.needsResize = true
+    } catch {
+      logger.error("Failed to load more items: \(error.localizedDescription)")
+    }
+  }
+
+  @MainActor
+  func loadPreviousItems() async {
+    guard Defaults[.isUnlimitedHistory] else { return }
+
+    do {
+      try await paginationManager.loadPreviousWindow()
+      all = paginationManager.allLoadedItems
+      items = all
+      updateUnpinnedShortcuts()
+      AppState.shared.popup.needsResize = true
+    } catch {
+      logger.error("Failed to load previous items: \(error.localizedDescription)")
+    }
+  }
+
+  @MainActor
+  func jumpToFirst() async {
+    guard Defaults[.isUnlimitedHistory] else { return }
+
+    do {
+      try await paginationManager.jumpToFirst()
+      all = paginationManager.allLoadedItems
+      items = all
+      updateUnpinnedShortcuts()
+      AppState.shared.popup.needsResize = true
+    } catch {
+      logger.error("Failed to jump to first: \(error.localizedDescription)")
+    }
+  }
+
+  @MainActor
+  func jumpToLast() async {
+    guard Defaults[.isUnlimitedHistory] else { return }
+
+    do {
+      try await paginationManager.jumpToLast()
+      all = paginationManager.allLoadedItems
+      items = all
+      updateUnpinnedShortcuts()
+      AppState.shared.popup.needsResize = true
+    } catch {
+      logger.error("Failed to jump to last: \(error.localizedDescription)")
     }
   }
 
@@ -128,19 +291,58 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   func insertIntoStorage(_ item: HistoryItem) throws {
     logger.info("Inserting item with id '\(item.title)'")
-    Storage.shared.context.insert(item)
-    Storage.shared.context.processPendingChanges()
-    try? Storage.shared.context.save()
+    enqueueInsert(item)
   }
 
   @discardableResult
   @MainActor
-  func add(_ item: HistoryItem) -> HistoryItemDecorator {
+  func add(_ item: HistoryItem, shouldAppend: Bool = false) -> HistoryItemDecorator {
     if #available(macOS 15.0, *) {
       try? History.shared.insertIntoStorage(item)
     } else {
       // On macOS 14 the history item needs to be inserted into storage directly after creating it.
       // It was already inserted after creation in Clipboard.swift
+    }
+
+    // Handle append mode
+    if shouldAppend, !all.isEmpty {
+      // Find the most recent unpinned item that is NOT the same content as what we're appending
+      let unpinnedItems = all.filter { $0.item.pin == nil }
+      let differentItems = unpinnedItems.filter { $0.item.text != item.text }
+
+      guard let mostRecentUnpinned = differentItems.max(by: { $0.item.lastCopiedAt < $1.item.lastCopiedAt }) else {
+        // No different items, fall through to normal add
+        return add(item, shouldAppend: false)
+      }
+
+      let topItem = mostRecentUnpinned.item
+
+      // Only append to text-based items
+      if let existingText = topItem.text, let newText = item.text {
+        let combinedText = existingText + "\n" + newText
+        let combinedData = combinedText.data(using: .utf8)
+
+        if let stringContent = topItem.contents.first(where: {
+          NSPasteboard.PasteboardType($0.type) == .string
+        }) {
+          stringContent.value = combinedData
+          topItem.lastCopiedAt = Date.now
+          topItem.numberOfCopies += 1
+          topItem.title = topItem.generateTitle()
+
+          Storage.shared.context.delete(item)
+
+          mostRecentUnpinned.title = topItem.title
+          items = all
+
+          // Copy combined text back to system clipboard
+          Defaults[.ignoreOnlyNextEvent] = true
+          Defaults[.ignoreEvents] = true
+          Clipboard.shared.copy(combinedText)
+
+          return mostRecentUnpinned
+        }
+      }
     }
 
     var removedItemIndex: Int?
@@ -149,8 +351,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         item.contents = existingHistoryItem.contents
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
+      item.lastCopiedAt = Date.now
+      if item.lastCopiedAt <= item.firstCopiedAt {
+        item.lastCopiedAt = item.firstCopiedAt.addingTimeInterval(1)
+      }
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
+      item.secret = existingHistoryItem.secret
       item.title = existingHistoryItem.title
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
@@ -169,29 +376,43 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
-    limitHistorySize(to: Defaults[.size] - 1)
+    if !Defaults[.isUnlimitedHistory] {
+      limitHistorySize(to: Defaults[.size] - 1)
+    }
 
+    // Always update the sessionLog with the current item to ensure its properties are preserved
     sessionLog[Clipboard.shared.changeCount] = item
 
     var itemDecorator: HistoryItemDecorator
     if let pin = item.pin {
       itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
-      // Keep pins in the same place.
+      // Keep pins in the same place for duplicate updates.
       if let removedItemIndex {
         all.insert(itemDecorator, at: removedItemIndex)
+      } else {
+        let sortedItems = sorter.sort(all.map(\.item) + [item])
+        if let index = sortedItems.firstIndex(of: item) {
+          all.insert(itemDecorator, at: index)
+        }
       }
     } else {
       itemDecorator = HistoryItemDecorator(item)
 
-      let sortedItems = sorter.sort(all.map(\.item) + [item])
-      if let index = sortedItems.firstIndex(of: item) {
-        all.insert(itemDecorator, at: index)
+      if Defaults[.isUnlimitedHistory] {
+        // Use pagination manager for unlimited history
+        paginationManager.handleNewItem(itemDecorator)
+        all = paginationManager.allLoadedItems
+      } else {
+        let sortedItems = sorter.sort(all.map(\.item) + [item])
+        if let index = sortedItems.firstIndex(of: item) {
+          all.insert(itemDecorator, at: index)
+        }
       }
-
-      items = all
-      updateUnpinnedShortcuts()
-      AppState.shared.popup.needsResize = true
     }
+
+    items = all
+    updateUnpinnedShortcuts()
+    AppState.shared.popup.needsResize = true
 
     return itemDecorator
   }
@@ -221,18 +442,36 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       sessionLog.removeValues { $0.pin == nil }
       items = all
 
-      try? Storage.shared.context.transaction {
-        try? Storage.shared.context.delete(
-          model: HistoryItem.self,
-          where: #Predicate { $0.pin == nil }
-        )
-        try? Storage.shared.context.delete(
-          model: HistoryItemContent.self,
-          where: #Predicate { $0.item?.pin == nil }
-        )
+      do {
+        try Storage.shared.context.transaction {
+          try Storage.shared.context.delete(
+            model: HistoryItem.self,
+            where: #Predicate { $0.pin == nil }
+          )
+        }
+        Storage.shared.context.processPendingChanges()
+        try Storage.shared.context.save()
+
+        // Re-fetch remaining (pinned) items using a fresh context to avoid stale references
+        let freshContext = ModelContext(Storage.shared.container)
+        let pinnedDescriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin != nil })
+        let pinnedResults = (try? freshContext.fetch(pinnedDescriptor)) ?? []
+        let refreshedPinned = sorter.sort(pinnedResults).map { HistoryItemDecorator($0) }
+        all = refreshedPinned
+        items = all
+        updateShortcuts()
+        AppState.shared.popup.needsResize = true
+      } catch {
+        logger.error("Failed to clear history: \(error.localizedDescription)")
+        return
       }
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+    }
+
+    // Update pagination manager total count
+    if Defaults[.isUnlimitedHistory] {
+      let countDescriptor = FetchDescriptor<HistoryItem>()
+      let count = (try? Storage.shared.context.fetchCount(countDescriptor)) ?? 0
+      paginationManager.updateTotalCount(count)
     }
 
     Clipboard.shared.clear()
@@ -252,9 +491,31 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       sessionLog.removeAll()
       items = all
 
-      try? Storage.shared.context.delete(model: HistoryItem.self)
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+      do {
+        try Storage.shared.context.transaction {
+          try Storage.shared.context.delete(model: HistoryItem.self)
+        }
+        Storage.shared.context.processPendingChanges()
+        try Storage.shared.context.save()
+
+        // Rebuild arrays using a fresh context to avoid stale references
+        let freshContext = ModelContext(Storage.shared.container)
+        let pinnedDescriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin != nil })
+        let pinnedResults = (try? freshContext.fetch(pinnedDescriptor)) ?? []
+        let refreshedPinned = sorter.sort(pinnedResults).map { HistoryItemDecorator($0) }
+        all = refreshedPinned
+        items = all
+        updateShortcuts()
+        AppState.shared.popup.needsResize = true
+      } catch {
+        logger.error("Failed to clear all history: \(error.localizedDescription)")
+        return
+      }
+    }
+
+    // Update pagination manager total count
+    if Defaults[.isUnlimitedHistory] {
+      paginationManager.updateTotalCount(0)
     }
 
     Clipboard.shared.clear()
@@ -275,7 +536,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
-    all.removeAll { $0 == item }
+    if Defaults[.isUnlimitedHistory] {
+      paginationManager.handleItemRemoved(item)
+      all = paginationManager.allLoadedItems
+    } else {
+      all.removeAll { $0 == item }
+    }
     items.removeAll { $0 == item }
     sessionLog.removeValues { $0 == item.item }
 
@@ -328,6 +594,14 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
     }
 
+    // Ensure we properly handle this item in subsequent operations
+    Task { @MainActor in
+      let currentChangeCount = Clipboard.shared.changeCount
+      if let existing = sessionLog[currentChangeCount], existing.secret != item.item.secret {
+        existing.secret = item.item.secret
+      }
+    }
+
     Task {
       searchQuery = ""
     }
@@ -335,7 +609,6 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   func startPasteStack(selection: inout Selection<HistoryItemDecorator>) {
-    guard AppState.shared.multiSelectionEnabled else { return }
     guard let item = selection.first else { return }
     PasteStack.initializeIfNeeded()
 
@@ -444,18 +717,50 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  func toggleSecret(_ item: HistoryItemDecorator?) {
+    guard let item else { return }
+
+    item.toggleSecret()
+
+    // Update the item title display immediately
+    if let index = items.firstIndex(of: item) {
+      items[index] = item
+    }
+
+    if let index = all.firstIndex(of: item) {
+      all[index] = item
+    }
+
+    // If we're viewing the item, the UI will reflect changes via navigator selection.
+    // No direct selection state is managed in History.
+  }
+
+  @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    if let all = try? Storage.shared.context.fetch(descriptor) {
-      let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
-      if duplicates.count > 1 {
-        return duplicates.first(where: { $0 != item })
-      } else {
-        return isModified(item)
+    // Prefer fast path using textDigest to narrow candidates
+    if let text = item.text, !text.isEmpty {
+      let digest = HistoryItem.makeTextDigest(text)
+      let descriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.textDigest == digest })
+      if let candidates = try? Storage.shared.context.fetch(descriptor) {
+        let duplicates = candidates.filter({ $0 == item || $0.supersedes(item) })
+        if duplicates.count > 1 { return duplicates.first(where: { $0 != item }) }
+        if let modified = isModified(item) { return modified }
+        return duplicates.first
       }
     }
 
-    return item
+    // Fallback: fetch all if no text or digest
+    let descriptor = FetchDescriptor<HistoryItem>()
+    guard let all = try? Storage.shared.context.fetch(descriptor) else {
+      return nil
+    }
+
+    let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
+    if duplicates.count > 1 {
+      return duplicates.first(where: { $0 != item })
+    }
+
+    return isModified(item)
   }
 
   private func isModified(_ item: HistoryItem) -> HistoryItem? {
@@ -505,4 +810,31 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       index += 1
     }
   }
+
+  // MARK: - Batched insert support
+  @MainActor
+  private func enqueueInsert(_ item: HistoryItem) {
+    pendingInserts.append(item)
+    scheduleBatchedSave()
+  }
+  @MainActor
+  private func scheduleBatchedSave() {
+    saveWorkItem?.cancel()
+    let work = DispatchWorkItem { [weak self] in
+      guard let self else { return }
+      do {
+        for item in self.pendingInserts {
+          Storage.shared.context.insert(item)
+        }
+        self.pendingInserts.removeAll()
+        Storage.shared.context.processPendingChanges()
+        try Storage.shared.context.save()
+      } catch {
+        self.logger.error("Batched save failed: \(error.localizedDescription)")
+      }
+    }
+    saveWorkItem = work
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3, execute: work)
+  }
 }
+

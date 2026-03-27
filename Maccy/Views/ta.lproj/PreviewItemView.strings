@@ -6,3 +6,4 @@
 "DeleteKey" = "நீக்க {deleteKey} ஐ அழுத்தவும்.";
 "UnpinKey" = "முள்ளை அகற்ற {pinKey} ஐ அழுத்தவும்.";
 "PreviewKey" = "முன்னோட்டத்தை மாற்ற {previewKey} அழுத்தவும்.";
+"Dimensions" = "பரிமாணங்கள்:";

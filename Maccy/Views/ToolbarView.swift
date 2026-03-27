@@ -84,9 +84,8 @@ struct ToolbarView: View {
 
   var body: some View {
     HStack {
+      Spacer()
       if !appState.navigator.selection.isEmpty {
-        Spacer()
-
         ToolbarButton {
           withAnimation {
             appState.togglePin()
@@ -105,6 +104,18 @@ struct ToolbarView: View {
           replacementKey: "pinKey"
         )
         .disabled(pinActionDisabled)
+
+        ToolbarButton {
+          appState.startTagging()
+        } label: {
+          Image(systemName: "tag")
+        }
+        .shortcutKeyHelp(
+          name: .tag,
+          key: "TagKey",
+          tableName: "PreviewItemView",
+          replacementKey: "tagKey"
+        )
 
         ToolbarButton {
           appState.deleteSelection()

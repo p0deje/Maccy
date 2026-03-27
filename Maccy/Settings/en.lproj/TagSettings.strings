@@ -1,0 +1,13 @@
+"Title" = "Tags";
+"TagName" = "Name";
+"Color" = "Color";
+"NoColor" = "No Color";
+"Red" = "Red";
+"Orange" = "Orange";
+"Yellow" = "Yellow";
+"Green" = "Green";
+"Blue" = "Blue";
+"Purple" = "Purple";
+"Gray" = "Gray";
+"TagSettingsDescription" = "Manage tag colors. Tags are created when you assign them to items.";
+"TagInputPlaceholder" = "Tag name...";

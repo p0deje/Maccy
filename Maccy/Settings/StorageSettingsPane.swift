@@ -57,17 +57,22 @@ struct StorageSettingsPane: View {
   }
 
   @Default(.size) private var size
+  @Default(.isUnlimitedHistory) private var isUnlimitedHistory
   @Default(.sortBy) private var sortBy
+  @Default(.sortOrder) private var sortOrder
 
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
+  @State private var showWarning = false
+  @State private var sizeText = ""
 
-  private let sizeFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.minimum = 1
-    formatter.maximum = 999
-    return formatter
-  }()
+  private static let sizeRange = 1...999
+
+  private func isValidSize() -> Bool {
+    if sizeText.isEmpty { return true }
+    guard let value = Int(sizeText) else { return false }
+    return Self.sizeRange.contains(value)
+  }
 
   var body: some View {
     Settings.Container(contentWidth: 450) {
@@ -93,12 +98,52 @@ struct StorageSettingsPane: View {
       }
 
       Settings.Section(label: { Text("Size", tableName: "StorageSettings") }) {
+        Toggle(
+          isOn: Binding(
+            get: { isUnlimitedHistory },
+            set: { newValue in
+              if newValue && History.shared.totalCount > Defaults.Keys.largeHistoryThreshold {
+                showWarning = true
+              }
+              isUnlimitedHistory = newValue
+            }
+          ),
+          label: { Text("UnlimitedHistory", tableName: "StorageSettings") }
+        )
+        .help(Text("UnlimitedHistoryTooltip", tableName: "StorageSettings"))
+
+        if isUnlimitedHistory {
+          Text("UnlimitedHistoryWarning", tableName: "StorageSettings")
+            .controlSize(.small)
+            .foregroundStyle(.orange)
+            .padding(.leading, 20)
+        }
+
         HStack {
-          TextField("", value: $size, formatter: sizeFormatter)
+          TextField("", text: $sizeText)
             .frame(width: 80)
             .help(Text("SizeTooltip", tableName: "StorageSettings"))
-          Stepper("", value: $size, in: 1...999)
+            .disabled(isUnlimitedHistory)
+            .border(isValidSize() ? Color.clear : Color.red)
+            .onAppear { sizeText = "\(size)" }
+            .onChange(of: sizeText) {
+              if isValidSize(), let value = Int(sizeText) {
+                size = value
+              }
+            }
+            .onSubmit {
+              if isValidSize(), let value = Int(sizeText) {
+                size = value
+              } else {
+                sizeText = "\(size)"
+              }
+            }
+          Stepper("", value: $size, in: Self.sizeRange)
             .labelsHidden()
+            .onChange(of: size) {
+              sizeText = "\(size)"
+            }
+            .disabled(isUnlimitedHistory)
           Text(storageSize)
             .controlSize(.small)
             .foregroundStyle(.gray)
@@ -107,6 +152,7 @@ struct StorageSettingsPane: View {
               storageSize = Storage.shared.size
             }
         }
+        .opacity(isUnlimitedHistory ? 0.5 : 1.0)
       }
 
       Settings.Section(label: { Text("SortBy", tableName: "StorageSettings") }) {
@@ -119,6 +165,30 @@ struct StorageSettingsPane: View {
         .frame(width: 160, alignment: .leading)
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
       }
+      Settings.Section(label: { Text("SortOrder", tableName: "StorageSettings") }) {
+        Picker("", selection: $sortOrder) {
+          Text("Ascending").tag(true)
+          Text("Descending").tag(false)
+        }
+        .labelsHidden()
+        .frame(width: 160, alignment: .leading)
+        .help(Text("SortDirectionTooltip", tableName: "StorageSettings"))
+      }
+    }
+    .alert(Text("UnlimitedHistoryAlertTitle", tableName: "StorageSettings"), isPresented: $showWarning) {
+      Button("Cancel", role: .cancel) {
+        isUnlimitedHistory = false
+      }
+      Button("Enable") {
+        // User confirmed, unlimited is already set
+      }
+    } message: {
+      Text(
+        String(
+          format: NSLocalizedString("UnlimitedHistoryAlertMessage", tableName: "StorageSettings", comment: ""),
+          History.shared.totalCount
+        )
+      )
     }
   }
 }

@@ -5,10 +5,12 @@ import Sauce
 class Clipboard {
   static let shared = Clipboard()
 
-  typealias OnNewCopyHook = (HistoryItem) -> Void
+  typealias OnNewCopyHook = (HistoryItem, Bool) -> Void
 
   private var onNewCopyHooks: [OnNewCopyHook] = []
   var changeCount: Int
+  private var lastClipboardChangeTime: Date?
+  private var lastClipboardContent: String?
 
   private let pasteboard = NSPasteboard.general
 
@@ -34,6 +36,10 @@ class Clipboard {
   private var disabledTypes: Set<NSPasteboard.PasteboardType> { supportedTypes.subtracting(enabledTypes) }
 
   private var sourceApp: NSRunningApplication? { NSWorkspace.shared.frontmostApplication }
+  
+  // Cache compiled regexes to avoid recompiling on every clipboard poll
+  private var cachedIgnoreRegexps: [String] = []
+  private var cachedIgnoreRegexes: [NSRegularExpression] = []
 
   init() {
     changeCount = pasteboard.changeCount
@@ -100,6 +106,12 @@ class Clipboard {
 
     pasteboard.setString("", forType: .fromMaccy)
     pasteboard.setString(item.application ?? "", forType: .source)
+
+    // Save secret status
+    if item.secret {
+      pasteboard.setString("1", forType: .secret)
+    }
+
     sync()
 
     Task {
@@ -110,7 +122,7 @@ class Clipboard {
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
   func paste() {
-    Accessibility.check()
+    guard Accessibility.check() else { return }
 
     // Add flag that left/right modifier key has been pressed.
     // See https://github.com/TermiT/Flycut/pull/18 for details.
@@ -152,7 +164,9 @@ class Clipboard {
       return
     }
 
+    let previousChangeCount = changeCount
     changeCount = pasteboard.changeCount
+    let changeCountDelta = changeCount - previousChangeCount
 
     if pasteboard.pasteboardItems?.contains(where: { $0.types.contains(.fromMaccy) }) != true {
       // External copy occurred. Stop the current paste stack.
@@ -176,7 +190,8 @@ class Clipboard {
       return
     }
 
-    if let sourceAppBundle = sourceApp?.bundleIdentifier, shouldIgnore(sourceAppBundle) {
+    let sourceAppBundle = sourceApplicationBundleIdentifier()
+    if let sourceAppBundle, shouldIgnore(sourceAppBundle) {
       return
     }
 
@@ -223,10 +238,42 @@ class Clipboard {
       try? History.shared.insertIntoStorage(historyItem)
     }
 
-    historyItem.application = sourceApp?.bundleIdentifier
+    historyItem.application = sourceAppBundle
     historyItem.title = historyItem.generateTitle()
 
-    onNewCopyHooks.forEach({ $0(historyItem) })
+    // Check if we're copying a secret item from ourselves
+    if pasteboard.string(forType: .secret) != nil {
+      historyItem.secret = true
+    }
+
+    var shouldAppend = false
+    let now = Date.now
+    let currentContent = historyItem.text
+
+    if Defaults[.appendModeEnabled] {
+      // Check if changeCount jumped by exactly 2 (double-tap same content)
+      if changeCountDelta == 2 {
+        shouldAppend = true
+      } else if let lastChange = lastClipboardChangeTime,
+                let lastContent = lastClipboardContent,
+                let currentText = currentContent {
+        // Normal check: same content copied again within time window
+        if currentText == lastContent {
+          let timeSinceLastChange = now.timeIntervalSince(lastChange)
+          if timeSinceLastChange <= Defaults[.appendModeTimeWindow] {
+            shouldAppend = true
+          }
+        }
+      }
+    }
+
+    // Update tracking - only if not appending
+    if !shouldAppend {
+      lastClipboardChangeTime = now
+      lastClipboardContent = currentContent
+    }
+
+    onNewCopyHooks.forEach({ $0(historyItem, shouldAppend) })
   }
 
   private func shouldIgnore(_ types: Set<NSPasteboard.PasteboardType>) -> Bool {
@@ -245,20 +292,40 @@ class Clipboard {
     }
   }
 
-  private func shouldIgnore(_ item: NSPasteboardItem) -> Bool {
-    for regexp in Defaults[.ignoreRegexp] {
-      if let string = item.string(forType: .string) {
-        do {
-          let regex = try NSRegularExpression(pattern: regexp)
-          if regex.numberOfMatches(in: string, range: NSRange(string.startIndex..., in: string)) > 0 {
-            return true
-          }
-        } catch {
-          return false
-        }
-      }
+  private func sourceApplicationBundleIdentifier() -> String? {
+    if let source = pasteboard.pasteboardItems?
+      .compactMap({ $0.string(forType: .source)?.trimmingCharacters(in: .whitespacesAndNewlines) })
+      .first(where: { !$0.isEmpty }) {
+      return source
     }
-    return false
+
+    return sourceApp?.bundleIdentifier
+  }
+
+  private func shouldIgnore(_ item: NSPasteboardItem) -> Bool {
+    guard let string = item.string(forType: .string) else {
+      return false
+    }
+
+    // Recompile regexes only when the user's pattern list changes
+    let currentPatterns = Defaults[.ignoreRegexp]
+    if currentPatterns != cachedIgnoreRegexps {
+      cachedIgnoreRegexps = currentPatterns
+      cachedIgnoreRegexes = currentPatterns.compactMap { try? NSRegularExpression(pattern: $0) }
+    }
+
+    let range = NSRange(string.startIndex..., in: string)
+    return cachedIgnoreRegexes.contains { $0.numberOfMatches(in: string, range: range) > 0 }
+  }
+
+  private func shouldIgnore(_ string: String?) -> Bool {
+    guard let maxTextLengthToRemember = Defaults[.maxTextLengthToRemember],
+          maxTextLengthToRemember > 0,
+          let string else {
+      return false
+    }
+
+    return string.count > maxTextLengthToRemember
   }
 
   private func isEmptyString(_ item: NSPasteboardItem) -> Bool {

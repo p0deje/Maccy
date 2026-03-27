@@ -6,3 +6,4 @@
 "DeleteKey" = "{deleteKey}で削除します。";
 "UnpinKey" = "{pinKey}でピン留めを外します。";
 "PreviewKey" = "{previewKey}でプレビューを切り替えます。";
+"Dimensions" = "サイズ:";

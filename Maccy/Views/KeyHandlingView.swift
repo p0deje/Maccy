@@ -26,6 +26,36 @@ struct KeyHandlingView<Content: View>: View {
           }
         }
 
+        if appState.tagAutocompleteActive {
+          switch KeyChord(NSApp.currentEvent) {
+          case .moveToNext:
+            appState.tagAutocompleteIndex += 1
+            return .handled
+          case .moveToPrevious:
+            appState.tagAutocompleteIndex = max(appState.tagAutocompleteIndex - 1, 0)
+            return .handled
+          case .selectCurrentItem:
+            appState.acceptTagAutocompletion()
+            return .handled
+          case .close:
+            appState.tagAutocompleteActive = false
+            searchQuery = ""
+            return .handled
+          default:
+            break
+          }
+        }
+
+        if appState.isTagging {
+          switch KeyChord(NSApp.currentEvent) {
+          case .close:
+            appState.cancelTagging()
+            return .handled
+          default:
+            break
+          }
+        }
+
         switch KeyChord(NSApp.currentEvent) {
         case .clearHistory:
           if let item = appState.footer.items.first(where: { $0.title == "clear" }),
@@ -109,16 +139,10 @@ struct KeyHandlingView<Content: View>: View {
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
           }
-          guard AppState.shared.multiSelectionEnabled else {
-            return .ignored
-          }
           appState.navigator.extendHighlightToNext()
           return .handled
         case .extendToLast:
           guard NSApp.characterPickerWindow == nil else {
-            return .ignored
-          }
-          guard AppState.shared.multiSelectionEnabled else {
             return .ignored
           }
           appState.navigator.extendHighlightToLast()
@@ -127,16 +151,10 @@ struct KeyHandlingView<Content: View>: View {
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
           }
-          guard AppState.shared.multiSelectionEnabled else {
-            return .ignored
-          }
           appState.navigator.extendHighlightToPrevious()
           return .handled
         case .extendToFirst:
           guard NSApp.characterPickerWindow == nil else {
-            return .ignored
-          }
-          guard AppState.shared.multiSelectionEnabled else {
             return .ignored
           }
           appState.navigator.extendHighlightToFirst()
@@ -147,6 +165,12 @@ struct KeyHandlingView<Content: View>: View {
         case .pinOrUnpin:
           appState.togglePin()
           return .handled
+        case .tagItem:
+          appState.startTagging()
+          return .handled
+        case .secretOrUnsecret:
+          appState.history.toggleSecret(appState.navigator.selection.first)
+          return .handled
         case .selectCurrentItem:
           appState.select()
           return .handled
@@ -156,6 +180,21 @@ struct KeyHandlingView<Content: View>: View {
         case .togglePreview:
           appState.preview.togglePreview()
           return .handled
+        case .ignored:
+          if let event = NSApp.currentEvent,
+             let chars = event.characters,
+             !chars.isEmpty,
+             let rawChars = event.charactersIgnoringModifiers,
+             chars != rawChars {
+            let mods = event.modifierFlags
+              .intersection(.deviceIndependentFlagsMask)
+              .subtracting([.capsLock, .numericPad, .function])
+            if mods == .option || mods == [.option, .shift] {
+              searchQuery += chars
+              searchFocused = true
+              return .handled
+            }
+          }
         default:
           ()
         }
@@ -173,3 +212,4 @@ struct KeyHandlingView<Content: View>: View {
       }
   }
 }
+

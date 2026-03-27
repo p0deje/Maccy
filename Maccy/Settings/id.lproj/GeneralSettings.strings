@@ -12,11 +12,3 @@
 "ShowPreviewTooltip" = "Tampilkan pratinjau dengan informasi tambahan.\nDefault: ⌃Space.";
 "Behavior" = "Perilaku:";
 "PasteAutomatically" = "Salin otomatis";
-"PasteWithoutFormatting" = "";
-"Modifiers" = "";
-"Search" = "";
-"Exact" = "";
-"Fuzzy" = "";
-"Regex" = "";
-"Mixed" = "";
-"NotificationsAndSounds" = "";

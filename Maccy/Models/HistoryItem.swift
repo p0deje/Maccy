@@ -3,6 +3,7 @@ import Defaults
 import Sauce
 import SwiftData
 import Vision
+import ImageIO
 
 @Model
 class HistoryItem {
@@ -13,8 +14,8 @@ class HistoryItem {
     // "w" reserved for close window
     // "z" reserved for undo/redo
     var keys = Set([
-      "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-      "m", "n", "o", "p", "r", "s", "t", "u", "x", "y"
+      "a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
+      "m", "n", "o", "p", "r", "s", "t", "u", "w", "x", "y"
     ])
 
     if let deleteKey = KeyChord.deleteKey,
@@ -28,6 +29,10 @@ class HistoryItem {
     }
     if let previewKey = KeyChord.previewKey,
        let character = Sauce.shared.character(for: Int(previewKey.QWERTYKeyCode), cocoaModifiers: []) {
+      keys.remove(character)
+    }
+    if let tagKey = KeyChord.tagKey,
+       let character = Sauce.shared.character(for: Int(tagKey.QWERTYKeyCode), cocoaModifiers: []) {
       keys.remove(character)
     }
 
@@ -47,12 +52,20 @@ class HistoryItem {
   @MainActor
   static var randomAvailablePin: String { availablePins.randomElement() ?? "" }
 
+  static func makeTextDigest(_ text: String) -> String {
+    // Simple, fast digest: lowercased, trimmed, and prefix to limit size
+    let normalized = text.lowercased().trimmingCharacters(in: .whitespacesAndNewlines)
+    let prefix = normalized.prefix(512)
+    return String(prefix)
+  }
+
   private static let transientTypes: [String] = [
     NSPasteboard.PasteboardType.modified.rawValue,
     NSPasteboard.PasteboardType.fromMaccy.rawValue,
     NSPasteboard.PasteboardType.linkPresentationMetadata.rawValue,
     NSPasteboard.PasteboardType.customWebKitPasteboardData.rawValue,
     NSPasteboard.PasteboardType.source.rawValue,
+    NSPasteboard.PasteboardType.secret.rawValue,
     NSPasteboard.PasteboardType.customChromiumWebData.rawValue,
     NSPasteboard.PasteboardType.chromiumSourceUrl.rawValue,
     NSPasteboard.PasteboardType.chromiumSourceToken.rawValue,
@@ -64,7 +77,12 @@ class HistoryItem {
   var lastCopiedAt: Date = Date.now
   var numberOfCopies: Int = 1
   var pin: String?
+  var tags: [String] = []
+  var secret: Bool = false
   var title = ""
+
+  // Lightweight digest of text content to speed up duplicate detection
+  var textDigest: String?
 
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
   var contents: [HistoryItemContent] = []
@@ -157,12 +175,25 @@ class HistoryItem {
     return data
   }
 
+  private func downsampledImage(from data: Data, maxDimension: CGFloat) -> NSImage? {
+    guard let source = CGImageSourceCreateWithData(data as CFData, nil) else { return nil }
+    let options: [CFString: Any] = [
+      kCGImageSourceCreateThumbnailFromImageAlways: true,
+      kCGImageSourceShouldCacheImmediately: true,
+      kCGImageSourceCreateThumbnailWithTransform: true,
+      kCGImageSourceThumbnailMaxPixelSize: Int(maxDimension)
+    ]
+    guard let cgThumb = CGImageSourceCreateThumbnailAtIndex(source, 0, options as CFDictionary) else { return nil }
+    return NSImage(cgImage: cgThumb, size: .zero)
+  }
+
   var image: NSImage? {
     guard let data = imageData else {
       return nil
     }
-
-    return NSImage(data: data)
+    // Use a conservative max dimension for previews; respect Defaults if available
+    let maxDim = CGFloat(Defaults[.previewImageMaxSize])
+    return downsampledImage(from: data, maxDimension: maxDim > 0 ? maxDim : 512)
   }
 
   var rtfData: Data? { contentData([.rtf]) }
@@ -179,7 +210,11 @@ class HistoryItem {
       return nil
     }
 
-    return String(data: data, encoding: .utf8)
+    let value = String(data: data, encoding: .utf8)
+    if let value, textDigest == nil || textDigest?.isEmpty == true {
+      textDigest = HistoryItem.makeTextDigest(value)
+    }
+    return value
   }
 
   var modified: Int? {
@@ -236,6 +271,11 @@ class HistoryItem {
 
     let recognizedStrings = observations.compactMap { observation in
       return observation.topCandidates(1).first?.string
+    }
+   
+    let recognizedText = recognizedStrings.joined(separator: "\n")
+      DispatchQueue.main.async { [weak self] in
+      self?.title = recognizedText
     }
 
     self.title = recognizedStrings.joined(separator: "\n")

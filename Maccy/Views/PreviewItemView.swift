@@ -58,6 +58,17 @@ struct PreviewItemView: View {
 
       Spacer(minLength: 0)
 
+        HStack(spacing: 3) {
+          Text("NumberOfCopies", tableName: "PreviewItemView")
+          Text(String(item.item.numberOfCopies))
+        }
+        .padding(.bottom)
+
+        HStack(spacing: 3) {
+          Text("PinShortcutKey", tableName: "PreviewItemView")
+          Text(item.item.pin ?? "")
+        }
+      .padding(.bottom)
       Divider()
         .padding(.vertical)
 
@@ -87,6 +98,42 @@ struct PreviewItemView: View {
       HStack(spacing: 3) {
         Text("NumberOfCopies", tableName: "PreviewItemView")
         Text(String(item.item.numberOfCopies))
+      }
+
+      if !item.tags.isEmpty {
+      HStack(spacing: 3) {
+        Text("Secret", tableName: "PreviewItemView")
+        Text(item.isSecret ? "Yes" : "No")
+      }
+      .padding(.bottom)
+
+        HStack(spacing: 3) {
+          Text("Tags", tableName: "PreviewItemView")
+          ForEach(item.tags, id: \.self) { tag in
+            TagChipView(tag: tag)
+          }
+        }
+      }
+
+      if let secretKey = KeyboardShortcuts.Shortcut(name: .secret) {
+        Text(
+          NSLocalizedString("SecretKey", tableName: "PreviewItemView", comment: "")
+            .replacingOccurrences(of: "{secretKey}", with: secretKey.description)
+        )
+      }
+
+      if let deleteKey = KeyboardShortcuts.Shortcut(name: .delete) {
+        Text(
+          NSLocalizedString("DeleteKey", tableName: "PreviewItemView", comment: "")
+            .replacingOccurrences(of: "{deleteKey}", with: deleteKey.description)
+        )
+      }
+
+      if item.hasImage, let image = item.item.image {
+        HStack(spacing: 3) {
+          Text("Dimensions", tableName: "PreviewItemView")
+          Text("\(Int(image.size.width))×\(Int(image.size.height))")
+        }
       }
     }
     .controlSize(.small)

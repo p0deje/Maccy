@@ -37,7 +37,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Bridge FloatingPanel via AppDelegate.
     AppState.shared.appDelegate = self
 
-    Clipboard.shared.onNewCopy { History.shared.add($0) }
+    Clipboard.shared.onNewCopy { item, isAppend in
+      History.shared.add(item, shouldAppend: isAppend)
+    }
     Clipboard.shared.start()
 
     Task {
@@ -171,7 +173,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func disableUnusedGlobalHotkeys() {
-    let names: [KeyboardShortcuts.Name] = [.delete, .pin]
+    let names: [KeyboardShortcuts.Name] = [.delete, .pin, .secret]
     KeyboardShortcuts.disable(names)
 
     NotificationCenter.default.addObserver(
