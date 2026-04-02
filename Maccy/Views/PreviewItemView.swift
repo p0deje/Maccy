@@ -72,6 +72,13 @@ struct PreviewItemView: View {
         }
       }
 
+      if item.hasImage, let image = item.item.image {
+        HStack(spacing: 3) {
+          Text("Dimensions", tableName: "PreviewItemView")
+          Text("\(Int(image.pixelSize.width))×\(Int(image.pixelSize.height))")
+        }
+      }
+
       HStack(spacing: 3) {
         Text("FirstCopyTime", tableName: "PreviewItemView")
         Text(item.item.firstCopiedAt, style: .date)
@@ -87,13 +94,6 @@ struct PreviewItemView: View {
       HStack(spacing: 3) {
         Text("NumberOfCopies", tableName: "PreviewItemView")
         Text(String(item.item.numberOfCopies))
-      }
-
-      if item.hasImage, let image = item.item.image {
-        HStack(spacing: 3) {
-          Text("Dimensions", tableName: "PreviewItemView")
-          Text("\(Int(image.size.width))×\(Int(image.size.height))")
-        }
       }
     }
     .controlSize(.small)
