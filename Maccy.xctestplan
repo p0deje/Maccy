@@ -24,7 +24,6 @@
   "testTargets" : [
     {
       "skippedTests" : [
-        "HistoryTests",
         "HistoryTests\/testAdding()",
         "HistoryTests\/testAddingItemFromMaccy()",
         "HistoryTests\/testAddingItemThatIsSupersededByExisting()",

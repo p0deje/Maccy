@@ -1,5 +1,6 @@
 import XCTest
 import Defaults
+import SwiftData
 @testable import Maccy
 
 @MainActor
@@ -51,6 +52,34 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.items[0].item.pin, "f")
     XCTAssertEqual(history.items[0].item.title, "xyz")
     XCTAssertEqual(history.items[0].item.application, "iTerm.app")
+  }
+
+  func testAddingDuplicateUnsavedItemDoesNotLeaveOrphanedContentRows() throws {
+    history.add(unsavedHistoryItem("foo"))
+    history.add(unsavedHistoryItem("foo"))
+
+    let liveContentCount = try Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
+    let orphanedContentCount = try Storage.shared.context.fetchCount(
+      FetchDescriptor<HistoryItemContent>(predicate: #Predicate { $0.item == nil })
+    )
+
+    XCTAssertEqual(history.items.count, 1)
+    XCTAssertEqual(liveContentCount, 1)
+    XCTAssertEqual(orphanedContentCount, 0)
+  }
+
+  func testAddingDuplicateSavedItemStillCollapsesWithoutOrphanedContentRows() throws {
+    history.add(historyItem("foo"))
+    history.add(historyItem("foo"))
+
+    let liveContentCount = try Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
+    let orphanedContentCount = try Storage.shared.context.fetchCount(
+      FetchDescriptor<HistoryItemContent>(predicate: #Predicate { $0.item == nil })
+    )
+
+    XCTAssertEqual(history.items.count, 1)
+    XCTAssertEqual(liveContentCount, 1)
+    XCTAssertEqual(orphanedContentCount, 0)
   }
 
   func testAddingItemThatIsSupersededByExisting() {
@@ -246,6 +275,18 @@ class HistoryTests: XCTestCase {
     item.numberOfCopies = 1
     item.title = item.generateTitle()
 
+    return item
+  }
+
+  private func unsavedHistoryItem(_ value: String) -> HistoryItem {
+    let item = HistoryItem(contents: [
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.string.rawValue,
+        value: value.data(using: .utf8)
+      )
+    ])
+    item.numberOfCopies = 1
+    item.title = item.generateTitle()
     return item
   }
 }
