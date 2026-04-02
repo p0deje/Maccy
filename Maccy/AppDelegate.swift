@@ -113,6 +113,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  @MainActor
   private func migrateUserDefaults() {
     if Defaults[.migrations]["2024-07-01-version-2"] != true {
       // Start 2.x from scratch.
@@ -127,6 +128,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       UserDefaults.standard.removeObject(forKey: "hideTitle")
 
       Defaults[.migrations]["2024-07-01-version-2"] = true
+    }
+
+    if Defaults[.migrations]["2026-04-02-cleanup-orphaned-history-item-contents"] != true {
+      if (try? Storage.shared.cleanupOrphanedContents()) != nil {
+        Defaults[.migrations]["2026-04-02-cleanup-orphaned-history-item-contents"] = true
+      }
     }
 
     // The following defaults are not used in Maccy 2.x

@@ -136,13 +136,6 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @discardableResult
   @MainActor
   func add(_ item: HistoryItem) -> HistoryItemDecorator {
-    if #available(macOS 15.0, *) {
-      try? History.shared.insertIntoStorage(item)
-    } else {
-      // On macOS 14 the history item needs to be inserted into storage directly after creating it.
-      // It was already inserted after creation in Clipboard.swift
-    }
-
     var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
@@ -170,6 +163,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
     limitHistorySize(to: Defaults[.size] - 1)
+
+    if #available(macOS 15.0, *) {
+      try? insertIntoStorage(item)
+    } else {
+      // On macOS 14 the history item needs to be inserted into storage directly after creating it.
+      // It was already inserted after creation in Clipboard.swift
+    }
 
     sessionLog[Clipboard.shared.changeCount] = item
 
@@ -446,16 +446,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
     let descriptor = FetchDescriptor<HistoryItem>()
-    if let all = try? Storage.shared.context.fetch(descriptor) {
-      let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
-      if duplicates.count > 1 {
-        return duplicates.first(where: { $0 != item })
-      } else {
-        return isModified(item)
-      }
+    guard let all = try? Storage.shared.context.fetch(descriptor) else {
+      return isModified(item)
     }
 
-    return item
+    return all.first(where: { $0 != item && $0.supersedes(item) }) ?? isModified(item)
   }
 
   private func isModified(_ item: HistoryItem) -> HistoryItem? {

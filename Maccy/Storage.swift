@@ -32,4 +32,23 @@ class Storage {
       fatalError("Cannot load database: \(error.localizedDescription).")
     }
   }
+
+  @discardableResult
+  func cleanupOrphanedContents() throws -> Int {
+    let orphanedDescriptor = FetchDescriptor<HistoryItemContent>(
+      predicate: #Predicate { $0.item == nil }
+    )
+    let orphanedCount = try context.fetchCount(orphanedDescriptor)
+    guard orphanedCount > 0 else {
+      return 0
+    }
+
+    try context.delete(
+      model: HistoryItemContent.self,
+      where: #Predicate { $0.item == nil }
+    )
+    context.processPendingChanges()
+    try context.save()
+    return orphanedCount
+  }
 }
