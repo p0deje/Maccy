@@ -68,6 +68,20 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(orphanedContentCount, 0)
   }
 
+  func testAddingDuplicateSavedItemStillCollapsesWithoutOrphanedContentRows() throws {
+    history.add(historyItem("foo"))
+    history.add(historyItem("foo"))
+
+    let liveContentCount = try Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
+    let orphanedContentCount = try Storage.shared.context.fetchCount(
+      FetchDescriptor<HistoryItemContent>(predicate: #Predicate { $0.item == nil })
+    )
+
+    XCTAssertEqual(history.items.count, 1)
+    XCTAssertEqual(liveContentCount, 1)
+    XCTAssertEqual(orphanedContentCount, 0)
+  }
+
   func testAddingItemThatIsSupersededByExisting() {
     let firstContents = [
       HistoryItemContent(
