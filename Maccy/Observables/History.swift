@@ -22,10 +22,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   var searchQuery: String = "" {
     didSet {
       throttler.throttle { [self] in
+        let previousSelectionID = AppState.shared.navigator.leadHistoryItem?.id
         updateItems(search.search(string: searchQuery, within: all))
 
         if searchQuery.isEmpty {
-          AppState.shared.navigator.select(item: unpinnedItems.first)
+          if Defaults[.preserveSelectionAfterSearch],
+             let previousSelectionID,
+             let previousSelection = items.first(where: { $0.id == previousSelectionID && $0.isVisible }) {
+            AppState.shared.navigator.select(item: previousSelection)
+          } else {
+            AppState.shared.navigator.select(item: unpinnedItems.first)
+          }
         } else {
           AppState.shared.navigator.highlightFirst()
         }
