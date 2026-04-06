@@ -4,6 +4,7 @@ struct MultipleSelectionListView<Element, ID, Content>: View
     where ID: Hashable, Content: View, ID == Element.ID, Element: Identifiable {
   var items: [Element]
   var content: (Element?, Element, Element?, Int) -> Content
+  var onLastItemAppearing: (() -> Void)?
 
   var body: some View {
     LazyVStack(spacing: 0) {
@@ -11,6 +12,11 @@ struct MultipleSelectionListView<Element, ID, Content>: View
         let previous = index > 0 ? items[index - 1] : nil
         let next = index < items.count - 1 ? items[index + 1] : nil
         content(previous, element, next, index)
+          .onAppear {
+            if index == items.count - 1 {
+              onLastItemAppearing?()
+            }
+          }
       }
     }
   }

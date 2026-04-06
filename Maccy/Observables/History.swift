@@ -15,6 +15,19 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   var items: [HistoryItemDecorator] = []
   var pasteStack: PasteStack?
+  private var displayedItemsLimit = 200
+  private var searchResultsLimit = 100
+  private var allSearchResults: [HistoryItemDecorator] = []
+
+  private enum Config {
+    static let initialLoadCount = 100
+    static let defaultDisplayLimit = 200
+    static let searchResultsLimit = 100
+    static let backgroundBatchSize = 200
+    static let backgroundBatchDelayMs = 10
+    static let loadMoreIncrement = 200
+    static let searchLoadMoreIncrement = 100
+  }
 
   var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
@@ -22,15 +35,44 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   var searchQuery: String = "" {
     didSet {
       throttler.throttle { [self] in
-        updateItems(search.search(string: searchQuery, within: all))
-
-        if searchQuery.isEmpty {
-          AppState.shared.navigator.select(item: unpinnedItems.first)
-        } else {
-          AppState.shared.navigator.highlightFirst()
-        }
-
+        performSearch()
         AppState.shared.popup.needsResize = true
+      }
+    }
+  }
+
+  private func performSearch() {
+    if searchQuery.isEmpty {
+      displayedItemsLimit = Config.defaultDisplayLimit
+      searchResultsLimit = Config.searchResultsLimit
+      items = Array(all.prefix(displayedItemsLimit))
+      updateUnpinnedShortcuts()
+      AppState.shared.navigator.select(item: unpinnedItems.first)
+    } else {
+      searchResultsLimit = Config.searchResultsLimit
+      let searchResults = search.search(string: searchQuery, within: all)
+      allSearchResults = searchResults.map { $0.object }
+      let limitedResults = Array(searchResults.prefix(searchResultsLimit))
+      items = limitedResults.map { result in
+        result.object.highlight(searchQuery, result.ranges)
+        return result.object
+      }
+      AppState.shared.navigator.highlightFirst()
+    }
+  }
+
+  func loadMoreItems() {
+    if searchQuery.isEmpty {
+      let newLimit = min(displayedItemsLimit + Config.loadMoreIncrement, all.count)
+      if newLimit > displayedItemsLimit {
+        displayedItemsLimit = newLimit
+        items = Array(all.prefix(displayedItemsLimit))
+      }
+    } else {
+      let newLimit = min(searchResultsLimit + Config.searchLoadMoreIncrement, allSearchResults.count)
+      if newLimit > searchResultsLimit {
+        searchResultsLimit = newLimit
+        items = Array(allSearchResults.prefix(searchResultsLimit))
       }
     }
   }
@@ -105,16 +147,42 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func load() async throws {
     let descriptor = FetchDescriptor<HistoryItem>()
     let results = try Storage.shared.context.fetch(descriptor)
-    all = sorter.sort(results).map { HistoryItemDecorator($0) }
+
+    let sortedResults = sorter.sort(results)
+
+    let initialDecorators = Array(sortedResults.prefix(Config.initialLoadCount)).map { HistoryItemDecorator($0) }
+    all = initialDecorators
     items = all
 
     limitHistorySize(to: Defaults[.size])
-
     updateShortcuts()
-    // Ensure that panel size is proper *after* loading all items.
+
     Task {
       AppState.shared.popup.needsResize = true
     }
+
+    let remainingResults = Array(sortedResults.dropFirst(Config.initialLoadCount))
+    if !remainingResults.isEmpty {
+      Task {
+        await loadRemainingItems(remainingResults)
+      }
+    }
+  }
+
+  @MainActor
+  private func loadRemainingItems(_ remainingResults: [HistoryItem]) async {
+    for i in stride(from: 0, to: remainingResults.count, by: Config.backgroundBatchSize) {
+      let endIndex = min(i + Config.backgroundBatchSize, remainingResults.count)
+      let batch = Array(remainingResults[i..<endIndex])
+      let decorators = batch.map { HistoryItemDecorator($0) }
+      all.append(contentsOf: decorators)
+
+      try? await Task.sleep(for: .milliseconds(Config.backgroundBatchDelayMs))
+    }
+
+    items = Array(all.prefix(displayedItemsLimit))
+    limitHistorySize(to: Defaults[.size])
+    updateShortcuts()
   }
 
   @MainActor
@@ -143,7 +211,6 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       // It was already inserted after creation in Clipboard.swift
     }
 
-    var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
         item.contents = existingHistoryItem.contents
@@ -157,8 +224,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
       logger.info("Removing duplicate item '\(item.title)'")
       Storage.shared.context.delete(existingHistoryItem)
-      removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
-      if let removedItemIndex {
+      if let removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem }) {
         all.remove(at: removedItemIndex)
       }
     } else {
@@ -176,22 +242,14 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     var itemDecorator: HistoryItemDecorator
     if let pin = item.pin {
       itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
-      // Keep pins in the same place.
-      if let removedItemIndex {
-        all.insert(itemDecorator, at: removedItemIndex)
-      }
     } else {
       itemDecorator = HistoryItemDecorator(item)
-
-      let sortedItems = sorter.sort(all.map(\.item) + [item])
-      if let index = sortedItems.firstIndex(of: item) {
-        all.insert(itemDecorator, at: index)
-      }
-
-      items = all
-      updateUnpinnedShortcuts()
-      AppState.shared.popup.needsResize = true
     }
+    reinsertItem(itemDecorator)
+
+    items = Array(all.prefix(displayedItemsLimit))
+    updateUnpinnedShortcuts()
+    AppState.shared.popup.needsResize = true
 
     return itemDecorator
   }
@@ -327,6 +385,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         return
       }
     }
+
+    reinsertItem(item)
+
+    if searchQuery.isEmpty {
+      items = Array(all.prefix(displayedItemsLimit))
+    }
+    updateUnpinnedShortcuts()
 
     Task {
       searchQuery = ""
@@ -466,15 +531,20 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     return nil
   }
 
-  private func updateItems(_ newItems: [Search.SearchResult]) {
-    items = newItems.map { result in
-      let item = result.object
-      item.highlight(searchQuery, result.ranges)
-
-      return item
+  private func reinsertItem(_ item: HistoryItemDecorator) {
+    if let existingIndex = all.firstIndex(where: { $0.id == item.id }) {
+      all.remove(at: existingIndex)
     }
 
-    updateUnpinnedShortcuts()
+    if item.isPinned {
+      if let firstPinnedIndex = all.firstIndex(where: { $0.isPinned }) {
+        all.insert(item, at: firstPinnedIndex)
+      } else {
+        all.insert(item, at: 0)
+      }
+    } else {
+      all.insert(item, at: 0)
+    }
   }
 
   private func updateShortcuts() {
