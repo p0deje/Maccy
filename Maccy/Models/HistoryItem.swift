@@ -30,11 +30,6 @@ class HistoryItem {
        let character = Sauce.shared.character(for: Int(previewKey.QWERTYKeyCode), cocoaModifiers: []) {
       keys.remove(character)
     }
-    if let tagKey = KeyChord.tagKey,
-       let character = Sauce.shared.character(for: Int(tagKey.QWERTYKeyCode), cocoaModifiers: []) {
-      keys.remove(character)
-    }
-
     return keys
   }
 
