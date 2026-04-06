@@ -171,9 +171,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func loadRemainingItems(_ remainingResults: [HistoryItem]) async {
-    for i in stride(from: 0, to: remainingResults.count, by: Config.backgroundBatchSize) {
-      let endIndex = min(i + Config.backgroundBatchSize, remainingResults.count)
-      let batch = Array(remainingResults[i..<endIndex])
+    for batchIndex in stride(from: 0, to: remainingResults.count, by: Config.backgroundBatchSize) {
+      let endIndex = min(batchIndex + Config.backgroundBatchSize, remainingResults.count)
+      let batch = Array(remainingResults[batchIndex..<endIndex])
       let decorators = batch.map { HistoryItemDecorator($0) }
       all.append(contentsOf: decorators)
 
