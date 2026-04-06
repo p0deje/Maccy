@@ -5,7 +5,8 @@
 "Text" = "";
 "SaveDescription" = "";
 "Size" = "";
-"SizeTooltip" = "";
+"Unlimited" = "অসীম";
+"SizeTooltip" = "ইতিহাসের আইটেমের সংখ্যা রাখতে হবে।\nসীমাহীন করতে -1 সেট করুন।\nডিফল্ট: 200।";
 "CurrentSizeTooltip" = "";
 "SortBy" = "";
 "LastCopiedAt" = "";

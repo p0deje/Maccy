@@ -5,7 +5,8 @@
 "Text" = "";
 "SaveDescription" = "";
 "Size" = "";
-"SizeTooltip" = "";
+"Unlimited" = "Απεριόριστο";
+"SizeTooltip" = "Αριθμός στοιχείων ιστορικού προς αποθήκευση.\nΟρίστε σε -1 για απεριόριστο.\nΠροεπιλογή: 200.";
 "CurrentSizeTooltip" = "";
 "SortBy" = "";
 "LastCopiedAt" = "";

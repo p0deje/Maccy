@@ -3,7 +3,8 @@
 "Files" = "Fayllar";
 "SaveDescription" = "Qaysi turdagi nusxalangan kontentni saqlash kerakligini o'zgartiring.";
 "Size" = "Hajmi:";
-"SizeTooltip" = "Saqlanishi kerak bo'lgan tarix elementlari soni.\nStandart: 200.";
+"Unlimited" = "Cheksiz";
+"SizeTooltip" = "Saqlanishi kerak bo'lgan tarix elementlari soni.\nCheksiz qilish uchun -1 ga o'rnating.\nStandart: 200.";
 "CurrentSizeTooltip" = "Diskdagi joriy o'lcham.";
 "SortBy" = "Saralash turi:";
 "LastCopiedAt" = "Oxirgi nusxa vaqti";

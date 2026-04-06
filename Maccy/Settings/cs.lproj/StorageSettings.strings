@@ -5,7 +5,8 @@
 "Text" = "Text";
 "SaveDescription" = "Vyber jaké typy kopírovaného obsahu mají být ukládány.";
 "Size" = "Velikost:";
-"SizeTooltip" = "Počet položek uchovávaných v historii.\nVýchozí: 200.";
+"Unlimited" = "Neomezené";
+"SizeTooltip" = "Počet položek uchovávaných v historii.\nPro neomezené nastavte -1.\nVýchozí: 200.";
 "CurrentSizeTooltip" = "Aktuální velikost na disku.";
 "SortBy" = "Řadit podle:";
 "LastCopiedAt" = "Čas posledního kopírování";

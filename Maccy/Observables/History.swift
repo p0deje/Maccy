@@ -187,6 +187,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func limitHistorySize(to maxSize: Int) {
+    guard maxSize >= 0 else { return }
     let unpinned = all.filter(\.isUnpinned)
     if unpinned.count >= maxSize {
       unpinned[maxSize...].forEach(delete)

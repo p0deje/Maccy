@@ -5,7 +5,8 @@
 "Text" = "";
 "SaveDescription" = "";
 "Size" = "";
-"SizeTooltip" = "";
+"Unlimited" = "Obegränsad";
+"SizeTooltip" = "Antal historikposter att spara.\nAnge -1 för obegränsad.\nStandard: 200.";
 "CurrentSizeTooltip" = "";
 "SortBy" = "";
 "LastCopiedAt" = "";

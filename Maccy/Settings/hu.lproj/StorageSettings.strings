@@ -5,7 +5,8 @@
 "Text" = "Szöveg";
 "SaveDescription" = "Válaszd ki, milyen típusú másolt tartalom legyen tárolva.";
 "Size" = "Méret:";
-"SizeTooltip" = "A megtartott előzmények száma.\nAlapértelmezett: 200.";
+"Unlimited" = "Korlátlan";
+"SizeTooltip" = "A megtartott előzmények száma.\nÁllítsd -1-re a korlátlanhoz.\nAlapértelmezett: 200.";
 "CurrentSizeTooltip" = "Jelenlegi méret a lemezen.";
 "SortBy" = "Rendezés:";
 "LastCopiedAt" = "Utolsó másolás ideje";

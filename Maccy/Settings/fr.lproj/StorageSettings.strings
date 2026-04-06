@@ -5,7 +5,8 @@
 "Text" = "Textes";
 "SaveDescription" = "Modifiez les types de contenu copié à stocker.";
 "Size" = "Taille :";
-"SizeTooltip" = "Nombre d'éléments à garder dans l'historique.\nPar défaut : 200.";
+"Unlimited" = "Illimité";
+"SizeTooltip" = "Nombre d'éléments à garder dans l'historique.\nDéfinir à -1 pour illimité.\nPar défaut : 200.";
 "CurrentSizeTooltip" = "Taille actuelle sur le disque.";
 "SortBy" = "Trier par :";
 "LastCopiedAt" = "Date de dernière copie";

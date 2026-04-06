@@ -5,7 +5,8 @@
 "Text" = "";
 "SaveDescription" = "";
 "Size" = "";
-"SizeTooltip" = "";
+"Unlimited" = "असीमित";
+"SizeTooltip" = "रखने के लिए इतिहास आइटम की संख्या।\nअसीमित के लिए -1 सेट करें।\nडिफ़ॉल्ट: 200।";
 "CurrentSizeTooltip" = "";
 "SortBy" = "";
 "LastCopiedAt" = "";

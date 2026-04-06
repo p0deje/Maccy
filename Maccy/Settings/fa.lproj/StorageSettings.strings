@@ -5,7 +5,8 @@
 "Text" = "متن";
 "SaveDescription" = "تعیین کنید کدام نوع از محتوای کپی‌شده باید ذخیره شود.";
 "Size" = "";
-"SizeTooltip" = "";
+"Unlimited" = "نامحدود";
+"SizeTooltip" = "تعداد موارد تاریخچه برای نگهداری.\nبرای نامحدود -1 را تنظیم کنید.\nپیش‌فرض: 200.";
 "CurrentSizeTooltip" = "";
 "SortBy" = "";
 "LastCopiedAt" = "";
