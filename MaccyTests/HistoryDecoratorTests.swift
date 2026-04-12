@@ -59,21 +59,48 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
-  func testImage() {
+  func testImage() async {
     let image = NSImage(named: "StatusBarMenuImage")!
     let itemDecorator = historyItemDecorator(image)
     itemDecorator.sizeImages()
+    await itemDecorator.previewImageGenerationTask?.value
+    await itemDecorator.thumbnailImageGenerationTask?.value
     XCTAssertEqual(itemDecorator.title, "")
     XCTAssertEqual(itemDecorator.previewImage!.size, image.size)
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, image.size)
   }
 
   // We also need to add test for image with width bigger than max width.
-  func testImageWithHeightBiggerThanMaxHeight() {
+  func testImageWithHeightBiggerThanMaxHeight() async {
     let image = NSImage(named: "NSApplicationIcon")!
     let itemDecorator = historyItemDecorator(image)
     itemDecorator.sizeImages()
+    await itemDecorator.thumbnailImageGenerationTask?.value
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, NSSize(width: 40, height: 40))
+  }
+
+  func testHasImage() {
+    let image = NSImage(named: "StatusBarMenuImage")!
+    let itemDecorator = historyItemDecorator(image)
+    XCTAssertTrue(itemDecorator.hasImage)
+  }
+
+  func testHasNoImage() {
+    let itemDecorator = historyItemDecorator("plain text")
+    XCTAssertFalse(itemDecorator.hasImage)
+  }
+
+  func testAsyncGetPreviewTextWithHTML() async {
+    let html = "<a href='#'>foo</a>".data(using: .utf8)
+    let itemDecorator = historyItemDecorator(html, .html)
+    let text = await itemDecorator.asyncGetPreviewText()
+    XCTAssertEqual(text, "foo")
+  }
+
+  func testAsyncGetPreviewTextWithPlainText() async {
+    let itemDecorator = historyItemDecorator("bar")
+    let text = await itemDecorator.asyncGetPreviewText()
+    XCTAssertEqual(text, "bar")
   }
 
   func testFile() {

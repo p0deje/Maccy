@@ -50,9 +50,16 @@ struct PreviewItemView: View {
           }
         }
       } else {
-        ScrollView {
-          Text(item.text)
-            .font(.body)
+        AsyncView<String, _, _> {
+          return await item.asyncGetPreviewText()
+        } content: { text in
+          ScrollView {
+            Text(text)
+              .font(.body)
+          }
+        } placeholder: {
+          ProgressView()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
       }
 
