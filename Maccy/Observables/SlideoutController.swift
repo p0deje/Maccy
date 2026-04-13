@@ -183,6 +183,14 @@ class SlideoutController {
             }
             // Otherwise the base is the desired position
           }
+
+          // Clamp to screen bounds so the slideout doesn't go off-screen.
+          if let screenFrame = window.screen?.visibleFrame {
+            newOrigin.x = max(newOrigin.x, screenFrame.minX)
+            newOrigin.x = min(newOrigin.x, screenFrame.maxX - newSize.width)
+            newOrigin.y = max(newOrigin.y, screenFrame.minY)
+          }
+
           context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
           context.completionHandler = {
             if self.state == expectedAnimationState {
