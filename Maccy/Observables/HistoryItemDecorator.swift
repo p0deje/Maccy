@@ -50,30 +50,38 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   // 10k characters seems to be more than enough on large displays
   var text: String { item.previewableText.shortened(to: 10_000) }
 
-  private var cachedPreviewText: String?
+  @ObservationIgnored private var cachedPreviewText: String?
 
   @MainActor
   func asyncGetPreviewText() async -> String {
     if let cached = cachedPreviewText { return cached }
 
-    // Extract raw data on main thread (SwiftData-safe)
-    let plainText = item.text
+    // Fast paths: fileURLs and plain text don't need background parsing
+    let fileURLs = item.fileURLs
+    if !fileURLs.isEmpty {
+      let result = fileURLs
+        .compactMap { $0.absoluteString.removingPercentEncoding }
+        .joined(separator: "\n")
+        .shortened(to: 10_000)
+      cachedPreviewText = result
+      return result
+    }
+
+    if let plainText = item.text, !plainText.isEmpty {
+      let result = plainText.shortened(to: 10_000)
+      cachedPreviewText = result
+      return result
+    }
+
+    // Slow path: only read RTF/HTML data if needed, parse in background
     let rtfData = item.rtfData
     let htmlData = item.htmlData
-    let fileURLs = item.fileURLs
     let itemTitle = item.title
 
     let result = await Task.detached {
-      if !fileURLs.isEmpty {
-        return fileURLs
-          .compactMap { $0.absoluteString.removingPercentEncoding }
-          .joined(separator: "\n")
-          .shortened(to: 10_000)
-      } else if let text = plainText, !text.isEmpty {
-        return text.shortened(to: 10_000)
-      } else if let data = rtfData,
-                let rtf = NSAttributedString(rtf: data, documentAttributes: nil),
-                !rtf.string.isEmpty {
+      if let data = rtfData,
+         let rtf = NSAttributedString(rtf: data, documentAttributes: nil),
+         !rtf.string.isEmpty {
         return rtf.string.shortened(to: 10_000)
       } else if let data = htmlData,
                 let html = NSAttributedString(html: data, documentAttributes: nil),
