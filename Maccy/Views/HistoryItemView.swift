@@ -42,6 +42,7 @@ struct HistoryItemView: View {
       shortcuts: item.shortcuts,
       isSelected: item.isSelected,
       selectionIndex: visualIndex,
+      tagColors: item.tagColors,
       selectionAppearance: selectionAppearance
     ) {
       Text(verbatim: item.title)

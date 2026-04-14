@@ -5,4 +5,6 @@
 "PinKey" = "Press {pinKey} to pin.";
 "UnpinKey" = "Press {pinKey} to unpin.";
 "DeleteKey" = "Press {deleteKey} to delete.";
+"TagKey" = "Press {tagKey} to tag.";
 "PreviewKey" = "Press {previewKey} to toggle preview.";
+"Tags" = "Tags:";

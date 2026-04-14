@@ -107,6 +107,18 @@ struct ToolbarView: View {
         .disabled(pinActionDisabled)
 
         ToolbarButton {
+          appState.startTagging()
+        } label: {
+          Image(systemName: "tag")
+        }
+        .shortcutKeyHelp(
+          name: .tag,
+          key: "TagKey",
+          tableName: "PreviewItemView",
+          replacementKey: "tagKey"
+        )
+
+        ToolbarButton {
           appState.deleteSelection()
         } label: {
           Image(systemName: "trash")

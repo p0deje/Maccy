@@ -31,25 +31,57 @@ class Search {
     var ranges: [Range<String.Index>] = []
   }
 
+  struct ParsedQuery {
+    var tag: String?
+    var text: String
+
+    init(from raw: String) {
+      if let match = raw.range(of: #"^\s*#(\S*)(?:\s|$)"#, options: .regularExpression) {
+        let matchedString = raw[match]
+        self.tag = String(matchedString.trimmingCharacters(in: .whitespaces).dropFirst())
+        self.text = String(raw[match.upperBound...])
+      } else {
+        self.tag = nil
+        self.text = raw
+      }
+    }
+  }
+
   typealias Searchable = HistoryItemDecorator
 
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
-    guard !string.isEmpty else {
-      return within.map { SearchResult(object: $0) }
+    let parsed = ParsedQuery(from: string)
+
+    // Tag filter
+    let candidates: [Searchable]
+    if let tag = parsed.tag {
+      if tag.isEmpty {
+        // "#" alone → all items with any tag
+        candidates = within.filter { !$0.tags.isEmpty }
+      } else {
+        candidates = within.filter { $0.tags.contains(tag.lowercased()) }
+      }
+    } else {
+      candidates = within
+    }
+
+    // Text search (if empty, return all)
+    guard !parsed.text.isEmpty else {
+      return candidates.map { SearchResult(object: $0) }
     }
 
     switch Defaults[.searchMode] {
     case .mixed:
-      return mixedSearch(string: string, within: within)
+      return mixedSearch(string: parsed.text, within: candidates)
     case .regexp:
-      return simpleSearch(string: string, within: within, options: .regularExpression)
+      return simpleSearch(string: parsed.text, within: candidates, options: .regularExpression)
     case .fuzzy:
-      return fuzzySearch(string: string, within: within)
+      return fuzzySearch(string: parsed.text, within: candidates)
     default:
-      return simpleSearch(string: string, within: within, options: .caseInsensitive)
+      return simpleSearch(string: parsed.text, within: candidates, options: .caseInsensitive)
     }
   }
 

@@ -17,6 +17,13 @@ class AppState: Sendable {
   var navigator: NavigationManager
   var preview: SlideoutController
 
+  var tagAutocompleteActive: Bool = false
+  var tagAutocompleteIndex: Int = 0
+
+  var isTagging: Bool = false
+  var taggingQuery: String = ""
+  private var taggingSelection: [HistoryItemDecorator] = []
+
   var searchVisible: Bool {
     if !Defaults[.showSearch] { return false }
     switch Defaults[.searchVisibility] {
@@ -101,6 +108,67 @@ class AppState: Sendable {
     }
   }
 
+  @MainActor
+  func acceptTagAutocompletion() {
+    let parsed = Search.ParsedQuery(from: history.searchQuery)
+    guard let partial = parsed.tag else { return }
+
+    let suggestions: [String]
+    if partial.isEmpty {
+      suggestions = history.allTags
+    } else {
+      suggestions = history.allTags.filter { $0.hasPrefix(partial.lowercased()) }
+    }
+
+    guard !suggestions.isEmpty else { return }
+    let index = min(max(tagAutocompleteIndex, 0), suggestions.count - 1)
+    history.searchQuery = "#\(suggestions[index]) "
+    tagAutocompleteActive = false
+    tagAutocompleteIndex = 0
+  }
+
+  @MainActor
+  func startTagging() {
+    guard navigator.leadSelection != nil else { return }
+    taggingSelection = navigator.selection.items
+    isTagging = true
+    taggingQuery = ""
+  }
+
+  @MainActor
+  func commitTag() {
+    defer {
+      isTagging = false
+      taggingQuery = ""
+      taggingSelection = []
+    }
+
+    let tag = taggingQuery.lowercased().trimmingCharacters(in: .whitespaces)
+    guard !tag.isEmpty else { return }
+
+    for item in taggingSelection {
+      if item.item.tags.contains(tag) {
+        item.item.tags.removeAll { $0 == tag }
+      } else {
+        item.item.tags.append(tag)
+        item.item.tags.sort()
+      }
+    }
+
+    if Defaults[.tagColors][tag] == nil {
+      Defaults[.tagColors][tag] = .gray
+    }
+
+    try? Storage.shared.context.save()
+  }
+
+  @MainActor
+  func cancelTagging() {
+    isTagging = false
+    taggingQuery = ""
+    taggingSelection = []
+  }
+
   func openAbout() {
     about.openAbout(nil)
   }
@@ -138,6 +206,14 @@ class AppState: Sendable {
           ) {
             PinsSettingsPane()
               .environment(self)
+              .modelContainer(Storage.shared.container)
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.tags,
+            title: NSLocalizedString("Title", tableName: "TagSettings", comment: ""),
+            toolbarIcon: NSImage.tag!
+          ) {
+            TagSettingsPane()
               .modelContainer(Storage.shared.container)
           },
           Settings.Pane(

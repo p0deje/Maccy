@@ -111,6 +111,42 @@ struct PinValueView: View {
   }
 }
 
+struct PinTagView: View {
+  @Bindable var item: HistoryItem
+
+  @State private var tagText: String
+
+  init(item: HistoryItem) {
+    self.item = item
+    self._tagText = State(initialValue: item.tags.map { "#\($0)" }.joined(separator: " "))
+  }
+
+  var body: some View {
+    TextField(
+      "",
+      text: $tagText,
+      prompt: Text("TagPlaceholder", tableName: "PinsSettings")
+    )
+    .onSubmit { commitTags() }
+    .onChange(of: tagText) { _, _ in commitTags() }
+    .onChange(of: item.tags) { _, newTags in
+      tagText = newTags.map { "#\($0)" }.joined(separator: " ")
+    }
+  }
+
+  private func commitTags() {
+    let parsed = tagText
+      .split(separator: " ")
+      .map { $0.hasPrefix("#") ? String($0.dropFirst()) : String($0) }
+      .map { $0.lowercased() }
+      .filter { !$0.isEmpty }
+
+    item.tags = Array(Set(parsed)).sorted()
+    tagText = item.tags.map { "#\($0)" }.joined(separator: " ")
+    try? item.modelContext?.save()
+  }
+}
+
 struct PinsSettingsPane: View {
   @Environment(AppState.self) private var appState
   @Environment(\.modelContext) private var modelContext
@@ -135,6 +171,11 @@ struct PinsSettingsPane: View {
         TableColumn(Text("Alias", tableName: "PinsSettings")) { item in
           PinTitleView(item: item)
         }
+
+        TableColumn(Text("Tags", tableName: "PinsSettings")) { item in
+          PinTagView(item: item)
+        }
+        .width(min: 80, max: 140)
 
         TableColumn(Text("Content", tableName: "PinsSettings")) { item in
           PinValueView(item: item)

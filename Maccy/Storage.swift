@@ -27,9 +27,13 @@ class Storage {
     #endif
 
     do {
-      container = try ModelContainer(for: HistoryItem.self, configurations: config)
-    } catch let error {
-      fatalError("Cannot load database: \(error.localizedDescription).")
+      container = try ModelContainer(
+        for: Schema(versionedSchema: StorageSchemaV2.self),
+        migrationPlan: StorageMigrationPlan.self,
+        configurations: config
+      )
+    } catch {
+      fatalError("Cannot load database: \(error)")
     }
   }
 }

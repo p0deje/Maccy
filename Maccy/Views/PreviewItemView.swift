@@ -88,6 +88,15 @@ struct PreviewItemView: View {
         Text("NumberOfCopies", tableName: "PreviewItemView")
         Text(String(item.item.numberOfCopies))
       }
+
+      if !item.tags.isEmpty {
+        HStack(spacing: 3) {
+          Text("Tags", tableName: "PreviewItemView")
+          ForEach(item.tags, id: \.self) { tag in
+            TagChipView(tag: tag)
+          }
+        }
+      }
     }
     .controlSize(.small)
   }

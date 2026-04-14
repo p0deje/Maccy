@@ -1,6 +1,8 @@
 "Title" = "Pins";
 "Key" = "Key";
 "Alias" = "Title";
+"Tags" = "Tags";
+"TagPlaceholder" = "#work #code";
 "Content" = "Content";
 "ContentIsNotText" = "Non-editable content (image or file)";
 "RichTextEditWarning" = "Editing will discard all formatting.";

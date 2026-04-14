@@ -54,6 +54,10 @@ struct GeneralSettingsPane: View {
         KeyboardShortcuts.Recorder(for: .delete)
           .help(Text("DeleteTooltip", tableName: "GeneralSettings"))
       }
+      Settings.Section(label: { Text("Tag", tableName: "GeneralSettings") }) {
+        KeyboardShortcuts.Recorder(for: .tag)
+          .help(Text("TagTooltip", tableName: "GeneralSettings"))
+      }
       Settings.Section(
         bottomDivider: true,
         label: { Text("ShowPreview", tableName: "GeneralSettings") }

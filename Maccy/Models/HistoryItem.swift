@@ -30,7 +30,6 @@ class HistoryItem {
        let character = Sauce.shared.character(for: Int(previewKey.QWERTYKeyCode), cocoaModifiers: []) {
       keys.remove(character)
     }
-
     return keys
   }
 
@@ -64,6 +63,7 @@ class HistoryItem {
   var lastCopiedAt: Date = Date.now
   var numberOfCopies: Int = 1
   var pin: String?
+  var tags: [String] = []
   var title = ""
 
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
