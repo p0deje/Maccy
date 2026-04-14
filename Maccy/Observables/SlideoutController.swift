@@ -189,6 +189,7 @@ class SlideoutController {
             newOrigin.x = max(newOrigin.x, screenFrame.minX)
             newOrigin.x = min(newOrigin.x, screenFrame.maxX - newSize.width)
             newOrigin.y = max(newOrigin.y, screenFrame.minY)
+            newOrigin.y = min(newOrigin.y, screenFrame.maxY - newSize.height)
           }
 
           context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)

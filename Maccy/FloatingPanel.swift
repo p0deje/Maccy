@@ -80,6 +80,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     if let screenFrame = NSScreen.forPopup?.visibleFrame {
       var origin = frame.origin
       origin.y = max(origin.y, screenFrame.minY)
+      origin.y = min(origin.y, screenFrame.maxY - frame.height)
       origin.x = max(origin.x, screenFrame.minX)
       origin.x = min(origin.x, screenFrame.maxX - frame.width)
       setFrameOrigin(origin)

@@ -63,8 +63,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
         .compactMap { $0.absoluteString.removingPercentEncoding }
         .joined(separator: "\n")
         .shortened(to: 10_000)
-      cachedPreviewText = result
-      return result
+      if !result.isEmpty {
+        cachedPreviewText = result
+        return result
+      }
     }
 
     if let plainText = item.text, !plainText.isEmpty {
