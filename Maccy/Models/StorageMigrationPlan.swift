@@ -4,10 +4,10 @@ import SwiftData
 enum StorageSchemaV1: VersionedSchema {
   static var versionIdentifier = Schema.Version(1, 0, 0)
   static var models: [any PersistentModel.Type] {
-    [HistoryItemV1.self, HistoryItemContentV1.self]
+    [HistoryItem.self, HistoryItemContent.self]
   }
 
-  @Model class HistoryItemV1 {
+  @Model class HistoryItem {
     var application: String?
     var firstCopiedAt: Date = Date.now
     var lastCopiedAt: Date = Date.now
@@ -15,18 +15,18 @@ enum StorageSchemaV1: VersionedSchema {
     var pin: String?
     var title = ""
 
-    @Relationship(deleteRule: .cascade, inverse: \HistoryItemContentV1.item)
-    var contents: [HistoryItemContentV1] = []
+    @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
+    var contents: [HistoryItemContent] = []
 
     init() {}
   }
 
-  @Model class HistoryItemContentV1 {
+  @Model class HistoryItemContent {
     var type: String = ""
     var value: Data?
 
     @Relationship
-    var item: HistoryItemV1?
+    var item: HistoryItem?
 
     init() {}
   }
