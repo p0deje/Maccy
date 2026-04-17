@@ -8,18 +8,28 @@ import SwiftUI
 // 2. Recycling views with fragment IDs
 // 3. Never changing the total height when loading new pages
 // 4. Rendering placeholders for unloaded items
+//
+// Image items render taller than text items, so total height and per-item
+// y-offsets are computed from a sorted list of indices whose items contain
+// an image. The layout keeps a prefix-sum cache for O(log n) placement.
 
 /// Custom layout for virtualized list that maintains stable scroll positions.
-/// Calculates total height upfront and positions items at exact offsets.
+/// Calculates total height upfront and positions items at exact offsets,
+/// accounting for items with images having a different height than text items.
 struct VirtualizedLayout: Layout {
-  let itemHeight: CGFloat
+  let textItemHeight: CGFloat
+  let imageItemHeight: CGFloat
   let totalItemCount: Int
   let loadedRange: Range<Int>
+  /// Sorted ascending list of item indices (within the full ordered list) whose
+  /// items have an image. Used to compute exact y-offsets for each row.
+  let imageItemIndices: [Int]
 
   func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
     let width = proposal.width ?? 0
-    // Total height is fixed based on total item count - never changes during scrolling
-    let height = CGFloat(totalItemCount) * itemHeight
+    let imageCount = min(imageItemIndices.count, totalItemCount)
+    let textCount = max(0, totalItemCount - imageCount)
+    let height = CGFloat(textCount) * textItemHeight + CGFloat(imageCount) * imageItemHeight
     return CGSize(width: width, height: height)
   }
 
@@ -29,20 +39,35 @@ struct VirtualizedLayout: Layout {
     let width = proposal.width ?? bounds.width
 
     for subview in subviews {
-      // Get the actual row index from the subview
       let rowIndex = subview[RowIndexKey.self]
-      let yOffset = CGFloat(rowIndex) * itemHeight
-
-      let position = CGPoint(
-        x: bounds.minX,
-        y: bounds.minY + yOffset
-      )
+      let (imagesBefore, isImage) = imageStats(forRowIndex: rowIndex)
+      let textBefore = rowIndex - imagesBefore
+      let yOffset = CGFloat(textBefore) * textItemHeight + CGFloat(imagesBefore) * imageItemHeight
+      let rowHeight = isImage ? imageItemHeight : textItemHeight
 
       subview.place(
-        at: position,
-        proposal: ProposedViewSize(width: width, height: itemHeight)
+        at: CGPoint(x: bounds.minX, y: bounds.minY + yOffset),
+        proposal: ProposedViewSize(width: width, height: rowHeight)
       )
     }
+  }
+
+  /// Returns the number of image items strictly before `rowIndex` and whether
+  /// `rowIndex` itself is an image item. Uses binary search on the sorted
+  /// `imageItemIndices` array.
+  private func imageStats(forRowIndex rowIndex: Int) -> (imagesBefore: Int, isImage: Bool) {
+    var lower = 0
+    var upper = imageItemIndices.count
+    while lower < upper {
+      let mid = (lower + upper) / 2
+      if imageItemIndices[mid] < rowIndex {
+        lower = mid + 1
+      } else {
+        upper = mid
+      }
+    }
+    let isImage = lower < imageItemIndices.count && imageItemIndices[lower] == rowIndex
+    return (lower, isImage)
   }
 }
 
@@ -100,7 +125,9 @@ struct VirtualizedItem: View {
 /// Container view that manages the virtualized list with custom layout
 struct VirtualizedListContainer: View {
   let totalCount: Int
-  let itemHeight: CGFloat
+  let textItemHeight: CGFloat
+  let imageItemHeight: CGFloat
+  let imageItemIndices: [Int]
   let loadedRange: Range<Int>
   let loadedItems: [HistoryItemDecorator]
   let maxVisibleItems: Int
@@ -113,9 +140,11 @@ struct VirtualizedListContainer: View {
   var body: some View {
     ScrollView {
       VirtualizedLayout(
-        itemHeight: itemHeight,
+        textItemHeight: textItemHeight,
+        imageItemHeight: imageItemHeight,
         totalItemCount: totalCount,
-        loadedRange: loadedRange
+        loadedRange: loadedRange,
+        imageItemIndices: imageItemIndices
       ) {
         // Build the complete set of items to render
         ForEach(itemsToRender, id: \.fragmentID) { item in

@@ -19,18 +19,12 @@ struct VirtualizedHistoryList: View {
   /// Height for image items (includes padding)
   private var imageItemHeight: CGFloat { CGFloat(Defaults[.imageMaxHeight]) + 10 }
 
-  /// Average item height for scroll calculations
-  /// Since most items are text, weight heavily toward text height
-  private var averageItemHeight: CGFloat {
-    textItemHeight
-  }
-
   /// Maximum number of items that can be visible at once
   /// Used for view recycling to limit memory usage
   private var maxVisibleItems: Int {
     // Estimate based on a reasonable window height (e.g., 800px)
     // Add generous buffer for smooth scrolling
-    Int((800 / averageItemHeight) * 3)
+    Int((800 / textItemHeight) * 3)
   }
 
   private var unpinnedItems: [HistoryItemDecorator] {
@@ -39,6 +33,10 @@ struct VirtualizedHistoryList: View {
 
   private var totalItemCount: Int {
     appState.history.totalCount
+  }
+
+  private var imageItemIndices: [Int] {
+    appState.history.imageItemIndices
   }
 
   private var loadedRange: Range<Int> {
@@ -50,7 +48,9 @@ struct VirtualizedHistoryList: View {
   var body: some View {
     VirtualizedListContainer(
       totalCount: totalItemCount,
-      itemHeight: averageItemHeight,
+      textItemHeight: textItemHeight,
+      imageItemHeight: imageItemHeight,
+      imageItemIndices: imageItemIndices,
       loadedRange: loadedRange,
       loadedItems: unpinnedItems,
       maxVisibleItems: maxVisibleItems,

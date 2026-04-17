@@ -102,6 +102,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     paginationManager.windowEndIndex
   }
 
+  @ObservationIgnored
+  var imageItemIndices: [Int] {
+    paginationManager.imageItemIndices
+  }
+
   init() {
     Task {
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {

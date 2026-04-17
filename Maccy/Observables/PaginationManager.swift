@@ -53,6 +53,11 @@ class PaginationManager {
   /// Total number of items in storage
   private(set) var totalCount: Int = 0
 
+  /// Sorted ascending list of total-list indices whose items have an image.
+  /// Computed against the same sort order used by pagination so the layout
+  /// can compute exact per-row y-offsets without having every page loaded.
+  private(set) var imageItemIndices: [Int] = []
+
   /// Whether we are currently loading more items
   private(set) var isLoading: Bool = false
 
@@ -112,7 +117,12 @@ class PaginationManager {
     let countDescriptor = FetchDescriptor<HistoryItem>()
     totalCount = (try? Storage.shared.context.fetchCount(countDescriptor)) ?? 0
 
-    guard totalCount > 0 else { return }
+    guard totalCount > 0 else {
+      imageItemIndices = []
+      return
+    }
+
+    try refreshImageItemIndices()
 
     // Load first page as current
     currentPage = Page(try await fetchPage(at: 0))
@@ -251,6 +261,7 @@ class PaginationManager {
       firstPageCache = Page()
       lastPageCache = Page()
       currentPageIndex = 0
+      imageItemIndices = []
     }
   }
 
@@ -336,6 +347,23 @@ class PaginationManager {
         lastPageCache = Page(try await fetchPage(at: lastIndex))
       }
     }
+
+    try refreshImageItemIndices()
+  }
+
+  /// Rebuild the sorted list of indices for items that contain an image.
+  /// Fetches all items in the same sort order pagination uses so the layout
+  /// can compute exact y-offsets for both loaded and unloaded rows.
+  @MainActor
+  private func refreshImageItemIndices() throws {
+    let descriptor = FetchDescriptor<HistoryItem>(sortBy: [sortDescriptorForCurrentMode()])
+    let results = try Storage.shared.context.fetch(descriptor)
+    let sorted = sorter.sort(results)
+    var indices: [Int] = []
+    for (index, item) in sorted.enumerated() where item.image != nil {
+      indices.append(index)
+    }
+    imageItemIndices = indices
   }
 
   @MainActor
