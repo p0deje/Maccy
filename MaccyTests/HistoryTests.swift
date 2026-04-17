@@ -233,6 +233,30 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.items, [bar])
   }
 
+  // Regression test: re-adding a duplicate of a pinned item while the
+  // unpinned history is at capacity used to trap on out-of-range insert
+  // because `limitHistorySize` mutated `all` between capturing the
+  // removed item's index and re-inserting the decorator at that index.
+  func testRepinningAtCapacityDoesNotCrash() {
+    let savedPinTo = Defaults[.pinTo]
+    Defaults[.pinTo] = .bottom
+    Defaults[.size] = 3
+    defer { Defaults[.pinTo] = savedPinTo }
+
+    let pinned = history.add(historyItem("pinned"))
+    pinned.togglePin()
+
+    _ = history.add(historyItem("a"))
+    _ = history.add(historyItem("b"))
+    _ = history.add(historyItem("c"))
+
+    // Re-add a duplicate of the pinned item. Before the fix this
+    // trapped in Array.insert(_:at:) with "index out of range".
+    _ = history.add(historyItem("pinned"))
+
+    XCTAssertTrue(history.all.contains(where: { $0.item.pin != nil }))
+  }
+
   private func historyItem(_ value: String) -> HistoryItem {
     let contents = [
       HistoryItemContent(
