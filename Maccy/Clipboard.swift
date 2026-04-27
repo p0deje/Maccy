@@ -81,6 +81,10 @@ class Clipboard {
       contents = clearFormatting(contents)
     }
 
+    if Defaults[.normalizeWhitespace] {
+      contents = normalizeWhitespace(contents)
+    }
+
     for content in contents {
       guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
       pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
@@ -297,6 +301,23 @@ class Clipboard {
 
     NSApp.activate(ignoringOtherApps: true)
     NSApp.hide(self)
+  }
+
+  private func normalizeWhitespace(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {
+    return contents.map { content in
+      guard NSPasteboard.PasteboardType(content.type) == .string,
+            let data = content.value,
+            let string = String(data: data, encoding: .utf8) else {
+        return content
+      }
+
+      let normalized = string
+        .replacingOccurrences(of: "[\\t ]*\\n[\\t ]*", with: "\n", options: .regularExpression)
+        .replacingOccurrences(of: " {2,}", with: " ", options: .regularExpression)
+        .trimmingCharacters(in: .whitespacesAndNewlines)
+
+      return HistoryItemContent(type: content.type, value: normalized.data(using: .utf8))
+    }
   }
 
   private func clearFormatting(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {
