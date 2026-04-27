@@ -81,13 +81,18 @@ class Clipboard {
       contents = clearFormatting(contents)
     }
 
-    if Defaults[.normalizeWhitespace] {
-      contents = normalizeWhitespace(contents)
-    }
-
     for content in contents {
       guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
-      pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
+      let type = NSPasteboard.PasteboardType(content.type)
+
+      if Defaults[.normalizeWhitespace] && type == .string,
+         let data = content.value,
+         let string = String(data: data, encoding: .utf8) {
+        let normalized = normalizeWhitespace(string)
+        pasteboard.setData(normalized.data(using: .utf8)!, forType: type)
+      } else {
+        pasteboard.setData(content.value, forType: type)
+      }
     }
 
     // Use writeObjects for file URLs so that multiple files that are copied actually work.
@@ -220,6 +225,23 @@ class Clipboard {
       return
     }
 
+    if Defaults[.normalizeWhitespace] {
+      for content in contents where NSPasteboard.PasteboardType(content.type) == .string {
+        if let data = content.value, let string = String(data: data, encoding: .utf8) {
+          let normalized = normalizeWhitespace(string)
+          content.value = normalized.data(using: .utf8)
+        }
+      }
+
+      // Rewrite the system clipboard with normalized content.
+      pasteboard.clearContents()
+      for content in contents {
+        pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
+      }
+      pasteboard.setString("", forType: .fromMaccy)
+      changeCount = pasteboard.changeCount
+    }
+
     let historyItem = HistoryItem(contents: contents)
 
     if #unavailable(macOS 15.0) {
@@ -303,21 +325,11 @@ class Clipboard {
     NSApp.hide(self)
   }
 
-  private func normalizeWhitespace(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {
-    return contents.map { content in
-      guard NSPasteboard.PasteboardType(content.type) == .string,
-            let data = content.value,
-            let string = String(data: data, encoding: .utf8) else {
-        return content
-      }
-
-      let normalized = string
-        .replacingOccurrences(of: "[\\t ]*\\n[\\t ]*", with: "\n", options: .regularExpression)
-        .replacingOccurrences(of: " {2,}", with: " ", options: .regularExpression)
-        .trimmingCharacters(in: .whitespacesAndNewlines)
-
-      return HistoryItemContent(type: content.type, value: normalized.data(using: .utf8))
-    }
+  private func normalizeWhitespace(_ string: String) -> String {
+    return string
+      .replacingOccurrences(of: "[\\t ]*\\n[\\t ]*", with: " ", options: .regularExpression)
+      .replacingOccurrences(of: " {2,}", with: " ", options: .regularExpression)
+      .trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
   private func clearFormatting(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {
