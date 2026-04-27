@@ -89,7 +89,7 @@ class Clipboard {
          let data = content.value,
          let string = String(data: data, encoding: .utf8) {
         let normalized = normalizeWhitespace(string)
-        pasteboard.setData(normalized.data(using: .utf8)!, forType: type)
+        pasteboard.setData(normalized.data(using: .utf8), forType: type)
       } else {
         pasteboard.setData(content.value, forType: type)
       }
@@ -226,20 +226,7 @@ class Clipboard {
     }
 
     if Defaults[.normalizeWhitespace] {
-      for content in contents where NSPasteboard.PasteboardType(content.type) == .string {
-        if let data = content.value, let string = String(data: data, encoding: .utf8) {
-          let normalized = normalizeWhitespace(string)
-          content.value = normalized.data(using: .utf8)
-        }
-      }
-
-      // Rewrite the system clipboard with normalized content.
-      pasteboard.clearContents()
-      for content in contents {
-        pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
-      }
-      pasteboard.setString("", forType: .fromMaccy)
-      changeCount = pasteboard.changeCount
+      normalizeContentsAndRewritePasteboard(contents)
     }
 
     let historyItem = HistoryItem(contents: contents)
@@ -323,6 +310,21 @@ class Clipboard {
 
     NSApp.activate(ignoringOtherApps: true)
     NSApp.hide(self)
+  }
+
+  private func normalizeContentsAndRewritePasteboard(_ contents: [HistoryItemContent]) {
+    for content in contents where NSPasteboard.PasteboardType(content.type) == .string {
+      if let data = content.value, let string = String(data: data, encoding: .utf8) {
+        content.value = normalizeWhitespace(string).data(using: .utf8)
+      }
+    }
+
+    pasteboard.clearContents()
+    for content in contents {
+      pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
+    }
+    pasteboard.setString("", forType: .fromMaccy)
+    changeCount = pasteboard.changeCount
   }
 
   private func normalizeWhitespace(_ string: String) -> String {
