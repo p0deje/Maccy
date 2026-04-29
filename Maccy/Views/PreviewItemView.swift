@@ -22,8 +22,8 @@ struct PreviewItemView: View {
               Image(nsImage: image)
                 .resizable()
                 .overlay(alignment: .bottomTrailing) {
-                  if let dimensions = item.imageDimensions {
-                    Text(dimensions)
+                  if let dim = item.item.imageDimensionsValue {
+                    Text(dim)
                       .font(.caption2)
                       .foregroundStyle(.white)
                       .padding(.horizontal, 4)
@@ -100,10 +100,10 @@ struct PreviewItemView: View {
         Text(String(item.item.numberOfCopies))
       }
 
-      if let dimensions = item.imageDimensions {
+      if let dim = item.item.imageDimensionsValue {
         HStack(spacing: 3) {
           Text("ImageDimensions", tableName: "PreviewItemView")
-          Text(dimensions)
+          Text(dim)
         }
       }
     }

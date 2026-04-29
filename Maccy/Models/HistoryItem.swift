@@ -157,6 +157,17 @@ class HistoryItem {
     return data
   }
 
+  var imageDimensionsValue: String? {
+    if let data = imageData, let rep = NSBitmapImageRep(data: data) {
+      return "\(rep.pixelsWide)×\(rep.pixelsHigh)"
+    }
+    if let url = fileURLs.first, let data = try? Data(contentsOf: url),
+       let rep = NSBitmapImageRep(data: data) {
+      return "\(rep.pixelsWide)×\(rep.pixelsHigh)"
+    }
+    return nil
+  }
+
   var image: NSImage? {
     guard let data = imageData else {
       return nil

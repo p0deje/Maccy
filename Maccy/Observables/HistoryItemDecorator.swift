@@ -42,11 +42,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var hasImage: Bool { item.image != nil }
 
   var imageDimensions: String? {
-    guard let image = item.image else { return nil }
-    if let rep = image.representations.first as? NSBitmapImageRep {
-      return "\(rep.pixelsWide)×\(rep.pixelsHigh)"
-    }
-    return "\(Int(image.size.width))×\(Int(image.size.height))"
+    item.imageDimensionsValue
   }
 
   var previewImageGenerationTask: Task<(), Error>?
