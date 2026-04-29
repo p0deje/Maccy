@@ -140,6 +140,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   @objc
   private func performStatusItemClick() {
+    let now = Date()
+    if let lastStatusItemClickAt,
+       now.timeIntervalSince(lastStatusItemClickAt) < Self.statusItemClickDebounceInterval {
+      return
+    }
+    lastStatusItemClickAt = now
+
     if let event = NSApp.currentEvent {
       let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
 
@@ -154,14 +161,25 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       }
     }
 
-    panel.toggle(height: AppState.shared.popup.height, at: .statusItem)
+    if panel.isPresented {
+      AppState.shared.popup.close()
+    } else {
+      AppState.shared.popup.open(height: AppState.shared.popup.height, at: .statusItem)
+    }
   }
 
+  private var pendingMenuIconTextSync = false
+  private var lastStatusItemClickAt: Date?
+  private static let statusItemClickDebounceInterval: TimeInterval = 0.35
+
   private func synchronizeMenuIconText() {
+    guard !pendingMenuIconTextSync else { return }
+    pendingMenuIconTextSync = true
     _ = withObservationTracking {
       AppState.shared.menuIconText
     } onChange: {
       DispatchQueue.main.async {
+        self.pendingMenuIconTextSync = false
         if Defaults[.showRecentCopyInMenuBar] {
           self.statusItem.button?.title = AppState.shared.menuIconText
         }

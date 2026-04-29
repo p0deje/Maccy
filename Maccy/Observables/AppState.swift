@@ -26,7 +26,10 @@ class AppState: Sendable {
   }
 
   var menuIconText: String {
-    var title = history.unpinnedItems.first?.text.shortened(to: 100)
+    // Use the cached title (stored attribute on HistoryItem) instead of
+    // `decorator.text`, which reads the `contents` relationship and forces
+    // SwiftData to hydrate image/RTF/HTML blobs.
+    var title = history.unpinnedItems.first?.title.shortened(to: 100)
       .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     title.unicodeScalars.removeAll(where: CharacterSet.newlines.contains)
     return title.shortened(to: 20)

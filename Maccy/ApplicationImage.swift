@@ -18,6 +18,15 @@ class ApplicationImage {
     self.image = image
   }
 
+  deinit {
+    invalidate()
+  }
+
+  func invalidate() {
+    eventSource?.cancel()
+    eventSource = nil
+  }
+
   var nsImage: NSImage {
     guard let bundleIdentifier else {
       return Self.fallbackImage

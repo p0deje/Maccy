@@ -10,11 +10,15 @@ struct ContentView: View {
 
   var body: some View {
     ZStack {
+      #if compiler(>=6.2)
       if #available(macOS 26.0, *) {
         GlassEffectView()
       } else {
         VisualEffectView()
       }
+      #else
+      VisualEffectView()
+      #endif
 
       KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
         VStack(spacing: 0) {
@@ -32,7 +36,6 @@ struct ContentView: View {
 
               FooterView(footer: appState.footer)
             }
-            .animation(.default.speed(3), value: appState.history.items)
             .animation(
               .default.speed(3),
               value: appState.history.pasteStack?.id
@@ -42,6 +45,8 @@ struct ContentView: View {
               searchFocused = true
             }
             .onMouseMove {
+              appState.popup.allowHoverSelection()
+              appState.preview.clearPresentationAutoOpenSuppression()
               appState.navigator.isKeyboardNavigating = false
             }
           } slideout: {

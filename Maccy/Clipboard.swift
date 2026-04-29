@@ -103,7 +103,7 @@ class Clipboard {
     sync()
 
     Task {
-      Notifier.notify(body: item.title, sound: .knock)
+      Notifier.notify(body: item.title.shortened(to: 160), sound: .knock)
       checkForChangesInPasteboard()
     }
   }
@@ -208,7 +208,8 @@ class Clipboard {
       }
 
       types.forEach { type in
-        contents.append(HistoryItemContent(type: type.rawValue, value: item.data(forType: type)))
+        let value = compressImageDataIfNeeded(item.data(forType: type), type: type)
+        contents.append(HistoryItemContent(type: type.rawValue, value: value))
       }
     })
 
@@ -225,6 +226,8 @@ class Clipboard {
 
     historyItem.application = sourceApp?.bundleIdentifier
     historyItem.title = historyItem.generateTitle()
+    historyItem.ensureContentFingerprint()
+    historyItem.ensureThumbnailData()
 
     onNewCopyHooks.forEach({ $0(historyItem) })
   }
@@ -297,6 +300,77 @@ class Clipboard {
 
     NSApp.activate(ignoringOtherApps: true)
     NSApp.hide(self)
+  }
+
+  // Cap stored images so a single screenshot doesn't bloat the history store.
+  // Preview max is ~2048×1536; anything beyond 4096 on either side is pure waste.
+  private static let maxStoredImageDimension: CGFloat = 4096
+  private static let imagePasteboardTypes: Set<NSPasteboard.PasteboardType> = [.png, .tiff, .jpeg, .heic]
+
+  private func compressImageDataIfNeeded(
+    _ data: Data?,
+    type: NSPasteboard.PasteboardType
+  ) -> Data? {
+    guard let data,
+          Self.imagePasteboardTypes.contains(type),
+          let image = NSImage(data: data) else {
+      return data
+    }
+
+    let size = image.size
+    let maxDim = Self.maxStoredImageDimension
+    guard size.width > maxDim || size.height > maxDim,
+          size.width > 0, size.height > 0 else {
+      return data
+    }
+
+    let ratio = min(maxDim / size.width, maxDim / size.height)
+    let targetPixels = NSSize(
+      width: (size.width * ratio).rounded(),
+      height: (size.height * ratio).rounded()
+    )
+
+    guard let rep = NSBitmapImageRep(
+      bitmapDataPlanes: nil,
+      pixelsWide: Int(targetPixels.width),
+      pixelsHigh: Int(targetPixels.height),
+      bitsPerSample: 8,
+      samplesPerPixel: 4,
+      hasAlpha: true,
+      isPlanar: false,
+      colorSpaceName: .deviceRGB,
+      bitmapFormat: [],
+      bytesPerRow: 0,
+      bitsPerPixel: 0
+    ) else {
+      return data
+    }
+    rep.size = targetPixels
+
+    NSGraphicsContext.saveGraphicsState()
+    defer { NSGraphicsContext.restoreGraphicsState() }
+    guard let ctx = NSGraphicsContext(bitmapImageRep: rep) else {
+      return data
+    }
+    NSGraphicsContext.current = ctx
+    ctx.imageInterpolation = .high
+    image.draw(in: NSRect(origin: .zero, size: targetPixels))
+
+    let fileType: NSBitmapImageRep.FileType
+    let properties: [NSBitmapImageRep.PropertyKey: Any]
+    switch type {
+    case .png:
+      fileType = .png
+      properties = [:]
+    case .jpeg, .heic:
+      fileType = .jpeg
+      properties = [.compressionFactor: 0.85]
+    default:
+      fileType = .png
+      properties = [:]
+    }
+
+    return rep.representation(using: fileType, properties: properties) ?? data
   }
 
   private func clearFormatting(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {

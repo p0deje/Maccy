@@ -16,6 +16,7 @@ struct VisualEffectView: NSViewRepresentable {
   }
 }
 
+#if compiler(>=6.2)
 @available(macOS 26.0, *)
 struct GlassEffectView: NSViewRepresentable {
   let glassEffectView = NSGlassEffectView()
@@ -30,6 +31,7 @@ struct GlassEffectView: NSViewRepresentable {
     glassEffectView.style = style
   }
 }
+#endif
 
 #Preview {
   VisualEffectView(

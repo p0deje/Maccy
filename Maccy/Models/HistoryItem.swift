@@ -1,4 +1,5 @@
 import AppKit
+import CryptoKit
 import Defaults
 import Sauce
 import SwiftData
@@ -65,6 +66,13 @@ class HistoryItem {
   var numberOfCopies: Int = 1
   var pin: String?
   var title = ""
+  var contentFingerprint: String?
+
+  // Pre-rendered thumbnail bytes for image items. Small JPEG (~5-10 KB) used by
+  // the list UI so browsing never has to fault in the full `contents`
+  // relationship. Nil for text/file items and for image items that pre-date
+  // this migration (backfilled lazily — see `History.backfillThumbnails`).
+  var thumbnailData: Data?
 
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
   var contents: [HistoryItemContent] = []
@@ -83,6 +91,103 @@ class HistoryItem {
       .allSatisfy { content in
         contents.contains(where: { $0.type == content.type && $0.value == content.value })
       }
+  }
+
+  func ensureContentFingerprint() {
+    guard contentFingerprint == nil else { return }
+    contentFingerprint = Self.makeContentFingerprint(from: contents)
+  }
+
+  static func makeContentFingerprint(from contents: [HistoryItemContent]) -> String? {
+    let stableContents = contents
+      .filter { !transientTypes.contains($0.type) }
+      .sorted { lhs, rhs in
+        if lhs.type == rhs.type {
+          return (lhs.value ?? Data()).lexicographicallyPrecedes(rhs.value ?? Data())
+        }
+        return lhs.type < rhs.type
+      }
+
+    guard !stableContents.isEmpty else { return nil }
+
+    var bytes = Data()
+    for content in stableContents {
+      bytes.append(Data(content.type.utf8))
+      bytes.append(0)
+      if let value = content.value {
+        bytes.append(Data(String(value.count).utf8))
+        bytes.append(0)
+        bytes.append(value)
+      } else {
+        bytes.append(Data("-1".utf8))
+        bytes.append(0)
+      }
+      bytes.append(0xff)
+    }
+
+    return SHA256.hash(data: bytes).map { String(format: "%02x", $0) }.joined()
+  }
+
+  // 2x retina capacity for a 340x40 row tile, JPEG-encoded. Keeps each
+  // thumbnail under ~10 KB so the entire history's worth fits in a few MB.
+  static let thumbnailMaxPixelSize = NSSize(width: 680, height: 80)
+  static let thumbnailJPEGQuality: CGFloat = 0.7
+
+  // Synchronous; use only off the main thread or for fresh captures where the
+  // image is already decoded. Returns nil if `data` doesn't decode or is
+  // smaller than the target (no point in re-encoding).
+  static func makeThumbnailData(from data: Data) -> Data? {
+    guard let source = NSImage(data: data) else { return nil }
+    let sourceSize = source.size
+    guard sourceSize.width > 0, sourceSize.height > 0 else { return nil }
+
+    let target = HistoryItem.thumbnailMaxPixelSize
+    let ratio = min(target.width / sourceSize.width, target.height / sourceSize.height)
+    let pixelSize: NSSize
+    if ratio >= 1 {
+      pixelSize = sourceSize
+    } else {
+      pixelSize = NSSize(
+        width: max(1, (sourceSize.width * ratio).rounded()),
+        height: max(1, (sourceSize.height * ratio).rounded())
+      )
+    }
+
+    guard let rep = NSBitmapImageRep(
+      bitmapDataPlanes: nil,
+      pixelsWide: Int(pixelSize.width),
+      pixelsHigh: Int(pixelSize.height),
+      bitsPerSample: 8,
+      samplesPerPixel: 4,
+      hasAlpha: true,
+      isPlanar: false,
+      colorSpaceName: .deviceRGB,
+      bitmapFormat: [],
+      bytesPerRow: 0,
+      bitsPerPixel: 0
+    ) else {
+      return nil
+    }
+    rep.size = pixelSize
+
+    NSGraphicsContext.saveGraphicsState()
+    defer { NSGraphicsContext.restoreGraphicsState() }
+    guard let ctx = NSGraphicsContext(bitmapImageRep: rep) else { return nil }
+    NSGraphicsContext.current = ctx
+    ctx.imageInterpolation = .high
+    source.draw(in: NSRect(origin: .zero, size: pixelSize),
+                from: .zero, operation: .copy, fraction: 1)
+
+    return rep.representation(
+      using: .jpeg,
+      properties: [.compressionFactor: HistoryItem.thumbnailJPEGQuality]
+    )
+  }
+
+  func ensureThumbnailData() {
+    guard thumbnailData == nil else { return }
+    guard let data = imageData else { return }
+    thumbnailData = HistoryItem.makeThumbnailData(from: data)
   }
 
   func generateTitle() -> String {
@@ -129,6 +234,30 @@ class HistoryItem {
     }
   }
 
+  func previewableText(upTo maxLength: Int) -> String {
+    if !fileURLs.isEmpty {
+      return fileURLs
+        .compactMap { $0.absoluteString.removingPercentEncoding }
+        .joined(separator: "\n")
+        .shortened(to: maxLength)
+    } else if let text = text(upTo: maxLength), !text.isEmpty {
+      return text
+    } else if let rtf = rtf, !rtf.string.isEmpty {
+      return rtf.string.shortened(to: maxLength)
+    } else if let html = html, !html.string.isEmpty {
+      return html.string.shortened(to: maxLength)
+    } else {
+      return title.shortened(to: maxLength)
+    }
+  }
+
+  func hasPreviewableText(after maxLength: Int) -> Bool {
+    if let textData = contentData([.string]) {
+      return textData.count > maxLength
+    }
+    return previewableText.count > maxLength
+  }
+
   var fileURLs: [URL] {
     guard !universalClipboardText else {
       return []
@@ -157,6 +286,10 @@ class HistoryItem {
     return data
   }
 
+  var hasImageDataType: Bool {
+    containsContentType([.tiff, .png, .jpeg, .heic])
+  }
+
   var image: NSImage? {
     guard let data = imageData else {
       return nil
@@ -182,6 +315,20 @@ class HistoryItem {
     return String(data: data, encoding: .utf8)
   }
 
+  var textByteSize: Int {
+    return contentData([.string])?.count ?? 0
+  }
+
+  func text(upTo maxLength: Int) -> String? {
+    guard let data = contentData([.string]) else {
+      return nil
+    }
+
+    let byteLimit = min(data.count, maxLength * 4)
+    return String(data: data.prefix(byteLimit), encoding: .utf8)?
+      .shortened(to: maxLength)
+  }
+
   var modified: Int? {
     guard let data = contentData([.modified]),
           let modified = String(data: data, encoding: .utf8) else {
@@ -205,6 +352,12 @@ class HistoryItem {
     })
 
     return content?.value
+  }
+
+  private func containsContentType(_ types: [NSPasteboard.PasteboardType]) -> Bool {
+    return contents.contains { content in
+      types.contains(NSPasteboard.PasteboardType(content.type))
+    }
   }
 
   private func allContentData(_ types: [NSPasteboard.PasteboardType]) -> [Data] {

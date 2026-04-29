@@ -42,12 +42,38 @@ struct HistoryItemView: View {
       shortcuts: item.shortcuts,
       isSelected: item.isSelected,
       selectionIndex: visualIndex,
-      selectionAppearance: selectionAppearance
+      selectionAppearance: selectionAppearance,
+      hoverSelectionEnabled: false
     ) {
-      Text(verbatim: item.title)
+      Text(verbatim: item.displayTitle)
+    }
+    .onHover { hovering in
+      guard hovering else { return }
+
+      if appState.popup.suppressesHoverSelection {
+        appState.navigator.hoverSelectionWhileKeyboardNavigating = item.id
+        return
+      }
+
+      if !appState.navigator.isKeyboardNavigating && !appState.navigator.isMultiSelectInProgress {
+        appState.navigator.selectWithoutScrolling(item: item)
+      } else {
+        appState.navigator.hoverSelectionWhileKeyboardNavigating = item.id
+      }
     }
     .onAppear {
+      // Fast path: only decodes pre-rendered thumbnailData. No contents fault.
       item.ensureThumbnailImage()
+      if item.isPinned {
+        item.startObservationIfNeeded()
+      }
+      // `index` is this row's position in the parent's unpinned array, so
+      // we can do a constant-time "are we near the end?" check inside.
+      appState.history.itemDidAppear(at: index)
+    }
+    .onDisappear {
+      item.cancelSelectionLoad()
+      item.cleanupPreviewImage()
     }
     .onTapGesture {
       if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {

@@ -72,9 +72,14 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
+    if AppState.shared.navigator.leadHistoryItem == nil && !AppState.shared.navigator.pasteStackSelected {
+      AppState.shared.preview.closeImmediately()
+    }
+
     let size = Defaults[.windowSize]
     setContentSize(NSSize(width: min(frame.width, size.width), height: min(height, size.height)))
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
+    AppState.shared.preview.lockPlacement(window: self)
     orderFrontRegardless()
     makeKey()
     isPresented = true
@@ -100,6 +105,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func determinePreviewPlacement() {
     let preview = AppState.shared.preview
+    guard !preview.placementLocked else { return }
     guard !preview.state.isOpen else { return }
     let newSize = preview.computeSizeWithPreview(frame.size, state: .open)
     preview.placement = preview.computePlacement(window: self, for: newSize)
@@ -179,10 +185,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func windowDidBecomeKey(_ notification: Notification) {
     AppState.shared.preview.enableAutoOpen()
-
-    if AppState.shared.navigator.leadHistoryItem != nil {
-      AppState.shared.preview.startAutoOpen()
-    }
+    AppState.shared.preview.startAutoOpenForCurrentSelection()
   }
 
   func windowDidResignKey(_ notification: Notification) {
@@ -201,6 +204,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   override func close() {
     super.close()
     AppState.shared.preview.state = .closed
+    AppState.shared.preview.unlockPlacement()
     isPresented = false
     statusBarButton?.isHighlighted = false
     onClose()

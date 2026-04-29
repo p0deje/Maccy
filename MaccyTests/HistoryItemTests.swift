@@ -131,6 +131,26 @@ class HistoryItemTests: XCTestCase {
     XCTAssertEqual(item2.pin, "")
   }
 
+  func testContentFingerprintIgnoresTransientTypesAndOrder() {
+    let stringContent = HistoryItemContent(
+      type: NSPasteboard.PasteboardType.string.rawValue,
+      value: "foo".data(using: .utf8)
+    )
+    let htmlContent = HistoryItemContent(
+      type: NSPasteboard.PasteboardType.html.rawValue,
+      value: "<b>foo</b>".data(using: .utf8)
+    )
+    let transientContent = HistoryItemContent(
+      type: NSPasteboard.PasteboardType.fromMaccy.rawValue,
+      value: Data()
+    )
+
+    XCTAssertEqual(
+      HistoryItem.makeContentFingerprint(from: [stringContent, htmlContent]),
+      HistoryItem.makeContentFingerprint(from: [transientContent, htmlContent, stringContent])
+    )
+  }
+
   private func historyItem(_ value: String?) -> HistoryItem {
     let contents = [
       HistoryItemContent(

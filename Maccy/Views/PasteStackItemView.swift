@@ -34,7 +34,7 @@ struct PasteStackItemView: View {
       selectionIndex: index,
       selectionAppearance: .none
     ) {
-      Text(verbatim: item.title)
+      Text(verbatim: item.displayTitle)
     }
   }
 }

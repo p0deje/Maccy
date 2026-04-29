@@ -1,6 +1,20 @@
 import KeyboardShortcuts
 import SwiftUI
 
+private struct PreviewTextView: View {
+  var item: HistoryItemDecorator
+
+  var body: some View {
+    ScrollView {
+      VStack(alignment: .leading, spacing: 0) {
+        Text(item.previewText(upTo: HistoryItemDecorator.previewTextPageSize))
+          .font(.body)
+          .frame(maxWidth: .infinity, alignment: .leading)
+      }
+    }
+  }
+}
+
 struct PreviewItemView: View {
   var item: HistoryItemDecorator
 
@@ -50,10 +64,7 @@ struct PreviewItemView: View {
           }
         }
       } else {
-        ScrollView {
-          Text(item.text)
-            .font(.body)
-        }
+        PreviewTextView(item: item)
       }
 
       Spacer(minLength: 0)
@@ -87,6 +98,11 @@ struct PreviewItemView: View {
       HStack(spacing: 3) {
         Text("NumberOfCopies", tableName: "PreviewItemView")
         Text(String(item.item.numberOfCopies))
+      }
+
+      HStack(spacing: 3) {
+        Text("DataSize", tableName: "PreviewItemView")
+        Text(item.dataSize)
       }
     }
     .controlSize(.small)

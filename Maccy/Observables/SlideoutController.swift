@@ -95,6 +95,7 @@ class SlideoutController {
   }
 
   var placement: SlideoutPlacement = .right
+  var placementLocked = false
   var state: SlideoutState = .closed
   var resizingMode: ResizingMode = .none
 
@@ -108,6 +109,10 @@ class SlideoutController {
   private var autoOpenTask: Task<Void, Never>?
   private var autoOpenSuppressed = false
   private var autoOpenEnabled = true
+  private var presentationAutoOpenSuppressed = false
+  private var initialAutoOpenSuppressionActive = false
+  private var initialAutoOpenSelectionID: UUID?
+  private var lastSuppressedAutoOpenSelectionID: UUID?
 
   init(onContentResize: @escaping (CGFloat) -> Void, onSlideoutResize: @escaping (CGFloat) -> Void) {
     self.onContentResize = onContentResize
@@ -125,13 +130,28 @@ class SlideoutController {
   }
 
   func computePlacement(window: NSWindow, for size: NSSize) -> SlideoutPlacement {
-    guard let screen = window.screen?.frame else { return placement }
+    guard let screen = window.screen?.visibleFrame else { return placement }
     let windowFrame = window.frame
-    if windowFrame.minX + size.width > screen.maxX {
+    let rightSpace = screen.maxX - windowFrame.maxX
+    let leftSpace = windowFrame.minX - screen.minX
+
+    if rightSpace >= slideoutWidth {
+      return .right
+    } else if leftSpace >= slideoutWidth {
       return .left
     } else {
-      return .right
+      return rightSpace >= leftSpace ? .right : .left
     }
+  }
+
+  func lockPlacement(window: NSWindow) {
+    let size = computeSizeWithPreview(window.frame.size, state: .open)
+    placement = computePlacement(window: window, for: size)
+    placementLocked = true
+  }
+
+  func unlockPlacement() {
+    placementLocked = false
   }
 
   func computeSizeWithPreview(_ size: NSSize, state newState: SlideoutState) -> NSSize {
@@ -165,7 +185,7 @@ class SlideoutController {
         var newSize = window.frame.size
         newSize.width = contentWidth
         newSize = computeSizeWithPreview(newSize, state: self.state)
-        if state.isOpen {
+        if state.isOpen && !placementLocked {
           placement = computePlacement(window: window, for: newSize)
         }
 
@@ -225,16 +245,50 @@ class SlideoutController {
 
     guard autoOpenEnabled else { return }
     guard !autoOpenSuppressed else { return }
+    guard !presentationAutoOpenSuppressed else { return }
     guard !state.isOpen else { return }
 
     autoOpenTask = Task { @MainActor in
       try? await Task.sleep(for: .milliseconds(Defaults[.previewDelay]))
       guard !Task.isCancelled else { return }
+      guard !presentationAutoOpenSuppressed else { return }
+      guard AppState.shared.navigator.leadHistoryItem != nil
+        || AppState.shared.navigator.pasteStackSelected else { return }
 
       if !state.isOpen {
         togglePreview(trigger: .autoOpen)
       }
     }
+  }
+
+  func startAutoOpenForCurrentSelection() {
+    guard let item = AppState.shared.navigator.leadHistoryItem else { return }
+    guard shouldAutoOpen(for: item) else { return }
+    startAutoOpen()
+  }
+
+  func shouldAutoOpen(for item: HistoryItemDecorator) -> Bool {
+    guard item.shouldAutoOpenPreview else { return false }
+    guard !presentationAutoOpenSuppressed else { return false }
+
+    if initialAutoOpenSuppressionActive {
+      if initialAutoOpenSelectionID == nil {
+        initialAutoOpenSelectionID = item.id
+      } else if initialAutoOpenSelectionID != item.id {
+        initialAutoOpenSuppressionActive = false
+      }
+      lastSuppressedAutoOpenSelectionID = item.id
+      return false
+    }
+
+    if let lastSuppressedAutoOpenSelectionID {
+      if lastSuppressedAutoOpenSelectionID == item.id {
+        return false
+      }
+      self.lastSuppressedAutoOpenSelectionID = nil
+    }
+
+    return true
   }
 
   func cancelAutoOpen() {
@@ -253,5 +307,37 @@ class SlideoutController {
 
   func resetAutoOpenSuppression() {
     autoOpenSuppressed = false
+  }
+
+  func suppressInitialAutoOpen() {
+    initialAutoOpenSuppressionActive = true
+    initialAutoOpenSelectionID = nil
+    lastSuppressedAutoOpenSelectionID = nil
+    cancelAutoOpen()
+  }
+
+  func clearInitialAutoOpenSuppression() {
+    initialAutoOpenSuppressionActive = false
+    initialAutoOpenSelectionID = nil
+    lastSuppressedAutoOpenSelectionID = nil
+  }
+
+  func suppressAutoOpenForCurrentPresentation() {
+    presentationAutoOpenSuppressed = true
+    clearInitialAutoOpenSuppression()
+    closeImmediately()
+    cancelAutoOpen()
+  }
+
+  func clearPresentationAutoOpenSuppression() {
+    presentationAutoOpenSuppressed = false
+  }
+
+  func closeImmediately() {
+    state = .closed
+    contentAnimationWidth = nil
+    windowAnimationOrigin = nil
+    windowAnimationOriginBaseState = .closed
+    resizingMode = .none
   }
 }

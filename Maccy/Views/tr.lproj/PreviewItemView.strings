@@ -2,6 +2,7 @@
 "FirstCopyTime" = "İlk kopyalama zamanı:";
 "LastCopyTime" = "Son kopyalama zamanı:";
 "NumberOfCopies" = "Kopya sayısı:";
+"DataSize" = "Veri boyutu:";
 "PinKey" = "İğnelemek için {pinKey}'a basın.";
 "UnpinKey" = "Kaldırmak için {pinKey}'a basın.";
 "DeleteKey" = "Silmek için {deleteKey}'a basın.";

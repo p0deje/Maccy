@@ -33,7 +33,8 @@ class NavigationManager { // swiftlint:disable:this type_body_length
       guard oldValue?.id != leadHistoryItem?.id else { return }
 
       let preview = AppState.shared.preview
-      if leadHistoryItem != nil {
+      if let item = leadHistoryItem,
+         preview.shouldAutoOpen(for: item) {
         preview.resetAutoOpenSuppression()
         preview.startAutoOpen()
       } else {
@@ -200,6 +201,21 @@ class NavigationManager { // swiftlint:disable:this type_body_length
       selectFromKeyboardNavigation(item: item)
     } else {
       selectFromKeyboardNavigation(item: nil)
+    }
+  }
+
+  func selectFirstIfNeeded() {
+    if let leadSelection,
+       history.firstVisibleItem(where: { $0.id == leadSelection }) != nil {
+      return
+    }
+
+    if footer.selectedItem != nil || pasteStackSelected {
+      return
+    }
+
+    if let item = history.unpinnedItems.first ?? history.pinnedItems.first {
+      selectWithoutScrolling(item: item)
     }
   }
 

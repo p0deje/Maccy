@@ -21,16 +21,52 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   var searchQuery: String = "" {
     didSet {
-      throttler.throttle { [self] in
-        updateItems(search.search(string: searchQuery, within: all))
-
-        if searchQuery.isEmpty {
-          AppState.shared.navigator.select(item: unpinnedItems.first)
-        } else {
-          AppState.shared.navigator.highlightFirst()
+      searchRevision += 1
+      let query = searchQuery
+      let revision = searchRevision
+      searchTask?.cancel()
+      searchTask = nil
+      if query.isEmpty {
+        Task { @MainActor in
+          startThumbnailBackfillIfNeeded()
         }
+      } else {
+        Task { @MainActor in
+          await stopThumbnailBackfill()
+        }
+      }
+      throttler.throttle { [self] in
+        guard revision == searchRevision else { return }
 
-        AppState.shared.popup.needsResize = true
+        if query.isEmpty {
+          // Restore the paginated browse view.
+          updateItems(all.map { Search.SearchResult(object: $0) })
+          AppState.shared.navigator.select(item: unpinnedItems.first)
+          AppState.shared.popup.needsResize = true
+        } else {
+          // Show matches from the retained window immediately so typing does
+          // not feel blocked by the full-history fetch below.
+          updateItems(search.search(string: query, within: all))
+          AppState.shared.navigator.highlightFirst()
+          AppState.shared.popup.needsResize = true
+
+          // Search needs to span ALL items, not just the loaded page.
+          // Fetch the rest in the background, then replace results only if
+          // this query is still current.
+          searchTask = Task { @MainActor in
+            defer {
+              if revision == searchRevision {
+                searchTask = nil
+              }
+            }
+            let searchItems = await fullHistoryDecoratorsForSearch()
+            guard !Task.isCancelled else { return }
+            guard revision == searchRevision, searchQuery == query else { return }
+            await updateItems(search.search(string: query, within: searchItems), query: query)
+            AppState.shared.navigator.highlightFirst()
+            AppState.shared.popup.needsResize = true
+          }
+        }
       }
     }
   }
@@ -55,6 +91,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   private let search = Search()
   private let sorter = Sorter()
   private let throttler = Throttler(minimumDelay: 0.2)
+  @ObservationIgnored
+  private var searchRevision = 0
+  @ObservationIgnored
+  private var searchTask: Task<Void, Never>?
 
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
@@ -64,6 +104,47 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   // - `items` stores only visible history items, updated during a search
   @ObservationIgnored
   var all: [HistoryItemDecorator] = []
+
+  // Soft flush: drop decorators + reset SwiftData context after the popup
+  // has been closed for a while so the OS can release blob memory loaded
+  // during browsing/preview. Re-fetched on demand by `load()`.
+  @ObservationIgnored
+  private var idleFlushTask: Task<Void, Never>?
+  private static let idleFlushDelay: Duration = .seconds(60)
+  @ObservationIgnored
+  private(set) var needsReloadAfterIdleFlush = false
+
+  // Background thumbnail backfill — only runs while the popup is open.
+  @ObservationIgnored
+  private var backfillTask: Task<Void, Never>?
+
+  // Pagination: only the first `pageSize` unpinned items are loaded into
+  // memory at startup. More are fetched on demand as the user scrolls near
+  // the end. Pinned items are always all loaded (small set, capped by the
+  // pin-shortcut alphabet at ~22).
+  private static let pageSize = 50
+  private static let maxUnpinnedWindowSize = 3000
+  private static let pruneUnpinnedBatchSize = 50
+  // Trigger loadMore when this many items from the end becomes visible.
+  private static let pageLoadAheadCount = 20
+  @ObservationIgnored
+  private var hasMoreUnpinnedItems = false
+  @ObservationIgnored
+  private var isLoadingMore = false
+  // True once we've fetched everything (only happens when search forces a
+  // full load, or pagination reaches the end naturally).
+  @ObservationIgnored
+  private var allUnpinnedFetched = false
+  // Cached counts so `itemDidAppear` and `appendUnpinned` don't have to
+  // rescan `all` (which is O(n) and gets called on every scroll event).
+  @ObservationIgnored
+  private var loadedPinnedCount = 0
+  @ObservationIgnored
+  private var loadedUnpinnedCount = 0
+  @ObservationIgnored
+  private var loadedUnpinnedStartIndex = 0
+  @ObservationIgnored
+  private var totalUnpinnedCount = 0
 
   init() {
     Task {
@@ -102,11 +183,86 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  func scheduleIdleFlush() {
+    idleFlushTask?.cancel()
+    idleFlushTask = Task { [weak self] in
+      try? await Task.sleep(for: Self.idleFlushDelay)
+      guard !Task.isCancelled else { return }
+      await self?.flushIfIdle()
+    }
+  }
+
+  @MainActor
+  func cancelIdleFlush() {
+    idleFlushTask?.cancel()
+    idleFlushTask = nil
+  }
+
+  @MainActor
+  private func flushIfIdle() async {
+    guard AppState.shared.popup.isClosed() else {
+      logger.info("Idle flush: skipped (popup still open)")
+      return
+    }
+    guard pasteStack == nil else {
+      logger.info("Idle flush: skipped (paste stack in progress)")
+      return
+    }
+    guard !all.isEmpty else {
+      logger.info("Idle flush: skipped (already empty)")
+      return
+    }
+
+    let beforeCount = all.count
+    logger.info("Idle flush: dropping \(beforeCount) decorators and resetting SwiftData context")
+
+    // Cancel and AWAIT any in-flight backfill so its actor's context fully
+    // releases before we recreate the container. Without the await, the
+    // backfill could be mid-sleep and still pinning blob memory.
+    await stopThumbnailBackfill()
+
+    AppState.shared.navigator.selectWithoutScrolling(item: nil)
+    items = []
+    all = []
+    sessionLog = [:]
+    // Drop every cached app icon + its file watcher. Saves ~30-60 MB
+    // depending on how many distinct source apps the session touched.
+    ApplicationImageCache.shared.clear()
+
+    Storage.shared.recreateContainer()
+    needsReloadAfterIdleFlush = true
+    logger.info("Idle flush: complete, decorators will reload on next popup open")
+  }
+
+  @MainActor
   func load() async throws {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    let results = try Storage.shared.context.fetch(descriptor)
-    all = sorter.sort(results).map { HistoryItemDecorator($0) }
+    needsReloadAfterIdleFlush = false
+    // Pinned items: always load all (small set, max ~22 due to single-letter shortcuts).
+    var pinnedDescriptor = FetchDescriptor<HistoryItem>(
+      predicate: #Predicate { $0.pin != nil },
+      sortBy: sortDescriptors()
+    )
+    pinnedDescriptor.fetchLimit = 64
+    let pinnedItems = (try? Storage.shared.context.fetch(pinnedDescriptor)) ?? []
+
+    // Unpinned items: just the first page.
+    var unpinnedDescriptor = FetchDescriptor<HistoryItem>(
+      predicate: #Predicate { $0.pin == nil },
+      sortBy: sortDescriptors()
+    )
+    unpinnedDescriptor.fetchLimit = Self.pageSize
+    let unpinnedResults = (try? Storage.shared.context.fetch(unpinnedDescriptor)) ?? []
+
+    let pinnedDecorators = pinnedItems.map { HistoryItemDecorator($0) }
+    let unpinnedDecorators = unpinnedResults.map { HistoryItemDecorator($0) }
+    all = combineDecorators(pinned: pinnedDecorators, unpinned: unpinnedDecorators)
     items = all
+    loadedPinnedCount = pinnedDecorators.count
+    loadedUnpinnedCount = unpinnedDecorators.count
+    loadedUnpinnedStartIndex = 0
+    let countDescriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin == nil })
+    totalUnpinnedCount = (try? Storage.shared.context.fetchCount(countDescriptor)) ?? unpinnedResults.count
+    updatePaginationFlags()
 
     limitHistorySize(to: Defaults[.size])
 
@@ -118,11 +274,338 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
-  private func limitHistorySize(to maxSize: Int) {
-    let unpinned = all.filter(\.isUnpinned)
-    if unpinned.count >= maxSize {
-      unpinned[maxSize...].forEach(delete)
+  func loadForPopupOpenIfNeeded() async {
+    guard all.isEmpty || needsReloadAfterIdleFlush else { return }
+
+    try? await load()
+    guard !searchQuery.isEmpty else { return }
+
+    let query = searchQuery
+    let revision = searchRevision
+    let searchItems = await fullHistoryDecoratorsForSearch()
+    guard !Task.isCancelled, revision == searchRevision, searchQuery == query else { return }
+    await updateItems(search.search(string: query, within: searchItems), query: query)
+    AppState.shared.navigator.highlightFirst()
+    AppState.shared.popup.needsResize = true
+  }
+
+  // SortDescriptor matching the user's `Defaults[.sortBy]` choice. Used by
+  // every paginated fetch so SQLite returns rows in the right order without
+  // us having to materialize and re-sort.
+  private func sortDescriptors() -> [SortDescriptor<HistoryItem>] {
+    switch Defaults[.sortBy] {
+    case .firstCopiedAt:
+      return [SortDescriptor(\.firstCopiedAt, order: .reverse)]
+    case .numberOfCopies:
+      return [SortDescriptor(\.numberOfCopies, order: .reverse)]
+    default:
+      return [SortDescriptor(\.lastCopiedAt, order: .reverse)]
     }
+  }
+
+  // Pinned-vs-unpinned ordering matches `Defaults[.pinTo]`; within each
+  // group the SQL fetch already gave us the right primary sort.
+  private func combineDecorators(
+    pinned: [HistoryItemDecorator],
+    unpinned: [HistoryItemDecorator]
+  ) -> [HistoryItemDecorator] {
+    if Defaults[.pinTo] == .bottom {
+      return unpinned + pinned
+    } else {
+      return pinned + unpinned
+    }
+  }
+
+  // Called from `HistoryItemView.onAppear` with the row's index in
+  // `unpinnedItems`. O(1) — no array filter, no search. Fast enough to fire
+  // on every scrolling row without affecting frame rate.
+  @MainActor
+  func itemDidAppear(at unpinnedIndex: Int) {
+    guard searchQuery.isEmpty else { return }
+    guard !isLoadingMore else { return }
+
+    let absoluteIndex = loadedUnpinnedStartIndex + unpinnedIndex
+    let loadedEndIndex = loadedUnpinnedStartIndex + loadedUnpinnedCount
+
+    if loadedUnpinnedStartIndex > 0,
+       unpinnedIndex <= Self.pageLoadAheadCount {
+      Task { @MainActor in
+        await loadPreviousUnpinnedItems()
+      }
+      return
+    }
+
+    guard hasMoreUnpinnedItems else { return }
+    guard absoluteIndex >= loadedEndIndex - Self.pageLoadAheadCount else { return }
+    Task { @MainActor in
+      await loadMoreUnpinnedItems()
+    }
+  }
+
+  @MainActor
+  private func loadMoreUnpinnedItems() async {
+    guard hasMoreUnpinnedItems, !isLoadingMore else { return }
+    isLoadingMore = true
+    defer { isLoadingMore = false }
+
+    var descriptor = FetchDescriptor<HistoryItem>(
+      predicate: #Predicate { $0.pin == nil },
+      sortBy: sortDescriptors()
+    )
+    descriptor.fetchOffset = loadedUnpinnedStartIndex + loadedUnpinnedCount
+    descriptor.fetchLimit = Self.pageSize
+
+    guard let next = try? Storage.shared.context.fetch(descriptor), !next.isEmpty else {
+      hasMoreUnpinnedItems = false
+      allUnpinnedFetched = true
+      return
+    }
+
+    // Build decorators in chunks with yields so SwiftUI can update scroll
+    // position between batches instead of stalling on the whole page.
+    var newDecorators: [HistoryItemDecorator] = []
+    newDecorators.reserveCapacity(next.count)
+    for (idx, item) in next.enumerated() {
+      newDecorators.append(HistoryItemDecorator(item))
+      if idx > 0 && idx % 25 == 0 {
+        await Task.yield()
+      }
+    }
+    appendUnpinned(newDecorators)
+    pruneUnpinnedWindowIfNeeded(fromTop: true)
+    updatePaginationFlags()
+  }
+
+  @MainActor
+  private func loadPreviousUnpinnedItems() async {
+    guard loadedUnpinnedStartIndex > 0, !isLoadingMore else { return }
+    isLoadingMore = true
+    defer { isLoadingMore = false }
+
+    let offset = max(0, loadedUnpinnedStartIndex - Self.pageSize)
+    let limit = loadedUnpinnedStartIndex - offset
+
+    var descriptor = FetchDescriptor<HistoryItem>(
+      predicate: #Predicate { $0.pin == nil },
+      sortBy: sortDescriptors()
+    )
+    descriptor.fetchOffset = offset
+    descriptor.fetchLimit = limit
+
+    guard let previous = try? Storage.shared.context.fetch(descriptor), !previous.isEmpty else {
+      loadedUnpinnedStartIndex = 0
+      updatePaginationFlags()
+      return
+    }
+
+    var newDecorators: [HistoryItemDecorator] = []
+    newDecorators.reserveCapacity(previous.count)
+    for (idx, item) in previous.enumerated() {
+      newDecorators.append(HistoryItemDecorator(item))
+      if idx > 0 && idx % 25 == 0 {
+        await Task.yield()
+      }
+    }
+    prependUnpinned(newDecorators)
+    loadedUnpinnedStartIndex = offset
+    pruneUnpinnedWindowIfNeeded(fromTop: false)
+    updatePaginationFlags()
+  }
+
+  // For use by the search path: load a temporary full-history corpus so search
+  // can match outside the current paginated browse window without replacing it.
+  @MainActor
+  private func fullHistoryDecoratorsForSearch() async -> [HistoryItemDecorator] {
+    let container = Storage.shared.container
+    let sortBy = Defaults[.sortBy]
+    let pinTo = Defaults[.pinTo]
+    let ids = await SearchHistoryLoader(modelContainer: container)
+      .sortedItemIDs(sortBy: sortBy, pinTo: pinTo)
+    guard !Task.isCancelled, !ids.isEmpty else { return [] }
+
+    return await decorators(from: ids)
+  }
+
+  @MainActor
+  private func decorators(from results: [HistoryItem]) async -> [HistoryItemDecorator] {
+    var decorators: [HistoryItemDecorator] = []
+    decorators.reserveCapacity(results.count)
+    for (idx, item) in results.enumerated() {
+      decorators.append(HistoryItemDecorator(item))
+      if idx > 0 && idx % 100 == 0 {
+        await Task.yield()
+      }
+    }
+    return decorators
+  }
+
+  @MainActor
+  private func decorators(from ids: [PersistentIdentifier]) async -> [HistoryItemDecorator] {
+    var decorators: [HistoryItemDecorator] = []
+    decorators.reserveCapacity(ids.count)
+
+    for (idx, id) in ids.enumerated() {
+      guard !Task.isCancelled else { break }
+      if let item = Storage.shared.context.model(for: id) as? HistoryItem {
+        decorators.append(HistoryItemDecorator(item))
+      }
+      if idx > 0 && idx % 50 == 0 {
+        await Task.yield()
+      }
+    }
+
+    return decorators
+  }
+
+  @MainActor
+  private func appendUnpinned(_ newDecorators: [HistoryItemDecorator]) {
+    // Direct O(k) insert — no full array filtering. New unpinned rows always
+    // go after the existing unpinned section, so the position depends only
+    // on `pinTo` and our cached counts.
+    if Defaults[.pinTo] == .bottom {
+      // Layout: [unpinned... | pinned...]. Insert at end of unpinned section.
+      all.insert(contentsOf: newDecorators, at: loadedUnpinnedCount)
+    } else {
+      // Layout: [pinned... | unpinned...]. Append to the end.
+      all.append(contentsOf: newDecorators)
+    }
+    loadedUnpinnedCount += newDecorators.count
+
+    if searchQuery.isEmpty {
+      items = all
+    }
+    // Skip `updateUnpinnedShortcuts` — the shortcut-eligible rows (first 9
+    // unpinned) didn't change, only items further down were appended.
+  }
+
+  @MainActor
+  private func prependUnpinned(_ newDecorators: [HistoryItemDecorator]) {
+    if Defaults[.pinTo] == .bottom {
+      all.insert(contentsOf: newDecorators, at: 0)
+    } else {
+      all.insert(contentsOf: newDecorators, at: loadedPinnedCount)
+    }
+    loadedUnpinnedCount += newDecorators.count
+
+    if searchQuery.isEmpty {
+      items = all
+    }
+  }
+
+  @MainActor
+  private func pruneUnpinnedWindowIfNeeded(fromTop: Bool) {
+    guard searchQuery.isEmpty else { return }
+    guard loadedUnpinnedCount > Self.maxUnpinnedWindowSize else { return }
+
+    let pruneCount = min(
+      Self.pruneUnpinnedBatchSize,
+      loadedUnpinnedCount - Self.pageSize
+    )
+    guard pruneCount > 0 else { return }
+
+    let removeRange: Range<Int>
+    if fromTop {
+      if Defaults[.pinTo] == .bottom {
+        removeRange = 0..<pruneCount
+      } else {
+        removeRange = loadedPinnedCount..<(loadedPinnedCount + pruneCount)
+      }
+    } else {
+      if Defaults[.pinTo] == .bottom {
+        let start = loadedUnpinnedCount - pruneCount
+        removeRange = start..<(start + pruneCount)
+      } else {
+        let start = loadedPinnedCount + loadedUnpinnedCount - pruneCount
+        removeRange = start..<(start + pruneCount)
+      }
+    }
+
+    let pruned = Array(all[removeRange])
+    for item in pruned {
+      cleanup(item)
+    }
+
+    let selectedPruned = pruned.contains { prunedItem in
+      AppState.shared.navigator.selection.first(where: { selected in
+        selected == prunedItem
+      }) != nil
+    }
+    if selectedPruned {
+      AppState.shared.navigator.selection = Selection()
+    }
+
+    all.removeSubrange(removeRange)
+    if fromTop {
+      loadedUnpinnedStartIndex += pruneCount
+    }
+    loadedUnpinnedCount -= pruneCount
+
+    if searchQuery.isEmpty {
+      items = all
+    }
+  }
+
+  private func updatePaginationFlags() {
+    let loadedEndIndex = loadedUnpinnedStartIndex + loadedUnpinnedCount
+    hasMoreUnpinnedItems = loadedEndIndex < totalUnpinnedCount
+    allUnpinnedFetched = loadedUnpinnedStartIndex == 0 && loadedEndIndex >= totalUnpinnedCount
+  }
+
+  // Backfill is gated on popup state: only runs while the user has the popup
+  // open. That way idle memory stays low — the moment the popup closes,
+  // backfill stops and `flushIfIdle` can release everything cleanly.
+  @MainActor
+  func startThumbnailBackfillIfNeeded() {
+    guard backfillTask == nil else { return }
+    let container = Storage.shared.container
+    backfillTask = Task.detached(priority: .background) {
+      while !Task.isCancelled {
+        // Scoped block — actor + its context die when this exits, so the
+        // batch's hydrated `contents` blobs drop between batches.
+        let count = await {
+          let actor = ThumbnailBackfiller(modelContainer: container)
+          return await actor.backfillBatch(limit: 10)
+        }()
+        if count == 0 { break }
+        try? await Task.sleep(for: .milliseconds(1500))
+      }
+    }
+  }
+
+  @MainActor
+  func stopThumbnailBackfill() async {
+    guard let task = backfillTask else { return }
+    task.cancel()
+    _ = await task.value
+    backfillTask = nil
+  }
+
+  @MainActor
+  private func limitHistorySize(to maxSize: Int) {
+    // DB-based now: `all` may only hold the first page of unpinned items,
+    // so filtering it locally would never trigger a prune for paginated
+    // installs. Fetch the count from SQLite and delete the oldest excess.
+    let countDescriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin == nil })
+    guard let count = try? Storage.shared.context.fetchCount(countDescriptor),
+          count > maxSize else {
+      return
+    }
+
+    var descriptor = FetchDescriptor<HistoryItem>(
+      predicate: #Predicate { $0.pin == nil },
+      sortBy: [SortDescriptor(\.lastCopiedAt)]  // ascending: oldest first
+    )
+    descriptor.fetchLimit = count - maxSize
+    guard let toDelete = try? Storage.shared.context.fetch(descriptor) else { return }
+
+    for stale in toDelete {
+      // Drop in-memory references too if they happen to be on the loaded page.
+      all.removeAll { $0.item == stale }
+      items.removeAll { $0.item == stale }
+      Storage.shared.context.delete(stale)
+    }
+    Storage.shared.context.processPendingChanges()
+    try? Storage.shared.context.save()
   }
 
   @MainActor
@@ -147,6 +630,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
         item.contents = existingHistoryItem.contents
+        item.contentFingerprint = existingHistoryItem.contentFingerprint
+        item.thumbnailData = existingHistoryItem.thumbnailData
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
@@ -445,17 +930,26 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    if let all = try? Storage.shared.context.fetch(descriptor) {
-      let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
-      if duplicates.count > 1 {
-        return duplicates.first(where: { $0 != item })
-      } else {
-        return isModified(item)
+    if let modifiedItem = isModified(item) {
+      return modifiedItem
+    }
+
+    item.ensureContentFingerprint()
+
+    if let fingerprint = item.contentFingerprint {
+      var fingerprintDescriptor = FetchDescriptor<HistoryItem>(
+        predicate: #Predicate { $0.contentFingerprint == fingerprint },
+        sortBy: sortDescriptors()
+      )
+      fingerprintDescriptor.fetchLimit = 2
+
+      if let duplicate = try? Storage.shared.context.fetch(fingerprintDescriptor)
+        .first(where: { $0 != item }) {
+        return duplicate
       }
     }
 
-    return item
+    return nil
   }
 
   private func isModified(_ item: HistoryItem) -> HistoryItem? {
@@ -466,14 +960,34 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     return nil
   }
 
-  private func updateItems(_ newItems: [Search.SearchResult]) {
+  private func updateItems(_ newItems: [Search.SearchResult], query: String? = nil) {
+    let query = query ?? searchQuery
     items = newItems.map { result in
       let item = result.object
-      item.highlight(searchQuery, result.ranges)
+      item.highlight(query, result.ranges)
 
       return item
     }
 
+    updateUnpinnedShortcuts()
+  }
+
+  @MainActor
+  private func updateItems(_ newItems: [Search.SearchResult], query: String) async {
+    var updatedItems: [HistoryItemDecorator] = []
+    updatedItems.reserveCapacity(newItems.count)
+
+    for (idx, result) in newItems.enumerated() {
+      let item = result.object
+      item.highlight(query, result.ranges)
+      updatedItems.append(item)
+
+      if idx > 0 && idx % 100 == 0 {
+        await Task.yield()
+      }
+    }
+
+    items = updatedItems
     updateUnpinnedShortcuts()
   }
 

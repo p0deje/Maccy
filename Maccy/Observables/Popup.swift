@@ -22,6 +22,7 @@ class Popup {
   static let verticalPadding: CGFloat = 5
   static let horizontalPadding: CGFloat = 5
   static let minimumPreviewHeight: CGFloat = 150
+  private static let fallbackVisibleItems = 12
 
   // Radius used for items inset by the padding. Ensures they visually have the same curvature
   // as the menu.
@@ -47,6 +48,8 @@ class Popup {
   private var eventsMonitor: Any?
 
   private var state: PopupState = .toggle
+  private var isOpening = false
+  private(set) var suppressesHoverSelection = false
 
   init() {
     KeyboardShortcuts.onKeyDown(for: .popup, action: handleFirstKeyDown)
@@ -73,20 +76,61 @@ class Popup {
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
-    AppState.shared.appDelegate?.panel.open(height: height, at: popupPosition)
+    guard !isOpening else { return }
+    if AppState.shared.appDelegate?.panel.isPresented == true { return }
+    isOpening = true
+
+    let fallbackHeight = headerHeight + footerHeight + extraTopHeight + extraBottomHeight +
+      CGFloat(Self.fallbackVisibleItems) * Self.itemHeight +
+      Self.verticalPadding * 2
+    let stableHeight = height > 0 ? height : fallbackHeight
+
+    if popupPosition == .statusItem {
+      AppState.shared.navigator.selectWithoutScrolling(item: nil)
+      suppressesHoverSelection = true
+      AppState.shared.preview.suppressAutoOpenForCurrentPresentation()
+    } else {
+      suppressesHoverSelection = false
+      AppState.shared.preview.clearPresentationAutoOpenSuppression()
+      AppState.shared.preview.clearInitialAutoOpenSuppression()
+    }
+
+    Task { @MainActor in
+      defer { self.isOpening = false }
+
+      AppState.shared.history.cancelIdleFlush()
+      await AppState.shared.history.loadForPopupOpenIfNeeded()
+      AppState.shared.history.startThumbnailBackfillIfNeeded()
+
+      guard AppState.shared.appDelegate?.panel.isPresented != true else { return }
+      AppState.shared.appDelegate?.panel.open(height: stableHeight, at: popupPosition)
+    }
   }
 
   func reset() {
     state = .toggle
     KeyboardShortcuts.enable(.popup)
+    suppressesHoverSelection = false
+    AppState.shared.preview.clearPresentationAutoOpenSuppression()
+    Task { @MainActor in
+      // Stop backfill the moment the popup closes; idle flush will free what
+      // it's already loaded after the short idle window.
+      await AppState.shared.history.stopThumbnailBackfill()
+      AppState.shared.history.scheduleIdleFlush()
+    }
   }
 
   func close() {
+    isOpening = false
     AppState.shared.appDelegate?.panel.close()  // close() calls reset
   }
 
   func isClosed() -> Bool {
     AppState.shared.appDelegate?.panel.isPresented != true
+  }
+
+  func allowHoverSelection() {
+    suppressesHoverSelection = false
   }
 
   func preferredHeight(for newHeight: CGFloat) -> CGFloat {
