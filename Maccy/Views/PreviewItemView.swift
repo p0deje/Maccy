@@ -106,6 +106,13 @@ struct PreviewItemView: View {
           Text(dim)
         }
       }
+
+      if !item.item.title.isEmpty {
+        HStack(spacing: 3) {
+          Text("Title", tableName: "PreviewItemView")
+          Text(item.item.title)
+        }
+      }
     }
     .controlSize(.small)
   }

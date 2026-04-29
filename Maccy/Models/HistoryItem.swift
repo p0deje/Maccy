@@ -231,7 +231,7 @@ class HistoryItem {
 
     let requestHandler = VNImageRequestHandler(cgImage: cgImage)
     let request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
-    request.recognitionLevel = .fast
+    request.recognitionLevel = .accurate
 
     do {
       try requestHandler.perform([request])
