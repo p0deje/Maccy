@@ -30,6 +30,7 @@ struct PasteStackItemView: View {
       accessoryImage: item.thumbnailImage != nil ? nil : ColorImage.from(item.title),
       attributedTitle: item.attributedTitle,
       shortcuts: [],
+      detailText: item.relativeLastCopiedAt,
       isSelected: isSelected,
       selectionIndex: index,
       selectionAppearance: .none

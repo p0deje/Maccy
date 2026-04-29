@@ -12,6 +12,22 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   static var previewImageSize: NSSize { NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536) }
   static var thumbnailImageSize: NSSize { NSSize(width: 340, height: Defaults[.imageMaxHeight]) }
+  private static func relativeCopyTimeFormatter(locale: Locale) -> RelativeDateTimeFormatter {
+    let formatter = RelativeDateTimeFormatter()
+    formatter.locale = locale
+    formatter.unitsStyle = .abbreviated
+    formatter.dateTimeStyle = .named
+    return formatter
+  }
+
+  static func formatRelativeCopyTime(
+    for date: Date,
+    relativeTo referenceDate: Date = .now,
+    locale: Locale = .autoupdatingCurrent
+  ) -> String {
+    return relativeCopyTimeFormatter(locale: locale)
+      .localizedString(for: date, relativeTo: referenceDate)
+  }
 
   let id = UUID()
 
@@ -49,6 +65,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   // 10k characters seems to be more than enough on large displays
   var text: String { item.previewableText.shortened(to: 10_000) }
+  var relativeLastCopiedAt: String { Self.formatRelativeCopyTime(for: item.lastCopiedAt) }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }

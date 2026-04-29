@@ -36,6 +36,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var accessoryImage: NSImage?
   var attributedTitle: AttributedString?
   var shortcuts: [KeyShortcut]
+  var detailText: String? = nil
   var isSelected: Bool
   var selectionIndex: Int?
   var help: LocalizedStringKey?
@@ -81,6 +82,15 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       Spacer()
 
       HStack(spacing: 5) {
+        if let detailText, !detailText.isEmpty {
+          Text(detailText)
+            .font(.caption2)
+            .monospacedDigit()
+            .foregroundStyle(isSelected ? Color.white.opacity(0.8) : .secondary)
+            .lineLimit(1)
+            .fixedSize(horizontal: true, vertical: false)
+        }
+
         if let index = selectionIndex {
           Text("\(index + 1)")
             .font(.caption)
