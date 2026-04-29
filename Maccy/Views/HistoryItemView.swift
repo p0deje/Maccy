@@ -69,7 +69,9 @@ struct HistoryItemView: View {
       }
       // `index` is this row's position in the parent's unpinned array, so
       // we can do a constant-time "are we near the end?" check inside.
-      appState.history.itemDidAppear(at: index)
+      if item.isUnpinned {
+        appState.history.itemDidAppear(at: index)
+      }
     }
     .onDisappear {
       item.cancelSelectionLoad()
