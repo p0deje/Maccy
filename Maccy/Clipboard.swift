@@ -2,7 +2,7 @@ import AppKit
 import Defaults
 import Sauce
 
-class Clipboard {
+class Clipboard { // swiftlint:disable:this type_body_length
   static let shared = Clipboard()
 
   typealias OnNewCopyHook = (HistoryItem) -> Void
@@ -16,11 +16,6 @@ class Clipboard {
 
   private let dynamicTypePrefix = "dyn."
   private let microsoftSourcePrefix = "com.microsoft.ole.source."
-  // Pasteboard types that indicate source code content from code editors.
-  // When present, whitespace normalization is skipped to preserve indentation.
-  private let sourceCodeIndicatorTypes: Set<String> = [
-    NSPasteboard.PasteboardType.vscodeEditorData.rawValue
-  ]
   private let supportedTypes: Set<NSPasteboard.PasteboardType> = [
     .fileURL,
     .html,
@@ -86,7 +81,7 @@ class Clipboard {
       contents = clearFormatting(contents)
     }
 
-    let shouldNormalize = Defaults[.normalizeWhitespace] && !containsSourceCode(contents)
+    let shouldNormalize = Defaults[.normalizeWhitespace] && !SourceCodeDetector.containsSourceCode(contents)
 
     for content in contents {
       guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
@@ -163,6 +158,7 @@ class Clipboard {
 
   @objc
   @MainActor
+  // swiftlint:disable:next function_body_length
   func checkForChangesInPasteboard() { // swiftlint:disable:this cyclomatic_complexity
     guard pasteboard.changeCount != changeCount else {
       return
@@ -232,7 +228,7 @@ class Clipboard {
       return
     }
 
-    if Defaults[.normalizeWhitespace] && !containsSourceCode(contents) {
+    if Defaults[.normalizeWhitespace] && !SourceCodeDetector.containsSourceCode(contents) {
       normalizeContentsAndRewritePasteboard(contents)
     }
 
@@ -317,61 +313,6 @@ class Clipboard {
 
     NSApp.activate(ignoringOtherApps: true)
     NSApp.hide(self)
-  }
-
-  private func containsSourceCode(_ contents: [HistoryItemContent]) -> Bool {
-    // Check for known code editor pasteboard types (definitive signal).
-    if contents.contains(where: { sourceCodeIndicatorTypes.contains($0.type) }) {
-      return true
-    }
-
-    // Check if the text content looks like code based on structure (heuristic).
-    for content in contents where content.type == NSPasteboard.PasteboardType.string.rawValue {
-      if let data = content.value,
-         let string = String(data: data, encoding: .utf8),
-         looksLikeCode(string) {
-        return true
-      }
-    }
-
-    return false
-  }
-
-  private func looksLikeCode(_ string: String) -> Bool {
-    let lines = string.components(separatedBy: .newlines)
-    guard lines.count > 1 else { return false }
-
-    // Markdown/doc code block markers.
-    if lines.contains(where: { $0.hasPrefix("```") || $0.hasPrefix("~~~") }) {
-      return true
-    }
-
-    // Pipe tables (Markdown, ASCII): ≥2 lines with ≥2 pipe characters.
-    let pipeLineCount = lines.filter({ line in
-      line.filter({ $0 == "|" }).count >= 2
-    }).count
-    if pipeLineCount >= 2 {
-      return true
-    }
-
-    // Tab-separated data: lines with internal tabs (not just leading).
-    let tsvLineCount = lines.filter({ $0.range(of: "\\S\t", options: .regularExpression) != nil }).count
-    if tsvLineCount >= 2 {
-      return true
-    }
-
-    // Significant indentation (code, YAML, Python, etc.):
-    // ≥3 indented lines, or ≥20% of non-empty lines are indented.
-    let nonEmptyLines = lines.filter({ !$0.trimmingCharacters(in: .whitespaces).isEmpty })
-    let indentedLineCount = nonEmptyLines.filter({ $0.hasPrefix("  ") || $0.hasPrefix("\t") }).count
-    if indentedLineCount >= 3 {
-      return true
-    }
-    if nonEmptyLines.count >= 5, Double(indentedLineCount) / Double(nonEmptyLines.count) >= 0.2 {
-      return true
-    }
-
-    return false
   }
 
   private func normalizeContentsAndRewritePasteboard(_ contents: [HistoryItemContent]) {
