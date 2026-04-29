@@ -2,6 +2,8 @@
 "FirstCopyTime" = "First copy time:";
 "LastCopyTime" = "Last copy time:";
 "NumberOfCopies" = "Number of copies:";
+"ImageDimensions" = "Dimensions:";
+"Title" = "Title:";
 "PinKey" = "Press {pinKey} to pin.";
 "UnpinKey" = "Press {pinKey} to unpin.";
 "DeleteKey" = "Press {deleteKey} to delete.";

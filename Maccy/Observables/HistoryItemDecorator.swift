@@ -41,6 +41,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   var hasImage: Bool { item.image != nil }
 
+  var imageDimensions: String? {
+    item.imageDimensionsValue
+  }
+
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?

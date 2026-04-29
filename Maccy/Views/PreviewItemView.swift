@@ -21,6 +21,17 @@ struct PreviewItemView: View {
             previewImage {
               Image(nsImage: image)
                 .resizable()
+                .overlay(alignment: .bottomTrailing) {
+                  if let dim = item.item.imageDimensionsValue {
+                    Text(dim)
+                      .font(.caption2)
+                      .foregroundStyle(.white)
+                      .padding(.horizontal, 4)
+                      .padding(.vertical, 2)
+                      .background(.black.opacity(0.5), in: .rect(cornerRadius: 3))
+                      .padding(4)
+                  }
+                }
             }
           } else {
             previewImage {
@@ -87,6 +98,20 @@ struct PreviewItemView: View {
       HStack(spacing: 3) {
         Text("NumberOfCopies", tableName: "PreviewItemView")
         Text(String(item.item.numberOfCopies))
+      }
+
+      if let dim = item.item.imageDimensionsValue {
+        HStack(spacing: 3) {
+          Text("ImageDimensions", tableName: "PreviewItemView")
+          Text(dim)
+        }
+      }
+
+      if !item.item.title.isEmpty {
+        HStack(spacing: 3) {
+          Text("Title", tableName: "PreviewItemView")
+          Text(item.item.title)
+        }
       }
     }
     .controlSize(.small)
