@@ -146,7 +146,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
+        for content in item.contents {
+          Storage.shared.context.delete(content)
+        }
         item.contents = existingHistoryItem.contents
+        existingHistoryItem.contents = []
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
