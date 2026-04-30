@@ -3,6 +3,7 @@
 "DeleteKey" = "Paspauskite {deleteKey}, kad ištrintumėte.";
 "Application" = "Programa:";
 "NumberOfCopies" = "Kopijų skaičius:";
+"DataSize" = "Duomenų dydis:";
 "PinKey" = "Paspauskite {pinKey}, kad prisegtumėte.";
 "UnpinKey" = "Paspauskite {pinKey}, kad neprisegtumėte.";
 "PreviewKey" = "Paspauskite {previewKey} peržiūrai perjungti.";

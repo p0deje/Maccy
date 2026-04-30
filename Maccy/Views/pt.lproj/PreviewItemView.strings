@@ -4,5 +4,6 @@
 "PinKey" = "Pressione {pinKey} para fixar.";
 "DeleteKey" = "Pressione {deleteKey} para apagar.";
 "NumberOfCopies" = "Quantidade de cópias:";
+"DataSize" = "Tamanho dos dados:";
 "UnpinKey" = "Pressione {pinKey} para desafixar.";
 "PreviewKey" = "Pressione {previewKey} para alternar a pré-visualização.";

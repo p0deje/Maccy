@@ -2,6 +2,7 @@
 "FirstCopyTime" = "Vrijeme prve kopije:";
 "LastCopyTime" = "Vrijeme zadnje kopije:";
 "NumberOfCopies" = "Broj kopija:";
+"DataSize" = "Veličina podataka:";
 "PinKey" = "Pritisnite {pinKey} za prikvačivanje.";
 "UnpinKey" = "Pritisnite {pinKey} za otkvačivanje.";
 "DeleteKey" = "Pritisnite {deleteKey} za brisanje.";

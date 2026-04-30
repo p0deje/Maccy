@@ -2,6 +2,7 @@
 "FirstCopyTime" = "首次拷貝時間:";
 "LastCopyTime" = "上次拷貝時間:";
 "NumberOfCopies" = "拷貝次數:";
+"DataSize" = "資料大小:";
 "PinKey" = "按 {pinKey} (取消)固定。";
 "UnpinKey" = "按 {pinKey} (取消)固定。";
 "DeleteKey" = "按 {deleteKey} 刪除。";

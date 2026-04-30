@@ -2,6 +2,7 @@
 "FirstCopyTime" = "وقت أول نسخة:";
 "LastCopyTime" = "وقت آخر نسخة:";
 "NumberOfCopies" = "عدد النسخ:";
+"DataSize" = "حجم البيانات:";
 "PinKey" = "اضغط على {pinKey} للتثبيت أو إلغاء التثبيت.";
 "UnpinKey" = "اضغط على {pinKey} للتثبيت أو إلغاء التثبيت.";
 "DeleteKey" = "اضغط على {deleteKey} للحذف.";

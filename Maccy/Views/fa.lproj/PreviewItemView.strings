@@ -2,6 +2,7 @@
 "FirstCopyTime" = "زمان اولین کپی:";
 "LastCopyTime" = "آخرین زمان کپی:";
 "NumberOfCopies" = "تعداد کپی‌ها:";
+"DataSize" = "اندازه داده:";
 "PinKey" = "برای سنجاق کردن، کلید {pinKey} را فشار دهید.";
 "DeleteKey" = "برای حذف، کلید {deleteKey} را فشار دهید.";
 "UnpinKey" = "برای برداشتن سنجاق، کلید {pinKey} را فشار دهید.";

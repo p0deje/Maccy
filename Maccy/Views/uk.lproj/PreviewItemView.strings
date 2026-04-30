@@ -2,6 +2,7 @@
 "FirstCopyTime" = "Час першої копії:";
 "LastCopyTime" = "Час останньої копії:";
 "NumberOfCopies" = "Кількість копій:";
+"DataSize" = "Розмір даних:";
 "PinKey" = "Натисніть {pinKey}, щоб кріпити.";
 "UnpinKey" = "Натисніть {pinKey}, щоб відкріпити.";
 "DeleteKey" = "Натисніть {deleteKey}, щоб видалити.";

@@ -2,6 +2,7 @@
 "FirstCopyTime" = "Data da primeira cópia:";
 "LastCopyTime" = "Data da última cópia:";
 "NumberOfCopies" = "Número de cópias:";
+"DataSize" = "Tamanho dos dados:";
 "PinKey" = "Pressione {pinKey} para fixar.";
 "UnpinKey" = "Pressione {pinKey} para desafixar.";
 "DeleteKey" = "Pressione {deleteKey} para excluir.";

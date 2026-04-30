@@ -2,6 +2,7 @@
 "Application" = "Aplikacija:";
 "FirstCopyTime" = "Čas prvega kopiranja:";
 "NumberOfCopies" = "Število kopiranj:";
+"DataSize" = "Velikost podatkov:";
 "LastCopyTime" = "Čas zadnjega kopiranja:";
 "PinKey" = "Pritisnite {pinKey} za zapenjanje.";
 "UnpinKey" = "Pritisnite {pinKey} za odzapenjanje.";

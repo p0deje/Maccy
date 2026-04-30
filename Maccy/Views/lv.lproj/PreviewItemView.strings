@@ -2,6 +2,7 @@
 "FirstCopyTime" = "Pirmās kopēšanas laiks:";
 "LastCopyTime" = "Pēdējās kopēšanas laiks:";
 "NumberOfCopies" = "Kopiju skaits:";
+"DataSize" = "Datu lielums:";
 "PinKey" = "Nospiediet {pinKey}, lai piespraust.";
 "UnpinKey" = "Nospiediet {pinKey}, lai atspraust.";
 "DeleteKey" = "Nospiediet {deleteKey}, lai dzēstu.";

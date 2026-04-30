@@ -2,6 +2,7 @@
 "FirstCopyTime" = "Data primei copii:";
 "LastCopyTime" = "Data ultimei copii:";
 "NumberOfCopies" = "Numărul de copii:";
+"DataSize" = "Dimensiunea datelor:";
 "PinKey" = "Apasă {pinKey} pentru a fixa.";
 "UnpinKey" = "Apasă {pinKey} pentru a detașa.";
 "DeleteKey" = "Apasă {deleteKey} pentru a șterge.";

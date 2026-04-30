@@ -2,6 +2,7 @@
 "FirstCopyTime" = "";
 "LastCopyTime" = "";
 "NumberOfCopies" = "";
+"DataSize" = "Datastorlek:";
 "PinKey" = "";
 "UnpinKey" = "";
 "DeleteKey" = "";
