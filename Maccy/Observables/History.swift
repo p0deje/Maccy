@@ -229,6 +229,14 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     // depending on how many distinct source apps the session touched.
     ApplicationImageCache.shared.clear()
 
+    // Give SwiftUI/AppKit/ARC a turn to release row and icon objects before
+    // creating a fresh SwiftData container, reducing short-lived idle peaks.
+    await Task.yield()
+    guard AppState.shared.popup.isClosed() else {
+      logger.info("Idle flush: skipped container reset (popup reopened)")
+      return
+    }
+
     Storage.shared.recreateContainer()
     needsReloadAfterIdleFlush = true
     logger.info("Idle flush: complete, decorators will reload on next popup open")
