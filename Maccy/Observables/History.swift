@@ -110,7 +110,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   // during browsing/preview. Re-fetched on demand by `load()`.
   @ObservationIgnored
   private var idleFlushTask: Task<Void, Never>?
-  private static let idleFlushDelay: Duration = .seconds(60)
+  private static let idleFlushDelay: Duration = .seconds(30)
   @ObservationIgnored
   private(set) var needsReloadAfterIdleFlush = false
 
