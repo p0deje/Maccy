@@ -37,6 +37,7 @@ class AppState: Sendable {
 
   private let about = About()
   private var settingsWindowController: SettingsWindowController?
+  private var settingsWindowCloseObserver: NSObjectProtocol?
 
   init(history: History, footer: Footer) {
     self.history = history
@@ -111,7 +112,7 @@ class AppState: Sendable {
   @MainActor
   func openPreferences() { // swiftlint:disable:this function_body_length
     if settingsWindowController == nil {
-      settingsWindowController = SettingsWindowController(
+      let controller = SettingsWindowController(
         panes: [
           Settings.Pane(
             identifier: Settings.PaneIdentifier.general,
@@ -159,6 +160,23 @@ class AppState: Sendable {
           }
         ]
       )
+      settingsWindowController = controller
+
+      if let window = controller.window {
+        settingsWindowCloseObserver = NotificationCenter.default.addObserver(
+          forName: NSWindow.willCloseNotification,
+          object: window,
+          queue: .main
+        ) { [weak self, weak controller] _ in
+          guard let self, self.settingsWindowController === controller else { return }
+
+          if let observer = self.settingsWindowCloseObserver {
+            NotificationCenter.default.removeObserver(observer)
+          }
+          self.settingsWindowCloseObserver = nil
+          self.settingsWindowController = nil
+        }
+      }
     }
     settingsWindowController?.show()
     settingsWindowController?.window?.orderFrontRegardless()
