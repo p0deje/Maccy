@@ -123,7 +123,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   // the end. Pinned items are always all loaded (small set, capped by the
   // pin-shortcut alphabet at ~22).
   private static let pageSize = 50
-  private static let maxUnpinnedWindowSize = 3000
+  private static var maxUnpinnedWindowSize: Int {
+    max(pageSize, Defaults[.size])
+  }
   private static let pruneUnpinnedBatchSize = 50
   // Trigger loadMore when this many items from the end becomes visible.
   private static let pageLoadAheadCount = 20
