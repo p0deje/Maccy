@@ -15,13 +15,38 @@ extension NSImage {
       return self
     }
 
-    return NSImage(size: newSize, flipped: false) { destRect in
-      if let context = NSGraphicsContext.current {
-        context.imageInterpolation = .high
-        self.draw(in: destRect, from: NSRect.zero, operation: .copy, fraction: 1)
-      }
+    // HiDPI: bake at the highest active backing scale so the cached bitmap
+    // stays sharp on any display the popup is dragged to.
+    let scale = NSScreen.screens.map(\.backingScaleFactor).max() ?? 2.0
+    let pixelsWide = Int((newWidth * scale).rounded())
+    let pixelsHigh = Int((newHeight * scale).rounded())
 
-      return true
+    guard let rep = NSBitmapImageRep(
+      bitmapDataPlanes: nil,
+      pixelsWide: pixelsWide, pixelsHigh: pixelsHigh,
+      bitsPerSample: 8, samplesPerPixel: 4,
+      hasAlpha: true, isPlanar: false,
+      colorSpaceName: .deviceRGB,
+      bytesPerRow: 0, bitsPerPixel: 0
+    ) else {
+      return self
     }
+    rep.size = newSize
+
+    guard let ctx = NSGraphicsContext(bitmapImageRep: rep) else {
+      return self
+    }
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = ctx
+    ctx.imageInterpolation = .high
+    draw(
+      in: NSRect(origin: .zero, size: newSize),
+      from: .zero, operation: .copy, fraction: 1
+    )
+    NSGraphicsContext.restoreGraphicsState()
+
+    let baked = NSImage(size: newSize)
+    baked.addRepresentation(rep)
+    return baked
   }
 }
