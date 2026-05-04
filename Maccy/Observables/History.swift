@@ -107,13 +107,33 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     let results = try Storage.shared.context.fetch(descriptor)
     all = sorter.sort(results).map { HistoryItemDecorator($0) }
     items = all
-
+    
+    // check and remove older items
+    removeOldestItem(to: Defaults[.time])
+    
     limitHistorySize(to: Defaults[.size])
 
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
     Task {
       AppState.shared.popup.needsResize = true
+    }
+  }
+    
+  @MainActor
+  func removeOldestItem(to timeInHours: Double) {
+    if (timeInHours == 0) {
+      return
+    }
+    if (all.isEmpty) {
+      return
+    }
+    let timeInSeconds = timeInHours * 3600
+    let oldest = all.filter{
+      $0.isUnpinned && (Date().timeIntervalSince($0.item.lastCopiedAt) > timeInSeconds)
+    };
+    if oldest.count != 0 {
+      oldest.forEach(delete)
     }
   }
 
@@ -170,7 +190,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
     limitHistorySize(to: Defaults[.size] - 1)
-
+      
+    removeOldestItem(to: Defaults[.time])
+    
     sessionLog[Clipboard.shared.changeCount] = item
 
     var itemDecorator: HistoryItemDecorator
@@ -473,7 +495,6 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
       return item
     }
-
     updateUnpinnedShortcuts()
   }
 
@@ -483,7 +504,6 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         item.shortcuts = KeyShortcut.create(character: pin)
       }
     }
-
     updateUnpinnedShortcuts()
   }
 

@@ -7,6 +7,8 @@
 "Size" = "Size:";
 "SizeTooltip" = "Number of history items to keep.\nDefault: 200.";
 "CurrentSizeTooltip" = "Current size on disk.";
+"Time" = "Keep for:";
+"TimeToolTip" = "How long to keep items in history.\nDefault: 8 hours.";
 "SortBy" = "Sort by:";
 "LastCopiedAt" = "Time of last copy";
 "FirstCopiedAt" = "Time of first copy";

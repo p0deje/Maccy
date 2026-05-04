@@ -57,6 +57,7 @@ struct StorageSettingsPane: View {
   }
 
   @Default(.size) private var size
+  @Default(.time) private var time
   @Default(.sortBy) private var sortBy
 
   @State private var viewModel = ViewModel()
@@ -106,6 +107,20 @@ struct StorageSettingsPane: View {
             .onAppear {
               storageSize = Storage.shared.size
             }
+        }
+      }
+      
+      Settings.Section(label: { Text("Time", tableName: "StorageSettings") }) {
+        HStack {
+          TextField("", value: $time, formatter: sizeFormatter)
+            .frame(width: 80)
+            .help(Text("TimeToolTip", tableName: "StorageSettings"))
+          Stepper("", value: $time, in: 0...48)
+            .labelsHidden()
+          Text(time != 1 ? "hours" : "hour")
+            .controlSize(.small)
+            .foregroundStyle(.gray)
+            .help(Text("TimeToolTip", tableName: "StorageSettings"))
         }
       }
 

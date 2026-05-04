@@ -9,6 +9,7 @@ class Clipboard {
 
   private var onNewCopyHooks: [OnNewCopyHook] = []
   var changeCount: Int
+  var lastCleanup: Date
 
   private let pasteboard = NSPasteboard.general
 
@@ -37,6 +38,7 @@ class Clipboard {
 
   init() {
     changeCount = pasteboard.changeCount
+    lastCleanup = Date()
   }
 
   func onNewCopy(_ hook: @escaping OnNewCopyHook) {
@@ -148,6 +150,15 @@ class Clipboard {
   @objc
   @MainActor
   func checkForChangesInPasteboard() { // swiftlint:disable:this cyclomatic_complexity
+
+    let cleanUpInterval = (Defaults[.time] * 3600) / 2
+    
+    if (Date().timeIntervalSince(lastCleanup) > cleanUpInterval) {
+      // Remove items older than time limit in background
+      History.shared.removeOldestItem(to: Defaults[.time])
+      lastCleanup = Date()
+    }
+    
     guard pasteboard.changeCount != changeCount else {
       return
     }
