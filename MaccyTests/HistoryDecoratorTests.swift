@@ -66,6 +66,10 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.title, "")
     XCTAssertEqual(itemDecorator.previewImage!.size, image.size)
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, image.size)
+    XCTAssertEqual(
+      itemDecorator.imagePixelDimensions,
+      "\(Int(image.size.width))×\(Int(image.size.height))"
+    )
   }
 
   // We also need to add test for image with width bigger than max width.

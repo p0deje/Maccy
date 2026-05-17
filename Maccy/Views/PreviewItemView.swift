@@ -9,6 +9,7 @@ struct PreviewItemView: View {
     content()
       .aspectRatio(contentMode: .fit)
       .clipShape(.rect(cornerRadius: 5))
+      .help(item.imagePixelDimensions ?? "")
   }
 
   var body: some View {
