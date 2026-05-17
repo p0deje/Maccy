@@ -66,10 +66,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.title, "")
     XCTAssertEqual(itemDecorator.previewImage!.size, image.size)
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, image.size)
-    XCTAssertEqual(
-      itemDecorator.imagePixelDimensions,
-      "\(Int(image.size.width))×\(Int(image.size.height))"
-    )
+    XCTAssertEqual(itemDecorator.imagePixelDimensions, Self.pixelDimensionsLabel(for: image))
   }
 
   // We also need to add test for image with width bigger than max width.
@@ -221,6 +218,14 @@ class HistoryItemDecoratorTests: XCTestCase {
     item.numberOfCopies = 2
 
     return HistoryItemDecorator(item)
+  }
+
+  private static func pixelDimensionsLabel(for image: NSImage) -> String {
+    if let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) {
+      return "\(cgImage.width)×\(cgImage.height)"
+    }
+
+    return "\(Int(image.size.width))×\(Int(image.size.height))"
   }
 
   // swiftlint:disable:next identifier_name
