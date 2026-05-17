@@ -144,7 +144,10 @@ class SlideoutController {
     return newSize
   }
 
-  func togglePreview(trigger: SlideoutToggleTrigger = .manual) {
+  func togglePreview(
+    trigger: SlideoutToggleTrigger = .manual,
+    cancelPendingAutoOpen: Bool = true
+  ) {
     if !state.isOpen {
       let navigator = AppState.shared.navigator
       guard navigator.leadHistoryItem != nil || navigator.pasteStackSelected else { return }
@@ -158,7 +161,9 @@ class SlideoutController {
       }
     }
 
-    cancelAutoOpen()
+    if cancelPendingAutoOpen {
+      cancelAutoOpen()
+    }
     withAnimation(.easeInOut(duration: Self.animationDuration), completionCriteria: .removed) {
       if let window = nswindow {
         togglePreviewStateWithAnimation(windowFrame: window.frame)
@@ -225,14 +230,21 @@ class SlideoutController {
 
     guard autoOpenEnabled else { return }
     guard !autoOpenSuppressed else { return }
-    guard !state.isOpen else { return }
+
+    let navigator = AppState.shared.navigator
+    guard navigator.leadHistoryItem != nil || navigator.pasteStackSelected else { return }
 
     autoOpenTask = Task { @MainActor in
+      if state.isOpen {
+        togglePreview(trigger: .autoOpen, cancelPendingAutoOpen: false)
+      }
+
       try? await Task.sleep(for: .milliseconds(Defaults[.previewDelay]))
       guard !Task.isCancelled else { return }
+      guard !autoOpenSuppressed else { return }
 
       if !state.isOpen {
-        togglePreview(trigger: .autoOpen)
+        togglePreview(trigger: .autoOpen, cancelPendingAutoOpen: false)
       }
     }
   }
