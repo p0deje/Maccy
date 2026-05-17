@@ -69,20 +69,12 @@ class HistoryItemDecoratorTests: XCTestCase {
   }
 
   func testImagePixelDimensions() {
-    let rep = NSBitmapImageRep(
-      bitmapDataPlanes: nil,
-      pixelsWide: 320,
-      pixelsHigh: 240,
-      bitsPerSample: 8,
-      samplesPerPixel: 4,
-      hasAlpha: true,
-      isPlanar: false,
-      colorSpaceName: .deviceRGB,
-      bytesPerRow: 0,
-      bitsPerPixel: 0
-    )!
-    let image = NSImage(size: NSSize(width: 320, height: 240))
-    image.addRepresentation(rep)
+    let size = NSSize(width: 320, height: 240)
+    let image = NSImage(size: size)
+    image.lockFocus()
+    NSColor.red.setFill()
+    NSRect(origin: .zero, size: size).fill()
+    image.unlockFocus()
 
     let itemDecorator = historyItemDecorator(image)
     XCTAssertEqual(itemDecorator.imagePixelDimensions, "320×240")
