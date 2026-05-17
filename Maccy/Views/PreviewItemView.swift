@@ -14,9 +14,9 @@ struct PreviewItemView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       if item.hasImage {
-        AsyncView<NSImage?, _, _> {
+        AsyncView(id: item.id, operation: {
           return await item.asyncGetPreviewImage()
-        } content: { image in
+        }, content: { image in
           if let image = image {
             previewImage {
               Image(nsImage: image)
