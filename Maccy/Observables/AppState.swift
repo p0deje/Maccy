@@ -19,14 +19,9 @@ class AppState: Sendable {
   var preview: SlideoutController
   var activeTab: AppTab = .clipboard
 
+  /// The floating panel that is actually showing the active tab (main popup or standalone todos window).
   var activeFloatingPanel: NSWindow? {
-    guard let appDelegate else { return nil }
-    switch activeTab {
-    case .clipboard:
-      return appDelegate.panel
-    case .todos:
-      return appDelegate.todosPanel
-    }
+    appDelegate?.floatingPanel(for: activeTab)
   }
 
   var searchVisible: Bool {
@@ -71,6 +66,11 @@ class AppState: Sendable {
   @MainActor
   func setActiveTab(_ tab: AppTab) {
     guard activeTab != tab else { return }
+
+    if preview.state.isOpen {
+      preview.togglePreview(trigger: .autoOpen)
+    }
+
     activeTab = tab
 
     switch tab {
@@ -90,6 +90,13 @@ class AppState: Sendable {
     preview.placement = .left
     preview.enableAutoOpen()
     todos.isKeyboardNavigating = false
+    if !preview.state.isOpen, let window = activeFloatingPanel {
+      if preview.contentResizeWidth > 0 {
+        preview.contentWidth = preview.contentResizeWidth
+      } else {
+        preview.contentWidth = window.frame.width.rounded()
+      }
+    }
     if todos.selectedItem != nil {
       preview.resetAutoOpenSuppression()
       preview.startAutoOpen()
@@ -158,21 +165,21 @@ class AppState: Sendable {
           Settings.Pane(
             identifier: Settings.PaneIdentifier.general,
             title: NSLocalizedString("Title", tableName: "GeneralSettings", comment: ""),
-            toolbarIcon: NSImage.gearshape!
+            toolbarIcon: NSImage.gearshape
           ) {
             GeneralSettingsPane()
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.quickPaste,
             title: NSLocalizedString("Title", tableName: "QuickPasteSettings", comment: ""),
-            toolbarIcon: NSImage.quickPaste!
+            toolbarIcon: NSImage.quickPaste
           ) {
             QuickPasteSettingsPane()
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.todos,
             title: NSLocalizedString("Title", tableName: "TodoSettings", comment: ""),
-            toolbarIcon: NSImage.checklist!
+            toolbarIcon: NSImage.checklist
           ) {
             TodoSettingsPane()
               .modelContainer(Storage.shared.container)
@@ -180,21 +187,21 @@ class AppState: Sendable {
           Settings.Pane(
             identifier: Settings.PaneIdentifier.storage,
             title: NSLocalizedString("Title", tableName: "StorageSettings", comment: ""),
-            toolbarIcon: NSImage.externaldrive!
+            toolbarIcon: NSImage.externaldrive
           ) {
             StorageSettingsPane()
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.appearance,
             title: NSLocalizedString("Title", tableName: "AppearanceSettings", comment: ""),
-            toolbarIcon: NSImage.paintpalette!
+            toolbarIcon: NSImage.paintpalette
           ) {
             AppearanceSettingsPane()
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.pins,
             title: NSLocalizedString("Title", tableName: "PinsSettings", comment: ""),
-            toolbarIcon: NSImage.pincircle!
+            toolbarIcon: NSImage.pincircle
           ) {
             PinsSettingsPane()
               .environment(self)
@@ -203,14 +210,14 @@ class AppState: Sendable {
           Settings.Pane(
             identifier: Settings.PaneIdentifier.ignore,
             title: NSLocalizedString("Title", tableName: "IgnoreSettings", comment: ""),
-            toolbarIcon: NSImage.nosign!
+            toolbarIcon: NSImage.nosign
           ) {
             IgnoreSettingsPane()
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.advanced,
             title: NSLocalizedString("Title", tableName: "AdvancedSettings", comment: ""),
-            toolbarIcon: NSImage.gearshape2!
+            toolbarIcon: NSImage.gearshape2
           ) {
             AdvancedSettingsPane()
           }

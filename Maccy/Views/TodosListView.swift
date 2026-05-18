@@ -3,8 +3,17 @@ import SwiftUI
 
 struct TodosListView: View {
   @Environment(AppState.self) private var appState
+  @Environment(\.scenePhase) private var scenePhase
   @FocusState.Binding var searchFocused: Bool
   @Default(.showCompletedTodos) private var showCompletedTodos
+
+  private var topPadding: CGFloat {
+    Popup.verticalSeparatorPadding
+  }
+
+  private var bottomPadding: CGFloat {
+    Popup.verticalSeparatorPadding - 1
+  }
 
   var body: some View {
     ScrollView {
@@ -34,8 +43,44 @@ struct TodosListView: View {
             .padding(8)
         }
       }
-      .padding(.horizontal, Popup.horizontalPadding)
+      .padding(.top, topPadding)
+      .padding(.bottom, bottomPadding)
+      .onChange(of: scenePhase) {
+        if scenePhase == .active {
+          searchFocused = true
+          appState.todos.isKeyboardNavigating = true
+          if appState.todos.selectedId == nil,
+             let id = appState.todos.activeItems.first?.id
+               ?? appState.todos.pinnedItems.first?.id {
+            appState.todos.select(id: id)
+          }
+          if appState.activeTab == .todos, appState.todos.selectedId != nil {
+            appState.preview.enableAutoOpen()
+            appState.preview.resetAutoOpenSuppression()
+            appState.preview.startAutoOpen()
+          }
+        } else {
+          appState.todos.isKeyboardNavigating = true
+          appState.preview.cancelAutoOpen()
+        }
+      }
+      .background {
+        GeometryReader { geo in
+          Color.clear
+            .task(id: appState.popup.needsResize) {
+              try? await Task.sleep(for: .milliseconds(10))
+              guard !Task.isCancelled else { return }
+
+              if appState.popup.needsResize {
+                appState.popup.resize(height: geo.size.height)
+              }
+            }
+        }
+      }
     }
+    .contentMargins(.leading, 10, for: .scrollIndicators)
+    .contentMargins(.top, topPadding, for: .scrollIndicators)
+    .contentMargins(.bottom, bottomPadding, for: .scrollIndicators)
   }
 
   @ViewBuilder
@@ -85,7 +130,7 @@ struct TodosListView: View {
       .font(.caption2)
       .fontWeight(.semibold)
       .foregroundStyle(.secondary)
-      .padding(.top, 4)
+      .padding(.top, 6)
       .padding(.bottom, 2)
   }
 }

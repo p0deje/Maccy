@@ -20,7 +20,7 @@ final class TodoItem {
 
   var dueDate: Date?
   var reminderDate: Date?
-  var reminderRepeatRule: String = TodoReminderRepeat.none.rawValue
+  var reminderRepeatRule: String?
   var notificationId: String?
 
   @Relationship(deleteRule: .cascade, inverse: \TodoCompletionEvent.todo)

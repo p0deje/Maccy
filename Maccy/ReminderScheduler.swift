@@ -65,20 +65,16 @@ final class ReminderScheduler {
       return
     }
 
-    let repeatRule = TodoReminderRepeat(storedValue: item.reminderRepeatRule)
-    if repeatRule == .none {
-      item.reminderRepeatRule = TodoReminderRepeat.once.rawValue
-    }
-
-    let effectiveRule = repeatRule == .none ? .once : repeatRule
-    if effectiveRule == .once, reminderDate <= .now {
+    let effectiveRule = TodoReminderRepeat(storedValue: item.reminderRepeatRule)
+    let repeatRule: TodoReminderRepeat = effectiveRule == .none ? .once : effectiveRule
+    if repeatRule == .once, reminderDate <= .now {
       cancel(item)
       return
     }
 
     cancel(item)
 
-    switch effectiveRule {
+    switch repeatRule {
     case .none:
       cancel(item)
     case .once:
@@ -186,12 +182,15 @@ final class ReminderScheduler {
     center.add(request) { error in
       if let error {
         self.logger.debug("Failed to schedule reminder: \(error.localizedDescription)")
+        return
       }
-    }
 
-    if suffix == nil || suffix == "repeat" {
-      item.notificationId = identifier
-      try? Storage.shared.context.save()
+      Task { @MainActor in
+        if suffix == nil || suffix == "repeat" {
+          item.notificationId = identifier
+          try? Storage.shared.context.save()
+        }
+      }
     }
   }
 

@@ -111,7 +111,7 @@ class Popup {
 
   func resize(height: CGFloat) {
     self.height = height + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
-    AppState.shared.appDelegate?.panel.verticallyResize(to: preferredHeight(for: self.height))
+    AppState.shared.appDelegate?.verticallyResizePresentedPanel(to: preferredHeight(for: self.height))
     needsResize = false
   }
 

@@ -8,6 +8,27 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   var panel: FloatingPanel<ContentView>!
   var todosPanel: FloatingPanel<TodosWindowView>!
 
+  /// Returns the window hosting the given tab — prefers the main popup when it is open.
+  func floatingPanel(for tab: AppTab) -> NSWindow? {
+    switch tab {
+    case .clipboard:
+      return panel
+    case .todos:
+      if panel.isPresented {
+        return panel
+      }
+      return todosPanel
+    }
+  }
+
+  func verticallyResizePresentedPanel(to height: CGFloat) {
+    if panel.isPresented {
+      panel.verticallyResize(to: height)
+    } else if todosPanel.isPresented {
+      todosPanel.verticallyResize(to: height)
+    }
+  }
+
   @objc
   private lazy var statusItem: NSStatusItem = {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)

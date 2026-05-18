@@ -26,10 +26,11 @@ struct TodoItemView: View {
         )
         .textFieldStyle(.plain)
         .font(.callout)
+        .lineLimit(1)
+        .truncationMode(.tail)
         .strikethrough(item.isCompleted)
+        .frame(maxWidth: .infinity, alignment: .leading)
         .onSubmit { appState.todos.update(item) }
-
-        Spacer(minLength: 0)
 
         if item.item.reminderDate != nil, !item.isCompleted {
           Image(systemName: "bell.fill")
@@ -54,6 +55,7 @@ struct TodoItemView: View {
           .buttonStyle(.plain)
         }
       }
+      .frame(minHeight: Popup.itemHeight)
 
       if item.isCompleted, let subtitle = TodoAnalytics.completionSubtitle(for: item.item) {
         Text(subtitle)
@@ -70,8 +72,7 @@ struct TodoItemView: View {
           .padding(.top, 1)
       }
     }
-    .padding(.vertical, 2)
-    .padding(.horizontal, 6)
+    .frame(maxWidth: .infinity, alignment: .leading)
     .foregroundStyle(isSelected ? Color.white : .primary)
     .background(isSelected ? Color.accentColor.opacity(0.8) : Color.white.opacity(0.001))
     .clipShape(RoundedRectangle(cornerRadius: Popup.cornerRadius))

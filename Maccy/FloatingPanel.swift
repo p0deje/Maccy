@@ -78,6 +78,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     orderFrontRegardless()
     makeKey()
     isPresented = true
+    determinePreviewPlacement()
 
     if popupPosition == .statusItem {
       DispatchQueue.main.async {
@@ -101,6 +102,10 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   func determinePreviewPlacement() {
     let preview = AppState.shared.preview
     guard !preview.state.isOpen else { return }
+    if AppState.shared.activeTab == .todos {
+      preview.placement = .left
+      return
+    }
     let newSize = preview.computeSizeWithPreview(frame.size, state: .open)
     preview.placement = preview.computePlacement(window: self, for: newSize)
   }

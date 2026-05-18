@@ -4,7 +4,7 @@ struct TodosSlideoutContentView: View {
   @Environment(AppState.self) private var appState
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 0) {
+    VStack {
       if let selected = appState.todos.selectedItem {
         ScrollView {
           TodoDetailView(item: selected)
@@ -12,15 +12,9 @@ struct TodosSlideoutContentView: View {
             .id(selected.id)
         }
       } else {
-        Text(NSLocalizedString("SelectTodoForDetails", tableName: "Todos", comment: ""))
-          .font(.caption)
-          .foregroundStyle(.secondary)
-          .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
+        EmptyView()
       }
-
-      Spacer(minLength: 0)
     }
-    .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topLeading)
     .padding(.horizontal)
     .padding(.bottom)
     .padding(.top, Popup.verticalPadding)

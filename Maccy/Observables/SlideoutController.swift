@@ -102,6 +102,11 @@ class SlideoutController {
     AppState.shared.activeFloatingPanel
   }
 
+  /// Todos detail panel is always on the left; the window grows leftward with a fixed right edge.
+  private var usesLeftAnchoredExpansion: Bool {
+    AppState.shared.activeTab == .todos
+  }
+
   private var windowAnimationOrigin: CGPoint?
   private var windowAnimationOriginBaseState: SlideoutState = .closed
 
@@ -125,21 +130,55 @@ class SlideoutController {
   }
 
   func computePlacement(window: NSWindow, for size: NSSize) -> SlideoutPlacement {
-    guard let screen = window.screen?.frame else { return placement }
-    let windowFrame = window.frame
-    let expansion = max(0, size.width - windowFrame.width)
-
-    if AppState.shared.activeTab == .todos {
-      if windowFrame.minX - expansion < screen.minX {
-        return .right
-      }
+    if usesLeftAnchoredExpansion {
       return .left
     }
 
+    guard let screen = window.screen?.frame else { return placement }
+    let windowFrame = window.frame
     if windowFrame.minX + size.width > screen.maxX {
       return .left
     }
     return .right
+  }
+
+  /// Keeps the list's right edge fixed and grows or shrinks toward the left, clamped to the visible screen.
+  private func frameWithRightEdgeAnchored(
+    window: NSWindow,
+    rightEdge: CGFloat,
+    totalWidth: CGFloat,
+    height: CGFloat
+  ) -> (origin: NSPoint, width: CGFloat) {
+    let screenMinX = window.screen?.visibleFrame.minX ?? window.screen?.frame.minX ?? 0
+    var width = totalWidth
+    var originX = rightEdge - width
+    if originX < screenMinX {
+      originX = screenMinX
+      width = rightEdge - originX
+    }
+    let originY = window.frame.origin.y + (window.frame.height - height)
+    return (NSPoint(x: originX, y: originY), width)
+  }
+
+  /// Repositions the todos window so only the left side grows (e.g. while dragging the divider).
+  func applyLeftAnchoredFrame(window: NSWindow) {
+    guard usesLeftAnchoredExpansion, state.isOpen else { return }
+
+    let height = computeSizeWithPreview(
+      NSSize(width: contentWidth, height: window.frame.height),
+      state: state
+    ).height
+    let totalWidth = contentWidth + slideoutWidth
+    let anchored = frameWithRightEdgeAnchored(
+      window: window,
+      rightEdge: window.frame.maxX,
+      totalWidth: totalWidth,
+      height: height
+    )
+    window.setFrame(
+      NSRect(origin: anchored.origin, size: NSSize(width: anchored.width, height: height)),
+      display: true
+    )
   }
 
   func computeSizeWithPreview(_ size: NSSize, state newState: SlideoutState) -> NSSize {
@@ -174,8 +213,19 @@ class SlideoutController {
     }
 
     cancelAutoOpen()
+
+    if let window = nswindow {
+      if contentResizeWidth > 0 {
+        contentWidth = contentResizeWidth
+      } else if usesLeftAnchoredExpansion, !state.isOpen {
+        contentWidth = window.frame.width.rounded()
+      }
+    }
+
     withAnimation(.easeInOut(duration: Self.animationDuration), completionCriteria: .removed) {
       if let window = nswindow {
+        let listRight = window.frame.maxX
+
         togglePreviewStateWithAnimation(windowFrame: window.frame)
         var newSize = window.frame.size
         newSize.width = contentWidth
@@ -189,7 +239,16 @@ class SlideoutController {
           var newOrigin = windowAnimationOrigin ?? window.frame.origin
           newOrigin.y += (window.frame.height - newSize.height)
 
-          if placement == .left {
+          if usesLeftAnchoredExpansion {
+            let anchored = frameWithRightEdgeAnchored(
+              window: window,
+              rightEdge: listRight,
+              totalWidth: newSize.width,
+              height: newSize.height
+            )
+            newOrigin = anchored.origin
+            newSize.width = anchored.width
+          } else if placement == .left {
             if windowAnimationOriginBaseState == .closed && state.isOpen {
               newOrigin.x -= slideoutWidth
             } else if windowAnimationOriginBaseState == .open

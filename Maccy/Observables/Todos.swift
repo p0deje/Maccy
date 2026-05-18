@@ -170,7 +170,7 @@ final class Todos { // swiftlint:disable:this type_body_length
     let item = decorator.item
     ReminderScheduler.shared.cancel(item)
     item.reminderDate = nil
-    item.reminderRepeatRule = TodoReminderRepeat.none.rawValue
+    item.reminderRepeatRule = nil
     item.updatedAt = .now
     save()
   }
@@ -253,7 +253,7 @@ final class Todos { // swiftlint:disable:this type_body_length
 
     ReminderScheduler.shared.cancel(item)
     item.reminderDate = nil
-    item.reminderRepeatRule = TodoReminderRepeat.none.rawValue
+    item.reminderRepeatRule = nil
 
     logger.info("Marked todo completed: \(item.title)")
     save()
