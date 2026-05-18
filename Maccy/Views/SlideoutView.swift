@@ -55,7 +55,7 @@ where Content: View, Slideout: View {
       // The slight opcaity white background is a workaround
       .background(Color.white.opacity(0.001))
       .onHover(perform: { inside in
-        if let window = appState.appDelegate?.panel {
+        if let window = appState.activeFloatingPanel {
           window.isMovableByWindowBackground = !inside
         }
         if inside {

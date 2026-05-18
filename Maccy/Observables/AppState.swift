@@ -6,22 +6,38 @@ import SwiftUI
 
 @Observable
 class AppState: Sendable {
-  static let shared = AppState(history: History.shared, footer: Footer())
+  static let shared = AppState(history: History.shared, footer: Footer(), todos: Todos.shared)
 
   let multiSelectionEnabled = false
 
   var appDelegate: AppDelegate?
   var popup: Popup
   var history: History
+  var todos: Todos
   var footer: Footer
   var navigator: NavigationManager
   var preview: SlideoutController
+  var activeTab: AppTab = .clipboard
+
+  var activeFloatingPanel: NSWindow? {
+    guard let appDelegate else { return nil }
+    switch activeTab {
+    case .clipboard:
+      return appDelegate.panel
+    case .todos:
+      return appDelegate.todosPanel
+    }
+  }
 
   var searchVisible: Bool {
     if !Defaults[.showSearch] { return false }
     switch Defaults[.searchVisibility] {
     case .always: return true
-    case .duringSearch: return !history.searchQuery.isEmpty
+    case .duringSearch:
+      switch activeTab {
+      case .clipboard: return !history.searchQuery.isEmpty
+      case .todos: return !todos.searchQuery.isEmpty
+      }
     }
   }
 
@@ -35,8 +51,9 @@ class AppState: Sendable {
   private let about = About()
   private var settingsWindowController: SettingsWindowController?
 
-  init(history: History, footer: Footer) {
+  init(history: History, footer: Footer, todos: Todos) {
     self.history = history
+    self.todos = todos
     self.footer = footer
     popup = Popup()
     navigator = NavigationManager(history: history, footer: footer)
@@ -49,6 +66,34 @@ class AppState: Sendable {
       })
     preview.contentWidth = Defaults[.windowSize].width
     preview.slideoutWidth = Defaults[.previewWidth]
+  }
+
+  @MainActor
+  func setActiveTab(_ tab: AppTab) {
+    guard activeTab != tab else { return }
+    activeTab = tab
+
+    switch tab {
+    case .todos:
+      prepareTodosTab()
+    case .clipboard:
+      preview.enableAutoOpen()
+      if navigator.leadHistoryItem != nil || navigator.pasteStackSelected {
+        preview.resetAutoOpenSuppression()
+        preview.startAutoOpen()
+      }
+    }
+  }
+
+  @MainActor
+  func prepareTodosTab() {
+    preview.placement = .left
+    preview.enableAutoOpen()
+    todos.isKeyboardNavigating = false
+    if todos.selectedItem != nil {
+      preview.resetAutoOpenSuppression()
+      preview.startAutoOpen()
+    }
   }
 
   @MainActor
@@ -123,6 +168,14 @@ class AppState: Sendable {
             toolbarIcon: NSImage.quickPaste!
           ) {
             QuickPasteSettingsPane()
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.todos,
+            title: NSLocalizedString("Title", tableName: "TodoSettings", comment: ""),
+            toolbarIcon: NSImage.checklist!
+          ) {
+            TodoSettingsPane()
+              .modelContainer(Storage.shared.container)
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.storage,

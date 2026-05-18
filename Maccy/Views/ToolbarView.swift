@@ -40,7 +40,7 @@ struct ToolbarButton<Label: View>: View {
     .buttonStyle(.plain)
     .frame(height: 23)
     .onHover(perform: { inside in
-      if let window = appState.appDelegate?.panel {
+      if let window = appState.activeFloatingPanel {
         window.isMovableByWindowBackground = !inside
       }
     })

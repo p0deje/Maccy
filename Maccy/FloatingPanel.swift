@@ -180,7 +180,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   func windowDidBecomeKey(_ notification: Notification) {
     AppState.shared.preview.enableAutoOpen()
 
-    if AppState.shared.navigator.leadHistoryItem != nil {
+    if AppState.shared.navigator.leadHistoryItem != nil
+      || (AppState.shared.activeTab == .todos && AppState.shared.todos.selectedItem != nil) {
       AppState.shared.preview.startAutoOpen()
     }
   }

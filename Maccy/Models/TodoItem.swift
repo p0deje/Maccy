@@ -1,0 +1,50 @@
+import Foundation
+import SwiftData
+
+@Model
+final class TodoItem {
+  var id: UUID
+  var title: String
+  var notes: String
+  var isCompleted: Bool
+  var isPinned: Bool
+  var createdAt: Date
+  var updatedAt: Date
+  var sortOrder: Int
+
+  var completedAt: Date?
+  var completionDurationSeconds: Int?
+  var wasOverdueWhenCompleted: Bool
+  var completedVia: String?
+  var timesCompleted: Int
+
+  var dueDate: Date?
+  var reminderDate: Date?
+  var reminderRepeatRule: String = TodoReminderRepeat.none.rawValue
+  var notificationId: String?
+
+  @Relationship(deleteRule: .cascade, inverse: \TodoCompletionEvent.todo)
+  var completionHistory: [TodoCompletionEvent] = []
+
+  init(
+    id: UUID = UUID(),
+    title: String = "",
+    notes: String = "",
+    isCompleted: Bool = false,
+    isPinned: Bool = false,
+    createdAt: Date = .now,
+    updatedAt: Date = .now,
+    sortOrder: Int = 0
+  ) {
+    self.id = id
+    self.title = title
+    self.notes = notes
+    self.isCompleted = isCompleted
+    self.isPinned = isPinned
+    self.createdAt = createdAt
+    self.updatedAt = updatedAt
+    self.sortOrder = sortOrder
+    self.wasOverdueWhenCompleted = false
+    self.timesCompleted = 0
+  }
+}

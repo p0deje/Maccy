@@ -60,4 +60,8 @@ extension Defaults.Keys {
   static let windowPosition = Key<NSPoint>("windowPosition", default: NSPoint(x: 0.5, y: 0.8))
   static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: false)
   static let previewWidth = Key<CGFloat>("previewWidth", default: 400)
+  static let defaultAppTab = Key<String>("defaultAppTab", default: AppTab.clipboard.rawValue)
+  static let showCompletedTodos = Key<Bool>("showCompletedTodos", default: true)
+  static let enableTodoReminders = Key<Bool>("enableTodoReminders", default: true)
+  static let openTodosWindowAtLaunch = Key<Bool>("openTodosWindowAtLaunch", default: false)
 }

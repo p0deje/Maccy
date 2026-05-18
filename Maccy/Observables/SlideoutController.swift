@@ -99,7 +99,7 @@ class SlideoutController {
   var resizingMode: ResizingMode = .none
 
   var nswindow: NSWindow? {
-    return AppState.shared.appDelegate?.panel
+    AppState.shared.activeFloatingPanel
   }
 
   private var windowAnimationOrigin: CGPoint?
@@ -127,11 +127,19 @@ class SlideoutController {
   func computePlacement(window: NSWindow, for size: NSSize) -> SlideoutPlacement {
     guard let screen = window.screen?.frame else { return placement }
     let windowFrame = window.frame
+    let expansion = max(0, size.width - windowFrame.width)
+
+    if AppState.shared.activeTab == .todos {
+      if windowFrame.minX - expansion < screen.minX {
+        return .right
+      }
+      return .left
+    }
+
     if windowFrame.minX + size.width > screen.maxX {
       return .left
-    } else {
-      return .right
     }
+    return .right
   }
 
   func computeSizeWithPreview(_ size: NSSize, state newState: SlideoutState) -> NSSize {
@@ -146,8 +154,14 @@ class SlideoutController {
 
   func togglePreview(trigger: SlideoutToggleTrigger = .manual) {
     if !state.isOpen {
-      let navigator = AppState.shared.navigator
-      guard navigator.leadHistoryItem != nil || navigator.pasteStackSelected else { return }
+      let appState = AppState.shared
+      switch appState.activeTab {
+      case .clipboard:
+        let navigator = appState.navigator
+        guard navigator.leadHistoryItem != nil || navigator.pasteStackSelected else { return }
+      case .todos:
+        guard appState.todos.selectedItem != nil else { return }
+      }
     }
 
     if trigger == .manual {

@@ -16,4 +16,6 @@ extension KeyboardShortcuts.Name {
   static let quickPastes: [KeyboardShortcuts.Name] = [
     .quickPaste1, .quickPaste2, .quickPaste3, .quickPaste4, .quickPaste5
   ]
+
+  static let openTodos = Self("openTodos", default: Shortcut(.t, modifiers: [.command, .shift]))
 }

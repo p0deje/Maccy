@@ -26,6 +26,12 @@ struct KeyHandlingView<Content: View>: View {
           }
         }
 
+        if appState.activeTab == .todos {
+          if handleTodosKeyPress() {
+            return .handled
+          }
+        }
+
         switch KeyChord(NSApp.currentEvent) {
         case .clearHistory:
           if let item = appState.footer.items.first(where: { $0.title == "clear" }),
@@ -171,5 +177,53 @@ struct KeyHandlingView<Content: View>: View {
 
         return .ignored
       }
+  }
+
+  private func handleTodosKeyPress() -> Bool {
+    guard let event = NSApp.currentEvent, event.type == .keyDown else {
+      return false
+    }
+
+    switch KeyChord(event) {
+    case .clearSearch:
+      appState.todos.searchQuery = ""
+      return true
+    case .deleteCurrentItem:
+      if let selected = appState.todos.selectedItem {
+        appState.todos.delete(selected)
+      }
+      return true
+    case .selectCurrentItem:
+      if let selected = appState.todos.selectedItem {
+        appState.todos.toggleComplete(selected, source: .keyboard)
+      }
+      return true
+    case .pinOrUnpin:
+      if let selected = appState.todos.selectedItem, !selected.isCompleted {
+        appState.todos.togglePin(selected)
+      }
+      return true
+    case .close:
+      appState.popup.close()
+      return true
+    case .openPreferences:
+      appState.openPreferences()
+      return true
+    case .moveToNext:
+      appState.todos.isKeyboardNavigating = true
+      appState.todos.selectNext()
+      return true
+    case .moveToPrevious:
+      appState.todos.isKeyboardNavigating = true
+      appState.todos.selectPrevious()
+      return true
+    default:
+      if event.modifierFlags.contains(.command),
+         event.charactersIgnoringModifiers?.lowercased() == "n" {
+        _ = appState.todos.add()
+        return true
+      }
+      return false
+    }
   }
 }

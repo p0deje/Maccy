@@ -482,10 +482,16 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   private func updateItems(_ newItems: [Search.SearchResult]) {
-    items = newItems.map { result in
+    let sorted = newItems.sorted { lhs, rhs in
+      if let lhsScore = lhs.score, let rhsScore = rhs.score, lhsScore != rhsScore {
+        return lhsScore < rhsScore
+      }
+      return lhs.object.item.lastCopiedAt > rhs.object.item.lastCopiedAt
+    }
+
+    items = sorted.map { result in
       let item = result.object
       item.highlight(searchQuery, result.ranges)
-
       return item
     }
 

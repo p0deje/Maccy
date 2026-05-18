@@ -2,9 +2,11 @@ import Defaults
 import KeyboardShortcuts
 import Sparkle
 import SwiftUI
+import UserNotifications
 
 class AppDelegate: NSObject, NSApplicationDelegate {
   var panel: FloatingPanel<ContentView>!
+  var todosPanel: FloatingPanel<TodosWindowView>!
 
   @objc
   private lazy var statusItem: NSStatusItem = {
@@ -43,6 +45,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     Task { @MainActor in
       try? await History.shared.load()
+      try? Todos.shared.load()
+      ReminderScheduler.shared.rescheduleAll()
     }
 
     Task {
@@ -96,8 +100,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
     Notifier.register()
+    ReminderScheduler.shared.register()
+    UNUserNotificationCenter.current().delegate = self
     disableUnusedGlobalHotkeys()
     QuickPaste.shared.register()
+    registerTodosShortcut()
+
+    if let tab = AppTab(rawValue: Defaults[.defaultAppTab]) {
+      AppState.shared.activeTab = tab
+    }
 
     panel = FloatingPanel(
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
@@ -106,6 +117,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       onClose: { AppState.shared.popup.reset() }
     ) {
       ContentView()
+    }
+
+    todosPanel = FloatingPanel(
+      contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
+      identifier: "org.p0deje.Maccy.todos",
+      onClose: {}
+    ) {
+      TodosWindowView()
+    }
+
+    if Defaults[.openTodosWindowAtLaunch] {
+      openTodosWindow()
     }
   }
 
@@ -117,6 +140,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationWillTerminate(_ notification: Notification) {
     if Defaults[.clearOnQuit] {
       AppState.shared.history.clear()
+    }
+  }
+
+  @objc
+  func openTodosWindow() {
+    AppState.shared.activeTab = .todos
+    todosPanel.toggle(height: AppState.shared.popup.height)
+  }
+
+  private func registerTodosShortcut() {
+    KeyboardShortcuts.onKeyUp(for: .openTodos) { [weak self] in
+      self?.openTodosWindow()
     }
   }
 
@@ -148,6 +183,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   @objc
   private func performStatusItemClick() {
     if let event = NSApp.currentEvent {
+      if event.type == .rightMouseUp {
+        showStatusItemMenu(at: event)
+        return
+      }
+
       let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
 
       if modifierFlags.contains(.option) {
@@ -162,6 +202,54 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
 
     panel.toggle(height: AppState.shared.popup.height, at: .statusItem)
+  }
+
+  private func showStatusItemMenu(at event: NSEvent) {
+    let menu = NSMenu()
+    menu.addItem(
+      NSMenuItem(
+        title: NSLocalizedString("ClipboardTab", tableName: "Todos", comment: ""),
+        action: #selector(openClipboardFromMenu),
+        keyEquivalent: ""
+      )
+    )
+    menu.addItem(
+      NSMenuItem(
+        title: NSLocalizedString("TodosTab", tableName: "Todos", comment: "") + "…",
+        action: #selector(openTodosFromMenu),
+        keyEquivalent: ""
+      )
+    )
+    menu.addItem(.separator())
+    menu.addItem(
+      NSMenuItem(
+        title: NSLocalizedString("Title", tableName: "GeneralSettings", comment: ""),
+        action: #selector(openPreferencesFromMenu),
+        keyEquivalent: ","
+      )
+    )
+    menu.items.forEach { $0.target = self }
+    if let button = statusItem.button {
+      menu.popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.height), in: button)
+    }
+  }
+
+  @objc
+  private func openClipboardFromMenu() {
+    AppState.shared.activeTab = .clipboard
+    panel.toggle(height: AppState.shared.popup.height, at: .statusItem)
+  }
+
+  @objc
+  private func openTodosFromMenu() {
+    openTodosWindow()
+  }
+
+  @objc
+  private func openPreferencesFromMenu() {
+    Task { @MainActor in
+      AppState.shared.openPreferences()
+    }
   }
 
   private func synchronizeMenuIconText() {
@@ -207,6 +295,17 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       if let name = notification.userInfo?["name"] as? KeyboardShortcuts.Name, names.contains(name) {
         KeyboardShortcuts.disable(name)
       }
+    }
+  }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    didReceive response: UNNotificationResponse
+  ) async {
+    await MainActor.run {
+      ReminderScheduler.shared.handleNotificationResponse(response)
     }
   }
 }
