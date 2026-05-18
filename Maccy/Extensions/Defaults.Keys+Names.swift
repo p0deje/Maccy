@@ -39,6 +39,7 @@ extension Defaults.Keys {
   static let migrations = Key<[String: Bool]>("migrations", default: [:])
   static let numberOfUsages = Key<Int>("numberOfUsages", default: 0)
   static let pasteByDefault = Key<Bool>("pasteByDefault", default: false)
+  static let enableQuickPaste = Key<Bool>("enableQuickPaste", default: true)
   static let pinTo = Key<PinsPosition>("pinTo", default: .top)
   static let popupPosition = Key<PopupPosition>("popupPosition", default: .cursor)
   static let popupScreen = Key<Int>("popupScreen", default: 0)

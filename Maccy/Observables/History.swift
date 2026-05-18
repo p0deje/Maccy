@@ -297,6 +297,21 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  func quickPaste(at index: Int, into destination: NSRunningApplication?) {
+    guard index >= 1 else { return }
+
+    let visibleUnpinnedItems = all.filter(\.isUnpinned).filter(\.isVisible)
+    guard index <= visibleUnpinnedItems.count else { return }
+
+    let item = visibleUnpinnedItems[index - 1]
+    Clipboard.shared.quickPaste(
+      item.item,
+      removeFormatting: Defaults[.removeFormattingByDefault],
+      into: destination
+    )
+  }
+
+  @MainActor
   func select(_ item: HistoryItemDecorator?) {
     guard let item else {
       return

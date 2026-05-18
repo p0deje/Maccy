@@ -16,6 +16,10 @@
 		2F0EC7852E774083003E2EA9 /* PasteStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7842E77407C003E2EA9 /* PasteStackView.swift */; };
 		2F0EC7872E774099003E2EA9 /* PasteStackItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */; };
 		2F0EC7892E7743D9003E2EA9 /* HoverSelectionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */; };
+		2F0EC7912E774500003E2EA9 /* QuickPaste.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7902E774500003E2EA9 /* QuickPaste.swift */; };
+		2F0EC7932E774600003E2EA9 /* QuickPasteSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7922E774600003E2EA9 /* QuickPasteSettings.swift */; };
+		2F0EC7952E774600003E2EA9 /* QuickPasteSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7942E774600003E2EA9 /* QuickPasteSettingsPane.swift */; };
+		2F0EC7972E774600003E2EA9 /* QuickPasteSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F0EC7962E774600003E2EA9 /* QuickPasteSettings.strings */; };
 		2F1091D72F2B6E8400F5C454 /* AsyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1091D62F2B6E8100F5C454 /* AsyncView.swift */; };
 		2F12271E2E5C932200A1592A /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 2F12271D2E5C932200A1592A /* Logging */; };
 		2F162E802F1E7B30001FBAFF /* PasteStackPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F162E7F2F1E7B28001FBAFF /* PasteStackPreviewView.swift */; };
@@ -190,6 +194,10 @@
 		2F0EC7842E77407C003E2EA9 /* PasteStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackView.swift; sourceTree = "<group>"; };
 		2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackItemView.swift; sourceTree = "<group>"; };
 		2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverSelectionModifier.swift; sourceTree = "<group>"; };
+		2F0EC7902E774500003E2EA9 /* QuickPaste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPaste.swift; sourceTree = "<group>"; };
+		2F0EC7922E774600003E2EA9 /* QuickPasteSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPasteSettings.swift; sourceTree = "<group>"; };
+		2F0EC7942E774600003E2EA9 /* QuickPasteSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPasteSettingsPane.swift; sourceTree = "<group>"; };
+		2F0EC7982E774600003E2EA9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QuickPasteSettings.strings; sourceTree = "<group>"; };
 		2F1091D62F2B6E8100F5C454 /* AsyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncView.swift; sourceTree = "<group>"; };
 		2F162E7F2F1E7B28001FBAFF /* PasteStackPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackPreviewView.swift; sourceTree = "<group>"; };
 		2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVisibility.swift; sourceTree = "<group>"; };
@@ -204,7 +212,6 @@
 		2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationImage.swift; sourceTree = "<group>"; };
 		2FF2E94D2E774B570093D72C /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		2FF2E94F2E7808420093D72C /* AppImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImageView.swift; sourceTree = "<group>"; };
-		2FFF8BCF2CE2116600235A78 /* Data+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Encoding.swift"; sourceTree = "<group>"; };
 		3EBDD1E32BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -655,6 +662,9 @@
 				DA689FCD2C1DEE570009B887 /* AppearanceSettings.strings */,
 				DAA5ACB12C1B3F8800B58513 /* GeneralSettingsPane.swift */,
 				DAA5ACB32C1B803000B58513 /* GeneralSettings.strings */,
+				2F0EC7922E774600003E2EA9 /* QuickPasteSettings.swift */,
+				2F0EC7942E774600003E2EA9 /* QuickPasteSettingsPane.swift */,
+				2F0EC7962E774600003E2EA9 /* QuickPasteSettings.strings */,
 				DA9C3C632C20E1E80056795D /* IgnoreSettingsPane */,
 				DA9C3C442C207AF80056795D /* IgnoreSettingsPane.swift */,
 				DA9C3C482C20D4B40056795D /* IgnoreSettings.strings */,
@@ -739,6 +749,7 @@
 				DA3BCB932C3EECBB00B01BC1 /* HistoryItemDecorator.swift */,
 				DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */,
 				DAE8F5D32C43262B00851CA9 /* Popup.swift */,
+				2F0EC7902E774500003E2EA9 /* QuickPaste.swift */,
 				2F578C3E2EFFE8720088B759 /* SlideoutController.swift */,
 			);
 			path = Observables;
@@ -1034,6 +1045,7 @@
 				DA20FA742B082E0100056DD5 /* Knock.caf in Resources */,
 				DA009931256411F90030E697 /* appcast.xml in Resources */,
 				DAA5ACB52C1B803000B58513 /* GeneralSettings.strings in Resources */,
+				2F0EC7972E774600003E2EA9 /* QuickPasteSettings.strings in Resources */,
 				DA740D7A2C21E6B0007B1A36 /* AdvancedSettings.strings in Resources */,
 				DA689FB02C1CD3B00009B887 /* StorageSettings.strings in Resources */,
 				DA5E62802C39E53F00F4C710 /* PreviewItemView.strings in Resources */,
@@ -1100,6 +1112,7 @@
 				2FF2E94E2E774B5B0093D72C /* NavigationManager.swift in Sources */,
 				DA1969182C3F327500258481 /* SearchFieldView.swift in Sources */,
 				DAE8F5D42C43262B00851CA9 /* Popup.swift in Sources */,
+				2F0EC7912E774500003E2EA9 /* QuickPaste.swift in Sources */,
 				DA13D7DA2C1A223E00FA9E23 /* Clear.swift in Sources */,
 				DA13D7DB2C1A223E00FA9E23 /* Delete.swift in Sources */,
 				DA19691F2C3F5F0600258481 /* KeyHandlingView.swift in Sources */,
@@ -1114,6 +1127,8 @@
 				DAA5ACCA2C1BEE8A00B58513 /* SoftwareUpdater.swift in Sources */,
 				2F9B42F12F1A499D006548E5 /* ToolbarView.swift in Sources */,
 				DAA5ACB22C1B3F8800B58513 /* GeneralSettingsPane.swift in Sources */,
+				2F0EC7932E774600003E2EA9 /* QuickPasteSettings.swift in Sources */,
+				2F0EC7952E774600003E2EA9 /* QuickPasteSettingsPane.swift in Sources */,
 				DA1969122C3F0DD200258481 /* HistoryItemView.swift in Sources */,
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
 				DA3F1B452C90084600267632 /* Sauce+KeyboardShortcuts.swift in Sources */,
@@ -1461,6 +1476,14 @@
 			name = PinsSettings.strings;
 			sourceTree = "<group>";
 		};
+		2F0EC7962E774600003E2EA9 /* QuickPasteSettings.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F0EC7982E774600003E2EA9 /* en */,
+			);
+			name = QuickPasteSettings.strings;
+			sourceTree = "<group>";
+		};
 		DAA5ACB32C1B803000B58513 /* GeneralSettings.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1736,7 +1759,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 60;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = HGR35DZM3R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1744,6 +1767,8 @@
 				);
 				INFOPLIST_FILE = Maccy/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_SUEnableDownloaderService = NO;
+				INFOPLIST_KEY_SUEnableInstallerLauncherService = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1771,7 +1796,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 60;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = HGR35DZM3R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

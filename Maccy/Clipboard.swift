@@ -35,8 +35,23 @@ class Clipboard {
 
   private var sourceApp: NSRunningApplication? { NSWorkspace.shared.frontmostApplication }
 
+  private(set) var lastFocusedApplication: NSRunningApplication?
+
   init() {
     changeCount = pasteboard.changeCount
+  }
+
+  func noteActivatedApplication(_ app: NSRunningApplication) {
+    guard app.bundleIdentifier != Bundle.main.bundleIdentifier else { return }
+    lastFocusedApplication = app
+  }
+
+  func pasteDestination() -> NSRunningApplication? {
+    let frontmost = NSWorkspace.shared.frontmostApplication
+    if let frontmost, frontmost.bundleIdentifier != Bundle.main.bundleIdentifier {
+      return frontmost
+    }
+    return lastFocusedApplication
   }
 
   func onNewCopy(_ hook: @escaping OnNewCopyHook) {
@@ -108,10 +123,40 @@ class Clipboard {
     }
   }
 
-  // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
-  func paste() {
-    Accessibility.check()
+  @MainActor
+  func quickPaste(_ item: HistoryItem?, removeFormatting: Bool = false, into destination: NSRunningApplication?) {
+    guard let item else { return }
 
+    guard Accessibility.isAllowed else {
+      Accessibility.promptIfNeeded()
+      return
+    }
+
+    copy(item, removeFormatting: removeFormatting)
+    paste(to: destination ?? pasteDestination())
+  }
+
+  // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
+  @MainActor
+  func paste() {
+    guard Accessibility.isAllowed else {
+      Accessibility.promptIfNeeded()
+      return
+    }
+
+    paste(to: pasteDestination())
+  }
+
+  @MainActor
+  func paste(to destination: NSRunningApplication?) {
+    destination?.activate(options: [.activateIgnoringOtherApps])
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      self.postPasteKeyEvent()
+    }
+  }
+
+  private func postPasteKeyEvent() {
     // Add flag that left/right modifier key has been pressed.
     // See https://github.com/TermiT/Flycut/pull/18 for details.
     let cmdFlag = CGEventFlags(rawValue: UInt64(KeyChord.pasteKeyModifiers.rawValue) | 0x000008)

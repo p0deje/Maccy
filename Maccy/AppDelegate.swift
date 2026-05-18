@@ -39,6 +39,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     Clipboard.shared.onNewCopy { History.shared.add($0) }
     Clipboard.shared.start()
+    observeFocusedApplications()
+
+    Task { @MainActor in
+      try? await History.shared.load()
+    }
 
     Task {
       for await _ in Defaults.updates(.clipboardCheckInterval, initial: false) {
@@ -90,7 +95,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
+    Notifier.register()
     disableUnusedGlobalHotkeys()
+    QuickPaste.shared.register()
 
     panel = FloatingPanel(
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
@@ -170,8 +177,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  private func observeFocusedApplications() {
+    NSWorkspace.shared.notificationCenter.addObserver(
+      forName: NSWorkspace.didActivateApplicationNotification,
+      object: nil,
+      queue: .main
+    ) { notification in
+      guard let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication else {
+        return
+      }
+
+      Clipboard.shared.noteActivatedApplication(app)
+    }
+
+    if let app = NSWorkspace.shared.frontmostApplication {
+      Clipboard.shared.noteActivatedApplication(app)
+    }
+  }
+
   private func disableUnusedGlobalHotkeys() {
-    let names: [KeyboardShortcuts.Name] = [.delete, .pin]
+    let names: [KeyboardShortcuts.Name] = [.delete, .pin, .quickPasteBase]
     KeyboardShortcuts.disable(names)
 
     NotificationCenter.default.addObserver(

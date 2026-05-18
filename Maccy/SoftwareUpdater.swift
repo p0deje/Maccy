@@ -12,10 +12,18 @@ class SoftwareUpdater {
   private var automaticallyChecksForUpdatesObservation: NSKeyValueObservation?
 
   private let updaterController = SPUStandardUpdaterController(
-    startingUpdater: true,
+    startingUpdater: !isUpdaterDisabledInDebug,
     updaterDelegate: nil,
     userDriverDelegate: nil
   )
+
+  private static var isUpdaterDisabledInDebug: Bool {
+    #if DEBUG
+    return true
+    #else
+    return false
+    #endif
+  }
 
   init() {
     updater = updaterController.updater

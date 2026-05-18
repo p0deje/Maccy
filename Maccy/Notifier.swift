@@ -1,25 +1,27 @@
 import AppKit
+import Logging
 import UserNotifications
 
-class Notifier {
-  private static var center: UNUserNotificationCenter { UNUserNotificationCenter.current() }
+final class Notifier {
+  private static let center = UNUserNotificationCenter.current()
+  private static let logger = Logger(label: "org.p0deje.Maccy.Notifier")
+  private static var didRequestAuthorization = false
 
-  static func authorize() {
-    center.requestAuthorization(options: [.alert, .sound]) { _, error in
-      if error != nil {
-        NSLog("Failed to authorize notifications: \(String(describing: error))")
-      }
+  static func register() {
+    center.getNotificationSettings { settings in
+      guard settings.authorizationStatus == .notDetermined else { return }
+      requestAuthorization()
     }
   }
 
   static func notify(body: String?, sound: NSSound?) {
     guard let body else { return }
 
-    authorize()
-
     center.getNotificationSettings { settings in
-      guard (settings.authorizationStatus == .authorized) ||
-            (settings.authorizationStatus == .provisional) else { return }
+      guard settings.authorizationStatus == .authorized ||
+            settings.authorizationStatus == .provisional else {
+        return
+      }
 
       let content = UNMutableNotificationContent()
       if settings.alertSetting == .enabled {
@@ -28,13 +30,24 @@ class Notifier {
 
       let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
       center.add(request) { error in
-        if error != nil {
-          NSLog("Failed to deliver notification: \(String(describing: error))")
-        } else {
-          if settings.soundSetting == .enabled {
-            sound?.play()
-          }
+        if let error {
+          logger.debug("Failed to deliver notification: \(error.localizedDescription)")
+        } else if settings.soundSetting == .enabled {
+          sound?.play()
         }
+      }
+    }
+  }
+
+  private static func requestAuthorization() {
+    guard !didRequestAuthorization else { return }
+    didRequestAuthorization = true
+
+    center.requestAuthorization(options: [.alert, .sound]) { granted, error in
+      if let error {
+        logger.debug("Notification authorization failed: \(error.localizedDescription)")
+      } else if !granted {
+        logger.debug("Notification authorization denied")
       }
     }
   }

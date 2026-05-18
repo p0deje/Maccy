@@ -118,6 +118,13 @@ class AppState: Sendable {
             GeneralSettingsPane()
           },
           Settings.Pane(
+            identifier: Settings.PaneIdentifier.quickPaste,
+            title: NSLocalizedString("Title", tableName: "QuickPasteSettings", comment: ""),
+            toolbarIcon: NSImage.quickPaste!
+          ) {
+            QuickPasteSettingsPane()
+          },
+          Settings.Pane(
             identifier: Settings.PaneIdentifier.storage,
             title: NSLocalizedString("Title", tableName: "StorageSettings", comment: ""),
             toolbarIcon: NSImage.externaldrive!
