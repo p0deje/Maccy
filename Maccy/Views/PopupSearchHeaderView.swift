@@ -15,6 +15,10 @@ struct PopupSearchHeaderView: View {
     controller.placement
   }
 
+  private var headerAnimationToken: UUID? {
+    appState.activeTab == .clipboard ? appState.navigator.leadSelection : appState.todos.selectedId
+  }
+
   var body: some View {
     HStack(alignment: .top, spacing: 0) {
       HStack(alignment: .center, spacing: 0) {
@@ -53,7 +57,7 @@ struct PopupSearchHeaderView: View {
     }
     .padding(.top, Popup.verticalPadding)
     .padding(.horizontal, 10)
-    .animation(.default.speed(3), value: appState.activeTab == .clipboard ? appState.navigator.leadSelection : appState.todos.selectedId)
+    .animation(.default.speed(3), value: headerAnimationToken)
     .background(.clear)
     .frame(maxHeight: !appState.searchVisible ? 0 : nil, alignment: .top)
     .readHeight(appState, into: \.popup.headerHeight)

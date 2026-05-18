@@ -12,7 +12,11 @@ enum HistoryDateGrouper {
     return title(for: day, calendar: calendar)
   }
 
-  static func shouldShowHeader(for item: HistoryItemDecorator, at index: Int, in items: [HistoryItemDecorator]) -> Bool {
+  static func shouldShowHeader(
+    for item: HistoryItemDecorator,
+    at index: Int,
+    in items: [HistoryItemDecorator]
+  ) -> Bool {
     guard index > 0 else { return true }
     let calendar = Calendar.current
     return !calendar.isDate(

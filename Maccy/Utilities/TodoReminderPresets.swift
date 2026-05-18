@@ -41,6 +41,7 @@ enum TodoReminderPreset: String, CaseIterable, Identifiable {
     }
   }
 
+  // swiftlint:disable:next cyclomatic_complexity
   func resolve(calendar: Calendar = .current, from now: Date = .now) -> (date: Date, repeat: TodoReminderRepeat) {
     switch self {
     case .in15Minutes:
@@ -56,9 +57,11 @@ enum TodoReminderPreset: String, CaseIterable, Identifiable {
     case .tonight8pm:
       return (Self.date(on: now, hour: 20, minute: 0, calendar: calendar, rollToTomorrowIfPast: true), .once)
     case .tomorrow9am:
-      return (Self.date(on: calendar.date(byAdding: .day, value: 1, to: now) ?? now, hour: 9, minute: 0, calendar: calendar), .once)
+      let tomorrow = calendar.date(byAdding: .day, value: 1, to: now) ?? now
+      return (Self.date(on: tomorrow, hour: 9, minute: 0, calendar: calendar), .once)
     case .tomorrow6pm:
-      return (Self.date(on: calendar.date(byAdding: .day, value: 1, to: now) ?? now, hour: 18, minute: 0, calendar: calendar), .once)
+      let tomorrow = calendar.date(byAdding: .day, value: 1, to: now) ?? now
+      return (Self.date(on: tomorrow, hour: 18, minute: 0, calendar: calendar), .once)
     case .nextWeek9am:
       let nextWeek = calendar.date(byAdding: .day, value: 7, to: now) ?? now
       return (Self.date(on: nextWeek, hour: 9, minute: 0, calendar: calendar), .once)

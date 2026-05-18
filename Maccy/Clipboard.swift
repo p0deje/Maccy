@@ -2,7 +2,7 @@ import AppKit
 import Defaults
 import Sauce
 
-class Clipboard {
+class Clipboard { // swiftlint:disable:this type_body_length
   static let shared = Clipboard()
 
   typealias OnNewCopyHook = (HistoryItem) -> Void

@@ -216,9 +216,19 @@ class AppState: Sendable {
           }
         ]
       )
+      if let window = settingsWindowController?.window {
+        ResizableSettingsWindowDelegate.shared.configure(window)
+      }
     }
     settingsWindowController?.show()
-    settingsWindowController?.window?.orderFrontRegardless()
+    if let window = settingsWindowController?.window {
+      ResizableSettingsWindowDelegate.shared.applyDefaultSizeIfNeeded(window)
+      window.orderFrontRegardless()
+      // Let the Settings package finish its initial layout, then ensure a usable size.
+      DispatchQueue.main.async {
+        ResizableSettingsWindowDelegate.shared.applyDefaultSizeIfNeeded(window)
+      }
+    }
   }
 
   func quit() {

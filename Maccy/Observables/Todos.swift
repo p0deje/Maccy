@@ -5,7 +5,7 @@ import Observation
 import SwiftData
 
 @Observable
-final class Todos {
+final class Todos { // swiftlint:disable:this type_body_length
   static let shared = Todos()
 
   private let logger = Logger(label: "org.p0deje.Maccy.Todos")

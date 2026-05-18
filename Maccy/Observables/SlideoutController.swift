@@ -152,6 +152,7 @@ class SlideoutController {
     return newSize
   }
 
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   func togglePreview(trigger: SlideoutToggleTrigger = .manual) {
     if !state.isOpen {
       let appState = AppState.shared

@@ -88,10 +88,12 @@ final class ReminderScheduler {
       addRequest(item, trigger: trigger, suffix: "repeat")
     case .daily:
       let components = Calendar.current.dateComponents([.hour, .minute], from: reminderDate)
-      addRequest(item, trigger: UNCalendarNotificationTrigger(dateMatching: components, repeats: true), suffix: "repeat")
+      let dailyTrigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+      addRequest(item, trigger: dailyTrigger, suffix: "repeat")
     case .weekly:
       let components = Calendar.current.dateComponents([.weekday, .hour, .minute], from: reminderDate)
-      addRequest(item, trigger: UNCalendarNotificationTrigger(dateMatching: components, repeats: true), suffix: "repeat")
+      let weeklyTrigger = UNCalendarNotificationTrigger(dateMatching: components, repeats: true)
+      addRequest(item, trigger: weeklyTrigger, suffix: "repeat")
     case .weekdays:
       scheduleWeekdays(item, anchor: reminderDate)
     }

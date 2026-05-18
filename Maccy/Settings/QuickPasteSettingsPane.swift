@@ -7,7 +7,7 @@ struct QuickPasteSettingsPane: View {
   @Default(.enableQuickPaste) private var enableQuickPaste
 
   var body: some View {
-    Settings.Container(contentWidth: 450) {
+    Settings.Container(contentWidth: 520) {
       Settings.Section(title: "", bottomDivider: true) {
         Defaults.Toggle(key: .enableQuickPaste) {
           Text("EnableQuickPaste", tableName: "QuickPasteSettings")

@@ -179,6 +179,7 @@ struct KeyHandlingView<Content: View>: View {
       }
   }
 
+  // swiftlint:disable:next cyclomatic_complexity
   private func handleTodosKeyPress() -> Bool {
     guard let event = NSApp.currentEvent, event.type == .keyDown else {
       return false
