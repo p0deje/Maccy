@@ -19,20 +19,23 @@ struct TodoReminderEditorView: View {
   }
 
   private let presetColumns = [
-    GridItem(.adaptive(minimum: 108), spacing: 6)
+    GridItem(.adaptive(minimum: 100), spacing: 6)
   ]
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 8) {
-      Text(NSLocalizedString("Reminder", tableName: "Todos", comment: ""))
+    VStack(alignment: .leading, spacing: 10) {
+      if !remindersEnabled {
+        Label(
+          NSLocalizedString("RemindersDisabled", tableName: "Todos", comment: ""),
+          systemImage: "bell.slash"
+        )
         .font(.caption)
         .foregroundStyle(.secondary)
-
-      if !remindersEnabled {
-        Text(NSLocalizedString("RemindersDisabled", tableName: "Todos", comment: ""))
-          .font(.caption2)
-          .foregroundStyle(.secondary)
       } else {
+        if hasReminder, let date = item.item.reminderDate {
+          activeReminderBanner(date: date)
+        }
+
         LazyVGrid(columns: presetColumns, alignment: .leading, spacing: 6) {
           ForEach(TodoReminderPreset.allCases) { preset in
             presetButton(preset)
@@ -40,7 +43,9 @@ struct TodoReminderEditorView: View {
         }
 
         Button {
-          showCustomPicker.toggle()
+          withAnimation(.easeInOut(duration: 0.18)) {
+            showCustomPicker.toggle()
+          }
           if showCustomPicker, item.item.reminderDate == nil {
             customDate = Date().addingTimeInterval(60 * 60)
           } else if let existing = item.item.reminderDate {
@@ -52,70 +57,81 @@ struct TodoReminderEditorView: View {
             NSLocalizedString("ReminderCustom", tableName: "Todos", comment: ""),
             systemImage: "slider.horizontal.3"
           )
+          .font(.caption)
         }
         .buttonStyle(.plain)
-        .font(.caption)
+        .foregroundStyle(.secondary)
 
         if showCustomPicker {
-          VStack(alignment: .leading, spacing: 6) {
-            DatePicker(
-              NSLocalizedString("ReminderDate", tableName: "Todos", comment: ""),
-              selection: $customDate
-            )
-            .datePickerStyle(.compact)
-            .labelsHidden()
-
-            Picker(NSLocalizedString("ReminderRepeat", tableName: "Todos", comment: ""), selection: $customRepeat) {
-              Text(NSLocalizedString("ReminderRepeatOnce", tableName: "Todos", comment: ""))
-                .tag(TodoReminderRepeat.once)
-              Text(NSLocalizedString("ReminderRepeatHourly", tableName: "Todos", comment: ""))
-                .tag(TodoReminderRepeat.hourly)
-              Text(NSLocalizedString("ReminderRepeatDaily", tableName: "Todos", comment: ""))
-                .tag(TodoReminderRepeat.daily)
-              Text(NSLocalizedString("ReminderRepeatWeekly", tableName: "Todos", comment: ""))
-                .tag(TodoReminderRepeat.weekly)
-              Text(NSLocalizedString("ReminderRepeatWeekdays", tableName: "Todos", comment: ""))
-                .tag(TodoReminderRepeat.weekdays)
-            }
-            .pickerStyle(.menu)
-            .font(.caption)
-
-            Button {
-              appState.todos.setReminder(item, date: customDate, repeatRule: customRepeat)
-              showCustomPicker = false
-            } label: {
-              Text(NSLocalizedString("ReminderSaveCustom", tableName: "Todos", comment: ""))
-            }
-            .buttonStyle(.borderedProminent)
-            .controlSize(.small)
-          }
-          .padding(8)
-          .background(Color.primary.opacity(0.05))
-          .clipShape(RoundedRectangle(cornerRadius: 6))
-        }
-
-        if hasReminder, let date = item.item.reminderDate {
-          HStack(alignment: .top, spacing: 6) {
-            Image(systemName: "bell.fill")
-              .font(.caption2)
-              .foregroundStyle(.orange)
-            Text(TodoReminderFormatting.summary(repeatRule: repeatRule, date: date))
-              .font(.caption2)
-              .frame(maxWidth: .infinity, alignment: .leading)
-
-            Button {
-              appState.todos.clearReminder(item)
-              showCustomPicker = false
-            } label: {
-              Text(NSLocalizedString("ReminderClear", tableName: "Todos", comment: ""))
-            }
-            .buttonStyle(.plain)
-            .font(.caption2)
-            .foregroundStyle(.secondary)
-          }
+          customPickerPanel
         }
       }
     }
+  }
+
+  @ViewBuilder
+  private func activeReminderBanner(date: Date) -> some View {
+    HStack(alignment: .top, spacing: 8) {
+      Image(systemName: "bell.fill")
+        .font(.caption)
+        .foregroundStyle(.orange)
+
+      Text(TodoReminderFormatting.summary(repeatRule: repeatRule, date: date))
+        .font(.caption)
+        .frame(maxWidth: .infinity, alignment: .leading)
+
+      Button {
+        appState.todos.clearReminder(item)
+        showCustomPicker = false
+      } label: {
+        Text(NSLocalizedString("ReminderClear", tableName: "Todos", comment: ""))
+      }
+      .buttonStyle(.plain)
+      .font(.caption2)
+      .foregroundStyle(.secondary)
+    }
+    .padding(8)
+    .background(Color.orange.opacity(0.1))
+    .clipShape(RoundedRectangle(cornerRadius: TodoDesign.chipCornerRadius, style: .continuous))
+  }
+
+  private var customPickerPanel: some View {
+    VStack(alignment: .leading, spacing: 8) {
+      DatePicker(
+        NSLocalizedString("ReminderDate", tableName: "Todos", comment: ""),
+        selection: $customDate
+      )
+      .datePickerStyle(.compact)
+      .labelsHidden()
+
+      Picker(NSLocalizedString("ReminderRepeat", tableName: "Todos", comment: ""), selection: $customRepeat) {
+        Text(NSLocalizedString("ReminderRepeatOnce", tableName: "Todos", comment: ""))
+          .tag(TodoReminderRepeat.once)
+        Text(NSLocalizedString("ReminderRepeatHourly", tableName: "Todos", comment: ""))
+          .tag(TodoReminderRepeat.hourly)
+        Text(NSLocalizedString("ReminderRepeatDaily", tableName: "Todos", comment: ""))
+          .tag(TodoReminderRepeat.daily)
+        Text(NSLocalizedString("ReminderRepeatWeekly", tableName: "Todos", comment: ""))
+          .tag(TodoReminderRepeat.weekly)
+        Text(NSLocalizedString("ReminderRepeatWeekdays", tableName: "Todos", comment: ""))
+          .tag(TodoReminderRepeat.weekdays)
+      }
+      .pickerStyle(.menu)
+      .font(.caption)
+
+      Button {
+        appState.todos.setReminder(item, date: customDate, repeatRule: customRepeat)
+        showCustomPicker = false
+      } label: {
+        Text(NSLocalizedString("ReminderSaveCustom", tableName: "Todos", comment: ""))
+          .frame(maxWidth: .infinity)
+      }
+      .buttonStyle(.borderedProminent)
+      .controlSize(.small)
+    }
+    .padding(10)
+    .background(TodoDesign.chipFill)
+    .clipShape(RoundedRectangle(cornerRadius: TodoDesign.cardCornerRadius, style: .continuous))
   }
 
   private func presetButton(_ preset: TodoReminderPreset) -> some View {
@@ -127,11 +143,11 @@ struct TodoReminderEditorView: View {
         .font(.caption2)
         .lineLimit(2)
         .multilineTextAlignment(.leading)
-        .frame(maxWidth: .infinity, minHeight: 32, alignment: .leading)
+        .frame(maxWidth: .infinity, minHeight: 34, alignment: .leading)
         .padding(.horizontal, 8)
         .padding(.vertical, 6)
-        .background(Color.primary.opacity(0.06))
-        .clipShape(RoundedRectangle(cornerRadius: 6))
+        .background(TodoDesign.chipFill)
+        .clipShape(RoundedRectangle(cornerRadius: TodoDesign.chipCornerRadius, style: .continuous))
     }
     .buttonStyle(.plain)
   }

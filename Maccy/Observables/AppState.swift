@@ -229,9 +229,8 @@ class AppState: Sendable {
     }
     settingsWindowController?.show()
     if let window = settingsWindowController?.window {
-      ResizableSettingsWindowDelegate.shared.applyDefaultSizeIfNeeded(window)
       window.orderFrontRegardless()
-      // Let the Settings package finish its initial layout, then ensure a usable size.
+      // Defer sizing until after the Settings package lays out its content (avoids constraint loops).
       DispatchQueue.main.async {
         ResizableSettingsWindowDelegate.shared.applyDefaultSizeIfNeeded(window)
       }

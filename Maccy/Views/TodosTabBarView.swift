@@ -9,7 +9,8 @@ struct TodosTabBarView: View {
       set: { appState.setActiveTab($0) }
     )) {
       ForEach(AppTab.allCases) { tab in
-        Text(tab.title).tag(tab)
+        Label(tab.title, systemImage: tab.systemImage)
+          .tag(tab)
       }
     }
     .pickerStyle(.segmented)

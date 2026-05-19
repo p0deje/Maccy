@@ -9,45 +9,22 @@ struct TodosToolbarView: View {
         .padding(.horizontal, Popup.horizontalSeparatorPadding)
         .padding(.bottom, Popup.verticalSeparatorPadding)
 
-      HStack(spacing: 12) {
+      HStack(spacing: 6) {
         Button {
           _ = appState.todos.add()
         } label: {
-          Label(NSLocalizedString("NewTodo", tableName: "Todos", comment: ""), systemImage: "plus")
+          Label(
+            NSLocalizedString("NewTodo", tableName: "Todos", comment: ""),
+            systemImage: "plus.circle.fill"
+          )
+          .labelStyle(.titleAndIcon)
+          .font(.callout.weight(.medium))
         }
         .buttonStyle(.plain)
-
-        Spacer()
-
-        Button {
-          if let selected = appState.todos.selectedItem {
-            appState.todos.toggleComplete(selected, source: .menu)
-          }
-        } label: {
-          Text(NSLocalizedString("ToggleDone", tableName: "Todos", comment: ""))
-        }
-        .buttonStyle(.plain)
-        .disabled(appState.todos.selectedItem == nil)
-
-        Button(role: .destructive) {
-          if let selected = appState.todos.selectedItem {
-            appState.todos.delete(selected)
-          }
-        } label: {
-          Text(NSLocalizedString("Delete", tableName: "Todos", comment: ""))
-        }
-        .buttonStyle(.plain)
-        .disabled(appState.todos.selectedItem == nil)
-
-        Button {
-          appState.openPreferences()
-        } label: {
-          Text(NSLocalizedString("preferences", tableName: "Localizable", comment: ""))
-        }
-        .buttonStyle(.plain)
+        .frame(height: 23)
+        .help(NSLocalizedString("NewTodo", tableName: "Todos", comment: ""))
       }
-      .padding(.horizontal, 12)
-      .font(.callout)
+      .padding(.horizontal, 10)
     }
     .readHeight(appState, into: \.popup.extraTopHeight)
   }

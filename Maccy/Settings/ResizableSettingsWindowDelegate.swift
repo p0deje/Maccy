@@ -10,6 +10,7 @@ final class ResizableSettingsWindowDelegate: NSObject, NSWindowDelegate {
 
   private var savedContentSize: NSSize?
   private var isLiveResizing = false
+  private var isApplyingFrameChange = false
 
   func configure(_ window: NSWindow) {
     window.styleMask.insert([.resizable, .miniaturizable])
@@ -38,6 +39,7 @@ final class ResizableSettingsWindowDelegate: NSObject, NSWindowDelegate {
 
   func windowDidResize(_ notification: Notification) {
     guard !isLiveResizing,
+          !isApplyingFrameChange,
           let window = notification.object as? NSWindow else { return }
 
     let current = window.contentLayoutRect.size
@@ -67,6 +69,9 @@ final class ResizableSettingsWindowDelegate: NSObject, NSWindowDelegate {
   }
 
   private func applyContentSize(_ contentSize: NSSize, to window: NSWindow) {
+    isApplyingFrameChange = true
+    defer { isApplyingFrameChange = false }
+
     var frame = window.frame
     let newFrameSize = window.frameRect(forContentRect: CGRect(origin: .zero, size: contentSize)).size
     frame.origin.y += frame.height - newFrameSize.height

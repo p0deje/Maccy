@@ -17,7 +17,7 @@ struct TodosListView: View {
 
   var body: some View {
     ScrollView {
-      LazyVStack(alignment: .leading, spacing: 0) {
+      LazyVStack(alignment: .leading, spacing: TodoDesign.rowSpacing) {
         if appState.todos.isSearching {
           ForEach(appState.todos.searchMatches) { item in
             TodoItemView(item: item)
@@ -30,17 +30,24 @@ struct TodosListView: View {
             && appState.todos.activeItems.isEmpty
             && appState.todos.completedItems.isEmpty
             && !appState.todos.isSearching {
-          Text(NSLocalizedString("EmptyTodos", tableName: "Todos", comment: ""))
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .padding(8)
+          TodoEmptyStateView(
+            systemImage: "checklist",
+            message: NSLocalizedString("EmptyTodos", tableName: "Todos", comment: "")
+          )
+          Text(NSLocalizedString("EmptyTodosHint", tableName: "Todos", comment: ""))
+            .font(.caption2)
+            .foregroundStyle(.tertiary)
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 8)
         }
 
         if appState.todos.isSearching, appState.todos.searchMatches.isEmpty {
-          Text(NSLocalizedString("EmptySearch", tableName: "Localizable", comment: ""))
-            .font(.caption)
-            .foregroundStyle(.secondary)
-            .padding(8)
+          TodoEmptyStateView(
+            systemImage: "magnifyingglass",
+            message: NSLocalizedString("EmptySearch", tableName: "Localizable", comment: "")
+          )
         }
       }
       .padding(.top, topPadding)
@@ -86,36 +93,25 @@ struct TodosListView: View {
   @ViewBuilder
   private var sectionedList: some View {
     if !appState.todos.pinnedItems.isEmpty {
-      sectionHeader(NSLocalizedString("Pinned", tableName: "Todos", comment: ""))
+      TodoSectionHeaderView(
+        title: NSLocalizedString("Pinned", tableName: "Todos", comment: "")
+      )
       ForEach(appState.todos.pinnedItems) { item in
         TodoItemView(item: item)
       }
     }
 
     if !appState.todos.activeItems.isEmpty {
-      sectionHeader(NSLocalizedString("Active", tableName: "Todos", comment: ""))
+      TodoSectionHeaderView(
+        title: NSLocalizedString("Active", tableName: "Todos", comment: "")
+      )
       ForEach(appState.todos.activeItems) { item in
         TodoItemView(item: item)
       }
     }
 
     if showCompletedTodos, !appState.todos.completedItems.isEmpty {
-      Button {
-        appState.todos.showCompletedSection.toggle()
-      } label: {
-        HStack {
-          sectionHeader(
-            String(
-              format: NSLocalizedString("CompletedCount", tableName: "Todos", comment: ""),
-              appState.todos.completedItems.count
-            )
-          )
-          Spacer()
-          Image(systemName: appState.todos.showCompletedSection ? "chevron.down" : "chevron.right")
-            .font(.caption2)
-        }
-      }
-      .buttonStyle(.plain)
+      completedSectionHeader
 
       if appState.todos.showCompletedSection {
         ForEach(appState.todos.completedItems) { item in
@@ -125,12 +121,37 @@ struct TodosListView: View {
     }
   }
 
-  private func sectionHeader(_ title: String) -> some View {
-    Text(title)
-      .font(.caption2)
-      .fontWeight(.semibold)
-      .foregroundStyle(.secondary)
-      .padding(.top, 6)
-      .padding(.bottom, 2)
+  private var completedSectionHeader: some View {
+    Button {
+      withAnimation(.easeInOut(duration: 0.18)) {
+        appState.todos.showCompletedSection.toggle()
+      }
+    } label: {
+      HStack(spacing: 6) {
+        Text(
+          String(
+            format: NSLocalizedString("CompletedCount", tableName: "Todos", comment: ""),
+            appState.todos.completedItems.count
+          )
+        )
+        .font(.caption)
+        .fontWeight(.semibold)
+        .foregroundStyle(.tertiary)
+        .textCase(.uppercase)
+        .tracking(0.35)
+
+        Spacer()
+
+        Image(systemName: "chevron.right")
+          .font(.caption2.weight(.semibold))
+          .foregroundStyle(.tertiary)
+          .rotationEffect(.degrees(appState.todos.showCompletedSection ? 90 : 0))
+      }
+      .padding(.top, TodoDesign.sectionHeaderTopPadding)
+      .padding(.bottom, 4)
+      .padding(.horizontal, 4)
+      .contentShape(Rectangle())
+    }
+    .buttonStyle(.plain)
   }
 }

@@ -14,4 +14,13 @@ enum AppTab: String, CaseIterable, Identifiable {
       return NSLocalizedString("TodosTab", tableName: "Todos", comment: "")
     }
   }
+
+  var systemImage: String {
+    switch self {
+    case .clipboard:
+      "doc.on.clipboard"
+    case .todos:
+      "checklist"
+    }
+  }
 }

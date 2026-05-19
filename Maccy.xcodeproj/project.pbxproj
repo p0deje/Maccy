@@ -42,6 +42,7 @@
 		2F0EC8032E775100003E2EA9 /* PopupSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8022E775100003E2EA9 /* PopupSearchHeaderView.swift */; };
 		2F0EC8052E775100003E2EA9 /* TodosSlideoutContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8042E775100003E2EA9 /* TodosSlideoutContentView.swift */; };
 		2F0EC8072E775200003E2EA9 /* TodosToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8062E775200003E2EA9 /* TodosToolbarView.swift */; };
+		2F0EC8172E775500003E2EA9 /* TodoDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8162E775500003E2EA9 /* TodoDesign.swift */; };
 		2F0EC80F2E775300003E2EA9 /* TodoReminderRepeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC80E2E775300003E2EA9 /* TodoReminderRepeat.swift */; };
 		2F0EC8112E775300003E2EA9 /* TodoReminderPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8102E775300003E2EA9 /* TodoReminderPresets.swift */; };
 		2F0EC8132E775300003E2EA9 /* TodoReminderEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8122E775300003E2EA9 /* TodoReminderEditorView.swift */; };
@@ -289,6 +290,7 @@
 		2F0EC8022E775100003E2EA9 /* PopupSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupSearchHeaderView.swift; sourceTree = "<group>"; };
 		2F0EC8042E775100003E2EA9 /* TodosSlideoutContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosSlideoutContentView.swift; sourceTree = "<group>"; };
 		2F0EC8062E775200003E2EA9 /* TodosToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosToolbarView.swift; sourceTree = "<group>"; };
+		2F0EC8162E775500003E2EA9 /* TodoDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDesign.swift; sourceTree = "<group>"; };
 		2F0EC80E2E775300003E2EA9 /* TodoReminderRepeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoReminderRepeat.swift; sourceTree = "<group>"; };
 		2F0EC8102E775300003E2EA9 /* TodoReminderPresets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoReminderPresets.swift; sourceTree = "<group>"; };
 		2F0EC8122E775300003E2EA9 /* TodoReminderEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoReminderEditorView.swift; sourceTree = "<group>"; };
@@ -770,6 +772,7 @@
 				DA243D112C2F64820012A27F /* ContentView.swift */,
 				2F0EC8022E775100003E2EA9 /* PopupSearchHeaderView.swift */,
 				2F0EC7D82E775000003E2EA9 /* TodoDetailView.swift */,
+				2F0EC8162E775500003E2EA9 /* TodoDesign.swift */,
 				2F0EC8042E775100003E2EA9 /* TodosSlideoutContentView.swift */,
 				2F0EC8062E775200003E2EA9 /* TodosToolbarView.swift */,
 				2F0EC8122E775300003E2EA9 /* TodoReminderEditorView.swift */,
@@ -1255,6 +1258,7 @@
 				2F0EC8032E775100003E2EA9 /* PopupSearchHeaderView.swift in Sources */,
 				2F0EC8052E775100003E2EA9 /* TodosSlideoutContentView.swift in Sources */,
 				2F0EC8072E775200003E2EA9 /* TodosToolbarView.swift in Sources */,
+				2F0EC8172E775500003E2EA9 /* TodoDesign.swift in Sources */,
 				2F0EC8132E775300003E2EA9 /* TodoReminderEditorView.swift in Sources */,
 				2F0EC8152E775400003E2EA9 /* ResizableSettingsWindowDelegate.swift in Sources */,
 				DA1969122C3F0DD200258481 /* HistoryItemView.swift in Sources */,
