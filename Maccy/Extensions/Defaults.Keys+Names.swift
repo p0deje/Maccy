@@ -11,6 +11,7 @@ struct StorageType {
 }
 
 extension Defaults.Keys {
+  static let activeWorkspaceId = Key<String?>("activeWorkspaceId")
   static let clearOnQuit = Key<Bool>("clearOnQuit", default: false)
   static let clearSystemClipboard = Key<Bool>("clearSystemClipboard", default: false)
   static let clipboardCheckInterval = Key<Double>("clipboardCheckInterval", default: 0.5)

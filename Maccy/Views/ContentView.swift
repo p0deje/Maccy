@@ -24,6 +24,8 @@ struct ContentView: View {
               searchFocused: $searchFocused
             )
 
+            WorkspaceTabsView()
+
             VStack(alignment: .leading, spacing: 0) {
               HistoryListView(
                 searchQuery: $appState.history.searchQuery,

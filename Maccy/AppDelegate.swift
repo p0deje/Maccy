@@ -37,6 +37,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Bridge FloatingPanel via AppDelegate.
     AppState.shared.appDelegate = self
 
+    // Ensure default workspace exists and migrate orphaned items before clipboard starts.
+    Storage.shared.ensureDefaultWorkspace()
+    WorkspaceManager.shared.load()
+
     Clipboard.shared.onNewCopy { History.shared.add($0) }
     Clipboard.shared.start()
 
@@ -109,7 +113,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationWillTerminate(_ notification: Notification) {
     if Defaults[.clearOnQuit] {
-      AppState.shared.history.clear()
+      AppState.shared.history.clearEverything()
     }
   }
 

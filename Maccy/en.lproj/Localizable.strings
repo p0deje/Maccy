@@ -28,3 +28,10 @@
 "system_settings_pane" = "Privacy & Security settings";
 "system_preferences_name" = "System Preferences";
 "system_preferences_pane" = "Security & Privacy preferences";
+"workspace_add_tooltip" = "Add workspace";
+"workspace_rename_title" = "Rename Workspace";
+"workspace_rename_name" = "Name";
+"workspace_rename_cancel" = "Cancel";
+"workspace_rename_confirm" = "Rename";
+"workspace_rename" = "Rename";
+"workspace_delete" = "Delete";

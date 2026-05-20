@@ -103,7 +103,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   func load() async throws {
-    let descriptor = FetchDescriptor<HistoryItem>()
+    guard let workspaceId = WorkspaceManager.shared.activeWorkspace?.id else { return }
+
+    let descriptor = FetchDescriptor<HistoryItem>(
+      predicate: #Predicate { $0.workspace?.id == workspaceId }
+    )
+
     let results = try Storage.shared.context.fetch(descriptor)
     all = sorter.sort(results).map { HistoryItemDecorator($0) }
     items = all
@@ -136,6 +141,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @discardableResult
   @MainActor
   func add(_ item: HistoryItem) -> HistoryItemDecorator {
+    // Assign the item to the currently active workspace.
+    if item.workspace == nil {
+      item.workspace = WorkspaceManager.shared.activeWorkspace
+    }
+
     if #available(macOS 15.0, *) {
       try? History.shared.insertIntoStorage(item)
     } else {
@@ -217,20 +227,16 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
           cleanup(item)
         }
       }
+
+      let unpinnedToDelete = all.filter(\.isUnpinned)
+      for item in unpinnedToDelete {
+        Storage.shared.context.delete(item.item)
+      }
+
       all.removeAll(where: \.isUnpinned)
       sessionLog.removeValues { $0.pin == nil }
       items = all
 
-      try? Storage.shared.context.transaction {
-        try? Storage.shared.context.delete(
-          model: HistoryItem.self,
-          where: #Predicate { $0.pin == nil }
-        )
-        try? Storage.shared.context.delete(
-          model: HistoryItemContent.self,
-          where: #Predicate { $0.item?.pin == nil }
-        )
-      }
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
@@ -248,11 +254,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       all.forEach { item in
         cleanup(item)
       }
+
+      for item in all {
+        Storage.shared.context.delete(item.item)
+      }
+
       all.removeAll()
       sessionLog.removeAll()
       items = all
 
-      try? Storage.shared.context.delete(model: HistoryItem.self)
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
@@ -262,6 +272,33 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     Task {
       AppState.shared.popup.needsResize = true
     }
+  }
+
+  /// Clears history items in the active workspace. Preserves other workspaces' data.
+  /// Fetches directly from storage since `all` may not be loaded at quit time.
+  @MainActor
+  func clearEverything() {
+    guard let workspaceId = WorkspaceManager.shared.activeWorkspace?.id else { return }
+
+    withLogging("Clearing active workspace history on quit") {
+      all.forEach { cleanup($0) }
+      all.removeAll()
+      sessionLog.removeAll()
+      items = all
+
+      let descriptor = FetchDescriptor<HistoryItem>(
+        predicate: #Predicate { $0.workspace?.id == workspaceId }
+      )
+      if let toDelete = try? Storage.shared.context.fetch(descriptor) {
+        for item in toDelete {
+          Storage.shared.context.delete(item)
+        }
+      }
+      Storage.shared.context.processPendingChanges()
+      try? Storage.shared.context.save()
+    }
+
+    Clipboard.shared.clear()
   }
 
   @MainActor
@@ -445,7 +482,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
-    let descriptor = FetchDescriptor<HistoryItem>()
+    guard let workspaceId = WorkspaceManager.shared.activeWorkspace?.id else { return nil }
+
+    let descriptor = FetchDescriptor<HistoryItem>(
+      predicate: #Predicate { $0.workspace?.id == workspaceId }
+    )
+
     if let all = try? Storage.shared.context.fetch(descriptor) {
       let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
       if duplicates.count > 1 {
@@ -455,7 +497,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
     }
 
-    return item
+    return nil
   }
 
   private func isModified(_ item: HistoryItem) -> HistoryItem? {
