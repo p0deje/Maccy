@@ -38,6 +38,7 @@ struct WorkspaceTabsView: View {
     .padding(.horizontal, Popup.horizontalPadding + 5)
     .padding(.vertical, 4)
     .readHeight(appState, into: \.popup.workspaceTabsHeight)
+    .accessibilityHidden(true)
     .onChange(of: showRenamePopover) { _, newValue in
       appState.isPopoverEditing = newValue
     }
