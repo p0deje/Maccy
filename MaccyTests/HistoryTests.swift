@@ -10,6 +10,8 @@ class HistoryTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
+    Storage.shared.ensureDefaultWorkspace()
+    WorkspaceManager.shared.load()
     history.clearAll()
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt

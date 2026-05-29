@@ -5,6 +5,12 @@ import Defaults
 // swiftlint:disable force_try
 @MainActor
 class HistoryItemTests: XCTestCase {
+  override func setUp() {
+    super.setUp()
+    Storage.shared.ensureDefaultWorkspace()
+    WorkspaceManager.shared.load()
+  }
+
   func testTitleForString() {
     let title = "foo"
     let item = historyItem(title)

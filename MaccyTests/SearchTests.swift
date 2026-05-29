@@ -6,6 +6,13 @@ class SearchTests: XCTestCase {
   let savedSearchMode = Defaults[.searchMode]
   var items: [Search.Searchable]!
 
+  @MainActor
+  override func setUp() {
+    super.setUp()
+    Storage.shared.ensureDefaultWorkspace()
+    WorkspaceManager.shared.load()
+  }
+
   override func tearDown() {
     super.tearDown()
     Defaults[.searchMode] = savedSearchMode
