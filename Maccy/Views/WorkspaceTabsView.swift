@@ -69,43 +69,53 @@ struct WorkspaceTabsView: View {
         get: { renamingWorkspace == workspace && showRenamePopover },
         set: { if !$0 { endRename() } }
       )) {
-        VStack(spacing: 8) {
-          Text("workspace_rename_title")
-            .font(.headline)
-          TextField("workspace_rename_name", text: $renameText)
-            .textFieldStyle(.roundedBorder)
-            .frame(width: 180)
-            .onSubmit {
-              commitRename()
-            }
-          HStack {
-            Button("workspace_rename_cancel") {
-              endRename()
-            }
-            Button("workspace_rename_confirm") {
-              commitRename()
-            }
-            .keyboardShortcut(.defaultAction)
-            .disabled(renameText.trimmingCharacters(in: .whitespaces).isEmpty)
-          }
-        }
-        .padding()
+        renamePopover()
       }
       .contextMenu {
-        Button("workspace_rename") {
-          startRename(workspace)
-        }
-        Button("workspace_delete", role: .destructive) {
-          let wasActive = (workspace == workspaceManager.activeWorkspace)
-          workspaceManager.delete(workspace)
-          if wasActive {
-            Task {
-              try? await appState.history.load()
-            }
-          }
-        }
-        .disabled(workspaceManager.workspaces.count <= 1)
+        workspaceContextMenu(for: workspace)
       }
+  }
+
+  @ViewBuilder
+  private func renamePopover() -> some View {
+    VStack(spacing: 8) {
+      Text("workspace_rename_title")
+        .font(.headline)
+      TextField("workspace_rename_name", text: $renameText)
+        .textFieldStyle(.roundedBorder)
+        .frame(width: 180)
+        .onSubmit {
+          commitRename()
+        }
+      HStack {
+        Button("workspace_rename_cancel") {
+          endRename()
+        }
+        Button("workspace_rename_confirm") {
+          commitRename()
+        }
+        .keyboardShortcut(.defaultAction)
+        .disabled(renameText.trimmingCharacters(in: .whitespaces).isEmpty)
+      }
+    }
+    .padding()
+  }
+
+  @ViewBuilder
+  private func workspaceContextMenu(for workspace: Workspace) -> some View {
+    Button("workspace_rename") {
+      startRename(workspace)
+    }
+    Button("workspace_delete", role: .destructive) {
+      let wasActive = (workspace == workspaceManager.activeWorkspace)
+      workspaceManager.delete(workspace)
+      if wasActive {
+        Task {
+          try? await appState.history.load()
+        }
+      }
+    }
+    .disabled(workspaceManager.workspaces.count <= 1)
   }
 
   private func startRename(_ workspace: Workspace) {
