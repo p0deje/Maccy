@@ -2,7 +2,7 @@ import XCTest
 import Defaults
 @testable import Maccy
 
-class SearchTests: XCTestCase {
+class SearchTests: XCTestCase { // swiftlint:disable:this type_body_length
   let savedSearchMode = Defaults[.searchMode]
   var items: [Search.Searchable]!
 
