@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "最初にコピーした日時";
 "NumberOfCopies" = "コピー回数";
 "SortByTooltip" = "デフォルト：最後にコピーした日時。";
+"CompactStorage" = "空き容量を回収";
+"CompactStorageTooltip" = "削除済みのクリップボードデータを消去し、保存データベースを圧縮します。";
+"CompactStorageErrorTitle" = "空き容量を回収できません。";
+"CompactStorageErrorDismiss" = "OK";

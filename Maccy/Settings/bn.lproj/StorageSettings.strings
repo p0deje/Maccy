@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "";
 "NumberOfCopies" = "";
 "SortByTooltip" = "";
+"CompactStorage" = "স্থান খালি করুন";
+"CompactStorageTooltip" = "মুছে ফেলা ক্লিপবোর্ড ডেটা সরিয়ে স্টোরেজ ডেটাবেস ছোট করে।";
+"CompactStorageErrorTitle" = "স্থান খালি করা যায়নি।";
+"CompactStorageErrorDismiss" = "ঠিক আছে";

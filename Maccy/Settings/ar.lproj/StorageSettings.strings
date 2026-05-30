@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "وقت النسخة الأولى";
 "NumberOfCopies" = "عدد النسخ";
 "SortByTooltip" = "الافتراضي: وقت النسخة الأخيرة.";
+"CompactStorage" = "تحرير مساحة";
+"CompactStorageTooltip" = "يزيل بيانات الحافظة المحذوفة ويقلّص قاعدة بيانات التخزين.";
+"CompactStorageErrorTitle" = "تعذّر تحرير مساحة.";
+"CompactStorageErrorDismiss" = "حسنًا";

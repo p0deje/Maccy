@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Más antiguos, primero";
 "NumberOfCopies" = "Número de copias";
 "SortByTooltip" = "Por defecto: Más nuevos, primero.";
+"CompactStorage" = "Liberar espacio";
+"CompactStorageTooltip" = "Elimina los datos borrados del portapapeles y reduce la base de datos de almacenamiento.";
+"CompactStorageErrorTitle" = "No se puede liberar espacio.";
+"CompactStorageErrorDismiss" = "Aceptar";

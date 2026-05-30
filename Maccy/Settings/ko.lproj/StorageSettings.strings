@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "처음 복사한 시간";
 "NumberOfCopies" = "복사 횟수";
 "SortByTooltip" = "기본값: 마지막 복사한 시간.";
+"CompactStorage" = "공간 정리";
+"CompactStorageTooltip" = "삭제된 클립보드 데이터를 제거하고 저장소 데이터베이스를 축소합니다.";
+"CompactStorageErrorTitle" = "공간을 정리할 수 없습니다.";
+"CompactStorageErrorDismiss" = "확인";

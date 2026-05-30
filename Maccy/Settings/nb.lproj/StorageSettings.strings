@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Tidspunkt første kopiering";
 "NumberOfCopies" = "Antall ganger kopiert";
 "SortByTooltip" = "Standard: Tidspunkt siste kopiering.";
+"CompactStorage" = "Frigjør plass";
+"CompactStorageTooltip" = "Fjerner slettede utklippsdata og komprimerer lagringsdatabasen.";
+"CompactStorageErrorTitle" = "Kunne ikke frigjøre plass.";
+"CompactStorageErrorDismiss" = "OK";

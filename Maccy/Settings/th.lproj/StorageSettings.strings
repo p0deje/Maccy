@@ -12,3 +12,7 @@
 "NumberOfCopies" = "จำนวนการคัดลอก";
 "SortByTooltip" = "ค่าเริ่มต้น: เวลาคัดลอกสุดท้าย";
 "CurrentSizeTooltip" = "ขนาดปัจจุบันบนดิสก์";
+"CompactStorage" = "คืนพื้นที่";
+"CompactStorageTooltip" = "ลบข้อมูลคลิปบอร์ดที่ถูกลบแล้วและย่อฐานข้อมูลที่จัดเก็บข้อมูลให้เล็กลง";
+"CompactStorageErrorTitle" = "ไม่สามารถคืนพื้นที่ได้";
+"CompactStorageErrorDismiss" = "ตกลง";

@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Pirmosios kopijos laikas";
 "NumberOfCopies" = "Kopijų skaičius";
 "SortByTooltip" = "Numatytoji reikšmė: Paskutinės kopijos laikas.";
+"CompactStorage" = "Atlaisvinti vietos";
+"CompactStorageTooltip" = "Pašalina ištrintus iškarpinės duomenis ir sumažina saugyklos duomenų bazę.";
+"CompactStorageErrorTitle" = "Nepavyko atlaisvinti vietos.";
+"CompactStorageErrorDismiss" = "Gerai";

@@ -12,3 +12,7 @@
 "NumberOfCopies" = "מספר עותקים";
 "SortByTooltip" = "ברירת מחדל: מועד העותק האחרון.";
 "CurrentSizeTooltip" = "גודל נוכחי בדיסק.";
+"CompactStorage" = "פנה מקום";
+"CompactStorageTooltip" = "מסיר נתוני לוח גזירים שנמחקו ומכווץ את מסד נתוני האחסון.";
+"CompactStorageErrorTitle" = "לא ניתן לפנות מקום.";
+"CompactStorageErrorDismiss" = "אישור";

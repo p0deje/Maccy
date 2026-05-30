@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Date de première copie";
 "NumberOfCopies" = "Nombre de copies";
 "SortByTooltip" = "Par défaut : Date de dernière copie.";
+"CompactStorage" = "Libérer de l’espace";
+"CompactStorageTooltip" = "Supprime les données de presse-papiers supprimées et compacte la base de données de stockage.";
+"CompactStorageErrorTitle" = "Impossible de libérer de l’espace.";
+"CompactStorageErrorDismiss" = "OK";

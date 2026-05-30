@@ -12,3 +12,7 @@
 "SizeTooltip" = "Nombre d'elements guardats a l'històric.\nPer defecte: 200.";
 "LastCopiedAt" = "Temps de l'última còpia";
 "CurrentSizeTooltip" = "";
+"CompactStorage" = "Allibera espai";
+"CompactStorageTooltip" = "Elimina les dades suprimides del porta-retalls i compacta la base de dades d’emmagatzematge.";
+"CompactStorageErrorTitle" = "No s’ha pogut alliberar espai.";
+"CompactStorageErrorDismiss" = "D’acord";

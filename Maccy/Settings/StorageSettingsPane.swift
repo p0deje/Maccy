@@ -3,6 +3,11 @@ import Defaults
 import Settings
 
 struct StorageSettingsPane: View {
+  struct CompactStorageError: Identifiable {
+    let id = UUID()
+    let message: String
+  }
+
   @Observable
   class ViewModel {
     var saveFiles = false {
@@ -61,6 +66,8 @@ struct StorageSettingsPane: View {
 
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
+  @State private var isCompacting = false
+  @State private var compactError: CompactStorageError?
 
   private let sizeFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
@@ -106,6 +113,18 @@ struct StorageSettingsPane: View {
             .onAppear {
               storageSize = Storage.shared.size
             }
+          Button {
+            compactStorage()
+          } label: {
+            Text("CompactStorage", tableName: "StorageSettings")
+          }
+          .controlSize(.small)
+          .disabled(isCompacting || !Storage.shared.hasDatabase)
+          .help(Text("CompactStorageTooltip", tableName: "StorageSettings"))
+          if isCompacting {
+            ProgressView()
+              .controlSize(.small)
+          }
         }
       }
 
@@ -119,6 +138,34 @@ struct StorageSettingsPane: View {
         .frame(width: 160, alignment: .leading)
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
       }
+    }
+    .alert(
+      Text("CompactStorageErrorTitle", tableName: "StorageSettings"),
+      isPresented: Binding(
+        get: { compactError != nil },
+        set: { if !$0 { compactError = nil } }
+      ),
+      presenting: compactError
+    ) { _ in
+      Button(role: .cancel) {} label: {
+        Text("CompactStorageErrorDismiss", tableName: "StorageSettings")
+      }
+    } message: { error in
+      Text(error.message)
+    }
+  }
+
+  private func compactStorage() {
+    isCompacting = true
+
+    Task { @MainActor in
+      do {
+        storageSize = try await Storage.shared.reclaimDiskSpace()
+      } catch {
+        compactError = CompactStorageError(message: error.localizedDescription)
+      }
+
+      isCompacting = false
     }
   }
 }

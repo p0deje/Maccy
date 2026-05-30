@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "İlk kopyanın zamanı";
 "NumberOfCopies" = "Kopya sayısı";
 "SortByTooltip" = "Saptanmış: Son kopyanın zamanı.";
+"CompactStorage" = "Alan aç";
+"CompactStorageTooltip" = "Silinmiş pano verilerini kaldırır ve depolama veritabanını küçültür.";
+"CompactStorageErrorTitle" = "Alan açılamadı.";
+"CompactStorageErrorDismiss" = "Tamam";

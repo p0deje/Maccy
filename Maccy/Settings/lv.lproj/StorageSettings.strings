@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Pirmās kopijas laiks";
 "NumberOfCopies" = "Kopiju skaits";
 "SortByTooltip" = "Noklusējums: pēdējās kopijas laiks.";
+"CompactStorage" = "Atbrīvot vietu";
+"CompactStorageTooltip" = "Noņem izdzēstos starpliktuves datus un samazina glabātuves datubāzi.";
+"CompactStorageErrorTitle" = "Neizdevās atbrīvot vietu.";
+"CompactStorageErrorDismiss" = "Labi";

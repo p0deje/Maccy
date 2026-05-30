@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Első másolás ideje";
 "NumberOfCopies" = "Másolások száma";
 "SortByTooltip" = "Alapértelmezett: Utolsó másolás ideje.";
+"CompactStorage" = "Tárhely felszabadítása";
+"CompactStorageTooltip" = "Eltávolítja a törölt vágólapadatokat és tömöríti a tárolási adatbázist.";
+"CompactStorageErrorTitle" = "Nem sikerült tárhelyet felszabadítani.";
+"CompactStorageErrorDismiss" = "OK";

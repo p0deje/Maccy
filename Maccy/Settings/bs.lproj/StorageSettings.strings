@@ -12,3 +12,7 @@
 "NumberOfCopies" = "Broj kopija";
 "SortByTooltip" = "Standardno: Vrijeme zadnje kopije.";
 "CurrentSizeTooltip" = "Trenutna veličina na disku.";
+"CompactStorage" = "Oslobodi prostor";
+"CompactStorageTooltip" = "Uklanja obrisane podatke međuspremnika i smanjuje bazu podataka pohrane.";
+"CompactStorageErrorTitle" = "Nije moguće osloboditi prostor.";
+"CompactStorageErrorDismiss" = "U redu";

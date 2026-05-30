@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Часом першої копії";
 "NumberOfCopies" = "Кількістю копій";
 "SortByTooltip" = "За замовчуванням: Час останньої копії.";
+"CompactStorage" = "Звільнити місце";
+"CompactStorageTooltip" = "Видаляє вилучені дані буфера обміну та стискає базу даних сховища.";
+"CompactStorageErrorTitle" = "Не вдалося звільнити місце.";
+"CompactStorageErrorDismiss" = "Гаразд";

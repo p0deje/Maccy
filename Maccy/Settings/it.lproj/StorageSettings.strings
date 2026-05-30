@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Tempo della prima copia";
 "NumberOfCopies" = "Numero di copie";
 "SortByTooltip" = "Default: Tempo dell'ultima copia.";
+"CompactStorage" = "Libera spazio";
+"CompactStorageTooltip" = "Rimuove i dati degli appunti eliminati e compatta il database di archiviazione.";
+"CompactStorageErrorTitle" = "Impossibile liberare spazio.";
+"CompactStorageErrorDismiss" = "OK";

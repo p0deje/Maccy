@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Waktu salinan pertama";
 "NumberOfCopies" = "";
 "SortByTooltip" = "";
+"CompactStorage" = "Kosongkan ruang";
+"CompactStorageTooltip" = "Menghapus data papan klip yang sudah dihapus dan mengecilkan basis data penyimpanan.";
+"CompactStorageErrorTitle" = "Tidak dapat mengosongkan ruang.";
+"CompactStorageErrorDismiss" = "OK";

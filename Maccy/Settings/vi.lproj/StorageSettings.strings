@@ -12,3 +12,7 @@
 "NumberOfCopies" = "Sao chép nhiều nhất";
 "SortByTooltip" = "Mặc định: Sao chép mới nhất.";
 "CurrentSizeTooltip" = "Dung lượng hiện đang chiếm trên ổ đĩa.";
+"CompactStorage" = "Giải phóng dung lượng";
+"CompactStorageTooltip" = "Xóa dữ liệu bảng tạm đã bị xóa và thu gọn cơ sở dữ liệu lưu trữ.";
+"CompactStorageErrorTitle" = "Không thể giải phóng dung lượng.";
+"CompactStorageErrorDismiss" = "OK";

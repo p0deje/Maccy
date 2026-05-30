@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "";
 "NumberOfCopies" = "";
 "SortByTooltip" = "";
+"CompactStorage" = "آزادسازی فضا";
+"CompactStorageTooltip" = "داده‌های حذف‌شدهٔ کلیپ‌بورد را پاک می‌کند و پایگاه دادهٔ ذخیره‌سازی را فشرده می‌کند.";
+"CompactStorageErrorTitle" = "آزادسازی فضا ممکن نشد.";
+"CompactStorageErrorDismiss" = "باشه";

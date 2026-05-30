@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "";
 "NumberOfCopies" = "";
 "SortByTooltip" = "";
+"CompactStorage" = "स्थान खाली करें";
+"CompactStorageTooltip" = "हटाए गए क्लिपबोर्ड डेटा को मिटाकर संग्रहण डेटाबेस को छोटा करता है।";
+"CompactStorageErrorTitle" = "स्थान खाली नहीं किया जा सका।";
+"CompactStorageErrorDismiss" = "ठीक है";

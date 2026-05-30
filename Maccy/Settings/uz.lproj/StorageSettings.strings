@@ -12,3 +12,7 @@
 "SortByTooltip" = "Standart: Oxirgi nusxa vaqti.";
 "Title" = "Hotira";
 "Text" = "Matn";
+"CompactStorage" = "Joy bo‘shatish";
+"CompactStorageTooltip" = "O‘chirilgan almashish buferi ma’lumotlarini olib tashlaydi va saqlash bazasini kichraytiradi.";
+"CompactStorageErrorTitle" = "Joy bo‘shatib bo‘lmadi.";
+"CompactStorageErrorDismiss" = "OK";

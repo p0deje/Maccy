@@ -12,3 +12,7 @@
 "NumberOfCopies" = "Número de cópias";
 "SortByTooltip" = "Padrão: Data de última cópia.";
 "Title" = "Armazenamento";
+"CompactStorage" = "Libertar espaço";
+"CompactStorageTooltip" = "Remove os dados eliminados da área de transferência e compacta a base de dados de armazenamento.";
+"CompactStorageErrorTitle" = "Não foi possível libertar espaço.";
+"CompactStorageErrorDismiss" = "OK";

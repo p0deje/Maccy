@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Zeitpunkt des ersten Eintrags";
 "NumberOfCopies" = "Häufigkeit der Einträge";
 "SortByTooltip" = "Standard: Zeitpunkt des letzten Eintrags.";
+"CompactStorage" = "Speicher bereinigen";
+"CompactStorageTooltip" = "Entfernt gelöschte Zwischenablagedaten und verkleinert die Speicherdatenbank.";
+"CompactStorageErrorTitle" = "Speicher kann nicht bereinigt werden.";
+"CompactStorageErrorDismiss" = "OK";

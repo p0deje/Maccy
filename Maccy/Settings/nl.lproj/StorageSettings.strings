@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Tijd van eerste kopie";
 "NumberOfCopies" = "Aantal kopieën";
 "SortByTooltip" = "Standaard: Tijd van laatste kopie.";
+"CompactStorage" = "Ruimte vrijmaken";
+"CompactStorageTooltip" = "Verwijdert verwijderde klembordgegevens en verkleint de opslagdatabase.";
+"CompactStorageErrorTitle" = "Kan geen ruimte vrijmaken.";
+"CompactStorageErrorDismiss" = "OK";

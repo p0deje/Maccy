@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Čas prvního kopírování";
 "NumberOfCopies" = "Počet kopírování";
 "SortByTooltip" = "Výchozí: Čas posledního kopírování.";
+"CompactStorage" = "Uvolnit místo";
+"CompactStorageTooltip" = "Odstraní smazaná data schránky a zmenší databázi úložiště.";
+"CompactStorageErrorTitle" = "Nepodařilo se uvolnit místo.";
+"CompactStorageErrorDismiss" = "OK";

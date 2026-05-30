@@ -12,3 +12,7 @@
 "SizeTooltip" = "Колькасць элементаў, якія будуць захоўвацца.\nПадставова: 200.";
 "SortBy" = "Сартаваць па:";
 "CurrentSizeTooltip" = "Бягучы памер на дыску.";
+"CompactStorage" = "Вызваліць месца";
+"CompactStorageTooltip" = "Выдаляе выдаленыя даныя буфера абмену і сціскае базу даных сховішча.";
+"CompactStorageErrorTitle" = "Не ўдалося вызваліць месца.";
+"CompactStorageErrorDismiss" = "Добра";

@@ -541,12 +541,14 @@ class MaccyUITests: XCTestCase {
   private func copyToClipboard(_ content: Data?, _ type: NSPasteboard.PasteboardType) {
     pasteboard.clearContents()
     pasteboard.setData(content, forType: type)
-    waitTillClipboardCheck()
+    // Rich clipboard data can take longer to become visible to Maccy's polling loop on CI.
+    _ = pasteboard.data(forType: type)
+    waitTillClipboardCheck(delayMultiplier: 2)
   }
 
   // Default interval for Maccy to check clipboard is 1 second
-  private func waitTillClipboardCheck() {
-    usleep(1_500_000)
+  private func waitTillClipboardCheck(delayMultiplier: useconds_t = 1) {
+    usleep(1_500_000 * delayMultiplier)
   }
 
   private func pin(_ title: String) {
@@ -638,9 +640,9 @@ class MaccyUITests: XCTestCase {
   }
 
   private func confirmClear() {
-    let button = app.dialogs.firstMatch.buttons["Clear"].firstMatch
-    expectation(for: NSPredicate(format: "isHittable = 1"), evaluatedWith: button)
-    waitForExpectations(timeout: 3)
+    let button = app.sheets.firstMatch.buttons["Clear"].firstMatch
+    expectation(for: NSPredicate(format: "exists = 1 AND isHittable = 1"), evaluatedWith: button)
+    waitForExpectations(timeout: 5)
     button.click()
   }
 }

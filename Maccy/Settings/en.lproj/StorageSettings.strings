@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Time of first copy";
 "NumberOfCopies" = "Number of copies";
 "SortByTooltip" = "Default: Time of last copy.";
+"CompactStorage" = "Reclaim Space";
+"CompactStorageTooltip" = "Remove deleted clipboard data and shrink the storage database.";
+"CompactStorageErrorTitle" = "Unable to Reclaim Space.";
+"CompactStorageErrorDismiss" = "OK";

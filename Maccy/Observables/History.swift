@@ -212,26 +212,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   func clear() {
     withLogging("Clearing history") {
-      all.forEach { item in
-        if item.isUnpinned {
-          cleanup(item)
-        }
-      }
+      let itemsToDelete = all.filter(\.isUnpinned)
+      itemsToDelete.forEach(cleanup)
       all.removeAll(where: \.isUnpinned)
       sessionLog.removeValues { $0.pin == nil }
       items = all
 
-      try? Storage.shared.context.transaction {
-        try? Storage.shared.context.delete(
-          model: HistoryItem.self,
-          where: #Predicate { $0.pin == nil }
-        )
-        try? Storage.shared.context.delete(
-          model: HistoryItemContent.self,
-          where: #Predicate { $0.item?.pin == nil }
-        )
+      itemsToDelete.forEach { item in
+        Storage.shared.context.delete(item.item)
       }
       Storage.shared.context.processPendingChanges()
+      Storage.shared.removeOrphanedContents()
       try? Storage.shared.context.save()
     }
 
@@ -245,15 +236,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   func clearAll() {
     withLogging("Clearing all history") {
-      all.forEach { item in
-        cleanup(item)
-      }
+      let itemsToDelete = all
+      itemsToDelete.forEach(cleanup)
       all.removeAll()
       sessionLog.removeAll()
       items = all
 
-      try? Storage.shared.context.delete(model: HistoryItem.self)
+      itemsToDelete.forEach { item in
+        Storage.shared.context.delete(item.item)
+      }
       Storage.shared.context.processPendingChanges()
+      Storage.shared.removeOrphanedContents()
       try? Storage.shared.context.save()
     }
 
@@ -272,6 +265,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     withLogging("Removing history item") {
       Storage.shared.context.delete(item.item)
       Storage.shared.context.processPendingChanges()
+      Storage.shared.removeOrphanedContents()
       try? Storage.shared.context.save()
     }
 

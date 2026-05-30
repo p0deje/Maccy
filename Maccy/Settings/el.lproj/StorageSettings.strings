@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "";
 "NumberOfCopies" = "";
 "SortByTooltip" = "";
+"CompactStorage" = "Ελευθέρωση χώρου";
+"CompactStorageTooltip" = "Αφαιρεί τα διαγραμμένα δεδομένα προχείρου και συμπτύσσει τη βάση δεδομένων αποθήκευσης.";
+"CompactStorageErrorTitle" = "Δεν ήταν δυνατή η ελευθέρωση χώρου.";
+"CompactStorageErrorDismiss" = "Εντάξει";

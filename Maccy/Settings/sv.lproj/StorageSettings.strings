@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "";
 "NumberOfCopies" = "";
 "SortByTooltip" = "";
+"CompactStorage" = "Frigör utrymme";
+"CompactStorageTooltip" = "Tar bort raderade urklippsdata och krymper lagringsdatabasen.";
+"CompactStorageErrorTitle" = "Det gick inte att frigöra utrymme.";
+"CompactStorageErrorDismiss" = "OK";

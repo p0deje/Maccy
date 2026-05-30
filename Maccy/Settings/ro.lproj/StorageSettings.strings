@@ -12,3 +12,7 @@
 "Files" = "Fișiere";
 "SortByTooltip" = "Implicit: Data ultimei copii.";
 "CurrentSizeTooltip" = "Dimensiunea curentă pe disc.";
+"CompactStorage" = "Eliberează spațiu";
+"CompactStorageTooltip" = "Elimină datele șterse din clipboard și compactează baza de date de stocare.";
+"CompactStorageErrorTitle" = "Nu s-a putut elibera spațiu.";
+"CompactStorageErrorDismiss" = "OK";

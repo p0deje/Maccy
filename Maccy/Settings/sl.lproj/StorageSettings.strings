@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Čas prvega kopiranja";
 "NumberOfCopies" = "Število kopiranj";
 "SortByTooltip" = "Privzeto: Čas zadnjega kopiranja.";
+"CompactStorage" = "Sprosti prostor";
+"CompactStorageTooltip" = "Odstrani izbrisane podatke odložišča in pomanjša podatkovno bazo shrambe.";
+"CompactStorageErrorTitle" = "Prostora ni bilo mogoče sprostiti.";
+"CompactStorageErrorDismiss" = "V redu";

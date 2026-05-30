@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "首次复制时间";
 "NumberOfCopies" = "复制次数";
 "SortByTooltip" = "默认：上次复制时间。";
+"CompactStorage" = "清理空间";
+"CompactStorageTooltip" = "删除已移除的剪贴板数据并压缩存储数据库。";
+"CompactStorageErrorTitle" = "无法清理空间。";
+"CompactStorageErrorDismiss" = "好";

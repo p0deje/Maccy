@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Время первого копирования";
 "NumberOfCopies" = "Количество копирований";
 "SortByTooltip" = "По умолчанию: Время последнего копирования.";
+"CompactStorage" = "Освободить место";
+"CompactStorageTooltip" = "Удаляет удалённые данные буфера обмена и сжимает базу данных хранилища.";
+"CompactStorageErrorTitle" = "Не удалось освободить место.";
+"CompactStorageErrorDismiss" = "ОК";

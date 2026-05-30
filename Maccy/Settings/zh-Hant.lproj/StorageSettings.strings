@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "首次拷貝時間";
 "NumberOfCopies" = "拷貝次數";
 "SortByTooltip" = "預設：上次拷貝時間。";
+"CompactStorage" = "清理空間";
+"CompactStorageTooltip" = "刪除已移除的剪貼簿資料並壓縮儲存資料庫。";
+"CompactStorageErrorTitle" = "無法清理空間。";
+"CompactStorageErrorDismiss" = "好";

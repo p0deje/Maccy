@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Data da primeira cópia";
 "NumberOfCopies" = "Número de cópias";
 "SortByTooltip" = "Padrão: Data de última cópia.";
+"CompactStorage" = "Liberar espaço";
+"CompactStorageTooltip" = "Remove os dados excluídos da área de transferência e compacta o banco de dados de armazenamento.";
+"CompactStorageErrorTitle" = "Não foi possível liberar espaço.";
+"CompactStorageErrorDismiss" = "OK";

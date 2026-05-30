@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "کاتی یەکەم کۆپی";
 "NumberOfCopies" = "ژمارەی کۆپییەکان";
 "SortByTooltip" = "بنەڕەت: کاتی دوایین کۆپی.";
+"CompactStorage" = "شوێن چۆڵ بکەرەوە";
+"CompactStorageTooltip" = "داتای سڕدراوی کلیپبۆرد لادەبات و بنکەدراوەی پاشەکەوتکردن بچووک دەکاتەوە.";
+"CompactStorageErrorTitle" = "نەکرا شوێن چۆڵ بکرێتەوە.";
+"CompactStorageErrorDismiss" = "باشە";

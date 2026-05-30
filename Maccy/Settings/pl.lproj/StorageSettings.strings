@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Czas pierwszego kopiowania";
 "NumberOfCopies" = "Liczba kopii";
 "SortByTooltip" = "Domyślnie: Czas ostatniego kopiowania.";
+"CompactStorage" = "Zwolnij miejsce";
+"CompactStorageTooltip" = "Usuwa skasowane dane schowka i zmniejsza bazę danych przechowywania.";
+"CompactStorageErrorTitle" = "Nie można zwolnić miejsca.";
+"CompactStorageErrorDismiss" = "OK";

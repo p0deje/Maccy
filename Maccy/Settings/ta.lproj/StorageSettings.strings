@@ -12,3 +12,7 @@
 "NumberOfCopies" = "பிரதிகளின் எண்ணிக்கை";
 "SortByTooltip" = "இயல்புநிலை: கடைசி நகலின் நேரம்.";
 "CurrentSizeTooltip" = "";
+"CompactStorage" = "இடத்தை காலி செய்";
+"CompactStorageTooltip" = "நீக்கப்பட்ட கிளிப்போர்டு தரவை அகற்றி சேமிப்பு தரவுத்தளத்தைச் சுருக்குகிறது.";
+"CompactStorageErrorTitle" = "இடத்தை காலி செய்ய முடியவில்லை.";
+"CompactStorageErrorDismiss" = "சரி";

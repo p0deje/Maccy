@@ -12,3 +12,7 @@
 "FirstCopiedAt" = "Momento de unua kopio";
 "NumberOfCopies" = "Nombro de kopioj";
 "SortByTooltip" = "Defaŭlta: Momento de lasta kopio.";
+"CompactStorage" = "Liberigi spacon";
+"CompactStorageTooltip" = "Forigas forigitajn tondujajn datumojn kaj kuntirigas la konservan datumbazon.";
+"CompactStorageErrorTitle" = "Ne eblis liberigi spacon.";
+"CompactStorageErrorDismiss" = "Bone";
