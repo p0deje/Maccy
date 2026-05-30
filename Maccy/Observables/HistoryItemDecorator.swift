@@ -41,6 +41,23 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   var hasImage: Bool { item.image != nil }
 
+  /// Pixel dimensions of the clipboard image (e.g. `1920×1080`), if available.
+  var imagePixelDimensions: String? {
+    if let data = item.imageData, let rep = NSBitmapImageRep(data: data) {
+      return "\(rep.pixelsWide)×\(rep.pixelsHigh)"
+    }
+
+    guard let image = item.image else {
+      return nil
+    }
+
+    if let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) {
+      return "\(cgImage.width)×\(cgImage.height)"
+    }
+
+    return "\(Int(image.size.width))×\(Int(image.size.height))"
+  }
+
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
