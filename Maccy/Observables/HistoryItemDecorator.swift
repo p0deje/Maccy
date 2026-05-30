@@ -43,6 +43,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   /// Pixel dimensions of the clipboard image (e.g. `1920×1080`), if available.
   var imagePixelDimensions: String? {
+    if let data = item.imageData, let rep = NSBitmapImageRep(data: data) {
+      return "\(rep.pixelsWide)×\(rep.pixelsHigh)"
+    }
+
     guard let image = item.image else {
       return nil
     }

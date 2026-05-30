@@ -79,13 +79,14 @@ class HistoryItemDecoratorTests: XCTestCase {
       bytesPerRow: 0,
       space: CGColorSpaceCreateDeviceRGB(),
       bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-    ), let cgImage = context.makeImage() else {
+    ), let cgImage = context.makeImage(),
+      let rep = NSBitmapImageRep(cgImage: cgImage),
+      let tiff = rep.tiffRepresentation else {
       XCTFail("Could not create test image")
       return
     }
 
-    let image = NSImage(cgImage: cgImage, size: NSSize(width: width, height: height))
-    let itemDecorator = historyItemDecorator(image)
+    let itemDecorator = historyItemDecorator(tiff, .tiff)
     XCTAssertEqual(itemDecorator.imagePixelDimensions, "320×240")
   }
 
