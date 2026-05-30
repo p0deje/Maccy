@@ -40,7 +40,9 @@ class MaccyUITests: XCTestCase {
   }
 
   var itemTitles: [String] {
-    items.allElementsBoundByIndex
+    app.staticTexts
+      .matching(identifier: "copy-history-item")
+      .allElementsBoundByIndex
       .sorted(by: { $0.frame.origin.y < $1.frame.origin.y })
       .compactMap { $0.value as? String }
   }
@@ -164,8 +166,8 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
 
-    app.staticTexts["bar"].firstMatch.click()
-    XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
+    items["bar"].firstMatch.click()
+    assertPasteboardDataEquals(rtf2, forType: .rtf)
   }
 
   func testCopyHTML() {
