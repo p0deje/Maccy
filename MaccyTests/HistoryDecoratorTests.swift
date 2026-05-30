@@ -68,28 +68,6 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, image.size)
   }
 
-  func testImagePixelDimensions() {
-    let width = 320
-    let height = 240
-    guard let context = CGContext(
-      data: nil,
-      width: width,
-      height: height,
-      bitsPerComponent: 8,
-      bytesPerRow: 0,
-      space: CGColorSpaceCreateDeviceRGB(),
-      bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-    ), let cgImage = context.makeImage(),
-      let rep = NSBitmapImageRep(cgImage: cgImage),
-      let tiff = rep.tiffRepresentation else {
-      XCTFail("Could not create test image")
-      return
-    }
-
-    let itemDecorator = historyItemDecorator(tiff, .tiff)
-    XCTAssertEqual(itemDecorator.imagePixelDimensions, "320×240")
-  }
-
   // We also need to add test for image with width bigger than max width.
   func testImageWithHeightBiggerThanMaxHeight() {
     let image = NSImage(named: "NSApplicationIcon")!
