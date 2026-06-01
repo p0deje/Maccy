@@ -7,6 +7,10 @@ class Clipboard { // swiftlint:disable:this type_body_length
 
   typealias OnNewCopyHook = (HistoryItem) -> Void
 
+  private struct PasteboardSnapshot {
+    let items: [[(type: String, data: Data)]]
+  }
+
   private var onNewCopyHooks: [OnNewCopyHook] = []
   var changeCount: Int
 
@@ -86,7 +90,7 @@ class Clipboard { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
-  func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
+  func copy(_ item: HistoryItem?, removeFormatting: Bool = false, notifyHistory: Bool = true) {
     guard let item else { return }
 
     pasteboard.clearContents()
@@ -119,7 +123,9 @@ class Clipboard { // swiftlint:disable:this type_body_length
 
     Task {
       Notifier.notify(body: item.title, sound: .knock)
-      checkForChangesInPasteboard()
+      if notifyHistory && !Defaults[.ignoreEvents] {
+        checkForChangesInPasteboard()
+      }
     }
   }
 
@@ -132,8 +138,19 @@ class Clipboard { // swiftlint:disable:this type_body_length
       return
     }
 
-    copy(item, removeFormatting: removeFormatting)
+    let snapshot = capturePasteboard()
+    let savedIgnoreEvents = Defaults[.ignoreEvents]
+    Defaults[.ignoreEvents] = true
+
+    copy(item, removeFormatting: removeFormatting, notifyHistory: false)
     paste(to: destination ?? pasteDestination())
+
+    // Restore the clipboard that was active before quick paste so Cmd+V and history order stay unchanged.
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+      self.restorePasteboard(snapshot)
+      self.changeCount = self.pasteboard.changeCount
+      Defaults[.ignoreEvents] = savedIgnoreEvents
+    }
   }
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
@@ -199,11 +216,13 @@ class Clipboard { // swiftlint:disable:this type_body_length
 
     changeCount = pasteboard.changeCount
 
-    if pasteboard.pasteboardItems?.contains(where: { $0.types.contains(.fromMaccy) }) != true {
-      // External copy occurred. Stop the current paste stack.
-      // Maybe queue it into the paste stack? Configurable behaviour?
-      AppState.shared.history.interruptPasteStack()
+    if pasteboard.pasteboardItems?.contains(where: { $0.types.contains(.fromMaccy) }) == true {
+      return
     }
+
+    // External copy occurred. Stop the current paste stack.
+    // Maybe queue it into the paste stack? Configurable behaviour?
+    AppState.shared.history.interruptPasteStack()
 
     if Defaults[.ignoreEvents] {
       if Defaults[.ignoreOnlyNextEvent] {
@@ -342,6 +361,35 @@ class Clipboard { // swiftlint:disable:this type_body_length
 
     NSApp.activate(ignoringOtherApps: true)
     NSApp.hide(self)
+  }
+
+  private func capturePasteboard() -> PasteboardSnapshot {
+    let items = pasteboard.pasteboardItems?.map { item in
+      item.types.compactMap { type -> (type: String, data: Data)? in
+        guard let data = item.data(forType: type) else { return nil }
+        return (type: type.rawValue, data: data)
+      }
+    } ?? []
+
+    return PasteboardSnapshot(items: items)
+  }
+
+  private func restorePasteboard(_ snapshot: PasteboardSnapshot) {
+    pasteboard.clearContents()
+
+    guard !snapshot.items.isEmpty else {
+      return
+    }
+
+    let pasteboardItems = snapshot.items.map { contents -> NSPasteboardItem in
+      let item = NSPasteboardItem()
+      for content in contents {
+        item.setData(content.data, forType: NSPasteboard.PasteboardType(content.type))
+      }
+      return item
+    }
+
+    pasteboard.writeObjects(pasteboardItems)
   }
 
   private func clearFormatting(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {

@@ -228,13 +228,7 @@ class AppState: Sendable {
       }
     }
     settingsWindowController?.show()
-    if let window = settingsWindowController?.window {
-      window.orderFrontRegardless()
-      // Defer sizing until after the Settings package lays out its content (avoids constraint loops).
-      DispatchQueue.main.async {
-        ResizableSettingsWindowDelegate.shared.applyDefaultSizeIfNeeded(window)
-      }
-    }
+    settingsWindowController?.window?.orderFrontRegardless()
   }
 
   func quit() {

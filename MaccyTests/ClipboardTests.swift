@@ -104,6 +104,19 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 
+  func testIgnoresCopiesFromMaccy() {
+    let hookExpectation = expectation(description: "Hook is called")
+    hookExpectation.isInverted = true
+    clipboard.onNewCopy({ (_: HistoryItem) in
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string, .fromMaccy], owner: nil)
+    pasteboard.setString("foo", forType: .string)
+    pasteboard.setString("", forType: .fromMaccy)
+    waitForExpectations(timeout: 2)
+  }
+
   func testIgnoreEventsIsEnabled() {
     Defaults[.ignoreEvents] = true
 
