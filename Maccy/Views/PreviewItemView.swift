@@ -6,6 +6,10 @@ import SwiftUI
 struct PreviewItemView: View {
   var item: HistoryItemDecorator
 
+  private var paragraphs: [String] {
+    item.text.components(separatedBy: "\n")
+  }
+
   private func revealFile(_ url: URL) {
     var isDirectory: ObjCBool = false
     if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory) {
@@ -83,8 +87,12 @@ struct PreviewItemView: View {
         }
       } else {
         ScrollView {
-          Text(item.text)
-            .font(.body)
+          LazyVStack(alignment: .leading, spacing: 0) {
+            ForEach(paragraphs, id: \.self) { paragraph in
+              Text(paragraph)
+                .font(.body)
+            }
+          }
         }
       }
 

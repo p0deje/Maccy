@@ -48,13 +48,13 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
-  // 10k characters seems to be more than enough on large displays
-  var text: String { item.previewableText.shortened(to: 10_000) }
+  // 10k characters seems to be more than enough on large displays.
+  // Cached as stored property to avoid recomputing previewableText (which
+  // may parse RTF/HTML) on every SwiftUI access.
+  private(set) var text: String = ""
 
   /// `text` with `showSpecialSymbols` applied, but newlines preserved for multi-line truncation.
-  var displayText: String {
-    item.formatForDisplay(text)
-  }
+  private(set) var displayText: String = ""
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
@@ -73,6 +73,11 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     self.shortcuts = shortcuts
     self.title = item.title
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
+
+    // Precompute text to avoid repeated previewableText (RTF/HTML parsing) on SwiftUI reads.
+    let rawText = item.previewableText.shortened(to: 10_000)
+    self.text = rawText
+    self.displayText = item.formatForDisplay(rawText)
 
     synchronizeItemPin()
     synchronizeItemTitle()
