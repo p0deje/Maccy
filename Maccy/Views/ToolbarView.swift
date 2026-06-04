@@ -113,12 +113,34 @@ struct ToolbarView: View {
     NSWorkspace.shared.activateFileViewerSelecting([fileURL])
   }
 
+  private func revealInFinder() {
+    guard let item = appState.navigator.leadHistoryItem else {
+      return
+    }
+
+    let urls = item.item.fileURLs.filter { url in
+      var isDirectory: ObjCBool = false
+      return FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory)
+    }
+
+    guard !urls.isEmpty else { return }
+
+    NSWorkspace.shared.activateFileViewerSelecting(urls)
+  }
+
   var body: some View {
     HStack {
       if !appState.navigator.selection.isEmpty {
         Spacer()
 
-        if appState.navigator.leadHistoryItem?.hasImage == true {
+        if appState.navigator.leadHistoryItem?.hasFileURLs == true {
+          ToolbarButton {
+            revealInFinder()
+          } label: {
+            Image(systemName: "folder")
+          }
+          .help(Text("RevealInFinder", tableName: "PreviewItemView"))
+        } else if appState.navigator.leadHistoryItem?.hasImage == true {
           ToolbarButton {
             savePreviewImage()
           } label: {

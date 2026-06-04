@@ -4,6 +4,13 @@ import SwiftUI
 struct PreviewItemView: View {
   var item: HistoryItemDecorator
 
+  private func revealFile(_ url: URL) {
+    var isDirectory: ObjCBool = false
+    if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory) {
+      NSWorkspace.shared.activateFileViewerSelecting([url])
+    }
+  }
+
   @ViewBuilder
   func previewImage(content: () -> some View) -> some View {
     content()
@@ -50,14 +57,34 @@ struct PreviewItemView: View {
           }
         }
         .id(item.id)
+      } else if item.hasFileURLs {
+        ScrollView {
+          VStack(alignment: .leading, spacing: 4) {
+            ForEach(item.item.fileURLs, id: \.self) { url in
+              HStack {
+                Text(url.absoluteString.removingPercentEncoding ?? url.path)
+                  .font(.body)
+                  .lineLimit(1)
+                  .truncationMode(.middle)
+                Spacer()
+                Button {
+                  revealFile(url)
+                } label: {
+                  Image(systemName: "folder")
+                    .frame(width: 20, height: 20)
+                }
+                .buttonStyle(.plain)
+                .help(Text("RevealInFinder", tableName: "PreviewItemView"))
+              }
+            }
+          }
+        }
       } else {
         ScrollView {
           Text(item.text)
             .font(.body)
         }
       }
-
-      Spacer(minLength: 0)
 
       Divider()
         .padding(.vertical)
