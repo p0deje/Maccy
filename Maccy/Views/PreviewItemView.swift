@@ -88,7 +88,7 @@ struct PreviewItemView: View {
       } else {
         ScrollView {
           LazyVStack(alignment: .leading, spacing: 0) {
-            ForEach(paragraphs, id: \.self) { paragraph in
+            ForEach(Array(paragraphs.enumerated()), id: \.offset) { _, paragraph in
               Text(paragraph)
                 .font(.body)
             }
