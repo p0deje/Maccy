@@ -49,6 +49,7 @@ struct PreviewItemView: View {
             }
           }
         }
+        .id(item.id)
       } else {
         ScrollView {
           Text(item.text)
