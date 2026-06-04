@@ -53,7 +53,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   /// `text` with `showSpecialSymbols` applied, but newlines preserved for multi-line truncation.
   var displayText: String {
-    item.formatForDisplay(text, replaceNewlines: false)
+    item.formatForDisplay(text)
   }
 
   var isPinned: Bool { item.pin != nil }

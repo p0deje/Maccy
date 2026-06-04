@@ -85,23 +85,35 @@ class HistoryItem {
       }
   }
 
-  func formatForDisplay(_ raw: String, replaceNewlines: Bool) -> String {
-    var result = raw
+  func formatForDisplay(_ raw: String) -> String {
+    let titleLines = Defaults[.titleLines]
+
+    if titleLines > 1 {
+      let lines = raw.components(separatedBy: "\n")
+      let firstLines = lines.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.prefix(titleLines)
+      return firstLines.map { formatLine($0) }.joined(separator: "\n")
+    }
+
     if Defaults[.showSpecialSymbols] {
+      return formatLine(raw.replacingOccurrences(of: "\n", with: "⏎"))
+    }
+
+    return raw.trimmingCharacters(in: .whitespacesAndNewlines)
+  }
+
+  private func formatLine(_ line: String) -> String {
+    if Defaults[.showSpecialSymbols] {
+      var result = line
       if let range = result.range(of: "^ +", options: .regularExpression) {
         result = result.replacingOccurrences(of: " ", with: "·", range: range)
       }
       if let range = result.range(of: " +$", options: .regularExpression) {
         result = result.replacingOccurrences(of: " ", with: "·", range: range)
       }
-      if replaceNewlines {
-        result = result.replacingOccurrences(of: "\n", with: "⏎")
-      }
       result = result.replacingOccurrences(of: "\t", with: "⇥")
-    } else {
-      result = result.trimmingCharacters(in: .whitespacesAndNewlines)
+      return result
     }
-    return result
+    return line.trimmingCharacters(in: .whitespaces)
   }
 
   func generateTitle() -> String {
@@ -114,7 +126,7 @@ class HistoryItem {
 
     // 1k characters is trade-off for performance
     let raw = previewableText.shortened(to: 1_000)
-    return formatForDisplay(raw, replaceNewlines: true)
+    return formatForDisplay(raw)
   }
 
   var previewableText: String {
