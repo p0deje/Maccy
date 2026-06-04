@@ -5,4 +5,5 @@
 "PinKey" = "Press {pinKey} to pin.";
 "UnpinKey" = "Press {pinKey} to unpin.";
 "DeleteKey" = "Press {deleteKey} to delete.";
+"SaveImage" = "Save image to Pictures folder.";
 "PreviewKey" = "Press {previewKey} to toggle preview.";
