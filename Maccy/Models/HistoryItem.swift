@@ -85,6 +85,25 @@ class HistoryItem {
       }
   }
 
+  func formatForDisplay(_ raw: String, replaceNewlines: Bool) -> String {
+    var result = raw
+    if Defaults[.showSpecialSymbols] {
+      if let range = result.range(of: "^ +", options: .regularExpression) {
+        result = result.replacingOccurrences(of: " ", with: "·", range: range)
+      }
+      if let range = result.range(of: " +$", options: .regularExpression) {
+        result = result.replacingOccurrences(of: " ", with: "·", range: range)
+      }
+      if replaceNewlines {
+        result = result.replacingOccurrences(of: "\n", with: "⏎")
+      }
+      result = result.replacingOccurrences(of: "\t", with: "⇥")
+    } else {
+      result = result.trimmingCharacters(in: .whitespacesAndNewlines)
+    }
+    return result
+  }
+
   func generateTitle() -> String {
     guard image == nil else {
       Task {
@@ -94,23 +113,8 @@ class HistoryItem {
     }
 
     // 1k characters is trade-off for performance
-    var title = previewableText.shortened(to: 1_000)
-
-    if Defaults[.showSpecialSymbols] {
-      if let range = title.range(of: "^ +", options: .regularExpression) {
-        title = title.replacingOccurrences(of: " ", with: "·", range: range)
-      }
-      if let range = title.range(of: " +$", options: .regularExpression) {
-        title = title.replacingOccurrences(of: " ", with: "·", range: range)
-      }
-      title = title
-        .replacingOccurrences(of: "\n", with: "⏎")
-        .replacingOccurrences(of: "\t", with: "⇥")
-    } else {
-      title = title.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    return title
+    let raw = previewableText.shortened(to: 1_000)
+    return formatForDisplay(raw, replaceNewlines: true)
   }
 
   var previewableText: String {

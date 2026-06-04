@@ -51,6 +51,11 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   // 10k characters seems to be more than enough on large displays
   var text: String { item.previewableText.shortened(to: 10_000) }
 
+  /// `text` with `showSpecialSymbols` applied, but newlines preserved for multi-line truncation.
+  var displayText: String {
+    item.formatForDisplay(text, replaceNewlines: false)
+  }
+
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
 

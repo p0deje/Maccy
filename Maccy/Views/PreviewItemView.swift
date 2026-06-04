@@ -1,6 +1,8 @@
 import KeyboardShortcuts
 import SwiftUI
 
+// MARK: - PreviewItemView
+
 struct PreviewItemView: View {
   var item: HistoryItemDecorator
 
@@ -85,6 +87,8 @@ struct PreviewItemView: View {
             .font(.body)
         }
       }
+
+      Spacer(minLength: 0)
 
       Divider()
         .padding(.vertical)
