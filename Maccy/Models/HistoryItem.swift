@@ -101,7 +101,7 @@ class HistoryItem {
     return raw.trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
-  private func formatLine(_ line: String) -> String {
+  func formatLine(_ line: String) -> String {
     if Defaults[.showSpecialSymbols] {
       var result = line
       if let range = result.range(of: "^ +", options: .regularExpression) {
