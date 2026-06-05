@@ -19,4 +19,5 @@
 "Fuzzy" = "模糊";
 "Regex" = "正規表示式";
 "Mixed" = "混合";
+"RemoveTrackingParameters" = "移除 URL 中的追蹤碼";
 "NotificationsAndSounds" = "通知和聲音 􀱁";
