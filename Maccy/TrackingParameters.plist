@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<!-- UTM (Universal Tracking Module) -->
+	<string>xmt</string>
+	<string>utm_source</string>
+	<string>utm_medium</string>
+	<string>utm_campaign</string>
+	<string>utm_term</string>
+	<string>utm_content</string>
+	<string>utm_id</string>
+	<string>utm_reader</string>
+	<string>utm_name</string>
+	<string>utm_social</string>
+	<string>utm_social-type</string>
+
+	<!-- Google Ads -->
+	<string>gclid</string>
+	<string>gclsrc</string>
+	<string>dclid</string>
+	<string>gbraid</string>
+	<string>wbraid</string>
+
+	<!-- Facebook / Meta -->
+	<string>fbclid</string>
+	<string>fb_ref</string>
+	<string>fb_source</string>
+	<string>fb_action_ids</string>
+	<string>fb_action_types</string>
+
+	<!-- Microsoft Ads -->
+	<string>msclkid</string>
+
+	<!-- Twitter / X -->
+	<string>twclid</string>
+	<string>twsrc</string>
+	<string>twgr</string>
+	<string>twcon</string>
+
+	<!-- Instagram -->
+	<string>igshid</string>
+
+	<!-- Yandex -->
+	<string>yclid</string>
+
+	<!-- HubSpot -->
+	<string>_hsenc</string>
+	<string>_hsmi</string>
+	<string>hsctaTracking</string>
+	<string>hsa_acc</string>
+	<string>hsa_cam</string>
+	<string>hsa_grp</string>
+	<string>hsa_ad</string>
+	<string>hsa_src</string>
+	<string>hsa_tgt</string>
+	<string>hsa_kw</string>
+	<string>hsa_mt</string>
+	<string>hsa_net</string>
+	<string>hsa_ver</string>
+
+	<!-- Mailchimp -->
+	<string>mc_cid</string>
+	<string>mc_eid</string>
+
+	<!-- Marketo -->
+	<string>mkt_tok</string>
+
+	<!-- Drip -->
+	<string>__s</string>
+
+	<!-- Vero -->
+	<string>vero_id</string>
+	<string>vero_conv</string>
+
+	<!-- WickedReports -->
+	<string>wickedid</string>
+
+	<!-- Olytics -->
+	<string>oly_enc_id</string>
+	<string>oly_anon_id</string>
+
+	<!-- Amazon -->
+	<string>pd_rd_r</string>
+	<string>pd_rd_w</string>
+	<string>pd_rd_wg</string>
+	<string>pf_rd_i</string>
+	<string>pf_rd_m</string>
+	<string>pf_rd_p</string>
+	<string>pf_rd_r</string>
+	<string>pf_rd_s</string>
+	<string>pf_rd_t</string>
+	<string>pd_rd_i</string>
+
+	<!-- Adobe Analytics -->
+	<string>s_cid</string>
+	<string>s_kwcid</string>
+	<string>icid</string>
+
+	<!-- Iterable -->
+	<string>_kx</string>
+
+	<!-- Others -->
+	<string>soc_src</string>
+	<string>soc_trk</string>
+	<string>ncid</string>
+	<string>ref_src</string>
+	<string>ref_url</string>
+	<string>ML_subscriber_hash</string>
+	<string>nr_email_referer</string>
+</array>
+</plist>

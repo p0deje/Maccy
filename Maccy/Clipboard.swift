@@ -208,7 +208,14 @@ class Clipboard {
       }
 
       types.forEach { type in
-        contents.append(HistoryItemContent(type: type.rawValue, value: item.data(forType: type)))
+        var value = item.data(forType: type)
+        if type == .string,
+           Defaults[.removeTrackingParameters],
+           let string = item.string(forType: .string),
+           URLCleaner.isURL(string) {
+          value = URLCleaner.clean(string).data(using: .utf8)
+        }
+        contents.append(HistoryItemContent(type: type.rawValue, value: value))
       }
     })
 

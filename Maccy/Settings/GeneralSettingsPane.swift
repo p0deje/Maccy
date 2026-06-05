@@ -91,6 +91,11 @@ struct GeneralSettingsPane: View {
         .onChange(refreshModifiers)
         .fixedSize()
 
+        Defaults.Toggle(key: .removeTrackingParameters) {
+          Text("RemoveTrackingParameters", tableName: "GeneralSettings")
+        }
+        .fixedSize()
+
         Text(String(
           format: NSLocalizedString("Modifiers", tableName: "GeneralSettings", comment: ""),
           copyModifier, pasteModifier, pasteWithoutFormatting
