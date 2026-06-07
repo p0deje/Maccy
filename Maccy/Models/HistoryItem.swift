@@ -69,6 +69,9 @@ class HistoryItem {
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
   var contents: [HistoryItemContent] = []
 
+  @Relationship(inverse: \Workspace.items)
+  var workspace: Workspace?
+
   init(contents: [HistoryItemContent] = []) {
     self.firstCopiedAt = firstCopiedAt
     self.lastCopiedAt = lastCopiedAt

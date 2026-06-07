@@ -8,10 +8,23 @@
         <attribute name="pin" optional="YES" attributeType="String" regularExpressionString="^[abcdefghijklmnorstuvwxyz]*$"/>
         <attribute name="title" optional="YES" attributeType="String" maxValueString="203"/>
         <relationship name="contents" toMany="YES" deletionRule="Cascade" destinationEntity="HistoryItemContent" inverseName="item" inverseEntity="HistoryItemContent"/>
+        <relationship name="workspace" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Workspace" inverseName="items" inverseEntity="Workspace"/>
     </entity>
     <entity name="HistoryItemContent" representedClassName="HistoryItemContentL" syncable="YES">
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="value" optional="YES" attributeType="Binary"/>
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HistoryItem" inverseName="contents" inverseEntity="HistoryItem"/>
+    </entity>
+    <entity name="Workspace" representedClassName="WorkspaceL" syncable="YES">
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
+        <attribute name="id" attributeType="UUID" usesScalarValueType="NO"/>
+        <attribute name="name" attributeType="String" defaultValueString="Default"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <relationship name="items" toMany="YES" deletionRule="Nullify" destinationEntity="HistoryItem" inverseName="workspace" inverseEntity="HistoryItem"/>
+        <uniquenessConstraints>
+            <uniquenessConstraint>
+                <constraint value="name"/>
+            </uniquenessConstraint>
+        </uniquenessConstraints>
     </entity>
 </model>

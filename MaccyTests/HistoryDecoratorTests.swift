@@ -22,6 +22,8 @@ class HistoryItemDecoratorTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
+    Storage.shared.ensureDefaultWorkspace()
+    WorkspaceManager.shared.load()
     Defaults[.highlightMatch] = .bold
     Defaults[.imageMaxHeight] = 40
   }

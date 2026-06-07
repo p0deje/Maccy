@@ -9,6 +9,7 @@ class AppState: Sendable {
   static let shared = AppState(history: History.shared, footer: Footer())
 
   let multiSelectionEnabled = false
+  var isPopoverEditing = false
 
   var appDelegate: AppDelegate?
   var popup: Popup
@@ -16,6 +17,7 @@ class AppState: Sendable {
   var footer: Footer
   var navigator: NavigationManager
   var preview: SlideoutController
+  var workspaceManager: WorkspaceManager
 
   var searchVisible: Bool {
     if !Defaults[.showSearch] { return false }
@@ -40,6 +42,7 @@ class AppState: Sendable {
     self.footer = footer
     popup = Popup()
     navigator = NavigationManager(history: history, footer: footer)
+    workspaceManager = WorkspaceManager.shared
     preview = SlideoutController(
       onContentResize: { contentWidth in
         Defaults[.windowSize].width = contentWidth
@@ -123,6 +126,14 @@ class AppState: Sendable {
             toolbarIcon: NSImage.externaldrive!
           ) {
             StorageSettingsPane()
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.workspaces,
+            title: NSLocalizedString("Title", tableName: "WorkspaceSettings", comment: ""),
+            toolbarIcon: NSImage.squareStack!
+          ) {
+            WorkspaceSettingsPane()
+              .environment(self)
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.appearance,

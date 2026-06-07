@@ -145,6 +145,11 @@
 		DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD9268A521A00990986 /* String+Shortened.swift */; };
 		DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */; };
 		DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */; };
+		AA00000100000001AAAAAAAA /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000001AAAAAAAA /* Workspace.swift */; };
+		AA00000100000002AAAAAAAA /* WorkspaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000002AAAAAAAA /* WorkspaceManager.swift */; };
+		AA00000100000003AAAAAAAA /* WorkspaceTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000003AAAAAAAA /* WorkspaceTabsView.swift */; };
+		AA00000100000004AAAAAAAA /* WorkspaceSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000004AAAAAAAA /* WorkspaceSettingsPane.swift */; };
+		AA00000100000005AAAAAAAA /* WorkspaceSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA00000300000005AAAAAAAA /* WorkspaceSettings.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -555,6 +560,11 @@
 		DAFE2DD9268A521A00990986 /* String+Shortened.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Shortened.swift"; sourceTree = "<group>"; };
 		DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTests.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Shortcuts.swift"; sourceTree = "<group>"; };
+		AA00000200000001AAAAAAAA /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
+		AA00000200000002AAAAAAAA /* WorkspaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceManager.swift; sourceTree = "<group>"; };
+		AA00000200000003AAAAAAAA /* WorkspaceTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceTabsView.swift; sourceTree = "<group>"; };
+		AA00000200000004AAAAAAAA /* WorkspaceSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceSettingsPane.swift; sourceTree = "<group>"; };
+		AA00000200000005AAAAAAAA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/WorkspaceSettings.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -634,6 +644,7 @@
 			children = (
 				DA05B5132C234DCF006980FE /* HistoryItem.swift */,
 				DA05B5122C234DCF006980FE /* HistoryItemContent.swift */,
+				AA00000200000001AAAAAAAA /* Workspace.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -662,6 +673,8 @@
 				DA689FAE2C1CD3B00009B887 /* StorageSettings.strings */,
 				DAA365CD2C4BF9DD00A394F8 /* PinsSettingsPane.swift */,
 				DAA365CF2C4C147400A394F8 /* PinsSettings.strings */,
+				AA00000200000004AAAAAAAA /* WorkspaceSettingsPane.swift */,
+				AA00000300000005AAAAAAAA /* WorkspaceSettings.strings */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -699,6 +712,7 @@
 				2F9B42F02F1A4999006548E5 /* ToolbarView.swift */,
 				DAA072D02C4089D3006DDFD2 /* VisualEffectView.swift */,
 				DA555F112CF155A2009608BD /* WrappingTextView.swift */,
+				AA00000200000003AAAAAAAA /* WorkspaceTabsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -740,6 +754,7 @@
 				DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */,
 				DAE8F5D32C43262B00851CA9 /* Popup.swift */,
 				2F578C3E2EFFE8720088B759 /* SlideoutController.swift */,
+				AA00000200000002AAAAAAAA /* WorkspaceManager.swift */,
 			);
 			path = Observables;
 			sourceTree = "<group>";
@@ -1039,6 +1054,7 @@
 				DA5E62802C39E53F00F4C710 /* PreviewItemView.strings in Resources */,
 				DA009932256411F90030E697 /* README.md in Resources */,
 				DA9C3C4A2C20D4B40056795D /* IgnoreSettings.strings in Resources */,
+				AA00000100000005AAAAAAAA /* WorkspaceSettings.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1176,6 +1192,10 @@
 				DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */,
 				2F0EC7852E774083003E2EA9 /* PasteStackView.swift in Sources */,
 				DA20FA782B082E1A00056DD5 /* NSSound+Named.swift in Sources */,
+				AA00000100000001AAAAAAAA /* Workspace.swift in Sources */,
+				AA00000100000002AAAAAAAA /* WorkspaceManager.swift in Sources */,
+				AA00000100000003AAAAAAAA /* WorkspaceTabsView.swift in Sources */,
+				AA00000100000004AAAAAAAA /* WorkspaceSettingsPane.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1497,6 +1517,14 @@
 				5212BB682E59AA5200E74A24 /* ckb */,
 			);
 			name = GeneralSettings.strings;
+			sourceTree = "<group>";
+		};
+		AA00000300000005AAAAAAAA /* WorkspaceSettings.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA00000200000005AAAAAAAA /* en */,
+			);
+			name = WorkspaceSettings.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
