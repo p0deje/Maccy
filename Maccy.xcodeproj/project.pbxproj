@@ -34,6 +34,11 @@
 		2FF2E94E2E774B5B0093D72C /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94D2E774B570093D72C /* NavigationManager.swift */; };
 		2FF2E9502E7808470093D72C /* AppImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94F2E7808420093D72C /* AppImageView.swift */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
+		AA00000100000001AAAAAAAA /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000001AAAAAAAA /* Workspace.swift */; };
+		AA00000100000002AAAAAAAA /* WorkspaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000002AAAAAAAA /* WorkspaceManager.swift */; };
+		AA00000100000003AAAAAAAA /* WorkspaceTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000003AAAAAAAA /* WorkspaceTabsView.swift */; };
+		AA00000100000004AAAAAAAA /* WorkspaceSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000004AAAAAAAA /* WorkspaceSettingsPane.swift */; };
+		AA00000100000005AAAAAAAA /* WorkspaceSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA00000300000005AAAAAAAA /* WorkspaceSettings.strings */; };
 		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
 		DA009932256411F90030E697 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DA00992D256411F90030E697 /* README.md */; };
 		DA009934256411F90030E697 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = DA00992F256411F90030E697 /* LICENSE */; };
@@ -145,11 +150,6 @@
 		DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD9268A521A00990986 /* String+Shortened.swift */; };
 		DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */; };
 		DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */; };
-		AA00000100000001AAAAAAAA /* Workspace.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000001AAAAAAAA /* Workspace.swift */; };
-		AA00000100000002AAAAAAAA /* WorkspaceManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000002AAAAAAAA /* WorkspaceManager.swift */; };
-		AA00000100000003AAAAAAAA /* WorkspaceTabsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000003AAAAAAAA /* WorkspaceTabsView.swift */; };
-		AA00000100000004AAAAAAAA /* WorkspaceSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA00000200000004AAAAAAAA /* WorkspaceSettingsPane.swift */; };
-		AA00000100000005AAAAAAAA /* WorkspaceSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = AA00000300000005AAAAAAAA /* WorkspaceSettings.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -223,6 +223,11 @@
 		5212BB6C2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
 		5212BB6D2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7CEEFDF124F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		AA00000200000001AAAAAAAA /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
+		AA00000200000002AAAAAAAA /* WorkspaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceManager.swift; sourceTree = "<group>"; };
+		AA00000200000003AAAAAAAA /* WorkspaceTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceTabsView.swift; sourceTree = "<group>"; };
+		AA00000200000004AAAAAAAA /* WorkspaceSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceSettingsPane.swift; sourceTree = "<group>"; };
+		AA00000200000005AAAAAAAA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/WorkspaceSettings.strings; sourceTree = "<group>"; };
 		ABC72863283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA00992C256411F90030E697 /* appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = appcast.xml; sourceTree = "<group>"; };
 		DA00992D256411F90030E697 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -560,11 +565,6 @@
 		DAFE2DD9268A521A00990986 /* String+Shortened.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Shortened.swift"; sourceTree = "<group>"; };
 		DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTests.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Shortcuts.swift"; sourceTree = "<group>"; };
-		AA00000200000001AAAAAAAA /* Workspace.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Workspace.swift; sourceTree = "<group>"; };
-		AA00000200000002AAAAAAAA /* WorkspaceManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceManager.swift; sourceTree = "<group>"; };
-		AA00000200000003AAAAAAAA /* WorkspaceTabsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceTabsView.swift; sourceTree = "<group>"; };
-		AA00000200000004AAAAAAAA /* WorkspaceSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceSettingsPane.swift; sourceTree = "<group>"; };
-		AA00000200000005AAAAAAAA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/WorkspaceSettings.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1253,6 +1253,14 @@
 			name = Localizable.strings;
 			sourceTree = "<group>";
 		};
+		AA00000300000005AAAAAAAA /* WorkspaceSettings.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				AA00000200000005AAAAAAAA /* en */,
+			);
+			name = WorkspaceSettings.strings;
+			sourceTree = "<group>";
+		};
 		DA5E627E2C39E53F00F4C710 /* PreviewItemView.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1517,14 +1525,6 @@
 				5212BB682E59AA5200E74A24 /* ckb */,
 			);
 			name = GeneralSettings.strings;
-			sourceTree = "<group>";
-		};
-		AA00000300000005AAAAAAAA /* WorkspaceSettings.strings */ = {
-			isa = PBXVariantGroup;
-			children = (
-				AA00000200000005AAAAAAAA /* en */,
-			);
-			name = WorkspaceSettings.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
