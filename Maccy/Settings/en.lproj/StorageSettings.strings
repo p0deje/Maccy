@@ -7,6 +7,9 @@
 "Size" = "Size:";
 "SizeTooltip" = "Number of history items to keep.\nDefault: 200.";
 "CurrentSizeTooltip" = "Current size on disk.";
+"MaxClipboardContentSize" = "Maximum item size:";
+"MaxClipboardContentSizeTooltip" = "Copied items larger than this limit are not stored in history.\nDefault: 10 MB.";
+"MaxClipboardContentSizeUnit" = "MB";
 "SortBy" = "Sort by:";
 "LastCopiedAt" = "Time of last copy";
 "FirstCopiedAt" = "Time of first copy";

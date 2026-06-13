@@ -99,6 +99,34 @@ class HistoryItemTests: XCTestCase {
     XCTAssertEqual(item.image!.tiffRepresentation, NSImage(data: try! Data(contentsOf: url))!.tiffRepresentation)
   }
 
+  func testOversizedImageFromUniversalClipboardIsIgnored() {
+    let savedMaxClipboardContentSize = Defaults[.maxClipboardContentSize]
+    Defaults[.maxClipboardContentSize] = 1
+    defer {
+      Defaults[.maxClipboardContentSize] = savedMaxClipboardContentSize
+    }
+
+    let url = FileManager.default.temporaryDirectory
+      .appending(path: "\(UUID().uuidString).jpeg")
+    try? Data(count: HistoryItemContent.maxValueSize + 1).write(to: url)
+    defer {
+      try? FileManager.default.removeItem(at: url)
+    }
+
+    let fileURLContent = HistoryItemContent(
+      type: NSPasteboard.PasteboardType.fileURL.rawValue,
+      value: url.dataRepresentation
+    )
+    let universalClipboardContent = HistoryItemContent(
+      type: NSPasteboard.PasteboardType.universalClipboard.rawValue,
+      value: "".data(using: .utf8)
+    )
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = [fileURLContent, universalClipboardContent]
+    XCTAssertNil(item.imageData)
+  }
+
   func testFileFromUniversalClipboard() {
     let url = URL(fileURLWithPath: "/tmp/foo.bar")
     let fileURLContent = HistoryItemContent(
@@ -119,6 +147,42 @@ class HistoryItemTests: XCTestCase {
   func testItemWithoutData() {
     let item = historyItem(nil)
     XCTAssertEqual(item.title, "")
+  }
+
+  func testLargeTextTitleIsBounded() {
+    let item = historyItem(String(repeating: "a", count: 50_000))
+    XCTAssertEqual(item.title.count, HistoryItem.titlePreviewLimit)
+  }
+
+  func testTextPrefixDoesNotSplitMultibyteCharacters() {
+    let item = historyItem("😀😀")
+    XCTAssertEqual(item.textPrefix(maxLength: 5), "😀")
+  }
+
+  func testContentDataUsesRequestedTypePriority() {
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = [
+      HistoryItemContent(type: NSPasteboard.PasteboardType.png.rawValue, value: "png".data(using: .utf8)),
+      HistoryItemContent(type: NSPasteboard.PasteboardType.tiff.rawValue, value: "tiff".data(using: .utf8))
+    ]
+
+    XCTAssertEqual(item.imageData, "tiff".data(using: .utf8))
+  }
+
+  func testStringShortenedDoesNotExceedMaxLength() {
+    XCTAssertEqual("abcd".shortened(to: 3), "abc")
+  }
+
+  func testNearestUsesSliceAbsoluteIndexes() {
+    XCTAssertEqual([1, 2, 3, 4].nearest(to: 2, where: { $0 == 4 }), 4)
+    XCTAssertEqual([1, 2, 3, 4].nearest(to: 3, where: { $0 == 1 }), 1)
+  }
+
+  func testDictionaryRemoveValuesDoesNotMutateDuringIteration() {
+    var dictionary = ["a": 1, "b": 2, "c": 3]
+    dictionary.removeValues { $0.isMultiple(of: 2) }
+    XCTAssertEqual(dictionary, ["a": 1, "c": 3])
   }
 
   func testSeveralItemsCanHaveEmptyPin() {

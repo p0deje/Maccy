@@ -35,6 +35,13 @@ class Search {
 
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
+  private let regexpSearchLimit = 1_000
+
+  static func isLikelyUnsafeRegularExpression(_ pattern: String) -> Bool {
+    // Reject a common source of catastrophic backtracking, e.g. "(a+)+$".
+    let nestedQuantifierPattern = #"\([^)]*([+*]|\{\d+,?\d*\})[^)]*\)([+*]|\{\d+,?\d*\})"#
+    return pattern.range(of: nestedQuantifierPattern, options: .regularExpression) != nil
+  }
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
     guard !string.isEmpty else {
@@ -45,7 +52,7 @@ class Search {
     case .mixed:
       return mixedSearch(string: string, within: within)
     case .regexp:
-      return simpleSearch(string: string, within: within, options: .regularExpression)
+      return regexpSearch(string: string, within: within)
     case .fuzzy:
       return fuzzySearch(string: string, within: within)
     default:
@@ -71,7 +78,7 @@ class Search {
     if searchString.count > fuzzySearchLimit {
       // shortcut to avoid slow search
       let stopIndex = searchString.index(searchString.startIndex, offsetBy: fuzzySearchLimit)
-      searchString = "\(searchString[...stopIndex])"
+      searchString = "\(searchString[..<stopIndex])"
     }
 
     if let fuzzyResult = fuse.search(pattern, in: searchString) {
@@ -118,7 +125,7 @@ class Search {
       return results
     }
 
-    results = simpleSearch(string: string, within: within, options: .regularExpression)
+    results = regexpSearch(string: string, within: within)
     guard results.isEmpty else {
       return results
     }
@@ -129,5 +136,27 @@ class Search {
     }
 
     return []
+  }
+
+  private func regexpSearch(string: String, within: [Searchable]) -> [SearchResult] {
+    guard !Self.isLikelyUnsafeRegularExpression(string),
+          let regex = try? NSRegularExpression(pattern: string) else {
+      return []
+    }
+
+    return within.compactMap { item in
+      regexpSearch(regex: regex, in: item.title, of: item)
+    }
+  }
+
+  private func regexpSearch(regex: NSRegularExpression, in searchString: String, of item: Searchable) -> SearchResult? {
+    let limitedSearchString = searchString.shortened(to: regexpSearchLimit)
+    let range = NSRange(limitedSearchString.startIndex..., in: limitedSearchString)
+    guard let match = regex.firstMatch(in: limitedSearchString, range: range),
+          let matchRange = Range(match.range, in: limitedSearchString) else {
+      return nil
+    }
+
+    return SearchResult(object: item, ranges: [matchRange])
   }
 }

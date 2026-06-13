@@ -9,16 +9,16 @@ class About {
   private var kossCredits: NSMutableAttributedString {
     let string = NSMutableAttributedString(string: "Kudos to Sasha Koss for help! 🏂",
                                            attributes: [NSAttributedString.Key.foregroundColor: NSColor.labelColor])
-    string.addAttribute(.link, value: "https://koss.nocorp.me", range: NSRange(location: 9, length: 10))
+    string.addLink("https://koss.nocorp.me", to: "Sasha Koss")
     return string
   }
 
   private var links: NSMutableAttributedString {
     let string = NSMutableAttributedString(string: "Website│GitHub│Support",
                                            attributes: [NSAttributedString.Key.foregroundColor: NSColor.labelColor])
-    string.addAttribute(.link, value: "https://maccy.app", range: NSRange(location: 0, length: 7))
-    string.addAttribute(.link, value: "https://github.com/p0deje/Maccy", range: NSRange(location: 8, length: 6))
-    string.addAttribute(.link, value: "mailto:support@maccy.app", range: NSRange(location: 15, length: 7))
+    string.addLink("https://maccy.app", to: "Website")
+    string.addLink("https://github.com/p0deje/Maccy", to: "GitHub")
+    string.addLink("mailto:support@maccy.app", to: "Support")
     return string
   }
 
@@ -38,5 +38,15 @@ class About {
   func openAbout(_ sender: NSMenuItem?) {
     NSApp.activate(ignoringOtherApps: true)
     NSApp.orderFrontStandardAboutPanel(options: [NSApplication.AboutPanelOptionKey.credits: credits])
+  }
+}
+
+private extension NSMutableAttributedString {
+  func addLink(_ link: String, to text: String) {
+    guard let range = string.range(of: text) else {
+      return
+    }
+
+    addAttribute(.link, value: link, range: NSRange(range, in: string))
   }
 }

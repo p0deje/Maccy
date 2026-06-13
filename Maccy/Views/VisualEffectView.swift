@@ -1,33 +1,29 @@
 import SwiftUI
 
 struct VisualEffectView: NSViewRepresentable {
-  let visualEffectView = NSVisualEffectView()
-
   var material: NSVisualEffectView.Material = .popover
   var blendingMode: NSVisualEffectView.BlendingMode = .behindWindow
 
   func makeNSView(context: Context) -> NSVisualEffectView {
-    return visualEffectView
+    return NSVisualEffectView()
   }
 
   func updateNSView(_ view: NSVisualEffectView, context: Context) {
-    visualEffectView.material = material
-    visualEffectView.blendingMode = blendingMode
+    view.material = material
+    view.blendingMode = blendingMode
   }
 }
 
 @available(macOS 26.0, *)
 struct GlassEffectView: NSViewRepresentable {
-  let glassEffectView = NSGlassEffectView()
-
   var style: NSGlassEffectView.Style = .regular
 
   func makeNSView(context: Context) -> NSGlassEffectView {
-    return glassEffectView
+    return NSGlassEffectView()
   }
 
   func updateNSView(_ view: NSGlassEffectView, context: Context) {
-    glassEffectView.style = style
+    view.style = style
   }
 }
 

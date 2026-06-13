@@ -7,6 +7,9 @@
 "Size" = "数量：";
 "SizeTooltip" = "保留条历史记录。\n默认: 200。";
 "CurrentSizeTooltip" = "磁盘上的当前大小。";
+"MaxClipboardContentSize" = "单项最大大小：";
+"MaxClipboardContentSizeTooltip" = "超过此限制的复制内容不会保存到历史记录。\n默认：10 MB。";
+"MaxClipboardContentSizeUnit" = "MB";
 "SortBy" = "排序方式：";
 "LastCopiedAt" = "上次复制时间";
 "FirstCopiedAt" = "首次复制时间";

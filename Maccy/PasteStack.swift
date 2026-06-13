@@ -20,7 +20,9 @@ class PasteStack: Identifiable, Hashable {
       case .keyUp:
         if pasteDown && event.keyCode == KeyChord.pasteKey.QWERTYKeyCode {
           pasteDown = false
-          AppState.shared.history.handlePasteStack()
+          Task { @MainActor in
+            AppState.shared.history.handlePasteStack()
+          }
         }
       default:
         break

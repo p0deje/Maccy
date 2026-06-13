@@ -39,13 +39,13 @@ struct PinValueView: View {
 
   init(item: HistoryItem) {
     self.item = item
-    self._editableValue = State(initialValue: item.previewableText)
+    self._editableValue = State(initialValue: item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit))
 
     // Check if this item has editable text content
-    let hasPlainText = item.text != nil
+    let hasPlainText = item.textPrefix(maxLength: 1) != nil
     let hasImage = item.image != nil
     let hasFileURLs = !item.fileURLs.isEmpty
-    let hasRichText = item.rtf != nil || item.html != nil
+    let hasRichText = item.rtfData != nil || item.htmlData != nil
 
     // Consider it text content only if it has plain text and doesn't have images or file URLs
     self._isTextContent = State(initialValue: hasPlainText && !hasImage && !hasFileURLs)

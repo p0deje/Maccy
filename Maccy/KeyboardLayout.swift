@@ -9,6 +9,10 @@ class KeyboardLayout {
   var commandSwitchesToQWERTY: Bool { localizedName.hasSuffix("⌘") }
 
   var localizedName: String {
+    guard let inputSource else {
+      return ""
+    }
+
     if let value = TISGetInputSourceProperty(inputSource, kTISPropertyLocalizedName) {
       return Unmanaged<CFString>.fromOpaque(value).takeUnretainedValue() as String
     } else {
@@ -16,9 +20,9 @@ class KeyboardLayout {
     }
   }
 
-  private var inputSource: TISInputSource!
+  private var inputSource: TISInputSource?
 
   init() {
-    inputSource = TISCopyCurrentKeyboardLayoutInputSource().takeUnretainedValue()
+    inputSource = TISCopyCurrentKeyboardLayoutInputSource()?.takeUnretainedValue()
   }
 }

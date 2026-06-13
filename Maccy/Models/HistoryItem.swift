@@ -6,6 +6,9 @@ import Vision
 
 @Model
 class HistoryItem {
+  static let titlePreviewLimit = 1_000
+  static let textPreviewLimit = 10_000
+
   static var supportedPins: Set<String> {
     // "a" reserved for select all
     // "q" reserved for quit
@@ -45,9 +48,9 @@ class HistoryItem {
   }
 
   @MainActor
-  static var randomAvailablePin: String { availablePins.randomElement() ?? "" }
+  static var randomAvailablePin: String? { availablePins.randomElement() }
 
-  private static let transientTypes: [String] = [
+  private static let transientTypes: Set<String> = [
     NSPasteboard.PasteboardType.modified.rawValue,
     NSPasteboard.PasteboardType.fromMaccy.rawValue,
     NSPasteboard.PasteboardType.linkPresentationMetadata.rawValue,
@@ -58,6 +61,7 @@ class HistoryItem {
     NSPasteboard.PasteboardType.chromiumSourceToken.rawValue,
     NSPasteboard.PasteboardType.notesRichText.rawValue
   ]
+  private static let richTextParsingLimit = 512 * 1_024
 
   var application: String?
   var firstCopiedAt: Date = Date.now
@@ -93,8 +97,8 @@ class HistoryItem {
       return ""
     }
 
-    // 1k characters is trade-off for performance
-    var title = previewableText.shortened(to: 1_000)
+    // Keep menu title generation bounded; very large clipboard strings otherwise block the main thread.
+    var title = previewableTextPrefix(maxLength: Self.titlePreviewLimit)
 
     if Defaults[.showSpecialSymbols] {
       if let range = title.range(of: "^ +", options: .regularExpression) {
@@ -129,6 +133,23 @@ class HistoryItem {
     }
   }
 
+  func previewableTextPrefix(maxLength: Int) -> String {
+    if !fileURLs.isEmpty {
+      return fileURLs
+        .compactMap { $0.absoluteString.removingPercentEncoding }
+        .joined(separator: "\n")
+        .shortened(to: maxLength)
+    } else if let text = textPrefix(maxLength: maxLength), !text.isEmpty {
+      return text
+    } else if let rtf = rtfIfSmall, !rtf.string.isEmpty {
+      return rtf.string.shortened(to: maxLength)
+    } else if let html = htmlIfSmall, !html.string.isEmpty {
+      return html.string.shortened(to: maxLength)
+    } else {
+      return title.shortened(to: maxLength)
+    }
+  }
+
   var fileURLs: [URL] {
     guard !universalClipboardText else {
       return []
@@ -146,12 +167,19 @@ class HistoryItem {
 
     return NSAttributedString(html: data, documentAttributes: nil)
   }
+  private var htmlIfSmall: NSAttributedString? {
+    guard let data = htmlData, data.count <= Self.richTextParsingLimit else {
+      return nil
+    }
+
+    return NSAttributedString(html: data, documentAttributes: nil)
+  }
 
   var imageData: Data? {
     var data: Data?
     data = contentData([.tiff, .png, .jpeg, .heic])
     if data == nil, universalClipboardImage, let url = fileURLs.first {
-      data = try? Data(contentsOf: url)
+      data = dataFromFileIfAllowed(url)
     }
 
     return data
@@ -173,6 +201,13 @@ class HistoryItem {
 
     return NSAttributedString(rtf: data, documentAttributes: nil)
   }
+  private var rtfIfSmall: NSAttributedString? {
+    guard let data = rtfData, data.count <= Self.richTextParsingLimit else {
+      return nil
+    }
+
+    return NSAttributedString(rtf: data, documentAttributes: nil)
+  }
 
   var text: String? {
     guard let data = contentData([.string]) else {
@@ -180,6 +215,14 @@ class HistoryItem {
     }
 
     return String(data: data, encoding: .utf8)
+  }
+
+  func textPrefix(maxLength: Int) -> String? {
+    guard let data = contentData([.string]) else {
+      return nil
+    }
+
+    return data.stringPrefix(maxBytes: maxLength)
   }
 
   var modified: Int? {
@@ -200,17 +243,28 @@ class HistoryItem {
   }
 
   private func contentData(_ types: [NSPasteboard.PasteboardType]) -> Data? {
-    let content = contents.first(where: { content in
-      return types.contains(NSPasteboard.PasteboardType(content.type))
-    })
+    for type in types {
+      if let content = contents.first(where: { NSPasteboard.PasteboardType($0.type) == type }) {
+        return content.value
+      }
+    }
 
-    return content?.value
+    return nil
   }
 
   private func allContentData(_ types: [NSPasteboard.PasteboardType]) -> [Data] {
     return contents
       .filter { types.contains(NSPasteboard.PasteboardType($0.type)) }
       .compactMap { $0.value }
+  }
+
+  private func dataFromFileIfAllowed(_ url: URL) -> Data? {
+    let fileSize = try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize
+    guard (fileSize ?? 0) <= HistoryItemContent.maxValueSize else {
+      return nil
+    }
+
+    return try? Data(contentsOf: url)
   }
 
   private func performTextRecognition() {
@@ -238,6 +292,8 @@ class HistoryItem {
       return observation.topCandidates(1).first?.string
     }
 
-    self.title = recognizedStrings.joined(separator: "\n")
+    DispatchQueue.main.async {
+      self.title = recognizedStrings.joined(separator: "\n")
+    }
   }
 }

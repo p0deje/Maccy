@@ -99,6 +99,11 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
+  func testLargeTextPreviewIsBounded() {
+    let itemDecorator = historyItemDecorator(String(repeating: "a", count: 50_000))
+    XCTAssertEqual(itemDecorator.text.count, HistoryItem.textPreviewLimit)
+  }
+
   func testUnpinnedByDefault() {
     let itemDecorator = historyItemDecorator("foo")
     XCTAssertNil(itemDecorator.item.pin)

@@ -60,15 +60,13 @@ extension Array where Element: Equatable {
     case (nil, nil):
       return nil
     case (.some(let index), .none):
-      return self[currentIndex + index]
+      return self[index]
     case (.none, .some(let index)):
       return self[index]
     case (.some(let index1), .some(let index2)):
-      let pos1 = currentIndex + index1
-      let pos2 = index2
-      return abs(pos1 - currentIndex) < abs(pos2 - currentIndex)
-      ? self[pos1]
-      : self[pos2]
+      return abs(index1 - currentIndex) < abs(index2 - currentIndex)
+      ? self[index1]
+      : self[index2]
     }
 
   }

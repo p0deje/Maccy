@@ -25,6 +25,7 @@ class ClipboardTests: XCTestCase {
   let savedIgnoreAllAppsExceptListed = Defaults[.ignoreAllAppsExceptListed]
   let savedIgnoredApps = Defaults[.ignoredApps]
   let savedIgnoredPasteboardTypes = Defaults[.ignoredPasteboardTypes]
+  let savedMaxClipboardContentSize = Defaults[.maxClipboardContentSize]
 
   override func setUp() {
     super.setUp()
@@ -40,6 +41,7 @@ class ClipboardTests: XCTestCase {
     Defaults[.ignoreAllAppsExceptListed] = savedIgnoreAllAppsExceptListed
     Defaults[.ignoredApps] = savedIgnoredApps
     Defaults[.ignoredPasteboardTypes] = savedIgnoredPasteboardTypes
+    Defaults[.maxClipboardContentSize] = savedMaxClipboardContentSize
     clipboard.clearHooks()
   }
 
@@ -253,6 +255,21 @@ class ClipboardTests: XCTestCase {
     pasteboard.declareTypes([.fileURL, .string], owner: nil)
     // fileURL is left without data
     pasteboard.setString("bar", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testSkipsOversizedItems() {
+    Defaults[.maxClipboardContentSize] = 1
+
+    let hookExpectation = expectation(description: "Hook is called")
+    hookExpectation.isInverted = true
+    pasteboard.clearContents()
+    clipboard.onNewCopy({ (_: HistoryItem) in
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setData(Data(count: HistoryItemContent.maxValueSize + 1), forType: .string)
     waitForExpectations(timeout: 2)
   }
 

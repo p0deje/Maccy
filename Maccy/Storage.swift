@@ -1,3 +1,4 @@
+import AppKit
 import Foundation
 import SwiftData
 
@@ -29,7 +30,44 @@ class Storage {
     do {
       container = try ModelContainer(for: HistoryItem.self, configurations: config)
     } catch let error {
-      fatalError("Cannot load database: \(error.localizedDescription).")
+      container = Self.recoverContainer(from: url, originalError: error)
+    }
+  }
+
+  private static func recoverContainer(from url: URL, originalError: Error) -> ModelContainer {
+    removeStoreFiles(for: url)
+
+    do {
+      return try ModelContainer(for: HistoryItem.self, configurations: ModelConfiguration(url: url))
+    } catch {
+      Task { @MainActor in
+        let alert = NSAlert()
+        alert.messageText = "Maccy could not load clipboard history."
+        alert.informativeText = """
+        Maccy started with temporary in-memory history. Original error: \(originalError.localizedDescription)
+        """
+        alert.alertStyle = .warning
+        alert.runModal()
+      }
+      if let container = try? ModelContainer(
+        for: HistoryItem.self,
+        configurations: ModelConfiguration(isStoredInMemoryOnly: true)
+      ) {
+        return container
+      }
+
+      preconditionFailure("Cannot load persistent or in-memory database.")
+    }
+  }
+
+  private static func removeStoreFiles(for url: URL) {
+    let fileManager = FileManager.default
+    [
+      url,
+      URL(fileURLWithPath: "\(url.path)-shm"),
+      URL(fileURLWithPath: "\(url.path)-wal")
+    ].forEach { file in
+      try? fileManager.removeItem(at: file)
     }
   }
 }

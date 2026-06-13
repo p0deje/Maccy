@@ -46,7 +46,7 @@ struct StorageSettingsPane: View {
     init() {
       observer = Defaults.observe(.enabledPasteboardTypes) { change in
         self.saveFiles = change.newValue.isSuperset(of: StorageType.files.types)
-        self.saveImages = change.newValue.isSuperset(of: StorageType.images.types)
+        self.saveImages = !change.newValue.isDisjoint(with: StorageType.images.types)
         self.saveText = change.newValue.isSuperset(of: StorageType.text.types)
       }
     }
@@ -57,6 +57,7 @@ struct StorageSettingsPane: View {
   }
 
   @Default(.size) private var size
+  @Default(.maxClipboardContentSize) private var maxClipboardContentSize
   @Default(.sortBy) private var sortBy
 
   @State private var viewModel = ViewModel()
@@ -66,6 +67,13 @@ struct StorageSettingsPane: View {
     let formatter = NumberFormatter()
     formatter.minimum = 1
     formatter.maximum = 999
+    return formatter
+  }()
+
+  private let maxClipboardContentSizeFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 1
+    formatter.maximum = 1024
     return formatter
   }()
 
@@ -106,6 +114,19 @@ struct StorageSettingsPane: View {
             .onAppear {
               storageSize = Storage.shared.size
             }
+        }
+      }
+
+      Settings.Section(label: { Text("MaxClipboardContentSize", tableName: "StorageSettings") }) {
+        HStack {
+          TextField("", value: $maxClipboardContentSize, formatter: maxClipboardContentSizeFormatter)
+            .frame(width: 80)
+            .help(Text("MaxClipboardContentSizeTooltip", tableName: "StorageSettings"))
+          Stepper("", value: $maxClipboardContentSize, in: 1...1024)
+            .labelsHidden()
+          Text("MaxClipboardContentSizeUnit", tableName: "StorageSettings")
+            .controlSize(.small)
+            .foregroundStyle(.gray)
         }
       }
 

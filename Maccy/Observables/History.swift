@@ -55,6 +55,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   private let search = Search()
   private let sorter = Sorter()
   private let throttler = Throttler(minimumDelay: 0.2)
+  private var historySizeLimit: Int { max(1, Defaults[.size]) }
 
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
@@ -66,36 +67,36 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   var all: [HistoryItemDecorator] = []
 
   init() {
-    Task {
+    Task { @MainActor in
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
         updateShortcuts()
       }
     }
 
-    Task {
+    Task { @MainActor in
       for await _ in Defaults.updates(.sortBy, initial: false) {
-        try? await load()
+        try? await self.load()
       }
     }
 
-    Task {
+    Task { @MainActor in
       for await _ in Defaults.updates(.pinTo, initial: false) {
-        try? await load()
+        try? await self.load()
       }
     }
 
-    Task {
+    Task { @MainActor in
       for await _ in Defaults.updates(.showSpecialSymbols, initial: false) {
         for item in items {
-          await updateTitle(item: item, title: item.item.generateTitle())
+          updateTitle(item: item, title: item.item.generateTitle())
         }
       }
     }
 
-    Task {
+    Task { @MainActor in
       for await _ in Defaults.updates(.imageMaxHeight, initial: false) {
         for item in items {
-          await item.cleanupImages()
+          item.cleanupImages()
         }
       }
     }
@@ -108,7 +109,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     all = sorter.sort(results).map { HistoryItemDecorator($0) }
     items = all
 
-    limitHistorySize(to: Defaults[.size])
+    limitHistorySize(to: historySizeLimit)
 
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
@@ -119,15 +120,16 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func limitHistorySize(to maxSize: Int) {
+    let maxSize = max(0, maxSize)
     let unpinned = all.filter(\.isUnpinned)
-    if unpinned.count >= maxSize {
+    if unpinned.count > maxSize {
       unpinned[maxSize...].forEach(delete)
     }
   }
 
   @MainActor
   func insertIntoStorage(_ item: HistoryItem) throws {
-    logger.info("Inserting item with id '\(item.title)'")
+    logger.info("Inserting history item")
     Storage.shared.context.insert(item)
     Storage.shared.context.processPendingChanges()
     try? Storage.shared.context.save()
@@ -155,7 +157,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
       }
-      logger.info("Removing duplicate item '\(item.title)'")
+      logger.info("Removing duplicate history item")
       Storage.shared.context.delete(existingHistoryItem)
       removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
       if let removedItemIndex {
@@ -169,7 +171,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
-    limitHistorySize(to: Defaults[.size] - 1)
+    limitHistorySize(to: historySizeLimit - 1)
 
     sessionLog[Clipboard.shared.changeCount] = item
 
@@ -187,11 +189,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       if let index = sortedItems.firstIndex(of: item) {
         all.insert(itemDecorator, at: index)
       }
-
-      items = all
-      updateUnpinnedShortcuts()
-      AppState.shared.popup.needsResize = true
     }
+
+    refreshVisibleItems()
+    AppState.shared.popup.needsResize = true
 
     return itemDecorator
   }
@@ -345,7 +346,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     pasteStack = stack
 
     logger.info("Initialising PasteStack with \(stack.items.count) items")
-    logger.info("Copying \(item.item.title) from PasteStack")
+    logger.info("Copying item from PasteStack")
 
     if modifierFlags.isEmpty {
       AppState.shared.popup.close()
@@ -372,6 +373,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
   }
 
+  @MainActor
   func handlePasteStack() {
     guard let stack = pasteStack else {
       return
@@ -383,7 +385,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       return
     }
 
-    logger.info("PasteStack pasted \(pasted.item.title)")
+    logger.info("PasteStack pasted item")
 
     stack.items.removeFirst()
 
@@ -393,7 +395,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       return
     }
 
-    logger.info("Copying \(item.item.title) from PasteStack. \(stack.items.count) items remaining in stack.")
+    logger.info("Copying item from PasteStack. \(stack.items.count) items remaining in stack.")
 
     Task {
       if stack.modifierFlags.isEmpty {
@@ -413,6 +415,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
   }
 
+  @MainActor
   func interruptPasteStack() {
     guard pasteStack != nil else {
       return
@@ -455,7 +458,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
     }
 
-    return item
+    return nil
   }
 
   private func isModified(_ item: HistoryItem) -> HistoryItem? {
@@ -475,6 +478,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
 
     updateUnpinnedShortcuts()
+  }
+
+  private func refreshVisibleItems() {
+    if searchQuery.isEmpty {
+      items = all
+      updateUnpinnedShortcuts()
+    } else {
+      updateItems(search.search(string: searchQuery, within: all))
+    }
   }
 
   private func updateShortcuts() {

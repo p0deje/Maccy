@@ -3,8 +3,14 @@ import UserNotifications
 
 class Notifier {
   private static var center: UNUserNotificationCenter { UNUserNotificationCenter.current() }
+  private static var hasRequestedAuthorization = false
 
   static func authorize() {
+    guard !hasRequestedAuthorization else {
+      return
+    }
+    hasRequestedAuthorization = true
+
     center.requestAuthorization(options: [.alert, .sound]) { _, error in
       if error != nil {
         NSLog("Failed to authorize notifications: \(String(describing: error))")

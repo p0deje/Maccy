@@ -231,6 +231,8 @@ class SearchTests: XCTestCase {
     ])
     XCTAssertEqual(search("fbb"), [])
     XCTAssertEqual(search("m"), [])
+    XCTAssertEqual(search("["), [])
+    XCTAssertEqual(search("(a+)+$"), [])
   }
 
   private func search(_ string: String) -> [Search.SearchResult] {

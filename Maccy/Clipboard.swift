@@ -6,8 +6,11 @@ class Clipboard {
   static let shared = Clipboard()
 
   typealias OnNewCopyHook = (HistoryItem) -> Void
+  private let regularExpressionInputLimit = 2_000
+  private let richTextParsingLimit = 512 * 1_024
 
   private var onNewCopyHooks: [OnNewCopyHook] = []
+  private var ignoredRegexps: [String: NSRegularExpression] = [:]
   var changeCount: Int
 
   private let pasteboard = NSPasteboard.general
@@ -18,7 +21,9 @@ class Clipboard {
   private let microsoftSourcePrefix = "com.microsoft.ole.source."
   private let supportedTypes: Set<NSPasteboard.PasteboardType> = [
     .fileURL,
+    .heic,
     .html,
+    .jpeg,
     .png,
     .rtf,
     .string,
@@ -48,8 +53,9 @@ class Clipboard {
   }
 
   func start() {
+    timer?.invalidate()
     timer = Timer.scheduledTimer(
-      timeInterval: Defaults[.clipboardCheckInterval],
+      timeInterval: max(0.1, Defaults[.clipboardCheckInterval]),
       target: self,
       selector: #selector(checkForChangesInPasteboard),
       userInfo: nil,
@@ -131,10 +137,13 @@ class Clipboard {
 
     let keyVDown = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: true)
     let keyVUp = CGEvent(keyboardEventSource: source, virtualKey: vCode, keyDown: false)
-    keyVDown?.flags = cmdFlag
-    keyVUp?.flags = cmdFlag
-    keyVDown?.post(tap: .cgSessionEventTap)
-    keyVUp?.post(tap: .cgSessionEventTap)
+    guard let keyVDown = keyVDown, let keyVUp = keyVUp else {
+      return
+    }
+    keyVDown.flags = cmdFlag
+    keyVUp.flags = cmdFlag
+    keyVDown.post(tap: .cgSessionEventTap)
+    keyVUp.post(tap: .cgSessionEventTap)
   }
 
   func clear() {
@@ -147,7 +156,7 @@ class Clipboard {
 
   @objc
   @MainActor
-  func checkForChangesInPasteboard() { // swiftlint:disable:this cyclomatic_complexity
+  func checkForChangesInPasteboard() {
     guard pasteboard.changeCount != changeCount else {
       return
     }
@@ -186,30 +195,7 @@ class Clipboard {
     // - https://github.com/p0deje/Maccy/issues/472
     var contents = [HistoryItemContent]()
     pasteboard.pasteboardItems?.forEach({ item in
-      var types = Set(item.types)
-      if types.contains(.string) && isEmptyString(item) && !richText(item) {
-        return
-      }
-
-      if shouldIgnore(item) {
-        return
-      }
-
-      types = types
-        .subtracting(disabledTypes)
-        .filter { !$0.rawValue.starts(with: dynamicTypePrefix) }
-        .filter { !$0.rawValue.starts(with: microsoftSourcePrefix) }
-
-      // Avoid reading Microsoft Word links from bookmarks and cross-references.
-      // https://github.com/p0deje/Maccy/issues/613
-      // https://github.com/p0deje/Maccy/issues/770
-      if types.isSuperset(of: [.microsoftLinkSource, .microsoftObjectLink]) {
-        types = types.subtracting([.microsoftLinkSource, .microsoftObjectLink, .pdf])
-      }
-
-      types.forEach { type in
-        contents.append(HistoryItemContent(type: type.rawValue, value: item.data(forType: type)))
-      }
+      contents += contents(from: item)
     })
 
     guard !contents.isEmpty else {
@@ -227,6 +213,46 @@ class Clipboard {
     historyItem.title = historyItem.generateTitle()
 
     onNewCopyHooks.forEach({ $0(historyItem) })
+  }
+}
+
+private extension Clipboard {
+  func contents(from item: NSPasteboardItem) -> [HistoryItemContent] {
+    var types = Set(item.types)
+    if types.contains(.string) && isEmptyString(item) && !richText(item) {
+      return []
+    }
+
+    if shouldIgnore(item) {
+      return []
+    }
+
+    types = filteredTypes(types)
+
+    return types.compactMap { type in
+      let value = item.data(forType: type)
+      guard (value?.count ?? 0) <= HistoryItemContent.maxValueSize else {
+        return nil
+      }
+
+      return HistoryItemContent(type: type.rawValue, value: value)
+    }
+  }
+
+  func filteredTypes(_ types: Set<NSPasteboard.PasteboardType>) -> Set<NSPasteboard.PasteboardType> {
+    var types = types
+      .subtracting(disabledTypes)
+      .filter { !$0.rawValue.starts(with: dynamicTypePrefix) }
+      .filter { !$0.rawValue.starts(with: microsoftSourcePrefix) }
+
+    // Avoid reading Microsoft Word links from bookmarks and cross-references.
+    // https://github.com/p0deje/Maccy/issues/613
+    // https://github.com/p0deje/Maccy/issues/770
+    if types.isSuperset(of: [.microsoftLinkSource, .microsoftObjectLink]) {
+      types = types.subtracting([.microsoftLinkSource, .microsoftObjectLink, .pdf])
+    }
+
+    return Set(types)
   }
 
   private func shouldIgnore(_ types: Set<NSPasteboard.PasteboardType>) -> Bool {
@@ -246,37 +272,60 @@ class Clipboard {
   }
 
   private func shouldIgnore(_ item: NSPasteboardItem) -> Bool {
+    guard let data = item.data(forType: .string),
+          data.count <= regularExpressionInputLimit,
+          let string = data.stringPrefix(maxBytes: regularExpressionInputLimit) else {
+      return false
+    }
+
     for regexp in Defaults[.ignoreRegexp] {
-      if let string = item.string(forType: .string) {
-        do {
-          let regex = try NSRegularExpression(pattern: regexp)
-          if regex.numberOfMatches(in: string, range: NSRange(string.startIndex..., in: string)) > 0 {
-            return true
-          }
-        } catch {
-          return false
-        }
+      guard !Search.isLikelyUnsafeRegularExpression(regexp) else {
+        continue
+      }
+
+      let regex: NSRegularExpression
+      if let cached = ignoredRegexps[regexp] {
+        regex = cached
+      } else if let compiled = try? NSRegularExpression(pattern: regexp) {
+        ignoredRegexps[regexp] = compiled
+        regex = compiled
+      } else {
+        continue
+      }
+
+      if regex.numberOfMatches(in: string, range: NSRange(string.startIndex..., in: string)) > 0 {
+        return true
       }
     }
     return false
   }
 
   private func isEmptyString(_ item: NSPasteboardItem) -> Bool {
-    guard let string = item.string(forType: .string) else {
-      return true
+    guard let data = item.data(forType: .string) else {
+      return false
+    }
+    guard data.count <= HistoryItem.titlePreviewLimit else {
+      return false
     }
 
-    return string.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+    return data.stringPrefix(maxBytes: HistoryItem.titlePreviewLimit)?
+      .trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true
   }
 
   private func richText(_ item: NSPasteboardItem) -> Bool {
     if let rtf = item.data(forType: .rtf) {
+      guard rtf.count <= richTextParsingLimit else {
+        return true
+      }
       if let attributedString = NSAttributedString(rtf: rtf, documentAttributes: nil) {
         return !attributedString.string.isEmpty
       }
     }
 
     if let html = item.data(forType: .html) {
+      guard html.count <= richTextParsingLimit else {
+        return true
+      }
       if let attributedString = NSAttributedString(html: html, documentAttributes: nil) {
         return !attributedString.string.isEmpty
       }

@@ -3,7 +3,7 @@ import Defaults
 
 struct StorageType {
   static let files = StorageType(types: [.fileURL])
-  static let images = StorageType(types: [.png, .tiff])
+  static let images = StorageType(types: [.heic, .jpeg, .png, .tiff])
   static let text = StorageType(types: [.html, .rtf, .string])
   static let all = StorageType(types: files.types + images.types + text.types)
 
@@ -14,6 +14,7 @@ extension Defaults.Keys {
   static let clearOnQuit = Key<Bool>("clearOnQuit", default: false)
   static let clearSystemClipboard = Key<Bool>("clearSystemClipboard", default: false)
   static let clipboardCheckInterval = Key<Double>("clipboardCheckInterval", default: 0.5)
+  static let maxClipboardContentSize = Key<Int>("maxClipboardContentSize", default: 10)
   static let enabledPasteboardTypes = Key<Set<NSPasteboard.PasteboardType>>(
     "enabledPasteboardTypes", default: Set(StorageType.all.types)
   )

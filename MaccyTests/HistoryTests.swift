@@ -11,12 +11,14 @@ class HistoryTests: XCTestCase {
   override func setUp() {
     super.setUp()
     history.clearAll()
+    AppState.shared.navigator.selectWithoutScrolling(item: nil)
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt
   }
 
   override func tearDown() {
     super.tearDown()
+    history.searchQuery = ""
     Defaults[.size] = savedSize
     Defaults[.sortBy] = savedSortBy
   }
@@ -29,6 +31,36 @@ class HistoryTests: XCTestCase {
     let first = history.add(historyItem("foo"))
     let second = history.add(historyItem("bar"))
     XCTAssertEqual(history.items, [second, first])
+  }
+
+  func testAddingDuringSearchKeepsFilteredItems() {
+    let first = history.add(historyItem("foo"))
+    history.searchQuery = "foo"
+    let second = history.add(historyItem("bar"))
+    XCTAssertEqual(history.items, [first])
+    XCTAssertFalse(history.items.contains(second))
+  }
+
+  func testNavigatorHighlightFirstSkipsInvisibleItems() {
+    let first = history.add(historyItem("foo"))
+    let second = history.add(historyItem("bar"))
+    second.isVisible = false
+
+    AppState.shared.navigator.highlightFirst()
+
+    XCTAssertEqual(AppState.shared.navigator.selection.first, first)
+  }
+
+  func testNavigatorHighlightNextSkipsInvisibleItems() {
+    let first = history.add(historyItem("foo"))
+    let second = history.add(historyItem("bar"))
+    let third = history.add(historyItem("baz"))
+    second.isVisible = false
+    AppState.shared.navigator.select(item: third)
+
+    AppState.shared.navigator.highlightNext()
+
+    XCTAssertEqual(AppState.shared.navigator.selection.first, first)
   }
 
   func testAddingSame() {
@@ -224,6 +256,16 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.items.count, 5)
     XCTAssertTrue(history.items.contains(items[10]))
     XCTAssertFalse(history.items.contains(items[5]))
+  }
+
+  func testInvalidMaxSizeFallsBackToOne() {
+    Defaults[.size] = 0
+
+    let first = history.add(historyItem("foo"))
+    let second = history.add(historyItem("bar"))
+
+    XCTAssertEqual(history.items, [second])
+    XCTAssertFalse(history.items.contains(first))
   }
 
   func testRemoving() {

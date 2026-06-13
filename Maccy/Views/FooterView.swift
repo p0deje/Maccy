@@ -10,9 +10,17 @@ struct FooterView: View {
   @State private var clearOpacity: Double = 1
   @State private var clearAllOpacity: Double = 0
 
+  private var clearItem: FooterItem? {
+    footer.items.first { $0.title == "clear" }
+  }
+
+  private var clearAllItem: FooterItem? {
+    footer.items.first { $0.title == "clear_all" }
+  }
+
   var clearAllModifiersPressed: Bool {
-    let clearModifiers = footer.items[0].shortcuts.first?.modifierFlags ?? []
-    let clearAllModifiers = footer.items[1].shortcuts.first?.modifierFlags ?? []
+    let clearModifiers = clearItem?.shortcuts.first?.modifierFlags ?? []
+    let clearAllModifiers = clearAllItem?.shortcuts.first?.modifierFlags ?? []
     return !modifierFlags.flags.isEmpty
       && !modifierFlags.flags.isSubset(of: clearModifiers)
       && modifierFlags.flags.isSubset(of: clearAllModifiers)
@@ -25,32 +33,20 @@ struct FooterView: View {
         .padding(.bottom, Popup.verticalSeparatorPadding)
 
       ZStack {
-        FooterItemView(item: footer.items[0])
-          .opacity(clearOpacity)
-        FooterItemView(item: footer.items[1])
-          .opacity(clearAllOpacity)
-      }
-      .onChange(of: modifierFlags.flags) {
-        if clearAllModifiersPressed {
-          clearOpacity = 0
-          clearAllOpacity = 1
-          footer.items[0].isVisible = false
-          footer.items[1].isVisible = true
-          if appState.footer.selectedItem == footer.items[0] {
-            appState.navigator.select(footerItem: footer.items[1])
-          }
-        } else {
-          clearOpacity = 1
-          clearAllOpacity = 0
-          footer.items[0].isVisible = true
-          footer.items[1].isVisible = false
-          if appState.footer.selectedItem == footer.items[1] {
-            appState.navigator.select(footerItem: footer.items[0])
-          }
+        if let clearItem {
+          FooterItemView(item: clearItem)
+            .opacity(clearOpacity)
+        }
+        if let clearAllItem {
+          FooterItemView(item: clearAllItem)
+            .opacity(clearAllOpacity)
         }
       }
+      .onChange(of: modifierFlags.flags) {
+        updateClearItemVisibility()
+      }
 
-      ForEach(footer.items.suffix(from: 2)) { item in
+      ForEach(footer.items.filter { $0.title != "clear" && $0.title != "clear_all" }) { item in
         FooterItemView(item: item)
       }
     }
@@ -58,5 +54,29 @@ struct FooterView: View {
     .frame(maxHeight: showFooter ? nil : 0)
     .padding(.bottom, showFooter ? Popup.verticalPadding : 0)
     .readHeight(appState, into: \.popup.footerHeight)
+  }
+
+  private func updateClearItemVisibility() {
+    guard let clearItem, let clearAllItem else {
+      return
+    }
+
+    if clearAllModifiersPressed {
+      clearOpacity = 0
+      clearAllOpacity = 1
+      clearItem.isVisible = false
+      clearAllItem.isVisible = true
+      if appState.footer.selectedItem == clearItem {
+        appState.navigator.select(footerItem: clearAllItem)
+      }
+    } else {
+      clearOpacity = 1
+      clearAllOpacity = 0
+      clearItem.isVisible = true
+      clearAllItem.isVisible = false
+      if appState.footer.selectedItem == clearAllItem {
+        appState.navigator.select(footerItem: clearItem)
+      }
+    }
   }
 }

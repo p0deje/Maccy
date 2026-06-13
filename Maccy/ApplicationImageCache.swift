@@ -1,3 +1,4 @@
+@MainActor
 class ApplicationImageCache {
   static let shared = ApplicationImageCache()
 

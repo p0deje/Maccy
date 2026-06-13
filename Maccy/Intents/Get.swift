@@ -37,7 +37,7 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
       item = AppState.shared.navigator.selection.first?.item
     } else {
       let index = number - positionOffset
-      if AppState.shared.history.items.count >= index {
+      if index >= 0, AppState.shared.history.items.count > index {
         item = AppState.shared.history.items[index].item
       }
     }
@@ -58,7 +58,8 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
     }
 
     if let imageData = item.imageData {
-      let file = URL.documentsDirectory.appending(path: "image.png")
+      let file = FileManager.default.temporaryDirectory
+        .appending(path: "\(UUID().uuidString).png")
       try imageData.write(to: file, options: [.atomic, .completeFileProtection])
       intentItem.image = file
     }

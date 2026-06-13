@@ -56,8 +56,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
         // The safe area is ignored because the title bar still interferes with the geometry
         .ignoresSafeArea()
         .gesture(DragGesture()
-          .onEnded { _ in
-            self.saveWindowPosition()
+          .onEnded { [weak self] _ in
+            self?.saveWindowPosition()
         })
     )
     contentView?.layer?.cornerRadius = Popup.cornerRadius + Popup.horizontalPadding

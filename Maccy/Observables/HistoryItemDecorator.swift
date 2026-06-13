@@ -11,7 +11,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   static var previewImageSize: NSSize { NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536) }
-  static var thumbnailImageSize: NSSize { NSSize(width: 340, height: Defaults[.imageMaxHeight]) }
+  static var thumbnailImageSize: NSSize { NSSize(width: 340, height: max(1, Defaults[.imageMaxHeight])) }
 
   let id = UUID()
 
@@ -47,8 +47,8 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
-  // 10k characters seems to be more than enough on large displays
-  var text: String { item.previewableText.shortened(to: 10_000) }
+  // 10k characters seems to be more than enough on large displays.
+  var text: String { item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit) }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
@@ -62,6 +62,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   private(set) var item: HistoryItem
 
+  @MainActor
   init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
     self.item = item
     self.shortcuts = shortcuts
@@ -177,8 +178,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   func togglePin() {
     if item.pin != nil {
       item.pin = nil
-    } else {
-      let pin = HistoryItem.randomAvailablePin
+    } else if let pin = HistoryItem.randomAvailablePin {
       item.pin = pin
     }
   }
@@ -187,7 +187,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     _ = withObservationTracking {
       item.pin
     } onChange: {
-      DispatchQueue.main.async {
+      DispatchQueue.main.async { [weak self] in
+        guard let self else {
+          return
+        }
         if let pin = self.item.pin {
           self.shortcuts = KeyShortcut.create(character: pin)
         }
@@ -200,7 +203,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     _ = withObservationTracking {
       item.title
     } onChange: {
-      DispatchQueue.main.async {
+      DispatchQueue.main.async { [weak self] in
+        guard let self else {
+          return
+        }
         self.title = self.item.title
         self.synchronizeItemTitle()
       }

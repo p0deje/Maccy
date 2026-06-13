@@ -5,7 +5,7 @@ import Settings
 import SwiftUI
 
 @Observable
-class AppState: Sendable {
+class AppState {
   static let shared = AppState(history: History.shared, footer: Footer())
 
   let multiSelectionEnabled = false
@@ -113,28 +113,28 @@ class AppState: Sendable {
           Settings.Pane(
             identifier: Settings.PaneIdentifier.general,
             title: NSLocalizedString("Title", tableName: "GeneralSettings", comment: ""),
-            toolbarIcon: NSImage.gearshape!
+            toolbarIcon: NSImage.gearshape ?? NSImage()
           ) {
             GeneralSettingsPane()
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.storage,
             title: NSLocalizedString("Title", tableName: "StorageSettings", comment: ""),
-            toolbarIcon: NSImage.externaldrive!
+            toolbarIcon: NSImage.externaldrive ?? NSImage()
           ) {
             StorageSettingsPane()
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.appearance,
             title: NSLocalizedString("Title", tableName: "AppearanceSettings", comment: ""),
-            toolbarIcon: NSImage.paintpalette!
+            toolbarIcon: NSImage.paintpalette ?? NSImage()
           ) {
             AppearanceSettingsPane()
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.pins,
             title: NSLocalizedString("Title", tableName: "PinsSettings", comment: ""),
-            toolbarIcon: NSImage.pincircle!
+            toolbarIcon: NSImage.pincircle ?? NSImage()
           ) {
             PinsSettingsPane()
               .environment(self)
@@ -143,14 +143,14 @@ class AppState: Sendable {
           Settings.Pane(
             identifier: Settings.PaneIdentifier.ignore,
             title: NSLocalizedString("Title", tableName: "IgnoreSettings", comment: ""),
-            toolbarIcon: NSImage.nosign!
+            toolbarIcon: NSImage.nosign ?? NSImage()
           ) {
             IgnoreSettingsPane()
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.advanced,
             title: NSLocalizedString("Title", tableName: "AdvancedSettings", comment: ""),
-            toolbarIcon: NSImage.gearshape2!
+            toolbarIcon: NSImage.gearshape2 ?? NSImage()
           ) {
             AdvancedSettingsPane()
           }

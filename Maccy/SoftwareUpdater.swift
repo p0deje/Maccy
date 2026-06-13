@@ -22,12 +22,12 @@ class SoftwareUpdater {
     automaticallyChecksForUpdatesObservation = updater.observe(
       \.automaticallyChecksForUpdates,
       options: [.initial, .new, .old]
-    ) { [unowned self] updater, change in
+    ) { [weak self] updater, change in
       guard change.newValue != change.oldValue else {
         return
       }
 
-      self.automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates
+      self?.automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates
     }
   }
 

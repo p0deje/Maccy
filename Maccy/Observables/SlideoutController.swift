@@ -228,7 +228,7 @@ class SlideoutController {
     guard !state.isOpen else { return }
 
     autoOpenTask = Task { @MainActor in
-      try? await Task.sleep(for: .milliseconds(Defaults[.previewDelay]))
+      try? await Task.sleep(for: .milliseconds(max(0, Defaults[.previewDelay])))
       guard !Task.isCancelled else { return }
 
       if !state.isOpen {

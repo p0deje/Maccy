@@ -7,6 +7,9 @@
 "Size" = "大小：";
 "SizeTooltip" = "要保留的歷史記錄項目數量。\n預設：200。";
 "CurrentSizeTooltip" = "目前在磁碟上的大小。";
+"MaxClipboardContentSize" = "單項最大大小：";
+"MaxClipboardContentSizeTooltip" = "超過此限制的複製內容不會儲存到歷史記錄。\n預設：10 MB。";
+"MaxClipboardContentSizeUnit" = "MB";
 "SortBy" = "排序方式：";
 "LastCopiedAt" = "上次拷貝時間";
 "FirstCopiedAt" = "首次拷貝時間";

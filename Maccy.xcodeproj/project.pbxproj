@@ -55,6 +55,7 @@
 		DA13D7DB2C1A223E00FA9E23 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7D62C1A223E00FA9E23 /* Delete.swift */; };
 		DA13D7DC2C1A223E00FA9E23 /* HistoryItemAppEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7D72C1A223E00FA9E23 /* HistoryItemAppEntity.swift */; };
 		DA13D7DE2C1A436E00FA9E23 /* AppIntentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7DD2C1A436E00FA9E23 /* AppIntentError.swift */; };
+		DA13D7E02C1A436E00FA9E23 /* Data+StringPrefix.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7DF2C1A436E00FA9E23 /* Data+StringPrefix.swift */; };
 		DA181177247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */; };
 		DA19690E2C3EEFA900258481 /* KeyboardShortcutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19690D2C3EEFA900258481 /* KeyboardShortcutView.swift */; };
 		DA1969102C3F0AAC00258481 /* KeyShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19690F2C3F0AAC00258481 /* KeyShortcut.swift */; };
@@ -534,6 +535,7 @@
 		DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPasteboard.PasteboardType+Types.swift"; sourceTree = "<group>"; };
 		DACCD5822C93605C00BAD74C /* Maccy.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Maccy.xctestplan; sourceTree = "<group>"; };
 		DAD665652898A1C000975096 /* KeyChord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChord.swift; sourceTree = "<group>"; };
+		DA13D7DF2C1A436E00FA9E23 /* Data+StringPrefix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+StringPrefix.swift"; sourceTree = "<group>"; };
 		DADFF1382C2F58D000DB261D /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAE284FF232257D20080E394 /* ColorImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorImage.swift; sourceTree = "<group>"; };
 		DAE2850123225BD90080E394 /* ColorImageTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorImageTests.swift; sourceTree = "<group>"; };
@@ -598,6 +600,7 @@
 				2FA81FDF2E43D9A600C12F92 /* Dictionary+RemoveItem.swift */,
 				DA19691B2C3F3EAC00258481 /* Collection+Surrounding.swift */,
 				DAA072D22C40A961006DDFD2 /* Color+Random.swift */,
+				DA13D7DF2C1A436E00FA9E23 /* Data+StringPrefix.swift */,
 				DA13D7D12C19F91B00FA9E23 /* Defaults.Keys+Names.swift */,
 				DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */,
 				DAA365E62C4C57E600A394F8 /* KeyEquivalent+Keys.swift */,
@@ -1164,6 +1167,7 @@
 				DAA072DD2C41C61F006DDFD2 /* FooterItemView.swift in Sources */,
 				DA3EAE0C2AE30F7500F39108 /* NSApplication+Windows.swift in Sources */,
 				DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */,
+				DA13D7E02C1A436E00FA9E23 /* Data+StringPrefix.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
 				DA0FFA2A2C8D100C00A66C97 /* ModifierFlags+Description.swift in Sources */,
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
