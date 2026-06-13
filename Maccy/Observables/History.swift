@@ -215,6 +215,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   func clear() {
+    throttler.cancel()
+
     withLogging("Clearing history") {
       all.forEach { item in
         if item.isUnpinned {
@@ -248,6 +250,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   func clearAll() {
+    throttler.cancel()
+
     withLogging("Clearing all history") {
       all.forEach { item in
         cleanup(item)
@@ -272,6 +276,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func delete(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
+    throttler.cancel()
     cleanup(item)
     withLogging("Removing history item") {
       Storage.shared.context.delete(item.item)

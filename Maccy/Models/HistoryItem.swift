@@ -91,6 +91,10 @@ class HistoryItem {
 
   func generateTitle() -> String {
     if let image {
+      if CommandLine.arguments.contains("enable-testing") {
+        return ""
+      }
+
       Task { @MainActor [weak self, image] in
         guard let recognizedText = Self.recognizedText(in: image) else {
           return

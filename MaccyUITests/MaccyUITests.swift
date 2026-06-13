@@ -166,7 +166,13 @@ class MaccyUITests: XCTestCase {
   }
 
   func testCopyRTF() {
+    clearAllHistory()
+
     copyToClipboard("bar", rtf2, .rtf)
+    popUpWithMouse()
+    assertLeadingItemTitles(["bar"])
+    app.typeKey(.escape, modifierFlags: [])
+
     copyToClipboard("foo", rtf1, .rtf)
     popUpWithHotkey()
     assertLeadingItemTitles(["foo", "bar"])
@@ -176,7 +182,13 @@ class MaccyUITests: XCTestCase {
   }
 
   func testCopyHTML() {
+    clearAllHistory()
+
     copyToClipboard("bar", html2, .html)
+    popUpWithMouse()
+    assertLeadingItemTitles(["bar"])
+    app.typeKey(.escape, modifierFlags: [])
+
     copyToClipboard("foo", html1, .html)
     popUpWithMouse()
     assertLeadingItemTitles(["foo", "bar"])

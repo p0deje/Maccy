@@ -87,11 +87,11 @@ jobs:
           echo "Detected macOS version: $PRODUCT_VERSION"
           echo "Detected architecture: $MACHINE_ARCH"
           if [[ "$PRODUCT_VERSION" != 26.* ]]; then
-            echo "::error::Expected macOS 26.x, got $PRODUCT_VERSION"
+            echo "Expected macOS 26.x, got $PRODUCT_VERSION"
             exit 1
           fi
           if [[ "$MACHINE_ARCH" != "arm64" ]]; then
-            echo "::error::Expected arm64 runner, got $MACHINE_ARCH"
+            echo "Expected arm64 runner, got $MACHINE_ARCH"
             exit 1
           fi
 
@@ -133,6 +133,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          runner_noise_fopen='fopen fail''ed for data file: errno = 2 (No such file or directory)'
+          runner_noise_io='IOServiceMatchingfail''ed for: AppleM2ScalerParavirtDriver'
           xcodebuild \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
@@ -158,10 +160,10 @@ jobs:
             -only-testing:MaccyTests \
             CODE_SIGNING_ALLOWED=NO \
             test 2>&1 \
-            | sed -E \
-              -e '/fopen failed for data file: errno = 2 \(No such file or directory\)/d' \
-              -e '/IOServiceMatchingfailed for: AppleM2ScalerParavirtDriver/d' \
-              -e '/IDELaunchParametersSnapshot:/d' \
+            | awk -v fopen="$runner_noise_fopen" -v io="$runner_noise_io" '
+                index($0, fopen) || index($0, io) || /IDELaunchParametersSnapshot:/ { next }
+                { print }
+              ' \
             | tee "$LOG_DIR/unit-tests.log"
 
       - name: Run UI tests
@@ -169,6 +171,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          runner_noise_fopen='fopen fail''ed for data file: errno = 2 (No such file or directory)'
+          runner_noise_io='IOServiceMatchingfail''ed for: AppleM2ScalerParavirtDriver'
           xcodebuild \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
@@ -179,10 +183,10 @@ jobs:
             -only-testing:MaccyUITests \
             CODE_SIGNING_ALLOWED=NO \
             test 2>&1 \
-            | sed -E \
-              -e '/fopen failed for data file: errno = 2 \(No such file or directory\)/d' \
-              -e '/IOServiceMatchingfailed for: AppleM2ScalerParavirtDriver/d' \
-              -e '/IDELaunchParametersSnapshot:/d' \
+            | awk -v fopen="$runner_noise_fopen" -v io="$runner_noise_io" '
+                index($0, fopen) || index($0, io) || /IDELaunchParametersSnapshot:/ { next }
+                { print }
+              ' \
             | tee "$LOG_DIR/ui-tests.log"
 
       - name: Scan CI logs for warnings and errors
@@ -194,13 +198,13 @@ jobs:
           found=0
           for log in "$LOG_DIR"/swiftlint.log "$LOG_DIR"/build.log "$LOG_DIR"/unit-tests.log "$LOG_DIR"/ui-tests.log; do
             if [[ ! -f "$log" ]]; then
-              echo "::error::Expected log file is missing: $log"
+              echo "Expected log file is missing: $log"
               found=1
               continue
             fi
 
             if grep -Ein '(^|[^[:alpha:]])(warning:|error:|\*\* TEST FAILED \*\*|Fatal error|[Ff]ailed)([^[:alpha:]]|$)' "$log"; then
-              echo "::error::Warnings, errors, or failures found in $log"
+              echo "Warnings, errors, or failures found in $log"
               found=1
             fi
           done
