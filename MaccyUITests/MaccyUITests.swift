@@ -11,6 +11,7 @@ class MaccyUITests: XCTestCase {
     static let modifiersReleased = Notification.Name("org.p0deje.Maccy.UITest.modifiersReleased")
     static let clearHistory = Notification.Name("org.p0deje.Maccy.UITest.clearHistory")
     static let clearAllHistory = Notification.Name("org.p0deje.Maccy.UITest.clearAllHistory")
+    static let pinHistoryItem = Notification.Name("org.p0deje.Maccy.UITest.pinHistoryItem")
   }
 
   let copy1 = UUID().uuidString
@@ -250,7 +251,7 @@ class MaccyUITests: XCTestCase {
 
   func testClear() {
     popUpWithMouse()
-    pin(copy2)
+    pinForTesting(copy2)
     clearHistory()
     assertPopupDismissed()
     popUpWithMouse()
@@ -270,7 +271,7 @@ class MaccyUITests: XCTestCase {
 
   func testClearAll() {
     popUpWithMouse()
-    pin(copy2)
+    pinForTesting(copy2)
     clearAllHistory()
     assertPopupDismissed()
     popUpWithMouse()
@@ -469,11 +470,11 @@ class MaccyUITests: XCTestCase {
     postUITestNotification(UITestNotification.modifiersReleased)
   }
 
-  private func postUITestNotification(_ name: Notification.Name) {
+  private func postUITestNotification(_ name: Notification.Name, userInfo: [String: Any]? = nil) {
     DistributedNotificationCenter.default().postNotificationName(
       name,
       object: nil,
-      userInfo: nil,
+      userInfo: userInfo,
       deliverImmediately: true
     )
     usleep(200_000)
@@ -537,6 +538,10 @@ class MaccyUITests: XCTestCase {
     hover(items[title].firstMatch)
     app.typeKey("p", modifierFlags: [.option])
     usleep(1_500_000)
+  }
+
+  private func pinForTesting(_ title: String) {
+    postUITestNotification(UITestNotification.pinHistoryItem, userInfo: ["title": title])
   }
 
   private func clearHistory() {
