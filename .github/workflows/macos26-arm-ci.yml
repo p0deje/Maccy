@@ -1,0 +1,167 @@
+name: macOS 26 ARM CI
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+
+concurrency:
+  group: macos26-arm-ci-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build-and-test:
+    name: Build and test on macOS 26 ARM
+    runs-on: macos-26
+    timeout-minutes: 60
+
+    env:
+      NSUnbufferedIO: YES
+      PROJECT: Maccy.xcodeproj
+      SCHEME: Maccy
+      CONFIGURATION: Debug
+      DESTINATION: platform=macOS,arch=arm64
+      DERIVED_DATA: ${{ github.workspace }}/DerivedData
+      RESULT_BUNDLES: ${{ github.workspace }}/ci-result-bundles
+      LOG_DIR: ${{ github.workspace }}/ci-logs
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare log directories
+        shell: bash
+        run: |
+          set -euxo pipefail
+          mkdir -p "$LOG_DIR" "$RESULT_BUNDLES"
+
+      - name: Print runner and toolchain diagnostics
+        shell: bash
+        run: |
+          set -euxo pipefail
+          {
+            echo "== Date =="
+            date -u
+            echo
+            echo "== Runner =="
+            echo "RUNNER_OS=${RUNNER_OS:-}"
+            echo "RUNNER_ARCH=${RUNNER_ARCH:-}"
+            echo "ImageOS=${ImageOS:-}"
+            echo "ImageVersion=${ImageVersion:-}"
+            echo
+            echo "== macOS =="
+            sw_vers
+            echo
+            echo "== Kernel and CPU =="
+            uname -a
+            uname -m
+            sysctl -n machdep.cpu.brand_string || true
+            sysctl hw.optional.arm64 || true
+            echo
+            echo "== Xcode =="
+            xcode-select -p
+            xcodebuild -version
+            xcrun --sdk macosx --show-sdk-version
+            xcrun --sdk macosx --show-sdk-path
+            echo
+            echo "== Hardware profile =="
+            system_profiler SPHardwareDataType SPSoftwareDataType SPDeveloperToolsDataType
+            echo
+            echo "== Environment =="
+            printenv | sort
+          } 2>&1 | tee "$LOG_DIR/diagnostics.log"
+
+      - name: Enforce requested macOS 26 ARM runner
+        shell: bash
+        run: |
+          set -euxo pipefail
+          PRODUCT_VERSION="$(sw_vers -productVersion)"
+          MACHINE_ARCH="$(uname -m)"
+          echo "Detected macOS version: $PRODUCT_VERSION"
+          echo "Detected architecture: $MACHINE_ARCH"
+          if [[ "$PRODUCT_VERSION" != 26.* ]]; then
+            echo "::error::Expected macOS 26.x, got $PRODUCT_VERSION"
+            exit 1
+          fi
+          if [[ "$MACHINE_ARCH" != "arm64" ]]; then
+            echo "::error::Expected arm64 runner, got $MACHINE_ARCH"
+            exit 1
+          fi
+
+      - name: Show project metadata
+        shell: bash
+        run: |
+          set -euxo pipefail
+          {
+            echo "== Git =="
+            git status --short
+            git log --oneline --decorate -5
+            echo
+            echo "== Project list =="
+            xcodebuild -list -project "$PROJECT"
+            echo
+            echo "== Build settings =="
+            xcodebuild \
+              -project "$PROJECT" \
+              -scheme "$SCHEME" \
+              -configuration "$CONFIGURATION" \
+              -destination "$DESTINATION" \
+              -showBuildSettings
+          } 2>&1 | tee "$LOG_DIR/project-metadata.log"
+
+      - name: Clean build
+        shell: bash
+        run: |
+          set -euxo pipefail
+          xcodebuild \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration "$CONFIGURATION" \
+            -destination "$DESTINATION" \
+            -derivedDataPath "$DERIVED_DATA" \
+            -resultBundlePath "$RESULT_BUNDLES/build.xcresult" \
+            CODE_SIGNING_ALLOWED=NO \
+            clean build 2>&1 | tee "$LOG_DIR/build.log"
+
+      - name: Run tests
+        shell: bash
+        run: |
+          set -euxo pipefail
+          xcodebuild \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration "$CONFIGURATION" \
+            -destination "$DESTINATION" \
+            -derivedDataPath "$DERIVED_DATA" \
+            -resultBundlePath "$RESULT_BUNDLES/test.xcresult" \
+            CODE_SIGNING_ALLOWED=NO \
+            test 2>&1 | tee "$LOG_DIR/test.log"
+
+      - name: Summarize result bundles
+        if: always()
+        shell: bash
+        run: |
+          set -euxo pipefail
+          {
+            echo "== Result bundles =="
+            find "$RESULT_BUNDLES" -maxdepth 2 -print || true
+            echo
+            echo "== DerivedData diagnostics =="
+            find "$DERIVED_DATA/Logs" -maxdepth 4 -type f -print || true
+          } 2>&1 | tee "$LOG_DIR/artifact-summary.log"
+
+      - name: Upload CI logs and result bundles
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: macos26-arm-ci-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            ci-logs
+            ci-result-bundles
+            DerivedData/Logs
+          if-no-files-found: warn
+          retention-days: 14
