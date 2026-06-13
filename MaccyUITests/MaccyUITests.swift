@@ -171,7 +171,7 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     assertLeadingItemTitles(["foo", "bar"])
 
-    items["bar"].firstMatch.click()
+    selectSecondItem()
     assertPasteboardDataEquals(rtf2, forType: .rtf)
   }
 
@@ -181,7 +181,7 @@ class MaccyUITests: XCTestCase {
     popUpWithMouse()
     assertLeadingItemTitles(["foo", "bar"])
 
-    items["bar"].firstMatch.click()
+    selectSecondItem()
     assertPasteboardDataEquals(html2, forType: .html)
   }
 
@@ -533,6 +533,11 @@ class MaccyUITests: XCTestCase {
 
   private func clearAllHistory() {
     postUITestNotification(UITestNotification.clearAllHistory)
+  }
+
+  private func selectSecondItem() {
+    app.typeKey(.downArrow, modifierFlags: [])
+    app.typeKey(.enter, modifierFlags: [])
   }
 
   private func hover(_ element: XCUIElement) {

@@ -157,7 +157,12 @@ jobs:
             -resultBundlePath "$RESULT_BUNDLES/unit-tests.xcresult" \
             -only-testing:MaccyTests \
             CODE_SIGNING_ALLOWED=NO \
-            test 2>&1 | tee "$LOG_DIR/unit-tests.log"
+            test 2>&1 \
+            | sed -E \
+              -e '/fopen failed for data file: errno = 2 \(No such file or directory\)/d' \
+              -e '/IOServiceMatchingfailed for: AppleM2ScalerParavirtDriver/d' \
+              -e '/IDELaunchParametersSnapshot:/d' \
+            | tee "$LOG_DIR/unit-tests.log"
 
       - name: Run UI tests
         timeout-minutes: 20
@@ -173,7 +178,12 @@ jobs:
             -resultBundlePath "$RESULT_BUNDLES/ui-tests.xcresult" \
             -only-testing:MaccyUITests \
             CODE_SIGNING_ALLOWED=NO \
-            test 2>&1 | tee "$LOG_DIR/ui-tests.log"
+            test 2>&1 \
+            | sed -E \
+              -e '/fopen failed for data file: errno = 2 \(No such file or directory\)/d' \
+              -e '/IOServiceMatchingfailed for: AppleM2ScalerParavirtDriver/d' \
+              -e '/IDELaunchParametersSnapshot:/d' \
+            | tee "$LOG_DIR/ui-tests.log"
 
       - name: Scan CI logs for warnings and errors
         if: always()

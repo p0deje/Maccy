@@ -90,9 +90,13 @@ class HistoryItem {
   }
 
   func generateTitle() -> String {
-    guard image == nil else {
-      Task {
-        self.performTextRecognition()
+    if let image {
+      Task { @MainActor [weak self, image] in
+        guard let recognizedText = Self.recognizedText(in: image) else {
+          return
+        }
+
+        self?.title = recognizedText
       }
       return ""
     }
@@ -267,33 +271,28 @@ class HistoryItem {
     return try? Data(contentsOf: url)
   }
 
-  private func performTextRecognition() {
-    guard let cgImage = image?.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
-      return
+  private static func recognizedText(in image: NSImage) -> String? {
+    guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+      return nil
     }
 
     let requestHandler = VNImageRequestHandler(cgImage: cgImage)
-    let request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
+    let request = VNRecognizeTextRequest()
     request.recognitionLevel = .fast
 
     do {
       try requestHandler.perform([request])
     } catch {
-      print("Unable to perform the request: \(error).")
-    }
-  }
-
-  private func recognizeTextHandler(request: VNRequest, error: Error?) {
-    guard let observations = request.results as? [VNRecognizedTextObservation] else {
-      return
+      return nil
     }
 
-    let recognizedStrings = observations.compactMap { observation in
-      return observation.topCandidates(1).first?.string
+    guard let observations = request.results else {
+      return nil
     }
 
-    DispatchQueue.main.async {
-      self.title = recognizedStrings.joined(separator: "\n")
+    let recognizedStrings = observations.compactMap {
+      $0.topCandidates(1).first?.string
     }
+    return recognizedStrings.joined(separator: "\n")
   }
 }
