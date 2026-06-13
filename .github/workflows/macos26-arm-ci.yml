@@ -39,13 +39,13 @@ jobs:
       - name: Prepare log directories
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           mkdir -p "$LOG_DIR" "$RESULT_BUNDLES"
 
       - name: Print runner and toolchain diagnostics
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           {
             echo "== Date =="
             date -u
@@ -81,7 +81,7 @@ jobs:
       - name: Enforce requested macOS 26 ARM runner
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           PRODUCT_VERSION="$(sw_vers -productVersion)"
           MACHINE_ARCH="$(uname -m)"
           echo "Detected macOS version: $PRODUCT_VERSION"
@@ -99,7 +99,7 @@ jobs:
         timeout-minutes: 5
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           {
             echo "== Git =="
             git status --short
@@ -121,7 +121,7 @@ jobs:
         timeout-minutes: 5
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           if ! command -v swiftlint >/dev/null 2>&1; then
             brew install swiftlint
           fi
@@ -132,7 +132,7 @@ jobs:
         timeout-minutes: 10
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           xcodebuild \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
@@ -147,7 +147,7 @@ jobs:
         timeout-minutes: 10
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           xcodebuild \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
@@ -168,7 +168,7 @@ jobs:
         timeout-minutes: 20
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           xcodebuild \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
@@ -215,7 +215,7 @@ jobs:
         if: always()
         shell: bash
         run: |
-          set -euxo pipefail
+          set -euo pipefail
           {
             echo "== Result bundles =="
             find "$RESULT_BUNDLES" -maxdepth 2 -print || true

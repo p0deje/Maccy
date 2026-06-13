@@ -76,7 +76,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
 
   @MainActor
   func ensureThumbnailImage() {
-    guard item.image != nil else {
+    guard let image = item.image else {
       return
     }
     guard thumbnailImage == nil else {
@@ -85,14 +85,14 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     guard thumbnailImageGenerationTask == nil else {
       return
     }
-    thumbnailImageGenerationTask = Task { [weak self] in
-      self?.generateThumbnailImage()
+    thumbnailImageGenerationTask = Task { @MainActor [weak self, image] in
+      self?.generateThumbnailImage(from: image)
     }
   }
 
   @MainActor
   func ensurePreviewImage() {
-    guard item.image != nil else {
+    guard let image = item.image else {
       return
     }
     guard previewImage == nil else {
@@ -101,8 +101,8 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     guard previewImageGenerationTask == nil else {
       return
     }
-    previewImageGenerationTask = Task { [weak self] in
-      self?.generatePreviewImage()
+    previewImageGenerationTask = Task { @MainActor [weak self, image] in
+      self?.generatePreviewImage(from: image)
     }
   }
 
@@ -133,33 +133,31 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
   }
 
   @MainActor
-  private func generateThumbnailImage() {
+  private func generateThumbnailImage(from image: NSImage) {
     guard !isInvalidated else {
       return
     }
 
-    guard let image = item.image else {
-      return
-    }
     thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
   }
 
   @MainActor
-  private func generatePreviewImage() {
+  private func generatePreviewImage(from image: NSImage) {
     guard !isInvalidated else {
       return
     }
 
-    guard let image = item.image else {
-      return
-    }
     previewImage = image.resized(to: HistoryItemDecorator.previewImageSize)
   }
 
   @MainActor
   func sizeImages() {
-    generatePreviewImage()
-    generateThumbnailImage()
+    guard let image = item.image else {
+      return
+    }
+
+    generatePreviewImage(from: image)
+    generateThumbnailImage(from: image)
   }
 
   func highlight(_ query: String, _ ranges: [Range<String.Index>]) {

@@ -172,7 +172,7 @@ class MaccyUITests: XCTestCase {
     assertLeadingItemTitles(["foo", "bar"])
 
     selectSecondItem()
-    assertPasteboardDataEquals(rtf2, forType: .rtf)
+    assertPasteboardRichTextEquals("bar", forType: .rtf)
   }
 
   func testCopyHTML() {
@@ -585,6 +585,23 @@ class MaccyUITests: XCTestCase {
       }
 
       return self.pasteboard.data(forType: forType) == copy
+    }
+    expectation(for: predicate, evaluatedWith: expected)
+    waitForExpectations(timeout: 3)
+  }
+
+  private func assertPasteboardRichTextEquals(
+    _ expected: String, forType: NSPasteboard.PasteboardType
+  ) {
+    let predicate = NSPredicate { (object, _) -> Bool in
+      guard let copy = object as? String,
+            let data = self.pasteboard.data(forType: forType),
+            let attributedString = NSAttributedString(rtf: data, documentAttributes: nil)
+      else {
+        return false
+      }
+
+      return attributedString.string == copy
     }
     expectation(for: predicate, evaluatedWith: expected)
     waitForExpectations(timeout: 3)
