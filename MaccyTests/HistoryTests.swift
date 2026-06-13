@@ -119,7 +119,7 @@ class HistoryTests: XCTestCase {
     let second = history.add(secondItem)
 
     XCTAssertEqual(history.items, [second])
-    XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
+    assertContents(history.items[0].item.contents, equalTo: firstContents)
   }
 
   func testAddingItemWithDifferentModifiedType() {
@@ -154,7 +154,7 @@ class HistoryTests: XCTestCase {
     let second = history.add(secondItem)
 
     XCTAssertEqual(history.items, [second])
-    XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
+    assertContents(history.items[0].item.contents, equalTo: firstContents)
   }
 
   func testAddingItemFromMaccy() {
@@ -188,7 +188,7 @@ class HistoryTests: XCTestCase {
 
     XCTAssertEqual(history.items, [secondDecorator])
     XCTAssertEqual(history.items[0].item.application, "Xcode.app")
-    XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
+    assertContents(history.items[0].item.contents, equalTo: firstContents)
   }
 
   func testModifiedAfterCopying() {
@@ -291,5 +291,17 @@ class HistoryTests: XCTestCase {
     item.title = item.generateTitle()
 
     return item
+  }
+}
+
+private extension HistoryTests {
+  func assertContents(_ actual: [HistoryItemContent], equalTo expected: [HistoryItemContent]) {
+    XCTAssertEqual(actual.count, expected.count)
+
+    for expectedContent in expected {
+      XCTAssertTrue(actual.contains {
+        $0.type == expectedContent.type && $0.value == expectedContent.value
+      })
+    }
   }
 }

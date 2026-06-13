@@ -10,6 +10,8 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
   private enum UITestNotification {
     static let hotKeyDown = Notification.Name("org.p0deje.Maccy.UITest.hotKeyDown")
     static let modifiersReleased = Notification.Name("org.p0deje.Maccy.UITest.modifiersReleased")
+    static let clearHistory = Notification.Name("org.p0deje.Maccy.UITest.clearHistory")
+    static let clearAllHistory = Notification.Name("org.p0deje.Maccy.UITest.clearAllHistory")
   }
 
   private var uiTestNotificationObservers: [Any] = []
@@ -226,6 +228,20 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
       center.addObserver(forName: UITestNotification.modifiersReleased, object: nil, queue: .main) { _ in
         Task { @MainActor in
           AppState.shared.popup.handleTestingModifiersReleased()
+        }
+      }
+    )
+    uiTestNotificationObservers.append(
+      center.addObserver(forName: UITestNotification.clearHistory, object: nil, queue: .main) { _ in
+        Task { @MainActor in
+          AppState.shared.history.clear()
+        }
+      }
+    )
+    uiTestNotificationObservers.append(
+      center.addObserver(forName: UITestNotification.clearAllHistory, object: nil, queue: .main) { _ in
+        Task { @MainActor in
+          AppState.shared.history.clearAll()
         }
       }
     )

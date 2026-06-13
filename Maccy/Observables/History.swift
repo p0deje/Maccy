@@ -148,7 +148,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
-        item.contents = existingHistoryItem.contents
+        item.contents = existingHistoryItem.contents.map {
+          HistoryItemContent(type: $0.type, value: $0.value)
+        }
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
@@ -158,11 +160,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         item.application = existingHistoryItem.application
       }
       logger.info("Removing duplicate history item")
-      Storage.shared.context.delete(existingHistoryItem)
       removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
       if let removedItemIndex {
+        cleanup(all[removedItemIndex])
         all.remove(at: removedItemIndex)
       }
+      Storage.shared.context.delete(existingHistoryItem)
     } else {
       Task {
         Notifier.notify(body: item.title, sound: .write)

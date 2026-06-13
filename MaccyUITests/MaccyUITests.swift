@@ -9,6 +9,8 @@ class MaccyUITests: XCTestCase {
   private enum UITestNotification {
     static let hotKeyDown = Notification.Name("org.p0deje.Maccy.UITest.hotKeyDown")
     static let modifiersReleased = Notification.Name("org.p0deje.Maccy.UITest.modifiersReleased")
+    static let clearHistory = Notification.Name("org.p0deje.Maccy.UITest.clearHistory")
+    static let clearAllHistory = Notification.Name("org.p0deje.Maccy.UITest.clearAllHistory")
   }
 
   let copy1 = UUID().uuidString
@@ -526,15 +528,11 @@ class MaccyUITests: XCTestCase {
   }
 
   private func clearHistory() {
-    app.staticTexts["Clear"].firstMatch.click()
-    app.typeKey(.enter, modifierFlags: [])
+    postUITestNotification(UITestNotification.clearHistory)
   }
 
   private func clearAllHistory() {
-    XCUIElement.perform(withKeyModifiers: [.shift]) {
-      app.staticTexts["Clear all"].firstMatch.click()
-    }
-    app.typeKey(.enter, modifierFlags: [])
+    postUITestNotification(UITestNotification.clearAllHistory)
   }
 
   private func hover(_ element: XCUIElement) {

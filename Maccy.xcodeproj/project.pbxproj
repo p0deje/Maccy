@@ -30,6 +30,8 @@
 		2F9B42EF2F1A494C006548E5 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B42EE2F1A4948006548E5 /* ListHeaderView.swift */; };
 		2F9B42F12F1A499D006548E5 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B42F02F1A4999006548E5 /* ToolbarView.swift */; };
 		2FCA00002F40000000A00001 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCA00012F40000000A00001 /* AppIntents.framework */; };
+		2FCA00022F40000000A00002 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCA00012F40000000A00001 /* AppIntents.framework */; };
+		2FCA00032F40000000A00003 /* AppIntents.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2FCA00012F40000000A00001 /* AppIntents.framework */; };
 		2FA81FE02E43D9B700C12F92 /* Dictionary+RemoveItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA81FDF2E43D9A600C12F92 /* Dictionary+RemoveItem.swift */; };
 		2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */; };
 		2FF2E94E2E774B5B0093D72C /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94D2E774B570093D72C /* NavigationManager.swift */; };
@@ -566,6 +568,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FCA00032F40000000A00003 /* AppIntents.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -573,6 +576,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2FCA00022F40000000A00002 /* AppIntents.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

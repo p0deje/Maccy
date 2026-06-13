@@ -209,10 +209,13 @@ class ClipboardTests: XCTestCase {
   @MainActor
   func testCopy() {
     let imageData = image.tiffRepresentation!
+    let fileURL = temporaryFileURL()
+    defer { try? FileManager.default.removeItem(at: fileURL) }
+
     let contents = [
       HistoryItemContent(type: stringType.rawValue, value: "foo".data(using: .utf8)!),
       HistoryItemContent(type: tiffType.rawValue, value: imageData),
-      HistoryItemContent(type: fileURLType.rawValue, value: "file://foo.bar".data(using: .utf8)!)
+      HistoryItemContent(type: fileURLType.rawValue, value: fileURL.dataRepresentation)
     ]
     let item = HistoryItem()
     Storage.shared.context.insert(item)
@@ -221,16 +224,19 @@ class ClipboardTests: XCTestCase {
     clipboard.copy(item)
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
     XCTAssertEqual(pasteboard.data(forType: .tiff), imageData)
-    XCTAssertEqual(pasteboard.string(forType: .fileURL), "file://foo.bar")
+    XCTAssertEqual(pasteboard.string(forType: .fileURL), fileURL.absoluteString)
     XCTAssertEqual(pasteboard.string(forType: .fromMaccy), "")
     XCTAssertEqual(pasteboard.string(forType: .source), "com.foo.bar")
   }
 
   @MainActor
   func testCopyWithoutFormatting() {
+    let fileURL = temporaryFileURL()
+    defer { try? FileManager.default.removeItem(at: fileURL) }
+
     let contents = [
       HistoryItemContent(type: stringType.rawValue, value: "foo".data(using: .utf8)!),
-      HistoryItemContent(type: fileURLType.rawValue, value: "file://foo.bar".data(using: .utf8)!),
+      HistoryItemContent(type: fileURLType.rawValue, value: fileURL.dataRepresentation),
       HistoryItemContent(type: rtfType.rawValue,
                          value: coloredString.rtf(from: NSRange(location: 0, length: coloredString.length),
                                                   documentAttributes: [:]))
@@ -243,7 +249,7 @@ class ClipboardTests: XCTestCase {
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
     XCTAssertEqual(pasteboard.string(forType: .fromMaccy), "")
     XCTAssertEqual(pasteboard.string(forType: .source), "com.foo.bar")
-    XCTAssertEqual(pasteboard.string(forType: .fileURL), "file://foo.bar")
+    XCTAssertEqual(pasteboard.string(forType: .fileURL), fileURL.absoluteString)
     XCTAssertNil(pasteboard.data(forType: .rtf))
   }
 
@@ -288,6 +294,8 @@ class ClipboardTests: XCTestCase {
 
   func testRemovesDisabledTypes() {
     Defaults[.enabledPasteboardTypes] = [.fileURL]
+    let fileURL = temporaryFileURL()
+    defer { try? FileManager.default.removeItem(at: fileURL) }
 
     let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (item: HistoryItem) in
@@ -298,13 +306,22 @@ class ClipboardTests: XCTestCase {
     let item = NSPasteboardItem()
     item.setString("foo", forType: .string)
     item.setData(image.tiffRepresentation!, forType: .tiff)
-    item.setData("file://foo.bar".data(using: .utf8)!, forType: .fileURL)
+    item.setData(fileURL.dataRepresentation, forType: .fileURL)
 
     clipboard.start()
     pasteboard.clearContents()
     pasteboard.writeObjects([item])
 
     waitForExpectations(timeout: 2)
+  }
+
+  private func temporaryFileURL() -> URL {
+    let url = FileManager.default.temporaryDirectory
+      .appendingPathComponent(UUID().uuidString)
+      .appendingPathExtension("txt")
+    let contents = Data("Maccy clipboard test".utf8)
+    XCTAssertTrue(FileManager.default.createFile(atPath: url.path, contents: contents))
+    return url
   }
 
   func testRemovesDynamicTypes() {

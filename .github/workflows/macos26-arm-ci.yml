@@ -21,6 +21,7 @@ jobs:
 
     env:
       NSUnbufferedIO: YES
+      OS_ACTIVITY_MODE: disable
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
       HOMEBREW_NO_REQUIRE_TAP_TRUST: "1"
       PROJECT: Maccy.xcodeproj
@@ -175,6 +176,7 @@ jobs:
             test 2>&1 | tee "$LOG_DIR/ui-tests.log"
 
       - name: Scan CI logs for warnings and errors
+        if: always()
         timeout-minutes: 2
         shell: bash
         run: |
