@@ -127,12 +127,12 @@ class Popup {
     if isClosed() || state == .toggle {
       handleFirstKeyDown()
     } else {
-      handleRepeatedHotKeyDown()
+      _ = handleRepeatedHotKeyDown()
     }
   }
 
   func handleTestingModifiersReleased() {
-    handleAllModifiersReleased()
+    _ = handleAllModifiersReleased()
   }
   #endif
 
@@ -194,7 +194,9 @@ class Popup {
   private func handleRepeatedHotKeyDown(_ event: NSEvent? = nil) -> NSEvent? {
     if let item = History.shared.pressedShortcutItem {
       AppState.shared.navigator.select(item: item)
-      AppState.shared.history.select(item)
+      Task { @MainActor in
+        AppState.shared.history.select(item)
+      }
       return nil
     }
 
@@ -218,7 +220,9 @@ class Popup {
 
   private func handleAllModifiersReleased(_ event: NSEvent? = nil) -> NSEvent? {
     if state == .cycle {
-      AppState.shared.select()
+      Task { @MainActor in
+        AppState.shared.select()
+      }
       return nil
     }
 
