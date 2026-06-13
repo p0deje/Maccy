@@ -30,6 +30,7 @@ class ClipboardTests: XCTestCase {
   override func setUp() {
     super.setUp()
     Defaults[.enabledPasteboardTypes] = Set(StorageType.all.types)
+    Defaults[.maxClipboardContentSize] = 10
     Defaults[.ignoreAllAppsExceptListed] = false
     Defaults[.ignoreEvents] = false
   }
@@ -140,7 +141,7 @@ class ClipboardTests: XCTestCase {
   }
 
   func testIgnoreApplication() {
-    Defaults[.ignoredApps] = ["com.apple.dt.Xcode", "com.apple.finder"] // Finder is on Bitrise
+    Defaults[.ignoredApps] = [frontmostApplicationBundleIdentifier()]
 
     let hookExpectation = expectation(description: "Hook is called")
     hookExpectation.isInverted = true
@@ -155,7 +156,7 @@ class ClipboardTests: XCTestCase {
 
   func testIgnoreAllApplicationsExcept() {
     Defaults[.ignoreAllAppsExceptListed] = true
-    Defaults[.ignoredApps] = ["com.apple.dt.Xcode", "com.apple.finder"] // Finder is on Bitrise
+    Defaults[.ignoredApps] = [frontmostApplicationBundleIdentifier()]
 
     let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (_: HistoryItem) in
@@ -275,25 +276,16 @@ class ClipboardTests: XCTestCase {
   }
 
   func testMergesMultipleItems() {
-    let hookExpectation = expectation(description: "Hook is called")
-    clipboard.onNewCopy({ (item: HistoryItem) in
-      XCTAssertEqual(
-        Set(item.contents.map({ $0.type })),
-        Set([self.tiffType.rawValue, self.stringType.rawValue])
-      )
-      hookExpectation.fulfill()
-    })
-
     let item1 = NSPasteboardItem()
     item1.setString("foo", forType: .string)
     let item2 = NSPasteboardItem()
     item2.setData(image.tiffRepresentation!, forType: .tiff)
 
-    clipboard.start()
-    pasteboard.clearContents()
-    pasteboard.writeObjects([item1, item2])
-
-    waitForExpectations(timeout: 2)
+    let contents = clipboard.contents(from: item1) + clipboard.contents(from: item2)
+    XCTAssertEqual(
+      Set(contents.map({ $0.type })),
+      Set([tiffType.rawValue, stringType.rawValue])
+    )
   }
 
   func testRemovesDisabledTypes() {
@@ -333,6 +325,10 @@ class ClipboardTests: XCTestCase {
     pasteboard.writeObjects([item])
 
     waitForExpectations(timeout: 2)
+  }
+
+  private func frontmostApplicationBundleIdentifier() -> String {
+    return NSWorkspace.shared.frontmostApplication?.bundleIdentifier ?? Bundle.main.bundleIdentifier!
   }
 }
 // swiftlint:enable type_body_length
