@@ -57,6 +57,7 @@ class MaccyUITests: XCTestCase {
 
     app.launchArguments.append("enable-testing")
     app.launch()
+    assertExists(app.statusItems.firstMatch)
 
     copyToClipboard(copy2)
     copyToClipboard(copy1)
@@ -163,8 +164,8 @@ class MaccyUITests: XCTestCase {
   }
 
   func testCopyRTF() {
-    copyToClipboard(rtf2, .rtf)
-    copyToClipboard(rtf1, .rtf)
+    copyToClipboard("bar", rtf2, .rtf)
+    copyToClipboard("foo", rtf1, .rtf)
     popUpWithHotkey()
     assertLeadingItemTitles(["foo", "bar"])
 
@@ -173,8 +174,8 @@ class MaccyUITests: XCTestCase {
   }
 
   func testCopyHTML() {
-    copyToClipboard(html2, .html)
-    copyToClipboard(html1, .html)
+    copyToClipboard("bar", html2, .html)
+    copyToClipboard("foo", html1, .html)
     popUpWithMouse()
     assertLeadingItemTitles(["foo", "bar"])
 
@@ -238,6 +239,7 @@ class MaccyUITests: XCTestCase {
     pin(copy2)
     app.staticTexts["Clear"].click()
     confirmClear()
+    assertPopupDismissed()
     popUpWithMouse()
     assertNotExists(items[copy1])
     assertExists(items[copy2])
@@ -248,6 +250,7 @@ class MaccyUITests: XCTestCase {
     search(copy2)
     app.staticTexts["Clear"].click()
     confirmClear()
+    assertPopupDismissed()
     popUpWithMouse()
     assertNotExists(items[copy1])
     assertNotExists(items[copy2])
@@ -260,6 +263,7 @@ class MaccyUITests: XCTestCase {
       app.staticTexts["Clear all"].click()
     }
     confirmClear()
+    assertPopupDismissed()
     popUpWithMouse()
     assertNotExists(items[copy1])
     assertNotExists(items[copy2])
@@ -502,6 +506,17 @@ class MaccyUITests: XCTestCase {
   private func copyToClipboard(_ content: Data?, _ type: NSPasteboard.PasteboardType) {
     pasteboard.clearContents()
     pasteboard.setData(content, forType: type)
+    waitTillClipboardCheck()
+  }
+
+  private func copyToClipboard(_ title: String, _ content: Data?, _ type: NSPasteboard.PasteboardType) {
+    let item = NSPasteboardItem()
+    item.setString(title, forType: .string)
+    if let content {
+      item.setData(content, forType: type)
+    }
+    pasteboard.clearContents()
+    pasteboard.writeObjects([item])
     waitTillClipboardCheck()
   }
 
