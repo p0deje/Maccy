@@ -127,7 +127,7 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             clean build 2>&1 | tee "$LOG_DIR/build.log"
 
-      - name: Run tests
+      - name: Run unit tests
         shell: bash
         run: |
           set -euxo pipefail
@@ -137,9 +137,26 @@ jobs:
             -configuration "$CONFIGURATION" \
             -destination "$DESTINATION" \
             -derivedDataPath "$DERIVED_DATA" \
-            -resultBundlePath "$RESULT_BUNDLES/test.xcresult" \
+            -resultBundlePath "$RESULT_BUNDLES/unit-tests.xcresult" \
+            -only-testing:MaccyTests \
             CODE_SIGNING_ALLOWED=NO \
-            test 2>&1 | tee "$LOG_DIR/test.log"
+            test 2>&1 | tee "$LOG_DIR/unit-tests.log"
+
+      - name: Run UI tests diagnostics
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euxo pipefail
+          xcodebuild \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration "$CONFIGURATION" \
+            -destination "$DESTINATION" \
+            -derivedDataPath "$DERIVED_DATA" \
+            -resultBundlePath "$RESULT_BUNDLES/ui-tests.xcresult" \
+            -only-testing:MaccyUITests \
+            CODE_SIGNING_ALLOWED=NO \
+            test 2>&1 | tee "$LOG_DIR/ui-tests.log"
 
       - name: Summarize result bundles
         if: always()

@@ -29,6 +29,7 @@ class ClipboardTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
+    Defaults[.enabledPasteboardTypes] = Set(StorageType.all.types)
     Defaults[.ignoreAllAppsExceptListed] = false
     Defaults[.ignoreEvents] = false
   }

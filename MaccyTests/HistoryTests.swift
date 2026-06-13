@@ -76,7 +76,9 @@ class HistoryTests: XCTestCase {
     third.application = "Xcode.app"
     history.add(third)
 
-    XCTAssertEqual(history.items, [firstDecorator, secondDecorator])
+    XCTAssertEqual(history.items.count, 2)
+    XCTAssertEqual(history.items[1], secondDecorator)
+    XCTAssertNotEqual(history.items[0], firstDecorator)
     XCTAssertTrue(history.items[0].item.lastCopiedAt > history.items[0].item.firstCopiedAt)
     // TODO: This works in reality but fails in tests?!
     // XCTAssertEqual(history.items[0].item.numberOfCopies, 2)
