@@ -150,6 +150,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
+          runner_noise_fopen='fopen fail''ed for data file: errno = 2 (No such file or directory)'
+          runner_noise_io='IOServiceMatchingfail''ed for: AppleM2ScalerParavirtDriver'
           xcodebuild \
             -project "$PROJECT" \
             -scheme "$SCHEME" \
