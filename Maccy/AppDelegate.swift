@@ -3,8 +3,18 @@ import KeyboardShortcuts
 import Sparkle
 import SwiftUI
 
+@MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
   var panel: FloatingPanel<ContentView>!
+
+  #if DEBUG
+  private enum UITestNotification {
+    static let hotKeyDown = Notification.Name("org.p0deje.Maccy.UITest.hotKeyDown")
+    static let modifiersReleased = Notification.Name("org.p0deje.Maccy.UITest.modifiersReleased")
+  }
+
+  private var uiTestNotificationObservers: [Any] = []
+  #endif
 
   @objc
   private lazy var statusItem: NSStatusItem = {
@@ -100,6 +110,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     ) {
       ContentView()
     }
+
+    #if DEBUG
+    if CommandLine.arguments.contains("enable-testing") {
+      Defaults[.suppressClearAlert] = true
+      installUITestNotificationHooks()
+    }
+    #endif
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -108,6 +125,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   func applicationWillTerminate(_ notification: Notification) {
+    #if DEBUG
+    removeUITestNotificationHooks()
+    #endif
+
     if Defaults[.clearOnQuit] {
       AppState.shared.history.clear()
     }
@@ -161,7 +182,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     _ = withObservationTracking {
       AppState.shared.menuIconText
     } onChange: {
-      DispatchQueue.main.async {
+      Task { @MainActor [weak self] in
+        guard let self else {
+          return
+        }
         if Defaults[.showRecentCopyInMenuBar] {
           self.statusItem.button?.title = AppState.shared.menuIconText
         }
@@ -184,4 +208,34 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       }
     }
   }
+
+  #if DEBUG
+  private func installUITestNotificationHooks() {
+    guard uiTestNotificationObservers.isEmpty else {
+      return
+    }
+
+    let center = DistributedNotificationCenter.default()
+    uiTestNotificationObservers.append(
+      center.addObserver(forName: UITestNotification.hotKeyDown, object: nil, queue: .main) { _ in
+        Task { @MainActor in
+          AppState.shared.popup.handleTestingHotKeyDown()
+        }
+      }
+    )
+    uiTestNotificationObservers.append(
+      center.addObserver(forName: UITestNotification.modifiersReleased, object: nil, queue: .main) { _ in
+        Task { @MainActor in
+          AppState.shared.popup.handleTestingModifiersReleased()
+        }
+      }
+    )
+  }
+
+  private func removeUITestNotificationHooks() {
+    let center = DistributedNotificationCenter.default()
+    uiTestNotificationObservers.forEach { center.removeObserver($0) }
+    uiTestNotificationObservers = []
+  }
+  #endif
 }

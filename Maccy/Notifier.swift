@@ -5,7 +5,19 @@ class Notifier {
   private static var center: UNUserNotificationCenter { UNUserNotificationCenter.current() }
   private static var hasRequestedAuthorization = false
 
+  private static var isTesting: Bool {
+    #if DEBUG
+    return CommandLine.arguments.contains("enable-testing")
+    #else
+    return false
+    #endif
+  }
+
   static func authorize() {
+    guard !isTesting else {
+      return
+    }
+
     guard !hasRequestedAuthorization else {
       return
     }
@@ -19,6 +31,10 @@ class Notifier {
   }
 
   static func notify(body: String?, sound: NSSound?) {
+    guard !isTesting else {
+      return
+    }
+
     guard let body else { return }
 
     authorize()

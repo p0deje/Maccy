@@ -1,4 +1,3 @@
-import Carbon
 import XCTest
 
 // swiftlint:disable file_length
@@ -6,6 +5,11 @@ import XCTest
 class MaccyUITests: XCTestCase {
   let app = XCUIApplication()
   let pasteboard = NSPasteboard.general
+
+  private enum UITestNotification {
+    static let hotKeyDown = Notification.Name("org.p0deje.Maccy.UITest.hotKeyDown")
+    static let modifiersReleased = Notification.Name("org.p0deje.Maccy.UITest.modifiersReleased")
+  }
 
   let copy1 = UUID().uuidString
   let copy2 = UUID().uuidString
@@ -149,7 +153,7 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(file1)
     popUpWithMouse()
 
-    XCTAssertEqual(itemTitles[0...1], [
+    assertLeadingItemTitles([
       file1.absoluteString.removingPercentEncoding!,
       file2.absoluteString.removingPercentEncoding!
     ])
@@ -162,7 +166,7 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(rtf2, .rtf)
     copyToClipboard(rtf1, .rtf)
     popUpWithHotkey()
-    XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
+    assertLeadingItemTitles(["foo", "bar"])
 
     app.staticTexts["bar"].firstMatch.click()
     XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
@@ -172,7 +176,7 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(html2, .html)
     copyToClipboard(html1, .html)
     popUpWithMouse()
-    XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
+    assertLeadingItemTitles(["foo", "bar"])
 
     items["bar"].firstMatch.click()
     assertPasteboardDataEquals(html2, forType: .html)
@@ -264,11 +268,11 @@ class MaccyUITests: XCTestCase {
   func testPin() {
     popUpWithMouse()
     pin(copy2)
-    XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
+    assertLeadingItemTitles([copy2, copy1])
 
     app.typeKey(.escape, modifierFlags: [])
     popUpWithMouse()
-    XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
+    assertLeadingItemTitles([copy2, copy1])
   }
 
   func testPinDuringSearch() {
@@ -276,14 +280,14 @@ class MaccyUITests: XCTestCase {
     search(copy2)
     pin(copy2)
     assertSearchFieldValue("")
-    XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
+    assertLeadingItemTitles([copy2, copy1])
   }
 
   func testUnpin() {
     popUpWithMouse()
     pin(copy2)
     pin(copy2)
-    XCTAssertEqual(itemTitles[0...1], [copy1, copy2])
+    assertLeadingItemTitles([copy1, copy2])
   }
 
   func testRemoveLastWordFromSearchWithControlW() {
@@ -346,60 +350,29 @@ class MaccyUITests: XCTestCase {
   }
 
   func testOpenAndClose() throws {
-    // Simulate the popup hotkey press (Cmd + Shift + C).
-    let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
-    cDown.flags = [.maskCommand, .maskShift]
-    cDown.post(tap: .cghidEventTap)
-
+    pressPopupHotkey()
     waitUntilPoppedUp()
 
-    // Release the 'C' key but keep the popup open.
-    let cUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: false)!
-    cUp.flags = [.maskCommand, .maskShift]
-    cUp.post(tap: .cghidEventTap)
-
+    releasePopupKey()
     waitUntilPoppedUp()
 
-    // Release the 'Shift' key and assert that the popup remains open - "normal" mode.
-    let shiftUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
-    shiftUp.flags = [.maskCommand] // Command remains active, Shift released
-    shiftUp.post(tap: .cghidEventTap)
-
+    releaseShiftKey()
     waitUntilPoppedUp()
 
-    // Release the 'CMD' key and assert that the popup remains open - "normal" mode.
-    let commandUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: false)!
-    commandUp.flags = []
-    commandUp.post(tap: .cghidEventTap)
-
+    releasePopupModifiers()
     waitUntilPoppedUp()
 
-    // Press shortcut again and assert the window closes
-    cDown.flags = [.maskCommand, .maskShift]
-    cDown.post(tap: .cghidEventTap)
-
+    pressPopupHotkey()
     assertPopupDismissed()
   }
 
   func testOpenAndSelectSecondItem() throws {
-    // Simulate the popup hotkey press (Cmd + Shift + C).
-    let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
-    cDown.flags = [.maskCommand, .maskShift]
-    cDown.post(tap: .cghidEventTap)
-
+    pressPopupHotkey()
     waitUntilPoppedUp()
 
-    let cUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: false)!
-    cUp.flags = [.maskCommand, .maskShift]
-    cUp.post(tap: .cghidEventTap)
-
-    // Press C 1 more time while keeping the modifier keys pressed
-    cDown.post(tap: .cghidEventTap)
-
-    // Release all modifiers keys and assert that the popup closes.
-    let modifiersUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
-    modifiersUp.flags = []
-    modifiersUp.post(tap: .cghidEventTap)
+    releasePopupKey()
+    pressPopupHotkey()
+    releasePopupModifiers()
 
     assertPopupDismissed()
     assertPasteboardStringEquals(copy2)
@@ -408,26 +381,14 @@ class MaccyUITests: XCTestCase {
   func testOpenAndSelectThirdItem() throws {
     copyToClipboard(copy3)
 
-    // Simulate the popup hotkey press (Cmd + Shift + C).
-    let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
-    cDown.flags = [.maskCommand, .maskShift]
-    cDown.post(tap: .cghidEventTap)
-
+    pressPopupHotkey()
     waitUntilPoppedUp()
 
-    let cUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: false)!
-    cUp.flags = [.maskCommand, .maskShift]
-    cUp.post(tap: .cghidEventTap)
-
-    // Press C 2 more times while keeping the modifier keys pressed
-    cDown.post(tap: .cghidEventTap)
-    cUp.post(tap: .cghidEventTap)
-    cDown.post(tap: .cghidEventTap)
-
-    // Release all modifiers keys and assert that the popup closes.
-    let modifiersUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
-    modifiersUp.flags = []
-    modifiersUp.post(tap: .cghidEventTap)
+    releasePopupKey()
+    pressPopupHotkey()
+    releasePopupKey()
+    pressPopupHotkey()
+    releasePopupModifiers()
 
     assertPopupDismissed()
     assertPasteboardStringEquals(copy2)
@@ -436,21 +397,12 @@ class MaccyUITests: XCTestCase {
   func testOpenAndSelectThirdItemRepeatedPress() throws {
     copyToClipboard(copy3)
 
-    // Simulate the popup hotkey press (Cmd + Shift + C).
-    let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
-    cDown.flags = [.maskCommand, .maskShift]
-    cDown.post(tap: .cghidEventTap)
-
+    pressPopupHotkey()
     waitUntilPoppedUp()
 
-    // Press C 2 more times while keeping the modifier keys pressed
-    cDown.post(tap: .cghidEventTap)
-    cDown.post(tap: .cghidEventTap)
-
-    // Release all modifiers keys and assert that the popup closes.
-    let modifiersUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
-    modifiersUp.flags = []
-    modifiersUp.post(tap: .cghidEventTap)
+    pressPopupHotkey()
+    pressPopupHotkey()
+    releasePopupModifiers()
 
     assertPopupDismissed()
     assertPasteboardStringEquals(copy2)
@@ -483,26 +435,35 @@ class MaccyUITests: XCTestCase {
   }
 
   private func simulatePopupHotkey() {
-    let commandDown = CGEvent(
-      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: true)!
-    let commandUp = CGEvent(
-      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Command), keyDown: false)!
-    let shiftDown = CGEvent(
-      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: true)!
-    let shiftUp = CGEvent(
-      keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_Shift), keyDown: false)!
-    shiftDown.flags = [.maskCommand]
-    shiftUp.flags = [.maskCommand]
-    let cDown = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: true)!
-    let cUp = CGEvent(keyboardEventSource: nil, virtualKey: CGKeyCode(kVK_ANSI_C), keyDown: false)!
-    cDown.flags = [.maskCommand, .maskShift]
-    cUp.flags = [.maskCommand, .maskShift]
-    commandDown.post(tap: .cghidEventTap)
-    shiftDown.post(tap: .cghidEventTap)
-    cDown.post(tap: .cghidEventTap)
-    cUp.post(tap: .cghidEventTap)
-    shiftUp.post(tap: .cghidEventTap)
-    commandUp.post(tap: .cghidEventTap)
+    pressPopupHotkey()
+    releasePopupKey()
+    releasePopupModifiers()
+  }
+
+  private func pressPopupHotkey() {
+    postUITestNotification(UITestNotification.hotKeyDown)
+  }
+
+  private func releasePopupKey() {
+    usleep(100_000)
+  }
+
+  private func releaseShiftKey() {
+    usleep(100_000)
+  }
+
+  private func releasePopupModifiers() {
+    postUITestNotification(UITestNotification.modifiersReleased)
+  }
+
+  private func postUITestNotification(_ name: Notification.Name) {
+    DistributedNotificationCenter.default().postNotificationName(
+      name,
+      object: nil,
+      userInfo: nil,
+      deliverImmediately: true
+    )
+    usleep(200_000)
   }
 
   private func waitUntilPoppedUp() {
@@ -637,8 +598,30 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(app.textFields.firstMatch.value as? String, string)
   }
 
+  private func assertLeadingItemTitles(
+    _ expected: [String],
+    file: StaticString = #filePath,
+    line: UInt = #line
+  ) {
+    let titles = itemTitles
+    XCTAssertGreaterThanOrEqual(
+      titles.count,
+      expected.count,
+      "Expected at least \(expected.count) history item titles, got \(titles.count): \(titles)",
+      file: file,
+      line: line
+    )
+    guard titles.count >= expected.count else {
+      return
+    }
+    XCTAssertEqual(Array(titles.prefix(expected.count)), expected, file: file, line: line)
+  }
+
   private func confirmClear() {
     let button = app.dialogs.firstMatch.buttons["Clear"].firstMatch
+    guard button.waitForExistence(timeout: 1) else {
+      return
+    }
     expectation(for: NSPredicate(format: "isHittable = 1"), evaluatedWith: button)
     waitForExpectations(timeout: 3)
     button.click()

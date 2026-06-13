@@ -16,6 +16,7 @@ enum PopupState {
 }
 
 @Observable
+@MainActor
 class Popup {
   static let verticalSeparatorPadding = 6.0
   static let horizontalSeparatorPadding = 6.0
@@ -122,6 +123,20 @@ class Popup {
     close()
   }
 
+  #if DEBUG
+  func handleTestingHotKeyDown() {
+    if isClosed() || state == .toggle {
+      handleFirstKeyDown()
+    } else {
+      handleRepeatedHotKeyDown()
+    }
+  }
+
+  func handleTestingModifiersReleased() {
+    handleAllModifiersReleased()
+  }
+  #endif
+
   private func handleEvent(_ event: NSEvent) -> NSEvent? {
     switch event.type {
     case .keyDown:
@@ -135,28 +150,7 @@ class Popup {
 
   private func handleKeyDown(_ event: NSEvent) -> NSEvent? {
     if isHotKeyCode(Int(event.keyCode)) {
-      if let item = History.shared.pressedShortcutItem {
-        AppState.shared.navigator.select(item: item)
-        Task { @MainActor in
-          AppState.shared.history.select(item)
-        }
-        return nil
-      }
-
-      if state == .opening {
-        state = .cycle
-        // Next 'if' will highlight next item and then return nil
-      }
-
-      if state == .cycle {
-        AppState.shared.navigator.highlightNext(allowCycle: true)
-        return nil
-      }
-
-      if state == .toggle && isHotKeyModifiers(event.modifierFlags) {
-        close()
-        return nil
-      }
+      return handleRepeatedHotKeyDown(event)
     }
 
     return event
@@ -165,10 +159,7 @@ class Popup {
   private func handleFlagsChanged(_ event: NSEvent) -> NSEvent? {
     // If we are in cycle mode, releasing modifiers triggers a selection
     if state == .cycle && allModifiersReleased(event) {
-      DispatchQueue.main.async {
-        AppState.shared.select()
-      }
-      return nil
+      return handleAllModifiersReleased(event)
     }
 
     // Otherwise if in opening mode, enter toggle mode
@@ -199,5 +190,43 @@ class Popup {
 
   private func allModifiersReleased(_ event: NSEvent) -> Bool {
     return event.modifierFlags.isDisjoint(with: .deviceIndependentFlagsMask)
+  }
+
+  private func handleRepeatedHotKeyDown(_ event: NSEvent? = nil) -> NSEvent? {
+    if let item = History.shared.pressedShortcutItem {
+      AppState.shared.navigator.select(item: item)
+      AppState.shared.history.select(item)
+      return nil
+    }
+
+    if state == .opening {
+      state = .cycle
+      // Next 'if' will highlight next item and then return nil.
+    }
+
+    if state == .cycle {
+      AppState.shared.navigator.highlightNext(allowCycle: true)
+      return nil
+    }
+
+    if let event, state == .toggle && isHotKeyModifiers(event.modifierFlags) {
+      close()
+      return nil
+    }
+
+    return event
+  }
+
+  private func handleAllModifiersReleased(_ event: NSEvent? = nil) -> NSEvent? {
+    if state == .cycle {
+      AppState.shared.select()
+      return nil
+    }
+
+    if state == .opening {
+      state = .toggle
+    }
+
+    return event
   }
 }

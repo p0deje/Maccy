@@ -95,12 +95,11 @@ class Clipboard {
     // Use writeObjects for file URLs so that multiple files that are copied actually work.
     // Only do this for file URLs because it causes an issue with some other data types (like formatted text)
     // where the item is pasted more than once.
-    let fileURLItems: [NSPasteboardItem] = contents.compactMap { item in
+    let fileURLItems: [NSURL] = contents.compactMap { item in
       guard item.type == NSPasteboard.PasteboardType.fileURL.rawValue else { return nil }
       guard let value = item.value else { return nil }
-      let pasteItem = NSPasteboardItem()
-      pasteItem.setData(value, forType: NSPasteboard.PasteboardType(item.type))
-      return pasteItem
+      guard let url = URL(dataRepresentation: value, relativeTo: nil, isAbsolute: true) else { return nil }
+      return url as NSURL
     }
     pasteboard.writeObjects(fileURLItems)
 

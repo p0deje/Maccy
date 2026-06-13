@@ -93,6 +93,7 @@ jobs:
           fi
 
       - name: Show project metadata
+        timeout-minutes: 5
         shell: bash
         run: |
           set -euxo pipefail
@@ -113,7 +114,19 @@ jobs:
               -showBuildSettings
           } 2>&1 | tee "$LOG_DIR/project-metadata.log"
 
+      - name: Run SwiftLint
+        timeout-minutes: 5
+        shell: bash
+        run: |
+          set -euxo pipefail
+          if ! command -v swiftlint >/dev/null 2>&1; then
+            brew install swiftlint
+          fi
+          swiftlint version
+          swiftlint lint --quiet --strict --no-cache 2>&1 | tee "$LOG_DIR/swiftlint.log"
+
       - name: Clean build
+        timeout-minutes: 10
         shell: bash
         run: |
           set -euxo pipefail
@@ -128,6 +141,7 @@ jobs:
             clean build 2>&1 | tee "$LOG_DIR/build.log"
 
       - name: Run unit tests
+        timeout-minutes: 10
         shell: bash
         run: |
           set -euxo pipefail
@@ -142,8 +156,8 @@ jobs:
             CODE_SIGNING_ALLOWED=NO \
             test 2>&1 | tee "$LOG_DIR/unit-tests.log"
 
-      - name: Run UI tests diagnostics
-        continue-on-error: true
+      - name: Run UI tests
+        timeout-minutes: 20
         shell: bash
         run: |
           set -euxo pipefail
@@ -157,6 +171,31 @@ jobs:
             -only-testing:MaccyUITests \
             CODE_SIGNING_ALLOWED=NO \
             test 2>&1 | tee "$LOG_DIR/ui-tests.log"
+
+      - name: Scan CI logs for warnings and errors
+        timeout-minutes: 2
+        shell: bash
+        run: |
+          set -euo pipefail
+          found=0
+          for log in "$LOG_DIR"/swiftlint.log "$LOG_DIR"/build.log "$LOG_DIR"/unit-tests.log "$LOG_DIR"/ui-tests.log; do
+            if [[ ! -f "$log" ]]; then
+              echo "::error::Expected log file is missing: $log"
+              found=1
+              continue
+            fi
+
+            if grep -Ein '(^|[^[:alpha:]])(warning:|error:|\*\* TEST FAILED \*\*|Fatal error|[Ff]ailed)([^[:alpha:]]|$)' "$log"; then
+              echo "::error::Warnings, errors, or failures found in $log"
+              found=1
+            fi
+          done
+
+          if [[ "$found" -ne 0 ]]; then
+            exit 1
+          fi
+
+          echo "No warnings or errors found in build, lint, unit test, or UI test logs."
 
       - name: Summarize result bundles
         if: always()

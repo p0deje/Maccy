@@ -5,7 +5,7 @@ import Observation
 import Sauce
 
 @Observable
-class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
+class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Sendable {
   static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
   }
@@ -46,6 +46,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
+  private var isInvalidated = false
 
   // 10k characters seems to be more than enough on large displays.
   var text: String { item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit) }
@@ -116,6 +117,12 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   @MainActor
+  func invalidate() {
+    isInvalidated = true
+    cleanupImages()
+  }
+
+  @MainActor
   func cleanupImages() {
     thumbnailImageGenerationTask?.cancel()
     previewImageGenerationTask?.cancel()
@@ -127,6 +134,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   @MainActor
   private func generateThumbnailImage() {
+    guard !isInvalidated else {
+      return
+    }
+
     guard let image = item.image else {
       return
     }
@@ -135,6 +146,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   @MainActor
   private func generatePreviewImage() {
+    guard !isInvalidated else {
+      return
+    }
+
     guard let image = item.image else {
       return
     }
@@ -184,11 +199,15 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   private func synchronizeItemPin() {
+    guard !isInvalidated else {
+      return
+    }
+
     _ = withObservationTracking {
       item.pin
     } onChange: {
       DispatchQueue.main.async { [weak self] in
-        guard let self else {
+        guard let self, !self.isInvalidated else {
           return
         }
         if let pin = self.item.pin {
@@ -200,11 +219,15 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   private func synchronizeItemTitle() {
+    guard !isInvalidated else {
+      return
+    }
+
     _ = withObservationTracking {
       item.title
     } onChange: {
       DispatchQueue.main.async { [weak self] in
-        guard let self else {
+        guard let self, !self.isInvalidated else {
           return
         }
         self.title = self.item.title

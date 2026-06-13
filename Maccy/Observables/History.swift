@@ -288,7 +288,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func cleanup(_ item: HistoryItemDecorator) {
-    item.cleanupImages()
+    item.invalidate()
   }
 
   private func currentModifierFlags() -> NSEvent.ModifierFlags {
@@ -379,7 +379,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       return
     }
 
-    guard let pasted = stack.items.first else {
+    guard !stack.items.isEmpty else {
       pasteStack = nil
       logger.info("PasteStack is empty")
       return
@@ -397,20 +397,18 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     logger.info("Copying item from PasteStack. \(stack.items.count) items remaining in stack.")
 
-    Task {
-      if stack.modifierFlags.isEmpty {
-        await Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
-      } else {
-        switch HistoryItemAction(stack.modifierFlags) {
-        case .copy:
-          await Clipboard.shared.copy(item.item)
-        case .paste:
-          await Clipboard.shared.copy(item.item)
-        case .pasteWithoutFormatting:
-          await Clipboard.shared.copy(item.item, removeFormatting: true)
-        case .unknown:
-          return
-        }
+    if stack.modifierFlags.isEmpty {
+      Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
+    } else {
+      switch HistoryItemAction(stack.modifierFlags) {
+      case .copy:
+        Clipboard.shared.copy(item.item)
+      case .paste:
+        Clipboard.shared.copy(item.item)
+      case .pasteWithoutFormatting:
+        Clipboard.shared.copy(item.item, removeFormatting: true)
+      case .unknown:
+        return
       }
     }
   }
