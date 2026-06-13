@@ -10,11 +10,21 @@ struct StorageType {
   var types: [NSPasteboard.PasteboardType]
 }
 
+enum ClipboardContentSizeLimit {
+  static let minMegabytes = 1
+  static let defaultMegabytes = 10
+  static let maxMegabytes = 1024
+  static let bytesPerMegabyte = 1_024 * 1_024
+}
+
 extension Defaults.Keys {
   static let clearOnQuit = Key<Bool>("clearOnQuit", default: false)
   static let clearSystemClipboard = Key<Bool>("clearSystemClipboard", default: false)
   static let clipboardCheckInterval = Key<Double>("clipboardCheckInterval", default: 0.5)
-  static let maxClipboardContentSize = Key<Int>("maxClipboardContentSize", default: 10)
+  static let maxClipboardContentSize = Key<Int>(
+    "maxClipboardContentSize",
+    default: ClipboardContentSizeLimit.defaultMegabytes
+  )
   static let enabledPasteboardTypes = Key<Set<NSPasteboard.PasteboardType>>(
     "enabledPasteboardTypes", default: Set(StorageType.all.types)
   )

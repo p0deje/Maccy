@@ -72,8 +72,8 @@ struct StorageSettingsPane: View {
 
   private let maxClipboardContentSizeFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
-    formatter.minimum = 1
-    formatter.maximum = 1024
+    formatter.minimum = NSNumber(value: ClipboardContentSizeLimit.minMegabytes)
+    formatter.maximum = NSNumber(value: ClipboardContentSizeLimit.maxMegabytes)
     return formatter
   }()
 
@@ -122,7 +122,11 @@ struct StorageSettingsPane: View {
           TextField("", value: $maxClipboardContentSize, formatter: maxClipboardContentSizeFormatter)
             .frame(width: 80)
             .help(Text("MaxClipboardContentSizeTooltip", tableName: "StorageSettings"))
-          Stepper("", value: $maxClipboardContentSize, in: 1...1024)
+          Stepper(
+            "",
+            value: $maxClipboardContentSize,
+            in: ClipboardContentSizeLimit.minMegabytes...ClipboardContentSizeLimit.maxMegabytes
+          )
             .labelsHidden()
           Text("MaxClipboardContentSizeUnit", tableName: "StorageSettings")
             .controlSize(.small)

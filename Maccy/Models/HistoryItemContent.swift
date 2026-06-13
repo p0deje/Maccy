@@ -5,7 +5,10 @@ import SwiftData
 @Model
 class HistoryItemContent {
   static var maxValueSize: Int {
-    max(1, Defaults[.maxClipboardContentSize]) * 1_024 * 1_024
+    max(
+      ClipboardContentSizeLimit.minMegabytes,
+      Defaults[.maxClipboardContentSize]
+    ) * ClipboardContentSizeLimit.bytesPerMegabyte
   }
 
   var type: String = ""
