@@ -169,7 +169,7 @@ class MaccyUITests: XCTestCase {
     popUpWithHotkey()
     assertLeadingItemTitles(["foo", "bar"])
 
-    app.staticTexts["bar"].firstMatch.click()
+    items["bar"].firstMatch.click()
     assertPasteboardDataEquals(rtf2, forType: .rtf)
   }
 
@@ -505,13 +505,12 @@ class MaccyUITests: XCTestCase {
   }
 
   private func copyToClipboard(_ title: String, _ content: Data?, _ type: NSPasteboard.PasteboardType) {
-    let item = NSPasteboardItem()
-    item.setString(title, forType: .string)
-    if let content {
-      item.setData(content, forType: type)
-    }
     pasteboard.clearContents()
-    pasteboard.writeObjects([item])
+    pasteboard.declareTypes([.string, type], owner: nil)
+    pasteboard.setString(title, forType: .string)
+    if let content {
+      pasteboard.setData(content, forType: type)
+    }
     waitTillClipboardCheck()
   }
 
@@ -527,11 +526,15 @@ class MaccyUITests: XCTestCase {
   }
 
   private func clearHistory() {
-    app.typeKey(.delete, modifierFlags: [.command, .option])
+    app.staticTexts["Clear"].firstMatch.click()
+    app.typeKey(.enter, modifierFlags: [])
   }
 
   private func clearAllHistory() {
-    app.typeKey(.delete, modifierFlags: [.command, .option, .shift])
+    XCUIElement.perform(withKeyModifiers: [.shift]) {
+      app.staticTexts["Clear all"].firstMatch.click()
+    }
+    app.typeKey(.enter, modifierFlags: [])
   }
 
   private func hover(_ element: XCUIElement) {
