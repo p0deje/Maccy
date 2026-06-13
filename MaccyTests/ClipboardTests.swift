@@ -278,7 +278,7 @@ class ClipboardTests: XCTestCase {
   func testCopiesMultipleTypes() {
     let item = NSPasteboardItem()
     item.setString("foo", forType: .string)
-    item.setData(image.tiffRepresentation!, forType: .tiff)
+    item.setData(Data("tiff".utf8), forType: .tiff)
 
     XCTAssertEqual(
       Set(clipboard.contents(from: item).map({ $0.type })),
