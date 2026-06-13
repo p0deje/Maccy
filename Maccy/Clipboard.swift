@@ -216,7 +216,7 @@ class Clipboard {
   }
 }
 
-private extension Clipboard {
+extension Clipboard {
   func contents(from item: NSPasteboardItem) -> [HistoryItemContent] {
     var types = Set(item.types)
     if types.contains(.string) && isEmptyString(item) && !richText(item) {
@@ -238,7 +238,9 @@ private extension Clipboard {
       return HistoryItemContent(type: type.rawValue, value: value)
     }
   }
+}
 
+private extension Clipboard {
   func filteredTypes(_ types: Set<NSPasteboard.PasteboardType>) -> Set<NSPasteboard.PasteboardType> {
     var types = types
       .subtracting(disabledTypes)
