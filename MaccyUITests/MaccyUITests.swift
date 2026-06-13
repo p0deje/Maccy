@@ -170,7 +170,7 @@ class MaccyUITests: XCTestCase {
     assertLeadingItemTitles(["foo", "bar"])
 
     app.staticTexts["bar"].firstMatch.click()
-    XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
+    assertPasteboardDataEquals(rtf2, forType: .rtf)
   }
 
   func testCopyHTML() {
@@ -237,8 +237,7 @@ class MaccyUITests: XCTestCase {
   func testClear() {
     popUpWithMouse()
     pin(copy2)
-    app.staticTexts["Clear"].click()
-    confirmClear()
+    clearHistory()
     assertPopupDismissed()
     popUpWithMouse()
     assertNotExists(items[copy1])
@@ -248,8 +247,7 @@ class MaccyUITests: XCTestCase {
   func testClearDuringSearch() {
     popUpWithMouse()
     search(copy2)
-    app.staticTexts["Clear"].click()
-    confirmClear()
+    clearHistory()
     assertPopupDismissed()
     popUpWithMouse()
     assertNotExists(items[copy1])
@@ -259,10 +257,7 @@ class MaccyUITests: XCTestCase {
   func testClearAll() {
     popUpWithMouse()
     pin(copy2)
-    XCUIElement.perform(withKeyModifiers: [.shift]) {
-      app.staticTexts["Clear all"].click()
-    }
-    confirmClear()
+    clearAllHistory()
     assertPopupDismissed()
     popUpWithMouse()
     assertNotExists(items[copy1])
@@ -531,6 +526,14 @@ class MaccyUITests: XCTestCase {
     usleep(1_500_000)
   }
 
+  private func clearHistory() {
+    app.typeKey(.delete, modifierFlags: [.command, .option])
+  }
+
+  private func clearAllHistory() {
+    app.typeKey(.delete, modifierFlags: [.command, .option, .shift])
+  }
+
   private func hover(_ element: XCUIElement) {
     element.hover()
     usleep(20000)
@@ -632,15 +635,6 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(Array(titles.prefix(expected.count)), expected, file: file, line: line)
   }
 
-  private func confirmClear() {
-    let button = app.dialogs.firstMatch.buttons["Clear"].firstMatch
-    guard button.waitForExistence(timeout: 1) else {
-      return
-    }
-    expectation(for: NSPredicate(format: "isHittable = 1"), evaluatedWith: button)
-    waitForExpectations(timeout: 3)
-    button.click()
-  }
 }
 // swiftlint:enable type_body_length
 // swiftlint:enable file_length
