@@ -193,16 +193,16 @@ class Clipboard {
     // so it's better to merge all data into a single record.
     // - https://github.com/p0deje/Maccy/issues/78
     // - https://github.com/p0deje/Maccy/issues/472
-    var contents = [HistoryItemContent]()
+    var itemContents = [HistoryItemContent]()
     pasteboard.pasteboardItems?.forEach({ item in
-      contents += contents(from: item)
+      itemContents += contents(from: item)
     })
 
-    guard !contents.isEmpty else {
+    guard !itemContents.isEmpty else {
       return
     }
 
-    let historyItem = HistoryItem(contents: contents)
+    let historyItem = HistoryItem(contents: itemContents)
 
     if #unavailable(macOS 15.0) {
       // On macOS 14 the history item needs to be inserted into storage directly after creating it.
