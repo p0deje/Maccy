@@ -16,7 +16,6 @@ enum PopupState {
 }
 
 @Observable
-@MainActor
 class Popup {
   static let verticalSeparatorPadding = 6.0
   static let horizontalSeparatorPadding = 6.0

@@ -21,6 +21,8 @@ jobs:
 
     env:
       NSUnbufferedIO: YES
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+      HOMEBREW_NO_REQUIRE_TAP_TRUST: "1"
       PROJECT: Maccy.xcodeproj
       SCHEME: Maccy
       CONFIGURATION: Debug
