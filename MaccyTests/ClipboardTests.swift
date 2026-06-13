@@ -275,17 +275,25 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testMergesMultipleItems() {
-    let item1 = NSPasteboardItem()
-    item1.setString("foo", forType: .string)
-    let item2 = NSPasteboardItem()
-    item2.setData(image.tiffRepresentation!, forType: .tiff)
+  func testCopiesMultipleTypes() {
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (item: HistoryItem) in
+      XCTAssertEqual(
+        Set(item.contents.map({ $0.type })),
+        Set([self.tiffType.rawValue, self.stringType.rawValue])
+      )
+      hookExpectation.fulfill()
+    })
 
-    let contents = clipboard.contents(from: item1) + clipboard.contents(from: item2)
-    XCTAssertEqual(
-      Set(contents.map({ $0.type })),
-      Set([tiffType.rawValue, stringType.rawValue])
-    )
+    let item = NSPasteboardItem()
+    item.setString("foo", forType: .string)
+    item.setData(image.tiffRepresentation!, forType: .tiff)
+
+    clipboard.start()
+    pasteboard.clearContents()
+    pasteboard.writeObjects([item])
+
+    waitForExpectations(timeout: 2)
   }
 
   func testRemovesDisabledTypes() {
