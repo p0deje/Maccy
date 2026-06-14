@@ -279,10 +279,10 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
       maxValueSize: HistoryItemContent.maxValueSize,
       richTextParsingLimit: 512 * 1024,
       regularExpressionInputLimit: 2_000,
-      titlePreviewLimit: HistoryItem.titlePreviewLimit,
       ignoreRegexp: Defaults[.ignoreRegexp],
       ignoredApps: Defaults[.ignoredApps],
-      ignoreAllAppsExceptListed: Defaults[.ignoreAllAppsExceptListed]
+      ignoreAllAppsExceptListed: Defaults[.ignoreAllAppsExceptListed],
+      titlePreviewLimit: HistoryItem.titlePreviewLimit
     )
   }
 
