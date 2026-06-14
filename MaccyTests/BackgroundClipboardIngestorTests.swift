@@ -201,6 +201,39 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertGreaterThanOrEqual(result.metrics.parseMs, 0)
   }
 
+  // MARK: - Cross-context visibility (the path the UI tests exercise)
+
+  /// The actor commits on a background `ModelContext`; `History`/UI read the
+  /// MAIN context (`Storage.shared.context`). A fresh `fetch` on the main
+  /// context must observe the actor's committed save (Core Data shared-store
+  /// semantics: all contexts from one container share the store, and a fetch
+  /// reads committed rows). This test exercises exactly that cross-context read
+  /// under the in-memory `enable-testing` store — the configuration the UI tests
+  /// use — so it pinpoints whether a visibility gap is the root cause of the
+  /// UI-test "items don't appear" failure. If this FAILS, cross-context
+  /// propagation is the issue (fix the write/read bridge); if it PASSES, the UI
+  /// failure is a different bug (crash/invocation/timing).
+  func testActorBackgroundSaveIsVisibleToMainContext() async {
+    let backgroundContext = Storage.shared.newBackgroundContext()
+    let ingestor = BackgroundClipboardIngestor(
+      backgroundContext: backgroundContext,
+      image: PassthroughImageProcessor(),
+      now: { Date(timeIntervalSince1970: 1_700_000_000) },
+      onEvent: { _ in }
+    )
+
+    _ = await ingestor.ingest(request(text: "cross-context visibility"))
+
+    // Read back from the MAIN context — NOT the actor's background context.
+    // This is the read `History.reconcileWithStore` performs.
+    let mainStored = try? Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())
+    XCTAssertEqual(
+      mainStored?.count, 1,
+      "Main context must observe the background actor's committed save via a fresh fetch"
+    )
+    XCTAssertEqual(mainStored?.first?.title, "cross-context visibility")
+  }
+
   // MARK: - Helpers
 
   /// Builds a single-content text `IngestRequest`.
