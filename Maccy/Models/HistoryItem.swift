@@ -264,13 +264,38 @@ class HistoryItem {
       .compactMap { $0.value }
   }
 
-  private func dataFromFileIfAllowed(_ url: URL) -> Data? {
-    let fileSize = try? url.resourceValues(forKeys: [.fileSizeKey]).fileSize
-    guard (fileSize ?? 0) <= HistoryItemContent.maxValueSize else {
+  static func dataFromFileIfAllowed(
+    _ url: URL,
+    resourceValues: (URL) throws -> URLResourceValues = {
+      try $0.resourceValues(forKeys: [.fileSizeKey])
+    },
+    dataContents: (URL) throws -> Data = { try Data(contentsOf: $0) }
+  ) -> Data? {
+    let fileSize: Int
+    do {
+      guard let value = try resourceValues(url).fileSize else {
+        return nil
+      }
+      fileSize = value
+    } catch {
+      Logger(label: "org.p0deje.Maccy").error("Failed to read file size for \(url.path): \(String(describing: error))")
       return nil
     }
 
-    return try? Data(contentsOf: url)
+    guard fileSize <= HistoryItemContent.maxValueSize else {
+      return nil
+    }
+
+    do {
+      return try dataContents(url)
+    } catch {
+      Logger(label: "org.p0deje.Maccy").error("Failed to read file data for \(url.path): \(String(describing: error))")
+      return nil
+    }
+  }
+
+  private func dataFromFileIfAllowed(_ url: URL) -> Data? {
+    Self.dataFromFileIfAllowed(url)
   }
 
   private static func recognizedText(in image: NSImage) -> String? {
