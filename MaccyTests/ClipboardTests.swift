@@ -31,7 +31,7 @@ final class ClipboardTests: XCTestCase {
 
   private var savedIngestor: ClipboardIngestor?
 
-  override func setUp() {
+  override func setUp() async {
     super.setUp()
     Defaults[.enabledPasteboardTypes] = Set(StorageType.all.types)
     Defaults[.maxClipboardContentSize] = 10
@@ -40,6 +40,12 @@ final class ClipboardTests: XCTestCase {
     // Preserve whatever ingestor AppDelegate (or a prior test) wired so teardown
     // can restore it — tests in this class inject their own spy.
     savedIngestor = clipboard.ingestor
+    // Drain fire-and-forget Tasks left by a prior test — notably copy()'s
+    // `Task { checkForChangesInPasteboard() }`, which reads `self.ingestor` at
+    // execution time. Running them here (while ingestor is the restored
+    // savedIngestor — nil in tests) prevents a delayed dispatch from leaking
+    // into this test's spy.
+    try? await Task.sleep(nanoseconds: 100_000_000)
   }
 
   override func tearDown() {
