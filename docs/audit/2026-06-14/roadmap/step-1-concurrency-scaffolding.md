@@ -33,9 +33,10 @@
   - `struct SignatureIndex: Sendable` 内部 `[SignatureDTO: UUID]`(key 用稳定哈希);提供 `lookup(_:) -> UUID?`、`register(_:id:)`、`remove(id:)`、`bulkRegister(_:)`。
   - 纯函数,无 AppKit/SwiftData 依赖 → 可单测。
   - 证据:提交 `b35bcddcbd44b6a72916fdae67c3d6b3734b9853`; macOS 26 ARM CI run `27493380517` attempt 2 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。attempt 1 失败于既有 UI test `testCopyWithEnter` pasteboard 3 秒等待超时,重跑通过。
-- [ ] **1.4 ingest 协议 + 主线程适配器** — `ClipboardIngestor.swift`。
+- [x] **1.4 ingest 协议 + 主线程适配器** — `ClipboardIngestor.swift`。
   - `protocol ClipboardIngestor: Sendable { func ingest(_ request: IngestRequest) async -> IngestResult }`
   - `@MainActor final class MainActorIngestorAdapter: ClipboardIngestor`:内部转发到既有 `History.shared.add`(行为完全不变),仅把结果包成 `IngestResult`。**本步骤不接线**(BS-2 才让 `Clipboard` 使用它),保证既有行为零变化。
+  - 证据:提交 `b0e84d318b5c0351d9628912eaec3958e17cc813`; macOS 26 ARM CI run `27494083624` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
 - [ ] **1.5 图片处理协议** — `ImageProcessing.swift`。
   - `protocol ImageProcessing: Sendable { func thumbnail(for data: Data, max: CGSize) async -> NSImage?; func preview(for data: Data, max: CGSize) async -> NSImage?; func recognizeText(in data: Data) async -> String? }`
   - 占位实现 `PassthroughImageProcessor`:沿用既有 `NSImage(data:)`+`resized` 路径(行为不变,BS-3 替换)。
