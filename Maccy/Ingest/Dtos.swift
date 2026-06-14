@@ -107,3 +107,66 @@ struct IngestMetrics: Equatable, Sendable {
 
   static let zero = IngestMetrics(dedupHits: 0, bytesHashed: 0, parseMs: 0)
 }
+
+func snapshot(of item: HistoryItem) -> ItemSnapshotDTO {
+  ItemSnapshotDTO(
+    id: itemID(for: item),
+    title: item.title,
+    firstCopiedAt: item.firstCopiedAt,
+    lastCopiedAt: item.lastCopiedAt,
+    numberOfCopies: item.numberOfCopies,
+    pin: item.pin,
+    application: item.application,
+    textPreview: item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit),
+    imageFingerprint: item.imageData.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
+  )
+}
+
+func contentDTOs(of item: HistoryItem) -> [ContentDTO] {
+  item.contents.map { content in
+    let value = content.value
+    return ContentDTO(
+      type: content.type,
+      value: value,
+      fingerprint: value.flatMap(ClipboardDataProcessor.fingerprintIfLarge),
+      size: value?.count ?? 0
+    )
+  }
+}
+
+private func itemID(for item: HistoryItem) -> ItemID {
+  itemID(from: String(describing: item.persistentModelID))
+}
+
+private func itemID(from string: String) -> ItemID {
+  let bytes = Array(string.utf8)
+  var first = UInt64(0xcbf29ce484222325)
+  var second = UInt64(0x84222325cbf29ce4)
+
+  for byte in bytes {
+    first ^= UInt64(byte)
+    first &*= 0x00000100000001b3
+
+    second ^= UInt64(byte)
+    second &*= 0x00000100000001b3
+  }
+
+  return UUID(uuid: (
+    UInt8((first >> 56) & 0xff),
+    UInt8((first >> 48) & 0xff),
+    UInt8((first >> 40) & 0xff),
+    UInt8((first >> 32) & 0xff),
+    UInt8((first >> 24) & 0xff),
+    UInt8((first >> 16) & 0xff),
+    UInt8((first >> 8) & 0xff),
+    UInt8(first & 0xff),
+    UInt8((second >> 56) & 0xff),
+    UInt8((second >> 48) & 0xff),
+    UInt8((second >> 40) & 0xff),
+    UInt8((second >> 32) & 0xff),
+    UInt8((second >> 24) & 0xff),
+    UInt8((second >> 16) & 0xff),
+    UInt8((second >> 8) & 0xff),
+    UInt8(second & 0xff)
+  ))
+}
