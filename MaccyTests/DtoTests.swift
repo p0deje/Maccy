@@ -5,7 +5,7 @@ class DtoTests: XCTestCase {
   func testDtoTypesAreSendable() {
     requireSendable(ContentDTO.self)
     requireSendable(ClipboardItemDTO.self)
-    requireSendable(PasteboardSource.self)
+    requireSendable(CopyOrigin.self)
     requireSendable(SignatureDTO.self)
     requireSendable(ContentSignatureEntry.self)
     requireSendable(MaccyFingerprint.self)

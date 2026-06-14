@@ -83,6 +83,7 @@
 		DA3CE8141E44A62500B3AA98 /* SignatureIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8131E44A62500B3AA98 /* SignatureIndex.swift */; };
 		DA3CE8161E44A62500B3AA98 /* SignatureIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8151E44A62500B3AA98 /* SignatureIndexTests.swift */; };
 		DA3CE8181E44A62500B3AA98 /* ClipboardIngestor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8171E44A62500B3AA98 /* ClipboardIngestor.swift */; };
+		DA3CE8B01E44A62500B3AA98 /* PasteboardSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8B11E44A62500B3AA98 /* PasteboardSource.swift */; };
 		DA3CE81A1E44A62500B3AA98 /* ClipboardIngestorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8191E44A62500B3AA98 /* ClipboardIngestorTests.swift */; };
 		DA3CE81D1E44A62500B3AA98 /* ImageProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE81C1E44A62500B3AA98 /* ImageProcessing.swift */; };
 		DA3CE81F1E44A62500B3AA98 /* ImageProcessingContractTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE81E1E44A62500B3AA98 /* ImageProcessingContractTests.swift */; };
@@ -310,6 +311,7 @@
 		DA3CE8131E44A62500B3AA98 /* SignatureIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureIndex.swift; sourceTree = "<group>"; };
 		DA3CE8151E44A62500B3AA98 /* SignatureIndexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureIndexTests.swift; sourceTree = "<group>"; };
 		DA3CE8171E44A62500B3AA98 /* ClipboardIngestor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardIngestor.swift; sourceTree = "<group>"; };
+		DA3CE8B11E44A62500B3AA98 /* PasteboardSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardSource.swift; sourceTree = "<group>"; };
 		DA3CE8191E44A62500B3AA98 /* ClipboardIngestorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardIngestorTests.swift; sourceTree = "<group>"; };
 		DA3CE81C1E44A62500B3AA98 /* ImageProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessing.swift; sourceTree = "<group>"; };
 		DA3CE81E1E44A62500B3AA98 /* ImageProcessingContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessingContractTests.swift; sourceTree = "<group>"; };
@@ -886,6 +888,7 @@
 			children = (
 				DA3CE8171E44A62500B3AA98 /* ClipboardIngestor.swift */,
 				DA3CE80E1E44A62500B3AA98 /* Dtos.swift */,
+				DA3CE8B11E44A62500B3AA98 /* PasteboardSource.swift */,
 				DA3CE8131E44A62500B3AA98 /* SignatureIndex.swift */,
 			);
 			path = Ingest;
@@ -1254,6 +1257,7 @@
 				DA13D7D22C19F91B00FA9E23 /* Defaults.Keys+Names.swift in Sources */,
 				E00000042F50000000000004 /* ClipboardDataProcessor.swift in Sources */,
 				DA3CE8181E44A62500B3AA98 /* ClipboardIngestor.swift in Sources */,
+				DA3CE8B01E44A62500B3AA98 /* PasteboardSource.swift in Sources */,
 				E000000E2F5000000000000E /* HistoryItemEngine.swift in Sources */,
 				DA3CE81D1E44A62500B3AA98 /* ImageProcessing.swift in Sources */,
 				2F0EC77D2E773314003E2EA9 /* Selection.swift in Sources */,

@@ -6,7 +6,7 @@ class ClipboardIngestorTests: XCTestCase {
   func testMainActorAdapterBuildsHistoryItemFromRequest() {
     let now = Date(timeIntervalSince1970: 1_717_171_717)
     let request = IngestRequest(
-      source: PasteboardSource(changeCount: 7, name: "test"),
+      source: CopyOrigin(changeCount: 7, name: "test"),
       contents: [
         ContentDTO(
           type: "public.utf8-plain-text",
@@ -33,7 +33,7 @@ class ClipboardIngestorTests: XCTestCase {
     let ingestor: any ClipboardIngestor = StubIngestor()
     let result = await ingestor.ingest(
       IngestRequest(
-        source: PasteboardSource(changeCount: 1),
+        source: CopyOrigin(changeCount: 1),
         contents: [],
         application: nil,
         now: Date(timeIntervalSince1970: 0)

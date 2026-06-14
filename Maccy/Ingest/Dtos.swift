@@ -12,10 +12,10 @@ struct ContentDTO: Equatable, Hashable, Sendable {
 struct ClipboardItemDTO: Equatable, Sendable {
   let contents: [ContentDTO]
   let application: String?
-  let source: PasteboardSource
+  let source: CopyOrigin
 }
 
-struct PasteboardSource: Equatable, Hashable, Sendable {
+struct CopyOrigin: Equatable, Hashable, Sendable {
   let changeCount: Int
   let name: String?
 
@@ -76,7 +76,7 @@ enum StoreEvent: Equatable, Sendable {
 }
 
 struct IngestRequest: Equatable, Sendable {
-  let source: PasteboardSource
+  let source: CopyOrigin
   let contents: [ContentDTO]
   let application: String?
   let now: Date

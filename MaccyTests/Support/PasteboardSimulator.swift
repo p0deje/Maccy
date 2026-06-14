@@ -1,7 +1,8 @@
 import AppKit
 import Foundation
+@testable import Maccy
 
-struct PasteboardSimulator: Sendable {
+struct PasteboardSimulator: PasteboardSource {
   private(set) var changeCount: Int
   private(set) var items: [PasteboardItemSnapshot]
 
@@ -19,20 +20,6 @@ struct PasteboardSimulator: Sendable {
     changeCount += 1
     items = []
   }
-}
 
-struct PasteboardItemSnapshot: Sendable {
-  let contents: [String: Data]
-
-  init(contents: [String: Data]) {
-    self.contents = contents
-  }
-
-  var types: Set<NSPasteboard.PasteboardType> {
-    Set(contents.keys.map(NSPasteboard.PasteboardType.init(_:)))
-  }
-
-  func data(for type: NSPasteboard.PasteboardType) -> Data? {
-    contents[type.rawValue]
-  }
+  func snapshot() -> [PasteboardItemSnapshot] { items }
 }
