@@ -1,0 +1,137 @@
+# BS-4 — 数据管线加速
+
+> **依赖**:BS-2(ingestor/事件流/单事务已就绪)。**编译边界**:小步骤 4.2(签名索引替去重)、4.3(`load` 新签名)、4.6(`sessionLog` 类型变更)各自会临时破坏既有调用点,**末尾全部恢复**;完成全部小步骤后可编译且既有测试全绿。
+
+**目标**:把"冷开加载""复制去重""复制插入"三条主线程热点线从"全量"压到"按需/索引/二分";修复指纹两向非对称(内存缓存 lhs);定义弹窗预加载触发与管线。**行为正确性与 BS-2 后状态一致**(排序结果、去重合并、容量裁剪语义不变),只改算法与归属。
+**依据**:`04`(load-fetch-all、findsimilar-full-table-refetch、add-resorts-whole-array、dedup-merges-by-copying-value-array、sessionlog-holds-strong-refs、decorator-init-side-effects、no-prefetch-on-popup-open、processpendingchanges-called-manually-and-redundantly、sorter-pinned-double-sort)、`01`(insertionindex-binsearchable、updateunpinned-double-pass)、`08-F-001`(V-2 确认,指纹非对称重哈希)。
+**编译安全性**:核心变更是 `load()` 签名、`findSimilarItem` 内部实现、`add` 插入位置算法、`sessionLog` 元素类型;既有调用点(`ContentView.swift:55-57`、`History.swift:76-86,148-200` 等)在本步骤末尾全部对齐。
+
+## 受影响文件
+- 新:`Maccy/Ingest/SignatureIndex.swift`(BS-1 已新增纯值类型骨架,本步**填维护 API** + 与 ingestor 的接线契约)。
+- 新:`Maccy/Persistence/VisibleWindowLoader.swift` — 后台分批 fetch + 仅装饰可见窗口的纯函数(可单测)。
+- 新:`Maccy/Persistence/BinaryInsert.swift` — 已排序 `Collection` 的 O(log n) 插入索引计算(纯函数,可单测)。
+- 改:`Maccy/Observables/History.swift:106-119`(`load` 重构:返回可见窗口 DTO,后台续预取)、`:122-128`(`limitHistorySize` 改批量,残留依赖 BS-2 已落单事务)、`:148-200`(`add` 改二分插入;`:151-153` 去重合并不再复制 `contents`)、`:455-470`(`findSimilarItem` 改查 `SignatureIndex`,全表 fetch 删除)、`:60-61`(`sessionLog` 改 `[Int: ItemID]`)、`:516-527`(`updateUnpinnedShortcuts` 双遍过滤改 diff)。
+- 改:`Maccy/Observables/Popup.swift:113-123`(`handleFirstKeyDown` 触发预加载)、`Maccy/Observables/AppState.swift`(新增 `prewarmVisibleWindow()` 入口)、`Maccy/Views/ContentView.swift:55-57`(`task` 改为消费已预取数据或回落 `load`)。
+- 改:`Maccy/Engine/HistoryItemEngine.swift:122-165`(`ContentIndex` 缓存 lhs 指纹;`contains` 两向传指纹)、`Maccy/Core/ClipboardDataProcessor.swift:31-60`(`dataLikelyEqual` 默认参数 trap 收紧——本步**仅**给 lhs 一个内存缓存来源,持久化列仍留 BS-8)。
+- 改:`Maccy/Ingest/ClipboardIngestor.swift`(BS-2 actor:去重改查 `SignatureIndex`,合并走就地更新而非复制 contents;ingest 节流/coalesce 接线)。
+
+## 小步骤
+
+- [ ] **4.1 `SignatureIndex` 维护 API + 构建契约** — `SignatureIndex.swift`。在 BS-1 纯值类型骨架(`lookup`/`register`/`remove`/`bulkRegister`)基础上补:
+  - `init(from snapshots: [ItemSnapshotDTO])` —— 由 `ItemSnapshotDTO` 重建(本步 snapshots 尚未带 lhs 指纹时,落回对 `contents` 取签名;指纹列在 BS-8 后直接读列)。
+  - `mutating func merge(_ event: StoreEvent, snapshot: ItemSnapshotDTO)` —— 消费 `StoreEvent`:`.added`→`register`;`.merged`→`remove(旧 id)` + `register(新 id)`(合并后语义上同一条目,签名不变但 `lastCopiedAt` 变;按 BS-4 的去重定义,**签名键不随时间变化**,故 `merged` 等价于 `remove + register` 同一签名);`.removed/.cleared`→`remove`。
+  - `func candidates(for request: IngestRequest) -> [ItemID]` —— 给 ingestor 的 `materialize` 阶段做 O(命中数)而非 O(n) 的命中候选;`materialize` 拿到候选后再做精确 `supersedes` 确认(防指纹碰撞与多内容场景)。
+  - **纯函数契约**:`SignatureIndex` 无 SwiftData/AppKit 依赖,仅持有 `[SignatureDTO: ItemID]`(key 由 type + size + fingerprint 组合的稳定哈希);新建/查询/合并全程可单测。
+- [ ] **4.2 [breaks compile until 4.3] `findSimilarItem` 改查索引** — `History.swift:455-470`。删除全表 `FetchDescriptor<HistoryItem>()` fetch 与 O(n) 扫描;改为读取由 ingestor/`load` 维护的 `SignatureIndex`(`History` 持有 `@ObservationIgnored var signatureIndex: SignatureIndex`),命中候选后做精确 `supersedes` 确认。`add`/`clear`/`delete`/`clearAll` 调用点同步更新索引(本步暴露 `signatureIndex` 为可空:未构建时回落旧路径——`History` 末尾 4.8 保证运行时非空)。`findSimilarItem` 在 `add`(`History.swift:149`)被调用前必须保证索引已构建。
+- [ ] **4.3 [breaks compile until 4.8] `load()` 改后台分批 + 可见窗口装饰** — `History.swift:106-119`,新增 `VisibleWindowLoader.swift`。
+  - `History.load()` 新签名:`@MainActor func load() async throws -> [HistoryItemDecorator]`(返回**已装饰的可见窗口**),内部:
+    1. 在**后台 context**(`Storage.newBackgroundContext()`,BS-1 工厂)上构 `FetchDescriptor<HistoryItem>` 并设:`sortBy = [SortDescriptor(\.lastCopiedAt, order: .reverse)]`(由 `Defaults[.sortBy]` 驱动切换 `firstCopiedAt`/`numberOfCopies`)、`fetchLimit = max(historySizeLimit, visibleWindowHint)`、`propertiesToFetch` 排除大 blob 列、`relationshipKeyPathsForPrefetching = [\.contents]`。
+    2. 后台投影为 `[ItemSnapshotDTO]`(BS-1 投影函数,跨边界 Sendable);**仅可见窗口**回主线程经 `HistoryItemDecorator` 装饰;其余快照存为待预取队列。
+    3. 主线程赋值 `items = all = 可见窗口装饰`;`signatureIndex = SignatureIndex(from: 全部快照)`(索引基于**全部**,不只是可见窗口——后续 ingest 去重要覆盖整库)。
+    4. 触发**后台续预取**(对超出可见窗口的快照,在低优先级 `Task` 上逐批装饰并 append 进 `all`,避免阻塞首屏);`limitHistorySize` 已在 BS-2 单事务裁剪,本步不重复。
+  - `VisibleWindowLoader.swift`:`enum VisibleWindowLoader { static func fetchWindow(...) async throws -> ([ItemSnapshotDTO], [ItemSnapshotDTO]) }` 返回 `(visible, tail)`;纯函数 + 注入 context,可单测分批边界。
+- [ ] **4.4 `add` 改二分插入 + 合并不复制 contents** — `History.swift:148-200`。
+  - 插入位置(`:191-194`)由 `sorter.sort(all.map(\.item) + [item])` 改为 `BinaryInsertion.index(for: item, in: all, by: sorter.comparator)`(O(log n));新增 `BinaryInsert.swift`:`enum BinaryInsertion { static func index<C: RandomAccessCollection>(for element, in sorted: C, by areInIncreasingOrder) -> Int }`。**pinned 分区**:`byPinned`(`Sorter.swift:43-49`)视为前缀/后缀分区,二分先定位分区(由 `pin != nil` 与 `Defaults[.pinTo]` 决定),再在分区内按 `bySortingAlgorithm` 二分。
+  - `togglePin`(`:439-444`)同样改 `BinaryInsertion.index`(同一辅助);同时消除 `Sorter.sort` 的双稳定排序(`sorter-pinned-double-sort`,`Sorter.swift:26-30`)的调用点。
+  - 去重合并(`:151-153`):`item.contents = existingHistoryItem.contents.map { HistoryItemContent(type:value:) }` 改为**就地更新** `existingHistoryItem`(`lastCopiedAt`/`numberOfCopies += item.numberOfCopies`/`application`/`pin`/`title`/`firstCopiedAt`),**不再新建 `HistoryItemContent` 行、不复制 blob**(配合 BS-2 的单事务;签名键不变故 `SignatureIndex` 无需重注册)。`isModified(item) != nil` 的分支(`:150`)保留语义:仅当确实 modified 才需替换 contents——此时仍走新建,但在同一事务内删旧行(`dedup-merge-orphans-inverse-not-rewired`)。
+- [ ] **4.5 指纹两向对称(内存缓存 lhs)** — `HistoryItemEngine.swift:122-165` + `ClipboardDataProcessor.swift:31-60`。修 `08-F-001`(V-2 已确认):
+  - `ContentIndex`(`:123,137`)由 `[String: [Data]]` 改为 `[String: [(Data, UInt64?)]]`,构建时对每个 lhs blob 调一次 `ClipboardDataProcessor.fingerprintIfLarge` 并缓存(每个现有项的 `ContentIndex` 在 `load`/`add` 时建一次,而非每次 `contains`)。
+  - `ContentIndex.contains(type:value:fingerprint:)`(`:153-165`)对每个 lhs 元素把缓存的 lhs 指纹与候选 rhs 指纹**两向**传入 `ClipboardDataProcessor.dataLikelyEqual`,消除 `dataLikelyEqual` 内 `lhsFingerprint ?? MaccyTextProcessor.fingerprint(for: lhs)`(`ClipboardDataProcessor.swift:53`)的重算路径。
+  - **本步只缓存到内存**(`ContentIndex` 生命周期);`HistoryItemContent.fingerprint` 持久化列仍留 BS-8(O-007)。`dataLikelyEqual` 的两参默认值 trap(`:31-37` 死代码 + `:39-44` 双默认)本步**不动 API**,只保证调用点两向传值;BS-8 替换 FNV 时一并按 `08` F-009 收紧为 `MaccyFingerprint` DTO。
+  - `SignatureIndex` 的 key 仍用候选(rhs)指纹 + size + type 组合;lhs 命中候选后由 `materialize` 走精确 `supersedes`,碰撞由最终 `lhs == rhs` 兜底(`ClipboardDataProcessor.swift:59`,正确性不变)。
+- [ ] **4.6 [breaks compile until 4.8] `sessionLog` 改存 ItemID + `updateUnpinnedShortcuts` diff** — `History.swift:60-61, 179, 227, 260, 289, 516-527`。
+  - `@ObservationIgnored private var sessionLog: [Int: HistoryItem]`(`:60-61`)改为 `[Int: ItemID]`(`ItemID` 为 BS-1 DTO 的 UUID/PersistentIdentifier 别名),不再持 `@Model` 引用;`isModified(item)`(`:472-478`)与所有读写点(`:179,227,260,289`)同步改类型。`isModified` 命中后回查 `all`/`items` 拿 decorator(由 id 反查,O(visible) 但调用频次低)。**本步为 `sessionLog` 迁移的唯一落地点**;BS-6 6.5 不再重复此迁移(仅核对 + 加 `HistoryRef`),消除原两步重复声明。
+  - `updateUnpinnedShortcuts`(`:516-527`)双遍过滤(`:518-520` 清空、`:521-526` 重赋)改为**diff**:对每个可见 unpinned 项计算新 shortcut,仅在 `shortcuts != 新值` 时赋值(消除不变项的 SwiftUI 观察通知)。`updateShortcuts`/`refreshVisibleItems` 调用链不变。
+- [ ] **4.7 摄取 coalesce/节流 + 预加载触发** — `ClipboardIngestor.swift` + `Popup.swift:113-123` + `AppState.swift`。
+  - **coalesce**:ingestor 内对 pasteboard `changeCount` 抖动(同源连击,见 `04 no-coalesce-of-ingest-writes`)用 leading + trailing 节流(沿用 `Throttler` 原语或扩 trailing edge,`C-complexity-and-limits` 管线时延:复制文本→列表可见 < 16ms 主线程预算);coalesce 键用 `SignatureIndex.candidates` 的候选 id 命中——同候选命中即在 trailing 边合并为一次 `StoreEvent.merged`。**搜索的 `Throttler`(`History.swift:57`)保持独立**。
+  - **预加载(pre-warm)**:`Popup.handleFirstKeyDown`(`:113-123`)在 `open(height:)` 之前调用 `AppState.shared.prewarmVisibleWindow()`(后台 `Task`);`AppState` 新增 `@MainActor func prewarmVisibleWindow()`,内部:若 `History.items` 为空或陈旧则触发后台 `VisibleWindowLoader.fetchWindow` + 主线程装饰,把就绪数据塞进 `History.items`;同时对可见窗口的前 N 项(默认 10)调 `ImageProcessor.thumbnail`(`02-IMG-002`,缩略图实现在 BS-3,本步**只定义触发与管线**:经 `ImageProcessor` 协议调用,BS-3 Passthrough 期间行为不变)。`ContentView.task`(`:55-57`)改为消费预取结果(`History.items` 已就绪则直接 diff,否则回落 `await load()`),首屏拿到的就是已装饰数据。
+- [ ] **4.8 残留清理 + 恢复编译** — `History.swift` 全文。
+  - 删除 `processPendingChanges()` 的残留手动调用(`:134, 240, 264, 283` 中 BS-2 后仍可能存在的点;BS-2 单事务后这些已无副作用,本步确认全部移除——`save()` 内部已处理,见 `04 processpendingchanges-called-manually-and-redundantly`)。
+  - `withLogging`(`:204-214`)的两次 `fetchCount`(`dataCounts()`)用 `#if DEBUG` 包裹(或 logger level 门控),release 跳过 4 次诊断 round-trip(`04 fetchcount-withLogging-on-every-mutation`)。
+  - `macOS 15` insert 分叉(`:141-146`):BS-2 已统一进 actor 单事务;本步核对 `Clipboard.swift:204-209` 的 `#unavailable` insert 已删,确认无双重 insert。
+  - `limitHistorySize`(`:122-128`)残留的 `forEach(delete)` 调用链核对:BS-2 已改批量;本步核对 `unpinned[maxSize...]` 经批量 delete(单事务)而非逐项 save。
+  - 恢复编译:确认 `load()` 新签名调用点(`ContentView.swift:55-57`、`History.swift:76-86` 的 `Defaults.updates(.sortBy/.pinTo)`)全部 `await` 并消费返回值;`findSimilarItem` 调用点(`:149`)在索引已构建路径下走索引;`sessionLog` 类型对齐;`updateUnpinnedShortcuts` 调用链不变。
+- [ ] **4.9 测试 + 验证** — `xcodebuild build` + test 通过;`SignatureIndexTests`(查/注册/合并/批量/`candidates` 命中数)、`BinaryInsertionTests`(已排序数组二分索引正确性、pinned 分区边界、空数组/单元素)、`VisibleWindowLoaderTests`(分批边界、propertiesToFetch 投影、tail 队列长度)、`HistoryLoadTests.incremental`(后台续预取最终 `all.count` 等于全表)、`IngestCoalesceTests`(连击合并为单 `StoreEvent`)。性能闸门:`G-popup-open`(history=1000,主线程 < 16ms/首屏)、`G-copy-text`(主线程 < 16ms;`bytesHashed` 较 BS-2 下降——lhs 内存缓存生效,但未持久化故仍非 0,BS-8 后趋 0)。
+
+## 关键签名
+
+```swift
+// Maccy/Ingest/SignatureIndex.swift(BS-1 骨架 + BS-4 维护 API)
+struct SignatureIndex: Sendable {
+  init()                                // 空
+  init(from snapshots: [ItemSnapshotDTO])     // 4.1: load 后构建
+  func lookup(_ signature: SignatureDTO) -> ItemID?                 // O(签名数) 哈希
+  func candidates(for request: IngestRequest) -> [ItemID]           // 4.1: ingestor materialize 用
+  mutating func register(_ signature: SignatureDTO, id: ItemID)
+  mutating func remove(id: ItemID)
+  mutating func bulkRegister(_ entries: [(SignatureDTO, ItemID)])
+  mutating func merge(_ event: StoreEvent, snapshot: ItemSnapshotDTO)  // 4.1: StoreEvent 驱动
+}
+
+// Maccy/Observables/History.swift
+@MainActor func load() async throws -> [HistoryItemDecorator]   // 4.3: 返回可见窗口;后台续预取 tail
+
+// Maccy/Persistence/VisibleWindowLoader.swift
+enum VisibleWindowLoader {
+  static func fetchWindow(
+    in context: ModelContext,
+    sortBy: Sorter.By,
+    fetchLimit: Int,
+    visibleHint: Int
+  ) async throws -> (visible: [ItemSnapshotDTO], tail: [ItemSnapshotDTO])
+}
+
+// Maccy/Persistence/BinaryInsert.swift
+enum BinaryInsertion {
+  static func index<C: RandomAccessCollection>(
+    for element: C.Element,
+    in sorted: C,
+    by areInIncreasingOrder: (C.Element, C.Element) -> Bool
+  ) -> Int where C.Index == Int
+}
+```
+
+## 复杂度(前→后)
+
+| 操作 | 前(file:line) | 前复杂度 | 后复杂度 | 落点 |
+|---|---|---|---|---|
+| 冷开 load | `History.swift:106-119` | O(n) fetch + O(n log n) 排序 + O(n) 装饰(全 main) | **O(visible)** 主线程装饰;O(n) 后台分批预取(低优先级) | 4.3 |
+| 复制去重 | `History.swift:455-470` | O(n) 全表 fetch + 每项 lhs 重哈希(`08-F-001`) | **O(签名命中数)** 索引查询 + 命中候选精确确认(lhs 内存缓存→无重哈希) | 4.2, 4.5 |
+| 复制插入 | `History.swift:191-194` | O(n log n)(`sorter.sort(all+[item])` + 双稳定排序) | **O(log n)**(二分插入,pinned 分区 + 算法内二分) | 4.4 |
+| 去重合并内存 | `History.swift:151` | blob 全复制(瞬时双份) | **O(1)** 就地更新(无新建 `HistoryItemContent`) | 4.4 |
+| shortcut 刷新 | `History.swift:516-527` | O(visible) 双遍(清空 + 重赋,每项观察通知) | O(visible) 单遍 diff(仅变更项赋值) | 4.6 |
+| 哈希调用 | `ClipboardDataProcessor.swift:53` | 每比对重算 lhs FNV | **0**(lhs 缓存在 `ContentIndex`) | 4.5 |
+
+## 管线估计
+
+- 弹窗冷开→首屏可交互:主线程从"全量 fetch+排序+装饰"压到"装饰可见窗口" → 满足 `G-popup-open` < 16ms/首屏(目标);tail 后台续预取不阻塞交互。
+- 复制文本→列表可见:去重不再全表 fetch,索引查询 O(命中数);插入 O(log n);合并无 blob 复制 → 主线程仅追加单行 diff,满足 `G-copy-text` < 16ms。
+- 预加载:hotkey-down 触发 `prewarmVisibleWindow`,首屏拿到已装饰数据 + 前 N 缩略图管线(BS-3 实装后到位)。
+
+## I/O 限制
+
+- `FetchDescriptor.fetchLimit` = `max(historySizeLimit, visibleWindowHint)`,不再无界全量(`C §1`)。
+- `propertiesToFetch` 排除 `value`(blob)列;`relationshipKeyPathsForPrefetching = [\.contents]` 仅对可见窗口批量 fire fault(`04 load-no-relationship-faulting`)。
+- 合并不复制 `value`(`:151` 修复);`sessionLog` 不持 blob(`:60-61` 修复,`05 sessionlog-keeps-historyitem`)。
+- 哈希阈值 `16 KiB`(`ClipboardDataProcessor.swift:4`)不变;lhs 缓存仅命中此阈值以上,小内容仍走 `lhs == rhs`。
+
+## 闸门
+
+- **`G-popup-open`**:history=1000,弹窗打开→首帧,主线程占用 < 16ms(目标;BS-2 前 > 50ms)。测量:`MainThreadProbe` + `OSSignposter` 标 `load` 与 `prewarmVisibleWindow` 区间。
+- **`G-copy-text`**:复制 `heavy_text.txt`,主线程 < 16ms;`bytesHashed` 较 BS-2 下降(lhs 内存缓存生效),**本步未持久化故仍非 0**(BS-8 持久化指纹列后趋 0)。`IngestResult.metrics.bytesHashed` 由 ingestor 记录并断言。
+
+## 测试
+
+- 引用:`B §2`(`HistoryBuilder`、`FixtureLoader`、`IngestorSpy`、`MainThreadProbe`)、`§3`(数据流抽象:`IngestPlan`/`metrics`)、`§4`(`G-popup-open`、`G-copy-text`)。
+- 新增/扩充:`SignatureIndexTests`(merge 各分支、`candidates` 命中数)、`BinaryInsertionTests`、`VisibleWindowLoaderTests`、`HistoryLoadTests.incremental`(tail 预取最终一致)、`IngestCoalesceTests`(连击→单 `StoreEvent.merged`)、`FingerprintSymmetryTests`(多同型 lhs blob 下 `bytesHashed` 不随 lhs 数线性增长——覆盖 `08-F-001`)。
+
+## 验收标准
+
+- 功能:`load` 返回的可见窗口与改前首屏排序一致;tail 预取最终 `all.count` == 全表;去重命中/合并语义与改前一致(相同内容→`.merged`,`isModified` 分支行为不变);二分插入位置 == `sorter.sort` 结果中该项 index(逐项属性测试);shortcut diff 不改变最终赋值。
+- 复杂度:见上表(load `O(n)全量装饰`→`O(visible)`;dedup `O(n) fetch + lhs 重哈希`→`O(命中数)`;insert `O(n log n)`→`O(log n)`)。
+- 管线:见上(主线程 < 16ms/首屏与 < 16ms/复制)。
+- I/O 限制:`fetchLimit`/`propertiesToFetch`/prefetch 就位;合并无 blob 复制;`sessionLog` 改 `ItemID`。
+- 不变性:`A §7` 的"主线程无 >16ms 同步重活""跨 actor 载荷 Sendable"在本步对 load/dedup/insert/预加载达成;"单一可变源"由 `SignatureIndex` 与 ingestor 单事务协同保证(索引是 store 的投影,不持有真相)。
+
+## Commit
+`perf(data-pipeline): batched background load, signature-index dedup, binary insert, symmetric in-memory lhs fingerprint, popup pre-warm, sessionLog→ItemID`

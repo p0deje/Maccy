@@ -19,6 +19,9 @@ extension Collection where Element: Equatable {
     guard let currentIndex = firstIndex(of: before) else {
       return nil
     }
+    guard currentIndex > startIndex else {
+      return nil
+    }
 
     var prevIndex = index(currentIndex, offsetBy: -1)
     while prevIndex >= startIndex {
