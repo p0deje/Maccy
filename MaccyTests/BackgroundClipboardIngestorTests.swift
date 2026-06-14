@@ -1,3 +1,4 @@
+import Defaults
 import SwiftData
 import XCTest
 @testable import Maccy
