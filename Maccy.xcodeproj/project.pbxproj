@@ -78,6 +78,8 @@
 		DA243D142C2F66DD0012A27F /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA243D132C2F66DD0012A27F /* Storage.swift */; };
 		DA3CE80A1E44A62500B3AA98 /* StorageBackgroundContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8091E44A62500B3AA98 /* StorageBackgroundContextTests.swift */; };
 		DA3CE80C1E44A62500B3AA98 /* Storage+Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE80B1E44A62500B3AA98 /* Storage+Background.swift */; };
+		DA3CE80F1E44A62500B3AA98 /* Dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE80E1E44A62500B3AA98 /* Dtos.swift */; };
+		DA3CE8121E44A62500B3AA98 /* DtoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8111E44A62500B3AA98 /* DtoTests.swift */; };
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
 		DA384E86232746D800603999 /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA384E85232746D800603999 /* SearchTests.swift */; };
 		DA3BCB8E2C3E015000B01BC1 /* ModifierFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */; };
@@ -289,6 +291,8 @@
 		DA243D132C2F66DD0012A27F /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		DA3CE8091E44A62500B3AA98 /* StorageBackgroundContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBackgroundContextTests.swift; sourceTree = "<group>"; };
 		DA3CE80B1E44A62500B3AA98 /* Storage+Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+Background.swift"; sourceTree = "<group>"; };
+		DA3CE80E1E44A62500B3AA98 /* Dtos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dtos.swift; sourceTree = "<group>"; };
+		DA3CE8111E44A62500B3AA98 /* DtoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DtoTests.swift; sourceTree = "<group>"; };
 		DA2595D82CBC44BD00A0A7F2 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
 		DA2595D92CBC44BD00A0A7F2 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
 		DA2595DA2CBC44BD00A0A7F2 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
@@ -782,6 +786,7 @@
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				DA3CE8011E44A62500B3AA98 /* CollectionSurroundingTests.swift */,
 				DAE2850123225BD90080E394 /* ColorImageTests.swift */,
+				DA3CE8111E44A62500B3AA98 /* DtoTests.swift */,
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
 				DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */,
 				DA3CE8071E44A62500B3AA98 /* HistoryItemFileDataTests.swift */,
@@ -827,6 +832,14 @@
 				DA3CE80B1E44A62500B3AA98 /* Storage+Background.swift */,
 			);
 			path = Persistence;
+			sourceTree = "<group>";
+		};
+		DA3CE8101E44A62500B3AA98 /* Ingest */ = {
+			isa = PBXGroup;
+			children = (
+				DA3CE80E1E44A62500B3AA98 /* Dtos.swift */,
+			);
+			path = Ingest;
 			sourceTree = "<group>";
 		};
 		DA68F91F28BD819E007E2F25 /* Intents */ = {
@@ -884,6 +897,7 @@
 				E00000012F50000000000001 /* Core */,
 				E000000C2F5000000000000C /* Engine */,
 				2FBB7A252B5FECBB00C65BBE /* Extensions */,
+				DA3CE8101E44A62500B3AA98 /* Ingest */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
 				DA05B50F2C234C1C006980FE /* Models */,
 				DA3BCB902C3EEC1000B01BC1 /* Observables */,
@@ -1146,6 +1160,7 @@
 				DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */,
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
 				DA3CE80A1E44A62500B3AA98 /* StorageBackgroundContextTests.swift in Sources */,
+				DA3CE8121E44A62500B3AA98 /* DtoTests.swift in Sources */,
 				E00000102F50000000000010 /* HistoryItemPerformanceTests.swift in Sources */,
 				DA3CE8081E44A62500B3AA98 /* HistoryItemFileDataTests.swift in Sources */,
 				DA3CE8061E44A62500B3AA98 /* IngestErrorPropagationTests.swift in Sources */,
@@ -1175,6 +1190,7 @@
 				DA9C3C622C20E1BF0056795D /* IgnoreRegexpsSettingsView.swift in Sources */,
 				DA243D142C2F66DD0012A27F /* Storage.swift in Sources */,
 				DA3CE80C1E44A62500B3AA98 /* Storage+Background.swift in Sources */,
+				DA3CE80F1E44A62500B3AA98 /* Dtos.swift in Sources */,
 				2F0EC7812E773F1D003E2EA9 /* PasteStack.swift in Sources */,
 				DA5078992CF2676B00215488 /* MouseMovedViewModifer.swift in Sources */,
 				DA19690E2C3EEFA900258481 /* KeyboardShortcutView.swift in Sources */,
