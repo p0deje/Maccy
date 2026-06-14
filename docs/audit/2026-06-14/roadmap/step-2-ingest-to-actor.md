@@ -25,6 +25,7 @@
     - `materialize(req) -> IngestPlan`(纯函数,见 `B §3`):类型过滤(`filteredTypes` 等价)、忽略规则(`shouldIgnore`)、富文本/HTML 解析(后台)、去重**沿用现有 fetch-all 比对**(行为不变,只是搬后台)、决定 `.create/.merge/.ignore`。
     - `commit(plan)`:在 **`bg.transaction { }` 单事务**内完成 insert + dup-delete + size-trim,**一次 save**;构建 `ItemSnapshotDTO` 与 `StoreEvent`;`await onEvent(event)`。
   - `metrics.bytesHashed/parseMs/dedupHits` 记入 `IngestResult`。
+  - **拆分记录**:本步拆为 2.2a + 2.2b 以降低单步风险、提高可测性。**2.2a(已完成)**:把过滤/忽略规则抽成纯函数 `filterContents`(`Maccy/Ingest/IngestFilter.swift`,+ `IngestConfig` 注入配置);去重因依赖 `@Model`/`HistoryItemEngine`(`[HistoryItemContent]`)而留在 actor 侧(2.2b),偏离"materialize 含去重"的字面文本。证据:CI run `27499729026`(master、push)通过 SwiftLint/clean build/`MaccyTests`/`MaccyUITests`/日志扫描。两处审查修复:`filteredTypeSet` 改用 `subtracting(supportedTypes - enabledTypes)` 以保留自定义/非 supported 类型(与 `Clipboard.filteredTypes` 逐字节等价,原 `intersection(supported ∩ enabled)` 会误删);`IngestConfig` 字段改 `var` 以支持测试按字段覆写。**2.2b(待做)**:actor 本体 + 单事务 commit + `StoreEvent`。
 - [ ] **2.3 History 事件消费** — `History.swift`。
   - `@MainActor func consume(_ event: StoreEvent)`:依 `event` 增量更新 `all`/`items`(本步沿用现有插入位置逻辑,BS-4 改 O(log n));`added`→装饰新项并插入;`merged`→更新计数/时间并位移;`removed/cleared`→清理。
   - 保留 `add(_:)` 供 `MainActorIngestorAdapter`(BS-1)与既有测试过渡;新路径走 `consume`。
