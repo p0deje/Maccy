@@ -3,7 +3,7 @@
 > **依赖**:BS-1。**编译边界**:小步骤 2.4 起会临时破坏编译(`onNewCopyHooks` 拆除),**2.5 恢复**;完成全部后可编译且测试通过。
 
 **目标**:把"复制→入库"整条同步主线程管线搬进后台 actor,主线程只接收 `StoreEvent` 做增量 UI 更新;写入收敛为**单事务**。**行为与现状一致**(复杂度优化留给 BS-4)。
-**依据**:`01`(pasteboard-polling-callback-heavy)、`04`(no-background-modelcontext、add-multi-processpending-save-per-copy)、`02-IMG-005`(OCR main)、`03-LT-MAIN-01`。
+**依据**:`01`(pasteboard-polling-callback-heavy)、`04`(no-background-modelcontext、add-multi-processpending-save-per-copy)、`03-LT-MAIN-01`。
 **编译安全性**:核心变更是 `Clipboard` 与 `History` 的接线方式;末尾所有调用点统一经 actor/事件流,恢复编译。
 
 ## 受影响文件
@@ -12,7 +12,6 @@
 - 改:`Maccy/Observables/History.swift` — 新增 `consume(_ event:)`,内部化 `add()` 为事件处理;移除每复制全量重排依赖(留待 BS-4 优化)。
 - 改:`Maccy/Clipboard.swift:55-215` — `checkForChangesInPasteboard` 瘦化为"探测+派发";移除 `onNewCopyHooks`(`:8,12,47-53`)与同步摄取;`start()` Timer 保留但仅触发后台 `Task`。
 - 改:`Maccy/AppDelegate.swift`(构造 ingestor,移除旧 hook 注册)。
-- 改:`Maccy/Models/HistoryItem.swift:97-113` — `generateTitle()` 的图片 OCR 改委托 `ImageProcessing`(本步仍 Passthrough,但**在 actor 后台**执行,不再 `Task{@MainActor}`)。
 
 ## 小步骤
 
@@ -31,9 +30,8 @@
   - 保留 `add(_:)` 供 `MainActorIngestorAdapter`(BS-1)与既有测试过渡;新路径走 `consume`。
 - [ ] **2.4 [breaks compile] 拆除同步 hook** — `Clipboard.swift`。删除 `onNewCopyHooks`/`onNewCopy`/`clearHooks`(`:8,12,47-53`)与 `checkForChangesInPasteboard` 内的 `onNewCopyHooks.forEach`(`:214`)。`checkForChangesInPasteboard` 改为:`guard changeCount 变化` → 构建 `IngestRequest`(从 `PasteboardSource.snapshot()`)→ `Task { await ingestor.ingest(req) }`。
 - [ ] **2.5 [restores compile] AppDelegate 接线** — `AppDelegate.swift`。构造 `ClipboardIngestor`(注入 `Storage.newBackgroundContext()`、`PassthroughImageProcessor`、`now: { Date() }`、`onEvent: { @MainActor ev in History.shared.consume(ev) }`);注入到 `Clipboard`;移除旧 `onNewCopy` 注册。此时编译恢复。
-- [ ] **2.6 图片 OCR 移出 main** — `HistoryItem.swift:97-113`。`generateTitle()` 不再 `Task{@MainActor}`;OCR 改由 ingestor 在后台调用 `imageProcessor.recognizeText(in:)`(本步 Passthrough 内部仍调 Vision,但**在 actor 线程**)。
-- [ ] **2.7 测试** — `ClipboardIngestorTests`:`PasteboardSimulator` 注入 → 断言 `StoreEvent.added`;重复内容→`merged`;超 `maxValueSize`→该 blob 丢弃不崩;`ContextSpy` 断言**单次 save**;`MainThreadProbe` 断言 ingest 期间主线程无 >16ms 占用。适配既有 `ClipboardTests`/`HistoryTests` 为 async。
-- [ ] **2.8 验证** — `xcodebuild build` + test 通过;行为对照表(复制文本/图片/重复/超大)与改动前一致。
+- [ ] **2.6 测试** — `ClipboardIngestorTests`:`PasteboardSimulator` 注入 → 断言 `StoreEvent.added`;重复内容→`merged`;超 `maxValueSize`→该 blob 丢弃不崩;`ContextSpy` 断言**单次 save**;`MainThreadProbe` 断言 ingest 期间主线程无 >16ms 占用。适配既有 `ClipboardTests`/`HistoryTests` 为 async。
+- [ ] **2.7 验证** — `xcodebuild build` + test 通过;行为对照表(复制文本/图片/重复/超大)与改动前一致。
 
 ## 测试
 - 引用:`B §2`(`PasteboardSimulator`、`IngestorSpy`、`MainThreadProbe`)、`§3`(数据流抽象)、`§4`(`G-copy-text`)。
@@ -41,7 +39,7 @@
 - 闸门:`G-copy-text`(主线程 <16ms;`bytesHashed` 本步仍非 0,BS-8 后趋 0)。
 
 ## 验收标准
-- 功能:复制/去重/容量裁剪行为与改前一致;单事务(单 save);OCR/解析/去重不在 main。
+- 功能:复制/去重/容量裁剪行为与改前一致;单事务(单 save);解析/去重不在 main。
 - 复杂度:**不变**(仍 fetch-all 比对 + 整表插入;优化在 BS-4),但**移出主线程**。
 - 管线:摄取 main→background;`StoreEvent` 单向回主线程增量更新。
 - I/O 限制:沿用既有(blob/正则/富文本上限);`now` 注入避免库内系统时钟。

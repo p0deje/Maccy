@@ -20,7 +20,7 @@
 | `search-throttle-still-runs-main` | High | `History.swift:22-36`, `Search.swift:46-161` | Throttler(0.2 s) only coalesces keystrokes; the full-scan search + `highlight()` per visible item still run synchronously on main. |
 | `richtext-sync-decode-on-ingest` | High | `Clipboard.swift:316-336` | `richText()` synchronously constructs `NSAttributedString(rtf:/html:)` on the main thread on every copy (up to 512 KiB). |
 | `regex-shouldignore-on-ingest` | High | `Clipboard.swift:275-302` | `shouldIgnore(item:)` runs every user regex over the pasteboard string synchronously on main on every poll that yields a change. |
-| `ocr-vision-on-main` | High | `HistoryItem.swift:97-123` | `generateTitle()` for image items spawns `Task { @MainActor ... }` that runs `NSImage(data:)` + `VNRecognizeTextRequest.perform` on the main thread. |
+| `ocr-vision-on-main` | High | `HistoryItem.swift:97-123` | `generateTitle()` for image items spawns `Task { @MainActor ... }` that runs `NSImage(data:)` + `VNRecognizeTextRequest.perform` on the main thread. **WONTFIX — OCR removed (2026-06-14)** |
 | `decorator-init-main-decode-icon` | High | `HistoryItemDecorator.swift:77-87`, `ApplicationImage.swift:25-93` | Decorator init (called per item during `load()`) eagerly resolves the app icon via `ApplicationImageCache` / `NSWorkspace.urlForApplication` on main. |
 | `no-background-modelcontext` | High | `Storage.swift:5-10` | Only `mainContext` exists; no `newBackgroundContext`, no actor wrapping SwiftData. All DB I/O is main-thread by construction. |
 | `timer-no-tolerance-mode` | Medium | `Clipboard.swift:55-64` | `Timer.scheduledTimer` with no `tolerance`, default `.common` mode — pauses under modal tracking and is not power-efficient. |
@@ -86,7 +86,7 @@
   Call path: `Timer fire → checkForChangesInPasteboard → contents(from:) (Clipboard.swift:219) → richText (316) + shouldIgnore (275) + isEmptyString (304)` → `HistoryItem.generateTitle() (HistoryItem.swift:97)` → `onNewCopyHooks → History.add (History.swift:140) → findSimilarItem (456) + insertIntoStorage (130) + delete-storm (122)` → `Storage.context.save()`.
 - **Impact:** Every paste of a large image, RTF document, or long string blocks the UI for the full decode + DB-write duration. Worst case is exactly the user-visible symptom: "lag on images & large text". At a 0.1 s poll interval this can repeatedly clip the frame budget.
 - **Recommendation:** Move the heavy body to a background context:
-  - Introduce `Storage.shared.backgroundContext` (`container.newBackgroundContext()`), and do `contents(from:)`, regex checks, `NSAttributedString` decode, and OCR off-main; only the final `HistoryItem` insertion hops back to `@MainActor` for UI update.
+  - Introduce `Storage.shared.backgroundContext` (`container.newBackgroundContext()`), and do `contents(from:)`, regex checks, `NSAttributedString` decode, and image decode off-main; only the final `HistoryItem` insertion hops back to `@MainActor` for UI update. (OCR removed 2026-06-14 — no longer a factor.)
   - Or wrap `Clipboard` in its own `actor PasteboardObserver` that performs `checkForChangesInPasteboard` work and `await`s the main actor only for the hook fan-out.
   - Consider modernizing the *trigger*: macOS still lacks a KVO-style notification for `NSPasteboard.changeCount`, but switching to a `Task`-based `while !Task.isCancelled { try await sleep; await check() }` on a background-priority task (instead of a main-run-loop `Timer`) keeps the wake-up off the main thread entirely.
 
@@ -520,8 +520,7 @@
 - `MaccyTextProcessor` already provides `validUTF8PrefixLength` and `fingerprint` (`ClipboardDataProcessor.swift:15, 53, 67`) — extending the same module with:
   - A content-addressed duplicate index (hash → HistoryItem id) replacing `findsimilar-full-refetch`.
   - A title trigram/roaring-bitmap index for search.
-  - Synchronous OCR pre-classification (image format + size heuristics) so the Vision call only fires for plausible images.
-- All of these are CPU-bound, branchy, and trivially `Sendable` — ideal for a C++ worker invoked from the background actor.
+- All of these are CPU-bound, branchy, and trivially `Sendable` — ideal for a C++ worker invoked from the background actor. (An earlier idea — OCR pre-classification so the Vision call only fires for plausible images — is moot: OCR was removed 2026-06-14.)
 
 **Pre-warming for "~2x faster UI response":**
 - The cheapest pre-warms, ranked: (1) decorate only the first viewport-full of items in `load()` and decorate the rest lazily in `HistoryItemView.onAppear`; (2) resolve `ApplicationImage.nsImage` for the top-N items on a background queue right after `load()`; (3) eagerly call `ensureThumbnailImage()` for the first ~10 visible items so the popup opens with thumbnails already decoded.

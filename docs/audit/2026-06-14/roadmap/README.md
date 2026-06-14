@@ -31,7 +31,7 @@
 | **BS-0** Safety & hygiene | 止血:崩溃/丢数据/构建方言 | 每个小步骤独立可编译 | — | `step-0-safety.md` |
 | **BS-1** Concurrency scaffolding | 新增后台 context、DTO、actor 协议、test doubles(**仅新增,不改调用点**) | 全程加法,零破坏 | BS-0 | `step-1-concurrency-scaffolding.md` |
 | **BS-2** Ingest → actor | 把摄取管线搬进 actor,主线程只持轻量 observable | 末尾恢复编译 | BS-1 | `step-2-ingest-to-actor.md` |
-| **BS-3** Image pipeline | ImageIO 降采样、后台解码/OCR、缩略图缓存 | 末尾恢复编译 | BS-1,BS-2 | `step-3-image-pipeline.md` |
+| **BS-3** Image pipeline | ImageIO 降采样、后台解码、缩略图缓存 | 末尾恢复编译 | BS-1,BS-2 | `step-3-image-pipeline.md` |
 | **BS-4** Data pipeline | 增量插入、去重签名索引、分批 fetch、单事务摄取、预加载 | 末尾恢复编译 | BS-2 | `step-4-data-pipeline.md` |
 | **BS-5** Text & search | 搜索搬后台、UTF-8/高亮索引修正、截断单位统一 | 末尾恢复编译 | BS-2 | `step-5-text-search.md` |
 | **BS-6** Memory governance | NSCache、可视区/告警回收、去双份 | 末尾恢复编译 | BS-3 | `step-6-memory.md` |

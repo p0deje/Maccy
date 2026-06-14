@@ -78,7 +78,6 @@ IngestResult   = { event: StoreEvent, metrics: { dedupHits, bytesHashed, parseMs
 | `07-F-002/003`(吞错) | `IngestErrorPropagationTests.saveFailure_surfacesError` |
 | `08-F-001`(指纹非对称) | `SignatureIndexTests.dedup_lhsFingerprint_notRehashed` + `bytesHashed≈0` 闸门 |
 | `02-IMG-001/002`(主线程解码/resize) | `G-copy-large-image` + `ImageDownsamplerTests` |
-| `02-IMG-005`(OCR main) | `ImageProcessorTests.ocr_runsOffMain` |
 | `03-LT-UTF8-01`/`07-F-010` | `TextBoundaryTests` + `SearchHighlightIndexTests` |
 | `04 load/findsimilar` | `G-popup-open` + `HistoryLoadTests.incremental` |
 

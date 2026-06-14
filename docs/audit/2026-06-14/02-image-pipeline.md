@@ -15,7 +15,7 @@ User pain point (primary): UI blocking on image clipboard entries. Everything be
 | IMG-002 | Critical | Resize | NSImage+Resized.swift:18-25 | Resize via `draw(in:operation:.copy,fraction:1)` — full-decode then redraw, no ImageIO downsample |
 | IMG-003 | Critical | Preview | HistoryItemDecorator.swift:13, 164 | Preview target = full popup screen size (`visibleFrame`, fallback 2048x1536) — vastly over-sized |
 | IMG-004 | Critical | Concurrency | HistoryItemDecorator.swift:100, 116, 168 | "Async" tasks are `Task { @MainActor }` — no work is offloaded off the main thread |
-| IMG-005 | Critical | OCR | HistoryItem.swift:97-113, 269-292 | Vision `VNRecognizeTextRequest.perform` runs inside `Task { @MainActor }` for every image copy |
+| IMG-005 | Critical | OCR | HistoryItem.swift:97-113, 269-292 | Vision `VNRecognizeTextRequest.perform` runs inside `Task { @MainActor }` for every image copy. **WONTFIX — OCR removed (2026-06-14)** |
 | IMG-006 | High | Preview | PreviewItemView.swift:17-19 + HistoryItemDecorator.swift:122-129 | `asyncGetPreviewImage()` awaits a @MainActor task — caller blocks main actor for the resize |
 | IMG-007 | High | Resize | NSImage+Resized.swift:20 | `imageInterpolation = .high` (Lanczos-quality) on the popup hot path; unnecessary for a thumbnail |
 | IMG-008 | High | Memory | HistoryItemDecorator.swift:46-51, 187 | Per-item: full-res `imageData` (Data) + full-res `decodedImage` (NSImage bitmap) + preview + thumbnail, all retained simultaneously |
@@ -24,8 +24,8 @@ User pain point (primary): UI blocking on image clipboard entries. Everything be
 | IMG-011 | High | Caching | ApplicationImageCache.swift:8 | Unbounded `[String: ApplicationImage]` dictionary; no eviction; grows with distinct bundle ids |
 | IMG-012 | High | Ingest | (missing) | No ImageIO downsampling at ingest; no on-disk thumbnail cache; no prefetch of visible-window thumbnails |
 | IMG-013 | Medium | Resize | NSImage+Resized.swift:8-16 | Aspect math: `min(ratioX, ratioY)` is correct, but the "don't size up" check (`newSize.height >= size.height`) only compares height — width-up case slips through |
-| IMG-014 | Medium | OCR | HistoryItem.swift:103-112 | `Task { @MainActor }` captures `[weak self]` but is never cancelled when the item is deleted; orphaned OCR writes to a deleted model |
-| IMG-015 | Medium | OCR | History.swift:89-94 | Toggling `showSpecialSymbols` re-runs `generateTitle()` for every item, which (for images) re-spawns an OCR `Task` per item |
+| IMG-014 | Medium | OCR | HistoryItem.swift:103-112 | `Task { @MainActor }` captures `[weak self]` but is never cancelled when the item is deleted; orphaned OCR writes to a deleted model. **WONTFIX — OCR removed (2026-06-14)** |
+| IMG-015 | Medium | OCR | History.swift:89-94 | Toggling `showSpecialSymbols` re-runs `generateTitle()` for every item, which (for images) re-spawns an OCR `Task` per item. **WONTFIX — OCR removed (2026-06-14)** |
 | IMG-016 | Medium | Data | HistoryItem.swift:175-183, 244-252 | `imageData` recomputed (loops `contents`) on every call; called from `hasImage`, `generateTitle`, decorator init, decorator `image()` |
 | IMG-017 | Medium | Preview | PreviewItemView.swift:26-49 | Placeholder uses `idealWidth/Height = previewImageSize` (full screen) as the placeholder frame — huge layout churn before image arrives |
 | IMG-018 | Medium | Preview | AsyncView.swift:29 + PreviewItemView.swift:17 | `.failed` and `.loading` render the same placeholder; an exception in `asyncGetPreviewImage` is swallowed (no error state) |
@@ -46,7 +46,7 @@ User pain point (primary): UI blocking on image clipboard entries. Everything be
 | IMG-033 | Low | Preview | PreviewItemView.swift:30-31, 44-45 | Placeholder and error state both use `Color.gray.opacity(0.3)` of identical size — indistinguishable |
 | IMG-034 | Low | Settings | Defaults.Keys+Names.swift:47 + AppearanceSettingsPane.swift:98 | `imageMaxHeight` is in points but used directly as a pixel target for thumbnail height (no scale factor); 40 default on a 2x display renders at ~80 backing px |
 | IMG-035 | Low | Concurrency | HistoryItemDecorator.swift:8 | `@unchecked Sendable` on a class with mutable `var` image caches — not actually thread-safe; will fight Swift 6 strict concurrency |
-| IMG-036 | Low | OCR | HistoryItem.swift:99-101 | OCR short-circuits to `""` when `enable-testing` is in args but returns `""` regardless — even valid image titles are blank in tests |
+| IMG-036 | Low | OCR | HistoryItem.swift:99-101 | OCR short-circuits to `""` when `enable-testing` is in args but returns `""` regardless — even valid image titles are blank in tests. **WONTFIX — OCR removed (2026-06-14)** |
 | IMG-037 | Low | Cleanup | HistoryItemDecorator.swift:141-143 | `recache()` drops the bitmap cache but keeps the NSImage; the held `Data` (imageData) is unaffected — partial cleanup only |
 | IMG-038 | Low | HEIC | HistoryItem.swift:177 | HEIC supported in `imageData` filter, but `NSImage(data:)` decode cost for HEIC is higher than JPEG/PNG — accentuates IMG-001 |
 
@@ -244,7 +244,10 @@ User pain point (primary): UI blocking on image clipboard entries. Everything be
 
 ## 4. OCR (Vision)
 
+> **WONTFIX (2026-06-14): the OCR feature was removed from Maccy.** All OCR findings below (IMG-005/014/015/036) are moot; the `recognizedText(in:)`/Vision code path no longer exists.
+
 ### IMG-005 — Vision OCR runs on @MainActor for every image copy
+- **Status: WONTFIX — OCR removed (2026-06-14)**. The image-title OCR feature (Vision `recognizedText(in:)`) was removed from Maccy; the code path described below no longer exists. Image items now get an empty title (`""`) and are shown as thumbnails only. The analysis is retained as a historical record.
 - Severity: Critical
 - Location: `Maccy/Models/HistoryItem.swift:97-113` (`generateTitle`), `:269-292` (`recognizedText`).
 - Problem:
@@ -288,6 +291,7 @@ User pain point (primary): UI blocking on image clipboard entries. Everything be
   - Use `VNImageRequestHandler.perform(requests:)` on a serial queue with cancellation: keep the `VNRecognizeTextRequest` in a field and call `cancel()` on item delete.
 
 ### IMG-014 — OCR task not cancelled on item delete
+- **Status: WONTFIX — OCR removed (2026-06-14)**. The OCR `Task` no longer exists; this finding is moot.
 - Severity: Medium
 - Location: `Maccy/Models/HistoryItem.swift:103-112`.
 - Problem: The detached-… no, the `Task { @MainActor [weak self, imageData] in ... }` captures `[weak self]`, which prevents a *strong* retain cycle but does NOT cancel the task when the `HistoryItem` is deleted from SwiftData. If the user copies an image and immediately clears history, the OCR task continues to completion and then attempts `self?.title = recognizedText` against a model whose context may have been torn down.
@@ -296,6 +300,7 @@ User pain point (primary): UI blocking on image clipboard entries. Everything be
 - Recommendation: Store the OCR `Task` on the model (or on its decorator), and cancel it in `HistoryItemDecorator.invalidate()` / `History.delete`.
 
 ### IMG-015 — Toggling `showSpecialSymbols` re-OCRs every image
+- **Status: WONTFIX — OCR removed (2026-06-14)**. With no OCR `Task`, toggling `showSpecialSymbols` no longer re-OCRs; this finding is moot.
 - Severity: Medium
 - Location: `Maccy/Observables/History.swift:89-94`.
 - Problem:
@@ -311,6 +316,7 @@ User pain point (primary): UI blocking on image clipboard entries. Everything be
 - Recommendation: Cache the OCR result on the model (`@Transient var ocrText: String?`). On setting toggle, just re-render the cached text through the new formatter; do not re-run Vision.
 
 ### IMG-036 — OCR returns `""` under `enable-testing`
+- **Status: WONTFIX — OCR removed (2026-06-14)**. With OCR removed, image titles are empty by design; this finding is moot.
 - Severity: Low
 - Location: `Maccy/Models/HistoryItem.swift:99-101`.
 - Problem: When the app is launched with `enable-testing`, image titles are forced to `""` and the OCR task is skipped — but this is also the displayed title. Tests that exercise the title path see empty strings for image items, hiding OCR-related regressions.
@@ -440,7 +446,7 @@ The user asked about using C++ for image work. For Maccy's needs:
 ## 9. Swift 6 implications (cross-cutting)
 
 - **IMG-035**: `HistoryItemDecorator` is `@unchecked Sendable` while holding mutable `var` image fields (`thumbnailImage`, `previewImage`, `decodedImage`, the two `Task`s). This is unsafe under Swift 6 strict concurrency; the only reason it works today is the universal `@MainActor` isolation. Migrating image work off-main (the recommended fix) *forces* a real `Sendable` boundary — pass `Data` or `CGImage` (both `Sendable`) into a background actor, return a `Sendable` result, and assign to the decorator on main. Drop `@unchecked Sendable` once the off-main path lands.
-- **IMG-005/IMG-014**: OCR `Task { @MainActor }` should become `Task.detached` (or an `actor OCRWorker` call). The result write-back hops to main.
+- **IMG-005/IMG-014**: OCR `Task { @MainActor }` should become `Task.detached` (or an `actor OCRWorker` call). The result write-back hops to main. *(WONTFIX — OCR removed 2026-06-14; the OCR `Task` no longer exists.)*
 - **IMG-011**: `ApplicationImageCache` is `@MainActor`; if app-icon fetch moves off-main (recommended), the cache itself should be an `actor` or a lock-protected `OSAllocatedUnfairLock<Dictionary>`.
 - **IMG-001**: an `actor ImageDecoder` returning `Sendable` thumbnails is the natural Swift 6 shape; it composes cleanly with `@Model` (the model stays `@MainActor`, only the decode is off-main).
 

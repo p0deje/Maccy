@@ -13,7 +13,7 @@
 | 搜索/按键 | `History.swift:22-35`;`Search.swift:46-160` | O(n) 全量(main)+ 高亮重建 | O(n) 后台 actor(可提前终止/并行) | BS-5 |
 | 图片缩略图 | `HistoryItemDecorator.swift:150-156`;`NSImage+Resized.swift` | 全量解码 + draw,O(srcPixels) | ImageIO 降采样 O(targetPixels) | BS-3 |
 | 图片预览 | `HistoryItemDecorator.swift:158-165` | 同上,目标=整屏 | 目标=预览区(封顶) | BS-3 |
-| 图片 OCR | `HistoryItem.swift:97-113,269-292` | main,Vision `.fast` | 后台队列;仅图片项;可取消 | BS-3 |
+| ~~图片 OCR~~ | ~~`HistoryItem.swift:97-113,269-292`~~ | ~~main,Vision `.fast`~~ | ~~后台队列;仅图片项;可取消~~ | **已移除(OCR 功能删除, 2026-06-14)** |
 | 富文本检测 | `Clipboard.swift:316-336` | main,`NSAttributedString(rtf:/html:)` | 后台 actor;≤`richTextParsingLimit` | BS-2 |
 | 正则忽略 | `Clipboard.swift:275-302` | main,每复制全 regex | 后台;缓存编译结果(已部分缓存) | BS-2 |
 | App 图标 | `ApplicationImage.swift:42`;init `HistoryItemDecorator.swift:83` | main,装饰时同步 | 后台预热 + NSCache | BS-6 |
@@ -62,10 +62,9 @@
 |---|---|---|---|---|
 | 弹窗打开→首屏 | 用户唤起 | < 16ms(仅 diff 已预取数据) | < 80ms(p95) | 当前 main 全量 load |
 | 预加载可见窗口 | 弹窗将开 | 0(后台 actor) | 后台并行 | 无 |
-| 复制文本→列表可见 | changeCount 变 | < 16ms(仅追加单行) | < 120ms(p95) | main 摄取+去重+OCR |
+| 复制文本→列表可见 | changeCount 变 | < 16ms(仅追加单行) | < 120ms(p95) | main 摄取+去重 |
 | 复制大图→可预览 | changeCount 变 | < 16ms(主线程无解码) | < 400ms(后台降采样) | main 解码+resize |
 | 按键搜索 | searchQuery 变 | < 16ms/键 | < 60ms(p95,后台) | main 全量扫 |
-| OCR 标题就绪 | 图片入库 | 0(后台) | 异步,不阻塞交互 | main Vision |
 
 > "2× UI 响应"等价于:**主线程预算全部压到 < 16ms/事件**,重活移到后台并行,数据预加载。见 `README.md` 度量基线。
 
@@ -79,5 +78,5 @@
 
 - 主线程:仅 SwiftUI diff + observable 赋值 + 轻量 mainContext 读。
 - `ClipboardIngestor` actor:1 个,串行化摄取(去重/写库顺序一致)。
-- `ImageProcessor` actor:可内部用 `Task`/后台队列并行降采样与 OCR。
+- `ImageProcessor` actor:可内部用 `Task`/后台队列并行降采样与解码。
 - 后台 SwiftData context:每 actor 一个,不复用跨域。

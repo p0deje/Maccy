@@ -276,7 +276,7 @@ A scan of every closure site that captures `self` confirms the existing code is 
 |---|---|---|
 | `HistoryItemDecorator.swift:100,116` (`ensureThumbnailImage` / `ensurePreviewImage`) | `[weak self, image]` | OK — task does not retain decorator. |
 | `HistoryItemDecorator.swift:232-244,252-262` (`synchronizeItemPin` / `synchronizeItemTitle`) | `[weak self]` in `DispatchQueue.main.async` | OK — re-arm uses `weak self`, guarded by `isInvalidated`. |
-| `HistoryItem.swift:103` (OCR title generation) | `[weak self, imageData]` | OK. |
+| `HistoryItem.swift:103` (OCR title generation) | `[weak self, imageData]` | OK. *(WONTFIX — OCR removed 2026-06-14; this capture site no longer exists.)* |
 | `ApplicationImage.swift:61-82` (`DispatchSource` event handler) | `[weak self]` (outer + inner) | OK — but `appURL` is captured strongly; correct (URL is a value type and needed for re-resolve). |
 | `AppDelegate.swift:184-197` (`synchronizeMenuIconText`) | `[weak self]` in `Task` | OK. |
 | `History.swift:22-36` (`searchQuery.didSet`) | `[self]` (strong) | Acceptable — `History` is a singleton (`static let shared`), so the strong capture does not cause a cycle. Under Swift 6 this closure would need explicit `@MainActor` isolation; see `strong-self-closure-throttler`. |

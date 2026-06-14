@@ -18,7 +18,7 @@
 | F-005 | **High** | `History.swift:122-128` (`limitHistorySize`) | `unpinned[maxSize...]` partial-range subscript can crash when `maxSize > unpinned.count`; relies on `count > maxSize` guard that is correct but fragile if the guard is reordered |
 | F-006 | **High** | `History.swift:177` | `limitHistorySize(to: historySizeLimit - 1)` can pass `0` (when `historySizeLimit == 1`); combined with `max(0, maxSize)` makes the slice `[0...]` safe, but the intent (reserve 1 slot) is silently a no-op |
 | F-007 | **High** | `Clipboard.swift:194-204` | Two pasteboard items are merged; if one returns `[]` from `contents(from:)` and the other has data, partial result is silently dropped only when both are empty — but cross-item type duplication (e.g. both items have `.string`) is not deduplicated |
-| F-008 | **High** | `HistoryItem.swift:103-112` (`generateTitle` OCR) | `Task { @MainActor [weak self, imageData] in ... self?.title = ...` mutates a SwiftData `@Model` from a fire-and-forget `Task` that can outlive the insert/save transaction; title update lost if item deleted before task runs |
+| F-008 | **High** | `HistoryItem.swift:103-112` (`generateTitle` OCR) | `Task { @MainActor [weak self, imageData] in ... self?.title = ...` mutates a SwiftData `@Model` from a fire-and-forget `Task` that can outlive the insert/save transaction; title update lost if item deleted before task runs. **WONTFIX — OCR removed (2026-06-14)** |
 | F-009 | **High** | `Clipboard.swift:297` | `NSRange(string.startIndex..., in: string)` where `string` was just produced from `stringPrefix(maxBytes:)` — `NSRange` from `String.Index` is fine, but if the cached `string` from `stringPrefix` contains invalid UTF-8 it would already be `nil`-guarded; verify range math after truncation (offset vs. byte index) |
 | F-010 | **High** | `Search.swift:88-94` (fuzzy) | `searchString.index(startIndex, offsetBy: $0.lowerBound)` and `... upperBound + 1` — `Fuse` returns *UTF-16/character* offsets; `String.Index` offset on a Swift `String` is grapheme-cluster-based; on emoji/CJK with surrogate pairs, indices can trap or point at wrong cluster |
 | F-011 | **High** | `Search.swift:78-82` (fuzzy) | `searchString.index(searchString.startIndex, offsetBy: fuzzySearchLimit)` traps if `searchString.count < fuzzySearchLimit` (no guard against `count`) |
@@ -57,7 +57,7 @@
 | F-044 | **Medium** `Models/HistoryItem.swift:12-38` (`supportedPins`) | `Sauce.shared.character(for: Int(deleteKey.QWERTYKeyCode), ...)` is used to *remove* a character from the pin set; `Int(...)` of a `CGKeyCode` (UInt32) cannot overflow; safe but unobvious |
 | F-045 | **Low** | `Observables/History.swift:204-214` (`withLogging`) | `try? block()` swallows errors thrown by `block` (which is the whole clear/delete sequence) — the surrounding logging context loses the actual error; should `do/catch` and `logger.error("\(error)")` |
 | F-046 | **Low** | `Observables/HistoryItemDecorator.swift:127` | `_ = await previewImageGenerationTask?.result` — accessing `.result` on a non-completed `Task` suspends; if the task errors, the error is discarded by `_ =` |
-| F-047 | **Low** | `Models/HistoryItem.swift:97-114` (`generateTitle`) | The `Task { @MainActor ... }` for OCR is fire-and-forget; there is no cancellation when the item is deleted (`invalidate()` only cancels image-generation tasks in the decorator) |
+| F-047 | **Low** | `Models/HistoryItem.swift:97-114` (`generateTitle`) | The `Task { @MainActor ... }` for OCR is fire-and-forget; there is no cancellation when the item is deleted (`invalidate()` only cancels image-generation tasks in the decorator). **WONTFIX — OCR removed (2026-06-14)** |
 | F-048 | **Low** | `Observables/History.swift:69-103` (`init`) | Five `Task { @MainActor in for await _ in Defaults.updates(...) }` blocks never cancel; `History.shared` is a singleton so lifecycle is fine, but the pattern is not cancellation-safe if reused |
 | F-049 | **Low** | `Engine/HistoryItemEngine.swift:60-79` (`generateTitle`) | `title.range(of: "^ +", options: .regularExpression)` then `replacingOccurrences(of: " ", with: "·", range: range)` — `range` is the matched range in `title`; the regex is not anchored against `title.shortened` boundaries — operates on the post-`previewableTextPrefix` string, which is consistent |
 | F-050 | **Low** | `Core/ClipboardDataProcessor.swift:4` | `private static let largeContentFingerprintThreshold = 16 * 1_024` — magic constant; should be named and documented as the trade-off point for hashing vs. byte-compare |
@@ -615,6 +615,8 @@ Sentinel value `-1` for "not selected". Brittle; `var selectionIndex: Int?` is s
 ## Thread-safety / Model Confinement
 
 ### F-008 — OCR `Task` mutates `@Model` off the insert transaction (High)
+
+**Status: WONTFIX — OCR removed (2026-06-14).** The OCR `Task` and `recognizedText` code path no longer exist; image items get an empty title. The analysis below is retained as a historical record.
 
 **File:** `Maccy/Models/HistoryItem.swift:97-114`.
 

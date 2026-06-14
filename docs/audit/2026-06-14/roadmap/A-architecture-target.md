@@ -10,12 +10,11 @@
 │  ├─ HistoryListView / ListItemView               │    │  ├─ 读 NSPasteboard(后台)                          │
 │  ├─ PreviewItemView                              │    │  ├─ RTF/HTML 解析(NSAttributedString,后台)        │
 │  └─ 仅绑定 @Observable 状态                       │    │  ├─ 去重(签名索引查询,非全表)                     │
-│                                                  │ DTO│  ├─ 标题生成 / 图片 OCR(后台)                       │
+│                                                  │ DTO│  ├─ 标题生成(文本项,后台)                          │
 │ @Observable History(瘦视图模型,持有 items)       │◄───│  └─ 写入(background context,单事务)               │
 │ @Observable HistoryItemDecorator(UI 状态)         │    │ actor ImageProcessor                                 │
 │  ├─ thumbnailImage / previewImage(就绪位图)      │    │  ├─ ImageIO 降采样(CGImageSource 缩略图)           │
-│  └─ applicationImage(NSCache)                    │    │  ├─ 后台解码                                         │
-│                                                  │    │  └─ Vision OCR(后台队列)                           │
+│  └─ applicationImage(NSCache)                    │    │  └─ 后台解码 / 缩略图 / 预览                         │
 │ Storage.mainContext(轻量读:可见窗口)             │    │ Storage.newBackgroundContext()(重读/写)             │
 └──────────────────────────────────────────────────┘    └─────────────────────────────────────────────────────┘
                   ▲                                                          │
@@ -24,7 +23,7 @@
 ```
 
 ### 隔离规则
-- **主线程只做廉价 SwiftUI diffing + 轻量读**。任何 `NSImage(data:)`、resize、`NSAttributedString(rtf:/html:)`、`VNRecognizeTextRequest`、SwiftData fetch/save、正则、去重比对——**禁止在 main**。
+- **主线程只做廉价 SwiftUI diffing + 轻量读**。任何 `NSImage(data:)`、resize、`NSAttributedString(rtf:/html:)`、SwiftData fetch/save、正则、去重比对——**禁止在 main**。
 - **`@Model HistoryItem`/`HistoryItemContent` 不跨 actor**。跨边界前转成 DTO。
 - **单一可变源**:每个数据项的真相源是 SwiftData(后台 context 写)。主线程 observable 是其**投影**。
 - **SwiftData context 线程归属**:`mainContext` 仅 main;`newBackgroundContext()` 仅所属 actor;**禁止跨域使用同一 context**。
@@ -49,7 +48,7 @@
         ├─ 构建 ClipboardItemDTO(Sendable)
         ├─ 富文本/HTML 解析(受 richTextParsingLimit)→ 决定 title 来源
         ├─ 去重:查询 SignatureIndex(Sendable) → 命中则合并;否则新建
-        ├─ 标题生成(文本:engine;图片:委托 ImageProcessor OCR)
+        ├─ 标题生成(文本:engine;图片:空标题 `""`,仅缩略图展示)
         ├─ 单事务写(background context)
         └─ 发出 StoreEvent.added(dto) / .merged(dto) / .ignored
         │ StoreEvent(Sendable enum)
@@ -86,7 +85,7 @@
 | `Maccy/Ingest/ClipboardIngestor.swift` | 新增 | actor:摄取/解析/去重/写库/发事件 |
 | `Maccy/Ingest/SignatureIndex.swift` | 新增 | 内存去重索引(`[SignatureDTO: ItemID]`) |
 | `Maccy/Ingest/Dtos.swift` | 新增 | 上述 DTO 定义 |
-| `Maccy/ImageProcessing/ImageProcessor.swift` | 新增 | actor:降采样/解码/OCR |
+| `Maccy/ImageProcessing/ImageProcessor.swift` | 新增 | actor:降采样/解码/缩略图/预览 |
 | `Maccy/ImageProcessing/ImageDownsampler.swift` | 新增 | ImageIO 缩略图纯函数(可单测) |
 | `Maccy/ImageProcessing/ThumbnailCache.swift` | 新增 | 磁盘 + NSCache 缩略图缓存 |
 | `Maccy/Observables/History.swift` | 改 | 瘦化:消费 `AsyncStream<StoreEvent>`,增量更新 |
@@ -105,7 +104,7 @@
 | 冷开 load | O(n) 全量 fetch+装饰 | O(visible) 装饰;O(n) 后台分批预取 |
 | 搜索/按键 | O(n) 全量扫描(main) | O(n) 后台 actor(可并行/提前终止) |
 | 图片缩略图 | 全量解码 + draw(O(像素)) | ImageIO 降采样 O(目标像素) |
-| 标题 OCR | main 阻塞 | 后台;仅图片项 |
+| ~~标题 OCR~~ | ~~main 阻塞~~ | ~~后台;仅图片项~~ | **已移除(OCR 功能删除, 2026-06-14);图片项用空标题** |
 
 ## 7. 不变性(全流程必须成立)
 

@@ -46,7 +46,7 @@ What is correct (do not regress):
 | LT-MAIN-04 | Medium | Concurrency | `Clipboard.swift:156-215` `AppDelegate.swift:52` | `onNewCopy` hook chain (`History.add`) runs synchronously inside `checkForChangesInPasteboard` on the pasteboard timer thread context → main actor, blocking pasteboard polling. |
 | LT-CPP-05 | Medium | Bridge | `MaccyTextProcessor.mm:7-13` | No length/contiguity pre-check; `data.bytes` for an empty `NSData` is documented as possibly `NULL` and is dereferenced unconditionally (safe only because the loop is empty). |
 | LT-CPP-06 | Medium | C++ | `ClipboardByteProcessor.cpp:7` `:8` | FNV constants are correct, but the function is not marked `noexcept`/`constexpr`-friendly; the bridge pays one ObjC dispatch per call. |
-| LT-TITLE-02 | Medium | Title gen | `HistoryItem.swift:97-114` | Image-OCR path returns `""` synchronously, then mutates `self.title` from a `Task` — `Notifier.notify(body: item.title)` in `History.add` may fire with the empty placeholder. |
+| LT-TITLE-02 | Medium | Title gen | `HistoryItem.swift:97-114` | Image-OCR path returns `""` synchronously, then mutates `self.title` from a `Task` — `Notifier.notify(body: item.title)` in `History.add` may fire with the empty placeholder. **WONTFIX — OCR removed (2026-06-14)** |
 | LT-SAFETY-02 | Medium | Data safety | `Clipboard.swift:317-324` `:326-333` | `richText()` parses RTF/HTML up to 512 KB *synchronously* on the clipboard-poll thread to decide emptiness. |
 | LT-UTF8-04 | Low | UTF-8 | `Data+StringPrefix.swift:4` `ClipboardDataProcessor.swift:11` | Non-UTF-8 path (`legacyStringPrefix`) decrements `endIndex` byte-by-byte and re-attempts full decode each iteration — O(n²) worst case for misaligned multibyte. |
 | LT-UTF8-05 | Low | UTF-8 | `ClipboardByteProcessor.cpp:67` | Overlong 2-byte form `0xC0 0x80` (NULL overlong) is correctly rejected, but there is no explicit test for it in the suite. |
@@ -91,6 +91,7 @@ Total: 35 findings — Critical 3, High 10, Medium 11, Low 11.
 - Recommendation: Cache the `ContentIndex` (or just the resolved per-type first `Data`) on the `HistoryItem` itself (lazily, invalidated when `contents` changes). For the title path, you only need `textPrefix(maxLength:)` / `rtfIfSmall` / `htmlIfSmall` — precompute these once.
 
 ### LT-TITLE-02 — Image-OCR title path returns `""` then mutates asynchronously
+- **Status: WONTFIX — OCR removed (2026-06-14)**. The image-title OCR path (`generateTitle()` spawning a `Task { @MainActor … }` running `VNRecognizeTextRequest`) no longer exists. Image items now get an empty title (`""`) by design. The analysis below is retained as a historical record.
 - Severity: Medium
 - Files/lines: `Maccy/Models/HistoryItem.swift:97-114`.
 - Problem: When the item is an image, `generateTitle()` spawns a `Task { @MainActor … }` running `VNRecognizeTextRequest` and returns `""` synchronously. `History.add` then proceeds: `Notifier.notify(body: item.title, …)` (`History.swift:171`) is dispatched from a `Task`, but the synchronous return of `""` is also assigned by `Clipboard.swift:212` `historyItem.title = historyItem.generateTitle()` before OCR completes, so `item.title` is briefly `""`.

@@ -2,7 +2,7 @@
 
 > **依赖**:BS-2(复用其 actor 模式与 `ItemSnapshotDTO`/`StoreEvent` 抽象)。**编译边界**:小步骤 5.4 起会临时破坏编译(`searchQuery.didSet` 与 `Search` 调用点重写),**5.6 恢复**;完成全部后 `xcodebuild build` 通过、既有测试全绿。
 >
-> **不越界**:C++ 正则(RE2 / 灾难回溯根除)属 **BS-8**;OCR / 标题生成的 actor 化属 **BS-2/3**;图片预览路径属 **BS-3**。本步只做"搜索后台化 + 文本边界/单位/高亮正确性 + 标题重建范围收窄 + 正则守卫强化"。
+> **不越界**:C++ 正则(RE2 / 灾难回溯根除)属 **BS-8**;标题生成的 actor 化属 **BS-2/3**;图片预览路径属 **BS-3**。本步只做"搜索后台化 + 文本边界/单位/高亮正确性 + 标题重建范围收窄 + 正则守卫强化"。
 
 **目标**:把逐键搜索(fuzzy / regex / simple / mixed)整条搬进后台 actor,主线程只接收 `[SearchResult]` 增量;修掉 Fuse UTF-16 偏移与 grapheme `index(_:offsetBy:)` 混用导致的高亮错位;统一"标题预览"与"内容前缀"的截断单位;`showSpecialSymbols` 切换只重建可见项标题(不再对全 `items` 调 `generateTitle`);强化正则守卫并加输入长度上限。
 **依据**:`07-F-010`(高亮 UTF-16/grapheme 错位)、`07-F-011`(fuzzy 截断 trap 隐患)、`07-F-012`/`03-LT-UTF8-01`(截断单位 grapheme vs byte 不一致)、`07-F-013`/`03-LT-RENDER-01`(`highlight` 用截断串 + 全串 ranges 静默丢高亮)、`07-F-030`(同上静默丢)、`03-LT-MAIN-02`(`showSpecialSymbols` 对全 `items` 重生成标题)、`03-LT-SEARCH-01`(截断导致漏匹配)、`03-LT-SEARCH-02`(`mixedSearch` 三遍扫描)、`03-LT-SEARCH-03`(Fuse range 映射未测)、`03-LT-SEARCH-04`(正则守卫自身无界)、`03-LT-SEARCH-06`(Fuse 实例)、`03-LT-UTF8-02/06`(`count`/`offsetBy` 的 O(n))、`03-LT-TITLE-03`/`07-F-049`(双 `replacingOccurrences` 分配)、`03-LT-MAIN-05`(resize 在搜索 throttle 内)、`A-architecture-target.md §6`(搜索 `O(n) main` → `O(n) background`)。
@@ -125,7 +125,7 @@
   - `shortened` 守卫:`O(n) count`(`String+Shortened.swift:3`)→ `O(maxLength)`(`prefix` / `utf8.count` 快判)。
 - **管线**:搜索 main→background;`[SearchSnapshot]` 单向回主线程增量更新;resize 移出搜索关键路径(独立低优先级 task)。
 - **I/O 限制**:`fuzzySearchLimit=5_000` / `regexpSearchLimit=1_000` / `highlightLimit=500` **同一常量源**且单位显式(`TextLimits`);正则输入上限 `regexpInputLimit=2_000`(`C §2` 输入限制表)。
-- **不变性**:`A §7` 的"主线程无 >16ms 重活"(由 `G-search` 守卫)、"跨 actor 载荷 Sendable"(`SearchSnapshot`/`HighlightRange`/`SearchableDTO` 均值类型)、"截断/索引单位一致"(本步显式区分 grapheme/byte 并对齐搜索与高亮切片)在本步达成。OCR/标题 actor 化属 BS-2/3,C++ RE2 属 BS-8,本步不碰。
+- **不变性**:`A §7` 的"主线程无 >16ms 重活"(由 `G-search` 守卫)、"跨 actor 载荷 Sendable"(`SearchSnapshot`/`HighlightRange`/`SearchableDTO` 均值类型)、"截断/索引单位一致"(本步显式区分 grapheme/byte 并对齐搜索与高亮切片)在本步达成。标题 actor 化属 BS-2/3,C++ RE2 属 BS-8,本步不碰。
 
 ## Commit
 `refactor(search): move search to background actor, fix UTF-16/highlight index alignment, unify truncation units, scope showSpecialSymbols rebuild`

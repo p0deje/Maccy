@@ -3,7 +3,7 @@
 > **依赖**:BS-1~BS-6(actor/DTO/后台 context/事件流/隔离模型已就位)。**编译边界**:**分阶段表里的每一级 strict concurrency 升级都是一个独立编译检查点**;`minimal→targeted` 通过 → 升 `SWIFT_VERSION = 6.0`(仍 `targeted`)通过 → `complete` 通过。任一级编译失败,回滚到上一级设置并补漏,不跳级。
 
 **目标**:在 BS-1~6 已建立的真实隔离之上,逐级打开 Swift 严格并发检查,**消除 `@unchecked Sendable`** 与所有跨域的伪 Sendable 捕获,把"`@Model HistoryItem`/`ModelContext` 不跨域"从约定变成**编译器强制**,最终在 `SWIFT_VERSION = 6.0` + `complete` 下零并发警告编译。本步是**类型安全/隔离收敛**,不改运行时算法或性能特性。
-**依据**:`06-F01`(decorator `@unchecked`)、`06-F02`(AppDelegate `@unchecked`)、`06-F03`(ModelContext 非 Sendable)、`06-F04`/`06-F12`(OnNewCopyHook 闭包)、`06-F05`(`@Model` 跨域)、`06-F06`/`06-F07`/`06-F10`(裸 `Task{}`)、`06-F08`(单例隔离)、`06-F09`(`withObservationTracking` 递归)、`06-F13`(Timer target-selector)、`06-F14`(CGEvent 线程)、`06-F15`/`06-F11`(Vision 线程)、`06-F16`/`06-F17`(Clipboard/ApplicationImage 隔离)、`06-F19`~`06-F23`(通知/KVO/monitor 闭包)、`06-F25`(AppIntent 隔离)、`06-F27`/`06-F28`/`06-F29`(Selection/KeyShortcut/Throttler)、`06-F35`(Sparkle XPC/entitlements)、`06-F36`~`06-F38`(C++/ObjC 桥接)、`06-F49`(构建设置缺口)、`06-F50`(Info.plist 能力声明)。
+**依据**:`06-F01`(decorator `@unchecked`)、`06-F02`(AppDelegate `@unchecked`)、`06-F03`(ModelContext 非 Sendable)、`06-F04`/`06-F12`(OnNewCopyHook 闭包)、`06-F05`(`@Model` 跨域)、`06-F06`/`06-F07`/`06-F10`(裸 `Task{}`)、`06-F08`(单例隔离)、`06-F09`(`withObservationTracking` 递归)、`06-F13`(Timer target-selector)、`06-F14`(CGEvent 线程)、`06-F16`/`06-F17`(Clipboard/ApplicationImage 隔离)、`06-F19`~`06-F23`(通知/KVO/monitor 闭包)、`06-F25`(AppIntent 隔离)、`06-F27`/`06-F28`/`06-F29`(Selection/KeyShortcut/Throttler)、`06-F35`(Sparkle XPC/entitlements)、`06-F36`~`06-F38`(C++/ObjC 桥接)、`06-F49`(构建设置缺口)、`06-F50`(Info.plist 能力声明)。
 **编译安全性**:本大步骤**只**调整构建设置与隔离标注,不改业务行为;`SWIFT_STRICT_CONCURRENCY`/`SWIFT_VERSION` 每升一级都**必须 `xcodebuild build` 全绿**才进入下一级。`@unchecked Sendable` 的删除发生在隔离已真实就位后(前置依赖 BS-1~6),不是先删再补。
 
 ## 受影响文件
@@ -14,7 +14,7 @@
 - 改:`Maccy/Clipboard.swift:5-6,8,12-21,43-53,55-63,66-69,71,79,117-146,148,156-158,204,214` — 类型升 `@MainActor final`;`OnNewCopyHook` 加 `@Sendable` 或经 BS-2 的 ingestor 事件流;Timer 改闭包形式;`paste()`/`clear()` 标注。
 - 改:`Maccy/Observables/History.swift:11-13,16-17,22-36,55-57,60-61,70-103,106-119,122-128,130-201,203-214,216-249,251-273,275-295,297-322,340-343,379-382,408-422,455-470,472-478,500-527` — 类型升 `@MainActor final`;12 处裸 `Task{}`(`:70,76,82,88,96,116,170,246,270,292,340,379`)显式化;`sessionLog: [Int: HistoryItem]` 改 `[Int: ItemID]`(BS-1 DTO)。
 - 改:`Maccy/Observables/AppState.swift:7-9,13-18,28-33,54-102,108-162` — 类型升 `@MainActor @Observable final`;`menuIconText`(`:28-33`)改 `@MainActor`。
-- 改:`Maccy/Models/HistoryItem.swift:7-8,9-38,40-51,76,97-123,103-113,260-292` — `@Model` 不跨域;`supportedPins`/`availablePins`/`randomAvailablePin`(`:12-51`)归 `@MainActor static`;`generateTitle()` 改 `async` 并经 BS-2/3 的后台 OCR;`recognizedText(in:)`(`:269-292`)抽 `nonisolated` 纯函数。
+- 改:`Maccy/Models/HistoryItem.swift:7-8,9-38,40-51,76,97-123,103-113,260-292` — `@Model` 不跨域;`supportedPins`/`availablePins`/`randomAvailablePin`(`:12-51`)归 `@MainActor static`;`generateTitle()` 改 `async`(文本项标题计算;图片项标题为空,OCR 已移除)。
 - 改:`Maccy/Engine/HistoryItemEngine.swift`(`Signature`/`ContentSignature`/`ContentIndex` 改 `Sendable` 值类型,移除 `private` 改 `internal` 供 BS-1 DTO 复用)。
 - 改:`Maccy/Core/ClipboardDataProcessor.swift:3-89` — 静态函数显式 `nonisolated`(C++ 纯函数,见 `06-F36/F37/F38`)。
 - 改:`Maccy/Processor/MaccyTextProcessor.mm`(`:5`)— ObjC 类显式 Sendable 注解或经 Swift 薄封装。
@@ -32,7 +32,7 @@
 | 阶段 | `project.pbxproj` 设置(全部 5 个 `SWIFT_VERSION` 段 + project-level) | 预期警告/错误类别 | 收敛动作(对应小步骤) | 编译检查点 |
 |---|---|---|---|---|
 | **P0 — Baseline** | `SWIFT_VERSION = 5.0 → 5`(去 `.0`,纯写法规范化);`SWIFT_STRICT_CONCURRENCY = minimal`(`:1585,1722,1779,1813,1849` 各 Debug/Release + project-level `:1676,1739` 段);`gnu++0x → gnu++17`(`:1676,1739`,对齐 `gnu++14` 主体,与 BS-0 一致;预留 `gnu++20` 给 BS-8) | 无新增(strict concurrency 仍 minimal);仅规范化警告(若有 `SWIFT_VERSION = 5.0` 历史告警消除) | 7.1 规范化设置;7.2 隔离标注前置(`@MainActor` 类型级、`Sendable` struct)但**仍可被 minimal 忽略** | `minimal` build + test 全绿 |
-| **P1 — Containment(targeted)** | `SWIFT_STRICT_CONCURRENCY = targeted`(同上 5 处 + project-level);`SWIFT_VERSION` 暂留 `5` | 仅在**已显式标注**的类型/函数上检查:跨 `@MainActor` 边界捕获非 Sendable、`@Sendable` 闭包捕获非 Sendable、`OnNewCopyHook` 闭包、`Timer` block、KVO/通知闭包 | 7.3 去 `@unchecked Sendable`(decorator/AppDelegate);7.4 单例类型级 `@MainActor`;7.5 `@Model`/context 不跨域(投影到 BS-1 DTO);7.6 裸 `Task{}` 显式化;7.7 Timer/CGEvent/Vision/通知闭包隔离 | `targeted`(SWIFT_VERSION=5)build + test 全绿 |
+| **P1 — Containment(targeted)** | `SWIFT_STRICT_CONCURRENCY = targeted`(同上 5 处 + project-level);`SWIFT_VERSION` 暂留 `5` | 仅在**已显式标注**的类型/函数上检查:跨 `@MainActor` 边界捕获非 Sendable、`@Sendable` 闭包捕获非 Sendable、`OnNewCopyHook` 闭包、`Timer` block、KVO/通知闭包 | 7.3 去 `@unchecked Sendable`(decorator/AppDelegate);7.4 单例类型级 `@MainActor`;7.5 `@Model`/context 不跨域(投影到 BS-1 DTO);7.6 裸 `Task{}` 显式化;7.7 Timer/CGEvent/通知闭包隔离 | `targeted`(SWIFT_VERSION=5)build + test 全绿 |
 | **P2 — SWIFT_VERSION 6.0(targeted)** | `SWIFT_VERSION = 5 → 6.0`(`:1589,1616,1640,1664,1820,1855`);`SWIFT_STRICT_CONCURRENCY = targeted`(不变) | Swift 6 默认语义:`@MainActor` 继承增强、`Sendable` 默认更严、`nonisolated`/`@objc` 交互、`deinit` 隔离;可能暴露 P1 未覆盖的边缘(`@objc` selector、`deinit`、`NSApplicationDelegate` 协议方法继承) | 7.8 `@objc` + 隔离对齐;7.9 `deinit`/释放路径复核;7.10 C++/ObjC 桥接 `nonisolated` | `SWIFT_VERSION=6.0` + `targeted` build + test 全绿 |
 | **P3 — complete** | `SWIFT_STRICT_CONCURRENCY = complete`(5 处 + project-level) | **全量**:任何非 Sendable 跨隔离域、任何缺少 `nonisolated` 的可跨域访问、Combine scheduler、Selection/KeyShortcut/Throttler 传播、AppIntent 默认执行器 | 7.11 值类型 Sendable 化(Selection/KeyShortcut/Throttler/SearchResult);7.12 AppIntent `perform()` 隔离或 DTO 投影;7.13 Combine/Observation 线程收敛;7.14 entitlements/Info.plist 复核 | `complete` + `SWIFT_VERSION=6.0` build + test 全绿;`-strict-concurrency=complete` 下零并发警告 |
 | **P4 — 收尾清理** | 删除冗余 per-method `@MainActor`(62 处的大部分);`CLANG_CXX_LANGUAGE_STANDARD` 评估升 `gnu++20`(若 BS-8 不需要 C++20 特性则留 `gnu++17`);可选 `SWIFT_COMPILATION_MODE` 复核 | 仅死代码/冗余标注告警 | 7.15 清理冗余标注;7.16 复核 C++ 标准;7.17 全量验证 | 清理后 build + test 全绿;`xcodebuild -dry-run` 无新增告警 |
@@ -62,7 +62,7 @@
 - [ ] **7.5 `@Model`/`ModelContext` 不跨域(06-F03/F04/F05/F12)** — 收敛跨域点:
   - `OnNewCopyHook`(`Clipboard.swift:8`)经 BS-2 已替换为 ingestor 事件流;若 BS-2 保留了过渡 `add(_:)` 入口,本步**不再让 `HistoryItem` 跨 actor**:hook 改为 `typealias OnNewCopyHook = @Sendable (ItemSnapshotDTO) async -> Void` 或直接由 BS-2 的 `StoreEvent` 取代(`06-F04/F12`)。
   - `AppIntent.perform()`(`Intents/Get.swift:34-72`、`Delete.swift`、`Select.swift`、`Clear.swift`)同步读 `items`/`items[index].item`(`@Model`)的路径:改为 `@MainActor func perform()` 或在 `perform()` 内 `await MainActor.run { … }` 投影出 `ItemSnapshotDTO`(`06-F25`);`HistoryItemAppEntity`(`Intents/HistoryItemAppEntity.swift`)转 Sendable transport(从 BS-1 的 `ItemSnapshotDTO` 填充),`Get` 不再持有 `@Model` 引用。
-  - `HistoryItem.recognizedText(in:)`(`:269-292`)从 `Task{@MainActor [weak self, imageData]`(`:103-113`)移除 `[weak self]` 跨域捕获:OCR 经 BS-2/3 后台 actor 返回 `String?`,主线程赋值 `item.title`(`06-F11/F15`)。
+  - `HistoryItem.recognizedText(in:)`(`:269-292`)随 OCR 功能一并移除(2026-06-14),`generateTitle()` 不再 `Task{@MainActor}` 后台 OCR;图片项标题为空 `""`,文本项标题同步计算。
   - `sessionLog: [Int: HistoryItem]`(`History.swift:60-61`)改 `[Int: ItemID]`(BS-1 DTO,`06-F46`)。
   - 验证:`targeted` 下这些跨域点不再出现"capture non-Sendable"错误。
 - [ ] **7.6 裸 `Task{}` 显式化(06-F06/F07/F10)** — `AppDelegate.swift:55,67,73,80,90,96`(6 处 `Defaults.updates` 循环):类型级 `@MainActor` 后,裸 `Task{}` 继承 MainActor,编译器可证;删除内部 `@MainActor`(若冗余)或保留显式 `Task{@MainActor in}`。`History.swift:70,76,82,88,96`(5 处 `Defaults.updates`)同上。`History.swift:116,170,246,270,292,340,379`(纯 UI 标志位翻转/通知):改 `Task{@MainActor in …}` 显式化或 `MainActor.assumeIsolated`(`06-F07`)。`Popup.swift:197,223`(本地 monitor 内 `Task{@MainActor}`):直接调用 `AppState.shared.history.select(item)`(已在 main,`06-F10`)。
@@ -99,7 +99,7 @@
 
 - [ ] **7.15 删除冗余 per-method `@MainActor`** — 类型级 `@MainActor` 落地后,62 处 per-method `@MainActor`(审计 `06` §0 计数)的大部分变冗余;逐文件删除并保留编译。`@MainActor deinit`(Swift 6.0 新特性)按需。
 - [ ] **7.16 复核 C++ 标准** — `CLANG_CXX_LANGUAGE_STANDARD`(`:1676,1739`)评估升 `gnu++20`(若 BS-8 xxh3 需 `std::span`/`constexpr` 增强);否则留 `gnu++17`(`06-F49`)。
-- [ ] **7.17 全量验证** — `xcodebuild build` + `xcodebuild test`(含 `MaccyPerformanceTests`)全绿;`xcodebuild -dry-run` 无新增告警;手动冒烟:复制/粘贴/搜索/置顶/OCR 标题/PasteStack 行为零回归。
+- [ ] **7.17 全量验证** — `xcodebuild build` + `xcodebuild test`(含 `MaccyPerformanceTests`)全绿;`xcodebuild -dry-run` 无新增告警;手动冒烟:复制/粘贴/搜索/置顶/PasteStack 行为零回归。
 
 ## 测试
 
@@ -114,7 +114,7 @@
 
 ## 验收标准
 
-- 功能:复制/去重/容量裁剪/搜索/置顶/OCR/PasteStack/AppIntent 行为与改前逐项一致(冒烟 + 自动化对照)。
+- 功能:复制/去重/容量裁剪/搜索/置顶/PasteStack/AppIntent 行为与改前逐项一致(冒烟 + 自动化对照)。
 - 构建:`SWIFT_VERSION = 6.0` + `SWIFT_STRICT_CONCURRENCY = complete` 下 `xcodebuild build` 全绿且**零并发相关警告**;`@unchecked Sendable` 计数 = 0(改前 2:decorator `:8`、AppDelegate `:6`)。
 - 隔离:`@Model HistoryItem`/`ModelContext` 不出现在任何 `@Sendable` 闭包捕获或跨 actor 函数签名(经 DTO 投影);`OnNewCopyHook` 不再传递 `HistoryItem`。
 - 复杂度:不变(类型安全/隔离步骤,不改算法)。

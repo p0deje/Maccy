@@ -84,7 +84,6 @@ SWIFT_OBJC_BRIDGING_HEADER = "Maccy/Maccy-Bridging-Header.h"
 
 - 02 图片 "~10× 慢" 等量化对比(方向正确,具体倍数依赖图源;实施时基准测试验证)。
 - 各 Low 级发现(命名/冗余/小边界),信任子智能体的 file:line 证据,实施时按需抽查。
-- Vision OCR `.fast` 级别在主线程的实际耗时(需 Instruments/基准量化)。
 
 ## 复核结论
 

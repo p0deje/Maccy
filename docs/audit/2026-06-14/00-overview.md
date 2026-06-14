@@ -35,7 +35,7 @@
 ```
 全项目并发计数:**0 个 `actor`、0 个 `nonisolated`、~6 个 `async`、20 个 `@MainActor`、仅 1 处后台队列**(`ApplicationImage.swift:58`,且只是文件监听 dispatch source)。
 
-所有"重活"——SwiftData fetch/insert/delete/save、`NSImage(data:)` 全量解码、`NSImage.resized`、Vision OCR、`NSAttributedString(rtf:/html:)`、正则、**去重时全表 fetch**、**插入时整表重排**——都同步跑在主线程。
+所有"重活"——SwiftData fetch/insert/delete/save、`NSImage(data:)` 全量解码、`NSImage.resized`、`NSAttributedString(rtf:/html:)`、正则、**去重时全表 fetch**、**插入时整表重排**——都同步跑在主线程。
 
 ## 瓶颈地图(热路径)
 
@@ -48,7 +48,7 @@
 | 5 | 富文本检测 | `richText()` `Clipboard.swift:316` | `NSAttributedString(rtf:)/(html:)` 同步 | RTF/HTML 解析在主线程 | 上限 512KB,仍很重 |
 | 6 | 图片解码 | `HistoryItemDecorator.image()` `:178` | `NSImage(data:)` 全量解码 | 主线程解码大图 | 多 MB 截图 |
 | 7 | 图片缩放 | `generateThumbnail/Preview` `:150/:159` + `NSImage+Resized` | `@MainActor`,预览缩到**整屏尺寸** | 主线程 resize(无 ImageIO 降采样) | 预览≈屏幕(retina ~50MiB) |
-| 8 | 图片标题 OCR | `HistoryItem.generateTitle()` `:103` | `Task{@MainActor}` Vision | OCR 在主线程 | 每张图一次 |
+| 8 | ~~图片标题 OCR~~ | `HistoryItem.generateTitle()` `:103` | ~~`Task{@MainActor}` Vision~~ | ~~OCR 在主线程~~ | **已移除(OCR 功能删除, 2026-06-14)** |
 | 9 | 容量裁剪 | `limitHistorySize` `:122` → `delete` `:282` | 逐条 `delete+processPendingChanges+save` | N 次独立 SQLite 写 + 单次复制最多 3 次 save | O(n) saves |
 | 10 | 搜索 | `searchQuery` didSet `:22` + `Search.swift` | throttler 0.2s,每次按键全量扫 | 全量扫描 + 高亮重建 | O(n)/按键 |
 | 11 | 应用图标 | `ApplicationImage.nsImage` `:42`,装饰 init 调用 | `NSWorkspace.icon` 同步 | 装饰时同步查图标 | 每 item 一次 |
@@ -60,7 +60,6 @@
 - `findSimilarItem()` 每次复制全表 fetch + O(n) 比对(01/04/03)
 - 粘贴板 Timer 回调整条摄取管线同步在主线程(01)
 - `add()` 单次复制最多 3 次独立 `processPendingChanges+save`,无事务(04)
-- 图片 Vision OCR 在 `Task{@MainActor}`(02)
 - `showSpecialSymbols` 切换重生成**所有** item 标题(03)
 
 **B. 图片解码/缩放在主线程**

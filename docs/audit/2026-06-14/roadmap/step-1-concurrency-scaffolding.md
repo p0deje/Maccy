@@ -38,7 +38,7 @@
   - `@MainActor final class MainActorIngestorAdapter: ClipboardIngestor`:内部转发到既有 `History.shared.add`(行为完全不变),仅把结果包成 `IngestResult`。**本步骤不接线**(BS-2 才让 `Clipboard` 使用它),保证既有行为零变化。
   - 证据:提交 `b0e84d318b5c0351d9628912eaec3958e17cc813`; macOS 26 ARM CI run `27494083624` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
 - [x] **1.5 图片处理协议** — `ImageProcessing.swift`。
-  - `protocol ImageProcessing: Sendable { func thumbnail(for data: Data, max: CGSize) async -> NSImage?; func preview(for data: Data, max: CGSize) async -> NSImage?; func recognizeText(in data: Data) async -> String? }`
+  - `protocol ImageProcessing: Sendable { func thumbnail(for data: Data, max: CGSize) async -> NSImage?; func preview(for data: Data, max: CGSize) async -> NSImage? }`
   - 占位实现 `PassthroughImageProcessor`:沿用既有 `NSImage(data:)`+`resized` 路径(行为不变,BS-3 替换)。
   - 证据:提交 `52f88fce92f8d05cd23d66554145319272d016c2`; macOS 26 ARM CI run `27494389002` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
 - [x] **1.6 测试设施** — `MaccyTests/Support/`:`PasteboardSimulator`、`HistoryBuilder`、`FakeClock`、`IngestorSpy`、`FixtureLoader`(含 `heavy_text.txt` 与合成图片 fixture 路径)、`MainThreadProbe`。

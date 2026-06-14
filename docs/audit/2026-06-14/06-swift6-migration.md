@@ -35,11 +35,11 @@
 | F08 | **HIGH** | Singletons / global state | AppState.swift:9 + others | `AppState`, `History`, `Clipboard`, `ApplicationImageCache` lack a type-level actor; cross-cutting reads from Intents, KVO, observers, timers |
 | F09 | **HIGH** | Combine/Observation threading | HistoryItemDecorator.swift:232-263 + AppDelegate.swift:183-197 | `withObservationTracking` + `DispatchQueue.main.async` re-arming loop; re-entrancy and missed-change window |
 | F10 | **HIGH** | Task/Async correctness | Popup.swift:197,223 | `Task { @MainActor in AppState.shared.history.select(item) }` invoked from an `NSEvent` local-monitor closure (already main) — redundant hop hides intent |
-| F11 | **HIGH** | ModelContext & Storage | HistoryItem.swift:103-113 | `Task { @MainActor [weak self, imageData] in … self?.title = … }` for Vision OCR mutates a `@Model`'s `var title` off the call site's context; no Sendable boundary on the model |
+| F11 | **HIGH** | ModelContext & Storage | HistoryItem.swift:103-113 | `Task { @MainActor [weak self, imageData] in … self?.title = … }` for Vision OCR mutates a `@Model`'s `var title` off the call site's context; no Sendable boundary on the model. **WONTFIX — OCR removed (2026-06-14)** |
 | F12 | **HIGH** | Sendable / closures | Clipboard.swift:47,110 + AppDelegate.swift:52 | `onNewCopy(_ hook:)` takes non-`@Sendable` closure; `Clipboard.shared.onNewCopy { History.shared.add($0) }` registers a closure that crosses into `@MainActor History` |
 | F13 | **HIGH** | Timer / target-selector | Clipboard.swift:55-63,156-158 | `Timer.scheduledTimer(target: self, selector:)` — `@objc @MainActor func checkForChangesInPasteboard()` called via run-loop; `self` (`Clipboard`) is non-Sendable, retains cycle risk, no Swift 6 guarantee |
 | F14 | **HIGH** | CGEvent / threading | Clipboard.swift:117-146 | `paste()` is non-isolated, posts `CGEvent` from whatever thread calls it (AppIntent/`@MainActor select()`); CGEvent posting not documented MainActor-only |
-| F15 | **HIGH** | Vision threading | HistoryItem.swift:269-292 | `VNImageRequestHandler.perform` is synchronous/CPU-bound; called inside `Task { @MainActor }` from `generateTitle()` → blocks main actor |
+| F15 | **HIGH** | Vision threading | HistoryItem.swift:269-292 | `VNImageRequestHandler.perform` is synchronous/CPU-bound; called inside `Task { @MainActor }` from `generateTitle()` → blocks main actor. **WONTFIX — OCR removed (2026-06-14)** |
 | F16 | **HIGH** | Singletons / global state | Clipboard.swift:5-6,43-45 | `Clipboard` has no `@MainActor`; `changeCount`, `timer`, `onNewCopyHooks`, `ignoredRegexps` are mutable `var`s touched from timer (`@MainActor`) and from paste paths |
 | F17 | **HIGH** | ApplicationImage file source | ApplicationImage.swift:14,21,49-86 | `DispatchSource.makeFileSystemObjectSource(queue: .global())` mutates `image`/`eventSource`/`lastChecked` via a `DispatchQueue.main.async` hop back, but the type itself is non-Sendable and is stored in `@MainActor ApplicationImageCache.cache` |
 | F18 | **MEDIUM** | NSPasteboard access | Clipboard.swift:71-114,148-215 | `pasteboard` (`NSPasteboard.general`) read from `@MainActor` timer AND from non-isolated `paste()`; `NSPasteboard` is not formally Sendable |
@@ -140,9 +140,9 @@
 - **File:** `Maccy/Models/HistoryItem.swift:7-8` (the `@Model` class); crossings: `Clipboard.swift:204 → AppDelegate.swift:52 → History.swift:140` (the `add(_ item: HistoryItem)` entry), `HistoryItem.swift:103` (`Task { @MainActor [weak self, imageData] in self?.title = … }` mutates a model off the constructing context), `PasteStack.swift` (`items: [HistoryItemDecorator]` whose `.item` is a `HistoryItem`), `Intents/Get.swift:50-68` (reads `item.text`, `item.htmlData`, `item.fileURLs`, `item.imageData`, `item.rtfData` — all `@Model` accessors — from a non-isolated `perform()`).
 - **Problem:** `@Model` generates a reference type that owns `NSManagedObjectContext`-style state. It is **not** Sendable. Passing it through `OnNewCopyHook`, capturing `[weak self]` in a `Task`, handing it to `Intents.Get`, or stashing it in `sessionLog: [Int: HistoryItem]` (History.swift:61) is a cross-actor reference capture.
 - **Evidence:** `class HistoryItem` (line 8); `var contents`, `var title`, `var pin`, etc. are all `@Model`-managed; `Task { @MainActor [weak self, imageData] in … self?.title = recognizedText }` (lines 103-112).
-- **Impact:** Swift 6 will refuse to compile the `OnNewCopyHook` alias (F04), the `Intents.Get.perform()` body, and the OCR `Task`. At runtime, a `HistoryItem` mutated from a context it wasn't inserted into is undefined behaviour in SwiftData.
+- **Impact:** Swift 6 will refuse to compile the `OnNewCopyHook` alias (F04) and the `Intents.Get.perform()` body. (The OCR `Task` referenced here was removed 2026-06-14 — see F11/F15 WONTFIX.) At runtime, a `HistoryItem` mutated from a context it wasn't inserted into is undefined behaviour in SwiftData.
 - **Recommendation:** Two-phase:
-  1. **Containment:** make every `HistoryItem` touch happen behind a MainActor `History`/`Storage` API. The OCR `Task` should construct the title on MainActor *or* hand raw `Data` to a `nonisolated func recognize(Data) -> String?` and only mutate `title` on MainActor.
+  1. **Containment:** make every `HistoryItem` touch happen behind a MainActor `History`/`Storage` API. (The earlier OCR-`Task` recommendation is moot — OCR was removed 2026-06-14; `generateTitle()` no longer spawns a background `Task` for images.)
   2. **DTO boundary:** for the AppIntents/XPC path, project `HistoryItem` into a `Sendable` value type (`HistoryItemAppEntity` already exists at `Intents/HistoryItemAppEntity.swift` and is a `TransientAppEntity` — extend it into a plain `struct … : Sendable` for internal transport; see F25).
 
 ---
@@ -205,6 +205,7 @@
 - **Recommendation:** Call `AppState.shared.history.select(item)` directly (the function is already `@MainActor` and the caller is on main). If a hop is genuinely wanted for input-event decoupling, use `Task { @MainActor in … }` but document why.
 
 ### F11 (HIGH) — Vision OCR `Task { @MainActor }` mutates `@Model.title`
+- **Status: WONTFIX — OCR removed (2026-06-14)**. The Vision OCR `Task` and `recognizedText(in:)` no longer exist; image items get an empty title. The analysis below is retained as a historical record.
 - **File:** `HistoryItem.swift:97-123` (specifically 103-113).
 - **Problem:** `generateTitle()` synchronously returns `""` for image items and kicks a `Task { @MainActor [weak self, imageData] in … self?.title = recognizedText }`. `recognizedText(in:)` (lines 269-292) calls `VNImageRequestHandler.perform([request])` synchronously — CPU-bound Vision work — **on the main actor**, blocking the UI for large images. Under Swift 6 the `[weak self]` capture of a non-Sendable `HistoryItem` across the Task boundary is an error (F05).
 - **Evidence:** `Task { @MainActor [weak self, imageData] in … }` (line 103); `try requestHandler.perform([request])` (line 279).
@@ -239,6 +240,7 @@
 - **Recommendation:** Annotate `@MainActor func paste()`. It will still be callable from the `@MainActor History` callers without a hop.
 
 ### F15 (HIGH) — synchronous Vision call on main actor
+- **Status: WONTFIX — OCR removed (2026-06-14)**. The Vision call site no longer exists.
 - **File:** `HistoryItem.swift:279`.
 - **Problem:** `try requestHandler.perform([request])` is synchronous and can take tens to hundreds of ms for large images; runs inside the `@MainActor` OCR `Task` (F11).
 - **Recommendation:** Same as F11 — move to `Task.detached`.
@@ -345,7 +347,7 @@
 
 ### F45 (LOW) — `generateTitle()` returns `""` and later mutates `title`
 - **File:** `HistoryItem.swift:97-123`.
-- **Recommendation:** Make it `async` (F11) or return the synchronously-computed title for non-image items and schedule only the OCR asynchronously with a MainActor assignment.
+- **Recommendation:** Make it `async` (F11) or return the synchronously-computed title for non-image items. (The "schedule the OCR asynchronously" clause is moot — OCR removed 2026-06-14; image titles are empty by design.)
 
 ### F46 (LOW) — `sessionLog: [Int: HistoryItem]`
 - **File:** `History.swift:60-61`.
@@ -384,7 +386,7 @@
 - F08/F16: type-level `@MainActor` on `AppState`, `History`, `Clipboard`.
 - F03: route every `Storage.shared.context` access through MainActor `async` wrappers; never let `context` escape.
 - F04/F12: change `typealias OnNewCopyHook = @Sendable (HistoryItem) -> Void` and call it via `await MainActor.run { hook(item) }`, or — better — make `History.add` the `@MainActor` target and call it directly with `await`.
-- F11/F15: move Vision OCR to `Task.detached` returning `String?`.
+- F11/F15: move Vision OCR to `Task.detached` returning `String?`. *(WONTFIX — OCR removed 2026-06-14; the call site no longer exists.)*
 - F13: switch the `Clipboard` timer to closure form.
 - F14: `@MainActor func paste()`.
 - F25: annotate `Intents` `perform()` bodies with `@MainActor` (they already `await` MainActor methods; the type-level annotation makes the synchronous `items` reads legal).
@@ -406,7 +408,6 @@
 
 **Phase 4 — UI-blocking wins (the user's secondary goal):**
 - Off-main fuzzy search via an `actor Search` returning `[SearchResult]` snapshots (F26).
-- Off-main Vision OCR (F11/F15).
 - Background `ModelContext` for large-history fetches (F03).
 - `Task.detached` for fingerprint computation if profiling shows main-thread cost (F36).
 
@@ -415,5 +416,5 @@
 ## 13. Top 3 criticals (one-liners)
 
 1. **F01** — `@unchecked Sendable` on `HistoryItemDecorator` (HistoryItemDecorator.swift:8) hides data races on every UI-touched `var` in the app.
-2. **F03/F05** — `ModelContext` and `@Model HistoryItem` are non-Sendable yet cross isolation domains through `OnNewCopyHook`, `Storage.shared.context`, AppIntents, and the OCR `Task`.
+2. **F03/F05** — `ModelContext` and `@Model HistoryItem` are non-Sendable yet cross isolation domains through `OnNewCopyHook`, `Storage.shared.context`, and AppIntents. (The earlier "OCR `Task`" crossing point was removed 2026-06-14 — OCR is gone.)
 3. **F02** — `AppDelegate: …, @unchecked Sendable` (AppDelegate.swift:6) is the umbrella silencer that lets six unstructured `Task { }` blocks reach MainActor state without compiler proof.
