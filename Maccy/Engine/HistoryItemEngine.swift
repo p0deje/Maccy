@@ -2,20 +2,46 @@ import AppKit
 
 enum HistoryItemEngine {
   struct Signature {
-    fileprivate let contents: [ContentSignature]
+    private struct Content {
+      let type: String
+      let value: Data?
+      let fingerprint: UInt64?
+
+      init(_ content: HistoryItemContent) {
+        self.type = content.type
+        self.value = content.value
+        self.fingerprint = content.value.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
+      }
+    }
+
+    private let contents: [Content]
+
+    init(
+      contents: [HistoryItemContent],
+      ignoringTypes transientTypes: Set<String>
+    ) {
+      self.contents = contents.compactMap { content in
+        guard !transientTypes.contains(content.type) else {
+          return nil
+        }
+
+        return Content(content)
+      }
+    }
+
+    func isContained(in contents: [HistoryItemContent]) -> Bool {
+      let index = ContentIndex(contents)
+      return self.contents.allSatisfy {
+        index.contains(type: $0.type, value: $0.value, fingerprint: $0.fingerprint)
+      }
+    }
   }
 
   static func signature(
     contents: [HistoryItemContent],
     ignoringTypes transientTypes: Set<String>
   ) -> Signature {
-    Signature(contents: contents.compactMap { content in
-      guard !transientTypes.contains(content.type) else {
-        return nil
-      }
-
-      return ContentSignature(content)
-    })
+    Signature(contents: contents, ignoringTypes: transientTypes)
   }
 
   static func supersedes(
@@ -33,7 +59,7 @@ enum HistoryItemEngine {
     contents: [HistoryItemContent],
     signature: Signature
   ) -> Bool {
-    ContentIndex(contents).contains(signature)
+    signature.isContained(in: contents)
   }
 
   static func generateTitle(
@@ -93,18 +119,6 @@ enum HistoryItemEngine {
   }
 }
 
-fileprivate struct ContentSignature {
-  let type: String
-  let value: Data?
-  let fingerprint: UInt64?
-
-  init(_ content: HistoryItemContent) {
-    self.type = content.type
-    self.value = content.value
-    self.fingerprint = content.value.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
-  }
-}
-
 private struct ContentIndex {
   private let contentsByType: [String: [Data]]
   private let nilValueTypes: Set<String>
@@ -136,21 +150,17 @@ private struct ContentIndex {
       .compactMap { URL(dataRepresentation: $0, relativeTo: nil, isAbsolute: true) }
   }
 
-  func contains(_ signature: HistoryItemEngine.Signature) -> Bool {
-    signature.contents.allSatisfy { contains($0) }
-  }
-
-  private func contains(_ content: ContentSignature) -> Bool {
-    guard let value = content.value else {
-      return nilValueTypes.contains(content.type)
+  func contains(type: String, value: Data?, fingerprint: UInt64?) -> Bool {
+    guard let value else {
+      return nilValueTypes.contains(type)
     }
 
-    guard let values = contentsByType[content.type] else {
+    guard let values = contentsByType[type] else {
       return false
     }
 
     return values.contains {
-      ClipboardDataProcessor.dataLikelyEqual($0, value, rhsFingerprint: content.fingerprint)
+      ClipboardDataProcessor.dataLikelyEqual($0, value, rhsFingerprint: fingerprint)
     }
   }
 

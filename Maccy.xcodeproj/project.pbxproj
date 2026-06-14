@@ -153,6 +153,7 @@
 		E00000062F50000000000006 /* ClipboardByteProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00000052F50000000000005 /* ClipboardByteProcessor.cpp */; };
 		E000000A2F5000000000000A /* MaccyTextProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = E00000092F50000000000009 /* MaccyTextProcessor.mm */; };
 		E000000E2F5000000000000E /* HistoryItemEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000D2F5000000000000D /* HistoryItemEngine.swift */; };
+		E00000102F50000000000010 /* HistoryItemPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000F2F5000000000000F /* HistoryItemPerformanceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -572,6 +573,7 @@
 		DAFE2DD9268A521A00990986 /* String+Shortened.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Shortened.swift"; sourceTree = "<group>"; };
 		DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTests.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Shortcuts.swift"; sourceTree = "<group>"; };
+		E000000F2F5000000000000F /* HistoryItemPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemPerformanceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -770,6 +772,7 @@
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
 				DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */,
 				DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */,
+				E000000F2F5000000000000F /* HistoryItemPerformanceTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
@@ -1115,6 +1118,7 @@
 				DA1EDE432045B35300479723 /* HistoryDecoratorTests.swift in Sources */,
 				DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */,
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
+				E00000102F50000000000010 /* HistoryItemPerformanceTests.swift in Sources */,
 				DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,
 			);
