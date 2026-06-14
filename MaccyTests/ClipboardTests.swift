@@ -31,8 +31,8 @@ final class ClipboardTests: XCTestCase {
 
   private var savedIngestor: ClipboardIngestor?
 
-  override func setUp() async {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     Defaults[.enabledPasteboardTypes] = Set(StorageType.all.types)
     Defaults[.maxClipboardContentSize] = 10
     Defaults[.ignoreAllAppsExceptListed] = false
