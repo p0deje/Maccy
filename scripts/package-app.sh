@@ -42,7 +42,9 @@ ditto -c -k --sequesterRsrc --keepParent "$APP_NAME" "$ZIP_PATH"
 popd >/dev/null
 
 SHASUM_PATH="$ZIP_PATH.sha256"
-shasum -a 256 "$ZIP_PATH" | tee "$SHASUM_PATH"
+pushd "$PACKAGE_DIR" >/dev/null
+shasum -a 256 "$ZIP_NAME" | tee "$ZIP_NAME.sha256"
+popd >/dev/null
 
 cat <<EOF
 Packaged $APP_NAME
