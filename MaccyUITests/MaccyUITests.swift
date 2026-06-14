@@ -120,6 +120,7 @@ class MaccyUITests: XCTestCase {
 
   func testCopyWithClick() {
     popUpWithMouse()
+    assertExists(items[copy2])
     items[copy2].firstMatch.click()
     assertPasteboardStringEquals(copy2)
   }

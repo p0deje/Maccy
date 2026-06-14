@@ -97,7 +97,7 @@ class HistoryItem {
         return ""
       }
 
-      Task { [weak self, imageData] in
+      Task { @MainActor [weak self, imageData] in
         guard let image = NSImage(data: imageData) else {
           return
         }
@@ -105,9 +105,7 @@ class HistoryItem {
           return
         }
 
-        await MainActor.run {
-          self?.title = recognizedText
-        }
+        self?.title = recognizedText
       }
       return ""
     }
