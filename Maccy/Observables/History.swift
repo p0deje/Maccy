@@ -253,6 +253,65 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     return itemDecorator
   }
 
+  /// Applies a `StoreEvent` emitted by the background ingest actor, updating the
+  /// in-memory `all`/`items` to match the (now-merged) main context.
+  ///
+  /// The actor commits on a background `ModelContext` whose saves merge into the
+  /// main context (`Storage.newBackgroundContext()` sets
+  /// `automaticallyMergesChangesFromParent`). Because a `StoreEvent` carries only
+  /// the lightweight `ItemSnapshotDTO` (no fetchable SwiftData id), `.added`/
+  /// `.merged` reconcile against a fresh main-context fetch: existing decorators
+  /// are reused by `persistentModelID` so unchanged items keep their decoded
+  /// images, only new/changed items get freshly decorated. The O(n) fetch here
+  /// matches the current `History.add` cost; BS-4 makes insertion O(log n).
+  @MainActor
+  func consume(_ event: StoreEvent) {
+    switch event {
+    case .added, .merged:
+      reconcileWithStore()
+    case .removed, .cleared:
+      // The BS-2 actor only emits .added/.merged today; handle the others
+      // defensively by reconciling too, so a future emitter stays correct.
+      reconcileWithStore()
+    }
+  }
+
+  /// Rebuilds `all` from a fresh main-context fetch, reusing decorators whose
+  /// `persistentModelID` is still present (so decoded images survive) and
+  /// decorating only items that are new or changed.
+  @MainActor
+  private func reconcileWithStore() {
+    let sorted: [HistoryItem]
+    do {
+      sorted = sorter.sort(try Storage.shared.context.fetch(FetchDescriptor<HistoryItem>()))
+    } catch {
+      recordPersistenceError("Failed to fetch history items for consume", error)
+      return
+    }
+
+    let existingByID = Dictionary(
+      all.map { ($0.item.persistentModelID, $0) },
+      uniquingKeysWith: { first, _ in first }
+    )
+    var rebuilt: [HistoryItemDecorator] = []
+    for item in sorted {
+      if let decorator = existingByID[item.persistentModelID] {
+        rebuilt.append(decorator)
+      } else {
+        rebuilt.append(HistoryItemDecorator(item))
+      }
+    }
+    // Invalidate decorators whose backing items were removed/merged away (parity
+    // with `mergeDuplicateIfNeeded`'s `cleanup`) so their decoded images release.
+    let rebuiltIDs = Set(rebuilt.map { $0.item.persistentModelID })
+    for decorator in all where !rebuiltIDs.contains(decorator.item.persistentModelID) {
+      cleanup(decorator)
+    }
+    all = rebuilt
+    refreshVisibleItems()
+    AppState.shared.popup.needsResize = true
+  }
+
   @MainActor
   private func mergeDuplicateIfNeeded(for item: HistoryItem) -> Int? {
     guard let existingHistoryItem = findSimilarItem(item) else {
