@@ -49,7 +49,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
     // Bridge FloatingPanel via AppDelegate.
     AppState.shared.appDelegate = self
 
-    Clipboard.shared.onNewCopy { History.shared.add($0) }
+    // Wire the off-main ingest actor (BS-2.2b): the pasteboard snapshot is
+    // filtered/deduped/written on a background SwiftData context, and the
+    // resulting `StoreEvent` hops back to the main actor (BS-2.3) to
+    // reconcile the main-context history. `Clipboard.checkForChangesInPasteboard`
+    // dispatches each copy to this actor via `Task { ... }`.
+    Clipboard.shared.ingestor = BackgroundClipboardIngestor(
+      backgroundContext: Storage.shared.newBackgroundContext(),
+      image: PassthroughImageProcessor(),
+      now: { Date() },
+      onEvent: { @MainActor event in History.shared.consume(event) }
+    )
     Clipboard.shared.start()
 
     Task {

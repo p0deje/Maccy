@@ -3,22 +3,25 @@ import Defaults
 @testable import Maccy
 
 // swiftlint:disable type_body_length
-class ClipboardTests: XCTestCase {
+// Clipboard is main-actor-bound (every mutator and `checkForChangesInPasteboard`
+// is `@MainActor`), so the whole test class runs on the main actor. The old
+// `onNewCopy` hook flow is gone (BS-2.4); these tests now drive the pasteboard,
+// call `checkForChangesInPasteboard()`, and assert on an `IngestorSpy` injected
+// via `clipboard.ingestor`. Pure filtering / ignore-rule coverage lives in
+// `IngestFilterTests` and `BackgroundClipboardIngestorTests` (the actor's
+// `filterContents` is the authoritative filter); what remains here is
+// clipboard-specific: changeCount detection, the `ignoreEvents` /
+// `ignoreOnlyNextEvent` gates, the paste-stack interrupt, and the shape of the
+// `IngestRequest` `Clipboard` builds (contents non-empty, application carried
+// through).
+@MainActor
+final class ClipboardTests: XCTestCase {
   let clipboard = Clipboard.shared
   let pasteboard = NSPasteboard.general
-  let image = NSImage(named: "NSInfo")!
-  let coloredString = NSAttributedString(string: "foo",
-                                         attributes: [.foregroundColor: NSColor.red])
 
-  let dynamicType = NSPasteboard.PasteboardType(rawValue: "dyn.ah62d4qmxhk4d425try1g44pdsm11g55gsu1e82xnqzv")
-  let customType = NSPasteboard.PasteboardType(rawValue: "org.maccy.ConfidentialType")
   let fileURLType = NSPasteboard.PasteboardType.fileURL
-  let htmlType = NSPasteboard.PasteboardType.html
-  let rtfType = NSPasteboard.PasteboardType.rtf
   let stringType = NSPasteboard.PasteboardType.string
   let tiffType = NSPasteboard.PasteboardType.tiff
-  let transientType = NSPasteboard.PasteboardType.transient
-  let unknownType = NSPasteboard.PasteboardType(rawValue: "com.apple.AnnotationKit.AnnotationItem")
 
   let savedEnabledTypes = Defaults[.enabledPasteboardTypes]
   let savedIgnoreEvents = Defaults[.ignoreEvents]
@@ -27,12 +30,17 @@ class ClipboardTests: XCTestCase {
   let savedIgnoredPasteboardTypes = Defaults[.ignoredPasteboardTypes]
   let savedMaxClipboardContentSize = Defaults[.maxClipboardContentSize]
 
+  private var savedIngestor: ClipboardIngestor?
+
   override func setUp() {
     super.setUp()
     Defaults[.enabledPasteboardTypes] = Set(StorageType.all.types)
     Defaults[.maxClipboardContentSize] = 10
     Defaults[.ignoreAllAppsExceptListed] = false
     Defaults[.ignoreEvents] = false
+    // Preserve whatever ingestor AppDelegate (or a prior test) wired so teardown
+    // can restore it — tests in this class inject their own spy.
+    savedIngestor = clipboard.ingestor
   }
 
   override func tearDown() {
@@ -44,173 +52,125 @@ class ClipboardTests: XCTestCase {
     Defaults[.ignoredApps] = savedIgnoredApps
     Defaults[.ignoredPasteboardTypes] = savedIgnoredPasteboardTypes
     Defaults[.maxClipboardContentSize] = savedMaxClipboardContentSize
-    clipboard.clearHooks()
+    clipboard.ingestor = savedIngestor
   }
 
-  func testChangesListenerAndAddHooks() {
-    let hookExpectation = expectation(description: "Hook is called")
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.string], owner: nil)
-    pasteboard.setString("bar", forType: .string)
-    waitForExpectations(timeout: 2)
+  // MARK: - changeCount detection + dispatch shape
+
+  func testChangeDispatchesIngestRequestToIngestor() async {
+    let spy = IngestorSpy()
+    clipboard.ingestor = spy
+
+    setPasteboard(types: [.string], string: "bar", forType: .string)
+
+    clipboard.checkForChangesInPasteboard()
+    await waitForSpy(spy, expectedRequestCount: 1)
+
+    let requests = await spy.requests
+    XCTAssertEqual(requests.count, 1)
+    // The request carries the raw, unfiltered pasteboard contents — at least
+    // the string type we put on the pasteboard. Type filtering is the actor's
+    // job (`filterContents`), so Clipboard records exactly what was there.
+    XCTAssertTrue(requests.first?.contents.contains { $0.type == stringType.rawValue } == true)
   }
 
-  func testIgnoreStringWithOnlySpaces() {
-    let hookExpectation = expectation(description: "Hook is called")
-    hookExpectation.isInverted = true
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.string], owner: nil)
-    pasteboard.setString(" ", forType: .string)
-    waitForExpectations(timeout: 2)
+  func testNoChangeDoesNotDispatch() async {
+    let spy = IngestorSpy()
+    clipboard.ingestor = spy
+
+    // Sync clipboard.changeCount first so the guard short-circuits.
+    clipboard.changeCount = pasteboard.changeCount
+    clipboard.checkForChangesInPasteboard()
+    // Yield once so any (there should be none) dispatched Task would land.
+    await Task.yield()
+
+    let requests = await spy.requests
+    XCTAssertEqual(requests.count, 0)
   }
 
-  func testIgnoreStringWithOnlyNewlines() {
-    let hookExpectation = expectation(description: "Hook is called")
-    hookExpectation.isInverted = true
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.string], owner: nil)
-    pasteboard.setString("\n", forType: .string)
-    waitForExpectations(timeout: 2)
+  func testNilIngestorIsNoOp() async {
+    // No ingestor wired — legacy/unwired caller. The gates run but the dispatch
+    // must not crash and must not block.
+    clipboard.ingestor = nil
+    setPasteboard(types: [.string], string: "bar", forType: .string)
+    clipboard.checkForChangesInPasteboard()
+    await Task.yield()
   }
 
-  func testDoesNotIgnoreRTF() {
-    let hookExpectation = expectation(description: "Hook is called")
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    let rtf = NSAttributedString(string: "foo").rtf(
-      from: NSRange(0...2),
-      documentAttributes: [:]
-    )
-    pasteboard.declareTypes([.rtf], owner: nil)
-    pasteboard.setData(rtf, forType: .rtf)
-    waitForExpectations(timeout: 2)
+  func testRequestCarriesSourceApplication() async {
+    let spy = IngestorSpy()
+    clipboard.ingestor = spy
+
+    setPasteboard(types: [.string], string: "bar", forType: .string)
+    clipboard.checkForChangesInPasteboard()
+    await waitForSpy(spy, expectedRequestCount: 1)
+
+    let request = await spy.requests.first
+    // In the test host the frontmost app is the test runner; whatever it is,
+    // Clipboard forwards `sourceApp?.bundleIdentifier` verbatim (the actor
+    // applies the ignored-apps filter, not Clipboard).
+    XCTAssertEqual(request?.application, NSWorkspace.shared.frontmostApplication?.bundleIdentifier)
   }
 
-  func testDoesNotIgnoreHTML() {
-    let hookExpectation = expectation(description: "Hook is called")
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.html], owner: nil)
-    pasteboard.setString("foo", forType: .html)
-    waitForExpectations(timeout: 2)
+  func testRequestCarriesPasteboardChangeCount() async {
+    let spy = IngestorSpy()
+    clipboard.ingestor = spy
+
+    setPasteboard(types: [.string], string: "bar", forType: .string)
+    let expectedChangeCount = pasteboard.changeCount
+    clipboard.checkForChangesInPasteboard()
+    await waitForSpy(spy, expectedRequestCount: 1)
+
+    let request = await spy.requests.first
+    XCTAssertEqual(request?.source.changeCount, expectedChangeCount)
   }
 
-  func testIgnoreEventsIsEnabled() {
+  // MARK: - ignoreEvents / ignoreOnlyNextEvent gating
+
+  func testIgnoreEventsSkipsDispatch() async {
     Defaults[.ignoreEvents] = true
 
-    let hookExpectation = expectation(description: "Hook is called")
-    hookExpectation.isInverted = true
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.string], owner: nil)
-    pasteboard.setString("foo", forType: .string)
-    waitForExpectations(timeout: 2)
+    let spy = IngestorSpy()
+    clipboard.ingestor = spy
+
+    setPasteboard(types: [.string], string: "foo", forType: .string)
+    clipboard.checkForChangesInPasteboard()
+    await Task.yield()
+
+    let requests = await spy.requests
+    XCTAssertEqual(requests.count, 0)
+    // `ignoreEvents` alone is sticky — it stays on.
+    XCTAssertTrue(Defaults[.ignoreEvents])
   }
 
-  func testIgnoreOnlyNextEventIsEnabled() {
+  func testIgnoreOnlyNextEventClearsFlagAndSkipsDispatch() async {
     Defaults[.ignoreEvents] = true
     Defaults[.ignoreOnlyNextEvent] = true
 
-    let hookExpectation = expectation(description: "Hook is called")
-    hookExpectation.isInverted = true
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.string], owner: nil)
-    pasteboard.setString("foo", forType: .string)
-    waitForExpectations(timeout: 2)
+    let spy = IngestorSpy()
+    clipboard.ingestor = spy
 
+    setPasteboard(types: [.string], string: "foo", forType: .string)
+    clipboard.checkForChangesInPasteboard()
+    await Task.yield()
+
+    let requests = await spy.requests
+    XCTAssertEqual(requests.count, 0)
     XCTAssertFalse(Defaults[.ignoreEvents])
     XCTAssertFalse(Defaults[.ignoreOnlyNextEvent])
   }
 
-  func testIgnoreApplication() {
-    Defaults[.ignoredApps] = [frontmostApplicationBundleIdentifier()]
+  // MARK: - copy(_:) (unchanged runtime path; just needs a no-op ingestor)
 
-    let hookExpectation = expectation(description: "Hook is called")
-    hookExpectation.isInverted = true
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.string], owner: nil)
-    pasteboard.setString("bar", forType: .string)
-    waitForExpectations(timeout: 2)
-  }
-
-  func testIgnoreAllApplicationsExcept() {
-    Defaults[.ignoreAllAppsExceptListed] = true
-    Defaults[.ignoredApps] = [frontmostApplicationBundleIdentifier()]
-
-    let hookExpectation = expectation(description: "Hook is called")
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.string], owner: nil)
-    pasteboard.setString("bar", forType: .string)
-    waitForExpectations(timeout: 2)
-  }
-
-  func testIgnoreTransientTypes() {
-    let hookExpectation = expectation(description: "Hook is called")
-    hookExpectation.isInverted = true
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.string, transientType], owner: nil)
-    pasteboard.setString("bar", forType: .string)
-    waitForExpectations(timeout: 2)
-  }
-
-  func testIgnoreCustomTypes() {
-    Defaults[.ignoredPasteboardTypes] = [customType.rawValue]
-
-    let hookExpectation = expectation(description: "Hook is called")
-    hookExpectation.isInverted = true
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.string, customType], owner: nil)
-    pasteboard.setString("bar", forType: .string)
-    waitForExpectations(timeout: 2)
-  }
-
-  func testIgnoreCopiesWithUnknownTypes() {
-    let hookExpectation = expectation(description: "Hook is called")
-    hookExpectation.isInverted = true
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([unknownType], owner: nil)
-    pasteboard.setString(" ", forType: unknownType)
-    waitForExpectations(timeout: 2)
-  }
-
-  @MainActor
   func testCopy() {
+    let image = NSImage(named: "NSInfo")!
     let imageData = image.tiffRepresentation!
     let fileURL = temporaryFileURL()
     defer { try? FileManager.default.removeItem(at: fileURL) }
+
+    // `copy(_:)` internally calls `checkForChangesInPasteboard`; leave ingestor
+    // nil so that dispatch is a no-op (we assert pasteboard state, not ingest).
+    clipboard.ingestor = nil
 
     let contents = [
       HistoryItemContent(type: stringType.rawValue, value: "foo".data(using: .utf8)!),
@@ -229,10 +189,14 @@ class ClipboardTests: XCTestCase {
     XCTAssertEqual(pasteboard.string(forType: .source), "com.foo.bar")
   }
 
-  @MainActor
   func testCopyWithoutFormatting() {
+    let coloredString = NSAttributedString(string: "foo",
+                                           attributes: [.foregroundColor: NSColor.red])
     let fileURL = temporaryFileURL()
     defer { try? FileManager.default.removeItem(at: fileURL) }
+
+    let rtfType = NSPasteboard.PasteboardType.rtf
+    clipboard.ingestor = nil
 
     let contents = [
       HistoryItemContent(type: stringType.rawValue, value: "foo".data(using: .utf8)!),
@@ -253,66 +217,34 @@ class ClipboardTests: XCTestCase {
     XCTAssertNil(pasteboard.data(forType: .rtf))
   }
 
-  func testHandlesItemsWithoutData() {
-    let hookExpectation = expectation(description: "Hook is called")
-    pasteboard.clearContents()
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.fileURL, .string], owner: nil)
-    // fileURL is left without data
-    pasteboard.setString("bar", forType: .string)
-    waitForExpectations(timeout: 2)
+  // MARK: - helpers
+
+  /// Drives the pasteboard the way the old tests did: declare types, set the
+  /// string payload, then bump `changeCount` so `checkForChangesInPasteboard`'s
+  /// guard sees a change. `declareTypes` already bumps `changeCount`, but the
+  /// shared `NSPasteboard.general` can be touched by other system code between
+  /// setup and the call, so we sync `clipboard.changeCount` to *one less* than
+  /// the current value to force the guard through.
+  private func setPasteboard(types: [NSPasteboard.PasteboardType],
+                             string: String,
+                             forType type: NSPasteboard.PasteboardType) {
+    pasteboard.declareTypes(types, owner: nil)
+    pasteboard.setString(string, forType: type)
+    // Force the change-detection guard to fire by lagging clipboard's counter.
+    clipboard.changeCount = pasteboard.changeCount - 1
   }
 
-  func testSkipsOversizedItems() {
-    Defaults[.maxClipboardContentSize] = 1
-
-    let hookExpectation = expectation(description: "Hook is called")
-    hookExpectation.isInverted = true
-    pasteboard.clearContents()
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
-    pasteboard.declareTypes([.string], owner: nil)
-    pasteboard.setData(Data(count: HistoryItemContent.maxValueSize + 1), forType: .string)
-    waitForExpectations(timeout: 2)
-  }
-
-  func testCopiesMultipleTypes() {
-    let item = NSPasteboardItem()
-    item.setString("foo", forType: .string)
-    item.setData(Data("tiff".utf8), forType: .tiff)
-
-    XCTAssertEqual(
-      Set(clipboard.contents(from: item).map({ $0.type })),
-      Set([tiffType.rawValue, stringType.rawValue])
-    )
-  }
-
-  func testRemovesDisabledTypes() {
-    Defaults[.enabledPasteboardTypes] = [.fileURL]
-    let fileURL = temporaryFileURL()
-    defer { try? FileManager.default.removeItem(at: fileURL) }
-
-    let hookExpectation = expectation(description: "Hook is called")
-    clipboard.onNewCopy({ (item: HistoryItem) in
-      XCTAssertEqual(item.contents.map({ $0.type }), [self.fileURLType.rawValue])
-      hookExpectation.fulfill()
-    })
-
-    let item = NSPasteboardItem()
-    item.setString("foo", forType: .string)
-    item.setData(image.tiffRepresentation!, forType: .tiff)
-    item.setData(fileURL.dataRepresentation, forType: .fileURL)
-
-    clipboard.start()
-    pasteboard.clearContents()
-    pasteboard.writeObjects([item])
-
-    waitForExpectations(timeout: 2)
+  /// `checkForChangesInPasteboard` dispatches via `Task { await ingestor?.ingest }`,
+  /// so the spy's `requests` won't be populated synchronously. Poll for up to
+  /// ~1s (the spy is an `actor`, so each access is `await`ed).
+  private func waitForSpy(_ spy: IngestorSpy, expectedRequestCount: Int) async {
+    for _ in 0..<100 {
+      let count = await spy.requests.count
+      if count >= expectedRequestCount {
+        return
+      }
+      try? await Task.sleep(nanoseconds: 10_000_000)
+    }
   }
 
   private func temporaryFileURL() -> URL {
@@ -322,28 +254,6 @@ class ClipboardTests: XCTestCase {
     let contents = Data("Maccy clipboard test".utf8)
     XCTAssertTrue(FileManager.default.createFile(atPath: url.path, contents: contents))
     return url
-  }
-
-  func testRemovesDynamicTypes() {
-    let hookExpectation = expectation(description: "Hook is called")
-    clipboard.onNewCopy({ (item: HistoryItem) in
-      XCTAssertEqual(item.contents.map({ $0.type }), [self.stringType.rawValue])
-      hookExpectation.fulfill()
-    })
-
-    let item = NSPasteboardItem()
-    item.setString("foo", forType: .string)
-    item.setData("".data(using: .utf8)!, forType: dynamicType)
-
-    clipboard.start()
-    pasteboard.clearContents()
-    pasteboard.writeObjects([item])
-
-    waitForExpectations(timeout: 2)
-  }
-
-  private func frontmostApplicationBundleIdentifier() -> String {
-    return NSWorkspace.shared.frontmostApplication?.bundleIdentifier ?? Bundle.main.bundleIdentifier!
   }
 }
 // swiftlint:enable type_body_length

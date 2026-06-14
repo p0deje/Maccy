@@ -1,19 +1,30 @@
+// swiftlint:disable file_length
 import AppKit
 import Defaults
-import Logging
 import Sauce
 
 class Clipboard {
   static let shared = Clipboard()
 
-  typealias OnNewCopyHook = (HistoryItem) -> Void
   private let regularExpressionInputLimit = 2_000
   private let richTextParsingLimit = 512 * 1_024
 
-  private var onNewCopyHooks: [OnNewCopyHook] = []
   private var ignoredRegexps: [String: NSRegularExpression] = [:]
   var changeCount: Int
-  private let logger = Logger(label: "org.p0deje.Maccy")
+
+  /// The off-main ingest actor this clipboard dispatches copies to.
+  ///
+  /// Set by `AppDelegate` at launch to a `BackgroundClipboardIngestor`
+  /// (BS-2.2b) whose `onEvent` reconciles the main-context history via
+  /// `History.consume` (BS-2.3). When set, `checkForChangesInPasteboard()`
+  /// builds a raw `IngestRequest` from `NSPasteboardSource().snapshot()` and
+  /// hands it off with `Task { await ingestor?.ingest(request) }` — the
+  /// filtering, dedup, and single-transaction write all happen OFF the main
+  /// thread inside the actor's `filterContents` (the comprehensive, unit-tested
+  /// filter from BS-2.2a). When `nil` (e.g. legacy tests that haven't wired an
+  /// ingestor) the ingest half of `checkForChangesInPasteboard` no-ops; the
+  /// change-detection gates above it still run.
+  var ingestor: ClipboardIngestor?
 
   private let pasteboard = NSPasteboard.general
 
@@ -44,14 +55,6 @@ class Clipboard {
 
   init() {
     changeCount = pasteboard.changeCount
-  }
-
-  func onNewCopy(_ hook: @escaping OnNewCopyHook) {
-    onNewCopyHooks.append(hook)
-  }
-
-  func clearHooks() {
-    onNewCopyHooks = []
   }
 
   func start() {
@@ -155,6 +158,20 @@ class Clipboard {
     pasteboard.clearContents()
   }
 
+  /// Detects a pasteboard change and dispatches a raw `IngestRequest` to the
+  /// off-main `ingestor` actor.
+  ///
+  /// The change-detection gates (changeCount, paste-stack interrupt,
+  /// `ignoreEvents` / `ignoreOnlyNextEvent`, the cheap `shouldIgnore` fast
+  /// paths over pasteboard types and the source app) stay here on the main
+  /// thread because they are O(types) and must run before any pasteboard read.
+  /// Once the gates clear, the pasteboard is snapshotted into plain value
+  /// types via `NSPasteboardSource().snapshot()` and handed to the actor inside
+  /// a `Task`; the actor's `filterContents` (BS-2.2a) is the comprehensive,
+  /// unit-tested filter — the `shouldIgnore` calls above are only a fast path,
+  /// not the authoritative filter. When `ingestor` is `nil` the dispatch is a
+  /// no-op (the gates still ran), which keeps legacy unwired callers/tests
+  /// working.
   @objc
   @MainActor
   func checkForChangesInPasteboard() {
@@ -181,7 +198,7 @@ class Clipboard {
 
     // Reading types on NSPasteboard gives all the available
     // types - even the ones that are not present on the NSPasteboardItem.
-    // See https://github.com/p0deje/Maccy/issues/241.
+    // See https://github.com/p0deje.Maccy/issues/241.
     if shouldIgnore(Set(pasteboard.types ?? [])) {
       return
     }
@@ -190,36 +207,44 @@ class Clipboard {
       return
     }
 
-    // Some applications (BBEdit, Edge) add 2 items to pasteboard when copying
-    // so it's better to merge all data into a single record.
-    // - https://github.com/p0deje/Maccy/issues/78
-    // - https://github.com/p0deje/Maccy/issues/472
-    var itemContents = [HistoryItemContent]()
-    pasteboard.pasteboardItems?.forEach({ item in
-      itemContents += contents(from: item)
-    })
-
-    guard !itemContents.isEmpty else {
+    guard let request = ingestRequestFromPasteboard() else {
       return
     }
 
-    let historyItem = HistoryItem(contents: itemContents)
+    Task { await ingestor?.ingest(request) }
+  }
 
-    if #unavailable(macOS 15.0) {
-      // On macOS 14 the history item needs to be inserted into storage directly after creating it.
-      do {
-        try History.shared.insertIntoStorage(historyItem)
-      } catch {
-        History.shared.lastPersistError = error
-        logger.error("Failed to insert history item from clipboard: \(String(describing: error))")
-        return
+  /// Builds a raw, unfiltered `IngestRequest` from the current pasteboard
+  /// snapshot. Flattens every `PasteboardItemSnapshot.contents` map
+  /// (type→bytes) into `[ContentDTO]` (fingerprint left `nil` — the actor
+  /// computes fingerprints lazily inside `HistoryItemEngine`; `size` is the
+  /// byte count). Returns `nil` when there is nothing to ingest (empty
+  /// pasteboard or every type empty), so the caller can short-circuit before
+  /// spawning a `Task`. Type filtering, the `maxValueSize` cap, and
+  /// rich-text/empty-string handling all happen inside the actor's
+  /// `filterContents`; this builder records exactly what was on the pasteboard.
+  @MainActor
+  func ingestRequestFromPasteboard() -> IngestRequest? {
+    let source = NSPasteboardSource()
+    var contents: [ContentDTO] = []
+    for snapshot in source.snapshot() {
+      for (type, bytes) in snapshot.contents {
+        contents.append(
+          ContentDTO(type: type, value: bytes, fingerprint: nil, size: bytes.count)
+        )
       }
     }
 
-    historyItem.application = sourceApp?.bundleIdentifier
-    historyItem.title = historyItem.generateTitle()
+    guard !contents.isEmpty else {
+      return nil
+    }
 
-    onNewCopyHooks.forEach({ $0(historyItem) })
+    return IngestRequest(
+      source: CopyOrigin(changeCount: source.changeCount),
+      contents: contents,
+      application: sourceApp?.bundleIdentifier,
+      now: Date()
+    )
   }
 }
 
