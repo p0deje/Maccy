@@ -80,11 +80,18 @@ class HistoryItem {
   }
 
   func supersedes(_ item: HistoryItem) -> Bool {
-    HistoryItemEngine.supersedes(
+    supersedes(item.duplicateSignature)
+  }
+
+  var duplicateSignature: HistoryItemEngine.Signature {
+    HistoryItemEngine.signature(
       contents: contents,
-      otherContents: item.contents,
       ignoringTypes: Self.transientTypes
     )
+  }
+
+  func supersedes(_ signature: HistoryItemEngine.Signature) -> Bool {
+    HistoryItemEngine.contains(contents: contents, signature: signature)
   }
 
   func generateTitle() -> String {

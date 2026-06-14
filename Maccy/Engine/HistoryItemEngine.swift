@@ -1,20 +1,39 @@
 import AppKit
 
 enum HistoryItemEngine {
+  struct Signature {
+    fileprivate let contents: [ContentSignature]
+  }
+
+  static func signature(
+    contents: [HistoryItemContent],
+    ignoringTypes transientTypes: Set<String>
+  ) -> Signature {
+    Signature(contents: contents.compactMap { content in
+      guard !transientTypes.contains(content.type) else {
+        return nil
+      }
+
+      return ContentSignature(content)
+    })
+  }
+
   static func supersedes(
     contents: [HistoryItemContent],
     otherContents: [HistoryItemContent],
     ignoringTypes transientTypes: Set<String>
   ) -> Bool {
-    let index = ContentIndex(contents)
+    contains(
+      contents: contents,
+      signature: signature(contents: otherContents, ignoringTypes: transientTypes)
+    )
+  }
 
-    return otherContents
-      .filter { content in
-        !transientTypes.contains(content.type)
-      }
-      .allSatisfy { content in
-        index.contains(type: content.type, value: content.value)
-      }
+  static func contains(
+    contents: [HistoryItemContent],
+    signature: Signature
+  ) -> Bool {
+    ContentIndex(contents).contains(signature)
   }
 
   static func generateTitle(
@@ -74,6 +93,18 @@ enum HistoryItemEngine {
   }
 }
 
+fileprivate struct ContentSignature {
+  let type: String
+  let value: Data?
+  let fingerprint: UInt64?
+
+  init(_ content: HistoryItemContent) {
+    self.type = content.type
+    self.value = content.value
+    self.fingerprint = content.value.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
+  }
+}
+
 private struct ContentIndex {
   private let contentsByType: [String: [Data]]
   private let nilValueTypes: Set<String>
@@ -105,17 +136,21 @@ private struct ContentIndex {
       .compactMap { URL(dataRepresentation: $0, relativeTo: nil, isAbsolute: true) }
   }
 
-  func contains(type: String, value: Data?) -> Bool {
-    guard let value else {
-      return nilValueTypes.contains(type)
+  func contains(_ signature: HistoryItemEngine.Signature) -> Bool {
+    signature.contents.allSatisfy { contains($0) }
+  }
+
+  private func contains(_ content: ContentSignature) -> Bool {
+    guard let value = content.value else {
+      return nilValueTypes.contains(content.type)
     }
 
-    guard let values = contentsByType[type] else {
+    guard let values = contentsByType[content.type] else {
       return false
     }
 
     return values.contains {
-      ClipboardDataProcessor.dataLikelyEqual($0, value)
+      ClipboardDataProcessor.dataLikelyEqual($0, value, rhsFingerprint: content.fingerprint)
     }
   }
 

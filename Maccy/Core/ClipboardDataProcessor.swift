@@ -33,6 +33,15 @@ enum ClipboardDataProcessor {
       return lhs == nil && rhs == nil
     }
 
+    return dataLikelyEqual(lhs, rhs)
+  }
+
+  static func dataLikelyEqual(
+    _ lhs: Data,
+    _ rhs: Data,
+    lhsFingerprint: UInt64? = nil,
+    rhsFingerprint: UInt64? = nil
+  ) -> Bool {
     guard lhs.count == rhs.count else {
       return false
     }
@@ -41,13 +50,21 @@ enum ClipboardDataProcessor {
       return lhs == rhs
     }
 
-    let lhsFingerprint = MaccyTextProcessor.fingerprint(for: lhs)
-    let rhsFingerprint = MaccyTextProcessor.fingerprint(for: rhs)
+    let lhsFingerprint = lhsFingerprint ?? MaccyTextProcessor.fingerprint(for: lhs)
+    let rhsFingerprint = rhsFingerprint ?? MaccyTextProcessor.fingerprint(for: rhs)
     guard lhsFingerprint == rhsFingerprint else {
       return false
     }
 
     return lhs == rhs
+  }
+
+  static func fingerprintIfLarge(_ data: Data) -> UInt64? {
+    guard data.count >= largeContentFingerprintThreshold else {
+      return nil
+    }
+
+    return MaccyTextProcessor.fingerprint(for: data)
   }
 
   private static func legacyStringPrefix(
