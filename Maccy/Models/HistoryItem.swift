@@ -1,5 +1,6 @@
 import AppKit
 import Defaults
+import Logging
 import Sauce
 import SwiftData
 import Vision
@@ -42,8 +43,14 @@ class HistoryItem {
     let descriptor = FetchDescriptor<HistoryItem>(
       predicate: #Predicate { $0.pin != nil }
     )
-    let pins = try? Storage.shared.context.fetch(descriptor).compactMap({ $0.pin })
-    let assignedPins = Set(pins ?? [])
+    let pins: [String]
+    do {
+      pins = try Storage.shared.context.fetch(descriptor).compactMap({ $0.pin })
+    } catch {
+      Logger(label: "org.p0deje.Maccy").error("Failed to fetch assigned pins: \(String(describing: error))")
+      pins = []
+    }
+    let assignedPins = Set(pins)
     return Array(supportedPins.subtracting(assignedPins))
   }
 

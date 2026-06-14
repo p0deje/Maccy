@@ -1,5 +1,6 @@
 import AppKit
 import Defaults
+import Logging
 import Sauce
 
 class Clipboard {
@@ -12,6 +13,7 @@ class Clipboard {
   private var onNewCopyHooks: [OnNewCopyHook] = []
   private var ignoredRegexps: [String: NSRegularExpression] = [:]
   var changeCount: Int
+  private let logger = Logger(label: "org.p0deje.Maccy")
 
   private let pasteboard = NSPasteboard.general
 
@@ -205,7 +207,13 @@ class Clipboard {
 
     if #unavailable(macOS 15.0) {
       // On macOS 14 the history item needs to be inserted into storage directly after creating it.
-      try? History.shared.insertIntoStorage(historyItem)
+      do {
+        try History.shared.insertIntoStorage(historyItem)
+      } catch {
+        History.shared.lastPersistError = error
+        logger.error("Failed to insert history item from clipboard: \(String(describing: error))")
+        return
+      }
     }
 
     historyItem.application = sourceApp?.bundleIdentifier

@@ -8,6 +8,65 @@ import Sauce
 import Settings
 import SwiftData
 
+@MainActor
+protocol HistoryPersistence {
+  func insert(_ item: HistoryItem) throws
+  func delete(_ item: HistoryItem) throws
+  func deleteUnpinned() throws
+  func deleteAll() throws
+  func fetchAll() throws -> [HistoryItem]
+  func countHistoryItems() throws -> Int
+  func countHistoryItemContents() throws -> Int
+}
+
+@MainActor
+struct SwiftDataHistoryPersistence: HistoryPersistence {
+  func insert(_ item: HistoryItem) throws {
+    Storage.shared.context.insert(item)
+    Storage.shared.context.processPendingChanges()
+    try Storage.shared.context.save()
+  }
+
+  func delete(_ item: HistoryItem) throws {
+    Storage.shared.context.delete(item)
+    Storage.shared.context.processPendingChanges()
+    try Storage.shared.context.save()
+  }
+
+  func deleteUnpinned() throws {
+    try Storage.shared.context.transaction {
+      try Storage.shared.context.delete(
+        model: HistoryItem.self,
+        where: #Predicate { $0.pin == nil }
+      )
+      try Storage.shared.context.delete(
+        model: HistoryItemContent.self,
+        where: #Predicate { $0.item?.pin == nil }
+      )
+    }
+    Storage.shared.context.processPendingChanges()
+    try Storage.shared.context.save()
+  }
+
+  func deleteAll() throws {
+    try Storage.shared.context.delete(model: HistoryItem.self)
+    Storage.shared.context.processPendingChanges()
+    try Storage.shared.context.save()
+  }
+
+  func fetchAll() throws -> [HistoryItem] {
+    try Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())
+  }
+
+  func countHistoryItems() throws -> Int {
+    try Storage.shared.context.fetchCount(FetchDescriptor<HistoryItem>())
+  }
+
+  func countHistoryItemContents() throws -> Int {
+    try Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
+  }
+}
+
 @Observable
 class History: ItemsContainer { // swiftlint:disable:this type_body_length
   static let shared = History()
@@ -15,6 +74,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   var items: [HistoryItemDecorator] = []
   var pasteStack: PasteStack?
+  var lastPersistError: Error?
 
   var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
@@ -66,7 +126,18 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @ObservationIgnored
   var all: [HistoryItemDecorator] = []
 
-  init() {
+  @ObservationIgnored
+  private let persistence: HistoryPersistence
+  @ObservationIgnored
+  private let shouldInsertItemsInAdd: Bool
+
+  init(
+    persistence: HistoryPersistence = SwiftDataHistoryPersistence(),
+    shouldInsertItemsInAdd: Bool = History.shouldInsertItemsInAddByDefault()
+  ) {
+    self.persistence = persistence
+    self.shouldInsertItemsInAdd = shouldInsertItemsInAdd
+
     Task { @MainActor in
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
         updateShortcuts()
@@ -75,13 +146,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     Task { @MainActor in
       for await _ in Defaults.updates(.sortBy, initial: false) {
-        try? await self.load()
+        await self.loadAfterDefaultsChange()
       }
     }
 
     Task { @MainActor in
       for await _ in Defaults.updates(.pinTo, initial: false) {
-        try? await self.load()
+        await self.loadAfterDefaultsChange()
       }
     }
 
@@ -130,19 +201,19 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   func insertIntoStorage(_ item: HistoryItem) throws {
     logger.info("Inserting history item")
-    Storage.shared.context.insert(item)
-    Storage.shared.context.processPendingChanges()
-    try? Storage.shared.context.save()
+    try persistence.insert(item)
   }
 
   @discardableResult
   @MainActor
   func add(_ item: HistoryItem) -> HistoryItemDecorator {
-    if #available(macOS 15.0, *) {
-      try? History.shared.insertIntoStorage(item)
-    } else {
-      // On macOS 14 the history item needs to be inserted into storage directly after creating it.
-      // It was already inserted after creation in Clipboard.swift
+    if shouldInsertItemsInAdd {
+      do {
+        try insertIntoStorage(item)
+      } catch {
+        recordPersistenceError("Failed to insert history item", error)
+        return HistoryItemDecorator(item)
+      }
     }
 
     var removedItemIndex: Int?
@@ -203,13 +274,18 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   private func withLogging(_ msg: String, _ block: () throws -> Void) rethrows {
     func dataCounts() -> String {
-      let historyItemCount = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItem>())
-      let historyContentCount = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
-      return "HistoryItem=\(historyItemCount ?? 0) HistoryItemContent=\(historyContentCount ?? 0)"
+      do {
+        let historyItemCount = try persistence.countHistoryItems()
+        let historyContentCount = try persistence.countHistoryItemContents()
+        return "HistoryItem=\(historyItemCount) HistoryItemContent=\(historyContentCount)"
+      } catch {
+        recordPersistenceError("Failed to count history items", error)
+        return "HistoryItem=0 HistoryItemContent=0"
+      }
     }
 
     logger.info("\(msg) Before: \(dataCounts())")
-    try? block()
+    try block()
     logger.info("\(msg) After: \(dataCounts())")
   }
 
@@ -217,7 +293,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func clear() {
     throttler.cancel()
 
-    withLogging("Clearing history") {
+    do {
+      try withLogging("Clearing history") {
+        try persistence.deleteUnpinned()
+      }
       all.forEach { item in
         if item.isUnpinned {
           cleanup(item)
@@ -226,19 +305,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       all.removeAll(where: \.isUnpinned)
       sessionLog.removeValues { $0.pin == nil }
       items = all
-
-      try? Storage.shared.context.transaction {
-        try? Storage.shared.context.delete(
-          model: HistoryItem.self,
-          where: #Predicate { $0.pin == nil }
-        )
-        try? Storage.shared.context.delete(
-          model: HistoryItemContent.self,
-          where: #Predicate { $0.item?.pin == nil }
-        )
-      }
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+    } catch {
+      recordPersistenceError("Failed to clear history", error)
+      return
     }
 
     Clipboard.shared.clear()
@@ -252,17 +321,19 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func clearAll() {
     throttler.cancel()
 
-    withLogging("Clearing all history") {
+    do {
+      try withLogging("Clearing all history") {
+        try persistence.deleteAll()
+      }
       all.forEach { item in
         cleanup(item)
       }
       all.removeAll()
       sessionLog.removeAll()
       items = all
-
-      try? Storage.shared.context.delete(model: HistoryItem.self)
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+    } catch {
+      recordPersistenceError("Failed to clear all history", error)
+      return
     }
 
     Clipboard.shared.clear()
@@ -277,13 +348,16 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     guard let item else { return }
 
     throttler.cancel()
-    cleanup(item)
-    withLogging("Removing history item") {
-      Storage.shared.context.delete(item.item)
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+    do {
+      try withLogging("Removing history item") {
+        try persistence.delete(item.item)
+      }
+    } catch {
+      recordPersistenceError("Failed to delete history item", error)
+      return
     }
 
+    cleanup(item)
     all.removeAll { $0 == item }
     items.removeAll { $0 == item }
     sessionLog.removeValues { $0 == item.item }
@@ -454,8 +528,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    if let all = try? Storage.shared.context.fetch(descriptor) {
+    do {
+      let all = try persistence.fetchAll()
       let signature = item.duplicateSignature
       for existingItem in all where existingItem != item {
         if existingItem.supersedes(signature) {
@@ -464,9 +538,33 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
 
       return isModified(item)
+    } catch {
+      recordPersistenceError("Failed to fetch history items", error)
+      return nil
     }
+  }
 
-    return nil
+  @MainActor
+  private func loadAfterDefaultsChange() async {
+    do {
+      try await load()
+    } catch {
+      recordPersistenceError("Failed to reload history", error)
+    }
+  }
+
+  @MainActor
+  private func recordPersistenceError(_ message: String, _ error: Error) {
+    lastPersistError = error
+    logger.error("\(message): \(String(describing: error))")
+  }
+
+  private static func shouldInsertItemsInAddByDefault() -> Bool {
+    if #available(macOS 15.0, *) {
+      return true
+    } else {
+      return false
+    }
   }
 
   private func isModified(_ item: HistoryItem) -> HistoryItem? {
