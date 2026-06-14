@@ -278,6 +278,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     return removedItemIndex
   }
 
+  @MainActor
   private func insertDecorator(
     for item: HistoryItem,
     removedItemIndex: Int?
