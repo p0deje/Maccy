@@ -6,7 +6,11 @@ class IngestErrorPropagationTests: XCTestCase {
   func testAddSurfacesInsertErrorAndDoesNotMutateMemory() {
     let persistence = FailingHistoryPersistence()
     persistence.insertError = TestPersistenceError.expected
-    let history = History(persistence: persistence, shouldInsertItemsInAdd: true)
+    let history = History(
+      persistence: persistence,
+      shouldInsertItemsInAdd: true,
+      logsPersistenceErrors: false
+    )
 
     _ = history.add(HistoryItem())
 
@@ -18,7 +22,7 @@ class IngestErrorPropagationTests: XCTestCase {
   func testClearSurfacesDeleteErrorAndKeepsMemoryState() {
     let persistence = FailingHistoryPersistence()
     persistence.deleteUnpinnedError = TestPersistenceError.expected
-    let history = History(persistence: persistence)
+    let history = History(persistence: persistence, logsPersistenceErrors: false)
     let item = HistoryItemDecorator(HistoryItem())
     history.all = [item]
     history.items = [item]

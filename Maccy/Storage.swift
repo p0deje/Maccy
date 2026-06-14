@@ -46,7 +46,7 @@ class Storage {
     }
   }
 
-  private static func recoverContainer(
+  static func recoverContainer(
     from url: URL,
     originalError: Error,
     corruptionStamp: String,

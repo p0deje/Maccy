@@ -142,13 +142,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   private let persistence: HistoryPersistence
   @ObservationIgnored
   private let shouldInsertItemsInAdd: Bool
+  @ObservationIgnored
+  private let logsPersistenceErrors: Bool
 
   init(
     persistence: HistoryPersistence = SwiftDataHistoryPersistence(),
-    shouldInsertItemsInAdd: Bool = History.shouldInsertItemsInAddByDefault()
+    shouldInsertItemsInAdd: Bool = History.shouldInsertItemsInAddByDefault(),
+    logsPersistenceErrors: Bool = true
   ) {
     self.persistence = persistence
     self.shouldInsertItemsInAdd = shouldInsertItemsInAdd
+    self.logsPersistenceErrors = logsPersistenceErrors
 
     Task { @MainActor in
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
@@ -584,7 +588,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   private func recordPersistenceError(_ message: String, _ error: Error) {
     lastPersistError = error
-    logger.error("\(message): \(String(describing: error))")
+    if logsPersistenceErrors {
+      logger.error("\(message): \(String(describing: error))")
+    }
   }
 
   private static func shouldInsertItemsInAddByDefault() -> Bool {

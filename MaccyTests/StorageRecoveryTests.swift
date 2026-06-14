@@ -13,12 +13,13 @@ class StorageRecoveryTests: XCTestCase {
     try Data("not a sqlite database".utf8).write(to: storeURL)
 
     var reportedQuarantineURL: URL?
-    _ = Storage(
-      url: storeURL,
-      storedInMemoryForTesting: false,
-      corruptionStamp: { "fixed-stamp" },
+    let container = Storage.recoverContainer(
+      from: storeURL,
+      originalError: CocoaError(.persistentStoreIncompatibleVersionHash),
+      corruptionStamp: "fixed-stamp",
       onCorruption: { reportedQuarantineURL = $0 }
     )
+    _ = container.mainContext
 
     let quarantineURL = try XCTUnwrap(reportedQuarantineURL)
     XCTAssertEqual(

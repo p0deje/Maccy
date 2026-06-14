@@ -300,7 +300,8 @@ extension HistoryItem {
     resourceValues: (URL) throws -> URLResourceValues = {
       try $0.resourceValues(forKeys: [.fileSizeKey])
     },
-    dataContents: (URL) throws -> Data = { try Data(contentsOf: $0) }
+    dataContents: (URL) throws -> Data = { try Data(contentsOf: $0) },
+    logErrors: Bool = true
   ) -> Data? {
     let fileSize: Int
     do {
@@ -310,7 +311,7 @@ extension HistoryItem {
       fileSize = value
     } catch {
       Logger(label: "org.p0deje.Maccy")
-        .error("Failed to read file size for \(url.path): \(String(describing: error))")
+        .logErrorIfNeeded(logErrors, "Failed to read file size for \(url.path): \(String(describing: error))")
       return nil
     }
 
@@ -322,8 +323,16 @@ extension HistoryItem {
       return try dataContents(url)
     } catch {
       Logger(label: "org.p0deje.Maccy")
-        .error("Failed to read file data for \(url.path): \(String(describing: error))")
+        .logErrorIfNeeded(logErrors, "Failed to read file data for \(url.path): \(String(describing: error))")
       return nil
+    }
+  }
+}
+
+private extension Logger {
+  func logErrorIfNeeded(_ enabled: Bool, _ message: Logger.Message) {
+    if enabled {
+      error(message)
     }
   }
 }

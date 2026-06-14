@@ -9,7 +9,8 @@ class HistoryItemFileDataTests: XCTestCase {
       dataContents: { _ in
         XCTFail("File data should not be read when size metadata cannot be loaded.")
         return Data("unexpected".utf8)
-      }
+      },
+      logErrors: false
     )
 
     XCTAssertNil(data)
