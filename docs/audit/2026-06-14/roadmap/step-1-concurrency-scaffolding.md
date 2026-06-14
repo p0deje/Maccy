@@ -37,9 +37,10 @@
   - `protocol ClipboardIngestor: Sendable { func ingest(_ request: IngestRequest) async -> IngestResult }`
   - `@MainActor final class MainActorIngestorAdapter: ClipboardIngestor`:内部转发到既有 `History.shared.add`(行为完全不变),仅把结果包成 `IngestResult`。**本步骤不接线**(BS-2 才让 `Clipboard` 使用它),保证既有行为零变化。
   - 证据:提交 `b0e84d318b5c0351d9628912eaec3958e17cc813`; macOS 26 ARM CI run `27494083624` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
-- [ ] **1.5 图片处理协议** — `ImageProcessing.swift`。
+- [x] **1.5 图片处理协议** — `ImageProcessing.swift`。
   - `protocol ImageProcessing: Sendable { func thumbnail(for data: Data, max: CGSize) async -> NSImage?; func preview(for data: Data, max: CGSize) async -> NSImage?; func recognizeText(in data: Data) async -> String? }`
   - 占位实现 `PassthroughImageProcessor`:沿用既有 `NSImage(data:)`+`resized` 路径(行为不变,BS-3 替换)。
+  - 证据:提交 `52f88fce92f8d05cd23d66554145319272d016c2`; macOS 26 ARM CI run `27494389002` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
 - [ ] **1.6 测试设施** — `MaccyTests/Support/`:`PasteboardSimulator`、`HistoryBuilder`、`FakeClock`、`IngestorSpy`、`FixtureLoader`(含 `heavy_text.txt` 与合成图片 fixture 路径)、`MainThreadProbe`。
 - [ ] **1.7 单元测试** — `SignatureIndexTests`(查/注册/移除/批量)、`DtoRoundTripTests`(DTO 与 `@Model` 互转,见 1.8)、`ImageProcessingContractTests`(占位实现与既有行为一致)。
 - [ ] **1.8 投影函数(纯)** — `Dtos.swift` 附加:`func snapshot(of item: HistoryItem) -> ItemSnapshotDTO`(在 item 所属 context 上读轻量字段);`func contentDTOs(of item: HistoryItem) -> [ContentDTO]`。这两个是 BS-2/4 的复用基础。
