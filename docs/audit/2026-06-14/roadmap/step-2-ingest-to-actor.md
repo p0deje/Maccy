@@ -16,7 +16,9 @@
 
 ## 小步骤
 
-- [ ] **2.1 PasteboardSource 抽象** — `PasteboardSource.swift`。`protocol PasteboardSource: Sendable { var changeCount: Int { get}; func snapshot() -> [PasteboardItemSnapshot] }`;`PasteboardItemSnapshot { types: Set<PasteboardType>, data: (PasteboardType) -> Data? }`。`NSPasteboardSource` 包真 `NSPasteboard`;测试用 `PasteboardSimulator`。
+- [x] **2.1 PasteboardSource 抽象** — `PasteboardSource.swift`。`protocol PasteboardSource: Sendable { var changeCount: Int { get}; func snapshot() -> [PasteboardItemSnapshot] }`;`PasteboardItemSnapshot { types: Set<PasteboardType>, data: (PasteboardType) -> Data? }`。`NSPasteboardSource` 包真 `NSPasteboard`;测试用 `PasteboardSimulator`。
+  - 证据:提交 `334cb70`;macOS 26 ARM CI run `27498442988`(分支 `master`、`push`)通过 SwiftLint、clean build、`MaccyTests`、`MaccyUITests`、日志扫描。
+  - 偏离记录(相对路线图字面文本):(1) `Dtos.swift` 在 BS-1 已有 `struct PasteboardSource`(origin 元数据:`changeCount`+`name`),与本步协议同名冲突 → 重命名为 `CopyOrigin`(`ClipboardItemDTO.source`、`IngestRequest.source` 及 7 处调用点),协议保留 `PasteboardSource` 名称;(2) `PasteboardItemSnapshot` 在 BS-1.6 已存在于测试模块,本步迁入主模块 `Maccy/Ingest/PasteboardSource.swift` 以便生产协议引用,沿用其 eager/Sendable 设计(`contents: [String: Data]`、**不过滤/不限长**——过滤与 `maxValueSize` 留给 ingestor,BS-2.2);(3) `NSPasteboardSource` 标注 `@unchecked Sendable`(`NSPasteboard` 非 Sendable,仅经只读 API 访问);(4) `project.pbxproj` 用显式文件引用,新增文件需在 PBXBuildFile/PBXFileReference/Ingest group/Sources phase 四处登记。
 - [ ] **2.2 actor ClipboardIngestor 实现** — `ClipboardIngestor.swift`。
   - `init(bg: ModelContext, image: ImageProcessing, now: @escaping @Sendable () -> Date, onEvent: @escaping @Sendable (StoreEvent) async -> Void)`(`now` 注入便于测试,不在库内用 `Date.now`)。
   - `func ingest(_ req: IngestRequest) async -> IngestResult`:内部分两段——
