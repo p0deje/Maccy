@@ -2,19 +2,7 @@ import AppKit
 
 enum HistoryItemEngine {
   struct Signature {
-    private struct Content {
-      let type: String
-      let value: Data?
-      let fingerprint: UInt64?
-
-      init(_ content: HistoryItemContent) {
-        self.type = content.type
-        self.value = content.value
-        self.fingerprint = content.value.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
-      }
-    }
-
-    private let contents: [Content]
+    private let contents: [ContentSignature]
 
     init(
       contents: [HistoryItemContent],
@@ -116,6 +104,18 @@ enum HistoryItemEngine {
     } else {
       return fallbackTitle.shortened(to: maxLength)
     }
+  }
+}
+
+private struct ContentSignature {
+  let type: String
+  let value: Data?
+  let fingerprint: UInt64?
+
+  init(_ content: HistoryItemContent) {
+    self.type = content.type
+    self.value = content.value
+    self.fingerprint = content.value.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
   }
 }
 
