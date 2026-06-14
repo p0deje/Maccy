@@ -80,6 +80,8 @@
 		DA3CE80C1E44A62500B3AA98 /* Storage+Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE80B1E44A62500B3AA98 /* Storage+Background.swift */; };
 		DA3CE80F1E44A62500B3AA98 /* Dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE80E1E44A62500B3AA98 /* Dtos.swift */; };
 		DA3CE8121E44A62500B3AA98 /* DtoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8111E44A62500B3AA98 /* DtoTests.swift */; };
+		DA3CE8141E44A62500B3AA98 /* SignatureIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8131E44A62500B3AA98 /* SignatureIndex.swift */; };
+		DA3CE8161E44A62500B3AA98 /* SignatureIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8151E44A62500B3AA98 /* SignatureIndexTests.swift */; };
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
 		DA384E86232746D800603999 /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA384E85232746D800603999 /* SearchTests.swift */; };
 		DA3BCB8E2C3E015000B01BC1 /* ModifierFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */; };
@@ -293,6 +295,8 @@
 		DA3CE80B1E44A62500B3AA98 /* Storage+Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+Background.swift"; sourceTree = "<group>"; };
 		DA3CE80E1E44A62500B3AA98 /* Dtos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dtos.swift; sourceTree = "<group>"; };
 		DA3CE8111E44A62500B3AA98 /* DtoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DtoTests.swift; sourceTree = "<group>"; };
+		DA3CE8131E44A62500B3AA98 /* SignatureIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureIndex.swift; sourceTree = "<group>"; };
+		DA3CE8151E44A62500B3AA98 /* SignatureIndexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureIndexTests.swift; sourceTree = "<group>"; };
 		DA2595D82CBC44BD00A0A7F2 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
 		DA2595D92CBC44BD00A0A7F2 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
 		DA2595DA2CBC44BD00A0A7F2 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
@@ -794,6 +798,7 @@
 				DA3CE8051E44A62500B3AA98 /* IngestErrorPropagationTests.swift */,
 				E000000F2F5000000000000F /* HistoryItemPerformanceTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
+				DA3CE8151E44A62500B3AA98 /* SignatureIndexTests.swift */,
 				DA3CE8091E44A62500B3AA98 /* StorageBackgroundContextTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
 				DA3CE8031E44A62500B3AA98 /* StorageRecoveryTests.swift */,
@@ -838,6 +843,7 @@
 			isa = PBXGroup;
 			children = (
 				DA3CE80E1E44A62500B3AA98 /* Dtos.swift */,
+				DA3CE8131E44A62500B3AA98 /* SignatureIndex.swift */,
 			);
 			path = Ingest;
 			sourceTree = "<group>";
@@ -1161,6 +1167,7 @@
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
 				DA3CE80A1E44A62500B3AA98 /* StorageBackgroundContextTests.swift in Sources */,
 				DA3CE8121E44A62500B3AA98 /* DtoTests.swift in Sources */,
+				DA3CE8161E44A62500B3AA98 /* SignatureIndexTests.swift in Sources */,
 				E00000102F50000000000010 /* HistoryItemPerformanceTests.swift in Sources */,
 				DA3CE8081E44A62500B3AA98 /* HistoryItemFileDataTests.swift in Sources */,
 				DA3CE8061E44A62500B3AA98 /* IngestErrorPropagationTests.swift in Sources */,
@@ -1191,6 +1198,7 @@
 				DA243D142C2F66DD0012A27F /* Storage.swift in Sources */,
 				DA3CE80C1E44A62500B3AA98 /* Storage+Background.swift in Sources */,
 				DA3CE80F1E44A62500B3AA98 /* Dtos.swift in Sources */,
+				DA3CE8141E44A62500B3AA98 /* SignatureIndex.swift in Sources */,
 				2F0EC7812E773F1D003E2EA9 /* PasteStack.swift in Sources */,
 				DA5078992CF2676B00215488 /* MouseMovedViewModifer.swift in Sources */,
 				DA19690E2C3EEFA900258481 /* KeyboardShortcutView.swift in Sources */,

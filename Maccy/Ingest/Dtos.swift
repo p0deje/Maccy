@@ -27,12 +27,28 @@ struct PasteboardSource: Equatable, Hashable, Sendable {
 
 struct SignatureDTO: Equatable, Hashable, Sendable {
   let entries: [ContentSignatureEntry]
+
+  init(entries: [ContentSignatureEntry]) {
+    self.entries = entries.sorted()
+  }
 }
 
-struct ContentSignatureEntry: Equatable, Hashable, Sendable {
+struct ContentSignatureEntry: Comparable, Equatable, Hashable, Sendable {
   let type: String
   let fingerprint: UInt64?
   let size: Int
+
+  static func < (lhs: ContentSignatureEntry, rhs: ContentSignatureEntry) -> Bool {
+    if lhs.type != rhs.type {
+      return lhs.type < rhs.type
+    }
+
+    if lhs.size != rhs.size {
+      return lhs.size < rhs.size
+    }
+
+    return (lhs.fingerprint ?? 0) < (rhs.fingerprint ?? 0)
+  }
 }
 
 struct MaccyFingerprint: Equatable, Hashable, Sendable {
