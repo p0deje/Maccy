@@ -22,7 +22,7 @@
 - [x] **0.5 错误不再静默** — 在 `History.insertIntoStorage`/`delete`/`clear`/`clearAll`/`findSimilarItem` 与 `Clipboard`/`HistoryItem` 的 `try?` 处,改为 `do/catch`:`logger.error(...)` 记录;写路径失败时**回滚内存态**(从 `all`/`items` 移除未持久化的项)并通过新的 `@MainActor var lastPersistError` 暴露给 UI 可选提示。读路径失败仅记日志并返回空。
 - [x] **0.6 修 `dataFromFileIfAllowed` fallthrough** — `HistoryItem.swift:260-267`。`try? url.resourceValues` 返回 nil 时,**视为未通过大小校验**,返回 nil,不进入 `Data(contentsOf:)`。
 - [x] **0.7 统一 C++ 方言** — `project.pbxproj`。两个 `gnu++0x` config 改 `gnu++17`(与 Maccy 目标 `gnu++14` 对齐,并为 BS-8 预留)。
-- [ ] **0.8 全量验证** — `xcodebuild build` + `xcodebuild test` 通过;手动:首项按 ↑ 不崩;模拟坏 store 不丢历史。
+- [x] **0.8 全量验证** — `xcodebuild build` + `xcodebuild test` 通过;手动:首项按 ↑ 不崩;模拟坏 store 不丢历史。验证证据:GitHub Actions `macos26-arm-ci.yml` run `27492091158` 在 `codex/bs0-safety` 的 `c28337c` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
 
 ## 测试
 - 引用:`B-test-strategy.md` 的 `FixtureLoader`(合成坏 store)、`HistoryBuilder`。
