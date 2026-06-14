@@ -86,6 +86,13 @@
 		DA3CE81A1E44A62500B3AA98 /* ClipboardIngestorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8191E44A62500B3AA98 /* ClipboardIngestorTests.swift */; };
 		DA3CE81D1E44A62500B3AA98 /* ImageProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE81C1E44A62500B3AA98 /* ImageProcessing.swift */; };
 		DA3CE81F1E44A62500B3AA98 /* ImageProcessingContractTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE81E1E44A62500B3AA98 /* ImageProcessingContractTests.swift */; };
+		DA3CE8221E44A62500B3AA98 /* PasteboardSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8211E44A62500B3AA98 /* PasteboardSimulator.swift */; };
+		DA3CE8241E44A62500B3AA98 /* HistoryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8231E44A62500B3AA98 /* HistoryBuilder.swift */; };
+		DA3CE8261E44A62500B3AA98 /* FakeClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8251E44A62500B3AA98 /* FakeClock.swift */; };
+		DA3CE8281E44A62500B3AA98 /* IngestorSpy.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8271E44A62500B3AA98 /* IngestorSpy.swift */; };
+		DA3CE82A1E44A62500B3AA98 /* FixtureLoader.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8291E44A62500B3AA98 /* FixtureLoader.swift */; };
+		DA3CE82C1E44A62500B3AA98 /* MainThreadProbe.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE82B1E44A62500B3AA98 /* MainThreadProbe.swift */; };
+		DA3CE82E1E44A62500B3AA98 /* SupportTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE82D1E44A62500B3AA98 /* SupportTests.swift */; };
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
 		DA384E86232746D800603999 /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA384E85232746D800603999 /* SearchTests.swift */; };
 		DA3BCB8E2C3E015000B01BC1 /* ModifierFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */; };
@@ -305,6 +312,13 @@
 		DA3CE8191E44A62500B3AA98 /* ClipboardIngestorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardIngestorTests.swift; sourceTree = "<group>"; };
 		DA3CE81C1E44A62500B3AA98 /* ImageProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessing.swift; sourceTree = "<group>"; };
 		DA3CE81E1E44A62500B3AA98 /* ImageProcessingContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessingContractTests.swift; sourceTree = "<group>"; };
+		DA3CE8211E44A62500B3AA98 /* PasteboardSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardSimulator.swift; sourceTree = "<group>"; };
+		DA3CE8231E44A62500B3AA98 /* HistoryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryBuilder.swift; sourceTree = "<group>"; };
+		DA3CE8251E44A62500B3AA98 /* FakeClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeClock.swift; sourceTree = "<group>"; };
+		DA3CE8271E44A62500B3AA98 /* IngestorSpy.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngestorSpy.swift; sourceTree = "<group>"; };
+		DA3CE8291E44A62500B3AA98 /* FixtureLoader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FixtureLoader.swift; sourceTree = "<group>"; };
+		DA3CE82B1E44A62500B3AA98 /* MainThreadProbe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainThreadProbe.swift; sourceTree = "<group>"; };
+		DA3CE82D1E44A62500B3AA98 /* SupportTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SupportTests.swift; sourceTree = "<group>"; };
 		DA2595D82CBC44BD00A0A7F2 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
 		DA2595D92CBC44BD00A0A7F2 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
 		DA2595DA2CBC44BD00A0A7F2 /* lt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = lt; path = lt.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
@@ -795,6 +809,7 @@
 			isa = PBXGroup;
 			children = (
 				DA48AE852A5F0077006D4894 /* Fixtures */,
+				DA3CE8201E44A62500B3AA98 /* Support */,
 				DA3CE8191E44A62500B3AA98 /* ClipboardIngestorTests.swift */,
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				DA3CE8011E44A62500B3AA98 /* CollectionSurroundingTests.swift */,
@@ -812,9 +827,23 @@
 				DA3CE8091E44A62500B3AA98 /* StorageBackgroundContextTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
 				DA3CE8031E44A62500B3AA98 /* StorageRecoveryTests.swift */,
+				DA3CE82D1E44A62500B3AA98 /* SupportTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
 			);
 			path = MaccyTests;
+			sourceTree = "<group>";
+		};
+		DA3CE8201E44A62500B3AA98 /* Support */ = {
+			isa = PBXGroup;
+			children = (
+				DA3CE8251E44A62500B3AA98 /* FakeClock.swift */,
+				DA3CE8291E44A62500B3AA98 /* FixtureLoader.swift */,
+				DA3CE8231E44A62500B3AA98 /* HistoryBuilder.swift */,
+				DA3CE8271E44A62500B3AA98 /* IngestorSpy.swift */,
+				DA3CE82B1E44A62500B3AA98 /* MainThreadProbe.swift */,
+				DA3CE8211E44A62500B3AA98 /* PasteboardSimulator.swift */,
+			);
+			path = Support;
 			sourceTree = "<group>";
 		};
 		DA3BCB902C3EEC1000B01BC1 /* Observables */ = {
@@ -1183,13 +1212,20 @@
 				DA3CE81A1E44A62500B3AA98 /* ClipboardIngestorTests.swift in Sources */,
 				DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */,
 				DA3CE8021E44A62500B3AA98 /* CollectionSurroundingTests.swift in Sources */,
+				DA3CE8261E44A62500B3AA98 /* FakeClock.swift in Sources */,
 				DA1EDE432045B35300479723 /* HistoryDecoratorTests.swift in Sources */,
 				DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */,
+				DA3CE82A1E44A62500B3AA98 /* FixtureLoader.swift in Sources */,
+				DA3CE8241E44A62500B3AA98 /* HistoryBuilder.swift in Sources */,
 				DA3CE81F1E44A62500B3AA98 /* ImageProcessingContractTests.swift in Sources */,
+				DA3CE8281E44A62500B3AA98 /* IngestorSpy.swift in Sources */,
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
+				DA3CE82C1E44A62500B3AA98 /* MainThreadProbe.swift in Sources */,
+				DA3CE8221E44A62500B3AA98 /* PasteboardSimulator.swift in Sources */,
 				DA3CE80A1E44A62500B3AA98 /* StorageBackgroundContextTests.swift in Sources */,
 				DA3CE8121E44A62500B3AA98 /* DtoTests.swift in Sources */,
 				DA3CE8161E44A62500B3AA98 /* SignatureIndexTests.swift in Sources */,
+				DA3CE82E1E44A62500B3AA98 /* SupportTests.swift in Sources */,
 				E00000102F50000000000010 /* HistoryItemPerformanceTests.swift in Sources */,
 				DA3CE8081E44A62500B3AA98 /* HistoryItemFileDataTests.swift in Sources */,
 				DA3CE8061E44A62500B3AA98 /* IngestErrorPropagationTests.swift in Sources */,
