@@ -42,8 +42,9 @@ final class MainActorIngestorAdapter: ClipboardIngestor {
 /// observer, all OFF the main thread.
 ///
 /// ## Concurrency model
-/// - `backgroundContext` is a background `ModelContext` (`Storage.shared.newBackgroundContext()`,
-///   created on the main actor and handed in). `ModelContext` is NOT `Sendable`,
+/// - `modelContext` is the actor's isolated `ModelContext` (provided by the
+///   `@ModelActor` macro, run through a `DefaultSerialModelExecutor` so each
+///   access is mutually exclusive). `ModelContext` is NOT `Sendable`,
 ///   but it lives entirely inside this actor's isolation: every fetch, mutation,
 ///   `transaction`, `processPendingChanges`, and `save` happens on the actor.
 ///   The `@Model HistoryItem` / `HistoryItemContent` instances therefore NEVER
@@ -60,8 +61,8 @@ final class MainActorIngestorAdapter: ClipboardIngestor {
 /// ## Single-transaction invariant
 /// The whole point versus the old `History.add` flow (which issued
 /// `insertIntoStorage` → `mergeDuplicateIfNeeded` → `limitHistorySize` as
-/// separate saves) is ONE `backgroundContext.transaction { ... }` followed by ONE
-/// `backgroundContext.save()` per ingest. The trim, the duplicate delete, and the new-item
+/// separate saves) is ONE `modelContext.transaction { ... }` followed by ONE
+/// `modelContext.save()` per ingest. The trim, the duplicate delete, and the new-item
 /// insert all land in the same transaction. Errors are LOGGED via `logger.error`
 /// (never silently `try?`-swallowed) and surface as a no-event `IngestResult`.
 ///
@@ -73,23 +74,23 @@ final class MainActorIngestorAdapter: ClipboardIngestor {
 /// `supersedes` dedup ONLY. The rare modification-merge case is a deliberate
 /// BS-2 limitation; it could be closed later by forwarding sessionLog info into
 /// the actor's request.
+@ModelActor
 actor BackgroundClipboardIngestor: ClipboardIngestor {
-  private let backgroundContext: ModelContext
   private let image: ImageProcessing
   private let now: @Sendable () -> Date
   private let onEvent: @Sendable (StoreEvent) async -> Void
   private let logger = Logger(label: "org.p0deje.Maccy")
 
   init(
-    backgroundContext: ModelContext,
+    modelContainer: ModelContainer,
     image: ImageProcessing,
     now: @escaping @Sendable () -> Date,
     onEvent: @escaping @Sendable (StoreEvent) async -> Void
   ) {
-    self.backgroundContext = backgroundContext
     self.image = image
     self.now = now
     self.onEvent = onEvent
+    modelExecutor = DefaultSerialModelExecutor(modelContext: ModelContext(modelContainer))
   }
 
   /// Ingests one clipboard copy off the main thread.
@@ -102,7 +103,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   /// 2. Filter the request contents with the pure `filterContents` helper,
   ///    timing it for `parseMs` via the injected clock. An empty result is a
   ///    no-op ingest (no event, no write).
-  /// 3. Build the new `HistoryItem` on `backgroundContext` (mirrors `historyItem(from:)`).
+  /// 3. Build the new `HistoryItem` on the actor's isolated `modelContext` (mirrors `historyItem(from:)`).
   /// 4. Dedup against existing items via `duplicateSignature` / `supersedes`
   ///    (mirrors `History.findSimilarItem`, minus the sessionLog branch).
   /// 5. Merge fields from the duplicate if found (mirrors
@@ -215,7 +216,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   /// `History.findSimilarItem`, History.swift:562-577, MINUS the `isModified` /
   /// `sessionLog` branch — see the actor's class doc).
   private func findDuplicate(of item: HistoryItem) -> HistoryItem? {
-    let existing = (try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())) ?? []
+    let existing = (try? modelContext.fetch(FetchDescriptor<HistoryItem>())) ?? []
     let signature = item.duplicateSignature
     return existing.first { $0 != item && $0.supersedes(signature) }
   }
@@ -243,7 +244,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   /// trim in `History.limitHistorySize(to:)` (History.swift:208-215, 244).
   private func commit(_ item: HistoryItem, deleting dup: HistoryItem?) throws {
     let limit = max(1, Defaults[.size])
-    try backgroundContext.transaction {
+    try modelContext.transaction {
       // Sort unpinned by lastCopiedAt descending so `dropFirst(limit - 1)` is the
       // oldest tail — exactly what History.limitHistorySize deletes. The dup is
       // removed from the count BEFORE trimming (mirrors History.add, where the
@@ -252,20 +253,20 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
         predicate: #Predicate { $0.pin == nil },
         sortBy: [SortDescriptor(\.lastCopiedAt, order: .reverse)]
       )
-      var unpinned = (try? backgroundContext.fetch(descriptor)) ?? []
+      var unpinned = (try? modelContext.fetch(descriptor)) ?? []
       if let dup {
         unpinned.removeAll { $0 == dup }
-        backgroundContext.delete(dup)
+        modelContext.delete(dup)
       }
       if unpinned.count > limit - 1 {
         for excess in unpinned.dropFirst(limit - 1) {
-          backgroundContext.delete(excess)
+          modelContext.delete(excess)
         }
       }
-      backgroundContext.insert(item)
+      modelContext.insert(item)
     }
-    backgroundContext.processPendingChanges()
-    try backgroundContext.save()
+    modelContext.processPendingChanges()
+    try modelContext.save()
   }
 
   /// Builds the `IngestConfig` snapshot the pure filter needs. Mirrors the

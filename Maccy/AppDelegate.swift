@@ -55,7 +55,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
     // reconcile the main-context history. `Clipboard.checkForChangesInPasteboard`
     // dispatches each copy to this actor via `Task { ... }`.
     Clipboard.shared.ingestor = BackgroundClipboardIngestor(
-      backgroundContext: Storage.shared.newBackgroundContext(),
+      modelContainer: Storage.shared.container,
       image: PassthroughImageProcessor(),
       now: { Date() },
       onEvent: { @MainActor event in History.shared.consume(event) }
