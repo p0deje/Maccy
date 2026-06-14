@@ -87,6 +87,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     now: @escaping @Sendable () -> Date,
     onEvent: @escaping @Sendable (StoreEvent) async -> Void
   ) {
+    self.modelContainer = modelContainer
     self.image = image
     self.now = now
     self.onEvent = onEvent
