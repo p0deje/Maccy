@@ -234,6 +234,38 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(mainStored?.first?.title, "cross-context visibility")
   }
 
+  // MARK: - RTF (regression guard for off-main NSAttributedString)
+
+  /// RTF/HTML title generation parses via `NSAttributedString`, which is
+  /// main-thread-affine (AppKit/WebKit). The actor runs that parsing on the main
+  /// actor (see `BackgroundClipboardIngestor.title(for:)`). Driving the actor —
+  /// whose body runs on its off-main executor — with RTF would TRAP if
+  /// `NSAttributedString` ran off-main, so this test guards that regression.
+  func testIngestRtfContentDoesNotTrapOffMain() async {
+    let rtf = "{\\rtf1\\ansi rich body}".data(using: .utf8)!
+    let backgroundContext = Storage.shared.newBackgroundContext()
+    let ingestor = BackgroundClipboardIngestor(
+      backgroundContext: backgroundContext,
+      image: PassthroughImageProcessor(),
+      now: { Date(timeIntervalSince1970: 1_700_000_000) },
+      onEvent: { _ in }
+    )
+
+    let result = await ingestor.ingest(
+      IngestRequest(
+        source: CopyOrigin(changeCount: 1, name: "test"),
+        contents: [ContentDTO(type: "public.rtf", value: rtf, fingerprint: nil, size: rtf.count)],
+        application: nil,
+        now: Date(timeIntervalSince1970: 1_700_000_000)
+      )
+    )
+
+    // Reaching here means the actor did NOT trap on off-main NSAttributedString.
+    XCTAssertNotNil(result.event, "RTF ingest should produce an event")
+    let stored = try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())
+    XCTAssertEqual(stored?.count, 1)
+  }
+
   // MARK: - Helpers
 
   /// Builds a single-content text `IngestRequest`.

@@ -120,9 +120,16 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     let config = Self.ingestConfig()
 
     let filterStart = now()
-    let filtered = filterContents(
-      request.contents, application: request.application, config: config
-    )
+    // filterContents (rich-text detection) and title generation parse RTF/HTML
+    // via NSAttributedString, which is main-thread-affine (AppKit/WebKit) and
+    // traps if run off-main. Run both on the main actor; the heavy dedup-fetch
+    // and single-transaction write below stay off-main.
+    let (filtered, title) = await MainActor.run {
+      let filtered = filterContents(
+        request.contents, application: request.application, config: config
+      )
+      return (filtered, Self.title(for: filtered))
+    }
     let parseMs = now().timeIntervalSince(filterStart) * 1000
 
     guard !filtered.isEmpty else {
@@ -133,7 +140,9 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     }
 
     let timestamp = now()
-    let item = makeHistoryItem(filtered, application: request.application, timestamp: timestamp)
+    let item = makeHistoryItem(
+      filtered, application: request.application, timestamp: timestamp, title: title
+    )
     let dup = findDuplicate(of: item)
     if let dup {
       mergeFields(from: dup, into: item, timestamp: timestamp)
@@ -166,12 +175,14 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   // MARK: - Ingest steps
 
   /// Builds the new `HistoryItem` from the filtered contents (mirrors
-  /// `MainActorIngestorAdapter.historyItem(from:)`). Image items get an empty
-  /// title (OCR removed); text titles come from `HistoryItemEngine`.
+  /// `MainActorIngestorAdapter.historyItem(from:)`). The title is pre-computed on
+  /// the main actor (see `title(for:)`) because `NSAttributedString` parsing
+  /// can't run off-main; image items get an empty title (OCR removed).
   private func makeHistoryItem(
     _ contents: [ContentDTO],
     application: String?,
-    timestamp: Date
+    timestamp: Date,
+    title: String
   ) -> HistoryItem {
     let item = HistoryItem(
       contents: contents.map { HistoryItemContent(type: $0.type, value: $0.value) }
@@ -179,8 +190,25 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     item.application = application
     item.firstCopiedAt = timestamp
     item.lastCopiedAt = timestamp
-    item.title = item.generateTitle()
+    item.title = title
     return item
+  }
+
+  /// Computes the item title from the filtered contents. MUST run on the main
+  /// actor: `HistoryItemEngine.generateTitle` parses RTF/HTML via
+  /// `NSAttributedString`, which is main-thread-affine (AppKit/WebKit) and traps
+  /// off-main. The actor hops to main for this (and for `filterContents`); the
+  /// dedup fetch and the single-transaction write stay off-main.
+  @MainActor
+  private static func title(for contents: [ContentDTO]) -> String {
+    let transient = contents.map { HistoryItemContent(type: $0.type, value: $0.value) }
+    return HistoryItemEngine.generateTitle(
+      contents: transient,
+      fallbackTitle: "",
+      maxLength: HistoryItem.titlePreviewLimit,
+      richTextParsingLimit: 512 * 1024,
+      showSpecialSymbols: Defaults[.showSpecialSymbols]
+    )
   }
 
   /// Finds an existing item that supersedes the new one (mirrors
