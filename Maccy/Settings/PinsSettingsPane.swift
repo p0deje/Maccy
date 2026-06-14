@@ -106,8 +106,8 @@ struct PinValueView: View {
         item.contents.append(newContent)
       }
     }
-    // We don't automatically update title here since we want to preserve
-    // OCR-extracted titles for images and other non-text content
+    // We don't automatically update title here since we want to preserve the
+    // existing title for images and other non-text content.
   }
 }
 

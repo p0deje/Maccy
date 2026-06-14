@@ -3,7 +3,6 @@ import Defaults
 import Logging
 import Sauce
 import SwiftData
-import Vision
 
 @Model
 class HistoryItem {
@@ -102,21 +101,9 @@ class HistoryItem {
   }
 
   func generateTitle() -> String {
-    if let imageData {
-      if CommandLine.arguments.contains("enable-testing") {
-        return ""
-      }
-
-      Task { @MainActor [weak self, imageData] in
-        guard let image = NSImage(data: imageData) else {
-          return
-        }
-        guard let recognizedText = Self.recognizedText(in: image) else {
-          return
-        }
-
-        self?.title = recognizedText
-      }
+    // Image items have no text title — they are presented as thumbnails. (The
+    // Vision OCR title feature was removed; image titles stay empty.)
+    if imageData != nil {
       return ""
     }
 
@@ -266,31 +253,6 @@ class HistoryItem {
 
   private func dataFromFileIfAllowed(_ url: URL) -> Data? {
     Self.dataFromFileIfAllowed(url)
-  }
-
-  private static func recognizedText(in image: NSImage) -> String? {
-    guard let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
-      return nil
-    }
-
-    let requestHandler = VNImageRequestHandler(cgImage: cgImage)
-    let request = VNRecognizeTextRequest()
-    request.recognitionLevel = .fast
-
-    do {
-      try requestHandler.perform([request])
-    } catch {
-      return nil
-    }
-
-    guard let observations = request.results else {
-      return nil
-    }
-
-    let recognizedStrings = observations.compactMap {
-      $0.topCandidates(1).first?.string
-    }
-    return recognizedStrings.joined(separator: "\n")
   }
 }
 

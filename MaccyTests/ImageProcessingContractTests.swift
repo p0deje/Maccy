@@ -28,15 +28,6 @@ class ImageProcessingContractTests: XCTestCase {
     XCTAssertNil(thumbnail)
   }
 
-  func testPassthroughRecognizeTextIsPlaceholder() async throws {
-    let data = try imageData(size: NSSize(width: 20, height: 20))
-    let processor = PassthroughImageProcessor()
-
-    let text = await processor.recognizeText(in: data)
-
-    XCTAssertNil(text)
-  }
-
   private func imageData(size: NSSize) throws -> Data {
     let image = NSImage(size: size)
     image.lockFocus()
