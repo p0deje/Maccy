@@ -152,6 +152,7 @@
 		E00000042F50000000000004 /* ClipboardDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000032F50000000000003 /* ClipboardDataProcessor.swift */; };
 		E00000062F50000000000006 /* ClipboardByteProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00000052F50000000000005 /* ClipboardByteProcessor.cpp */; };
 		E000000A2F5000000000000A /* MaccyTextProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = E00000092F50000000000009 /* MaccyTextProcessor.mm */; };
+		E000000E2F5000000000000E /* HistoryItemEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000D2F5000000000000D /* HistoryItemEngine.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -556,6 +557,7 @@
 		E00000082F50000000000008 /* MaccyTextProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaccyTextProcessor.h; sourceTree = "<group>"; };
 		E00000092F50000000000009 /* MaccyTextProcessor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MaccyTextProcessor.mm; sourceTree = "<group>"; };
 		E000000B2F5000000000000B /* Maccy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Maccy-Bridging-Header.h"; sourceTree = "<group>"; };
+		E000000D2F5000000000000D /* HistoryItemEngine.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemEngine.swift; sourceTree = "<group>"; };
 		DAF4741E27BB568000B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAF74FF92C517B1A0027DBCE /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
 		DAF74FFA2C517B1E0027DBCE /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/AdvancedSettings.strings"; sourceTree = "<group>"; };
@@ -666,6 +668,14 @@
 				E00000092F50000000000009 /* MaccyTextProcessor.mm */,
 			);
 			path = Processor;
+			sourceTree = "<group>";
+		};
+		E000000C2F5000000000000C /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				E000000D2F5000000000000D /* HistoryItemEngine.swift */,
+			);
+			path = Engine;
 			sourceTree = "<group>";
 		};
 		DA05B50F2C234C1C006980FE /* Models */ = {
@@ -844,6 +854,7 @@
 			children = (
 				2F0EC7802E773F1D003E2EA9 /* PasteStack.swift */,
 				E00000012F50000000000001 /* Core */,
+				E000000C2F5000000000000C /* Engine */,
 				2FBB7A252B5FECBB00C65BBE /* Extensions */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
 				DA05B50F2C234C1C006980FE /* Models */,
@@ -1123,6 +1134,7 @@
 				2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */,
 				DA13D7D22C19F91B00FA9E23 /* Defaults.Keys+Names.swift in Sources */,
 				E00000042F50000000000004 /* ClipboardDataProcessor.swift in Sources */,
+				E000000E2F5000000000000E /* HistoryItemEngine.swift in Sources */,
 				2F0EC77D2E773314003E2EA9 /* Selection.swift in Sources */,
 				DA1969102C3F0AAC00258481 /* KeyShortcut.swift in Sources */,
 				DA9C3C622C20E1BF0056795D /* IgnoreRegexpsSettingsView.swift in Sources */,

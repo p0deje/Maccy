@@ -80,15 +80,11 @@ class HistoryItem {
   }
 
   func supersedes(_ item: HistoryItem) -> Bool {
-    return item.contents
-      .filter { content in
-        !Self.transientTypes.contains(content.type)
-      }
-      .allSatisfy { content in
-        contents.contains {
-          $0.type == content.type && ClipboardDataProcessor.dataLikelyEqual($0.value, content.value)
-        }
-      }
+    HistoryItemEngine.supersedes(
+      contents: contents,
+      otherContents: item.contents,
+      ignoringTypes: Self.transientTypes
+    )
   }
 
   func generateTitle() -> String {
@@ -110,24 +106,13 @@ class HistoryItem {
       return ""
     }
 
-    // Keep menu title generation bounded; very large clipboard strings otherwise block the main thread.
-    var title = previewableTextPrefix(maxLength: Self.titlePreviewLimit)
-
-    if Defaults[.showSpecialSymbols] {
-      if let range = title.range(of: "^ +", options: .regularExpression) {
-        title = title.replacingOccurrences(of: " ", with: "·", range: range)
-      }
-      if let range = title.range(of: " +$", options: .regularExpression) {
-        title = title.replacingOccurrences(of: " ", with: "·", range: range)
-      }
-      title = title
-        .replacingOccurrences(of: "\n", with: "⏎")
-        .replacingOccurrences(of: "\t", with: "⇥")
-    } else {
-      title = title.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    return title
+    return HistoryItemEngine.generateTitle(
+      contents: contents,
+      fallbackTitle: title,
+      maxLength: Self.titlePreviewLimit,
+      richTextParsingLimit: Self.richTextParsingLimit,
+      showSpecialSymbols: Defaults[.showSpecialSymbols]
+    )
   }
 
   var previewableText: String {
@@ -147,20 +132,12 @@ class HistoryItem {
   }
 
   func previewableTextPrefix(maxLength: Int) -> String {
-    if !fileURLs.isEmpty {
-      return fileURLs
-        .compactMap { $0.absoluteString.removingPercentEncoding }
-        .joined(separator: "\n")
-        .shortened(to: maxLength)
-    } else if let text = textPrefix(maxLength: maxLength), !text.isEmpty {
-      return text
-    } else if let rtf = rtfIfSmall, !rtf.string.isEmpty {
-      return rtf.string.shortened(to: maxLength)
-    } else if let html = htmlIfSmall, !html.string.isEmpty {
-      return html.string.shortened(to: maxLength)
-    } else {
-      return title.shortened(to: maxLength)
-    }
+    HistoryItemEngine.previewableTextPrefix(
+      contents: contents,
+      fallbackTitle: title,
+      maxLength: maxLength,
+      richTextParsingLimit: Self.richTextParsingLimit
+    )
   }
 
   var fileURLs: [URL] {

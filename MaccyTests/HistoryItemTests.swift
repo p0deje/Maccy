@@ -178,6 +178,24 @@ class HistoryItemTests: XCTestCase {
     XCTAssertEqual(item.imageData, "tiff".data(using: .utf8))
   }
 
+  func testSupersedesHandlesContentWithoutData() {
+    let type = "org.maccy.EmptyTestType"
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = [HistoryItemContent(type: type)]
+
+    let other = HistoryItem()
+    Storage.shared.context.insert(other)
+    other.contents = [HistoryItemContent(type: type)]
+
+    let different = HistoryItem()
+    Storage.shared.context.insert(different)
+    different.contents = [HistoryItemContent(type: "\(type).Other")]
+
+    XCTAssertTrue(item.supersedes(other))
+    XCTAssertFalse(item.supersedes(different))
+  }
+
   func testStringShortenedDoesNotExceedMaxLength() {
     XCTAssertEqual("abcd".shortened(to: 3), "abc")
   }
