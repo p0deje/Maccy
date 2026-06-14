@@ -76,9 +76,12 @@ final class MainActorIngestorAdapter: ClipboardIngestor {
 /// the actor's request.
 @ModelActor
 actor BackgroundClipboardIngestor: ClipboardIngestor {
-  private let image: ImageProcessing
-  private let now: @Sendable () -> Date
-  private let onEvent: @Sendable (StoreEvent) async -> Void
+  // `var` with defaults so the @ModelActor macro's generated `init(modelContainer:)`
+  // satisfies "all stored properties initialized"; the real values are set in the
+  // custom init below.
+  private var image: ImageProcessing = PassthroughImageProcessor()
+  private var now: @Sendable () -> Date = { Date() }
+  private var onEvent: @Sendable (StoreEvent) async -> Void = { _ in }
   private let logger = Logger(label: "org.p0deje.Maccy")
 
   init(
