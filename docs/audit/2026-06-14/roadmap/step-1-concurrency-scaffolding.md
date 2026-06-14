@@ -47,7 +47,8 @@
   - 证据:提交 `7f534a41f7dfd60e64a3ba292183e2fa195ce906`; macOS 26 ARM CI run `27495094649` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
 - [x] **1.8 投影函数(纯)** — `Dtos.swift` 附加:`func snapshot(of item: HistoryItem) -> ItemSnapshotDTO`(在 item 所属 context 上读轻量字段);`func contentDTOs(of item: HistoryItem) -> [ContentDTO]`。这两个是 BS-2/4 的复用基础。
   - 证据:提交 `7f534a41f7dfd60e64a3ba292183e2fa195ce906`; macOS 26 ARM CI run `27495094649` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
-- [ ] **1.9 验证** — `xcodebuild build` 通过(新类型未接线,允许 unused 警告);新单测全绿;既有行为未变(适配器/Passthrough 不改路径)。
+- [x] **1.9 验收** — `xcodebuild build` 通过(新类型未接线,允许 unused 警告);新单测全绿;既有行为未变(适配器/Passthrough 不改路径)。
+  - 证据:HEAD `ca03679` 经 macOS 26 ARM CI run `27495368615`(分支 `codex/bs1-scaffolding`、`workflow_dispatch`、11m10s)通过 SwiftLint、clean build、`MaccyTests`、`MaccyUITests` 与日志扫描;该 run 的 `headSha` 与本地 HEAD 完全一致。
 
 ## 测试
 - 引用:`B-test-strategy.md §2`(全部 doubles)、`§3`(数据流抽象)。
