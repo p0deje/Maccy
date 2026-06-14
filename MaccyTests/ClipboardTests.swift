@@ -255,4 +255,3 @@ final class ClipboardTests: XCTestCase {
     return url
   }
 }
-// swiftlint:enable type_body_length
