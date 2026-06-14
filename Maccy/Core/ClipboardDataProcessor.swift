@@ -12,10 +12,10 @@ enum ClipboardDataProcessor {
       return legacyStringPrefix(data, maxBytes: maxBytes, encoding: encoding)
     }
 
-    let prefixLength = MaccyTextProcessor.validUTF8PrefixLength(
+    let prefixLength = Int(MaccyTextProcessor.validUTF8PrefixLength(
       in: data,
-      maxBytes: maxBytes
-    )
+      maxBytes: UInt(maxBytes)
+    ))
 
     guard prefixLength > 0 || data.isEmpty else {
       return nil
