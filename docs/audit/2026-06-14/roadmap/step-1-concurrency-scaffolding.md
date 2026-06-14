@@ -20,7 +20,7 @@
   - `func newBackgroundContext() -> ModelContext`(封装 `container.newContext()`,设 `automaticallyMergesChangesFromParent = true` 与 `undoManager = nil`)。
   - 文档约定:返回的 context 仅在调用方 actor 内使用,禁止跨域。
   - 证据:提交 `fd4bd35df90d604587c8278a6d551390a9d8c401`; macOS 26 ARM CI run `27492721135` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
-- [ ] **1.2 DTO 定义** — `Dtos.swift`。全部 `struct ... : Sendable`(字段见 `A §4`):
+- [x] **1.2 DTO 定义** — `Dtos.swift`。全部 `struct ... : Sendable`(字段见 `A §4`):
   - `ContentDTO(type, value: Data?, fingerprint: UInt64?, size: Int)`
   - `ClipboardItemDTO(contents: [ContentDTO], application: String?, source: PasteboardSource)`
   - `SignatureDTO(entries: [ContentSignatureEntry])` + `ContentSignatureEntry(type, fingerprint: UInt64?, size)`
@@ -28,6 +28,7 @@
   - `ItemSnapshotDTO(id, title, firstCopiedAt, lastCopiedAt, numberOfCopies, pin, application, textPreview: String, imageFingerprint: UInt64?)`(**不含大 blob**)
   - `StoreEvent`:`enum { added(ItemSnapshotDTO), merged(ItemSnapshotDTO), removed(UUID), cleared }`
   - `IngestRequest`/`IngestPlan`/`IngestResult`(见 `B §3`,含 `metrics: { dedupHits, bytesHashed, parseMs }`)。
+  - 证据:提交 `b396cebddb5bfda71fdce90f2083359aa7429c97`; macOS 26 ARM CI run `27493057371` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
 - [ ] **1.3 去重索引(纯值类型)** — `SignatureIndex.swift`。
   - `struct SignatureIndex: Sendable` 内部 `[SignatureDTO: UUID]`(key 用稳定哈希);提供 `lookup(_:) -> UUID?`、`register(_:id:)`、`remove(id:)`、`bulkRegister(_:)`。
   - 纯函数,无 AppKit/SwiftData 依赖 → 可单测。
