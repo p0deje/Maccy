@@ -40,10 +40,10 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
   // MARK: - Add path
 
   func testIngestTextCopyEmitsAddedEventAndPersistsItem() async {
-    let bg = Storage.shared.newBackgroundContext()
+    let backgroundContext = Storage.shared.newBackgroundContext()
     var events: [StoreEvent] = []
     let ingestor = BackgroundClipboardIngestor(
-      bg: bg,
+      backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { Date(timeIntervalSince1970: 1_700_000_000) },
       onEvent: { event in events.append(event) }
@@ -56,7 +56,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(result.metrics.dedupHits, 0)
     XCTAssertGreaterThanOrEqual(result.metrics.bytesHashed, 0)
 
-    let stored = try? bg.fetch(FetchDescriptor<HistoryItem>())
+    let stored = try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())
     XCTAssertEqual(stored?.count, 1)
     XCTAssertEqual(stored?.first?.title, "hello")
     XCTAssertEqual(stored?.first?.contents.map(\.type), [stringType])
@@ -76,10 +76,10 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
   // MARK: - Merge path
 
   func testIngestSameContentAgainEmitsMergedEventAndKeepsSingleItem() async {
-    let bg = Storage.shared.newBackgroundContext()
+    let backgroundContext = Storage.shared.newBackgroundContext()
     var events: [StoreEvent] = []
     let ingestor = BackgroundClipboardIngestor(
-      bg: bg,
+      backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { Date(timeIntervalSince1970: 1_700_000_000) },
       onEvent: { event in events.append(event) }
@@ -91,7 +91,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(events.count, 2)
     XCTAssertEqual(second.metrics.dedupHits, 1)
 
-    let stored = try? bg.fetch(FetchDescriptor<HistoryItem>())
+    let stored = try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())
     XCTAssertEqual(stored?.count, 1, "Merge must delete the prior duplicate, not duplicate it")
     XCTAssertEqual(stored?.first?.numberOfCopies, 2)
     XCTAssertEqual(stored?.first?.title, "duplicate me")
@@ -111,10 +111,10 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     // max(1, Defaults[.maxClipboardContentSize]) MiB, so with the limit at 1 MiB
     // any payload larger than 1 MiB is dropped by filterContents.
     Defaults[.maxClipboardContentSize] = 1
-    let bg = Storage.shared.newBackgroundContext()
+    let backgroundContext = Storage.shared.newBackgroundContext()
     var events: [StoreEvent] = []
     let ingestor = BackgroundClipboardIngestor(
-      bg: bg,
+      backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { Date(timeIntervalSince1970: 1_700_000_000) },
       onEvent: { event in events.append(event) }
@@ -128,16 +128,16 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertNil(result.event)
     XCTAssertEqual(events.count, 0)
 
-    let stored = try? bg.fetch(FetchDescriptor<HistoryItem>())
+    let stored = try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())
     XCTAssertEqual(stored?.count, 0)
   }
 
   func testIngestContentMatchingIgnoreRegexpEmitsNoEvent() async {
     Defaults[.ignoreRegexp] = ["secret"]
-    let bg = Storage.shared.newBackgroundContext()
+    let backgroundContext = Storage.shared.newBackgroundContext()
     var events: [StoreEvent] = []
     let ingestor = BackgroundClipboardIngestor(
-      bg: bg,
+      backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { Date(timeIntervalSince1970: 1_700_000_000) },
       onEvent: { event in events.append(event) }
@@ -148,7 +148,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertNil(result.event)
     XCTAssertEqual(events.count, 0)
 
-    let stored = try? bg.fetch(FetchDescriptor<HistoryItem>())
+    let stored = try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())
     XCTAssertEqual(stored?.count, 0)
   }
 
@@ -160,11 +160,11 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     // the 3rd ingest only the two most-recent survive — mirroring
     // History.add's limitHistorySize(to: historySizeLimit - 1) (History.swift:244).
     Defaults[.size] = 2
-    let bg = Storage.shared.newBackgroundContext()
+    let backgroundContext = Storage.shared.newBackgroundContext()
     var events: [StoreEvent] = []
     let clock = TestClock(start: Date(timeIntervalSince1970: 1_700_000_000))
     let ingestor = BackgroundClipboardIngestor(
-      bg: bg,
+      backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { clock.now },
       onEvent: { event in events.append(event) }
@@ -176,7 +176,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     clock.advance(by: 10)
     _ = await ingestor.ingest(request(text: "third"))
 
-    let stored = try? bg.fetch(FetchDescriptor<HistoryItem>())
+    let stored = try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())
     let titles = (stored?.map(\.title) ?? []).sorted()
     XCTAssertEqual(titles, ["second", "third"], "Trim must evict the oldest item ('first')")
   }
@@ -184,9 +184,9 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
   // MARK: - Metrics sanity
 
   func testParseMsIsFiniteAndNonNegativeOnAdd() async {
-    let bg = Storage.shared.newBackgroundContext()
+    let backgroundContext = Storage.shared.newBackgroundContext()
     let ingestor = BackgroundClipboardIngestor(
-      bg: bg,
+      backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { Date(timeIntervalSince1970: 1_700_000_000) },
       onEvent: { _ in }

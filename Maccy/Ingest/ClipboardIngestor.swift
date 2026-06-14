@@ -42,7 +42,7 @@ final class MainActorIngestorAdapter: ClipboardIngestor {
 /// observer, all OFF the main thread.
 ///
 /// ## Concurrency model
-/// - `bg` is a background `ModelContext` (`Storage.shared.newBackgroundContext()`,
+/// - `backgroundContext` is a background `ModelContext` (`Storage.shared.newBackgroundContext()`,
 ///   created on the main actor and handed in). `ModelContext` is NOT `Sendable`,
 ///   but it lives entirely inside this actor's isolation: every fetch, mutation,
 ///   `transaction`, `processPendingChanges`, and `save` happens on the actor.
@@ -60,8 +60,8 @@ final class MainActorIngestorAdapter: ClipboardIngestor {
 /// ## Single-transaction invariant
 /// The whole point versus the old `History.add` flow (which issued
 /// `insertIntoStorage` → `mergeDuplicateIfNeeded` → `limitHistorySize` as
-/// separate saves) is ONE `bg.transaction { ... }` followed by ONE
-/// `bg.save()` per ingest. The trim, the duplicate delete, and the new-item
+/// separate saves) is ONE `backgroundContext.transaction { ... }` followed by ONE
+/// `backgroundContext.save()` per ingest. The trim, the duplicate delete, and the new-item
 /// insert all land in the same transaction. Errors are LOGGED via `logger.error`
 /// (never silently `try?`-swallowed) and surface as a no-event `IngestResult`.
 ///
@@ -74,19 +74,19 @@ final class MainActorIngestorAdapter: ClipboardIngestor {
 /// BS-2 limitation; it could be closed later by forwarding sessionLog info into
 /// the actor's request.
 actor BackgroundClipboardIngestor: ClipboardIngestor {
-  private let bg: ModelContext
+  private let backgroundContext: ModelContext
   private let image: ImageProcessing
   private let now: @Sendable () -> Date
   private let onEvent: @Sendable (StoreEvent) async -> Void
   private let logger = Logger(label: "org.p0deje.Maccy")
 
   init(
-    bg: ModelContext,
+    backgroundContext: ModelContext,
     image: ImageProcessing,
     now: @escaping @Sendable () -> Date,
     onEvent: @escaping @Sendable (StoreEvent) async -> Void
   ) {
-    self.bg = bg
+    self.backgroundContext = backgroundContext
     self.image = image
     self.now = now
     self.onEvent = onEvent
@@ -102,7 +102,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   /// 2. Filter the request contents with the pure `filterContents` helper,
   ///    timing it for `parseMs` via the injected clock. An empty result is a
   ///    no-op ingest (no event, no write).
-  /// 3. Build the new `HistoryItem` on `bg` (mirrors `historyItem(from:)`).
+  /// 3. Build the new `HistoryItem` on `backgroundContext` (mirrors `historyItem(from:)`).
   /// 4. Dedup against existing items via `duplicateSignature` / `supersedes`
   ///    (mirrors `History.findSimilarItem`, minus the sessionLog branch).
   /// 5. Merge fields from the duplicate if found (mirrors
@@ -119,9 +119,11 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   func ingest(_ request: IngestRequest) async -> IngestResult {
     let config = Self.ingestConfig()
 
-    let start = now()
-    let filtered = filterContents(request.contents, application: request.application, config: config)
-    let parseMs = now().timeIntervalSince(start) * 1000
+    let filterStart = now()
+    let filtered = filterContents(
+      request.contents, application: request.application, config: config
+    )
+    let parseMs = now().timeIntervalSince(filterStart) * 1000
 
     guard !filtered.isEmpty else {
       return IngestResult(
@@ -131,63 +133,17 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     }
 
     let timestamp = now()
-    let item = HistoryItem(
-      contents: filtered.map { HistoryItemContent(type: $0.type, value: $0.value) }
-    )
-    item.application = request.application
-    item.firstCopiedAt = timestamp
-    item.lastCopiedAt = timestamp
-    item.title = item.generateTitle()
-
-    let existing = (try? bg.fetch(FetchDescriptor<HistoryItem>())) ?? []
-    let newSignature = item.duplicateSignature
-    let dup = existing.first { $0 != item && $0.supersedes(newSignature) }
-
+    let item = makeHistoryItem(filtered, application: request.application, timestamp: timestamp)
+    let dup = findDuplicate(of: item)
     if let dup {
-      // Mirrors History.mergeDuplicateIfNeeded (History.swift:257-283). The
-      // sessionLog-modification branch in `findSimilarItem` is intentionally
-      // absent here — see the actor's class doc.
-      item.contents = dup.contents.map { HistoryItemContent(type: $0.type, value: $0.value) }
-      item.firstCopiedAt = dup.firstCopiedAt
-      item.numberOfCopies += dup.numberOfCopies
-      item.pin = dup.pin
-      item.title = dup.title
-      if !item.fromMaccy {
-        item.application = dup.application
-      }
-      item.lastCopiedAt = timestamp
+      mergeFields(from: dup, into: item, timestamp: timestamp)
     }
 
     let dedupHits = dup != nil ? 1 : 0
     let bytesHashed = Self.bytesHashed(for: item)
 
     do {
-      let limit = max(1, Defaults[.size])
-      try bg.transaction {
-        // Fetch the unpinned set BEFORE deleting the duplicate so the trim count
-        // excludes the dup (mirrors History.add, where mergeDuplicateIfNeeded
-        // removes the dup from `all` BEFORE limitHistorySize runs — net zero for
-        // the merge case). Sort by lastCopiedAt descending so the tail
-        // (`dropFirst(limit - 1)`) is the oldest — exactly the items
-        // History.limitHistorySize(to:) deletes (History.swift:208-215, 244).
-        let descriptor = FetchDescriptor<HistoryItem>(
-          predicate: #Predicate { $0.pin == nil },
-          sortBy: [SortDescriptor(\.lastCopiedAt, order: .reverse)]
-        )
-        var unpinned = (try? bg.fetch(descriptor)) ?? []
-        if let dup {
-          unpinned.removeAll { $0 == dup }
-          bg.delete(dup)
-        }
-        if unpinned.count > limit - 1 {
-          for excess in unpinned.dropFirst(limit - 1) {
-            bg.delete(excess)
-          }
-        }
-        bg.insert(item)
-      }
-      bg.processPendingChanges()
-      try bg.save()
+      try commit(item, deleting: dup)
     } catch {
       logger.error("Failed to commit ingest: \(String(describing: error))")
       return IngestResult(
@@ -196,14 +152,92 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
       )
     }
 
-    let snapshotDTO = snapshot(of: item)
-    let event: StoreEvent = dup == nil ? .added(snapshotDTO) : .merged(snapshotDTO)
+    let event: StoreEvent = dup == nil
+      ? .added(snapshot(of: item))
+      : .merged(snapshot(of: item))
     await onEvent(event)
 
     return IngestResult(
       event: event,
       metrics: IngestMetrics(dedupHits: dedupHits, bytesHashed: bytesHashed, parseMs: parseMs)
     )
+  }
+
+  // MARK: - Ingest steps
+
+  /// Builds the new `HistoryItem` from the filtered contents (mirrors
+  /// `MainActorIngestorAdapter.historyItem(from:)`). Image items get an empty
+  /// title (OCR removed); text titles come from `HistoryItemEngine`.
+  private func makeHistoryItem(
+    _ contents: [ContentDTO],
+    application: String?,
+    timestamp: Date
+  ) -> HistoryItem {
+    let item = HistoryItem(
+      contents: contents.map { HistoryItemContent(type: $0.type, value: $0.value) }
+    )
+    item.application = application
+    item.firstCopiedAt = timestamp
+    item.lastCopiedAt = timestamp
+    item.title = item.generateTitle()
+    return item
+  }
+
+  /// Finds an existing item that supersedes the new one (mirrors
+  /// `History.findSimilarItem`, History.swift:562-577, MINUS the `isModified` /
+  /// `sessionLog` branch — see the actor's class doc).
+  private func findDuplicate(of item: HistoryItem) -> HistoryItem? {
+    let existing = (try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())) ?? []
+    let signature = item.duplicateSignature
+    return existing.first { $0 != item && $0.supersedes(signature) }
+  }
+
+  /// Copies the duplicate's fields into the new item (mirrors
+  /// `History.mergeDuplicateIfNeeded`, History.swift:257-283). Contents are
+  /// replaced with the existing item's (the sessionLog-modification guard is
+  /// absent here — see the class doc).
+  private func mergeFields(from dup: HistoryItem, into item: HistoryItem, timestamp: Date) {
+    item.contents = dup.contents.map { HistoryItemContent(type: $0.type, value: $0.value) }
+    item.firstCopiedAt = dup.firstCopiedAt
+    item.numberOfCopies += dup.numberOfCopies
+    item.pin = dup.pin
+    item.title = dup.title
+    if !item.fromMaccy {
+      item.application = dup.application
+    }
+    item.lastCopiedAt = timestamp
+  }
+
+  /// Single-transaction commit: delete the duplicate, trim unpinned items beyond
+  /// `Defaults[.size]` (oldest first), insert the new item, then ONE
+  /// `processPendingChanges` + `save`. Mirrors the ritual in
+  /// `SwiftDataHistoryPersistence.deleteUnpinned` (History.swift:43-57) and the
+  /// trim in `History.limitHistorySize(to:)` (History.swift:208-215, 244).
+  private func commit(_ item: HistoryItem, deleting dup: HistoryItem?) throws {
+    let limit = max(1, Defaults[.size])
+    try backgroundContext.transaction {
+      // Sort unpinned by lastCopiedAt descending so `dropFirst(limit - 1)` is the
+      // oldest tail — exactly what History.limitHistorySize deletes. The dup is
+      // removed from the count BEFORE trimming (mirrors History.add, where the
+      // merge removes the dup before limitHistorySize runs — net zero for merge).
+      let descriptor = FetchDescriptor<HistoryItem>(
+        predicate: #Predicate { $0.pin == nil },
+        sortBy: [SortDescriptor(\.lastCopiedAt, order: .reverse)]
+      )
+      var unpinned = (try? backgroundContext.fetch(descriptor)) ?? []
+      if let dup {
+        unpinned.removeAll { $0 == dup }
+        backgroundContext.delete(dup)
+      }
+      if unpinned.count > limit - 1 {
+        for excess in unpinned.dropFirst(limit - 1) {
+          backgroundContext.delete(excess)
+        }
+      }
+      backgroundContext.insert(item)
+    }
+    backgroundContext.processPendingChanges()
+    try backgroundContext.save()
   }
 
   /// Builds the `IngestConfig` snapshot the pure filter needs. Mirrors the
