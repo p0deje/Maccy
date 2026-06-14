@@ -1,0 +1,1910 @@
+计划：按原文顺序讲 3.6 和 3.7，先解释分类表，再解释 ETS 记号、加法误差、乘法误差、统一状态空间形式、稳定性、估计和模型选择。
+
+# 3.6 Taxonomy of exponential smoothing methods
+
+## 1. 这一节为什么出现
+
+3.2 到 3.4 已经出现很多指数平滑方法：
+
+* simple exponential smoothing；
+* Holt linear trend；
+* exponential trend；
+* damped trend；
+* Holt-Winters additive seasonality；
+* Holt-Winters multiplicative seasonality；
+* damped Holt-Winters。
+
+如果继续一个个记名字，会很乱。3.6 做的事是建立一个分类系统，把这些方法统一整理成一张表。
+
+原文标题是：
+
+> Taxonomy of exponential smoothing methods
+
+taxonomy 的意思是“分类体系”。这里不是再发明新方法，而是把前面出现的方法按两个维度整理：trend component 和 seasonal component。第 41 页给出表格，并说明共有 15 种 separate exponential smoothing methods。
+
+---
+
+## 2. 表格的两个维度
+
+原文表格横向是：
+
+[
+\text{Seasonal Component}
+]
+
+也就是季节成分。
+
+它有三种：
+
+[
+N,\quad A,\quad M
+]
+
+分别表示：
+
+* (N)：None，没有季节性；
+* (A)：Additive，加法季节性；
+* (M)：Multiplicative，乘法季节性。
+
+纵向是：
+
+[
+\text{Trend Component}
+]
+
+也就是趋势成分。
+
+它有五种：
+
+[
+N,\quad A,\quad A_d,\quad M,\quad M_d
+]
+
+分别表示：
+
+* (N)：None，没有趋势；
+* (A)：Additive，加法趋势；
+* (A_d)：Additive damped，加法阻尼趋势；
+* (M)：Multiplicative，乘法趋势；
+* (M_d)：Multiplicative damped，乘法阻尼趋势。
+
+所以 3.6 的表格本质是：
+
+[
+5\text{ 种趋势结构}\times 3\text{ 种季节结构}=15\text{ 种方法}
+]
+
+---
+
+## 3. 15 种方法逐格解释
+
+原文表格如下：
+
+| Trend component             | Seasonal (N) | Seasonal (A) | Seasonal (M) |
+| --------------------------- | ------------ | ------------ | ------------ |
+| (N) None                    | (N,N)        | (N,A)        | (N,M)        |
+| (A) Additive                | (A,N)        | (A,A)        | (A,M)        |
+| (A_d) Additive damped       | (A_d,N)      | (A_d,A)      | (A_d,M)      |
+| (M) Multiplicative          | (M,N)        | (M,A)        | (M,M)        |
+| (M_d) Multiplicative damped | (M_d,N)      | (M_d,A)      | (M_d,M)      |
+
+这里的一个单元格，例如：
+
+[
+A,M
+]
+
+意思是：
+
+[
+\text{additive trend}+\text{multiplicative seasonality}
+]
+
+再如：
+
+[
+A_d,A
+]
+
+意思是：
+
+[
+\text{additive damped trend}+\text{additive seasonality}
+]
+
+再如：
+
+[
+N,N
+]
+
+意思是：
+
+[
+\text{no trend}+\text{no seasonality}
+]
+
+这就是 simple exponential smoothing 对应的方法类型。
+
+---
+
+## 4. 每个符号对应的时间序列信号假设
+
+这张表最有用的地方不在于记 15 个符号，而在于它把“时序信号”拆成两个可判断的问题：
+
+第一，趋势是什么形式？
+
+第二，季节性是什么形式？
+
+### 趋势部分
+
+[
+N
+]
+
+表示没有趋势。未来不因为时间推移而系统性上升或下降。
+
+[
+A
+]
+
+表示 additive trend。它假设趋势是“每期增加或减少一个数量”。形式类似：
+
+[
+\ell_t+h b_t
+]
+
+这里 (b_t) 是每期增加量。
+
+[
+A_d
+]
+
+表示 additive damped trend。它仍然是加法趋势，但趋势会逐渐减弱。未来预测不是无限线性延伸，而是长期趋向某个水平。
+
+[
+M
+]
+
+表示 multiplicative trend。它假设趋势是“每期乘以一个比例”。形式类似：
+
+[
+\ell_t b_t^h
+]
+
+这里 (b_t) 是增长倍数，例如 (1.03) 表示每期约增长 (3%)。
+
+[
+M_d
+]
+
+表示 multiplicative damped trend。它是乘法趋势加阻尼，短期按比例增长或下降，长期增长效应逐渐减弱。
+
+### 季节部分
+
+[
+N
+]
+
+表示没有季节性。
+
+[
+A
+]
+
+表示 additive seasonality。季节效应用“加多少”表示，例如十二月比平常多 30。
+
+[
+M
+]
+
+表示 multiplicative seasonality。季节效应用“乘多少”表示，例如十二月是平常的 1.2 倍。
+
+---
+
+## 5. 3.6 对方法论的意义
+
+这节告诉我们，指数平滑方法不是零散的一堆技巧。它可以用一种规则生成：
+
+[
+\text{指数平滑方法}
+=============
+
+\text{Trend component}
++
+\text{Seasonal component}
+]
+
+所以看到一条时间序列时，可以按这个顺序判断：
+
+它有没有趋势？
+
+趋势是加法数量型，还是乘法比例型？
+
+趋势是否应该阻尼？
+
+它有没有固定季节性？
+
+季节性是加法幅度型，还是乘法比例型？
+
+3.6 只给 15 种“方法”。但 3.7 会告诉你：每一种方法还可以搭配两种 error 结构，于是从 15 种方法扩展成 30 个 ETS models。
+
+---
+
+# 3.7 Innovations state space models
+
+## 1. 这一节为什么紧接着 3.6
+
+3.6 的 15 种方法主要回答：
+
+[
+\text{点预测怎么算？}
+]
+
+但预测不只需要一个中心值。我们还需要知道：
+
+[
+\text{未来不确定性有多大？}
+]
+
+原文 3.7 开头列出 innovations state space models 的三个作用：
+
+* 它们可以生成相同的 point forecasts，同时也能生成 forecast intervals；
+* 它们是 stochastic data generating process，可以生成整个 forecast distribution；
+* 它们允许 proper model selection。
+
+逐项解释如下。
+
+---
+
+## 2. “Generate same point forecasts”是什么意思
+
+前面 3.2 到 3.4 的公式已经能产生点预测。例如 SES：
+
+[
+\hat y_{t+h|t}=\ell_t
+]
+
+Holt trend：
+
+[
+\hat y_{t+h|t}=\ell_t+h b_t
+]
+
+Holt-Winters：
+
+[
+\hat y_{t+h|t}=\ell_t+h b_t+s_{\text{对应季节}}
+]
+
+这些都是 point forecasts，也就是未来的中心预测值。
+
+3.7 的意思是：可以构造一些 state space models，它们给出的点预测和前面指数平滑方法相同，但它们还能给出预测区间。
+
+---
+
+## 3. 为什么 forecast interval 需要概率模型
+
+点预测只给一个数：
+
+[
+\hat y_{T+h|T}
+]
+
+但预测区间要回答：
+
+[
+y_{T+h}\text{ 可能落在哪个范围？}
+]
+
+为了回答这个问题，必须描述误差怎样产生、怎样传播到未来。
+
+这就是原文说的 stochastic data generating process。stochastic 表示随机。data generating process 表示“数据生成过程”。
+
+它的意思是：模型不仅告诉你未来中心路径，还告诉你随机误差怎样进入观测值、怎样改变状态、怎样影响未来。
+
+---
+
+## 4. “Proper model selection”是什么意思
+
+在 3.6 里，我们有 15 种方法。到 3.7，每种方法又有 additive error 和 multiplicative error 两种误差形式，共 30 个模型。
+
+如果只有点预测公式，很难严谨地比较这些模型。引入概率模型后，就可以写出 likelihood，也就是似然。然后可以用 AIC、AICc、BIC 等信息准则比较模型。
+
+这就是原文所说的 proper model selection。它不是只看哪个图更顺眼，也不是只看样本内误差更低，而是用概率模型下的似然和复杂度惩罚做比较。第 45 页继续给出 estimation 和 AIC/AICc/BIC。
+
+---
+
+# 5. ETS models：三个字母分别表示什么
+
+原文给出：
+
+[
+ETS(Error,Trend,Seasonal)
+]
+
+其中：
+
+[
+Error={A,M}
+]
+
+[
+Trend={N,A,A_d,M,M_d}
+]
+
+[
+Seasonal={N,A,M}
+]
+
+也就是说，一个 ETS 模型由三个位置组成。
+
+第一个位置：Error，误差形式。
+
+第二个位置：Trend，趋势形式。
+
+第三个位置：Seasonal，季节形式。
+
+例如：
+
+[
+ETS(A,N,N)
+]
+
+表示：
+
+* additive error；
+* no trend；
+* no seasonality。
+
+这就是 simple exponential smoothing 的 additive error 状态空间版本。
+
+再如：
+
+[
+ETS(M,A,N)
+]
+
+表示：
+
+* multiplicative error；
+* additive trend；
+* no seasonality。
+
+再如：
+
+[
+ETS(A,A,A)
+]
+
+表示：
+
+* additive error；
+* additive trend；
+* additive seasonality。
+
+原文还说，每个 model 有一个 observation equation 和若干 transition equations，每一个 state 都有一个 transition equation。state 包括 level、trend、seasonal，所以这些是 state space models。
+
+---
+
+## 6. 这里的 state 是什么
+
+状态 state 是模型内部保存的信息。
+
+一般包括：
+
+[
+\ell_t
+]
+
+表示 level，当前水平。
+
+[
+b_t
+]
+
+表示 trend，当前趋势。
+
+[
+s_t
+]
+
+表示 seasonal component，当前季节成分。
+
+如果模型没有趋势，就没有 (b_t)。
+
+如果模型没有季节性，就没有 (s_t)。
+
+如果有季节性，状态里会保存一组季节成分，例如：
+
+[
+s_t,s_{t-1},\ldots,s_{t-m+1}
+]
+
+因为未来不同季节位置要使用不同的 seasonal state。
+
+---
+
+# 7. ETS(A,N,N)：加法误差、无趋势、无季节
+
+原文第 42 页先给出：
+
+[
+ETS(A,N,N)
+]
+
+Observation equation：
+
+[
+y_t=\ell_{t-1}+\varepsilon_t
+]
+
+State equation：
+
+[
+\ell_t=\ell_{t-1}+\alpha\varepsilon_t
+]
+
+并写：
+
+[
+e_t=y_t-\hat y_{t|t-1}=\varepsilon_t
+]
+
+以及：
+
+[
+\varepsilon_t\sim NID(0,\sigma^2)
+]
+
+还说这叫 innovations 或 single source of error，因为同一个误差过程 (\varepsilon_t) 同时出现在观测方程和状态方程中。
+
+---
+
+## 8. ETS(A,N,N)逐项解释
+
+[
+y_t=\ell_{t-1}+\varepsilon_t
+]
+
+这是 observation equation，观测方程。
+
+它说明：第 (t) 期观测值 (y_t) 等于上一期水平 (\ell_{t-1}) 加上误差 (\varepsilon_t)。
+
+在看到 (y_t) 之前，模型对 (y_t) 的预测是：
+
+[
+\hat y_{t|t-1}=\ell_{t-1}
+]
+
+所以误差是：
+
+[
+e_t=y_t-\hat y_{t|t-1}
+]
+
+代入：
+
+[
+e_t=y_t-\ell_{t-1}=\varepsilon_t
+]
+
+因此在 additive error 的 SES 模型里，实际预测误差 (e_t) 就等于模型随机误差 (\varepsilon_t)。
+
+---
+
+## 9. (NID(0,\sigma^2))是什么意思
+
+原文写：
+
+[
+\varepsilon_t\sim NID(0,\sigma^2)
+]
+
+这里：
+
+* (N)：normally distributed，正态分布；
+* (I)：independent，独立；
+* (D)：distributed，分布；
+* (0)：均值为 0；
+* (\sigma^2)：方差为 (\sigma^2)。
+
+所以这句话表示：
+
+[
+\varepsilon_t
+]
+
+是一串彼此独立、服从均值 0、方差 (\sigma^2) 的正态误差。
+
+均值为 0 表示误差没有系统性偏高或偏低。
+
+方差 (\sigma^2) 描述误差波动大小。
+
+---
+
+## 10. 为什么叫 innovations
+
+innovation 在这里不是“创新”的日常含义，而是时间序列中的“新信息”或“新冲击”。
+
+在 (t-1) 时，模型预测：
+
+[
+\hat y_{t|t-1}=\ell_{t-1}
+]
+
+到了时间 (t)，真实值 (y_t) 出现。两者差异：
+
+[
+\varepsilon_t=y_t-\ell_{t-1}
+]
+
+就是时间 (t) 新出现的信息。
+
+状态更新式：
+
+[
+\ell_t=\ell_{t-1}+\alpha\varepsilon_t
+]
+
+表示模型用这个新信息修正 level。
+
+它叫 single source of error，是因为观测值的不确定性和状态更新的不确定性都来自同一个 (\varepsilon_t)。并非观测方程一个误差、状态方程另一个误差。
+
+---
+
+# 11. ETS(M,N,N)：乘法误差、无趋势、无季节
+
+原文接着给出：
+
+[
+ETS(M,N,N)
+]
+
+先定义 relative errors：
+
+[
+\varepsilon_t=
+\frac{y_t-\hat y_{t|t-1}}{\hat y_{t|t-1}}
+\sim NID(0,\sigma^2)
+]
+
+然后说，代入：
+
+[
+\hat y_{t|t-1}=\ell_{t-1}
+]
+
+得到：
+
+[
+y_t=\ell_{t-1}+\ell_{t-1}\varepsilon_t
+]
+
+以及：
+
+[
+e_t=y_t-\hat y_{t|t-1}=\ell_{t-1}\varepsilon_t
+]
+
+所以 observation equation 和 state equation 是：
+
+[
+y_t=\ell_{t-1}(1+\varepsilon_t)
+]
+
+[
+\ell_t=\ell_{t-1}(1+\alpha\varepsilon_t)
+]
+
+原文强调：相同参数下，加法误差模型和乘法误差模型生成相同点预测，但 forecast intervals 不同。
+
+---
+
+## 12. 乘法误差到底在表达什么
+
+加法误差写作：
+
+[
+y_t=\mu_t+\varepsilon_t
+]
+
+误差是“加多少”。
+
+乘法误差写作：
+
+[
+y_t=\mu_t(1+\varepsilon_t)
+]
+
+误差是“偏离中心值的比例”。
+
+例如，假设预测中心是：
+
+[
+\mu_t=100
+]
+
+若乘法误差：
+
+[
+\varepsilon_t=0.05
+]
+
+则：
+
+[
+y_t=100(1+0.05)=105
+]
+
+若预测中心是：
+
+[
+\mu_t=1000
+]
+
+同样的相对误差 (0.05) 会得到：
+
+[
+y_t=1000(1+0.05)=1050
+]
+
+所以 multiplicative error 表示误差幅度会随水平变大而变大。
+
+这对很多销售额、流量、人口、游客数量类数据很自然：规模越大，绝对误差通常越大。
+
+---
+
+## 13. 为什么点预测相同，但预测区间不同
+
+这句话非常重要。
+
+以 (ETS(A,N,N)) 和 (ETS(M,N,N)) 为例。
+
+两者在看到 (y_t) 之前的点预测都是：
+
+[
+\hat y_{t|t-1}=\ell_{t-1}
+]
+
+如果未来误差取均值 0，那么中心路径都由状态 (\ell_t) 推出。
+
+但不确定性不同。
+
+加法误差：
+
+[
+y_t=\ell_{t-1}+\varepsilon_t
+]
+
+误差尺度是固定的 (\sigma)。
+
+乘法误差：
+
+[
+y_t=\ell_{t-1}(1+\varepsilon_t)
+]
+
+实际绝对误差是：
+
+[
+\ell_{t-1}\varepsilon_t
+]
+
+当 (\ell_{t-1}) 大时，绝对误差大；当 (\ell_{t-1}) 小时，绝对误差小。
+
+所以它们可以有相同点预测，但预测区间宽度不同。
+
+---
+
+# 14. ETS(A,A,N)：加法误差、加法趋势、无季节
+
+原文给出：
+
+[
+ETS(A,A,N)
+]
+
+公式为：
+
+[
+y_t=\ell_{t-1}+b_{t-1}+\varepsilon_t
+]
+
+[
+\ell_t=\ell_{t-1}+b_{t-1}+\alpha\varepsilon_t
+]
+
+[
+b_t=b_{t-1}+\beta\varepsilon_t
+]
+
+逐项解释：
+
+第一条是观测方程：
+
+[
+y_t=\ell_{t-1}+b_{t-1}+\varepsilon_t
+]
+
+在看到 (y_t) 之前，模型认为当前值应该是上一期水平加上一期趋势：
+
+[
+\hat y_{t|t-1}=\ell_{t-1}+b_{t-1}
+]
+
+误差是：
+
+[
+\varepsilon_t=y_t-(\ell_{t-1}+b_{t-1})
+]
+
+第二条：
+
+[
+\ell_t=\ell_{t-1}+b_{t-1}+\alpha\varepsilon_t
+]
+
+表示 level 先按旧趋势推进，再根据误差修正。
+
+第三条：
+
+[
+b_t=b_{t-1}+\beta\varepsilon_t
+]
+
+表示 trend 也根据同一个误差修正。
+
+这里 (\alpha) 控制 level 修正强度，(\beta) 控制 trend 修正强度。
+
+---
+
+# 15. ETS(M,A,N)：乘法误差、加法趋势、无季节
+
+原文给出：
+
+[
+ETS(M,A,N)
+]
+
+公式为：
+
+[
+y_t=(\ell_{t-1}+b_{t-1})(1+\varepsilon_t)
+]
+
+[
+\ell_t=(\ell_{t-1}+b_{t-1})(1+\alpha\varepsilon_t)
+]
+
+[
+b_t=b_{t-1}+\beta(\ell_{t-1}+b_{t-1})\varepsilon_t
+]
+
+它和 (ETS(A,A,N)) 的趋势结构相同，都是 additive trend。差别在 error 结构。
+
+加法误差版本：
+
+[
+y_t=\ell_{t-1}+b_{t-1}+\varepsilon_t
+]
+
+乘法误差版本：
+
+[
+y_t=(\ell_{t-1}+b_{t-1})(1+\varepsilon_t)
+]
+
+后者表示误差是相对于预测中心的比例误差。
+
+---
+
+# 16. ETS(A,A,A)：加法误差、加法趋势、加法季节
+
+原文给出：
+
+Forecast equation：
+
+[
+\hat y_{t+h|t}
+==============
+
+\ell_t+h b_t+s_{t-m+h_m^+}
+]
+
+Observation equation：
+
+[
+y_t=\ell_{t-1}+b_{t-1}+s_{t-m}+\varepsilon_t
+]
+
+State equations：
+
+[
+\ell_t=\ell_{t-1}+b_{t-1}+\alpha\varepsilon_t
+]
+
+[
+b_t=b_{t-1}+\beta\varepsilon_t
+]
+
+[
+s_t=s_{t-m}+\gamma\varepsilon_t
+]
+
+原文还写：
+
+[
+\varepsilon_t=y_t-\hat y_{t|t-1}
+]
+
+以及：
+
+[
+h_m^+=[(h-1)\bmod m]+1
+]
+
+
+
+---
+
+## 17. ETS(A,A,A)逐项解释
+
+这是 Holt-Winters additive 的 ETS 状态空间版本。
+
+观测方程：
+
+[
+y_t=\ell_{t-1}+b_{t-1}+s_{t-m}+\varepsilon_t
+]
+
+表示：
+
+[
+\text{当前观测}
+===========
+
+\text{上一期水平}
++
+\text{上一期趋势}
++
+\text{上一轮同季节成分}
++
+\text{误差}
+]
+
+这里 (s_{t-m}) 是上一轮同一个季节位置的季节状态。
+
+如果 (m=12)，月度数据中 (s_{t-12}) 表示去年同月的季节状态。
+
+如果 (m=4)，季度数据中 (s_{t-4}) 表示去年同季度的季节状态。
+
+预测方程：
+
+[
+\hat y_{t+h|t}
+==============
+
+\ell_t+h b_t+s_{t-m+h_m^+}
+]
+
+表示未来预测由三部分组成：
+
+[
+\text{当前水平}
++
+\text{未来累计趋势}
++
+\text{未来对应季节成分}
+]
+
+其中：
+
+[
+h_m^+=[(h-1)\bmod m]+1
+]
+
+用来确定未来第 (h) 步落在哪个季节位置。
+
+例如季度数据 (m=4)：
+
+* (h=1)，对应下一季；
+* (h=2)，对应再下一季；
+* (h=5)，又回到与 (h=1) 相同的季节位置。
+
+---
+
+# 18. 第 43 页大表怎样读
+
+第 43 页给出 two large tables：
+
+* Additive error models；
+* Multiplicative error models。
+
+每张表都按 Trend 和 Seasonal 两个维度列出状态空间方程。也就是说，它把 3.6 的 15 种方法分别配上 error=A 或 error=M，形成 30 个 ETS models。
+
+这页不适合逐行背。正确读法是：
+
+看一格，就按三个字母解释。
+
+例如 additive error table 里的 (Trend=A, Seasonal=M)，对应：
+
+[
+ETS(A,A,M)
+]
+
+意思是：
+
+* Error = additive；
+* Trend = additive；
+* Seasonal = multiplicative。
+
+再看 multiplicative error table 里的 (Trend=A_d, Seasonal=M)，对应：
+
+[
+ETS(M,A_d,M)
+]
+
+意思是：
+
+* Error = multiplicative；
+* Trend = additive damped；
+* Seasonal = multiplicative。
+
+这里一定要区分两个 (A/M)：
+
+第一个位置的 (A/M) 是 error 类型。
+
+第二个位置的 (A/M/A_d/M_d/N) 是 trend 类型。
+
+第三个位置的 (A/M/N) 是 seasonal 类型。
+
+---
+
+# 19. 统一状态空间形式
+
+第 44 页给出统一形式。原文写：
+
+[
+x_t=(\ell_t,b_t,s_t,s_{t-1},\ldots,s_{t-m+1})
+]
+
+以及：
+
+[
+\varepsilon_t\overset{iid}{\sim}N(0,\sigma^2)
+]
+
+然后：
+
+[
+y_t=h(x_{t-1})+k(x_{t-1})\varepsilon_t
+]
+
+图中标注：
+
+[
+h(x_{t-1})=\mu_t
+]
+
+[
+k(x_{t-1})\varepsilon_t=e_t
+]
+
+状态方程是：
+
+[
+x_t=f(x_{t-1})+g(x_{t-1})\varepsilon_t
+]
+
+
+
+---
+
+## 20. 统一形式中的每个符号
+
+[
+x_t
+]
+
+是状态向量。它把模型在时间 (t) 需要记住的全部内部信息放在一起。
+
+例如：
+
+[
+x_t=(\ell_t,b_t,s_t,s_{t-1},\ldots,s_{t-m+1})
+]
+
+里面包括：
+
+* (\ell_t)：当前水平；
+* (b_t)：当前趋势；
+* (s_t,s_{t-1},\ldots,s_{t-m+1})：一组季节状态。
+
+[
+\varepsilon_t
+]
+
+是标准化后的随机误差，原文假设它独立同分布，并服从：
+
+[
+N(0,\sigma^2)
+]
+
+[
+h(x_{t-1})
+]
+
+是由上一期状态计算出来的预测中心。原文把它标为：
+
+[
+\mu_t
+]
+
+所以：
+
+[
+\mu_t=h(x_{t-1})
+]
+
+表示时间 (t) 的条件均值或中心预测路径。
+
+[
+k(x_{t-1})
+]
+
+是误差缩放函数。它决定误差是加法进入，还是乘法进入。
+
+[
+f(x_{t-1})
+]
+
+是没有新误差时，状态会怎样推进。
+
+[
+g(x_{t-1})\varepsilon_t
+]
+
+是误差对状态更新的影响。
+
+---
+
+## 21. Additive errors 的统一形式
+
+原文写：
+
+[
+k(x)=1
+]
+
+因此：
+
+[
+y_t=\mu_t+\varepsilon_t
+]
+
+这就是 additive error。
+
+意思是：误差直接加到预测中心上。
+
+如果：
+
+[
+\mu_t=100,\qquad \varepsilon_t=5
+]
+
+则：
+
+[
+y_t=105
+]
+
+如果：
+
+[
+\mu_t=1000,\qquad \varepsilon_t=5
+]
+
+则：
+
+[
+y_t=1005
+]
+
+同样的误差大小，在任何水平下都是加 5。
+
+---
+
+## 22. Multiplicative errors 的统一形式
+
+原文写：
+
+[
+k(x_{t-1})=\mu_t
+]
+
+因此：
+
+[
+y_t=\mu_t(1+\varepsilon_t)
+]
+
+并写：
+
+[
+\varepsilon_t=\frac{y_t-\mu_t}{\mu_t}
+]
+
+是 relative error。
+
+也就是说，乘法误差把误差看成比例。
+
+如果：
+
+[
+\mu_t=100,\qquad \varepsilon_t=0.05
+]
+
+则：
+
+[
+y_t=105
+]
+
+如果：
+
+[
+\mu_t=1000,\qquad \varepsilon_t=0.05
+]
+
+则：
+
+[
+y_t=1050
+]
+
+同样的误差比例 (5%)，在高水平下对应更大的绝对误差。
+
+---
+
+# 23. 加法误差和乘法误差的唯一差别在哪里
+
+原文第 44 页写得很清楚：
+
+> The only difference between the additive error and multiplicative error models is in the observation equation.
+
+也就是说，二者的差别只在观测方程中误差如何进入 (y_t)。
+
+加法误差：
+
+[
+y_t=\mu_t+\varepsilon_t
+]
+
+乘法误差：
+
+[
+y_t=\mu_t(1+\varepsilon_t)
+]
+
+状态递推结构可以对应到同一个指数平滑方法，所以它们会产生相同点预测；但是误差进入观测值的方式不同，所以预测区间不同。
+
+---
+
+# 24. 为什么乘法误差模型要求数据严格为正
+
+第 44 页原文说：models with multiplicative errors are useful for strictly positive data，但含有 0 或负值的数据会造成 numerical instability；这种情况下只使用 six fully additive models。
+
+原因是乘法误差涉及比例：
+
+[
+\varepsilon_t=\frac{y_t-\mu_t}{\mu_t}
+]
+
+如果 (\mu_t=0)，分母为 0，表达式不可用。
+
+如果 (\mu_t) 接近 0，比例误差会变得非常大，数值计算容易出问题。
+
+如果数据可以为负，乘法比例的解释也会变得不自然。例如“本期是预测值的 1.2 倍”在负数水平上含义很难解释。
+
+所以乘法误差适合：
+
+* 销售额；
+* 需求量；
+* 旅客数；
+* 流量；
+* 产量；
+* 价格等严格为正的数据。
+
+不适合直接用于：
+
+* 可为 0 的计数；
+* 可为负的利润；
+* 温度；
+* 差值；
+* 增量序列。
+
+---
+
+# 25. Some unstable models：哪些模型被认为可能不稳定
+
+第 44 页列出一些组合会导致 numerical difficulties，尤其是方程中出现 division by a state 的情况。原文列出的模型是：
+
+[
+ETS(M,M,A)
+]
+
+[
+ETS(M,M_d,A)
+]
+
+[
+ETS(A,N,M)
+]
+
+[
+ETS(A,A,M)
+]
+
+[
+ETS(A,A_d,M)
+]
+
+[
+ETS(A,M,N)
+]
+
+[
+ETS(A,M,A)
+]
+
+[
+ETS(A,M,M)
+]
+
+[
+ETS(A,M_d,N)
+]
+
+[
+ETS(A,M_d,A)
+]
+
+[
+ETS(A,M_d,M)
+]
+
+这些模型在第 44 页的表格中被划线标出。
+
+这部分不用背，但要理解原因：有些模型的状态更新式要除以 level、trend 或 seasonal state。一旦这些状态接近 0，数值优化会很不稳定。
+
+---
+
+## 26. “fully additive models”指什么
+
+原文说，如果数据含 0 或负值，只应用 six fully additive models。
+
+这里的 fully additive 指：
+
+* error 是 additive；
+* trend 不能是 multiplicative；
+* seasonality 不能是 multiplicative。
+
+因此通常保留：
+
+[
+ETS(A,N,N)
+]
+
+[
+ETS(A,N,A)
+]
+
+[
+ETS(A,A,N)
+]
+
+[
+ETS(A,A,A)
+]
+
+[
+ETS(A,A_d,N)
+]
+
+[
+ETS(A,A_d,A)
+]
+
+一共六个。
+
+这些模型不依赖乘法误差，也不依赖乘法趋势或乘法季节性，因此对 0 或负数数据更安全。
+
+---
+
+# 27. Estimation：3.7 怎样估计参数和初始状态
+
+第 45 页进入 Estimation。原文给出目标函数：
+
+[
+L^*(\theta,x_0)
+===============
+
+n\log\left(
+\sum_{t=1}^{n}
+\frac{\varepsilon_t^2}{k^2(x_{t-1})}
+\right)
++
+2\sum_{t=1}^{n}\log|k(x_{t-1})|
+]
+
+并写：
+
+# [
+
+-2\log(\text{Likelihood})+\text{constant}
+]
+
+然后说，通过最小化 (L^*) 来估计：
+
+[
+\theta=(\alpha,\beta,\gamma,\phi)
+]
+
+以及 initial states：
+
+[
+x_0=(\ell_0,b_0,s_0,s_{-1},\ldots,s_{-m+1})
+]
+
+
+
+---
+
+## 28. 这个估计式在说什么
+
+它的含义是：ETS 模型不是手动选一个 (\alpha)、(\beta)、(\gamma)、(\phi)，也不是只把初始水平随便设成 (y_1)。
+
+它会同时估计：
+
+[
+\alpha,\beta,\gamma,\phi
+]
+
+和：
+
+[
+\ell_0,b_0,s_0,s_{-1},\ldots,s_{-m+1}
+]
+
+估计标准是让：
+
+[
+L^*(\theta,x_0)
+]
+
+尽量小。
+
+由于：
+
+[
+L^*=-2\log(\text{Likelihood})+\text{constant}
+]
+
+最小化 (L^*) 等价于最大化 likelihood。
+
+这和你之前问的“具体怎么优化”直接相关。这里的流程是：
+
+给定一组候选参数和初始状态；
+
+用状态方程从 (t=1) 递推到 (t=n)；
+
+每一期得到预测误差 (\varepsilon_t)；
+
+代入 (L^*)；
+
+数值优化器继续寻找更小的 (L^*)。
+
+---
+
+## 29. 为什么这里不只是 MSE
+
+在 3.2 讲 SES 时，教材说可以通过最小化 MSE 来估计。
+
+3.7 进入完整 ETS probability model 后，目标变成与 likelihood 对应的：
+
+[
+L^*
+]
+
+原因是这里不只关心点预测误差大小，还要处理加法误差、乘法误差不同的误差尺度。
+
+统一观测方程是：
+
+[
+y_t=\mu_t+k(x_{t-1})\varepsilon_t
+]
+
+如果是 additive error：
+
+[
+k(x_{t-1})=1
+]
+
+如果是 multiplicative error：
+
+[
+k(x_{t-1})=\mu_t
+]
+
+所以同一个 (\varepsilon_t) 对 (y_t) 的影响，会受到 (k(x_{t-1})) 缩放。估计式里出现：
+
+[
+k^2(x_{t-1})
+]
+
+和：
+
+[
+\log|k(x_{t-1})|
+]
+
+就是为了把不同误差结构放到同一个似然框架下比较。
+
+---
+
+# 30. Parameter restrictions：usual region
+
+第 45 页接着讲参数限制。原文先写 usual region。
+
+传统限制是：
+
+[
+0<\alpha,\beta^*,\gamma^*,\phi<1
+]
+
+原因是这些方程可以解释为 weighted averages，加权平均。
+
+这句话很关键。以 SES 为例：
+
+[
+\ell_t=\alpha y_t+(1-\alpha)\ell_{t-1}
+]
+
+只有当：
+
+[
+0<\alpha<1
+]
+
+它才是当前观测和过去水平的加权平均。
+
+如果 (\alpha>1)，则 (1-\alpha<0)，就不是普通加权平均。
+
+如果 (\alpha<0)，当前观测的权重为负，也失去平滑解释。
+
+---
+
+## 31. (\beta)、(\gamma) 和 (\beta^*)、(\gamma^*) 的关系
+
+原文写：
+
+[
+\beta=\alpha\beta^*
+]
+
+[
+\gamma=(1-\alpha)\gamma^*
+]
+
+因此：
+
+[
+0<\alpha<1
+]
+
+[
+0<\beta<\alpha
+]
+
+[
+0<\gamma<1-\alpha
+]
+
+
+
+这和前面你见过的 (\beta^*) 关系一致。
+
+有些 component form 用 (\beta^*)、(\gamma^*)，因为它们直接表示加权平均里的平滑参数。
+
+state space form 中常用 (\beta,\gamma)，它们是误差修正形式中的系数。
+
+所以这里不是多出新的参数，而是同一模型在不同写法下的参数变换。
+
+---
+
+## 32. (\phi) 的限制
+
+原文写：
+
+[
+0.8<\phi<0.98
+]
+
+用于防止 numerical difficulties。
+
+(\phi) 是 damping parameter，阻尼参数。
+
+如果 (\phi) 太接近 1，趋势几乎不阻尼，长期预测可能仍然延伸得很远。
+
+如果 (\phi) 太低，趋势过快消失，可能让模型失去有用的短期趋势信息。
+
+教材这里给的 (0.8) 到 (0.98) 是实用限制，不是数学上唯一可能的范围。
+
+---
+
+# 33. Admissible region：可容许区域
+
+第 45 页还讲 admissible region。原文说它的目的：
+
+> To prevent observations in the distant past having a continuing effect on current forecasts.
+
+也就是防止很久以前的观测值持续影响当前预测。
+
+这句话的意思是：指数平滑应该让旧信息的影响逐渐消失。若参数组合不合适，古老观测可能对当前状态仍有不可忽略影响，模型会出现不合理行为。
+
+原文还说 admissible region 通常但不总是比 usual region 更宽松。
+
+例子：
+
+[
+ETS(A,N,N)
+]
+
+usual region 是：
+
+[
+0<\alpha<1
+]
+
+admissible region 是：
+
+[
+0<\alpha<2
+]
+
+这说明 usual region 强调“加权平均解释”，admissible region 强调“动态行为可接受”。
+
+二者关注点不同：
+
+* usual region：参数是否像加权平均；
+* admissible region：模型长期是否让旧信息衰减。
+
+---
+
+# 34. Model selection：AIC、AICc、BIC
+
+第 45 页最后进入 model selection。
+
+原文给出 Akaike’s Information Criterion：
+
+[
+AIC=-2\log(\text{Likelihood})+2p
+]
+
+其中 (p) 是模型中 estimated parameters 的数量。原文说，minimizing the AIC gives the best model for prediction。
+
+这里：
+
+* (-2\log(\text{Likelihood}))：衡量模型对数据的解释能力；
+* (2p)：复杂度惩罚；
+* (p)：估计参数数量。
+
+模型越复杂，(p) 越大，惩罚越大。
+
+这避免只选择最复杂、样本内拟合最好的模型。
+
+---
+
+## 35. AICc：小样本修正
+
+原文给出：
+
+[
+AIC_c
+=====
+
+AIC+
+\frac{2(p+1)(p+2)}{n-p}
+]
+
+它是 AIC corrected for small sample bias。
+
+当样本量 (n) 不大、参数数量 (p) 相对较多时，AIC 可能偏向选择复杂模型。AICc 增加了一项修正，使小样本下对复杂模型更谨慎。
+
+---
+
+## 36. BIC：Schwarz’ Bayesian IC
+
+原文给出：
+
+[
+BIC=AIC+p(\log(n)-2)
+]
+
+因为：
+
+[
+AIC=-2\log(\text{Likelihood})+2p
+]
+
+代入可得：
+
+[
+BIC=-2\log(\text{Likelihood})+p\log(n)
+]
+
+BIC 的复杂度惩罚随样本量 (n) 增加而变化。通常在样本较大时，BIC 对复杂模型的惩罚比 AIC 更强。
+
+---
+
+## 37. AIC/AICc/BIC 的使用注意
+
+第 45 页原文还写：
+
+* AIC/AICc/BIC 会在 R 输出中给出；
+* AIC 本身没有太多单独意义，只能和同一数据集上另一个模型的 AIC 比较；
+* 应考虑几个 AIC 接近最小值的模型；
+* AIC 差距 2 或更小通常不算实质差异，可以选择更简单但非最优的模型；
+* AIC 可以是负数。
+
+这里最容易误解的是：AIC 不是预测误差单位，也不是“越接近 0 越好”。
+
+AIC 只适合比较同一数据集上拟合的多个模型。
+
+例如：
+
+[
+AIC_1=120
+]
+
+[
+AIC_2=121
+]
+
+差距只有 1。根据原文，这种差距不算实质差异，可以考虑更简单模型。
+
+如果：
+
+[
+AIC_1=120
+]
+
+[
+AIC_2=135
+]
+
+差距较大，AIC 更小的模型更有支持。
+
+---
+
+# 38. 3.6 和 3.7 的完整逻辑链
+
+现在把两节合起来。
+
+3.6 先说：
+
+[
+\text{Trend component}
+\in
+{N,A,A_d,M,M_d}
+]
+
+[
+\text{Seasonal component}
+\in
+{N,A,M}
+]
+
+所以有：
+
+[
+5\times3=15
+]
+
+种指数平滑方法。
+
+3.7 再说，每个方法还可以有两种 error：
+
+[
+Error\in{A,M}
+]
+
+所以：
+
+[
+2\times5\times3=30
+]
+
+个 ETS models。
+
+也就是：
+
+[
+ETS(Error,Trend,Seasonal)
+]
+
+这种记号把指数平滑从“经验预测方法”提升成“状态空间概率模型”。
+
+---
+
+# 39. 对时序信号处理最有用的理解
+
+看一条时间序列时，3.6 和 3.7 教你把信号分成三层：
+
+## 第一层：Error
+
+误差是固定尺度，还是随水平成比例变化？
+
+固定尺度：
+
+[
+ETS(A,\cdot,\cdot)
+]
+
+比例尺度：
+
+[
+ETS(M,\cdot,\cdot)
+]
+
+## 第二层：Trend
+
+没有趋势：
+
+[
+N
+]
+
+固定增量趋势：
+
+[
+A
+]
+
+固定增量但长期减弱：
+
+[
+A_d
+]
+
+固定比例趋势：
+
+[
+M
+]
+
+固定比例但长期减弱：
+
+[
+M_d
+]
+
+## 第三层：Seasonal
+
+没有季节性：
+
+[
+N
+]
+
+季节波动是固定数量：
+
+[
+A
+]
+
+季节波动是固定比例：
+
+[
+M
+]
+
+所以一个模型名：
+
+[
+ETS(M,A_d,M)
+]
+
+可以读成：
+
+“误差按比例变化；趋势是加法趋势并带阻尼；季节性按比例变化。”
+
+这比记函数名更重要。
+
+---
+
+# 40. 容易误解的地方
+
+## ETS 里的第一个 A/M 不是季节性
+
+[
+ETS(A,A,M)
+]
+
+第一个 (A) 是 additive error。
+
+第二个 (A) 是 additive trend。
+
+第三个 (M) 是 multiplicative seasonality。
+
+不能把第一个 (A) 理解成“加法趋势”。
+
+## multiplicative error 和 multiplicative seasonality 不是一回事
+
+[
+ETS(M,A,N)
+]
+
+有 multiplicative error，但没有 multiplicative seasonality。
+
+[
+ETS(A,A,M)
+]
+
+有 multiplicative seasonality，但 error 是 additive。
+
+前者说噪声按比例进入。
+
+后者说季节效应按比例作用。
+
+## additive 和 multiplicative 版本点预测可能一样，区间不同
+
+原文多次强调 additive error 和 multiplicative error versions 可以给相同 point forecasts，但 forecast intervals 不同。原因是误差尺度不同。
+
+## 有些模型理论上存在，但实际会不稳定
+
+第 44 页列出一些 unstable models。原因通常是方程里出现除以状态变量。如果状态接近 0，数值估计会出问题。
+
+## AIC 不是单独看的分数
+
+AIC 只用于同一数据集上不同模型之间比较。差距 2 以内不算明显，原文建议可以选择更简单模型。
+
+---
+
+# 41. 本节之后你应该掌握的东西
+
+读完 3.6 和 3.7，不需要背完整第 43 页大表，但需要能做到：
+
+看到 (ETS(A,N,N))，知道它是 additive error 的 simple exponential smoothing。
+
+看到 (ETS(M,N,N))，知道它和 (ETS(A,N,N)) 点预测相同，但误差按比例变化，预测区间不同。
+
+看到 (ETS(A,A,N))，知道它是 additive error 的 Holt additive trend。
+
+看到 (ETS(A,A,A))，知道它是 additive error、additive trend、additive seasonality 的 Holt-Winters additive model。
+
+看到 (ETS(M,A_d,M))，知道它表示 multiplicative error、additive damped trend、multiplicative seasonality。
+
+还要知道：
+
+[
+\text{方法数量}=15
+]
+
+[
+\text{ETS模型数量}=30
+]
+
+以及：
+
+[
+\text{估计}=\text{最小化 }L^*
+]
+
+[
+\text{模型选择}=\text{比较 AIC/AICc/BIC}
+]
+
+这就是 3.6 和 3.7 的主线。
+
