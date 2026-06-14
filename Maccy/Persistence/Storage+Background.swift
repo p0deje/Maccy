@@ -5,16 +5,18 @@ extension Storage {
   ///
   /// Do not share the returned context across isolation domains.
   ///
-  /// `automaticallyMergesChangesFromParent` is set so that when the ingest actor
-  /// (BS-2.2b) commits on this background context, the changes are merged into
-  /// the main context (`Storage.shared.context`) — which is what lets `History`
-  /// (a main-context reader) observe actor-written items. The reverse direction
-  /// (main -> background) is handled by SwiftData's default container behavior.
+  /// SwiftData `ModelContext`s created from the same `ModelContainer` share the
+  /// underlying persistent store, so when the ingest actor (BS-2.2b) commits on
+  /// this background context, a subsequent `fetch` on the main context
+  /// (`Storage.shared.context`) observes those committed changes — which is what
+  /// lets `History.consume`/`reconcileWithStore` (BS-2.3) reflect actor-written
+  /// items. (`ModelContext` has no `automaticallyMergesChangesFromParent` —
+  /// unlike Core Data's `NSManagedObjectContext` — because SwiftData propagates
+  /// committed changes through the shared store, not per-context merge events.)
   @MainActor
   func newBackgroundContext() -> ModelContext {
     let context = ModelContext(container)
     context.undoManager = nil
-    context.automaticallyMergesChangesFromParent = true
     return context
   }
 }
