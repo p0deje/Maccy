@@ -1,0 +1,161 @@
+name: Package and Release macOS App
+
+on:
+  push:
+    tags:
+      - "v[0-9]+.[0-9]+.[0-9]+"
+      - "[0-9]+.[0-9]+.[0-9]+"
+  workflow_dispatch:
+    inputs:
+      publish:
+        description: "Create or update a GitHub Release"
+        required: true
+        default: false
+        type: boolean
+      release_tag:
+        description: "Release tag to publish when running manually"
+        required: false
+        type: string
+      prerelease:
+        description: "Mark the GitHub Release as a prerelease"
+        required: true
+        default: false
+        type: boolean
+
+permissions:
+  contents: write
+
+concurrency:
+  group: package-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  package-and-release:
+    name: Package and release macOS app
+    runs-on: macos-26
+    timeout-minutes: 30
+
+    env:
+      NSUnbufferedIO: YES
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+      PROJECT: Maccy.xcodeproj
+      SCHEME: Maccy
+      CONFIGURATION: Release
+      DESTINATION: platform=macOS,arch=arm64
+      DERIVED_DATA: ${{ github.workspace }}/ReleaseDerivedData
+      PACKAGE_DIR: ${{ github.workspace }}/release-package
+      CODE_SIGNING_ALLOWED: NO
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Enforce macOS 26 ARM runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          product_version="$(sw_vers -productVersion)"
+          machine_arch="$(uname -m)"
+          echo "Detected macOS version: $product_version"
+          echo "Detected architecture: $machine_arch"
+          if [[ "$product_version" != 26.* ]]; then
+            echo "Expected macOS 26.x, got $product_version"
+            exit 1
+          fi
+          if [[ "$machine_arch" != "arm64" ]]; then
+            echo "Expected arm64 runner, got $machine_arch"
+            exit 1
+          fi
+
+      - name: Package app
+        id: package
+        shell: bash
+        run: |
+          set -euo pipefail
+          bash scripts/package-app.sh 2>&1 | tee "$RUNNER_TEMP/package.log"
+          cp "$RUNNER_TEMP/package.log" "$PACKAGE_DIR/package.log"
+
+      - name: Scan package log for warnings and errors
+        shell: bash
+        run: |
+          set -euo pipefail
+          if grep -Ein '(^|[^[:alpha:]])(warning:|error:|\*\* BUILD FAILED \*\*|Fatal error|[Ff]ailed)([^[:alpha:]]|$)' "$PACKAGE_DIR/package.log"; then
+            echo "Warnings, errors, or failures found in $PACKAGE_DIR/package.log"
+            exit 1
+          fi
+
+      - name: Resolve release metadata
+        id: release
+        shell: bash
+        env:
+          INPUT_PUBLISH: ${{ inputs.publish || false }}
+          INPUT_RELEASE_TAG: ${{ inputs.release_tag || '' }}
+          INPUT_PRERELEASE: ${{ inputs.prerelease || false }}
+        run: |
+          set -euo pipefail
+          publish="$INPUT_PUBLISH"
+          release_tag="$INPUT_RELEASE_TAG"
+          prerelease="$INPUT_PRERELEASE"
+
+          if [[ "${GITHUB_REF_TYPE:-}" == "tag" ]]; then
+            publish="true"
+            release_tag="$GITHUB_REF_NAME"
+          fi
+
+          if [[ "$publish" == "true" && -z "$release_tag" ]]; then
+            echo "release_tag is required when publishing manually"
+            exit 1
+          fi
+
+          if [[ -z "$release_tag" ]]; then
+            release_tag="dry-run-${GITHUB_SHA:0:7}"
+          fi
+
+          {
+            echo "publish=$publish"
+            echo "release_tag=$release_tag"
+            echo "prerelease=$prerelease"
+          } >> "$GITHUB_OUTPUT"
+
+          echo "Publish: $publish"
+          echo "Release tag: $release_tag"
+          echo "Prerelease: $prerelease"
+
+      - name: Upload packaged app artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: Maccy-${{ steps.release.outputs.release_tag }}-${{ steps.package.outputs.version }}-${{ steps.package.outputs.build }}
+          path: |
+            release-package
+          if-no-files-found: error
+          retention-days: 14
+
+      - name: Publish GitHub Release
+        if: steps.release.outputs.publish == 'true'
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.release_tag }}
+          PRERELEASE: ${{ steps.release.outputs.prerelease }}
+          ZIP_PATH: ${{ steps.package.outputs.zip_path }}
+          SHASUM_PATH: ${{ steps.package.outputs.shasum_path }}
+          VERSION: ${{ steps.package.outputs.version }}
+          BUILD: ${{ steps.package.outputs.build }}
+        run: |
+          set -euo pipefail
+          prerelease_flags=()
+          if [[ "$PRERELEASE" == "true" ]]; then
+            prerelease_flags+=(--prerelease)
+          fi
+
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" "$ZIP_PATH" "$SHASUM_PATH" --clobber
+          else
+            gh release create "$RELEASE_TAG" \
+              "$ZIP_PATH" \
+              "$SHASUM_PATH" \
+              --title "Maccy $VERSION" \
+              --notes "Build $BUILD" \
+              --latest \
+              "${prerelease_flags[@]}"
+          fi
