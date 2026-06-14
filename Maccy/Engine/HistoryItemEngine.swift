@@ -13,7 +13,7 @@ enum HistoryItemEngine {
           return nil
         }
 
-        return Content(content)
+        return ContentSignature(content)
       }
     }
 
