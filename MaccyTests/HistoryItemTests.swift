@@ -154,6 +154,14 @@ class HistoryItemTests: XCTestCase {
     XCTAssertEqual(item.title.count, HistoryItem.titlePreviewLimit)
   }
 
+  func testLargeTextTitleBenchmark() {
+    let item = historyItem(String(repeating: "abcdef\n", count: 20_000))
+
+    measure {
+      _ = item.generateTitle()
+    }
+  }
+
   func testTextPrefixDoesNotSplitMultibyteCharacters() {
     let item = historyItem("😀😀")
     XCTAssertEqual(item.textPrefix(maxLength: 5), "😀")

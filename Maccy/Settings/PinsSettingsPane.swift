@@ -43,7 +43,7 @@ struct PinValueView: View {
 
     // Check if this item has editable text content
     let hasPlainText = item.textPrefix(maxLength: 1) != nil
-    let hasImage = item.image != nil
+    let hasImage = item.hasImageData
     let hasFileURLs = !item.fileURLs.isEmpty
     let hasRichText = item.rtfData != nil || item.htmlData != nil
 

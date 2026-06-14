@@ -149,6 +149,9 @@
 		DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD9268A521A00990986 /* String+Shortened.swift */; };
 		DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */; };
 		DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */; };
+		E00000042F50000000000004 /* ClipboardDataProcessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E00000032F50000000000003 /* ClipboardDataProcessor.swift */; };
+		E00000062F50000000000006 /* ClipboardByteProcessor.cpp in Sources */ = {isa = PBXBuildFile; fileRef = E00000052F50000000000005 /* ClipboardByteProcessor.cpp */; };
+		E000000A2F5000000000000A /* MaccyTextProcessor.mm in Sources */ = {isa = PBXBuildFile; fileRef = E00000092F50000000000009 /* MaccyTextProcessor.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -547,6 +550,12 @@
 		DAEE38431E3DBEB100DD2966 /* Maccy.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Maccy.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DAEE38461E3DBEB100DD2966 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = AppDelegate.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
 		DAEE384D1E3DBEB100DD2966 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		E00000032F50000000000003 /* ClipboardDataProcessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardDataProcessor.swift; sourceTree = "<group>"; };
+		E00000052F50000000000005 /* ClipboardByteProcessor.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ClipboardByteProcessor.cpp; sourceTree = "<group>"; };
+		E00000072F50000000000007 /* ClipboardByteProcessor.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = ClipboardByteProcessor.hpp; sourceTree = "<group>"; };
+		E00000082F50000000000008 /* MaccyTextProcessor.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MaccyTextProcessor.h; sourceTree = "<group>"; };
+		E00000092F50000000000009 /* MaccyTextProcessor.mm */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.objcpp; path = MaccyTextProcessor.mm; sourceTree = "<group>"; };
+		E000000B2F5000000000000B /* Maccy-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Maccy-Bridging-Header.h"; sourceTree = "<group>"; };
 		DAF4741E27BB568000B53057 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DAF74FF92C517B1A0027DBCE /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
 		DAF74FFA2C517B1E0027DBCE /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/AdvancedSettings.strings"; sourceTree = "<group>"; };
@@ -638,6 +647,25 @@
 				DA5F464F2020E4DF00425C11 /* Carbon.framework */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		E00000012F50000000000001 /* Core */ = {
+			isa = PBXGroup;
+			children = (
+				E00000032F50000000000003 /* ClipboardDataProcessor.swift */,
+			);
+			path = Core;
+			sourceTree = "<group>";
+		};
+		E00000022F50000000000002 /* Processor */ = {
+			isa = PBXGroup;
+			children = (
+				E00000072F50000000000007 /* ClipboardByteProcessor.hpp */,
+				E00000052F50000000000005 /* ClipboardByteProcessor.cpp */,
+				E00000082F50000000000008 /* MaccyTextProcessor.h */,
+				E00000092F50000000000009 /* MaccyTextProcessor.mm */,
+			);
+			path = Processor;
 			sourceTree = "<group>";
 		};
 		DA05B50F2C234C1C006980FE /* Models */ = {
@@ -815,10 +843,12 @@
 			isa = PBXGroup;
 			children = (
 				2F0EC7802E773F1D003E2EA9 /* PasteStack.swift */,
+				E00000012F50000000000001 /* Core */,
 				2FBB7A252B5FECBB00C65BBE /* Extensions */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
 				DA05B50F2C234C1C006980FE /* Models */,
 				DA3BCB902C3EEC1000B01BC1 /* Observables */,
+				E00000022F50000000000002 /* Processor */,
 				DA181178247D150B00066D55 /* Settings */,
 				DA21AD3C249E85BD003E7C98 /* Sounds */,
 				DA19690C2C3EEF9300258481 /* Views */,
@@ -850,6 +880,7 @@
 				DA243D132C2F66DD0012A27F /* Storage.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
 				DAB8CE4024E3677F00A2500E /* Maccy.entitlements */,
+				E000000B2F5000000000000B /* Maccy-Bridging-Header.h */,
 				DAEE384D1E3DBEB100DD2966 /* Info.plist */,
 				DA6373971E4AB9BB00263391 /* Assets.xcassets */,
 				4762D6992467226100B3A2BA /* Localizable.strings */,
@@ -1091,6 +1122,7 @@
 				DAB082962A2B7B850053E463 /* AppStoreReview.swift in Sources */,
 				2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */,
 				DA13D7D22C19F91B00FA9E23 /* Defaults.Keys+Names.swift in Sources */,
+				E00000042F50000000000004 /* ClipboardDataProcessor.swift in Sources */,
 				2F0EC77D2E773314003E2EA9 /* Selection.swift in Sources */,
 				DA1969102C3F0AAC00258481 /* KeyShortcut.swift in Sources */,
 				DA9C3C622C20E1BF0056795D /* IgnoreRegexpsSettingsView.swift in Sources */,
@@ -1127,6 +1159,7 @@
 				DAA5ACB22C1B3F8800B58513 /* GeneralSettingsPane.swift in Sources */,
 				DA1969122C3F0DD200258481 /* HistoryItemView.swift in Sources */,
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
+				E00000062F50000000000006 /* ClipboardByteProcessor.cpp in Sources */,
 				DA3F1B452C90084600267632 /* Sauce+KeyboardShortcuts.swift in Sources */,
 				DA689FCC2C1D1D510009B887 /* MenuIcon.swift in Sources */,
 				DAAEB196219694AE00A7883C /* About.swift in Sources */,
@@ -1134,6 +1167,7 @@
 				2F0EC7792E7727E3003E2EA9 /* HeightReaderModifier.swift in Sources */,
 				2F578C3D2EFFE8400088B759 /* ItemsProtocol.swift in Sources */,
 				DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift in Sources */,
+				E000000A2F5000000000000A /* MaccyTextProcessor.mm in Sources */,
 				DA1969212C3F6C6800258481 /* HistoryItemAction.swift in Sources */,
 				0ABDD5122BB47F1E0054963B /* NSWorkspace+ApplicationName.swift in Sources */,
 				DA19691A2C3F369800258481 /* HeaderView.swift in Sources */,
@@ -1765,6 +1799,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Maccy/Maccy-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1800,6 +1835,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "Maccy/Maccy-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 			};
 			name = Release;

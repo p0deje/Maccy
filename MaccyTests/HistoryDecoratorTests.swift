@@ -104,6 +104,30 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.text.count, HistoryItem.textPreviewLimit)
   }
 
+  func testLargeTextPreviewBenchmark() {
+    let itemDecorator = historyItemDecorator(String(repeating: "abcdef\n", count: 20_000))
+
+    measure {
+      _ = itemDecorator.text
+    }
+  }
+
+  func testLargeImageHasImageDoesNotGenerateRenderedImages() {
+    let itemDecorator = historyItemDecorator(largeImageData(), .png)
+    XCTAssertTrue(itemDecorator.hasImage)
+    XCTAssertNil(itemDecorator.previewImage)
+    XCTAssertNil(itemDecorator.thumbnailImage)
+  }
+
+  func testLargeImageSizingBenchmark() {
+    let itemDecorator = historyItemDecorator(largeImageData(), .png)
+
+    measure {
+      itemDecorator.cleanupImages()
+      itemDecorator.sizeImages()
+    }
+  }
+
   func testUnpinnedByDefault() {
     let itemDecorator = historyItemDecorator("foo")
     XCTAssertNil(itemDecorator.item.pin)
@@ -222,6 +246,16 @@ class HistoryItemDecoratorTests: XCTestCase {
     item.numberOfCopies = 2
 
     return HistoryItemDecorator(item)
+  }
+
+  private func largeImageData() -> Data {
+    let image = NSImage(size: NSSize(width: 2_048, height: 2_048), flipped: false) { rect in
+      NSColor.systemBlue.setFill()
+      rect.fill()
+      return true
+    }
+
+    return image.tiffRepresentation!
   }
 
   // swiftlint:disable:next identifier_name

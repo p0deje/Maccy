@@ -39,7 +39,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     return url.deletingPathExtension().lastPathComponent
   }
 
-  var hasImage: Bool { item.image != nil }
+  var hasImage: Bool { imageData != nil }
 
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
@@ -47,9 +47,20 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
   private var isInvalidated = false
+  private let imageData: Data?
+  private var decodedImage: NSImage?
+  @ObservationIgnored private var textPreviewCache: String?
 
   // 10k characters seems to be more than enough on large displays.
-  var text: String { item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit) }
+  var text: String {
+    if let textPreviewCache {
+      return textPreviewCache
+    }
+
+    let preview = item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit)
+    textPreviewCache = preview
+    return preview
+  }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
@@ -68,6 +79,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     self.item = item
     self.shortcuts = shortcuts
     self.title = item.title
+    self.imageData = item.imageData
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
 
     synchronizeItemPin()
@@ -76,7 +88,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
 
   @MainActor
   func ensureThumbnailImage() {
-    guard let image = item.image else {
+    guard let image = image() else {
       return
     }
     guard thumbnailImage == nil else {
@@ -92,7 +104,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
 
   @MainActor
   func ensurePreviewImage() {
-    guard let image = item.image else {
+    guard let image = image() else {
       return
     }
     guard previewImage == nil else {
@@ -128,8 +140,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     previewImageGenerationTask?.cancel()
     thumbnailImage?.recache()
     previewImage?.recache()
+    decodedImage?.recache()
     thumbnailImage = nil
     previewImage = nil
+    decodedImage = nil
   }
 
   @MainActor
@@ -152,12 +166,26 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
 
   @MainActor
   func sizeImages() {
-    guard let image = item.image else {
+    guard let image = image() else {
       return
     }
 
     generatePreviewImage(from: image)
     generateThumbnailImage(from: image)
+  }
+
+  @MainActor
+  private func image() -> NSImage? {
+    if let decodedImage {
+      return decodedImage
+    }
+
+    guard let imageData, let image = NSImage(data: imageData) else {
+      return nil
+    }
+
+    decodedImage = image
+    return image
   }
 
   func highlight(_ query: String, _ ranges: [Range<String.Index>]) {

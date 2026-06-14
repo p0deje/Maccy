@@ -85,22 +85,29 @@ class HistoryItem {
         !Self.transientTypes.contains(content.type)
       }
       .allSatisfy { content in
-        contents.contains(where: { $0.type == content.type && $0.value == content.value })
+        contents.contains {
+          $0.type == content.type && ClipboardDataProcessor.dataLikelyEqual($0.value, content.value)
+        }
       }
   }
 
   func generateTitle() -> String {
-    if let image {
+    if let imageData {
       if CommandLine.arguments.contains("enable-testing") {
         return ""
       }
 
-      Task { @MainActor [weak self, image] in
+      Task { [weak self, imageData] in
+        guard let image = NSImage(data: imageData) else {
+          return
+        }
         guard let recognizedText = Self.recognizedText(in: image) else {
           return
         }
 
-        self?.title = recognizedText
+        await MainActor.run {
+          self?.title = recognizedText
+        }
       }
       return ""
     }
@@ -192,6 +199,8 @@ class HistoryItem {
 
     return data
   }
+
+  var hasImageData: Bool { imageData != nil }
 
   var image: NSImage? {
     guard let data = imageData else {
