@@ -41,7 +41,8 @@
   - `protocol ImageProcessing: Sendable { func thumbnail(for data: Data, max: CGSize) async -> NSImage?; func preview(for data: Data, max: CGSize) async -> NSImage?; func recognizeText(in data: Data) async -> String? }`
   - 占位实现 `PassthroughImageProcessor`:沿用既有 `NSImage(data:)`+`resized` 路径(行为不变,BS-3 替换)。
   - 证据:提交 `52f88fce92f8d05cd23d66554145319272d016c2`; macOS 26 ARM CI run `27494389002` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
-- [ ] **1.6 测试设施** — `MaccyTests/Support/`:`PasteboardSimulator`、`HistoryBuilder`、`FakeClock`、`IngestorSpy`、`FixtureLoader`(含 `heavy_text.txt` 与合成图片 fixture 路径)、`MainThreadProbe`。
+- [x] **1.6 测试设施** — `MaccyTests/Support/`:`PasteboardSimulator`、`HistoryBuilder`、`FakeClock`、`IngestorSpy`、`FixtureLoader`(含 `heavy_text.txt` 与合成图片 fixture 路径)、`MainThreadProbe`。
+  - 证据:提交 `4056de4abea38ad8c7390b57cad066a5f2d2501d`; macOS 26 ARM CI run `27494753415` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
 - [ ] **1.7 单元测试** — `SignatureIndexTests`(查/注册/移除/批量)、`DtoRoundTripTests`(DTO 与 `@Model` 互转,见 1.8)、`ImageProcessingContractTests`(占位实现与既有行为一致)。
 - [ ] **1.8 投影函数(纯)** — `Dtos.swift` 附加:`func snapshot(of item: HistoryItem) -> ItemSnapshotDTO`(在 item 所属 context 上读轻量字段);`func contentDTOs(of item: HistoryItem) -> [ContentDTO]`。这两个是 BS-2/4 的复用基础。
 - [ ] **1.9 验证** — `xcodebuild build` 通过(新类型未接线,允许 unused 警告);新单测全绿;既有行为未变(适配器/Passthrough 不改路径)。
