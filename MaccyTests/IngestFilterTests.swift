@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import XCTest
 @testable import Maccy
 
@@ -8,7 +9,7 @@ import XCTest
 // (Clipboard.swift ~227-247), `filteredTypes` (~251-265), `shouldIgnore(types)`
 // (~267-273), `shouldIgnore(item)` regex (~283-310), `isEmptyString` (~312-322) and
 // `richText(_:)` (~324-344). No `NSPasteboard`, no SwiftData, no actor is touched.
-class IngestFilterTests: XCTestCase {
+class IngestFilterTests: XCTestCase { // swiftlint:disable:this type_body_length
   // Standard pasteboard type rawValues (UTIs). See NSPasteboard.PasteboardType.
   private let stringType = "public.utf8-plain-text"
   private let rtfType = "public.rtf"
