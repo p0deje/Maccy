@@ -22,6 +22,12 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
+    // `Storage.shared` is an in-memory singleton shared across every test in this
+    // run, so clear it in setUp so each test starts from a known-empty store.
+    try? Storage.shared.context.delete(model: HistoryItem.self)
+    Storage.shared.context.processPendingChanges()
+    try? Storage.shared.context.save()
+
     savedSize = Defaults[.size]
     savedIgnoreRegexp = Defaults[.ignoreRegexp]
     savedMaxContentSize = Defaults[.maxClipboardContentSize]
@@ -41,19 +47,19 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
   // MARK: - Add path
 
   func testIngestTextCopyEmitsAddedEventAndPersistsItem() async {
+    let collector = EventCollector()
     let backgroundContext = Storage.shared.newBackgroundContext()
-    var events: [StoreEvent] = []
     let ingestor = BackgroundClipboardIngestor(
       backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { Date(timeIntervalSince1970: 1_700_000_000) },
-      onEvent: { event in events.append(event) }
+      onEvent: { event in collector.append(event) }
     )
 
     let result = await ingestor.ingest(request(text: "hello"))
 
-    XCTAssertEqual(events.count, 1)
-    XCTAssertEqual(result.event, events.first)
+    XCTAssertEqual(collector.all.count, 1)
+    XCTAssertEqual(result.event, collector.all.first)
     XCTAssertEqual(result.metrics.dedupHits, 0)
     XCTAssertGreaterThanOrEqual(result.metrics.bytesHashed, 0)
 
@@ -66,30 +72,30 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(stored?.first?.firstCopiedAt, Date(timeIntervalSince1970: 1_700_000_000))
     XCTAssertEqual(stored?.first?.lastCopiedAt, Date(timeIntervalSince1970: 1_700_000_000))
 
-    if case .added(let snapshot) = events.first {
+    if case .added(let snapshot) = collector.all.first {
       XCTAssertEqual(snapshot.title, "hello")
       XCTAssertEqual(snapshot.numberOfCopies, 1)
     } else {
-      XCTFail("Expected .added event, got \(String(describing: events.first))")
+      XCTFail("Expected .added event, got \(String(describing: collector.all.first))")
     }
   }
 
   // MARK: - Merge path
 
   func testIngestSameContentAgainEmitsMergedEventAndKeepsSingleItem() async {
+    let collector = EventCollector()
     let backgroundContext = Storage.shared.newBackgroundContext()
-    var events: [StoreEvent] = []
     let ingestor = BackgroundClipboardIngestor(
       backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { Date(timeIntervalSince1970: 1_700_000_000) },
-      onEvent: { event in events.append(event) }
+      onEvent: { event in collector.append(event) }
     )
 
     _ = await ingestor.ingest(request(text: "duplicate me"))
     let second = await ingestor.ingest(request(text: "duplicate me"))
 
-    XCTAssertEqual(events.count, 2)
+    XCTAssertEqual(collector.all.count, 2)
     XCTAssertEqual(second.metrics.dedupHits, 1)
 
     let stored = try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())
@@ -97,37 +103,33 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(stored?.first?.numberOfCopies, 2)
     XCTAssertEqual(stored?.first?.title, "duplicate me")
 
-    if case .merged(let snapshot) = events.last {
+    if case .merged(let snapshot) = collector.all.last {
       XCTAssertEqual(snapshot.numberOfCopies, 2)
     } else {
-      XCTFail("Expected .merged event on second ingest, got \(String(describing: events.last))")
+      XCTFail("Expected .merged event on second ingest, got \(String(describing: collector.all.last))")
     }
   }
 
   // MARK: - Filter-out paths
 
   func testIngestContentOverMaxValueSizeEmitsNoEventAndPersistsNothing() async {
-    // Lower the content-size limit so the oversized payload is modest (a few KB,
-    // not the default ~10 MiB). HistoryItemContent.maxValueSize is
-    // max(1, Defaults[.maxClipboardContentSize]) MiB, so with the limit at 1 MiB
-    // any payload larger than 1 MiB is dropped by filterContents.
+    // Lower the content-size limit so the oversized payload is modest. With the
+    // limit at 1 MiB, any payload larger than 1 MiB is dropped by filterContents.
     Defaults[.maxClipboardContentSize] = 1
+    let collector = EventCollector()
     let backgroundContext = Storage.shared.newBackgroundContext()
-    var events: [StoreEvent] = []
     let ingestor = BackgroundClipboardIngestor(
       backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { Date(timeIntervalSince1970: 1_700_000_000) },
-      onEvent: { event in events.append(event) }
+      onEvent: { event in collector.append(event) }
     )
 
-    // Build a content that exceeds HistoryItemContent.maxValueSize. filterContents
-    // drops it because (value?.count ?? 0) > maxValueSize.
     let oversized = String(repeating: "a", count: HistoryItemContent.maxValueSize + 1)
     let result = await ingestor.ingest(request(text: oversized))
 
     XCTAssertNil(result.event)
-    XCTAssertEqual(events.count, 0)
+    XCTAssertEqual(collector.all.count, 0)
 
     let stored = try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())
     XCTAssertEqual(stored?.count, 0)
@@ -135,19 +137,19 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
   func testIngestContentMatchingIgnoreRegexpEmitsNoEvent() async {
     Defaults[.ignoreRegexp] = ["secret"]
+    let collector = EventCollector()
     let backgroundContext = Storage.shared.newBackgroundContext()
-    var events: [StoreEvent] = []
     let ingestor = BackgroundClipboardIngestor(
       backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { Date(timeIntervalSince1970: 1_700_000_000) },
-      onEvent: { event in events.append(event) }
+      onEvent: { event in collector.append(event) }
     )
 
     let result = await ingestor.ingest(request(text: "this is a secret message"))
 
     XCTAssertNil(result.event)
-    XCTAssertEqual(events.count, 0)
+    XCTAssertEqual(collector.all.count, 0)
 
     let stored = try? backgroundContext.fetch(FetchDescriptor<HistoryItem>())
     XCTAssertEqual(stored?.count, 0)
@@ -156,19 +158,18 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
   // MARK: - Size trim
 
   func testTrimRemovesOldestUnpinnedItemBeyondSizeLimit() async {
-    // Force a tiny limit so the third insert must trim the oldest unpinned item.
     // With size=2 the trim keeps (size-1)=1 unpinned BEFORE each insert, so after
     // the 3rd ingest only the two most-recent survive — mirroring
     // History.add's limitHistorySize(to: historySizeLimit - 1) (History.swift:244).
     Defaults[.size] = 2
+    let collector = EventCollector()
     let backgroundContext = Storage.shared.newBackgroundContext()
-    var events: [StoreEvent] = []
     let clock = TestClock(start: Date(timeIntervalSince1970: 1_700_000_000))
     let ingestor = BackgroundClipboardIngestor(
       backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { clock.now },
-      onEvent: { event in events.append(event) }
+      onEvent: { event in collector.append(event) }
     )
 
     _ = await ingestor.ingest(request(text: "first"))
@@ -185,12 +186,13 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
   // MARK: - Metrics sanity
 
   func testParseMsIsFiniteAndNonNegativeOnAdd() async {
+    let collector = EventCollector()
     let backgroundContext = Storage.shared.newBackgroundContext()
     let ingestor = BackgroundClipboardIngestor(
       backgroundContext: backgroundContext,
       image: PassthroughImageProcessor(),
       now: { Date(timeIntervalSince1970: 1_700_000_000) },
-      onEvent: { _ in }
+      onEvent: { event in collector.append(event) }
     )
 
     let result = await ingestor.ingest(request(text: "timing"))
@@ -215,25 +217,46 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
   }
 }
 
+/// Thread-safe collector for the `StoreEvent`s the actor emits via its
+/// `@Sendable` `onEvent` closure (which can run off the test's isolation).
+/// Wrapping the array in a lock avoids the "mutation of captured var in
+/// concurrent code" Swift 6 warning that a plain `var events` would trigger.
+private final class EventCollector: @unchecked Sendable {
+  private let lock = NSLock()
+  private var events: [StoreEvent] = []
+
+  func append(_ event: StoreEvent) {
+    lock.lock()
+    events.append(event)
+    lock.unlock()
+  }
+
+  var all: [StoreEvent] {
+    lock.lock()
+    defer { lock.unlock() }
+    return events
+  }
+}
+
 /// Mutable test clock advanced by hand so the actor sees a moving `now` across
 /// ingests in the same test.
 private final class TestClock: @unchecked Sendable {
   private let lock = NSLock()
-  private var _now: Date
+  private var current: Date
 
   init(start: Date) {
-    _now = start
+    current = start
   }
 
   var now: Date {
     lock.lock()
     defer { lock.unlock() }
-    return _now
+    return current
   }
 
   func advance(by interval: TimeInterval) {
     lock.lock()
-    _now = _now.addingTimeInterval(interval)
+    current = current.addingTimeInterval(interval)
     lock.unlock()
   }
 }
