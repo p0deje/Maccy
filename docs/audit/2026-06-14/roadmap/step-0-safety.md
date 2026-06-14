@@ -21,7 +21,7 @@
 - [x] **0.4 加恢复测试** — `MaccyTests/StorageRecoveryTests.swift`:注入坏 store → 断言文件被**移动**到 `.corrupted-*` 而非删除,且返回可用 in-memory/空 container。用可控时间戳参数避免依赖系统时钟。
 - [x] **0.5 错误不再静默** — 在 `History.insertIntoStorage`/`delete`/`clear`/`clearAll`/`findSimilarItem` 与 `Clipboard`/`HistoryItem` 的 `try?` 处,改为 `do/catch`:`logger.error(...)` 记录;写路径失败时**回滚内存态**(从 `all`/`items` 移除未持久化的项)并通过新的 `@MainActor var lastPersistError` 暴露给 UI 可选提示。读路径失败仅记日志并返回空。
 - [x] **0.6 修 `dataFromFileIfAllowed` fallthrough** — `HistoryItem.swift:260-267`。`try? url.resourceValues` 返回 nil 时,**视为未通过大小校验**,返回 nil,不进入 `Data(contentsOf:)`。
-- [ ] **0.7 统一 C++ 方言** — `project.pbxproj`。两个 `gnu++0x` config 改 `gnu++17`(与 Maccy 目标 `gnu++14` 对齐,并为 BS-8 预留)。
+- [x] **0.7 统一 C++ 方言** — `project.pbxproj`。两个 `gnu++0x` config 改 `gnu++17`(与 Maccy 目标 `gnu++14` 对齐,并为 BS-8 预留)。
 - [ ] **0.8 全量验证** — `xcodebuild build` + `xcodebuild test` 通过;手动:首项按 ↑ 不崩;模拟坏 store 不丢历史。
 
 ## 测试
