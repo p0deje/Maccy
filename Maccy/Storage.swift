@@ -16,7 +16,7 @@ class Storage {
     return ByteCountFormatter().string(fromByteCount: size)
   }
 
-  private static let defaultURL = URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite")
+  nonisolated private static let defaultURL = URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite")
   private let url: URL
 
   init(

@@ -8,31 +8,39 @@ import Sauce
 import Settings
 import SwiftData
 
-@MainActor
 protocol HistoryPersistence {
+  @MainActor
   func insert(_ item: HistoryItem) throws
+  @MainActor
   func delete(_ item: HistoryItem) throws
+  @MainActor
   func deleteUnpinned() throws
+  @MainActor
   func deleteAll() throws
+  @MainActor
   func fetchAll() throws -> [HistoryItem]
+  @MainActor
   func countHistoryItems() throws -> Int
+  @MainActor
   func countHistoryItemContents() throws -> Int
 }
 
-@MainActor
 struct SwiftDataHistoryPersistence: HistoryPersistence {
+  @MainActor
   func insert(_ item: HistoryItem) throws {
     Storage.shared.context.insert(item)
     Storage.shared.context.processPendingChanges()
     try Storage.shared.context.save()
   }
 
+  @MainActor
   func delete(_ item: HistoryItem) throws {
     Storage.shared.context.delete(item)
     Storage.shared.context.processPendingChanges()
     try Storage.shared.context.save()
   }
 
+  @MainActor
   func deleteUnpinned() throws {
     try Storage.shared.context.transaction {
       try Storage.shared.context.delete(
@@ -48,20 +56,24 @@ struct SwiftDataHistoryPersistence: HistoryPersistence {
     try Storage.shared.context.save()
   }
 
+  @MainActor
   func deleteAll() throws {
     try Storage.shared.context.delete(model: HistoryItem.self)
     Storage.shared.context.processPendingChanges()
     try Storage.shared.context.save()
   }
 
+  @MainActor
   func fetchAll() throws -> [HistoryItem] {
     try Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())
   }
 
+  @MainActor
   func countHistoryItems() throws -> Int {
     try Storage.shared.context.fetchCount(FetchDescriptor<HistoryItem>())
   }
 
+  @MainActor
   func countHistoryItemContents() throws -> Int {
     try Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
   }
