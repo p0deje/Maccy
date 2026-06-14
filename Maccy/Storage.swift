@@ -95,11 +95,13 @@ class Storage {
     if let quarantineURL {
       let storeDescription = usesInMemoryStore ? "temporary in-memory history" : "a new empty history store"
       alert.informativeText = """
-      Maccy moved the existing history store to \(quarantineURL.path) and started with \(storeDescription). Original error: \(originalError.localizedDescription)
+      Maccy moved the existing history store to \(quarantineURL.path) and started with \(storeDescription).
+      Original error: \(originalError.localizedDescription)
       """
     } else {
       alert.informativeText = """
-      Maccy could not move the existing history store and started with temporary in-memory history. Original error: \(originalError.localizedDescription)
+      Maccy could not move the existing history store and started with temporary in-memory history.
+      Original error: \(originalError.localizedDescription)
       """
     }
     alert.alertStyle = .warning

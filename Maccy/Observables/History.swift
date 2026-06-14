@@ -216,28 +216,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
     }
 
-    var removedItemIndex: Int?
-    if let existingHistoryItem = findSimilarItem(item) {
-      if isModified(item) == nil {
-        item.contents = existingHistoryItem.contents.map {
-          HistoryItemContent(type: $0.type, value: $0.value)
-        }
-      }
-      item.firstCopiedAt = existingHistoryItem.firstCopiedAt
-      item.numberOfCopies += existingHistoryItem.numberOfCopies
-      item.pin = existingHistoryItem.pin
-      item.title = existingHistoryItem.title
-      if !item.fromMaccy {
-        item.application = existingHistoryItem.application
-      }
-      logger.info("Removing duplicate history item")
-      removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
-      if let removedItemIndex {
-        cleanup(all[removedItemIndex])
-        all.remove(at: removedItemIndex)
-      }
-      Storage.shared.context.delete(existingHistoryItem)
-    } else {
+    let removedItemIndex = mergeDuplicateIfNeeded(for: item)
+    if removedItemIndex == nil {
       Task {
         Notifier.notify(body: item.title, sound: .write)
       }
@@ -249,25 +229,60 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     sessionLog[Clipboard.shared.changeCount] = item
 
-    var itemDecorator: HistoryItemDecorator
-    if let pin = item.pin {
-      itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
-      // Keep pins in the same place.
-      if let removedItemIndex {
-        all.insert(itemDecorator, at: removedItemIndex)
-      }
-    } else {
-      itemDecorator = HistoryItemDecorator(item)
-
-      let sortedItems = sorter.sort(all.map(\.item) + [item])
-      if let index = sortedItems.firstIndex(of: item) {
-        all.insert(itemDecorator, at: index)
-      }
-    }
+    let itemDecorator = insertDecorator(for: item, removedItemIndex: removedItemIndex)
 
     refreshVisibleItems()
     AppState.shared.popup.needsResize = true
 
+    return itemDecorator
+  }
+
+  @MainActor
+  private func mergeDuplicateIfNeeded(for item: HistoryItem) -> Int? {
+    guard let existingHistoryItem = findSimilarItem(item) else {
+      return nil
+    }
+
+    if isModified(item) == nil {
+      item.contents = existingHistoryItem.contents.map {
+        HistoryItemContent(type: $0.type, value: $0.value)
+      }
+    }
+    item.firstCopiedAt = existingHistoryItem.firstCopiedAt
+    item.numberOfCopies += existingHistoryItem.numberOfCopies
+    item.pin = existingHistoryItem.pin
+    item.title = existingHistoryItem.title
+    if !item.fromMaccy {
+      item.application = existingHistoryItem.application
+    }
+
+    logger.info("Removing duplicate history item")
+    let removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
+    if let removedItemIndex {
+      cleanup(all[removedItemIndex])
+      all.remove(at: removedItemIndex)
+    }
+    Storage.shared.context.delete(existingHistoryItem)
+    return removedItemIndex
+  }
+
+  private func insertDecorator(
+    for item: HistoryItem,
+    removedItemIndex: Int?
+  ) -> HistoryItemDecorator {
+    if let pin = item.pin {
+      let itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
+      if let removedItemIndex {
+        all.insert(itemDecorator, at: removedItemIndex)
+      }
+      return itemDecorator
+    }
+
+    let itemDecorator = HistoryItemDecorator(item)
+    let sortedItems = sorter.sort(all.map(\.item) + [item])
+    if let index = sortedItems.firstIndex(of: item) {
+      all.insert(itemDecorator, at: index)
+    }
     return itemDecorator
   }
 
