@@ -2,7 +2,6 @@ import XCTest
 import Defaults
 @testable import Maccy
 
-// swiftlint:disable type_body_length
 // Clipboard is main-actor-bound (every mutator and `checkForChangesInPasteboard`
 // is `@MainActor`), so the whole test class runs on the main actor. The old
 // `onNewCopy` hook flow is gone (BS-2.4); these tests now drive the pasteboard,
