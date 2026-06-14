@@ -29,9 +29,10 @@
   - `StoreEvent`:`enum { added(ItemSnapshotDTO), merged(ItemSnapshotDTO), removed(UUID), cleared }`
   - `IngestRequest`/`IngestPlan`/`IngestResult`(见 `B §3`,含 `metrics: { dedupHits, bytesHashed, parseMs }`)。
   - 证据:提交 `b396cebddb5bfda71fdce90f2083359aa7429c97`; macOS 26 ARM CI run `27493057371` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
-- [ ] **1.3 去重索引(纯值类型)** — `SignatureIndex.swift`。
+- [x] **1.3 去重索引(纯值类型)** — `SignatureIndex.swift`。
   - `struct SignatureIndex: Sendable` 内部 `[SignatureDTO: UUID]`(key 用稳定哈希);提供 `lookup(_:) -> UUID?`、`register(_:id:)`、`remove(id:)`、`bulkRegister(_:)`。
   - 纯函数,无 AppKit/SwiftData 依赖 → 可单测。
+  - 证据:提交 `b35bcddcbd44b6a72916fdae67c3d6b3734b9853`; macOS 26 ARM CI run `27493380517` attempt 2 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。attempt 1 失败于既有 UI test `testCopyWithEnter` pasteboard 3 秒等待超时,重跑通过。
 - [ ] **1.4 ingest 协议 + 主线程适配器** — `ClipboardIngestor.swift`。
   - `protocol ClipboardIngestor: Sendable { func ingest(_ request: IngestRequest) async -> IngestResult }`
   - `@MainActor final class MainActorIngestorAdapter: ClipboardIngestor`:内部转发到既有 `History.shared.add`(行为完全不变),仅把结果包成 `IngestResult`。**本步骤不接线**(BS-2 才让 `Clipboard` 使用它),保证既有行为零变化。
