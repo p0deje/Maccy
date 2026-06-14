@@ -16,9 +16,10 @@
 
 ## 小步骤
 
-- [ ] **1.1 后台 context 工厂** — `Storage+Background.swift`。为 `Storage` 扩展:
+- [x] **1.1 后台 context 工厂** — `Storage+Background.swift`。为 `Storage` 扩展:
   - `func newBackgroundContext() -> ModelContext`(封装 `container.newContext()`,设 `automaticallyMergesChangesFromParent = true` 与 `undoManager = nil`)。
   - 文档约定:返回的 context 仅在调用方 actor 内使用,禁止跨域。
+  - 证据:提交 `fd4bd35df90d604587c8278a6d551390a9d8c401`; macOS 26 ARM CI run `27492721135` 通过 SwiftLint、clean build、unit tests、UI tests、日志扫描。
 - [ ] **1.2 DTO 定义** — `Dtos.swift`。全部 `struct ... : Sendable`(字段见 `A §4`):
   - `ContentDTO(type, value: Data?, fingerprint: UInt64?, size: Int)`
   - `ClipboardItemDTO(contents: [ContentDTO], application: String?, source: PasteboardSource)`
