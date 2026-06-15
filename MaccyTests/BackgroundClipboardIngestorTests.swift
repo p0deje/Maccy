@@ -35,7 +35,7 @@ import XCTest
 // break (wrong count / lost distinct item / wrong numberOfCopies) if the
 // dup-delete, trim, and insert were not one coordinated transaction.
 @MainActor
-final class BackgroundClipboardIngestorTests: XCTestCase { // swiftlint:disable:this type_body_length
+final class BackgroundClipboardIngestorTests: XCTestCase {
   // Standard pasteboard type rawValues (UTIs). Mirrors NSPasteboard.PasteboardType.
   private let stringType = "public.utf8-plain-text"
 
