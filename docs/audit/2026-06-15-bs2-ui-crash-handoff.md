@@ -1,5 +1,16 @@
 # BS-2 wiring UI crash — handoff (2026-06-15)
 
+> ✅ **RESOLVED 2026-06-15** at `66344e6` (CI run `27517644893`, green). The crash was **not a
+> concurrency bug**. GPT-5.5 fixed three independent state-consistency/ordering defects:
+> (1) `togglePin` never persisted `pin`, so `clear()`'s `delete(model:where: #Predicate { $0.pin == nil })`
+> killed the pinned row in the store while the in-memory decorator survived holding a dangling
+> `@Model` — BS-2's new `reconcileWithStore` fresh-fetch then faulted the deleted object ("crashed
+> in `<external symbol>`"); (2) `reconcileWithStore` rebuilt the list but never re-anchored
+> `navigator.selection`; (3) unnecessary `Task { @MainActor }` wrappers deferred side effects past
+> the UI-test assertions. Full root-cause analysis + Apple-doc grounding + lessons:
+> **`2026-06-15-bs2-retrospective.md`**. The text below is preserved as the original handoff
+> state for the audit trail.
+
 The BS-2 ingest→actor pipeline is **built and unit-green**, but wiring it live
 (`Clipboard` → actor → `History.consume`) causes an **unsymbolicated UI-test
 crash** that this remote, Mac-less environment could not diagnose. This file
