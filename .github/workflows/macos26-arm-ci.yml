@@ -205,7 +205,15 @@ jobs:
               continue
             fi
 
-            if grep -Ein '(^|[^[:alpha:]])(warning:|error:|\*\* TEST FAILED \*\*|Fatal error|[Ff]ailed)([^[:alpha:]]|$)' "$log"; then
+            # Tolerate the system HDRImageConverter's benign headless-runner
+            # fallback: on the GPU-less CI runner it logs "Failed to initialize
+            # Metal converter, falling back to SIMD" (the conversion still
+            # succeeds via SIMD). This is a macOS system component (not our
+            # code) and only appears headless — exclude it from the scan.
+            matches=$(grep -Ein '(^|[^[:alpha:]])(warning:|error:|\*\* TEST FAILED \*\*|Fatal error|[Ff]ailed)([^[:alpha:]]|$)' "$log" \
+              | grep -vE 'HDRImageConverter.*falling back to SIMD' || true)
+            if [[ -n "$matches" ]]; then
+              echo "$matches"
               echo "Warnings, errors, or failures found in $log"
               found=1
             fi
