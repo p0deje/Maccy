@@ -6,6 +6,7 @@ import Observation
 import Sauce
 
 @Observable
+// swiftlint:disable:next type_body_length
 class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Sendable {
   static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
@@ -201,26 +202,26 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
   // MARK: - Off-main generation
 
   /// Structured (non-detached) task that runs the decode + downsample on the
-  /// `imageProcessor` actor, then hops back to the main actor to publish the
-  /// result. Cancellation propagates: `cleanupImages`/`invalidate` cancel the
-  /// stored handle, and the actor's `Task.isCancelled` checkpoints (IMG-023)
-  /// turn that into an early nil before any decode. Captures only Sendable
-  /// values (`imageData`, `imageProcessor`) — never `self.image()` (that would
-  /// re-introduce main-thread `NSImage(data:)` decode).
+  /// `imageProcessor` actor, then publishes the result on the main actor.
+  /// Cancellation propagates: `cleanupImages`/`invalidate` cancel the stored
+  /// handle, and the actor's `Task.isCancelled` checkpoints (IMG-023) turn that
+  /// into an early nil before any decode. Captures only Sendable values
+  /// (`imageData`, `imageProcessor`) — never the old `self.image()` (that would
+  /// re-introduce main-thread `NSImage(data:)` decode). The closure is
+  /// `@MainActor`-isolated so the cheap pre/post work runs on main while the
+  /// `await processor.thumbnail(...)` hop runs the decode on the actor.
   private func startThumbnailGeneration() -> Task<(), Never> {
     guard let imageData else {
       return Task {}
     }
     let processor = imageProcessor
     let target = HistoryItemDecorator.thumbnailImageSize
-    return Task { [weak self] in
+    return Task { @MainActor [weak self] in
       let image = await processor.thumbnail(for: imageData, max: target)
-      await MainActor.run {
-        guard let self, !self.isInvalidated else {
-          return
-        }
-        self.thumbnailImage = image
+      guard let self, !self.isInvalidated else {
+        return
       }
+      self.thumbnailImage = image
     }
   }
 
@@ -230,14 +231,12 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     }
     let processor = imageProcessor
     let target = HistoryItemDecorator.previewImageSize
-    return Task { [weak self] in
+    return Task { @MainActor [weak self] in
       let image = await processor.preview(for: imageData, max: target)
-      await MainActor.run {
-        guard let self, !self.isInvalidated else {
-          return
-        }
-        self.previewImage = image
+      guard let self, !self.isInvalidated else {
+        return
       }
+      self.previewImage = image
     }
   }
 

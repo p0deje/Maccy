@@ -69,7 +69,11 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       }
 
       if let image {
+        // IMG-020: thumbnails are pre-sized by the off-main pipeline, so the
+        // image fills its frame without scaling artifacts; .resizable() lets
+        // SwiftUI lay it out to the row height instead of natural pixels.
         Image(nsImage: image)
+          .resizable()
           .accessibilityIdentifier("copy-history-item")
           .padding(.trailing, 5)
           .padding(.vertical, 5)

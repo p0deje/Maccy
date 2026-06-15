@@ -54,9 +54,13 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
     // resulting `StoreEvent` hops back to the main actor (BS-2.3) to
     // reconcile the main-context history. `Clipboard.checkForChangesInPasteboard`
     // dispatches each copy to this actor via `Task { ... }`.
+    //
+    // The same ImageProcessor instance backs the decorators' default processor
+    // (BS-3.5/3.8), so thumbnails decoded during ingest are reused when the
+    // item is rendered — one ThumbnailCache across the ingest + view paths.
     Clipboard.shared.ingestor = BackgroundClipboardIngestor(
       modelContainer: Storage.shared.container,
-      image: PassthroughImageProcessor(),
+      image: HistoryItemDecorator.defaultImageProcessor,
       now: { Date() },
       onEvent: { @MainActor event in History.shared.consume(event) }
     )

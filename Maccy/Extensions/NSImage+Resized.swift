@@ -2,6 +2,13 @@ import AppKit.NSImage
 
 // Based on https://stackoverflow.com/questions/73062803/resizing-nsimage-keeping-aspect-ratio-reducing-the-image-size-while-trying-to-sc.
 extension NSImage {
+  /// Legacy on-main resize via `NSGraphicsContext` draw.
+  ///
+  /// Retained only as the synchronous fallback for `PassthroughImageProcessor`
+  /// (tests) and any path that cannot await the off-main pipeline. New image
+  /// decode/downsample work should go through `ImageDownsampler` /
+  /// `ImageProcessor` (BS-3), which keeps decode off the main thread and caches
+  /// results. The actor-produced images bypass this method entirely.
   func resized(to newSize: NSSize) -> NSImage {
     let ratioX = newSize.width / size.width
     let ratioY = newSize.height / size.height
@@ -10,8 +17,10 @@ extension NSImage {
     let newWidth = size.width * ratio
     let newSize = NSSize(width: newWidth, height: newHeight)
 
-    // Don't attempt to size up.
-    if newSize.height >= size.height {
+    // Don't attempt to size up. The previous check compared only height, which
+    // skipped legitimate width-only shrinks for wide images (the width-blind
+    // upscale bug); require BOTH dimensions to be already satisfied.
+    if newSize.width >= size.width && newSize.height >= size.height {
       return self
     }
 
