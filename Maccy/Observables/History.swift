@@ -317,6 +317,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
     all = rebuilt
     refreshVisibleItems()
+    if searchQuery.isEmpty && !AppState.shared.navigator.isMultiSelectInProgress {
+      AppState.shared.navigator.select(item: unpinnedItems.first ?? pinnedItems.first)
+    }
     AppState.shared.popup.needsResize = true
   }
 

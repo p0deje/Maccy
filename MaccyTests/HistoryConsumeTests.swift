@@ -82,6 +82,23 @@ final class HistoryConsumeTests: XCTestCase {
     )
   }
 
+  func testConsumeAddedSelectsNewestItemWhenNotSearching() {
+    let firstItem = insertItem(text: "first")
+    try? Storage.shared.context.save()
+    history.consume(.added(snapshot(of: firstItem)))
+
+    guard let firstDecorator = history.all.first else {
+      return XCTFail("Expected one decorator after first consume")
+    }
+    AppState.shared.navigator.select(item: firstDecorator)
+
+    let secondItem = insertItem(text: "second")
+    try? Storage.shared.context.save()
+    history.consume(.added(snapshot(of: secondItem)))
+
+    XCTAssertEqual(AppState.shared.navigator.selection.first?.title, "second")
+  }
+
   // MARK: - .merged
 
   func testConsumeMergedReflectsReplacedItem() {
