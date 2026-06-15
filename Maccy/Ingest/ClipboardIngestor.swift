@@ -102,8 +102,8 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   /// Steps (matching the old `History.add` flow, collapsed into a single
   /// transaction):
   /// 1. Build an `IngestConfig` snapshot from `Defaults` and the built-in type
-  ///    sets (mirrors `Clipboard.contents(from:)` / `filteredTypes` /
-  ///    `shouldIgnore`).
+  ///    sets on the main actor (mirrors `Clipboard.contents(from:)` /
+  ///    `filteredTypes` / `shouldIgnore`).
   /// 2. Filter the request contents with the pure `filterContents` helper,
   ///    timing it for `parseMs` via the injected clock. An empty result is a
   ///    no-op ingest (no event, no write).
@@ -112,8 +112,9 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   ///    (mirrors `History.findSimilarItem`, minus the sessionLog branch).
   /// 5. Merge fields from the duplicate if found (mirrors
   ///    `History.mergeDuplicateIfNeeded`).
-  /// 6. Single-transaction commit: trim unpinned items beyond `Defaults[.size]`
-  ///    (oldest first), delete the duplicate, insert the new item, then ONE save.
+  /// 6. Single-transaction commit: trim unpinned items beyond the main-actor
+  ///    `Defaults[.size]` snapshot (oldest first), delete the duplicate, insert
+  ///    the new item, then ONE save.
   /// 7. Emit `.added` (no dup) or `.merged` (dup found) with the item's
   ///    `ItemSnapshotDTO`.
   /// 8. Report `IngestMetrics`.
@@ -122,18 +123,16 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   ///   the event is `nil`, the error is logged, and the metrics reflect the
   ///   pre-commit state (dedup decision + parse timing).
   func ingest(_ request: IngestRequest) async -> IngestResult {
-    let config = Self.ingestConfig()
-
     let filterStart = now()
-    // filterContents (rich-text detection) and title generation parse RTF/HTML
-    // via NSAttributedString, which is main-thread-affine (AppKit/WebKit) and
-    // traps if run off-main. Run both on the main actor; the heavy dedup-fetch
-    // and single-transaction write below stay off-main.
-    let (filtered, title) = await MainActor.run {
+    // Defaults, filterContents (rich-text detection), and title generation all
+    // stay on the main actor. The Defaults package is shared with UI state, and
+    // the rich-text paths parse via NSAttributedString/AppKit.
+    let (filtered, title, historyLimit) = await MainActor.run {
+      let config = Self.ingestConfig()
       let filtered = filterContents(
         request.contents, application: request.application, config: config
       )
-      return (filtered, Self.title(for: filtered))
+      return (filtered, Self.title(for: filtered), max(1, Defaults[.size]))
     }
     let parseMs = now().timeIntervalSince(filterStart) * 1000
 
@@ -157,7 +156,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     let bytesHashed = Self.bytesHashed(for: item)
 
     do {
-      try commit(item, deleting: dup)
+      try commit(item, deleting: dup, limit: historyLimit)
     } catch {
       logger.error("Failed to commit ingest: \(String(describing: error))")
       return IngestResult(
@@ -242,12 +241,11 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   }
 
   /// Single-transaction commit: delete the duplicate, trim unpinned items beyond
-  /// `Defaults[.size]` (oldest first), insert the new item, then ONE
+  /// the main-actor `Defaults[.size]` snapshot (oldest first), insert the new item, then ONE
   /// `processPendingChanges` + `save`. Mirrors the ritual in
   /// `SwiftDataHistoryPersistence.deleteUnpinned` (History.swift:43-57) and the
   /// trim in `History.limitHistorySize(to:)` (History.swift:208-215, 244).
-  private func commit(_ item: HistoryItem, deleting dup: HistoryItem?) throws {
-    let limit = max(1, Defaults[.size])
+  private func commit(_ item: HistoryItem, deleting dup: HistoryItem?, limit: Int) throws {
     try modelContext.transaction {
       // Sort unpinned by lastCopiedAt descending so `dropFirst(limit - 1)` is the
       // oldest tail — exactly what History.limitHistorySize deletes. The dup is

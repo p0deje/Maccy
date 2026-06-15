@@ -230,35 +230,35 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
     let center = DistributedNotificationCenter.default()
     uiTestNotificationObservers.append(
       center.addObserver(forName: UITestNotification.hotKeyDown, object: nil, queue: .main) { _ in
-        Task { @MainActor in
+        MainActor.assumeIsolated {
           AppState.shared.popup.handleTestingHotKeyDown()
         }
       }
     )
     uiTestNotificationObservers.append(
       center.addObserver(forName: UITestNotification.modifiersReleased, object: nil, queue: .main) { _ in
-        Task { @MainActor in
+        MainActor.assumeIsolated {
           AppState.shared.popup.handleTestingModifiersReleased()
         }
       }
     )
     uiTestNotificationObservers.append(
       center.addObserver(forName: UITestNotification.clearHistory, object: nil, queue: .main) { _ in
-        Task { @MainActor in
+        MainActor.assumeIsolated {
           AppState.shared.history.clear()
         }
       }
     )
     uiTestNotificationObservers.append(
       center.addObserver(forName: UITestNotification.clearAllHistory, object: nil, queue: .main) { _ in
-        Task { @MainActor in
+        MainActor.assumeIsolated {
           AppState.shared.history.clearAll()
         }
       }
     )
     uiTestNotificationObservers.append(
       center.addObserver(forName: UITestNotification.pinHistoryItem, object: nil, queue: .main) { notification in
-        Task { @MainActor in
+        MainActor.assumeIsolated {
           guard let title = notification.userInfo?["title"] as? String else {
             return
           }

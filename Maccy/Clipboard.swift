@@ -18,7 +18,7 @@ class Clipboard {
   /// (BS-2.2b) whose `onEvent` reconciles the main-context history via
   /// `History.consume` (BS-2.3). When set, `checkForChangesInPasteboard()`
   /// builds a raw `IngestRequest` from `NSPasteboardSource().snapshot()` and
-  /// hands it off with `Task { await ingestor?.ingest(request) }` — the
+  /// hands it off to the captured ingestor in a task — the
   /// filtering, dedup, and single-transaction write all happen OFF the main
   /// thread inside the actor's `filterContents` (the comprehensive, unit-tested
   /// filter from BS-2.2a). When `nil` (e.g. legacy tests that haven't wired an
@@ -112,7 +112,7 @@ class Clipboard {
     pasteboard.setString(item.application ?? "", forType: .source)
     sync()
 
-    Task {
+    Task { @MainActor in
       Notifier.notify(body: item.title, sound: .knock)
       checkForChangesInPasteboard()
     }
@@ -211,7 +211,11 @@ class Clipboard {
       return
     }
 
-    Task { await ingestor?.ingest(request) }
+    guard let ingestor else {
+      return
+    }
+
+    Task { await ingestor.ingest(request) }
   }
 
   /// Builds a raw, unfiltered `IngestRequest` from the current pasteboard
