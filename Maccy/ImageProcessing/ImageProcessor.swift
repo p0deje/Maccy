@@ -23,7 +23,7 @@ import Foundation
 /// the actor boundary, before any decode or disk work. `preview` adds a second
 /// checkpoint between the downsample and the cheap `NSImage` wrap so a
 /// cancellation that lands during decode still short-circuits.
-actor ImageProcessor {
+actor ImageProcessor: ImageProcessing {
   private let cache: ThumbnailCache
 
   init(cache: ThumbnailCache) {
