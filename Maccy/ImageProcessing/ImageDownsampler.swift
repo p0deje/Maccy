@@ -23,6 +23,14 @@ enum ImageDownsampler {
     guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
       return nil
     }
+    // Bail before the thumbnail call for empty/garbage sources. Calling
+    // `CGImageSourceCreateThumbnailAtIndex` on a 0-image source makes ImageIO
+    // emit `*** ERROR ... failed to create thumbnail` to the console; returning
+    // nil here keeps that line out of the CI log-scan gate (and is the correct
+    // outcome for non-image data anyway).
+    guard CGImageSourceGetCount(source) > 0 else {
+      return nil
+    }
     // `kCGImageSourceShouldCacheImmediately` is documented by Apple for
     // `CGImageSourceCreateImageAtIndex`, not explicitly for
     // `CreateThumbnailAtIndex`. Do NOT rely on this flag as the sole
