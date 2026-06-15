@@ -6,7 +6,6 @@ import Observation
 import Sauce
 
 @Observable
-// swiftlint:disable:next type_body_length
 class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Sendable {
   static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
