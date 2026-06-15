@@ -90,6 +90,8 @@
 		DA3CE8C51E44A62500B3AA98 /* BackgroundClipboardIngestorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8C61E44A62500B3AA98 /* BackgroundClipboardIngestorTests.swift */; };
 		DA3CE8C71E44A62500B3AA98 /* HistoryConsumeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8C81E44A62500B3AA98 /* HistoryConsumeTests.swift */; };
 		DA3CE81D1E44A62500B3AA98 /* ImageProcessing.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE81C1E44A62500B3AA98 /* ImageProcessing.swift */; };
+		DA3CE8D11E44A62500B3AA98 /* ImageDownsampler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8D21E44A62500B3AA98 /* ImageDownsampler.swift */; };
+		DA3CE8D31E44A62500B3AA98 /* ImageDownsamplerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8D41E44A62500B3AA98 /* ImageDownsamplerTests.swift */; };
 		DA3CE81F1E44A62500B3AA98 /* ImageProcessingContractTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE81E1E44A62500B3AA98 /* ImageProcessingContractTests.swift */; };
 		DA3CE8221E44A62500B3AA98 /* PasteboardSimulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8211E44A62500B3AA98 /* PasteboardSimulator.swift */; };
 		DA3CE8241E44A62500B3AA98 /* HistoryBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8231E44A62500B3AA98 /* HistoryBuilder.swift */; };
@@ -324,7 +326,9 @@
 		DA3CE8C61E44A62500B3AA98 /* BackgroundClipboardIngestorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BackgroundClipboardIngestorTests.swift; sourceTree = "<group>"; };
 		DA3CE8C81E44A62500B3AA98 /* HistoryConsumeTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryConsumeTests.swift; sourceTree = "<group>"; };
 		DA3CE81C1E44A62500B3AA98 /* ImageProcessing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessing.swift; sourceTree = "<group>"; };
+		DA3CE8D21E44A62500B3AA98 /* ImageDownsampler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownsampler.swift; sourceTree = "<group>"; };
 		DA3CE81E1E44A62500B3AA98 /* ImageProcessingContractTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProcessingContractTests.swift; sourceTree = "<group>"; };
+		DA3CE8D41E44A62500B3AA98 /* ImageDownsamplerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDownsamplerTests.swift; sourceTree = "<group>"; };
 		DA3CE8211E44A62500B3AA98 /* PasteboardSimulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardSimulator.swift; sourceTree = "<group>"; };
 		DA3CE8231E44A62500B3AA98 /* HistoryBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryBuilder.swift; sourceTree = "<group>"; };
 		DA3CE8251E44A62500B3AA98 /* FakeClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FakeClock.swift; sourceTree = "<group>"; };
@@ -837,6 +841,7 @@
 				DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */,
 				DA3CE8071E44A62500B3AA98 /* HistoryItemFileDataTests.swift */,
 				DA3CE81E1E44A62500B3AA98 /* ImageProcessingContractTests.swift */,
+				DA3CE8D41E44A62500B3AA98 /* ImageDownsamplerTests.swift */,
 				DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */,
 				DA3CE8051E44A62500B3AA98 /* IngestErrorPropagationTests.swift */,
 				DA3CE8C41E44A62500B3AA98 /* IngestFilterTests.swift */,
@@ -916,6 +921,7 @@
 			isa = PBXGroup;
 			children = (
 				DA3CE81C1E44A62500B3AA98 /* ImageProcessing.swift */,
+				DA3CE8D21E44A62500B3AA98 /* ImageDownsampler.swift */,
 			);
 			path = ImageProcessing;
 			sourceTree = "<group>";
@@ -1243,6 +1249,7 @@
 				DA3CE82A1E44A62500B3AA98 /* FixtureLoader.swift in Sources */,
 				DA3CE8241E44A62500B3AA98 /* HistoryBuilder.swift in Sources */,
 				DA3CE81F1E44A62500B3AA98 /* ImageProcessingContractTests.swift in Sources */,
+				DA3CE8D31E44A62500B3AA98 /* ImageDownsamplerTests.swift in Sources */,
 				DA3CE8281E44A62500B3AA98 /* IngestorSpy.swift in Sources */,
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
 				DA3CE82C1E44A62500B3AA98 /* MainThreadProbe.swift in Sources */,
@@ -1284,6 +1291,7 @@
 				DA3CE8C11E44A62500B3AA98 /* IngestFilter.swift in Sources */,
 				E000000E2F5000000000000E /* HistoryItemEngine.swift in Sources */,
 				DA3CE81D1E44A62500B3AA98 /* ImageProcessing.swift in Sources */,
+				DA3CE8D11E44A62500B3AA98 /* ImageDownsampler.swift in Sources */,
 				2F0EC77D2E773314003E2EA9 /* Selection.swift in Sources */,
 				DA1969102C3F0AAC00258481 /* KeyShortcut.swift in Sources */,
 				DA9C3C622C20E1BF0056795D /* IgnoreRegexpsSettingsView.swift in Sources */,
