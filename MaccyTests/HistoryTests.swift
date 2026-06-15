@@ -1,6 +1,5 @@
 import XCTest
 import Defaults
-import SwiftData
 @testable import Maccy
 
 @MainActor
@@ -212,22 +211,6 @@ class HistoryTests: XCTestCase {
     history.add(historyItem("bar"))
     history.clear()
     XCTAssertEqual(history.items, [pinned])
-  }
-
-  func testClearingUnpinnedAfterPinPersistsPinnedItem() {
-    let pinned = history.add(historyItem("foo"))
-    history.add(historyItem("bar"))
-
-    history.togglePin(pinned)
-    let pin = pinned.item.pin
-    history.clear()
-
-    XCTAssertEqual(history.items, [pinned])
-    XCTAssertEqual(pinned.item.pin, pin)
-
-    let stored = (try? Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())) ?? []
-    XCTAssertEqual(stored.map(\.title), ["foo"])
-    XCTAssertEqual(stored.first?.pin, pin)
   }
 
   func testClearingAll() {
