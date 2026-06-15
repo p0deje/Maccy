@@ -59,20 +59,26 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
-  func testImage() {
+  func testImage() async {
     let image = NSImage(named: "StatusBarMenuImage")!
     let itemDecorator = historyItemDecorator(image)
     itemDecorator.sizeImages()
+    // Generation now runs off-main (BS-3.5); wait for the structured tasks to
+    // publish before asserting. PassthroughImageProcessor mirrors the old
+    // on-main resize path so the size contract is unchanged.
+    _ = await itemDecorator.previewImageGenerationTask?.result
+    _ = await itemDecorator.thumbnailImageGenerationTask?.result
     XCTAssertEqual(itemDecorator.title, "")
     XCTAssertEqual(itemDecorator.previewImage!.size, image.size)
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, image.size)
   }
 
   // We also need to add test for image with width bigger than max width.
-  func testImageWithHeightBiggerThanMaxHeight() {
+  func testImageWithHeightBiggerThanMaxHeight() async {
     let image = NSImage(named: "NSApplicationIcon")!
     let itemDecorator = historyItemDecorator(image)
     itemDecorator.sizeImages()
+    _ = await itemDecorator.thumbnailImageGenerationTask?.result
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, NSSize(width: 40, height: 40))
   }
 
@@ -120,7 +126,10 @@ class HistoryItemDecoratorTests: XCTestCase {
   }
 
   func testLargeImageSizingBenchmark() {
-    let itemDecorator = historyItemDecorator(largeImageData(), .png)
+    // Passthrough keeps the benchmark off disk (the production ImageProcessor
+    // would persist thumbnails) so it measures the synchronous main-thread
+    // cost of cleanup + dispatch, not disk I/O variance.
+    let itemDecorator = historyItemDecorator(largeImageData(), .png, imageProcessor: PassthroughImageProcessor())
 
     measure {
       itemDecorator.cleanupImages()
@@ -186,7 +195,8 @@ class HistoryItemDecoratorTests: XCTestCase {
 
   private func historyItemDecorator(
     _ value: Data?,
-    _ type: NSPasteboard.PasteboardType
+    _ type: NSPasteboard.PasteboardType,
+    imageProcessor: ImageProcessing = HistoryItemDecorator.defaultImageProcessor
   ) -> HistoryItemDecorator {
     let contents = [
       HistoryItemContent(
@@ -203,7 +213,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
 
-    return HistoryItemDecorator(item)
+    return HistoryItemDecorator(item, imageProcessor: imageProcessor)
   }
 
   private func historyItemDecorator(_ value: NSImage) -> HistoryItemDecorator {
@@ -222,7 +232,10 @@ class HistoryItemDecoratorTests: XCTestCase {
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
 
-    return HistoryItemDecorator(item)
+    // Inject the synchronous passthrough processor so image generation completes
+    // deterministically (awaited in the test); the production ImageProcessor
+    // is exercised by ImageProcessorTests.
+    return HistoryItemDecorator(item, imageProcessor: PassthroughImageProcessor())
   }
 
   private func historyItemDecorator(_ value: URL) -> HistoryItemDecorator {

@@ -1,6 +1,7 @@
 import AppKit.NSWorkspace
 import Defaults
 import Foundation
+import Logging
 import Observation
 import Sauce
 
@@ -64,14 +65,17 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
 
   var hasImage: Bool { imageData != nil }
 
-  var previewImageGenerationTask: Task<(), Error>?
-  var thumbnailImageGenerationTask: Task<(), Error>?
+  var previewImageGenerationTask: Task<(), Never>?
+  var thumbnailImageGenerationTask: Task<(), Never>?
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
   private var isInvalidated = false
   private let imageData: Data?
-  private var decodedImage: NSImage?
+  /// Process-wide shared `ImageProcessor` (cache-backed) used when a caller
+  /// doesn't inject its own. AppDelegate (BS-3.8) feeds the SAME instance into
+  /// the ingestor so the cache is shared across the ingest + view paths.
+  private let imageProcessor: ImageProcessing
   @ObservationIgnored private var textPreviewCache: String?
 
   // 10k characters seems to be more than enough on large displays.
@@ -97,12 +101,23 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
 
   private(set) var item: HistoryItem
 
+  /// Process-wide shared off-main image processor. `let` (lazy, thread-safe
+  /// init) so every decorator that takes the default shares one `ImageProcessor`
+  /// and therefore one `ThumbnailCache`; AppDelegate passes this same instance
+  /// into the ingestor in BS-3.8 so thumbnails are cached across both paths.
+  static let defaultImageProcessor: any ImageProcessing = ImageProcessor(cache: ThumbnailCache())
+
   @MainActor
-  init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
+  init(
+    _ item: HistoryItem,
+    shortcuts: [KeyShortcut] = [],
+    imageProcessor: ImageProcessing = HistoryItemDecorator.defaultImageProcessor
+  ) {
     self.item = item
     self.shortcuts = shortcuts
     self.title = item.title
     self.imageData = item.imageData
+    self.imageProcessor = imageProcessor
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
 
     synchronizeItemPin()
@@ -111,7 +126,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
 
   @MainActor
   func ensureThumbnailImage() {
-    guard let image = image() else {
+    guard imageData != nil else {
       return
     }
     guard thumbnailImage == nil else {
@@ -120,14 +135,12 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     guard thumbnailImageGenerationTask == nil else {
       return
     }
-    thumbnailImageGenerationTask = Task { @MainActor [weak self, image] in
-      self?.generateThumbnailImage(from: image)
-    }
+    thumbnailImageGenerationTask = startThumbnailGeneration()
   }
 
   @MainActor
   func ensurePreviewImage() {
-    guard let image = image() else {
+    guard imageData != nil else {
       return
     }
     guard previewImage == nil else {
@@ -136,9 +149,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     guard previewImageGenerationTask == nil else {
       return
     }
-    previewImageGenerationTask = Task { @MainActor [weak self, image] in
-      self?.generatePreviewImage(from: image)
-    }
+    previewImageGenerationTask = startPreviewGeneration()
   }
 
   @MainActor
@@ -148,6 +159,13 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     }
     ensurePreviewImage()
     _ = await previewImageGenerationTask?.result
+    if previewImage == nil {
+      // The off-main path returned nil — either the image data was invalid or
+      // the generation task was cancelled (IMG-023). Log so a silent failure
+      // does not look like an empty clipboard.
+      Logger(label: "org.p0deje.Maccy")
+        .error("preview image generation produced no image (corrupt data or cancelled)")
+    }
     return previewImage
   }
 
@@ -161,54 +179,64 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
   func cleanupImages() {
     thumbnailImageGenerationTask?.cancel()
     previewImageGenerationTask?.cancel()
+    thumbnailImageGenerationTask = nil
+    previewImageGenerationTask = nil
     thumbnailImage?.recache()
     previewImage?.recache()
-    decodedImage?.recache()
     thumbnailImage = nil
     previewImage = nil
-    decodedImage = nil
   }
 
-  @MainActor
-  private func generateThumbnailImage(from image: NSImage) {
-    guard !isInvalidated else {
-      return
-    }
-
-    thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
-  }
-
-  @MainActor
-  private func generatePreviewImage(from image: NSImage) {
-    guard !isInvalidated else {
-      return
-    }
-
-    previewImage = image.resized(to: HistoryItemDecorator.previewImageSize)
-  }
-
+  /// Kicks off (preview, thumbnail) generation. Used by `sizeImages()` for the
+  /// benchmark/tests that want both rendered; production paths call the
+  /// individual `ensure*` accessors as the view appears.
   @MainActor
   func sizeImages() {
-    guard let image = image() else {
-      return
-    }
-
-    generatePreviewImage(from: image)
-    generateThumbnailImage(from: image)
+    ensurePreviewImage()
+    ensureThumbnailImage()
   }
 
-  @MainActor
-  private func image() -> NSImage? {
-    if let decodedImage {
-      return decodedImage
-    }
+  // MARK: - Off-main generation
 
-    guard let imageData, let image = NSImage(data: imageData) else {
-      return nil
+  /// Structured (non-detached) task that runs the decode + downsample on the
+  /// `imageProcessor` actor, then hops back to the main actor to publish the
+  /// result. Cancellation propagates: `cleanupImages`/`invalidate` cancel the
+  /// stored handle, and the actor's `Task.isCancelled` checkpoints (IMG-023)
+  /// turn that into an early nil before any decode. Captures only Sendable
+  /// values (`imageData`, `imageProcessor`) — never `self.image()` (that would
+  /// re-introduce main-thread `NSImage(data:)` decode).
+  private func startThumbnailGeneration() -> Task<(), Never> {
+    guard let imageData else {
+      return Task {}
     }
+    let processor = imageProcessor
+    let target = HistoryItemDecorator.thumbnailImageSize
+    return Task { [weak self] in
+      let image = await processor.thumbnail(for: imageData, max: target)
+      await MainActor.run {
+        guard let self, !self.isInvalidated else {
+          return
+        }
+        self.thumbnailImage = image
+      }
+    }
+  }
 
-    decodedImage = image
-    return image
+  private func startPreviewGeneration() -> Task<(), Never> {
+    guard let imageData else {
+      return Task {}
+    }
+    let processor = imageProcessor
+    let target = HistoryItemDecorator.previewImageSize
+    return Task { [weak self] in
+      let image = await processor.preview(for: imageData, max: target)
+      await MainActor.run {
+        guard let self, !self.isInvalidated else {
+          return
+        }
+        self.previewImage = image
+      }
+    }
   }
 
   func highlight(_ query: String, _ ranges: [Range<String.Index>]) {
