@@ -10,8 +10,31 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     return lhs.id == rhs.id
   }
 
-  static var previewImageSize: NSSize { NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536) }
+  /// Upper bound on the longest side of a preview image, in pixels (IMG-022).
+  ///
+  /// Decoding + downsampling a full visibleFrame-sized image (potentially
+  /// thousands of pixels per side) on every preview open is the BS-3 bottleneck
+  /// this batch moves off-main. Capping the preview target bounds the worst-case
+  /// decode cost regardless of screen size; 1600² keeps previews crisp on
+  /// retina displays while staying well under the unbounded visibleFrame target
+  /// the old `NSImage(data:)` path used.
+  private static let previewMaxPixels: CGFloat = 1600
+
+  static var previewImageSize: NSSize {
+    let raw = NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536)
+    return capped(raw, max: previewMaxPixels)
+  }
   static var thumbnailImageSize: NSSize { NSSize(width: 340, height: max(1, Defaults[.imageMaxHeight])) }
+
+  /// Returns `size` with its longer side clamped to `max`, preserving aspect.
+  private static func capped(_ size: NSSize, max maxPixels: CGFloat) -> NSSize {
+    let longest = max(size.width, size.height)
+    guard longest > maxPixels, longest > 0 else {
+      return size
+    }
+    let scale = maxPixels / longest
+    return NSSize(width: size.width * scale, height: size.height * scale)
+  }
 
   let id = UUID()
 
