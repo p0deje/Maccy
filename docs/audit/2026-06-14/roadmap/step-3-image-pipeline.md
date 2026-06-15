@@ -6,6 +6,19 @@
 **依据**:`02-IMG-001`(主线程全量解码)、`02-IMG-002`(`draw` 重绘无降采样)、`02-IMG-003`(预览整屏)、`02-IMG-004`(`Task { @MainActor }` 无后台)、`02-IMG-006`(伪 async 阻塞主线程)、`02-IMG-007`(`.high` Lanczos 热路径)、`02-IMG-012`(无 ingest 降采样/无磁盘缓存)、`02-IMG-022`(吞错)、`02-IMG-023`(忽略取消)、`02-IMG-037`(`recache` 半清理)、`02-IMG-038`(HEIC 解码成本)。
 **编译安全性**:核心变更是图片解码路径的端到端替换——新模块(3.1–3.4)为纯加法可单独编译;3.5–3.7 改 `HistoryItemDecorator`/视图接线,末尾 3.8 收敛编译。**边界**:`decodedImage`/`imageData` 的"可视区回收/去双份"属 **BS-6**,本步**不处理**;本步只做"解码/降采样/缓存"管线本身。
 
+## 就绪核查(2026-06-15,执行前)
+
+经 4-agent 只读核查(workflow `wq524zry8`)对照当前源码:行号引用**零漂移**(HistoryItemDecorator/NSImage+Resized/PreviewItemView/ListItemView 全部精确命中);ImageIO/actor API 与 sosumi Apple 文档一致(`CGImageSourceCreateThumbnailAtIndex` + 四个 option key、`CGImageSourceCreateWithData`、`NSImage(cgImage:size:)`、`NSCache` 线程安全但非 `Sendable`、`Task.checkCancellation`/`isCancelled` 均确认)。**4 处必须在执行前纳入的更正**(均已对照代码确认):
+
+1. **3.5 用结构化 `Task`,不是 `Task.detached`**(doc 原文写 detached)。detached 不随 `invalidate()`/`cleanupImages()` 取消生成任务,直接破坏 IMG-023 的取消语义 → 解引用悬挂位图。改为 `Task { [weak self] in let img = await self?.imageProcessor.thumbnail(...); await MainActor.run { self?.thumbnailImage = img } }`,actor 方法内的 `Task.checkCancellation` 才能生效。
+2. **3.2 `ThumbnailCache` 用 `actor`,不是 `final class @unchecked Sendable`**。`NSCache` 自身的线程安全只覆盖其字典,不覆盖磁盘 LRU 写入;并发 evict+write 会损坏磁盘存储。actor 同时提供 Sendability 与磁盘互斥(对齐 BS-2 `@ModelActor` 先例)。且**缓存键必须是 `(MaccyFingerprint, maxPixelSize)`**,不能只用指纹——`thumbnailImageSize`(:14)依赖用户可配置的 `Defaults[.imageMaxHeight]`(改时 `History.swift:191-196` 触发 `cleanupImages()`+重建),纯指纹键会返回错误尺寸的陈旧缩略图。
+3. **新增 3.0(3.4 之前):创建 6 个图片 fixture**。`MaccyTests/Fixtures/` 现仅 `guy.jpeg`;`png_1x1`/`jpeg_small`/`screenshot_1440x900`/`photo_12mp`/`corrupt_truncated` 全缺(可在 Linux 用 Pillow 合成),`heic` 无法在 Linux 编码(需 libheif/libx265)→ 预制字节提交或测试 `XCTSkip` 兜底。每个 fixture 需在 `project.pbxproj` 四处登记(无 blue-folder 通配)。
+4. **3.4/3.5 补 `HistoryDecoratorTests` 同步/异步适配**(doc 3.4 测试清单遗漏)。`HistoryDecoratorTests.swift:65,75,127` 同步调 `sizeImages()` 后立即断言 `previewImage!`/`thumbnailImage!`;生成改异步后会竞态。需在测试注入同步 `ImageProcessing` double 或改 await。
+
+**额外发现**:`HistoryItemDecorator` **无** `imageProcessor` 字段——3.5 是**新增注入点**(stored property + init 参数 + 所有构造点),非参数替换。构造点:`History.swift:204,239,309,361,368`、`HistoryDecoratorTests.swift:184,206,225,248`、`SearchTests.swift:18-20,79-81,164-166`、`IngestErrorPropagationTests.swift:26`。`kCGImageSourceShouldCacheImmediately` 文档仅明确覆盖 `CreateImageAtIndex`,非 `CreateThumbnailAtIndex`——离线解码保证靠"调用在 actor 上"满足,加注释勿依赖该 flag。`NSImage` 跨 actor 回主线程 `recache()` 是潜在 Swift 6 隐患(留 BS-7)。
+
+**执行节奏**:3.0/3.1/3.2/3.3/3.4 为加法步骤(各自提交+push,CI 绿);3.6→3.5→3.7→3.8 为编译破坏批次(本地逐小步提交,**仅 3.8 恢复编译、build+test 绿后整批 push**);3.9 记录闸门证据。
+
 ## 受影响文件
 - 新:`Maccy/ImageProcessing/ImageDownsampler.swift` — ImageIO 缩略图纯函数(可单测)。
 - 新:`Maccy/ImageProcessing/ImageProcessor.swift` — 真实 `actor ImageProcessor`(替换 `PassthroughImageProcessor`),后台降采样/解码/缩略图/预览。
