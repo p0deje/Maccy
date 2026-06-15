@@ -73,6 +73,9 @@ class Popup {
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
+    AppState.shared.navigator.select(
+      item: AppState.shared.history.unpinnedItems.first ?? AppState.shared.history.pinnedItems.first
+    )
     AppState.shared.appDelegate?.panel.open(height: height, at: popupPosition)
   }
 
