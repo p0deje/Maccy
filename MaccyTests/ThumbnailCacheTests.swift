@@ -42,26 +42,26 @@ final class ThumbnailCacheTests: XCTestCase {
   func testEvictMakesSubsequentCallRebuild() async throws {
     let (cache, dir) = makeCache()
     let data = try FixtureLoader.imageData()
-    let fp = fingerprint(3)
-    _ = await cache.thumbnail(for: fp, data: data, max: 30)
+    let itemFingerprint = fingerprint(3)
+    _ = await cache.thumbnail(for: itemFingerprint, data: data, max: 30)
     let filesBefore = try FileManager.default.contentsOfDirectory(atPath: dir.path)
     XCTAssertEqual(filesBefore.count, 1)
 
-    await cache.evict(fingerprint: fp, max: 30)
+    await cache.evict(fingerprint: itemFingerprint, max: 30)
     let filesAfter = try FileManager.default.contentsOfDirectory(atPath: dir.path)
     XCTAssertTrue(filesAfter.isEmpty, "evict must remove the disk file")
 
-    let rebuilt = await cache.thumbnail(for: fp, data: data, max: 30)
+    let rebuilt = await cache.thumbnail(for: itemFingerprint, data: data, max: 30)
     XCTAssertNotNil(rebuilt, "thumbnail rebuilds after eviction")
   }
 
   func testDifferentMaxPixelSizeIsDistinctEntry() async throws {
     let (cache, dir) = makeCache()
     let data = try FixtureLoader.imageData()
-    let fp = fingerprint(4)
+    let itemFingerprint = fingerprint(4)
 
-    let big = await cache.thumbnail(for: fp, data: data, max: 100)
-    let small = await cache.thumbnail(for: fp, data: data, max: 50)
+    let big = await cache.thumbnail(for: itemFingerprint, data: data, max: 100)
+    let small = await cache.thumbnail(for: itemFingerprint, data: data, max: 50)
     XCTAssertNotNil(big)
     XCTAssertNotNil(small)
 
@@ -69,7 +69,7 @@ final class ThumbnailCacheTests: XCTestCase {
     XCTAssertEqual(files.count, 2, "different max sizes are distinct disk entries")
 
     // Evicting the small variant must leave the big variant on disk.
-    await cache.evict(fingerprint: fp, max: 50)
+    await cache.evict(fingerprint: itemFingerprint, max: 50)
     let remaining = try FileManager.default.contentsOfDirectory(atPath: dir.path)
     XCTAssertEqual(remaining.count, 1, "evict is keyed by (fingerprint, maxPixelSize)")
   }

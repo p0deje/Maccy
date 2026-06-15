@@ -122,6 +122,12 @@ actor ThumbnailCache {
   /// Best-effort LRU: if the directory's total file size exceeds the budget,
   /// delete oldest-modified files until under budget. Kept simple — a directory
   /// scan per write is cheap relative to the downsample work that precedes it.
+  private struct DiskEntry {
+    let url: URL
+    let size: Int
+    let mtime: Date
+  }
+
   private func evictDiskIfNeeded() {
     let keys: [URLResourceKey] = [.fileSizeKey, .contentModificationDateKey]
     guard let entries = try? FileManager.default.contentsOfDirectory(
@@ -132,14 +138,14 @@ actor ThumbnailCache {
       return
     }
 
-    var sized: [(url: URL, size: Int, mtime: Date)] = []
+    var sized: [DiskEntry] = []
     var total = 0
     for url in entries {
       let values = try? url.resourceValues(forKeys: Set(keys))
       let size = values?.fileSize ?? 0
       let mtime = values?.contentModificationDate ?? Date.distantPast
       total += size
-      sized.append((url, size, mtime))
+      sized.append(DiskEntry(url: url, size: size, mtime: mtime))
     }
 
     guard total > Self.diskByteBudget else { return }
