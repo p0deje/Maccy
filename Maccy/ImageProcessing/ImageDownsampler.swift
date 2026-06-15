@@ -1,5 +1,6 @@
 import CoreGraphics
 import Foundation
+import ImageIO
 
 /// Pure, off-main-safe image downsample primitive built on ImageIO.
 ///
