@@ -19,6 +19,25 @@
 
 **执行节奏**:3.0/3.1/3.2/3.3/3.4 为加法步骤(各自提交+push,CI 绿);3.6→3.5→3.7→3.8 为编译破坏批次(本地逐小步提交,**仅 3.8 恢复编译、build+test 绿后整批 push**);3.9 记录闸门证据。
 
+## 落地记录(2026-06-15)— BS-3 完成
+
+**状态:CI 全绿**(run `27580858963`,head `16bd334`:SwiftLint `--strict`、clean build、`MaccyTests`、`MaccyUITests`、日志扫描均过)。BS-3 的离线主线程图片管线已落地:复制/预览/缩略图的解码与降采样全部经 `actor ImageProcessor` 在后台执行,主线程只接收已就绪的小位图。
+
+**已落地小步骤(commit + 证据)**:
+- **3.1** `ImageDownsampler`(纯 ImageIO 降采样,含 0-image 守卫避免 ImageIO 控制台噪声)— `3a5241a` / `c791926`(补 `import ImageIO`)/ `c067d77`(count-guard)。
+- **3.2** `actor ThumbnailCache`(NSCache + 磁盘 LRU PNG,**复合键 (fingerprint, maxPixelSize)**;actor 化以串行化磁盘写入)— `766dfc1` / `9e74afc`(SwiftLint DiskEntry/3-char id)/ `32c76e4`(测试 `@testable import Maccy`)。
+- **3.3** `actor ImageProcessor: ImageProcessing`(结构化取消检查点;指纹复用 `MaccyTextProcessor.fingerprint`)— `8f006d6` / `0c68cab`(**补 `: ImageProcessing` 协议一致性**——3.3 报告误称已一致、实际漏标,作为存在量 `any ImageProcessing` 使用时才暴露)。
+- **3.6 → 3.5 → 3.7 → 3.8**(编译破坏批次,本地逐小步提交、`1672b57` 恢复编译后整批 push):`HistoryItemDecorator` 注入共享 `defaultImageProcessor`、删除 `decodedImage`、`ensure*` 改**结构化 `Task { @MainActor [weak self] in await processor.thumbnail(...) }`**(非 `Task.detached`——保结构化取消 IMG-023)、preview 封顶 ≤1600²、`asyncGetPreviewImage` 失败 `logger.error`(gated `!isInvalidated`)、`AppDelegate` 接线共享处理器、`ListItemView` `.resizable()`、`NSImage+Resized` 修 width-blind 放大检查 — `5167d15` / `1085308` / `44c1e59` / `1672b57` / `9cbd4b6`(去多余 disable)。
+- **3.9** 验证闸门:即上述 CI run。
+
+**偏差记录**:
+1. **3.0 / 3.4 延期**:六个真实图片 fixture(png/jpeg/heic/truncated 等)未创建——HEIC 在 Linux 无法编码(libheif 不可用),其余可合成但收益有限。三个组件的核心行为已由 `FixtureLoader.imageData`(运行期合成 TIFF)单测覆盖;真实图片/HEIC 的端到端降采样测试留待 Mac 环境或 `MaccyPerformanceTests` target 补。
+2. **`ImageProcessor` 协议一致性漏标**(见 `0c68cab`):3.3 单测用具体类型未暴露,批次以存在量使用时才编译失败——no-compiler 环境下"用到才暴露"的问题只能 CI 兜底。
+3. **HDRImageConverter headless 日志**:批次把图片走 ImageIO 后,系统私有 `HDRImageConverter` 在无 GPU 的 CI runner 上打印 "Failed to initialize Metal converter, falling back to SIMD"(转换实际成功,走 SIMD 回退)。CI 日志扫描据此拦下;`16bd334` 在扫描里排除这一条已知良性 headless 告警,其余仍严格。
+4. **不采用 Metal MPS**(评估后否决,2026-06-15):外部建议 `MPSImageLanczosScale` + `rgba16Float` + `CISystemToneMap` 做 HDR 缩略图。经 sosumi 核实 API 属实,但:(a) BS-3 代码用 ImageIO,全仓无 Metal;(b) Metal 在 headless CI 同样不可用,改 Metal 修不了 CI;(c) 与 roadmap 冲突、对 340px SDR 剪贴板缩略图属过度设计;(d) 真机上系统已正确 tone-map。保留 ImageIO(roadmap 设计)。
+
+**验收**:复制/预览/缩略图行为与改前一致(`MaccyUITests` 全绿);损坏图走错误状态(IMG-018)。复杂度量级(~10×,`O(srcPixels)` draw → `O(targetPixels)` ImageIO)与常驻内存量化留 BS-6。`@unchecked Sendable` 暂留(彻底摘除留 BS-7)。
+
 ## 受影响文件
 - 新:`Maccy/ImageProcessing/ImageDownsampler.swift` — ImageIO 缩略图纯函数(可单测)。
 - 新:`Maccy/ImageProcessing/ImageProcessor.swift` — 真实 `actor ImageProcessor`(替换 `PassthroughImageProcessor`),后台降采样/解码/缩略图/预览。
