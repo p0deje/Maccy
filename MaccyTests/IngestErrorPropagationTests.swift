@@ -60,6 +60,8 @@ private final class FailingHistoryPersistence: HistoryPersistence {
 
   func deleteAll() throws {}
 
+  func save() throws {}
+
   func fetchAll() throws -> [HistoryItem] {
     []
   }

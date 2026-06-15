@@ -18,6 +18,8 @@ protocol HistoryPersistence {
   @MainActor
   func deleteAll() throws
   @MainActor
+  func save() throws
+  @MainActor
   func fetchAll() throws -> [HistoryItem]
   @MainActor
   func countHistoryItems() throws -> Int
@@ -59,6 +61,12 @@ struct SwiftDataHistoryPersistence: HistoryPersistence {
   @MainActor
   func deleteAll() throws {
     try Storage.shared.context.delete(model: HistoryItem.self)
+    Storage.shared.context.processPendingChanges()
+    try Storage.shared.context.save()
+  }
+
+  @MainActor
+  func save() throws {
     Storage.shared.context.processPendingChanges()
     try Storage.shared.context.save()
   }
@@ -599,7 +607,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
+    let previousPin = item.item.pin
     item.togglePin()
+    do {
+      try persistence.save()
+    } catch {
+      item.item.pin = previousPin
+      recordPersistenceError("Failed to save pinned history item", error)
+      return
+    }
 
     let sortedItems = sorter.sort(all.map(\.item))
     if let currentIndex = all.firstIndex(of: item),
