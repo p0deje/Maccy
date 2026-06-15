@@ -101,6 +101,8 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
 
   private(set) var item: HistoryItem
 
+  private let logger = Logger(label: "org.p0deje.Maccy")
+
   /// Process-wide shared off-main image processor. `let` (lazy, thread-safe
   /// init) so every decorator that takes the default shares one `ImageProcessor`
   /// and therefore one `ThumbnailCache`; AppDelegate passes this same instance
@@ -159,12 +161,12 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     }
     ensurePreviewImage()
     _ = await previewImageGenerationTask?.result
-    if previewImage == nil {
-      // The off-main path returned nil — either the image data was invalid or
-      // the generation task was cancelled (IMG-023). Log so a silent failure
-      // does not look like an empty clipboard.
-      Logger(label: "org.p0deje.Maccy")
-        .error("preview image generation produced no image (corrupt data or cancelled)")
+    // nil after completion means either the image data was invalid or the
+    // generation task was cancelled (IMG-023). Cancellation is expected when
+    // the decorator is invalidated/superseded, so only log genuine decode
+    // failures — those would otherwise look like an empty clipboard.
+    if previewImage == nil, !isInvalidated {
+      logger.error("preview image generation produced no image (corrupt data)")
     }
     return previewImage
   }
