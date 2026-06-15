@@ -2,6 +2,7 @@ import AppKit
 import CoreGraphics
 import Foundation
 import XCTest
+@testable import Maccy
 
 @MainActor
 final class ImageDownsamplerTests: XCTestCase {

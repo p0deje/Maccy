@@ -1,6 +1,7 @@
 import AppKit
 import Foundation
 import XCTest
+@testable import Maccy
 
 @MainActor
 final class ThumbnailCacheTests: XCTestCase {
