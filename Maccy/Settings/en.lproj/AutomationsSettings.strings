@@ -1,0 +1,14 @@
+"Title" = "Automations";
+"Untitled" = "Untitled automation";
+"SelectOrAddHint" = "Select an automation to edit, or add one with +.";
+"Name" = "Name";
+"NamePrompt" = "GitHub PR → rich link";
+"Regexp" = "Match regexp";
+"RegexpPrompt" = "^https://github\\.com/.+/pull/\\d+";
+"Action" = "Action";
+"RunScript" = "Run Script";
+"Script" = "Script";
+"NoScript" = "None";
+"RevealFolder" = "Reveal Scripts Folder";
+"ParseAsHTML" = "Parse result as HTML";
+"ScriptsHint" = "Scripts run outside the sandbox with your normal permissions. Place executable scripts in the Application Scripts folder (Reveal Scripts Folder); the clipboard text is piped to stdin and the script's stdout becomes the new clipboard contents. The original copy is kept in history.";
