@@ -154,10 +154,19 @@ jobs:
             only: "MaccyUITests/MaccyUITests/testDisablesOnlyForNextCopyOnOptionShiftClickingMenubarIcon MaccyUITests/MaccyUITests/testCreatesNewCopyOnEnterWhenSearchResultsAreEmpty MaccyUITests/MaccyUITests/testOpenAndClose MaccyUITests/MaccyUITests/testOpenAndSelectSecondItem MaccyUITests/MaccyUITests/testOpenAndSelectThirdItem MaccyUITests/MaccyUITests/testOpenAndSelectThirdItemRepeatedPress MaccyUITests/MaccyUITests/testTogglePopupAndCloseOnClickOutside"
             skip: ""
             block: true
-          # perf shard: non-blocking. Add new perf classes here AND to the unit
-          # shard's skip-list above.
-          - shard: perf
-            only: "MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests MaccyTests/ImageDecodePerformanceTests MaccyTests/TextSearchPerformanceTests"
+          # perf shards: non-blocking, split by category (image / text / mixed)
+          # into parallel runners. Keep these only-lists and the unit shard's
+          # skip-list above in sync as perf classes are added.
+          - shard: perf-image
+            only: "MaccyTests/ImageDecodePerformanceTests/testImageRenderFirst20 MaccyTests/ImageDecodePerformanceTests/testSingleLargeImageColdLoad MaccyTests/ImageDecodePerformanceTests/testManyImagesColdLoad_N200 MaccyTests/ImageDecodePerformanceTests/testMixedColdLoad_N200 MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests"
+            skip: ""
+            block: false
+          - shard: perf-text
+            only: "MaccyTests/ImageDecodePerformanceTests/testTextRenderFirst20 MaccyTests/TextSearchPerformanceTests"
+            skip: ""
+            block: false
+          - shard: perf-mixed
+            only: "MaccyTests/ImageDecodePerformanceTests/testMixedRenderFirst20"
             skip: ""
             block: false
     env:
@@ -183,29 +192,45 @@ jobs:
       - name: Build and test shard
         shell: bash
         run: |
-          set -euo pipefail
+          set -uo pipefail
           runner_noise_fopen='fopen fail''ed for data file: errno = 2 (No such file or directory)'
           runner_noise_io='IOServiceMatchingfail''ed for: AppleM2ScalerParavirtDriver'
           only_args=""
           for t in ${{ matrix.only }}; do only_args="$only_args -only-testing:$t"; done
           skip_args=""
           for t in ${{ matrix.skip }}; do skip_args="$skip_args -skip-testing:$t"; done
-          xcodebuild \
-            -project "$PROJECT" \
-            -scheme "$SCHEME" \
-            -configuration "$CONFIGURATION" \
-            -destination "$DESTINATION" \
-            -derivedDataPath "$DERIVED_DATA" \
-            -resultBundlePath "$RESULT_BUNDLES/${{ matrix.shard }}.xcresult" \
-            $only_args \
-            $skip_args \
-            CODE_SIGNING_ALLOWED=NO \
-            test 2>&1 \
-            | awk -v fopen="$runner_noise_fopen" -v io="$runner_noise_io" '
-                index($0, fopen) || index($0, io) || /IDELaunchParametersSnapshot:/ { next }
-                { print }
-              ' \
-            | tee "$LOG_DIR/${{ matrix.shard }}.log"
+          if [[ "${{ matrix.shard }}" == perf-* ]]; then
+            # Perf shards: clean log = PERF| measurements + test results only
+            # (avoid noise). Full raw output is kept in <shard>-raw.log for
+            # debugging. || true so a grep with no matches / a non-blocking test
+            # failure doesn't abort (perf shards are continue-on-error anyway).
+            xcodebuild \
+              -project "$PROJECT" -scheme "$SCHEME" \
+              -configuration "$CONFIGURATION" -destination "$DESTINATION" \
+              -derivedDataPath "$DERIVED_DATA" \
+              -resultBundlePath "$RESULT_BUNDLES/${{ matrix.shard }}.xcresult" \
+              $only_args $skip_args \
+              CODE_SIGNING_ALLOWED=NO \
+              test 2>&1 \
+              | tee "$LOG_DIR/${{ matrix.shard }}-raw.log" \
+              | grep -E 'PERF\||Test Case .*(passed|failed)|\*\* TEST' \
+              | tee "$LOG_DIR/${{ matrix.shard }}.log" || true
+          else
+            set -e
+            xcodebuild \
+              -project "$PROJECT" -scheme "$SCHEME" \
+              -configuration "$CONFIGURATION" -destination "$DESTINATION" \
+              -derivedDataPath "$DERIVED_DATA" \
+              -resultBundlePath "$RESULT_BUNDLES/${{ matrix.shard }}.xcresult" \
+              $only_args $skip_args \
+              CODE_SIGNING_ALLOWED=NO \
+              test 2>&1 \
+              | awk -v fopen="$runner_noise_fopen" -v io="$runner_noise_io" '
+                  index($0, fopen) || index($0, io) || /IDELaunchParametersSnapshot:/ { next }
+                  { print }
+                ' \
+              | tee "$LOG_DIR/${{ matrix.shard }}.log"
+          fi
 
       - name: Self-scan shard log (blocking shards only)
         if: ${{ matrix.block }}
