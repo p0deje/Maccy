@@ -195,6 +195,7 @@
 		2B6F1A2B4C5D000000000014 /* PerformanceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D000000000015 /* PerformanceTestCase.swift */; };
 		2B6F1A2B4C5D000000000016 /* PerfHistoryFactory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D000000000017 /* PerfHistoryFactory.swift */; };
 		2B6F1A2B4C5D000000000018 /* PerfHistoryFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D000000000019 /* PerfHistoryFactoryTests.swift */; };
+		2B6F1A2B4C5D00000000001A /* ImageDecodePerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D00000000001B /* ImageDecodePerformanceTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -656,6 +657,7 @@
 		2B6F1A2B4C5D000000000015 /* PerformanceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTestCase.swift; sourceTree = "<group>"; };
 		2B6F1A2B4C5D000000000017 /* PerfHistoryFactory.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfHistoryFactory.swift; sourceTree = "<group>"; };
 		2B6F1A2B4C5D000000000019 /* PerfHistoryFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfHistoryFactoryTests.swift; sourceTree = "<group>"; };
+		2B6F1A2B4C5D00000000001B /* ImageDecodePerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDecodePerformanceTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -877,6 +879,7 @@
 				2B6F1A2B4C5D000000000015 /* PerformanceTestCase.swift */,
 				2B6F1A2B4C5D000000000017 /* PerfHistoryFactory.swift */,
 				2B6F1A2B4C5D000000000019 /* PerfHistoryFactoryTests.swift */,
+				2B6F1A2B4C5D00000000001B /* ImageDecodePerformanceTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
 				DA3CE8151E44A62500B3AA98 /* SignatureIndexTests.swift */,
 				DA3CE8091E44A62500B3AA98 /* StorageBackgroundContextTests.swift */,
@@ -1297,6 +1300,7 @@
 				2B6F1A2B4C5D000000000014 /* PerformanceTestCase.swift in Sources */,
 				2B6F1A2B4C5D000000000016 /* PerfHistoryFactory.swift in Sources */,
 				2B6F1A2B4C5D000000000018 /* PerfHistoryFactoryTests.swift in Sources */,
+				2B6F1A2B4C5D00000000001A /* ImageDecodePerformanceTests.swift in Sources */,
 				DA3CE8081E44A62500B3AA98 /* HistoryItemFileDataTests.swift in Sources */,
 				DA3CE8061E44A62500B3AA98 /* IngestErrorPropagationTests.swift in Sources */,
 				DA3CE8C31E44A62500B3AA98 /* IngestFilterTests.swift in Sources */,

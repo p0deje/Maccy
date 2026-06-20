@@ -132,7 +132,7 @@ jobs:
           # shard's only-list in sync as perf classes are added.
           - shard: unit
             only: "MaccyTests"
-            skip: "MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests"
+            skip: "MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests MaccyTests/ImageDecodePerformanceTests"
             block: true
           - shard: ui-1
             only: "MaccyUITests/MaccyUITests/testPopupWithHotkey MaccyUITests/MaccyUITests/testCloseWithHotkey MaccyUITests/MaccyUITests/testPopupWithMenubar MaccyUITests/MaccyUITests/testNewCopyIsAdded MaccyUITests/MaccyUITests/testSearch MaccyUITests/MaccyUITests/testCopyWithClick MaccyUITests/MaccyUITests/testDownArrow MaccyUITests/MaccyUITests/testUpArrow"
@@ -157,7 +157,7 @@ jobs:
           # perf shard: non-blocking. Add new perf classes here AND to the unit
           # shard's skip-list above.
           - shard: perf
-            only: "MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests"
+            only: "MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests MaccyTests/ImageDecodePerformanceTests"
             skip: ""
             block: false
     env:
