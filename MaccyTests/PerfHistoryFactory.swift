@@ -27,12 +27,20 @@ enum PerfHistoryFactory {
   }
 
   /// `count` text items. `long` uses `heavy_text.txt`; otherwise a short string.
+  /// Each item's value is suffixed with its index so the dedup signature differs
+  /// — otherwise identical copies collapse to one via `findSimilarItem` (and a
+  /// real history holds distinct items anyway).
   static func makeTexts(count: Int, long: Bool) throws -> History {
     let history = History.shared
     history.clearAll()
     let heavy = try Data(contentsOf: FixtureLoader.heavyTextURL)
-    let value: Data? = long ? heavy : Data("short".utf8)
     for index in 0..<count {
+      let value: Data
+      if long {
+        value = heavy + Data("\n#\(index)\n".utf8)
+      } else {
+        value = Data("short #\(index)".utf8)
+      }
       history.add(
         HistoryBuilder()
           .withContent(type: "public.utf8-plain-text", value: value)
@@ -60,9 +68,10 @@ enum PerfHistoryFactory {
       )
     }
     for index in 0..<texts {
+      let value = heavy + Data("\n#\(images + index)\n".utf8)
       history.add(
         HistoryBuilder()
-          .withContent(type: "public.utf8-plain-text", value: heavy)
+          .withContent(type: "public.utf8-plain-text", value: value)
           .withCopiedAt(Date(timeIntervalSince1970: Double(images + index)))
           .build()
       )
