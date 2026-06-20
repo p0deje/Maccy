@@ -78,45 +78,53 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
 
   // MARK: - Per-item render (first 20) — the "pointer moves onto each item" analog
 
-  /// Scenario: 200 images loaded, then "visit" the first 20 one by one. For
-  /// each item we trigger the real render paths — thumbnail (`ensureThumbnail`
-  /// → await the generation task) and preview (`asyncGetPreviewImage`) — timing
-  /// each and sampling the main thread, exactly the work that fires when the
-  /// pointer/selection lands on an item. `method=A` = decode-level (direct
-  /// call); the BS-4/5 fixes must keep each item's worstBlockMs small.
+  /// Per-item render: for each of the first 20 items we run the real render
+  /// paths — thumbnail (`ensureThumbnailImage` → await the generation task) and
+  /// preview (`ensurePreviewImage` → await the task) — exactly the work that
+  /// fires when the pointer/selection lands on an item. `method=A` = decode-level
+  /// (direct call). Per item we record **latency** (total: sync kick + the
+  /// off-main decode await) and **mainBlock** (the synchronous main-thread
+  /// portion — the `ensure*` kick; the decode itself is off-main via the
+  /// ImageProcessor actor, so any on-main cost shows here). BS-4/5 must keep
+  /// mainBlock small per item.
   func testImageRenderFirst20() async throws {
     let history = try PerfHistoryFactory.makeImages(count: 200, bucket: .oneMB, cacheDir: cacheDir)
     _ = try? await history.load()
     let first20 = Array(history.items.prefix(20))
 
-    let thumbnail = await measurePerItemRender(first20) { decorator in
-      decorator.ensureThumbnailImage()
-      _ = await decorator.thumbnailImageGenerationTask?.value
-    }
-    let preview = await measurePerItemRender(first20) { decorator in
-      _ = await decorator.asyncGetPreviewImage()
-    }
+    let thumbnail = await measurePerItemRender(
+      first20,
+      kick: { $0.ensureThumbnailImage() },
+      completion: { _ = await $0.thumbnailImageGenerationTask?.value }
+    )
+    let preview = await measurePerItemRender(
+      first20,
+      kick: { $0.ensurePreviewImage() },
+      completion: { _ = await $0.previewImageGenerationTask?.value }
+    )
 
     printPERF(category: "image", method: "A", operation: "thumbnail", result: thumbnail)
     printPERF(category: "image", method: "A", operation: "preview", result: preview)
   }
 
   /// Scenario: 200 long texts, visit the first 20. Text items have no image
-  /// data, so `ensureThumbnailImage`/`asyncGetPreviewImage` early-return and the
-  /// per-item cost is just navigation/selection + on-main title work — the
+  /// data, so `ensure*` early-return and both latency + mainBlock are ~0 — the
   /// contrast with `image` shows where decode cost lives.
   func testTextRenderFirst20() async throws {
     let history = try PerfHistoryFactory.makeTexts(count: 200, long: true)
     _ = try? await history.load()
     let first20 = Array(history.items.prefix(20))
 
-    let thumbnail = await measurePerItemRender(first20) { decorator in
-      decorator.ensureThumbnailImage()
-      _ = await decorator.thumbnailImageGenerationTask?.value
-    }
-    let preview = await measurePerItemRender(first20) { decorator in
-      _ = await decorator.asyncGetPreviewImage()
-    }
+    let thumbnail = await measurePerItemRender(
+      first20,
+      kick: { $0.ensureThumbnailImage() },
+      completion: { _ = await $0.thumbnailImageGenerationTask?.value }
+    )
+    let preview = await measurePerItemRender(
+      first20,
+      kick: { $0.ensurePreviewImage() },
+      completion: { _ = await $0.previewImageGenerationTask?.value }
+    )
 
     printPERF(category: "text", method: "A", operation: "thumbnail", result: thumbnail)
     printPERF(category: "text", method: "A", operation: "preview", result: preview)
@@ -131,13 +139,16 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
     _ = try? await history.load()
     let first20 = Array(history.items.prefix(20))
 
-    let thumbnail = await measurePerItemRender(first20) { decorator in
-      decorator.ensureThumbnailImage()
-      _ = await decorator.thumbnailImageGenerationTask?.value
-    }
-    let preview = await measurePerItemRender(first20) { decorator in
-      _ = await decorator.asyncGetPreviewImage()
-    }
+    let thumbnail = await measurePerItemRender(
+      first20,
+      kick: { $0.ensureThumbnailImage() },
+      completion: { _ = await $0.thumbnailImageGenerationTask?.value }
+    )
+    let preview = await measurePerItemRender(
+      first20,
+      kick: { $0.ensurePreviewImage() },
+      completion: { _ = await $0.previewImageGenerationTask?.value }
+    )
 
     printPERF(category: "mixed", method: "A", operation: "thumbnail", result: thumbnail)
     printPERF(category: "mixed", method: "A", operation: "preview", result: preview)
@@ -146,44 +157,36 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
   // MARK: - Per-item measurement helpers
 
   private struct PerItemResult {
-    let perItemMs: [Double]
-    let avgMs: Double
-    let maxMs: Double
-    let totalMs: Double
-    let worstBlockMs: Double
-    let totalBlockMs: Double
+    let latencyMs: [Double]   // total render time per item (sync kick + off-main await)
+    let mainBlockMs: [Double]  // synchronous main-thread time per item (the ensure* kick)
+    var latencyAvg: Double { latencyMs.isEmpty ? 0 : latencyMs.reduce(0, +) / Double(latencyMs.count) }
+    var latencyMax: Double { latencyMs.max() ?? 0 }
+    var mainBlockMax: Double { mainBlockMs.max() ?? 0 }
+    var mainBlockTotal: Double { mainBlockMs.reduce(0, +) }
   }
 
-  /// Runs `render` once per decorator (sequentially), timing each and sampling
-  /// the main thread (reset between items so maxGap is per-item). The probe
-  /// runs for the whole loop; reset+read bracket each item.
+  /// Runs `kick` (synchronous, on main) then `completion` (async — the off-main
+  /// decode await) once per decorator, timing each. `mainBlock` = the kick time
+  /// (the on-main portion); `latency` = kick + await.
   private func measurePerItemRender(
     _ decorators: [HistoryItemDecorator],
-    render: (HistoryItemDecorator) async -> Void
+    kick: (HistoryItemDecorator) -> Void,
+    completion: (HistoryItemDecorator) async -> Void
   ) async -> PerItemResult {
-    var perItemMs: [Double] = []
-    var blockMs: [Double] = []
-    probe.start()
+    let clock = ContinuousClock()
+    var latencyMs: [Double] = []
+    var mainBlockMs: [Double] = []
     for decorator in decorators {
-      probe.reset()
-      let clock = ContinuousClock()
-      let start = clock.now
-      await render(decorator)
-      let elapsed = start.duration(to: clock.now)
-      perItemMs.append(Self.milliseconds(elapsed))
-      blockMs.append(probe.maxGap * 1000)
+      let totalStart = clock.now
+      let mainStart = clock.now
+      kick(decorator)
+      let mainElapsed = mainStart.duration(to: clock.now)
+      await completion(decorator)
+      let totalElapsed = totalStart.duration(to: clock.now)
+      latencyMs.append(Self.milliseconds(totalElapsed))
+      mainBlockMs.append(Self.milliseconds(mainElapsed))
     }
-    probe.stop()
-
-    let total = perItemMs.reduce(0, +)
-    return PerItemResult(
-      perItemMs: perItemMs,
-      avgMs: perItemMs.isEmpty ? 0 : total / Double(perItemMs.count),
-      maxMs: perItemMs.max() ?? 0,
-      totalMs: total,
-      worstBlockMs: blockMs.max() ?? 0,
-      totalBlockMs: blockMs.reduce(0, +)
-    )
+    return PerItemResult(latencyMs: latencyMs, mainBlockMs: mainBlockMs)
   }
 
   private static func milliseconds(_ duration: Duration) -> Double {
@@ -195,16 +198,18 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
   /// Emits one machine-parseable `PERF|…` line. Multi-line concatenation to
   /// keep each source line under SwiftLint's line_length limit.
   private func printPERF(category: String, method: String, operation: String, result: PerItemResult) {
-    let perItem = result.perItemMs
+    let latency = result.latencyMs
+      .map { String(format: "%.2f", $0) }
+      .joined(separator: ",")
+    let mainBlock = result.mainBlockMs
       .map { String(format: "%.2f", $0) }
       .joined(separator: ",")
     let line = "PERF|category=\(category)|method=\(method)|op=\(operation)" +
-      "|items=\(result.perItemMs.count)|perItemMs=[\(perItem)]" +
-      "|avgMs=\(String(format: "%.2f", result.avgMs))" +
-      "|maxMs=\(String(format: "%.2f", result.maxMs))" +
-      "|totalMs=\(String(format: "%.2f", result.totalMs))" +
-      "|worstBlockMs=\(String(format: "%.2f", result.worstBlockMs))" +
-      "|totalBlockMs=\(String(format: "%.2f", result.totalBlockMs))"
+      "|items=\(result.latencyMs.count)" +
+      "|latencyMs=[\(latency)]|latencyAvg=\(String(format: "%.2f", result.latencyAvg))" +
+      "|latencyMax=\(String(format: "%.2f", result.latencyMax))" +
+      "|mainBlockMs=[\(mainBlock)]|mainBlockMax=\(String(format: "%.2f", result.mainBlockMax))" +
+      "|mainBlockTotal=\(String(format: "%.2f", result.mainBlockTotal))"
     print(line)
   }
 }
