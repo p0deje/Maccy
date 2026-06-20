@@ -55,4 +55,112 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
     let maxGap = measured.1
     print("PERF|scenario=\(scenario)|load_avg=\(average)|mainThread_maxGap_s=\(maxGap)")
   }
+
+  // MARK: - Probe self-test (foundation check)
+
+  /// Validates the rewritten `MainThreadProbe` actually detects a main-thread
+  /// stall. Blocks main synchronously for ~50 ms; the probe's background-thread
+  /// sampler must report a maxGap well above its 5 ms interval baseline. If this
+  /// fails, every mainThread measurement below is meaningless — fix the probe.
+  func testProbeDetectsSynchronousMainStall() {
+    probe.start()
+    let until = Date().addingTimeInterval(0.05)
+    while Date() < until {}
+    probe.stop()
+    XCTAssertGreaterThan(
+      probe.maxGap,
+      0.04,
+      "Probe must detect the 50 ms main stall; got \(probe.maxGap)s"
+    )
+  }
+
+  // MARK: - Per-item render (first 20) — the "pointer moves onto each item" analog
+
+  /// Scenario: 200 images loaded, then "visit" the first 20 one by one. For
+  /// each item we trigger the real render paths — thumbnail (`ensureThumbnail`
+  /// → await the generation task) and preview (`asyncGetPreviewImage`) — timing
+  /// each and sampling the main thread, exactly the work that fires when the
+  /// pointer/selection lands on an item. `method=A` = decode-level (direct
+  /// call); the BS-4/5 fixes must keep each item's worstBlockMs small.
+  func testImageRenderFirst20() async throws {
+    let history = try PerfHistoryFactory.makeImages(count: 200, bucket: .oneMB, cacheDir: cacheDir)
+    _ = try? await history.load()
+    let first20 = Array(history.items.prefix(20))
+
+    let thumbnail = await measurePerItemRender(first20) { decorator in
+      decorator.ensureThumbnailImage()
+      _ = await decorator.thumbnailImageGenerationTask?.value
+    }
+    let preview = await measurePerItemRender(first20) { decorator in
+      _ = await decorator.asyncGetPreviewImage()
+    }
+
+    printPERF(category: "image", method: "A", operation: "thumbnail", result: thumbnail)
+    printPERF(category: "image", method: "A", operation: "preview", result: preview)
+  }
+
+  // MARK: - Per-item measurement helpers
+
+  private struct PerItemResult {
+    let perItemMs: [Double]
+    let avgMs: Double
+    let maxMs: Double
+    let totalMs: Double
+    let worstBlockMs: Double
+    let totalBlockMs: Double
+  }
+
+  /// Runs `render` once per decorator (sequentially), timing each and sampling
+  /// the main thread (reset between items so maxGap is per-item). The probe
+  /// runs for the whole loop; reset+read bracket each item.
+  private func measurePerItemRender(
+    _ decorators: [HistoryItemDecorator],
+    render: (HistoryItemDecorator) async -> Void
+  ) async -> PerItemResult {
+    var perItemMs: [Double] = []
+    var blockMs: [Double] = []
+    probe.start()
+    for decorator in decorators {
+      probe.reset()
+      let clock = ContinuousClock()
+      let start = clock.now
+      await render(decorator)
+      let elapsed = start.duration(to: clock.now)
+      perItemMs.append(Self.milliseconds(elapsed))
+      blockMs.append(probe.maxGap * 1000)
+    }
+    probe.stop()
+
+    let total = perItemMs.reduce(0, +)
+    return PerItemResult(
+      perItemMs: perItemMs,
+      avgMs: perItemMs.isEmpty ? 0 : total / Double(perItemMs.count),
+      maxMs: perItemMs.max() ?? 0,
+      totalMs: total,
+      worstBlockMs: blockMs.max() ?? 0,
+      totalBlockMs: blockMs.reduce(0, +)
+    )
+  }
+
+  private static func milliseconds(_ duration: Duration) -> Double {
+    let components = duration.components
+    return Double(components.seconds) * 1000
+      + Double(components.attoseconds) / 1_000_000_000_000_000_000
+  }
+
+  /// Emits one machine-parseable `PERF|…` line. Multi-line concatenation to
+  /// keep each source line under SwiftLint's line_length limit.
+  private func printPERF(category: String, method: String, operation: String, result: PerItemResult) {
+    let perItem = result.perItemMs
+      .map { String(format: "%.2f", $0) }
+      .joined(separator: ",")
+    let line = "PERF|category=\(category)|method=\(method)|op=\(operation)" +
+      "|items=\(result.perItemMs.count)|perItemMs=[\(perItem)]" +
+      "|avgMs=\(String(format: "%.2f", result.avgMs))" +
+      "|maxMs=\(String(format: "%.2f", result.maxMs))" +
+      "|totalMs=\(String(format: "%.2f", result.totalMs))" +
+      "|worstBlockMs=\(String(format: "%.2f", result.worstBlockMs))" +
+      "|totalBlockMs=\(String(format: "%.2f", result.totalBlockMs))"
+    print(line)
+  }
 }
