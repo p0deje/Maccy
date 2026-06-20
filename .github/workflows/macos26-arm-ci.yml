@@ -14,33 +14,23 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
-  build-and-test:
-    name: Build and test on macOS 26 ARM
+  lint:
+    name: Lint + diagnostics
     runs-on: macos-26
-    timeout-minutes: 60
-
+    timeout-minutes: 15
     env:
       NSUnbufferedIO: YES
       OS_ACTIVITY_MODE: disable
       FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
       HOMEBREW_NO_REQUIRE_TAP_TRUST: "1"
-      PROJECT: Maccy.xcodeproj
-      SCHEME: Maccy
-      CONFIGURATION: Debug
-      DESTINATION: platform=macOS,arch=arm64
-      DERIVED_DATA: ${{ github.workspace }}/DerivedData
-      RESULT_BUNDLES: ${{ github.workspace }}/ci-result-bundles
       LOG_DIR: ${{ github.workspace }}/ci-logs
-
     steps:
       - name: Checkout
         uses: actions/checkout@v6
 
       - name: Prepare log directories
         shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "$LOG_DIR" "$RESULT_BUNDLES"
+        run: mkdir -p "$LOG_DIR"
 
       - name: Print runner and toolchain diagnostics
         shell: bash
@@ -90,32 +80,10 @@ jobs:
             echo "Expected macOS 26.x, got $PRODUCT_VERSION"
             exit 1
           fi
-          if [[ "$MACHINE_ARCH" != "arm64" ]]; then
+          if [[ "$MACHINE_ARCH" != arm64 ]]; then
             echo "Expected arm64 runner, got $MACHINE_ARCH"
             exit 1
           fi
-
-      - name: Show project metadata
-        timeout-minutes: 5
-        shell: bash
-        run: |
-          set -euo pipefail
-          {
-            echo "== Git =="
-            git status --short
-            git log --oneline --decorate -5
-            echo
-            echo "== Project list =="
-            xcodebuild -list -project "$PROJECT"
-            echo
-            echo "== Build settings =="
-            xcodebuild \
-              -project "$PROJECT" \
-              -scheme "$SCHEME" \
-              -configuration "$CONFIGURATION" \
-              -destination "$DESTINATION" \
-              -showBuildSettings
-          } 2>&1 | tee "$LOG_DIR/project-metadata.log"
 
       - name: Run SwiftLint
         timeout-minutes: 5
@@ -128,141 +96,139 @@ jobs:
           swiftlint version
           swiftlint lint --quiet --strict --no-cache 2>&1 | tee "$LOG_DIR/swiftlint.log"
 
-      - name: Clean build
-        timeout-minutes: 10
+      - name: Self-scan swiftlint log
         shell: bash
         run: |
           set -euo pipefail
-          runner_noise_fopen='fopen fail''ed for data file: errno = 2 (No such file or directory)'
-          runner_noise_io='IOServiceMatchingfail''ed for: AppleM2ScalerParavirtDriver'
-          xcodebuild \
-            -project "$PROJECT" \
-            -scheme "$SCHEME" \
-            -configuration "$CONFIGURATION" \
-            -destination "$DESTINATION" \
-            -derivedDataPath "$DERIVED_DATA" \
-            -resultBundlePath "$RESULT_BUNDLES/build.xcresult" \
-            CODE_SIGNING_ALLOWED=NO \
-            clean build 2>&1 | tee "$LOG_DIR/build.log"
-
-      - name: Run unit tests
-        timeout-minutes: 10
-        shell: bash
-        run: |
-          set -euo pipefail
-          runner_noise_fopen='fopen fail''ed for data file: errno = 2 (No such file or directory)'
-          runner_noise_io='IOServiceMatchingfail''ed for: AppleM2ScalerParavirtDriver'
-          xcodebuild \
-            -project "$PROJECT" \
-            -scheme "$SCHEME" \
-            -configuration "$CONFIGURATION" \
-            -destination "$DESTINATION" \
-            -derivedDataPath "$DERIVED_DATA" \
-            -resultBundlePath "$RESULT_BUNDLES/unit-tests.xcresult" \
-            -only-testing:MaccyTests \
-            CODE_SIGNING_ALLOWED=NO \
-            test 2>&1 \
-            | awk -v fopen="$runner_noise_fopen" -v io="$runner_noise_io" '
-                index($0, fopen) || index($0, io) || /IDELaunchParametersSnapshot:/ { next }
-                { print }
-              ' \
-            | tee "$LOG_DIR/unit-tests.log"
-
-      - name: Run UI tests
-        timeout-minutes: 20
-        shell: bash
-        run: |
-          set -euo pipefail
-          runner_noise_fopen='fopen fail''ed for data file: errno = 2 (No such file or directory)'
-          runner_noise_io='IOServiceMatchingfail''ed for: AppleM2ScalerParavirtDriver'
-          xcodebuild \
-            -project "$PROJECT" \
-            -scheme "$SCHEME" \
-            -configuration "$CONFIGURATION" \
-            -destination "$DESTINATION" \
-            -derivedDataPath "$DERIVED_DATA" \
-            -resultBundlePath "$RESULT_BUNDLES/ui-tests.xcresult" \
-            -only-testing:MaccyUITests \
-            CODE_SIGNING_ALLOWED=NO \
-            test 2>&1 \
-            | awk -v fopen="$runner_noise_fopen" -v io="$runner_noise_io" '
-                index($0, fopen) || index($0, io) || /IDELaunchParametersSnapshot:/ { next }
-                { print }
-              ' \
-            | tee "$LOG_DIR/ui-tests.log"
-
-      - name: Run performance tests (wiring check)
-        timeout-minutes: 10
-        shell: bash
-        run: |
-          set -euo pipefail
-          xcodebuild \
-            -project "$PROJECT" \
-            -scheme "$SCHEME" \
-            -configuration "$CONFIGURATION" \
-            -destination "$DESTINATION" \
-            -derivedDataPath "$DERIVED_DATA" \
-            -resultBundlePath "$RESULT_BUNDLES/perf-tests.xcresult" \
-            -only-testing:MaccyTests/PerformanceHarnessWiringTest \
-            -only-testing:MaccyTests/HistoryItemPerformanceTests \
-            CODE_SIGNING_ALLOWED=NO \
-            test 2>&1 | tee "$LOG_DIR/perf-tests.log"
-
-      - name: Scan CI logs for warnings and errors
-        if: always()
-        timeout-minutes: 2
-        shell: bash
-        run: |
-          set -euo pipefail
-          found=0
-          for log in "$LOG_DIR"/swiftlint.log "$LOG_DIR"/build.log "$LOG_DIR"/unit-tests.log "$LOG_DIR"/ui-tests.log; do
-            if [[ ! -f "$log" ]]; then
-              echo "Expected log file is missing: $log"
-              found=1
-              continue
-            fi
-
-            # Tolerate the system HDRImageConverter's benign headless-runner
-            # fallback: on the GPU-less CI runner it logs "Failed to initialize
-            # Metal converter, falling back to SIMD" (the conversion still
-            # succeeds via SIMD). This is a macOS system component (not our
-            # code) and only appears headless — exclude it from the scan.
-            matches=$(grep -Ein '(^|[^[:alpha:]])(warning:|error:|\*\* TEST FAILED \*\*|Fatal error|[Ff]ailed)([^[:alpha:]]|$)' "$log" \
-              | grep -vE 'HDRImageConverter.*falling back to SIMD' || true)
-            if [[ -n "$matches" ]]; then
-              echo "$matches"
-              echo "Warnings, errors, or failures found in $log"
-              found=1
-            fi
-          done
-
-          if [[ "$found" -ne 0 ]]; then
+          matches=$(grep -Ein '(^|[^[:alpha:]])(warning:|error:)([^[:alpha:]]|$)' "$LOG_DIR/swiftlint.log" || true)
+          if [[ -n "$matches" ]]; then
+            echo "$matches"
+            echo "SwiftLint warnings/errors found"
             exit 1
           fi
 
-          echo "No warnings or errors found in build, lint, unit test, or UI test logs."
-
-      - name: Summarize result bundles
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          {
-            echo "== Result bundles =="
-            find "$RESULT_BUNDLES" -maxdepth 2 -print || true
-            echo
-            echo "== DerivedData diagnostics =="
-            find "$DERIVED_DATA/Logs" -maxdepth 4 -type f -print || true
-          } 2>&1 | tee "$LOG_DIR/artifact-summary.log"
-
-      - name: Upload CI logs and result bundles
+      - name: Upload lint logs
         if: always()
         uses: actions/upload-artifact@v7
         with:
-          name: macos26-arm-ci-${{ github.run_id }}-${{ github.run_attempt }}
+          name: lint-${{ github.run_id }}-${{ github.run_attempt }}
+          path: ci-logs
+          if-no-files-found: warn
+          retention-days: 14
+
+  test-shards:
+    name: shard (${{ matrix.shard }})
+    needs: lint
+    runs-on: macos-26
+    timeout-minutes: 30
+    continue-on-error: ${{ !matrix.block }}
+    strategy:
+      max-parallel: 5
+      fail-fast: false
+      matrix:
+        include:
+          # unit shard runs all of MaccyTests EXCEPT the perf classes (which run
+          # in the non-blocking `perf` shard). Keep this skip-list and the perf
+          # shard's only-list in sync as perf classes are added.
+          - shard: unit
+            only: "MaccyTests"
+            skip: "MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests"
+            block: true
+          - shard: ui-1
+            only: "MaccyUITests/MaccyUITests/testPopupWithHotkey MaccyUITests/MaccyUITests/testCloseWithHotkey MaccyUITests/MaccyUITests/testPopupWithMenubar MaccyUITests/MaccyUITests/testNewCopyIsAdded MaccyUITests/MaccyUITests/testSearch MaccyUITests/MaccyUITests/testCopyWithClick MaccyUITests/MaccyUITests/testDownArrow MaccyUITests/MaccyUITests/testUpArrow"
+            skip: ""
+            block: true
+          - shard: ui-2
+            only: "MaccyUITests/MaccyUITests/testCopyWithEnter MaccyUITests/MaccyUITests/testCopyWithCommandShortcut MaccyUITests/MaccyUITests/testCopyImage MaccyUITests/MaccyUITests/testCopyFile MaccyUITests/MaccyUITests/testCopyRTF MaccyUITests/MaccyUITests/testCopyHTML MaccyUITests/MaccyUITests/testSearchFiles"
+            skip: ""
+            block: true
+          - shard: ui-3
+            only: "MaccyUITests/MaccyUITests/testSearchAndCopyWithCommandShortcut MaccyUITests/MaccyUITests/testControlJ MaccyUITests/MaccyUITests/testControlK MaccyUITests/MaccyUITests/testDeleteEntry MaccyUITests/MaccyUITests/testDeleteEntryDuringSearch MaccyUITests/MaccyUITests/testClear MaccyUITests/MaccyUITests/testClearDuringSearch"
+            skip: ""
+            block: true
+          - shard: ui-4
+            only: "MaccyUITests/MaccyUITests/testClearAll MaccyUITests/MaccyUITests/testPin MaccyUITests/MaccyUITests/testPinDuringSearch MaccyUITests/MaccyUITests/testUnpin MaccyUITests/MaccyUITests/testRemoveLastWordFromSearchWithControlW MaccyUITests/MaccyUITests/testPasteToSearch MaccyUITests/MaccyUITests/testDisablesOnOptionClickingMenubarIcon"
+            skip: ""
+            block: true
+          - shard: ui-5
+            only: "MaccyUITests/MaccyUITests/testDisablesOnlyForNextCopyOnOptionShiftClickingMenubarIcon MaccyUITests/MaccyUITests/testCreatesNewCopyOnEnterWhenSearchResultsAreEmpty MaccyUITests/MaccyUITests/testOpenAndClose MaccyUITests/MaccyUITests/testOpenAndSelectSecondItem MaccyUITests/MaccyUITests/testOpenAndSelectThirdItem MaccyUITests/MaccyUITests/testOpenAndSelectThirdItemRepeatedPress MaccyUITests/MaccyUITests/testTogglePopupAndCloseOnClickOutside"
+            skip: ""
+            block: true
+          # perf shard: non-blocking. Add new perf classes here AND to the unit
+          # shard's skip-list above.
+          - shard: perf
+            only: "MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests"
+            skip: ""
+            block: false
+    env:
+      NSUnbufferedIO: YES
+      OS_ACTIVITY_MODE: disable
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: "true"
+      HOMEBREW_NO_REQUIRE_TAP_TRUST: "1"
+      PROJECT: Maccy.xcodeproj
+      SCHEME: Maccy
+      CONFIGURATION: Debug
+      DESTINATION: platform=macOS,arch=arm64
+      DERIVED_DATA: ${{ github.workspace }}/DerivedData
+      RESULT_BUNDLES: ${{ github.workspace }}/ci-result-bundles
+      LOG_DIR: ${{ github.workspace }}/ci-logs
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Prepare log and result directories
+        shell: bash
+        run: mkdir -p "$LOG_DIR" "$RESULT_BUNDLES"
+
+      - name: Build and test shard
+        shell: bash
+        run: |
+          set -euo pipefail
+          runner_noise_fopen='fopen fail''ed for data file: errno = 2 (No such file or directory)'
+          runner_noise_io='IOServiceMatchingfail''ed for: AppleM2ScalerParavirtDriver'
+          only_args=""
+          for t in ${{ matrix.only }}; do only_args="$only_args -only-testing:$t"; done
+          skip_args=""
+          for t in ${{ matrix.skip }}; do skip_args="$skip_args -skip-testing:$t"; done
+          xcodebuild \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration "$CONFIGURATION" \
+            -destination "$DESTINATION" \
+            -derivedDataPath "$DERIVED_DATA" \
+            -resultBundlePath "$RESULT_BUNDLES/${{ matrix.shard }}.xcresult" \
+            $only_args \
+            $skip_args \
+            CODE_SIGNING_ALLOWED=NO \
+            test 2>&1 \
+            | awk -v fopen="$runner_noise_fopen" -v io="$runner_noise_io" '
+                index($0, fopen) || index($0, io) || /IDELaunchParametersSnapshot:/ { next }
+                { print }
+              ' \
+            | tee "$LOG_DIR/${{ matrix.shard }}.log"
+
+      - name: Self-scan shard log (blocking shards only)
+        if: ${{ matrix.block }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Tolerate the system HDRImageConverter's benign headless-runner
+          # fallback (see macos26-arm-ci history). Exclude it from the scan.
+          matches=$(grep -Ein '(^|[^[:alpha:]])(warning:|error:|\*\* TEST FAILED \*\*|Fatal error|[Ff]ailed)([^[:alpha:]]|$)' "$LOG_DIR/${{ matrix.shard }}.log" \
+                    | grep -vE 'HDRImageConverter.*falling back to SIMD' || true)
+          if [[ -n "$matches" ]]; then
+            echo "$matches"
+            echo "Warnings, errors, or failures found in ${{ matrix.shard }}.log"
+            exit 1
+          fi
+
+      - name: Upload shard logs and result bundle
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: shard-${{ matrix.shard }}-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             ci-logs
             ci-result-bundles
-            DerivedData/Logs
           if-no-files-found: warn
           retention-days: 14
