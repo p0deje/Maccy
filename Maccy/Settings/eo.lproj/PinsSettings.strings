@@ -5,3 +5,9 @@
 "ContentIsNotText" = "Ne-redaktebla enhavo (bildo aŭ dosiero)";
 "RichTextEditWarning" = "Redaktado forigos ĉian tekstaranĝon.";
 "PinCustomizationDescription" = "";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";

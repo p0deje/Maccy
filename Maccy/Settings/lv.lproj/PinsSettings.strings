@@ -5,3 +5,9 @@
 "ContentIsNotText" = "Nerediģējams saturs (attēls vai fails)";
 "RichTextEditWarning" = "Rediģējot tiks atteikts viss formatējums.";
 "PinCustomizationDescription" = "Varat pielāgot jebkura piespraustā elementa karsto taustiņu, nosaukumu un saturu. Lai rediģētu, divreiz noklikšķiniet uz elementa un ievadiet jaunu vērtību.\nPievērsiet uzmanību, ka var mainīt tikai vienkāršu tekstu.";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";

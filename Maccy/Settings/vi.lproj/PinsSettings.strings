@@ -5,3 +5,9 @@
 "ContentIsNotText" = "Nội dung không thể chỉnh sửa (hình ảnh hoặc tệp tin)";
 "RichTextEditWarning" = "Chỉnh sửa sẽ loại bỏ tất cả định dạng.";
 "PinCustomizationDescription" = "Bạn có thể tùy chỉnh phím tắt, tiêu đề và nội dung của bất kỳ mục nào được ghim. Để chỉnh sửa, hãy nhấp đúp vào mục đó và nhập giá trị mới.\nLưu ý rằng chỉ văn bản thuần túy mới có thể được thay đổi.";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";

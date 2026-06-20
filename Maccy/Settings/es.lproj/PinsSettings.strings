@@ -5,3 +5,9 @@
 "ContentIsNotText" = "Contenido no editable (imagen o archivo)";
 "RichTextEditWarning" = "La edición descartará todo el formato.";
 "PinCustomizationDescription" = "Puedes personalizar la tecla de acceso rápido, el título y el contenido de cualquier elemento anclado.\nPara editarlo, haga doble clic en el elemento e introduzca un nuevo valor.";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";

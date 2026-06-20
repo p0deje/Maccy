@@ -5,3 +5,9 @@
 "ContentIsNotText" = "ناوەڕۆکی دەستکارینەکراو (وێنە یان فایل)";
 "RichTextEditWarning" = "دەستکاریکردن هەموو فۆرماتەکە لادەبات.";
 "PinCustomizationDescription" = "تۆ دەتوانیت کورتەدوگمە، ناونیشان، و ناوەڕۆکی هەر ئایتمێکی چەسپێنراو بەدڵی خۆت بگۆڕیت. بۆ دەستکاریکردن، دوو-کلیک لەسەر ئایتمەکە بکە و بەهایەکی نوێ داغڵ بکە.\nتکایە ئاگاداربە کە تەنها دەقی سادە دەتوانرێت بگۆڕدرێت.";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";

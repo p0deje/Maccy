@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22758" systemVersion="23F79" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
-    <entity name="HistoryItem" representedClassName="HistoryItemL" syncable="YES">
+    <entity name="HistoryItem" representedClassName="HistoryItem" syncable="YES">
         <attribute name="application" optional="YES" attributeType="String"/>
         <attribute name="firstCopiedAt" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="lastCopiedAt" attributeType="Date" usesScalarValueType="NO"/>
@@ -8,8 +8,15 @@
         <attribute name="pin" optional="YES" attributeType="String" regularExpressionString="^[abcdefghijklmnorstuvwxyz]*$"/>
         <attribute name="title" optional="YES" attributeType="String" maxValueString="203"/>
         <relationship name="contents" toMany="YES" deletionRule="Cascade" destinationEntity="HistoryItemContent" inverseName="item" inverseEntity="HistoryItemContent"/>
+        <relationship name="pinGroup" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PinGroup" inverseName="items" inverseEntity="PinGroup"/>
     </entity>
-    <entity name="HistoryItemContent" representedClassName="HistoryItemContentL" syncable="YES">
+    <entity name="PinGroup" representedClassName="PinGroup" syncable="YES">
+        <attribute name="name" attributeType="String"/>
+        <attribute name="sortOrder" optional="YES" attributeType="Integer 64" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="createdAt" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="items" toMany="YES" deletionRule="Nullify" destinationEntity="HistoryItem" inverseName="pinGroup" inverseEntity="HistoryItem"/>
+    </entity>
+    <entity name="HistoryItemContent" representedClassName="HistoryItemContent" syncable="YES">
         <attribute name="type" optional="YES" attributeType="String"/>
         <attribute name="value" optional="YES" attributeType="Binary"/>
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HistoryItem" inverseName="contents" inverseEntity="HistoryItem"/>

@@ -3,6 +3,7 @@ import Defaults
 import Foundation
 import Observation
 import Sauce
+import SwiftData
 
 @Observable
 class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
@@ -52,6 +53,8 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
+  var groupName: String? { item.pinGroup?.name }
+  var groupID: PersistentIdentifier? { item.pinGroup?.persistentModelID }
 
   func hash(into hasher: inout Hasher) {
     // We need to hash title and attributedTitle, so SwiftUI knows it needs to update the view if they chage
@@ -176,10 +179,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   @MainActor
   func togglePin() {
     if item.pin != nil {
-      item.pin = nil
+      PinGroupsManager.shared.unpinItem(item)
     } else {
-      let pin = HistoryItem.randomAvailablePin
-      item.pin = pin
+      PinGroupsManager.shared.pinItem(item, to: nil)
     }
   }
 
