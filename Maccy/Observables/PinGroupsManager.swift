@@ -10,9 +10,26 @@ class PinGroupsManager {
   var groups: [PinGroup] = []
   var expandedGroupIDs: Set<PersistentIdentifier> = []
 
+  private var expandByDefaultObserver: Defaults.Observation?
+
   /// The default group.
   var defaultGroup: PinGroup? {
     groups.first
+  }
+
+  private init() {
+    expandByDefaultObserver = Defaults.observe(.expandPinGroupsByDefault) { [weak self] change in
+      Task { @MainActor [weak self] in
+        guard let self else { return }
+        if change.newValue {
+          for group in self.groups {
+            self.expandedGroupIDs.insert(group.persistentModelID)
+          }
+        } else {
+          self.expandedGroupIDs.removeAll()
+        }
+      }
+    }
   }
 
   @MainActor
