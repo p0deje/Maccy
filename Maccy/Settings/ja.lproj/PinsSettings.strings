@@ -11,3 +11,4 @@
 "RenameGroup" = "Rename group";
 "DeleteGroup" = "Delete group";
 "NoGroup" = "None";
+"ExpandPinGroupsByDefault" = "Expand groups by default";

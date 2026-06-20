@@ -10,3 +10,4 @@
 "RenameGroup" = "重新命名群組";
 "DeleteGroup" = "刪除群組";
 "NoGroup" = "無";
+"ExpandPinGroupsByDefault" = "預設展開所有群組";
