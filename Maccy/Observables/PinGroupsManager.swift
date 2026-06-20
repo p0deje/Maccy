@@ -1,3 +1,4 @@
+import Defaults
 import Foundation
 import Observation
 import SwiftData
@@ -9,8 +10,7 @@ class PinGroupsManager {
   var groups: [PinGroup] = []
   var expandedGroupIDs: Set<PersistentIdentifier> = []
 
-  /// The default group — always expanded by default.
-  /// Other groups start collapsed and expand on demand.
+  /// The default group.
   var defaultGroup: PinGroup? {
     groups.first
   }
@@ -28,9 +28,11 @@ class PinGroupsManager {
       groups = [general]
     }
 
-    // Default group starts expanded
-    if let defaultGroup {
-      expandedGroupIDs.insert(defaultGroup.persistentModelID)
+    // Respect the global default-expand preference
+    if Defaults[.expandPinGroupsByDefault] {
+      for group in groups {
+        expandedGroupIDs.insert(group.persistentModelID)
+      }
     }
   }
 
@@ -41,9 +43,12 @@ class PinGroupsManager {
     Storage.shared.context.insert(group)
     try? Storage.shared.context.save()
 
-    // Reload to get persistent ID
     groups.append(group)
-    // New groups start collapsed (consistent with "other groups are collapsed by default")
+
+    // Respect the global default-expand preference
+    if Defaults[.expandPinGroupsByDefault] {
+      expandedGroupIDs.insert(group.persistentModelID)
+    }
     return group
   }
 

@@ -10,3 +10,4 @@
 "RenameGroup" = "重命名分组";
 "DeleteGroup" = "删除分组";
 "NoGroup" = "无";
+"ExpandPinGroupsByDefault" = "默认展开所有分组";

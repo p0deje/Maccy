@@ -1,3 +1,4 @@
+import Defaults
 import SwiftData
 import SwiftUI
 
@@ -238,6 +239,11 @@ struct PinsSettingsPane: View {
       VStack(alignment: .leading, spacing: 8) {
         Text("PinGroupsHeader", tableName: "PinsSettings")
           .font(.headline)
+
+        Defaults.Toggle(key: .expandPinGroupsByDefault) {
+          Text("ExpandPinGroupsByDefault", tableName: "PinsSettings")
+        }
+        .fixedSize()
 
         ScrollView(.horizontal, showsIndicators: false) {
           HStack(spacing: 8) {
