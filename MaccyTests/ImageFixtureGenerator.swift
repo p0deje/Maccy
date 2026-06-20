@@ -119,17 +119,19 @@ enum ImageFixtureGenerator {
     var rng = SeededRNG(seed: UInt64(variant) &* 2_000_003 &+ 1)
     let srcWidth = source.size.width
     let srcHeight = source.size.height
-    let cropFractionWidth = Double(rng.random(in: 0.5...0.95))
-    let cropFractionHeight = Double(rng.random(in: 0.5...0.95))
+    let cropFractionWidth = CGFloat(doubleInRange(&rng, lower: 0.5, upper: 0.95))
+    let cropFractionHeight = CGFloat(doubleInRange(&rng, lower: 0.5, upper: 0.95))
     let cropWidth = srcWidth * cropFractionWidth
     let cropHeight = srcHeight * cropFractionHeight
-    let originX = srcWidth * Double(rng.random(in: 0..<max(0.001, 1 - cropFractionWidth)))
-    let originY = srcHeight * Double(rng.random(in: 0..<max(0.001, 1 - cropFractionHeight)))
+    let originXMax = max(0.001, 1 - Double(cropFractionWidth))
+    let originYMax = max(0.001, 1 - Double(cropFractionHeight))
+    let originX = srcWidth * CGFloat(doubleInRange(&rng, lower: 0, upper: originXMax))
+    let originY = srcHeight * CGFloat(doubleInRange(&rng, lower: 0, upper: originYMax))
     let cropRect = NSRect(x: originX, y: originY, width: cropWidth, height: cropHeight)
 
     let longEdge = CGFloat(bucket.canvasLongEdge)
     let scale = longEdge / max(cropWidth, cropHeight)
-    let destSize = NSSize(width: cropWidth * scale, height: cropHeight * scale)
+    let destSize = NSSize(width: Double(cropWidth * scale), height: Double(cropHeight * scale))
     let composite = NSImage(size: destSize)
     composite.lockFocus()
     source.draw(
@@ -140,6 +142,15 @@ enum ImageFixtureGenerator {
     )
     composite.unlockFocus()
     return composite
+  }
+
+  /// Uniform Double in [lower, upper) from the seeded generator, via explicit
+  /// `next()` rather than `RandomNumberGenerator`'s default `random(in:)` (its
+  /// default impl did not resolve for this nested conforming type under
+  /// -swift-version 5). 53 bits of precision.
+  private static func doubleInRange(_ rng: inout SeededRNG, lower: Double, upper: Double) -> Double {
+    let unit = Double(rng.next() >> 11) / Double(1 << 53)
+    return lower + (upper - lower) * unit
   }
 
   /// Binary-search JPEG quality so the encoded bytes hit `targetBytes` ±5%.
