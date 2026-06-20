@@ -1,41 +1,45 @@
 import Foundation
 
 /// Probes the main thread's responsiveness by sampling from a background
-/// thread: every `interval` seconds it dispatches a tick to the main queue and
-/// measures how long that tick waits before main processes it. If main is
-/// blocked, the queued tick is delayed and the inter-tick gap grows; `maxGap`
-/// is the worst stall seen since `start()` / last `reset()`.
+/// thread: every `interval` seconds it records the dispatch time, then dispatches
+/// a tick to the main queue; when main processes the tick it measures the delay
+/// (`processedAt - dispatchedAt`) — i.e. how long that one tick waited for main.
+/// `maxGap` is the worst such delay seen since `start()` / last `reset()`.
 ///
-/// Background-thread + `DispatchQueue.main.async` based — deliberately NOT
-/// `Timer.scheduledTimer`, which only fires in the main run loop's current mode
-/// and silently never ticks in async `@MainActor` tests (leaving `maxGap` stuck
-/// at 0). This sampler is run-loop-mode-independent, so it works in XCTest
-/// async contexts. `maxGap` includes the `interval` baseline (a free main thread
-/// reads ~`interval`); subtract it for the true stall.
+/// The per-tick **delay** metric (not the inter-tick gap) is what matters: it's
+/// the actual time main left a tick waiting, so it reflects real main-thread
+/// unavailability and is robust to the background thread's own scheduling jitter
+/// (a slow-to-wake sampler dispatches fewer ticks but each tick's delay still
+/// measures main's responsiveness at its dispatch instant). Deliberately NOT
+/// `Timer.scheduledTimer` (run-loop-mode-bound, never fires in async tests) and
+/// NOT an inter-tick gap (conflates sampler cadence with main blocking).
+///
+/// Note: the ticks are processed on main, so a measurement only sees the delay
+/// once main has run the tick — callers must `await` (yield) before reading
+/// `maxGap` so queued ticks get processed.
 final class MainThreadProbe {
   private let interval: TimeInterval
   private let lock = NSLock()
   private var running = false
-  private var lastMainTick: Date = .distantPast
-  private var maxGapValue: TimeInterval = 0
+  private var maxDelayValue: TimeInterval = 0
   private var samplerThread: Thread?
 
   init(interval: TimeInterval = 0.005) {
     self.interval = interval
   }
 
-  /// Worst main-thread stall observed since `start()` / last `reset()`, seconds.
+  /// Worst main-thread processing delay observed since `start()` / last
+  /// `reset()`, in seconds (how long the slowest dispatched tick waited for main).
   var maxGap: TimeInterval {
     lock.lock()
     defer { lock.unlock() }
-    return maxGapValue
+    return maxDelayValue
   }
 
   func start() {
     stop()
     lock.lock()
-    maxGapValue = 0
-    lastMainTick = Date()
+    maxDelayValue = 0
     running = true
     lock.unlock()
 
@@ -61,12 +65,11 @@ final class MainThreadProbe {
     samplerThread = nil
   }
 
-  /// Resets `maxGap` to zero (and the tick baseline to now) without restarting
-  /// the sampler — for per-item measurements within one probe session.
+  /// Resets `maxGap` to zero without restarting the sampler — for per-item
+  /// measurements within one probe session.
   func reset() {
     lock.lock()
-    maxGapValue = 0
-    lastMainTick = Date()
+    maxDelayValue = 0
     lock.unlock()
   }
 
@@ -80,14 +83,15 @@ final class MainThreadProbe {
 
   private var samplingInterval: TimeInterval { interval }
 
-  /// Runs on the main thread (via `DispatchQueue.main.async`).
+  /// Runs on the main thread (via `DispatchQueue.main.async`). The delay between
+  /// `dispatchedAt` (background) and `processedAt` (main) is the time main left
+  /// this tick waiting = main's unavailability at the dispatch instant.
   private func recordMainTick(dispatchedAt: Date) {
     let processedAt = Date()
+    let delay = processedAt.timeIntervalSince(dispatchedAt)
     lock.lock()
-    let gap = processedAt.timeIntervalSince(lastMainTick)
-    lastMainTick = processedAt
-    if gap > maxGapValue {
-      maxGapValue = gap
+    if delay > maxDelayValue {
+      maxDelayValue = delay
     }
     lock.unlock()
   }

@@ -51,30 +51,55 @@ enum PerfHistoryFactory {
     return history
   }
 
-  /// `images` image items + `texts` long-text items (scenario 5/6).
+  /// `images` image items + `texts` long-text items (scenario 5/6), added
+  /// interleaved (image, text, image, text, …) with sequential `copiedAt` so
+  /// that — sorted most-recent-first — the first N visible items contain BOTH
+  /// types (a true mix), not all-one-type.
   static func makeMixed(images: Int, texts: Int,
                         bucket: ImageFixtureGenerator.Bucket,
                         cacheDir: URL) throws -> History {
     let history = History.shared
     history.clearAll()
     let heavy = try Data(contentsOf: FixtureLoader.heavyTextURL)
-    for variant in 0..<images {
-      let data = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: variant, cacheDir: cacheDir)
+    let pairCount = min(images, texts)
+    var timestamp = 0.0
+    for index in 0..<pairCount {
+      let imageData = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: index, cacheDir: cacheDir)
       history.add(
         HistoryBuilder()
-          .withContent(type: "public.png", value: data)
-          .withCopiedAt(Date(timeIntervalSince1970: Double(variant)))
+          .withContent(type: "public.png", value: imageData)
+          .withCopiedAt(Date(timeIntervalSince1970: timestamp))
           .build()
       )
+      timestamp += 1
+      let textValue = heavy + Data("\n#mix-\(index)\n".utf8)
+      history.add(
+        HistoryBuilder()
+          .withContent(type: "public.utf8-plain-text", value: textValue)
+          .withCopiedAt(Date(timeIntervalSince1970: timestamp))
+          .build()
+      )
+      timestamp += 1
     }
-    for index in 0..<texts {
-      let value = heavy + Data("\n#\(images + index)\n".utf8)
+    for index in pairCount..<images {
+      let imageData = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: index, cacheDir: cacheDir)
       history.add(
         HistoryBuilder()
-          .withContent(type: "public.utf8-plain-text", value: value)
-          .withCopiedAt(Date(timeIntervalSince1970: Double(images + index)))
+          .withContent(type: "public.png", value: imageData)
+          .withCopiedAt(Date(timeIntervalSince1970: timestamp))
           .build()
       )
+      timestamp += 1
+    }
+    for index in pairCount..<texts {
+      let textValue = heavy + Data("\n#mix-\(index)\n".utf8)
+      history.add(
+        HistoryBuilder()
+          .withContent(type: "public.utf8-plain-text", value: textValue)
+          .withCopiedAt(Date(timeIntervalSince1970: timestamp))
+          .build()
+      )
+      timestamp += 1
     }
     return history
   }

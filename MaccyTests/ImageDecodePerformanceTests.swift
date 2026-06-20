@@ -58,14 +58,16 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
 
   // MARK: - Probe self-test (foundation check)
 
-  /// Validates the rewritten `MainThreadProbe` actually detects a main-thread
-  /// stall. Blocks main synchronously for ~50 ms; the probe's background-thread
-  /// sampler must report a maxGap well above its 5 ms interval baseline. If this
+  /// Validates `MainThreadProbe` detects a main-thread stall. Blocks main
+  /// synchronously for ~50 ms (the sampler's ticks queue up while main is
+  /// blocked), then `await Task.yield()` so main processes those queued ticks —
+  /// their `processedAt - dispatchedAt` delay must reflect the stall. If this
   /// fails, every mainThread measurement below is meaningless — fix the probe.
-  func testProbeDetectsSynchronousMainStall() {
+  func testProbeDetectsSynchronousMainStall() async {
     probe.start()
     let until = Date().addingTimeInterval(0.05)
     while Date() < until {}
+    await Task.yield()
     probe.stop()
     XCTAssertGreaterThan(
       probe.maxGap,
@@ -97,6 +99,48 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
 
     printPERF(category: "image", method: "A", operation: "thumbnail", result: thumbnail)
     printPERF(category: "image", method: "A", operation: "preview", result: preview)
+  }
+
+  /// Scenario: 200 long texts, visit the first 20. Text items have no image
+  /// data, so `ensureThumbnailImage`/`asyncGetPreviewImage` early-return and the
+  /// per-item cost is just navigation/selection + on-main title work — the
+  /// contrast with `image` shows where decode cost lives.
+  func testTextRenderFirst20() async throws {
+    let history = try PerfHistoryFactory.makeTexts(count: 200, long: true)
+    _ = try? await history.load()
+    let first20 = Array(history.items.prefix(20))
+
+    let thumbnail = await measurePerItemRender(first20) { decorator in
+      decorator.ensureThumbnailImage()
+      _ = await decorator.thumbnailImageGenerationTask?.value
+    }
+    let preview = await measurePerItemRender(first20) { decorator in
+      _ = await decorator.asyncGetPreviewImage()
+    }
+
+    printPERF(category: "text", method: "A", operation: "thumbnail", result: thumbnail)
+    printPERF(category: "text", method: "A", operation: "preview", result: preview)
+  }
+
+  /// Scenario: mixed images + long texts (interleaved so the first 20 contain
+  /// both types), visit the first 20.
+  func testMixedRenderFirst20() async throws {
+    let history = try PerfHistoryFactory.makeMixed(
+      images: 100, texts: 100, bucket: .oneMB, cacheDir: cacheDir
+    )
+    _ = try? await history.load()
+    let first20 = Array(history.items.prefix(20))
+
+    let thumbnail = await measurePerItemRender(first20) { decorator in
+      decorator.ensureThumbnailImage()
+      _ = await decorator.thumbnailImageGenerationTask?.value
+    }
+    let preview = await measurePerItemRender(first20) { decorator in
+      _ = await decorator.asyncGetPreviewImage()
+    }
+
+    printPERF(category: "mixed", method: "A", operation: "thumbnail", result: thumbnail)
+    printPERF(category: "mixed", method: "A", operation: "preview", result: preview)
   }
 
   // MARK: - Per-item measurement helpers
