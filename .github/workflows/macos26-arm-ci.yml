@@ -191,6 +191,23 @@ jobs:
               ' \
             | tee "$LOG_DIR/ui-tests.log"
 
+      - name: Run performance tests (wiring check)
+        timeout-minutes: 10
+        shell: bash
+        run: |
+          set -euo pipefail
+          xcodebuild \
+            -project "$PROJECT" \
+            -scheme "$SCHEME" \
+            -configuration "$CONFIGURATION" \
+            -destination "$DESTINATION" \
+            -derivedDataPath "$DERIVED_DATA" \
+            -resultBundlePath "$RESULT_BUNDLES/perf-tests.xcresult" \
+            -only-testing:MaccyTests/PerformanceHarnessWiringTest \
+            -only-testing:MaccyTests/HistoryItemPerformanceTests \
+            CODE_SIGNING_ALLOWED=NO \
+            test 2>&1 | tee "$LOG_DIR/perf-tests.log"
+
       - name: Scan CI logs for warnings and errors
         if: always()
         timeout-minutes: 2

@@ -41,17 +41,19 @@ User directives folded in:
 - **BS-6/7/8.** This spec covers BS-4 + BS-5 only.
 - **Sharding the unit-test target.** `MaccyTests` is fast; only `MaccyUITests` (36 methods, slow) and the new perf target are sharded.
 
-## 4. Subsystem B — `MaccyPerformanceTests` target
+## 4. Subsystem B — perf tests as classes in `MaccyTests` (DEVIATION from `B §4`)
 
-A fourth `PBXNativeTarget` (`productType = com.apple.product-type.bundle.unit-test`), mirroring `MaccyTests`'s wiring (`TEST_HOST = …/Maccy.app/…`, `BUNDLE_LOADER = $(TEST_HOST)`). Registered in `project.pbxproj` in all four places (PBXBuildFile, PBXFileReference, group child, Sources phase) with generated 24-hex UUIDs, plus its `XCBuildConfiguration`/list entries.
+> **Deviation from `B §4` (recorded):** the roadmap specifies a *separate* `MaccyPerformanceTests` target. We instead put perf tests as **classes inside the existing `MaccyTests` target**, run in a non-blocking CI shard via `-only-testing:`, with the blocking unit shard excluding them via `-skip-testing:`. **Why:** this machine has no local Xcode, so a new target = blind, ~12-point `project.pbxproj` surgery (NativeTarget + 3 build phases + config list + 2 configs + target dependency + proxy + product ref + group + project `targets`/`TargetAttributes`) with no validation until a ~11-min CI run — likely several failed rounds. Extending `MaccyTests` needs only the well-trodden 4-place source-file registration (PBXBuildFile, PBXFileReference, group child, Sources phase), which is reliable blind. There is already precedent: `MaccyTests/HistoryItemPerformanceTests.swift` is an existing `measure{}` perf test. The function `B §4` requires — perf runs non-blocking, separate from the gate — is fully preserved by the shard split. Cost: a stable ~7-entry skip-list in the unit shard + matching only-list in the perf shard (documented in the workflow).
 
-- **`Maccy.xctestplan`**: add `MaccyPerformanceTests` to `testTargets`. It inherits the plan's `enable-testing` default option (in-memory SwiftData store, `AppDelegate`/`Notifier`/`HistoryItem` gating).
-- **First commit = a single trivial green test** (`testTargetWiring`), to confirm the target builds and runs on CI *before* any benchmark logic is added. This de-risks the pbxproj surgery (the highest-risk step, unverifiable locally).
-
-New test-support files (in `MaccyPerformanceTests/Support/`, or shared via `MaccyTests/Support/` if both targets need them):
-- `ImageFixtureGenerator.swift` — see §5.
-- `PerfHistoryFactory.swift` — wraps `HistoryBuilder` to compose the six scenario histories (items × content type × N) and inject them into an in-memory `History`.
+Perf test classes live flat in `MaccyTests/` (matching the existing `HistoryItemPerformanceTests.swift` placement):
+- `MaccyTests/ImageFixtureGenerator.swift` — see §5.
+- `MaccyTests/PerfHistoryFactory.swift` — wraps `HistoryBuilder` to compose the six scenario histories (items × content type × N) and inject them into an in-memory `History`.
+- `MaccyTests/PerformanceTestCase.swift` — shared `XCTestCase` base (in-memory store via `enable-testing`, fixture cache dir, `MainThreadProbe`).
+- `MaccyTests/ImageDecodePerformanceTests.swift`, `MaccyTests/TextSearchPerformanceTests.swift` — the scenario benchmarks.
 - Reuse `MainThreadProbe` (`MaccyTests/Support/MainThreadProbe.swift`: `@MainActor`, `start()/stop()`, `maxGap: TimeInterval`) and `FixtureLoader` (`heavyTextURL`, `imageData`).
+- The existing `MaccyTests/HistoryItemPerformanceTests.swift` stays (it benchmarks the signature path — relevant to BS-4's `bytesHashed` gate).
+
+**First commit = a single trivial green perf class** registered in `MaccyTests`, run in a non-blocking CI step, to confirm the wiring before any benchmark logic is added.
 
 ## 5. Fixture corpus — runner-side, real photos, exact size distribution
 

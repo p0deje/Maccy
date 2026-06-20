@@ -8,6 +8,8 @@
 
 **Tech Stack:** XCTest `measure{}` + `OSSignposter`, `MaccyTests/Support/MainThreadProbe` + `HistoryBuilder` + `FixtureLoader`, CoreGraphics + ImageIO, GitHub Actions matrix.
 
+> **REVISION (2026-06-20, supersedes the "separate target" wording below):** perf tests live as **classes inside the existing `MaccyTests` target** (flat in `MaccyTests/`), NOT a new `MaccyPerformanceTests` target. Everywhere this plan says `MaccyPerformanceTests/`, read `MaccyTests/`; everywhere it says `-only-testing:MaccyPerformanceTests`, read `-only-testing:MaccyTests/<perf-class>`. Rationale: a new target is blind ~12-point pbxproj surgery under no-local-toolchain (likely several failed ~11-min CI rounds); extending `MaccyTests` needs only reliable 4-place source-file registration, and `MaccyTests/HistoryItemPerformanceTests.swift` already establishes the precedent. Non-blocking perf is achieved by the matrix shard split (unit shard `-skip-testing:` the perf classes; perf shard `-only-testing:` them). See spec §4 for the recorded deviation.
+
 **CRITICAL — no local toolchain (CLAUDE.md):** Nothing builds/runs locally. Every verification is a CI round-trip on the macOS 26 ARM runner. The TDD "watch it fail" step is therefore a reasoning step (predict the compile/assertion failure); combined RED+GREEN verification happens on push. Before every push, self-check the diff against the `no-local-toolchain-ci-gates` memory: SwiftLint `--strict` rules, explicit framework imports (`import ImageIO`!), and `@testable import Maccy` on every test file that references a Maccy type. Poll CI no more often than every 2 minutes.
 
 **Commit cadence:** one commit per task, message `feat(perf-harness)` / `fix(perf-harness)` / `ci(perf-harness)`. Do NOT push docs-only commits alone (wastes an ~11 min run) — bundle the spec commit (`4f9c2d7`) with Task 1's push.
@@ -35,58 +37,46 @@
 
 ---
 
-## Task 1: Create `MaccyPerformanceTests` target + wiring test + CI step
+## Task 1: Add a perf class to `MaccyTests` + non-blocking perf CI step
 
-**Goal:** A 4th test target that builds and runs a trivial green test on CI. Highest-risk task (pbxproj surgery, unverifiable locally) → minimal content, validate wiring before adding anything else.
+**Goal:** Validate that (a) a new perf test file registers cleanly in `MaccyTests` (4-place source-file registration — the reliable path) and (b) a perf CI step runs it. Zero structural pbxproj surgery (no new target). Lowest-risk foundation.
 
 **Files:**
-- Create: `MaccyPerformanceTests/WiringSmokeTest.swift`
-- Modify: `Maccy.xcodeproj/project.pbxproj` (new target + file registration)
-- Modify: `Maccy.xctestplan` (add target to `testTargets`)
-- Modify: `.github/workflows/macos26-arm-ci.yml` (add a perf-test step)
+- Create: `MaccyTests/PerformanceHarnessWiringTest.swift`
+- Modify: `Maccy.xcodeproj/project.pbxproj` (register the file in 4 places)
+- Modify: `.github/workflows/macos26-arm-ci.yml` (add a perf step)
 
-- [ ] **Step 1: Write the wiring test**
+- [ ] **Step 1: Write the wiring perf test**
 
-`MaccyPerformanceTests/WiringSmokeTest.swift`:
+`MaccyTests/PerformanceHarnessWiringTest.swift`:
 ```swift
 import XCTest
 
-/// Confirms the MaccyPerformanceTests target is wired into the project and the
-/// test plan, and that it builds and runs on CI. Replaced by real benchmarks
-/// in later tasks; kept as a smoke test.
-final class WiringSmokeTest: XCTestCase {
-  func testTargetIsWiredAndRuns() {
-    XCTAssertTrue(true, "MaccyPerformanceTests target builds and executes.")
+/// Confirms the perf path is wired: a perf class registers in MaccyTests and
+/// runs in the perf CI step. Trivial measure{}; replaced by real benchmarks
+/// in later tasks. No `@testable import Maccy` — references no Maccy types.
+final class PerformanceHarnessWiringTest: XCTestCase {
+  func testWiringRunsAndMeasures() {
+    measure {
+      _ = (0..<1000).reduce(0, +)
+    }
   }
 }
 ```
-(No `@testable import Maccy` — this test references no Maccy types, so it avoids that gotcha.)
 
-- [ ] **Step 2: Register the target in `project.pbxproj`**
+- [ ] **Step 2: Register the file in `project.pbxproj` (4 places)**
 
-Mirror the `MaccyTests` target end-to-end with fresh 24-hex UUIDs. Concretely, duplicate and rename these structures from `MaccyTests` → `MaccyPerformanceTests`:
-  - A `PBXNativeTarget` (`productType = "com.apple.product-type.bundle.unit-test"`; `name = MaccyPerformanceTests`; build phases: a `PBXSourcesBuildPhase` (with `WiringSmokeTest.swift`), an empty `PBXFrameworksBuildPhase`, a `PBXResourcesBuildPhase`).
-  - An `XCBuildConfiguration` (Debug) cloning `MaccyTests`'s Debug settings (`TEST_HOST = $(BUILT_PRODUCTS_DIR)/Maccy.app/…`, `BUNDLE_LOADER = $(TEST_HOST)`, `PRODUCT_NAME = MaccyPerformanceTests`, `PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.Maccy.MaccyPerformanceTests`, `GENERATE_INFOPLIST_FILE = YES`) + its `XCConfigurationList`.
-  - A `PBXFileReference` for the product (`MaccyPerformanceTests.xctest`, `explicitFileType = wrapper.cfbundle`).
-  - A `PBXGroup` for `MaccyPerformanceTests` (child: `WiringSmokeTest.swift`), parented under the test-targets group alongside `MaccyTests`.
-  - A `PBXTargetDependency` + `PBXContainerItemProxy` on the `Maccy` app target (copy `MaccyTests`'s dependency).
-  - Add `MaccyPerformanceTests` to the project's `targets` array (`PBXProject → attributes → TargetAttributes` not strictly required, but add a `developmentRegion`/`TestTargetID` mirroring `MaccyTests` if present).
-Register `WiringSmokeTest.swift` in all four places (see "pbxproj registration" in File Structure).
+Mirror `HistoryItemPerformanceTests.swift`'s registration (UUIDs `E00000102F50000000000010` build-file / `E000000F2F5000000000000F` fileref). Use these fresh, collision-free 24-hex UUIDs (prefix `2B6F1A2B4C5D`):
+  - **PBXBuildFile** (insert near the other `…in Sources */ = {isa = PBXBuildFile…` lines, e.g. after line ~191):
+    `2B6F1A2B4C5D00000000000C /* PerformanceHarnessWiringTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D00000000000D /* PerformanceHarnessWiringTest.swift */; };`
+  - **PBXFileReference** (insert near line ~646, next to the `HistoryItemPerformanceTests.swift` fileref):
+    `2B6F1A2B4C5D00000000000D /* PerformanceHarnessWiringTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceHarnessWiringTest.swift; sourceTree = "<group>"; };`
+  - **MaccyTests group `children`** (insert near line ~861, next to `E000000F2F5000000000000F /* HistoryItemPerformanceTests.swift */,`):
+    `2B6F1A2B4C5D00000000000D /* PerformanceHarnessWiringTest.swift */,`
+  - **MaccyTests `PBXSourcesBuildPhase` `files`** (the `DA360DAC … /* Sources */` block, insert near line ~1275 next to the `HistoryItemPerformanceTests.swift in Sources` entry):
+    `2B6F1A2B4C5D00000000000C /* PerformanceHarnessWiringTest.swift in Sources */,`
 
-- [ ] **Step 3: Add the target to `Maccy.xctestplan`**
-
-Append to `testTargets` (mirror the `MaccyTests` entry's shape; generate a fresh UUID for the configuration `id`):
-```json
-    {
-      "target" : {
-        "containerPath" : "container:Maccy.xcodeproj",
-        "identifier" : "<MaccyPerformanceTests-target-UUID-from-pbxproj>",
-        "name" : "MaccyPerformanceTests"
-      }
-    }
-```
-
-- [ ] **Step 4: Add a CI step to run it (blocking, to validate wiring)**
+- [ ] **Step 3: Add a perf CI step (blocking for this validation; Task 2 makes it non-blocking)**
 
 In `.github/workflows/macos26-arm-ci.yml`, after the "Run UI tests" step, add:
 ```yaml
@@ -102,30 +92,31 @@ In `.github/workflows/macos26-arm-ci.yml`, after the "Run UI tests" step, add:
             -destination "$DESTINATION" \
             -derivedDataPath "$DERIVED_DATA" \
             -resultBundlePath "$RESULT_BUNDLES/perf-tests.xcresult" \
-            -only-testing:MaccyPerformanceTests \
+            -only-testing:MaccyTests/PerformanceHarnessWiringTest \
+            -only-testing:MaccyTests/HistoryItemPerformanceTests \
             CODE_SIGNING_ALLOWED=NO \
             test 2>&1 | tee "$LOG_DIR/perf-tests.log"
 ```
-(Block intentionally — no `continue-on-error` — so a wiring failure fails CI. Task 2 makes perf non-blocking.)
+(Blocking on purpose so a wiring failure is obvious. The existing `HistoryItemPerformanceTests` uses `measure{}` with no baseline, so it can't fail on timing — safe to run blocking.)
 
-- [ ] **Step 5: Commit**
+- [ ] **Step 4: Commit (bundle the still-unpushed spec + plan)**
 
 ```bash
-git add MaccyPerformanceTests/WiringSmokeTest.swift \
-        Maccy.xcodeproj/project.pbxproj Maccy.xctestplan \
+git add MaccyTests/PerformanceHarnessWiringTest.swift \
+        Maccy.xcodeproj/project.pbxproj \
         .github/workflows/macos26-arm-ci.yml \
-        docs/superpowers/specs/2026-06-20-perf-harness-and-bs4-bs5-design.md
-git commit -m "feat(perf-harness): add MaccyPerformanceTests target + wiring smoke + perf CI step"
+        docs/superpowers/specs/2026-06-20-perf-harness-and-bs4-bs5-design.md \
+        docs/superpowers/plans/2026-06-20-perf-harness.md
+git commit -m "feat(perf-harness): wire perf class in MaccyTests + non-blocking perf CI step"
 ```
 
-- [ ] **Step 6: Push and verify on CI**
+- [ ] **Step 5: Push and verify on CI**
 
 ```sh
 git push origin master
-gh workflow run "macOS 26 ARM CI" --ref master   # or it auto-triggers on push
 ```
-Poll `gh run view --workflow "macOS 26 ARM CI"` no more often than every 2 min (~11 min). **Expected:** green; the perf step's `perf-tests.log` shows `WiringSmokeTest` passed.
-**If it fails:** the pbxproj is the likely culprit (target not built / not in plan / wrong TEST_HOST). Compare the new target's entries byte-for-byte against `MaccyTests`. Fix-forward; this task is not done until green.
+Poll `gh run view --workflow "macOS 26 ARM CI"` no more often than every 2 min (~11 min). **Expected:** green; `perf-tests.log` shows both `PerformanceHarnessWiringTest` and `HistoryItemPerformanceTests` ran and passed.
+**If it fails:** the 4-place pbxproj registration is the likely culprit (file not in build phase / not in group). Diff against `HistoryItemPerformanceTests`'s four entries. Fix-forward; not done until green.
 
 ---
 
