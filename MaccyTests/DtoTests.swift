@@ -33,6 +33,9 @@ class DtoTests: XCTestCase {
   func testIngestResultCarriesEventAndMetrics() {
     let itemID = UUID()
     let copiedAt = Date(timeIntervalSince1970: 1_717_171_717)
+    let signature = SignatureDTO(entries: [
+      ContentSignatureEntry(type: "public.utf8-plain-text", fingerprint: 42, size: 10)
+    ])
     let snapshot = ItemSnapshotDTO(
       id: itemID,
       title: "Copied text",
@@ -42,7 +45,8 @@ class DtoTests: XCTestCase {
       pin: nil,
       application: "org.example.App",
       textPreview: "Copied text",
-      imageFingerprint: nil
+      imageFingerprint: nil,
+      signature: signature
     )
 
     let result = IngestResult(

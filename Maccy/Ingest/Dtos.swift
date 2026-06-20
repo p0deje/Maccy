@@ -66,6 +66,7 @@ struct ItemSnapshotDTO: Equatable, Sendable {
   let application: String?
   let textPreview: String
   let imageFingerprint: UInt64?
+  let signature: SignatureDTO
 }
 
 enum StoreEvent: Equatable, Sendable {
@@ -109,7 +110,15 @@ struct IngestMetrics: Equatable, Sendable {
 }
 
 func snapshot(of item: HistoryItem) -> ItemSnapshotDTO {
-  ItemSnapshotDTO(
+  let signature = SignatureDTO(entries: item.contents.map { content in
+    let value = content.value
+    return ContentSignatureEntry(
+      type: content.type,
+      fingerprint: value.flatMap(ClipboardDataProcessor.fingerprintIfLarge),
+      size: value?.count ?? 0
+    )
+  })
+  return ItemSnapshotDTO(
     id: itemID(for: item),
     title: item.title,
     firstCopiedAt: item.firstCopiedAt,
@@ -118,7 +127,8 @@ func snapshot(of item: HistoryItem) -> ItemSnapshotDTO {
     pin: item.pin,
     application: item.application,
     textPreview: item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit),
-    imageFingerprint: item.imageData.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
+    imageFingerprint: item.imageData.flatMap(ClipboardDataProcessor.fingerprintIfLarge),
+    signature: signature
   )
 }
 

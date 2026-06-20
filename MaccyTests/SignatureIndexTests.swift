@@ -59,6 +59,95 @@ class SignatureIndexTests: XCTestCase {
     XCTAssertEqual(index.lookup(textSignature), newID)
   }
 
+  func testInitFromSnapshotsRebuildsIndex() {
+    let snapshot = makeSnapshot(id: UUID(), signature: textSignature)
+
+    let index = SignatureIndex(from: [snapshot])
+
+    XCTAssertEqual(index.lookup(textSignature), snapshot.id)
+  }
+
+  func testMergeAddedRegistersSignature() {
+    let snapshot = makeSnapshot(id: UUID(), signature: textSignature)
+    var index = SignatureIndex()
+
+    index.merge(.added(snapshot))
+
+    XCTAssertEqual(index.lookup(textSignature), snapshot.id)
+  }
+
+  func testMergeMergedRegistersSignature() {
+    let snapshot = makeSnapshot(id: UUID(), signature: textSignature)
+    var index = SignatureIndex()
+
+    index.merge(.merged(snapshot))
+
+    XCTAssertEqual(index.lookup(textSignature), snapshot.id)
+  }
+
+  func testMergeRemovedUnregisters() {
+    let itemID = UUID()
+    var index = SignatureIndex()
+    index.register(textSignature, id: itemID)
+
+    index.merge(.removed(itemID))
+
+    XCTAssertNil(index.lookup(textSignature))
+  }
+
+  func testMergeClearedResets() {
+    let itemID = UUID()
+    var index = SignatureIndex()
+    index.register(textSignature, id: itemID)
+
+    index.merge(.cleared)
+
+    XCTAssertNil(index.lookup(textSignature))
+  }
+
+  func testCandidatesReturnsIDForExactMatch() {
+    let itemID = UUID()
+    var index = SignatureIndex()
+    index.register(textSignature, id: itemID)
+
+    let request = IngestRequest(
+      source: CopyOrigin(changeCount: 1),
+      contents: [
+        ContentDTO(
+          type: "public.utf8-plain-text",
+          value: nil,
+          fingerprint: 100,
+          size: 12
+        )
+      ],
+      application: nil,
+      now: Date(timeIntervalSince1970: 0)
+    )
+
+    XCTAssertEqual(index.candidates(for: request), [itemID])
+  }
+
+  func testCandidatesReturnsEmptyForNoMatch() {
+    var index = SignatureIndex()
+    index.register(textSignature, id: UUID())
+
+    let request = IngestRequest(
+      source: CopyOrigin(changeCount: 1),
+      contents: [
+        ContentDTO(
+          type: "public.png",
+          value: nil,
+          fingerprint: 999,
+          size: 64
+        )
+      ],
+      application: nil,
+      now: Date(timeIntervalSince1970: 0)
+    )
+
+    XCTAssertEqual(index.candidates(for: request), [])
+  }
+
   private var textSignature: SignatureDTO {
     SignatureDTO(entries: [
       ContentSignatureEntry(type: "public.utf8-plain-text", fingerprint: 100, size: 12)
@@ -83,5 +172,21 @@ class SignatureIndexTests: XCTestCase {
       ContentSignatureEntry(type: "public.utf8-plain-text", fingerprint: 100, size: 12),
       ContentSignatureEntry(type: "public.png", fingerprint: 200, size: 64)
     ])
+  }
+
+  private func makeSnapshot(id: ItemID, signature: SignatureDTO) -> ItemSnapshotDTO {
+    let timestamp = Date(timeIntervalSince1970: 1_717_171_717)
+    return ItemSnapshotDTO(
+      id: id,
+      title: "Sample",
+      firstCopiedAt: timestamp,
+      lastCopiedAt: timestamp,
+      numberOfCopies: 1,
+      pin: nil,
+      application: nil,
+      textPreview: "Sample",
+      imageFingerprint: nil,
+      signature: signature
+    )
   }
 }
