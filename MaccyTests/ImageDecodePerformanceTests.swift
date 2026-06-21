@@ -69,14 +69,20 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
   /// fails, every mainThread measurement below is meaningless — fix the probe.
   func testProbeDetectsSynchronousMainStall() async {
     probe.start()
-    let until = Date().addingTimeInterval(0.05)
+    // Block main ~80 ms (longer than one frame + sampler jitter). The sampler
+    // dispatches ticks during this block; maxGapAsync drains them and the
+    // recorded delay must reflect the stall. Threshold 0.02s is well below the
+    // ~80 ms block but well above noise, so the test is robust to sampler
+    // timing on the loaded headless runner (an earlier 0.04 threshold flaked
+    // when the first tick landed ~38 ms in).
+    let until = Date().addingTimeInterval(0.08)
     while Date() < until {}
     let gap = await probe.maxGapAsync()
     probe.stop()
     XCTAssertGreaterThan(
       gap,
-      0.04,
-      "Probe must detect the 50 ms main stall; got \(gap)s"
+      0.02,
+      "Probe must detect the ~80 ms main stall; got \(gap)s"
     )
   }
 
