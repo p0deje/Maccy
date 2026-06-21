@@ -68,6 +68,12 @@ enum PerfFixtures {
     return item
   }
 
+  /// The corpus dir (shared Release asset when `MACCY_PERF_FIXTURES` is set).
+  private static var corpusDir: URL? {
+    ProcessInfo.processInfo.environment["MACCY_PERF_FIXTURES"]
+      .map { URL(fileURLWithPath: $0) }
+  }
+
   private static func makeTextItem(index: Int) -> HistoryItem {
     let paragraph = "The quick brown fox jumps over the lazy dog. " +
       "Maccy is a lightweight clipboard manager for macOS. "
@@ -81,10 +87,30 @@ enum PerfFixtures {
     return item
   }
 
+  /// Returns real-photo JPEG bytes from the shared corpus (`MACCY_PERF_FIXTURES`)
+  /// if available — the same 1–10MB high-detail photos the A tests use, so B's
+  /// decode cost reflects real photos (not trivial CG images that decode in
+  /// microseconds). Falls back to the in-process CG generator when no corpus is
+  /// present (local runs). The corpus files are named `<bucket>_v<variant>.jpg`
+  /// (see `ImageFixtureGenerator.jpeg`); we cycle buckets across seeds for a
+  /// size mix.
+  private static func makeImageJPEG(seed: Int) -> Data {
+    if let dir = corpusDir {
+      let buckets = ["oneMB", "twoMB", "halfMB"]
+      let bucket = buckets[seed % buckets.count]
+      let fileURL = dir.appendingPathComponent("\(bucket)_v\(seed).jpg")
+      if let data = try? Data(contentsOf: fileURL), !data.isEmpty {
+        return data
+      }
+    }
+    return generateCGImageJPEG(seed: seed)
+  }
+
   /// A seed-dependent photo-like JPEG (base fill + varied rects) with
   /// high-frequency detail so it isn't trivially compressible — stresses the
   /// ImageIO decode path. Distinct per seed (distinct fingerprint → no dedup).
-  private static func makeImageJPEG(seed: Int) -> Data {
+  /// Used only when no shared corpus is present.
+  private static func generateCGImageJPEG(seed: Int) -> Data {
     let width = 1000
     let height = 750
     let colorSpace = CGColorSpaceCreateDeviceRGB()

@@ -1,0 +1,99 @@
+name: Generate perf corpus
+
+# Generates the shared performance-test image corpus (real CC0 photos cropped
+# to the {10,5,2,1,0.5}MB distribution) and publishes it as a GitHub Release
+# asset tagged `perf-corpus-<hash>`, where <hash> is the git blob hash of
+# ImageFixtureGenerator.swift. The main CI workflow downloads this asset so perf
+# shards reuse the corpus across runs (generate once, reuse) instead of
+# regenerating ~190s of fixtures every run. Manual + on generator changes.
+#
+# Image bytes are uploaded as a Release asset (NOT committed to git, NOT in test
+# logs — only PERF| text lines are logged).
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths:
+      - 'MaccyTests/ImageFixtureGenerator.swift'
+
+concurrency:
+  group: generate-perf-corpus
+  cancel-in-progress: false
+
+jobs:
+  generate:
+    runs-on: macos-26
+    timeout-minutes: 30
+    env:
+      NSUnbufferedIO: YES
+      OS_ACTIVITY_MODE: disable
+      PROJECT: Maccy.xcodeproj
+      SCHEME: Maccy
+      CONFIGURATION: Debug
+      DESTINATION: platform=macOS,arch=arm64
+      DERIVED_DATA: ${{ github.workspace }}/DerivedData
+      CORPUS_DIR: ${{ github.workspace }}/perf-corpus
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+
+      - name: Enforce macOS 26 ARM runner
+        shell: bash
+        run: |
+          set -euo pipefail
+          [[ "$(sw_vers -productVersion)" == 26.* ]] || { echo "Expected macOS 26.x"; exit 1; }
+          [[ "$(uname -m)" == arm64 ]] || { echo "Expected arm64"; exit 1; }
+
+      - name: Compute corpus tag
+        id: tag
+        shell: bash
+        run: |
+          corpus_tag="perf-corpus-$(git rev-parse HEAD:MaccyTests/ImageFixtureGenerator.swift | cut -c1-16)"
+          echo "tag=$corpus_tag" >> "$GITHUB_OUTPUT"
+          echo "Corpus tag: $corpus_tag"
+
+      - name: Skip if asset already exists
+        id: exists
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          if gh release view "${{ steps.tag.outputs.tag }}" 2>/dev/null \
+             && gh release download "${{ steps.tag.outputs.tag }}" -p 'perf-corpus.tar.gz' -D /tmp 2>/dev/null; then
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+            echo "Corpus asset already published for ${{ steps.tag.outputs.tag }}; skipping."
+          else
+            echo "exists=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Generate corpus
+        if: steps.exists.outputs.exists != 'true'
+        shell: bash
+        run: |
+          set -uo pipefail
+          mkdir -p "$CORPUS_DIR"
+          mkdir -p DerivedData
+          xcodebuild \
+            -project "$PROJECT" -scheme "$SCHEME" \
+            -configuration "$CONFIGURATION" -destination "$DESTINATION" \
+            -derivedDataPath "$DERIVED_DATA" \
+            -only-testing:MaccyTests/CorpusGeneratorTests/testGenerateCorpusToEnv \
+            CODE_SIGNING_ALLOWED=NO \
+            test 2>&1 | grep -E 'PERF\||Test Case .*(passed|failed)|\*\* TEST' || true
+          echo "Generated: $(ls "$CORPUS_DIR" | wc -l) files"
+
+      - name: Publish corpus as Release asset
+        if: steps.exists.outputs.exists != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar -czf /tmp/perf-corpus.tar.gz -C "$CORPUS_DIR" .
+          # Create the release (ignore error if it somehow exists), then upload.
+          gh release create "${{ steps.tag.outputs.tag }}" \
+            --notes "Performance-test image corpus (auto-generated). Do not edit." \
+            --title "${{ steps.tag.outputs.tag }}" || true
+          gh release upload "${{ steps.tag.outputs.tag }}" /tmp/perf-corpus.tar.gz --clobber
+          echo "Published corpus ${{ steps.tag.outputs.tag }}"

@@ -132,7 +132,7 @@ jobs:
           # shard's only-list in sync as perf classes are added.
           - shard: unit
             only: "MaccyTests"
-            skip: "MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests MaccyTests/ImageDecodePerformanceTests MaccyTests/TextSearchPerformanceTests"
+            skip: "MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests MaccyTests/ImageDecodePerformanceTests MaccyTests/TextSearchPerformanceTests MaccyTests/CorpusGeneratorTests"
             block: true
           - shard: ui-1
             only: "MaccyUITests/MaccyUITests/testPopupWithHotkey MaccyUITests/MaccyUITests/testCloseWithHotkey MaccyUITests/MaccyUITests/testPopupWithMenubar MaccyUITests/MaccyUITests/testNewCopyIsAdded MaccyUITests/MaccyUITests/testSearch MaccyUITests/MaccyUITests/testCopyWithClick MaccyUITests/MaccyUITests/testDownArrow MaccyUITests/MaccyUITests/testUpArrow"
@@ -191,6 +191,28 @@ jobs:
       - name: Prepare log and result directories
         shell: bash
         run: mkdir -p "$LOG_DIR" "$RESULT_BUNDLES"
+
+      - name: Fetch shared perf corpus (perf shards only)
+        if: ${{ startsWith(matrix.shard, 'perf-') }}
+        shell: bash
+        env:
+          CORPUS_DIR: ${{ github.workspace }}/perf-corpus
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -uo pipefail
+          mkdir -p "$CORPUS_DIR"
+          # Corpus version = hash of the generator source (bump the corpus by
+          # changing ImageFixtureGenerator.swift). The generate-perf-corpus
+          # workflow publishes perf-corpus-<hash> Release assets.
+          corpus_tag="perf-corpus-$(git rev-parse HEAD:MaccyTests/ImageFixtureGenerator.swift | cut -c1-16)"
+          echo "Corpus tag: $corpus_tag"
+          if gh release download "$corpus_tag" -p 'perf-corpus.tar.gz' -D /tmp 2>/dev/null; then
+            tar -xzf /tmp/perf-corpus.tar.gz -C "$CORPUS_DIR"
+            echo "Downloaded corpus: $(ls "$CORPUS_DIR" | wc -l) files"
+          else
+            echo "No prebuilt corpus for this generator version; tests will generate locally."
+          fi
+          echo "MACCY_PERF_FIXTURES=$CORPUS_DIR" >> "$GITHUB_ENV"
 
       - name: Build and test shard
         shell: bash

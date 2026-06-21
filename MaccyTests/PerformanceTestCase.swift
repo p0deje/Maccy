@@ -9,8 +9,17 @@ import XCTest
 @MainActor
 class PerformanceTestCase: XCTestCase {
   private let savedSize = Defaults[.size]
-  let cacheDir: URL = FileManager.default.temporaryDirectory
-    .appending(path: "MaccyPerf-\(UUID().uuidString)")
+  /// Fixture corpus dir. If `MACCY_PERF_FIXTURES` is set (CI pre-downloads a
+  /// shared Release-asset corpus there), use it so the corpus is shared across
+  /// tests AND across runs (generated once, reused). Otherwise a per-run temp
+  /// dir (regenerated each run).
+  let cacheDir: URL = {
+    if let shared = ProcessInfo.processInfo.environment["MACCY_PERF_FIXTURES"] {
+      return URL(fileURLWithPath: shared)
+    }
+    return FileManager.default.temporaryDirectory
+      .appending(path: "MaccyPerf-\(UUID().uuidString)")
+  }()
   let probe = MainThreadProbe(interval: 0.01)
 
   override func setUp() {
@@ -26,7 +35,11 @@ class PerformanceTestCase: XCTestCase {
     History.shared.clearAll()
     History.shared.searchQuery = ""
     Defaults[.size] = savedSize
-    try? FileManager.default.removeItem(at: cacheDir)
+    // Only clean up a per-run temp corpus dir; never the shared
+    // MACCY_PERF_FIXTURES dir (it persists across runs/tests).
+    if ProcessInfo.processInfo.environment["MACCY_PERF_FIXTURES"] == nil {
+      try? FileManager.default.removeItem(at: cacheDir)
+    }
     super.tearDown()
   }
 
