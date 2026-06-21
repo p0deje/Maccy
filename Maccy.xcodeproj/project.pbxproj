@@ -194,7 +194,7 @@
 		E000000E2F5000000000000E /* HistoryItemEngine.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000D2F5000000000000D /* HistoryItemEngine.swift */; };
 		E00000102F50000000000010 /* HistoryItemPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E000000F2F5000000000000F /* HistoryItemPerformanceTests.swift */; };
 		2B6F1A2B4C5D00000000000C /* PerformanceHarnessWiringTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D00000000000D /* PerformanceHarnessWiringTest.swift */; };
-		2B6F1A2B4C6D000000000002 /* CorpusGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C6D000000000001 /* CorpusGeneratorTests.swift */; };
+		2B6F1A2B4C6D0000000000A2 /* CorpusGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C6D0000000000A1 /* CorpusGeneratorTests.swift */; };
 		2B6F1A2B4C5D00000000000E /* ImageFixtureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D00000000000F /* ImageFixtureGenerator.swift */; };
 		2B6F1A2B4C5D000000000012 /* ImageFixtureGeneratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D000000000013 /* ImageFixtureGeneratorTests.swift */; };
 		2B6F1A2B4C5D000000000014 /* PerformanceTestCase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D000000000015 /* PerformanceTestCase.swift */; };
@@ -662,7 +662,7 @@
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Shortcuts.swift"; sourceTree = "<group>"; };
 		E000000F2F5000000000000F /* HistoryItemPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemPerformanceTests.swift; sourceTree = "<group>"; };
 		2B6F1A2B4C5D00000000000D /* PerformanceHarnessWiringTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceHarnessWiringTest.swift; sourceTree = "<group>"; };
-		2B6F1A2B4C6D000000000001 /* CorpusGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorpusGeneratorTests.swift; sourceTree = "<group>"; };
+		2B6F1A2B4C6D0000000000A1 /* CorpusGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CorpusGeneratorTests.swift; sourceTree = "<group>"; };
 		2B6F1A2B4C5D00000000000F /* ImageFixtureGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFixtureGenerator.swift; sourceTree = "<group>"; };
 		2B6F1A2B4C5D000000000013 /* ImageFixtureGeneratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageFixtureGeneratorTests.swift; sourceTree = "<group>"; };
 		2B6F1A2B4C5D000000000015 /* PerformanceTestCase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerformanceTestCase.swift; sourceTree = "<group>"; };
@@ -888,7 +888,7 @@
 				DA3CE8331E44A62500B3AA98 /* PopupTests.swift */,
 				E000000F2F5000000000000F /* HistoryItemPerformanceTests.swift */,
 				2B6F1A2B4C5D00000000000D /* PerformanceHarnessWiringTest.swift */,
-				2B6F1A2B4C6D000000000001 /* CorpusGeneratorTests.swift */,
+				2B6F1A2B4C6D0000000000A1 /* CorpusGeneratorTests.swift */,
 				2B6F1A2B4C5D00000000000F /* ImageFixtureGenerator.swift */,
 				2B6F1A2B4C5D000000000013 /* ImageFixtureGeneratorTests.swift */,
 				2B6F1A2B4C5D000000000015 /* PerformanceTestCase.swift */,
@@ -1323,7 +1323,7 @@
 				DA3CE82E1E44A62500B3AA98 /* SupportTests.swift in Sources */,
 				E00000102F50000000000010 /* HistoryItemPerformanceTests.swift in Sources */,
 				2B6F1A2B4C5D00000000000C /* PerformanceHarnessWiringTest.swift in Sources */,
-				2B6F1A2B4C6D000000000002 /* CorpusGeneratorTests.swift in Sources */,
+				2B6F1A2B4C6D0000000000A2 /* CorpusGeneratorTests.swift in Sources */,
 				2B6F1A2B4C5D00000000000E /* ImageFixtureGenerator.swift in Sources */,
 				2B6F1A2B4C5D000000000012 /* ImageFixtureGeneratorTests.swift in Sources */,
 				2B6F1A2B4C5D000000000014 /* PerformanceTestCase.swift in Sources */,
