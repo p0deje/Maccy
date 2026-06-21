@@ -73,6 +73,9 @@ final class PreviewRefreshUITests: XCTestCase {
     post(Self.perfDump, userInfo: ["category": "preview-refresh"])
     usleep(500_000)
 
+    // Diagnostic: print the raw dump so CI shows what (if anything) the app
+    // recorded. Removed once the preview-refresh path is confirmed stable.
+    printRawDump(from: perfLogURL)
     let previewCount = readPreviewCount(from: perfLogURL)
     // Before the fix this was 0–1 (the stuck first render). After the fix,
     // navigating 3 items must produce multiple preview renders.
@@ -115,6 +118,12 @@ final class PreviewRefreshUITests: XCTestCase {
       usleep(200_000)
     }
     return 0
+  }
+
+  /// Prints the raw dump file contents (diagnostic).
+  private func printRawDump(from url: URL) {
+    let text = (try? String(contentsOf: url, encoding: .utf8)) ?? "<unreadable>"
+    print("PERFRAW|file=\(url.lastPathComponent)|content=\(text)")
   }
 
   private func makeImage(seed: Int) -> NSImage {
