@@ -1,25 +1,24 @@
 import XCTest
 @testable import Maccy
 
-/// Corpus-generation entrypoint for the `generate-perf-corpus` workflow. When
-/// run with `MACCY_PERF_FIXTURES` set, generates the full image corpus (all
-/// buckets × enough variants) into that dir so the workflow can upload it as a
-/// GitHub Release asset (shared across runs — "generate once, reuse, not in
-/// git"). NOT run by the main CI test shards (they download the prebuilt
-/// corpus); invoked only by the dedicated `workflow_dispatch` generate job.
+/// Corpus-generation entrypoint for the `generate-perf-corpus` workflow.
+/// Generates the full image corpus into a FIXED, agreed-upon cache dir
+/// (`~/Library/Caches/MaccyPerfCorpus`) so the workflow can tar + upload it
+/// as a GitHub Release asset — no env-var plumbing through the xcodebuild test
+/// host (which doesn't reliably inherit the caller's env under the
+/// `enable-testing` test plan). The workflow reads from the same path.
 ///
-/// Generating enough variants to cover the worst-case A test (200 items) would
-/// be slow + huge; instead we generate a representative set per bucket and the
-/// tests cycle `variant % count` (see `ImageFixtureGenerator.jpeg`'s
-/// `variant % sourceImages.count`).
+/// NOT run by the main CI test shards (they download the prebuilt corpus);
+/// invoked only by the dedicated `workflow_dispatch` generate job.
 @MainActor
 final class CorpusGeneratorTests: XCTestCase {
+  /// The agreed-upon corpus dir shared with the generate workflow.
+  static let corpusDir = FileManager.default.urls(
+    for: .cachesDirectory, in: .userDomainMask
+  ).first!.appendingPathComponent("MaccyPerfCorpus", isDirectory: true)
+
   func testGenerateCorpusToEnv() throws {
-    let dir = try XCTUnwrap(
-      ProcessInfo.processInfo.environment["MACCY_PERF_FIXTURES"],
-      "MACCY_PERF_FIXTURES must be set (run only via the generate-perf-corpus workflow)"
-    )
-    let cacheDir = URL(fileURLWithPath: dir)
+    let cacheDir = Self.corpusDir
     try? FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: true)
     // Generate a LARGE corpus so the A tests' N=200 image scenarios get 200+
     // distinct real photos (no cycling, no per-run regeneration when the
@@ -39,6 +38,7 @@ final class CorpusGeneratorTests: XCTestCase {
     }
     let contents = (try? FileManager.default.contentsOfDirectory(
       at: cacheDir, includingPropertiesForKeys: nil)) ?? []
-    print("PERF|corpus-generated|dir=\(dir)|files=\(contents.count)")
+    print("PERF|corpus-generated|dir=\(cacheDir.path)|files=\(contents.count)")
+    XCTAssertGreaterThanOrEqual(contents.count, 200, "Corpus generation produced too few files")
   }
 }
