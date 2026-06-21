@@ -135,3 +135,106 @@ enum BinaryInsertion {
 
 ## Commit
 `perf(data-pipeline): batched background load, signature-index dedup, binary insert, symmetric in-memory lhs fingerprint, popup pre-warm, sessionLog→ItemID`
+
+---
+
+## 2026-06-21 复核与改写(recorded deviation)
+
+**触发**:P0/P1/P2/P3 渲染止血收尾后(均 CI 绿,`1179b19` / run `27907591119`),
+harness 给出诚实基线(1000× bug 已修),复核 step-4 原文与 BS-2 后的**实时**架构
+发现原文部分小步骤瞄准的是 BS-2 之前的旧代码,已于 BS-2 作废。按 AGENTS.md
+"先在审计文档记录偏差再提交"的要求,本节改写受影响小步骤的落点。
+
+### 实时基线(2026-06-21, run `27907591119`, 1000× 修复后)
+
+| 场景 | 指标 | 值 | BS-4 目标 |
+|---|---|---|---|
+| 冷开 `load()` image-many-200 | `mainThread_maxGap_s` | **0.999s** | < 16ms 首屏 |
+| 冷开 `load()` mixed-200 | `mainThread_maxGap_s` | 0.460s | < 16ms 首屏 |
+| 冷开 `load()` text-many-200 | `mainThread_maxGap_s` | 0.431s | < 16ms 首屏 |
+| 复制 `consume`→reconcile (text, N=20) | `perCopyMaxMs` | **14.22ms** | < 16ms/复制 |
+| 复制 `consume`→reconcile (text, N=20) | `perCopyAvgMs` | 8.88ms | — |
+| 复制 `consume`→reconcile (text, N=20) | `mainThread_maxGap_s` | **0.324s** | 消除全表 refetch |
+
+`load()` 的 ~1s 主线程块 = 全表 `context.fetch` + `sorter.sort` + 装饰全表(均在
+`@MainActor`,`History.swift:201-214`)。复制路径的 0.324s maxGap =
+`reconcileWithStore`(`History.swift:291-324`)**每次复制都全表 refetch + 全表
+resort**(`:294`)。
+
+### 已作废的旧落点(4.2 / 4.4 原文瞄准 BS-2 前代码)
+
+BS-2 把实时摄取迁到 `@ModelActor BackgroundClipboardIngestor`,通过 `StoreEvent`
+驱动 `History.consume`→`reconcileWithStore`(`AppDelegate.swift:76` 接线)。复核
+调用点:
+
+- **`History.add`(`History.swift:233`)** 唯一调用者是
+  `ClipboardIngestor.swift:15` 的 `MainActorIngestorAdapter` —— 这是 BS-1 留下的
+  **遗留适配器,生产已不用**(实时路径走 `BackgroundClipboardIngestor`)。
+  `findSimilarItem`(`History.swift:640`)仅被 `add`→`mergeDuplicateIfNeeded`
+  (`:328`)调用,随 `add` 一并作废。
+- 因此**原 4.4(`add`→二分插入)与原 4.2(`findSimilarItem`→索引)瞄准的是死代码**。
+  实时去重已在 actor 内:`BackgroundClipboardIngestor.findDuplicate`
+  (`ClipboardIngestor.swift:221`)做 `existing.first { $0.supersedes(signature) }`
+  的**线性扫描**,且 `SignatureIndex` 尚未接入实时去重。
+
+### 改写后的落点
+
+- **4.2(retarget)** — 索引去重的真实落点改为 `BackgroundClipboardIngestor`
+  而非 `History.findSimilarItem`:
+  - ingestor 在 `@ModelActor` 内维护 `SignatureIndex`(Sendable;`init(from:)` 已就绪),
+    `findDuplicate` 改查索引(`candidates(for:)` → 命中候选后精确 `supersedes` 确认),
+    从 O(n) 线性降为 O(命中数)。
+  - 索引构建:ingestor 在初始化/首摄取时由后台 context 投影 `[ItemSnapshotDTO]` 构建
+    (`SignatureIndex.init(from:)`),`merge(_:)` 消费每次 `StoreEvent` 增量维护。
+  - `History.findSimilarItem` / `add` / `mergeDuplicateIfNeeded` 是死代码,本步**不
+    改其实现**(避免给死代码投入);BS-4 末尾 4.8 评估是否直接删除(连同
+    `MainActorIngestorAdapter`),需确认无测试/特性开关依赖。
+- **4.4(retarget,新增 4.4a reconcileWithStore 增量化)** — 实时每复制一次的
+  `reconcileWithStore` 全表 refetch+resort 是测得的 0.324s maxGap 来源,**原 step-4
+  无任何小步骤覆盖它**,这是原文的缺口。新增:
+  - `consume(.added/.merged)` 不再全表 refetch:由 `StoreEvent` 携带的
+    `ItemSnapshotDTO`(已是 Sendable)在主线程**增量**插入/移动到 `all`/`items` 的
+    正确位置,复用既有 decorator(按 `persistentModelID`),仅对新增/变更项装饰。
+    插入位置用 `BinaryInsertion.index`(`4.4` 仍提供此纯函数,pinned 分区 + 算法内
+    二分),`O(log n)`。
+  - `.removed`/`.cleared` 走增量删除(按 id)而非全表重建。
+  - 全表 refetch 仅保留为兜底(索引/事件丢失或 `Defaults` 排序变更时)。
+  - 语义不变:最终 `all` 的排序结果 == 改前全表 sort 的结果(逐项属性测试保证);
+    decorator 复用使已解码缩略图幸存(与现 `reconcileWithStore` 一致)。
+  - **4.4 的二分插入纯函数 + pinned 分区**仍按原文实现(`BinaryInsert.swift`),只是
+    主消费者从死掉的 `History.add` 改为 `History.consume`。
+- **4.3** — 不变,仍是最高价值(`load()` 的 ~1s→<16ms)。`VisibleWindowLoader` 后台
+  分批 + 仅装饰可见窗口 + tail 低优先级续预取;`signatureIndex` 由全部快照构建
+  (供 4.2 ingestor 共享,或独立构建——4.1 契约已允许多实例)。
+- **4.5 / 4.6 / 4.7 / 4.8 / 4.9** — 仍相关,执行到时逐一复核:
+  - 4.5(指纹对称)落点 `ContentIndex`/`ClipboardDataProcessor` 仍为实时去重服务;
+  - 4.6(`sessionLog`→`ItemID`)落点不变(`History.swift:60-61`),但需确认
+    `sessionLog` 是否仍被实时路径读(`isModified` 仅 `mergeDuplicateIfNeeded` 用→随
+    `add` 作废?复核);
+  - 4.7(coalesce + prewarm)落点 `Popup`/`AppState`/`ClipboardIngestor` 不变;
+  - 4.8 残留清理增加"评估删除 `add`/`findSimilarItem`/`MainActorIngestorAdapter`"。
+
+### 复杂度表更新
+
+| 操作 | 前 | 后 | 落点 |
+|---|---|---|---|
+| 冷开 load | O(n) fetch+sort+装饰(全 main),maxGap 0.999s | **O(visible)** 主线程装饰;O(n) 后台分批 | 4.3 |
+| 复制去重(actor) | O(n) 线性 `supersedes` 扫描 | **O(命中数)** 索引查询+精确确认 | 4.2(retarget) |
+| 复制 reconcile | **O(n) 全表 refetch+resort/次**(maxGap 0.324s) | **O(log n)** 增量二分插入/移动 | 4.4a(新增) |
+| shortcut 刷新 | O(visible) 双遍 | O(visible) 单遍 diff | 4.6 |
+| 哈希调用 | 每比对重算 lhs FNV | 0(lhs 内存缓存) | 4.5 |
+
+### 执行顺序(改写后)
+
+4.1(已就绪)→ **4.3(load,最高价值,先止血冷开)** → **4.2(retarget ingestor
+索引去重)** → **4.4 + 4.4a(BinaryInsertion 纯函数 + reconcile 增量化)** →
+4.5 → 4.6 → 4.7 → 4.8(含死代码删除评估)→ 4.9。每小步 TDD + 提交 + CI(≥2min
+轮询),BS-4 末尾整步编译+全绿后推送。
+
+### 不变量(改写后仍守)
+
+- `A §7`:"主线程无 >16ms 同步重活""跨 actor 载荷 Sendable" —— 对 load / dedup /
+  reconcile / 预加载达成。
+- "单一可变源":`SignatureIndex` 是 store 的投影,ingestor 单事务写 + 事件驱动增量维护;
+  `History.all`/`items` 的真相仍是 SwiftData,增量 reconcile 是其投影。
+- 行为正确性与 BS-2 后状态一致(排序/去重合并/容量裁剪语义不变)。
