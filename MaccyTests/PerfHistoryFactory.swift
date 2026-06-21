@@ -73,7 +73,8 @@ enum PerfHistoryFactory {
     let pairCount = min(images, texts)
     var timestamp = 0.0
     for index in 0..<pairCount {
-      let imageData = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: index % corpusVariantCount, cacheDir: cacheDir)
+      let variant = index % corpusVariantCount
+      let imageData = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: variant, cacheDir: cacheDir)
       history.add(
         HistoryBuilder()
           .withContent(type: "public.png", value: imageData)
@@ -91,7 +92,8 @@ enum PerfHistoryFactory {
       timestamp += 1
     }
     for index in pairCount..<images {
-      let imageData = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: index % corpusVariantCount, cacheDir: cacheDir)
+      let variant = index % corpusVariantCount
+      let imageData = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: variant, cacheDir: cacheDir)
       history.add(
         HistoryBuilder()
           .withContent(type: "public.png", value: imageData)
