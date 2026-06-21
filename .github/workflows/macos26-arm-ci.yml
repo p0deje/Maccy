@@ -158,7 +158,7 @@ jobs:
           # into parallel runners. Keep these only-lists and the unit shard's
           # skip-list above in sync as perf classes are added.
           - shard: perf-image
-            only: "MaccyTests/ImageDecodePerformanceTests/testImageRenderFirst20 MaccyTests/ImageDecodePerformanceTests/testSingleLargeImageColdLoad MaccyTests/ImageDecodePerformanceTests/testManyImagesColdLoad_N200 MaccyTests/ImageDecodePerformanceTests/testMixedColdLoad_N200 MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests MaccyUITests/PerfRenderUITests/testImageRenderB"
+            only: "MaccyTests/ImageDecodePerformanceTests/testImageRenderFirst20 MaccyTests/ImageDecodePerformanceTests/testSingleLargeImageColdLoad MaccyTests/ImageDecodePerformanceTests/testManyImagesColdLoad_N200 MaccyTests/ImageDecodePerformanceTests/testMixedColdLoad_N200 MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests MaccyUITests/PerfRenderUITests/testImageRenderB MaccyUITests/PreviewRefreshUITests/testPreviewRefreshesAcrossNavigation"
             skip: ""
             block: false
           - shard: perf-text
