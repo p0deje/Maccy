@@ -96,9 +96,11 @@ enum PerfFixtures {
   /// size mix.
   private static func makeImageJPEG(seed: Int) -> Data {
     if let dir = corpusDir {
-      let buckets = ["oneMB", "twoMB", "halfMB"]
-      let bucket = buckets[seed % buckets.count]
-      let fileURL = dir.appendingPathComponent("\(bucket)_v\(seed).jpg")
+      // Use `.oneMB` (200 real-photo variants in the corpus) so B's 30-item
+      // traversal all hits cached real photos — no per-run generation when the
+      // corpus is present. 1MB images still exercise the ImageIO decode path.
+      let variant = seed % 200
+      let fileURL = dir.appendingPathComponent("oneMB_v\(variant).jpg")
       if let data = try? Data(contentsOf: fileURL), !data.isEmpty {
         return data
       }

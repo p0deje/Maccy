@@ -21,12 +21,19 @@ final class CorpusGeneratorTests: XCTestCase {
     )
     let cacheDir = URL(fileURLWithPath: dir)
     try? FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: true)
-    // Generate a spread of variants per bucket — enough for the B benchmark's
-    // 30 items + the A tests' 200 (cycled). Real CC0 photos, cropped to each
-    // bucket's byte target via JPEG-quality binary search.
-    let variantsPerBucket = 30
-    for bucket in ImageFixtureGenerator.Bucket.allCases {
-      for variant in 0..<variantsPerBucket {
+    // Generate a LARGE corpus so the A tests' N=200 image scenarios get 200+
+    // distinct real photos (no cycling, no per-run regeneration when the
+    // corpus is present). The main workload uses `.oneMB` (200 items), so
+    // generate 200 there; larger buckets are only used by single-item tests,
+    // so a smaller count keeps the Release asset size sane (`.tenMB` × 200
+    // alone would be ~2GB). `.oneMB` × 200 ≈ 200MB; the rest add ~50MB.
+    let bigBucket: ImageFixtureGenerator.Bucket = .oneMB
+    let bigCount = 200
+    for variant in 0..<bigCount {
+      _ = try ImageFixtureGenerator.jpeg(bucket: bigBucket, variant: variant, cacheDir: cacheDir)
+    }
+    for bucket in ImageFixtureGenerator.Bucket.allCases where bucket != bigBucket {
+      for variant in 0..<20 {
         _ = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: variant, cacheDir: cacheDir)
       }
     }

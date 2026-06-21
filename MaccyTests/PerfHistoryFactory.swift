@@ -9,13 +9,22 @@ import Foundation
 /// MaccyTests target; only `History` requires `@testable import Maccy`.
 @MainActor
 enum PerfHistoryFactory {
-  /// `count` image items, each a JPEG of `bucket` bytes.
+  /// Number of distinct images pre-generated for the main `.oneMB` bucket in
+  /// the shared corpus (see `CorpusGeneratorTests`). Tests request
+  /// `variant % corpusVariantCount` so every request hits a cached corpus file
+  /// when `MACCY_PERF_FIXTURES` is populated — no per-run image generation.
+  /// (Other buckets have fewer variants; the N=200 scenarios only use `.oneMB`.)
+  static let corpusVariantCount = 200
+
+  /// `count` image items, each a JPEG of `bucket` bytes. Cycles the corpus
+  /// variants so a populated corpus serves every request from cache.
   static func makeImages(count: Int, bucket: ImageFixtureGenerator.Bucket,
                          cacheDir: URL) throws -> History {
     let history = History.shared
     history.clearAll()
     for variant in 0..<count {
-      let data = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: variant, cacheDir: cacheDir)
+      let corpusVariant = variant % corpusVariantCount
+      let data = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: corpusVariant, cacheDir: cacheDir)
       history.add(
         HistoryBuilder()
           .withContent(type: "public.png", value: data)
@@ -64,7 +73,7 @@ enum PerfHistoryFactory {
     let pairCount = min(images, texts)
     var timestamp = 0.0
     for index in 0..<pairCount {
-      let imageData = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: index, cacheDir: cacheDir)
+      let imageData = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: index % corpusVariantCount, cacheDir: cacheDir)
       history.add(
         HistoryBuilder()
           .withContent(type: "public.png", value: imageData)
@@ -82,7 +91,7 @@ enum PerfHistoryFactory {
       timestamp += 1
     }
     for index in pairCount..<images {
-      let imageData = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: index, cacheDir: cacheDir)
+      let imageData = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: index % corpusVariantCount, cacheDir: cacheDir)
       history.add(
         HistoryBuilder()
           .withContent(type: "public.png", value: imageData)
