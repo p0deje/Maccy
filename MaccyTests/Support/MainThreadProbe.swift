@@ -53,14 +53,17 @@ final class MainThreadProbe {
   /// `DispatchQueue.main.async`, which are processed by the **main run loop** —
   /// NOT by `await Task.yield()` (yielding only suspends the current cooperative
   /// task; it does not pump the run loop, so dispatched main closures don't run
-  /// and `maxGap` stays 0.0 even after a real main block). So this pumps the main
-  /// run loop explicitly via `RunLoop.main.run(until:)`, repeating until `maxGap`
-  /// stabilizes (no increase across a pump) or a small cap is hit, so a final
-  /// late tick is not lost.
+  /// and `maxGap` stays 0.0 even after a real main block). And
+  /// `RunLoop.main.run(until:)` is unavailable from async contexts (Swift 6
+  /// error). So instead we enqueue a sentinel onto the main queue and await its
+  /// completion via a continuation — the main run loop processes the queued
+  /// sampler ticks (dispatched earlier, FIFO) before the sentinel, so by the
+  /// time the sentinel runs all earlier ticks have recorded their delays. We
+  /// repeat until `maxGap` stabilizes so a final late tick is not lost.
   func maxGapAsync() async -> TimeInterval {
     var previous = maxGap
     for _ in 0..<10 {
-      RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.02))
+      await drainMainQueue()
       let current = maxGap
       if current <= previous {
         return current
@@ -68,6 +71,18 @@ final class MainThreadProbe {
       previous = current
     }
     return maxGap
+  }
+
+  /// Awaits a sentinel block dispatched to the main queue. Because the main
+  /// queue is FIFO, all sampler ticks dispatched before the sentinel are
+  /// processed first — so after this returns, those ticks' delays are recorded
+  /// in `maxGap`. Async-safe (no `RunLoop.main.run`).
+  private func drainMainQueue() async {
+    await withCheckedContinuation { continuation in
+      DispatchQueue.main.async {
+        continuation.resume()
+      }
+    }
   }
 
   func start() {
