@@ -95,18 +95,21 @@ class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_bod
     let processor = ControllableImageProcessor()
     let itemDecorator = historyItemDecorator(largeImageData(), .png, imageProcessor: processor)
     itemDecorator.ensurePreviewImage()
-    XCTAssertNotNil(itemDecorator.previewImageGenerationTask, "preview task should be kicked")
+    let task = itemDecorator.previewImageGenerationTask
+    XCTAssertNotNil(task, "preview task should be kicked")
     XCTAssertNil(itemDecorator.previewImage, "no preview yet — decode is gated on the mock")
 
     // Cancel while the decode is parked in the mock. The task must be cancelled
     // + nil'd; the (still-nil) previewImage must be untouched.
     itemDecorator.cancelPreviewGeneration()
     XCTAssertNil(itemDecorator.previewImageGenerationTask, "task handle cleared on cancel")
-    // Release the mock so the cancelled task can finish without publishing.
-    processor.releaseAll()
-    // Give the cancelled task a turn to observe cancellation.
-    await Task.yield()
-    await Task.yield()
+    // Await the captured task: it completes when the cancel's onCancel resumes
+    // the parked continuation with nil (the mock honours cancellation). No
+    // releaseAll() here — that would race onCancel and could resume with an
+    // image. The await is the synchronization point.
+    if let task {
+      _ = await task.value
+    }
     XCTAssertNil(itemDecorator.previewImage, "cancelled decode must not publish an image")
   }
 
@@ -116,9 +119,9 @@ class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_bod
   func testCancelPreviewGenerationKeepsCachedPreview() async {
     let processor = ControllableImageProcessor()
     let itemDecorator = historyItemDecorator(largeImageData(), .png, imageProcessor: processor)
-    // Let one decode complete and cache.
-    processor.releaseAll()
+    // Kick, then let the decode complete and cache.
     itemDecorator.ensurePreviewImage()
+    processor.releaseAll()
     _ = await itemDecorator.previewImageGenerationTask?.result
     XCTAssertNotNil(itemDecorator.previewImage, "preview decoded + cached")
 
@@ -338,9 +341,15 @@ class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_bod
 /// or the awaiting task is cancelled — so a test can kick a preview, cancel it
 /// mid-decode, and assert the decode never publishes. Honours cooperative
 /// cancellation (`Task.isCancelled`) so the parked await returns nil on cancel.
+///
+/// Swift 6 safe: the cancel flag and the continuation list are both stored
+/// properties guarded by `lock` — no captured local-var mutation across the
+/// `withTaskCancellationHandler` operation/onCancel closures (which run
+/// concurrently).
 private final class ControllableImageProcessor: ImageProcessing, @unchecked Sendable {
   private let lock = NSLock()
   private var continuations: [CheckedContinuation<NSImage?, Never>] = []
+  private var didCancel = false
 
   func thumbnail(for data: Data, max: CGSize) async -> NSImage? {
     // Not exercised by the preview-cancellation tests; pass through.
@@ -351,8 +360,6 @@ private final class ControllableImageProcessor: ImageProcessing, @unchecked Send
     // Park until released or cancelled. On cancellation return nil (the
     // decorator discards it; no publish). Uses withTaskCancellationHandler so
     // a cancel of the awaiting task resumes the continuation with nil.
-    let cancellation = NSLock()
-    var didCancel = false
     return await withTaskCancellationHandler {
       await withCheckedContinuation { (continuation: CheckedContinuation<NSImage?, Never>) in
         lock.lock()
@@ -365,11 +372,10 @@ private final class ControllableImageProcessor: ImageProcessing, @unchecked Send
         lock.unlock()
       }
     } onCancel: {
-      cancellation.lock()
-      didCancel = true
-      cancellation.unlock()
-      // Resume one parked continuation (the cancelled one) with nil.
+      // Runs concurrently with the operation closure — touch shared state
+      // only under `lock` (no captured local-var mutation → Swift 6 safe).
       lock.lock()
+      didCancel = true
       let pending = continuations.isEmpty ? nil : continuations.removeFirst()
       lock.unlock()
       pending?.resume(returning: nil)
