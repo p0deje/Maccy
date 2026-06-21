@@ -158,15 +158,15 @@ jobs:
           # into parallel runners. Keep these only-lists and the unit shard's
           # skip-list above in sync as perf classes are added.
           - shard: perf-image
-            only: "MaccyTests/ImageDecodePerformanceTests/testImageRenderFirst20 MaccyTests/ImageDecodePerformanceTests/testSingleLargeImageColdLoad MaccyTests/ImageDecodePerformanceTests/testManyImagesColdLoad_N200 MaccyTests/ImageDecodePerformanceTests/testMixedColdLoad_N200 MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests"
+            only: "MaccyTests/ImageDecodePerformanceTests/testImageRenderFirst20 MaccyTests/ImageDecodePerformanceTests/testSingleLargeImageColdLoad MaccyTests/ImageDecodePerformanceTests/testManyImagesColdLoad_N200 MaccyTests/ImageDecodePerformanceTests/testMixedColdLoad_N200 MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests MaccyUITests/PerfRenderUITests/testImageRenderB"
             skip: ""
             block: false
           - shard: perf-text
-            only: "MaccyTests/ImageDecodePerformanceTests/testTextRenderFirst20 MaccyTests/TextSearchPerformanceTests"
+            only: "MaccyTests/ImageDecodePerformanceTests/testTextRenderFirst20 MaccyTests/TextSearchPerformanceTests MaccyUITests/PerfRenderUITests/testTextRenderB"
             skip: ""
             block: false
           - shard: perf-mixed
-            only: "MaccyTests/ImageDecodePerformanceTests/testMixedRenderFirst20"
+            only: "MaccyTests/ImageDecodePerformanceTests/testMixedRenderFirst20 MaccyUITests/PerfRenderUITests/testMixedRenderB"
             skip: ""
             block: false
     env:
