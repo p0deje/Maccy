@@ -95,3 +95,18 @@
 
 ## Commit
 `perf(image): ImageIO downsample, off-main decode, capped preview, two-tier thumbnail cache`
+
+---
+
+## 补强(2026-06-21)— preview 取消的 IMG-023 遗漏
+
+BS-3 落地时 IMG-023 的结构化取消只接到了 `invalidate()`/`cleanupImages()`(删除/清空/reconcile-removal 路径),**没接选择切换**。后果:`ImageProcessor` 是单个串行 actor,thumbnail+preview 解码全部排队;导航离开一个 lead item 时,它的 preview 解码继续跑完,堆积在 actor 队列上 → A mixed thumbnail `latencyMax=1530ms` 的长尾;鼠标 hover 是真实环境最坏触发(无节流,每次 row-enter 都发一次 selection → `.id` 重建 → `ensurePreviewImage`)。
+
+**修复:**
+- `HistoryItemDecorator.cancelPreviewGeneration()` — cancel + nil 掉 `previewImageGenerationTask`,**保留已缓存的 `previewImage`**(re-select 已解码项保持即时;re-select 已取消-未缓存项通过 nil 的 handle 重新 kick)。
+- `NavigationManager.leadHistoryItem.didSet` 在 lead 变化时调用 `oldValue.cancelPreviewGeneration()`(已按 id 去重)。集中式、与视图树无关。
+- TDD:`HistoryDecoratorTests` 用 `ControllableImageProcessor` mock(解码可 park/可取消)补三例取消断言,填补此前没有任何测试验证取消的空白。
+
+**已知局限:** 进行中的 `CGImageSourceCreateThumbnailAtIndex` 不可取消,所以一个已开始解码的图会跑完(结果被丢弃);完整的 latest-wins 抢占(actor 优先级队列)是更大的改动,暂缓。
+
+详见 `docs/audit/2026-06-21-render-feedback-stopgap.md`。

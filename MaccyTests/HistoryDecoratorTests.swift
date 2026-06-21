@@ -3,7 +3,7 @@ import Defaults
 @testable import Maccy
 
 @MainActor
-class HistoryItemDecoratorTests: XCTestCase {
+class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_body_length
   let boldFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
   let savedHighlightMatch = Defaults[.highlightMatch]
   let savedImageMaxHeight = Defaults[.imageMaxHeight]
