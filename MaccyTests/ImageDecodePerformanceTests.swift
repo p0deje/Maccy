@@ -60,6 +60,54 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
     print("PERF|scenario=\(scenario)|load_avg=\(average)|mainThread_maxGap_s=\(maxGap)")
   }
 
+  // MARK: - G-copy (live per-copy path): History.consume → reconcileWithStore
+
+  /// `G-copy` gate — the LIVE per-copy main-thread cost. In production the
+  /// `BackgroundClipboardIngestor` actor commits each copy off-main, then emits
+  /// `.added(snapshot)` which hops back to main into `History.consume` →
+  /// `reconcileWithStore` (`History.swift:291-324`): a **full `context.fetch` +
+  /// two-pass `sorter.sort` over ALL items on main, every copy** (`:294`). That
+  /// is the per-copy jank the user feels; this test measures it directly by
+  /// driving `consume(.added(...))` (bypassing the 1.5s pasteboard poll so we
+  /// time the main work, not the sleep). The legacy `findSimilarItem`/`History.add`
+  /// path is dead in production — see the audit; this measures the real path.
+  ///
+  /// Pre-populates 200 items, then simulates 20 copies (insert one item into the
+  /// main context + save, then `consume(.added(snapshot))`), timing each consume
+  /// + sampling main-thread occupancy across the burst.
+  func testGCopyPerCopyConsume_N200() async throws {
+    let history = try PerfHistoryFactory.makeTexts(count: 200, long: false)
+    _ = try? await history.load()
+
+    let clock = ContinuousClock()
+    var perCopyMs: [Double] = []
+    probe.start()
+    for index in 0..<20 {
+      // Insert a new item into the main context (what the actor's background
+      // save merges in), then drive the live consume path.
+      let item = HistoryBuilder()
+        .withContent(type: "public.utf8-plain-text", value: Data("copy #\(index)".utf8))
+        .withCopiedAt(Date(timeIntervalSince1970: 1_700_000_000 + Double(index)))
+        .build()
+      Storage.shared.context.insert(item)
+      try? Storage.shared.context.save()
+      let snapshot = snapshot(of: item)
+      let start = clock.now
+      history.consume(.added(snapshot))
+      perCopyMs.append(Self.milliseconds(start.duration(to: clock.now)))
+    }
+    let gap = await probe.maxGapAsync()
+    probe.stop()
+
+    let avg = perCopyMs.reduce(0, +) / Double(perCopyMs.count)
+    let maxCopy = perCopyMs.max() ?? 0
+    let perCopy = perCopyMs.map { String(format: "%.2f", $0) }.joined(separator: ",")
+    print("PERF|gate=G-copy|method=A|op=consume|items=\(perCopyMs.count)" +
+      "|perCopyMs=[\(perCopy)]|perCopyAvgMs=\(String(format: "%.2f", avg))" +
+      "|perCopyMaxMs=\(String(format: "%.2f", maxCopy))" +
+      "|mainThread_maxGap_s=\(gap)")
+  }
+
   // MARK: - Probe self-test (foundation check)
 
   /// Validates `MainThreadProbe` detects a main-thread stall. Blocks main
