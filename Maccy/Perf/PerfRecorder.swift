@@ -113,8 +113,11 @@ final class PerfRecorder {
 
   private static func millis(_ duration: Duration) -> Double {
     let components = duration.components
+    // `Duration.components` = (seconds, attoseconds) where attoseconds is the
+    // *sub-second* part (1 atto = 1e-18 s). Milliseconds = seconds×1000 +
+    // attoseconds/1e15. (Prior /1e18 underreported 1000× — see audit 2026-06-21.)
     return Double(components.seconds) * 1000
-      + Double(components.attoseconds) / 1_000_000_000_000_000_000
+      + Double(components.attoseconds) / 1_000_000_000_000_000
   }
 }
 #endif

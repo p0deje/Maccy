@@ -249,8 +249,12 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
 
   private static func milliseconds(_ duration: Duration) -> Double {
     let components = duration.components
+    // `Duration.components` = (seconds, attoseconds) where attoseconds is the
+    // *sub-second* part (1 atto = 1e-18 s). To get MILLISECONDS: seconds×1000
+    // + attoseconds/1e15. The prior /1e18 divided by 1000 too many, reporting
+    // ~0.06 "ms" for a 60 ms duration (1000× underreport). See audit 2026-06-21.
     return Double(components.seconds) * 1000
-      + Double(components.attoseconds) / 1_000_000_000_000_000_000
+      + Double(components.attoseconds) / 1_000_000_000_000_000
   }
 
   /// Emits one machine-parseable `PERF|…` line. Multi-line concatenation to

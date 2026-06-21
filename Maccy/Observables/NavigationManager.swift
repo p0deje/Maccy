@@ -57,7 +57,13 @@ class NavigationManager { // swiftlint:disable:this type_body_length
       if !isKeyboardNavigating && !isMultiSelectInProgress,
          let hoverSelection = hoverSelectionWhileKeyboardNavigating {
         hoverSelectionWhileKeyboardNavigating = nil
-        select(id: hoverSelection)
+        // Mouse hover selects an already-visible cell — do NOT programatically
+        // scroll to it. The prior `select(id:)` call routed through
+        // `select(item:)` → `scroll(to:)`, setting `scrollTarget` on every hover,
+        // which fed a LazyVStack anchor invalidation → layout-feedback storm
+        // (AttributeGraph / LazySubviewPlacements; spindump 2026-06-21). Hover
+        // must update selection without disturbing the scroll position.
+        selectWithoutScrolling(id: hoverSelection)
       }
     }
   }
