@@ -40,7 +40,15 @@ class NavigationManager { // swiftlint:disable:this type_body_length
       // preview survives (cancelPreviewGeneration keeps previewImage); only an
       // uncached in-flight decode is stopped. See
       // docs/audit/2026-06-21-render-feedback-stopgap.md.
-      oldValue?.cancelPreviewGeneration()
+      //
+      // Dispatched to MainActor: this didSet is nonisolated (NavigationManager
+      // is a plain @Observable model), but cancelPreviewGeneration touches the
+      // decorator's @MainActor task state. The hop is fine — cancellation
+      // need not be synchronous with the selection change.
+      let previous = oldValue
+      Task { @MainActor in
+        previous?.cancelPreviewGeneration()
+      }
 
       let preview = AppState.shared.preview
       if leadHistoryItem != nil {
