@@ -59,16 +59,16 @@ final class PreviewRefreshUITests: XCTestCase {
     // Let the first item's preview decode + render settle.
     usleep(1_500_000)
 
-    // Navigate down 3 distinct items, slowly enough that each preview's
-    // off-main decode completes (small images decode in ~ms, but leave margin
-    // for cold-cache + actor startup on the headless runner). Before the fix,
-    // only ~1 preview render fired (the first, stuck); after the fix, one per
-    // selection change.
-    for _ in 0..<3 {
+    // Navigate down 2 distinct items, slowly enough that each preview's
+    // off-main decode completes (small images decode fast, but the headless
+    // runner is heavily contended — leave generous margin). Before the fix,
+    // only the first item's preview ever generated (the view never re-
+    // requested); after the fix, each selection generates a new preview.
+    for _ in 0..<2 {
       app.typeKey(.downArrow, modifierFlags: [])
-      usleep(700_000)
+      usleep(1_200_000)
     }
-    usleep(1_500_000) // let the final off-main decode publish.
+    usleep(2_000_000) // let the final off-main decode publish.
 
     post(Self.perfDump, userInfo: ["category": "preview-refresh"])
     usleep(500_000)

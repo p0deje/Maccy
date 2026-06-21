@@ -161,26 +161,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
       return image
     }
     ensurePreviewImage()
-    #if DEBUG
-    if PerfRecorder.enabled {
-      // method=B instrumentation: latency = total (sync kick + off-main decode
-      // await); mainBlock = on-main portion (total − the off-main decode await).
-      let clock = ContinuousClock()
-      let totalStart = clock.now
-      let decodeStart = clock.now
-      _ = await previewImageGenerationTask?.result
-      let decode = decodeStart.duration(to: clock.now)
-      let total = totalStart.duration(to: clock.now)
-      PerfRecorder.shared.recordPreview(
-        latency: total,
-        mainBlock: max(Duration.zero, total - decode)
-      )
-    } else {
-      _ = await previewImageGenerationTask?.result
-    }
-    #else
     _ = await previewImageGenerationTask?.result
-    #endif
     // nil after completion means either the image data was invalid or the
     // generation task was cancelled (IMG-023). Cancellation is expected when
     // the decorator is invalidated/superseded, so only log genuine decode
@@ -272,6 +253,32 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     let processor = imageProcessor
     let target = HistoryItemDecorator.previewImageSize
     return Task { @MainActor [weak self] in
+      #if DEBUG
+      if PerfRecorder.enabled {
+        // method=B instrumentation: record on decode COMPLETION (not on the
+        // await in asyncGetPreviewImage) so a render is captured even if the
+        // AsyncView that requested it is torn down mid-decode (e.g. rapid
+        // selection navigation with .id(item.id) refreshing the preview). The
+        // generation task is owned by the decorator, not the view, so it
+        // completes regardless. latency = total (kick → published);
+        // mainBlock = on-main portion (total − the off-main decode await).
+        let clock = ContinuousClock()
+        let totalStart = clock.now
+        let decodeStart = clock.now
+        let image = await processor.preview(for: imageData, max: target)
+        let decode = decodeStart.duration(to: clock.now)
+        guard let self, !self.isInvalidated else {
+          return
+        }
+        self.previewImage = image
+        let total = totalStart.duration(to: clock.now)
+        PerfRecorder.shared.recordPreview(
+          latency: total,
+          mainBlock: max(Duration.zero, total - decode)
+        )
+        return
+      }
+      #endif
       let image = await processor.preview(for: imageData, max: target)
       guard let self, !self.isInvalidated else {
         return
