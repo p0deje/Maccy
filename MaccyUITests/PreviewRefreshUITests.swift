@@ -1,5 +1,4 @@
 import AppKit
-import CoreGraphics
 import XCTest
 
 /// Regression test for the preview-stale bug: before the fix, `AsyncView` used
@@ -7,23 +6,25 @@ import XCTest
 /// selection changes, so navigating down the list did NOT re-run
 /// `asyncGetPreviewImage` — the preview showed the first item's image stuck.
 ///
-/// With the fix (`AsyncView(id:)` keyed on `item.id`), each selection change
-/// cancels and restarts the task, so the preview re-renders per item. This test
-/// drives the real popup + preview pane through several down-arrows and asserts
-/// the in-app `PerfRecorder` recorded more than one preview render — i.e. the
-/// preview actually refreshed across navigation (not stuck on item 0).
+/// With the fix (`.id(item.id)` on `PreviewItemView` in `SlideoutContentView`),
+/// each selection change tears down + recreates `PreviewItemView`, so the
+/// preview re-renders per item. This test populates image items via the reliable
+/// in-process `MaccyPerfBulkLoad` bridge (NOT the pasteboard — that path was
+/// unreliable on the headless runner and left `history.items` empty, producing
+/// 0 renders), opens the popup + preview pane, navigates down, and asserts the
+/// in-app `PerfRecorder` recorded more than one preview render — i.e. the
+/// preview refreshed across navigation (not stuck on item 0).
 ///
-/// Uses the `MaccyPerfRecord` instrumentation bridge (same as the B benchmarks).
-/// Non-blocking context (perf shards, continue-on-error): a flake must never
-/// fail the gate, so the assertion is best-effort.
+/// Uses the `MaccyPerfRecord` instrumentation bridge. Runs in the (now-blocking)
+/// perf-image shard.
 final class PreviewRefreshUITests: XCTestCase {
   private let app = XCUIApplication()
-  private let pasteboard = NSPasteboard.general
   private var perfLogURL: URL = URL(fileURLWithPath: "/dev/null")
 
   private static let perfReset = "org.p0deje.Maccy.Perf.reset"
   private static let perfDump = "org.p0deje.Maccy.Perf.dump"
   private static let perfOpenPreview = "org.p0deje.Maccy.Perf.openPreview"
+  private static let perfBulkLoad = "org.p0deje.Maccy.Perf.bulkLoad"
 
   override func setUp() {
     super.setUp()
@@ -43,12 +44,13 @@ final class PreviewRefreshUITests: XCTestCase {
   }
 
   func testPreviewRefreshesAcrossNavigation() throws {
-    // Populate several distinct image items via the real pasteboard.
-    for seed in 1...8 {
-      copyToClipboard(makeImage(seed: seed))
-    }
+    // Reliable in-process populate (the pasteboard path left history.items empty
+    // on the headless runner → 0 renders; the bulk-load bridge inserts directly
+    // into the context + one load, same as the B benchmark).
+    post(Self.perfBulkLoad, userInfo: ["count": 8, "category": "image"])
+    usleep(800_000)
 
-    // Open popup, reset the cold-open render burst, open the preview pane.
+    // Open popup (selects the first item → preview pane can open).
     app.statusItems.firstMatch.click()
     if !app.staticTexts.firstMatch.waitForExistence(timeout: 5) {
       XCTFail("Maccy did not pop up")
@@ -59,39 +61,31 @@ final class PreviewRefreshUITests: XCTestCase {
     // Let the first item's preview decode + render settle.
     usleep(1_500_000)
 
-    // Navigate down 2 distinct items, slowly enough that each preview's
-    // off-main decode completes (small images decode fast, but the headless
-    // runner is heavily contended — leave generous margin). Before the fix,
-    // only the first item's preview ever generated (the view never re-
-    // requested); after the fix, each selection generates a new preview.
-    for _ in 0..<2 {
+    // Navigate down 3 distinct items, slowly enough that each preview's off-main
+    // decode completes. Before the fix, only the first item's preview ever
+    // generated (the view never re-requested); after the fix, each selection
+    // generates a new preview.
+    for _ in 0..<3 {
       app.typeKey(.downArrow, modifierFlags: [])
-      usleep(1_200_000)
+      usleep(1_000_000)
     }
     usleep(2_000_000) // let the final off-main decode publish.
 
     post(Self.perfDump, userInfo: ["category": "preview-refresh"])
     usleep(500_000)
 
-    // Smoke (non-asserting): dump whatever the app recorded so the CI log shows
-    // the preview-refresh behavior. The hard ">1 preview render" assertion is
-    // intentionally omitted for now — on the heavily-contended headless runner
-    // the preview decode/completion timing is too noisy to gate on, and the
-    // test-image ingestion path needs the Step-4 corpus work to reliably
-    // populate image items. The `.id(item.id)` fix itself is the textbook
-    // SwiftUI view-reset technique; the B benchmark (Step 4) measures it
-    // precisely once corpus loading is fast. This smoke still exercises the
-    // real popup + preview + navigation path end-to-end.
-    printRawDump(from: perfLogURL)
+    let previewCount = readPreviewCount(from: perfLogURL)
+    // Before the fix this was 0–1 (the stuck first render, or none after reset).
+    // After the fix, navigating 3 items must produce multiple preview renders.
+    XCTAssertGreaterThan(
+      previewCount,
+      1,
+      "Preview did not refresh across navigation (preview renders = \(previewCount)); "
+        + "the preview-stale bug may have regressed."
+    )
   }
 
   // MARK: - Helpers
-
-  private func copyToClipboard(_ content: NSImage) {
-    pasteboard.clearContents()
-    pasteboard.setData(content.tiffRepresentation, forType: .tiff)
-    usleep(1_500_000) // clipboard check interval is ~1s
-  }
 
   private func post(_ name: String, userInfo: [String: Any]? = nil) {
     DistributedNotificationCenter.default().postNotificationName(
@@ -103,45 +97,18 @@ final class PreviewRefreshUITests: XCTestCase {
     usleep(300_000)
   }
 
-  /// Prints the raw dump file contents (diagnostic).
-  private func printRawDump(from url: URL) {
-    let text = (try? String(contentsOf: url, encoding: .utf8)) ?? "<unreadable>"
-    print("PERFRAW|file=\(url.lastPathComponent)|content=\(text)")
-  }
-
-  private func makeImage(seed: Int) -> NSImage {
-    let width = 800
-    let height = 600
-    let colorSpace = CGColorSpaceCreateDeviceRGB()
-    guard let context = CGContext(
-      data: nil,
-      width: width,
-      height: height,
-      bitsPerComponent: 8,
-      bytesPerRow: 0,
-      space: colorSpace,
-      bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue
-    ) else {
-      return NSImage()
+  /// Reads the `items=<n>` from the `op=preview` PERF line in the log.
+  private func readPreviewCount(from url: URL) -> Int {
+    let deadline = Date().addingTimeInterval(5)
+    while Date() < deadline {
+      if let text = try? String(contentsOf: url, encoding: .utf8),
+         let line = text.split(separator: "\n").first(where: { $0.contains("op=preview") }),
+         let itemsField = line.split(separator: "|").first(where: { $0.contains("items=") }),
+         let value = itemsField.split(separator: "=").last {
+        return Int(value) ?? 0
+      }
+      usleep(200_000)
     }
-    let red = CGFloat((seed &* 37) % 256) / 255
-    let green = CGFloat((seed &* 53) % 256) / 255
-    let blue = CGFloat((seed &* 71) % 256) / 255
-    context.setFillColor(red: red, green: green, blue: blue, alpha: 1)
-    context.fill(CGRect(x: 0, y: 0, width: width, height: height))
-    var state = UInt64(seed * seed + 7)
-    for _ in 0..<300 {
-      state = state &* 6364136223846793005 &+ 1442695040888963407
-      let xPos = CGFloat((state >> 33) % UInt64(width))
-      let yPos = CGFloat((state >> 11) % UInt64(height))
-      let dimension = CGFloat((state >> 50) % 80) + 5
-      let channel = CGFloat((state >> 20) % 256) / 255
-      context.setFillColor(red: channel, green: 1 - channel, blue: 0.5, alpha: 0.6)
-      context.fill(CGRect(x: xPos, y: yPos, width: dimension, height: dimension))
-    }
-    guard let cgImage = context.makeImage() else {
-      return NSImage()
-    }
-    return NSImage(cgImage: cgImage, size: NSSize(width: width, height: height))
+    return 0
   }
 }
