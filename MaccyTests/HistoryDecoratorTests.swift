@@ -85,56 +85,67 @@ class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_bod
   // MARK: - Preview cancellation (P2 / IMG-023 gap)
 
   /// `cancelPreviewGeneration()` must cancel an in-flight preview decode, drop
-  /// the task handle (so a later re-select can re-kick), and NOT clear an
-  /// already-cached `previewImage`. This is the BS-3 收尾: previously only
-  /// `invalidate()`/`cleanupImages()` cancelled the decorator's preview task,
-  /// so navigating off a lead item left its decode running on the single serial
-  /// `ImageProcessor` actor — the stale-decode pile-up (1.5s spike, mouse-hover
-  /// worst case). See docs/audit/2026-06-21-render-feedback-stopgap.md.
-  func testCancelPreviewGenerationCancelsInFlightAndKeepsCache() async {
-    let processor = ControllableImageProcessor()
+  /// the task handle, and leave `previewImage` untouched. This is the BS-3 收尾:
+  /// previously only `invalidate()`/`cleanupImages()` cancelled the decorator's
+  /// preview task, so navigating off a lead item left its decode running on the
+  /// single serial `ImageProcessor` actor — the stale-decode pile-up (1.5s
+  /// spike, mouse-hover worst case). See
+  /// docs/audit/2026-06-21-render-feedback-stopgap.md.
+  ///
+  /// Uses `StallableImageProcessor`, whose `preview` spins on `Task.isCancelled`
+  /// (cooperative cancellation, like the production `ImageProcessor`'s
+  /// `Task.isCancelled` checkpoints) — so a cancelled decode returns nil and
+  /// never publishes. A poll loop (not `withCheckedContinuation`) guarantees the
+  /// cancellation is observed within one tick, so this test cannot hang.
+  func testCancelPreviewGenerationCancelsInFlightDecode() async {
+    let processor = StallableImageProcessor()
     let itemDecorator = historyItemDecorator(largeImageData(), .png, imageProcessor: processor)
     itemDecorator.ensurePreviewImage()
-    let task = itemDecorator.previewImageGenerationTask
-    XCTAssertNotNil(task, "preview task should be kicked")
-    XCTAssertNil(itemDecorator.previewImage, "no preview yet — decode is gated on the mock")
+    XCTAssertNotNil(itemDecorator.previewImageGenerationTask, "preview task should be kicked")
+    XCTAssertNil(itemDecorator.previewImage, "no preview yet — decode is stalled in the mock")
 
-    // Cancel while the decode is parked in the mock. The task must be cancelled
-    // + nil'd; the (still-nil) previewImage must be untouched.
+    // Cancel while the decode is in-flight. The task must be cancelled + nil'd;
+    // the (still-nil) previewImage must be untouched. Await the captured task:
+    // the stallable mock observes the cancellation and returns nil, so the task
+    // completes (and its `guard !isInvalidated`/publish path publishes nothing).
+    let task = itemDecorator.previewImageGenerationTask
     itemDecorator.cancelPreviewGeneration()
     XCTAssertNil(itemDecorator.previewImageGenerationTask, "task handle cleared on cancel")
-    // Await the captured task: it completes when the cancel's onCancel resumes
-    // the parked continuation with nil (the mock honours cancellation). No
-    // releaseAll() here — that would race onCancel and could resume with an
-    // image. The await is the synchronization point.
     if let task {
       _ = await task.value
     }
     XCTAssertNil(itemDecorator.previewImage, "cancelled decode must not publish an image")
+    XCTAssertFalse(processor.previewCompleted, "the stalled decode must not have completed")
   }
 
   /// A cached preview survives `cancelPreviewGeneration()` (re-selecting an
-  /// already-decoded item must stay instant), and the task handle is nil so a
-  /// subsequent `ensurePreviewImage` is a no-op (cache hit).
+  /// already-decoded item must stay instant). Uses the real
+  /// `PassthroughImageProcessor` (decodes synchronously) so the preview caches
+  /// before cancel — exercising the actual cache-survives-cancel contract.
   func testCancelPreviewGenerationKeepsCachedPreview() async {
-    let processor = ControllableImageProcessor()
-    let itemDecorator = historyItemDecorator(largeImageData(), .png, imageProcessor: processor)
-    // Kick, then let the decode complete and cache.
+    let itemDecorator = historyItemDecorator(largeImageData(), .png, imageProcessor: PassthroughImageProcessor())
     itemDecorator.ensurePreviewImage()
-    processor.releaseAll()
     _ = await itemDecorator.previewImageGenerationTask?.result
     XCTAssertNotNil(itemDecorator.previewImage, "preview decoded + cached")
 
     itemDecorator.cancelPreviewGeneration()
     XCTAssertNotNil(itemDecorator.previewImage, "cached preview survives cancel")
     XCTAssertNil(itemDecorator.previewImageGenerationTask, "task handle cleared")
+
+    // A subsequent `ensurePreviewImage` must be a no-op (cache hit) — it should
+    // NOT kick a new task (previewImage is non-nil, guard short-circuits).
+    itemDecorator.ensurePreviewImage()
+    XCTAssertNil(itemDecorator.previewImageGenerationTask, "cache hit must not re-kick")
+    XCTAssertNotNil(itemDecorator.previewImage, "preview still cached")
   }
 
-  /// `cancelPreviewGeneration()` is idempotent and safe when no task is running.
+  /// `cancelPreviewGeneration()` is idempotent and safe when no task is running
+  /// (e.g. a text item, or an item whose preview was never requested).
   func testCancelPreviewGenerationNoOpWhenIdle() {
     let itemDecorator = historyItemDecorator("text")
     itemDecorator.cancelPreviewGeneration() // text item — no preview task ever
     XCTAssertNil(itemDecorator.previewImageGenerationTask)
+    XCTAssertNil(itemDecorator.previewImage)
   }
 
   func testFile() {
@@ -336,20 +347,28 @@ class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_bod
   }
 }
 
-/// A controllable `ImageProcessing` double for the preview-cancellation tests.
-/// `preview(for:max:)` parks on a continuation until `releaseAll()` is called
-/// or the awaiting task is cancelled — so a test can kick a preview, cancel it
-/// mid-decode, and assert the decode never publishes. Honours cooperative
-/// cancellation (`Task.isCancelled`) so the parked await returns nil on cancel.
+/// An `ImageProcessing` double whose `preview` STALLS until the task is
+/// cancelled — so a test can kick a preview, cancel it mid-decode, and assert
+/// the decode never publishes. Mirrors the production `ImageProcessor`'s
+/// cooperative cancellation: it spins on `Task.isCancelled` (5 ms tick) and
+/// returns nil the moment cancellation lands. A poll loop (not
+/// `withCheckedContinuation`/`withTaskCancellationHandler`) is used because it
+/// CANNOT hang — cancellation is always observed within one tick, and there is
+/// no continuation-resume handshake to get wrong. `previewCompleted` records
+/// whether a decode ran to completion (uncancelled) — a cancelled decode must
+/// leave it false.
 ///
-/// Swift 6 safe: the cancel flag and the continuation list are both stored
-/// properties guarded by `lock` — no captured local-var mutation across the
-/// `withTaskCancellationHandler` operation/onCancel closures (which run
-/// concurrently).
-private final class ControllableImageProcessor: ImageProcessing, @unchecked Sendable {
+/// Swift 6 safe: `previewCompleted` is a lock-guarded stored property (no
+/// captured local-var mutation across concurrency boundaries).
+private final class StallableImageProcessor: ImageProcessing, @unchecked Sendable {
   private let lock = NSLock()
-  private var continuations: [CheckedContinuation<NSImage?, Never>] = []
-  private var didCancel = false
+  private var previewCompletedValue = false
+
+  var previewCompleted: Bool {
+    lock.lock()
+    defer { lock.unlock() }
+    return previewCompletedValue
+  }
 
   func thumbnail(for data: Data, max: CGSize) async -> NSImage? {
     // Not exercised by the preview-cancellation tests; pass through.
@@ -357,39 +376,20 @@ private final class ControllableImageProcessor: ImageProcessing, @unchecked Send
   }
 
   func preview(for data: Data, max: CGSize) async -> NSImage? {
-    // Park until released or cancelled. On cancellation return nil (the
-    // decorator discards it; no publish). Uses withTaskCancellationHandler so
-    // a cancel of the awaiting task resumes the continuation with nil.
-    return await withTaskCancellationHandler {
-      await withCheckedContinuation { (continuation: CheckedContinuation<NSImage?, Never>) in
-        lock.lock()
-        if didCancel {
-          lock.unlock()
-          continuation.resume(returning: nil)
-          return
-        }
-        continuations.append(continuation)
-        lock.unlock()
-      }
-    } onCancel: {
-      // Runs concurrently with the operation closure — touch shared state
-      // only under `lock` (no captured local-var mutation → Swift 6 safe).
-      lock.lock()
-      didCancel = true
-      let pending = continuations.isEmpty ? nil : continuations.removeFirst()
-      lock.unlock()
-      pending?.resume(returning: nil)
+    // Stall until cancelled (cooperative, like ImageProcessor's checkpoints).
+    // The 5 ms tick guarantees cancellation is observed fast; no continuation =
+    // no hang risk.
+    while !Task.isCancelled {
+      try? await Task.sleep(for: .milliseconds(5))
     }
-  }
-
-  /// Resumes all parked previews with an image (lets a decode "complete").
-  func releaseAll() {
+    // Cancelled → return nil (the decorator discards; no publish). We never
+    // reach the "completed" path on a cancelled decode.
+    if Task.isCancelled {
+      return nil
+    }
     lock.lock()
-    let pending = continuations
-    continuations.removeAll()
+    previewCompletedValue = true
     lock.unlock()
-    for continuation in pending {
-      continuation.resume(returning: NSImage())
-    }
+    return NSImage()
   }
 }
