@@ -72,8 +72,20 @@ struct ListItemView<Title: View, ID: Hashable>: View {
         // IMG-020: thumbnails are pre-sized by the off-main pipeline, so the
         // image fills its frame without scaling artifacts; .resizable() lets
         // SwiftUI lay it out to the row height instead of natural pixels.
+        //
+        // P0 (2026-06-21 render-feedback stopgap): the thumbnail is given a
+        // FIXED height (row height minus the vertical padding) + aspect-fit so
+        // its arrival can NEVER change the row's height. Previously the image
+        // branch had no frame, so an async thumbnail landing grew the row
+        // (imageMaxHeight path) → LazyVStack re-measured every row → CoreText
+        // text-measurement storm (spindump: StyledTextLayoutEngine.sizeThatFits
+        // → _NSOptimalLineBreaker) → ~400s mixed-list hang. Fixed row height
+        // (see the `.frame(height:)` below) + this bounded aspect-fit image
+        // make row geometry stable regardless of thumbnail state.
         Image(nsImage: image)
           .resizable()
+          .scaledToFit()
+          .frame(height: Popup.itemHeight - 10)
           .accessibilityIdentifier("copy-history-item")
           .padding(.trailing, 5)
           .padding(.vertical, 5)
@@ -110,7 +122,14 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       }
       .padding(.trailing, 10)
     }
-    .frame(minHeight: Popup.itemHeight)
+    // P0 (2026-06-21): FIXED row height (was `minHeight`). A floor let image
+    // rows grow when async thumbnails landed, feeding a LazyVStack layout-
+    // feedback storm (CoreText re-measure per row). A fixed height makes row
+    // geometry invariant to thumbnail state — the direct fix for the mixed-list
+    // ~400s hang. (imageMaxHeight is dead in production — max(340,h)=340 — so
+    // clamping here is safe and matches the setting's "look like text items"
+    // intent; see docs/audit/2026-06-21-render-feedback-stopgap.md.)
+    .frame(height: Popup.itemHeight)
     .id(id)
     .frame(maxWidth: .infinity, alignment: .leading)
     .foregroundStyle(isSelected ? Color.white : .primary)
