@@ -10,54 +10,65 @@ import ImageIO
 /// instant and reliable — the pasteboard path was both slow (~45s for 30 copies)
 /// and didn't reliably produce renderable image items on the headless runner.
 ///
-/// Items are inserted via `History.shared.add` (the in-process path that creates
-/// decorators, so thumbnails/previews render — the same path `PerfHistoryFactory`
-/// uses for the A tests, which render fine). `#if DEBUG` + only wired under
-/// `MaccyPerfRecord`, so no ship impact. Image bytes are generated via
-/// CoreGraphics (no binaries committed, no images in logs — only `PERF|` text).
+/// Items are batch-inserted into the context + saved once, then a single
+/// `History.load()` materializes decorators (the popup-open path). This is NOT
+/// `History.add` per item — that legacy path is O(n²) on main (full sort +
+/// decorate + findSimilarItem + invalidation PER add) and froze the app ~115s
+/// for 30 mixed items. `#if DEBUG` + only wired under `MaccyPerfRecord`, so no
+/// ship impact. Image bytes are generated via CoreGraphics (no binaries
+/// committed, no images in logs — only `PERF|` text).
 @MainActor
 enum PerfFixtures {
   /// Populates `History.shared` with `count` items of `category`
   /// ("image" / "text" / "mixed"), clearing first. Each item has a distinct
   /// value (seed-dependent) so dedup keeps them all.
+  ///
+  /// IMPORTANT: inserts ALL items into the context in one batch + a single save,
+  /// then ONE `History.load()` — NOT `History.add` per item. The per-item
+  /// `History.add` path is the legacy O(n²) main-thread path (full-table sort +
+  /// decorate + findSimilarItem + `@Observable` invalidation PER add); for 30
+  /// mixed items that froze main ~115s (measured). Batch-insert + single load
+  /// is one fetch+sort+decorate, fast — and matches how the popup actually
+  /// populates on open.
   static func populate(count: Int, category: String) {
     let history = History.shared
     history.clearAll()
     history.searchQuery = ""
 
-    switch category {
-    case "text":
-      for index in 0..<count {
-        addText(index: index)
+    let context = Storage.shared.context
+    for index in 0..<count {
+      let item: HistoryItem
+      switch category {
+      case "text":
+        item = makeTextItem(index: index)
+      case "mixed":
+        item = (index % 2 == 0) ? makeImageItem(seed: index) : makeTextItem(index: index)
+      default:
+        item = makeImageItem(seed: index)
       }
-    case "mixed":
-      for index in 0..<count {
-        if index % 2 == 0 {
-          addImage(seed: index)
-        } else {
-          addText(index: index)
-        }
-      }
-    default: // "image"
-      for index in 0..<count {
-        addImage(seed: index)
-      }
+      context.insert(item)
+    }
+    try? context.save()
+
+    // One load to materialize decorators (the popup-open path).
+    Task { @MainActor in
+      _ = try? await history.load()
     }
   }
 
   // MARK: - Private
 
-  private static func addImage(seed: Int) {
+  private static func makeImageItem(seed: Int) -> HistoryItem {
     let item = HistoryItem(contents: [
       HistoryItemContent(type: "public.png", value: makeImageJPEG(seed: seed))
     ])
     item.firstCopiedAt = Date(timeIntervalSince1970: Double(seed))
     item.lastCopiedAt = item.firstCopiedAt
     item.title = ""
-    History.shared.add(item)
+    return item
   }
 
-  private static func addText(index: Int) {
+  private static func makeTextItem(index: Int) -> HistoryItem {
     let paragraph = "The quick brown fox jumps over the lazy dog. " +
       "Maccy is a lightweight clipboard manager for macOS. "
     let value = Data(String(repeating: paragraph, count: 40).utf8) + Data("\n#\(index)\n".utf8)
@@ -67,7 +78,7 @@ enum PerfFixtures {
     item.firstCopiedAt = Date(timeIntervalSince1970: Double(index))
     item.lastCopiedAt = item.firstCopiedAt
     item.title = "text #\(index)"
-    History.shared.add(item)
+    return item
   }
 
   /// A seed-dependent photo-like JPEG (base fill + varied rects) with

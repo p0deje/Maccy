@@ -154,21 +154,24 @@ jobs:
             only: "MaccyUITests/MaccyUITests/testDisablesOnlyForNextCopyOnOptionShiftClickingMenubarIcon MaccyUITests/MaccyUITests/testCreatesNewCopyOnEnterWhenSearchResultsAreEmpty MaccyUITests/MaccyUITests/testOpenAndClose MaccyUITests/MaccyUITests/testOpenAndSelectSecondItem MaccyUITests/MaccyUITests/testOpenAndSelectThirdItem MaccyUITests/MaccyUITests/testOpenAndSelectThirdItemRepeatedPress MaccyUITests/MaccyUITests/testTogglePopupAndCloseOnClickOutside"
             skip: ""
             block: true
-          # perf shards: non-blocking, split by category (image / text / mixed)
-          # into parallel runners. Keep these only-lists and the unit shard's
+          # perf shards: split by category (image / text / mixed) into parallel
+          # runners. BLOCKING (block: true) — a perf test failure (timeout, hang,
+          # assertion) fails the run exactly like a unit/UI failure; perf is NOT
+          # silently green. The self-scan below scans every shard's log for
+          # failed/error/TEST-FAILED. Keep these only-lists and the unit shard's
           # skip-list above in sync as perf classes are added.
           - shard: perf-image
             only: "MaccyTests/ImageDecodePerformanceTests/testImageRenderFirst20 MaccyTests/ImageDecodePerformanceTests/testSingleLargeImageColdLoad MaccyTests/ImageDecodePerformanceTests/testManyImagesColdLoad_N200 MaccyTests/ImageDecodePerformanceTests/testMixedColdLoad_N200 MaccyTests/PerformanceHarnessWiringTest MaccyTests/HistoryItemPerformanceTests MaccyUITests/PerfRenderUITests/testImageRenderB MaccyUITests/PreviewRefreshUITests/testPreviewRefreshesAcrossNavigation"
             skip: ""
-            block: false
+            block: true
           - shard: perf-text
             only: "MaccyTests/ImageDecodePerformanceTests/testTextRenderFirst20 MaccyTests/ImageDecodePerformanceTests/testProbeDetectsSynchronousMainStall MaccyTests/ImageDecodePerformanceTests/testGCopyPerCopyConsume_N200 MaccyTests/TextSearchPerformanceTests MaccyUITests/PerfRenderUITests/testTextRenderB"
             skip: ""
-            block: false
+            block: true
           - shard: perf-mixed
             only: "MaccyTests/ImageDecodePerformanceTests/testMixedRenderFirst20 MaccyUITests/PerfRenderUITests/testMixedRenderB"
             skip: ""
-            block: false
+            block: true
     env:
       NSUnbufferedIO: YES
       OS_ACTIVITY_MODE: disable
@@ -199,11 +202,13 @@ jobs:
           for t in ${{ matrix.only }}; do only_args="$only_args -only-testing:$t"; done
           skip_args=""
           for t in ${{ matrix.skip }}; do skip_args="$skip_args -skip-testing:$t"; done
+          # Perf shards are BLOCKING (block: true) — a perf failure fails the
+          # run like any other test. They emit the SAME detailed awk-filtered
+          # log as blocking shards (thousands of lines, incl. the XCUI t=
+          # timeline that diagnoses hangs) plus a raw log. pipefail (set above)
+          # makes a non-zero xcodebuild fail the step; the self-scan below is a
+          # second gate that catches failed/error/TEST-FAILED in the log.
           if [[ "${{ matrix.shard }}" == perf-* ]]; then
-            # Perf shards: clean log = PERF| measurements + test results only
-            # (avoid noise). Full raw output is kept in <shard>-raw.log for
-            # debugging. || true so a grep with no matches / a non-blocking test
-            # failure doesn't abort (perf shards are continue-on-error anyway).
             xcodebuild \
               -project "$PROJECT" -scheme "$SCHEME" \
               -configuration "$CONFIGURATION" -destination "$DESTINATION" \
@@ -213,8 +218,11 @@ jobs:
               CODE_SIGNING_ALLOWED=NO \
               test 2>&1 \
               | tee "$LOG_DIR/${{ matrix.shard }}-raw.log" \
-              | grep -E 'PERF\||Test Case .*(passed|failed)|\*\* TEST' \
-              | tee "$LOG_DIR/${{ matrix.shard }}.log" || true
+              | awk -v fopen="$runner_noise_fopen" -v io="$runner_noise_io" '
+                  index($0, fopen) || index($0, io) || /IDELaunchParametersSnapshot:/ { next }
+                  { print }
+                ' \
+              | tee "$LOG_DIR/${{ matrix.shard }}.log"
           else
             set -e
             xcodebuild \
@@ -232,11 +240,15 @@ jobs:
               | tee "$LOG_DIR/${{ matrix.shard }}.log"
           fi
 
-      - name: Self-scan shard log (blocking shards only)
+      - name: Self-scan shard log (all shards, incl. perf)
         if: ${{ matrix.block }}
         shell: bash
         run: |
           set -euo pipefail
+          # Scans EVERY shard's log (perf shards are block: true too) for
+          # warning/error/failed/TEST-FAILED. This is what catches a perf test
+          # hang/failure — without it a perf shard's continue-on-error would
+          # silently swallow the failure and the run would report green.
           # Tolerate the system HDRImageConverter's benign headless-runner
           # fallback (see macos26-arm-ci history). Exclude it from the scan.
           matches=$(grep -Ein '(^|[^[:alpha:]])(warning:|error:|\*\* TEST FAILED \*\*|Fatal error|[Ff]ailed)([^[:alpha:]]|$)' "$LOG_DIR/${{ matrix.shard }}.log" \
