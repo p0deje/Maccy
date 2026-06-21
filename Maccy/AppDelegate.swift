@@ -22,6 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable { // swi
     static let reset = Notification.Name("org.p0deje.Maccy.Perf.reset")
     static let dump = Notification.Name("org.p0deje.Maccy.Perf.dump")
     static let openPreview = Notification.Name("org.p0deje.Maccy.Perf.openPreview")
+    static let bulkLoad = Notification.Name("org.p0deje.Maccy.Perf.bulkLoad")
   }
 
   private var uiTestNotificationObservers: [Any] = []
@@ -332,6 +333,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable { // swi
           // control+space keyboard toggle on the headless runner). Lead item is
           // already selected on popup open, so `togglePreview` will open.
           AppState.shared.preview.togglePreview()
+        }
+      }
+    )
+    perfNotificationObservers.append(
+      center.addObserver(forName: PerfNotification.bulkLoad, object: nil, queue: .main) { notification in
+        MainActor.assumeIsolated {
+          let count = notification.userInfo?["count"] as? Int ?? 0
+          let category = notification.userInfo?["category"] as? String ?? "image"
+          PerfFixtures.populate(count: count, category: category)
         }
       }
     )
