@@ -21,6 +21,11 @@ concurrency:
   group: generate-perf-corpus
   cancel-in-progress: false
 
+# `contents: write` is required for `gh release create`/`upload` (the default
+# GITHUB_TOKEN is read-only for releases → HTTP 403 without this).
+permissions:
+  contents: write
+
 jobs:
   generate:
     runs-on: macos-26
