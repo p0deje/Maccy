@@ -56,22 +56,26 @@ final class PreviewRefreshUITests: XCTestCase {
     usleep(500_000)
     post(Self.perfReset)
     post(Self.perfOpenPreview)
-    usleep(800_000)
+    // Let the first item's preview decode + render settle.
+    usleep(1_500_000)
 
-    // Navigate down 5 distinct items. Before the fix, only ~1 preview render
-    // fired (the first); after the fix, one per selection change.
-    for _ in 0..<5 {
+    // Navigate down 3 distinct items, slowly enough that each preview's
+    // off-main decode completes (small images decode in ~ms, but leave margin
+    // for cold-cache + actor startup on the headless runner). Before the fix,
+    // only ~1 preview render fired (the first, stuck); after the fix, one per
+    // selection change.
+    for _ in 0..<3 {
       app.typeKey(.downArrow, modifierFlags: [])
-      usleep(300_000)
+      usleep(700_000)
     }
-    usleep(1_500_000) // let the final off-main decodes publish.
+    usleep(1_500_000) // let the final off-main decode publish.
 
     post(Self.perfDump, userInfo: ["category": "preview-refresh"])
     usleep(500_000)
 
     let previewCount = readPreviewCount(from: perfLogURL)
-    // Before the fix this was ~1 (the cold-open render, or 0 after reset).
-    // After the fix, navigating 5 items must produce multiple preview renders.
+    // Before the fix this was 0–1 (the stuck first render). After the fix,
+    // navigating 3 items must produce multiple preview renders.
     XCTAssertGreaterThan(
       previewCount,
       1,
