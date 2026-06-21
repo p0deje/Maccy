@@ -80,8 +80,8 @@ final class PerfRecorder {
       return
     }
     let lines = [
-      formatLine(category: category, op: "thumbnail", events: thumbnailEvents),
-      formatLine(category: category, op: "preview", events: previewEvents)
+      formatLine(category: category, operation: "thumbnail", events: thumbnailEvents),
+      formatLine(category: category, operation: "preview", events: previewEvents)
     ]
     let payload = lines.joined(separator: "\n") + "\n"
     try? payload.write(toFile: path, atomically: true, encoding: .utf8)
@@ -89,7 +89,7 @@ final class PerfRecorder {
 
   // MARK: - Private
 
-  private func formatLine(category: String, op: String, events: [RenderEvent]) -> String {
+  private func formatLine(category: String, operation: String, events: [RenderEvent]) -> String {
     let count = events.count
     let latency = events
       .map { String(format: "%.2f", $0.latencyMs) }
@@ -103,7 +103,7 @@ final class PerfRecorder {
     let maxLatency = events.map(\.latencyMs).max() ?? 0
     let maxBlock = events.map(\.mainBlockMs).max() ?? 0
     let totalBlock = events.reduce(0) { $0 + $1.mainBlockMs }
-    return "PERF|category=\(category)|method=B|op=\(op)"
+    return "PERF|category=\(category)|method=B|op=\(operation)"
       + "|items=\(count)"
       + "|latencyMs=[\(latency)]|latencyAvg=\(String(format: "%.2f", avg))"
       + "|latencyMax=\(String(format: "%.2f", maxLatency))"

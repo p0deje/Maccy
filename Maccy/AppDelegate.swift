@@ -3,7 +3,7 @@ import KeyboardShortcuts
 import Sparkle
 import SwiftUI
 
-class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
+class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable { // swiftlint:disable:this type_body_length
   var panel: FloatingPanel<ContentView>!
 
   #if DEBUG
