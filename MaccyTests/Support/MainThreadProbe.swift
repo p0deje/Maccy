@@ -44,16 +44,23 @@ final class MainThreadProbe {
     return maxDelayValue
   }
 
-  /// Drains queued sampler ticks (yields to main) then returns `maxGap`. This
-  /// is the correct way to read the probe from an async test: it guarantees the
-  /// ticks dispatched during the measured region have been processed on main and
-  /// their delays recorded. Yields repeatedly until `maxGap` stabilizes (no
-  /// increase for two consecutive yields) or a small iteration cap is hit, so a
-  /// final late tick is not lost.
+  /// Drains queued sampler ticks then returns `maxGap`. This is the correct way
+  /// to read the probe from an async test: it guarantees the ticks dispatched
+  /// during the measured region have been processed on main and their delays
+  /// recorded.
+  ///
+  /// IMPORTANT subtlety: the sampler dispatches ticks via
+  /// `DispatchQueue.main.async`, which are processed by the **main run loop** —
+  /// NOT by `await Task.yield()` (yielding only suspends the current cooperative
+  /// task; it does not pump the run loop, so dispatched main closures don't run
+  /// and `maxGap` stays 0.0 even after a real main block). So this pumps the main
+  /// run loop explicitly via `RunLoop.main.run(until:)`, repeating until `maxGap`
+  /// stabilizes (no increase across a pump) or a small cap is hit, so a final
+  /// late tick is not lost.
   func maxGapAsync() async -> TimeInterval {
     var previous = maxGap
-    for _ in 0..<8 {
-      await Task.yield()
+    for _ in 0..<10 {
+      RunLoop.main.run(until: Date(timeIntervalSinceNow: 0.02))
       let current = maxGap
       if current <= previous {
         return current
