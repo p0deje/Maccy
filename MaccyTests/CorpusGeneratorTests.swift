@@ -30,7 +30,8 @@ final class CorpusGeneratorTests: XCTestCase {
         _ = try ImageFixtureGenerator.jpeg(bucket: bucket, variant: variant, cacheDir: cacheDir)
       }
     }
-    let count = (try? FileManager.default.contentsOfDirectory(at: cacheDir, includingPropertiesForKeys: nil))?.count ?? 0
-    print("PERF|corpus-generated|dir=\(dir)|files=\(count)")
+    let contents = (try? FileManager.default.contentsOfDirectory(
+      at: cacheDir, includingPropertiesForKeys: nil)) ?? []
+    print("PERF|corpus-generated|dir=\(dir)|files=\(contents.count)")
   }
 }
