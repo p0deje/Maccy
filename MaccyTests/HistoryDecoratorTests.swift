@@ -1,5 +1,6 @@
 import XCTest
 import Defaults
+import os
 @testable import Maccy
 
 @MainActor
@@ -358,16 +359,18 @@ class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_bod
 /// whether a decode ran to completion (uncancelled) — a cancelled decode must
 /// leave it false.
 ///
-/// Swift 6 safe: `previewCompleted` is a lock-guarded stored property (no
-/// captured local-var mutation across concurrency boundaries).
+/// Swift 6 safe: `previewCompleted` is guarded by an `OSAllocatedUnfairLock`
+/// (Sendable; available macOS 13+). Apple's docs state that when using a lock
+/// with asynchronous code, "lock using a closure" — `withLock(_:)` is the
+/// async-safe form. `NSLock.lock()`/`unlock()` are unavailable from async
+/// contexts in Swift 6 (cooperative-pool deadlock risk), which is why the
+/// closure form is used here instead. The lock is held only for a trivial
+/// boolean read/write — never across an `await` suspension point.
 private final class StallableImageProcessor: ImageProcessing, @unchecked Sendable {
-  private let lock = NSLock()
-  private var previewCompletedValue = false
+  private let completed = OSAllocatedUnfairLock(initialState: false)
 
   var previewCompleted: Bool {
-    lock.lock()
-    defer { lock.unlock() }
-    return previewCompletedValue
+    completed.withLock { $0 }
   }
 
   func thumbnail(for data: Data, max: CGSize) async -> NSImage? {
@@ -387,9 +390,7 @@ private final class StallableImageProcessor: ImageProcessing, @unchecked Sendabl
     if Task.isCancelled {
       return nil
     }
-    lock.lock()
-    previewCompletedValue = true
-    lock.unlock()
+    completed.withLock { flag in flag = true }
     return NSImage()
   }
 }
