@@ -33,12 +33,17 @@ class PerformanceTestCase: XCTestCase {
   /// Asserts no main-thread stall exceeded `threshold` since `probe.start()`.
   /// Default 16 ms = one frame; the roadmap's gates require the main thread to
   /// stay free of >16 ms synchronous heavy work.
+  ///
+  /// `async` because it must drain the probe's queued sampler ticks (they only
+  /// record their delay once main runs them) before reading `maxGap` — a sync
+  /// read returns 0.0 (the original bug that made every gate pass spuriously).
   func assertMainThreadFree(threshold: TimeInterval = 0.016,
-                            file: StaticString = #filePath, line: UInt = #line) {
+                            file: StaticString = #filePath, line: UInt = #line) async {
+    let gap = await probe.maxGapAsync()
     XCTAssertLessThan(
-      probe.maxGap,
+      gap,
       threshold,
-      "Main thread stalled \(probe.maxGap)s > \(threshold)s threshold",
+      "Main thread stalled \(gap)s > \(threshold)s threshold",
       file: file,
       line: line
     )

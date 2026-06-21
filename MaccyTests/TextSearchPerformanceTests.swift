@@ -43,10 +43,11 @@ final class TextSearchPerformanceTests: PerformanceTestCase {
       _ = search.search(string: query, within: searchable)
       total += start.duration(to: clock.now)
     }
+    let gap = await probe.maxGapAsync()
     probe.stop()
 
     let average = total / queries.count
-    print("PERF|scenario=text-many-200-search|searchPerKey_avg=\(average)|mainThread_maxGap_s=\(probe.maxGap)")
+    print("PERF|scenario=text-many-200-search|searchPerKey_avg=\(average)|mainThread_maxGap_s=\(gap)")
   }
 
   // MARK: - Shared timing helpers (duplicated from ImageDecodePerformanceTests
@@ -61,8 +62,9 @@ final class TextSearchPerformanceTests: PerformanceTestCase {
       _ = try? await history.load()
       total += start.duration(to: clock.now)
     }
+    let gap = await probe.maxGapAsync()
     probe.stop()
-    return (total / iterations, probe.maxGap)
+    return (total / iterations, gap)
   }
 
   private func report(scenario: String, measured: (Duration, TimeInterval)) {

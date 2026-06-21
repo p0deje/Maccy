@@ -36,7 +36,10 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
   }
 
   /// Times `load()` over `iterations`, sampling the main thread throughout.
-  /// Returns (average load Duration, peak main-thread gap).
+  /// Returns (average load Duration, peak main-thread gap). The gap is read via
+  /// `maxGapAsync()` so the probe's queued ticks are drained on main first — a
+  /// sync read here returns 0.0 (the sampler ticks dispatch via
+  /// `DispatchQueue.main.async` and only record their delay once main runs them).
   private func measureLoad(history: History, iterations: Int) async -> (Duration, TimeInterval) {
     var total = Duration.zero
     probe.start()
@@ -46,8 +49,9 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
       _ = try? await history.load()
       total += start.duration(to: clock.now)
     }
+    let gap = await probe.maxGapAsync()
     probe.stop()
-    return (total / iterations, probe.maxGap)
+    return (total / iterations, gap)
   }
 
   private func report(scenario: String, measured: (Duration, TimeInterval)) {
@@ -67,12 +71,12 @@ final class ImageDecodePerformanceTests: PerformanceTestCase {
     probe.start()
     let until = Date().addingTimeInterval(0.05)
     while Date() < until {}
-    await Task.yield()
+    let gap = await probe.maxGapAsync()
     probe.stop()
     XCTAssertGreaterThan(
-      probe.maxGap,
+      gap,
       0.04,
-      "Probe must detect the 50 ms main stall; got \(probe.maxGap)s"
+      "Probe must detect the 50 ms main stall; got \(gap)s"
     )
   }
 

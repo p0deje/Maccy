@@ -30,10 +30,37 @@ final class MainThreadProbe {
 
   /// Worst main-thread processing delay observed since `start()` / last
   /// `reset()`, in seconds (how long the slowest dispatched tick waited for main).
+  ///
+  /// IMPORTANT: only valid after the caller has yielded to the main run loop
+  /// (e.g. via `await maxGapAsync()` or an `await` in the calling async test).
+  /// The sampler dispatches ticks via `DispatchQueue.main.async`; those ticks
+  /// only run — and only then update `maxDelayValue` — when main is free. A
+  /// synchronous read immediately after a main-blocking region returns 0.0
+  /// because the queued ticks have not been processed yet. Prefer
+  /// `maxGapAsync()`.
   var maxGap: TimeInterval {
     lock.lock()
     defer { lock.unlock() }
     return maxDelayValue
+  }
+
+  /// Drains queued sampler ticks (yields to main) then returns `maxGap`. This
+  /// is the correct way to read the probe from an async test: it guarantees the
+  /// ticks dispatched during the measured region have been processed on main and
+  /// their delays recorded. Yields repeatedly until `maxGap` stabilizes (no
+  /// increase for two consecutive yields) or a small iteration cap is hit, so a
+  /// final late tick is not lost.
+  func maxGapAsync() async -> TimeInterval {
+    var previous = maxGap
+    for _ in 0..<8 {
+      await Task.yield()
+      let current = maxGap
+      if current <= previous {
+        return current
+      }
+      previous = current
+    }
+    return maxGap
   }
 
   func start() {
