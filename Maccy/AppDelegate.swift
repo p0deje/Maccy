@@ -15,7 +15,17 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
     static let pinHistoryItem = Notification.Name("org.p0deje.Maccy.UITest.pinHistoryItem")
   }
 
+  /// Distributed-notification names driving the `method=B` perf benchmarks
+  /// (see `PerfRecorder`). Posted by `MaccyUITests/PerfRenderUITests` from the
+  /// test process; observed here only when launched with `MaccyPerfRecord`.
+  private enum PerfNotification {
+    static let reset = Notification.Name("org.p0deje.Maccy.Perf.reset")
+    static let dump = Notification.Name("org.p0deje.Maccy.Perf.dump")
+    static let openPreview = Notification.Name("org.p0deje.Maccy.Perf.openPreview")
+  }
+
   private var uiTestNotificationObservers: [Any] = []
+  private var perfNotificationObservers: [Any] = []
   #endif
 
   @objc
@@ -132,6 +142,9 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
       Defaults[.suppressClearAlert] = true
       installUITestNotificationHooks()
     }
+    if CommandLine.arguments.contains("MaccyPerfRecord") {
+      installPerfNotificationHooks()
+    }
     #endif
   }
 
@@ -143,6 +156,14 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
   func applicationWillTerminate(_ notification: Notification) {
     #if DEBUG
     removeUITestNotificationHooks()
+    if CommandLine.arguments.contains("MaccyPerfRecord") {
+      // Fallback dump so a forgotten `MaccyPerfDump` still lands the recorded
+      // events. Safe no-op when nothing was recorded or the log path is unset.
+      MainActor.assumeIsolated {
+        PerfRecorder.shared.dump(category: "terminate")
+      }
+      removePerfNotificationHooks()
+    }
     #endif
 
     if Defaults[.clearOnQuit] {
@@ -278,6 +299,48 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
     let center = DistributedNotificationCenter.default()
     uiTestNotificationObservers.forEach { center.removeObserver($0) }
     uiTestNotificationObservers = []
+  }
+
+  /// Registers the `PerfNotification` observers (only when launched with
+  /// `MaccyPerfRecord`). Mirrors `installUITestNotificationHooks`. The UI test
+  /// drives the B benchmarks over the distributed notification bridge.
+  private func installPerfNotificationHooks() {
+    guard perfNotificationObservers.isEmpty else {
+      return
+    }
+
+    let center = DistributedNotificationCenter.default()
+    perfNotificationObservers.append(
+      center.addObserver(forName: PerfNotification.reset, object: nil, queue: .main) { _ in
+        MainActor.assumeIsolated {
+          PerfRecorder.shared.reset()
+        }
+      }
+    )
+    perfNotificationObservers.append(
+      center.addObserver(forName: PerfNotification.dump, object: nil, queue: .main) { notification in
+        MainActor.assumeIsolated {
+          let category = notification.userInfo?["category"] as? String ?? "unknown"
+          PerfRecorder.shared.dump(category: category)
+        }
+      }
+    )
+    perfNotificationObservers.append(
+      center.addObserver(forName: PerfNotification.openPreview, object: nil, queue: .main) { _ in
+        MainActor.assumeIsolated {
+          // Opens the preview pane deterministically (avoids the flaky
+          // control+space keyboard toggle on the headless runner). Lead item is
+          // already selected on popup open, so `togglePreview` will open.
+          AppState.shared.preview.togglePreview()
+        }
+      }
+    )
+  }
+
+  private func removePerfNotificationHooks() {
+    let center = DistributedNotificationCenter.default()
+    perfNotificationObservers.forEach { center.removeObserver($0) }
+    perfNotificationObservers = []
   }
   #endif
 }

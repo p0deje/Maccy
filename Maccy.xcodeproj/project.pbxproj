@@ -81,6 +81,7 @@
 		DA3CE80F1E44A62500B3AA98 /* Dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE80E1E44A62500B3AA98 /* Dtos.swift */; };
 		DA3CE8121E44A62500B3AA98 /* DtoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8111E44A62500B3AA98 /* DtoTests.swift */; };
 		DA3CE8141E44A62500B3AA98 /* SignatureIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8131E44A62500B3AA98 /* SignatureIndex.swift */; };
+		2B6F1A2B4C6D000000000002 /* PerfRecorder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C6D000000000001 /* PerfRecorder.swift */; };
 		DA3CE8161E44A62500B3AA98 /* SignatureIndexTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8151E44A62500B3AA98 /* SignatureIndexTests.swift */; };
 		DA3CE8181E44A62500B3AA98 /* ClipboardIngestor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8171E44A62500B3AA98 /* ClipboardIngestor.swift */; };
 		DA3CE8B01E44A62500B3AA98 /* PasteboardSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8B11E44A62500B3AA98 /* PasteboardSource.swift */; };
@@ -329,6 +330,7 @@
 		DA3CE80E1E44A62500B3AA98 /* Dtos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dtos.swift; sourceTree = "<group>"; };
 		DA3CE8111E44A62500B3AA98 /* DtoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DtoTests.swift; sourceTree = "<group>"; };
 		DA3CE8131E44A62500B3AA98 /* SignatureIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureIndex.swift; sourceTree = "<group>"; };
+		2B6F1A2B4C6D000000000001 /* PerfRecorder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfRecorder.swift; sourceTree = "<group>"; };
 		DA3CE8151E44A62500B3AA98 /* SignatureIndexTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureIndexTests.swift; sourceTree = "<group>"; };
 		DA3CE8171E44A62500B3AA98 /* ClipboardIngestor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardIngestor.swift; sourceTree = "<group>"; };
 		DA3CE8B11E44A62500B3AA98 /* PasteboardSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardSource.swift; sourceTree = "<group>"; };
@@ -951,6 +953,14 @@
 			path = Ingest;
 			sourceTree = "<group>";
 		};
+		2B6F1A2B4C6D000000000003 /* Perf */ = {
+			isa = PBXGroup;
+			children = (
+				2B6F1A2B4C6D000000000001 /* PerfRecorder.swift */,
+			);
+			path = Perf;
+			sourceTree = "<group>";
+		};
 		DA3CE81B1E44A62500B3AA98 /* ImageProcessing */ = {
 			isa = PBXGroup;
 			children = (
@@ -1023,6 +1033,7 @@
 				DA05B50F2C234C1C006980FE /* Models */,
 				DA3BCB902C3EEC1000B01BC1 /* Observables */,
 				DA3CE80D1E44A62500B3AA98 /* Persistence */,
+				2B6F1A2B4C6D000000000003 /* Perf */,
 				E00000022F50000000000002 /* Processor */,
 				DA181178247D150B00066D55 /* Settings */,
 				DA21AD3C249E85BD003E7C98 /* Sounds */,
@@ -1347,6 +1358,7 @@
 				DA3CE80C1E44A62500B3AA98 /* Storage+Background.swift in Sources */,
 				DA3CE80F1E44A62500B3AA98 /* Dtos.swift in Sources */,
 				DA3CE8141E44A62500B3AA98 /* SignatureIndex.swift in Sources */,
+				2B6F1A2B4C6D000000000002 /* PerfRecorder.swift in Sources */,
 				2F0EC7812E773F1D003E2EA9 /* PasteStack.swift in Sources */,
 				DA5078992CF2676B00215488 /* MouseMovedViewModifer.swift in Sources */,
 				DA19690E2C3EEFA900258481 /* KeyboardShortcutView.swift in Sources */,
