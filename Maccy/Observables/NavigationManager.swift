@@ -32,6 +32,16 @@ class NavigationManager { // swiftlint:disable:this type_body_length
     didSet {
       guard oldValue?.id != leadHistoryItem?.id else { return }
 
+      // P2 (2026-06-21): cancel the previous lead item's in-flight preview
+      // decode so it stops occupying the single serial `ImageProcessor` actor.
+      // Previously only `invalidate`/`cleanupImages` cancelled, so navigating
+      // off a lead left its preview decoding to completion → stale-decode
+      // pile-up on the actor (1.5s spike; mouse-hover worst case). A cached
+      // preview survives (cancelPreviewGeneration keeps previewImage); only an
+      // uncached in-flight decode is stopped. See
+      // docs/audit/2026-06-21-render-feedback-stopgap.md.
+      oldValue?.cancelPreviewGeneration()
+
       let preview = AppState.shared.preview
       if leadHistoryItem != nil {
         preview.resetAutoOpenSuppression()

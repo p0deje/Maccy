@@ -190,6 +190,23 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     previewImage = nil
   }
 
+  /// Cancels an in-flight preview decode and drops the task handle, WITHOUT
+  /// clearing a cached `previewImage` (unlike `cleanupImages`). Called when the
+  /// lead selection moves off this item (`NavigationManager.leadHistoryItem`
+  /// didSet) so a stale decode doesn't keep occupying the single serial
+  /// `ImageProcessor` actor — the BS-3 收尾 of the IMG-023 cancellation gap
+  /// (previously only `invalidate`/`cleanupImages` cancelled, so navigating
+  /// away left the old preview decoding to completion, piling up behind the
+  /// actor queue → the 1.5s spike; mouse-hover worst case). A re-select of an
+  /// already-decoded item stays instant (cache hit in `asyncGetPreviewImage`);
+  /// a re-select of a cancelled-uncached item re-kicks via `ensurePreviewImage`
+  /// (the nil'd handle lets it through).
+  @MainActor
+  func cancelPreviewGeneration() {
+    previewImageGenerationTask?.cancel()
+    previewImageGenerationTask = nil
+  }
+
   /// Kicks off (preview, thumbnail) generation. Used by `sizeImages()` for the
   /// benchmark/tests that want both rendered; production paths call the
   /// individual `ensure*` accessors as the view appears.
