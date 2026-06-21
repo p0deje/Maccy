@@ -79,14 +79,23 @@ jobs:
           set -uo pipefail
           mkdir -p "$CORPUS_DIR"
           mkdir -p DerivedData
+          # Export MACCY_PERF_FIXTURES so the test host (a separate process)
+          # inherits it — CorpusGeneratorTests reads this to know where to write.
+          export MACCY_PERF_FIXTURES="$CORPUS_DIR"
+          set -e
           xcodebuild \
             -project "$PROJECT" -scheme "$SCHEME" \
             -configuration "$CONFIGURATION" -destination "$DESTINATION" \
             -derivedDataPath "$DERIVED_DATA" \
             -only-testing:MaccyTests/CorpusGeneratorTests/testGenerateCorpusToEnv \
             CODE_SIGNING_ALLOWED=NO \
-            test 2>&1 | grep -E 'PERF\||Test Case .*(passed|failed)|\*\* TEST' || true
-          echo "Generated: $(ls "$CORPUS_DIR" | wc -l) files"
+            test 2>&1 | grep -E 'PERF\||Test Case .*(passed|failed)|\*\* TEST'
+          file_count=$(ls "$CORPUS_DIR" | wc -l | tr -d ' ')
+          echo "Generated: $file_count files"
+          if [[ "$file_count" -lt 100 ]]; then
+            echo "Expected 200+ corpus files, got $file_count; failing."
+            exit 1
+          fi
 
       - name: Publish corpus as Release asset
         if: steps.exists.outputs.exists != 'true'
