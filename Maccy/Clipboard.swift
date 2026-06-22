@@ -147,15 +147,12 @@ class Clipboard {
 
   @objc
   @MainActor
-  func checkForChangesInPasteboard() {
-    let currentChangeCount = pasteboard.changeCount
-    guard currentChangeCount != changeCount else {
+  func checkForChangesInPasteboard() { // swiftlint:disable:this cyclomatic_complexity
+    guard pasteboard.changeCount != changeCount else {
       return
     }
 
-    func markCurrentChangeAsProcessed() {
-      changeCount = currentChangeCount
-    }
+    changeCount = pasteboard.changeCount
 
     if pasteboard.pasteboardItems?.contains(where: { $0.types.contains(.fromMaccy) }) != true {
       // External copy occurred. Stop the current paste stack.
@@ -169,49 +166,20 @@ class Clipboard {
         Defaults[.ignoreOnlyNextEvent] = false
       }
 
-      markCurrentChangeAsProcessed()
       return
     }
 
     // Reading types on NSPasteboard gives all the available
     // types - even the ones that are not present on the NSPasteboardItem.
     // See https://github.com/p0deje/Maccy/issues/241.
-    let pasteboardTypes = Set(pasteboard.types ?? [])
-    guard !pasteboardTypes.isEmpty else {
-      return
-    }
-
-    if shouldIgnore(pasteboardTypes) {
-      markCurrentChangeAsProcessed()
+    if shouldIgnore(Set(pasteboard.types ?? [])) {
       return
     }
 
     if let sourceAppBundle = sourceApp?.bundleIdentifier, shouldIgnore(sourceAppBundle) {
-      markCurrentChangeAsProcessed()
       return
     }
 
-    let contents = readContents()
-    guard !contents.isEmpty else {
-      return
-    }
-
-    markCurrentChangeAsProcessed()
-
-    let historyItem = HistoryItem(contents: contents)
-
-    if #unavailable(macOS 15.0) {
-      // On macOS 14 the history item needs to be inserted into storage directly after creating it.
-      try? History.shared.insertIntoStorage(historyItem)
-    }
-
-    historyItem.application = sourceApp?.bundleIdentifier
-    historyItem.title = historyItem.generateTitle()
-
-    onNewCopyHooks.forEach({ $0(historyItem) })
-  }
-
-  private func readContents() -> [HistoryItemContent] {
     // Some applications (BBEdit, Edge) add 2 items to pasteboard when copying
     // so it's better to merge all data into a single record.
     // - https://github.com/p0deje/Maccy/issues/78
@@ -244,7 +212,21 @@ class Clipboard {
       }
     })
 
-    return contents
+    guard !contents.isEmpty else {
+      return
+    }
+
+    let historyItem = HistoryItem(contents: contents)
+
+    if #unavailable(macOS 15.0) {
+      // On macOS 14 the history item needs to be inserted into storage directly after creating it.
+      try? History.shared.insertIntoStorage(historyItem)
+    }
+
+    historyItem.application = sourceApp?.bundleIdentifier
+    historyItem.title = historyItem.generateTitle()
+
+    onNewCopyHooks.forEach({ $0(historyItem) })
   }
 
   private func shouldIgnore(_ types: Set<NSPasteboard.PasteboardType>) -> Bool {

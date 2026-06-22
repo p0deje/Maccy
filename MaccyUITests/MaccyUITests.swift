@@ -160,6 +160,11 @@ class MaccyUITests: XCTestCase {
 
   func testCopyRTF() {
     copyToClipboard(rtf2, .rtf)
+    popUpWithMouse()
+    assertExists(items["bar"])
+    app.typeKey(.escape, modifierFlags: [])
+    assertPopupDismissed()
+
     copyToClipboard(rtf1, .rtf)
     popUpWithHotkey()
     XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
