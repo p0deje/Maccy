@@ -76,13 +76,14 @@ class AppState {
   /// BS-4.7: pre-warm the history on hotkey-down so the data is ready (or
   /// loading) by the time the popup opens. No-op when items are already loaded
   /// (launch / a previous open / kept current by `consume`); otherwise kicks
-  /// `History.load()` on a main-actor task. Safe to call repeatedly — `load()`
-  /// is idempotent and `ContentView.task` only loads when items are still empty,
-  /// so there's no redundant reload once prewarm populates them.
-  @MainActor
+  /// `History.load()` on a main-actor task. Nonisolated so it's callable from
+  /// the `KeyboardShortcuts` hotkey callback (a nonisolated context); the work
+  /// hops to main. Safe to call repeatedly — `load()` is idempotent and
+  /// `ContentView.task` only loads when items are still empty.
   func prewarmVisibleWindow() {
-    guard history.items.isEmpty else { return }
     Task { @MainActor in
+      let history = AppState.shared.history
+      guard history.items.isEmpty else { return }
       try? await history.load()
     }
   }
