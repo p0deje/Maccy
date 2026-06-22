@@ -28,8 +28,11 @@ class ClipboardTests: XCTestCase {
 
   override func setUp() {
     super.setUp()
+    Defaults[.enabledPasteboardTypes] = Set(StorageType.all.types)
     Defaults[.ignoreAllAppsExceptListed] = false
     Defaults[.ignoreEvents] = false
+    Defaults[.ignoredApps] = []
+    Defaults[.ignoredPasteboardTypes] = []
   }
 
   override func tearDown() {
@@ -91,6 +94,30 @@ class ClipboardTests: XCTestCase {
     pasteboard.declareTypes([.rtf], owner: nil)
     pasteboard.setData(rtf, forType: .rtf)
     waitForExpectations(timeout: 2)
+  }
+
+  @MainActor
+  func testDoesNotMissDataWrittenAfterEmptyPasteboardChange() {
+    pasteboard.clearContents()
+    let previousChangeCount = pasteboard.changeCount - 1
+    clipboard.changeCount = previousChangeCount
+
+    clipboard.checkForChangesInPasteboard()
+    XCTAssertEqual(clipboard.changeCount, previousChangeCount)
+
+    var copiedTitle: String?
+    clipboard.onNewCopy({ item in
+      copiedTitle = item.title
+    })
+
+    let rtf = NSAttributedString(string: "foo").rtf(
+      from: NSRange(0...2),
+      documentAttributes: [:]
+    )
+    pasteboard.setData(rtf, forType: .rtf)
+    clipboard.checkForChangesInPasteboard()
+
+    XCTAssertEqual(copiedTitle, "foo")
   }
 
   func testDoesNotIgnoreHTML() {
