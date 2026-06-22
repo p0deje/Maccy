@@ -24,9 +24,14 @@ class Sorter {
   }
 
   func sort(_ items: [HistoryItem], by: By = Defaults[.sortBy]) -> [HistoryItem] {
+    // Hoisted out of the comparator: `byPinned` previously read `Defaults[.pinTo]`
+    // per comparison (O(n log n) Defaults reads per sort — once on `load()` and
+    // again on every-copy `reconcileWithStore`). Read once here and capture it.
+    // (render-chain S11; docs/audit/2026-06-22-render-chain-storms.md)
+    let pinTo = Defaults[.pinTo]
     return items
       .sorted(by: { return bySortingAlgorithm($0, $1, by) })
-      .sorted(by: byPinned)
+      .sorted(by: { byPinned($0, $1, pinTo: pinTo) })
   }
 
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
@@ -40,8 +45,8 @@ class Sorter {
     }
   }
 
-  private func byPinned(_ lhs: HistoryItem, _ rhs: HistoryItem) -> Bool {
-    if Defaults[.pinTo] == .bottom {
+  private func byPinned(_ lhs: HistoryItem, _ rhs: HistoryItem, pinTo: PinsPosition) -> Bool {
+    if pinTo == .bottom {
       return (lhs.pin == nil) && (rhs.pin != nil)
     } else {
       return (lhs.pin != nil) && (rhs.pin == nil)
