@@ -194,7 +194,88 @@ makeKey」建议同 P0 defer 一起拒绝。
 
 ---
 
-## 7. 关联
+## 7. 原始 sample 复核（2026-06-22 用户上传 `Maccy.sample.txt`）
+
+用户上传了 GPT 分析所用的**原始** `sample`（每 1ms 一次，主线程 7519 采样）。**关键事实**：
+`Identifier: org.p0deje.Maccy`、**Version 2.6.1 (60)**、`/Applications/Maccy.app` —— 这是
+**发布版 2.6.1**，**没有**本仓库的 BS-1/2/3 与渲染止血（固定行高 / hover-no-scroll /
+preview 取消）。Launch→sample 间隔 ~12h（**常驻**运行）。所以 sample 反映的是**未修复
+发布版的常驻渲染链**：用它**校准方向**，但绝对量级不等于当前 fork（止血已大幅压低）。
+
+### 7.1 真实热点排序（采样数；树去重后相对量级，含祖先链重复）
+
+去掉 runloop 等待后，**实际工作几乎全在 SwiftUI 布局 + CoreText 文本测量**：
+
+| 类别 | 代表帧（采样数） |
+|---|---|
+| **SwiftUI 布局 / sizeThatFits** | `LayoutEngineBox.sizeThatFits` **231**、`LayoutProxy.size(in:)` 164、`UnaryLayoutEngine.sizeThatFits` 163、`ViewLayoutEngine.sizeThatFits` 85、`StackLayout.placeChildren` 75/74/65、`_PaddingLayout` 57、`_FlexFrameLayout` 51 |
+| **AttributeGraph** | `AG::Graph::UpdateStack::update` 78、`update_attribute` 71、`input_value_ref_slow` 60、`AGGraphGetValue` 46 |
+| **CoreText 文本塑形** | `TRunGlue.*` 325、`TGlyphIterator` 187、`CFStringGetRangeOfCharacterClusterAtIndex` 91（grapheme cluster）、`TGlyphEncoder::RunUnicodeEncoderRecursively` 87、`TOpenType*` 94、`_NSOptimalLineBreaker` 101、`NSCoreTypesetter` 39 |
+
+`sizeThatFits` 家族 + CoreText 塑形合计**压倒性占比**。
+
+### 7.2 触发链：窗口帧动画 → 每帧全树 `NSHostingView.layout()`
+
+1790 采样的 source1（display-link）子树揭露因果链：
+
+```
+CA::Display::DisplayLink::dispatch_items → -[_NSDisplayLinkForwarder displayLinkDidFire:]
+ → +[NSAnimationManager performAnimations:] → +[NSAnimationContext runAnimationGroup:]
+   → CABasicAnimation → -[NSWindow _setFrameCommon:display:fromServer:]        ← 窗口帧动画(verticallyResize / slideout)
+     → -[NSWindow _layoutViewTree] → -[NSView layoutSubtreeIfNeeded]
+       → NSHostingView.layout() → ViewGraphRootValueUpdater.render             ← 每帧重布局整棵 popup SwiftUI 树
+         → AttributeGraph 更新 + Accessibility 更新 + CoreText 文本重测量
+```
+
+**一个 0.2s 的 `NSAnimationContext` 窗口帧动画（`FloatingPanel.verticallyResize` 或 slideout
+宽度动画），在每帧（≈12 帧）强制 `NSHostingView.layout()` 整棵树 → 重测所有可见行文本**。
+这是 sample 里布局/文本风暴的**驱动源**，即 §3 的 **S9/S10**。
+
+### 7.3 GPT 叙事被原始帧证伪
+
+GPT 以「热键→打开→`makeKeyWindow`/`_stealKeyFocus`/`SLS*`→CA commit」为 P0 主线。**原始
+sample 里这些帧采样数 ≈ 0**：
+
+| GPT 宣称的热点帧 | sample 实测 |
+|---|---|
+| `handleHotKeyEvent` / `Popup.open` / `FloatingPanel.open` | **0** |
+| `makeKeyWindow` / `_stealKeyFocusWithOptions` / `SLPSStealKeyFocus` / `SLSCopyWindowRoutingRecords` | **0**（GPT 引用的这些帧**不在 sample 里**） |
+| `CA::Transaction::commit` / `CABackingStore*` | **0** |
+| `mouseMoved` / `onHover` / `HoverSelection` / `hitTest` | `hitTest` 仅 9 + 8 |
+| `ApplicationImage` / `ColorImage` / `Defaults` / `NSColor(hexString:)` / `urlForApplication` | **0**（W1/W2 在 sample 里也不成立） |
+
+**且 `main` 是唯一高采样的 Maccy-image 符号** —— app 自己的 Swift 代码不是瓶颈，全是
+SwiftUI/AppKit/CoreText 框架工作。**结论**：GPT 的「打开路径/窗口聚焦/CA/hover」叙事
+**不被原始数据支持**；真实主因是**动画驱动的每帧全树布局 + 文本测量**。GPT 看到了
+layout/CA **症状**但归因到错误的**触发源**。
+
+### 7.4 据 sample 重排 4.10 优先级 + 新增 4.10f
+
+sample 把 **S9/S10（动画 resize → 每帧全树布局）** 钉为 **#1**，高于 S2（open 去冗余）/S6
+（窗口操作，本就固有）/S12（hover）。并暴露一个 GPT 和原目录（§3）都漏掉的真实放大器：
+
+- **新增 4.10f 列表标题测量削减** —— 行标题 `item.title` 上限
+  `titlePreviewLimit = 1_000`（`HistoryItem.swift:9`），且 `ListItemTitleView` 用
+  `.truncationMode(.middle)`（`ListItemTitleView.swift:12,17`）。**middle 截断要求 CoreText
+  测量整个字符串**才能定中点 → 每个可见行测 ~1000 字符；单行实际只显示 ~60–80 字符。改进：
+  (a) 列表标题**展示**上限降到 ~150–200 字符（完整标题仍用于预览/tooltip）；(b) 评估
+  `.tail` 替 `.middle`（tail 可增量早退；但 middle 是产品意图——代码/URL 看头尾——需权衡）。
+  把每行 CoreText 工作砍数倍。
+
+**重排后 4.10 优先级**：4.10b（S9/S10 动画 resize，#1）→ 4.10f（标题测量，新增，#2）→
+4.10e（drawingGroup）→ 4.10a / 4.10c / 4.10d。
+
+### 7.5 sample 与当前 fork 的关系
+
+sample = 发布版 2.6.1（**无**止血）。本 fork 已落：固定行高（`6bc92d7`，阻断 height 反馈
+环）、`LazyVStack`、`lineLimit(1)`、preview 取消。所以 fork 上动画驱动的布局/文本成本**已
+比 sample 低**，但**驱动源（窗口帧动画 → 每帧 `NSHostingView.layout`）和放大器（1000 字
+middle 截断标题）仍在** —— 正是 4.10b + 4.10f 的目标。新增 `G-resident-open` 闸门
+（`step-4-data-pipeline.md`）将量化 fork 上的真实残余量。
+
+---
+
+## 8. 关联
 
 - 前序：`2026-06-21-render-feedback-stopgap.md`（P0/P1/P2/P3 止血）。
 - 落点：`roadmap/step-4-data-pipeline.md` §4.10（增补）；闸门 `G-resident-open`

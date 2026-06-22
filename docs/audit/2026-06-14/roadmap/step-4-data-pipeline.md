@@ -287,6 +287,20 @@ LazyVStack 反馈风暴后,对常驻 app 重新 `sample` 仍看到弹窗打开�
   `.drawingGroup()` 各开一个 Metal backing store(macOS 26 翻转 workaround)。评估能否
   仅对「会触发翻转的分支」保留、纯文本短标题去掉,减首帧 CA backing store 数(审计 S7)。
   需 UI 测试覆盖 `p0deje/Maccy#1113` 翻转回归。
+- [ ] **4.10f 列表标题测量削减(#2,2026-06-22 据 sample 新增)** — `HistoryItem.swift:9` +
+  `ListItemTitleView.swift:12,17` + `HistoryItemView.swift:47`。原始 `sample`(发布版
+  2.6.1,见 `docs/audit/2026-06-22-render-chain-storms.md §7`)证明主成本是 CoreText 文本
+  测量,放大器是:行标题展示上限 `titlePreviewLimit = 1_000` + `.truncationMode(.middle)`
+  → **middle 截断要求 CoreText 测整个字符串**定中点,每可见行测 ~1000 字符(单行只显
+  ~60–80)。改进:(a) 给**列表展示**单独的更短上限(~150–200 字符,完整标题仍用于预览/
+  tooltip);(b) 评估 `.tail` 替 `.middle`(tail 增量早退;middle 是产品意图需权衡)。把每行
+  CoreText 工作砍数倍。需测试覆盖超长标题/UI 的可见性。
+
+### 优先级(2026-06-22 据 sample 重排)
+
+据原始 `sample`(`§7`),4.10 真实影响序:**4.10b(S9/S10 动画 resize→每帧全树布局,#1) →
+4.10f(标题测量,新增,#2) → 4.10e(drawingGroup) → 4.10a/4.10c/4.10d**。S6(窗口操作)只评估
+不动。`G-resident-open` 闸门量化每步收益。
 
 ### 先行落地(零行为变更,本批独立小步)
 
