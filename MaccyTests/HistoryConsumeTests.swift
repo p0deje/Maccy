@@ -122,6 +122,55 @@ final class HistoryConsumeTests: XCTestCase {
     XCTAssertEqual(history.all.first?.title, "dup")
   }
 
+  // MARK: - BS-4.4a incremental insert
+
+  /// Incremental consume must produce the SAME order as a fresh full sort of the
+  /// store — the BinaryInsertion + Sorter.areInIncreasingOrder invariant.
+  func testConsumeIncrementalOrderMatchesFullSort() {
+    let timestamps: [TimeInterval] = [100, 300, 200, 500, 400]
+    var items: [HistoryItem] = []
+    for (index, timestamp) in timestamps.enumerated() {
+      let item = insertItem(text: "item\(index)")
+      item.firstCopiedAt = Date(timeIntervalSince1970: timestamp)
+      items.append(item)
+    }
+    try? Storage.shared.context.save()
+
+    // Consume in the given (out-of-sort) order.
+    for item in items {
+      history.consume(.added(snapshot(of: item)))
+    }
+
+    let sorter = Sorter()
+    let fullSortTitles = sorter
+      .sort((try? Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())) ?? [])
+      .map(\.title)
+    XCTAssertEqual(history.all.map(\.title), fullSortTitles)
+  }
+
+  /// syncAllToStore must drop decorators whose @Model is gone from the store
+  /// (the ingestor trims oldest-unpinned every copy at steady state — by
+  /// lastCopiedAt, not the UI sort, so `all` can't trim itself).
+  func testConsumeRemovesDecoratorWhenStoreItemDeleted() {
+    let itemA = insertItem(text: "a")
+    let itemB = insertItem(text: "b")
+    try? Storage.shared.context.save()
+    history.consume(.added(snapshot(of: itemA)))
+    history.consume(.added(snapshot(of: itemB)))
+    XCTAssertEqual(history.all.count, 2)
+
+    // Delete A from the store (as the ingestor's trim would), add C, consume —
+    // the sync on C's consume must drop A's decorator.
+    Storage.shared.context.delete(itemA)
+    let itemC = insertItem(text: "c")
+    try? Storage.shared.context.save()
+    history.consume(.added(snapshot(of: itemC)))
+
+    let titles = Set(history.all.map(\.title))
+    XCTAssertFalse(titles.contains("a"), "store-deleted item must be removed from all")
+    XCTAssertEqual(history.all.count, 2, "A dropped, C added → still 2")
+  }
+
   // MARK: - Helpers
 
   /// Inserts a single-string-content `HistoryItem` into the shared main context

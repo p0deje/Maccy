@@ -264,23 +264,82 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   /// Applies a `StoreEvent` emitted by the background ingest actor, updating the
   /// in-memory `all`/`items` to match the (now-merged) main context.
   ///
-  /// The actor commits on a background `ModelContext` whose saves merge into the
-  /// main context (`Storage.newBackgroundContext()` sets
-  /// `automaticallyMergesChangesFromParent`). Because a `StoreEvent` carries only
-  /// the lightweight `ItemSnapshotDTO` (no fetchable SwiftData id), `.added`/
-  /// `.merged` reconcile against a fresh main-context fetch: existing decorators
-  /// are reused by `persistentModelID` so unchanged items keep their decoded
-  /// images, only new/changed items get freshly decorated. The O(n) fetch here
-  /// matches the current `History.add` cost; BS-4 makes insertion O(log n).
+  /// BS-4.4a: `.added`/`.merged` now reconcile INCREMENTALLY — fetch the one
+  /// committed @Model on main via `ModelContext.model(for: persistentID)` and
+  /// binary-insert it at the sorted position (O(log n)), reusing existing
+  /// decorators — instead of refetching + re-sorting the whole table every copy.
+  /// `.removed`/`.cleared` (not emitted by the BS-2 actor today), and any
+  /// `nil`-persistentID snapshot or `model(for:)` miss, fall back to the full
+  /// `reconcileWithStore`. The final `all` order matches the old full sort.
   @MainActor
   func consume(_ event: StoreEvent) {
     switch event {
-    case .added, .merged:
-      reconcileWithStore()
+    case .added(let snapshot), .merged(let snapshot):
+      insertIncrementally(snapshot)
     case .removed, .cleared:
       // The BS-2 actor only emits .added/.merged today; handle the others
-      // defensively by reconciling too, so a future emitter stays correct.
+      // defensively by full reconcile, so a future emitter stays correct.
       reconcileWithStore()
+    }
+  }
+
+  /// Incremental path for `.added`/`.merged`: fetch the one committed @Model on
+  /// main, remove any existing decorator for it (`.merged` re-insert + duplicate
+  /// safety), binary-insert it at the sorted position, then sync `all` to the
+  /// store (the ingestor may have trimmed an oldest item — `syncAllToStore`).
+  /// Falls back to `reconcileWithStore` on any guard failure so correctness never
+  /// depends on the fast path.
+  @MainActor
+  private func insertIncrementally(_ snapshot: ItemSnapshotDTO) {
+    guard let persistentID = snapshot.persistentID else {
+      reconcileWithStore()
+      return
+    }
+    if let existing = all.firstIndex(where: { $0.item.persistentModelID == persistentID }) {
+      cleanup(all[existing])
+      all.remove(at: existing)
+    }
+    // `model(for:)` returns the faulted model for a committed id; the title check
+    // guards against an un-faulted shell (it returns an unsaved shell for ids it
+    // doesn't know). Fall back to the full reconcile if either fails.
+    guard let model = Storage.shared.context.model(for: persistentID) as? HistoryItem,
+          model.title == snapshot.title else {
+      reconcileWithStore()
+      return
+    }
+    let decorator = HistoryItemDecorator(model)
+    let position = BinaryInsertion.index(
+      for: decorator,
+      in: all,
+      by: { sorter.areInIncreasingOrder($0.item, $1.item) }
+    )
+    all.insert(decorator, at: position)
+    syncAllToStore()
+    refreshVisibleItems()
+    if searchQuery.isEmpty && !AppState.shared.navigator.isMultiSelectInProgress {
+      AppState.shared.navigator.select(item: unpinnedItems.first ?? pinnedItems.first)
+    }
+    AppState.shared.popup.needsResize = true
+  }
+
+  /// Drops `all` decorators whose backing @Model the ingestor trimmed. The
+  /// ingestor deletes oldest-unpinned-by-`lastCopiedAt` beyond `Defaults[.size]`,
+  /// which is NOT the UI sort order, so `all` can't trim itself correctly. Uses
+  /// `fetchIdentifiers` (ids only — no @Model faulting) so the per-copy sync stays
+  /// cheap; this is the only O(n) piece of the incremental path.
+  @MainActor
+  private func syncAllToStore() {
+    let storeIDs = Set(
+      (try? Storage.shared.context.fetchIdentifiers(FetchDescriptor<HistoryItem>())) ?? []
+    )
+    var index = all.startIndex
+    while index < all.count {
+      if storeIDs.contains(all[index].item.persistentModelID) {
+        index += 1
+      } else {
+        cleanup(all[index])
+        all.remove(at: index)
+      }
     }
   }
 

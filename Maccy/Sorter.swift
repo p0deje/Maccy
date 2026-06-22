@@ -34,6 +34,18 @@ class Sorter {
       .sorted(by: { byPinned($0, $1, pinTo: pinTo) })
   }
 
+  /// Total order matching `sort(_:by:)` — pin partition primary, algorithm
+  /// secondary. Hoists `Defaults[.pinTo]`/`[.sortBy]` once. For `BinaryInsertion`'s
+  /// incremental insert (BS-4.4a): a single new item can be placed at its sorted
+  /// position without re-sorting the whole array, producing the same order as
+  /// `sort`.
+  func areInIncreasingOrder(_ lhs: HistoryItem, _ rhs: HistoryItem, by: By = Defaults[.sortBy]) -> Bool {
+    let pinTo = Defaults[.pinTo]
+    if byPinned(lhs, rhs, pinTo: pinTo) { return true }
+    if byPinned(rhs, lhs, pinTo: pinTo) { return false }
+    return bySortingAlgorithm(lhs, rhs, by)
+  }
+
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
     switch by {
     case .firstCopiedAt:
@@ -51,6 +63,30 @@ class Sorter {
     } else {
       return (lhs.pin != nil) && (rhs.pin == nil)
     }
+  }
+}
+
+/// O(log n) insertion index for an already-sorted `RandomAccessCollection`
+/// (ordered by `areInIncreasingOrder`). Lower-bound: equal-or-greater elements
+/// stay put and `element` inserts after them. BS-4.4a's incremental consume uses
+/// this to place a new item without re-sorting `all`.
+enum BinaryInsertion {
+  static func index<C: RandomAccessCollection>(
+    for element: C.Element,
+    in sorted: C,
+    by areInIncreasingOrder: (C.Element, C.Element) -> Bool
+  ) -> Int where C.Index == Int {
+    var low = sorted.startIndex
+    var high = sorted.endIndex
+    while low < high {
+      let mid = low + (high - low) / 2
+      if areInIncreasingOrder(sorted[mid], element) {
+        low = mid + 1
+      } else {
+        high = mid
+      }
+    }
+    return low
   }
 }
 // swiftlint:enable identifier_name
