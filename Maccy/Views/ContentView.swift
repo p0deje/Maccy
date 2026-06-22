@@ -32,12 +32,13 @@ struct ContentView: View {
 
               FooterView(footer: appState.footer)
             }
-            // 4.10 (2026-06-22): the items-transition animation was removed. It
-            // animated every list change (incl. the bulk `items = all` on load/
-            // search) and, like the resize animation (4.10b), forced per-frame
-            // SwiftUI layout of the popup tree during the transition — a render
-            // storm source. List changes (copy add / delete / search filter) now
-            // apply instantly.
+            // Keep this items-transition animation (2026-06-22). Unlike the resize
+            // animation (4.10b — which forced wasteful full-tree layouts every
+            // frame), this one SPREADS the list-change render across frames,
+            // lowering the peak main-thread stall. Removing it (tried, then
+            // reverted) concentrated the bulk `items = all` render into one frame
+            // and image-many-200 maxGap went 0.624s → 1.200s. It smooths the spike.
+            .animation(.default.speed(3), value: appState.history.items)
             .animation(
               .default.speed(3),
               value: appState.history.pasteStack?.id
