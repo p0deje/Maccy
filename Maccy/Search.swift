@@ -33,23 +33,77 @@ class Search {
 
   typealias Searchable = HistoryItemDecorator
 
+  enum ContentTag: String, CaseIterable {
+    case image
+    case file
+    case text
+
+    func matches(_ item: Searchable) -> Bool {
+      let hasImage = item.item.imageData != nil
+      let hasFile = !item.item.fileURLs.isEmpty
+
+      switch self {
+      case .image:
+        return hasImage
+      case .file:
+        return !hasImage && hasFile
+      case .text:
+        return !hasImage && !hasFile
+      }
+    }
+  }
+
+  struct Query {
+    let contentTag: ContentTag?
+    let searchString: String
+
+    var includesSnippetResults: Bool {
+      contentTag == nil || contentTag == .text
+    }
+
+    init(_ string: String) {
+      let query = string.drop { $0.isWhitespace }
+      let lowercasedQuery = String(query).lowercased()
+
+      for tag in ContentTag.allCases {
+        let prefix = "\(tag.rawValue):"
+        if lowercasedQuery.hasPrefix(prefix) {
+          let contentStart = query.index(query.startIndex, offsetBy: prefix.count)
+          // 只在开头识别类型标签，剩余文本继续交给原搜索模式处理。
+          self.contentTag = tag
+          self.searchString = query[contentStart...]
+            .trimmingCharacters(in: .whitespacesAndNewlines)
+          return
+        }
+      }
+
+      self.contentTag = nil
+      self.searchString = string
+    }
+  }
+
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
-    guard !string.isEmpty else {
-      return within.map { SearchResult(object: $0) }
+    let query = Query(string)
+    let items = query.contentTag.map { tag in
+      within.filter { tag.matches($0) }
+    } ?? within
+
+    guard !query.searchString.isEmpty else {
+      return items.map { SearchResult(object: $0) }
     }
 
     switch Defaults[.searchMode] {
     case .mixed:
-      return mixedSearch(string: string, within: within)
+      return mixedSearch(string: query.searchString, within: items)
     case .regexp:
-      return simpleSearch(string: string, within: within, options: .regularExpression)
+      return simpleSearch(string: query.searchString, within: items, options: .regularExpression)
     case .fuzzy:
-      return fuzzySearch(string: string, within: within)
+      return fuzzySearch(string: query.searchString, within: items)
     default:
-      return simpleSearch(string: string, within: within, options: .caseInsensitive)
+      return simpleSearch(string: query.searchString, within: items, options: .caseInsensitive)
     }
   }
 

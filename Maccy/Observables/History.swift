@@ -485,7 +485,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       return historyResults
     }
 
-    return historyResults + SnippetsStore.shared.searchResults(for: query)
+    let parsedQuery = Search.Query(query)
+    guard parsedQuery.includesSnippetResults else {
+      return historyResults
+    }
+
+    return historyResults + SnippetsStore.shared.searchResults(for: parsedQuery.searchString)
   }
 
   private func updateShortcuts() {
