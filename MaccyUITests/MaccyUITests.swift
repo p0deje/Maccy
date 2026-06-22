@@ -51,6 +51,7 @@ class MaccyUITests: XCTestCase {
     try? "Hello world".write(to: file1, atomically: true, encoding: .utf8)
     try? "Hello world".write(to: file2, atomically: true, encoding: .utf8)
 
+    resetAppDefaults()
     app.launchArguments.append("enable-testing")
     app.launch()
 
@@ -149,7 +150,7 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(file1)
     popUpWithMouse()
 
-    XCTAssertEqual(itemTitles[0...1], [
+    assertTopItemTitles([
       file1.absoluteString.removingPercentEncoding!,
       file2.absoluteString.removingPercentEncoding!
     ])
@@ -159,20 +160,20 @@ class MaccyUITests: XCTestCase {
   }
 
   func testCopyRTF() {
-    copyToClipboard(rtf2, .rtf)
-    copyToClipboard(rtf1, .rtf)
+    copyToClipboard(rtf2, .rtf, title: "bar")
+    copyToClipboard(rtf1, .rtf, title: "foo")
     popUpWithHotkey()
-    XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
+    assertTopItemTitles(["foo", "bar"])
 
-    app.staticTexts["bar"].firstMatch.click()
-    XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
+    items["bar"].firstMatch.click()
+    assertPasteboardDataEquals(rtf2, forType: .rtf)
   }
 
   func testCopyHTML() {
     copyToClipboard(html2, .html)
     copyToClipboard(html1, .html)
     popUpWithMouse()
-    XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
+    assertTopItemTitles(["foo", "bar"])
 
     items["bar"].firstMatch.click()
     assertPasteboardDataEquals(html2, forType: .html)
@@ -264,11 +265,11 @@ class MaccyUITests: XCTestCase {
   func testPin() {
     popUpWithMouse()
     pin(copy2)
-    XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
+    assertTopItemTitles([copy2, copy1])
 
     app.typeKey(.escape, modifierFlags: [])
     popUpWithMouse()
-    XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
+    assertTopItemTitles([copy2, copy1])
   }
 
   func testPinDuringSearch() {
@@ -276,14 +277,14 @@ class MaccyUITests: XCTestCase {
     search(copy2)
     pin(copy2)
     assertSearchFieldValue("")
-    XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
+    assertTopItemTitles([copy2, copy1])
   }
 
   func testUnpin() {
     popUpWithMouse()
     pin(copy2)
     pin(copy2)
-    XCTAssertEqual(itemTitles[0...1], [copy1, copy2])
+    assertTopItemTitles([copy1, copy2])
   }
 
   func testRemoveLastWordFromSearchWithControlW() {
@@ -538,9 +539,14 @@ class MaccyUITests: XCTestCase {
     waitTillClipboardCheck()
   }
 
-  private func copyToClipboard(_ content: Data?, _ type: NSPasteboard.PasteboardType) {
+  private func copyToClipboard(_ content: Data?, _ type: NSPasteboard.PasteboardType, title: String? = nil) {
     pasteboard.clearContents()
+    if let title {
+      pasteboard.setString(title, forType: .string)
+    }
     pasteboard.setData(content, forType: type)
+    // Same as file URLs, force the pasteboard server to materialize the write before the next test copy.
+    pasteboard.data(forType: type)
     waitTillClipboardCheck()
   }
 
@@ -589,6 +595,57 @@ class MaccyUITests: XCTestCase {
     expectation(
       for: NSPredicate(format: "(exists = 0) || (isHittable = 0)"), evaluatedWith: element)
     waitForExpectations(timeout: 3)
+  }
+
+  private func assertTopItemTitles(
+    _ expected: [String],
+    file: StaticString = #filePath,
+    line: UInt = #line
+  ) {
+    XCTAssertEqual(Array(itemTitles.prefix(expected.count)), expected, file: file, line: line)
+  }
+
+  private func resetAppDefaults() {
+    let bundleIdentifier = "org.p0deje.Maccy"
+    guard let defaults = UserDefaults(suiteName: bundleIdentifier) else {
+      return
+    }
+
+    defaults.removePersistentDomain(forName: bundleIdentifier)
+    defaults.set(["2024-07-01-version-2": true], forKey: "migrations")
+    defaults.set(false, forKey: "clearOnQuit")
+    defaults.set(false, forKey: "clearSystemClipboard")
+    defaults.set(false, forKey: "ignoreAllAppsExceptListed")
+    defaults.set(false, forKey: "ignoreEvents")
+    defaults.set(false, forKey: "ignoreOnlyNextEvent")
+    defaults.set([], forKey: "ignoreRegexp")
+    defaults.set([], forKey: "ignoredApps")
+    defaults.set([], forKey: "ignoredPasteboardTypes")
+    defaults.set(false, forKey: "pasteByDefault")
+    defaults.set(false, forKey: "removeFormattingByDefault")
+    defaults.set(false, forKey: "showApplicationIcons")
+    defaults.set(true, forKey: "showFooter")
+    defaults.set(true, forKey: "showInStatusBar")
+    defaults.set(false, forKey: "showRecentCopyInMenuBar")
+    defaults.set(true, forKey: "showSearch")
+    defaults.set(true, forKey: "showSpecialSymbols")
+    defaults.set(true, forKey: "showTitle")
+    defaults.set(false, forKey: "suppressClearAlert")
+    defaults.set(200, forKey: "historySize")
+    defaults.set(40, forKey: "imageMaxHeight")
+    defaults.set("exact", forKey: "searchMode")
+    defaults.set("lastCopiedAt", forKey: "sortBy")
+    defaults.set("top", forKey: "pinTo")
+    defaults.set("cursor", forKey: "popupPosition")
+    defaults.set([
+      NSPasteboard.PasteboardType.fileURL.rawValue,
+      NSPasteboard.PasteboardType.html.rawValue,
+      NSPasteboard.PasteboardType.png.rawValue,
+      NSPasteboard.PasteboardType.rtf.rawValue,
+      NSPasteboard.PasteboardType.string.rawValue,
+      NSPasteboard.PasteboardType.tiff.rawValue
+    ], forKey: "enabledPasteboardTypes")
+    defaults.synchronize()
   }
 
   private func assertPasteboardDataEquals(

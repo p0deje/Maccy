@@ -66,6 +66,7 @@
 		DA19691F2C3F5F0600258481 /* KeyHandlingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19691E2C3F5F0600258481 /* KeyHandlingView.swift */; };
 		DA1969212C3F6C6800258481 /* HistoryItemAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1969202C3F6C6800258481 /* HistoryItemAction.swift */; };
 		DA1EDE432045B35300479723 /* HistoryDecoratorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */; };
+		2F6B4C1B2F353FA100D8D743 /* PopupPositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F6B4C1A2F353FA100D8D743 /* PopupPositionTests.swift */; };
 		DA20FA722B082DD600056DD5 /* Notifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA20FA712B082DD600056DD5 /* Notifier.swift */; };
 		DA20FA742B082E0100056DD5 /* Knock.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA20FA732B082E0100056DD5 /* Knock.caf */; };
 		DA20FA762B082E0800056DD5 /* Write.caf in Resources */ = {isa = PBXBuildFile; fileRef = DA20FA752B082E0800056DD5 /* Write.caf */; };
@@ -265,6 +266,7 @@
 		DA19691E2C3F5F0600258481 /* KeyHandlingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyHandlingView.swift; sourceTree = "<group>"; };
 		DA1969202C3F6C6800258481 /* HistoryItemAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemAction.swift; sourceTree = "<group>"; };
 		DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDecoratorTests.swift; sourceTree = "<group>"; };
+		2F6B4C1A2F353FA100D8D743 /* PopupPositionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupPositionTests.swift; sourceTree = "<group>"; };
 		DA20FA712B082DD600056DD5 /* Notifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Notifier.swift; sourceTree = "<group>"; };
 		DA20FA732B082E0100056DD5 /* Knock.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Knock.caf; sourceTree = "<group>"; };
 		DA20FA752B082E0800056DD5 /* Write.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Write.caf; sourceTree = "<group>"; };
@@ -721,6 +723,7 @@
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
 				DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */,
 				DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */,
+				2F6B4C1A2F353FA100D8D743 /* PopupPositionTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
@@ -1061,6 +1064,7 @@
 				DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */,
 				DA1EDE432045B35300479723 /* HistoryDecoratorTests.swift in Sources */,
 				DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */,
+				2F6B4C1B2F353FA100D8D743 /* PopupPositionTests.swift in Sources */,
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
 				DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,

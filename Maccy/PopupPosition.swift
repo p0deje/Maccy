@@ -1,4 +1,4 @@
-import AppKit.NSEvent
+import AppKit
 import Defaults
 import Foundation
 
@@ -24,6 +24,21 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
     case .lastPosition:
       return NSLocalizedString("PopupAtLastPosition", tableName: "AppearanceSettings", comment: "")
     }
+  }
+
+  func constrainedSize(_ size: NSSize, statusBarButton _: NSStatusBarButton?) -> NSSize {
+    guard self == .cursor, let visibleFrame = NSScreen.containing(NSEvent.mouseLocation)?.visibleFrame else {
+      return size
+    }
+
+    return Self.constrainedSize(size, visibleFrame: visibleFrame)
+  }
+
+  static func constrainedSize(_ size: NSSize, visibleFrame: NSRect) -> NSSize {
+    return NSSize(
+      width: min(size.width, visibleFrame.width),
+      height: min(size.height, visibleFrame.height)
+    )
   }
 
   // swiftlint:disable:next cyclomatic_complexity
@@ -62,8 +77,20 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
       break
     }
 
-    var point = NSEvent.mouseLocation
-    point.y -= size.height
-    return point
+    let mouseLocation = NSEvent.mouseLocation
+    guard let visibleFrame = NSScreen.containing(mouseLocation)?.visibleFrame else {
+      return NSPoint(x: mouseLocation.x, y: mouseLocation.y - size.height)
+    }
+    return Self.cursorOrigin(size: size, mouseLocation: mouseLocation, visibleFrame: visibleFrame)
+  }
+
+  static func cursorOrigin(size: NSSize, mouseLocation: NSPoint, visibleFrame: NSRect) -> NSPoint {
+    let proposedFrame = NSRect(
+      x: mouseLocation.x,
+      y: mouseLocation.y - size.height,
+      width: size.width,
+      height: size.height
+    )
+    return proposedFrame.constrainedToFit(in: visibleFrame).origin
   }
 }
