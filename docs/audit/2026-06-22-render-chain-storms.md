@@ -282,3 +282,13 @@ middle 截断标题）仍在** —— 正是 4.10b + 4.10f 的目标。新增 `G
   （`roadmap/B-test-strategy.md §4` + step-4 闸门表）。
 - 依据 memory：`mainthread-probe-delay-metric`、`ingest-live-path-reconcile-not-findSimilar`、
   `mixed-list-layout-storm`、`perf-harness-rework-state`。
+
+## 9. 落地进度
+
+- **2026-06-22 4.10b（S9/S10）landed** — `FloatingPanel.verticallyResize` 去掉 `NSAnimationContext`
+  0.2s `animator().setFrame`，改为即时 `setFrame`。**行为变更（路标 4.10b 授权）：弹窗不再有
+  0.2s 的尺寸 settle 动画，改为瞬时到位（体感更跟手）。** 原动画在每帧 display-link 强制
+  `NSHostingView.layout()`（整棵 popup 树 + CoreText 重测）—— 即 §7.2 的风暴驱动源与
+  image/mixed 的 `G-popup-open` maxGap(800ms+)。一次 `setFrame` = 一次 layout。待 perf shard
+  量化收益（image/mixed maxGap 应大幅下降）；若 UX 上仍想要动效，可改为极短时长（如 0.05s）
+  作为折中。

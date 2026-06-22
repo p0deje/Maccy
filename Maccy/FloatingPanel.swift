@@ -87,15 +87,20 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func verticallyResize(to newHeight: CGFloat) {
+    // 4.10b: resize instantly (no NSAnimationContext). The prior 0.2s
+    // `animator().setFrame(display: true)` forced `NSHostingView.layout()` — a
+    // full popup-tree re-layout + CoreText re-measure of every visible row — on
+    // each display-link frame (~12). That animation-driven per-frame layout was
+    // the dominant render storm in the raw sample (display-link →
+    // _setFrameCommon → _layoutViewTree → NSHostingView.layout) and the
+    // G-popup-open maxGap on image/mixed (800ms+). One `setFrame` = one layout.
+    // Visible change: the popup snaps to size instead of a 0.2s settle.
     var newSize = frame.size
     newSize.height = newHeight
     var newOrigin = frame.origin
     newOrigin.y += (frame.height - newSize.height)
 
-    NSAnimationContext.runAnimationGroup { (context) in
-      context.duration = 0.2
-      animator().setFrame(NSRect(origin: newOrigin, size: newSize), display: true)
-    }
+    setFrame(NSRect(origin: newOrigin, size: newSize), display: true)
   }
 
   func determinePreviewPlacement() {
