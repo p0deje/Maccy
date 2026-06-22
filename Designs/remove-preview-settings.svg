@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="540" viewBox="0 0 960 540">
+  <rect width="960" height="540" fill="#f5f5f7"/>
+  <rect x="130" y="70" width="700" height="400" rx="14" fill="#ffffff" stroke="#d2d2d7"/>
+  <text x="170" y="125" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="26" font-weight="600" fill="#1d1d1f">General Settings</text>
+  <g font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="20" fill="#1d1d1f">
+    <text x="190" y="185">Open:</text>
+    <rect x="360" y="160" width="220" height="34" rx="7" fill="#f2f2f2" stroke="#c9c9cf"/>
+    <text x="385" y="184" font-size="18" fill="#55555a">Shift Command C</text>
+    <text x="190" y="245">Pin:</text>
+    <rect x="360" y="220" width="160" height="34" rx="7" fill="#f2f2f2" stroke="#c9c9cf"/>
+    <text x="385" y="244" font-size="18" fill="#55555a">Option P</text>
+    <text x="190" y="305">Delete:</text>
+    <rect x="360" y="280" width="160" height="34" rx="7" fill="#f2f2f2" stroke="#c9c9cf"/>
+    <text x="385" y="304" font-size="18" fill="#55555a">Option Delete</text>
+    <text x="190" y="365">Search:</text>
+    <rect x="360" y="340" width="160" height="34" rx="7" fill="#f2f2f2" stroke="#c9c9cf"/>
+    <text x="385" y="364" font-size="18" fill="#55555a">Fuzzy</text>
+  </g>
+  <line x1="170" y1="330" x2="790" y2="330" stroke="#e3e3e8"/>
+  <text x="170" y="430" font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Text', sans-serif" font-size="18" fill="#6e6e73">The Preview shortcut recorder is no longer shown in General settings.</text>
+</svg>
