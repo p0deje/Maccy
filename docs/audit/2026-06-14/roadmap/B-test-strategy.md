@@ -61,7 +61,8 @@ IngestResult   = { event: StoreEvent, metrics: { dedupHits, bytesHashed, parseMs
 
 | 闸门 | 场景 | 预算(目标) | 失败动作 |
 |---|---|---|---|
-| `G-popup-open` | history=1000,弹窗打开到首帧 | 主线程占用 < 50ms(目标 < 16ms) | 阻塞合并 |
+| `G-popup-open` | history=1000,**冷启动** `load()` 到首屏(D1 域) | 主线程占用 < 50ms(目标 < 16ms) | 阻塞合并 |
+| `G-resident-open` | app 已 warm,热键等价打开→首帧(**D2 渲染链**,不含 load) | 主线程 < 16ms(目标) | 阻塞合并(4.10) |
 | `G-copy-large-image` | 复制 12MP 图,到可预览 | 主线程无 >16ms 段 | 阻塞合并 |
 | `G-copy-text` | 复制 `heavy_text.txt` | 主线程 < 16ms;`bytesHashed` 趋 0(指纹持久化后) | 阻塞合并 |
 | `G-search` | history=1000,逐键搜索 | 主线程 < 16ms/键;后台 actor 承担 | 阻塞合并 |

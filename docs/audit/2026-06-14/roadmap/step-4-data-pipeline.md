@@ -238,3 +238,96 @@ BS-2 把实时摄取迁到 `@ModelActor BackgroundClipboardIngestor`,通过 `Sto
 - "单一可变源":`SignatureIndex` 是 store 的投影,ingestor 单事务写 + 事件驱动增量维护;
   `History.all`/`items` 的真相仍是 SwiftData,增量 reconcile 是其投影。
 - 行为正确性与 BS-2 后状态一致(排序/去重合并/容量裁剪语义不变)。
+
+---
+
+## 2026-06-22 增补:4.10 渲染链去风暴(D2 域)
+
+**触发**:`2026-06-21-render-feedback-stopgap.md` 的 P0/P1/P2/P3 止住灾难性
+LazyVStack 反馈风暴后,对常驻 app 重新 `sample` 仍看到弹窗打开路径数十 ms 级主线程
+同步工作。完整诊断见 `docs/audit/2026-06-22-render-chain-storms.md`。
+
+**关键认知**:路标把 `G-popup-open` 定义为 `load()`(冷启动数据,D1 域),但用户
+`sample` 反映的是**常驻打开渲染链(D2 域)**——这两条路径不同。`ContentView.task`
+(`ContentView.swift:55-57`)只在启动跑一次,常驻打开不 reload。D2 域此前**无闸门、
+无整体优化**,本步收编。
+
+**性质**:4.10 全部是**纯主线程 UI 改动**,不跨 actor、不碰 SwiftData、不改数据语义
+——落在 BS-4 编译边界内,与 4.3/4.4a(D1)互补。行为正确性与改前一致(选择/预览/排序
+结果不变),只减冗余触发与渲染抖动。
+
+### 小步骤
+
+- [ ] **4.10a 打开路径去冗余** — `Popup.swift:75-80` + `HistoryListView.swift:115-128` +
+  `FloatingPanel.swift:180-186`。打开时 `select(first)` 与 preview auto-open 各被触发
+  **两次**(`Popup.open` + scenePhase.active;`windowDidBecomeKey` + scenePhase.active)。
+  合并:scenePhase `.active` 复用 `Popup.open` 已建立的选择(或反之),preview auto-open
+  只武装一次。语义不变(打开仍选中首项、仍按 `previewDelay` 自动开预览),只消除重复的
+  selection 重建与 `scrollTarget` 周期(审计 S2/S3)。
+- [ ] **4.10b 复制期 resize 去抖** — `History.swift:323` + `HistoryListView.swift:133-141` +
+  `FloatingPanel.swift:89-99`。`reconcileWithStore` 每次复制设 `popup.needsResize=true`
+  → 触发 `panel.verticallyResize`(0.2s `NSAnimationContext` CA 事务),**即使窗口高度
+  未变**。改为:resize 仅在「可见行数真的跨过高度阈值(首屏可见行数变化)」时触发动画;
+  高度不变只标 dirty、不开 CA 事务。配合审视 `ContentView.swift:35`
+  `.animation(.default.speed(3), value: items)` 在复制期是否必要(审计 S9/S10)。
+- [ ] **4.10c hover 抖动收敛** — `NavigationManager.swift:14-19,31-61`。hover 越行时
+  `selection.willSet` 逐行写旧/新项 `selectionIndex`(行重渲染),`leadHistoryItem.didSet`
+  每次 id 变都 `Task{ cancelPreviewGeneration }` + `startAutoOpen`。收敛:`selection` 重建
+  时 `selectionIndex` 已是批量赋值(现状),重点对 `leadHistoryItem.didSet` 的连续变化做
+  leading-edge 节流(沿用 `Throttler` 原语),只在 hover 停留稳定后才武装 preview
+  auto-open/cancel(scrollTo 风暴已由 P1 止住,本步处理残留 selectionIndex/lead 抖动;
+  审计 S12)。
+- [ ] **4.10d 列表分配 + 行 body 搬计算** — `MultipleSelectionListView.swift:9-15` +
+  `HistoryItemView.swift:40`。`ForEach(Array(items.enumerated()))` 每次 body 全量分配
+  O(n) 元组数组(审计 S13);改 `ForEach(items, id:\.id)` + content 内按 index 取
+  neighbor(或 `zip(indices, items)`)。同时把 `ColorImage.from(item.title)` 的深治
+  (S14)落在这里:把 color accessory image 提到 decorator 缓存(title 变更时失效),
+  行 body 只读缓存,消除每帧计算(本批 S14 先用 `ColorImage` 内 NSCache 兜底,深治在此)。
+- [ ] **4.10e `.drawingGroup()` 精细化** — `ListItemTitleView.swift:18-20`。每可见行标题
+  `.drawingGroup()` 各开一个 Metal backing store(macOS 26 翻转 workaround)。评估能否
+  仅对「会触发翻转的分支」保留、纯文本短标题去掉,减首帧 CA backing store 数(审计 S7)。
+  需 UI 测试覆盖 `p0deje/Maccy#1113` 翻转回归。
+
+### 先行落地(零行为变更,本批独立小步)
+
+- **S11** `Sorter.byPinned` 把 `Defaults[.pinTo]` 提到 `sort(_:)` 顶部读一次,比较器闭包
+  捕获 —— 消除 O(n log n) 次/sort 的 Defaults 读(load + 每复制 reconcile 都受益)。
+- **S14** `ColorImage.from` 加 `NSCache<NSString, NSImage>` —— color-code 标题的
+  `lockFocus`/`drawSwatch` 位图生成只做一次(非 color 标题本就走 `NSColor(hexString:)`
+  早返回,代价低;深治「提到 decorator」见 4.10d)。
+
+### S6(窗口 `makeKey`/`orderFront` 的 WindowServer IPC)— 仅评估,不改
+
+`FloatingPanel` 用 `.nonactivatingPanel`+`canBecomeKey=true`,`orderFrontRegardless()`+
+`makeKey()`(`FloatingPanel.swift:78-79`)是 panel 同步成 key 以接收 cycle 模式后续按键
+的最小必要集。延后 `makeKey` 会破坏热键 cycle 交互;`sample` 里的
+`_stealKeyFocusWithOptions`/`SLPS*` 是 `makeKey` 在 SkyLight 的固有下沉。**记为固有成本,
+不动。**(详见审计 §6。)
+
+### 闸门(新增 `G-resident-open`)
+
+- **`G-resident-open`**(D2 域,新增):app 已 warm(history 已 `load`),驱动一次
+  `Popup.handleTestingHotKeyDown` 等价路径(走 DEBUG 分布式通知桥,与 `PerfRenderUITests`
+  一致)→ 首帧,`MainThreadProbe.maxGap` 主线程 **< 16ms**。测量 `load` 区间外、纯打开
+  渲染链。**这是补 `G-popup-open`(=load)测不到的 D2 缺口**(审计 S17)。
+  - 实现随 harness rework(见 memory `perf-harness-rework-state` Step 3-5)落地;UI 计时
+    在严重竞争的 runner 上有 flake 风险(`testClear`/`testPin` 同源),闸门定义先于此确立。
+- **`G-popup-open`**(D1 域,既有):history=1000,`load()` 主线程 < 16ms/首屏(不变,
+  4.3 驱动)。
+
+### 复杂度(前→后)
+
+| 操作 | 前 | 后 | 落点 |
+|---|---|---|---|
+| 打开首帧主线程 | 重复 select×2 + 重复 preview 武装×2 + 多 GeometryReader + 全量 filter/分配,数十 ms | 单次 select + 单次 preview 武装 + 合并 layout pass | 4.10a/d |
+| 复制期 CA | 每次复制动画 resize(即使高度不变) | 仅高度真变才动画 | 4.10b |
+| hover 越行 | 逐行 selectionIndex + lead didSet 抖动 | lead 节流,稳定后才武装 preview | 4.10c |
+| Sort 排序 | O(n log n) 次 Defaults[.pinTo] 读/sort | **1** 次 | S11(先行) |
+| color 行渲染 | 每帧 `lockFocus` 位图生成 | 缓存命中 0 | S14(先行)→4.10d 深治 |
+
+### Commit
+
+- S11:`perf(bs4.10): hoist Defaults[.pinTo] out of Sorter comparator (S11)`
+- S14:`perf(bs4.10): cache ColorImage by title (NSCache) (S14)`
+- 4.10a–e:每小步 `perf(bs4.10x): ...` + TDD(UI 行为测试覆盖选择/预览/翻转回归)。
+- 末尾整步编译 + 全绿后推送(BS-4 编译边界)。
