@@ -26,7 +26,7 @@ class AppState: Sendable {
   }
 
   var menuIconText: String {
-    var title = history.unpinnedItems.first?.text.shortened(to: 100)
+    var title = history.unpinnedItems.first(where: { !$0.isSnippet })?.text.shortened(to: 100)
       .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
     title.unicodeScalars.removeAll(where: CharacterSet.newlines.contains)
     return title.shortened(to: 20)
@@ -139,6 +139,13 @@ class AppState: Sendable {
             PinsSettingsPane()
               .environment(self)
               .modelContainer(Storage.shared.container)
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.snippets,
+            title: NSLocalizedString("Title", tableName: "SnippetsSettings", comment: ""),
+            toolbarIcon: NSImage.docText!
+          ) {
+            SnippetsSettingsPane()
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.ignore,

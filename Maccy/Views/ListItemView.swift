@@ -33,6 +33,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var selectionId: UUID
   var appIcon: ApplicationImage?
   var image: NSImage?
+  var accessoryText: String?
   var accessoryImage: NSImage?
   var attributedTitle: AttributedString?
   var shortcuts: [KeyShortcut]
@@ -61,8 +62,19 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       Spacer()
         .frame(width: showIcons ? 5 : 10)
 
-      if let accessoryImage {
+      if let accessoryText {
+        Text(verbatim: accessoryText)
+          .font(.system(size: 13))
+          .lineLimit(1)
+          .minimumScaleFactor(0.7)
+          .frame(width: 15, height: 15, alignment: .center)
+          .padding(.trailing, 5)
+          .padding(.vertical, 5)
+      } else if let accessoryImage {
         Image(nsImage: accessoryImage)
+          .resizable()
+          .scaledToFit()
+          .frame(width: 15, height: 15, alignment: .center)
           .accessibilityIdentifier("copy-history-item")
           .padding(.trailing, 5)
           .padding(.vertical, 5)

@@ -63,6 +63,11 @@ brew install maccy
 11. To ignore only the next copy, click on the menu icon with <kbd>OPTION (⌥)</kbd> + <kbd>SHIFT (⇧)</kbd> pressed.
 12. To customize the behavior, check "Preferences…" window, or press <kbd>COMMAND (⌘)</kbd> + <kbd>,</kbd>.
 
+Snippets can be managed from Preferences -> Snippets. They are hidden from the popup until
+you type a search query. Folder names and snippet names match immediately;
+snippet content matches when the typed token has at least two characters.
+Folder icons can be picked from the preset icon popover.
+
 ## Advanced
 
 ### Ignore Copied Items

@@ -35,9 +35,10 @@ struct HistoryItemView: View {
     ListItemView(
       id: item.id,
       selectionId: item.id,
-      appIcon: item.applicationImage,
+      appIcon: item.isSnippet ? nil : item.applicationImage,
       image: item.thumbnailImage,
-      accessoryImage: item.thumbnailImage != nil ? nil : ColorImage.from(item.title),
+      accessoryText: item.snippetAccessoryText,
+      accessoryImage: accessoryImage,
       attributedTitle: item.attributedTitle,
       shortcuts: item.shortcuts,
       isSelected: item.isSelected,
@@ -58,5 +59,15 @@ struct HistoryItemView: View {
         }
       }
     }
+  }
+
+  private var accessoryImage: NSImage? {
+    if let snippetAccessoryImage = item.snippetAccessoryImage {
+      return snippetAccessoryImage
+    }
+    if item.isSnippet || item.thumbnailImage != nil {
+      return nil
+    }
+    return ColorImage.from(item.title)
   }
 }

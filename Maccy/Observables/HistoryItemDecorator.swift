@@ -1,4 +1,4 @@
-import AppKit.NSWorkspace
+import AppKit
 import Defaults
 import Foundation
 import Observation
@@ -6,6 +6,11 @@ import Sauce
 
 @Observable
 class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
+  enum Source: Hashable {
+    case history
+    case snippet(UUID)
+  }
+
   static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
   }
@@ -46,11 +51,43 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
+  var snippetFolderIcon: String?
+
+  var snippetAccessoryText: String? {
+    guard isSnippet else {
+      return nil
+    }
+
+    return snippetFolderIcon
+  }
+
+  var snippetAccessoryImage: NSImage? {
+    guard isSnippet else {
+      return nil
+    }
+
+    if snippetFolderIcon != nil {
+      return nil
+    }
+
+    let image = NSImage(systemSymbolName: "folder", accessibilityDescription: nil)
+    image?.size = NSSize(width: 15, height: 15)
+    image?.isTemplate = true
+    return image
+  }
 
   // 10k characters seems to be more than enough on large displays
   var text: String { item.previewableText.shortened(to: 10_000) }
 
-  var isPinned: Bool { item.pin != nil }
+  var isSnippet: Bool {
+    if case .snippet = source {
+      return true
+    }
+
+    return false
+  }
+
+  var isPinned: Bool { !isSnippet && item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
 
   func hash(into hasher: inout Hasher) {
@@ -60,13 +97,22 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     hasher.combine(attributedTitle)
   }
 
+  let source: Source
   private(set) var item: HistoryItem
 
-  init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
+  init(
+    _ item: HistoryItem,
+    shortcuts: [KeyShortcut] = [],
+    source: Source = .history,
+    snippetFolderIcon: String? = nil
+  ) {
     self.item = item
     self.shortcuts = shortcuts
+    self.source = source
     self.title = item.title
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
+    let trimmedIcon = snippetFolderIcon?.trimmingCharacters(in: .whitespacesAndNewlines)
+    self.snippetFolderIcon = trimmedIcon?.isEmpty == false ? trimmedIcon : nil
 
     synchronizeItemPin()
     synchronizeItemTitle()
@@ -175,6 +221,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   @MainActor
   func togglePin() {
+    guard !isSnippet else {
+      return
+    }
+
     if item.pin != nil {
       item.pin = nil
     } else {
@@ -206,4 +256,5 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
       }
     }
   }
+
 }

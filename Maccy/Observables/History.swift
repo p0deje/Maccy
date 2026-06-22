@@ -22,7 +22,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   var searchQuery: String = "" {
     didSet {
       throttler.throttle { [self] in
-        updateItems(search.search(string: searchQuery, within: all))
+        updateItems(searchResults(for: searchQuery))
 
         if searchQuery.isEmpty {
           AppState.shared.navigator.select(item: unpinnedItems.first)
@@ -267,6 +267,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   func delete(_ item: HistoryItemDecorator?) {
     guard let item else { return }
+    guard !item.isSnippet else { return }
 
     cleanup(item)
     withLogging("Removing history item") {
@@ -424,6 +425,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
+    guard !item.isSnippet else { return }
 
     item.togglePin()
 
@@ -475,6 +477,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
 
     updateUnpinnedShortcuts()
+  }
+
+  private func searchResults(for query: String) -> [Search.SearchResult] {
+    let historyResults = search.search(string: query, within: all)
+    guard !query.isEmpty else {
+      return historyResults
+    }
+
+    return historyResults + SnippetsStore.shared.searchResults(for: query)
   }
 
   private func updateShortcuts() {
