@@ -204,16 +204,13 @@ class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_bod
   }
 
   func testLargeImageSizingBenchmark() {
-    // Passthrough keeps the benchmark off disk (the production ImageProcessor
-    // would persist thumbnails) so it measures the synchronous main-thread
-    // cost of cleanup + dispatch, not disk I/O variance.
-    let itemDecorator = historyItemDecorator(largeImageData(), .png, imageProcessor: PassthroughImageProcessor())
-
-    // cleanupImages + sizeImages is ~10µs of sync dispatch, below measure{}'s
-    // noise floor on a shared runner (chronic RSD ~110–150%). Amplify N× per
-    // sample so the signal rises above timer jitter while still guarding the
-    // kick path — each iteration cancels the prior iteration's kicked tasks,
-    // so the off-main decode is aborted, not run to completion.
+    // InstantImageProcessor returns nil with no decode, so this measures only
+    // the synchronous main-thread kick path (cleanupImages + sizeImages dispatch).
+    // PassthroughImageProcessor actually decodes — and the ImageIO thumbnail
+    // decode is non-cancellable once started, so any task that began before the
+    // next cleanupImages ran to completion (ms-scale outliers) → chronic RSD
+    // ~40–150%. Amplified 100× per sample for a stable signal above timer jitter.
+    let itemDecorator = historyItemDecorator(largeImageData(), .png, imageProcessor: InstantImageProcessor())
     itemDecorator.cleanupImages()
     itemDecorator.sizeImages()
     measure {
@@ -413,4 +410,15 @@ private final class StallableImageProcessor: ImageProcessing, @unchecked Sendabl
     completed.withLock { flag in flag = true }
     return NSImage()
   }
+}
+
+/// Returns `nil` instantly with no decode — for benchmarks that measure the
+/// synchronous main-thread kick path (`ensureThumbnailImage`/`ensurePreviewImage`
+/// → `cleanupImages`/`sizeImages` dispatch) without off-main decode variance.
+/// `PassthroughImageProcessor` actually decodes (`NSImage(data:).resized`), and
+/// the ImageIO thumbnail decode is non-cancellable once started, so tasks that
+/// began before a `cleanupImages` produced ms-scale outliers (RSD ~40–150%).
+private struct InstantImageProcessor: ImageProcessing {
+  func thumbnail(for data: Data, max: CGSize) async -> NSImage? { nil }
+  func preview(for data: Data, max: CGSize) async -> NSImage? { nil }
 }

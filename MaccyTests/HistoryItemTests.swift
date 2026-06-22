@@ -162,7 +162,7 @@ class HistoryItemTests: XCTestCase {
     // signal rises above timer jitter.
     _ = item.generateTitle()
     measure {
-      for _ in 0..<50 {
+      for _ in 0..<100 {
         _ = item.generateTitle()
       }
     }
