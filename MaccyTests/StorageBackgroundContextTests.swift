@@ -15,12 +15,20 @@ class StorageBackgroundContextTests: XCTestCase {
 
   private static let textType = "public.utf8-plain-text"
 
-  private func makeInMemoryContext() throws -> ModelContext {
-    let container = try ModelContainer(
-      for: HistoryItem.self,
-      configurations: ModelConfiguration(isStoredInMemoryOnly: true)
-    )
-    return container.mainContext
+  /// Uses the shared in-memory context (`enable-testing`) rather than a fresh
+  /// container. A fresh `ModelContainer` hit a SwiftData "PersistentIdentifier
+  /// remapped to a temporary identifier during save … fatal logic error in
+  /// DefaultStore" on `HistoryItemContent` relationships (intermittent: the
+  /// suite passed in run 27930886327, then aborted the whole class in 27931968760).
+  /// The shared context is what the rest of the suite uses and handles the same
+  /// insert+read pattern correctly. Cleared per-test for isolation.
+  private func makeContext() throws -> ModelContext {
+    let context = Storage.shared.context
+    for item in try context.fetch(FetchDescriptor<HistoryItem>()) {
+      context.delete(item)
+    }
+    try context.save()
+    return context
   }
 
   @discardableResult
@@ -42,7 +50,7 @@ class StorageBackgroundContextTests: XCTestCase {
   }
 
   func testVisibleWindowEmptyStoreReturnsEmpty() throws {
-    let context = try makeInMemoryContext()
+    let context = try makeContext()
     let result = try VisibleWindowLoader.fetchWindow(
       in: context, sortBy: .lastCopiedAt, fetchLimit: 10, visibleHint: 5
     )
@@ -51,7 +59,7 @@ class StorageBackgroundContextTests: XCTestCase {
   }
 
   func testVisibleWindowSplitsByVisibleHint() throws {
-    let context = try makeInMemoryContext()
+    let context = try makeContext()
     for index in 0..<5 {
       try insert(context, suffix: index, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + index)))
     }
@@ -63,7 +71,7 @@ class StorageBackgroundContextTests: XCTestCase {
   }
 
   func testVisibleWindowOrdersLastCopiedAtDescendingAndVisiblePrecedesTail() throws {
-    let context = try makeInMemoryContext()
+    let context = try makeContext()
     for index in 0..<4 {
       try insert(context, suffix: index, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + index)))
     }
@@ -79,7 +87,7 @@ class StorageBackgroundContextTests: XCTestCase {
   }
 
   func testVisibleWindowRespectsFetchLimit() throws {
-    let context = try makeInMemoryContext()
+    let context = try makeContext()
     for index in 0..<10 {
       try insert(context, suffix: index, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + index)))
     }
@@ -92,7 +100,7 @@ class StorageBackgroundContextTests: XCTestCase {
   }
 
   func testVisibleWindowHintExceedingCountPutsAllInVisible() throws {
-    let context = try makeInMemoryContext()
+    let context = try makeContext()
     for index in 0..<3 {
       try insert(context, suffix: index, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + index)))
     }
@@ -104,7 +112,7 @@ class StorageBackgroundContextTests: XCTestCase {
   }
 
   func testVisibleWindowOrdersByNumberOfCopiesDescending() throws {
-    let context = try makeInMemoryContext()
+    let context = try makeContext()
     // identical lastCopiedAt isolates the numberOfCopies sort key
     let sameTimestamp = Date(timeIntervalSince1970: 1000)
     try insert(context, suffix: 1, lastCopiedAt: sameTimestamp, numberOfCopies: 1)
@@ -117,7 +125,7 @@ class StorageBackgroundContextTests: XCTestCase {
   }
 
   func testVisibleWindowOrdersByFirstCopiedAtDescending() throws {
-    let context = try makeInMemoryContext()
+    let context = try makeContext()
     // identical lastCopiedAt, distinct firstCopiedAt isolates the sort key
     let last = Date(timeIntervalSince1970: 2000)
     try insert(context, suffix: 1, lastCopiedAt: last, firstCopiedAt: Date(timeIntervalSince1970: 5000))
