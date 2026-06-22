@@ -180,8 +180,18 @@ class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_bod
   func testLargeTextPreviewBenchmark() {
     let itemDecorator = historyItemDecorator(String(repeating: "abcdef\n", count: 20_000))
 
+    // Measure the underlying preview computation directly. `.text` caches its
+    // result in `textPreviewCache`, so measuring `_ = itemDecorator.text` was
+    // measuring a cache hit after iteration 1 — a broken benchmark (one cold
+    // compute, nine ~3µs lookups → chronic RSD ~240%). Compute the prefix
+    // afresh each call and amplify N× so the signal rises above the shared-
+    // runner timer noise (the measure{} RSD gate is 10%).
+    let item = itemDecorator.item
+    _ = item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit)
     measure {
-      _ = itemDecorator.text
+      for _ in 0..<50 {
+        _ = item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit)
+      }
     }
   }
 
@@ -198,9 +208,18 @@ class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_bod
     // cost of cleanup + dispatch, not disk I/O variance.
     let itemDecorator = historyItemDecorator(largeImageData(), .png, imageProcessor: PassthroughImageProcessor())
 
+    // cleanupImages + sizeImages is ~10µs of sync dispatch, below measure{}'s
+    // noise floor on a shared runner (chronic RSD ~110–150%). Amplify N× per
+    // sample so the signal rises above timer jitter while still guarding the
+    // kick path — each iteration cancels the prior iteration's kicked tasks,
+    // so the off-main decode is aborted, not run to completion.
+    itemDecorator.cleanupImages()
+    itemDecorator.sizeImages()
     measure {
-      itemDecorator.cleanupImages()
-      itemDecorator.sizeImages()
+      for _ in 0..<100 {
+        itemDecorator.cleanupImages()
+        itemDecorator.sizeImages()
+      }
     }
   }
 

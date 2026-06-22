@@ -157,8 +157,14 @@ class HistoryItemTests: XCTestCase {
   func testLargeTextTitleBenchmark() {
     let item = historyItem(String(repeating: "abcdef\n", count: 20_000))
 
+    // generateTitle is ~170µs, noise-dominated per-call on the shared runner
+    // (chronic RSD ~20–40% vs the 10% gate). Amplify N× per sample so the
+    // signal rises above timer jitter.
+    _ = item.generateTitle()
     measure {
-      _ = item.generateTitle()
+      for _ in 0..<50 {
+        _ = item.generateTitle()
+      }
     }
   }
 
