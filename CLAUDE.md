@@ -42,6 +42,16 @@ gh run view --workflow "macOS 26 ARM CI"     # most recent run
 
 **Polling rule (important):** a CI run takes **~11 minutes** end-to-end. When a run is still in progress, **re-check no more often than every 2 minutes** — never high-frequency poll, and don't use `gh run watch` for tight polling. Get the status once; if it isn't finished, wait at least 2 minutes before the next check.
 
+**Investigating a failed run — do this, in this order (learned the hard way):**
+
+1. **Status first, not the log.** A run is a *matrix* of jobs: `Lint + diagnostics`, then shards (`unit`, `ui-1..5`, `perf-text`/`perf-image`/`perf-mixed`). "Run failed" tells you nothing — find *which* job(s) failed:
+   ```sh
+   gh run view <run-id> --json jobs -q '.jobs[] | "\(.name): \(.conclusion)"'
+   ```
+   Two very different signals: `Lint + diagnostics` failed (→ all shards `skipped`; it's a SwiftLint/build error in *your* change, always real) vs. one shard failed while the rest passed (often a contention flake).
+2. **Read the failed job's log from the END.** `gh run view --job=<job-id> --log` dumps the whole build; the **head is noise** (checkout, `brew install swiftlint`, `Compiling …`, `RegisterExecutionPolicyException`, framework bottles). The actual failure — the `error:`/`XCTAssert … failed` line, `** TEST FAILED **`, the `Failing tests:` block, or a crash signature — is in the **last few dozen lines**. Tail it (`| tail -n 60`) or grep the tail. **Don't grep the whole log blind** — `RegisterExecutionPolicyException` and `relative standard deviation` lines will drown the signal (and note `grep -E ".*"` patterns containing `**` are invalid regex).
+3. **Distinguish flake from real failure before rerunning.** Known runner-contention flakes (logic-verified — don't loop reruns): 3 s async-wait timeouts on `testCopy*`/`testClear`/`testPin` on contended UI shards; perf `measure{}` RSD>10 % on sub-millisecond micro-benchmarks. A *real* failure leaves a concrete `error:`/assertion/crash in the tail (e.g. SwiftData `fatal logic error in DefaultStore … PersistentIdentifier remapped to a temporary identifier during save` — that one aborts the whole test class, so every test in the class shows as failed, including ones that never ran).
+
 **The runner is the gate of truth for the roadmap's verification gates.** A green run is the only acceptable evidence a step passed: the workflow's final step greps every log (`swiftlint.log`, `build.log`, `unit-tests.log`, `ui-tests.log`) for `warning:` / `error:` / `TEST FAILED` and fails the run on any hit — compiler warnings and stray log lines are CI failures, not nitpicks.
 
 What the runner executes (reference only — do not run locally): SwiftLint (`swiftlint lint --quiet --strict --no-cache`), then `xcodebuild` clean build, then unit tests (`-only-testing:MaccyTests`), then UI tests (`-only-testing:MaccyUITests`), all with `-project Maccy.xcodeproj -scheme Maccy -configuration Debug -destination 'platform=macOS,arch=arm64' -derivedDataPath DerivedData CODE_SIGNING_ALLOWED=NO`. To run a narrower test on the runner, push a temporary commit that passes `-only-testing:MaccyTests/<Class>[/<method>]` rather than trying to run it locally.
