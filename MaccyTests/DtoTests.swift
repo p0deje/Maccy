@@ -38,6 +38,7 @@ class DtoTests: XCTestCase {
     ])
     let snapshot = ItemSnapshotDTO(
       id: itemID,
+      persistentID: nil,
       title: "Copied text",
       firstCopiedAt: copiedAt,
       lastCopiedAt: copiedAt,

@@ -178,6 +178,7 @@ class SignatureIndexTests: XCTestCase {
     let timestamp = Date(timeIntervalSince1970: 1_717_171_717)
     return ItemSnapshotDTO(
       id: id,
+      persistentID: nil,
       title: "Sample",
       firstCopiedAt: timestamp,
       lastCopiedAt: timestamp,

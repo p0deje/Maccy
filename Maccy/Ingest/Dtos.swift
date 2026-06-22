@@ -1,4 +1,5 @@
 import Foundation
+import SwiftData
 
 typealias ItemID = UUID
 
@@ -58,6 +59,12 @@ struct MaccyFingerprint: Equatable, Hashable, Sendable {
 
 struct ItemSnapshotDTO: Equatable, Sendable {
   let id: ItemID
+  /// The SwiftData fetchable handle (`ModelContext.model(for:)`). Set by
+  /// `snapshot(of:)` from the @Model; `nil` in synthetic test snapshots (the
+  /// consumer falls back to a full reconcile when nil). `PersistentIdentifier`
+  /// conforms to Sendable, so it crosses the ingest→main actor boundary safely
+  /// — it's a value handle, not the `@Model` itself.
+  let persistentID: PersistentIdentifier?
   let title: String
   let firstCopiedAt: Date
   let lastCopiedAt: Date
@@ -120,6 +127,7 @@ func snapshot(of item: HistoryItem) -> ItemSnapshotDTO {
   })
   return ItemSnapshotDTO(
     id: itemID(for: item),
+    persistentID: item.persistentModelID,
     title: item.title,
     firstCopiedAt: item.firstCopiedAt,
     lastCopiedAt: item.lastCopiedAt,
