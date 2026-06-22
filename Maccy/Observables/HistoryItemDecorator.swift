@@ -72,7 +72,27 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
   private var isInvalidated = false
-  private let imageData: Data?
+  /// The item's image blob, loaded lazily on first use — not at decoration time.
+  ///
+  /// BS-6 (`img-fullres-dup-storage`): `History.load()` decorates every item,
+  /// and eagerly copying each `imageData` blob (~1MB) in `init` faulted + copied
+  /// N blobs onto the main thread during cold-open — a large share of the
+  /// measured ~0.999s image-many load block. Deferring the read to the first
+  /// thumbnail/preview generation means only items that actually render an image
+  /// (the visible window) ever read their blob; the other ~N−visible fault nothing.
+  ///
+  /// Mirrors the `textPreviewCache` lazy pattern below. `isInvalidated` is
+  /// guarded so a post-deletion access never faults a torn `@Model` (the eager
+  /// copy doubled as invalidation insurance; the guard restores that safety).
+  @ObservationIgnored private var imageDataCache: Data?
+  @ObservationIgnored private var imageDataCacheLoaded = false
+  private var imageData: Data? {
+    if !imageDataCacheLoaded {
+      imageDataCache = isInvalidated ? nil : item.imageData
+      imageDataCacheLoaded = true
+    }
+    return imageDataCache
+  }
   /// Process-wide shared `ImageProcessor` (cache-backed) used when a caller
   /// doesn't inject its own. AppDelegate (BS-3.8) feeds the SAME instance into
   /// the ingestor so the cache is shared across the ingest + view paths.
@@ -119,7 +139,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
     self.item = item
     self.shortcuts = shortcuts
     self.title = item.title
-    self.imageData = item.imageData
     self.imageProcessor = imageProcessor
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
 
