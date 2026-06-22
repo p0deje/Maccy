@@ -17,10 +17,16 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
   /// Decoding + downsampling a full visibleFrame-sized image (potentially
   /// thousands of pixels per side) on every preview open is the BS-3 bottleneck
   /// this batch moves off-main. Capping the preview target bounds the worst-case
-  /// decode cost regardless of screen size; 1600² keeps previews crisp on
-  /// retina displays while staying well under the unbounded visibleFrame target
-  /// the old `NSImage(data:)` path used.
-  private static let previewMaxPixels: CGFloat = 1600
+  /// decode cost regardless of screen size.
+  ///
+  /// 800² (was 1600², 2026-06-22): the preview pane renders in a slideout that
+  /// is far smaller than the screen, so 1600² was over-sampled — the extra
+  /// resolution cost both the off-main decode AND the on-main render composite
+  /// (a ~10 MB bitmap at 1600² vs ~2.5 MB at 800²). 800² is display-appropriate
+  /// for the slideout and ~4× the decode/render throughput. A preview only needs
+  /// to be recognizable (the full image is pasted on select), not pixel-perfect.
+  /// Tunable up if a large slideout looks soft.
+  private static let previewMaxPixels: CGFloat = 800
 
   static var previewImageSize: NSSize {
     let raw = NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536)
