@@ -73,6 +73,20 @@ class AppState {
     }
   }
 
+  /// BS-4.7: pre-warm the history on hotkey-down so the data is ready (or
+  /// loading) by the time the popup opens. No-op when items are already loaded
+  /// (launch / a previous open / kept current by `consume`); otherwise kicks
+  /// `History.load()` on a main-actor task. Safe to call repeatedly — `load()`
+  /// is idempotent and `ContentView.task` only loads when items are still empty,
+  /// so there's no redundant reload once prewarm populates them.
+  @MainActor
+  func prewarmVisibleWindow() {
+    guard history.items.isEmpty else { return }
+    Task { @MainActor in
+      try? await history.load()
+    }
+  }
+
   @MainActor
   func togglePin() {
     withTransaction(Transaction()) {

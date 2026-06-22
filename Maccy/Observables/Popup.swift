@@ -115,6 +115,9 @@ class Popup {
 
   private func handleFirstKeyDown() {
     if isClosed() {
+      // BS-4.7: warm the history before opening so the data is ready (or loading)
+      // when the popup appears. No-op if already loaded.
+      AppState.shared.prewarmVisibleWindow()
       open(height: height)
       state = .opening
       KeyboardShortcuts.disable(.popup)  // Handle events via eventsMonitor. Re-enable on popup close

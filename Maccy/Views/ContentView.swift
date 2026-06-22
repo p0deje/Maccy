@@ -59,7 +59,11 @@ struct ContentView: View {
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       .task {
-        try? await appState.history.load()
+        // BS-4.7: prewarm (hotkey-down) may have already loaded; only load here
+        // when items are still empty, so we don't refetch on every open.
+        if appState.history.items.isEmpty {
+          try? await appState.history.load()
+        }
       }
     }
     .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
