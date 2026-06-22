@@ -52,8 +52,8 @@ class StorageBackgroundContextTests: XCTestCase {
 
   func testVisibleWindowSplitsByVisibleHint() throws {
     let context = try makeInMemoryContext()
-    for i in 0..<5 {
-      try insert(context, suffix: i, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + i)))
+    for index in 0..<5 {
+      try insert(context, suffix: index, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + index)))
     }
     let result = try VisibleWindowLoader.fetchWindow(
       in: context, sortBy: .lastCopiedAt, fetchLimit: 5, visibleHint: 2
@@ -64,8 +64,8 @@ class StorageBackgroundContextTests: XCTestCase {
 
   func testVisibleWindowOrdersLastCopiedAtDescendingAndVisiblePrecedesTail() throws {
     let context = try makeInMemoryContext()
-    for i in 0..<4 {
-      try insert(context, suffix: i, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + i)))
+    for index in 0..<4 {
+      try insert(context, suffix: index, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + index)))
     }
     let result = try VisibleWindowLoader.fetchWindow(
       in: context, sortBy: .lastCopiedAt, fetchLimit: 4, visibleHint: 2
@@ -80,8 +80,8 @@ class StorageBackgroundContextTests: XCTestCase {
 
   func testVisibleWindowRespectsFetchLimit() throws {
     let context = try makeInMemoryContext()
-    for i in 0..<10 {
-      try insert(context, suffix: i, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + i)))
+    for index in 0..<10 {
+      try insert(context, suffix: index, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + index)))
     }
     let result = try VisibleWindowLoader.fetchWindow(
       in: context, sortBy: .lastCopiedAt, fetchLimit: 4, visibleHint: 2
@@ -93,8 +93,8 @@ class StorageBackgroundContextTests: XCTestCase {
 
   func testVisibleWindowHintExceedingCountPutsAllInVisible() throws {
     let context = try makeInMemoryContext()
-    for i in 0..<3 {
-      try insert(context, suffix: i, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + i)))
+    for index in 0..<3 {
+      try insert(context, suffix: index, lastCopiedAt: Date(timeIntervalSince1970: Double(1000 + index)))
     }
     let result = try VisibleWindowLoader.fetchWindow(
       in: context, sortBy: .lastCopiedAt, fetchLimit: 3, visibleHint: 99
@@ -106,10 +106,10 @@ class StorageBackgroundContextTests: XCTestCase {
   func testVisibleWindowOrdersByNumberOfCopiesDescending() throws {
     let context = try makeInMemoryContext()
     // identical lastCopiedAt isolates the numberOfCopies sort key
-    let ts = Date(timeIntervalSince1970: 1000)
-    try insert(context, suffix: 1, lastCopiedAt: ts, numberOfCopies: 1)
-    try insert(context, suffix: 2, lastCopiedAt: ts, numberOfCopies: 5)
-    try insert(context, suffix: 3, lastCopiedAt: ts, numberOfCopies: 3)
+    let sameTimestamp = Date(timeIntervalSince1970: 1000)
+    try insert(context, suffix: 1, lastCopiedAt: sameTimestamp, numberOfCopies: 1)
+    try insert(context, suffix: 2, lastCopiedAt: sameTimestamp, numberOfCopies: 5)
+    try insert(context, suffix: 3, lastCopiedAt: sameTimestamp, numberOfCopies: 3)
     let result = try VisibleWindowLoader.fetchWindow(
       in: context, sortBy: .numberOfCopies, fetchLimit: 3, visibleHint: 3
     )
