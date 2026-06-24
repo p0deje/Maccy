@@ -148,6 +148,121 @@ class SignatureIndexTests: XCTestCase {
     XCTAssertEqual(index.candidates(for: request), [])
   }
 
+  // MARK: - Per-entry containment candidates (BS-4.2)
+
+  private var textEntry: ContentSignatureEntry {
+    ContentSignatureEntry(type: "public.utf8-plain-text", fingerprint: 100, size: 12)
+  }
+
+  private var imageEntry: ContentSignatureEntry {
+    ContentSignatureEntry(type: "public.png", fingerprint: 200, size: 64)
+  }
+
+  /// A superset item (string + image) must surface when only its string entry is
+  /// queried — this is the containment case the old exact-match index missed and the
+  /// reason a per-entry index is required (otherwise re-copying plain text after a
+  /// rich copy of the same text would create a duplicate instead of merging).
+  func testCandidatesForEntriesReturnsSupersetItem() {
+    let itemID = UUID()
+    var index = SignatureIndex()
+    index.register(mixedSignature, id: itemID)
+
+    XCTAssertEqual(index.candidates(forEntries: [textEntry]), [itemID])
+  }
+
+  func testCandidatesForEntriesReturnsExactItem() {
+    let itemID = UUID()
+    var index = SignatureIndex()
+    index.register(textSignature, id: itemID)
+
+    XCTAssertEqual(index.candidates(forEntries: [textEntry]), [itemID])
+  }
+
+  /// Genuinely-new content (no shared entry) yields no candidates — the O(1) fast
+  /// path that lets the actor skip the full-table scan for the common case.
+  func testCandidatesForEntriesEmptyForNovelContent() {
+    let itemID = UUID()
+    var index = SignatureIndex()
+    index.register(imageSignature, id: itemID)
+
+    XCTAssertEqual(index.candidates(forEntries: [textEntry]), [])
+  }
+
+  /// An item matching on several entries is returned once, not once per entry.
+  func testCandidatesForEntriesDedupesOverlap() {
+    let itemID = UUID()
+    var index = SignatureIndex()
+    index.register(mixedSignature, id: itemID)
+
+    XCTAssertEqual(index.candidates(forEntries: [textEntry, imageEntry]), [itemID])
+  }
+
+  /// Multiple items sharing an entry all surface as candidates (confirm narrows them).
+  func testCandidatesForEntriesReturnsAllSharingItems() {
+    let idA = UUID()
+    let idB = UUID()
+    var index = SignatureIndex()
+    index.register(textSignature, id: idA)
+    index.register(textSignature, id: idB)
+
+    XCTAssertEqual(Set(index.candidates(forEntries: [textEntry])), Set([idA, idB]))
+  }
+
+  func testRemoveClearsEntryCandidates() {
+    let itemID = UUID()
+    var index = SignatureIndex()
+    index.register(textSignature, id: itemID)
+    index.remove(id: itemID)
+
+    XCTAssertEqual(index.candidates(forEntries: [textEntry]), [])
+  }
+
+  /// After a full signature moves to a new id, the old id's per-entry membership is
+  /// gone too (no stale candidates).
+  func testRegisterMoveThenRemoveOldIDClearsEntryCandidates() {
+    let oldID = UUID()
+    let newID = UUID()
+    var index = SignatureIndex()
+    index.register(textSignature, id: oldID)
+    index.register(textSignature, id: newID)
+    index.remove(id: oldID)
+
+    XCTAssertEqual(index.candidates(forEntries: [textEntry]), [newID])
+  }
+
+  func testInitFromSnapshotsBuildsEntryIndex() {
+    let snapshot = makeSnapshot(id: UUID(), signature: textSignature)
+    let index = SignatureIndex(from: [snapshot])
+
+    XCTAssertEqual(index.candidates(forEntries: [textEntry]), [snapshot.id])
+  }
+
+  func testMergeAddedRegistersEntryCandidates() {
+    let snapshot = makeSnapshot(id: UUID(), signature: textSignature)
+    var index = SignatureIndex()
+    index.merge(.added(snapshot))
+
+    XCTAssertEqual(index.candidates(forEntries: [textEntry]), [snapshot.id])
+  }
+
+  func testMergeRemovedClearsEntryCandidates() {
+    let itemID = UUID()
+    var index = SignatureIndex()
+    index.register(textSignature, id: itemID)
+    index.merge(.removed(itemID))
+
+    XCTAssertEqual(index.candidates(forEntries: [textEntry]), [])
+  }
+
+  func testMergeClearedClearsEntryCandidates() {
+    let itemID = UUID()
+    var index = SignatureIndex()
+    index.register(textSignature, id: itemID)
+    index.merge(.cleared)
+
+    XCTAssertEqual(index.candidates(forEntries: [textEntry]), [])
+  }
+
   private var textSignature: SignatureDTO {
     SignatureDTO(entries: [
       ContentSignatureEntry(type: "public.utf8-plain-text", fingerprint: 100, size: 12)
