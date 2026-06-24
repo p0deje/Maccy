@@ -1,4 +1,5 @@
 // swiftlint:disable file_length
+import AppKit.NSRunningApplication
 import Defaults
 import Foundation
 import Logging
