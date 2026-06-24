@@ -81,7 +81,16 @@ class Popup {
 
   func reset() {
     state = .toggle
-    KeyboardShortcuts.enable(.popup)
+    // BS-6.13: the global `.popup` hotkey is registered once in `init` and stays
+    // registered for the process lifetime. We no longer `enable(.popup)` here (and
+    // no longer `disable(.popup)` in `handleFirstKeyDown`) on every open/close —
+    // `KeyboardShortcuts.enable`→`register` calls `RegisterEventHotKey` with a new
+    // id each time, and the ~58KB Carbon backing is not reclaimed by
+    // `UnregisterEventHotKey`, leaking per cycle (783 / 43.5MB over ~2 days; see
+    // docs/audit/2026-06-24/00-memory-profile.md §2). In-popup hotkey presses are
+    // now routed through the always-on global `handleFirstKeyDown` (the Carbon
+    // handler returns `noErr`, consuming the event, so it never reaches the local
+    // `eventsMonitor`), preserving cycle/select/toggle-close behavior.
   }
 
   func close() {
@@ -120,12 +129,22 @@ class Popup {
       AppState.shared.prewarmVisibleWindow()
       open(height: height)
       state = .opening
-      KeyboardShortcuts.disable(.popup)  // Handle events via eventsMonitor. Re-enable on popup close
+      // BS-6.13: previously `KeyboardShortcuts.disable(.popup)` (re-enabled in
+      // `reset()` on close) so the local `eventsMonitor` owned in-popup hotkey
+      // presses. That enable/disable cycle leaked a Carbon `EventHotKeyRef` per
+      // open/close. The global hotkey now stays registered: the Carbon handler
+      // consumes the event (returns `noErr`), so while the popup is open the
+      // hotkey press is dispatched here — not to the local monitor — and we route
+      // it to `handleRepeatedHotKeyDown` for the same cycle/select/toggle-close
+      // behavior the local monitor used to perform.
       return
     }
 
-    // Maccy was not opened via shortcut. We assume toggle mode and close it
-    close()
+    // Popup is open and the hotkey was pressed. Route to the in-popup behavior the
+    // local `eventsMonitor` used to own (cycle / select-pressed-shortcut /
+    // toggle-close). The Carbon global hotkey only fires when the full
+    // key+modifiers match, so the `state == .toggle` toggle-close path applies.
+    _ = handleRepeatedHotKeyDown()
   }
 
   #if DEBUG
@@ -154,10 +173,10 @@ class Popup {
   }
 
   private func handleKeyDown(_ event: NSEvent) -> NSEvent? {
-    if isHotKeyCode(Int(event.keyCode)) {
-      return handleRepeatedHotKeyDown(event)
-    }
-
+    // BS-6.13: the global `.popup` Carbon hotkey consumes its keyDown (returns
+    // `noErr`), so the hotkey never reaches this local monitor — in-popup hotkey
+    // behavior is routed via `handleFirstKeyDown`. Pass non-hotkey events through
+    // so normal navigation (arrows, number shortcuts, etc.) is unaffected.
     return event
   }
 
@@ -174,23 +193,6 @@ class Popup {
     }
 
     return event
-  }
-
-  private func isHotKeyCode(_ keyCode: Int) -> Bool {
-    guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
-      return false
-    }
-
-    return shortcut.key?.rawValue == keyCode
-  }
-
-  private func isHotKeyModifiers(_ modifiers: NSEvent.ModifierFlags) -> Bool {
-    guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
-      return false
-    }
-
-    return modifiers.intersection(.deviceIndependentFlagsMask) ==
-      shortcut.modifiers.intersection(.deviceIndependentFlagsMask)
   }
 
   private func allModifiersReleased(_ event: NSEvent) -> Bool {
@@ -216,7 +218,7 @@ class Popup {
       return nil
     }
 
-    if let event, state == .toggle && isHotKeyModifiers(event.modifierFlags) {
+    if state == .toggle {
       close()
       return nil
     }
