@@ -27,20 +27,6 @@ struct AppearanceSettingsPane: View {
     return formatter
   }()
 
-  private let numberOfItemsFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.minimum = 0
-    formatter.maximum = 100
-    return formatter
-  }()
-
-  private let titleLengthFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.minimum = 30
-    formatter.maximum = 200
-    return formatter
-  }()
-
   private let previewDelayFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.minimum = 200

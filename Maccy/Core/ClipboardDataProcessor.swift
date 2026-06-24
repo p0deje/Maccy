@@ -8,10 +8,6 @@ enum ClipboardDataProcessor {
       return ""
     }
 
-    guard encoding == .utf8 else {
-      return legacyStringPrefix(data, maxBytes: maxBytes, encoding: encoding)
-    }
-
     let prefixLength = Int(MaccyTextProcessor.validUTF8PrefixLength(
       in: data,
       maxBytes: UInt(maxBytes)
@@ -26,14 +22,6 @@ enum ClipboardDataProcessor {
     }
 
     return String(data: data.prefix(prefixLength), encoding: encoding)
-  }
-
-  static func dataLikelyEqual(_ lhs: Data?, _ rhs: Data?) -> Bool {
-    guard let lhs, let rhs else {
-      return lhs == nil && rhs == nil
-    }
-
-    return dataLikelyEqual(lhs, rhs)
   }
 
   static func dataLikelyEqual(
@@ -65,25 +53,5 @@ enum ClipboardDataProcessor {
     }
 
     return MaccyTextProcessor.fingerprint(for: data)
-  }
-
-  private static func legacyStringPrefix(
-    _ data: Data,
-    maxBytes: Int,
-    encoding: String.Encoding
-  ) -> String? {
-    guard data.count > maxBytes else {
-      return String(data: data, encoding: encoding)
-    }
-
-    var endIndex = Swift.min(maxBytes, data.count)
-    while endIndex > 0 {
-      if let string = String(data: data.prefix(endIndex), encoding: encoding) {
-        return string
-      }
-      endIndex -= 1
-    }
-
-    return nil
   }
 }

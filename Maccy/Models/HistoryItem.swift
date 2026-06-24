@@ -120,22 +120,6 @@ class HistoryItem {
     )
   }
 
-  var previewableText: String {
-    if !fileURLs.isEmpty {
-      fileURLs
-        .compactMap { $0.absoluteString.removingPercentEncoding }
-        .joined(separator: "\n")
-    } else if let text = text, !text.isEmpty {
-      text
-    } else if let rtf = rtf, !rtf.string.isEmpty {
-      rtf.string
-    } else if let html = html, !html.string.isEmpty {
-      html.string
-    } else {
-      title
-    }
-  }
-
   func previewableTextPrefix(maxLength: Int) -> String {
     HistoryItemEngine.previewableTextPrefix(
       contents: contents,
@@ -155,21 +139,6 @@ class HistoryItem {
   }
 
   var htmlData: Data? { contentData([.html]) }
-  var html: NSAttributedString? {
-    guard let data = htmlData else {
-      return nil
-    }
-
-    return NSAttributedString(html: data, documentAttributes: nil)
-  }
-  private var htmlIfSmall: NSAttributedString? {
-    guard let data = htmlData, data.count <= Self.richTextParsingLimit else {
-      return nil
-    }
-
-    return NSAttributedString(html: data, documentAttributes: nil)
-  }
-
   var imageData: Data? {
     var data: Data?
     data = contentData([.tiff, .png, .jpeg, .heic])
@@ -191,21 +160,6 @@ class HistoryItem {
   }
 
   var rtfData: Data? { contentData([.rtf]) }
-  var rtf: NSAttributedString? {
-    guard let data = rtfData else {
-      return nil
-    }
-
-    return NSAttributedString(rtf: data, documentAttributes: nil)
-  }
-  private var rtfIfSmall: NSAttributedString? {
-    guard let data = rtfData, data.count <= Self.richTextParsingLimit else {
-      return nil
-    }
-
-    return NSAttributedString(rtf: data, documentAttributes: nil)
-  }
-
   var text: String? {
     guard let data = contentData([.string]) else {
       return nil

@@ -32,17 +32,6 @@ enum HistoryItemEngine {
     Signature(contents: contents, ignoringTypes: transientTypes)
   }
 
-  static func supersedes(
-    contents: [HistoryItemContent],
-    otherContents: [HistoryItemContent],
-    ignoringTypes transientTypes: Set<String>
-  ) -> Bool {
-    contains(
-      contents: contents,
-      signature: signature(contents: otherContents, ignoringTypes: transientTypes)
-    )
-  }
-
   static func contains(
     contents: [HistoryItemContent],
     signature: Signature

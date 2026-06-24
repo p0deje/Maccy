@@ -82,15 +82,6 @@ actor ThumbnailCache {
     try? FileManager.default.removeItem(at: url)
   }
 
-  /// Wipes the entire disk cache (for BS-6 `cleanupImages` + tests).
-  func clearDisk() async {
-    let urls = (try? FileManager.default.contentsOfDirectory(at: diskDirectory, includingPropertiesForKeys: nil))
-      ?? []
-    for url in urls {
-      try? FileManager.default.removeItem(at: url)
-    }
-  }
-
   // MARK: - Disk
 
   private func diskURL(forKey key: ThumbnailCacheKey) -> URL {

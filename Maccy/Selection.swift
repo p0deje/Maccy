@@ -19,10 +19,6 @@ struct Selection<Item: Equatable> {
     return items.first
   }
 
-  func first(where condition: (Item) -> Bool) -> Item? {
-    return items.first(where: condition)
-  }
-
   func forEach(_ body: (Int, Item) throws -> Void) rethrows {
     try items.enumerated().forEach(body)
   }

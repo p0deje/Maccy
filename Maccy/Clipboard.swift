@@ -252,30 +252,6 @@ class Clipboard {
   }
 }
 
-extension Clipboard {
-  func contents(from item: NSPasteboardItem) -> [HistoryItemContent] {
-    var types = Set(item.types)
-    if types.contains(.string) && isEmptyString(item) && !richText(item) {
-      return []
-    }
-
-    if shouldIgnore(item) {
-      return []
-    }
-
-    types = filteredTypes(types)
-
-    return types.compactMap { type in
-      let value = item.data(forType: type)
-      guard (value?.count ?? 0) <= HistoryItemContent.maxValueSize else {
-        return nil
-      }
-
-      return HistoryItemContent(type: type.rawValue, value: value)
-    }
-  }
-}
-
 private extension Clipboard {
   func filteredTypes(_ types: Set<NSPasteboard.PasteboardType>) -> Set<NSPasteboard.PasteboardType> {
     var types = types

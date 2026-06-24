@@ -12,8 +12,6 @@ extension ItemsContainer {
     var containerVisible: Bool { true }
 }
 
-private extension ItemsContainer where Item: HasVisibility {}
-
 extension ItemsContainer where Item: HasVisibility {
 
   var visibleItems: [Item] {
@@ -32,10 +30,6 @@ extension ItemsContainer where Item: HasVisibility {
   var lastVisibleItem: Item? {
     guard containerVisible else { return nil }
     return self.items.last(where: \.isVisible)
-  }
-  func lastVisibleItem(where predicate: (Item) -> Bool) -> Item? {
-    guard containerVisible else { return nil }
-    return self.items.last { $0.isVisible && predicate($0) }
   }
 }
 
