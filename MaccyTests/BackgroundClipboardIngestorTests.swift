@@ -416,6 +416,93 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(bRows.first?.numberOfCopies, 2, "The merged duplicate must accumulate numberOfCopies")
   }
 
+  // MARK: - BS-4.2 per-entry containment + 4.5 fingerprint-symmetry dedup
+
+  /// Containment dedup: a plain copy whose content is a SUBSET of an existing
+  /// richer item must merge into it. This is the case the old full-table scan
+  /// handled but a naive exact-match index would miss (creating a duplicate), and
+  /// the reason the BS-4.2 per-entry index keys on individual content entries:
+  /// the plain copy's string entry matches the richer item's string entry in the
+  /// index → candidate → `supersedes` confirms (the plain signature is contained
+  /// in the richer item's contents) → merge. The second type is a non-supported
+  /// UTI so it survives `filterContents` regardless of the default enabled-type
+  /// set, guaranteeing a true subset (not an exact duplicate).
+  func testIngestSubsetOfExistingRicherItemMerges() async {
+    let collector = EventCollector()
+    let ingestor = BackgroundClipboardIngestor(
+      modelContainer: Storage.shared.container,
+      image: PassthroughImageProcessor(),
+      now: { Date(timeIntervalSince1970: 1_700_000_000) },
+      onEvent: { event in collector.append(event) }
+    )
+
+    let foo = "foo".data(using: .utf8)
+    let rich = IngestRequest(
+      source: CopyOrigin(changeCount: 1, name: "test"),
+      contents: [
+        ContentDTO(type: stringType, value: foo, fingerprint: nil, size: 3),
+        ContentDTO(type: "com.test.richmarker", value: "bar".data(using: .utf8), fingerprint: nil, size: 3)
+      ],
+      application: nil,
+      now: Date(timeIntervalSince1970: 1_700_000_000)
+    )
+    _ = await ingestor.ingest(rich)
+
+    // Plain copy: string "foo" only — a strict subset of the rich item above.
+    let plain = IngestRequest(
+      source: CopyOrigin(changeCount: 2, name: "test"),
+      contents: [ContentDTO(type: stringType, value: foo, fingerprint: nil, size: 3)],
+      application: nil,
+      now: Date(timeIntervalSince1970: 1_700_000_000)
+    )
+    let second = await ingestor.ingest(plain)
+
+    XCTAssertEqual(second.metrics.dedupHits, 1, "A subset copy must merge into the richer existing item")
+    let stored = try? Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())
+    XCTAssertEqual(stored?.count, 1, "Subset copy must merge, not create a second item")
+  }
+
+  /// Fingerprint-symmetry dedup (BS-4.5): a large (>16 KiB) re-copy must merge.
+  /// The dedup signature for large content carries a real FNV fingerprint; the
+  /// index entry (built from the existing item's contents) and the lookup entry
+  /// (built from the new item's contents) must BOTH carry the computed
+  /// fingerprint to match. If the request's nil fingerprint leaked into the
+  /// lookup (the asymmetry 4.5 fixes), the entries would differ (nil != hash) and
+  /// no merge would happen. `heavy_text.txt` is ~31 KB.
+  func testIngestLargeTextReCopyMergesViaFingerprint() async {
+    let heavy = try? Data(contentsOf: FixtureLoader.heavyTextURL)
+    XCTAssertNotNil(heavy, "heavy_text.txt fixture must be present at the repo root")
+    let collector = EventCollector()
+    let ingestor = BackgroundClipboardIngestor(
+      modelContainer: Storage.shared.container,
+      image: PassthroughImageProcessor(),
+      now: { Date(timeIntervalSince1970: 1_700_000_000) },
+      onEvent: { event in collector.append(event) }
+    )
+
+    func heavyRequest(changeCount: Int) -> IngestRequest {
+      IngestRequest(
+        source: CopyOrigin(changeCount: changeCount, name: "test"),
+        contents: [
+          ContentDTO(type: stringType, value: heavy, fingerprint: nil, size: heavy?.count ?? 0)
+        ],
+        application: nil,
+        now: Date(timeIntervalSince1970: 1_700_000_000)
+      )
+    }
+
+    _ = await ingestor.ingest(heavyRequest(changeCount: 1))
+    let second = await ingestor.ingest(heavyRequest(changeCount: 2))
+
+    XCTAssertEqual(
+      second.metrics.dedupHits, 1,
+      "A large (>16 KiB) re-copy must merge via the fingerprinted signature"
+    )
+    let stored = try? Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())
+    XCTAssertEqual(stored?.count, 1, "Large-text re-copy must merge, not duplicate")
+    XCTAssertEqual(stored?.first?.numberOfCopies, 2)
+  }
+
   // MARK: - Helpers
 
   /// Builds a single-content text `IngestRequest`.

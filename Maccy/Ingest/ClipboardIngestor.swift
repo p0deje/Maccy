@@ -84,6 +84,19 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   private var onEvent: @Sendable (StoreEvent) async -> Void = { _ in }
   private let logger = Logger(label: "org.p0deje.Maccy")
 
+  /// BS-4.2 in-memory dedup index over every committed item's content entries,
+  /// replacing `findDuplicate`'s per-copy full-table fetch + O(n) `supersedes`
+  /// scan with an O(hits) candidate lookup. `persistentIDByItemID` bridges the
+  /// index's `ItemID` (UUID) keys to the `PersistentIdentifier` `model(for:)`
+  /// needs to fetch each candidate for the authoritative `supersedes` confirm
+  /// (ItemID is a UUID hash of the persistent id — cheap to build and unit-test,
+  /// but not itself fetchable). Built lazily on the first ingest
+  /// (`ensureDedupIndexInitialized`), then maintained incrementally per commit
+  /// (register the inserted item, unregister the duplicate + size-trim evictions).
+  private var signatureIndex = SignatureIndex()
+  private var persistentIDByItemID: [ItemID: PersistentIdentifier] = [:]
+  private var dedupIndexInitialized = false
+
   init(
     modelContainer: ModelContainer,
     image: ImageProcessing,
@@ -108,8 +121,9 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   ///    timing it for `parseMs` via the injected clock. An empty result is a
   ///    no-op ingest (no event, no write).
   /// 3. Build the new `HistoryItem` on the actor's isolated `modelContext` (mirrors `historyItem(from:)`).
-  /// 4. Dedup against existing items via `duplicateSignature` / `supersedes`
-  ///    (mirrors `History.findSimilarItem`, minus the sessionLog branch).
+  /// 4. Dedup against existing items via the BS-4.2 per-entry `SignatureIndex`
+  ///    (O(hits) candidate lookup + authoritative `supersedes` confirm),
+  ///    replacing the old full-table `findSimilarItem` scan.
   /// 5. Merge fields from the duplicate if found (mirrors
   ///    `History.mergeDuplicateIfNeeded`).
   /// 6. Single-transaction commit: trim unpinned items beyond the main-actor
@@ -147,6 +161,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     let item = makeHistoryItem(
       filtered, application: request.application, timestamp: timestamp, title: title
     )
+    ensureDedupIndexInitialized()
     let dup = findDuplicate(of: item)
     if let dup {
       mergeFields(from: dup, into: item, timestamp: timestamp)
@@ -155,8 +170,9 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     let dedupHits = dup != nil ? 1 : 0
     let bytesHashed = Self.bytesHashed(for: item)
 
+    let deletedItemIDs: [ItemID]
     do {
-      try commit(item, deleting: dup, limit: historyLimit)
+      deletedItemIDs = try commit(item, deleting: dup, limit: historyLimit)
     } catch {
       logger.error("Failed to commit ingest: \(String(describing: error))")
       return IngestResult(
@@ -164,6 +180,9 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
         metrics: IngestMetrics(dedupHits: dedupHits, bytesHashed: bytesHashed, parseMs: parseMs)
       )
     }
+
+    // BS-4.2: keep the dedup index in sync with the committed transaction.
+    maintainDedupIndex(inserted: item, deleted: deletedItemIDs)
 
     let event: StoreEvent = dup == nil
       ? .added(snapshot(of: item))
@@ -215,13 +234,73 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     )
   }
 
-  /// Finds an existing item that supersedes the new one (mirrors
-  /// `History.findSimilarItem`, History.swift:562-577, MINUS the `isModified` /
-  /// `sessionLog` branch — see the actor's class doc).
+  /// Finds an existing item that supersedes the new one via the BS-4.2 per-entry
+  /// index (replacing the old per-copy full-table fetch + O(n) `supersedes`
+  /// scan). The index returns candidate ids whose signature shares at least one
+  /// content entry with the new item; each is fetched by `PersistentIdentifier`
+  /// and confirmed with the authoritative `supersedes` (which rules out same-size
+  /// and fingerprint collisions), so dedup correctness is identical to the old
+  /// O(n) scan. Genuinely-new content shares no entry and yields no candidates —
+  /// the O(1) fast path. `model(for:)` returning an un-faulted shell for an id it
+  /// no longer knows (a stale index entry) is harmless: such a shell has no
+  /// contents, so `supersedes` returns false and it is skipped.
   private func findDuplicate(of item: HistoryItem) -> HistoryItem? {
-    let existing = (try? modelContext.fetch(FetchDescriptor<HistoryItem>())) ?? []
     let signature = item.duplicateSignature
-    return existing.first { $0 != item && $0.supersedes(signature) }
+    let entries = item.contents.map { content in
+      ContentSignatureEntry(
+        type: content.type,
+        fingerprint: content.value.flatMap(ClipboardDataProcessor.fingerprintIfLarge),
+        size: content.value?.count ?? 0
+      )
+    }
+    for candidateID in signatureIndex.candidates(forEntries: entries) {
+      guard let candidatePID = persistentIDByItemID[candidateID],
+            let candidate = modelContext.model(for: candidatePID) as? HistoryItem,
+            candidate != item,
+            candidate.supersedes(signature) else {
+        continue
+      }
+      return candidate
+    }
+    return nil
+  }
+
+  /// Lazily builds the dedup index from the committed store on the first ingest
+  /// (BS-4.2): one O(n) pass, then skipped on subsequent ingests. Runs on the
+  /// actor's isolated context.
+  private func ensureDedupIndexInitialized() {
+    guard !dedupIndexInitialized else { return }
+    let items = (try? modelContext.fetch(FetchDescriptor<HistoryItem>())) ?? []
+    for existing in items {
+      registerInDedupIndex(existing)
+    }
+    dedupIndexInitialized = true
+  }
+
+  /// Registers one item's signature + its id→PersistentIdentifier bridge entry.
+  private func registerInDedupIndex(_ item: HistoryItem) {
+    let snap = snapshot(of: item)
+    signatureIndex.register(snap.signature, id: snap.id)
+    if let pid = snap.persistentID {
+      persistentIDByItemID[snap.id] = pid
+    }
+  }
+
+  /// Removes one item's signature + bridge entry (used for the duplicate and the
+  /// size-trim-evicted items that `commit` deletes).
+  private func unregisterFromDedupIndex(itemID: ItemID) {
+    signatureIndex.remove(id: itemID)
+    persistentIDByItemID.removeValue(forKey: itemID)
+  }
+
+  /// Keeps the dedup index in sync with one committed transaction: drops the
+  /// duplicate + size-trim evictions, then registers the inserted item AFTER the
+  /// save so its `persistentModelID` / `ItemID` are finalized.
+  private func maintainDedupIndex(inserted item: HistoryItem, deleted: [ItemID]) {
+    for deletedID in deleted {
+      unregisterFromDedupIndex(itemID: deletedID)
+    }
+    registerInDedupIndex(item)
   }
 
   /// Copies the duplicate's fields into the new item (mirrors
@@ -245,7 +324,13 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   /// `processPendingChanges` + `save`. Mirrors the ritual in
   /// `SwiftDataHistoryPersistence.deleteUnpinned` (History.swift:43-57) and the
   /// trim in `History.limitHistorySize(to:)` (History.swift:208-215, 244).
-  private func commit(_ item: HistoryItem, deleting dup: HistoryItem?, limit: Int) throws {
+  ///
+  /// Returns the `ItemID`s of the deleted items (the duplicate + each size-trim
+  /// eviction) so the caller can keep the BS-4.2 dedup index in sync — captured
+  /// from each item BEFORE it is deleted, since a post-save snapshot of a deleted
+  /// @Model would fault a torn row.
+  private func commit(_ item: HistoryItem, deleting dup: HistoryItem?, limit: Int) throws -> [ItemID] {
+    var deletedItemIDs: [ItemID] = []
     try modelContext.transaction {
       // Sort unpinned by lastCopiedAt descending so `dropFirst(limit - 1)` is the
       // oldest tail — exactly what History.limitHistorySize deletes. The dup is
@@ -258,10 +343,12 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
       var unpinned = (try? modelContext.fetch(descriptor)) ?? []
       if let dup {
         unpinned.removeAll { $0 == dup }
+        deletedItemIDs.append(snapshot(of: dup).id)
         modelContext.delete(dup)
       }
       if unpinned.count > limit - 1 {
         for excess in unpinned.dropFirst(limit - 1) {
+          deletedItemIDs.append(snapshot(of: excess).id)
           modelContext.delete(excess)
         }
       }
@@ -269,6 +356,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     }
     modelContext.processPendingChanges()
     try modelContext.save()
+    return deletedItemIDs
   }
 
   /// Builds the `IngestConfig` snapshot the pure filter needs. Mirrors the
