@@ -1,7 +1,5 @@
 import XCTest
 
-// swiftlint:disable file_length
-// swiftlint:disable type_body_length
 class MaccyUITests: XCTestCase {
   let app = XCUIApplication()
   let pasteboard = NSPasteboard.general
@@ -677,5 +675,3 @@ class MaccyUITests: XCTestCase {
   }
 
 }
-// swiftlint:enable type_body_length
-// swiftlint:enable file_length
