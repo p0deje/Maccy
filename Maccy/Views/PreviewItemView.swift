@@ -1,4 +1,3 @@
-import KeyboardShortcuts
 import SwiftUI
 
 struct PreviewItemView: View {

@@ -1,4 +1,3 @@
-import Defaults
 import SwiftUI
 
 private struct PasteStackId: Hashable {

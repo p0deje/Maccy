@@ -1,5 +1,4 @@
 import AppKit.NSEvent
-import Defaults
 
 @Observable
 class ModifierFlags {

@@ -1,4 +1,3 @@
-import Defaults
 import KeyboardShortcuts
 import SwiftUI
 

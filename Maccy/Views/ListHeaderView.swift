@@ -1,5 +1,4 @@
 import Defaults
-import KeyboardShortcuts
 import SwiftUI
 
 struct ListHeaderView: View {

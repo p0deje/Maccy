@@ -1,5 +1,4 @@
 import Carbon
-import Sauce
 
 class KeyboardLayout {
   static var current: KeyboardLayout { KeyboardLayout() }
