@@ -345,3 +345,123 @@ LazyVStack 反馈风暴后,对常驻 app 重新 `sample` 仍看到弹窗打开�
 - S14:`perf(bs4.10): cache ColorImage by title (NSCache) (S14)`
 - 4.10a–e:每小步 `perf(bs4.10x): ...` + TDD(UI 行为测试覆盖选择/预览/翻转回归)。
 - 末尾整步编译 + 全绿后推送(BS-4 编译边界)。
+
+---
+
+## 2026-06-22 BS-4 总进度复盘(已完成 / 已推迟 / 未做 / 困境)
+
+> 阶段性盘点,把这一轮的 done / deferred / not-done / dilemmas 整理清楚,供后续接续。
+
+### ✅ 已完成(CI 绿)
+
+| 小步 | commit | 收益 / 说明 |
+|---|---|---|
+| 4.1 SignatureIndex 维护 API | (BS-1 已就绪) | `init(from:)`/`merge`/`candidates` 齐备 |
+| 4.3.1 `VisibleWindowLoader` 原语 | `2fa470f` | 有界 fetchLimit + algorithm sortBy + visible/tail 拆分;colocate 在 `Storage+Background.swift`(pbxproj 非同步)。喂 4.2/4.5 的 offmain signatureIndex,**非** load() 提速关键路径 |
+| 4.4 `BinaryInsertion` 纯函数 | `a1411c8`(随 4.4a) | O(log n) 插入索引,落在 `Sorter.swift` |
+| **4.4a 增量 reconcile** | `a1411c8` | **本轮最大收益**:per-copy 从全表 fetch+sort 改为 `model(for: persistentID)` 单点取 + 二分插 + `fetchIdentifiers` 同步。**G-copy perCopyAvg 9.34→0.99ms(9×),max 18.11→1.25ms**,n=1000 仍 <16ms |
+| 4.7 预热 prewarm | `2e0b3a3` | `AppState.prewarmVisibleWindow()` 在 `Popup.handleFirstKeyDown` open 前触发;`ContentView.task` 仅 items 空才 load(不重复) |
+| 4.10b 动画 resize 移除 | `c3802e9` | `verticallyResize` 即时 setFrame(原 0.2s animator 每帧全树 layout) |
+| textPreviewLimit 10k→3k | `8700a5a` | 预览栏 CoreText 上限 |
+| previewMaxPixels 1600→800 | `545d4d4` | 预览图解码/渲染(slideout 显示尺寸远小于 1600) |
+| S11 Sorter hoist Defaults | `6eedbe4` | O(n log n)→1 次 `Defaults[.pinTo]` 读/sort |
+| S14 ColorImage NSCache | `27f9b51` | color 行 `lockFocus` 位图缓存 |
+| (关联,BS-6) blob-deferral | `0be3e20` | `imageData` 懒加载;**load() image-many 1.14s→~0.8s(load() 的真正大头)** |
+
+### ⏸ 已推迟(含理由)
+
+| 小步 | 理由 |
+|---|---|
+| **4.3 load() 重写(visible + 异步 tail)** | 唯一能再砍 load_avg(~50ms post-BS-6)的写法是"只装饰可见窗口 + 异步 tail",但这**改变 load() 同步契约**(`await load()` 返回时 all=可见而非全量 → G-copy 等"load 后 all==全量"的测试需 await tail,有测试改动),且 **gate 收益不明**(tail 仍在主线程装饰、每批 `items=all` 重渲染,末批渲染全量 → maxGap 可能不降)。叠加 BS-6 已砍 load()(1.14→0.8s)、gate 是 render-bound → 4.3(数据)不动 gate。故选 **4.7 prewarm**(更安全、无契约改动)替代 |
+| **4.10 渲染(gate)** | 4.10b / textPreviewLimit / previewMaxPixels 已落。残余 gate(~0.8s 测试 / ~0.27s 真实每次冷开)主要是 items=200 的 SwiftUI 渲染,**不大改结构(虚拟化装饰 / 增量 items)基本不可再降**。4.10f(列表标题截断)是唯一未试杠杆(有 UX 取舍)。**items-animation 移除已回滚**——它在"抹平"渲染尖峰,移除后 maxGap 0.624→1.200(更差)|
+
+### ❌ 未做(剩余,优先级低)
+
+| 小步 | 状态 / 为何低优先 |
+|---|---|
+| 4.2(retarget)ingestor 索引去重 | ingestor 的 O(n) 线性 supersedes → SignatureIndex O(命中)。**offmain**(非主线程);per-copy 已 1ms(post-4.4a),主线程收益小 |
+| 4.5 指纹对称(ContentIndex lhs 缓存) | offmain;主线程收益小 |
+| 4.6 sessionLog→ItemID + updateUnpinnedShortcuts diff | 内存/正确性;低风险。sessionLog 在实时 ingest 路径下可能已死(需复核) |
+| 4.8 残留清理(processPendingChanges 去重、fetchCount 日志门控) | 低风险低收益的清理 |
+| 4.9 全量测试 + 闸门验证 | 4.4a 测试已落;完整 gate 验证待 harness |
+
+### 困境与关键发现
+
+1. **`G-popup-open` 闸门是 render-bound,不是 data-load-bound。** load_avg(~50ms post-BS-6)是数据活;maxGap(~0.8s 测试)是 items=200 落到被观察的 `History.shared`→ContentView 的 SwiftUI 渲染。**load 侧工作(4.3)不动 gate;渲染(4.10)才动。**
+2. **闸门噪声大(±50%)。** image-many 在 0.624/1.200/0.801 间跳。**无法干净测量 <2× 的变化**(曾用 logic-verified 策略;#2 perf 测试稳定化后基本解除)。
+3. **动画不总是浪费——有的在"抹平"尖峰。** 4.10b(窗口 resize 动画 = 每帧全树 layout,**浪费**)有效;但 items-transition 动画移除**变差**(它把列表渲染摊到多帧,移除后集中成一帧 → maxGap 0.624→1.200),已回滚。**判据:每帧全树 layout = 浪费;每帧部分行 layout = 抹平器。**
+4. **per-copy 已解决(4.4a:1ms)。** G-copy 闸门达标,9× 余量,n=1000 仍 <16ms。
+5. **load() 已基本解决(BS-6:blob-deferral)。** image 1.14→0.8s。再砍 load_avg(4.3)收益小 + 风险高。
+6. **渲染残余(~0.8s 测试 / ~0.27s 真实)基本不可再降**,除非大改(虚拟化装饰 / 增量 items)。测试的 3 次 load 迭代把数字放大 ~3×。
+
+### 闸门现状
+
+| 闸门 | 现状 | 目标 |
+|---|---|---|
+| `G-popup-open`(= load) | maxGap ~0.8s(噪声大,render-bound);load_avg ~50ms | <16ms(未达;渲染是阻塞) |
+| `G-copy` | per-copy ~1ms(post-4.4a) | <16ms(**达标**,9× 余量) |
+| `G-resident-open` | 未实现(harness rework Step 3-5) | <16ms |
+
+### 下一步(建议优先级)
+
+1. **perf-harness rework(Step 3-5)** —— 让闸门(尤其 G-popup-open、G-resident-open)可靠 + 能干净测渲染。
+2. **4.10f**(列表标题展示截断)—— 唯一未试的渲染杠杆(UX 取舍:长标题尾)。
+3. **4.8 + 4.6** —— 安全收尾(清理 + sessionLog)。
+4. **4.3 load() 重写** —— 仅当 load_avg(~50ms)成为体感问题(当前相对渲染是次要)。
+
+---
+
+## 2026-06-24 BS-4.2 + 4.5 完成(per-entry 包含索引去重 + 指纹对称)
+
+> 本轮把 4.2(retarget:ingestor 索引去重)与 4.5(指纹两向对称)落地,CI 绿。
+> 此后本 session 停止;下一 session 做 BS-6(内存,用户反映占用过大)。
+
+### 落地内容
+
+- **4.2 — `SignatureIndex` 改 per-entry 包含索引并接入 ingestor。** 关键认知:实时去重
+  `existing.supersedes(newSig)` 是**包含**语义(existing 是 new 的超集),不是精确相等。
+  原 `candidates(for:)` 是 full-signature 精确匹配,既漏掉子集情况(纯文本复制命中更富
+  的既有项应合并却不合并→产生重复条目),也对"全新内容"复制无帮助。故改为**逐 entry 索引**:
+  `[ContentSignatureEntry: Set<ItemID>]`,`candidates(forEntries:)` 返回与 new 共享任一
+  entry 的候选;`supersedes` 精确确认兜底(同 size 小内容碰撞、指纹碰撞)。全新内容 0 候选
+  → O(1) 插入不扫表(常见复制路径的最大收益)。
+- **桥接 `persistentIDByItemID`**:`SignatureIndex` 键是 `ItemID`(UUID,易单测),但
+  `modelContext.model(for:)` 要 `PersistentIdentifier`。故 ingestor 维护
+  `[ItemID: PersistentIdentifier]`(由 `snapshot(of:)` 同时给出 `.id` + `.persistentID`
+  填充)。`findDuplicate`:候选 ItemID → 桥 → `model(for:)` → `supersedes` 确认。
+- **惰性构建 + 增量维护**:首次 ingest 时 `ensureDedupIndexInitialized()` 一次 O(n) fetch
+  构建索引(替换原来**每次复制**都全表 fetch + O(n) 扫描);之后每次 commit 增量维护
+  (`commit` 现返回被删 ItemID:dup + 容量裁剪淘汰项;`maintainDedupIndex` 注销删除项 +
+  注册插入项,save 后取最终 `persistentModelID`/`ItemID`)。
+- **4.5 — 指纹对称**:lookup entry 由 `@Model.contents` 经 `fingerprintIfLarge` 构建
+  (≥16KiB 取真实指纹),与索引构建方式一致——大内容重复制能命中合并,而非 nil-vs-hash
+  失配漏判。
+
+### 复杂度(前→后)
+
+| 操作 | 前 | 后 |
+|---|---|---|
+| 复制去重(actor) | 每次全表 fetch + O(n) `supersedes` 扫描 | **O(命中数)** 索引查询 + 精确确认;全新内容 O(1) |
+
+### 测试
+
+- `SignatureIndexTests` 新增 per-entry 包含用例:超集命中、精确命中、全新内容空、去重、
+  多项共享、move+remove 清理、`init(from:)`/`merge` 维护。
+- `BackgroundClipboardIngestorTests` 新增:子集复制合并(包含情况,精确索引会漏)、
+  大文本(>16KiB)重复制经指纹合并(4.5 对称守卫)。既有去重/裁剪/原子性测试不变(语义一致)。
+
+### Commit
+
+- `f6e4f22` — `feat(bs4.2)`: SignatureIndex per-entry 包含索引(纯值类型 + 测试)
+- `5189152` — `feat(bs4.2)`: 接入 ingestor(O(hits) 去重 + 桥 + 惰性构建/增量维护 + 4.5 对称)
+- `5288b4a` → 被 `a8365fa` 取代:初版用 per-file `file_length`/`type_body_length` 禁用,
+  但触发 `blanket_disable_command`。按用户要求改把 `file_length`/`type_body_length`/
+  `function_body_length` 阈值提到 1000(`a8365fa`),并删除全仓随之 superfluous 的长度禁用
+  (`a8365fa` 含 12 个生产/测试文件 + `073e687` 补 MaccyUITests)。CI 绿(run `28104358265`)。
+
+### 仍 deferred(同 2026-06-22 复盘)
+
+4.6(`sessionLog`→ItemID;实时路径下 `History.add`/`findSimilarItem`/`sessionLog` 已死,
+仅测试可达——见 `docs/audit/2026-06-23/deadcode-sweep.md`,删除是大测试重写而非迁移)、
+4.8 残留清理、4.9 全量闸门、4.10f 渲染杠杆、perf-harness rework Step 3-5。
+
