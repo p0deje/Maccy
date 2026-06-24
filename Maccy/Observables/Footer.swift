@@ -24,7 +24,7 @@ class Footer: ItemsContainer {
     return showFooter
   }
 
-  init() { // swiftlint:disable:this function_body_length
+  init() {
     items = [
       FooterItem(
         title: "clear",

@@ -4,3 +4,12 @@ disabled_rules:
   - todo
 line_length:
   ignores_comments: true
+file_length:
+  warning: 1000
+  error: 1000
+type_body_length:
+  warning: 1000
+  error: 1000
+function_body_length:
+  warning: 1000
+  error: 1000

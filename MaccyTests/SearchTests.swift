@@ -12,7 +12,7 @@ class SearchTests: XCTestCase {
   }
 
   @MainActor
-  func testSimpleSearch() { // swiftlint:disable:this function_body_length
+  func testSimpleSearch() {
     Defaults[.searchMode] = Search.Mode.exact
     items = [
       HistoryItemDecorator(historyItemWithTitle("foo bar baz")),
@@ -73,7 +73,7 @@ class SearchTests: XCTestCase {
   }
 
   @MainActor
-  func testFuzzySearch() { // swiftlint:disable:this function_body_length
+  func testFuzzySearch() {
     Defaults[.searchMode] = Search.Mode.fuzzy
     items = [
       HistoryItemDecorator(historyItemWithTitle("foo bar baz")),
@@ -158,7 +158,7 @@ class SearchTests: XCTestCase {
   }
 
   @MainActor
-  func testRegexpSearch() { // swiftlint:disable:this function_body_length
+  func testRegexpSearch() {
     Defaults[.searchMode] = Search.Mode.regexp
     items = [
       HistoryItemDecorator(historyItemWithTitle("foo bar baz")),

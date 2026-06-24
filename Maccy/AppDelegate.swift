@@ -3,7 +3,7 @@ import KeyboardShortcuts
 import Sparkle
 import SwiftUI
 
-class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable { // swiftlint:disable:this type_body_length
+class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
   var panel: FloatingPanel<ContentView>!
 
   #if DEBUG
@@ -46,7 +46,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable { // swi
 
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
-  func applicationWillFinishLaunching(_ notification: Notification) { // swiftlint:disable:this function_body_length
+  func applicationWillFinishLaunching(_ notification: Notification) {
     #if DEBUG
     if CommandLine.arguments.contains("enable-testing") {
       SPUUpdater(hostBundle: Bundle.main,

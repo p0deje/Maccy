@@ -1,4 +1,3 @@
-// swiftlint:disable file_length
 import AppKit.NSRunningApplication
 import Defaults
 import Foundation
@@ -88,7 +87,7 @@ struct SwiftDataHistoryPersistence: HistoryPersistence {
 }
 
 @Observable
-class History: ItemsContainer { // swiftlint:disable:this type_body_length
+class History: ItemsContainer {
   static let shared = History()
   let logger = Logger(label: "org.p0deje.Maccy")
 

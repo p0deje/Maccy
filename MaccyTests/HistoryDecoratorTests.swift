@@ -1,11 +1,10 @@
-// swiftlint:disable file_length
 import XCTest
 import Defaults
 import os
 @testable import Maccy
 
 @MainActor
-class HistoryItemDecoratorTests: XCTestCase { // swiftlint:disable:this type_body_length
+class HistoryItemDecoratorTests: XCTestCase {
   let boldFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
   let savedHighlightMatch = Defaults[.highlightMatch]
   let savedImageMaxHeight = Defaults[.imageMaxHeight]

@@ -121,7 +121,7 @@ class AppState {
   }
 
   @MainActor
-  func openPreferences() { // swiftlint:disable:this function_body_length
+  func openPreferences() {
     if settingsWindowController == nil {
       settingsWindowController = SettingsWindowController(
         panes: [
