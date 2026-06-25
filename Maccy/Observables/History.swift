@@ -137,7 +137,12 @@ class History: ItemsContainer {
   private var historySizeLimit: Int { max(1, Defaults[.size]) }
 
   @ObservationIgnored
-  private var sessionLog: [Int: HistoryItem] = [:]
+  // M3 (master plan): keyed by `PersistentIdentifier`, NOT the @Model ref, so the
+  // log never retains a `HistoryItem` (and its content blobs). Resolved back to the
+  // model via `all` in `isModified`. Dead-in-prod (live ingest is the actor consume
+  // path, which bypasses sessionLog); this closes the `05`/`13` audit item and
+  // prevents a leak if the legacy `History.add` path is ever re-enabled.
+  private var sessionLog: [Int: PersistentIdentifier] = [:]
 
   // The distinction between `all` and `items` is the following:
   // - `all` stores all history items, even the ones that are currently hidden by a search
@@ -250,7 +255,7 @@ class History: ItemsContainer {
     // if a duplicate was found as then the size already stayed the same.
     limitHistorySize(to: historySizeLimit - 1)
 
-    sessionLog[Clipboard.shared.changeCount] = item
+    sessionLog[Clipboard.shared.changeCount] = item.persistentModelID
 
     let itemDecorator = insertDecorator(for: item, removedItemIndex: removedItemIndex)
 
@@ -463,7 +468,11 @@ class History: ItemsContainer {
         }
       }
       all.removeAll(where: \.isUnpinned)
-      sessionLog.removeValues { $0.pin == nil }
+      // `all` now holds only pinned survivors (unpinned removed above); drop any
+      // sessionLog entry whose backing item is no longer present.
+      sessionLog.removeValues { pid in
+        !all.contains(where: { $0.item.persistentModelID == pid })
+      }
       items = all
     } catch {
       recordPersistenceError("Failed to clear history", error)
@@ -520,7 +529,7 @@ class History: ItemsContainer {
     cleanup(item)
     all.removeAll { $0 == item }
     items.removeAll { $0 == item }
-    sessionLog.removeValues { $0 == item.item }
+    sessionLog.removeValues { $0 == item.item.persistentModelID }
 
     updateUnpinnedShortcuts()
     Task {
@@ -738,8 +747,8 @@ class History: ItemsContainer {
   }
 
   private func isModified(_ item: HistoryItem) -> HistoryItem? {
-    if let modified = item.modified, sessionLog.keys.contains(modified) {
-      return sessionLog[modified]
+    if let modified = item.modified, let pid = sessionLog[modified] {
+      return all.first { $0.item.persistentModelID == pid }?.item
     }
 
     return nil
