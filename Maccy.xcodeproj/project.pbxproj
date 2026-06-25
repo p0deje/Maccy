@@ -80,6 +80,7 @@
 		DA243D142C2F66DD0012A27F /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA243D132C2F66DD0012A27F /* Storage.swift */; };
 		DA3CE80A1E44A62500B3AA98 /* StorageBackgroundContextTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8091E44A62500B3AA98 /* StorageBackgroundContextTests.swift */; };
 		DA3CE80C1E44A62500B3AA98 /* Storage+Background.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE80B1E44A62500B3AA98 /* Storage+Background.swift */; };
+		2B6F1A2B4C6D0000000000B2 /* MemoryGovernance.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C6D0000000000B1 /* MemoryGovernance.swift */; };
 		DA3CE80F1E44A62500B3AA98 /* Dtos.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE80E1E44A62500B3AA98 /* Dtos.swift */; };
 		DA3CE8121E44A62500B3AA98 /* DtoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8111E44A62500B3AA98 /* DtoTests.swift */; };
 		DA3CE8141E44A62500B3AA98 /* SignatureIndex.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8131E44A62500B3AA98 /* SignatureIndex.swift */; };
@@ -329,6 +330,7 @@
 		DA243D132C2F66DD0012A27F /* Storage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Storage.swift; sourceTree = "<group>"; };
 		DA3CE8091E44A62500B3AA98 /* StorageBackgroundContextTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageBackgroundContextTests.swift; sourceTree = "<group>"; };
 		DA3CE80B1E44A62500B3AA98 /* Storage+Background.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Storage+Background.swift"; sourceTree = "<group>"; };
+		2B6F1A2B4C6D0000000000B1 /* MemoryGovernance.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryGovernance.swift; sourceTree = "<group>"; };
 		DA3CE80E1E44A62500B3AA98 /* Dtos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dtos.swift; sourceTree = "<group>"; };
 		DA3CE8111E44A62500B3AA98 /* DtoTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DtoTests.swift; sourceTree = "<group>"; };
 		DA3CE8131E44A62500B3AA98 /* SignatureIndex.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignatureIndex.swift; sourceTree = "<group>"; };
@@ -921,6 +923,7 @@
 				DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */,
 				DAE8F5D32C43262B00851CA9 /* Popup.swift */,
 				2F578C3E2EFFE8720088B759 /* SlideoutController.swift */,
+				2B6F1A2B4C6D0000000000B1 /* MemoryGovernance.swift */,
 			);
 			path = Observables;
 			sourceTree = "<group>";
@@ -1358,6 +1361,7 @@
 				DA9C3C622C20E1BF0056795D /* IgnoreRegexpsSettingsView.swift in Sources */,
 				DA243D142C2F66DD0012A27F /* Storage.swift in Sources */,
 				DA3CE80C1E44A62500B3AA98 /* Storage+Background.swift in Sources */,
+				2B6F1A2B4C6D0000000000B2 /* MemoryGovernance.swift in Sources */,
 				DA3CE80F1E44A62500B3AA98 /* Dtos.swift in Sources */,
 				DA3CE8141E44A62500B3AA98 /* SignatureIndex.swift in Sources */,
 				2B6F1A2B4C6D000000000002 /* PerfRecorder.swift in Sources */,

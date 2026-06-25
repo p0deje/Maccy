@@ -816,3 +816,7 @@ class History: ItemsContainer {
     }
   }
 }
+
+extension History: HistoryRef {
+  func decorators() -> [HistoryItemDecorator] { all }
+}

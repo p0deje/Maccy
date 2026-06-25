@@ -6,7 +6,7 @@ import Observation
 import Sauce
 
 @Observable
-class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Sendable {
+class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObserving, @unchecked Sendable {
   static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
   }
@@ -204,14 +204,44 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, @unchecked Se
 
   @MainActor
   func cleanupImages() {
-    thumbnailImageGenerationTask?.cancel()
-    previewImageGenerationTask?.cancel()
-    thumbnailImageGenerationTask = nil
-    previewImageGenerationTask = nil
-    thumbnailImage?.recache()
-    previewImage?.recache()
-    thumbnailImage = nil
-    previewImage = nil
+    releaseTransientImages(.invalidate)
+  }
+
+  /// Drops transient images per `reason`. `.scrollOut` keeps the cheap thumbnail
+  /// (list scroll reuses it fast) and frees only the preview bitmap + decoded
+  /// cache entry; the heavier reasons also clear thumbnail/text/blob state.
+  @MainActor
+  func releaseTransientImages(_ reason: ReleaseReason) {
+    switch reason {
+    case .scrollOut:
+      previewImageGenerationTask?.cancel()
+      previewImageGenerationTask = nil
+      previewImage = nil
+      DecodedImageCache.shared.evict(id)
+    case .previewHidden:
+      previewImage = nil
+    case .settingChange, .memoryWarning, .invalidate:
+      thumbnailImageGenerationTask?.cancel()
+      previewImageGenerationTask?.cancel()
+      thumbnailImageGenerationTask = nil
+      previewImageGenerationTask = nil
+      thumbnailImage = nil
+      previewImage = nil
+      textPreviewCache = nil
+      imageDataCache = nil
+      imageDataCacheLoaded = false
+      DecodedImageCache.shared.evict(id)
+    }
+  }
+
+  // MARK: - VisibilityObserving
+
+  func onAppearInViewport() {
+    ensureThumbnailImage()
+  }
+
+  func onDisappearFromViewport() {
+    releaseTransientImages(.scrollOut)
   }
 
   /// Cancels an in-flight preview decode and drops the task handle, WITHOUT
