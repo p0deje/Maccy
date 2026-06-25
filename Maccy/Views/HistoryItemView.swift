@@ -46,7 +46,12 @@ struct HistoryItemView: View {
       Text(verbatim: item.title)
     }
     .onAppear {
-      item.ensureThumbnailImage()
+      VisibilityTracker.shared.register(item)
+      item.onAppearInViewport()
+    }
+    .onDisappear {
+      item.onDisappearFromViewport()
+      VisibilityTracker.shared.unregister(item)
     }
     .onTapGesture {
       if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {

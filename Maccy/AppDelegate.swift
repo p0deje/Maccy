@@ -138,6 +138,15 @@ class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
       ContentView()
     }
 
+    // C3 (master plan): wire the memory governor — reclaim non-viewport image
+    // bitmaps + caches on NSApplication.didReceiveMemoryWarningNotification.
+    // applicationDidFinishLaunching runs on main but AppDelegate isn't
+    // @MainActor-isolated, so hop via assumeIsolated.
+    MainActor.assumeIsolated {
+      MemoryGovernor.shared.attach(history: History.shared)
+      MemoryGovernor.shared.start()
+    }
+
     #if DEBUG
     if CommandLine.arguments.contains("enable-testing") {
       Defaults[.suppressClearAlert] = true
