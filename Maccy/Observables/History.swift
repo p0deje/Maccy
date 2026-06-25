@@ -205,7 +205,9 @@ class History: ItemsContainer {
   func load() async throws {
     let descriptor = FetchDescriptor<HistoryItem>()
     let results = try Storage.shared.context.fetch(descriptor)
-    all = sorter.sort(results).map { HistoryItemDecorator($0) }
+    // M6 (master plan): bound the decorator-construction AppKit transients
+    // (ApplicationImageCache miss → NSWorkspace.icon) to the load call.
+    all = autoreleasepool { sorter.sort(results).map { HistoryItemDecorator($0) } }
     items = all
 
     limitHistorySize(to: historySizeLimit)
@@ -469,8 +471,10 @@ class History: ItemsContainer {
       try withLogging("Clearing history") {
         try persistence.deleteUnpinned()
       }
-      all.forEach { item in
-        if item.isUnpinned {
+      // M6 (master plan): drain per-item AppKit transients (cleanup → invalidate
+      // → cleanupImages → NSImage.recache) so a bulk clear doesn't pile them up.
+      for item in all where item.isUnpinned {
+        autoreleasepool {
           cleanup(item)
         }
       }
@@ -501,8 +505,10 @@ class History: ItemsContainer {
       try withLogging("Clearing all history") {
         try persistence.deleteAll()
       }
-      all.forEach { item in
-        cleanup(item)
+      for item in all {
+        autoreleasepool {
+          cleanup(item)
+        }
       }
       all.removeAll()
       sessionLog.removeAll()
