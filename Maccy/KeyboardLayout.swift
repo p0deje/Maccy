@@ -22,6 +22,15 @@ class KeyboardLayout {
   private var inputSource: TISInputSource?
 
   init() {
-    inputSource = TISCopyCurrentKeyboardLayoutInputSource()?.takeUnretainedValue()
+    // M2 (2026-06-25 master plan): TISCopyCurrentKeyboardLayoutInputSource()
+    // follows the Core Foundation Copy rule (+1 retain). Bridging with
+    // takeUnretainedValue() leaked one TISInputSource (== TSMInputSource) per
+    // call — the exclusive source of the 18,417 ROOT LEAKs in the 2026-06-24
+    // leaks dump (72% of leaked bytes, 93% of leaked instances). takeRetainedValue
+    // consumes the +1 so ARC releases it when this transient instance deallocs.
+    // NOTE: the localizedName getter below uses TISGetInputSourceProperty
+    // (Get rule, +0) and must stay takeUnretainedValue() — changing it would
+    // over-release and crash. Only this Copy-rule site is wrong.
+    inputSource = TISCopyCurrentKeyboardLayoutInputSource()?.takeRetainedValue()
   }
 }
