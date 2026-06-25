@@ -438,6 +438,10 @@ class History: ItemsContainer {
 
   @MainActor
   private func withLogging(_ msg: String, _ block: () throws -> Void) rethrows {
+    // M7 (master plan): the before/after fetchCount round-trips are debug-only
+    // diagnostics — gate them so release builds don't do 4 DB round-trips per
+    // clear/delete/clearAll. The block (the actual operation) always runs.
+    #if DEBUG
     func dataCounts() -> String {
       do {
         let historyItemCount = try persistence.countHistoryItems()
@@ -452,6 +456,9 @@ class History: ItemsContainer {
     logger.info("\(msg) Before: \(dataCounts())")
     try block()
     logger.info("\(msg) After: \(dataCounts())")
+    #else
+    try block()
+    #endif
   }
 
   @MainActor
