@@ -20,6 +20,11 @@ enum ImageDownsampler {
   ///   - max: The maximum pixel size of the thumbnail's longest side.
   /// - Returns: A downsampled `CGImage`, or nil if the data is not a valid image.
   static func thumbnail(data: Data, max maxPixelSize: CGFloat) -> CGImage? {
+    // F4 (master plan): guard against NaN/∞/non-positive — Int(maxPixelSize)
+    // traps on NaN, and a non-positive thumbnail size is meaningless.
+    guard maxPixelSize.isFinite, maxPixelSize > 0 else {
+      return nil
+    }
     guard let source = CGImageSourceCreateWithData(data as CFData, nil) else {
       return nil
     }
