@@ -1,6 +1,8 @@
+import Logging
 import SwiftUI
 
 class ApplicationImage {
+  private static let logger = Logger(label: "org.p0deje.Maccy")
   fileprivate static let fallbackImage = NSImage(
     systemSymbolName: "questionmark.app.dashed",
     accessibilityDescription: nil
@@ -46,44 +48,50 @@ class ApplicationImage {
 
       eventSource?.cancel()
       let descriptor = open(appURL.path, O_EVTONLY)
-      if descriptor == -1 {
+      guard descriptor != -1 else {
         let errorCode = errno
-        print("Error code: \(errorCode)")
-        print("Error message: \(String(cString: strerror(errorCode)))")
-      } else {
-        let source = DispatchSource.makeFileSystemObjectSource(
-          fileDescriptor: descriptor,
-          eventMask: [.write, .delete],
-          queue: DispatchQueue.global()
+        Self.logger.error(
+          "ApplicationImage: open(\(appURL.path, privacy: .public)) failed [\(errorCode)]: \(String(cString: strerror(errorCode)))"
         )
-        eventSource = source
-        source.setEventHandler { [weak self] in
-          DispatchQueue.main.async { [weak self] in
-            guard let self else {
-              return
-            }
-            guard let eventSource = self.eventSource else {
-              return
-            }
-            let event = eventSource.data
-            if event.contains(.delete) {
-              // File was deleted.
-              print("Deleted", appURL.path)
-              self.eventSource?.cancel()
-              self.eventSource = nil
-              self.image = nil
-            } else if event.contains(.write) {
-              // File was modified. Fetch new icon
-              print("Modified", appURL.path)
-              self.image = NSWorkspace.shared.icon(forFile: appURL.path)
-            }
+        return img
+      }
+      // fd guard (07-F-018): ensure `descriptor` is closed if we leave this scope
+      // before the setCancelHandler is installed. Defensive —
+      // makeFileSystemObjectSource does not throw today, but a future refactor
+      // that fails between open and resume would otherwise leak the fd.
+      // `eventSource` is assigned only after the cancelHandler is installed.
+      var sourceInstalled = false
+      defer { if !sourceInstalled { close(descriptor) } }
+      let source = DispatchSource.makeFileSystemObjectSource(
+        fileDescriptor: descriptor,
+        eventMask: [.delete, .rename],
+        queue: DispatchQueue.global()
+      )
+      source.setEventHandler { [weak self] in
+        DispatchQueue.main.async { [weak self] in
+          guard let self, let eventSource = self.eventSource else {
+            return
+          }
+          let event = eventSource.data
+          if event.contains(.delete) {
+            // App bundle deleted (uninstalled) — drop the cached icon.
+            Self.logger.info("ApplicationImage: deleted \(appURL.path, privacy: .public)")
+            self.eventSource?.cancel()
+            self.eventSource = nil
+            self.image = nil
+          } else if event.contains(.rename) {
+            // App bundle renamed/replaced (e.g. updated) — re-fetch the icon.
+            Self.logger.info("ApplicationImage: renamed \(appURL.path, privacy: .public)")
+            self.image = NSWorkspace.shared.icon(forFile: appURL.path)
           }
         }
-        source.setCancelHandler {
-          close(descriptor)
-        }
-        source.resume()
       }
+      source.setCancelHandler {
+        close(descriptor)
+      }
+      eventSource = source
+      sourceInstalled = true
+      source.resume()
 
       return img
     }
