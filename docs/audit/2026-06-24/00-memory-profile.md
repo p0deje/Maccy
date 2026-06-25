@@ -1,5 +1,9 @@
 # 实测内存画像 — Maccy(2026-06-24)
 
+> ⚠️ **2026-06-25 更正(以本文为准的更新见下)**:用户用**短启动(2 分钟)**重抓了一份,实测 **phys_footprint ~102 MB**(213MB 是 2 天积累)。**"36.6MB 盲区"主要是 HotKey 泄漏(已修,bs6.13)+ ~20MB 基线框架开销(不可降)**——不是神秘泄漏。**D1(MallocStackLogging 重抓)不再关键**,内存目标在启动态基本已达。完整对照与恢复指南:`docs/audit/2026-06-25-performance-analysis/15-progress-and-resume.md`。
+>
+> 下方 §1–7 是 2026-06-24 的原始分析(213MB 长运行画像),保留作历史;其"盲区阻塞 <100MB、需 D1"的结论**已被 2026-06-25 复核推翻**。
+
 > 本文档记录 **2026-06-24** 用 `vmmap` / `heap` / `leaks` / `sample` 实测的 Maccy 内存构成,用以校准 `docs/audit/2026-06-14/05-memory-caching.md`(理论 worst-case)与 `docs/audit/2026-06-14/roadmap/step-6-memory.md`(BS-6 计划)的假设。**结论先行**:BS-3 已修掉 BS-6 当初针对的三条 critical 巨型图像占用;实测 213MB 稳态主要由 **HotKey 泄漏 + 无法归因的盲区 + 框架/运行时开销** 构成,**不是** BS-6 目标的图像/缓存。本画像驱动 `01-memory-plan.md` 新增 `bs6.13`–`bs6.16`。
 
 ## 0. 抓取条件与方法

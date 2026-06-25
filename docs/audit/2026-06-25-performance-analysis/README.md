@@ -29,6 +29,7 @@
 | [13d-memory-layout-and-safety.md](13d-memory-layout-and-safety.md) | 内存专项：内存布局、数据结构、边界安全 |
 | [13e-memory-cross-validation.md](13e-memory-cross-validation.md) | 内存专项：交叉验证结果、分歧与缺口 |
 | [14-master-plan.md](14-master-plan.md) | **新执行总纲**：整合本分析 + 2026-06-24 实测，按 P0–P3 tier 的全面优化计划（取代旧 step-by-step，含已核实更正） |
+| [15-progress-and-resume.md](15-progress-and-resume.md) | **下次启动恢复指南**：当前状态、2026-06-25 内存复核（基线 102MB）、已完成/暂缓、P2 设计、CI 坑、下一步 |
 
 ## 核心结论(一句话)
 
