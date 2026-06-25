@@ -34,6 +34,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var appIcon: ApplicationImage?
   var image: NSImage?
   var accessoryImage: NSImage?
+  var reservesImageSpace = false
   var attributedTitle: AttributedString?
   var shortcuts: [KeyShortcut]
   var isSelected: Bool
@@ -45,6 +46,10 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   @Default(.showApplicationIcons) private var showIcons
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
+
+  private var rowHeight: CGFloat {
+    Popup.listItemHeight(reservesImageSpace: reservesImageSpace || image != nil)
+  }
 
   var body: some View {
     HStack(spacing: 0) {
@@ -61,19 +66,29 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       Spacer()
         .frame(width: showIcons ? 5 : 10)
 
-      if let accessoryImage {
-        Image(nsImage: accessoryImage)
-          .accessibilityIdentifier("copy-history-item")
-          .padding(.trailing, 5)
-          .padding(.vertical, 5)
-      }
-
-      if let image {
-        Image(nsImage: image)
-          .accessibilityIdentifier("copy-history-item")
-          .padding(.trailing, 5)
-          .padding(.vertical, 5)
+      if reservesImageSpace || image != nil {
+        Group {
+          if let image {
+            Image(nsImage: image)
+              .resizable()
+              .scaledToFit()
+          } else {
+            Color.clear
+          }
+        }
+        .accessibilityIdentifier("copy-history-item")
+        .frame(width: 340, height: CGFloat(Defaults[.imageMaxHeight]), alignment: .leading)
+        .padding(.trailing, 5)
+        .padding(.vertical, 5)
       } else {
+        if let accessoryImage {
+          Image(nsImage: accessoryImage)
+            .accessibilityIdentifier("copy-history-item")
+            .frame(width: 12, height: 12)
+            .padding(.trailing, 5)
+            .padding(.vertical, 5)
+        }
+
         ListItemTitleView(attributedTitle: attributedTitle, title: title)
           .padding(.trailing, 5)
       }
@@ -106,7 +121,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       }
       .padding(.trailing, 10)
     }
-    .frame(minHeight: Popup.itemHeight)
+    .frame(height: rowHeight)
     .id(id)
     .frame(maxWidth: .infinity, alignment: .leading)
     .foregroundStyle(isSelected ? Color.white : .primary)

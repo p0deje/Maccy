@@ -65,6 +65,20 @@ struct HistoryListView: View {
       .padding(.vertical, Popup.verticalSeparatorPadding)
   }
 
+  private func itemHeight(_ item: HistoryItemDecorator) -> CGFloat {
+    Popup.listItemHeight(reservesImageSpace: item.hasImage)
+  }
+
+  private func scrollContentHeight(
+    items: [HistoryItemDecorator],
+    topPadding: CGFloat,
+    bottomPadding: CGFloat
+  ) -> CGFloat {
+    items.reduce(topPadding + bottomPadding) { total, item in
+      total + itemHeight(item)
+    }
+  }
+
   var body: some View {
     let topPinsVisible = pinTo == .top && pinsVisible
     let bottomPinsVisible = pinTo == .bottom && pinsVisible
@@ -72,6 +86,11 @@ struct HistoryListView: View {
     let bottomSeparatorVisible = bottomPinsVisible
     let scrollTopPadding = topSeparatorVisible ? Popup.verticalSeparatorPadding : topPadding
     let scrollBottomPadding = bottomSeparatorVisible ? Popup.verticalSeparatorPadding : bottomPadding
+    let scrollHeight = scrollContentHeight(
+      items: unpinnedItems,
+      topPadding: scrollTopPadding,
+      bottomPadding: scrollBottomPadding
+    )
 
     VStack(spacing: 0) {
       if let stack = appState.history.pasteStack,
@@ -126,18 +145,12 @@ struct HistoryListView: View {
             appState.preview.cancelAutoOpen()
           }
         }
-        // Calculate the total height inside a scroll view.
-        .background {
-          GeometryReader { geo in
-            Color.clear
-              .task(id: appState.popup.needsResize) {
-                try? await Task.sleep(for: .milliseconds(10))
-                guard !Task.isCancelled else { return }
+        .task(id: appState.popup.needsResize) {
+          try? await Task.sleep(for: .milliseconds(10))
+          guard !Task.isCancelled else { return }
 
-                if appState.popup.needsResize {
-                  appState.popup.resize(height: geo.size.height)
-                }
-              }
+          if appState.popup.needsResize {
+            appState.popup.resize(height: scrollHeight)
           }
         }
       }

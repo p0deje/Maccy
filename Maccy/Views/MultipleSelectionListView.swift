@@ -1,16 +1,33 @@
 import SwiftUI
 
-struct MultipleSelectionListView<Element, ID, Content>: View
-    where ID: Hashable, Content: View, ID == Element.ID, Element: Identifiable {
+private struct MultipleSelectionListRow<Element: Identifiable>: Identifiable {
+  let previous: Element?
+  let element: Element
+  let next: Element?
+  let index: Int
+
+  var id: Element.ID { element.id }
+}
+
+struct MultipleSelectionListView<Element: Identifiable, Content: View>: View {
   var items: [Element]
   var content: (Element?, Element, Element?, Int) -> Content
 
+  private var rows: [MultipleSelectionListRow<Element>] {
+    items.indices.map { index in
+      MultipleSelectionListRow(
+        previous: index > 0 ? items[index - 1] : nil,
+        element: items[index],
+        next: index < items.count - 1 ? items[index + 1] : nil,
+        index: index
+      )
+    }
+  }
+
   var body: some View {
-    LazyVStack(spacing: 0) {
-      ForEach(Array(items.enumerated()), id: \.element.id) { (index, element) in
-        let previous = index > 0 ? items[index - 1] : nil
-        let next = index < items.count - 1 ? items[index + 1] : nil
-        content(previous, element, next, index)
+    VStack(spacing: 0) {
+      ForEach(rows) { row in
+        content(row.previous, row.element, row.next, row.index)
       }
     }
   }

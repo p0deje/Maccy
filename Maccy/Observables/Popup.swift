@@ -36,6 +36,13 @@ class Popup {
   } else {
     22
   }
+  static var imageItemHeight: CGFloat {
+    max(itemHeight, CGFloat(Defaults[.imageMaxHeight]) + 10)
+  }
+
+  static func listItemHeight(reservesImageSpace: Bool) -> CGFloat {
+    reservesImageSpace ? imageItemHeight : itemHeight
+  }
 
   var needsResize = false
   var height: CGFloat = 0

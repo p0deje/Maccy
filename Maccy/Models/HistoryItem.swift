@@ -6,6 +6,8 @@ import Vision
 
 @Model
 class HistoryItem {
+  private static let imageTypes: [NSPasteboard.PasteboardType] = [.tiff, .png, .jpeg, .heic]
+
   static var supportedPins: Set<String> {
     // "a" reserved for select all
     // "q" reserved for quit
@@ -86,7 +88,7 @@ class HistoryItem {
   }
 
   func generateTitle() -> String {
-    guard image == nil else {
+    guard !hasStoredImageData else {
       Task {
         self.performTextRecognition()
       }
@@ -148,13 +150,23 @@ class HistoryItem {
   }
 
   var imageData: Data? {
-    var data: Data?
-    data = contentData([.tiff, .png, .jpeg, .heic])
-    if data == nil, universalClipboardImage, let url = fileURLs.first {
-      data = try? Data(contentsOf: url)
+    imageData(allowExternalFileRead: true)
+  }
+
+  var storedImageData: Data? { contentData(Self.imageTypes) }
+
+  var hasStoredImageData: Bool { hasContent(Self.imageTypes) }
+
+  func imageData(allowExternalFileRead: Bool) -> Data? {
+    if let storedImageData {
+      return storedImageData
     }
 
-    return data
+    guard allowExternalFileRead, universalClipboardImage, let url = fileURLs.first else {
+      return nil
+    }
+
+    return try? Data(contentsOf: url)
   }
 
   var image: NSImage? {
@@ -213,8 +225,16 @@ class HistoryItem {
       .compactMap { $0.value }
   }
 
+  private func hasContent(_ types: [NSPasteboard.PasteboardType]) -> Bool {
+    return contents.contains { content in
+      types.contains(NSPasteboard.PasteboardType(content.type))
+    }
+  }
+
   private func performTextRecognition() {
-    guard let cgImage = image?.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
+    guard let data = imageData(allowExternalFileRead: false),
+          let image = NSImage(data: data),
+          let cgImage = image.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
       return
     }
 
