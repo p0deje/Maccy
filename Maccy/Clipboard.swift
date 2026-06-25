@@ -8,7 +8,14 @@ class Clipboard {
   private let regularExpressionInputLimit = 2_000
   private let richTextParsingLimit = 512 * 1_024
 
-  private var ignoredRegexps: [String: NSRegularExpression] = [:]
+  // M5 (master plan): NSCache (countLimit=64) replaces the unbounded Dict so
+  // stale compiled regexes don't accumulate; purged on Defaults[.ignoreRegexp]
+  // change (start()). Closes regex-cache-unbounded.
+  private let ignoredRegexps: NSCache<NSString, NSRegularExpression> = {
+    let cache = NSCache<NSString, NSRegularExpression>()
+    cache.countLimit = 64
+    return cache
+  }()
   var changeCount: Int
 
   /// The off-main ingest actor this clipboard dispatches copies to.
@@ -65,6 +72,14 @@ class Clipboard {
       userInfo: nil,
       repeats: true
     )
+
+    // M5 (master plan): purge stale compiled regexes when the user edits the
+    // ignore list (regex-cache-unbounded). NSCache is also count-bounded.
+    Task { [weak self] in
+      for await _ in Defaults.updates(.ignoreRegexp, initial: false) {
+        self?.ignoredRegexps.removeAllObjects()
+      }
+    }
   }
 
   func restart() {
@@ -296,11 +311,12 @@ private extension Clipboard {
         continue
       }
 
+      let key = regexp as NSString
       let regex: NSRegularExpression
-      if let cached = ignoredRegexps[regexp] {
+      if let cached = ignoredRegexps.object(forKey: key) {
         regex = cached
       } else if let compiled = try? NSRegularExpression(pattern: regexp) {
-        ignoredRegexps[regexp] = compiled
+        ignoredRegexps.setObject(compiled, forKey: key)
         regex = compiled
       } else {
         continue
