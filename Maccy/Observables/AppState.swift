@@ -188,12 +188,13 @@ class AppState {
         forName: NSWindow.willCloseNotification,
         object: window,
         queue: .main
-      ) { [weak self] _ in
-        guard let self else { return }
-        self.settingsWindowController = nil
-        if let observer = self.settingsWindowCloseObserver {
+      ) { _ in
+        // Use `AppState.shared` (static singleton) so this @Sendable observer
+        // closure doesn't capture non-Sendable `self` (AppState isn't Sendable).
+        AppState.shared.settingsWindowController = nil
+        if let observer = AppState.shared.settingsWindowCloseObserver {
           NotificationCenter.default.removeObserver(observer)
-          self.settingsWindowCloseObserver = nil
+          AppState.shared.settingsWindowCloseObserver = nil
         }
       }
     }

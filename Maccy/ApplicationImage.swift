@@ -51,7 +51,7 @@ class ApplicationImage {
       guard descriptor != -1 else {
         let errorCode = errno
         let reason = String(cString: strerror(errorCode))
-        Self.logger.error("open \(appURL.path, privacy: .public): error \(errorCode) \(reason, privacy: .public)")
+        Self.logger.error("open \(appURL.path): error \(errorCode) \(reason)")
         return img
       }
       // fd guard (07-F-018): ensure `descriptor` is closed if we leave this scope
@@ -74,13 +74,13 @@ class ApplicationImage {
           let event = eventSource.data
           if event.contains(.delete) {
             // App bundle deleted (uninstalled) — drop the cached icon.
-            Self.logger.info("ApplicationImage: deleted \(appURL.path, privacy: .public)")
+            Self.logger.info("ApplicationImage: deleted \(appURL.path)")
             self.eventSource?.cancel()
             self.eventSource = nil
             self.image = nil
           } else if event.contains(.rename) {
             // App bundle renamed/replaced (e.g. updated) — re-fetch the icon.
-            Self.logger.info("ApplicationImage: renamed \(appURL.path, privacy: .public)")
+            Self.logger.info("ApplicationImage: renamed \(appURL.path)")
             self.image = NSWorkspace.shared.icon(forFile: appURL.path)
           }
         }

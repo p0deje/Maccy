@@ -9,8 +9,8 @@ class Clipboard {
   private let richTextParsingLimit = 512 * 1_024
 
   // M5 (master plan): NSCache (countLimit=64) replaces the unbounded Dict so
-  // stale compiled regexes don't accumulate; purged on Defaults[.ignoreRegexp]
-  // change (start()). Closes regex-cache-unbounded.
+  // stale compiled regexes can't accumulate without bound. Closes regex-cache-
+  // unbounded.
   private let ignoredRegexps: NSCache<NSString, NSRegularExpression> = {
     let cache = NSCache<NSString, NSRegularExpression>()
     cache.countLimit = 64
@@ -72,14 +72,6 @@ class Clipboard {
       userInfo: nil,
       repeats: true
     )
-
-    // M5 (master plan): purge stale compiled regexes when the user edits the
-    // ignore list (regex-cache-unbounded). NSCache is also count-bounded.
-    Task { [weak self] in
-      for await _ in Defaults.updates(.ignoreRegexp, initial: false) {
-        self?.ignoredRegexps.removeAllObjects()
-      }
-    }
   }
 
   func restart() {
