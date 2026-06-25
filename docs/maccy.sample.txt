@@ -1,7 +1,7 @@
-Analysis of sampling Maccy (pid 92601) every 1 millisecond
-Process:         Maccy [92601]
+Analysis of sampling Maccy (pid 70405) every 1 millisecond
+Process:         Maccy [70405]
 Path:            /Applications/Maccy.app/Contents/MacOS/Maccy
-Load Address:    0x102ec8000
+Load Address:    0x10214c000
 Identifier:      org.p0deje.Maccy
 Version:         2.6.1 (60)
 Code Type:       ARM64
@@ -9,78 +9,77 @@ Platform:        macOS
 Parent Process:  launchd [1]
 Target Type:     live task
 
-Date/Time:       2026-06-24 22:18:44.605 +0800
-Launch Time:     2026-06-22 21:56:14.515 +0800
+Date/Time:       2026-06-25 22:00:32.782 +0800
+Launch Time:     2026-06-25 21:58:45.375 +0800
 OS Version:      macOS 26.5 (25F71)
 Report Version:  7
 Analysis Tool:   /usr/bin/sample
 
-Physical footprint:         213.3M
-Physical footprint (peak):  415.1M
+Physical footprint:         102.0M
+Physical footprint (peak):  191.2M
 Idle exit:                  untracked
 ----
 
 Call graph:
-    4287 Thread_805875   DispatchQueue_1: com.apple.main-thread  (serial)
-    + 4287 start  (in dyld) + 6992  [0x1852c3e00]
-    +   4287 main  (in Maccy) + 40  [0x102f71bc4]
-    +     4287 static App.main()  (in SwiftUI) + 224  [0x1bab2c344]
-    +       4287 runApp<A>(_:)  (in SwiftUI) + 104  [0x1ba8604a4]
-    +         4287 specialized runApp(_:)  (in SwiftUI) + 140  [0x1ba4aa47c]
-    +           4287 NSApplicationMain  (in AppKit) + 880  [0x189b377b0]
-    +             4287 -[NSApplication run]  (in AppKit) + 368  [0x189b5f13c]
-    +               4287 -[NSApplication(NSEventRouting) nextEventMatchingMask:untilDate:inMode:dequeue:]  (in AppKit) + 72  [0x18a7015bc]
-    +                 4287 -[NSApplication(NSEventRouting) _nextEventMatchingEventMask:untilDate:inMode:dequeue:]  (in AppKit) + 688  [0x18a7018b0]
-    +                   4287 _DPSNextEvent  (in AppKit) + 576  [0x189b6c084]
-    +                     4287 _DPSBlockUntilNextEventMatchingListInMode  (in AppKit) + 228  [0x18a21835c]
-    +                       4287 _BlockUntilNextEventMatchingListInMode  (in HIToolbox) + 48  [0x1926b014c]
-    +                         4287 ReceiveNextEventCommon  (in HIToolbox) + 488  [0x1925268bc]
-    +                           4287 RunCurrentEventLoopInMode  (in HIToolbox) + 320  [0x192523560]
-    +                             4287 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x1858101c4]
-    +                               4285 __CFRunLoopRun  (in CoreFoundation) + 1188  [0x18573d9c4]
-    +                               ! 4285 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x18573f0d8]
-    +                               !   4285 mach_msg  (in libsystem_kernel.dylib) + 24  [0x18563dfc0]
-    +                               !     4285 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x1856469c0]
-    +                               !       4285 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x185650574]
-    +                               !         4285 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x18563dc34]
+    4304 Thread_5448795   DispatchQueue_1: com.apple.main-thread  (serial)
+    + 4304 start  (in dyld) + 6992  [0x1852c3e00]
+    +   4304 main  (in Maccy) + 40  [0x1021fe770]
+    +     4304 static App.main()  (in SwiftUI) + 224  [0x1bab2c344]
+    +       4304 runApp<A>(_:)  (in SwiftUI) + 104  [0x1ba8604a4]
+    +         4304 specialized runApp(_:)  (in SwiftUI) + 140  [0x1ba4aa47c]
+    +           4304 NSApplicationMain  (in AppKit) + 880  [0x189b377b0]
+    +             4304 -[NSApplication run]  (in AppKit) + 368  [0x189b5f13c]
+    +               4304 -[NSApplication(NSEventRouting) nextEventMatchingMask:untilDate:inMode:dequeue:]  (in AppKit) + 72  [0x18a7015bc]
+    +                 4304 -[NSApplication(NSEventRouting) _nextEventMatchingEventMask:untilDate:inMode:dequeue:]  (in AppKit) + 688  [0x18a7018b0]
+    +                   4304 _DPSNextEvent  (in AppKit) + 576  [0x189b6c084]
+    +                     4304 _DPSBlockUntilNextEventMatchingListInMode  (in AppKit) + 228  [0x18a21835c]
+    +                       4304 _BlockUntilNextEventMatchingListInMode  (in HIToolbox) + 48  [0x1926b014c]
+    +                         4304 ReceiveNextEventCommon  (in HIToolbox) + 488  [0x1925268bc]
+    +                           4304 RunCurrentEventLoopInMode  (in HIToolbox) + 320  [0x192523560]
+    +                             4304 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x1858101c4]
+    +                               4302 __CFRunLoopRun  (in CoreFoundation) + 1188  [0x18573d9c4]
+    +                               ! 4302 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x18573f0d8]
+    +                               !   4302 mach_msg  (in libsystem_kernel.dylib) + 24  [0x18563dfc0]
+    +                               !     4302 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x1856469c0]
+    +                               !       4302 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x185650574]
+    +                               !         4302 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x18563dc34]
     +                               1 __CFRunLoopRun  (in CoreFoundation) + 1516  [0x18573db0c]
     +                               ! 1 mach_port_extract_member  (in libsystem_kernel.dylib) + 36  [0x185641384]
-    +                               !   1 _kernelrpc_mach_port_extract_member_trap  (in libsystem_kernel.dylib) + 8  [0x18563db20]
+    +                               !   1 _kernelrpc_mach_port_extract_member_trap  (in libsystem_kernel.dylib) + 4  [0x18563db1c]
     +                               1 __CFRunLoopRun  (in CoreFoundation) + 1816  [0x18573dc38]
-    +                                 1 __CFRunLoopDoTimers  (in CoreFoundation) + 208  [0x185757b40]
-    +                                   1 -[__NSArrayM insertObject:atIndex:]  (in CoreFoundation) + 336  [0x1856df3e4]
-    +                                     1 malloc_type_malloc  (in libsystem_malloc.dylib) + 0  [0x185491fe4]
-    4287 Thread_805901: com.apple.NSEventThread
-    + 4287 thread_start  (in libsystem_pthread.dylib) + 8  [0x18567cc1c]
-    +   4287 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x185681c58]
-    +     4287 _NSEventThread  (in AppKit) + 184  [0x189c8dc7c]
-    +       4287 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x1858101c4]
-    +         4287 __CFRunLoopRun  (in CoreFoundation) + 1188  [0x18573d9c4]
-    +           4287 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x18573f0d8]
-    +             4287 mach_msg  (in libsystem_kernel.dylib) + 24  [0x18563dfc0]
-    +               4287 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x1856469c0]
-    +                 4287 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x185650574]
-    +                   4287 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x18563dc34]
-    4287 Thread_3908923
-    + 4287 start_wqthread  (in libsystem_pthread.dylib) + 8  [0x18567cc10]
-    +   4287 _pthread_wqthread  (in libsystem_pthread.dylib) + 368  [0x18567df0c]
-    +     4287 __workq_kernreturn  (in libsystem_kernel.dylib) + 8  [0x18563f9f0]
-    4287 Thread_3953366
-      4287 start_wqthread  (in libsystem_pthread.dylib) + 8  [0x18567cc10]
-        4287 _pthread_wqthread  (in libsystem_pthread.dylib) + 368  [0x18567df0c]
-          4287 __workq_kernreturn  (in libsystem_kernel.dylib) + 8  [0x18563f9f0]
+    +                                 1 __CFRunLoopDoTimers  (in CoreFoundation) + 368  [0x185757be0]
+    +                                   1 objc_release  (in libobjc.A.dylib) + 80  [0x185224054]
+    4304 Thread_5448812: com.apple.NSEventThread
+    + 4304 thread_start  (in libsystem_pthread.dylib) + 8  [0x18567cc1c]
+    +   4304 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x185681c58]
+    +     4304 _NSEventThread  (in AppKit) + 184  [0x189c8dc7c]
+    +       4304 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x1858101c4]
+    +         4304 __CFRunLoopRun  (in CoreFoundation) + 1188  [0x18573d9c4]
+    +           4304 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x18573f0d8]
+    +             4304 mach_msg  (in libsystem_kernel.dylib) + 24  [0x18563dfc0]
+    +               4304 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x1856469c0]
+    +                 4304 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x185650574]
+    +                   4304 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x18563dc34]
+    4304 Thread_5450666
+    + 4304 start_wqthread  (in libsystem_pthread.dylib) + 8  [0x18567cc10]
+    +   4304 _pthread_wqthread  (in libsystem_pthread.dylib) + 368  [0x18567df0c]
+    +     4304 __workq_kernreturn  (in libsystem_kernel.dylib) + 8  [0x18563f9f0]
+    4304 Thread_5451409
+      4304 start_wqthread  (in libsystem_pthread.dylib) + 8  [0x18567cc10]
+        4304 _pthread_wqthread  (in libsystem_pthread.dylib) + 368  [0x18567df0c]
+          4304 __workq_kernreturn  (in libsystem_kernel.dylib) + 8  [0x18563f9f0]
 
 Total number in stack (recursive counted multiple, when >=5):
 
 Sort by top of stack, same collapsed (when >= 5):
-        __workq_kernreturn  (in libsystem_kernel.dylib)        8574
-        mach_msg2_trap  (in libsystem_kernel.dylib)        8572
+        __workq_kernreturn  (in libsystem_kernel.dylib)        8608
+        mach_msg2_trap  (in libsystem_kernel.dylib)        8606
 
 Binary Images:
-       0x102ec8000 -        0x10305d083 +org.p0deje.Maccy (2.6.1 - 60) <4B006DEB-441D-37D5-BF25-4FD6F82C1101> /Applications/Maccy.app/Contents/MacOS/Maccy
-       0x103578000 -        0x10358003f  libobjc-trampolines.dylib (951.7) <CA58AA96-B997-3A6D-9132-19D49BE4B3E9> /usr/lib/libobjc-trampolines.dylib
-       0x10358c000 -        0x1035cfffb +org.sparkle-project.Sparkle (2.6.4 - 2039.1) <0E273E3E-459C-3FA6-9A86-4754C5CC30FF> /Applications/Maccy.app/Contents/Frameworks/Sparkle.framework/Versions/B/Sparkle
-       0x117494000 -        0x117e4bf9f  com.apple.AGXMetalG17G (351.2 - 351.2) <441BA161-FBF2-3CDE-8B43-73DC52CA1FB5> /System/Library/Extensions/AGXMetalG17G.bundle/Contents/MacOS/AGXMetalG17G
+       0x10214c000 -        0x1022ec9cb +org.p0deje.Maccy (2.6.1 - 60) <AE774B08-6D6A-326D-902F-61A28DB21FA9> /Applications/Maccy.app/Contents/MacOS/Maccy
+       0x1028ac000 -        0x1028efffb +org.sparkle-project.Sparkle (2.6.4 - 2039.1) <0E273E3E-459C-3FA6-9A86-4754C5CC30FF> /Applications/Maccy.app/Contents/Frameworks/Sparkle.framework/Versions/B/Sparkle
+       0x10b310000 -        0x10b31803f  libobjc-trampolines.dylib (951.7) <CA58AA96-B997-3A6D-9132-19D49BE4B3E9> /usr/lib/libobjc-trampolines.dylib
+       0x116720000 -        0x1170d7f9f  com.apple.AGXMetalG17G (351.2 - 351.2) <441BA161-FBF2-3CDE-8B43-73DC52CA1FB5> /System/Library/Extensions/AGXMetalG17G.bundle/Contents/MacOS/AGXMetalG17G
        0x18521c000 -        0x18526eb4b  libobjc.A.dylib (951.7) <FF1D8AE4-ABEF-35F1-A30A-1183B9CB414F> /usr/lib/libobjc.A.dylib
        0x18526f000 -        0x1852a3d07  libdyld.dylib (1378) <B147D877-D0C2-388F-B38D-D3132E39905F> /usr/lib/system/libdyld.dylib
        0x1852a4000 -        0x18534a217  dyld (1.0.0 - 1378) <A237EF81-B68B-37BA-A165-92C965529534> /usr/lib/dyld
