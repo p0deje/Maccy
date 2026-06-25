@@ -21,6 +21,7 @@ protocol HistoryRef: AnyObject {
 
 /// Reports viewport transitions. `HistoryItemDecorator` conforms; the
 /// `VisibilityTracker` is driven from the list's `.onAppear`/`.onDisappear`.
+@MainActor
 protocol VisibilityObserving: AnyObject {
   var id: UUID { get }
   func onAppearInViewport()
@@ -86,30 +87,32 @@ final class DecodedImageCache: @unchecked Sendable {
 final class MemoryGovernor {
   static let shared = MemoryGovernor()
   private weak var history: HistoryRef?
-  private var observer: NSObjectProtocol?
+  private var memoryPressureSource: DispatchSourceMemoryPressure?
 
   func attach(history: HistoryRef) {
     self.history = history
   }
 
   func start() {
-    guard observer == nil else { return }
-    // Route through the singleton: the observer closure is @Sendable and
-    // MemoryGovernor isn't Sendable.
-    observer = NotificationCenter.default.addObserver(
-      forName: NSApplication.didReceiveMemoryWarningNotification,
-      object: nil,
+    guard memoryPressureSource == nil else { return }
+    // macOS has no NSApplication.didReceiveMemoryWarningNotification (that's iOS
+    // UIApplication); use the dispatch memory-pressure source, signalled at
+    // .warning/.critical. The handler runs on .main but is @Sendable, so hop via
+    // assumeIsolated (MemoryGovernor isn't Sendable).
+    let source = DispatchSource.makeMemoryPressureSource(
+      eventMask: [.warning, .critical],
       queue: .main
-    ) { _ in
-      MemoryGovernor.shared.handleMemoryWarning()
+    )
+    source.setEventHandler {
+      MainActor.assumeIsolated { MemoryGovernor.shared.handleMemoryWarning() }
     }
+    source.resume()
+    memoryPressureSource = source
   }
 
   func stop() {
-    if let observer {
-      NotificationCenter.default.removeObserver(observer)
-      self.observer = nil
-    }
+    memoryPressureSource?.cancel()
+    memoryPressureSource = nil
   }
 
   /// Drop transient images for every decorator NOT in the viewport, plus the
