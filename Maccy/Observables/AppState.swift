@@ -34,6 +34,11 @@ class AppState {
 
   private let about = About()
   private var settingsWindowController: SettingsWindowController?
+  // M10 (master plan): nil the controller (releasing its 6 SwiftUI panes) when
+  // the settings window closes, so a once-opened Settings UI doesn't stay
+  // resident for the process lifetime. Token stored so the observer removes
+  // itself (no accumulation across reopens).
+  private var settingsWindowCloseObserver: NSObjectProtocol?
 
   init(history: History, footer: Footer) {
     self.history = history
@@ -174,6 +179,24 @@ class AppState {
     }
     settingsWindowController?.show()
     settingsWindowController?.window?.orderFrontRegardless()
+
+    // M10: release the controller + its 6 Settings.Pane SwiftUI trees when the
+    // window closes (otherwise they stay resident after first open). Keyed on
+    // the specific window; removes itself on fire so reopens don't accumulate.
+    if let window = settingsWindowController?.window, settingsWindowCloseObserver == nil {
+      settingsWindowCloseObserver = NotificationCenter.default.addObserver(
+        forName: NSWindow.willCloseNotification,
+        object: window,
+        queue: .main
+      ) { [weak self] _ in
+        guard let self else { return }
+        self.settingsWindowController = nil
+        if let observer = self.settingsWindowCloseObserver {
+          NotificationCenter.default.removeObserver(observer)
+          self.settingsWindowCloseObserver = nil
+        }
+      }
+    }
   }
 
   func quit() {
