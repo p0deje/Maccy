@@ -234,12 +234,14 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
     }
   }
 
-  // MARK: - VisibilityObserving
+  // MARK: - Viewport visibility
 
+  @MainActor
   func onAppearInViewport() {
     ensureThumbnailImage()
   }
 
+  @MainActor
   func onDisappearFromViewport() {
     releaseTransientImages(.scrollOut)
   }

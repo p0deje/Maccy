@@ -21,11 +21,13 @@ protocol HistoryRef: AnyObject {
 
 /// Reports viewport transitions. `HistoryItemDecorator` conforms; the
 /// `VisibilityTracker` is driven from the list's `.onAppear`/`.onDisappear`.
-@MainActor
+/// Provides the identity `VisibilityTracker` keys on. The viewport
+/// appear/disappear handlers are concrete `@MainActor` methods on the conformer
+/// (NOT protocol requirements) so they can call main-isolated work without
+/// pulling the whole conforming type to `@MainActor` (a `@MainActor` protocol
+/// would infer the conformer's isolation and break its non-isolated members).
 protocol VisibilityObserving: AnyObject {
   var id: UUID { get }
-  func onAppearInViewport()
-  func onDisappearFromViewport()
 }
 
 /// Tracks which decorators are currently in the viewport (main-actor).
