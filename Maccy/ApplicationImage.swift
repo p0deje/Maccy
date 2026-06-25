@@ -50,9 +50,8 @@ class ApplicationImage {
       let descriptor = open(appURL.path, O_EVTONLY)
       guard descriptor != -1 else {
         let errorCode = errno
-        Self.logger.error(
-          "ApplicationImage: open(\(appURL.path, privacy: .public)) failed [\(errorCode)]: \(String(cString: strerror(errorCode)))"
-        )
+        let reason = String(cString: strerror(errorCode))
+        Self.logger.error("open \(appURL.path, privacy: .public): error \(errorCode) \(reason, privacy: .public)")
         return img
       }
       // fd guard (07-F-018): ensure `descriptor` is closed if we leave this scope
