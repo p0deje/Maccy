@@ -12,9 +12,13 @@ class ColorImage {
   /// arbitrary titles would grow unbounded. The deep fix (move this out of the row
   /// body onto the decorator) is 4.10d; this is the zero-risk stopgap.
   /// (render-chain S14; docs/audit/2026-06-22-render-chain-storms.md)
+  // M9 (master plan): bounded by both count (64) and total cost. Each swatch is
+  // 12×12×4 = 576B, so 64 ≈ 36KiB; totalCostLimit is belt-and-suspenders for the
+  // 4.10d memoizer. Closes colorimage-rebuild-per-render.
   private static let cache: NSCache<NSString, NSImage> = {
     let cache = NSCache<NSString, NSImage>()
     cache.countLimit = 64
+    cache.totalCostLimit = 4 * 1024 * 1024
     return cache
   }()
 
@@ -28,12 +32,15 @@ class ColorImage {
       return nil
     }
 
-    let image = NSImage(size: NSSize(width: 12, height: 12))
-    image.lockFocus()
-    color.drawSwatch(in: NSRect(x: 0, y: 0, width: 12, height: 12))
-    image.unlockFocus()
+    // IMG-029: NSImage(size:flipped:drawingHandler:) replaces lockFocus/unlockFocus
+    // (avoids the focus-stack bitmap context; draws lazily).
+    let size = NSSize(width: 12, height: 12)
+    let image = NSImage(size: size, flipped: false) { rect in
+      color.drawSwatch(in: rect)
+      return true
+    }
 
-    cache.setObject(image, forKey: key)
+    cache.setObject(image, forKey: key, cost: Int(size.width * size.height * 4))
     return image
   }
 }
