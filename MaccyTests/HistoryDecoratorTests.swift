@@ -79,6 +79,29 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, NSSize(width: 40, height: 40))
   }
 
+  func testPreviewImageGenerationCanRestartAfterCancellation() async {
+    let image = NSImage(named: "NSApplicationIcon")!
+    let itemDecorator = historyItemDecorator(image)
+    itemDecorator.ensurePreviewImage()
+    itemDecorator.cancelPreviewImageGeneration()
+
+    let previewImage = await itemDecorator.asyncGetPreviewImage()
+
+    XCTAssertNotNil(previewImage)
+  }
+
+  func testThumbnailImageGenerationCanRestartAfterCancellation() async {
+    let image = NSImage(named: "NSApplicationIcon")!
+    let itemDecorator = historyItemDecorator(image)
+    itemDecorator.ensureThumbnailImage()
+    itemDecorator.cancelThumbnailImageGeneration()
+
+    itemDecorator.ensureThumbnailImage()
+    await itemDecorator.thumbnailImageGenerationTask?.value
+
+    XCTAssertNotNil(itemDecorator.thumbnailImage)
+  }
+
   func testUniversalClipboardImageFileURLIsNotListImage() async {
     let url = Bundle(for: type(of: self)).url(forResource: "guy", withExtension: "jpeg")!
     let itemDecorator = historyItemDecorator(universalClipboardImageURL: url)

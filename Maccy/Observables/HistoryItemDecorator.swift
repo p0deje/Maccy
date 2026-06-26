@@ -178,6 +178,16 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   func cancelThumbnailImageGeneration() {
     guard thumbnailImage == nil else { return }
     thumbnailImageGenerationTask?.cancel()
+    thumbnailImageGenerationTask = nil
+    thumbnailImageGenerationID = nil
+  }
+
+  @MainActor
+  func cancelPreviewImageGeneration() {
+    guard previewImage == nil else { return }
+    previewImageGenerationTask?.cancel()
+    previewImageGenerationTask = nil
+    previewImageGenerationID = nil
   }
 
   @MainActor
