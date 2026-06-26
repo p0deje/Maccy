@@ -15,58 +15,76 @@ struct MouseMovedViewModifier: ViewModifier {
 
   func body(content: Content) -> some View {
     content.background(
-      GeometryReader { geo in
-        Representable(
-          mouseMoved: mouseMoved,
-          frame: geo.frame(in: .global)
-        )
-      }
+      Representable(mouseMoved: mouseMoved)
     )
   }
 
-  private class Coordinator: NSResponder {
+  private final class TrackingView: NSView {
     var mouseMoved: (() -> Void)?
+    private var trackingArea: NSTrackingArea?
+
+    override func updateTrackingAreas() {
+      super.updateTrackingAreas()
+      installTrackingArea()
+    }
+
+    override func viewDidMoveToWindow() {
+      super.viewDidMoveToWindow()
+      installTrackingArea()
+    }
+
+    override func mouseEntered(with event: NSEvent) {
+      mouseMoved?()
+    }
 
     override func mouseMoved(with event: NSEvent) {
       mouseMoved?()
+    }
+
+    func removeTrackingArea() {
+      if let trackingArea {
+        removeTrackingArea(trackingArea)
+        self.trackingArea = nil
+      }
+    }
+
+    private func installTrackingArea() {
+      removeTrackingArea()
+
+      let options: NSTrackingArea.Options = [
+        .activeInKeyWindow,
+        .inVisibleRect,
+        .mouseEnteredAndExited,
+        .mouseMoved
+      ]
+
+      let trackingArea = NSTrackingArea(
+        rect: bounds,
+        options: options,
+        owner: self,
+        userInfo: nil
+      )
+
+      addTrackingArea(trackingArea)
+      self.trackingArea = trackingArea
     }
   }
 
   private struct Representable: NSViewRepresentable {
     let mouseMoved: () -> Void
-    let frame: NSRect
 
-    func makeCoordinator() -> Coordinator {
-      let coordinator = Coordinator()
-      coordinator.mouseMoved = mouseMoved
-      return coordinator
-    }
-
-    func makeNSView(context: Context) -> NSView {
-      let view = NSView(frame: frame)
-
-      let options: NSTrackingArea.Options = [
-        .activeInKeyWindow,
-        .inVisibleRect,
-        .mouseMoved
-      ]
-
-      let trackingArea = NSTrackingArea(
-        rect: frame,
-        options: options,
-        owner: context.coordinator,
-        userInfo: nil
-      )
-
-      view.addTrackingArea(trackingArea)
-
+    func makeNSView(context: Context) -> TrackingView {
+      let view = TrackingView()
+      view.mouseMoved = mouseMoved
       return view
     }
 
-    func updateNSView(_ nsView: NSView, context: Context) {}
+    func updateNSView(_ nsView: TrackingView, context: Context) {
+      nsView.mouseMoved = mouseMoved
+    }
 
-    static func dismantleNSView(_ nsView: NSView, coordinator: Coordinator) {
-      nsView.trackingAreas.forEach { nsView.removeTrackingArea($0) }
+    static func dismantleNSView(_ nsView: TrackingView, coordinator: ()) {
+      nsView.removeTrackingArea()
     }
   }
 }
