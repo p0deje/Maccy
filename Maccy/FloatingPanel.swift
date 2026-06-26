@@ -141,6 +141,15 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     }
 
     var finalFrameSize = frameSize
+    if inLiveResize {
+      // Height is count-authoritative (Defaults[.maxVisibleItems]); pin the
+      // returned height to the current frame so manual vertical drag is a
+      // no-op. Width stays freely resizable (and still drives preview resize).
+      // windowWillResize is only sent for user live resize — programmatic
+      // setFrame/setContentSize (Popup.resize → verticallyResize, open) bypass
+      // it — and we gate on `inLiveResize` so those paths are never affected.
+      finalFrameSize.height = frame.height
+    }
     var minContent = preview.minimumContentWidth
     var minPreview = 0.0
 
@@ -156,8 +165,10 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     finalFrameSize.width = max(finalFrameSize.width, minContent + minPreview)
 
     if !AppState.shared.preview.state.isAnimating {
-      var size = frame.size
-      // Only store the size of the window without the preview
+      // Width follows the drag; height is governed by maxVisibleItems, so
+      // preserve the stored window height rather than clobbering it with the
+      // (frozen) frame height.
+      var size = Defaults[.windowSize]
       size.width = AppState.shared.preview.contentWidth
       saveWindowFrame(frame: NSRect(origin: frame.origin, size: size))
     }

@@ -9,6 +9,7 @@ struct AppearanceSettingsPane: View {
   @Default(.pinTo) private var pinTo
   @Default(.imageMaxHeight) private var imageHeight
   @Default(.previewDelay) private var previewDelay
+  @Default(.maxVisibleItems) private var maxVisibleItems
   @Default(.highlightMatch) private var highlightMatch
   @Default(.menuIcon) private var menuIcon
   @Default(.showInStatusBar) private var showInStatusBar
@@ -31,6 +32,13 @@ struct AppearanceSettingsPane: View {
     let formatter = NumberFormatter()
     formatter.minimum = 200
     formatter.maximum = 100_000
+    return formatter
+  }()
+
+  private let maxVisibleItemsFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 1
+    formatter.maximum = 50
     return formatter
   }()
 
@@ -92,6 +100,16 @@ struct AppearanceSettingsPane: View {
             .frame(width: 120)
             .help(Text("PreviewDelayTooltip", tableName: "AppearanceSettings"))
           Stepper("", value: $previewDelay, in: 200...100_000)
+            .labelsHidden()
+        }
+      }
+
+      Settings.Section(label: { Text("MaxVisibleItems", tableName: "AppearanceSettings") }) {
+        HStack {
+          TextField("", value: $maxVisibleItems, formatter: maxVisibleItemsFormatter)
+            .frame(width: 120)
+            .help(Text("MaxVisibleItemsTooltip", tableName: "AppearanceSettings"))
+          Stepper("", value: $maxVisibleItems, in: 1...50)
             .labelsHidden()
         }
       }

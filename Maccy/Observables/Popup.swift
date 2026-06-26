@@ -37,6 +37,20 @@ class Popup {
     22
   }
 
+  /// Caps the measured scroll-content height so the popup shows at most
+  /// `maxVisibleItems` rows (older items scroll into view). Returns
+  /// `contentHeight` unchanged when `maxVisibleItems <= 0` (no cap). The final
+  /// window height is still floor-clamped to the preview/header minimum and
+  /// ceiling-clamped to the saved window height by `preferredHeight(for:)`.
+  static func cappedListHeight(
+    contentHeight: CGFloat,
+    maxVisibleItems: Int,
+    itemHeight: CGFloat
+  ) -> CGFloat {
+    guard maxVisibleItems > 0 else { return contentHeight }
+    return min(contentHeight, CGFloat(maxVisibleItems) * itemHeight)
+  }
+
   var needsResize = false
   var height: CGFloat = 0
   var headerHeight: CGFloat = 0
@@ -117,7 +131,17 @@ class Popup {
   }
 
   func resize(height: CGFloat) {
-    self.height = height + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
+    // `height` is the full scroll-content height (all visible-unpinned rows).
+    // Cap it to maxVisibleItems rows so the popup window never grows beyond N
+    // rows; the ScrollView reveals the rest. Default maxVisibleItems (36) keeps
+    // the content taller than the preferredHeight window-height guardrail, so
+    // the shipped ~800px look is unchanged unless the user lowers the count.
+    let listHeight = Self.cappedListHeight(
+      contentHeight: height,
+      maxVisibleItems: Defaults[.maxVisibleItems],
+      itemHeight: Self.itemHeight
+    )
+    self.height = listHeight + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
     AppState.shared.appDelegate?.panel.verticallyResize(to: preferredHeight(for: self.height))
     needsResize = false
   }

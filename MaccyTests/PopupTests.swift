@@ -33,6 +33,33 @@ final class PopupTests: XCTestCase {
     XCTAssertEqual(AppState.shared.navigator.selection.first, newest)
   }
 
+  func testCappedListHeightLimitsRowsToMaxVisibleItems() {
+    // Cap binds when content exceeds maxVisibleItems rows (10 rows × 22pt).
+    XCTAssertEqual(
+      Popup.cappedListHeight(contentHeight: 4_400, maxVisibleItems: 10, itemHeight: 22),
+      220,
+      accuracy: 0.001
+    )
+    // No cap when content already fits within the limit.
+    XCTAssertEqual(
+      Popup.cappedListHeight(contentHeight: 150, maxVisibleItems: 10, itemHeight: 22),
+      150,
+      accuracy: 0.001
+    )
+    // maxVisibleItems <= 0 means uncapped (defensive; not exposed in Settings).
+    XCTAssertEqual(
+      Popup.cappedListHeight(contentHeight: 4_400, maxVisibleItems: 0, itemHeight: 22),
+      4_400,
+      accuracy: 0.001
+    )
+    // Respects itemHeight (macOS 26+ uses 24pt per row).
+    XCTAssertEqual(
+      Popup.cappedListHeight(contentHeight: 4_400, maxVisibleItems: 10, itemHeight: 24),
+      240,
+      accuracy: 0.001
+    )
+  }
+
   private func historyItem(_ value: String) -> HistoryItem {
     let item = HistoryItem()
     Storage.shared.context.insert(item)

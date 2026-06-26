@@ -25,6 +25,10 @@ extension Defaults.Keys {
     "maxClipboardContentSize",
     default: ClipboardContentSizeLimit.defaultMegabytes
   )
+  // Max rows visible in the popup before scrolling. The window height is
+  // otherwise content-driven; this caps it so long histories don't overflow.
+  // Default 36 keeps the shipped ~800px look (see Popup.resize guardrail).
+  static let maxVisibleItems = Key<Int>("maxVisibleItems", default: 36)
   static let enabledPasteboardTypes = Key<Set<NSPasteboard.PasteboardType>>(
     "enabledPasteboardTypes", default: Set(StorageType.all.types)
   )
