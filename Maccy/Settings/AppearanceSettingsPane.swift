@@ -30,7 +30,7 @@ struct AppearanceSettingsPane: View {
 
   private let previewDelayFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
-    formatter.minimum = 200
+    formatter.minimum = 0
     formatter.maximum = 100_000
     return formatter
   }()
@@ -99,7 +99,7 @@ struct AppearanceSettingsPane: View {
           TextField("", value: $previewDelay, formatter: previewDelayFormatter)
             .frame(width: 120)
             .help(Text("PreviewDelayTooltip", tableName: "AppearanceSettings"))
-          Stepper("", value: $previewDelay, in: 200...100_000)
+          Stepper("", value: $previewDelay, in: 0...100_000)
             .labelsHidden()
         }
       }
