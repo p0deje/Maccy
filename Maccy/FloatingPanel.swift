@@ -189,7 +189,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   func windowDidEndLiveResize(_ notification: Notification) {
-    AppState.shared.preview.startAutoOpen()
+    AppState.shared.preview.scheduleRetarget(lead: AppState.shared.navigator.leadHistoryItem)
     AppState.shared.preview.endResize()
   }
 
@@ -197,7 +197,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     AppState.shared.preview.enableAutoOpen()
 
     if AppState.shared.navigator.leadHistoryItem != nil {
-      AppState.shared.preview.startAutoOpen()
+      AppState.shared.preview.scheduleRetarget(lead: AppState.shared.navigator.leadHistoryItem)
     }
   }
 
@@ -217,6 +217,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   override func close() {
     super.close()
     AppState.shared.preview.state = .closed
+    AppState.shared.preview.previewedItem = nil
     isPresented = false
     statusBarButton?.isHighlighted = false
     onClose()

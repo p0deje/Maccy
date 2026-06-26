@@ -96,6 +96,11 @@ class SlideoutController {
 
   var placement: SlideoutPlacement = .right
   var state: SlideoutState = .closed
+  // The item the preview pane is currently showing. Decoupled from the lead
+  // selection so the pane doesn't chase every arrow move (sticky-chase fix):
+  // it's set only on retarget-fire (scheduleRetarget) or manual open
+  // (togglePreview), not on every leadHistoryItem change.
+  var previewedItem: HistoryItemDecorator?
   var resizingMode: ResizingMode = .none
 
   var nswindow: NSWindow? {
@@ -148,6 +153,10 @@ class SlideoutController {
     if !state.isOpen {
       let navigator = AppState.shared.navigator
       guard navigator.leadHistoryItem != nil || navigator.pasteStackSelected else { return }
+      // Bind the pane to the current lead on open. Nil for the pasteStack case
+      // (SlideoutContentView falls through to its pasteStack branch). Auto-open
+      // already set this via scheduleRetarget; this covers the manual path.
+      previewedItem = navigator.leadHistoryItem
     }
 
     if trigger == .manual {
@@ -220,18 +229,32 @@ class SlideoutController {
     resizingMode = .none
   }
 
-  func startAutoOpen() {
+  /// Schedules the preview pane to retarget to `lead` after `previewDelay` ms,
+  /// then open if closed. Each call cancels the prior schedule (cancelAutoOpen),
+  /// so rapid lead changes coalesce to the final one — the cancel-on-change IS
+  /// the debounce at every delay value. `previewDelay` ≈ 0 (or <~100ms) →
+  /// effectively instant follow-selection; higher → dwell-to-peek. `previewedItem`
+  /// is set on fire, not on every lead change, so the pane stops chasing every
+  /// selection (the sticky-chase fix). Re-checks arming at fire time so a manual
+  /// close during the wait aborts the open.
+  func scheduleRetarget(lead: HistoryItemDecorator?) {
     cancelAutoOpen()
 
     guard autoOpenEnabled else { return }
     guard !autoOpenSuppressed else { return }
-    guard !state.isOpen else { return }
+    guard let lead else { return }
 
     autoOpenTask = Task { @MainActor in
-      try? await Task.sleep(for: .milliseconds(max(0, Defaults[.previewDelay])))
+      let delay = max(0, Defaults[.previewDelay])
+      if delay > 0 {
+        try? await Task.sleep(for: .milliseconds(delay))
+      }
       guard !Task.isCancelled else { return }
-
+      guard autoOpenEnabled, !autoOpenSuppressed else { return }
+      previewedItem = lead
       if !state.isOpen {
+        let navigator = AppState.shared.navigator
+        guard navigator.leadHistoryItem != nil || navigator.pasteStackSelected else { return }
         togglePreview(trigger: .autoOpen)
       }
     }

@@ -53,9 +53,10 @@ class NavigationManager {
       let preview = AppState.shared.preview
       if leadHistoryItem != nil {
         preview.resetAutoOpenSuppression()
-        preview.startAutoOpen()
+        preview.scheduleRetarget(lead: leadHistoryItem)
       } else {
         preview.cancelAutoOpen()
+        preview.previewedItem = nil
       }
     }
   }

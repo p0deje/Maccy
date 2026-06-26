@@ -10,7 +10,6 @@ struct HistoryListView: View {
   @Environment(\.scenePhase) private var scenePhase
 
   @Default(.pinTo) private var pinTo
-  @Default(.previewDelay) private var previewDelay
   @Default(.showFooter) private var showFooter
 
   private var pinnedItems: [HistoryItemDecorator] {
@@ -119,7 +118,7 @@ struct HistoryListView: View {
             appState.navigator.select(item: appState.history.unpinnedItems.first ?? appState.history.pinnedItems.first)
             appState.preview.enableAutoOpen()
             appState.preview.resetAutoOpenSuppression()
-            appState.preview.startAutoOpen()
+            appState.preview.scheduleRetarget(lead: appState.navigator.leadHistoryItem)
           } else {
             modifierFlags.flags = []
             appState.navigator.isKeyboardNavigating = true
