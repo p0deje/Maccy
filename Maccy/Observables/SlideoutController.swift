@@ -26,24 +26,6 @@ enum SlideoutState {
       return false
     }
   }
-
-  fileprivate func toggleWithAnimation() -> SlideoutState {
-    switch self {
-    case .open, .opening:
-      return .closing
-    case .closed, .closing:
-      return .opening
-    }
-  }
-
-  func animationDone() -> SlideoutState {
-    switch self {
-    case .open, .opening:
-      return .open
-    case .closed, .closing:
-      return .closed
-    }
-  }
 }
 
 enum SlideoutPlacement {
@@ -65,14 +47,12 @@ enum ResizingMode {
 @Observable
 class SlideoutController {
   let logger = Logger(label: "org.p0deje.Maccy")
-  private static let animationDuration = 0.25
 
   let onContentResize: (CGFloat) -> Void
   let onSlideoutResize: (CGFloat) -> Void
 
   let minimumContentWidth: CGFloat = 200
   var contentResizeWidth: CGFloat = 0
-  var contentAnimationWidth: CGFloat?
 
   let minimumSlideoutWidth: CGFloat = 200
   var slideoutResizeWidth: CGFloat = 0
@@ -107,9 +87,6 @@ class SlideoutController {
     return AppState.shared.appDelegate?.panel
   }
 
-  private var windowAnimationOrigin: CGPoint?
-  private var windowAnimationOriginBaseState: SlideoutState = .closed
-
   private var autoOpenTask: Task<Void, Never>?
   private var autoOpenSuppressed = false
   private var autoOpenEnabled = true
@@ -117,16 +94,6 @@ class SlideoutController {
   init(onContentResize: @escaping (CGFloat) -> Void, onSlideoutResize: @escaping (CGFloat) -> Void) {
     self.onContentResize = onContentResize
     self.onSlideoutResize = onSlideoutResize
-  }
-
-  private func togglePreviewStateWithAnimation(windowFrame: NSRect) {
-    let newValue = state.toggleWithAnimation()
-    if !state.isAnimating && newValue.isAnimating {
-      contentAnimationWidth = contentWidth
-      windowAnimationOrigin = windowFrame.origin
-      windowAnimationOriginBaseState = state
-    }
-    state = newValue
   }
 
   func computePlacement(window: NSWindow, for size: NSSize) -> SlideoutPlacement {
@@ -168,45 +135,38 @@ class SlideoutController {
     }
 
     cancelAutoOpen()
-    withAnimation(.easeInOut(duration: Self.animationDuration), completionCriteria: .removed) {
-      if let window = nswindow {
-        togglePreviewStateWithAnimation(windowFrame: window.frame)
-        var newSize = window.frame.size
-        newSize.width = contentWidth
-        newSize = computeSizeWithPreview(newSize, state: self.state)
-        if state.isOpen {
-          placement = computePlacement(window: window, for: newSize)
-        }
 
-        let expectedAnimationState = state
-        NSAnimationContext.runAnimationGroup { (context) in
-          var newOrigin = windowAnimationOrigin ?? window.frame.origin
-          newOrigin.y += (window.frame.height - newSize.height)
+    guard let window = nswindow else { return }
 
-          if placement == .left {
-            if windowAnimationOriginBaseState == .closed && state.isOpen {
-              newOrigin.x -= slideoutWidth
-            } else if windowAnimationOriginBaseState == .open
-              && !state.isOpen {
-              newOrigin.x += slideoutWidth
-            }
-            // Otherwise the base is the desired position
-          }
-          context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-          context.completionHandler = {
-            if self.state == expectedAnimationState {
-              self.state = expectedAnimationState.animationDone()
-            }
-          }
-          context.duration = Self.animationDuration
-          window.animator().setFrame(
-            NSRect(origin: newOrigin, size: newSize),
-            display: true
-          )
-        }
-      }
-    } completion: {
+    // 4.10b doctrine: ONE instant setFrame — no animator(), no
+    // NSAnimationContext, no withAnimation. The prior 0.25s
+    // `window.animator().setFrame` forced a per-frame NSHostingView.layout() +
+    // CoreText re-measure storm on every display-link tick (the dominant
+    // preview open/close jank; see FloatingPanel.swift:89-104). One setFrame =
+    // one layout pass. State collapses synchronously to .open/.closed, so there
+    // is no completion handler and no stranded .opening/.closing. The slideout
+    // column fades via SwiftUI opacity only (SlideoutView) — opacity is
+    // composited by CoreAnimation with no layout pass, so it can't re-trigger
+    // the storm.
+    let opening = !state.isOpen
+    state = opening ? .open : .closed
+
+    var newSize = window.frame.size
+    newSize.width = contentWidth
+    newSize = computeSizeWithPreview(newSize, state: state)
+    if state.isOpen {
+      placement = computePlacement(window: window, for: newSize)
     }
+
+    var newOrigin = window.frame.origin
+    newOrigin.y += window.frame.height - newSize.height
+    if placement == .left {
+      // Pin the anchor edge: growing toward the left shifts origin left;
+      // shrinking shifts it back right.
+      newOrigin.x += opening ? -slideoutWidth : slideoutWidth
+    }
+
+    window.setFrame(NSRect(origin: newOrigin, size: newSize), display: true)
   }
 
   func startResize(mode: ResizingMode) {

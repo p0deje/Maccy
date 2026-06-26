@@ -128,6 +128,12 @@ where Content: View, Slideout: View {
             condition: isAnimating
           )
           .transition(.identity)
+          // Snap open (instant window setFrame, see SlideoutController) + fade
+          // the content in. Scoped to slideout() so the outer width-collapse
+          // frame below stays un-animated (one layout pass, no storm); opacity
+          // is CoreAnimation-composited with no layout cost.
+          .opacity(controller.state.isOpen ? 1 : 0)
+          .animation(.easeOut(duration: 0.15), value: controller.state.isOpen)
       }
       .environment(\.layoutDirection, .leftToRight)
       .fixedSize(
