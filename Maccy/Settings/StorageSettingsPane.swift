@@ -59,6 +59,8 @@ struct StorageSettingsPane: View {
   @Default(.size) private var size
   @Default(.sortBy) private var sortBy
 
+  @Default(.historyKeepDays) private var keepDays
+
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
 
@@ -66,6 +68,13 @@ struct StorageSettingsPane: View {
     let formatter = NumberFormatter()
     formatter.minimum = 1
     formatter.maximum = 999
+    return formatter
+  }()
+
+  private let keepDaysFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 0
+    formatter.maximum = 365
     return formatter
   }()
 
@@ -106,6 +115,21 @@ struct StorageSettingsPane: View {
             .onAppear {
               storageSize = Storage.shared.size
             }
+        }
+      }
+
+      Settings.Section(label: { Text("KeepFor", tableName: "StorageSettings") }) {
+        HStack {
+          TextField("", value: $keepDays, formatter: keepDaysFormatter)
+            .frame(width: 80)
+            .help(Text("KeepForTooltip", tableName: "StorageSettings"))
+          Stepper("", value: $keepDays, in: 0...365)
+            .labelsHidden()
+          (keepDays == 0
+           ? Text("KeepForDisabled", tableName: "StorageSettings")
+           : Text("KeepForDays", tableName: "StorageSettings"))
+            .controlSize(.small)
+            .foregroundStyle(.gray)
         }
       }
 

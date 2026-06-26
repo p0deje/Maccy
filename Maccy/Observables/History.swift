@@ -59,6 +59,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
 
+  // Enforces the time-based retention limit while the app stays open and idle,
+  // covering the case where no new copies arrive to trigger a purge.
+  @ObservationIgnored
+  private var purgeTimer: Timer?
+  private static let purgeInterval: TimeInterval = 60 * 60 // 1 hour
+
   // The distinction between `all` and `items` is the following:
   // - `all` stores all history items, even the ones that are currently hidden by a search
   // - `items` stores only visible history items, updated during a search
@@ -99,6 +105,18 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         }
       }
     }
+
+    Task {
+      for await _ in Defaults.updates(.historyKeepDays, initial: false) {
+        await purgeExpiredItems()
+      }
+    }
+
+    purgeTimer = Timer.scheduledTimer(withTimeInterval: Self.purgeInterval, repeats: true) { _ in
+      Task { @MainActor in
+        History.shared.purgeExpiredItems()
+      }
+    }
   }
 
   @MainActor
@@ -109,6 +127,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     items = all
 
     limitHistorySize(to: Defaults[.size])
+    purgeExpiredItems()
 
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
@@ -123,6 +142,22 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     if unpinned.count >= maxSize {
       unpinned[maxSize...].forEach(delete)
     }
+  }
+
+  // Removes unpinned items whose last copy is older than the configured retention window.
+  // A value of `0` disables the time-based limit, leaving existing behaviour unchanged.
+  @MainActor
+  func purgeExpiredItems() {
+    let keepDays = Defaults[.historyKeepDays]
+    guard keepDays > 0 else { return }
+
+    guard let cutoff = Calendar.current.date(byAdding: .day, value: -keepDays, to: Date.now) else {
+      return
+    }
+
+    all
+      .filter { $0.isUnpinned && $0.item.lastCopiedAt < cutoff }
+      .forEach(delete)
   }
 
   @MainActor
@@ -170,6 +205,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
     limitHistorySize(to: Defaults[.size] - 1)
+    purgeExpiredItems()
 
     sessionLog[Clipboard.shared.changeCount] = item
 

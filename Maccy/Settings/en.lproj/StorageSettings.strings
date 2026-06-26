@@ -7,6 +7,10 @@
 "Size" = "Size:";
 "SizeTooltip" = "Number of history items to keep.\nDefault: 200.";
 "CurrentSizeTooltip" = "Current size on disk.";
+"KeepFor" = "Keep for:";
+"KeepForTooltip" = "Automatically remove unpinned items older than this many days.\n0 disables the time-based limit.\nDefault: 0.";
+"KeepForDisabled" = "Disabled";
+"KeepForDays" = "days";
 "SortBy" = "Sort by:";
 "LastCopiedAt" = "Time of last copy";
 "FirstCopiedAt" = "Time of first copy";
