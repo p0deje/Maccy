@@ -59,7 +59,7 @@ class Popup {
   var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
 
-  private var eventsMonitor: Any?
+  nonisolated(unsafe) private var eventsMonitor: Any?
 
   private var state: PopupState = .toggle
 
@@ -81,7 +81,7 @@ class Popup {
     )
   }
 
-  func deinitEventsMonitor() {
+  nonisolated func deinitEventsMonitor() {
     guard let eventsMonitor else { return }
 
     NSEvent.removeMonitor(eventsMonitor)
