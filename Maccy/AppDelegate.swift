@@ -3,7 +3,8 @@ import KeyboardShortcuts
 import Sparkle
 import SwiftUI
 
-class AppDelegate: NSObject, NSApplicationDelegate, @unchecked Sendable {
+@MainActor
+class AppDelegate: NSObject, NSApplicationDelegate {
   var panel: FloatingPanel<ContentView>!
 
   #if DEBUG

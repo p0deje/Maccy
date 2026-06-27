@@ -44,6 +44,7 @@ enum ResizingMode {
   case slideout
 }
 
+@MainActor
 @Observable
 class SlideoutController {
   let logger = Logger(label: "org.p0deje.Maccy")
