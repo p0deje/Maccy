@@ -20,7 +20,7 @@ class HistoryItemContent {
   /// instead of re-hashing every comparison. `nil` for small content (no
   /// fingerprint) or pre-migration rows (read path falls back to a one-time
   /// re-hash via `ClipboardDataProcessor.fingerprintIfLarge`).
-  var fingerprint: UInt64? = nil
+  var fingerprint: UInt64?
 
   @Relationship
   var item: HistoryItem?
