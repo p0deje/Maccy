@@ -47,7 +47,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   @Environment(ModifierFlags.self) private var modifierFlags
 
   var body: some View {
-    HStack(spacing: 0) {
+    let row = HStack(spacing: 0) {
       if showIcons, let appIcon {
         VStack {
           Spacer(minLength: 0)
@@ -138,6 +138,19 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     .background(isSelected ? Color.accentColor.opacity(0.8) : .white.opacity(0.001))
     .clipShape(selectionAppearance.rect(cornerRadius: Popup.cornerRadius))
     .hoverSelectionId(selectionId)
-    .help(help ?? "")
+
+    // U1 (06-27 memory): apply `.help` only for a non-empty key. An always-on
+    // `.help("")` materialized an empty `HelpView` AttributeGraph node per
+    // realized list/footer row (~1280B each; 101 instances in the 6h heap dump)
+    // for no benefit — no row shows a tooltip today (HistoryItemView,
+    // FooterItemView, PasteStackItemView never pass `help:`). Gating removes
+    // pure garbage and trims per-frame AttributeGraph churn (memory + jank dual
+    // win). Row identity (`.id(id)` above) and reopen/scroll behavior are
+    // unchanged — the modifier is last in the chain either way.
+    if let help, !help.key.isEmpty {
+      row.help(help)
+    } else {
+      row
+    }
   }
 }
