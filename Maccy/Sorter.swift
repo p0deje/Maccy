@@ -29,9 +29,16 @@ class Sorter {
     // again on every-copy `reconcileWithStore`). Read once here and capture it.
     // (render-chain S11; docs/audit/2026-06-22-render-chain-storms.md)
     let pinTo = Defaults[.pinTo]
-    return items
-      .sorted(by: { return bySortingAlgorithm($0, $1, by) })
-      .sorted(by: { byPinned($0, $1, pinTo: pinTo) })
+    // Single-pass total order (pin-primary, algorithm-secondary) — identical
+    // result to the prior two-pass (algorithm-then-pin) stable sort, but ONE
+    // comparator pass instead of two: ~half the comparisons AND the
+    // per-comparison @Model property faults (lastCopiedAt/firstCopiedAt/
+    // numberOfCopies/pin) fired from SQLite during `load()` and every-copy
+    // `reconcileWithStore`. Shares the same total order as
+    // `areInIncreasingOrder`, so `sort` and `BinaryInsertion`'s incremental
+    // insert now use one order definition (HistoryConsumeTests'
+    // testConsumeIncrementalOrderMatchesFullSort guards the equivalence).
+    return items.sorted(by: { areInIncreasingOrder($0, $1, by: by, pinTo: pinTo) })
   }
 
   /// Total order matching `sort(_:by:)` — pin partition primary, algorithm
@@ -40,7 +47,13 @@ class Sorter {
   /// position without re-sorting the whole array, producing the same order as
   /// `sort`.
   func areInIncreasingOrder(_ lhs: HistoryItem, _ rhs: HistoryItem, by: By = Defaults[.sortBy]) -> Bool {
-    let pinTo = Defaults[.pinTo]
+    areInIncreasingOrder(lhs, rhs, by: by, pinTo: Defaults[.pinTo])
+  }
+
+  /// Hoisted-`pinTo` overload: avoids a `Defaults[.pinTo]` read per comparison
+  /// when the caller (e.g. `sort`) already holds it. Same total order as the
+  /// default-`pinTo` overload — pin partition primary, algorithm secondary.
+  func areInIncreasingOrder(_ lhs: HistoryItem, _ rhs: HistoryItem, by: By, pinTo: PinsPosition) -> Bool {
     if byPinned(lhs, rhs, pinTo: pinTo) { return true }
     if byPinned(rhs, lhs, pinTo: pinTo) { return false }
     return bySortingAlgorithm(lhs, rhs, by)
