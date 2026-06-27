@@ -4,6 +4,7 @@ import Foundation
 import Settings
 import SwiftUI
 
+@MainActor
 @Observable
 class AppState {
   static let shared = AppState(history: History.shared, footer: Footer())

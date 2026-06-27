@@ -86,6 +86,7 @@ struct SwiftDataHistoryPersistence: HistoryPersistence {
   }
 }
 
+@MainActor
 @Observable
 class History: ItemsContainer {
   static let shared = History()

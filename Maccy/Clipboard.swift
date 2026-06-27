@@ -2,6 +2,7 @@ import AppKit
 import Defaults
 import Sauce
 
+@MainActor
 class Clipboard {
   static let shared = Clipboard()
 

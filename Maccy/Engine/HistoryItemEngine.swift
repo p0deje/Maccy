@@ -1,7 +1,7 @@
 import AppKit
 
 enum HistoryItemEngine {
-  struct Signature {
+  struct Signature: Sendable {
     private let contents: [ContentSignature]
 
     init(
@@ -96,7 +96,7 @@ enum HistoryItemEngine {
   }
 }
 
-private struct ContentSignature {
+private struct ContentSignature: Sendable {
   let type: String
   let value: Data?
   let fingerprint: UInt64?
@@ -111,7 +111,7 @@ private struct ContentSignature {
   }
 }
 
-private struct ContentIndex {
+private struct ContentIndex: Sendable {
   // BS-8 (08-F-001): carry each lhs item's persisted fingerprint so `contains`
   // can pass it to `dataLikelyEqual` instead of re-hashing per comparison.
   private let contentsByType: [String: [(Data, UInt64?)]]
