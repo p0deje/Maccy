@@ -18,7 +18,7 @@ struct Select: AppIntent, CustomIntentMigratedAppIntent {
 
   private let positionOffset = 1
 
-  func perform() async throws -> some IntentResult & ReturnsValue<String> {
+  @MainActor func perform() async throws -> some IntentResult & ReturnsValue<String> {
     let items = AppState.shared.history.items
     let index = number - positionOffset
     guard index >= 0, items.count > index else {

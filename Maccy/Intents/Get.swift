@@ -31,7 +31,7 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
     }
   }
 
-  func perform() async throws -> some IntentResult & ReturnsValue<HistoryItemAppEntity> {
+  @MainActor func perform() async throws -> some IntentResult & ReturnsValue<HistoryItemAppEntity> {
     var item: HistoryItem?
     if selected {
       item = AppState.shared.navigator.selection.first?.item

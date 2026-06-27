@@ -15,6 +15,7 @@ enum PopupState {
   case opening
 }
 
+@MainActor
 @Observable
 class Popup {
   static let verticalSeparatorPadding = 6.0
