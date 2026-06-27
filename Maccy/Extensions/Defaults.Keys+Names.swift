@@ -49,6 +49,12 @@ extension Defaults.Keys {
     ])
   )
   static let imageMaxHeight = Key<Int>("imageMaxHeight", default: 40)
+  // Longest-side cap (px) for a decoded preview image. 0 = no cap (decodes at
+  // screen resolution — visually "original" in the pane, without a huge bitmap).
+  // See HistoryItemDecorator.previewImageSize.
+  static let imageMaxPreviewPixels = Key<Int>("imageMaxPreviewPixels", default: 800)
+  // Max chars of text shown in a preview. 0 = full text (no truncation).
+  static let textPreviewLimit = Key<Int>("textPreviewLimit", default: 3000)
   static let menuIcon = Key<MenuIcon>("menuIcon", default: .maccy)
   static let migrations = Key<[String: Bool]>("migrations", default: [:])
   static let pasteByDefault = Key<Bool>("pasteByDefault", default: false)

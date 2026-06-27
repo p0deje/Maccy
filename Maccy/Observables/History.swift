@@ -199,6 +199,14 @@ class History: ItemsContainer {
         }
       }
     }
+
+    Task { @MainActor in
+      for await _ in Defaults.updates(.imageMaxPreviewPixels, initial: false) {
+        for item in items {
+          item.cleanupImages()
+        }
+      }
+    }
   }
 
   @MainActor

@@ -8,8 +8,10 @@ struct AppearanceSettingsPane: View {
   @Default(.popupScreen) private var popupScreen
   @Default(.pinTo) private var pinTo
   @Default(.imageMaxHeight) private var imageHeight
+  @Default(.imageMaxPreviewPixels) private var imageMaxPreviewPixels
   @Default(.previewDelay) private var previewDelay
   @Default(.maxVisibleItems) private var maxVisibleItems
+  @Default(.textPreviewLimit) private var textPreviewLimit
   @Default(.highlightMatch) private var highlightMatch
   @Default(.menuIcon) private var menuIcon
   @Default(.showInStatusBar) private var showInStatusBar
@@ -39,6 +41,20 @@ struct AppearanceSettingsPane: View {
     let formatter = NumberFormatter()
     formatter.minimum = 1
     formatter.maximum = 50
+    return formatter
+  }()
+
+  private let imageMaxPreviewPixelsFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 0
+    formatter.maximum = 4000
+    return formatter
+  }()
+
+  private let textPreviewLimitFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 0
+    formatter.maximum = 100_000
     return formatter
   }()
 
@@ -90,6 +106,26 @@ struct AppearanceSettingsPane: View {
             .frame(width: 120)
             .help(Text("ImageHeightTooltip", tableName: "AppearanceSettings"))
           Stepper("", value: $imageHeight, in: 1...200)
+            .labelsHidden()
+        }
+      }
+
+      Settings.Section(label: { Text("ImageMaxPreviewPixels", tableName: "AppearanceSettings") }) {
+        HStack {
+          TextField("", value: $imageMaxPreviewPixels, formatter: imageMaxPreviewPixelsFormatter)
+            .frame(width: 120)
+            .help(Text("ImageMaxPreviewPixelsTooltip", tableName: "AppearanceSettings"))
+          Stepper("", value: $imageMaxPreviewPixels, in: 0...4000)
+            .labelsHidden()
+        }
+      }
+
+      Settings.Section(label: { Text("TextPreviewLimit", tableName: "AppearanceSettings") }) {
+        HStack {
+          TextField("", value: $textPreviewLimit, formatter: textPreviewLimitFormatter)
+            .frame(width: 120)
+            .help(Text("TextPreviewLimitTooltip", tableName: "AppearanceSettings"))
+          Stepper("", value: $textPreviewLimit, in: 0...100_000)
             .labelsHidden()
         }
       }

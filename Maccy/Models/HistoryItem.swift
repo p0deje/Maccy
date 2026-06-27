@@ -7,11 +7,15 @@ import SwiftData
 @Model
 class HistoryItem {
   static let titlePreviewLimit = 1_000
-  /// Capped at 3,000 chars (was 10,000, 2026-06-22). The preview pane renders
-  /// this with CoreText, and 10k-char previews were a measurable layout cost
-  /// when opening a long-text item's preview. 3k covers real-world clips while
-  /// bounding the measurement work. (User-directed.)
-  static let textPreviewLimit = 3_000
+  /// Max chars of a text item shown in the preview (Defaults[.textPreviewLimit]).
+  /// Configurable in Appearance settings; 0 = full text (no truncation, mapped
+  /// to a large sentinel). Large values can make a long-text preview measurably
+  /// slower to lay out (CoreText), so the default (3000) bounds the work for
+  /// real-world clips.
+  static var textPreviewLimit: Int {
+    let v = Defaults[.textPreviewLimit]
+    return v > 0 ? v : 10_000_000
+  }
 
   static var supportedPins: Set<String> {
     // "a" reserved for select all

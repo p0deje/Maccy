@@ -16,6 +16,10 @@
 "PinToTooltip" = "Change the location of pinned items.\nDefault: Top.";
 "ImageHeight" = "Image height:";
 "ImageHeightTooltip" = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items.";
+"ImageMaxPreviewPixels" = "Max preview image size:";
+"ImageMaxPreviewPixelsTooltip" = "Maximum longest side (in pixels) of a decoded preview image. Lower uses less memory; higher is sharper on large/Retina panes. 0 = no cap (display resolution).\nDefault: 800.";
+"TextPreviewLimit" = "Max preview text length:";
+"TextPreviewLimitTooltip" = "Maximum characters of text shown in the preview. 0 = full text (no truncation; very long clips may render slower).\nDefault: 3000.";
 "PreviewDelay" = "Preview delay:";
 "PreviewDelayTooltip" = "Delay in milliseconds before the preview follows your selection. 0 = instant follow; lower follows the cursor, higher dwells to peek.\nDefault: 200.";
 "MaxVisibleItems" = "Max visible items:";

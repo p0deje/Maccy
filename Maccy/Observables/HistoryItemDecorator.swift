@@ -11,25 +11,16 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
     return lhs.id == rhs.id
   }
 
-  /// Upper bound on the longest side of a preview image, in pixels (IMG-022).
-  ///
-  /// Decoding + downsampling a full visibleFrame-sized image (potentially
-  /// thousands of pixels per side) on every preview open is the BS-3 bottleneck
-  /// this batch moves off-main. Capping the preview target bounds the worst-case
-  /// decode cost regardless of screen size.
-  ///
-  /// 800² (was 1600², 2026-06-22): the preview pane renders in a slideout that
-  /// is far smaller than the screen, so 1600² was over-sampled — the extra
-  /// resolution cost both the off-main decode AND the on-main render composite
-  /// (a ~10 MB bitmap at 1600² vs ~2.5 MB at 800²). 800² is display-appropriate
-  /// for the slideout and ~4× the decode/render throughput. A preview only needs
-  /// to be recognizable (the full image is pasted on select), not pixel-perfect.
-  /// Tunable up if a large slideout looks soft.
-  private static let previewMaxPixels: CGFloat = 800
-
+  /// Preview decode/placeholder target size. The longest side is capped at
+  /// `Defaults[.imageMaxPreviewPixels]` (default 800) to bound the off-main
+  /// decode + on-main composite cost; 0 = no artificial cap (decodes at screen
+  /// resolution — visually identical to "original" in the slideout pane, without
+  /// the 256 MB+ bitmap a true native decode of a huge image would cost).
+  /// Configurable in Appearance settings.
   static var previewImageSize: NSSize {
     let raw = NSScreen.forPopup?.visibleFrame.size ?? NSSize(width: 2048, height: 1536)
-    return capped(raw, max: previewMaxPixels)
+    let cap = Defaults[.imageMaxPreviewPixels]
+    return cap > 0 ? capped(raw, max: CGFloat(cap)) : raw
   }
   static var thumbnailImageSize: NSSize { NSSize(width: 340, height: max(1, Defaults[.imageMaxHeight])) }
 
@@ -103,15 +94,20 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   /// the ingestor so the cache is shared across the ingest + view paths.
   private let imageProcessor: ImageProcessing
   @ObservationIgnored private var textPreviewCache: String?
+  @ObservationIgnored private var textPreviewCacheLimit: Int = -1
 
-  // 10k characters seems to be more than enough on large displays.
+  // Bounded by HistoryItem.textPreviewLimit (configurable; 0 = full text). The
+  // cache auto-invalidates when the limit changes so the next read picks up the
+  // new value without a relaunch.
   var text: String {
-    if let textPreviewCache {
+    let limit = HistoryItem.textPreviewLimit
+    if let textPreviewCache, textPreviewCacheLimit == limit {
       return textPreviewCache
     }
 
-    let preview = item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit)
+    let preview = item.previewableTextPrefix(maxLength: limit)
     textPreviewCache = preview
+    textPreviewCacheLimit = limit
     return preview
   }
 
