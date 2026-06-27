@@ -760,7 +760,7 @@ class History: ItemsContainer {
     }
   }
 
-  private static func shouldInsertItemsInAddByDefault() -> Bool {
+  nonisolated private static func shouldInsertItemsInAddByDefault() -> Bool {
     if #available(macOS 15.0, *) {
       return true
     } else {
