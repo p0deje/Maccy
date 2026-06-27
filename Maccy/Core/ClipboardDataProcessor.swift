@@ -24,11 +24,17 @@ enum ClipboardDataProcessor {
     return String(data: data.prefix(prefixLength), encoding: encoding)
   }
 
+  /// BS-8 (08-F-009/08-F-001): symmetric — BOTH fingerprints are required (no
+  /// default params), so `dataLikelyEqual` never re-hashes. Callers read the lhs
+  /// fingerprint from the persisted `HistoryItemContent.fingerprint` column (or
+  /// compute the rhs once). `nil` = small content (< threshold, no fingerprint)
+  /// or a pre-migration row; large content with a nil fingerprint falls back to
+  /// a full `==` compare (correct, just slower for old rows).
   static func dataLikelyEqual(
     _ lhs: Data,
+    _ lhsFingerprint: UInt64?,
     _ rhs: Data,
-    lhsFingerprint: UInt64? = nil,
-    rhsFingerprint: UInt64? = nil
+    _ rhsFingerprint: UInt64?
   ) -> Bool {
     guard lhs.count == rhs.count else {
       return false
@@ -38,8 +44,10 @@ enum ClipboardDataProcessor {
       return lhs == rhs
     }
 
-    let lhsFingerprint = lhsFingerprint ?? MaccyTextProcessor.fingerprint(for: lhs)
-    let rhsFingerprint = rhsFingerprint ?? MaccyTextProcessor.fingerprint(for: rhs)
+    guard let lhsFingerprint, let rhsFingerprint else {
+      return lhs == rhs
+    }
+
     guard lhsFingerprint == rhsFingerprint else {
       return false
     }

@@ -104,16 +104,21 @@ private struct ContentSignature {
   init(_ content: HistoryItemContent) {
     self.type = content.type
     self.value = content.value
-    self.fingerprint = content.value.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
+    // BS-8 (08-F-001): prefer the persisted column; fall back to a one-time
+    // re-hash for pre-migration rows (column nil but content is large).
+    self.fingerprint = content.fingerprint
+      ?? content.value.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
   }
 }
 
 private struct ContentIndex {
-  private let contentsByType: [String: [Data]]
+  // BS-8 (08-F-001): carry each lhs item's persisted fingerprint so `contains`
+  // can pass it to `dataLikelyEqual` instead of re-hashing per comparison.
+  private let contentsByType: [String: [(Data, UInt64?)]]
   private let nilValueTypes: Set<String>
 
   init(_ contents: [HistoryItemContent]) {
-    var contentsByType: [String: [Data]] = [:]
+    var contentsByType: [String: [(Data, UInt64?)]] = [:]
     var nilValueTypes: Set<String> = []
     contentsByType.reserveCapacity(contents.count)
 
@@ -123,7 +128,7 @@ private struct ContentIndex {
         continue
       }
 
-      contentsByType[content.type, default: []].append(value)
+      contentsByType[content.type, default: []].append((value, content.fingerprint))
     }
 
     self.contentsByType = contentsByType
@@ -148,8 +153,8 @@ private struct ContentIndex {
       return false
     }
 
-    return values.contains {
-      ClipboardDataProcessor.dataLikelyEqual($0, value, rhsFingerprint: fingerprint)
+    return values.contains { lhsData, lhsFingerprint in
+      ClipboardDataProcessor.dataLikelyEqual(lhsData, lhsFingerprint, value, fingerprint)
     }
   }
 
@@ -180,8 +185,8 @@ private struct ContentIndex {
 
   private func data(for types: [NSPasteboard.PasteboardType]) -> Data? {
     for type in types {
-      if let data = contentsByType[type.rawValue]?.first {
-        return data
+      if let entry = contentsByType[type.rawValue]?.first {
+        return entry.0
       }
     }
 
@@ -189,6 +194,6 @@ private struct ContentIndex {
   }
 
   private func allData(for types: [NSPasteboard.PasteboardType]) -> [Data] {
-    types.flatMap { contentsByType[$0.rawValue] ?? [] }
+    types.flatMap { contentsByType[$0.rawValue] ?? [] }.map { $0.0 }
   }
 }
