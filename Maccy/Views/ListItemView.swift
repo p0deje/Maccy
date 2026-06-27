@@ -139,15 +139,15 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     .clipShape(selectionAppearance.rect(cornerRadius: Popup.cornerRadius))
     .hoverSelectionId(selectionId)
 
-    // U1 (06-27 memory): apply `.help` only for a non-empty key. An always-on
-    // `.help("")` materialized an empty `HelpView` AttributeGraph node per
+    // U1 (06-27 memory): apply `.help` only when `help` is set (non-nil). An
+    // always-on `.help("")` materialized an empty `HelpView` AG node per
     // realized list/footer row (~1280B each; 101 instances in the 6h heap dump)
     // for no benefit — no row shows a tooltip today (HistoryItemView,
     // FooterItemView, PasteStackItemView never pass `help:`). Gating removes
     // pure garbage and trims per-frame AttributeGraph churn (memory + jank dual
     // win). Row identity (`.id(id)` above) and reopen/scroll behavior are
     // unchanged — the modifier is last in the chain either way.
-    if let help, !help.key.isEmpty {
+    if let help {
       row.help(help)
     } else {
       row
