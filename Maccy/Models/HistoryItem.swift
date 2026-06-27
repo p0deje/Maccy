@@ -13,8 +13,8 @@ class HistoryItem {
   /// slower to lay out (CoreText), so the default (3000) bounds the work for
   /// real-world clips.
   static var textPreviewLimit: Int {
-    let v = Defaults[.textPreviewLimit]
-    return v > 0 ? v : 10_000_000
+    let limit = Defaults[.textPreviewLimit]
+    return limit > 0 ? limit : 10_000_000
   }
 
   static var supportedPins: Set<String> {
