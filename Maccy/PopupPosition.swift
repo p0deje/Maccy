@@ -27,6 +27,7 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
   }
 
   // swiftlint:disable:next cyclomatic_complexity
+  @MainActor
   func origin(size: NSSize, statusBarButton: NSStatusBarButton?) -> NSPoint {
     switch self {
     case .center:

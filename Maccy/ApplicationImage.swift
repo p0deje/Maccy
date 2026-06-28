@@ -1,6 +1,7 @@
 import Logging
 import SwiftUI
 
+@MainActor
 class ApplicationImage {
   private static let logger = Logger(label: "org.p0deje.Maccy")
   fileprivate static let fallbackImage = NSImage(
@@ -20,7 +21,15 @@ class ApplicationImage {
   }
 
   deinit {
-    eventSource?.cancel()
+    // DispatchSource.cancel() is thread-safe (any thread). eventSource is
+    // main-isolated; reach it from this nonisolated deinit via
+    // MainActor.assumeIsolated — a synchronous runtime assertion, NOT an async
+    // hop, so macOS-14's "deinit cannot actor-hop" restriction doesn't apply.
+    // ApplicationImage instances live in ApplicationImageCache (main-only), so
+    // deinit runs on main in practice.
+    MainActor.assumeIsolated {
+      eventSource?.cancel()
+    }
   }
 
   var nsImage: NSImage {

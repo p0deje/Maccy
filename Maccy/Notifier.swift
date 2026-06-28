@@ -1,5 +1,5 @@
 import AppKit
-import UserNotifications
+@preconcurrency import UserNotifications
 import os
 
 class Notifier {
@@ -58,11 +58,14 @@ class Notifier {
       }
 
       let request = UNNotificationRequest(identifier: UUID().uuidString, content: content, trigger: nil)
+      // Extract the Sendable Bool before the @Sendable `add` completion closure
+      // so the non-Sendable `settings` (UNNotificationSettings) isn't captured.
+      let soundEnabled = settings.soundSetting == .enabled
       center.add(request) { error in
         if error != nil {
           NSLog("Failed to deliver notification: \(String(describing: error))")
         } else {
-          if settings.soundSetting == .enabled {
+          if soundEnabled {
             sound?.play()
           }
         }
