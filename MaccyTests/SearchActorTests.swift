@@ -9,9 +9,9 @@ import XCTest
 final class SearchActorTests: XCTestCase {
   private let searchActor = SearchActor()
 
-  /// Deterministic corpus item: id derived from `n`, so `ids(_:)` recovers `n`.
-  private func item(_ n: Int, _ title: String) -> SearchCorpusItem {
-    let suffix = String(format: "%012d", n)
+  /// Deterministic corpus item: id derived from `number`, so `ids(_:)` recovers it.
+  private func item(_ number: Int, _ title: String) -> SearchCorpusItem {
+    let suffix = String(format: "%012d", number)
     return SearchCorpusItem(id: UUID(uuidString: "00000000-0000-0000-0000-\(suffix)")!, title: title)
   }
 
@@ -76,9 +76,9 @@ final class SearchActorTests: XCTestCase {
 
   func testRegexpSearchOffsets() async {
     let corpus = [item(1, "foo bar baz")]
-    let ba = await searchActor.search(query: "ba", within: corpus, mode: .regexp)
+    let baMatches = await searchActor.search(query: "ba", within: corpus, mode: .regexp)
     XCTAssertEqual(
-      ba,
+      baMatches,
       [SearchMatchDTO(id: item(1, "foo bar baz").id, title: "foo bar baz", score: nil, ranges: [4..<6])]
     )
 
