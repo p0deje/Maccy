@@ -11,7 +11,6 @@ class SorterTests: XCTestCase {
   var item2: HistoryItem!
   var item3: HistoryItem!
 
-  @MainActor
   override func setUp() {
     super.setUp()
     item1 = historyItem(value: "foo", firstCopiedAt: -300, lastCopiedAt: -100, numberOfCopies: 3)
