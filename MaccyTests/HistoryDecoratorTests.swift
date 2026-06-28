@@ -382,7 +382,7 @@ class HistoryItemDecoratorTests: XCTestCase {
 /// contexts in Swift 6 (cooperative-pool deadlock risk), which is why the
 /// closure form is used here instead. The lock is held only for a trivial
 /// boolean read/write — never across an `await` suspension point.
-private final class StallableImageProcessor: ImageProcessing, @unchecked Sendable {
+private final class StallableImageProcessor: ImageProcessing, Sendable {
   private let completed = OSAllocatedUnfairLock(initialState: false)
 
   var previewCompleted: Bool {

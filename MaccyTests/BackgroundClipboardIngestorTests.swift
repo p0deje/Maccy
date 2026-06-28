@@ -1,6 +1,7 @@
 import Defaults
 import SwiftData
 import XCTest
+import os
 @testable import Maccy
 
 // Integration tests for `BackgroundClipboardIngestor`, the BS-2 off-main ingest
@@ -522,42 +523,32 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 /// `@Sendable` `onEvent` closure (which can run off the test's isolation).
 /// Wrapping the array in a lock avoids the "mutation of captured var in
 /// concurrent code" Swift 6 warning that a plain `var events` would trigger.
-private final class EventCollector: @unchecked Sendable {
-  private let lock = NSLock()
-  private var events: [StoreEvent] = []
+private final class EventCollector: Sendable {
+  private let events = OSAllocatedUnfairLock(initialState: [StoreEvent]())
 
   func append(_ event: StoreEvent) {
-    lock.lock()
-    events.append(event)
-    lock.unlock()
+    events.withLock { $0.append(event) }
   }
 
   var all: [StoreEvent] {
-    lock.lock()
-    defer { lock.unlock() }
-    return events
+    events.withLock { $0 }
   }
 }
 
 /// Mutable test clock advanced by hand so the actor sees a moving `now` across
 /// ingests in the same test.
-private final class TestClock: @unchecked Sendable {
-  private let lock = NSLock()
-  private var current: Date
+private final class TestClock: Sendable {
+  private let current = OSAllocatedUnfairLock(Date())
 
   init(start: Date) {
-    current = start
+    current.withLock { $0 = start }
   }
 
   var now: Date {
-    lock.lock()
-    defer { lock.unlock() }
-    return current
+    current.withLock { $0 }
   }
 
   func advance(by interval: TimeInterval) {
-    lock.lock()
-    current = current.addingTimeInterval(interval)
-    lock.unlock()
+    current.withLock { $0 = $0.addingTimeInterval(interval) }
   }
 }

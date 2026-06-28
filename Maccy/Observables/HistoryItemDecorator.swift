@@ -5,8 +5,9 @@ import Logging
 import Observation
 import Sauce
 
+@MainActor
 @Observable
-class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObserving, @unchecked Sendable {
+class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObserving {
   static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
   }

@@ -1806,8 +1806,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.MaccyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 5;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				TEST_TARGET_NAME = Maccy;
 			};
 			name = Debug;
@@ -1834,8 +1834,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.MaccyUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 5;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				TEST_TARGET_NAME = Maccy;
 			};
 			name = Release;
@@ -1859,8 +1859,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.MaccyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 5;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Maccy.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Maccy";
 			};
 			name = Debug;
@@ -1884,8 +1884,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = org.p0deje.MaccyTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_VERSION = 5;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Maccy.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Maccy";
 			};
 			name = Release;
@@ -2041,8 +2041,8 @@
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Maccy/Maccy-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Debug;
 		};
@@ -2077,8 +2077,8 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "Maccy/Maccy-Bridging-Header.h";
-				SWIFT_VERSION = 5;
-				SWIFT_STRICT_CONCURRENCY = minimal;
+				SWIFT_VERSION = 6.0;
+				SWIFT_STRICT_CONCURRENCY = complete;
 			};
 			name = Release;
 		};
