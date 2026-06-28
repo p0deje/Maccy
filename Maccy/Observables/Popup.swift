@@ -2,6 +2,7 @@ import AppKit.NSRunningApplication
 import Defaults
 import KeyboardShortcuts
 import Observation
+import os
 
 enum PopupState {
   // Default; shortcut will toggle the popup
@@ -59,7 +60,7 @@ class Popup {
   var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
 
-  nonisolated(unsafe) private var eventsMonitor: Any?
+  nonisolated private let eventsMonitor = OSAllocatedUnfairLock<Any?>(initialState: nil)
 
   private var state: PopupState = .toggle
 
@@ -73,18 +74,32 @@ class Popup {
   }
 
   func initEventsMonitor() {
-    guard eventsMonitor == nil else { return }
-
-    self.eventsMonitor = NSEvent.addLocalMonitorForEvents(
-      matching: [.flagsChanged, .keyDown],
-      handler: handleEvent
-    )
+    eventsMonitor.withLock { monitor in
+      guard monitor == nil else { return }
+      monitor = NSEvent.addLocalMonitorForEvents(
+        matching: [.flagsChanged, .keyDown]
+      ) { [weak self] event in
+        MainActor.assumeIsolated {
+          self?.handleEvent(event) ?? event
+        }
+      }
+    }
   }
 
   nonisolated func deinitEventsMonitor() {
-    guard let eventsMonitor else { return }
-
-    NSEvent.removeMonitor(eventsMonitor)
+    // removeMonitor is thread-safe (AppKit docs); call it OUTSIDE the lock so
+    // we never hold the lock across an external call. Read+nil under the lock,
+    // then remove on the releasing thread. Popup is a process-lifetime singleton
+    // (AppState.shared.popup), so deinit effectively never fires in prod — but
+    // the no-unsafe isolation must be correct regardless.
+    let monitor = eventsMonitor.withLock { monitor -> Any? in
+      let removed = monitor
+      monitor = nil
+      return removed
+    }
+    if let monitor {
+      NSEvent.removeMonitor(monitor)
+    }
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {

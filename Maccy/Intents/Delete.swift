@@ -22,7 +22,7 @@ struct Delete: AppIntent, CustomIntentMigratedAppIntent {
       throw AppIntentError.notFound
     }
 
-    await AppState.shared.history.delete(items[index])
+    AppState.shared.history.delete(items[index])
 
     return .result()
   }

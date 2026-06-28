@@ -15,6 +15,7 @@ enum ReleaseReason {
 
 /// Read-only handle to a history's decorators for memory-pressure iteration.
 /// `History` conforms; decouples `MemoryGovernor` from `History`.
+@MainActor
 protocol HistoryRef: AnyObject {
   func decorators() -> [HistoryItemDecorator]
 }
@@ -56,7 +57,8 @@ final class VisibilityTracker {
 
 /// Bounded cache of decoded preview bitmaps keyed by item id. Lets decoded
 /// bitmaps be shared/evicted by cost instead of retained per decorator.
-final class DecodedImageCache: @unchecked Sendable {
+@MainActor
+final class DecodedImageCache {
   static let shared = DecodedImageCache()
   private let cache: NSCache<NSUUID, NSImage> = {
     let cache = NSCache<NSUUID, NSImage>()

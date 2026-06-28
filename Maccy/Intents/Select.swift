@@ -26,7 +26,7 @@ struct Select: AppIntent, CustomIntentMigratedAppIntent {
     }
 
     let value = items[index].title
-    await AppState.shared.history.select(items[index])
+    AppState.shared.history.select(items[index])
 
     return .result(value: value)
   }

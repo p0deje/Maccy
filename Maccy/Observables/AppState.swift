@@ -9,7 +9,7 @@ import SwiftUI
 class AppState {
   static let shared = AppState(history: History.shared, footer: Footer())
 
-  let multiSelectionEnabled = false
+  nonisolated let multiSelectionEnabled = false
 
   var appDelegate: AppDelegate?
   var popup: Popup
@@ -190,12 +190,16 @@ class AppState {
         object: window,
         queue: .main
       ) { _ in
-        // Use `AppState.shared` (static singleton) so this @Sendable observer
-        // closure doesn't capture non-Sendable `self` (AppState isn't Sendable).
-        AppState.shared.settingsWindowController = nil
-        if let observer = AppState.shared.settingsWindowCloseObserver {
-          NotificationCenter.default.removeObserver(observer)
-          AppState.shared.settingsWindowCloseObserver = nil
+        // queue: .main + the observer fires on the main run loop, so
+        // MainActor.assumeIsolated is a runtime no-op assertion (never traps).
+        // Avoids @unchecked / nonisolated(unsafe): the @Sendable closure hops
+        // back into the @MainActor domain to mutate AppState.shared.
+        MainActor.assumeIsolated {
+          AppState.shared.settingsWindowController = nil
+          if let observer = AppState.shared.settingsWindowCloseObserver {
+            NotificationCenter.default.removeObserver(observer)
+            AppState.shared.settingsWindowCloseObserver = nil
+          }
         }
       }
     }
