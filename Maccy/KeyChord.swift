@@ -4,7 +4,9 @@ import Sauce
 
 enum KeyChord: CaseIterable {
   @MainActor static var pasteKey: Key { pasteMenuItem?.key ?? Key.v }
-  @MainActor static var pasteKeyModifiers: NSEvent.ModifierFlags { pasteMenuItem?.keyEquivalentModifierMask ?? .command }
+  @MainActor static var pasteKeyModifiers: NSEvent.ModifierFlags {
+    pasteMenuItem?.keyEquivalentModifierMask ?? .command
+  }
   @MainActor private static var pasteMenuItem: NSMenuItem? {
     NSApp.mainMenu?.items
       .flatMap { $0.submenu?.items ?? [] }
