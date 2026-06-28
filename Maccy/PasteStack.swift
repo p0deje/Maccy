@@ -14,16 +14,21 @@ class PasteStack: Identifiable, Hashable {
     guard listener == nil else { return }
     Accessibility.check()
 
+    // Read the paste key code once on main (initializeIfNeeded is @MainActor)
+    // and capture the Sendable Int into the @Sendable global-monitor closure,
+    // so it doesn't reference the @MainActor KeyChord.pasteKey from nonisolated.
+    let pasteKeyCode = KeyChord.pasteKey.QWERTYKeyCode
+
     var pasteDown: Bool = false
     listener = NSEvent.addGlobalMonitorForEvents(matching: [.keyUp, .keyDown]) { event in
       switch event.type {
       case .keyDown:
-        if event.keyCode == KeyChord.pasteKey.QWERTYKeyCode
+        if event.keyCode == pasteKeyCode
            && event.modifierFlags.intersection(.deviceIndependentFlagsMask) == [.command] {
           pasteDown = true
         }
       case .keyUp:
-        if pasteDown && event.keyCode == KeyChord.pasteKey.QWERTYKeyCode {
+        if pasteDown && event.keyCode == pasteKeyCode {
           pasteDown = false
           Task { @MainActor in
             AppState.shared.history.handlePasteStack()

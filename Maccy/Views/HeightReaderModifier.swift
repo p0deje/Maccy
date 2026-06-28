@@ -1,15 +1,18 @@
 import SwiftUI
 
 @MainActor
-struct SizeReaderModifier<Value: Equatable>: ViewModifier {
+struct SizeReaderModifier<Value: Equatable & Sendable>: ViewModifier {
   @Binding var value: Value
   let mapper: (CGSize) -> Value
 
   func body(content: Content) -> some View {
     content.onGeometryChange(for: Value.self) { proxy in
-      mapper(proxy.size)
+      // onGeometryChange's transform is @Sendable but runs on main during layout;
+      // assumeIsolated is a synchronous no-op assertion. Capture mapper (main-
+      // isolated) safely by re-entering the @MainActor domain.
+      MainActor.assumeIsolated { mapper(proxy.size) }
     } action: { newValue in
-      value = newValue
+      MainActor.assumeIsolated { value = newValue }
     }
   }
 }

@@ -538,7 +538,7 @@ private final class EventCollector: Sendable {
 /// Mutable test clock advanced by hand so the actor sees a moving `now` across
 /// ingests in the same test.
 private final class TestClock: Sendable {
-  private let current = OSAllocatedUnfairLock(Date())
+  private let current = OSAllocatedUnfairLock(initialState: Date())
 
   init(start: Date) {
     current.withLock { $0 = start }

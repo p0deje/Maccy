@@ -3,9 +3,9 @@ import KeyboardShortcuts
 import Sauce
 
 enum KeyChord: CaseIterable {
-  static var pasteKey: Key { pasteMenuItem?.key ?? Key.v }
-  static var pasteKeyModifiers: NSEvent.ModifierFlags { pasteMenuItem?.keyEquivalentModifierMask ?? .command }
-  private static var pasteMenuItem: NSMenuItem? {
+  @MainActor static var pasteKey: Key { pasteMenuItem?.key ?? Key.v }
+  @MainActor static var pasteKeyModifiers: NSEvent.ModifierFlags { pasteMenuItem?.keyEquivalentModifierMask ?? .command }
+  @MainActor private static var pasteMenuItem: NSMenuItem? {
     NSApp.mainMenu?.items
       .flatMap { $0.submenu?.items ?? [] }
       .first { $0.action == #selector(NSText.paste) }

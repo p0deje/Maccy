@@ -2,6 +2,7 @@ import XCTest
 import Defaults
 @testable import Maccy
 
+@MainActor
 class SorterTests: XCTestCase {
   let savedPinTo = Defaults[.pinTo]
   let sorter = Sorter()
