@@ -1070,7 +1070,7 @@
 				DA689FC52C1D14F10009B887 /* PopupPosition.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
 				D56FFADE825C314D403BA428 /* SearchDTOs.swift */,
-				BF5C7362B5BBA93DF74570F8 /* SearchActor.swift */,
+				BF5C7362B5BBA93AF74570F8 /* SearchActor.swift */,
 				2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */,
 				2F0EC77C2E773314003E2EA9 /* Selection.swift */,
 				DAA5ACC92C1BEE8A00B58513 /* SoftwareUpdater.swift */,
