@@ -22,15 +22,15 @@ class PerformanceTestCase: XCTestCase {
   }()
   let probe = MainThreadProbe(interval: 0.01)
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     History.shared.clearAll()
     History.shared.searchQuery = ""
     // Allow up to 200 items (the real default cap) without trimming.
     Defaults[.size] = 200
   }
 
-  override func tearDown() {
+  override func tearDown() async throws {
     probe.stop()
     History.shared.clearAll()
     History.shared.searchQuery = ""
@@ -40,7 +40,7 @@ class PerformanceTestCase: XCTestCase {
     if ProcessInfo.processInfo.environment["MACCY_PERF_FIXTURES"] == nil {
       try? FileManager.default.removeItem(at: cacheDir)
     }
-    super.tearDown()
+    try await super.tearDown()
   }
 
   /// Asserts no main-thread stall exceeded `threshold` since `probe.start()`.

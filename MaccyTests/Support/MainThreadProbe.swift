@@ -1,4 +1,5 @@
 import Foundation
+import os
 
 /// Probes the main thread's responsiveness by sampling from a background
 /// thread: every `interval` seconds it records the dispatch time, then dispatches
@@ -17,12 +18,17 @@ import Foundation
 /// Note: the ticks are processed on main, so a measurement only sees the delay
 /// once main has run the tick — callers must `await` (yield) before reading
 /// `maxGap` so queued ticks get processed.
-final class MainThreadProbe {
+final class MainThreadProbe: Sendable {
   private let interval: TimeInterval
-  private let lock = NSLock()
-  private var running = false
-  private var maxDelayValue: TimeInterval = 0
-  private var samplerThread: Thread?
+  // Swift 6: all mutable state is held in a Sendable OSAllocatedUnfairLock (the
+  // lock is `let` and Sendable; its State — a private struct of Sendable fields —
+  // is Sendable). The class is therefore genuinely Sendable, no @unchecked.
+  private struct State {
+    var running = false
+    var maxDelay: TimeInterval = 0
+    var samplerThread: Thread?
+  }
+  private let state = OSAllocatedUnfairLock(initialState: State())
 
   init(interval: TimeInterval = 0.005) {
     self.interval = interval
@@ -39,9 +45,7 @@ final class MainThreadProbe {
   /// because the queued ticks have not been processed yet. Prefer
   /// `maxGapAsync()`.
   var maxGap: TimeInterval {
-    lock.lock()
-    defer { lock.unlock() }
-    return maxDelayValue
+    state.withLock { $0.maxDelay }
   }
 
   /// Drains queued sampler ticks then returns `maxGap`. This is the correct way
@@ -87,10 +91,10 @@ final class MainThreadProbe {
 
   func start() {
     stop()
-    lock.lock()
-    maxDelayValue = 0
-    running = true
-    lock.unlock()
+    state.withLock { s in
+      s.maxDelay = 0
+      s.running = true
+    }
 
     let probe = self
     let thread = Thread {
@@ -104,30 +108,26 @@ final class MainThreadProbe {
     }
     thread.name = "MainThreadProbe.sampler"
     thread.start()
-    samplerThread = thread
+    state.withLock { $0.samplerThread = thread }
   }
 
   func stop() {
-    lock.lock()
-    running = false
-    lock.unlock()
-    samplerThread = nil
+    state.withLock { s in
+      s.running = false
+      s.samplerThread = nil
+    }
   }
 
   /// Resets `maxGap` to zero without restarting the sampler — for per-item
   /// measurements within one probe session.
   func reset() {
-    lock.lock()
-    maxDelayValue = 0
-    lock.unlock()
+    state.withLock { $0.maxDelay = 0 }
   }
 
   // MARK: - Private (called from arbitrary threads)
 
   private var isRunning: Bool {
-    lock.lock()
-    defer { lock.unlock() }
-    return running
+    state.withLock { $0.running }
   }
 
   private var samplingInterval: TimeInterval { interval }
@@ -138,10 +138,10 @@ final class MainThreadProbe {
   private func recordMainTick(dispatchedAt: Date) {
     let processedAt = Date()
     let delay = processedAt.timeIntervalSince(dispatchedAt)
-    lock.lock()
-    if delay > maxDelayValue {
-      maxDelayValue = delay
+    state.withLock { s in
+      if delay > s.maxDelay {
+        s.maxDelay = delay
+      }
     }
-    lock.unlock()
   }
 }

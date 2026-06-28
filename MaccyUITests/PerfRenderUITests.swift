@@ -39,8 +39,8 @@ final class PerfRenderUITests: XCTestCase {
   private let visitCount = 20
   private let populateCount = 30
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     perfLogURL = URL.temporaryDirectory
       .appendingPathComponent("maccy-perf-\(UUID().uuidString).log")
     app.launchArguments += ["enable-testing", "MaccyPerfRecord"]
@@ -51,9 +51,9 @@ final class PerfRenderUITests: XCTestCase {
     }
   }
 
-  override func tearDown() {
+  override func tearDown() async throws {
     app.terminate()
-    super.tearDown()
+    try await super.tearDown()
   }
 
   // MARK: - Scenarios

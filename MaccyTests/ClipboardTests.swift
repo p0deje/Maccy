@@ -48,8 +48,8 @@ final class ClipboardTests: XCTestCase {
     try? await Task.sleep(nanoseconds: 100_000_000)
   }
 
-  override func tearDown() {
-    super.tearDown()
+  override func tearDown() async throws {
+    try await super.tearDown()
     Defaults[.enabledPasteboardTypes] = savedEnabledTypes
     Defaults[.ignoreEvents] = savedIgnoreEvents
     Defaults[.ignoreOnlyNextEvent] = false

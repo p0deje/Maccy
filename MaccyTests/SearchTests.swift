@@ -2,12 +2,13 @@ import XCTest
 import Defaults
 @testable import Maccy
 
+@MainActor
 class SearchTests: XCTestCase {
   let savedSearchMode = Defaults[.searchMode]
   var items: [Search.Searchable]!
 
-  override func tearDown() {
-    super.tearDown()
+  override func tearDown() async throws {
+    try await super.tearDown()
     Defaults[.searchMode] = savedSearchMode
   }
 
