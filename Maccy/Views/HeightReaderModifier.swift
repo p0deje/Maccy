@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 struct SizeReaderModifier<Value: Equatable>: ViewModifier {
   @Binding var value: Value
   let mapper: (CGSize) -> Value
@@ -13,6 +14,7 @@ struct SizeReaderModifier<Value: Equatable>: ViewModifier {
   }
 }
 
+@MainActor
 fileprivate extension Binding {
   init<State>(
     _ object: State,
@@ -25,6 +27,7 @@ fileprivate extension Binding {
   }
 }
 
+@MainActor
 extension View {
   func readHeight<State>(
     _ state: State,

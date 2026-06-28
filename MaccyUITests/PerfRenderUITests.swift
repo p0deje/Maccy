@@ -23,6 +23,7 @@ import XCTest
 /// perf shards (`continue-on-error`); a flake must never fail the gate. Image
 /// fixtures are generated in-app via CoreGraphics (no binaries committed, no
 /// images in logs — only `PERF|` text lines).
+@MainActor
 final class PerfRenderUITests: XCTestCase {
   private let app = XCUIApplication()
 

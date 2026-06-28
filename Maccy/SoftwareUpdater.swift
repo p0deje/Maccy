@@ -1,5 +1,6 @@
 import Sparkle
 
+@MainActor
 @Observable
 class SoftwareUpdater {
   var automaticallyChecksForUpdates = false {
@@ -27,7 +28,14 @@ class SoftwareUpdater {
         return
       }
 
-      self?.automaticallyChecksForUpdates = updater.automaticallyChecksForUpdates
+      // KVO fires on the registering thread (main, since init runs on main and
+      // SPUUpdater is main-affine). Re-enter @MainActor via a synchronous
+      // assertion (no async hop) so the @Sendable closure can mutate self
+      // without capturing a non-Sendable self across actors.
+      let newValue = updater.automaticallyChecksForUpdates
+      MainActor.assumeIsolated {
+        self?.automaticallyChecksForUpdates = newValue
+      }
     }
   }
 

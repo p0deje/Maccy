@@ -1,5 +1,6 @@
 import Cocoa
 
+@MainActor
 class About {
   private let familyCredits = NSAttributedString(
     string: "Special thank you to Tonia, Anna & Guy! ❤️",

@@ -17,6 +17,7 @@ import XCTest
 ///
 /// Uses the `MaccyPerfRecord` instrumentation bridge. Runs in the (now-blocking)
 /// perf-image shard.
+@MainActor
 final class PreviewRefreshUITests: XCTestCase {
   private let app = XCUIApplication()
   private var perfLogURL: URL = URL(fileURLWithPath: "/dev/null")
