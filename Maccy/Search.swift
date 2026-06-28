@@ -2,6 +2,7 @@ import AppKit
 import Defaults
 import Fuse
 
+@MainActor
 class Search {
   enum Mode: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
     case exact
@@ -37,7 +38,7 @@ class Search {
   private let fuzzySearchLimit = 5_000
   private let regexpSearchLimit = 1_000
 
-  static func isLikelyUnsafeRegularExpression(_ pattern: String) -> Bool {
+  nonisolated static func isLikelyUnsafeRegularExpression(_ pattern: String) -> Bool {
     // Reject a common source of catastrophic backtracking, e.g. "(a+)+$".
     let nestedQuantifierPattern = #"\([^)]*([+*]|\{\d+,?\d*\})[^)]*\)([+*]|\{\d+,?\d*\})"#
     return pattern.range(of: nestedQuantifierPattern, options: .regularExpression) != nil
