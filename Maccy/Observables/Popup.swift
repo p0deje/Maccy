@@ -77,9 +77,31 @@ class Popup {
     eventsMonitor.withLock { monitor in
       guard monitor == nil else { return }
       monitor = NSEvent.addLocalMonitorForEvents(
-        matching: [.flagsChanged, .keyDown],
-        handler: handleEvent
-      )
+        matching: [.flagsChanged, .keyDown]
+      ) { event in
+        // Local NSEvent monitors fire on the main run loop, so this nonisolated
+        // closure runs on main and MainActor.assumeIsolated is a runtime no-op
+        // assertion. NSEvent is NOT Sendable, so it must not cross the isolation
+        // boundary — extract Sendable properties (type / all-released Bool) on
+        // this side, decide on main via assumeIsolated, and return nil/event
+        // here without ever moving `event` across actors. No @unchecked, no
+        // nonisolated(unsafe).
+        switch event.type {
+        case .flagsChanged:
+          let allReleased = event.modifierFlags.isDisjoint(with: .deviceIndependentFlagsMask)
+          let consume = MainActor.assumeIsolated {
+            AppState.shared.popup.shouldConsumeFlagsChanged(allReleased: allReleased)
+          }
+          return consume ? nil : event
+        case .keyDown:
+          // BS-6.13: the global `.popup` Carbon hotkey consumes its keyDown, so
+          // in-popup hotkey behavior is routed via handleFirstKeyDown; pass
+          // non-hotkey keyDowns through unchanged.
+          return event
+        default:
+          return event
+        }
+      }
     }
   }
 
@@ -198,42 +220,25 @@ class Popup {
   }
   #endif
 
-  private func handleEvent(_ event: NSEvent) -> NSEvent? {
-    switch event.type {
-    case .keyDown:
-      return handleKeyDown(event)
-    case .flagsChanged:
-      return handleFlagsChanged(event)
-    default:
-      return event
-    }
-  }
-
-  private func handleKeyDown(_ event: NSEvent) -> NSEvent? {
-    // BS-6.13: the global `.popup` Carbon hotkey consumes its keyDown (returns
-    // `noErr`), so the hotkey never reaches this local monitor — in-popup hotkey
-    // behavior is routed via `handleFirstKeyDown`. Pass non-hotkey events through
-    // so normal navigation (arrows, number shortcuts, etc.) is unaffected.
-    return event
-  }
-
-  private func handleFlagsChanged(_ event: NSEvent) -> NSEvent? {
+  /// Decides (on main) whether a flagsChanged event should be consumed, given
+  /// whether all modifiers were released. Extracted from the old
+  /// `handleFlagsChanged` so the NSEvent monitor handler can pass only a Sendable
+  /// Bool across the isolation boundary (NSEvent itself is not Sendable).
+  @MainActor
+  private func shouldConsumeFlagsChanged(allReleased: Bool) -> Bool {
     // If we are in cycle mode, releasing modifiers triggers a selection
-    if state == .cycle && allModifiersReleased(event) {
-      return handleAllModifiersReleased(event)
+    if state == .cycle && allReleased {
+      _ = handleAllModifiersReleased()
+      return true
     }
 
     // Otherwise if in opening mode, enter toggle mode
-    if state == .opening && allModifiersReleased(event) {
+    if state == .opening && allReleased {
       state = .toggle
-      return event
+      return false
     }
 
-    return event
-  }
-
-  private func allModifiersReleased(_ event: NSEvent) -> Bool {
-    return event.modifierFlags.isDisjoint(with: .deviceIndependentFlagsMask)
+    return false
   }
 
   private func handleRepeatedHotKeyDown(_ event: NSEvent? = nil) -> NSEvent? {
