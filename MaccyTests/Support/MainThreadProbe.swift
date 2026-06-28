@@ -20,13 +20,14 @@ import os
 /// `maxGap` so queued ticks get processed.
 final class MainThreadProbe: Sendable {
   private let interval: TimeInterval
-  // Swift 6: all mutable state is held in a Sendable OSAllocatedUnfairLock (the
-  // lock is `let` and Sendable; its State — a private struct of Sendable fields —
-  // is Sendable). The class is therefore genuinely Sendable, no @unchecked.
-  private struct State {
+  // Swift 6: mutable state in a Sendable OSAllocatedUnfairLock (let lock; State
+  // is a Sendable struct of Sendable fields). Thread is NOT Sendable, so it is
+  // not stored — a started NSThread retains itself until its body exits, and the
+  // sampler loop exits when `running` flips to false (set by stop()). The class
+  // is genuinely Sendable, no @unchecked.
+  private struct State: Sendable {
     var running = false
     var maxDelay: TimeInterval = 0
-    var samplerThread: Thread?
   }
   private let state = OSAllocatedUnfairLock(initialState: State())
 
@@ -108,13 +109,14 @@ final class MainThreadProbe: Sendable {
     }
     thread.name = "MainThreadProbe.sampler"
     thread.start()
-    state.withLock { $0.samplerThread = thread }
+    // A started NSThread retains itself until its body exits (which happens when
+    // `running` flips false in stop()), so we don't store the reference — storing
+    // a Thread (non-Sendable) would break the Sendable conformance.
   }
 
   func stop() {
     state.withLock { probe in
       probe.running = false
-      probe.samplerThread = nil
     }
   }
 
