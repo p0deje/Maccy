@@ -4,7 +4,7 @@ import Fuse
 
 @MainActor
 class Search {
-  enum Mode: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
+  enum Mode: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable, Sendable {
     case exact
     case fuzzy
     case regexp

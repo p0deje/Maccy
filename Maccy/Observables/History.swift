@@ -102,15 +102,7 @@ class History: ItemsContainer {
   var searchQuery: String = "" {
     didSet {
       throttler.throttle { [self] in
-        updateItems(search.search(string: searchQuery, within: all))
-
-        if searchQuery.isEmpty {
-          AppState.shared.navigator.select(item: unpinnedItems.first)
-        } else {
-          AppState.shared.navigator.highlightFirst()
-        }
-
-        AppState.shared.popup.needsResize = true
+        self.performSearch()
       }
     }
   }
@@ -135,6 +127,18 @@ class History: ItemsContainer {
   private let search = Search()
   private let sorter = Sorter()
   private let throttler = Throttler(minimumDelay: 0.2)
+  // BS-5: off-main search. `searchGeneration` is the single staleness oracle —
+  // every synchronous mutation of `items` (a newer keystroke's kickoff, an
+  // ingest re-filter, clear/clearAll/delete, the empty short-circuit) bumps it,
+  // so a late off-main apply whose captured generation no longer matches is
+  // discarded. All access is @MainActor (History is @MainActor) → plain Int,
+  // no lock, no @unchecked.
+  @ObservationIgnored private var searchGeneration = 0
+  @ObservationIgnored private var searchTask: Task<Void, Never>?
+  // Owns the 4-mode match off-main. `let` actor (Sendable); only its
+  // `search(...)` method is awaited — the @Model never crosses to it, only
+  // Sendable DTOs.
+  private let searchActor = SearchActor()
   private var historySizeLimit: Int { max(1, Defaults[.size]) }
 
   @ObservationIgnored
@@ -475,6 +479,7 @@ class History: ItemsContainer {
   @MainActor
   func clear() {
     throttler.cancel()
+    invalidateInFlightSearch()
 
     do {
       try withLogging("Clearing history") {
@@ -509,6 +514,7 @@ class History: ItemsContainer {
   @MainActor
   func clearAll() {
     throttler.cancel()
+    invalidateInFlightSearch()
 
     do {
       try withLogging("Clearing all history") {
@@ -539,6 +545,7 @@ class History: ItemsContainer {
     guard let item else { return }
 
     throttler.cancel()
+    invalidateInFlightSearch()
     do {
       try withLogging("Removing history item") {
         try persistence.delete(item.item)
@@ -794,6 +801,101 @@ class History: ItemsContainer {
     } else {
       updateItems(search.search(string: searchQuery, within: all))
     }
+  }
+
+  // MARK: - BS-5 off-main search
+
+  /// Throttled search entry point. Two paths:
+  ///  - empty query: short-circuit SYNCHRONOUSLY on main (reuses the unchanged
+  ///    legacy `search.search("", within: all)` → all items, highlights cleared).
+  ///    No actor hop, so clearing the query never flickers.
+  ///  - non-empty: bump generation, cancel any in-flight task, snapshot the
+  ///    corpus as Sendable DTOs (id+title — never the @Model), and run the
+  ///    4-mode match off-main on `searchActor`. The Task inherits @MainActor
+  ///    from this method, so after the actor hop it resumes on main and applies
+  ///    generation-guarded.
+  private func performSearch() {
+    if searchQuery.isEmpty {
+      invalidateInFlightSearch()
+      // Byte-identical to the legacy didSet empty path: search.search("") returns
+      // all items with empty ranges; updateItems clears each highlight.
+      updateItems(search.search(string: "", within: all))
+      AppState.shared.navigator.select(item: unpinnedItems.first)
+      AppState.shared.popup.needsResize = true
+      return
+    }
+
+    searchGeneration &+= 1
+    let myGeneration = searchGeneration
+    searchTask?.cancel()
+
+    let query = searchQuery
+    let mode = Defaults[.searchMode]
+    let corpus = all.map { SearchCorpusItem(id: $0.id, title: $0.title) }
+    let actor = searchActor
+
+    searchTask = Task { [weak self] in
+      let matches = await actor.search(query: query, within: corpus, mode: mode)
+      // Task inherits @MainActor; after the actor hop we resume on main.
+      guard !Task.isCancelled, let self else { return }
+      self.applySearchResults(matches, for: query, generation: myGeneration)
+    }
+  }
+
+  /// Applies an off-main search result on main. Discarded if a newer keystroke,
+  /// an ingest, or a destructive op bumped `searchGeneration` past `generation`.
+  /// Resolves DTO ids back to decorators (skipping ids no longer in `all`, e.g.
+  /// deleted mid-search), highlights only where the title still equals the
+  /// snapshot (bug-3 equality guard — else Int offsets could be out of bounds),
+  /// rebuilds `items`, and runs the same side effects as the legacy didSet.
+  private func applySearchResults(_ matches: [SearchMatchDTO], for query: String, generation: Int) {
+    guard searchGeneration == generation else { return }
+
+    var rebuilt: [HistoryItemDecorator] = []
+    for dto in matches {
+      guard let decorator = all.first(where: { $0.id == dto.id }) else { continue }
+      if decorator.title == dto.title {
+        let ranges = dto.ranges.map { indexRange($0, in: decorator.title) }
+        decorator.highlight(query, ranges)
+      } else {
+        // Title changed since the corpus snapshot — offsets may be stale, so
+        // skip highlighting (clear it) but still keep the match in `items`.
+        decorator.highlight("", [])
+      }
+      rebuilt.append(decorator)
+    }
+    items = rebuilt
+    updateUnpinnedShortcuts()
+
+    if query.isEmpty {
+      AppState.shared.navigator.select(item: unpinnedItems.first)
+    } else {
+      AppState.shared.navigator.highlightFirst()
+    }
+    AppState.shared.popup.needsResize = true
+  }
+
+  /// Converts a DTO range (Character/grapheme offsets, exclusive upper bound)
+  /// back to `Range<String.Index>` via `index(offsetBy:)` — grapheme-correct,
+  /// the exact inverse of how the actor produced the offsets. Only called under
+  /// the equality guard (title == dto.title), so offsets are in-bounds; the
+  /// clamp is defensive crash insurance only.
+  private func indexRange(_ dtoRange: Range<Int>, in title: String) -> Range<String.Index> {
+    let count = title.count
+    let lower = max(0, min(dtoRange.lowerBound, count))
+    let upper = max(lower, min(dtoRange.upperBound, count))
+    let start = title.startIndex
+    return title.index(start, offsetBy: lower)..<title.index(start, offsetBy: upper)
+  }
+
+  /// Bumps `searchGeneration` and cancels + nils the in-flight search Task.
+  /// Called by every synchronous `items` mutation path (clear/clearAll/delete,
+  /// empty short-circuit, new-search kickoff) so a stale off-main apply is
+  /// discarded by the generation guard in `applySearchResults`.
+  private func invalidateInFlightSearch() {
+    searchGeneration &+= 1
+    searchTask?.cancel()
+    searchTask = nil
   }
 
   private func updateShortcuts() {

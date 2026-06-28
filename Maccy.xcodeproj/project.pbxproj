@@ -199,6 +199,9 @@
 		2B6F1A2B4C5D000000000018 /* PerfHistoryFactoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D000000000019 /* PerfHistoryFactoryTests.swift */; };
 		2B6F1A2B4C5D00000000001A /* ImageDecodePerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D00000000001B /* ImageDecodePerformanceTests.swift */; };
 		2B6F1A2B4C5D00000000001C /* TextSearchPerformanceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2B6F1A2B4C5D00000000001D /* TextSearchPerformanceTests.swift */; };
+		90F0A00A9053D8153EE0FCF1 /* SearchDTOs.swift in Sources */ = {isa = PBXBuildFile; fileRef = D56FFADE825C314D403BA428 /* SearchDTOs.swift */; };
+		92BA288518FDFAA85EBCCFB8 /* SearchActor.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF5C7362B5BBA93AF74570F8 /* SearchActor.swift */; };
+		7E0C9979582B6CF4D322B339 /* SearchActorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 863D7670AD55963BD6E314B4 /* SearchActorTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -664,6 +667,9 @@
 		2B6F1A2B4C5D000000000019 /* PerfHistoryFactoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PerfHistoryFactoryTests.swift; sourceTree = "<group>"; };
 		2B6F1A2B4C5D00000000001B /* ImageDecodePerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageDecodePerformanceTests.swift; sourceTree = "<group>"; };
 		2B6F1A2B4C5D00000000001D /* TextSearchPerformanceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextSearchPerformanceTests.swift; sourceTree = "<group>"; };
+		D56FFADE825C314D403BA428 /* SearchDTOs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchDTOs.swift; sourceTree = "<group>"; };
+		BF5C7362B5BBA93AF74570F8 /* SearchActor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchActor.swift; sourceTree = "<group>"; };
+		863D7670AD55963BD6E314B4 /* SearchActorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchActorTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -891,6 +897,7 @@
 				DA3CE8151E44A62500B3AA98 /* SignatureIndexTests.swift */,
 				DA3CE8091E44A62500B3AA98 /* StorageBackgroundContextTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
+				863D7670AD55963BD6E314B4 /* SearchActorTests.swift */,
 				DA3CE8031E44A62500B3AA98 /* StorageRecoveryTests.swift */,
 				DA3CE82D1E44A62500B3AA98 /* SupportTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
@@ -1062,6 +1069,8 @@
 				DA689FC72C1D15140009B887 /* PinsPosition.swift */,
 				DA689FC52C1D14F10009B887 /* PopupPosition.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
+				D56FFADE825C314D403BA428 /* SearchDTOs.swift */,
+				BF5C7362B5BBA93DF74570F8 /* SearchActor.swift */,
 				2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */,
 				2F0EC77C2E773314003E2EA9 /* Selection.swift */,
 				DAA5ACC92C1BEE8A00B58513 /* SoftwareUpdater.swift */,
@@ -1330,6 +1339,7 @@
 				DA3CE8321E44A62500B3AA98 /* HistoryPinPersistenceTests.swift in Sources */,
 				DA3CE8341E44A62500B3AA98 /* PopupTests.swift in Sources */,
 				DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */,
+				7E0C9979582B6CF4D322B339 /* SearchActorTests.swift in Sources */,
 				DA3CE8041E44A62500B3AA98 /* StorageRecoveryTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,
 			);
@@ -1447,6 +1457,8 @@
 				DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */,
 				DA13D7E02C1A436E00FA9E23 /* Data+StringPrefix.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
+				90F0A00A9053D8153EE0FCF1 /* SearchDTOs.swift in Sources */,
+				92BA288518FDFAA85EBCCFB8 /* SearchActor.swift in Sources */,
 				DA0FFA2A2C8D100C00A66C97 /* ModifierFlags+Description.swift in Sources */,
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
 				DAA072DF2C41C63C006DDFD2 /* ConfirmationView.swift in Sources */,
