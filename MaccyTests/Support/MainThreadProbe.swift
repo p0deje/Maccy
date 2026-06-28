@@ -91,9 +91,9 @@ final class MainThreadProbe: Sendable {
 
   func start() {
     stop()
-    state.withLock { s in
-      s.maxDelay = 0
-      s.running = true
+    state.withLock { probe in
+      probe.maxDelay = 0
+      probe.running = true
     }
 
     let probe = self
@@ -112,9 +112,9 @@ final class MainThreadProbe: Sendable {
   }
 
   func stop() {
-    state.withLock { s in
-      s.running = false
-      s.samplerThread = nil
+    state.withLock { probe in
+      probe.running = false
+      probe.samplerThread = nil
     }
   }
 
@@ -138,9 +138,9 @@ final class MainThreadProbe: Sendable {
   private func recordMainTick(dispatchedAt: Date) {
     let processedAt = Date()
     let delay = processedAt.timeIntervalSince(dispatchedAt)
-    state.withLock { s in
-      if delay > s.maxDelay {
-        s.maxDelay = delay
+    state.withLock { probe in
+      if delay > probe.maxDelay {
+        probe.maxDelay = delay
       }
     }
   }
