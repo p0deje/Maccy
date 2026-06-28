@@ -43,8 +43,8 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
   private var savedIgnoreRegexp: [String] = []
   private var savedMaxContentSize: Int = ClipboardContentSizeLimit.defaultMegabytes
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     // `Storage.shared` is an in-memory singleton shared across every test in this
     // run, so clear it in setUp so each test starts from a known-empty store.
     try? Storage.shared.context.delete(model: HistoryItem.self)
@@ -60,11 +60,11 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     Defaults[.ignoreRegexp] = []
   }
 
-  override func tearDown() {
+  override func tearDown() async throws {
     Defaults[.size] = savedSize
     Defaults[.ignoreRegexp] = savedIgnoreRegexp
     Defaults[.maxClipboardContentSize] = savedMaxContentSize
-    super.tearDown()
+    try await super.tearDown()
   }
 
   // MARK: - Add path

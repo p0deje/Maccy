@@ -9,19 +9,19 @@ final class HistoryPinPersistenceTests: XCTestCase {
   private let savedSize = Defaults[.size]
   private let savedSortBy = Defaults[.sortBy]
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     history.clearAll()
     AppState.shared.navigator.selectWithoutScrolling(item: nil)
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt
   }
 
-  override func tearDown() {
+  override func tearDown() async throws {
     history.searchQuery = ""
     Defaults[.size] = savedSize
     Defaults[.sortBy] = savedSortBy
-    super.tearDown()
+    try await super.tearDown()
   }
 
   func testClearingUnpinnedAfterPinPersistsPinnedItem() {

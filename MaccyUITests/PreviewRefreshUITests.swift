@@ -27,8 +27,8 @@ final class PreviewRefreshUITests: XCTestCase {
   private static let perfOpenPreview = "org.p0deje.Maccy.Perf.openPreview"
   private static let perfBulkLoad = "org.p0deje.Maccy.Perf.bulkLoad"
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     perfLogURL = URL.temporaryDirectory
       .appendingPathComponent("maccy-preview-\(UUID().uuidString).log")
     app.launchArguments += ["enable-testing", "MaccyPerfRecord"]
@@ -39,9 +39,9 @@ final class PreviewRefreshUITests: XCTestCase {
     }
   }
 
-  override func tearDown() {
+  override func tearDown() async throws {
     app.terminate()
-    super.tearDown()
+    try await super.tearDown()
   }
 
   func testPreviewRefreshesAcrossNavigation() throws {

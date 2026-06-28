@@ -22,8 +22,8 @@ final class HistoryConsumeTests: XCTestCase {
   private var savedSize = 200
   private var savedSortBy = Defaults[.sortBy]
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     // `Storage.shared` is an in-memory singleton shared across every test in
     // this run, so clear it (and the History view-model) in setUp so each test
     // starts from a known-empty state. Mirrors the
@@ -41,10 +41,10 @@ final class HistoryConsumeTests: XCTestCase {
     Defaults[.sortBy] = .firstCopiedAt
   }
 
-  override func tearDown() {
+  override func tearDown() async throws {
     Defaults[.size] = savedSize
     Defaults[.sortBy] = savedSortBy
-    super.tearDown()
+    try await super.tearDown()
   }
 
   // MARK: - .added

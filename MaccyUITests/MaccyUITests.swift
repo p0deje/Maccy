@@ -51,8 +51,8 @@ class MaccyUITests: XCTestCase {
       .compactMap { $0.value as? String }
   }
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
 
     try? "Hello world".write(to: file1, atomically: true, encoding: .utf8)
     try? "Hello world".write(to: file2, atomically: true, encoding: .utf8)
@@ -66,8 +66,8 @@ class MaccyUITests: XCTestCase {
 
   }
 
-  override func tearDown() {
-    super.tearDown()
+  override func tearDown() async throws {
+    try await super.tearDown()
     app.terminate()
   }
 

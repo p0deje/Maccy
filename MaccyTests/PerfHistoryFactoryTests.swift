@@ -9,16 +9,16 @@ import XCTest
 final class PerfHistoryFactoryTests: XCTestCase {
   private let savedSize = Defaults[.size]
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     History.shared.clearAll()
     Defaults[.size] = 200
   }
 
-  override func tearDown() {
+  override func tearDown() async throws {
     History.shared.clearAll()
     Defaults[.size] = savedSize
-    super.tearDown()
+    try await super.tearDown()
   }
 
   func testMakeImagesBuildsRequestedCount() throws {

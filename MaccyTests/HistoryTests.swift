@@ -8,16 +8,16 @@ class HistoryTests: XCTestCase {
   let savedSortBy = Defaults[.sortBy]
   let history = History.shared
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     history.clearAll()
     AppState.shared.navigator.selectWithoutScrolling(item: nil)
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt
   }
 
-  override func tearDown() {
-    super.tearDown()
+  override func tearDown() async throws {
+    try await super.tearDown()
     history.searchQuery = ""
     Defaults[.size] = savedSize
     Defaults[.sortBy] = savedSortBy
