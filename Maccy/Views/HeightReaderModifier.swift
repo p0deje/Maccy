@@ -7,10 +7,12 @@ struct SizeReaderModifier<Value: Equatable & Sendable>: ViewModifier {
 
   func body(content: Content) -> some View {
     content.onGeometryChange(for: Value.self) { proxy in
-      // onGeometryChange's transform is @Sendable but runs on main during layout;
-      // assumeIsolated is a synchronous no-op assertion. Capture mapper (main-
-      // isolated) safely by re-entering the @MainActor domain.
-      MainActor.assumeIsolated { mapper(proxy.size) }
+      // onGeometryChange's transform is @Sendable but runs on main during layout.
+      // Extract the Sendable CGSize BEFORE the @MainActor block so the non-
+      // Sendable GeometryProxy isn't sent across isolation. assumeIsolated is a
+      // synchronous no-op assertion (we're on main during layout).
+      let size = proxy.size
+      return MainActor.assumeIsolated { mapper(size) }
     } action: { newValue in
       MainActor.assumeIsolated { value = newValue }
     }
