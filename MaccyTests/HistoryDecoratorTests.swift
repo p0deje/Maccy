@@ -3,6 +3,49 @@ import Defaults
 @testable import Maccy
 
 @MainActor
+class HistoryPinnedDuplicateTests: XCTestCase {
+  func testAddingDuplicatePinnedItemAfterLimitDoesNotCrash() {
+    let savedSize = Defaults[.size]
+    let savedPinTo = Defaults[.pinTo]
+    let history = History.shared
+    history.clearAll()
+    Defaults[.size] = 1
+    Defaults[.pinTo] = .bottom
+    defer {
+      history.clearAll()
+      Defaults[.size] = savedSize
+      Defaults[.pinTo] = savedPinTo
+    }
+
+    let pinned = history.add(historyItem("pinned"))
+    pinned.togglePin()
+    history.add(historyItem("0"))
+
+    let duplicate = history.add(historyItem("pinned"))
+
+    XCTAssertEqual(duplicate.item.pin, pinned.item.pin)
+    XCTAssertEqual(history.all, [duplicate])
+    XCTAssertEqual(history.items, [duplicate])
+  }
+
+  private func historyItem(_ value: String) -> HistoryItem {
+    let contents = [
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.string.rawValue,
+        value: value.data(using: .utf8)
+      )
+    ]
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = contents
+    item.numberOfCopies = 1
+    item.title = item.generateTitle()
+
+    return item
+  }
+}
+
+@MainActor
 class HistoryItemDecoratorTests: XCTestCase {
   let boldFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
   let savedHighlightMatch = Defaults[.highlightMatch]

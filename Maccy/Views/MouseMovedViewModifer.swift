@@ -33,10 +33,6 @@ struct MouseMovedViewModifier: ViewModifier {
       installTrackingArea()
     }
 
-    override func mouseEntered(with event: NSEvent) {
-      mouseMoved?()
-    }
-
     override func mouseMoved(with event: NSEvent) {
       mouseMoved?()
     }
@@ -54,7 +50,6 @@ struct MouseMovedViewModifier: ViewModifier {
       let options: NSTrackingArea.Options = [
         .activeInKeyWindow,
         .inVisibleRect,
-        .mouseEnteredAndExited,
         .mouseMoved
       ]
 
