@@ -25,7 +25,7 @@ struct MultipleSelectionListView<Element: Identifiable, Content: View>: View {
   }
 
   var body: some View {
-    VStack(spacing: 0) {
+    LazyVStack(spacing: 0) {
       ForEach(rows) { row in
         content(row.previous, row.element, row.next, row.index)
       }
