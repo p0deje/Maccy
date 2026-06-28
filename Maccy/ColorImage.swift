@@ -1,6 +1,7 @@
 import AppKit
 import SwiftHEXColors
 
+@MainActor
 class ColorImage {
   /// Cache of already-rendered color swatches, keyed by hex string.
   ///

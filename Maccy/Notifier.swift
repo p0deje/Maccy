@@ -1,9 +1,14 @@
 import AppKit
 import UserNotifications
+import os
 
 class Notifier {
   private static var center: UNUserNotificationCenter { UNUserNotificationCenter.current() }
-  private static var hasRequestedAuthorization = false
+  // Swift 6 (SE-0412): a runtime-mutated `static var` Bool is nonisolated global
+  // shared mutable state. A Sendable `OSAllocatedUnfairLock<Bool>` held in a
+  // `static let` is a Sendable global (allowed), and the read-modify-write under
+  // the lock also closes a latent TOCTOU (concurrent notify() could double-request).
+  private static let hasRequestedAuthorization = OSAllocatedUnfairLock(initialState: false)
 
   private static var isTesting: Bool {
     #if DEBUG
@@ -18,10 +23,14 @@ class Notifier {
       return
     }
 
-    guard !hasRequestedAuthorization else {
+    let shouldRequest = hasRequestedAuthorization.withLock { flag -> Bool in
+      guard !flag else { return false }
+      flag = true
+      return true
+    }
+    guard shouldRequest else {
       return
     }
-    hasRequestedAuthorization = true
 
     center.requestAuthorization(options: [.alert, .sound]) { _, error in
       if error != nil {

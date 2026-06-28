@@ -2,7 +2,6 @@ import AppKit.NSRunningApplication
 import Defaults
 import KeyboardShortcuts
 import Observation
-import os
 
 enum PopupState {
   // Default; shortcut will toggle the popup
@@ -60,7 +59,13 @@ class Popup {
   var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
 
-  nonisolated private let eventsMonitor = OSAllocatedUnfairLock<Any?>(initialState: nil)
+  // The NSEvent local-monitor token (opaque Any). Set on main in
+  // initEventsMonitor, removed in deinitEventsMonitor. The token never leaves
+  // the main actor (added/removed/fired on main), so it is a plain @MainActor
+  // instance var — no lock, no @unchecked, no nonisolated(unsafe). The
+  // nonisolated deinit reaches it via MainActor.assumeIsolated, a SYNCHRONOUS
+  // runtime assertion (not an async hop) — safe on macOS 14 (no SE-0371 hop).
+  private var eventsMonitor: Any?
 
   private var state: PopupState = .toggle
 
@@ -74,50 +79,47 @@ class Popup {
   }
 
   func initEventsMonitor() {
-    eventsMonitor.withLock { monitor in
-      guard monitor == nil else { return }
-      monitor = NSEvent.addLocalMonitorForEvents(
-        matching: [.flagsChanged, .keyDown]
-      ) { event in
-        // Local NSEvent monitors fire on the main run loop, so this nonisolated
-        // closure runs on main and MainActor.assumeIsolated is a runtime no-op
-        // assertion. NSEvent is NOT Sendable, so it must not cross the isolation
-        // boundary — extract Sendable properties (type / all-released Bool) on
-        // this side, decide on main via assumeIsolated, and return nil/event
-        // here without ever moving `event` across actors. No @unchecked, no
-        // nonisolated(unsafe).
-        switch event.type {
-        case .flagsChanged:
-          let allReleased = event.modifierFlags.isDisjoint(with: .deviceIndependentFlagsMask)
-          let consume = MainActor.assumeIsolated {
-            AppState.shared.popup.shouldConsumeFlagsChanged(allReleased: allReleased)
-          }
-          return consume ? nil : event
-        case .keyDown:
-          // BS-6.13: the global `.popup` Carbon hotkey consumes its keyDown, so
-          // in-popup hotkey behavior is routed via handleFirstKeyDown; pass
-          // non-hotkey keyDowns through unchanged.
-          return event
-        default:
-          return event
+    guard eventsMonitor == nil else { return }
+    eventsMonitor = NSEvent.addLocalMonitorForEvents(
+      matching: [.flagsChanged, .keyDown]
+    ) { event in
+      // Local NSEvent monitors fire on the main run loop, so this nonisolated
+      // closure runs on main and MainActor.assumeIsolated is a runtime no-op
+      // assertion. NSEvent is NOT Sendable, so it must not cross the isolation
+      // boundary — extract Sendable properties (type / all-released Bool) on
+      // this side, decide on main via assumeIsolated, and return nil/event
+      // here without ever moving `event` across actors. No @unchecked, no
+      // nonisolated(unsafe).
+      switch event.type {
+      case .flagsChanged:
+        let allReleased = event.modifierFlags.isDisjoint(with: .deviceIndependentFlagsMask)
+        let consume = MainActor.assumeIsolated {
+          AppState.shared.popup.shouldConsumeFlagsChanged(allReleased: allReleased)
         }
+        return consume ? nil : event
+      case .keyDown:
+        // BS-6.13: the global `.popup` Carbon hotkey consumes its keyDown, so
+        // in-popup hotkey behavior is routed via handleFirstKeyDown; pass
+        // non-hotkey keyDowns through unchanged.
+        return event
+      default:
+        return event
       }
     }
   }
 
   nonisolated func deinitEventsMonitor() {
-    // removeMonitor is thread-safe (AppKit docs); call it OUTSIDE the lock so
-    // we never hold the lock across an external call. Read+nil under the lock,
-    // then remove on the releasing thread. Popup is a process-lifetime singleton
-    // (AppState.shared.popup), so deinit effectively never fires in prod — but
-    // the no-unsafe isolation must be correct regardless.
-    let monitor = eventsMonitor.withLock { monitor -> Any? in
-      let removed = monitor
-      monitor = nil
-      return removed
-    }
-    if let monitor {
-      NSEvent.removeMonitor(monitor)
+    // removeMonitor is thread-safe (AppKit docs). The token is main-isolated;
+    // reach it from this nonisolated deinit via MainActor.assumeIsolated — a
+    // synchronous runtime assertion, NOT an async hop, so the macOS-14 "deinit
+    // cannot actor-hop" restriction does not apply. Popup is a process-lifetime
+    // singleton (AppState.shared.popup), so deinit effectively never fires in
+    // prod — but the no-unsafe isolation must be correct regardless.
+    MainActor.assumeIsolated {
+      if let monitor = eventsMonitor {
+        eventsMonitor = nil
+        NSEvent.removeMonitor(monitor)
+      }
     }
   }
 

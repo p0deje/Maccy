@@ -8,7 +8,12 @@ import Sauce
 @MainActor
 @Observable
 class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObserving {
-  static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
+  // Swift 6: Equatable/Hashable are nonisolated protocols. Mark the witnesses
+  // nonisolated and read only `id` (let UUID, Sendable) — the stable identity of
+  // an Identifiable item. (title/attributedTitle are main-mutated vars; hashing
+  // them would cross isolation. @Observable already drives SwiftUI updates on
+  // title change, so Hashable need only reflect identity.) No conformance crossing.
+  nonisolated static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
   }
 
@@ -115,11 +120,8 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
 
-  func hash(into hasher: inout Hasher) {
-    // We need to hash title and attributedTitle, so SwiftUI knows it needs to update the view if they chage
+  nonisolated func hash(into hasher: inout Hasher) {
     hasher.combine(id)
-    hasher.combine(title)
-    hasher.combine(attributedTitle)
   }
 
   private(set) var item: HistoryItem

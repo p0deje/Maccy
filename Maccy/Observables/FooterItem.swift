@@ -1,5 +1,6 @@
 import SwiftUI
 
+@MainActor
 @Observable
 class FooterItem: Equatable, Identifiable, HasVisibility {
   struct Confirmation {
@@ -9,7 +10,8 @@ class FooterItem: Equatable, Identifiable, HasVisibility {
     var cancel: LocalizedStringKey
   }
 
-  static func == (lhs: FooterItem, rhs: FooterItem) -> Bool {
+  // Swift 6: nonisolated Equatable witness reading only `id` (let UUID, Sendable).
+  nonisolated static func == (lhs: FooterItem, rhs: FooterItem) -> Bool {
     return lhs.id == rhs.id
   }
 

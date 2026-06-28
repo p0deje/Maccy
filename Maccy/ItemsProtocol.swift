@@ -1,3 +1,4 @@
+@MainActor
 protocol HasVisibility {
   var isVisible: Bool { get }
 }
