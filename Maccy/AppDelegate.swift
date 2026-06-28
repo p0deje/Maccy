@@ -294,8 +294,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     )
     uiTestNotificationObservers.append(
       center.addObserver(forName: UITestNotification.pinHistoryItem, object: nil, queue: .main) { notification in
+        // Extract Sendable values BEFORE the @MainActor block so the non-Sendable
+        // `notification` is not sent across isolation. The observer fires on
+        // .main; assumeIsolated is a synchronous no-op assertion.
+        let title = notification.userInfo?["title"] as? String
         MainActor.assumeIsolated {
-          guard let title = notification.userInfo?["title"] as? String else {
+          guard let title else {
             return
           }
 
@@ -330,8 +334,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     )
     perfNotificationObservers.append(
       center.addObserver(forName: PerfNotification.dump, object: nil, queue: .main) { notification in
+        let category = notification.userInfo?["category"] as? String ?? "unknown"
         MainActor.assumeIsolated {
-          let category = notification.userInfo?["category"] as? String ?? "unknown"
           PerfRecorder.shared.dump(category: category)
         }
       }
@@ -348,9 +352,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     )
     perfNotificationObservers.append(
       center.addObserver(forName: PerfNotification.bulkLoad, object: nil, queue: .main) { notification in
+        let count = notification.userInfo?["count"] as? Int ?? 0
+        let category = notification.userInfo?["category"] as? String ?? "image"
         MainActor.assumeIsolated {
-          let count = notification.userInfo?["count"] as? Int ?? 0
-          let category = notification.userInfo?["category"] as? String ?? "image"
           PerfFixtures.populate(count: count, category: category)
         }
       }
