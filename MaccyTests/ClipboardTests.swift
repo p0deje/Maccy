@@ -93,6 +93,30 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 
+  @MainActor
+  func testKeepsEmptyPasteboardChangeForPendingRTFData() {
+    Defaults[.ignoredApps] = []
+    pasteboard.clearContents()
+    clipboard.changeCount = pasteboard.changeCount
+
+    pasteboard.clearContents()
+    clipboard.checkForChangesInPasteboard()
+
+    let rtf = NSAttributedString(string: "bar").rtf(
+      from: NSRange(0...2),
+      documentAttributes: [:]
+    )
+    XCTAssertTrue(pasteboard.setData(rtf, forType: .rtf))
+
+    var copiedTitles: [String] = []
+    clipboard.onNewCopy { item in
+      copiedTitles.append(item.title)
+    }
+    clipboard.checkForChangesInPasteboard()
+
+    XCTAssertEqual(copiedTitles, ["bar"])
+  }
+
   func testDoesNotIgnoreHTML() {
     let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (_: HistoryItem) in

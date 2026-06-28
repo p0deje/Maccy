@@ -42,7 +42,9 @@ struct ContentView: View {
               searchFocused = true
             }
             .onMouseMove {
-              appState.navigator.isKeyboardNavigating = false
+              if appState.navigator.isKeyboardNavigating {
+                appState.navigator.isKeyboardNavigating = false
+              }
             }
           } slideout: {
             SlideoutContentView()

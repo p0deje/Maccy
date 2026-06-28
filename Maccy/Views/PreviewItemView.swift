@@ -49,6 +49,10 @@ struct PreviewItemView: View {
             }
           }
         }
+        .onDisappear {
+          item.cancelPreviewImageGeneration()
+        }
+        .id(item.id)
       } else {
         ScrollView {
           Text(item.text)

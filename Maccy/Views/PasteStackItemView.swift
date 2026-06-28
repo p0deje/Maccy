@@ -4,15 +4,6 @@ import SwiftUI
 private struct PasteStackId: Hashable {
   var pasteStackId: UUID
   var itemId: UUID
-
-  static func == (lhs: PasteStackId, rhs: PasteStackId) -> Bool {
-    return lhs.pasteStackId == rhs.pasteStackId && lhs.itemId == rhs.itemId
-  }
-
-  func hash(into hasher: inout Hasher) {
-    hasher.combine(pasteStackId)
-    hasher.combine(itemId)
-  }
 }
 
 struct PasteStackItemView: View {
@@ -27,7 +18,8 @@ struct PasteStackItemView: View {
       selectionId: stack.id,
       appIcon: item.applicationImage,
       image: index != nil ? item.thumbnailImage : nil,
-      accessoryImage: item.thumbnailImage != nil ? nil : ColorImage.from(item.title),
+      accessoryImage: item.thumbnailImage != nil ? nil : item.accessoryImage,
+      reservesImageSpace: index != nil && item.hasImage,
       attributedTitle: item.attributedTitle,
       shortcuts: [],
       isSelected: isSelected,

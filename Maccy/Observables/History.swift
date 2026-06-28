@@ -178,8 +178,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
       // Keep pins in the same place.
       if let removedItemIndex {
-        all.insert(itemDecorator, at: removedItemIndex)
+        // limitHistorySize can shrink all after the duplicate is removed.
+        all.insert(itemDecorator, at: min(removedItemIndex, all.endIndex))
       }
+      items = all
     } else {
       itemDecorator = HistoryItemDecorator(item)
 

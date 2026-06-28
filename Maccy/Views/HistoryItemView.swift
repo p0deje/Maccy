@@ -37,7 +37,8 @@ struct HistoryItemView: View {
       selectionId: item.id,
       appIcon: item.applicationImage,
       image: item.thumbnailImage,
-      accessoryImage: item.thumbnailImage != nil ? nil : ColorImage.from(item.title),
+      accessoryImage: item.thumbnailImage != nil ? nil : item.accessoryImage,
+      reservesImageSpace: item.hasImage,
       attributedTitle: item.attributedTitle,
       shortcuts: item.shortcuts,
       isSelected: item.isSelected,
@@ -48,6 +49,9 @@ struct HistoryItemView: View {
     }
     .onAppear {
       item.ensureThumbnailImage()
+    }
+    .onDisappear {
+      item.cancelThumbnailImageGeneration()
     }
     .onTapGesture {
       if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {

@@ -147,12 +147,20 @@ class Clipboard {
 
   @objc
   @MainActor
-  func checkForChangesInPasteboard() { // swiftlint:disable:this cyclomatic_complexity
-    guard pasteboard.changeCount != changeCount else {
+  func checkForChangesInPasteboard() { // swiftlint:disable:this cyclomatic_complexity function_body_length
+    let currentChangeCount = pasteboard.changeCount
+    guard currentChangeCount != changeCount else {
       return
     }
 
-    changeCount = pasteboard.changeCount
+    let pasteboardTypes = Set(pasteboard.types ?? [])
+    // clearContents() increments changeCount, but the following setData/setString does not.
+    // If polling lands between them, wait for data before consuming the change.
+    guard !pasteboardTypes.isEmpty else {
+      return
+    }
+
+    changeCount = currentChangeCount
 
     if pasteboard.pasteboardItems?.contains(where: { $0.types.contains(.fromMaccy) }) != true {
       // External copy occurred. Stop the current paste stack.
@@ -172,7 +180,7 @@ class Clipboard {
     // Reading types on NSPasteboard gives all the available
     // types - even the ones that are not present on the NSPasteboardItem.
     // See https://github.com/p0deje/Maccy/issues/241.
-    if shouldIgnore(Set(pasteboard.types ?? [])) {
+    if shouldIgnore(pasteboardTypes) {
       return
     }
 
