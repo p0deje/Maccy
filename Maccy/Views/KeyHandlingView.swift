@@ -24,7 +24,7 @@ struct KeyHandlingView<Content: View>: View {
           }
         }
 
-        switch KeyChord(NSApp.currentEvent) {
+        switch KeyChord(NSApp.currentEvent, multiSelectionEnabled: appState.multiSelectionEnabled) {
         case .clearHistory:
           if let item = appState.footer.items.first(where: { $0.title == "clear" }),
              item.confirmation != nil,

@@ -2,7 +2,7 @@ protocol HasVisibility {
   var isVisible: Bool { get }
 }
 
-protocol ItemsContainer {
+@MainActor protocol ItemsContainer {
   associatedtype Item
   var containerVisible: Bool { get }
   var items: [Item] { get set }

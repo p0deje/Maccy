@@ -42,7 +42,7 @@ enum KeyChord: CaseIterable {
   case togglePreview
   case unknown
 
-  init(_ event: NSEvent?) {
+  init(_ event: NSEvent?, multiSelectionEnabled: Bool) {
     guard let event, event.type == .keyDown else {
       self = .unknown
       return
@@ -64,11 +64,11 @@ enum KeyChord: CaseIterable {
       return
     }
 
-    self.init(key, modifierFlags)
+    self.init(key, modifierFlags, multiSelectionEnabled: multiSelectionEnabled)
   }
 
   // swiftlint:disable:next cyclomatic_complexity
-  init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) {
+  init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags, multiSelectionEnabled: Bool) {
     switch (key, modifierFlags) {
     case (.delete, [.command, .option]):
       self = .clearHistory
@@ -84,7 +84,7 @@ enum KeyChord: CaseIterable {
       self = .deleteLastWordFromSearch
     case (.downArrow, [.shift]),
          (.n, [.control, .shift]):
-      self = AppState.shared.multiSelectionEnabled ? .extendToNext : .moveToNext
+      self = multiSelectionEnabled ? .extendToNext : .moveToNext
     case (.downArrow, []),
          (.n, [.control]),
          (.j, [.control]):
@@ -92,14 +92,14 @@ enum KeyChord: CaseIterable {
     case (.downArrow, [.command, .shift]),
          (.downArrow, [.option, .shift]),
          (.n, [.control, .option, .shift]):
-      self = AppState.shared.multiSelectionEnabled ? .extendToLast : .moveToLast
+      self = multiSelectionEnabled ? .extendToLast : .moveToLast
     case (.downArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
          (.n, [.control, .option]),
          (.pageDown, []):
       self = .moveToLast
     case (.upArrow, [.shift]),
          (.p, [.control, .shift]):
-      self = AppState.shared.multiSelectionEnabled ? .extendToPrevious : .moveToPrevious
+      self = multiSelectionEnabled ? .extendToPrevious : .moveToPrevious
     case (.upArrow, []),
          (.p, [.control]),
          (.k, [.control]):
@@ -107,7 +107,7 @@ enum KeyChord: CaseIterable {
     case (.upArrow, [.command, .shift]),
          (.upArrow, [.option, .shift]),
          (.p, [.control, .option, .shift]):
-      self = AppState.shared.multiSelectionEnabled ? .extendToFirst : .moveToFirst
+      self = multiSelectionEnabled ? .extendToFirst : .moveToFirst
     case (.upArrow, _) where modifierFlags.contains(.command) || modifierFlags.contains(.option),
          (.p, [.control, .option]),
          (.pageUp, []):

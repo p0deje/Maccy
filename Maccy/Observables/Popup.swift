@@ -77,12 +77,9 @@ class Popup {
     eventsMonitor.withLock { monitor in
       guard monitor == nil else { return }
       monitor = NSEvent.addLocalMonitorForEvents(
-        matching: [.flagsChanged, .keyDown]
-      ) { [weak self] event in
-        MainActor.assumeIsolated {
-          self?.handleEvent(event) ?? event
-        }
-      }
+        matching: [.flagsChanged, .keyDown],
+        handler: handleEvent
+      )
     }
   }
 
