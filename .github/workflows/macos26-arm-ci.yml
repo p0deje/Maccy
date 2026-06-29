@@ -271,10 +271,12 @@ jobs:
           # warning/error/failed/TEST-FAILED. This is what catches a perf test
           # hang/failure — without it a perf shard's continue-on-error would
           # silently swallow the failure and the run would report green.
-          # Tolerate the system HDRImageConverter's benign headless-runner
-          # fallback (see macos26-arm-ci history). Exclude it from the scan.
+          # Tolerate benign headless-runner system noise — the Metal compiler
+          # service and HDRImageConverter are unavailable on the GPU-less runner
+          # and log "failed"/"falling back" lines that are not Maccy failures.
+          # Exclude them from the scan (see macos26-arm-ci history).
           matches=$(grep -Ein '(^|[^[:alpha:]])(warning:|error:|\*\* TEST FAILED \*\*|Fatal error|[Ff]ailed)([^[:alpha:]]|$)' "$LOG_DIR/${{ matrix.shard }}.log" \
-                    | grep -vE 'HDRImageConverter.*falling back to SIMD' || true)
+                    | grep -vE 'HDRImageConverter.*falling back to SIMD|MTLCompiler.*XPC_ERROR_CONNECTION_INVALID|Compiler failed with XPC_ERROR_CONNECTION_INVALID' || true)
           if [[ -n "$matches" ]]; then
             echo "$matches"
             echo "Warnings, errors, or failures found in ${{ matrix.shard }}.log"
