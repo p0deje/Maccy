@@ -1,3 +1,6 @@
+> 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
+> 完成: BS-5(审计 2026-06-28:部分完成 2/13 — SearchActor+generation 守卫真实正确;但 07-F-010 高亮错位、07-F-013 静默丢弃未修,虽提交 4fa4946 称 'bug-2 fix')
+
 # BS-5 — Large Text & Search(后台化 + 文本边界/单位/高亮正确性)
 
 > **依赖**:BS-2(复用其 actor 模式与 `ItemSnapshotDTO`/`StoreEvent` 抽象)。**编译边界**:小步骤 5.4 起会临时破坏编译(`searchQuery.didSet` 与 `Search` 调用点重写),**5.6 恢复**;完成全部后 `xcodebuild build` 通过、既有测试全绿。

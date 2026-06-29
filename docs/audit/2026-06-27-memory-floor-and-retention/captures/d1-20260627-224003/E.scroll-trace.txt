@@ -1,0 +1,155 @@
+=== E-top ===
+Derived 815 type names for non-objects from allocation backtraces
+   27145    1032003      38.0   non-object in zone AttributeGraph_0xafccc8b60             <unknown>
+    1892     150416      79.5   non-object in zone QuartzCore_0x10805c000                 <unknown>
+    1789     289232     161.7   non-object from libicucore.A.dylib                C       libicucore.A.dylib
+     629      50304      80.0   non-object from AttributeGraph                    C       AttributeGraph
+     610      48800      80.0   __DataStorage                                     Swift   Foundation
+     438      28096      64.1   non-object from AE                                C       AE
+     129      13056     101.2   non-object from libsystem_notify.dylib            C       libsystem_notify.dylib
+      36       6912     192.0   NSImage                                           ObjC    AppKit
+      27      44256    1639.1   non-object in zone DefaultMallocZone_0x10182c000          <unknown>
+      26        832      32.0   NSImageArrayRepProvider                           ObjC    AppKit
+       8        256      32.0   SwiftUI.ImageProviderBox<__C.NSImage>             Swift   SwiftUI
+       5        320      64.0   malloc in ApplicationImage.nsImage.getter         C       Maccy
+       5        240      48.0   NSImageContents                                   Swift   SwiftUI
+       5        240      48.0   NSImageISIconRepProvider                          ObjC    AppKit
+       4        256      64.0   NSImageSymbolRepProvider                          ObjC    AppKit
+       3        240      80.0   Swift.ReferenceWritableKeyPath<Maccy.HistoryItemDecorator, Swift.Optional<__C.NSImage>>  Swift   libswiftCore.dylib
+       2    2162688  1081344.0   non-object in zone DefaultPurgeableMallocZone_0x12c178000          <unknown>
+       2        192      96.0   NSImageSymbolConfiguration                        ObjC    AppKit
+       1         96      96.0   _NSImageTypeData                                  ObjC    AppKit
+       1         48      48.0   NSImageCatalogRepProvider                         ObjC    AppKit
+       1         32      32.0   non-object from AppKit                            C       AppKit
+    phys_footprint: 163 MB
+    phys_footprint_peak: 241 MB
+
+=== E-50 ===
+Derived 826 type names for non-objects from allocation backtraces
+   38357    1435312      37.4   non-object in zone AttributeGraph_0xafccc8b60             <unknown>
+    1917     150432      78.5   non-object in zone QuartzCore_0x10805c000                 <unknown>
+    1789     289232     161.7   non-object from libicucore.A.dylib                C       libicucore.A.dylib
+     674      53904      80.0   non-object from AttributeGraph                    C       AttributeGraph
+     606      48480      80.0   __DataStorage                                     Swift   Foundation
+     438      28096      64.1   non-object from AE                                C       AE
+     130      13184     101.4   non-object from libsystem_notify.dylib            C       libsystem_notify.dylib
+      37       7104     192.0   NSImage                                           ObjC    AppKit
+      27      44256    1639.1   non-object in zone DefaultMallocZone_0x10182c000          <unknown>
+      26        832      32.0   NSImageArrayRepProvider                           ObjC    AppKit
+       9        288      32.0   SwiftUI.ImageProviderBox<__C.NSImage>             Swift   SwiftUI
+       6        384      64.0   malloc in ApplicationImage.nsImage.getter         C       Maccy
+       6        288      48.0   NSImageContents                                   Swift   SwiftUI
+       6        288      48.0   NSImageISIconRepProvider                          ObjC    AppKit
+       4        256      64.0   NSImageSymbolRepProvider                          ObjC    AppKit
+       3    3325952  1108650.6   non-object in zone DefaultPurgeableMallocZone_0x12c178000          <unknown>
+       3        240      80.0   Swift.ReferenceWritableKeyPath<Maccy.HistoryItemDecorator, Swift.Optional<__C.NSImage>>  Swift   libswiftCore.dylib
+       2        192      96.0   NSImageSymbolConfiguration                        ObjC    AppKit
+       1         96      96.0   _NSImageTypeData                                  ObjC    AppKit
+       1         48      48.0   NSImageCatalogRepProvider                         ObjC    AppKit
+       1         32      32.0   non-object from AppKit                            C       AppKit
+    phys_footprint: 166 MB
+    phys_footprint_peak: 241 MB
+
+=== E-100 ===
+Derived 824 type names for non-objects from allocation backtraces
+   26021    1054224      40.5   non-object in zone AttributeGraph_0xafccc8b60             <unknown>
+    1950     154096      79.0   non-object in zone QuartzCore_0x10805c000                 <unknown>
+    1789     289232     161.7   non-object from libicucore.A.dylib                C       libicucore.A.dylib
+     674      53904      80.0   non-object from AttributeGraph                    C       AttributeGraph
+     610      48800      80.0   __DataStorage                                     Swift   Foundation
+     438      28096      64.1   non-object from AE                                C       AE
+     130      13184     101.4   non-object from libsystem_notify.dylib            C       libsystem_notify.dylib
+      47       1504      32.0   SwiftUI.ImageProviderBox<__C.NSImage>             Swift   SwiftUI
+      37       7104     192.0   NSImage                                           ObjC    AppKit
+      27      44256    1639.1   non-object in zone DefaultMallocZone_0x10182c000          <unknown>
+      26        832      32.0   NSImageArrayRepProvider                           ObjC    AppKit
+       7        336      48.0   NSImageContents                                   Swift   SwiftUI
+       6        384      64.0   malloc in ApplicationImage.nsImage.getter         C       Maccy
+       6        288      48.0   NSImageISIconRepProvider                          ObjC    AppKit
+       4        256      64.0   NSImageSymbolRepProvider                          ObjC    AppKit
+       3    3325952  1108650.6   non-object in zone DefaultPurgeableMallocZone_0x12c178000          <unknown>
+       3        240      80.0   Swift.ReferenceWritableKeyPath<Maccy.HistoryItemDecorator, Swift.Optional<__C.NSImage>>  Swift   libswiftCore.dylib
+       2        192      96.0   NSImageSymbolConfiguration                        ObjC    AppKit
+       1         96      96.0   _NSImageTypeData                                  ObjC    AppKit
+       1         48      48.0   NSImageCatalogRepProvider                         ObjC    AppKit
+       1         32      32.0   non-object from AppKit                            C       AppKit
+    phys_footprint: 167 MB
+    phys_footprint_peak: 241 MB
+
+=== E-150 ===
+Derived 824 type names for non-objects from allocation backtraces
+   26021    1054224      40.5   non-object in zone AttributeGraph_0xafccc8b60             <unknown>
+    1950     154096      79.0   non-object in zone QuartzCore_0x10805c000                 <unknown>
+    1789     289232     161.7   non-object from libicucore.A.dylib                C       libicucore.A.dylib
+     674      53904      80.0   non-object from AttributeGraph                    C       AttributeGraph
+     610      48800      80.0   __DataStorage                                     Swift   Foundation
+     438      28096      64.1   non-object from AE                                C       AE
+     130      13184     101.4   non-object from libsystem_notify.dylib            C       libsystem_notify.dylib
+      47       1504      32.0   SwiftUI.ImageProviderBox<__C.NSImage>             Swift   SwiftUI
+      37       7104     192.0   NSImage                                           ObjC    AppKit
+      27      44256    1639.1   non-object in zone DefaultMallocZone_0x10182c000          <unknown>
+      26        832      32.0   NSImageArrayRepProvider                           ObjC    AppKit
+       7        336      48.0   NSImageContents                                   Swift   SwiftUI
+       6        384      64.0   malloc in ApplicationImage.nsImage.getter         C       Maccy
+       6        288      48.0   NSImageISIconRepProvider                          ObjC    AppKit
+       4        256      64.0   NSImageSymbolRepProvider                          ObjC    AppKit
+       3    3325952  1108650.6   non-object in zone DefaultPurgeableMallocZone_0x12c178000          <unknown>
+       3        240      80.0   Swift.ReferenceWritableKeyPath<Maccy.HistoryItemDecorator, Swift.Optional<__C.NSImage>>  Swift   libswiftCore.dylib
+       2        192      96.0   NSImageSymbolConfiguration                        ObjC    AppKit
+       1         96      96.0   _NSImageTypeData                                  ObjC    AppKit
+       1         48      48.0   NSImageCatalogRepProvider                         ObjC    AppKit
+       1         32      32.0   non-object from AppKit                            C       AppKit
+    phys_footprint: 167 MB
+    phys_footprint_peak: 241 MB
+
+=== E-bottom ===
+Derived 824 type names for non-objects from allocation backtraces
+   26021    1054224      40.5   non-object in zone AttributeGraph_0xafccc8b60             <unknown>
+    1950     154096      79.0   non-object in zone QuartzCore_0x10805c000                 <unknown>
+    1789     289232     161.7   non-object from libicucore.A.dylib                C       libicucore.A.dylib
+     674      53904      80.0   non-object from AttributeGraph                    C       AttributeGraph
+     610      48800      80.0   __DataStorage                                     Swift   Foundation
+     438      28096      64.1   non-object from AE                                C       AE
+     130      13184     101.4   non-object from libsystem_notify.dylib            C       libsystem_notify.dylib
+      47       1504      32.0   SwiftUI.ImageProviderBox<__C.NSImage>             Swift   SwiftUI
+      37       7104     192.0   NSImage                                           ObjC    AppKit
+      27      44256    1639.1   non-object in zone DefaultMallocZone_0x10182c000          <unknown>
+      26        832      32.0   NSImageArrayRepProvider                           ObjC    AppKit
+       7        336      48.0   NSImageContents                                   Swift   SwiftUI
+       6        384      64.0   malloc in ApplicationImage.nsImage.getter         C       Maccy
+       6        288      48.0   NSImageISIconRepProvider                          ObjC    AppKit
+       4        256      64.0   NSImageSymbolRepProvider                          ObjC    AppKit
+       3    3325952  1108650.6   non-object in zone DefaultPurgeableMallocZone_0x12c178000          <unknown>
+       3        240      80.0   Swift.ReferenceWritableKeyPath<Maccy.HistoryItemDecorator, Swift.Optional<__C.NSImage>>  Swift   libswiftCore.dylib
+       2        192      96.0   NSImageSymbolConfiguration                        ObjC    AppKit
+       1         96      96.0   _NSImageTypeData                                  ObjC    AppKit
+       1         48      48.0   NSImageCatalogRepProvider                         ObjC    AppKit
+       1         32      32.0   non-object from AppKit                            C       AppKit
+    phys_footprint: 167 MB
+    phys_footprint_peak: 241 MB
+
+=== E-rebound (scrolled back to top, waited) ===
+Derived 812 type names for non-objects from allocation backtraces
+   26021    1054224      40.5   non-object in zone AttributeGraph_0xafccc8b60             <unknown>
+    1950     154096      79.0   non-object in zone QuartzCore_0x10805c000                 <unknown>
+    1789     289232     161.7   non-object from libicucore.A.dylib                C       libicucore.A.dylib
+     674      53904      80.0   non-object from AttributeGraph                    C       AttributeGraph
+     610      48800      80.0   __DataStorage                                     Swift   Foundation
+     438      28096      64.1   non-object from AE                                C       AE
+     130      13184     101.4   non-object from libsystem_notify.dylib            C       libsystem_notify.dylib
+      47       1504      32.0   SwiftUI.ImageProviderBox<__C.NSImage>             Swift   SwiftUI
+      37       7104     192.0   NSImage                                           ObjC    AppKit
+      27      44256    1639.1   non-object in zone DefaultMallocZone_0x10182c000          <unknown>
+      26        832      32.0   NSImageArrayRepProvider                           ObjC    AppKit
+       7        336      48.0   NSImageContents                                   Swift   SwiftUI
+       6        384      64.0   malloc in ApplicationImage.nsImage.getter         C       Maccy
+       6        288      48.0   NSImageISIconRepProvider                          ObjC    AppKit
+       4        256      64.0   NSImageSymbolRepProvider                          ObjC    AppKit
+       3    3325952  1108650.6   non-object in zone DefaultPurgeableMallocZone_0x12c178000          <unknown>
+       3        240      80.0   Swift.ReferenceWritableKeyPath<Maccy.HistoryItemDecorator, Swift.Optional<__C.NSImage>>  Swift   libswiftCore.dylib
+       2        192      96.0   NSImageSymbolConfiguration                        ObjC    AppKit
+       1         96      96.0   _NSImageTypeData                                  ObjC    AppKit
+       1         48      48.0   NSImageCatalogRepProvider                         ObjC    AppKit
+       1         32      32.0   non-object from AppKit                            C       AppKit
+    phys_footprint: 165 MB
+    phys_footprint_peak: 241 MB

@@ -1,85 +1,832 @@
-Analysis of sampling Maccy (pid 22388) every 1 millisecond
-Process:         Maccy [22388]
+Process:         Maccy [71087]
 Path:            /Applications/Maccy.app/Contents/MacOS/Maccy
-Load Address:    0x1045c4000
+Load Address:    0x100c80000
 Identifier:      org.p0deje.Maccy
 Version:         2.6.1 (60)
 Code Type:       ARM64
 Platform:        macOS
-Parent Process:  launchd [1]
+Parent Process:  bash [71084]
 Target Type:     live task
 
-Date/Time:       2026-06-27 11:55:12.382 +0800
-Launch Time:     2026-06-27 05:52:28.509 +0800
+Date/Time:       2026-06-27 22:41:17.384 +0800
+Launch Time:     2026-06-27 22:40:03.965 +0800
 OS Version:      macOS 26.5 (25F71)
 Report Version:  7
-Analysis Tool:   /usr/bin/sample
+Analysis Tool:   /usr/bin/leaks
 
-Physical footprint:         135.5M
-Physical footprint (peak):  229.3M
+Physical footprint:         91.6M
+Physical footprint (peak):  144.6M
 Idle exit:                  untracked
 ----
 
-Call graph:
-    4307 Thread_1081692   DispatchQueue_1: com.apple.main-thread  (serial)
-    + 4307 start  (in dyld) + 6992  [0x185fdbe00]
-    +   4307 main  (in Maccy) + 40  [0x104677960]
-    +     4307 static App.main()  (in SwiftUI) + 224  [0x1bb844344]
-    +       4307 runApp<A>(_:)  (in SwiftUI) + 104  [0x1bb5784a4]
-    +         4307 specialized runApp(_:)  (in SwiftUI) + 140  [0x1bb1c247c]
-    +           4307 NSApplicationMain  (in AppKit) + 880  [0x18a84f7b0]
-    +             4307 -[NSApplication run]  (in AppKit) + 368  [0x18a87713c]
-    +               4307 -[NSApplication(NSEventRouting) nextEventMatchingMask:untilDate:inMode:dequeue:]  (in AppKit) + 72  [0x18b4195bc]
-    +                 4307 -[NSApplication(NSEventRouting) _nextEventMatchingEventMask:untilDate:inMode:dequeue:]  (in AppKit) + 688  [0x18b4198b0]
-    +                   4307 _DPSNextEvent  (in AppKit) + 576  [0x18a884084]
-    +                     4307 _DPSBlockUntilNextEventMatchingListInMode  (in AppKit) + 228  [0x18af3035c]
-    +                       4307 _BlockUntilNextEventMatchingListInMode  (in HIToolbox) + 48  [0x1933c814c]
-    +                         4307 ReceiveNextEventCommon  (in HIToolbox) + 488  [0x19323e8bc]
-    +                           4307 RunCurrentEventLoopInMode  (in HIToolbox) + 320  [0x19323b560]
-    +                             4307 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x1865281c4]
-    +                               4304 __CFRunLoopRun  (in CoreFoundation) + 1188  [0x1864559c4]
-    +                               ! 4304 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x1864570d8]
-    +                               !   4304 mach_msg  (in libsystem_kernel.dylib) + 24  [0x186355fc0]
-    +                               !     4304 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x18635e9c0]
-    +                               !       4304 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x186368574]
-    +                               !         4304 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x186355c34]
-    +                               2 __CFRunLoopRun  (in CoreFoundation) + 1516  [0x186455b0c]
-    +                               ! 2 mach_port_extract_member  (in libsystem_kernel.dylib) + 36  [0x186359384]
-    +                               !   2 _kernelrpc_mach_port_extract_member_trap  (in libsystem_kernel.dylib) + 8  [0x186355b20]
-    +                               1 __CFRunLoopRun  (in CoreFoundation) + 1816  [0x186455c38]
-    +                                 1 __CFRunLoopDoTimers  (in CoreFoundation) + 136  [0x18646faf8]
-    +                                   1 objc_msgSend  (in libobjc.A.dylib) + 32  [0x185f3d820]
-    4307 Thread_1081704: com.apple.NSEventThread
-    + 4307 thread_start  (in libsystem_pthread.dylib) + 8  [0x186394c1c]
-    +   4307 _pthread_start  (in libsystem_pthread.dylib) + 136  [0x186399c58]
-    +     4307 _NSEventThread  (in AppKit) + 184  [0x18a9a5c7c]
-    +       4307 _CFRunLoopRunSpecificWithOptions  (in CoreFoundation) + 532  [0x1865281c4]
-    +         4307 __CFRunLoopRun  (in CoreFoundation) + 1188  [0x1864559c4]
-    +           4307 __CFRunLoopServiceMachPort  (in CoreFoundation) + 160  [0x1864570d8]
-    +             4307 mach_msg  (in libsystem_kernel.dylib) + 24  [0x186355fc0]
-    +               4307 mach_msg_overwrite  (in libsystem_kernel.dylib) + 480  [0x18635e9c0]
-    +                 4307 mach_msg2_internal  (in libsystem_kernel.dylib) + 76  [0x186368574]
-    +                   4307 mach_msg2_trap  (in libsystem_kernel.dylib) + 8  [0x186355c34]
-    4307 Thread_1511956
-    + 4307 start_wqthread  (in libsystem_pthread.dylib) + 8  [0x186394c10]
-    +   4307 _pthread_wqthread  (in libsystem_pthread.dylib) + 368  [0x186395f0c]
-    +     4307 __workq_kernreturn  (in libsystem_kernel.dylib) + 8  [0x1863579f0]
-    4307 Thread_1511957
-      4307 start_wqthread  (in libsystem_pthread.dylib) + 8  [0x186394c10]
-        4307 _pthread_wqthread  (in libsystem_pthread.dylib) + 368  [0x186395f0c]
-          4307 __workq_kernreturn  (in libsystem_kernel.dylib) + 8  [0x1863579f0]
+leaks Report Version: 4.0, multi-line stacks
+Process 71087: 167962 nodes malloced for 45474 KB
+Process 71087: 292 leaks for 19072 total leaked bytes.
 
-Total number in stack (recursive counted multiple, when >=5):
+STACK OF 3 INSTANCES OF 'ROOT CYCLE: <NSXPCConnection>':
+12  libsystem_pthread.dylib               0x186394c10 start_wqthread + 8
+11  libsystem_pthread.dylib               0x186395e84 _pthread_wqthread + 232
+10  libdispatch.dylib                     0x1861f1120 _dispatch_worker_thread2 + 184
+9   libdispatch.dylib                     0x1861f0adc _dispatch_root_queue_drain + 708
+8   libdispatch.dylib                     0x186215d6c <deduplicated_symbol> + 28
+7   libdispatch.dylib                     0x1861f84b0 _dispatch_client_callout + 16
+6   libdispatch.dylib                     0x1861dea28 _dispatch_call_block_and_release + 32
+5   com.apple.AppIntents                  0x22c514608 __52-[LNProcessInstanceRegistryClient makeXPCConnection]_block_invoke.16 + 52
+4   com.apple.AppIntents                  0x22c51416c -[LNProcessInstanceRegistryClient makeXPCConnection] + 68
+3   com.apple.LinkServices                0x259b75e80 +[NSXPCConnection(ApplicationService) ln_applicationServiceWithError:] + 84
+2   libobjc.A.dylib                       0x185f41f64 _objc_rootAllocWithZone + 52
+1   libsystem_malloc.dylib                0x1861aa6e0 _calloc + 88
+0   libsystem_malloc.dylib                0x1861c6368 _malloc_zone_calloc_instrumented_or_legacy + 132 
+====
+    288 (18.4K) << TOTAL >>
+      ----
+      96 (6.12K) ROOT CYCLE: <NSXPCConnection 0xafcc6c6c0> [192]  Protocol: LNDaemonApplicationInterface  Connection: "com.apple.linkd.autoShortcut" [no process]
+         6 (800 bytes) _connection --> ROOT CYCLE: <xpc_connection_t 0xafd034dc0> [320]  "com.apple.linkd.autoShortcut" [no process]
+            4 (432 bytes) ROOT CYCLE: <dispatch_mach_t 0xafd1d5900> [160]  "com.apple.linkd.autoShortcut"
+               1 (64 bytes) ROOT CYCLE: <calloc in _dispatch_unote_create 0xafcca9f00> [64]
+               1 (160 bytes) <calloc in _dispatch_unote_create 0xafccbca00> [160]
+               1 (48 bytes) <malloc in _dispatch_mach_create 0x46602c210> [48]  length: 28  "com.apple.linkd.autoShortcut"
+            1 (48 bytes) ROOT CYCLE: <__NSMallocBlock__ 0xafd05d830> [48]  Foundation  __51-[NSXPCConnection initWithMachServiceName:options:]_block_invoke  0x187c657f4
+               __strong [capture] --> CYCLE BACK TO <NSXPCConnection 0xafcc6c6c0> [192]  Protocol: LNDaemonApplicationInterface  Connection: "com.apple.linkd.autoShortcut" [no process]
+         79 (4.42K) _remoteObjectInterface --> <NSXPCInterface 0xafd1db430> [80]  Protocol: LNDaemonApplicationInterface
+            78 (4.34K) _methodInfo --> <CFDictionary 0xafce43a70> [80]  item count: 15
+               76 (4.08K) <CFDictionary (Value Storage) 0xafccd49c0> [192]
+                  7 (432 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd03be80> [64]
+                     3 (192 bytes) <NSArray 0xafd02af80> [64]  item count: 3
+                        1 (64 bytes) <NSSet 0xafd02ae80> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd02ad80> [64]  item count: 1
+                     3 (176 bytes) <NSArray 0xafd1ac000> [48]  item count: 2
+                        1 (64 bytes) <NSSet 0xafd02b1c0> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd02b140> [64]  item count: 1
+                  7 (416 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd03bf00> [64]
+                     4 (256 bytes) <NSArray 0xafd02b2c0> [64]  item count: 4
+                        1 (64 bytes) <NSSet 0xafd02b300> [64]  item count: 1
+                        1 (64 bytes) <NSSet 0xafd02b380> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd02b240> [64]  item count: 1
+                     2 (96 bytes) <NSArray 0xafccd1480> [32]
+                        1 (64 bytes) __strong _object --> <NSSet 0xafd02b400> [64]  item count: 1
+                  7 (384 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd03bcc0> [64]
+                     4 (256 bytes) <NSArray 0xafd02b0c0> [64]  item count: 4
+                        1 (64 bytes) <NSSet 0xafd02ac80> [64]  item count: 2
+                        1 (64 bytes) <NSSet 0xafd02ae40> [64]  item count: 2
+                        1 (64 bytes) list --> <NSSet 0xafd02b040> [64]  item count: 2
+                     2 (64 bytes) <NSArray 0xafccd0da0> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd0dc0> [32]
+                  6 (368 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd03bdc0> [64]
+                     3 (192 bytes) <NSArray 0xafd02aa00> [64]  item count: 3
+                        1 (64 bytes) <NSSet 0xafd02aa80> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd02a800> [64]  item count: 1
+                     2 (112 bytes) <NSArray 0xafd1ad170> [48]  item count: 2
+                        1 (64 bytes) <NSSet 0xafd02ab80> [64]  item count: 1
+                  6 (352 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd03be00> [64]
+                     3 (192 bytes) <NSArray 0xafd029900> [64]  item count: 3
+                        1 (64 bytes) <NSSet 0xafd029840> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd02a4c0> [64]  item count: 2
+                     2 (96 bytes) <NSArray 0xafccd1460> [32]
+                        1 (64 bytes) __strong _object --> <NSSet 0xafd02a640> [64]  item count: 1
+                  5 (256 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd0390c0> [64]
+                     2 (128 bytes) <NSArray 0xafd02af00> [64]  item count: 3
+                        1 (64 bytes) list --> <NSSet 0xafd029f80> [64]  item count: 1
+                     2 (64 bytes) <NSArray 0xafccd0d40> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd0d80> [32]
+                  5 (256 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd039400> [64]
+                     2 (128 bytes) <NSArray 0xafd02a540> [64]  item count: 3
+                        1 (64 bytes) list --> <NSSet 0xafd02a6c0> [64]  item count: 2
+                     2 (64 bytes) <NSArray 0xafccd0de0> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd0e00> [32]
+                  4 (208 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd03bd80> [64]
+                     2 (112 bytes) <NSArray 0xafd1ae280> [48]  item count: 2
+                        1 (64 bytes) list --> <NSSet 0xafd029640> [64]  item count: 3
+                     1 (32 bytes) <NSArray 0xafccd1440> [32]
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd03a2c0> [64]
+                     2 (96 bytes) <NSArray 0xafd0294c0> [64]  item count: 3
+                        1 (32 bytes) <NSSet 0xafccd0e20> [32]
+                     1 (32 bytes) <NSArray 0xafccd10a0> [32]
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd03bf40> [64]
+                     2 (80 bytes) <NSArray 0xafd1ac060> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd14a0> [32]
+                     1 (48 bytes) <NSArray 0xafd1ad200> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd03bfc0> [64]
+                     2 (80 bytes) <NSArray 0xafd1ad260> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd14c0> [32]
+                     1 (48 bytes) <NSArray 0xafd1ad230> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224000> [64]
+                     2 (80 bytes) <NSArray 0xafd1ad2c0> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd14e0> [32]
+                     1 (48 bytes) <NSArray 0xafd1ad2f0> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224040> [64]
+                     2 (80 bytes) <NSArray 0xafd1ad320> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd1500> [32]
+                     1 (48 bytes) <NSArray 0xafd1ad350> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224080> [64]
+                     2 (80 bytes) <NSArray 0xafd1ad380> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd1520> [32]
+                     1 (48 bytes) <NSArray 0xafd1ad3b0> [48]  item count: 2
+                  4 (160 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd03bd40> [64]
+                     2 (64 bytes) <NSArray 0xafccd0d00> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd0ce0> [32]
+                     1 (32 bytes) <NSArray 0xafccd0d20> [32]
+               1 (192 bytes) <CFDictionary (Key Storage) 0xafccd4a80> [192]
+         2 (240 bytes) _userQueue --> <dispatch_queue_t (serial) 0xafd1d59a0> [160]  "com.apple.appintents.process-instance-registry-client.retry-0"  QOS utility
+            1 (80 bytes) <malloc in _dispatch_lane_create_with_target 0x466020280> [80]  length: 61  "com.apple.appintents.process-instance-registry-client.retry-0"
+         2 (192 bytes) _exportInfo --> <_NSXPCConnectionExportedObjectTable 0xafd044720> [96]
+            1 (96 bytes) _replyGroup --> <dispatch_group_t 0xafd044780> [96]
+         1 (64 bytes) _importInfo --> <_NSXPCConnectionImportInfo 0xafd02a080> [64]
+         1 (64 bytes) _repliesRequested --> <_NSXPCConnectionRequestedReplies 0xafd02a300> [64]
+         1 (48 bytes) _dCache --> <_NSXPCConnectionClassCache 0xafd1ad140> [48]
+         1 (48 bytes) _eCache --> <_NSXPCConnectionClassCache 0xafd1ad0e0> [48]
+         1 (48 bytes) _interruptionHandler --> <__NSMallocBlock__ 0xafd05d620> [48]  AppIntents  __52-[LNProcessInstanceRegistryClient makeXPCConnection]_block_invoke  0x22c514404
+         1 (48 bytes) _repliesExpected --> <_NSXPCConnectionExpectedReplies 0xafd1ac090> [48]
+      ----
+      96 (6.12K) ROOT CYCLE: <NSXPCConnection 0xafcc6c840> [192]  Protocol: LNDaemonApplicationInterface  Connection: "com.apple.linkd.autoShortcut" [no process]
+         6 (800 bytes) _connection --> ROOT CYCLE: <xpc_connection_t 0xafd035040> [320]  "com.apple.linkd.autoShortcut" [no process]
+            4 (432 bytes) ROOT CYCLE: <dispatch_mach_t 0xafd1d5c20> [160]  "com.apple.linkd.autoShortcut"
+               1 (64 bytes) ROOT CYCLE: <calloc in _dispatch_unote_create 0xafcca9f80> [64]
+               1 (160 bytes) <calloc in _dispatch_unote_create 0xafccbd2c0> [160]
+               1 (48 bytes) <malloc in _dispatch_mach_create 0x46602c2a0> [48]  length: 28  "com.apple.linkd.autoShortcut"
+            1 (48 bytes) ROOT CYCLE: <__NSMallocBlock__ 0xafd05dd10> [48]  Foundation  __51-[NSXPCConnection initWithMachServiceName:options:]_block_invoke  0x187c657f4
+               __strong [capture] --> CYCLE BACK TO <NSXPCConnection 0xafcc6c840> [192]  Protocol: LNDaemonApplicationInterface  Connection: "com.apple.linkd.autoShortcut" [no process]
+         79 (4.42K) _remoteObjectInterface --> <NSXPCInterface 0xafd1db4d0> [80]  Protocol: LNDaemonApplicationInterface
+            78 (4.34K) _methodInfo --> <CFDictionary 0xafce43ca0> [80]  item count: 15
+               76 (4.08K) <CFDictionary (Value Storage) 0xafccd4c00> [192]
+                  7 (432 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224740> [64]
+                     3 (192 bytes) <NSArray 0xafd22cb80> [64]  item count: 3
+                        1 (64 bytes) <NSSet 0xafd22cbc0> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd22cb00> [64]  item count: 1
+                     3 (176 bytes) <NSArray 0xafd1aee20> [48]  item count: 2
+                        1 (64 bytes) <NSSet 0xafd22ccc0> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd22cc40> [64]  item count: 1
+                  7 (416 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224780> [64]
+                     4 (256 bytes) <NSArray 0xafd22cdc0> [64]  item count: 4
+                        1 (64 bytes) <NSSet 0xafd22ce00> [64]  item count: 1
+                        1 (64 bytes) <NSSet 0xafd22ce80> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd22cd40> [64]  item count: 1
+                     2 (96 bytes) <NSArray 0xafccd1940> [32]
+                        1 (64 bytes) __strong _object --> <NSSet 0xafd22cf00> [64]  item count: 1
+                  7 (384 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd2245c0> [64]
+                     4 (256 bytes) <NSArray 0xafd22c300> [64]  item count: 4
+                        1 (64 bytes) <NSSet 0xafd22c340> [64]  item count: 2
+                        1 (64 bytes) <NSSet 0xafd22c400> [64]  item count: 2
+                        1 (64 bytes) list --> <NSSet 0xafd22c200> [64]  item count: 2
+                     2 (64 bytes) <NSArray 0xafccd1840> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd1860> [32]
+                  6 (368 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224700> [64]
+                     3 (192 bytes) <NSArray 0xafd22c9c0> [64]  item count: 3
+                        1 (64 bytes) <NSSet 0xafd22ca00> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd22c940> [64]  item count: 1
+                     2 (112 bytes) <NSArray 0xafd1aedf0> [48]  item count: 2
+                        1 (64 bytes) <NSSet 0xafd22ca80> [64]  item count: 1
+                  6 (352 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd2246c0> [64]
+                     3 (192 bytes) <NSArray 0xafd22c800> [64]  item count: 3
+                        1 (64 bytes) <NSSet 0xafd22c840> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd22c780> [64]  item count: 2
+                     2 (96 bytes) <NSArray 0xafccd1920> [32]
+                        1 (64 bytes) __strong _object --> <NSSet 0xafd22c8c0> [64]  item count: 1
+                  5 (256 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224500> [64]
+                     2 (128 bytes) <NSArray 0xafd22c0c0> [64]  item count: 3
+                        1 (64 bytes) list --> <NSSet 0xafd22c3c0> [64]  item count: 1
+                     2 (64 bytes) <NSArray 0xafccd1800> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd1820> [32]
+                  5 (256 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224540> [64]
+                     2 (128 bytes) <NSArray 0xafd22c600> [64]  item count: 3
+                        1 (64 bytes) list --> <NSSet 0xafd22c4c0> [64]  item count: 2
+                     2 (64 bytes) <NSArray 0xafccd1880> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd18a0> [32]
+                  4 (208 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224680> [64]
+                     2 (112 bytes) <NSArray 0xafd1aedc0> [48]  item count: 2
+                        1 (64 bytes) list --> <NSSet 0xafd22c700> [64]  item count: 3
+                     1 (32 bytes) <NSArray 0xafccd1900> [32]
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224640> [64]
+                     2 (96 bytes) <NSArray 0xafd22c6c0> [64]  item count: 3
+                        1 (32 bytes) <NSSet 0xafccd18c0> [32]
+                     1 (32 bytes) <NSArray 0xafccd18e0> [32]
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd2247c0> [64]
+                     2 (80 bytes) <NSArray 0xafd1aee50> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd1960> [32]
+                     1 (48 bytes) <NSArray 0xafd1aee80> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224800> [64]
+                     2 (80 bytes) <NSArray 0xafd1aeeb0> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd1980> [32]
+                     1 (48 bytes) <NSArray 0xafd1aeee0> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224840> [64]
+                     2 (80 bytes) <NSArray 0xafd1aef10> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd19a0> [32]
+                     1 (48 bytes) <NSArray 0xafd1aef40> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224880> [64]
+                     2 (80 bytes) <NSArray 0xafd1aef70> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd19c0> [32]
+                     1 (48 bytes) <NSArray 0xafd1aefa0> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd2248c0> [64]
+                     2 (80 bytes) <NSArray 0xafd1aefd0> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd19e0> [32]
+                     1 (48 bytes) <NSArray 0xafd1af000> [48]  item count: 2
+                  4 (160 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224580> [64]
+                     2 (64 bytes) <NSArray 0xafccd17c0> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd17a0> [32]
+                     1 (32 bytes) <NSArray 0xafccd17e0> [32]
+               1 (192 bytes) <CFDictionary (Key Storage) 0xafccd4cc0> [192]
+         2 (240 bytes) _userQueue --> <dispatch_queue_t (serial) 0xafd1d5cc0> [160]  "com.apple.appintents.process-instance-registry-client.retry-0"  QOS utility
+            1 (80 bytes) <malloc in _dispatch_lane_create_with_target 0x466020320> [80]  length: 61  "com.apple.appintents.process-instance-registry-client.retry-0"
+         2 (192 bytes) _exportInfo --> <_NSXPCConnectionExportedObjectTable 0xafd0448a0> [96]
+            1 (96 bytes) _replyGroup --> <dispatch_group_t 0xafd044900> [96]
+         1 (64 bytes) _importInfo --> <_NSXPCConnectionImportInfo 0xafd22c500> [64]
+         1 (64 bytes) _repliesRequested --> <_NSXPCConnectionRequestedReplies 0xafd22c540> [64]
+         1 (48 bytes) _dCache --> <_NSXPCConnectionClassCache 0xafd1aea60> [48]
+         1 (48 bytes) _eCache --> <_NSXPCConnectionClassCache 0xafd1aea30> [48]
+         1 (48 bytes) _interruptionHandler --> <__NSMallocBlock__ 0xafd05d980> [48]  AppIntents  __52-[LNProcessInstanceRegistryClient makeXPCConnection]_block_invoke  0x22c514404
+         1 (48 bytes) _repliesExpected --> <_NSXPCConnectionExpectedReplies 0xafd1aea00> [48]
+      ----
+      96 (6.12K) ROOT CYCLE: <NSXPCConnection 0xafcc6c900> [192]  Protocol: LNDaemonApplicationInterface  Connection: "com.apple.linkd.autoShortcut" [no process]
+         6 (800 bytes) _connection --> ROOT CYCLE: <xpc_connection_t 0xafd035540> [320]  "com.apple.linkd.autoShortcut" [no process]
+            4 (432 bytes) ROOT CYCLE: <dispatch_mach_t 0xafd1d6120> [160]  "com.apple.linkd.autoShortcut"
+               1 (64 bytes) ROOT CYCLE: <calloc in _dispatch_unote_create 0xafccaa000> [64]
+               1 (160 bytes) <calloc in _dispatch_unote_create 0xafccbd540> [160]
+               1 (48 bytes) <malloc in _dispatch_mach_create 0x46602c5a0> [48]  length: 28  "com.apple.linkd.autoShortcut"
+            1 (48 bytes) ROOT CYCLE: <__NSMallocBlock__ 0xafd05df20> [48]  Foundation  __51-[NSXPCConnection initWithMachServiceName:options:]_block_invoke  0x187c657f4
+               __strong [capture] --> CYCLE BACK TO <NSXPCConnection 0xafcc6c900> [192]  Protocol: LNDaemonApplicationInterface  Connection: "com.apple.linkd.autoShortcut" [no process]
+         79 (4.42K) _remoteObjectInterface --> <NSXPCInterface 0xafd1db700> [80]  Protocol: LNDaemonApplicationInterface
+            78 (4.34K) _methodInfo --> <CFDictionary 0xafce43f70> [80]  item count: 15
+               76 (4.08K) <CFDictionary (Value Storage) 0xafccd5080> [192]
+                  7 (432 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd225500> [64]
+                     3 (192 bytes) <NSArray 0xafd22d440> [64]  item count: 3
+                        1 (64 bytes) <NSSet 0xafd22d480> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd22d2c0> [64]  item count: 1
+                     3 (176 bytes) <NSArray 0xafd1af570> [48]  item count: 2
+                        1 (64 bytes) <NSSet 0xafd22d5c0> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd22d580> [64]  item count: 1
+                  7 (416 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd225540> [64]
+                     4 (256 bytes) <NSArray 0xafd22d840> [64]  item count: 4
+                        1 (64 bytes) <NSSet 0xafd22d8c0> [64]  item count: 1
+                        1 (64 bytes) <NSSet 0xafd22da00> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd22d700> [64]  item count: 1
+                     2 (96 bytes) <NSArray 0xafccd1e20> [32]
+                        1 (64 bytes) __strong _object --> <NSSet 0xafd22dd00> [64]  item count: 1
+                  7 (384 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224d00> [64]
+                     4 (256 bytes) <NSArray 0xafd22c140> [64]  item count: 4
+                        1 (64 bytes) <NSSet 0xafd22c380> [64]  item count: 2
+                        1 (64 bytes) <NSSet 0xafd22c480> [64]  item count: 2
+                        1 (64 bytes) list --> <NSSet 0xafd22c440> [64]  item count: 2
+                     2 (64 bytes) <NSArray 0xafccd1d20> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd1d40> [32]
+                  6 (368 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd2254c0> [64]
+                     3 (192 bytes) <NSArray 0xafd22d000> [64]  item count: 3
+                        1 (64 bytes) <NSSet 0xafd22d040> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd22cf40> [64]  item count: 1
+                     2 (112 bytes) <NSArray 0xafd1af540> [48]  item count: 2
+                        1 (64 bytes) <NSSet 0xafd22d140> [64]  item count: 1
+                  6 (352 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd225480> [64]
+                     3 (192 bytes) <NSArray 0xafd22cc80> [64]  item count: 3
+                        1 (64 bytes) <NSSet 0xafd22cd80> [64]  item count: 1
+                        1 (64 bytes) list --> <NSSet 0xafd22cb40> [64]  item count: 2
+                     2 (96 bytes) <NSArray 0xafccd1e00> [32]
+                        1 (64 bytes) __strong _object --> <NSSet 0xafd22e100> [64]  item count: 1
+                  5 (256 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224d40> [64]
+                     2 (128 bytes) <NSArray 0xafd22c900> [64]  item count: 3
+                        1 (64 bytes) list --> <NSSet 0xafd22d240> [64]  item count: 1
+                     2 (64 bytes) <NSArray 0xafccd1ce0> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd1d00> [32]
+                  5 (256 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd2253c0> [64]
+                     2 (128 bytes) <NSArray 0xafd22c7c0> [64]  item count: 3
+                        1 (64 bytes) list --> <NSSet 0xafd22c680> [64]  item count: 2
+                     2 (64 bytes) <NSArray 0xafccd1d60> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd1d80> [32]
+                  4 (208 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd225440> [64]
+                     2 (112 bytes) <NSArray 0xafd1aeac0> [48]  item count: 2
+                        1 (64 bytes) list --> <NSSet 0xafd22ca40> [64]  item count: 3
+                     1 (32 bytes) <NSArray 0xafccd1de0> [32]
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd225400> [64]
+                     2 (96 bytes) <NSArray 0xafd22cd00> [64]  item count: 3
+                        1 (32 bytes) <NSSet 0xafccd1da0> [32]
+                     1 (32 bytes) <NSArray 0xafccd1dc0> [32]
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd225580> [64]
+                     2 (80 bytes) <NSArray 0xafd1af0c0> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd1e40> [32]
+                     1 (48 bytes) <NSArray 0xafd1af510> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd2255c0> [64]
+                     2 (80 bytes) <NSArray 0xafd1af360> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd1e60> [32]
+                     1 (48 bytes) <NSArray 0xafd1af390> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd225600> [64]
+                     2 (80 bytes) <NSArray 0xafd1af5a0> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd1e80> [32]
+                     1 (48 bytes) <NSArray 0xafd1af5d0> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd225640> [64]
+                     2 (80 bytes) <NSArray 0xafd1af600> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd1ea0> [32]
+                     1 (48 bytes) <NSArray 0xafd1af630> [48]  item count: 2
+                  4 (192 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd225680> [64]
+                     2 (80 bytes) <NSArray 0xafd1af660> [48]  item count: 2
+                        1 (32 bytes) list --> <NSSet 0xafccd1ec0> [32]
+                     1 (48 bytes) <NSArray 0xafd1af690> [48]  item count: 2
+                  4 (160 bytes) <malloc in -[NSXPCInterface _locked_methodInfoForSelector:createIfNecessary:] 0xafd224cc0> [64]
+                     2 (64 bytes) <NSArray 0xafccd1ca0> [32]
+                        1 (32 bytes) __strong _object --> <NSSet 0xafccd1c80> [32]
+                     1 (32 bytes) <NSArray 0xafccd1cc0> [32]
+               1 (192 bytes) <CFDictionary (Key Storage) 0xafccd5140> [192]
+         2 (240 bytes) _userQueue --> <dispatch_queue_t (serial) 0xafd1d61c0> [160]  "com.apple.appintents.process-instance-registry-client.retry-1"  QOS utility
+            1 (80 bytes) <malloc in _dispatch_lane_create_with_target 0x4660203c0> [80]  length: 61  "com.apple.appintents.process-instance-registry-client.retry-1"
+         2 (192 bytes) _exportInfo --> <_NSXPCConnectionExportedObjectTable 0xafd0455c0> [96]
+            1 (96 bytes) _replyGroup --> <dispatch_group_t 0xafd045620> [96]
+         1 (64 bytes) _importInfo --> <_NSXPCConnectionImportInfo 0xafd22e140> [64]
+         1 (64 bytes) _repliesRequested --> <_NSXPCConnectionRequestedReplies 0xafd22dc80> [64]
+         1 (48 bytes) _dCache --> <_NSXPCConnectionClassCache 0xafd1af4b0> [48]
+         1 (48 bytes) _eCache --> <_NSXPCConnectionClassCache 0xafd1af480> [48]
+         1 (48 bytes) _interruptionHandler --> <__NSMallocBlock__ 0xafd05da40> [48]  AppIntents  __52-[LNProcessInstanceRegistryClient makeXPCConnection]_block_invoke  0x22c514404
+         1 (48 bytes) _repliesExpected --> <_NSXPCConnectionExpectedReplies 0xafd1af450> [48]
 
-Sort by top of stack, same collapsed (when >= 5):
-        __workq_kernreturn  (in libsystem_kernel.dylib)        8614
-        mach_msg2_trap  (in libsystem_kernel.dylib)        8611
+STACK OF 1 INSTANCE OF 'ROOT LEAK: <CFData 0xafe001140> [64]  content length 20 at 0x466234550: 0xAF15010000000000 "ococ3" 0x000000000000':
+33  dyld                                  0x185fdbe00 start + 6992
+32  org.p0deje.Maccy                      0x100d35b5c main + 40
+31  com.apple.SwiftUI                     0x1bb844344 static App.main() + 224
+30  com.apple.SwiftUI                     0x1bb5784a4 runApp<A>(_:) + 104
+29  com.apple.SwiftUI                     0x1bb1c247c specialized runApp(_:) + 140
+28  com.apple.AppKit                      0x18a84f7b0 NSApplicationMain + 880
+27  com.apple.AppKit                      0x18a877164 -[NSApplication run] + 408
+26  com.apple.AppKit                      0x18b065664 -[NSApplication _handleEvent:] + 60
+25  com.apple.AppKit                      0x18b41840c -[NSApplication(NSEventRouting) sendEvent:] + 1276
+24  com.apple.AppKit                      0x18a9a7e64 -[NSWindow(NSEventRouting) sendEvent:] + 380
+23  com.apple.AppKit                      0x18a9a8318 -[NSWindow(NSEventRouting) _reallySendEvent:isDelayedEvent:] + 784
+22  com.apple.AppKit                      0x18aab7718 -[NSView scrollWheel:] + 352
+21  com.apple.AppKit                      0x18aa13ec4 forwardMethod + 252
+20  com.apple.AppKit                      0x18aab7718 -[NSView scrollWheel:] + 352
+19  com.apple.AppKit                      0x18aa13ec4 forwardMethod + 252
+18  com.apple.AppKit                      0x18aab7718 -[NSView scrollWheel:] + 352
+17  com.apple.AppKit                      0x18aa13ec4 forwardMethod + 252
+16  com.apple.SwiftUI                     0x1bbdf30dc @objc HostingScrollView.scrollWheel(with:) + 56
+15  com.apple.SwiftUI                     0x1bbdf2f38 HostingScrollView.scrollWheel(with:) + 96
+14  com.apple.SwiftUI                     0x1bbbc4e3c @objc AppKitScrollView.scrollWheel(with:) + 80
+13  com.apple.AppKit                      0x18b75f82c -[NSScrollingBehaviorSingleThreadedVBL scrollView:scrollWheelWithEvent:] + 588
+12  com.apple.AppKit                      0x18b908644 -[NSScrollingAnimator scrollWithEvent:] + 320
+11  com.apple.AppKit                      0x18b908838 -[NSScrollingAnimator scrollWithDelta:timestamp:phase:momentumPhase:] + 244
+10  com.apple.AppKit                      0x18b909df0 -[NSScrollingAnimator _delegateTrackingBegan] + 60
+9   com.apple.AppKit                      0x18b760328 -[NSScrollingBehaviorSingleThreadedVBL scrollingAnimatorTrackingBegan:] + 292
+8   com.apple.AppKit                      0x18b92d084 +[_NSScrollingPerfLogger beginLoggingScrollGestureWithScrollView:] + 44
+7   com.apple.AppKit                      0x18b92d0f8 -[_NSScrollingPerfLogger beginScrollGestureWithScrollView:] + 84
+6   com.apple.AppKit                      0x18b6c1574 -[NSScrollView(NSScrollView_Performance_Analysis) _tokenForPerfLogger] + 60
+5   com.apple.AppKit                      0x18a9beca0 NSAccessibilityCreateRemoteToken + 28
+4   com.apple.HIServices                  0x18da3a87c _AXUIElementRemoteTokenCreate + 40
+3   com.apple.CoreFoundation              0x1864e21d0 __CFDataInit + 172
+2   com.apple.CoreFoundation              0x1863dc790 _CFRuntimeCreateInstance + 496
+1   libsystem_malloc.dylib                0x1861aa8bc _malloc_zone_calloc + 64
+0   libsystem_malloc.dylib                0x1861c6368 _malloc_zone_calloc_instrumented_or_legacy + 132 
+====
+    2 (144 bytes) ROOT LEAK: <CFData 0xafe001140> [64]  content length 20 at 0x466234550: 0xAF15010000000000 "ococ3" 0x000000000000
+       1 (80 bytes) <CFData (Bytes Storage) 0x466234550> [80]
+
+STACK OF 1 INSTANCE OF 'ROOT LEAK: <NSArray>':
+417 dyld                                  0x185fdbe00 start + 6992
+416 org.p0deje.Maccy                      0x100d35b5c main + 40
+415 com.apple.SwiftUI                     0x1bb844344 static App.main() + 224
+414 com.apple.SwiftUI                     0x1bb5784a4 runApp<A>(_:) + 104
+413 com.apple.SwiftUI                     0x1bb1c247c specialized runApp(_:) + 140
+412 com.apple.AppKit                      0x18a84f7b0 NSApplicationMain + 880
+411 com.apple.AppKit                      0x18a87713c -[NSApplication run] + 368
+410 com.apple.AppKit                      0x18b4195bc -[NSApplication(NSEventRouting) nextEventMatchingMask:untilDate:inMode:dequeue:] + 72
+409 com.apple.AppKit                      0x18b4198b0 -[NSApplication(NSEventRouting) _nextEventMatchingEventMask:untilDate:inMode:dequeue:] + 688
+408 com.apple.AppKit                      0x18a884348 _DPSNextEvent + 1284
+407 com.apple.HIToolbox                   0x193194344 AEProcessAppleEvent + 68
+406 com.apple.AE                          0x18e680fb8 aeProcessAppleEvent + 484
+405 com.apple.AE                          0x18e68788c 0x18e67d000 + 43148
+404 com.apple.AE                          0x18e687f34 0x18e67d000 + 44852
+403 com.apple.Foundation                  0x187c77db4 _NSAppleEventManagerGenericHandler + 80
+402 com.apple.Foundation                  0x187c77fbc -[NSAppleEventManager dispatchRawAppleEvent:withRawReply:handlerRefCon:] + 316
+401 com.apple.AppKit                      0x18a88a5d8 -[NSApplication(NSAppleEventHandling) _handleCoreEvent:withReplyEvent:] + 488
+400 com.apple.AppKit                      0x18a88a9c4 -[NSApplication(NSAppleEventHandling) _handleAEOpenEvent:] + 488
+399 com.apple.AppKit                      0x18a88c380 -[NSApplication _sendFinishLaunchingNotification] + 172
+398 com.apple.AppKit                      0x18a88c5e8 -[NSApplication _postDidFinishNotification] + 308
+397 com.apple.Foundation                  0x187c4f4a4 -[NSNotificationCenter postNotificationName:object:userInfo:] + 88
+396 com.apple.CoreFoundation              0x18641a3d0 _CFXNotificationPost + 740
+395 com.apple.CoreFoundation              0x1864d7fd0 _CFXRegistrationPost + 440
+394 com.apple.CoreFoundation              0x1864d808c ___CFXRegistrationPost_block_invoke + 92
+393 com.apple.CoreFoundation              0x18644b9bc __CFNOTIFICATIONCENTER_IS_CALLING_OUT_TO_AN_OBSERVER__ + 148
+392 com.apple.SwiftUI                     0x1bc1ae80c @objc AppDelegate.applicationWillFinishLaunching(_:) + 192
+391 com.apple.SwiftUI                     0x1bc1ad03c AppDelegate.applicationDidFinishLaunching(_:) + 888
+390 org.p0deje.Maccy                      0x100d1c93c <deduplicated_symbol> + 116
+389 org.p0deje.Maccy                      0x100d56eb8 AppDelegate.applicationDidFinishLaunching(_:) + 356
+388 org.p0deje.Maccy                      0x100d542e4 specialized FloatingPanel.init(contentRect:identifier:statusBarButton:onClose:view:) + 1476
+387 com.apple.AppKit                      0x18a8be0e0 -[NSWindow setContentView:] + 300
+386 com.apple.AppKit                      0x18a89f344 -[NSView addSubview:] + 196
+385 com.apple.AppKit                      0x18a8986d0 -[NSView _setWindow:] + 1876
+384 com.apple.SwiftUI                     0x1bb92f968 @objc NSHostingView.viewDidMoveToWindow() + 28
+383 com.apple.SwiftUI                     0x1bb92f708 NSHostingView.viewDidMoveToWindow() + 1812
+382 com.apple.SwiftUI                     0x1bb19ebdc NSHostingView.updateRequiredBridges() + 1056
+381 com.apple.SwiftUI                     0x1bb19e790 NSHostingView.didChangeRequiredBridges(from:to:) + 864
+380 com.apple.SwiftUI                     0x1bbf84e70 NSHostingViewRootDelegate.hostingViewDidUpdateRequiredBridges<A>(_:added:removed:) + 1132
+379 com.apple.SwiftUICore                 0x233761f20 GraphHost.preferenceValues() + 68
+378 com.apple.AttributeGraph              0x1bc82f000 AGGraphGetWeakValue + 372
+377 com.apple.AttributeGraph              0x1bc815f08 AG::Graph::value_ref(AG::AttributeID, unsigned int, AGSwiftMetadata const*, unsigned char&) + 296
+376 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+375 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+374 com.apple.SwiftUICore                 0x233583798 implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 324
+373 com.apple.SwiftUICore                 0x233574250 DynamicPreferenceCombiner.value.getter + 1116
+372 com.apple.SwiftUICore                 0x233c03fc4 protocol witness for static PreferenceKey.reduce(value:nextValue:) in conformance HostPreferencesKey + 40
+371 com.apple.SwiftUICore                 0x233574394 <deduplicated_symbol> + 84
+370 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+369 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+368 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+367 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+366 com.apple.SwiftUICore                 0x233583798 implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 324
+365 com.apple.SwiftUICore                 0x233199944 PairPreferenceCombiner.value.getter + 100
+364 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+363 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+362 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+361 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+360 com.apple.SwiftUICore                 0x233583798 implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 324
+359 com.apple.SwiftUICore                 0x233199944 PairPreferenceCombiner.value.getter + 100
+358 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+357 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+356 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+355 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+354 com.apple.SwiftUICore                 0x233583798 implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 324
+353 com.apple.SwiftUICore                 0x233574250 DynamicPreferenceCombiner.value.getter + 1116
+352 com.apple.SwiftUICore                 0x233c03fc4 protocol witness for static PreferenceKey.reduce(value:nextValue:) in conformance HostPreferencesKey + 40
+351 com.apple.SwiftUICore                 0x233574394 <deduplicated_symbol> + 84
+350 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+349 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+348 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+347 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+346 com.apple.SwiftUICore                 0x2331e2ad8 partial apply for implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 32
+345 com.apple.SwiftUICore                 0x2336a4938 HostPreferencesWriter.updateValue() + 456
+344 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+343 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+342 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+341 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+340 com.apple.SwiftUICore                 0x2331e2ad8 partial apply for implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 32
+339 com.apple.SwiftUICore                 0x233698b60 HostPreferencesTransform.updateValue() + 136
+338 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+337 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+336 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+335 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+334 com.apple.SwiftUICore                 0x2331e2ad8 partial apply for implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 32
+333 com.apple.SwiftUICore                 0x233698b60 HostPreferencesTransform.updateValue() + 136
+332 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+331 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+330 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+329 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+328 com.apple.SwiftUICore                 0x2331e2ad8 partial apply for implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 32
+327 com.apple.SwiftUICore                 0x2336a49a4 HostPreferencesWriter.updateValue() + 564
+326 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+325 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+324 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+323 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+322 com.apple.SwiftUI                     0x1bb2ca1a4 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 24
+321 com.apple.SwiftUI                     0x1bc3ba774 KeyViewLoopSeedFilter.updateValue() + 620
+320 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+319 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+318 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+317 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+316 com.apple.SwiftUICore                 0x2338a2254 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 24
+315 com.apple.SwiftUICore                 0x233934798 AnimatableFrameAttribute.updateValue() + 68
+314 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+313 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+312 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+311 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+310 com.apple.SwiftUICore                 0x23364855c specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 72
+309 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+308 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+307 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+306 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+305 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+304 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+303 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+302 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+301 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+300 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+299 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+298 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+297 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+296 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+295 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+294 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+293 com.apple.SwiftUICore                 0x2338a5018 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 24
+292 com.apple.SwiftUICore                 0x2335af708 DynamicLayoutViewChildGeometry.updateValue() + 260
+291 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+290 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+289 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+288 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+287 com.apple.SwiftUICore                 0x233648b04 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 100
+286 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+285 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+284 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+283 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+282 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+281 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+280 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+279 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+278 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+277 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+276 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+275 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+274 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+273 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+272 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+271 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+270 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+269 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+268 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+267 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+266 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+265 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+264 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+263 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+262 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+261 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+260 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+259 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+258 com.apple.SwiftUICore                 0x233655408 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 104
+257 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+256 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+255 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+254 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+253 com.apple.SwiftUICore                 0x233648b04 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 100
+252 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+251 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+250 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+249 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+248 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+247 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+246 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+245 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+244 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+243 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+242 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+241 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+240 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+239 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+238 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+237 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+236 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+235 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+234 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+233 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+232 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+231 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+230 com.apple.SwiftUICore                 0x233655408 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 104
+229 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+228 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+227 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+226 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+225 com.apple.SwiftUICore                 0x233648b04 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 100
+224 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+223 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+222 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+221 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+220 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+219 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+218 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+217 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+216 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+215 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+214 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+213 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+212 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+211 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+210 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+209 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+208 com.apple.SwiftUICore                 0x2336485f0 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 48
+207 com.apple.SwiftUICore                 0x233622aac specialized UnaryChildGeometry.value.getter + 72
+206 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+205 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+204 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+203 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+202 com.apple.SwiftUICore                 0x2338a5018 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 24
+201 com.apple.SwiftUICore                 0x2335af708 DynamicLayoutViewChildGeometry.updateValue() + 260
+200 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+199 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+198 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+197 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+196 com.apple.SwiftUICore                 0x233648b04 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 100
+195 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+194 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+193 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+192 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+191 com.apple.SwiftUICore                 0x233648664 specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 52
+190 com.apple.SwiftUICore                 0x233622718 specialized UnaryPositionAwareChildGeometry.value.getter + 152
+189 com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+188 com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+187 com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+186 com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+185 com.apple.SwiftUICore                 0x23364943c specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 56
+184 com.apple.SwiftUICore                 0x233cd4a84 RootGeometry.value.getter + 568
+183 com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+182 com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+181 com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+180 com.apple.SwiftUICore                 0x233061710 <deduplicated_symbol> + 80
+179 com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+178 com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+177 com.apple.SwiftUICore                 0x2335c1264 ViewLayoutEngine.sizeThatFits(_:) + 872
+176 com.apple.SwiftUICore                 0x2335c1564 closure #1 in ViewLayoutEngine.sizeThatFits(_:) + 272
+175 com.apple.SwiftUICore                 0x2330635b0 _ZStackLayout.sizeThatFits(proposal:subviews:cache:) + 404
+174 com.apple.SwiftUICore                 0x23306265c specialized Sequence.reduce<A>(_:_:) + 372
+173 com.apple.SwiftUICore                 0x233065e9c partial apply for closure #3 in _ZStackLayout.sizeThatFits(proposal:subviews:cache:) + 80
+172 com.apple.SwiftUICore                 0x233357204 LayoutProxy.dimensions(in:) + 248
+171 com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+170 com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+169 com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+168 com.apple.SwiftUICore                 0x2337e2570 protocol witness for UnaryLayout.sizeThatFits(in:context:child:) in conformance _FlexFrameLayout + 60
+167 com.apple.SwiftUICore                 0x2337e1a34 _FlexFrameLayout.sizeThatFits(in:context:child:) + 356
+166 com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+165 com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+164 com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+163 com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+162 com.apple.SwiftUICore                 0x233061710 <deduplicated_symbol> + 80
+161 com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+160 com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+159 com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+158 com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+157 com.apple.SwiftUICore                 0x2337e2570 protocol witness for UnaryLayout.sizeThatFits(in:context:child:) in conformance _FlexFrameLayout + 60
+156 com.apple.SwiftUICore                 0x2337e1a34 _FlexFrameLayout.sizeThatFits(in:context:child:) + 356
+155 com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+154 com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+153 com.apple.SwiftUICore                 0x2335c1264 ViewLayoutEngine.sizeThatFits(_:) + 872
+152 com.apple.SwiftUICore                 0x2335c1564 closure #1 in ViewLayoutEngine.sizeThatFits(_:) + 272
+151 com.apple.SwiftUICore                 0x233325ee8 <deduplicated_symbol> + 92
+150 com.apple.SwiftUICore                 0x233b09ac4 StackLayout.UnmanagedImplementation.placeChildren(in:) + 208
+149 com.apple.SwiftUICore                 0x233b0b810 specialized StackLayout.UnmanagedImplementation.placeChildren1(in:minorProposalForChild:) + 132
+148 com.apple.SwiftUICore                 0x233b0a1f4 specialized StackLayout.UnmanagedImplementation.sizeChildrenGenerallyWithConcreteMajorProposal(in:minorProposalForChild:) + 140
+147 com.apple.SwiftUICore                 0x233b0abe0 StackLayout.UnmanagedImplementation.prioritize(_:proposedSize:) + 1668
+146 com.apple.SwiftUICore                 0x233a23488 LayoutEngineBox.lengthThatFits(_:in:) + 144
+145 com.apple.SwiftUICore                 0x233a2145c LayoutEngine.lengthThatFits(_:in:) + 88
+144 com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+143 com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+142 com.apple.SwiftUICore                 0x233152a64 protocol witness for UnaryLayout.sizeThatFits(in:context:child:) in conformance _FixedSizeLayout + 112
+141 com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+140 com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+139 com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+138 com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+137 com.apple.SwiftUICore                 0x2337e0500 _FrameLayout.sizeThatFits(in:context:child:) + 152
+136 com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+135 com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+134 com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+133 com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+132 com.apple.SwiftUICore                 0x2337e2570 protocol witness for UnaryLayout.sizeThatFits(in:context:child:) in conformance _FlexFrameLayout + 60
+131 com.apple.SwiftUICore                 0x2337e1a34 _FlexFrameLayout.sizeThatFits(in:context:child:) + 356
+130 com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+129 com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+128 com.apple.SwiftUICore                 0x2335c1264 ViewLayoutEngine.sizeThatFits(_:) + 872
+127 com.apple.SwiftUICore                 0x2335c1564 closure #1 in ViewLayoutEngine.sizeThatFits(_:) + 272
+126 com.apple.SwiftUICore                 0x233325ee8 <deduplicated_symbol> + 92
+125 com.apple.SwiftUICore                 0x233b09ac4 StackLayout.UnmanagedImplementation.placeChildren(in:) + 208
+124 com.apple.SwiftUICore                 0x233b0b810 specialized StackLayout.UnmanagedImplementation.placeChildren1(in:minorProposalForChild:) + 132
+123 com.apple.SwiftUICore                 0x233b0a1f4 specialized StackLayout.UnmanagedImplementation.sizeChildrenGenerallyWithConcreteMajorProposal(in:minorProposalForChild:) + 140
+122 com.apple.SwiftUICore                 0x233b0a8a0 StackLayout.UnmanagedImplementation.prioritize(_:proposedSize:) + 836
+121 com.apple.SwiftUICore                 0x233a23488 LayoutEngineBox.lengthThatFits(_:in:) + 144
+120 com.apple.SwiftUICore                 0x233a2145c LayoutEngine.lengthThatFits(_:in:) + 88
+119 com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+118 com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+117 com.apple.SwiftUICore                 0x233241634 protocol witness for UnaryLayout.sizeThatFits(in:context:child:) in conformance _PaddingLayout + 44
+116 com.apple.SwiftUICore                 0x233240af8 _PaddingLayout.sizeThatFits(in:context:child:) + 208
+115 com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+114 com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+113 com.apple.SwiftUICore                 0x2335c1264 ViewLayoutEngine.sizeThatFits(_:) + 872
+112 com.apple.SwiftUICore                 0x2335c1564 closure #1 in ViewLayoutEngine.sizeThatFits(_:) + 272
+111 com.apple.SwiftUICore                 0x233325ee8 <deduplicated_symbol> + 92
+110 com.apple.SwiftUICore                 0x233b09ac4 StackLayout.UnmanagedImplementation.placeChildren(in:) + 208
+109 com.apple.SwiftUICore                 0x233b0b810 specialized StackLayout.UnmanagedImplementation.placeChildren1(in:minorProposalForChild:) + 132
+108 com.apple.SwiftUICore                 0x233b0a1f4 specialized StackLayout.UnmanagedImplementation.sizeChildrenGenerallyWithConcreteMajorProposal(in:minorProposalForChild:) + 140
+107 com.apple.SwiftUICore                 0x233b0a8a0 StackLayout.UnmanagedImplementation.prioritize(_:proposedSize:) + 836
+106 com.apple.SwiftUICore                 0x233a23488 LayoutEngineBox.lengthThatFits(_:in:) + 144
+105 com.apple.SwiftUICore                 0x233a2145c LayoutEngine.lengthThatFits(_:in:) + 88
+104 com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+103 com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+102 com.apple.SwiftUICore                 0x233241634 protocol witness for UnaryLayout.sizeThatFits(in:context:child:) in conformance _PaddingLayout + 44
+101 com.apple.SwiftUICore                 0x233240af8 _PaddingLayout.sizeThatFits(in:context:child:) + 208
+100 com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+99  com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+98  com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+97  com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+96  com.apple.SwiftUICore                 0x2337e2570 protocol witness for UnaryLayout.sizeThatFits(in:context:child:) in conformance _FlexFrameLayout + 60
+95  com.apple.SwiftUICore                 0x2337e1a34 _FlexFrameLayout.sizeThatFits(in:context:child:) + 356
+94  com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+93  com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+92  com.apple.SwiftUICore                 0x2335c1264 ViewLayoutEngine.sizeThatFits(_:) + 872
+91  com.apple.SwiftUICore                 0x2335c1564 closure #1 in ViewLayoutEngine.sizeThatFits(_:) + 272
+90  com.apple.SwiftUICore                 0x233325ee8 <deduplicated_symbol> + 92
+89  com.apple.SwiftUICore                 0x233b09ac4 StackLayout.UnmanagedImplementation.placeChildren(in:) + 208
+88  com.apple.SwiftUICore                 0x233b0b810 specialized StackLayout.UnmanagedImplementation.placeChildren1(in:minorProposalForChild:) + 132
+87  com.apple.SwiftUICore                 0x233b0a1f4 specialized StackLayout.UnmanagedImplementation.sizeChildrenGenerallyWithConcreteMajorProposal(in:minorProposalForChild:) + 140
+86  com.apple.SwiftUICore                 0x233b0a8a0 StackLayout.UnmanagedImplementation.prioritize(_:proposedSize:) + 836
+85  com.apple.SwiftUICore                 0x233a23488 LayoutEngineBox.lengthThatFits(_:in:) + 144
+84  com.apple.SwiftUICore                 0x233a2145c LayoutEngine.lengthThatFits(_:in:) + 88
+83  com.apple.SwiftUICore                 0x2335c1264 ViewLayoutEngine.sizeThatFits(_:) + 872
+82  com.apple.SwiftUICore                 0x2335c1564 closure #1 in ViewLayoutEngine.sizeThatFits(_:) + 272
+81  com.apple.SwiftUICore                 0x2330635b0 _ZStackLayout.sizeThatFits(proposal:subviews:cache:) + 404
+80  com.apple.SwiftUICore                 0x23306265c specialized Sequence.reduce<A>(_:_:) + 372
+79  com.apple.SwiftUICore                 0x233065e9c partial apply for closure #3 in _ZStackLayout.sizeThatFits(proposal:subviews:cache:) + 80
+78  com.apple.SwiftUICore                 0x233357204 LayoutProxy.dimensions(in:) + 248
+77  com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+76  com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+75  com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+74  com.apple.SwiftUICore                 0x2337e2570 protocol witness for UnaryLayout.sizeThatFits(in:context:child:) in conformance _FlexFrameLayout + 60
+73  com.apple.SwiftUICore                 0x2337e1a34 _FlexFrameLayout.sizeThatFits(in:context:child:) + 356
+72  com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+71  com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+70  com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+69  com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+68  com.apple.SwiftUICore                 0x2337e0500 _FrameLayout.sizeThatFits(in:context:child:) + 152
+67  com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+66  com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+65  com.apple.SwiftUICore                 0x2335c1264 ViewLayoutEngine.sizeThatFits(_:) + 872
+64  com.apple.SwiftUICore                 0x2335c1564 closure #1 in ViewLayoutEngine.sizeThatFits(_:) + 272
+63  com.apple.SwiftUICore                 0x233325ee8 <deduplicated_symbol> + 92
+62  com.apple.SwiftUICore                 0x233b09ac4 StackLayout.UnmanagedImplementation.placeChildren(in:) + 208
+61  com.apple.SwiftUICore                 0x233b0b810 specialized StackLayout.UnmanagedImplementation.placeChildren1(in:minorProposalForChild:) + 132
+60  com.apple.SwiftUICore                 0x233b0a1f4 specialized StackLayout.UnmanagedImplementation.sizeChildrenGenerallyWithConcreteMajorProposal(in:minorProposalForChild:) + 140
+59  com.apple.SwiftUICore                 0x233b0a8a0 StackLayout.UnmanagedImplementation.prioritize(_:proposedSize:) + 836
+58  com.apple.SwiftUICore                 0x233a23488 LayoutEngineBox.lengthThatFits(_:in:) + 144
+57  com.apple.SwiftUICore                 0x233a2145c LayoutEngine.lengthThatFits(_:in:) + 88
+56  com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+55  com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+54  com.apple.SwiftUICore                 0x233241634 protocol witness for UnaryLayout.sizeThatFits(in:context:child:) in conformance _PaddingLayout + 44
+53  com.apple.SwiftUICore                 0x233240af8 _PaddingLayout.sizeThatFits(in:context:child:) + 208
+52  com.apple.SwiftUICore                 0x2333565c8 LayoutProxy.size(in:) + 244
+51  com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+50  com.apple.SwiftUICore                 0x2335c1264 ViewLayoutEngine.sizeThatFits(_:) + 872
+49  com.apple.SwiftUICore                 0x2335c1564 closure #1 in ViewLayoutEngine.sizeThatFits(_:) + 272
+48  com.apple.SwiftUICore                 0x233325ee8 <deduplicated_symbol> + 92
+47  com.apple.SwiftUICore                 0x233b09ac4 StackLayout.UnmanagedImplementation.placeChildren(in:) + 208
+46  com.apple.SwiftUICore                 0x233b0b810 specialized StackLayout.UnmanagedImplementation.placeChildren1(in:minorProposalForChild:) + 132
+45  com.apple.SwiftUICore                 0x233b0a44c specialized StackLayout.UnmanagedImplementation.sizeChildrenGenerallyWithConcreteMajorProposal(in:minorProposalForChild:) + 740
+44  com.apple.SwiftUICore                 0x233b09c1c StackLayout.UnmanagedImplementation.resize(_:proposal:proxy:) + 96
+43  com.apple.SwiftUICore                 0x233357204 LayoutProxy.dimensions(in:) + 248
+42  com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+41  com.apple.SwiftUICore                 0x2335c1264 ViewLayoutEngine.sizeThatFits(_:) + 872
+40  com.apple.SwiftUICore                 0x2335c1564 closure #1 in ViewLayoutEngine.sizeThatFits(_:) + 272
+39  com.apple.SwiftUICore                 0x2330635b0 _ZStackLayout.sizeThatFits(proposal:subviews:cache:) + 404
+38  com.apple.SwiftUICore                 0x23306265c specialized Sequence.reduce<A>(_:_:) + 372
+37  com.apple.SwiftUICore                 0x233065e9c partial apply for closure #3 in _ZStackLayout.sizeThatFits(proposal:subviews:cache:) + 80
+36  com.apple.SwiftUICore                 0x233357204 LayoutProxy.dimensions(in:) + 248
+35  com.apple.SwiftUICore                 0x233a233e8 LayoutEngineBox.sizeThatFits(_:) + 144
+34  com.apple.SwiftUICore                 0x232fac840 0x232f93000 + 104512
+33  com.apple.SwiftUICore                 0x233583074 UnaryLayoutEngine.sizeThatFits(_:) + 1120
+32  com.apple.SwiftUICore                 0x2337e0500 _FrameLayout.sizeThatFits(in:context:child:) + 152
+31  com.apple.SwiftUICore                 0x23335654c LayoutProxy.size(in:) + 120
+30  com.apple.AttributeGraph              0x1bc82ea54 AGGraphGetInputValue + 252
+29  com.apple.AttributeGraph              0x1bc8166b4 AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 240
+28  com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+27  com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+26  com.apple.SwiftUICore                 0x2338a2fec specialized implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 56
+25  com.apple.SwiftUICore                 0x23387d394 specialized DynamicLayoutComputer.updateValue() + 56
+24  com.apple.AttributeGraph              0x1bc82ec94 AGGraphGetValue + 232
+23  com.apple.AttributeGraph              0x1bc81686c AG::Graph::input_value_ref_slow(AG::data::ptr<AG::Node>, AG::AttributeID, unsigned int, unsigned int, AGSwiftMetadata const*, unsigned char&, long) + 680
+22  com.apple.AttributeGraph              0x1bc80eaec AG::Graph::update_attribute(AG::data::ptr<AG::Node>, unsigned int) + 352
+21  com.apple.AttributeGraph              0x1bc80e384 AG::Graph::UpdateStack::update() + 496
+20  com.apple.SwiftUICore                 0x2331e2ad8 partial apply for implicit closure #1 in closure #1 in closure #1 in Attribute.init<A>(_:) + 32
+19  com.apple.SwiftUICore                 0x2334d7640 StaticBody.updateValue() + 836
+18  com.apple.SwiftUICore                 0x2334d7bf8 closure #1 in StaticBody.updateValue() + 500
+17  com.apple.SwiftUICore                 0x23337cc00 protocol witness for BodyAccessor.updateBody(of:changed:) in conformance ViewBodyAccessor<A> + 16
+16  com.apple.SwiftUICore                 0x23337c5f0 ViewBodyAccessor.updateBody(of:changed:) + 348
+15  com.apple.SwiftUICore                 0x23337caa8 closure #1 in ViewBodyAccessor.updateBody(of:changed:) + 1152
+14  org.p0deje.Maccy                      0x100cbda84 KeyboardShortcutView.body.getter + 168
+13  org.p0deje.Maccy                      0x100cbde88 closure #1 in KeyboardShortcutView.body.getter + 420
+12  org.p0deje.Maccy                      0x100dc8d4c Sauce.shared.unsafeMutableAddressor + 56
+11  libdispatch.dylib                     0x1861e1630 _dispatch_once_callout + 32
+10  libdispatch.dylib                     0x1861f84b0 _dispatch_client_callout + 16
+9   org.p0deje.Maccy                      0x100dc8ca4 one-time initialization function for shared + 144
+8   org.p0deje.Maccy                      0x100dc84ec specialized KeyboardLayout.init(distributedNotificationCenter:notificationCenter:modifierTransformer:) + 244
+7   org.p0deje.Maccy                      0x100dc6254 KeyboardLayout.mappingInputSources() + 128
+6   com.apple.HIToolbox                   0x1932a2208 TISCreateInputSourceList + 1224
+5   com.apple.CoreFoundation              0x186400570 -[NSArray initWithArray:range:copyItems:] + 364
+4   com.apple.CoreFoundation              0x186412810 __NSArrayI_new + 92
+3   com.apple.CoreFoundation              0x1863dd088 __CFAllocateObject + 20
+2   libobjc.A.dylib                       0x185f3b7dc class_createInstance + 76
+1   libsystem_malloc.dylib                0x1861aa6e0 _calloc + 88
+0   libsystem_malloc.dylib                0x1861c6368 _malloc_zone_calloc_instrumented_or_legacy + 132 
+====
+    1 (80 bytes) ROOT LEAK: <NSArray 0xafd6988c0> [80]  item count: 5
+
+STACK OF 1 INSTANCE OF 'ROOT LEAK: <malloc in invocation function for block in IIOGetCodesigningIdentifier()>':
+20  libsystem_pthread.dylib               0x186394c10 start_wqthread + 8
+19  libsystem_pthread.dylib               0x186395e84 _pthread_wqthread + 232
+18  libdispatch.dylib                     0x1861f1120 _dispatch_worker_thread2 + 184
+17  libdispatch.dylib                     0x1861f0980 _dispatch_root_queue_drain + 360
+16  libswift_Concurrency.dylib            0x28ad1f6ec swift_job_runImpl(swift::Job*, swift::SerialExecutorRef) + 156
+15  libswift_Concurrency.dylib            0x28ad1de04 swift::runJobInEstablishedExecutorContext(swift::Job*) + 452
+14  libswift_Concurrency.dylib            0x28ad217d4 (anonymous namespace)::ProcessOutOfLineJob::process(swift::Job*) + 640
+13  libswift_Concurrency.dylib            0x28ad1de18 swift::runJobInEstablishedExecutorContext(swift::Job*) + 472
+12  org.p0deje.Maccy                      0x100ca7d1c ThumbnailCache.thumbnail(for:data:max:) + 388
+11  org.p0deje.Maccy                      0x100caa260 specialized ThumbnailCache.readDisk(at:) + 88
+10  com.apple.ImageIO                     0x1934eaf9c CGImageSourceCreateImageAtIndex + 468
+9   com.apple.ImageIO                     0x193561568 IIOImageSource::createImageAtIndex(unsigned long, IIODictionary*, int*, unsigned int*) + 76
+8   com.apple.ImageIO                     0x193505ee8 IIOImageSource::doBindToReader() + 480
+7   com.apple.ImageIO                     0x193593148 IIO_ReaderHandler::readerForBytes(unsigned char const*, unsigned long, __CFString const*, IIOImageRead*, unsigned long, IIOHeaderOptions, IIORequest, int*) + 472
+6   com.apple.ImageIO                     0x1935936fc IIO_ReaderHandler::readerForBytesImp(unsigned char const*, unsigned long, __CFString const*, unsigned long, IIOHeaderOptions, IIORequest, int*) + 628
+5   com.apple.ImageIO                     0x19357289c IIOAnalyticsLogReaderSelection(__CFString const*, unsigned int) + 828
+4   libdispatch.dylib                     0x1861e1630 _dispatch_once_callout + 32
+3   libdispatch.dylib                     0x1861f84b0 _dispatch_client_callout + 16
+2   com.apple.ImageIO                     0x193572a8c invocation function for block in IIOGetCodesigningIdentifier() + 120
+1   libsystem_malloc.dylib                0x1861aa678 _malloc + 96
+0   libsystem_malloc.dylib                0x1861c6178 _malloc_zone_malloc_instrumented_or_legacy + 152 
+====
+    1 (32 bytes) ROOT LEAK: <malloc in invocation function for block in IIOGetCodesigningIdentifier() 0x466009360> [32]
+
+
 
 Binary Images:
-       0x1045c4000 -        0x1047651c3 +org.p0deje.Maccy (2.6.1 - 60) <057A8D0E-A8F4-358E-A941-0322C0FB5414> /Applications/Maccy.app/Contents/MacOS/Maccy
-       0x104c88000 -        0x104c9003f  libobjc-trampolines.dylib (951.7) <CA58AA96-B997-3A6D-9132-19D49BE4B3E9> /usr/lib/libobjc-trampolines.dylib
-       0x104c9c000 -        0x104cdfffb +org.sparkle-project.Sparkle (2.6.4 - 2039.1) <0E273E3E-459C-3FA6-9A86-4754C5CC30FF> /Applications/Maccy.app/Contents/Frameworks/Sparkle.framework/Versions/B/Sparkle
-       0x118ad8000 -        0x11948ff9f  com.apple.AGXMetalG17G (351.2 - 351.2) <441BA161-FBF2-3CDE-8B43-73DC52CA1FB5> /System/Library/Extensions/AGXMetalG17G.bundle/Contents/MacOS/AGXMetalG17G
+       0x100c80000 -        0x100e23933 +org.p0deje.Maccy (2.6.1 - 60) <0E7B403C-B2E7-3DA4-BCF4-14A4269475AE> /Applications/Maccy.app/Contents/MacOS/Maccy
+       0x10135c000 -        0x10139fffb +org.sparkle-project.Sparkle (2.6.4 - 2039.1) <0E273E3E-459C-3FA6-9A86-4754C5CC30FF> /Applications/Maccy.app/Contents/Frameworks/Sparkle.framework/Versions/B/Sparkle
+       0x101454000 -        0x10145c03f  libobjc-trampolines.dylib (951.7) <CA58AA96-B997-3A6D-9132-19D49BE4B3E9> /usr/lib/libobjc-trampolines.dylib
+       0x1156e0000 -        0x116097f9f  com.apple.AGXMetalG17G (351.2 - 351.2) <441BA161-FBF2-3CDE-8B43-73DC52CA1FB5> /System/Library/Extensions/AGXMetalG17G.bundle/Contents/MacOS/AGXMetalG17G
        0x185f34000 -        0x185f86b4b  libobjc.A.dylib (951.7) <FF1D8AE4-ABEF-35F1-A30A-1183B9CB414F> /usr/lib/libobjc.A.dylib
        0x185f87000 -        0x185fbbd07  libdyld.dylib (1378) <B147D877-D0C2-388F-B38D-D3132E39905F> /usr/lib/system/libdyld.dylib
        0x185fbc000 -        0x186062217  dyld (1.0.0 - 1378) <A237EF81-B68B-37BA-A165-92C965529534> /usr/lib/dyld

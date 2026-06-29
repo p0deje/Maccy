@@ -1,3 +1,6 @@
+> 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
+> 完成: BS-8(审计 2026-06-28:部分完成 4/8 — xxh3 已接入实时去重、对称 dataLikelyEqual、fingerprint 列均真实;但 8.5 懒回填 backfill 缺失(旧行 nil→全表 ==)、8.3 桥接加固被砍、8.8 四测试文件 + FNV 基线缺失)
+
 # BS-8 — C++ 扩展(测量驱动)
 
 > **依赖**:BS-4(签名索引/指纹缓存已接入)。**编译边界**:小步骤 8.2(替换 `fnv1a64` 调用点)、8.4(`dataLikelyEqual` API 收紧为 `MaccyFingerprint` DTO)、8.5(`HistoryItemContent` 加 `fingerprint` 列 + SwiftData 迁移)、8.6(`ContentSignature/ContentIndex` 改读持久化列)各自会临时破坏既有调用点,**末尾全部恢复**;完成全部小步骤后 `xcodebuild build` 通过且既有测试全绿(含 C++ 改动与 SwiftData 迁移)。

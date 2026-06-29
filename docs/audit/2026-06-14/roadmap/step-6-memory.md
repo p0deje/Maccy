@@ -1,3 +1,6 @@
+> 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
+> 完成: BS-6(审计 2026-06-28:部分完成 5/12 — DecodedImageCache 为死代码 setImage/image(for:) 零调用;6 测试文件缺失;G-memory gate 未建)
+
 # BS-6 — 内存治理(NSCache、可视区/告警回收、去双份、缓存封顶)
 
 > **依赖**:BS-3(缩略图管线 `ThumbnailCache`/`ImageProcessor` 已就位)。**编译边界**:小步骤 6.4 改 `HistoryItemDecorator` 的 `imageData`/`decodedImage` 字段会临时破坏既有视图/初始化接线,**6.7 恢复**;完成全部后 `xcodebuild build` 通过且既有测试全绿。

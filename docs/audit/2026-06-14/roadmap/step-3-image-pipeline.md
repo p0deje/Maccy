@@ -1,3 +1,6 @@
+> 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
+> 完成: BS-3(审计 2026-06-28:已完成,IMG-023 stopgap 已落地)
+
 # BS-3 — 图片管线(ImageIO 降采样、后台解码、缩略图缓存)
 
 > **依赖**:BS-1(协议 `ImageProcessing` + `PassthroughImageProcessor`)、BS-2(`ClipboardIngestor` 已在后台 actor 中执行图片解码/缩略图相关调用)。**编译边界**:小步骤 3.5 改 `HistoryItemDecorator` 的位图来源会临时破坏既有视图接线,**3.8 恢复**;完成全部后 `xcodebuild build` 通过且测试全绿。
@@ -109,4 +112,4 @@ BS-3 落地时 IMG-023 的结构化取消只接到了 `invalidate()`/`cleanupIma
 
 **已知局限:** 进行中的 `CGImageSourceCreateThumbnailAtIndex` 不可取消,所以一个已开始解码的图会跑完(结果被丢弃);完整的 latest-wins 抢占(actor 优先级队列)是更大的改动,暂缓。
 
-详见 `docs/audit/2026-06-21-render-feedback-stopgap.md`。
+详见 `docs/audit/architecture-and-root-causes.md` §2.4(图片管线)。

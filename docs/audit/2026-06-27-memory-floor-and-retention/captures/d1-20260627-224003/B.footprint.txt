@@ -1,0 +1,53 @@
+======================================================================
+Maccy [71087]: 64-bit    Footprint: 92 MB (16384 bytes per page)
+======================================================================
+
+  Dirty      Clean  Reclaimable    Regions    Category
+    ---        ---          ---        ---    ---
+  53 MB        0 B      1088 KB         23    MALLOC_SMALL
+  16 MB        0 B          0 B         11    performance tool data
+3616 KB        0 B          0 B         32    IOSurface
+3264 KB        0 B          0 B         27    untagged (VM_ALLOCATE)
+3184 KB        0 B          0 B         13    Owned physical footprint (unmapped)
+2605 KB      16 KB          0 B        965    __DATA
+2461 KB        0 B          0 B        871    __DATA_DIRTY
+1312 KB        0 B          0 B         13    MALLOC metadata
+ 912 KB        0 B          0 B          8    ImageIO
+ 864 KB        0 B      8736 KB         89    IOAccelerator (graphics)
+ 800 KB        0 B        12 MB         28    Owned physical footprint (unmapped) (graphics)
+ 705 KB        0 B          0 B          1    page table
+ 689 KB        0 B          0 B        629    __AUTH
+ 624 KB        0 B          0 B          2    CoreServices
+ 512 KB        0 B          0 B         30    CoreAnimation
+ 437 KB        0 B          0 B       2525    unused dyld shared cache area
+ 288 KB      31 MB          0 B         61    mapped file
+ 256 KB        0 B       144 KB         14    stack
+ 128 KB        0 B          0 B          1    Accelerate image backing stores
+ 112 KB        0 B          0 B          1    CoreUI image data
+ 112 KB        0 B          0 B       1014    __AUTH_CONST
+ 112 KB        0 B          0 B          2    __TPRO_CONST
+  80 KB      64 KB          0 B       1022    __DATA_CONST
+  64 KB        0 B          0 B          2    IOAccelerator
+  64 KB        0 B          0 B          1    MALLOC_TINY
+  64 KB        0 B          0 B          8    IOKit
+  32 KB        0 B          0 B          1    Activity Tracing
+  32 KB        0 B          0 B          2    CoreGraphics
+  16 KB        0 B          0 B          1    MALLOC_NANO
+  16 KB        0 B          0 B          2    Core Data object IDs
+  16 KB        0 B          0 B          1    tag 22
+  16 KB        0 B          0 B          1    Foundation
+  16 KB        0 B          0 B          1    os_alloc_once
+  16 KB        0 B          0 B          1    ColorSync
+    0 B    4128 KB          0 B       1045    __TEXT
+    0 B    1264 KB          0 B          6    __LINKEDIT
+    0 B        0 B          0 B          1    __LLVM_COV
+    0 B        0 B          0 B          1    __FONT_DATA
+    0 B        0 B          0 B          6    SQLite page cache
+    0 B        0 B          0 B          1    __CTF
+    ---        ---          ---        ---    ---
+  92 MB      36 MB        22 MB       8465    TOTAL
+
+Auxiliary data:
+    phys_footprint: 92 MB
+    phys_footprint_peak: 145 MB
+

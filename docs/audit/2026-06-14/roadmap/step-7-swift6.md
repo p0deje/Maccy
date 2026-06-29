@@ -1,3 +1,6 @@
+> 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
+> 完成: BS-7(审计 2026-06-28:大部分完成 13/17 — Swift 6.0 complete mode 上线,零 @unchecked/nonisolated(unsafe);7.13 唯一行为变更被跳过;4 测试文件缺失)
+
 # BS-7 — Swift 6 迁移(增量)
 
 > **依赖**:BS-1~BS-6(actor/DTO/后台 context/事件流/隔离模型已就位)。**编译边界**:**分阶段表里的每一级 strict concurrency 升级都是一个独立编译检查点**;`minimal→targeted` 通过 → 升 `SWIFT_VERSION = 6.0`(仍 `targeted`)通过 → `complete` 通过。任一级编译失败,回滚到上一级设置并补漏,不跳级。

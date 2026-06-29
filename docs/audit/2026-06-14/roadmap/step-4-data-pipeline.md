@@ -1,3 +1,6 @@
+> 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
+> 完成: BS-4(审计 2026-06-28:部分完成 — 4.4a/4.2/4.5/4.7 落地;4.3/4.6/4.8 延后;VisibleWindowLoader 仍为死代码)
+
 # BS-4 — 数据管线加速
 
 > **依赖**:BS-2(ingestor/事件流/单事务已就绪)。**编译边界**:小步骤 4.2(签名索引替去重)、4.3(`load` 新签名)、4.6(`sessionLog` 类型变更)各自会临时破坏既有调用点,**末尾全部恢复**;完成全部小步骤后可编译且既有测试全绿。
@@ -243,9 +246,9 @@ BS-2 把实时摄取迁到 `@ModelActor BackgroundClipboardIngestor`,通过 `Sto
 
 ## 2026-06-22 增补:4.10 渲染链去风暴(D2 域)
 
-**触发**:`2026-06-21-render-feedback-stopgap.md` 的 P0/P1/P2/P3 止住灾难性
+**触发**:固定行高 + 悬停不滚 + 预览取消等 P0/P1/P2/P3 止住灾难性
 LazyVStack 反馈风暴后,对常驻 app 重新 `sample` 仍看到弹窗打开路径数十 ms 级主线程
-同步工作。完整诊断见 `docs/audit/2026-06-22-render-chain-storms.md`。
+同步工作。完整诊断见 `docs/audit/architecture-and-root-causes.md` §2.5(UI/渲染)。
 
 **关键认知**:路标把 `G-popup-open` 定义为 `load()`(冷启动数据,D1 域),但用户
 `sample` 反映的是**常驻打开渲染链(D2 域)**——这两条路径不同。`ContentView.task`
@@ -289,7 +292,7 @@ LazyVStack 反馈风暴后,对常驻 app 重新 `sample` 仍看到弹窗打开�
   需 UI 测试覆盖 `p0deje/Maccy#1113` 翻转回归。
 - [ ] **4.10f 列表标题测量削减(#2,2026-06-22 据 sample 新增)** — `HistoryItem.swift:9` +
   `ListItemTitleView.swift:12,17` + `HistoryItemView.swift:47`。原始 `sample`(发布版
-  2.6.1,见 `docs/audit/2026-06-22-render-chain-storms.md §7`)证明主成本是 CoreText 文本
+  2.6.1,见 `docs/audit/architecture-and-root-causes.md` §2.5)证明主成本是 CoreText 文本
   测量,放大器是:行标题展示上限 `titlePreviewLimit = 1_000` + `.truncationMode(.middle)`
   → **middle 截断要求 CoreText 测整个字符串**定中点,每可见行测 ~1000 字符(单行只显
   ~60–80)。改进:(a) 给**列表展示**单独的更短上限(~150–200 字符,完整标题仍用于预览/
@@ -462,6 +465,6 @@ LazyVStack 反馈风暴后,对常驻 app 重新 `sample` 仍看到弹窗打开�
 ### 仍 deferred(同 2026-06-22 复盘)
 
 4.6(`sessionLog`→ItemID;实时路径下 `History.add`/`findSimilarItem`/`sessionLog` 已死,
-仅测试可达——见 `docs/audit/2026-06-23/deadcode-sweep.md`,删除是大测试重写而非迁移)、
+仅测试可达——删除是大测试重写而非迁移)、
 4.8 残留清理、4.9 全量闸门、4.10f 渲染杠杆、perf-harness rework Step 3-5。
 

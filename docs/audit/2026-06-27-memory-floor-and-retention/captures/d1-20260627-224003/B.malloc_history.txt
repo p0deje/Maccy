@@ -1,0 +1,27 @@
+[invalid usage]: no mode, address, or <classes-pattern> specified
+
+malloc_history: Displays/aggregates allocation histories in a process
+
+Usage: malloc_history <pid | partial-process-name> [options] <mode> [<address> ... | <classes-pattern>]
+
+'mode' should be one of -callTree, -allBySize, -allByCount, -allEvents, or one or more addresses.
+The <classes-pattern> for -callTree can be followed by a malloc size specification
+of the form [size] or [lowerBound-upperBound], such as 'malloc[1024]' or 'CFData[16k-]'.
+
+        -allBySize                        [mode]
+        -allByCount                       [mode]
+        -allEvents                        [mode]
+        -fullStacks                       print backtraces with one line per frame
+        -callTree                         [mode]
+        -highWaterMark                    show information about allocations and VM regions that were live at the peak memory usage of a target process; requires full mode of MallocStackLogging, in either a live process or a memgraph recorded with -fullStackHistory
+        -showContent                      (-allEvents, -callTree only)
+        -noContent                        (-allEvents, -callTree only)
+        -invert                           (-callTree only)
+        -ignoreThreads                    (-callTree only)
+        -collapseRecursion                (-callTree only)
+        -chargeSystemLibraries            (-callTree only)
+        -consolidateAllBySymbol           (-callTree only)
+        -consolidateSystemFramesBySymbol  (-callTree only)
+        -virtual                          (-callTree only) -- show virtual size of VM regions rather than dirty+swapped-purgableVolatile
+        -forkCorpse                       generate a corpse fork from process and run malloc_history on it
+        -q/-quiet                         suppress the process description header and footer
