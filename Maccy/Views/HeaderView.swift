@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// The popup header containing the search field and the preview toggle button.
 struct HeaderView: View {
   @State private var appState = AppState.shared
 

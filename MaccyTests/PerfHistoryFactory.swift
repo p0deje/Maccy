@@ -35,10 +35,9 @@ enum PerfHistoryFactory {
     return history
   }
 
-  /// `count` text items. `long` uses `heavy_text.txt`; otherwise a short string.
-  /// Each item's value is suffixed with its index so the dedup signature differs
-  /// — otherwise identical copies collapse to one via `findSimilarItem` (and a
-  /// real history holds distinct items anyway).
+  /// Builds `count` text items.
+  ///
+  /// When `long` is true the item payload is `heavy_text.txt`; otherwise a short string. Each item's value is suffixed with its index so the dedup signatures differ — otherwise identical copies would collapse to one, and a real history holds distinct items.
   static func makeTexts(count: Int, long: Bool) throws -> History {
     let history = History.shared
     history.clearAll()

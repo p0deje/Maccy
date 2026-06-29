@@ -1,6 +1,7 @@
 import Defaults
 import SwiftUI
 
+/// Tab for managing pasteboard types (UTIs) that are ignored.
 struct IgnorePasteboardTypesSettingsView: View {
   @Default(.ignoredPasteboardTypes) private var ignoredPasteboardTypes
 
@@ -59,6 +60,7 @@ struct IgnorePasteboardTypesSettingsView: View {
     .padding()
   }
 
+  /// Removes the given pasteboard type from the ignored set.
   private func remove(_ type: String?) {
     guard let type else { return }
 

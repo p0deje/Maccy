@@ -1,15 +1,11 @@
 import XCTest
 @testable import Maccy
 
-// Pure, DB-free, NSPasteboard-free tests for `filterContents(_:application:config:)`.
-//
-// Every test builds synthetic `ContentDTO` values and an `IngestConfig` snapshot,
-// then asserts that `filterContents` replicates the rules in `Clipboard.contents(from:)`
-// (Clipboard.swift ~227-247), `filteredTypes` (~251-265), `shouldIgnore(types)`
-// (~267-273), `shouldIgnore(item)` regex (~283-310), `isEmptyString` (~312-322) and
-// `richText(_:)` (~324-344). No `NSPasteboard`, no SwiftData, no actor is touched.
+/// Pure, database-free, pasteboard-free tests for `filterContents(_:application:config:)`.
+///
+/// Every test builds synthetic `ContentDTO` values and an `IngestConfig` snapshot, then asserts that `filterContents` replicates the pasteboard-filtering rules in `Clipboard` — `contents(from:)`, `filteredTypes`, `shouldIgnore(types)`, the `shouldIgnore(item)` regex check, `isEmptyString`, and `richText(_:)`. No `NSPasteboard`, SwiftData, or actor is touched.
 class IngestFilterTests: XCTestCase {
-  // Standard pasteboard type rawValues (UTIs). See NSPasteboard.PasteboardType.
+  /// Standard pasteboard type raw values (UTIs). See `NSPasteboard.PasteboardType`.
   private let stringType = "public.utf8-plain-text"
   private let rtfType = "public.rtf"
   private let htmlType = "public.html"
@@ -33,8 +29,9 @@ class IngestFilterTests: XCTestCase {
     ]
   }
 
-  /// A baseline config with everything enabled and no ignore rules. Tests override
-  /// only the fields relevant to each assertion.
+  /// A baseline config with everything enabled and no ignore rules.
+  ///
+  /// Tests override only the fields relevant to each assertion.
   private var defaultConfig: IngestConfig {
     IngestConfig(
       supportedTypes: allSupportedTypes,
@@ -50,11 +47,13 @@ class IngestFilterTests: XCTestCase {
     )
   }
 
+  /// Builds a string-valued content DTO with a UTF-8 payload.
   private func dto(_ type: String, _ value: String) -> ContentDTO {
     let data = value.data(using: .utf8)
     return ContentDTO(type: type, value: data, fingerprint: nil, size: data?.count ?? 0)
   }
 
+  /// Builds a content DTO carrying the given raw bytes.
   private func dto(_ type: String, _ data: Data) -> ContentDTO {
     ContentDTO(type: type, value: data, fingerprint: nil, size: data.count)
   }
@@ -78,7 +77,7 @@ class IngestFilterTests: XCTestCase {
     XCTAssertEqual(Set(result.map(\.type)), Set([stringType, pngType]))
   }
 
-  // MARK: - shouldIgnore(types) parity (~267-273)
+  // MARK: - shouldIgnore(types) parity
 
   func testTypeNotInEnabledTypesIsFilteredOut() {
     // Only png enabled; a string content should be dropped entirely because the
@@ -119,7 +118,7 @@ class IngestFilterTests: XCTestCase {
   }
 
   func testCustomIgnoredTypeCollapsesToEmpty() {
-    // Defaults[.ignoredPasteboardTypes] is unioned into ignoredTypes.
+    // `Defaults[.ignoredPasteboardTypes]` is unioned into ignoredTypes.
     let custom = "org.example.Confidential"
     var config = defaultConfig
     config.ignoredTypes.insert(custom)
@@ -133,7 +132,7 @@ class IngestFilterTests: XCTestCase {
     XCTAssertTrue(result.isEmpty)
   }
 
-  // MARK: - filteredTypes prefixes (~251-255)
+  // MARK: - filteredTypes prefixes
 
   func testDynamicTypePrefixIsFiltered() {
     let dynType = "dyn.ah62d4qmxhk4d425try1g44pdsm11g55gsu1e82xnqzv"
@@ -157,7 +156,7 @@ class IngestFilterTests: XCTestCase {
     XCTAssertEqual(result.map(\.type), [stringType])
   }
 
-  // MARK: - Microsoft link/object/pdf subtraction (~260-262)
+  // MARK: - Microsoft link/object/pdf subtraction
 
   func testMicrosoftLinkAndObjectLinkSubtractPdfAndLinks() {
     // When both com.microsoft.Link-Source and com.microsoft.ObjectLink are present,
@@ -187,12 +186,12 @@ class IngestFilterTests: XCTestCase {
     XCTAssertEqual(Set(result.map(\.type)), Set([stringType, microsoftLinkSource, pdfType]))
   }
 
-  // MARK: - filteredTypes unsupported-type parity (~251-265)
+  // MARK: - filteredTypes unsupported-type parity
 
   func testUnsupportedCustomTypeSurvivesAlongsideEnabledType() {
-    // `Clipboard.filteredTypes` removes only DISABLED types (supported − enabled);
-    // unsupported/custom UTIs are KEPT for round-trip fidelity. A copy with a
-    // standard enabled type plus a custom type keeps BOTH.
+    // `Clipboard.filteredTypes` removes only DISABLED types (supported minus
+    // enabled); unsupported/custom UTIs are KEPT for round-trip fidelity. A copy
+    // with a standard enabled type plus a custom type keeps BOTH.
     let custom = "org.example.CustomPayload"
 
     let result = filterContents(
@@ -206,7 +205,7 @@ class IngestFilterTests: XCTestCase {
 
   func testUnsupportedCustomTypeAloneIsDroppedByGlobalGate() {
     // A copy whose only type is unsupported is disjoint from enabledTypes, so
-    // `shouldIgnore(types)` collapses it (parity with checkForChangesInPasteboard:185).
+    // `shouldIgnore(types)` collapses it.
     let custom = "org.example.CustomPayload"
 
     let result = filterContents(
@@ -218,7 +217,7 @@ class IngestFilterTests: XCTestCase {
     XCTAssertTrue(result.isEmpty)
   }
 
-  // MARK: - size cap (contents(from:) ~241-243)
+  // MARK: - Size cap
 
   func testContentOverMaxValueSizeIsDropped() {
     var config = defaultConfig
@@ -259,7 +258,7 @@ class IngestFilterTests: XCTestCase {
     XCTAssertEqual(result.map(\.type), [stringType])
   }
 
-  // MARK: - isEmptyString rule (~312-322, gated by richText ~324-344)
+  // MARK: - isEmptyString rule (gated by richText)
 
   func testWhitespaceOnlyStringWithNoRichTextCollapsesToEmpty() {
     let result = filterContents(
@@ -296,7 +295,7 @@ class IngestFilterTests: XCTestCase {
     XCTAssertEqual(result.map(\.type), [stringType])
   }
 
-  // MARK: - richText detection (~324-344)
+  // MARK: - Rich text detection
 
   func testWhitespaceStringWithNonEmptyRtfSurvives() {
     // A non-empty RTF representation means the copy carries real content even
@@ -350,7 +349,7 @@ class IngestFilterTests: XCTestCase {
     XCTAssertEqual(Set(result.map(\.type)), Set([stringType, htmlType]))
   }
 
-  // MARK: - regex ignore (~283-310)
+  // MARK: - Regex ignore
 
   func testIgnoreRegexpMatchingStringCollapsesToEmpty() {
     var config = defaultConfig
@@ -409,7 +408,7 @@ class IngestFilterTests: XCTestCase {
     XCTAssertEqual(result.map(\.type), [stringType])
   }
 
-  // MARK: - application ignore (shouldIgnore(sourceAppBundle:) ~275-281)
+  // MARK: - Application ignore
 
   func testIgnoredApplicationCollapsesToEmpty() {
     var config = defaultConfig
@@ -471,7 +470,7 @@ class IngestFilterTests: XCTestCase {
     XCTAssertEqual(result.map(\.type), [stringType])
   }
 
-  // MARK: - isEffectivelyEmpty (helper, parity with ~312-322)
+  // MARK: - isEffectivelyEmpty helper parity
 
   func testIsEffectivelyEmptyTrueForWhitespaceStringWithoutRichText() {
     XCTAssertTrue(isEffectivelyEmpty(
@@ -503,6 +502,7 @@ class IngestFilterTests: XCTestCase {
     requireSendable(IngestConfig.self)
   }
 
+  /// Compile-time assertion that `type` conforms to `Sendable`.
   private func requireSendable<T: Sendable>(_ type: T.Type) {}
 
   // MARK: - RTF helpers

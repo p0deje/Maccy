@@ -2,6 +2,10 @@ import XCTest
 import Defaults
 @testable import Maccy
 
+/// Byte-for-byte behavior gate for `Search.search` across the exact, fuzzy, and
+/// regexp modes. Each test pins the returned scores and highlight ranges for a
+/// fixed corpus; the search mode under test is set via `Defaults[.searchMode]`
+/// and restored in `tearDown`.
 @MainActor
 class SearchTests: XCTestCase {
   let savedSearchMode = Defaults[.searchMode]
@@ -12,6 +16,7 @@ class SearchTests: XCTestCase {
     Defaults[.searchMode] = savedSearchMode
   }
 
+  /// Exact-mode matching: case-insensitive substring hits with their ranges.
   @MainActor
   func testSimpleSearch() {
     Defaults[.searchMode] = Search.Mode.exact
@@ -73,6 +78,7 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
+  /// Fuzzy-mode matching: ranked by edit-distance score with matched-grapheme ranges.
   @MainActor
   func testFuzzySearch() {
     Defaults[.searchMode] = Search.Mode.fuzzy
@@ -158,6 +164,8 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
+  /// Regexp-mode matching: pattern hits with their ranges, including empty
+  /// matches and rejection of invalid or catastrophic patterns.
   @MainActor
   func testRegexpSearch() {
     Defaults[.searchMode] = Search.Mode.regexp
@@ -236,11 +244,14 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("(a+)+$"), [])
   }
 
+  /// Runs a search over the current `items` with a fresh `Search`.
   private func search(_ string: String) -> [Search.SearchResult] {
     return Search().search(string: string, within: items)
   }
 
   // swiftlint:disable:next identifier_name
+  /// Builds an expected half-open `Range<String.Index>` from inclusive grapheme
+  /// offsets within the given item's title.
   private func range(from: Int, to: Int, in item: HistoryItemDecorator) -> Range<String.Index> {
     let startIndex = item.title.startIndex
     let lowerBound = item.title.index(startIndex, offsetBy: from)
@@ -249,6 +260,8 @@ class SearchTests: XCTestCase {
     return lowerBound..<upperBound
   }
 
+  /// Builds a `HistoryItem` with a single optional string content entry,
+  /// inserted into the shared context with a generated title.
   @MainActor
   private func historyItemWithTitle(_ value: String?) -> HistoryItem {
     let contents = [

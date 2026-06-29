@@ -2,6 +2,11 @@ import AppKit.NSRunningApplication
 import Carbon
 
 extension NSRunningApplication {
+  /// The on-screen frame of this app's frontmost window, in `NSScreen` coordinates.
+  ///
+  /// Returns `nil` if no matching window is found. The frame is read from the
+  /// CoreGraphics window list and converted from top-left-origin `CGWindowBounds`
+  /// to bottom-left-origin `NSScreen` coordinates.
   var windowFrame: NSRect? {
     let options = CGWindowListOption(arrayLiteral: [.excludeDesktopElements, .optionOnScreenOnly])
     let windowListInfo = CGWindowListCopyWindowInfo(options, CGWindowID(0))
@@ -14,8 +19,8 @@ extension NSRunningApplication {
              let width = info["kCGWindowBounds"]?["Width"] as? Double,
              let height = info["kCGWindowBounds"]?["Height"] as? Double {
             var rect = NSRect(x: topLeftX, y: topLeftY, width: width, height: height)
-            // Convert CGWindowBounds to NSScreen coordinates
-            // http://www.krizka.net/2010/04/20/converting-between-kcgwindowbounds-and-nswindowframe
+            // Convert CGWindowBounds to NSScreen coordinates.
+            // See http://www.krizka.net/2010/04/20/converting-between-kcgwindowbounds-and-nswindowframe.
             rect.origin.y = screen.frame.size.height - rect.origin.y - rect.size.height
             return rect
           }

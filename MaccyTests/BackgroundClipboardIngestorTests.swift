@@ -4,39 +4,28 @@ import XCTest
 import os
 @testable import Maccy
 
-// Integration tests for `BackgroundClipboardIngestor`, the BS-2 off-main ingest
-// actor. Under the test plan's `enable-testing` launch argument `Storage.shared`
-// is an in-memory SwiftData store; the `@ModelActor` actor is constructed with
-// `Storage.shared.container` and commits on its isolated `modelContext`. A fresh
-// `fetch` on the MAIN context (`Storage.shared.context`) observes the actor's
-// committed save (Core Data shared-store semantics), so each test reads back
-// from there. Each test asserts the OUTCOMES of the single-transaction commit
-// (item count, event kind, numberOfCopies, applied filters).
-//
-// Single-save invariant — why it is not asserted directly here (B §2 deferral):
-// The structural guarantee is exactly ONE `modelContext.transaction { … }`
-// followed by ONE `modelContext.save()` in `BackgroundClipboardIngestor.commit`
-// (ClipboardIngestor.swift:248-272). Asserting save-count directly is infeasible
-// without a production test-seam:
-//  - `ModelContext` is declared `class ModelContext` (Apple,
-//    /documentation/swiftdata/modelcontext) — not `final` — but the
-//    `@ModelActor` macro constructs it internally via
-//    `ModelContext(modelContainer)` into the actor's `modelExecutor`
-//    (BackgroundClipboardIngestor.init, ClipboardIngestor.swift:97). There is no
-//    injection point to substitute a `save()`-counting subclass for the actor's
-//    isolated context, so a ContextSpy can't reach it.
-//  - SwiftData DOES post `ModelContext.didSave`
-//    (/documentation/swiftdata/modelcontext/didsave), but it is posted by a
-//    specific `ModelContext` instance; observing it needs a handle to the
-//    actor's private context, which the actor never exposes.
-// Injecting a test-only save-count hook into the production actor is rejected as
-// an anti-pattern. `testCommitPreservesDistinctItemsAndCountsDuplicateOnMerge`
-// below is the strongest feasible BEHAVIORAL PROXY for that atomicity: it would
-// break (wrong count / lost distinct item / wrong numberOfCopies) if the
-// dup-delete, trim, and insert were not one coordinated transaction.
+/// Integration tests for the off-main clipboard ingest actor.
+///
+/// Under the test plan's `enable-testing` launch argument `Storage.shared` is an
+/// in-memory SwiftData store. The actor is constructed with
+/// `Storage.shared.container` and commits on its isolated `modelContext`; a
+/// fresh `fetch` on the main context (`Storage.shared.context`) observes the
+/// actor's committed save via Core Data shared-store semantics, so each test
+/// reads back from there. Each test asserts the outcomes of the actor's
+/// single-transaction commit (item count, event kind, `numberOfCopies`, applied
+/// filters).
+///
+/// The single-transaction invariant (one `modelContext.transaction { … }` plus
+/// one `save()` per ingest) is not asserted directly: the `@ModelActor` macro
+/// constructs the actor's isolated `ModelContext` internally, so there is no
+/// injection point for a save-counting test double, and SwiftData's
+/// `ModelContext.didSave` notification needs a handle to that private context.
+/// `testCommitPreservesDistinctItemsAndCountsDuplicateOnMerge` is the strongest
+/// feasible behavioral proxy: it would break if the dup-delete, trim, and insert
+/// were not one coordinated transaction.
 @MainActor
 final class BackgroundClipboardIngestorTests: XCTestCase {
-  // Standard pasteboard type rawValues (UTIs). Mirrors NSPasteboard.PasteboardType.
+  /// Standard pasteboard UTI for UTF-8 plain text.
   private let stringType = "public.utf8-plain-text"
 
   private var savedSize: Int = 200
@@ -69,6 +58,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
   // MARK: - Add path
 
+  /// Ingesting a text copy emits an `.added` event and persists exactly one item.
   func testIngestTextCopyEmitsAddedEventAndPersistsItem() async {
     let collector = EventCollector()
     let ingestor = BackgroundClipboardIngestor(
@@ -104,6 +94,8 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
   // MARK: - Merge path
 
+  /// Re-ingesting identical content emits a `.merged` event, bumps
+  /// `numberOfCopies`, and keeps a single stored item.
   func testIngestSameContentAgainEmitsMergedEventAndKeepsSingleItem() async {
     let collector = EventCollector()
     let ingestor = BackgroundClipboardIngestor(
@@ -133,6 +125,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
   // MARK: - Filter-out paths
 
+  /// Content exceeding the per-value size cap is dropped: no event, nothing persisted.
   func testIngestContentOverMaxValueSizeEmitsNoEventAndPersistsNothing() async {
     // Lower the content-size limit so the oversized payload is modest. With the
     // limit at 1 MiB, any payload larger than 1 MiB is dropped by filterContents.
@@ -155,6 +148,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(stored?.count, 0)
   }
 
+  /// Content matching an ignore-regexp rule is dropped: no event, nothing persisted.
   func testIngestContentMatchingIgnoreRegexpEmitsNoEvent() async {
     Defaults[.ignoreRegexp] = ["secret"]
     let collector = EventCollector()
@@ -176,10 +170,11 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
   // MARK: - Size trim
 
+  /// Beyond the size limit, the oldest unpinned item is evicted before each insert.
   func testTrimRemovesOldestUnpinnedItemBeyondSizeLimit() async {
-    // With size=2 the trim keeps (size-1)=1 unpinned BEFORE each insert, so after
-    // the 3rd ingest only the two most-recent survive — mirroring
-    // History.add's limitHistorySize(to: historySizeLimit - 1) (History.swift:244).
+    // With size=2 the trim keeps (size-1)=1 unpinned before each insert, so after
+    // the 3rd ingest only the two most-recent survive — mirroring the
+    // `limitHistorySize(to: historySizeLimit - 1)` contract.
     Defaults[.size] = 2
     let collector = EventCollector()
     let clock = TestClock(start: Date(timeIntervalSince1970: 1_700_000_000))
@@ -203,6 +198,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
   // MARK: - Metrics sanity
 
+  /// The reported parse time is finite and non-negative on a text ingest.
   func testParseMsIsFiniteAndNonNegativeOnAdd() async {
     let collector = EventCollector()
     let ingestor = BackgroundClipboardIngestor(
@@ -220,16 +216,16 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
   // MARK: - Cross-context visibility (the path the UI tests exercise)
 
-  /// The actor commits on a background `ModelContext`; `History`/UI read the
-  /// MAIN context (`Storage.shared.context`). A fresh `fetch` on the main
+  /// The actor commits on a background `ModelContext`; `History` and the UI read
+  /// the main context (`Storage.shared.context`). A fresh `fetch` on the main
   /// context must observe the actor's committed save (Core Data shared-store
   /// semantics: all contexts from one container share the store, and a fetch
-  /// reads committed rows). This test exercises exactly that cross-context read
-  /// under the in-memory `enable-testing` store — the configuration the UI tests
-  /// use — so it pinpoints whether a visibility gap is the root cause of the
-  /// UI-test "items don't appear" failure. If this FAILS, cross-context
-  /// propagation is the issue (fix the write/read bridge); if it PASSES, the UI
-  /// failure is a different bug (crash/invocation/timing).
+  /// reads committed rows). This test exercises that cross-context read under
+  /// the in-memory `enable-testing` store — the configuration the UI tests use —
+  /// so it pinpoints whether a visibility gap is the root cause of an
+  /// "items don't appear" UI failure. If this fails, cross-context propagation
+  /// is the issue (fix the write/read bridge); if it passes, the UI failure is
+  /// a different bug (crash/invocation/timing).
   func testActorBackgroundSaveIsVisibleToMainContext() async {
     let ingestor = BackgroundClipboardIngestor(
       modelContainer: Storage.shared.container,
@@ -255,7 +251,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
   /// RTF/HTML title generation parses via `NSAttributedString`, which is
   /// main-thread-affine (AppKit/WebKit). The actor runs that parsing on the main
   /// actor (see `BackgroundClipboardIngestor.title(for:)`). Driving the actor —
-  /// whose body runs on its off-main executor — with RTF would TRAP if
+  /// whose body runs on its off-main executor — with RTF would trap if
   /// `NSAttributedString` ran off-main, so this test guards that regression.
   func testIngestRtfContentDoesNotTrapOffMain() async {
     let rtf = "{\\rtf1\\ansi rich body}".data(using: .utf8)!
@@ -281,22 +277,22 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(stored?.count, 1)
   }
 
-  // MARK: - Off-main ingest gate (the core BS-2 promise)
+  // MARK: - Off-main ingest gate
 
   /// Non-flaky load-path smoke test: ingesting a ~31 KB payload over a 300-row
   /// store (beyond the size limit) must complete, emit one event, and trim back
   /// to the limit in a single transaction.
   ///
-  /// The off-main guarantee is STRUCTURAL, not timing-based:
+  /// The off-main guarantee is structural, not timing-based:
   /// `BackgroundClipboardIngestor` is a `@ModelActor` actor, so Swift runs its
   /// fetch/dedup/transaction/save on the actor's serial executor off the main
-  /// thread. An earlier `MainThreadProbe.maxGap` version of this test was flaky
-  /// on the shared CI runner — the actor's intentional
+  /// thread. An earlier main-thread-gap version of this test was flaky on the
+  /// shared CI runner — the actor's intentional
   /// `MainActor.run { filterContents + title }` hop on a 31 KB payload
   /// legitimately costs ~100-200 ms on the main thread (the designed on-main
-  /// parsing path), which is not an off-main leak. The strict <16 ms
-  /// `G-copy-text` gate belongs in the not-yet-created `MaccyPerformanceTests`
-  /// target; the off-main property is also guarded by
+  /// parsing path), which is not an off-main leak. A strict sub-frame gate on
+  /// the copy path belongs in the dedicated performance-test target; the
+  /// off-main property is also guarded by
   /// `testIngestRtfContentDoesNotTrapOffMain`.
   func testIngestUnderLoadCompletesAndTrimsToSizeLimit() async {
     let context = Storage.shared.context
@@ -341,36 +337,36 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
   // MARK: - Single-transaction atomicity (behavioral proxy)
 
-  /// Strongest feasible behavioral proxy for the single-transaction invariant
-  /// (B §2). See the file header for why save-count can't be asserted directly.
+  /// Strongest feasible behavioral proxy for the single-transaction invariant.
+  /// See the file header for why save-count can't be asserted directly.
   ///
   /// `BackgroundClipboardIngestor.commit` removes the duplicate from the
-  /// unpinned set BEFORE applying the `limit - 1` trim
-  /// (ClipboardIngestor.swift:259-262), then deletes the dup, trims, and inserts
-  /// the merged item all inside one `transaction { … }` + one `save()`. This test
-  /// guards that ordering specifically: the duplicate is the NEWER item, so that
-  /// if `commit` failed to remove the dup from the unpinned count before
-  /// trimming, the size-2 trim would evict the distinct OLDER item A.
+  /// unpinned set before applying the `limit - 1` trim, then deletes the dup,
+  /// trims, and inserts the merged item all inside one `transaction { … }` plus
+  /// one `save()`. This test guards that ordering specifically: the duplicate is
+  /// the newer item, so that if `commit` failed to remove the dup from the
+  /// unpinned count before trimming, the size-2 trim would evict the distinct
+  /// older item A.
   ///
   /// Scenario with `Defaults[.size] = 2` (clock advances +10s per ingest):
   ///  - ingest distinct "A" (lastCopiedAt = base) → store [A]
   ///  - ingest distinct "B" (lastCopiedAt = base+10) → store [A, B]
-  ///  - ingest a DUPLICATE of "B" (the newer item) under a moved clock → the
+  ///  - ingest a duplicate of "B" (the newer item) under a moved clock → the
   ///    actor merges (dup = B), and `commit(newItem, deleting: B, limit: 2)` must
-  ///    remove B from the unpinned count BEFORE the trim.
+  ///    remove B from the unpinned count before the trim.
   ///
   /// Why this makes the ordering observable — `commit` sorts unpinned by
-  /// `lastCopiedAt` DESCENDING and trims the oldest tail (`dropFirst(limit - 1)`):
+  /// `lastCopiedAt` descending and trims the oldest tail (`dropFirst(limit - 1)`):
   ///  - Real code: unpinned = [B, A]; remove dup B first → [A], count 1;
   ///    `1 > limit-1 (1)` is false → no trim; delete B; insert mergedB. Final
   ///    store [A, mergedB], count 2, distinct A survives.
-  ///  - Broken counterfactual (dup NOT removed before counting): unpinned = [B, A],
+  ///  - Broken counterfactual (dup not removed before counting): unpinned = [B, A],
   ///    count 2 > 1 → `dropFirst(1)` = [A] → trim deletes distinct A; then delete
-  ///    dup B and insert mergedB. Final store [mergedB], count 1, A LOST.
+  ///    dup B and insert mergedB. Final store [mergedB], count 1, A lost.
   /// So `count == 2` and "distinct A survives" distinguish the real code from the
   /// broken one; that removal-before-count ordering is exactly what this test
-  /// guards. It does NOT exercise every conceivable trim-ordering bug, only this
-  /// specific (and the spec-relevant) one.
+  /// guards. It does not exercise every conceivable trim-ordering bug, only this
+  /// specific (and spec-relevant) one.
   ///
   /// The surviving merged "B" item carrying `numberOfCopies == 2` is a separate
   /// atomicity check: it proves the merge read the dup's `numberOfCopies` (1) and
@@ -416,13 +412,13 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(bRows.first?.numberOfCopies, 2, "The merged duplicate must accumulate numberOfCopies")
   }
 
-  // MARK: - BS-4.2 per-entry containment + 4.5 fingerprint-symmetry dedup
+  // MARK: - Per-entry containment + fingerprint-symmetry dedup
 
-  /// Containment dedup: a plain copy whose content is a SUBSET of an existing
+  /// Containment dedup: a plain copy whose content is a subset of an existing
   /// richer item must merge into it. This is the case the old full-table scan
   /// handled but a naive exact-match index would miss (creating a duplicate), and
-  /// the reason the BS-4.2 per-entry index keys on individual content entries:
-  /// the plain copy's string entry matches the richer item's string entry in the
+  /// the reason the per-entry dedup index keys on individual content entries: the
+  /// plain copy's string entry matches the richer item's string entry in the
   /// index → candidate → `supersedes` confirms (the plain signature is contained
   /// in the richer item's contents) → merge. The second type is a non-supported
   /// UTI so it survives `filterContents` regardless of the default enabled-type
@@ -462,13 +458,13 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(stored?.count, 1, "Subset copy must merge, not create a second item")
   }
 
-  /// Fingerprint-symmetry dedup (BS-4.5): a large (>16 KiB) re-copy must merge.
-  /// The dedup signature for large content carries a real FNV fingerprint; the
-  /// index entry (built from the existing item's contents) and the lookup entry
-  /// (built from the new item's contents) must BOTH carry the computed
-  /// fingerprint to match. If the request's nil fingerprint leaked into the
-  /// lookup (the asymmetry 4.5 fixes), the entries would differ (nil != hash) and
-  /// no merge would happen. `heavy_text.txt` is ~31 KB.
+  /// Fingerprint-symmetry dedup: a large (>16 KiB) re-copy must merge. The
+  /// dedup signature for large content carries a real xxh3 fingerprint; the index
+  /// entry (built from the existing item's contents) and the lookup entry (built
+  /// from the new item's contents) must both carry the computed fingerprint to
+  /// match. If the request's nil fingerprint leaked into the lookup, the entries
+  /// would differ (nil != hash) and no merge would happen. `heavy_text.txt` is
+  /// ~31 KB.
   func testIngestLargeTextReCopyMergesViaFingerprint() async {
     let heavy = try? Data(contentsOf: FixtureLoader.heavyTextURL)
     XCTAssertNotNil(heavy, "heavy_text.txt fixture must be present at the repo root")

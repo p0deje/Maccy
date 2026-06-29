@@ -2,24 +2,34 @@ import AppKit.NSEvent
 import KeyboardShortcuts
 import Sauce
 
+/// Maps a key event into a high-level keyboard action understood by the UI.
 enum KeyChord: CaseIterable {
+  /// The key bound to the system Paste command (defaults to `v`).
   @MainActor static var pasteKey: Key { pasteMenuItem?.key ?? Key.v }
+  /// The modifier flags bound to the system Paste command (defaults to command).
   @MainActor static var pasteKeyModifiers: NSEvent.ModifierFlags {
     pasteMenuItem?.keyEquivalentModifierMask ?? .command
   }
+  /// The Paste menu item discovered in the main menu, if present.
   @MainActor private static var pasteMenuItem: NSMenuItem? {
     NSApp.mainMenu?.items
       .flatMap { $0.submenu?.items ?? [] }
       .first { $0.action == #selector(NSText.paste) }
   }
 
+  /// The key bound to the Delete-item shortcut, if assigned.
   static var deleteKey: Key? { Sauce.shared.key(shortcut: .delete) }
+  /// The modifier flags bound to the Delete-item shortcut, if assigned.
   static var deleteModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .delete)?.modifiers }
 
+  /// The key bound to the Pin shortcut, if assigned.
   static var pinKey: Key? { Sauce.shared.key(shortcut: .pin) }
+  /// The modifier flags bound to the Pin shortcut, if assigned.
   static var pinModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .pin)?.modifiers }
 
+  /// The key bound to the toggle-preview shortcut, if assigned.
   static var previewKey: Key? { Sauce.shared.key(shortcut: .togglePreview) }
+  /// The modifier flags bound to the toggle-preview shortcut, if assigned.
   static var previewModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .togglePreview)?.modifiers }
 
   case clearHistory
@@ -44,6 +54,8 @@ enum KeyChord: CaseIterable {
   case togglePreview
   case unknown
 
+  /// Resolves a key-down event into a chord, accounting for the active keyboard
+  /// layout and whether multi-selection is enabled.
   init(_ event: NSEvent?, multiSelectionEnabled: Bool) {
     guard let event, event.type == .keyDown else {
       self = .unknown
@@ -69,6 +81,7 @@ enum KeyChord: CaseIterable {
     self.init(key, modifierFlags, multiSelectionEnabled: multiSelectionEnabled)
   }
 
+  // Resolves an already-decoded key and modifier set into a chord.
   // swiftlint:disable:next cyclomatic_complexity
   init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags, multiSelectionEnabled: Bool) {
     switch (key, modifierFlags) {

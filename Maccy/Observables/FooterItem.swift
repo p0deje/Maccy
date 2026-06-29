@@ -1,8 +1,12 @@
 import SwiftUI
 
+/// A single footer action (clear, clear all, preferences, about, quit): its
+/// title, keyboard shortcut, optional confirmation prompt, and the closure to
+/// run when invoked.
 @MainActor
 @Observable
 class FooterItem: Equatable, Identifiable, HasVisibility {
+  /// Localized strings for an optional confirm-before-action alert.
   struct Confirmation {
     var message: LocalizedStringKey
     var comment: LocalizedStringKey
@@ -10,7 +14,9 @@ class FooterItem: Equatable, Identifiable, HasVisibility {
     var cancel: LocalizedStringKey
   }
 
-  // Swift 6: nonisolated Equatable witness reading only `id` (let UUID, Sendable).
+  /// Identity-only equality. `nonisolated` so it satisfies `Equatable` from a
+  /// `@MainActor` type; reads only the `let` UUID `id` (Sendable), never the
+  /// main-mutated title/state.
   nonisolated static func == (lhs: FooterItem, rhs: FooterItem) -> Bool {
     return lhs.id == rhs.id
   }
@@ -27,6 +33,8 @@ class FooterItem: Equatable, Identifiable, HasVisibility {
   var isVisible: Bool = true
   var action: () -> Void
 
+  /// Creates a footer item with its title, optional shortcut/confirmation, and
+  /// the action closure to run on invoke.
   init(
     title: String,
     shortcuts: [KeyShortcut] = [],

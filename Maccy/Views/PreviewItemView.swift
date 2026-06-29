@@ -1,8 +1,11 @@
 import SwiftUI
 
+/// Detail pane for a single history item: a large image preview (or scrolling
+/// text), followed by metadata (source application and copy timestamps).
 struct PreviewItemView: View {
   var item: HistoryItemDecorator
 
+  /// Wraps preview content with aspect-fit sizing and rounded corners.
   @ViewBuilder
   func previewImage(content: () -> some View) -> some View {
     content()

@@ -1,8 +1,10 @@
 import XCTest
 @testable import Maccy
 
+/// Benchmarks for `HistoryItemEngine` signature and dedup hot paths.
 @MainActor
 class HistoryItemPerformanceTests: XCTestCase {
+  /// Benchmark for superset-containment checks over a single large text content.
   func testLargeTextSignatureSupersedesBenchmark() {
     let largeText = String(repeating: "abcdef\n", count: 20_000)
     let contents = [
@@ -18,15 +20,11 @@ class HistoryItemPerformanceTests: XCTestCase {
     }
   }
 
-  // 8.1 (BS-8 baseline): N same-type, same-size, distinct-content lhs items, and
-  // a signature matching the LAST one. `ContentIndex.contains` currently passes
-  // `rhsFingerprint` only — `dataLikelyEqual`'s `lhsFingerprint` defaults to nil,
-  // so every lhs blob is RE-HASHED per comparison (08-F-001). Matching the last
-  // item forces a full scan → N lhs re-hashes per `contains`. Baseline is the
-  // FNV + no-persistent-column world; 8.8 re-baselines after the xxh3 swap +
-  // persistent `HistoryItemContent.fingerprint` column (lhs reads the column →
-  // 0 re-hash) and asserts the drop. No baseline set this step (algorithm not
-  // swapped yet); 8.8 sets `measureMetrics` `.baseline` + relative tolerance.
+  /// Benchmark for the multi-item left-hand-side scan: N same-type, same-size,
+  /// distinct-content items with a signature matching the last, forcing a full
+  /// scan. After the xxh3 fingerprint swap and the persistent
+  /// `HistoryItemContent.fingerprint` column, each left-hand-side blob reads its
+  /// fingerprint from the column instead of re-hashing per comparison.
   func testMultiSameTypeLhsRehashBenchmark() {
     let itemCount = 20
     let blobSize = 20_000   // ≥ 16 KiB threshold → fingerprinted
@@ -44,11 +42,8 @@ class HistoryItemPerformanceTests: XCTestCase {
     }
   }
 
-  // 8.1 (BS-8 baseline): fingerprint throughput, FNV pre-swap. Records GB/s via
-  // `measure`'s clock (no assertion this step — pre-swap baseline). 8.8
-  // re-baselines against xxh3 and asserts ≥ 3× over this FNV number. `_ =`
-  // discards the result so the test survives the 8.3 bridge change
-  // (UInt64 → MaccyFingerprintStruct) without modification.
+  /// Benchmark for the xxh3 fingerprint throughput (1 MiB + 10 MiB blobs).
+  /// Reported as throughput via `measure`'s clock.
   func testFingerprintThroughputBenchmark() {
     let oneMB = Data(count: 1 * 1024 * 1024)
     let tenMB = Data(count: 10 * 1024 * 1024)
@@ -60,7 +55,7 @@ class HistoryItemPerformanceTests: XCTestCase {
   }
 
   /// Same `size`, distinct first byte → distinct content & fingerprint, so the
-  /// multi-lhs scan can't short-circuit on an early size/hash match.
+  /// multi-left-hand-side scan can't short-circuit on an early size/hash match.
   private static func distinctBlob(size: Int, marker: UInt8) -> Data {
     var bytes = [UInt8](repeating: 0x61, count: size)
     bytes[0] = marker

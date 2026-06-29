@@ -21,15 +21,10 @@ import ImageIO
 enum PerfFixtures {
   /// Populates `History.shared` with `count` items of `category`
   /// ("image" / "text" / "mixed"), clearing first. Each item has a distinct
-  /// value (seed-dependent) so dedup keeps them all.
-  ///
-  /// IMPORTANT: inserts ALL items into the context in one batch + a single save,
-  /// then ONE `History.load()` — NOT `History.add` per item. The per-item
-  /// `History.add` path is the legacy O(n²) main-thread path (full-table sort +
-  /// decorate + findSimilarItem + `@Observable` invalidation PER add); for 30
-  /// mixed items that froze main ~115s (measured). Batch-insert + single load
-  /// is one fetch+sort+decorate, fast — and matches how the popup actually
-  /// populates on open.
+  /// seed-dependent value so dedup keeps them all. Items are batch-inserted
+  /// with a single save, then one `History.load()` materializes decorators
+  /// (matching the popup-open path) rather than the per-item `History.add`
+  /// legacy path.
   static func populate(count: Int, category: String) {
     let history = History.shared
     history.clearAll()
@@ -50,7 +45,6 @@ enum PerfFixtures {
     }
     try? context.save()
 
-    // One load to materialize decorators (the popup-open path).
     Task { @MainActor in
       _ = try? await history.load()
     }
@@ -58,6 +52,7 @@ enum PerfFixtures {
 
   // MARK: - Private
 
+  /// Builds an image history item (JPEG payload) with a seed-dependent timestamp.
   private static func makeImageItem(seed: Int) -> HistoryItem {
     let item = HistoryItem(contents: [
       HistoryItemContent(type: "public.png", value: makeImageJPEG(seed: seed))
@@ -74,6 +69,7 @@ enum PerfFixtures {
       .map { URL(fileURLWithPath: $0) }
   }
 
+  /// Builds a text history item with a seed-dependent timestamp and index marker.
   private static func makeTextItem(index: Int) -> HistoryItem {
     let paragraph = "The quick brown fox jumps over the lazy dog. " +
       "Maccy is a lightweight clipboard manager for macOS. "
@@ -88,17 +84,12 @@ enum PerfFixtures {
   }
 
   /// Returns real-photo JPEG bytes from the shared corpus (`MACCY_PERF_FIXTURES`)
-  /// if available — the same 1–10MB high-detail photos the A tests use, so B's
-  /// decode cost reflects real photos (not trivial CG images that decode in
-  /// microseconds). Falls back to the in-process CG generator when no corpus is
-  /// present (local runs). The corpus files are named `<bucket>_v<variant>.jpg`
-  /// (see `ImageFixtureGenerator.jpeg`); we cycle buckets across seeds for a
-  /// size mix.
+  /// when available — the same 1–10MB high-detail photos the A tests use, so the
+  /// decode cost reflects real photos rather than trivial CG images. Uses the
+  /// `oneMB` bucket (200 variants), cycling across seeds. Falls back to the
+  /// in-process CG generator when no corpus is present (local runs).
   private static func makeImageJPEG(seed: Int) -> Data {
     if let dir = corpusDir {
-      // Use `.oneMB` (200 real-photo variants in the corpus) so B's 30-item
-      // traversal all hits cached real photos — no per-run generation when the
-      // corpus is present. 1MB images still exercise the ImageIO decode path.
       let variant = seed % 200
       let fileURL = dir.appendingPathComponent("oneMB_v\(variant).jpg")
       if let data = try? Data(contentsOf: fileURL), !data.isEmpty {
@@ -143,6 +134,7 @@ enum PerfFixtures {
   }
 }
 
+/// CGContext helpers for generating seed-dependent test images.
 private extension CGContext {
   /// Draws the seed-dependent content into this context and returns the image.
   func makeImageAfterDrawing(seed: Int, width: Int, height: Int) -> CGImage? {

@@ -1,3 +1,5 @@
+/// Main-actor cache of `ApplicationImage` instances keyed by bundle identifier,
+/// bounded by `NSCache` so the OS can evict entries under memory pressure.
 @MainActor
 class ApplicationImageCache {
   static let shared = ApplicationImageCache()
@@ -5,15 +7,17 @@ class ApplicationImageCache {
   private let universalClipboardIdentifier: String =
   "com.apple.finder.Open-iCloudDrive"
   private let fallback = ApplicationImage(bundleIdentifier: nil)
-  // M4 (master plan): NSCache (countLimit=128) replaces the unbounded Dict so the
-  // OS evicts under pressure; ApplicationImage.deinit cancels its DispatchSource
-  // (closing the watched fd). Closes appicon-cache-unbounded (05/13).
+  // NSCache (countLimit=128) bounds the cache so the OS evicts entries under
+  // memory pressure; the evicted ApplicationImage's deinit cancels its
+  // DispatchSource, closing the watched file descriptor.
   private let cache: NSCache<NSString, ApplicationImage> = {
     let cache = NSCache<NSString, ApplicationImage>()
     cache.countLimit = 128
     return cache
   }()
 
+  /// Returns the cached `ApplicationImage` for `item`'s source application,
+  /// creating and caching one on first access.
   func getImage(item: HistoryItem) -> ApplicationImage {
     guard let bundleIdentifier = bundleIdentifier(for: item) else {
       return fallback
@@ -30,12 +34,15 @@ class ApplicationImageCache {
     return image
   }
 
-  /// MemoryGovernor hook: evict everything. Each `ApplicationImage.deinit`
-  /// cancels its `DispatchSource` (closing the watched fd).
+  /// MemoryGovernor hook: evicts every cached entry. Each evicted
+  /// `ApplicationImage`'s deinit cancels its `DispatchSource`, closing the
+  /// watched file descriptor.
   func purge() {
     cache.removeAllObjects()
   }
 
+  /// Resolves the bundle identifier used as the cache key for `item`,
+  /// substituting the universal-clipboard identifier where appropriate.
   private func bundleIdentifier(for item: HistoryItem) -> String? {
     if item.universalClipboard {
       return universalClipboardIdentifier

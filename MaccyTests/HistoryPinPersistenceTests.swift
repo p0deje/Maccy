@@ -3,6 +3,7 @@ import SwiftData
 import XCTest
 @testable import Maccy
 
+/// Verifies that pinning an item survives a clear-unpinned operation, both in memory and in the committed store.
 @MainActor
 final class HistoryPinPersistenceTests: XCTestCase {
   private let history = History.shared
@@ -24,6 +25,7 @@ final class HistoryPinPersistenceTests: XCTestCase {
     try await super.tearDown()
   }
 
+  /// A pinned item persists across `clear()` (which removes only unpinned items), and its pin value round-trips through the committed store.
   func testClearingUnpinnedAfterPinPersistsPinnedItem() {
     let pinned = history.add(historyItem("foo"))
     history.add(historyItem("bar"))
@@ -40,6 +42,7 @@ final class HistoryPinPersistenceTests: XCTestCase {
     XCTAssertEqual(stored.first?.pin, pin)
   }
 
+  /// Builds a single-string-content `HistoryItem` inserted into the shared context, with title derived from its content.
   private func historyItem(_ value: String) -> HistoryItem {
     let item = HistoryItem()
     Storage.shared.context.insert(item)

@@ -2,11 +2,11 @@
 
 #include <algorithm>
 
-// BS-8 (08-O-007): vendored xxHash (BSD-2, third_party/xxhash.h) for xxh3_64.
+// Vendored xxHash (BSD-2, third_party/xxhash.h) provides xxh3_64.
 // XXH_INLINE_ALL makes every xxHash symbol static-inline in this TU — no
 // separate xxhash.c, no link conflicts (only this .cpp includes it). Warnings
-// from the third-party header are suppressed (the CI log-scan fails on any
-// `warning:`); xxHash is otherwise compiled clean.
+// from the third-party header are suppressed because the CI log-scan fails on
+// any `warning:`; xxHash is otherwise compiled clean.
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wall"
 #pragma clang diagnostic ignored "-Wextra"
@@ -17,9 +17,12 @@
 
 namespace {
 
+// FNV-1a 64-bit offset basis (initial hash value).
 constexpr std::uint64_t fnvOffsetBasis = 14695981039346656037ULL;
+// FNV-1a 64-bit prime (per-byte mixing multiplier).
 constexpr std::uint64_t fnvPrime = 1099511628211ULL;
 
+// True when `byte` is a UTF-8 continuation byte (leading bits `10xxxxxx`).
 bool continuation(std::uint8_t byte) {
   return (byte & 0xC0) == 0x80;
 }
@@ -29,6 +32,7 @@ bool continuation(std::uint8_t byte) {
 namespace maccy {
 namespace processor {
 
+// See ClipboardByteProcessor.hpp for the contract.
 std::size_t validUTF8PrefixLength(const std::uint8_t *bytes, std::size_t count, std::size_t maxBytes) noexcept {
   const std::size_t limit = std::min(count, maxBytes);
   std::size_t index = 0;
@@ -88,6 +92,7 @@ std::size_t validUTF8PrefixLength(const std::uint8_t *bytes, std::size_t count, 
   return lastValid;
 }
 
+// See ClipboardByteProcessor.hpp for the contract.
 std::uint64_t fnv1a64(const std::uint8_t *bytes, std::size_t count) noexcept {
   std::uint64_t hash = fnvOffsetBasis;
   for (std::size_t index = 0; index < count; ++index) {
@@ -97,11 +102,11 @@ std::uint64_t fnv1a64(const std::uint8_t *bytes, std::size_t count) noexcept {
   return hash;
 }
 
-// BS-8 (08-O-007): xxh3 replaces FNV-1a for the dedup fingerprint — SIMD-
-// friendly (~25-35 GB/s vs FNV's serial ~1 GB/s). `seed` is supplied by the
-// caller (the fixed migration seed; see MaccyTextProcessor/ClipboardDataProcessor).
-// Empty input is well-defined for xxh3 (unlike FNV's offset basis) — the
-// transition must account for this when backfilling old rows (step-8 §8.5).
+// xxh3 replaces FNV-1a for the dedup fingerprint — SIMD-friendly (~25-35 GB/s
+// vs FNV's serial ~1 GB/s). `seed` is supplied by the caller (the fixed
+// compile-time seed defined in the ObjC++ bridge). Empty input is well-defined
+// for xxh3 (unlike FNV's offset basis); backfilling legacy rows must account
+// for the change in empty-input behavior.
 std::uint64_t xxh3_64(const std::uint8_t *bytes, std::size_t count, std::uint64_t seed) noexcept {
   return XXH3_64bits_withSeed(bytes, count, seed);
 }

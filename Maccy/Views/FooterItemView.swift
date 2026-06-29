@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Renders a single footer action with confirmation handling and preview dismissal on hover.
 struct FooterItemView: View {
   @Bindable var item: FooterItem
   @Environment(AppState.self) private var appState

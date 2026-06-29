@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Captures key events for the popup and routes recognized key chords to app actions.
 struct KeyHandlingView<Content: View>: View {
   @Binding var searchQuery: String
   @FocusState.Binding var searchFocused: Bool
@@ -10,14 +11,11 @@ struct KeyHandlingView<Content: View>: View {
   var body: some View {
     content()
       .onKeyPress { _ in
-        // Unfortunately, key presses don't allow access to
-        // key code and don't properly work with multiple inputs,
-        // so pressing ⌘, on non-English layout doesn't open
-        // preferences. Stick to NSEvent to fix this behavior.
-
+        // SwiftUI key presses expose no key code and mishandle non-English layouts
+        // (e.g. ⌘, on a non-English layout won't open preferences), so chord
+        // recognition is driven off the underlying NSEvent instead.
         if searchFocused {
-          // Ignore input when candidate window is open
-          // https://stackoverflow.com/questions/73677444/how-to-detect-the-candidate-window-when-using-japanese-keyboard
+          // Defer to the input method while a candidate (marked-text) window is open.
           if let inputClient = NSApp.keyWindow?.firstResponder as? NSTextInputClient,
              inputClient.hasMarkedText() {
             return .ignored

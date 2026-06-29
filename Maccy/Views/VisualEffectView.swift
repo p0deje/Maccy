@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// SwiftUI bridge to an AppKit `NSVisualEffectView` for a vibrancy material.
 struct VisualEffectView: NSViewRepresentable {
   var material: NSVisualEffectView.Material = .popover
   var blendingMode: NSVisualEffectView.BlendingMode = .behindWindow
@@ -14,6 +15,7 @@ struct VisualEffectView: NSViewRepresentable {
   }
 }
 
+/// SwiftUI bridge to an AppKit `NSGlassEffectView` (macOS 26+).
 @available(macOS 26.0, *)
 struct GlassEffectView: NSViewRepresentable {
   var style: NSGlassEffectView.Style = .regular

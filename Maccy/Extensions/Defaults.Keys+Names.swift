@@ -1,6 +1,7 @@
 import AppKit
 import Defaults
 
+/// Groups pasteboard types that Maccy can store into file, image, and text categories.
 struct StorageType {
   static let files = StorageType(types: [.fileURL])
   static let images = StorageType(types: [.heic, .jpeg, .png, .tiff])
@@ -10,6 +11,7 @@ struct StorageType {
   var types: [NSPasteboard.PasteboardType]
 }
 
+/// Bounds for the configurable clipboard content size limit, in megabytes.
 enum ClipboardContentSizeLimit {
   static let minMegabytes = 1
   static let defaultMegabytes = 10
@@ -25,9 +27,11 @@ extension Defaults.Keys {
     "maxClipboardContentSize",
     default: ClipboardContentSizeLimit.defaultMegabytes
   )
-  // Max rows visible in the popup before scrolling. The window height is
-  // otherwise content-driven; this caps it so long histories don't overflow.
-  // Default 36 keeps the shipped ~800px look (see Popup.resize guardrail).
+  /// Max rows visible in the popup before scrolling.
+  ///
+  /// The window height is otherwise content-driven; this caps it so long histories
+  /// don't overflow. The default of 36 keeps the shipped ~800px look
+  /// (see `Popup.resize` guardrail).
   static let maxVisibleItems = Key<Int>("maxVisibleItems", default: 36)
   static let enabledPasteboardTypes = Key<Set<NSPasteboard.PasteboardType>>(
     "enabledPasteboardTypes", default: Set(StorageType.all.types)
@@ -49,11 +53,12 @@ extension Defaults.Keys {
     ])
   )
   static let imageMaxHeight = Key<Int>("imageMaxHeight", default: 40)
-  // Longest-side cap (px) for a decoded preview image. 0 = no cap (decodes at
-  // screen resolution — visually "original" in the pane, without a huge bitmap).
-  // See HistoryItemDecorator.previewImageSize.
+  /// Longest-side cap (px) for a decoded preview image.
+  ///
+  /// `0` means no cap; the image decodes at screen resolution — visually "original"
+  /// in the pane, without a huge bitmap. See `HistoryItemDecorator.previewImageSize`.
   static let imageMaxPreviewPixels = Key<Int>("imageMaxPreviewPixels", default: 800)
-  // Max chars of text shown in a preview. 0 = full text (no truncation).
+  /// Max chars of text shown in a preview. `0` means full text (no truncation).
   static let textPreviewLimit = Key<Int>("textPreviewLimit", default: 3000)
   static let menuIcon = Key<MenuIcon>("menuIcon", default: .maccy)
   static let migrations = Key<[String: Bool]>("migrations", default: [:])
@@ -61,9 +66,11 @@ extension Defaults.Keys {
   static let pinTo = Key<PinsPosition>("pinTo", default: .top)
   static let popupPosition = Key<PopupPosition>("popupPosition", default: .cursor)
   static let popupScreen = Key<Int>("popupScreen", default: 0)
-  // Delay (ms) before the preview follows the lead selection. 0 (or <~100) =
-  // instant follow; higher = dwell-to-peek. The retarget timer's cancel-on-change
-  // is the debounce, so one knob covers both modes. See SlideoutController.
+  /// Delay (ms) before the preview follows the lead selection.
+  ///
+  /// `0` (or below ~100) gives instant follow; higher values enable dwell-to-peek.
+  /// The retarget timer's cancel-on-change acts as the debounce, so one knob covers
+  /// both modes. See `SlideoutController`.
   static let previewDelay = Key<Int>("previewDelay", default: 200)
   static let removeFormattingByDefault = Key<Bool>("removeFormattingByDefault", default: false)
   static let searchMode = Key<Search.Mode>("searchMode", default: .exact)

@@ -2,27 +2,25 @@ import AppKit
 import CoreGraphics
 import Foundation
 
-/// Production `ImageProcessing` conformance for the BS-3 image pipeline.
+/// Production `ImageProcessing` conformance for the off-main image pipeline.
 ///
 /// A background `actor` (satisfies the protocol's `Sendable` requirement) that
 /// keeps all image decode + downsample work off the main thread. It composes
-/// the two BS-3 primitives:
+/// two primitives:
 ///
 /// - `thumbnail(for:max:)` is cache-backed (`ThumbnailCache`): the memory +
 ///   disk-LRU tiers make repeated renders of the same item cheap. The cache is
 ///   keyed by `(MaccyFingerprint, maxPixelSize)`, so this method computes a
-///   fingerprint from the raw image `Data` (reusing the existing FNV-1a bridge,
-///   `MaccyTextProcessor.fingerprint(for:)`) before delegating.
+///   fingerprint from the raw image `Data` before delegating.
 /// - `preview(for:max:)` is transient: previews are short-lived and sized by
 ///   the caller, so they bypass the cache and downsample directly via
 ///   `ImageDownsampler`.
 ///
-/// Both methods begin with a `Task.isCancelled` checkpoint (IMG-023). The
-/// structured-cancellation work in BS-3.5 cancels the parent task when a render
-/// is superseded; the checkpoint turns that signal into an early nil return at
-/// the actor boundary, before any decode or disk work. `preview` adds a second
-/// checkpoint between the downsample and the cheap `NSImage` wrap so a
-/// cancellation that lands during decode still short-circuits.
+/// Both methods begin with a `Task.isCancelled` checkpoint so a render that is
+/// superseded (the caller cancels its parent task) returns nil at the actor
+/// boundary before any decode or disk work. `preview` adds a second checkpoint
+/// between the downsample and the cheap `NSImage` wrap so a cancellation that
+/// lands during decode still short-circuits.
 actor ImageProcessor: ImageProcessing {
   private let cache: ThumbnailCache
 

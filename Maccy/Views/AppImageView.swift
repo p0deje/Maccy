@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Renders an application icon at a fixed size.
 struct AppImageView: View {
   let appImage: ApplicationImage
   let size: CGSize

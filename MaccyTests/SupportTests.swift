@@ -1,8 +1,12 @@
 import XCTest
 @testable import Maccy
 
+/// Tests for the test-support doubles and fixtures: `PasteboardSimulator`,
+/// `HistoryBuilder`, `FakeClock`, `IngestorSpy`, and the pasteboard source
+/// adapters used by the ingest tests.
 @MainActor
 class SupportTests: XCTestCase {
+  /// `PasteboardSimulator.copy` increments the change count and records items.
   func testPasteboardSimulatorTracksChangeCountAndItems() {
     var simulator = PasteboardSimulator()
     let item = PasteboardItemSnapshot(contents: [
@@ -15,6 +19,7 @@ class SupportTests: XCTestCase {
     XCTAssertEqual(simulator.items.first?.data(for: .string), Data("hello".utf8))
   }
 
+  /// `HistoryBuilder` applies every configured field to the built item.
   func testHistoryBuilderBuildsConfiguredItem() {
     let item = HistoryBuilder()
       .withContent(type: "public.utf8-plain-text", value: Data("hello".utf8))
@@ -29,6 +34,7 @@ class SupportTests: XCTestCase {
     XCTAssertEqual(item.title, "hello")
   }
 
+  /// `FakeClock.advance` moves the `nowProvider` forward by the given interval.
   func testFakeClockAdvancesNowProvider() {
     var clock = FakeClock(now: Date(timeIntervalSince1970: 10))
 
@@ -37,6 +43,7 @@ class SupportTests: XCTestCase {
     XCTAssertEqual(clock.nowProvider(), Date(timeIntervalSince1970: 15))
   }
 
+  /// `IngestorSpy` records each ingested request and returns a neutral result.
   func testIngestorSpyRecordsRequests() async {
     let spy = IngestorSpy()
     let request = IngestRequest(
@@ -53,6 +60,8 @@ class SupportTests: XCTestCase {
     XCTAssertEqual(requests, [request])
   }
 
+  /// A `PasteboardItemSnapshot` exposes its content types and round-trips data
+  /// lookups, returning nil for absent types.
   func testPasteboardItemSnapshotRoundTripsContents() {
     let snapshot = PasteboardItemSnapshot(contents: [
       "public.utf8-plain-text": Data("hi".utf8)
@@ -63,6 +72,8 @@ class SupportTests: XCTestCase {
     XCTAssertNil(snapshot.data(for: NSPasteboard.PasteboardType(rawValue: "public.not-present")))
   }
 
+  /// `PasteboardSimulator` is readable as a `PasteboardSource` while mutation
+  /// stays on the concrete value type.
   func testPasteboardSimulatorConformsToPasteboardSource() {
     let snapshot = PasteboardItemSnapshot(contents: [
       "public.utf8-plain-text": Data("hello".utf8)
@@ -85,11 +96,13 @@ class SupportTests: XCTestCase {
     )
   }
 
-  // A live NSPasteboard isn't easily unit-testable end-to-end in CI without a real
-  // macOS session driving copy events, so here we only assert the minimal contract:
-  // NSPasteboardSource wraps the pasteboard it is given and reads changeCount through.
-  // The ingestor tests exercise the snapshot path via PasteboardSimulator, which is
-  // why that path is covered thoroughly above.
+  /// `NSPasteboardSource` wraps the pasteboard it is given and reflects its live
+  /// change count.
+  ///
+  /// A real `NSPasteboard` is not easily driven end-to-end in CI without a live
+  /// macOS session posting copy events, so this test asserts only the minimal
+  /// wrapping contract; the snapshot read-path is exercised via
+  /// `PasteboardSimulator` in the ingestor tests.
   func testNSPasteboardSourceWrapsGivenPasteboard() {
     let pasteboard = NSPasteboard(name: .init("MaccyPasteboardSourceTest"))
     pasteboard.clearContents()
@@ -105,6 +118,8 @@ class SupportTests: XCTestCase {
     XCTAssertEqual(source.changeCount, pasteboard.changeCount)
   }
 
+  /// `CopyOrigin` is stable across the two-argument and three-argument
+  /// initializers, preserving the change count and optional name.
   func testCopyOriginConstructsIdenticallyAfterRename() {
     XCTAssertEqual(CopyOrigin(changeCount: 5, name: nil), CopyOrigin(changeCount: 5))
     XCTAssertEqual(CopyOrigin(changeCount: 5, name: "Safari").name, "Safari")

@@ -46,10 +46,12 @@ enum ImageFixtureGenerator {
   struct SeededRNG: RandomNumberGenerator {
     var state: UInt64
 
+    /// Creates a generator from `seed`, substituting a fixed constant for a zero seed (xorshift64* requires nonzero state).
     init(seed: UInt64) {
       self.state = seed == 0 ? 0xDEADBEEFDEADBEEF : seed
     }
 
+    /// Advances and returns the next 64-bit value.
     mutating func next() -> UInt64 {
       state &+= 0x9E3779B97F4A7C15
       var mixed = state

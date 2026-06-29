@@ -1,17 +1,23 @@
 import Foundation
 import SwiftUI
 
+/// Owns popup selection/scroll/navigation state: the current `selection`, the
+/// lead item, hover-vs-keyboard navigation, and the highlight/extend actions
+/// bound to arrow-key and shortcut gestures.
 @MainActor
 @Observable
 class NavigationManager {
   private var history: History
   private var footer: Footer
 
+  /// Creates the manager bound to its history and footer.
   init(history: History, footer: Footer) {
     self.history = history
     self.footer = footer
   }
 
+  /// The current multi-capable selection; `willSet` mirrors the selection index
+  /// onto each decorator.
   var selection: Selection<HistoryItemDecorator> = Selection() {
     willSet {
       selection.forEach { _, item in item.selectionIndex = -1 }
@@ -19,7 +25,9 @@ class NavigationManager {
     }
   }
 
+  /// The decorator (or footer item, or paste stack) the view should scroll to.
   var scrollTarget: UUID?
+  /// The id of the current lead (a history item, footer item, or paste stack).
   var leadSelection: UUID? {
     if let item = leadHistoryItem {
       return item.id
@@ -33,19 +41,16 @@ class NavigationManager {
     didSet {
       guard oldValue?.id != leadHistoryItem?.id else { return }
 
-      // P2 (2026-06-21): cancel the previous lead item's in-flight preview
-      // decode so it stops occupying the single serial `ImageProcessor` actor.
-      // Previously only `invalidate`/`cleanupImages` cancelled, so navigating
-      // off a lead left its preview decoding to completion → stale-decode
-      // pile-up on the actor (1.5s spike; mouse-hover worst case). A cached
-      // preview survives (cancelPreviewGeneration keeps previewImage); only an
-      // uncached in-flight decode is stopped. See
-      // docs/audit/2026-06-21-render-feedback-stopgap.md.
+      // Cancel the previous lead item's in-flight preview decode so it stops
+      // occupying the single serial `ImageProcessor` actor. Previously only
+      // `invalidate`/`cleanupImages` cancelled, so navigating off a lead left
+      // its preview decoding to completion — a stale-decode pile-up on the
+      // actor (worst case under mouse hover). A cached preview survives
+      // (`cancelPreviewGeneration` keeps `previewImage`); only an uncached
+      // in-flight decode is stopped.
       //
-      // Dispatched to MainActor: this didSet is nonisolated (NavigationManager
-      // is a plain @Observable model), but cancelPreviewGeneration touches the
-      // decorator's @MainActor task state. The hop is fine — cancellation
-      // need not be synchronous with the selection change.
+      // Hopped to `@MainActor`: this `didSet` runs in the main-isolated model,
+      // but the hop keeps the cancellation decoupled from the selection change.
       let previous = oldValue
       Task { @MainActor in
         previous?.cancelPreviewGeneration()
@@ -62,15 +67,18 @@ class NavigationManager {
     }
   }
 
+  /// Whether the active paste stack is the current lead selection.
   var pasteStackSelected: Bool {
     return leadSelection != nil && leadSelection == history.pasteStack?.id
   }
 
   var isManualMultiSelect: Bool = false
+  /// Whether a multi-select is active (manually toggled or more than one selected).
   var isMultiSelectInProgress: Bool {
     return isManualMultiSelect || selection.count > 1
   }
 
+  /// A hover-pending id to apply once keyboard navigation ends.
   var hoverSelectionWhileKeyboardNavigating: UUID?
   var isKeyboardNavigating: Bool = true {
     didSet {
@@ -78,20 +86,21 @@ class NavigationManager {
          let hoverSelection = hoverSelectionWhileKeyboardNavigating {
         hoverSelectionWhileKeyboardNavigating = nil
         // Mouse hover selects an already-visible cell — do NOT programatically
-        // scroll to it. The prior `select(id:)` call routed through
-        // `select(item:)` → `scroll(to:)`, setting `scrollTarget` on every hover,
-        // which fed a LazyVStack anchor invalidation → layout-feedback storm
-        // (AttributeGraph / LazySubviewPlacements; spindump 2026-06-21). Hover
-        // must update selection without disturbing the scroll position.
+        // scroll to it. Routing hover through `scroll(to:)` set `scrollTarget`
+        // on every hover, feeding a LazyVStack anchor invalidation that caused
+        // a layout-feedback storm. Hover must update selection without
+        // disturbing the scroll position.
         selectWithoutScrolling(id: hoverSelection)
       }
     }
   }
 
+  /// Sets `scrollTarget` to drive the list to `id`.
   private func scroll(to id: UUID?, item: HistoryItemDecorator? = nil) {
     scrollTarget = id
   }
 
+  /// Selects by id, dispatching to a history item or footer item if found.
   func select(id: UUID) {
     if let item = history.items.first(where: { $0.id == id }) {
       select(item: item, footerItem: nil)
@@ -102,6 +111,7 @@ class NavigationManager {
     }
   }
 
+  /// Selects a history and/or footer item and scrolls to it, in one transaction.
   func select(item: HistoryItemDecorator? = nil, footerItem: FooterItem? = nil) {
     withTransaction(Transaction()) {
       selectWithoutScrolling(item: item, footerItem: footerItem)
@@ -109,6 +119,8 @@ class NavigationManager {
     }
   }
 
+  /// Toggles `item` in the selection (toggling manual multi-select when going
+  /// from a single-item selection) and makes it the lead.
   func addToSelection(item: HistoryItemDecorator) {
     var newSelectionState = selection
 
@@ -129,6 +141,8 @@ class NavigationManager {
     }
   }
 
+  /// Extends the selection from `fromItem` to `toItem` — a contiguous range when
+  /// `isRange`, otherwise a single add/remove at `toItem`.
   func extendSelection(
     from fromItem: HistoryItemDecorator,
     to toItem: HistoryItemDecorator,
@@ -159,6 +173,7 @@ class NavigationManager {
     }
   }
 
+  /// Selects by id without disturbing the scroll position (for hover).
   func selectWithoutScrolling(id: UUID) {
     if let stack = history.pasteStack,
        stack.id == id {
@@ -174,6 +189,7 @@ class NavigationManager {
     }
   }
 
+  /// Selects a history and/or footer item without scrolling.
   func selectWithoutScrolling(
     item: HistoryItemDecorator? = nil,
     footerItem: FooterItem? = nil
@@ -189,12 +205,14 @@ class NavigationManager {
     }
   }
 
+  /// Sets a single history item as the lead selection, clearing the footer.
   private func selectInHistory(_ item: HistoryItemDecorator) {
     leadHistoryItem = item
     selection = .init(items: [item])
     footer.selectedItem = nil
   }
 
+  /// Sets a footer item as selected, clearing the history lead.
   private func selectInFooter(_ item: FooterItem) {
     leadHistoryItem = nil
     if !isMultiSelectInProgress {
@@ -203,6 +221,7 @@ class NavigationManager {
     footer.selectedItem = item
   }
 
+  /// Marks keyboard navigation active and selects the given item/footer item.
   private func selectFromKeyboardNavigation(
     item: HistoryItemDecorator? = nil,
     footerItem: FooterItem? = nil
@@ -212,6 +231,7 @@ class NavigationManager {
     select(item: item, footerItem: footerItem)
   }
 
+  /// Marks keyboard navigation active and extends the selection to `toItem`.
   private func extendHistorySelectionFromKeyboardNavigation(
     from fromItem: HistoryItemDecorator,
     to toItem: HistoryItemDecorator,
@@ -221,6 +241,7 @@ class NavigationManager {
     extendSelection(from: fromItem, to: toItem, isRange: isRange)
   }
 
+  /// Highlights the first visible history item (or clears if none).
   func highlightFirst() {
     if let item = history.firstVisibleItem {
       selectFromKeyboardNavigation(item: item)
@@ -229,6 +250,7 @@ class NavigationManager {
     }
   }
 
+  /// Moves the highlight one step backward (up), crossing into the footer at the top.
   func highlightPrevious() {
     guard let lead = leadSelection else { return }
 
@@ -249,6 +271,7 @@ class NavigationManager {
     }
   }
 
+  /// Moves the highlight one step forward (down), crossing into the footer at the bottom.
   func highlightNext(allowCycle: Bool = false) {
     guard let lead = leadSelection else { return }
 
@@ -277,6 +300,7 @@ class NavigationManager {
     }
   }
 
+  /// Moves the highlight to the last item (footer, or the last history row).
   func highlightLast() {
     guard let lead = leadSelection else { return }
 
@@ -294,6 +318,7 @@ class NavigationManager {
     }
   }
 
+  /// Extends the highlight one step forward, or highlights the next item if no lead.
   func extendHighlightToNext() {
     if let leadSelection,
        let leadItem = history.firstVisibleItem(where: {$0.id == leadSelection}) {
@@ -304,6 +329,7 @@ class NavigationManager {
     }
   }
 
+  /// Extends the highlight one step backward, or highlights the previous item if no lead.
   func extendHighlightToPrevious() {
     if let leadSelection,
        let leadItem = history.firstVisibleItem(where: {$0.id == leadSelection}) {
@@ -314,6 +340,7 @@ class NavigationManager {
     }
   }
 
+  /// Extends the highlight as a range to the first item, or highlights first if no lead.
   func extendHighlightToFirst() {
     if let leadSelection,
        let leadItem = history.firstVisibleItem(where: {$0.id == leadSelection}) {
@@ -324,6 +351,7 @@ class NavigationManager {
     }
   }
 
+  /// Extends the highlight as a range to the last item, or highlights first if no lead.
   func extendHighlightToLast() {
     if let leadSelection,
        let leadItem = history.firstVisibleItem(where: {$0.id == leadSelection}) {

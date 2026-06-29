@@ -1,6 +1,7 @@
 import Defaults
 import SwiftUI
 
+/// The list header showing the optional title and the search field.
 struct ListHeaderView: View {
   @FocusState.Binding var searchFocused: Bool
   @Binding var searchQuery: String
@@ -26,7 +27,7 @@ struct ListHeaderView: View {
             searchQuery = ""
           }
         }
-        // Only reliable way to disable the cursor. allowsHitTesting() does not work
+        // `allowsHitTesting` does not reliably hide the caret, so the field is shifted off-screen instead.
         .offset(y: appState.searchVisible ? 0 : -Popup.itemHeight)
     }
   }

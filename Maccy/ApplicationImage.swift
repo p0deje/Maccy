@@ -1,6 +1,8 @@
 import Logging
 import SwiftUI
 
+/// Lazily resolves and caches the icon for a clipboard source application,
+/// keeping it fresh when the bundle is deleted, renamed, or replaced.
 @MainActor
 class ApplicationImage {
   private static let logger = Logger(label: "org.p0deje.Maccy")
@@ -21,17 +23,18 @@ class ApplicationImage {
   }
 
   deinit {
-    // DispatchSource.cancel() is thread-safe (any thread). eventSource is
-    // main-isolated; reach it from this nonisolated deinit via
-    // MainActor.assumeIsolated — a synchronous runtime assertion, NOT an async
-    // hop, so macOS-14's "deinit cannot actor-hop" restriction doesn't apply.
-    // ApplicationImage instances live in ApplicationImageCache (main-only), so
-    // deinit runs on main in practice.
+    // DispatchSource.cancel() is thread-safe on any thread, but `eventSource`
+    // is main-isolated. Reach it from this nonisolated deinit via
+    // MainActor.assumeIsolated — a synchronous runtime assertion, not an async
+    // hop, so the macOS-14 restriction on actor hops from deinit does not apply.
+    // Instances live in the main-only ApplicationImageCache, so deinit runs on
+    // main in practice.
     MainActor.assumeIsolated {
       eventSource?.cancel()
     }
   }
 
+  /// The resolved application icon, or the fallback image if the bundle cannot be found.
   var nsImage: NSImage {
     guard let bundleIdentifier else {
       return Self.fallbackImage
@@ -41,8 +44,9 @@ class ApplicationImage {
       return image
     }
 
-    // The image has been queried before but since the application has been deleted.
-    // Check from time to time if the application has returned.
+    // The bundle was not found on a previous lookup (the app may have been
+    // uninstalled). Only retry after `retryInterval` so the fallback does not
+    // cause repeated `NSWorkspace` lookups on every layout pass.
     if let lastChecked,
       Date().timeIntervalSince(lastChecked) < Self.retryInterval {
       return Self.fallbackImage
@@ -63,11 +67,11 @@ class ApplicationImage {
         Self.logger.error("open \(appURL.path): error \(errorCode) \(reason)")
         return img
       }
-      // fd guard (07-F-018): ensure `descriptor` is closed if we leave this scope
-      // before the setCancelHandler is installed. Defensive —
-      // makeFileSystemObjectSource does not throw today, but a future refactor
-      // that fails between open and resume would otherwise leak the fd.
-      // `eventSource` is assigned only after the cancelHandler is installed.
+      // Defensive fd guard: ensure `descriptor` is closed if we leave scope
+      // before the cancel handler is installed. `makeFileSystemObjectSource`
+      // does not throw today, but a future change that fails between `open` and
+      // `resume` would otherwise leak the fd. `eventSource` is assigned only
+      // after the cancel handler is in place.
       var sourceInstalled = false
       defer { if !sourceInstalled { close(descriptor) } }
       let source = DispatchSource.makeFileSystemObjectSource(

@@ -1,28 +1,26 @@
 import AppKit
 import XCTest
 
-/// `method=B` performance benchmarks: the same per-item render measurement
-/// (thumbnail + preview, latency) as `method=A`, but driven through the **real
-/// UI pipeline** — SwiftUI `.onAppear`/`AsyncView`, real `Task` scheduling,
-/// `@Observable` propagation under selection traversal. A calls `ensure*()`
-/// directly; B opens the popup, opens the preview pane, and arrow-keys down
-/// through the items, exactly the "pointer moves onto each candidate → render"
-/// path the user wants measured.
+/// Per-item render benchmarks driven through the real UI pipeline.
 ///
-/// Populate is in-process via the `MaccyPerfBulkLoad` distributed notification
-/// (the app's `PerfFixtures` inserts items directly via `History.add`, the same
-/// path the A tests' `PerfHistoryFactory` uses — so items render reliably and
-/// populate is instant, not 1.5s-per-copy pasteboard). Renders are recorded by
-/// the in-app `PerfRecorder` (completion-based — see `HistoryItemDecorator`);
-/// on `MaccyPerfDump` it writes `PERF|method=B` lines to `MACCY_PERF_LOG`,
-/// which the test re-prints from the test process so they land in the captured
+/// Unlike the synchronous unit-level render measurements, these open the popup,
+/// open the preview pane, and arrow-key down through the items — exactly the
+/// "pointer moves onto each candidate, then it renders" path users experience.
+/// SwiftUI `.onAppear`/`AsyncView`, real `Task` scheduling, and `@Observable`
+/// propagation all run for real.
+///
+/// Population is in-process via the `MaccyPerfBulkLoad` distributed notification
+/// (the app inserts items directly into the store), so it is instant and reliable
+/// rather than one pasteboard copy per item. Renders are recorded by the in-app
+/// `PerfRecorder`; on `MaccyPerfDump` it writes `PERF|method=B` lines to
+/// `MACCY_PERF_LOG`, which this test re-prints so they land in the captured
 /// xcodebuild log.
 ///
-/// Standalone (own minimal helpers) — does not subclass `MaccyUITests` and does
-/// not edit it, to avoid perturbing the existing suite. Runs in the non-blocking
-/// perf shards (`continue-on-error`); a flake must never fail the gate. Image
-/// fixtures are generated in-app via CoreGraphics (no binaries committed, no
-/// images in logs — only `PERF|` text lines).
+/// This class is standalone (its own minimal helpers, not subclassing
+/// `MaccyUITests`) to avoid perturbing the existing suite. It runs in the
+/// non-blocking performance shards (continue-on-error), so a flake never fails
+/// the gate. Image fixtures are generated in-app via CoreGraphics — no binaries
+/// committed, no images in logs, only `PERF|` text lines.
 @MainActor
 final class PerfRenderUITests: XCTestCase {
   private let app = XCUIApplication()
@@ -39,6 +37,7 @@ final class PerfRenderUITests: XCTestCase {
   private let visitCount = 20
   private let populateCount = 30
 
+  /// Configures perf logging, launches the app, and waits for the status item.
   override func setUp() async throws {
     try await super.setUp()
     perfLogURL = URL.temporaryDirectory
@@ -51,6 +50,7 @@ final class PerfRenderUITests: XCTestCase {
     }
   }
 
+  /// Terminates the app after each test.
   override func tearDown() async throws {
     app.terminate()
     try await super.tearDown()
@@ -60,7 +60,7 @@ final class PerfRenderUITests: XCTestCase {
 
   /// Many images: visit the first 20 with the preview pane open. Thumbnail
   /// renders fire as cells scroll into view; preview renders fire as the lead
-  /// selection moves (the `.id(item.id)` fix makes PreviewItemView refresh per
+  /// selection moves (`PreviewItemView` is keyed by item id, so it refreshes per
   /// selection).
   func testImageRenderB() throws {
     driveTraversal(category: "image", openPreview: true)
@@ -68,15 +68,14 @@ final class PerfRenderUITests: XCTestCase {
 
   /// Many long texts: text items have no image data, so neither thumbnail nor
   /// preview image generation runs — the dump reports `items=0` for both ops,
-  /// honestly confirming text traversal incurs no image-decode work (the
-  /// image-vs-text contrast, matching A's "text all 0").
+  /// confirming text traversal incurs no image-decode work.
   func testTextRenderB() throws {
     driveTraversal(category: "text", openPreview: false)
   }
 
-  /// Many images + many long texts interleaved: visit the first 20. Image
-  /// cells render (thumbnail on scroll, preview on selection); text cells do
-  /// not. Tests the mixed-pipeline worst case.
+  /// Many images and long texts interleaved: visit the first 20. Image cells
+  /// render (thumbnail on scroll, preview on selection); text cells do not.
+  /// Covers the mixed-pipeline worst case.
   func testMixedRenderB() throws {
     driveTraversal(category: "mixed", openPreview: true)
   }
@@ -84,7 +83,7 @@ final class PerfRenderUITests: XCTestCase {
   // MARK: - Traversal driver
 
   /// Populates via in-process bulk-load, opens the popup, resets the recorder
-  /// (discards the populate + popup-open cold burst), optionally opens the
+  /// (discarding the populate and popup-open cold burst), optionally opens the
   /// preview pane, arrow-keys down `visitCount` times, then dumps and re-prints
   /// the `PERF|` lines from the log file.
   private func driveTraversal(category: String, openPreview: Bool) {
@@ -120,6 +119,7 @@ final class PerfRenderUITests: XCTestCase {
 
   // MARK: - Helpers
 
+  /// Posts a distributed notification to the running app and brief pauses for delivery.
   private func post(_ name: String, userInfo: [String: Any]? = nil) {
     DistributedNotificationCenter.default().postNotificationName(
       Notification.Name(name),
@@ -130,6 +130,8 @@ final class PerfRenderUITests: XCTestCase {
     usleep(300_000)
   }
 
+  /// Reads the perf log file (polling until it appears) and prints every line,
+  /// so `PERF|` records are captured in the xcodebuild log.
   private func printPerfLines(from url: URL) {
     let deadline = Date().addingTimeInterval(5)
     var content: String?

@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// A plain-styled search field with a magnifying-glass icon and a clear button.
 struct SearchFieldView: View {
   var placeholder: LocalizedStringKey
   @Binding var query: String

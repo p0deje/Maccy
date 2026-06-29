@@ -1,11 +1,13 @@
 import SwiftUI
 
+/// Renders a single clipboard history entry, tracking viewport visibility and selection state.
 struct HistoryItemView: View {
   @Bindable var item: HistoryItemDecorator
   var previous: HistoryItemDecorator?
   var next: HistoryItemDecorator?
   var index: Int
 
+  /// The index shown during multi-selection, otherwise `nil`.
   private var visualIndex: Int? {
     if appState.navigator.isMultiSelectInProgress && item.selectionIndex >= 0 {
       return item.selectionIndex
@@ -13,6 +15,7 @@ struct HistoryItemView: View {
     return nil
   }
 
+  /// The connection appearance derived from whether the adjacent rows are also selected.
   private var selectionAppearance: SelectionAppearance {
     let previousSelected = previous?.isSelected ?? false
     let nextSelected = next?.isSelected ?? false

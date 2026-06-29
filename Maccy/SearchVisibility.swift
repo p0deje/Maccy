@@ -1,12 +1,14 @@
 import Defaults
 import Foundation
 
+/// When the search field is shown in the popup.
 enum SearchVisibility: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
   case always
   case duringSearch
 
   var id: Self { self }
 
+  /// Localized user-facing name.
   var description: String {
     switch self {
     case .always:

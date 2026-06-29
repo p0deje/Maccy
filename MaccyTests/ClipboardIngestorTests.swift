@@ -1,8 +1,11 @@
 import XCTest
 @testable import Maccy
 
+/// Tests for the clipboard ingest protocol and its main-actor adapter.
 @MainActor
 class ClipboardIngestorTests: XCTestCase {
+  /// The main-actor adapter builds a `HistoryItem` carrying the request's
+  /// contents, application, timestamps, and derived title.
   func testMainActorAdapterBuildsHistoryItemFromRequest() {
     let now = Date(timeIntervalSince1970: 1_717_171_717)
     let request = IngestRequest(
@@ -29,6 +32,7 @@ class ClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(item.title, "Copied text")
   }
 
+  /// The ingest protocol accepts any `Sendable` implementation and returns its result.
   func testIngestorProtocolAcceptsSendableImplementations() async {
     let ingestor: any ClipboardIngestor = StubIngestor()
     let result = await ingestor.ingest(
@@ -44,6 +48,7 @@ class ClipboardIngestorTests: XCTestCase {
   }
 }
 
+/// Minimal `ClipboardIngestor` stub returning an empty result.
 private struct StubIngestor: ClipboardIngestor {
   func ingest(_ request: IngestRequest) async -> IngestResult {
     IngestResult(event: nil, metrics: .zero)

@@ -3,6 +3,7 @@ import SwiftUI
 import Defaults
 import Settings
 
+/// Appearance settings: popup position, sizes, preview limits, menu icon, and visibility toggles.
 struct AppearanceSettingsPane: View {
   @Default(.popupPosition) private var popupAt
   @Default(.popupScreen) private var popupScreen
@@ -225,6 +226,7 @@ struct AppearanceSettingsPane: View {
     }
   }
 
+  /// Picker for choosing which screen a center/last-position popup opens on.
   @ViewBuilder
   private func screenPicker(for position: PopupPosition) -> some View {
     let screenBinding: Binding<Int> = Binding {
@@ -251,6 +253,7 @@ struct AppearanceSettingsPane: View {
     }
   }
 
+  /// Returns the display name for a screen index (0 = active screen).
   private func labelForScreen(index screenIndex: Int) -> String {
     switch screenIndex {
     case 0:

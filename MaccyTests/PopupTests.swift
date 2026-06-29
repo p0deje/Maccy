@@ -2,6 +2,7 @@ import Defaults
 import XCTest
 @testable import Maccy
 
+/// Tests for the popup window: open-time selection and the list-height cap.
 @MainActor
 final class PopupTests: XCTestCase {
   private let history = History.shared
@@ -23,6 +24,8 @@ final class PopupTests: XCTestCase {
     try await super.tearDown()
   }
 
+  /// Opening the popup re-selects the newest history item, regardless of the
+  /// navigator's prior selection.
   func testOpenSelectsNewestHistoryItem() {
     let older = history.add(historyItem("bar"))
     let newest = history.add(historyItem("foo"))
@@ -33,6 +36,9 @@ final class PopupTests: XCTestCase {
     XCTAssertEqual(AppState.shared.navigator.selection.first, newest)
   }
 
+  /// `cappedListHeight` clamps the list to `maxVisibleItems` rows but leaves
+  /// shorter content unchanged, honors the row height, and is uncapped when the
+  /// visible-item limit is non-positive.
   func testCappedListHeightLimitsRowsToMaxVisibleItems() {
     // Cap binds when content exceeds maxVisibleItems rows (10 rows × 22pt).
     XCTAssertEqual(
@@ -60,6 +66,8 @@ final class PopupTests: XCTestCase {
     )
   }
 
+  /// Builds a `HistoryItem` carrying a single string content entry, inserted
+  /// into the shared context, with its title derived from the value.
   private func historyItem(_ value: String) -> HistoryItem {
     let item = HistoryItem()
     Storage.shared.context.insert(item)

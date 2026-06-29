@@ -1,6 +1,7 @@
 import SwiftUI
 import Defaults
 
+/// Advanced settings: ignore-events toggle, clear-on-quit, and clear-system-clipboard.
 struct AdvancedSettingsPane: View {
   var body: some View {
     VStack(alignment: .leading) {

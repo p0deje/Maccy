@@ -2,8 +2,11 @@ import SwiftData
 import XCTest
 @testable import Maccy
 
+/// Tests for storage context creation and the visible-window fetch loader.
 @MainActor
 class StorageBackgroundContextTests: XCTestCase {
+  /// A background context is distinct from the main context and carries no undo
+  /// manager, so background writes cannot pollute the main actor's undo stack.
   func testNewBackgroundContextCreatesSeparateContextWithoutUndo() {
     let backgroundContext = Storage.shared.newBackgroundContext()
 
@@ -11,17 +14,18 @@ class StorageBackgroundContextTests: XCTestCase {
     XCTAssertNil(backgroundContext.undoManager)
   }
 
-  // MARK: - VisibleWindowLoader (BS-4.3)
+  // MARK: - VisibleWindowLoader
 
   private static let textType = "public.utf8-plain-text"
 
-  /// Uses the shared in-memory context (`enable-testing`) rather than a fresh
-  /// container. A fresh `ModelContainer` hit a SwiftData "PersistentIdentifier
-  /// remapped to a temporary identifier during save … fatal logic error in
-  /// DefaultStore" on `HistoryItemContent` relationships (intermittent: the
-  /// suite passed in run 27930886327, then aborted the whole class in 27931968760).
-  /// The shared context is what the rest of the suite uses and handles the same
-  /// insert+read pattern correctly. Cleared per-test for isolation.
+  /// Returns the shared in-memory context (`enable-testing`), cleared of all
+  /// `HistoryItem` rows, rather than spinning up a fresh `ModelContainer`.
+  ///
+  /// A fresh container intermittently trips a SwiftData fatal error —
+  /// "PersistentIdentifier remapped to a temporary identifier during save …
+  /// fatal logic error in DefaultStore" — on `HistoryItemContent` relationships.
+  /// The shared context handles the same insert-then-read pattern correctly and
+  /// is what the rest of the suite uses, so each test clears it for isolation.
   private func makeContext() throws -> ModelContext {
     let context = Storage.shared.context
     for item in try context.fetch(FetchDescriptor<HistoryItem>()) {
@@ -31,6 +35,8 @@ class StorageBackgroundContextTests: XCTestCase {
     return context
   }
 
+  /// Inserts a single text-content `HistoryItem` with the given timing and copy
+  /// count into `context`.
   @discardableResult
   private func insert(
     _ context: ModelContext,
@@ -49,6 +55,7 @@ class StorageBackgroundContextTests: XCTestCase {
     return item
   }
 
+  /// An empty store yields empty visible and tail windows.
   func testVisibleWindowEmptyStoreReturnsEmpty() throws {
     let context = try makeContext()
     let result = try VisibleWindowLoader.fetchWindow(
@@ -58,6 +65,7 @@ class StorageBackgroundContextTests: XCTestCase {
     XCTAssertTrue(result.tail.isEmpty)
   }
 
+  /// The fetch splits the result into a visible window and tail by `visibleHint`.
   func testVisibleWindowSplitsByVisibleHint() throws {
     let context = try makeContext()
     for index in 0..<5 {
@@ -70,6 +78,8 @@ class StorageBackgroundContextTests: XCTestCase {
     XCTAssertEqual(result.tail.count, 3)
   }
 
+  /// Within the visible window items are newest-first by last-copied time, and
+  /// every visible item is at least as recent as the oldest tail item.
   func testVisibleWindowOrdersLastCopiedAtDescendingAndVisiblePrecedesTail() throws {
     let context = try makeContext()
     for index in 0..<4 {
@@ -86,6 +96,7 @@ class StorageBackgroundContextTests: XCTestCase {
     XCTAssertGreaterThanOrEqual(result.visible.first!.lastCopiedAt, result.tail.first!.lastCopiedAt)
   }
 
+  /// The total number of fetched items respects `fetchLimit`.
   func testVisibleWindowRespectsFetchLimit() throws {
     let context = try makeContext()
     for index in 0..<10 {
@@ -99,6 +110,8 @@ class StorageBackgroundContextTests: XCTestCase {
     XCTAssertEqual(result.tail.count, 2)
   }
 
+  /// A `visibleHint` larger than the item count places everything in the
+  /// visible window and leaves the tail empty.
   func testVisibleWindowHintExceedingCountPutsAllInVisible() throws {
     let context = try makeContext()
     for index in 0..<3 {
@@ -111,6 +124,7 @@ class StorageBackgroundContextTests: XCTestCase {
     XCTAssertTrue(result.tail.isEmpty)
   }
 
+  /// Sorting by copy count orders the visible window most-copied first.
   func testVisibleWindowOrdersByNumberOfCopiesDescending() throws {
     let context = try makeContext()
     // identical lastCopiedAt isolates the numberOfCopies sort key
@@ -124,6 +138,7 @@ class StorageBackgroundContextTests: XCTestCase {
     XCTAssertEqual(result.visible.map(\.numberOfCopies), [5, 3, 1])
   }
 
+  /// Sorting by first-copied time orders the visible window most-recent first.
   func testVisibleWindowOrdersByFirstCopiedAtDescending() throws {
     let context = try makeContext()
     // identical lastCopiedAt, distinct firstCopiedAt isolates the sort key

@@ -2,17 +2,19 @@ import XCTest
 import Defaults
 @testable import Maccy
 
-// Clipboard is main-actor-bound (every mutator and `checkForChangesInPasteboard`
-// is `@MainActor`), so the whole test class runs on the main actor. The old
-// `onNewCopy` hook flow is gone (BS-2.4); these tests now drive the pasteboard,
-// call `checkForChangesInPasteboard()`, and assert on an `IngestorSpy` injected
-// via `clipboard.ingestor`. Pure filtering / ignore-rule coverage lives in
-// `IngestFilterTests` and `BackgroundClipboardIngestorTests` (the actor's
-// `filterContents` is the authoritative filter); what remains here is
-// clipboard-specific: changeCount detection, the `ignoreEvents` /
-// `ignoreOnlyNextEvent` gates, the paste-stack interrupt, and the shape of the
-// `IngestRequest` `Clipboard` builds (contents non-empty, application carried
-// through).
+/// Tests for `Clipboard`'s change detection and request dispatch.
+///
+/// `Clipboard` is main-actor-bound (every mutator and
+/// `checkForChangesInPasteboard` is `@MainActor`), so the whole class runs on
+/// the main actor. These tests drive the pasteboard, call
+/// `checkForChangesInPasteboard()`, and assert on an `IngestorSpy` injected via
+/// `clipboard.ingestor`. Pure filtering and ignore-rule coverage lives in
+/// `IngestFilterTests` and `BackgroundClipboardIngestorTests` (the actor's
+/// `filterContents` is the authoritative filter); what remains here is
+/// clipboard-specific: changeCount detection, the `ignoreEvents` /
+/// `ignoreOnlyNextEvent` gates, the paste-stack interrupt, and the shape of the
+/// `IngestRequest` `Clipboard` builds (contents non-empty, application carried
+/// through).
 @MainActor
 final class ClipboardTests: XCTestCase {
   let clipboard = Clipboard.shared
@@ -62,6 +64,7 @@ final class ClipboardTests: XCTestCase {
 
   // MARK: - changeCount detection + dispatch shape
 
+  /// A pasteboard change dispatches exactly one `IngestRequest` to the ingestor.
   func testChangeDispatchesIngestRequestToIngestor() async {
     let spy = IngestorSpy()
     clipboard.ingestor = spy
@@ -79,6 +82,7 @@ final class ClipboardTests: XCTestCase {
     XCTAssertTrue(requests.first?.contents.contains { $0.type == stringType.rawValue } == true)
   }
 
+  /// When `changeCount` hasn't advanced, no request is dispatched.
   func testNoChangeDoesNotDispatch() async {
     let spy = IngestorSpy()
     clipboard.ingestor = spy
@@ -93,8 +97,9 @@ final class ClipboardTests: XCTestCase {
     XCTAssertEqual(requests.count, 0)
   }
 
+  /// With no ingestor wired, a change is observed without crashing or blocking.
   func testNilIngestorIsNoOp() async {
-    // No ingestor wired — legacy/unwired caller. The gates run but the dispatch
+    // No ingestor wired — an unwired caller. The gates run but the dispatch
     // must not crash and must not block.
     clipboard.ingestor = nil
     setPasteboard(types: [.string], string: "bar", forType: .string)
@@ -102,6 +107,7 @@ final class ClipboardTests: XCTestCase {
     await Task.yield()
   }
 
+  /// The dispatched request carries the frontmost app's bundle identifier verbatim.
   func testRequestCarriesSourceApplication() async {
     let spy = IngestorSpy()
     clipboard.ingestor = spy
@@ -117,6 +123,7 @@ final class ClipboardTests: XCTestCase {
     XCTAssertEqual(request?.application, NSWorkspace.shared.frontmostApplication?.bundleIdentifier)
   }
 
+  /// The dispatched request carries the pasteboard's `changeCount` as its source.
   func testRequestCarriesPasteboardChangeCount() async {
     let spy = IngestorSpy()
     clipboard.ingestor = spy
@@ -132,6 +139,7 @@ final class ClipboardTests: XCTestCase {
 
   // MARK: - ignoreEvents / ignoreOnlyNextEvent gating
 
+  /// `ignoreEvents` skips dispatch and stays on (it is sticky until cleared).
   func testIgnoreEventsSkipsDispatch() async {
     Defaults[.ignoreEvents] = true
 
@@ -148,6 +156,7 @@ final class ClipboardTests: XCTestCase {
     XCTAssertTrue(Defaults[.ignoreEvents])
   }
 
+  /// `ignoreOnlyNextEvent` skips one dispatch and then clears both flags.
   func testIgnoreOnlyNextEventClearsFlagAndSkipsDispatch() async {
     Defaults[.ignoreEvents] = true
     Defaults[.ignoreOnlyNextEvent] = true
@@ -165,8 +174,9 @@ final class ClipboardTests: XCTestCase {
     XCTAssertFalse(Defaults[.ignoreOnlyNextEvent])
   }
 
-  // MARK: - copy(_:) (unchanged runtime path; just needs a no-op ingestor)
+  // MARK: - copy(_:) (the runtime paste-out path; needs a no-op ingestor)
 
+  /// `copy(_:)` writes every content type to the pasteboard and tags the source.
   func testCopy() {
     let image = NSImage(named: "NSInfo")!
     let imageData = image.tiffRepresentation!
@@ -194,6 +204,7 @@ final class ClipboardTests: XCTestCase {
     XCTAssertEqual(pasteboard.string(forType: .source), "com.foo.bar")
   }
 
+  /// `copy(_:removeFormatting:)` writes plain text and file URL while dropping RTF.
   func testCopyWithoutFormatting() {
     let coloredString = NSAttributedString(string: "foo",
                                            attributes: [.foregroundColor: NSColor.red])

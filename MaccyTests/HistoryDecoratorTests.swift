@@ -3,6 +3,8 @@ import Defaults
 import os
 @testable import Maccy
 
+/// Tests for `HistoryItemDecorator`: title generation, image sizing, pin state,
+/// and preview cancellation.
 @MainActor
 class HistoryItemDecoratorTests: XCTestCase {
   let boldFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
@@ -33,6 +35,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     Defaults[.highlightMatch] = savedHighlightMatch
   }
 
+  /// A plain-string content entry yields its text as the title and no images.
   func testString() {
     let title = "foo"
     let itemDecorator = historyItemDecorator(title)
@@ -41,6 +44,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
+  /// An RTF content entry yields its plain-text content as the title.
   func testRTF() {
     let rtf = NSAttributedString(string: "foo").rtf(
       from: NSRange(0...2),
@@ -52,6 +56,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
+  /// An HTML content entry yields its plain-text content as the title.
   func testHTML() {
     let html = "<a href='#'>foo</a>".data(using: .utf8)
     let itemDecorator = historyItemDecorator(html, .html)
@@ -60,13 +65,14 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
+  /// An image content entry yields an empty title and matching preview/thumbnail sizes.
   func testImage() async {
     let image = NSImage(named: "StatusBarMenuImage")!
     let itemDecorator = historyItemDecorator(image)
     itemDecorator.sizeImages()
-    // Generation now runs off-main (BS-3.5); wait for the structured tasks to
-    // publish before asserting. PassthroughImageProcessor mirrors the old
-    // on-main resize path so the size contract is unchanged.
+    // Image generation runs off-main; wait for the structured tasks to publish
+    // before asserting. `PassthroughImageProcessor` mirrors the old on-main
+    // resize path so the size contract is unchanged.
     _ = await itemDecorator.previewImageGenerationTask?.result
     _ = await itemDecorator.thumbnailImageGenerationTask?.result
     XCTAssertEqual(itemDecorator.title, "")
@@ -74,7 +80,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, image.size)
   }
 
-  // We also need to add test for image with width bigger than max width.
+  /// A thumbnail taller than `imageMaxHeight` is capped to the max-height square.
   func testImageWithHeightBiggerThanMaxHeight() async {
     let image = NSImage(named: "NSApplicationIcon")!
     let itemDecorator = historyItemDecorator(image)
@@ -83,18 +89,18 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, NSSize(width: 40, height: 40))
   }
 
-  // MARK: - Preview cancellation (P2 / IMG-023 gap)
+  // MARK: - Preview cancellation
 
-  /// `cancelPreviewGeneration()` must cancel an in-flight preview decode, drop
-  /// the task handle, and leave `previewImage` untouched. This is the BS-3 收尾:
-  /// previously only `invalidate()`/`cleanupImages()` cancelled the decorator's
+  /// `cancelPreviewGeneration()` cancels an in-flight preview decode, drops the
+  /// task handle, and leaves `previewImage` untouched.
+  ///
+  /// Previously only `invalidate()`/`cleanupImages()` cancelled the decorator's
   /// preview task, so navigating off a lead item left its decode running on the
-  /// single serial `ImageProcessor` actor — the stale-decode pile-up (1.5s
-  /// spike, mouse-hover worst case). See
-  /// docs/audit/2026-06-21-render-feedback-stopgap.md.
+  /// single serial image-processor actor — a stale-decode pile-up (a 1.5s spike,
+  /// worst case on hover).
   ///
   /// Uses `StallableImageProcessor`, whose `preview` spins on `Task.isCancelled`
-  /// (cooperative cancellation, like the production `ImageProcessor`'s
+  /// (cooperative cancellation, like the production image processor's
   /// `Task.isCancelled` checkpoints) — so a cancelled decode returns nil and
   /// never publishes. A poll loop (not `withCheckedContinuation`) guarantees the
   /// cancellation is observed within one tick, so this test cannot hang.
@@ -120,6 +126,7 @@ class HistoryItemDecoratorTests: XCTestCase {
   }
 
   /// A cached preview survives `cancelPreviewGeneration()` (re-selecting an
+  /// already-decoded item must stay instant).
   /// already-decoded item must stay instant). Uses the real
   /// `PassthroughImageProcessor` (decodes synchronously) so the preview caches
   /// before cancel — exercising the actual cache-survives-cancel contract.
@@ -144,11 +151,13 @@ class HistoryItemDecoratorTests: XCTestCase {
   /// (e.g. a text item, or an item whose preview was never requested).
   func testCancelPreviewGenerationNoOpWhenIdle() {
     let itemDecorator = historyItemDecorator("text")
-    itemDecorator.cancelPreviewGeneration() // text item — no preview task ever
+    // text item — no preview task ever
+    itemDecorator.cancelPreviewGeneration()
     XCTAssertNil(itemDecorator.previewImageGenerationTask)
     XCTAssertNil(itemDecorator.previewImage)
   }
 
+  /// A file-URL content entry yields the URL string as the title.
   func testFile() {
     let url = URL(fileURLWithPath: "/tmp/foo.bar")
     let itemDecorator = historyItemDecorator(url)
@@ -157,6 +166,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
+  /// A file URL with non-ASCII path segments keeps its escaped form in the title.
   func testFileWithEscapedChars() {
     let url = URL(fileURLWithPath: "/tmp/产品培训/产品培训.txt")
     let itemDecorator = historyItemDecorator(url)
@@ -165,6 +175,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
+  /// A content entry with no data yields an empty title and no images.
   func testItemWithoutData() {
     let itemDecorator = historyItemDecorator(nil)
     XCTAssertEqual(itemDecorator.title, "")
@@ -172,11 +183,13 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
+  /// The text preview is truncated to `textPreviewLimit` for very long content.
   func testLargeTextPreviewIsBounded() {
     let itemDecorator = historyItemDecorator(String(repeating: "a", count: 50_000))
     XCTAssertEqual(itemDecorator.text.count, HistoryItem.textPreviewLimit)
   }
 
+  /// Benchmark for the text-prefix preview computation, amplified to overcome timer jitter.
   func testLargeTextPreviewBenchmark() {
     let itemDecorator = historyItemDecorator(String(repeating: "abcdef\n", count: 20_000))
 
@@ -195,6 +208,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     }
   }
 
+  /// A large image is recognized as an image but renders no preview/thumbnail until sized.
   func testLargeImageHasImageDoesNotGenerateRenderedImages() {
     let itemDecorator = historyItemDecorator(largeImageData(), .png)
     XCTAssertTrue(itemDecorator.hasImage)
@@ -202,6 +216,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
+  /// Benchmark for the synchronous image sizing/dispatch path, amplified to overcome timer jitter.
   func testLargeImageSizingBenchmark() {
     // InstantImageProcessor returns nil with no decode, so this measures only
     // the synchronous main-thread kick path (cleanupImages + sizeImages dispatch).
@@ -220,12 +235,14 @@ class HistoryItemDecoratorTests: XCTestCase {
     }
   }
 
+  /// A new item is unpinned by default.
   func testUnpinnedByDefault() {
     let itemDecorator = historyItemDecorator("foo")
     XCTAssertNil(itemDecorator.item.pin)
     XCTAssertFalse(itemDecorator.isPinned)
   }
 
+  /// `togglePin()` pins an unpinned item.
   func testPin() {
     let itemDecorator = historyItemDecorator("foo")
     itemDecorator.togglePin()
@@ -233,6 +250,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertTrue(itemDecorator.isPinned)
   }
 
+  /// `togglePin()` toggles a pinned item back to unpinned.
   func testUnpin() {
     let itemDecorator = historyItemDecorator("foo")
     itemDecorator.togglePin()
@@ -241,6 +259,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertFalse(itemDecorator.isPinned)
   }
 
+  /// `highlight` applies bold styling to the matched ranges of the title.
   func testHighlight() {
     let itemDecorator = historyItemDecorator("foo bar baz")
     itemDecorator.highlight("random", [
@@ -255,6 +274,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.attributedTitle, nil)
   }
 
+  /// Builds a decorator backed by a single UTF-8 string content entry.
   private func historyItemDecorator(
     _ value: String?,
     application: String? = "com.apple.finder"
@@ -276,6 +296,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     return HistoryItemDecorator(item)
   }
 
+  /// Builds a decorator backed by a single raw-data content entry of the given type.
   private func historyItemDecorator(
     _ value: Data?,
     _ type: NSPasteboard.PasteboardType,
@@ -299,6 +320,8 @@ class HistoryItemDecoratorTests: XCTestCase {
     return HistoryItemDecorator(item, imageProcessor: imageProcessor)
   }
 
+  /// Builds a decorator backed by a TIFF image content entry with a synchronous
+  /// image processor so generation completes deterministically within the test.
   private func historyItemDecorator(_ value: NSImage) -> HistoryItemDecorator {
     let contents = [
       HistoryItemContent(
@@ -321,6 +344,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     return HistoryItemDecorator(item, imageProcessor: PassthroughImageProcessor())
   }
 
+  /// Builds a decorator backed by a file-URL content entry (URL plus its filename string).
   private func historyItemDecorator(_ value: URL) -> HistoryItemDecorator {
     let contents = [
       HistoryItemContent(
@@ -344,6 +368,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     return HistoryItemDecorator(item)
   }
 
+  /// Returns the TIFF data of a 2048×2048 solid-blue image.
   private func largeImageData() -> Data {
     let image = NSImage(size: NSSize(width: 2_048, height: 2_048), flipped: false) { rect in
       NSColor.systemBlue.setFill()
@@ -355,6 +380,8 @@ class HistoryItemDecoratorTests: XCTestCase {
   }
 
   // swiftlint:disable:next identifier_name
+  /// Converts half-open `[from...to]` integer offsets into a `String.Index` range
+  /// within the decorator's title.
   private func range(from: Int, to: Int, in item: HistoryItemDecorator) -> Range<String.Index> {
     let startIndex = item.title.startIndex
     let lowerBound = item.title.index(startIndex, offsetBy: from)
@@ -385,15 +412,18 @@ class HistoryItemDecoratorTests: XCTestCase {
 private final class StallableImageProcessor: ImageProcessing, Sendable {
   private let completed = OSAllocatedUnfairLock(initialState: false)
 
+  /// Whether a decode ran to completion (uncancelled).
   var previewCompleted: Bool {
     completed.withLock { $0 }
   }
 
+  /// Not exercised by the preview-cancellation tests; decodes synchronously.
   func thumbnail(for data: Data, max: CGSize) async -> NSImage? {
     // Not exercised by the preview-cancellation tests; pass through.
     NSImage(data: data)
   }
 
+  /// Stalls until the task is cancelled, then returns nil (no publish).
   func preview(for data: Data, max: CGSize) async -> NSImage? {
     // Stall until cancelled (cooperative, like ImageProcessor's checkpoints).
     // The 5 ms tick guarantees cancellation is observed fast; no continuation =

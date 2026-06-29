@@ -1,6 +1,8 @@
 import Foundation
 
-// Based on https://www.craftappco.com/blog/2018/5/30/simple-throttling-in-swift.
+/// Coalesces rapid calls into at most one execution per `minimumDelay` window.
+///
+/// Based on https://www.craftappco.com/blog/2018/5/30/simple-throttling-in-swift.
 class Throttler {
   var minimumDelay: TimeInterval
 
@@ -13,25 +15,21 @@ class Throttler {
     self.queue = queue
   }
 
+  /// Schedules `block`, executing immediately if enough time has passed since
+  /// the last run, otherwise delaying by `minimumDelay`.
   func throttle(_ block: @escaping () -> Void) {
-    // Cancel any existing work item if it has not yet executed
     cancel()
 
-    // Re-assign workItem with the new block task,
-    // resetting the previousRun time when it executes
     workItem = DispatchWorkItem { [weak self] in
       self?.previousRun = Date()
       block()
     }
 
-    // If the time since the previous run is more than the required minimum delay
-    // => execute the workItem immediately
-    // else
-    // => delay the workItem execution by the minimum delay time
     let delay = -previousRun.timeIntervalSinceNow > minimumDelay ? 0 : minimumDelay
     queue.asyncAfter(deadline: .now() + Double(delay), execute: workItem)
   }
 
+  /// Cancels the pending throttled execution, if any.
   func cancel() {
     workItem.cancel()
   }

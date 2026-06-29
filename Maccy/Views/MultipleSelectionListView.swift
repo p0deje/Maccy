@@ -1,5 +1,7 @@
 import SwiftUI
 
+/// Lazily renders a list where each row is given its previous and next
+/// neighbors, so rows can style themselves for contiguous multi-selection.
 struct MultipleSelectionListView<Element, ID, Content>: View
     where ID: Hashable, Content: View, ID == Element.ID, Element: Identifiable {
   var items: [Element]

@@ -4,19 +4,18 @@ import Foundation
 import ImageIO
 import UniformTypeIdentifiers
 
-/// Two-tier (memory + disk-LRU) thumbnail cache for the BS-3 image pipeline.
+/// Two-tier (memory + disk-LRU) thumbnail cache for the image pipeline.
 ///
 /// An `actor` (not `final class @unchecked Sendable`) because `NSCache`'s
 /// internal locking only serializes its own dictionary — it does NOT serialize
 /// the disk-LRU writes that this type performs. The actor gives both
-/// Sendability and mutual exclusion over the disk path, consistent with the
-/// BS-2 `@ModelActor` precedent.
+/// Sendability and mutual exclusion over the disk path.
 ///
 /// The cache key is the composite `(MaccyFingerprint, maxPixelSize)`. A
 /// fingerprint-only key would return a stale, wrong-sized thumbnail after the
-/// user changes `Defaults[.imageMaxHeight]` (which triggers
-/// `cleanupImages` + rebuild in `History`). `MaccyFingerprint` does not
-/// encode pixel dimensions, so the size must live in the key.
+/// user changes `Defaults[.imageMaxHeight]` (which triggers `cleanupImages` +
+/// rebuild in `History`). `MaccyFingerprint` does not encode pixel dimensions,
+/// so the size must live in the key.
 actor ThumbnailCache {
   /// Soft upper bound on total on-disk thumbnail bytes before LRU eviction.
   private static let diskByteBudget: Int = 256 * 1024 * 1024
@@ -156,8 +155,9 @@ actor ThumbnailCache {
   }
 }
 
-/// `NSCache` requires `Key: NSObject & NSCopying`. A Swift struct won't work.
-/// `MaccyFingerprint` is a value type, so the class holds it by value.
+/// `NSCache` key for `ThumbnailCache`. `NSCache` requires `Key: NSObject &
+/// NSCopying`; a Swift struct won't work, so this class holds the value-type
+/// `MaccyFingerprint` by value.
 final class ThumbnailCacheKey: NSObject, NSCopying {
   let fingerprint: MaccyFingerprint
   let maxPixelSize: Int

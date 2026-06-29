@@ -1,8 +1,10 @@
 import XCTest
 @testable import Maccy
 
+/// Tests that DTO projection functions faithfully round-trip `HistoryItem` fields.
 @MainActor
 class DtoRoundTripTests: XCTestCase {
+  /// `snapshot(of:)` projects the lightweight scalar fields of a `HistoryItem`.
   func testSnapshotProjectsLightweightHistoryItemFields() {
     let copiedAt = Date(timeIntervalSince1970: 1_717_171_717)
     let item = HistoryBuilder()
@@ -26,6 +28,7 @@ class DtoRoundTripTests: XCTestCase {
     XCTAssertNil(dto.imageFingerprint)
   }
 
+  /// `contentDTOs(of:)` preserves each content entry's type, value, and size.
   func testContentProjectionPreservesContentShape() {
     let text = Data("hello".utf8)
     let item = HistoryBuilder()
@@ -41,6 +44,7 @@ class DtoRoundTripTests: XCTestCase {
     ])
   }
 
+  /// Projecting the same model twice yields a stable DTO id.
   func testProjectedItemIDIsStableForSameModelIdentifier() {
     let item = HistoryBuilder()
       .withContent(type: "public.utf8-plain-text", value: Data("hello".utf8))

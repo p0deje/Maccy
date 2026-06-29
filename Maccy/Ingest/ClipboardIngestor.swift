@@ -4,10 +4,13 @@ import Foundation
 import Logging
 import SwiftData
 
+/// Off-main clipboard ingest contract.
 protocol ClipboardIngestor: Sendable {
   func ingest(_ request: IngestRequest) async -> IngestResult
 }
 
+/// `ClipboardIngestor` adapter that performs the ingest on the main actor via the
+/// legacy `History.shared.add` path.
 final class MainActorIngestorAdapter: ClipboardIngestor {
   func ingest(_ request: IngestRequest) async -> IngestResult {
     await MainActor.run {
@@ -32,67 +35,69 @@ final class MainActorIngestorAdapter: ClipboardIngestor {
   }
 }
 
-/// Off-main clipboard ingest actor — the BS-2 replacement for the
-/// `History.add` half of the old main-thread path.
+/// Off-main clipboard ingest actor: the production replacement for the main-thread
+/// `History.add` path.
 ///
-/// `MainActorIngestorAdapter` mirrors the existing `Clipboard` → `History.add`
-/// flow byte-for-byte and stays the runtime path until BS-2.4/2.5 flip the
-/// switch. This actor is the production target: filter → dedup → write a single
-/// SwiftData transaction → emit a `Sendable` `StoreEvent` back to the main
-/// observer, all OFF the main thread.
+/// The pipeline runs entirely off the main thread: filter the request contents,
+/// dedup against existing items, write a single SwiftData transaction, then emit a
+/// `Sendable` `StoreEvent` back to the main observer. `MainActorIngestorAdapter`
+/// is the byte-for-byte legacy equivalent kept as the runtime path until the
+/// off-main actor is wired in.
 ///
 /// ## Concurrency model
 /// - `modelContext` is the actor's isolated `ModelContext` (provided by the
 ///   `@ModelActor` macro, run through a `DefaultSerialModelExecutor` so each
-///   access is mutually exclusive). `ModelContext` is NOT `Sendable`,
-///   but it lives entirely inside this actor's isolation: every fetch, mutation,
+///   access is mutually exclusive). `ModelContext` is not `Sendable`, but it lives
+///   entirely inside this actor's isolation: every fetch, mutation,
 ///   `transaction`, `processPendingChanges`, and `save` happens on the actor.
-///   The `@Model HistoryItem` / `HistoryItemContent` instances therefore NEVER
+///   The `@Model HistoryItem` / `HistoryItemContent` instances therefore never
 ///   cross isolation — only `ItemSnapshotDTO` / `StoreEvent` (both `Sendable`)
 ///   leave the actor.
-/// - `now` is an injected clock. `ingest(_:)` calls it ONCE at the top to fix a
+/// - `now` is an injected clock. `ingest(_:)` calls it once at the top to fix a
 ///   single `timestamp`, then reuses `timestamp` for `firstCopiedAt` /
 ///   `lastCopiedAt` so one ingest is internally consistent. `Date()` is never
 ///   called from inside the actor.
-/// - `image` is the `ImageProcessing` from BS-1 (used later for thumbnails /
-///   previews in BS-3); this actor calls `HistoryItem.generateTitle()` for text
-///   titles. Image items get an empty title (the OCR feature was removed).
+/// - `image` is the `ImageProcessing` strategy (used later for thumbnails and
+///   previews); this actor calls `HistoryItem.generateTitle()` for text titles.
+///   Image items get an empty title (the OCR feature was removed).
 ///
 /// ## Single-transaction invariant
-/// The whole point versus the old `History.add` flow (which issued
+/// The whole point versus the legacy `History.add` flow (which issued
 /// `insertIntoStorage` → `mergeDuplicateIfNeeded` → `limitHistorySize` as
-/// separate saves) is ONE `modelContext.transaction { ... }` followed by ONE
-/// `modelContext.save()` per ingest. The trim, the duplicate delete, and the new-item
-/// insert all land in the same transaction. Errors are LOGGED via `logger.error`
-/// (never silently `try?`-swallowed) and surface as a no-event `IngestResult`.
+/// separate saves) is one `modelContext.transaction { ... }` followed by one
+/// `modelContext.save()` per ingest. The trim, the duplicate delete, and the
+/// new-item insert all land in the same transaction. Errors are logged via
+/// `logger.error` (never silently `try?`-swallowed) and surface as a no-event
+/// `IngestResult`.
 ///
 /// ## Known parity gap versus `History.add`
-/// `History.findSimilarItem` (History.swift:562-577) additionally consults the
-/// main-thread `sessionLog` via `isModified(item)` (History.swift:572,
-/// 604-610) to detect "this copy is a modification of a recent copy." The actor
-/// has no `sessionLog` (it is main-thread-only state), so the actor performs the
-/// `supersedes` dedup ONLY. The rare modification-merge case is a deliberate
-/// BS-2 limitation; it could be closed later by forwarding sessionLog info into
-/// the actor's request.
+/// `History.findSimilarItem` additionally consults the main-thread `sessionLog`
+/// via `isModified(item)` to detect "this copy is a modification of a recent
+/// copy." The actor has no `sessionLog` (it is main-thread-only state), so the
+/// actor performs the `supersedes` dedup only. The rare modification-merge case
+/// is a deliberate limitation; it could be closed later by forwarding sessionLog
+/// info into the actor's request.
 @ModelActor
 actor BackgroundClipboardIngestor: ClipboardIngestor {
-  // `var` with defaults so the @ModelActor macro's generated `init(modelContainer:)`
-  // satisfies "all stored properties initialized"; the real values are set in the
-  // custom init below.
+  // `var` with defaults so the `@ModelActor` macro's generated
+  // `init(modelContainer:)` satisfies "all stored properties initialized"; the
+  // real values are set in the custom init below.
   private var image: ImageProcessing = PassthroughImageProcessor()
   private var now: @Sendable () -> Date = { Date() }
   private var onEvent: @Sendable (StoreEvent) async -> Void = { _ in }
   private let logger = Logger(label: "org.p0deje.Maccy")
 
-  /// BS-4.2 in-memory dedup index over every committed item's content entries,
-  /// replacing `findDuplicate`'s per-copy full-table fetch + O(n) `supersedes`
-  /// scan with an O(hits) candidate lookup. `persistentIDByItemID` bridges the
-  /// index's `ItemID` (UUID) keys to the `PersistentIdentifier` `model(for:)`
-  /// needs to fetch each candidate for the authoritative `supersedes` confirm
-  /// (ItemID is a UUID hash of the persistent id — cheap to build and unit-test,
-  /// but not itself fetchable). Built lazily on the first ingest
-  /// (`ensureDedupIndexInitialized`), then maintained incrementally per commit
-  /// (register the inserted item, unregister the duplicate + size-trim evictions).
+  /// In-memory dedup index over every committed item's content entries,
+  /// replacing the per-copy full-table fetch plus O(n) `supersedes` scan with an
+  /// O(hits) candidate lookup.
+  ///
+  /// `persistentIDByItemID` bridges the index's `ItemID` (UUID) keys to the
+  /// `PersistentIdentifier` that `model(for:)` needs to fetch each candidate for
+  /// the authoritative `supersedes` confirm — `ItemID` is a UUID hash of the
+  /// persistent id, cheap to build and unit-test, but not itself fetchable. The
+  /// index is built lazily on the first ingest, then maintained incrementally per
+  /// commit (register the inserted item, unregister the duplicate plus the
+  /// size-trim evictions).
   private var signatureIndex = SignatureIndex()
   private var persistentIDByItemID: [ItemID: PersistentIdentifier] = [:]
   private var dedupIndexInitialized = false
@@ -112,30 +117,30 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
 
   /// Ingests one clipboard copy off the main thread.
   ///
-  /// Steps (matching the old `History.add` flow, collapsed into a single
+  /// Steps (matching the legacy `History.add` flow, collapsed into a single
   /// transaction):
   /// 1. Build an `IngestConfig` snapshot from `Defaults` and the built-in type
-  ///    sets on the main actor (mirrors `Clipboard.contents(from:)` /
+  ///    sets on the main actor (mirroring `Clipboard.contents(from:)` /
   ///    `filteredTypes` / `shouldIgnore`).
   /// 2. Filter the request contents with the pure `filterContents` helper,
   ///    timing it for `parseMs` via the injected clock. An empty result is a
   ///    no-op ingest (no event, no write).
-  /// 3. Build the new `HistoryItem` on the actor's isolated `modelContext` (mirrors `historyItem(from:)`).
-  /// 4. Dedup against existing items via the BS-4.2 per-entry `SignatureIndex`
-  ///    (O(hits) candidate lookup + authoritative `supersedes` confirm),
-  ///    replacing the old full-table `findSimilarItem` scan.
-  /// 5. Merge fields from the duplicate if found (mirrors
+  /// 3. Build the new `HistoryItem` on the actor's isolated `modelContext`.
+  /// 4. Dedup against existing items via the per-entry `SignatureIndex`
+  ///    (O(hits) candidate lookup plus authoritative `supersedes` confirm),
+  ///    replacing the legacy full-table `findSimilarItem` scan.
+  /// 5. Merge fields from the duplicate if found (mirroring
   ///    `History.mergeDuplicateIfNeeded`).
   /// 6. Single-transaction commit: trim unpinned items beyond the main-actor
   ///    `Defaults[.size]` snapshot (oldest first), delete the duplicate, insert
-  ///    the new item, then ONE save.
-  /// 7. Emit `.added` (no dup) or `.merged` (dup found) with the item's
-  ///    `ItemSnapshotDTO`.
+  ///    the new item, then one save.
+  /// 7. Emit `.added` (no duplicate) or `.merged` (duplicate found) with the
+  ///    item's `ItemSnapshotDTO`.
   /// 8. Report `IngestMetrics`.
   ///
   /// - Returns: The `StoreEvent` (if any) plus metrics. On a persistence error
   ///   the event is `nil`, the error is logged, and the metrics reflect the
-  ///   pre-commit state (dedup decision + parse timing).
+  ///   pre-commit state (dedup decision plus parse timing).
   func ingest(_ request: IngestRequest) async -> IngestResult {
     let filterStart = now()
     // Defaults, filterContents (rich-text detection), and title generation all
@@ -181,7 +186,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
       )
     }
 
-    // BS-4.2: keep the dedup index in sync with the committed transaction.
+    // Keep the dedup index in sync with the committed transaction.
     maintainDedupIndex(inserted: item, deleted: deletedItemIDs)
 
     let event: StoreEvent = dup == nil
@@ -197,10 +202,12 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
 
   // MARK: - Ingest steps
 
-  /// Builds the new `HistoryItem` from the filtered contents (mirrors
-  /// `MainActorIngestorAdapter.historyItem(from:)`). The title is pre-computed on
-  /// the main actor (see `title(for:)`) because `NSAttributedString` parsing
-  /// can't run off-main; image items get an empty title (OCR removed).
+  /// Builds the new `HistoryItem` from the filtered contents (mirroring
+  /// `MainActorIngestorAdapter.historyItem(from:)`).
+  ///
+  /// The title is pre-computed on the main actor (see `title(for:)`) because
+  /// `NSAttributedString` parsing cannot run off-main; image items get an empty
+  /// title (OCR was removed).
   private func makeHistoryItem(
     _ contents: [ContentDTO],
     application: String?,
@@ -217,11 +224,13 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     return item
   }
 
-  /// Computes the item title from the filtered contents. MUST run on the main
-  /// actor: `HistoryItemEngine.generateTitle` parses RTF/HTML via
-  /// `NSAttributedString`, which is main-thread-affine (AppKit/WebKit) and traps
-  /// off-main. The actor hops to main for this (and for `filterContents`); the
-  /// dedup fetch and the single-transaction write stay off-main.
+  /// Computes the item title from the filtered contents.
+  ///
+  /// Must run on the main actor: `HistoryItemEngine.generateTitle` parses
+  /// RTF/HTML via `NSAttributedString`, which is main-thread-affine
+  /// (AppKit/WebKit) and traps off-main. The actor hops to main for this (and
+  /// for `filterContents`); the dedup fetch and the single-transaction write stay
+  /// off-main.
   @MainActor
   private static func title(for contents: [ContentDTO]) -> String {
     let transient = contents.map { HistoryItemContent(type: $0.type, value: $0.value) }
@@ -234,12 +243,13 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     )
   }
 
-  /// Finds an existing item that supersedes the new one via the BS-4.2 per-entry
-  /// index (replacing the old per-copy full-table fetch + O(n) `supersedes`
-  /// scan). The index returns candidate ids whose signature shares at least one
-  /// content entry with the new item; each is fetched by `PersistentIdentifier`
-  /// and confirmed with the authoritative `supersedes` (which rules out same-size
-  /// and fingerprint collisions), so dedup correctness is identical to the old
+  /// Finds an existing item that supersedes the new one via the per-entry index,
+  /// replacing the legacy per-copy full-table fetch plus O(n) `supersedes` scan.
+  ///
+  /// The index returns candidate ids whose signature shares at least one content
+  /// entry with the new item; each is fetched by `PersistentIdentifier` and
+  /// confirmed with the authoritative `supersedes` (which rules out same-size and
+  /// fingerprint collisions), so dedup correctness is identical to the legacy
   /// O(n) scan. Genuinely-new content shares no entry and yields no candidates —
   /// the O(1) fast path. `model(for:)` returning an un-faulted shell for an id it
   /// no longer knows (a stale index entry) is harmless: such a shell has no
@@ -265,9 +275,9 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     return nil
   }
 
-  /// Lazily builds the dedup index from the committed store on the first ingest
-  /// (BS-4.2): one O(n) pass, then skipped on subsequent ingests. Runs on the
-  /// actor's isolated context.
+  /// Lazily builds the dedup index from the committed store on the first ingest:
+  /// one O(n) pass, then skipped on subsequent ingests. Runs on the actor's
+  /// isolated context.
   private func ensureDedupIndexInitialized() {
     guard !dedupIndexInitialized else { return }
     let items = (try? modelContext.fetch(FetchDescriptor<HistoryItem>())) ?? []
@@ -277,7 +287,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     dedupIndexInitialized = true
   }
 
-  /// Registers one item's signature + its id→PersistentIdentifier bridge entry.
+  /// Registers one item's signature plus its id-to-`PersistentIdentifier` bridge entry.
   private func registerInDedupIndex(_ item: HistoryItem) {
     let snap = snapshot(of: item)
     signatureIndex.register(snap.signature, id: snap.id)
@@ -286,16 +296,16 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     }
   }
 
-  /// Removes one item's signature + bridge entry (used for the duplicate and the
-  /// size-trim-evicted items that `commit` deletes).
+  /// Removes one item's signature plus bridge entry (used for the duplicate and
+  /// the size-trim-evicted items that `commit` deletes).
   private func unregisterFromDedupIndex(itemID: ItemID) {
     signatureIndex.remove(id: itemID)
     persistentIDByItemID.removeValue(forKey: itemID)
   }
 
   /// Keeps the dedup index in sync with one committed transaction: drops the
-  /// duplicate + size-trim evictions, then registers the inserted item AFTER the
-  /// save so its `persistentModelID` / `ItemID` are finalized.
+  /// duplicate plus size-trim evictions, then registers the inserted item after
+  /// the save so its `persistentModelID` / `ItemID` are finalized.
   private func maintainDedupIndex(inserted item: HistoryItem, deleted: [ItemID]) {
     for deletedID in deleted {
       unregisterFromDedupIndex(itemID: deletedID)
@@ -303,10 +313,11 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     registerInDedupIndex(item)
   }
 
-  /// Copies the duplicate's fields into the new item (mirrors
-  /// `History.mergeDuplicateIfNeeded`, History.swift:257-283). Contents are
-  /// replaced with the existing item's (the sessionLog-modification guard is
-  /// absent here — see the class doc).
+  /// Copies the duplicate's fields into the new item (mirroring
+  /// `History.mergeDuplicateIfNeeded`).
+  ///
+  /// Contents are replaced with the existing item's; the sessionLog-modification
+  /// guard is absent here (see the class doc).
   private func mergeFields(from dup: HistoryItem, into item: HistoryItem, timestamp: Date) {
     item.contents = dup.contents.map { HistoryItemContent(type: $0.type, value: $0.value) }
     item.firstCopiedAt = dup.firstCopiedAt
@@ -320,22 +331,21 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   }
 
   /// Single-transaction commit: delete the duplicate, trim unpinned items beyond
-  /// the main-actor `Defaults[.size]` snapshot (oldest first), insert the new item, then ONE
-  /// `processPendingChanges` + `save`. Mirrors the ritual in
-  /// `SwiftDataHistoryPersistence.deleteUnpinned` (History.swift:43-57) and the
-  /// trim in `History.limitHistorySize(to:)` (History.swift:208-215, 244).
+  /// the main-actor `Defaults[.size]` snapshot (oldest first), insert the new
+  /// item, then one `processPendingChanges` plus `save`.
   ///
-  /// Returns the `ItemID`s of the deleted items (the duplicate + each size-trim
-  /// eviction) so the caller can keep the BS-4.2 dedup index in sync — captured
-  /// from each item BEFORE it is deleted, since a post-save snapshot of a deleted
-  /// @Model would fault a torn row.
+  /// Returns the `ItemID`s of the deleted items (the duplicate plus each
+  /// size-trim eviction) so the caller can keep the dedup index in sync —
+  /// captured from each item before it is deleted, since a post-save snapshot of
+  /// a deleted `@Model` would fault a torn row.
   private func commit(_ item: HistoryItem, deleting dup: HistoryItem?, limit: Int) throws -> [ItemID] {
     var deletedItemIDs: [ItemID] = []
     try modelContext.transaction {
       // Sort unpinned by lastCopiedAt descending so `dropFirst(limit - 1)` is the
-      // oldest tail — exactly what History.limitHistorySize deletes. The dup is
-      // removed from the count BEFORE trimming (mirrors History.add, where the
-      // merge removes the dup before limitHistorySize runs — net zero for merge).
+      // oldest tail — exactly what `History.limitHistorySize` deletes. The dup is
+      // removed from the count before trimming (mirroring `History.add`, where
+      // the merge removes the dup before `limitHistorySize` runs — net zero for
+      // a merge).
       let descriptor = FetchDescriptor<HistoryItem>(
         predicate: #Predicate { $0.pin == nil },
         sortBy: [SortDescriptor(\.lastCopiedAt, order: .reverse)]
@@ -359,15 +369,15 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     return deletedItemIDs
   }
 
-  /// Builds the `IngestConfig` snapshot the pure filter needs. Mirrors the
-  /// `Defaults` / private-constant reads `Clipboard` does live in
+  /// Builds the `IngestConfig` snapshot the pure filter needs, mirroring the
+  /// `Defaults` and private-constant reads `Clipboard` performs live in
   /// `contents(from:)` / `filteredTypes` / `shouldIgnore`.
   ///
   /// `Clipboard.supportedTypes` and `Clipboard.ignoredTypes` are private, so the
-  /// rawValues are hardcoded here with citations — the one accepted duplication,
-  /// matching `IngestConfig`'s doc comment and `IngestFilterTests.allSupportedTypes`.
+  /// rawValues are hardcoded here — the one accepted duplication, matching
+  /// `IngestConfig`'s doc comment and `IngestFilterTests.allSupportedTypes`.
   private static func ingestConfig() -> IngestConfig {
-    // Clipboard.supportedTypes rawValues (Clipboard.swift:24-33):
+    // Clipboard.supportedTypes rawValues:
     // .fileURL, .heic, .html, .jpeg, .png, .rtf, .string, .tiff.
     let supportedTypes: Set<String> = [
       "public.file-url",
@@ -380,7 +390,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
       "public.tiff"
     ]
 
-    // Clipboard.ignoredTypes rawValues (Clipboard.swift:34-38):
+    // Clipboard.ignoredTypes rawValues:
     // .autoGenerated, .concealed, .transient -> org.nspasteboard.* markers.
     let builtInIgnored: Set<String> = [
       "org.nspasteboard.AutoGeneratedType",

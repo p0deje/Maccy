@@ -3,17 +3,20 @@ import SwiftData
 import XCTest
 @testable import Maccy
 
-// Tests for `History.consume(_:)`, the main-thread observer that applies the
-// `StoreEvent`s emitted by `BackgroundClipboardIngestor` (BS-2.2b). Under the
-// test plan's `enable-testing` launch argument `Storage.shared` is an in-memory
-// SwiftData store, so a save on the main context is immediately observable.
-// These tests simulate the actor's *already-committed* result by mutating the
-// main context directly (the actor commits on a background context whose saves
-// merge into the main context once BS-2.3's
-// `automaticallyMergesChangesFromParent` fix lands).
-//
-// We assert the OUTCOMES `consume` must produce: the right item count, decorator
-// reuse by identity (so decoded images survive), and the merged `numberOfCopies`.
+/// Tests for `History.consume(_:)`, the main-thread observer that applies the
+/// `StoreEvent`s emitted by the off-main clipboard ingest actor.
+///
+/// Under the test plan's `enable-testing` launch argument `Storage.shared` is an
+/// in-memory SwiftData store, so a save on the main context is immediately
+/// observable. These tests simulate the actor's already-committed result by
+/// mutating the main context directly (the actor commits on a background context
+/// whose saves merge into the main context via SwiftData's shared-store
+/// propagation — SwiftData has no `automaticallyMergesChangesFromParent`, so a
+/// committed save becomes visible to a subsequent main-context fetch).
+///
+/// We assert the outcomes `consume` must produce: the right item count,
+/// decorator reuse by identity (so decoded images survive), and the merged
+/// `numberOfCopies`.
 @MainActor
 final class HistoryConsumeTests: XCTestCase {
   private let stringType = NSPasteboard.PasteboardType.string.rawValue
@@ -49,6 +52,7 @@ final class HistoryConsumeTests: XCTestCase {
 
   // MARK: - .added
 
+  /// Consuming an `.added` event populates `all`/`items` from the merged main context.
   func testConsumeAddedPopulatesAllFromMergedMainContext() {
     let item = insertItem(text: "hello")
     try? Storage.shared.context.save()
@@ -60,6 +64,7 @@ final class HistoryConsumeTests: XCTestCase {
     XCTAssertEqual(history.all.first?.title, "hello")
   }
 
+  /// A second `.added` consume reuses the existing decorator (by identity) and adds the new one.
   func testConsumeAddedReusesExistingDecoratorAndAddsNewItem() {
     let firstItem = insertItem(text: "first")
     try? Storage.shared.context.save()
@@ -82,6 +87,7 @@ final class HistoryConsumeTests: XCTestCase {
     )
   }
 
+  /// When not searching, an `.added` consume selects the newest item.
   func testConsumeAddedSelectsNewestItemWhenNotSearching() {
     let firstItem = insertItem(text: "first")
     try? Storage.shared.context.save()
@@ -101,6 +107,7 @@ final class HistoryConsumeTests: XCTestCase {
 
   // MARK: - .merged
 
+  /// Consuming a `.merged` event replaces the prior decorator with the merged item.
   func testConsumeMergedReflectsReplacedItem() {
     let original = insertItem(text: "dup")
     original.numberOfCopies = 1
@@ -122,10 +129,10 @@ final class HistoryConsumeTests: XCTestCase {
     XCTAssertEqual(history.all.first?.title, "dup")
   }
 
-  // MARK: - BS-4.4a incremental insert
+  // MARK: - Incremental insert
 
-  /// Incremental consume must produce the SAME order as a fresh full sort of the
-  /// store — the BinaryInsertion + Sorter.areInIncreasingOrder invariant.
+  /// Incremental consume must produce the same order as a fresh full sort of the
+  /// store — the binary-insertion ordering invariant.
   func testConsumeIncrementalOrderMatchesFullSort() {
     let timestamps: [TimeInterval] = [100, 300, 200, 500, 400]
     var items: [HistoryItem] = []
@@ -148,9 +155,9 @@ final class HistoryConsumeTests: XCTestCase {
     XCTAssertEqual(history.all.map(\.title), fullSortTitles)
   }
 
-  /// syncAllToStore must drop decorators whose @Model is gone from the store
+  /// A consume must drop decorators whose backing model is gone from the store
   /// (the ingestor trims oldest-unpinned every copy at steady state — by
-  /// lastCopiedAt, not the UI sort, so `all` can't trim itself).
+  /// `lastCopiedAt`, not the UI sort, so `all` can't trim itself).
   func testConsumeRemovesDecoratorWhenStoreItemDeleted() {
     let itemA = insertItem(text: "a")
     let itemB = insertItem(text: "b")

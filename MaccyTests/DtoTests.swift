@@ -1,7 +1,9 @@
 import XCTest
 @testable import Maccy
 
+/// Tests for the ingest DTO value types (Sendable conformance and equality semantics).
 class DtoTests: XCTestCase {
+  /// Every DTO type used across actor boundaries conforms to `Sendable`.
   func testDtoTypesAreSendable() {
     requireSendable(ContentDTO.self)
     requireSendable(ClipboardItemDTO.self)
@@ -17,6 +19,7 @@ class DtoTests: XCTestCase {
     requireSendable(IngestMetrics.self)
   }
 
+  /// `SignatureDTO` equality is driven by content shape (type, fingerprint, size).
   func testSignatureDtoUsesContentShapeForEquality() {
     let entry = ContentSignatureEntry(type: "public.utf8-plain-text", fingerprint: 42, size: 12)
     let signature = SignatureDTO(entries: [entry])
@@ -30,6 +33,7 @@ class DtoTests: XCTestCase {
     )
   }
 
+  /// `IngestResult` carries its event and metrics through to the caller.
   func testIngestResultCarriesEventAndMetrics() {
     let itemID = UUID()
     let copiedAt = Date(timeIntervalSince1970: 1_717_171_717)
@@ -61,5 +65,6 @@ class DtoTests: XCTestCase {
     XCTAssertEqual(result.metrics.parseMs, 0.25)
   }
 
+  /// Asserts the given type conforms to `Sendable` (compile-time check via the generic constraint).
   private func requireSendable<T: Sendable>(_ type: T.Type) {}
 }

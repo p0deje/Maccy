@@ -1,22 +1,19 @@
 import AppKit
 import XCTest
 
-/// Regression test for the preview-stale bug: before the fix, `AsyncView` used
-/// a plain `.task` (no id) and `PreviewItemView` kept structural identity across
-/// selection changes, so navigating down the list did NOT re-run
-/// `asyncGetPreviewImage` — the preview showed the first item's image stuck.
+/// Regression test for stale preview rendering across navigation.
 ///
-/// With the fix (`.id(item.id)` on `PreviewItemView` in `SlideoutContentView`),
-/// each selection change tears down + recreates `PreviewItemView`, so the
-/// preview re-renders per item. This test populates image items via the reliable
-/// in-process `MaccyPerfBulkLoad` bridge (NOT the pasteboard — that path was
-/// unreliable on the headless runner and left `history.items` empty, producing
-/// 0 renders), opens the popup + preview pane, navigates down, and asserts the
-/// in-app `PerfRecorder` recorded more than one preview render — i.e. the
-/// preview refreshed across navigation (not stuck on item 0).
+/// `PreviewItemView` is keyed by item id in `SlideoutContentView`, so each
+/// selection change tears down and recreates the view and re-runs
+/// `asyncGetPreviewImage`. This test populates image items via the in-process
+/// bulk-load bridge (the pasteboard path is unreliable on the headless runner
+/// and can leave history empty), opens the popup and preview pane, navigates
+/// down, and asserts the in-app `PerfRecorder` recorded more than one preview
+/// render — i.e. the preview refreshed across navigation rather than sticking on
+/// the first item.
 ///
-/// Uses the `MaccyPerfRecord` instrumentation bridge. Runs in the (now-blocking)
-/// perf-image shard.
+/// Uses the `MaccyPerfRecord` instrumentation bridge and runs in the
+/// performance-image shard.
 @MainActor
 final class PreviewRefreshUITests: XCTestCase {
   private let app = XCUIApplication()
@@ -27,6 +24,7 @@ final class PreviewRefreshUITests: XCTestCase {
   private static let perfOpenPreview = "org.p0deje.Maccy.Perf.openPreview"
   private static let perfBulkLoad = "org.p0deje.Maccy.Perf.bulkLoad"
 
+  /// Configures perf logging, launches the app, and waits for the status item.
   override func setUp() async throws {
     try await super.setUp()
     perfLogURL = URL.temporaryDirectory
@@ -39,15 +37,17 @@ final class PreviewRefreshUITests: XCTestCase {
     }
   }
 
+  /// Terminates the app after each test.
   override func tearDown() async throws {
     app.terminate()
     try await super.tearDown()
   }
 
+  /// Navigating across distinct items must produce more than one preview render.
   func testPreviewRefreshesAcrossNavigation() throws {
     // Reliable in-process populate (the pasteboard path left history.items empty
     // on the headless runner → 0 renders; the bulk-load bridge inserts directly
-    // into the context + one load, same as the B benchmark).
+    // into the context + one load).
     post(Self.perfBulkLoad, userInfo: ["count": 8, "category": "image"])
     usleep(800_000)
 
@@ -63,9 +63,7 @@ final class PreviewRefreshUITests: XCTestCase {
     usleep(1_500_000)
 
     // Navigate down 3 distinct items, slowly enough that each preview's off-main
-    // decode completes. Before the fix, only the first item's preview ever
-    // generated (the view never re-requested); after the fix, each selection
-    // generates a new preview.
+    // decode completes.
     for _ in 0..<3 {
       app.typeKey(.downArrow, modifierFlags: [])
       usleep(1_000_000)
@@ -76,8 +74,6 @@ final class PreviewRefreshUITests: XCTestCase {
     usleep(500_000)
 
     let previewCount = readPreviewCount(from: perfLogURL)
-    // Before the fix this was 0–1 (the stuck first render, or none after reset).
-    // After the fix, navigating 3 items must produce multiple preview renders.
     XCTAssertGreaterThan(
       previewCount,
       1,
@@ -88,6 +84,7 @@ final class PreviewRefreshUITests: XCTestCase {
 
   // MARK: - Helpers
 
+  /// Posts a distributed notification to the running app and brief pauses for delivery.
   private func post(_ name: String, userInfo: [String: Any]? = nil) {
     DistributedNotificationCenter.default().postNotificationName(
       Notification.Name(name),

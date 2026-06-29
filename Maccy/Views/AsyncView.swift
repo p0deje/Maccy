@@ -1,11 +1,13 @@
 import SwiftUI
 
+/// The state of an asynchronous value load.
 enum AsyncViewState<T> {
   case loading
   case failed
   case loaded(T)
 }
 
+/// A view that runs an async operation and renders different content for its loading and loaded states.
 struct AsyncView<Value, Content: View, Placeholder: View>: View {
   let operation: () async throws -> Value
   @ViewBuilder var content: (Value) -> Content

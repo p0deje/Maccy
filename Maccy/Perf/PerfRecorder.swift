@@ -32,6 +32,7 @@ final class PerfRecorder {
   /// timing overhead.
   static let enabled: Bool = CommandLine.arguments.contains("MaccyPerfRecord")
 
+  /// One measured render: total latency and the on-main synchronous block.
   private struct RenderEvent {
     let latencyMs: Double
     let mainBlockMs: Double
@@ -49,9 +50,9 @@ final class PerfRecorder {
     previewEvents.removeAll()
   }
 
-  /// Records one thumbnail render. `mainBlock` = the on-main synchronous portion
+  /// Records one thumbnail render. `mainBlock` is the on-main synchronous portion
   /// (total − off-main decode await); the decode itself runs on the
-  /// `ImageProcessor` actor, so this is ~0 when BS-3's off-main decode holds.
+  /// `ImageProcessor` actor, so this is ~0 when the off-main image decode holds.
   func recordThumbnail(latency: Duration, mainBlock: Duration) {
     guard Self.enabled else { return }
     thumbnailEvents.append(RenderEvent(
@@ -89,6 +90,7 @@ final class PerfRecorder {
 
   // MARK: - Private
 
+  /// Formats one `PERF|…` line for the given operation from its recorded events.
   private func formatLine(category: String, operation: String, events: [RenderEvent]) -> String {
     let count = events.count
     let latency = events
@@ -111,11 +113,12 @@ final class PerfRecorder {
       + "|mainBlockTotal=\(String(format: "%.2f", totalBlock))"
   }
 
+  /// Converts a `Duration` to milliseconds. `Duration.components` is
+  /// `(seconds, attoseconds)` where attoseconds is the sub-second part
+  /// (1 atto = 1e-18 s), so milliseconds = seconds×1000 + attoseconds/1e15.
+  /// Dividing attoseconds by 1e18 instead underreports 1000×.
   private static func millis(_ duration: Duration) -> Double {
     let components = duration.components
-    // `Duration.components` = (seconds, attoseconds) where attoseconds is the
-    // *sub-second* part (1 atto = 1e-18 s). Milliseconds = seconds×1000 +
-    // attoseconds/1e15. (Prior /1e18 underreported 1000× — see audit 2026-06-21.)
     return Double(components.seconds) * 1000
       + Double(components.attoseconds) / 1_000_000_000_000_000
   }

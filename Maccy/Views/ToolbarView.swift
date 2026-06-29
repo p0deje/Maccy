@@ -1,6 +1,8 @@
 import KeyboardShortcuts
 import SwiftUI
 
+/// Attaches a tooltip that names the currently bound keyboard shortcut, if any
+/// is registered for the given `KeyboardShortcuts.Name`.
 private struct KeyboardShortcutHelpModifier: ViewModifier {
   let name: KeyboardShortcuts.Name
   let key: String
@@ -26,6 +28,8 @@ private struct KeyboardShortcutHelpModifier: ViewModifier {
   }
 }
 
+/// A plain-styled toolbar button of fixed height that releases window dragging
+/// while hovered.
 struct ToolbarButton<Label: View>: View {
   @Environment(AppState.self) private var appState
 
@@ -45,6 +49,7 @@ struct ToolbarButton<Label: View>: View {
     })
   }
 
+  /// Attaches a keyboard-shortcut tooltip to this button.
   func shortcutKeyHelp(
     name: KeyboardShortcuts.Name,
     key: String,
@@ -63,19 +68,25 @@ struct ToolbarButton<Label: View>: View {
 
 }
 
+/// The slideout toolbar: context-sensitive pin/delete actions for the current
+/// selection, plus a remove-paste-stack action when a paste stack is selected.
 struct ToolbarView: View {
   @State private var appState = AppState.shared
 
   @Namespace var unionNamespace
 
+  /// Matched-transition namespaces grouped under the toolbar.
   enum Section: Hashable {
     case itemOptions
   }
 
+  /// Whether every selected item is already pinned (so the action would unpin).
   private var shouldUnpin: Bool {
     return appState.navigator.selection.items.allSatisfy { $0.isPinned }
   }
 
+  /// Whether the pin action is unavailable because the selection mixes pinned
+  /// and unpinned items.
   private var pinActionDisabled: Bool {
     return appState.navigator.selection.items.contains { $0.isPinned }
       && appState.navigator.selection.items.contains { !$0.isPinned }

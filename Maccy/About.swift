@@ -1,5 +1,6 @@
 import Cocoa
 
+/// Builds and presents the About panel with credits and links.
 @MainActor
 class About {
   private let familyCredits = NSAttributedString(
@@ -23,6 +24,7 @@ class About {
     return string
   }
 
+  /// Combined, center-aligned credits string shown in the About panel.
   private var credits: NSMutableAttributedString {
     let credits = NSMutableAttributedString(string: "",
                                             attributes: [NSAttributedString.Key.foregroundColor: NSColor.labelColor])
@@ -35,6 +37,7 @@ class About {
     return credits
   }
 
+  /// Activates the app and opens the standard About panel with the credits.
   @objc
   func openAbout(_ sender: NSMenuItem?) {
     NSApp.activate(ignoringOtherApps: true)
@@ -43,6 +46,7 @@ class About {
 }
 
 private extension NSMutableAttributedString {
+  /// Attaches `link` as a `.link` attribute to the first range matching `text`.
   func addLink(_ link: String, to text: String) {
     guard let range = string.range(of: text) else {
       return

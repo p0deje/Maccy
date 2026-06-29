@@ -1,7 +1,11 @@
 import XCTest
 @testable import Maccy
 
+/// Tests for the storage corruption-recovery path: a damaged store is moved to a
+/// quarantine location and a fresh store is rebuilt in its place.
 class StorageRecoveryTests: XCTestCase {
+  /// On an incompatible-store error, `Storage.recoverContainer` quarantines the
+  /// corrupt files via the callback and rebuilds a usable container.
   @MainActor
   func testStorageRecoveryMovesCorruptedStoreAndReportsQuarantine() throws {
     let directory = FileManager.default.temporaryDirectory
@@ -31,6 +35,8 @@ class StorageRecoveryTests: XCTestCase {
     }
   }
 
+  /// `quarantineStoreFiles` moves the store and its `-shm`/`-wal` sidecars into
+  /// a stamped quarantine directory.
   func testQuarantineStoreFilesMovesExistingStoreFiles() throws {
     let directory = FileManager.default.temporaryDirectory
       .appending(path: UUID().uuidString, directoryHint: .isDirectory)

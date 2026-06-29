@@ -4,6 +4,9 @@ import XCTest
 /// in the MaccyTests target (no `@testable import Maccy` needed here).
 @MainActor
 final class ImageFixtureGeneratorTests: XCTestCase {
+  /// A generated JPEG lands within a factor-of-3 band around the bucket target.
+  ///
+  /// A JPEG's byte count varies with content compressibility (real photo versus synthetic fallback) and is bounded by the canvas at maximum quality, so the assertion uses a loose band rather than a tight tolerance. The decode benchmark cares about pixel dimensions across buckets, not exact bytes.
   func testJPEGProducesApproximatelyBucketSizedImage() throws {
     let cacheDir = FileManager.default.temporaryDirectory
       .appending(path: "IFGSize-\(UUID().uuidString)")
@@ -11,16 +14,12 @@ final class ImageFixtureGeneratorTests: XCTestCase {
 
     let data = try ImageFixtureGenerator.jpeg(bucket: .oneMB, variant: 0, cacheDir: cacheDir)
 
-    // Approximate sizing: a JPEG's byte count varies with content compressibility
-    // (real photo vs synthetic fallback) and is bounded by the canvas at max
-    // quality, so assert a factor-of-3 band around the 1 MB target rather than a
-    // tight tolerance. The decode benchmark cares about pixel dimensions (a
-    // range across buckets), not exact bytes.
     let target = 1_048_576
     XCTAssertGreaterThan(data.count, target / 3, "Undershot 1MB bucket (expect ~1MB): \(data.count) bytes")
     XCTAssertLessThan(data.count, target * 3, "Overshot 1MB bucket (expect ~1MB): \(data.count) bytes")
   }
 
+  /// The same bucket and variant produce byte-identical output across calls (seeded generation plus on-disk caching).
   func testJPEGIsDeterministicAcrossCalls() throws {
     let cacheDir = FileManager.default.temporaryDirectory
       .appending(path: "IFGDet-\(UUID().uuidString)")

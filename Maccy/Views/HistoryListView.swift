@@ -1,6 +1,7 @@
 import Defaults
 import SwiftUI
 
+/// The scrollable clipboard history list with pinned items, paste stack, and selection-driven scrolling.
 struct HistoryListView: View {
   @Binding var searchQuery: String
   @FocusState.Binding var searchFocused: Bool
@@ -125,7 +126,7 @@ struct HistoryListView: View {
             appState.preview.cancelAutoOpen()
           }
         }
-        // Calculate the total height inside a scroll view.
+        // Measured inside the scroll view to drive popup resizing to fit content.
         .background {
           GeometryReader { geo in
             Color.clear

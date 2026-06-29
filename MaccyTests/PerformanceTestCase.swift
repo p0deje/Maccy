@@ -2,17 +2,16 @@ import Defaults
 import XCTest
 @testable import Maccy
 
-/// Base for performance tests. `enable-testing` (the test plan's default launch
-/// argument) forces an in-memory SwiftData store, so each test gets a fresh
-/// `History.shared`. Sets `Defaults[.size]` high enough that the requested N is
-/// not trimmed by `limitHistorySize`, and restores it in tearDown.
+/// Base class for performance tests. `enable-testing` (the test plan's default
+/// launch argument) forces an in-memory SwiftData store, so each test gets a
+/// fresh `History.shared`. Sets `Defaults[.size]` high enough that the requested
+/// item count is not trimmed, and restores the saved value in `tearDown`.
 @MainActor
 class PerformanceTestCase: XCTestCase {
   private let savedSize = Defaults[.size]
-  /// Fixture corpus dir. If `MACCY_PERF_FIXTURES` is set (CI pre-downloads a
-  /// shared Release-asset corpus there), use it so the corpus is shared across
-  /// tests AND across runs (generated once, reused). Otherwise a per-run temp
-  /// dir (regenerated each run).
+  /// Fixture corpus directory. When `MACCY_PERF_FIXTURES` is set (CI pre-seeds a
+  /// shared corpus there), it is reused across tests and runs; otherwise a fresh
+  /// per-run temp directory is generated each run.
   let cacheDir: URL = {
     if let shared = ProcessInfo.processInfo.environment["MACCY_PERF_FIXTURES"] {
       return URL(fileURLWithPath: shared)
@@ -44,12 +43,13 @@ class PerformanceTestCase: XCTestCase {
   }
 
   /// Asserts no main-thread stall exceeded `threshold` since `probe.start()`.
-  /// Default 16 ms = one frame; the roadmap's gates require the main thread to
-  /// stay free of >16 ms synchronous heavy work.
+  /// The default 16 ms equals one display frame, the budget the main thread must
+  /// stay within for jank-free interaction.
   ///
-  /// `async` because it must drain the probe's queued sampler ticks (they only
-  /// record their delay once main runs them) before reading `maxGap` — a sync
-  /// read returns 0.0 (the original bug that made every gate pass spuriously).
+  /// This method is `async` because it must drain the probe's queued sampler
+  /// ticks — they only record their delay once the main thread runs them —
+  /// before reading `maxGap`. A synchronous read returns `0.0` because the ticks
+  /// have not yet been delivered.
   func assertMainThreadFree(threshold: TimeInterval = 0.016,
                             file: StaticString = #filePath, line: UInt = #line) async {
     let gap = await probe.maxGapAsync()

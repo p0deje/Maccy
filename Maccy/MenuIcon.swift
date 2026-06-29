@@ -1,6 +1,7 @@
 import AppKit
 import Defaults
 
+/// The status-item icons the user can choose from.
 enum MenuIcon: String, CaseIterable, Identifiable, Defaults.Serializable {
   case maccy
   case clipboard
@@ -9,6 +10,7 @@ enum MenuIcon: String, CaseIterable, Identifiable, Defaults.Serializable {
 
   var id: Self { self }
 
+  /// The status-bar `NSImage` for this icon.
   var image: NSImage {
     switch self {
     case .maccy:

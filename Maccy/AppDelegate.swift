@@ -3,11 +3,15 @@ import KeyboardShortcuts
 import Sparkle
 import SwiftUI
 
+/// Application delegate: wires the pasteboard observer, ingest actor, status
+/// item, floating panel, and memory governor at launch.
 @MainActor
 class AppDelegate: NSObject, NSApplicationDelegate {
+  /// The main floating panel hosting the content view.
   var panel: FloatingPanel<ContentView>!
 
   #if DEBUG
+  /// Distributed-notification names driven by UI tests (test process → app).
   private enum UITestNotification {
     static let hotKeyDown = Notification.Name("org.p0deje.Maccy.UITest.hotKeyDown")
     static let modifiersReleased = Notification.Name("org.p0deje.Maccy.UITest.modifiersReleased")
@@ -16,9 +20,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     static let pinHistoryItem = Notification.Name("org.p0deje.Maccy.UITest.pinHistoryItem")
   }
 
-  /// Distributed-notification names driving the `method=B` perf benchmarks
-  /// (see `PerfRecorder`). Posted by `MaccyUITests/PerfRenderUITests` from the
-  /// test process; observed here only when launched with `MaccyPerfRecord`.
+  /// Distributed-notification names driving the performance benchmarks (see
+  /// `PerfRecorder`). Posted by the UI test process; observed here only when
+  /// launched with `MaccyPerfRecord`.
   private enum PerfNotification {
     static let reset = Notification.Name("org.p0deje.Maccy.Perf.reset")
     static let dump = Notification.Name("org.p0deje.Maccy.Perf.dump")
@@ -30,6 +34,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   private var perfNotificationObservers: [Any] = []
   #endif
 
+  /// The menu-bar status item, configured from user defaults.
   @objc
   private lazy var statusItem: NSStatusItem = {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -41,12 +46,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     return statusItem
   }()
 
+  /// True when the status item should appear disabled (events ignored or no
+  /// enabled types).
   private var isStatusItemDisabled: Bool {
     Defaults[.ignoreEvents] || Defaults[.enabledPasteboardTypes].isEmpty
   }
 
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
+  /// Early launch hook: disables Sparkle auto-update under testing, bridges the
+  /// panel, wires the ingest actor, and starts the pasteboard observer.
   func applicationWillFinishLaunching(_ notification: Notification) {
     #if DEBUG
     if CommandLine.arguments.contains("enable-testing") {
@@ -61,15 +70,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Bridge FloatingPanel via AppDelegate.
     AppState.shared.appDelegate = self
 
-    // Wire the off-main ingest actor (BS-2.2b): the pasteboard snapshot is
+    // Wire the off-main ingest actor: the pasteboard snapshot is
     // filtered/deduped/written on a background SwiftData context, and the
-    // resulting `StoreEvent` hops back to the main actor (BS-2.3) to
-    // reconcile the main-context history. `Clipboard.checkForChangesInPasteboard`
-    // dispatches each copy to this actor via `Task { ... }`.
+    // resulting `StoreEvent` hops back to the main actor to reconcile the
+    // main-context history. `Clipboard.checkForChangesInPasteboard` dispatches
+    // each copy to this actor via `Task { ... }`.
     //
-    // The same ImageProcessor instance backs the decorators' default processor
-    // (BS-3.5/3.8), so thumbnails decoded during ingest are reused when the
-    // item is rendered — one ThumbnailCache across the ingest + view paths.
+    // The same image processor instance backs the decorators' default
+    // processor, so thumbnails decoded during ingest are reused when the item
+    // is rendered — one thumbnail cache across the ingest + view paths.
     Clipboard.shared.ingestor = BackgroundClipboardIngestor(
       modelContainer: Storage.shared.container,
       image: HistoryItemDecorator.defaultImageProcessor,
@@ -126,6 +135,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  /// Late launch hook: migrates defaults, builds the floating panel, attaches
+  /// the memory governor, and installs test/perf hooks under DEBUG.
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
     disableUnusedGlobalHotkeys()
@@ -139,10 +150,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       ContentView()
     }
 
-    // C3 (master plan): wire the memory governor — reclaim non-viewport image
-    // bitmaps + caches on NSApplication.didReceiveMemoryWarningNotification.
-    // applicationDidFinishLaunching runs on main but AppDelegate isn't
-    // @MainActor-isolated, so hop via assumeIsolated.
+    // Wire the memory governor — reclaim non-viewport image bitmaps + caches on
+    // `NSApplication.didReceiveMemoryWarningNotification`.
     MainActor.assumeIsolated {
       MemoryGovernor.shared.attach(history: History.shared)
       MemoryGovernor.shared.start()
@@ -159,11 +168,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     #endif
   }
 
+  /// Reopens (toggles) the panel when the dock icon is clicked.
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
     panel.toggle(height: AppState.shared.popup.height)
     return true
   }
 
+  /// Termination hook: dumps any perf recording, clears history on quit if set.
   func applicationWillTerminate(_ notification: Notification) {
     #if DEBUG
     removeUITestNotificationHooks()
@@ -182,6 +193,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  /// Migrates legacy user-default keys from Maccy 1.x to the 2.x schema.
   private func migrateUserDefaults() {
     if Defaults[.migrations]["2024-07-01-version-2"] != true {
       // Start 2.x from scratch.
@@ -207,6 +219,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // - maxMenuItems
   }
 
+  /// Status-item click handler: toggles ignore-events on option-click,
+  /// otherwise toggles the panel.
   @objc
   private func performStatusItemClick() {
     if let event = NSApp.currentEvent {
@@ -226,6 +240,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     panel.toggle(height: AppState.shared.popup.height, at: .statusItem)
   }
 
+  /// Keeps the status item title in sync with the recent-copy text via
+  /// observation tracking.
   private func synchronizeMenuIconText() {
     _ = withObservationTracking {
       AppState.shared.menuIconText
@@ -242,6 +258,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  /// Disables the unused built-in delete/pin global shortcuts and keeps them
+  /// disabled if reassigned.
   private func disableUnusedGlobalHotkeys() {
     let names: [KeyboardShortcuts.Name] = [.delete, .pin]
     KeyboardShortcuts.disable(names)
@@ -258,6 +276,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   #if DEBUG
+  /// Registers the distributed-notification observers that drive UI tests.
   private func installUITestNotificationHooks() {
     guard uiTestNotificationObservers.isEmpty else {
       return
@@ -316,9 +335,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     uiTestNotificationObservers = []
   }
 
-  /// Registers the `PerfNotification` observers (only when launched with
-  /// `MaccyPerfRecord`). Mirrors `installUITestNotificationHooks`. The UI test
-  /// drives the B benchmarks over the distributed notification bridge.
+  /// Registers the perf-benchmark notification observers (only when launched
+  /// with `MaccyPerfRecord`). Mirrors `installUITestNotificationHooks`: the UI
+  /// test drives the benchmarks over the distributed-notification bridge.
   private func installPerfNotificationHooks() {
     guard perfNotificationObservers.isEmpty else {
       return
@@ -361,6 +380,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     )
   }
 
+  /// Removes the perf-benchmark notification observers.
   private func removePerfNotificationHooks() {
     let center = DistributedNotificationCenter.default()
     perfNotificationObservers.forEach { center.removeObserver($0) }

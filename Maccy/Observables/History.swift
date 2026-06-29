@@ -7,6 +7,7 @@ import Sauce
 import Settings
 import SwiftData
 
+/// Persistence operations `History` relies on, isolated to `@MainActor`.
 protocol HistoryPersistence {
   @MainActor
   func insert(_ item: HistoryItem) throws
@@ -26,6 +27,8 @@ protocol HistoryPersistence {
   func countHistoryItemContents() throws -> Int
 }
 
+/// `HistoryPersistence` backed by `Storage.shared.context` (the main SwiftData
+/// context). Each mutating method processes pending changes and saves.
 struct SwiftDataHistoryPersistence: HistoryPersistence {
   @MainActor
   func insert(_ item: HistoryItem) throws {
@@ -86,6 +89,9 @@ struct SwiftDataHistoryPersistence: HistoryPersistence {
   }
 }
 
+/// The main-actor clipboard history model: the in-memory `items`/`all` lists of
+/// `HistoryItemDecorator`, persistence, search, pin/delete/clear actions, and
+/// reconciliation of `StoreEvent`s emitted by the off-main ingest actor.
 @MainActor
 @Observable
 class History: ItemsContainer {
@@ -96,9 +102,12 @@ class History: ItemsContainer {
   var pasteStack: PasteStack?
   var lastPersistError: Error?
 
+  /// Pinned decorators only.
   var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
+  /// Unpinned decorators only.
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
 
+  /// The current search text; each change throttles `performSearch`.
   var searchQuery: String = "" {
     didSet {
       throttler.throttle { [self] in
@@ -107,6 +116,7 @@ class History: ItemsContainer {
     }
   }
 
+  /// The decorator whose keyboard shortcut matches the current event, if any.
   var pressedShortcutItem: HistoryItemDecorator? {
     guard let event = NSApp.currentEvent else {
       return nil
@@ -127,31 +137,31 @@ class History: ItemsContainer {
   private let search = Search()
   private let sorter = Sorter()
   private let throttler = Throttler(minimumDelay: 0.2)
-  // BS-5: off-main search. `searchGeneration` is the single staleness oracle —
-  // every synchronous mutation of `items` (a newer keystroke's kickoff, an
-  // ingest re-filter, clear/clearAll/delete, the empty short-circuit) bumps it,
-  // so a late off-main apply whose captured generation no longer matches is
-  // discarded. All access is @MainActor (History is @MainActor) → plain Int,
-  // no lock, no @unchecked.
+  /// The single staleness oracle for off-main search. Every synchronous
+  /// mutation of `items` (a newer keystroke's kickoff, an ingest re-filter,
+  /// clear/clearAll/delete, the empty short-circuit) bumps it, so a late
+  /// off-main apply whose captured generation no longer matches is discarded.
+  /// All access is `@MainActor` (`History` is `@MainActor`) — plain `Int`, no
+  /// lock, no `@unchecked`.
   @ObservationIgnored private var searchGeneration = 0
   @ObservationIgnored private var searchTask: Task<Void, Never>?
-  // Owns the 4-mode match off-main. `let` actor (Sendable); only its
-  // `search(...)` method is awaited — the @Model never crosses to it, only
-  // Sendable DTOs.
+  /// Owns the four-mode match off-main. A `let` actor (Sendable); only its
+  /// `search(...)` method is awaited — the `@Model` never crosses to it, only
+  /// Sendable DTOs.
   private let searchActor = SearchActor()
   private var historySizeLimit: Int { max(1, Defaults[.size]) }
 
   @ObservationIgnored
-  // M3 (master plan): keyed by `PersistentIdentifier`, NOT the @Model ref, so the
-  // log never retains a `HistoryItem` (and its content blobs). Resolved back to the
-  // model via `all` in `isModified`. Dead-in-prod (live ingest is the actor consume
-  // path, which bypasses sessionLog); this closes the `05`/`13` audit item and
-  // prevents a leak if the legacy `History.add` path is ever re-enabled.
+  /// Copy-count → `PersistentIdentifier` log for the legacy `History.add`
+  /// modification-merge path. Keyed by `PersistentIdentifier` (not the
+  /// `@Model` ref) so it never retains a `HistoryItem` or its content blobs;
+  /// resolved back to the model via `all` in `isModified`. Dead-in-prod (live
+  /// ingest is the actor consume path, which bypasses `sessionLog`); retained
+  /// so the legacy `History.add` path keeps working if re-enabled.
   private var sessionLog: [Int: PersistentIdentifier] = [:]
 
-  // The distinction between `all` and `items` is the following:
-  // - `all` stores all history items, even the ones that are currently hidden by a search
-  // - `items` stores only visible history items, updated during a search
+  /// All history decorators, including those hidden by the current search.
+  /// `items` holds only the visible (filtered) subset.
   @ObservationIgnored
   var all: [HistoryItemDecorator] = []
 
@@ -162,6 +172,8 @@ class History: ItemsContainer {
   @ObservationIgnored
   private let logsPersistenceErrors: Bool
 
+  /// Creates the history model with its persistence backend and config flags,
+  /// and starts listeners that react to relevant Defaults changes.
   init(
     persistence: HistoryPersistence = SwiftDataHistoryPersistence(),
     shouldInsertItemsInAdd: Bool = History.shouldInsertItemsInAddByDefault(),
@@ -214,12 +226,13 @@ class History: ItemsContainer {
     }
   }
 
+  /// Fetches all items, sorts them, decorates each, and applies the size limit.
+  /// Decorator construction is wrapped in `autoreleasepool` to bound the
+  /// AppKit transients (e.g. `ApplicationImageCache` misses) to this call.
   @MainActor
   func load() async throws {
     let descriptor = FetchDescriptor<HistoryItem>()
     let results = try Storage.shared.context.fetch(descriptor)
-    // M6 (master plan): bound the decorator-construction AppKit transients
-    // (ApplicationImageCache miss → NSWorkspace.icon) to the load call.
     all = autoreleasepool { sorter.sort(results).map { HistoryItemDecorator($0) } }
     items = all
 
@@ -232,6 +245,7 @@ class History: ItemsContainer {
     }
   }
 
+  /// Trims unpinned decorators past `maxSize`, deleting the overflow.
   @MainActor
   private func limitHistorySize(to maxSize: Int) {
     let maxSize = max(0, maxSize)
@@ -241,12 +255,18 @@ class History: ItemsContainer {
     }
   }
 
+  /// Persists a new item via the persistence backend.
   @MainActor
   func insertIntoStorage(_ item: HistoryItem) throws {
     logger.info("Inserting history item")
     try persistence.insert(item)
   }
 
+  /// Adds an item through the legacy main-thread path: optionally persists it,
+  /// merges any duplicate, enforces the size limit, records it in `sessionLog`,
+  /// inserts its decorator at the sorted position, and refreshes visible items.
+  /// The live ingest path is the off-main actor's `consume`; this is retained
+  /// for the unwired legacy code path.
   @discardableResult
   @MainActor
   func add(_ item: HistoryItem) -> HistoryItemDecorator {
@@ -280,23 +300,23 @@ class History: ItemsContainer {
     return itemDecorator
   }
 
-  /// Applies a `StoreEvent` emitted by the background ingest actor, updating the
+  /// Applies a `StoreEvent` emitted by the off-main ingest actor, updating the
   /// in-memory `all`/`items` to match the (now-merged) main context.
   ///
-  /// BS-4.4a: `.added`/`.merged` now reconcile INCREMENTALLY — fetch the one
-  /// committed @Model on main via `ModelContext.model(for: persistentID)` and
+  /// `.added`/`.merged` reconcile incrementally — fetch the one committed
+  /// `@Model` on main via `ModelContext.model(for: persistentID)` and
   /// binary-insert it at the sorted position (O(log n)), reusing existing
-  /// decorators — instead of refetching + re-sorting the whole table every copy.
-  /// `.removed`/`.cleared` (not emitted by the BS-2 actor today), and any
-  /// `nil`-persistentID snapshot or `model(for:)` miss, fall back to the full
-  /// `reconcileWithStore`. The final `all` order matches the old full sort.
+  /// decorators — instead of refetching + re-sorting the whole table every
+  /// copy. `.removed`/`.cleared` (not emitted by the ingest actor today), and
+  /// any `nil`-persistentID snapshot or `model(for:)` miss, fall back to the
+  /// full `reconcileWithStore`. The final `all` order matches the old full sort.
   @MainActor
   func consume(_ event: StoreEvent) {
     switch event {
     case .added(let snapshot), .merged(let snapshot):
       insertIncrementally(snapshot)
     case .removed, .cleared:
-      // The BS-2 actor only emits .added/.merged today; handle the others
+      // The ingest actor only emits .added/.merged today; handle the others
       // defensively by full reconcile, so a future emitter stays correct.
       reconcileWithStore()
     }
@@ -401,6 +421,8 @@ class History: ItemsContainer {
     AppState.shared.popup.needsResize = true
   }
 
+  /// If `item` duplicates an existing one, merges metadata onto `item`, removes
+  /// the existing decorator, and returns the index it occupied (else `nil`).
   @MainActor
   private func mergeDuplicateIfNeeded(for item: HistoryItem) -> Int? {
     guard let existingHistoryItem = findSimilarItem(item) else {
@@ -430,6 +452,8 @@ class History: ItemsContainer {
     return removedItemIndex
   }
 
+  /// Builds the decorator for `item` and inserts it at the sorted position
+  /// (reusing `removedItemIndex` when merging a duplicate pin).
   @MainActor
   private func insertDecorator(
     for item: HistoryItem,
@@ -451,11 +475,11 @@ class History: ItemsContainer {
     return itemDecorator
   }
 
+  /// Runs `block` under DEBUG-only before/after row-count logging. The count
+  /// round-trips are diagnostics only, so release builds skip them and run just
+  /// the operation.
   @MainActor
   private func withLogging(_ msg: String, _ block: () throws -> Void) rethrows {
-    // M7 (master plan): the before/after fetchCount round-trips are debug-only
-    // diagnostics — gate them so release builds don't do 4 DB round-trips per
-    // clear/delete/clearAll. The block (the actual operation) always runs.
     #if DEBUG
     func dataCounts() -> String {
       do {
@@ -476,6 +500,9 @@ class History: ItemsContainer {
     #endif
   }
 
+  /// Deletes all unpinned items (keeping pins), draining each removed
+  /// decorator's AppKit transients in an autorelease pool so a bulk clear
+  /// doesn't pile them up.
   @MainActor
   func clear() {
     throttler.cancel()
@@ -485,8 +512,6 @@ class History: ItemsContainer {
       try withLogging("Clearing history") {
         try persistence.deleteUnpinned()
       }
-      // M6 (master plan): drain per-item AppKit transients (cleanup → invalidate
-      // → cleanupImages → NSImage.recache) so a bulk clear doesn't pile them up.
       for item in all where item.isUnpinned {
         autoreleasepool {
           cleanup(item)
@@ -511,6 +536,7 @@ class History: ItemsContainer {
     }
   }
 
+  /// Deletes every item (pins included), draining each decorator's transients.
   @MainActor
   func clearAll() {
     throttler.cancel()
@@ -540,6 +566,8 @@ class History: ItemsContainer {
     }
   }
 
+  /// Deletes a single decorator's backing item, removes it from `all`/`items`,
+  /// drops its `sessionLog` entry, and reassigns unpinned shortcuts.
   @MainActor
   func delete(_ item: HistoryItemDecorator?) {
     guard let item else { return }
@@ -566,17 +594,21 @@ class History: ItemsContainer {
     }
   }
 
+  /// Invalidates a decorator, releasing its transient images.
   @MainActor
   private func cleanup(_ item: HistoryItemDecorator) {
     item.invalidate()
   }
 
+  /// The current event's relevant modifier flags (device-independent, caps/num/fn stripped).
   private func currentModifierFlags() -> NSEvent.ModifierFlags {
     return NSApp.currentEvent?.modifierFlags
       .intersection(.deviceIndependentFlagsMask)
       .subtracting([.capsLock, .numericPad, .function]) ?? []
   }
 
+  /// Copies (and optionally pastes) the item, choosing the copy/paste variant
+  /// from the held modifier flags, then clears the search query.
   @MainActor
   func select(_ item: HistoryItemDecorator?) {
     guard let item else {
@@ -614,6 +646,8 @@ class History: ItemsContainer {
     }
   }
 
+  /// Begins a multi-select paste stack: copies the first selected item and
+  /// stores the remaining items for sequential pasting.
   @MainActor
   func startPasteStack(selection: inout Selection<HistoryItemDecorator>) {
     guard AppState.shared.multiSelectionEnabled else { return }
@@ -653,6 +687,7 @@ class History: ItemsContainer {
     }
   }
 
+  /// Pastes the next item in an active paste stack, or clears it when empty.
   @MainActor
   func handlePasteStack() {
     guard let stack = pasteStack else {
@@ -693,6 +728,7 @@ class History: ItemsContainer {
     }
   }
 
+  /// Cancels an in-progress paste stack.
   @MainActor
   func interruptPasteStack() {
     guard pasteStack != nil else {
@@ -702,6 +738,7 @@ class History: ItemsContainer {
     pasteStack = nil
   }
 
+  /// Toggles an item's pin, persists it, re-sorts `all`, and clears the query.
   @MainActor
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
@@ -732,6 +769,8 @@ class History: ItemsContainer {
     }
   }
 
+  /// Returns an existing item that supersedes `item` (or a session-logged
+  /// modification of it), else `nil`. Used by the legacy `add` path.
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
     do {
@@ -750,6 +789,7 @@ class History: ItemsContainer {
     }
   }
 
+  /// Reloads the history after a Defaults change that affects ordering/display.
   @MainActor
   private func loadAfterDefaultsChange() async {
     do {
@@ -759,6 +799,7 @@ class History: ItemsContainer {
     }
   }
 
+  /// Stores `error` on `lastPersistError` and logs it when enabled.
   @MainActor
   private func recordPersistenceError(_ message: String, _ error: Error) {
     lastPersistError = error
@@ -767,6 +808,8 @@ class History: ItemsContainer {
     }
   }
 
+  /// Whether `add` should persist by default (true on macOS 15+, where SwiftData
+  /// main-context auto-save is reliable; false on older OSes).
   nonisolated private static func shouldInsertItemsInAddByDefault() -> Bool {
     if #available(macOS 15.0, *) {
       return true
@@ -775,6 +818,7 @@ class History: ItemsContainer {
     }
   }
 
+  /// Returns the logged duplicate of `item` if it was modified this session, else `nil`.
   private func isModified(_ item: HistoryItem) -> HistoryItem? {
     if let modified = item.modified, let pid = sessionLog[modified] {
       return all.first { $0.item.persistentModelID == pid }?.item
@@ -783,6 +827,7 @@ class History: ItemsContainer {
     return nil
   }
 
+  /// Rebuilds `items` from search results, applying highlights and refreshing shortcuts.
   private func updateItems(_ newItems: [Search.SearchResult]) {
     items = newItems.map { result in
       let item = result.object
@@ -794,6 +839,7 @@ class History: ItemsContainer {
     updateUnpinnedShortcuts()
   }
 
+  /// Refreshes `items`: `all` when the query is empty, else the filtered matches.
   private func refreshVisibleItems() {
     if searchQuery.isEmpty {
       items = all
@@ -803,7 +849,7 @@ class History: ItemsContainer {
     }
   }
 
-  // MARK: - BS-5 off-main search
+  // MARK: - Off-main search
 
   /// Throttled search entry point. Two paths:
   ///  - empty query: short-circuit SYNCHRONOUSLY on main (reuses the unchanged
@@ -846,7 +892,7 @@ class History: ItemsContainer {
   /// an ingest, or a destructive op bumped `searchGeneration` past `generation`.
   /// Resolves DTO ids back to decorators (skipping ids no longer in `all`, e.g.
   /// deleted mid-search), highlights only where the title still equals the
-  /// snapshot (bug-3 equality guard — else Int offsets could be out of bounds),
+  /// snapshot (equality guard — else `Int` offsets could be out of bounds),
   /// rebuilds `items`, and runs the same side effects as the legacy didSet.
   private func applySearchResults(_ matches: [SearchMatchDTO], for query: String, generation: Int) {
     guard searchGeneration == generation else { return }
@@ -898,6 +944,7 @@ class History: ItemsContainer {
     searchTask = nil
   }
 
+  /// Rebuilds pin shortcuts and then unpinned ones.
   private func updateShortcuts() {
     for item in pinnedItems {
       if let pin = item.item.pin {
@@ -908,12 +955,14 @@ class History: ItemsContainer {
     updateUnpinnedShortcuts()
   }
 
+  /// Sets both the decorator's and model's title.
   @MainActor
   private func updateTitle(item: HistoryItemDecorator, title: String) {
     item.title = title
     item.item.title = title
   }
 
+  /// Assigns `1`–`9` shortcuts to the first nine visible unpinned items.
   private func updateUnpinnedShortcuts() {
     let visibleUnpinnedItems = unpinnedItems.filter(\.isVisible)
     for item in visibleUnpinnedItems {
@@ -929,5 +978,6 @@ class History: ItemsContainer {
 }
 
 extension History: HistoryRef {
+  /// All decorators (visible or not), for memory-pressure iteration.
   func decorators() -> [HistoryItemDecorator] { all }
 }

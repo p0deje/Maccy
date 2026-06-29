@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Tracks hover over a view and updates selection while deferring during keyboard navigation.
 private struct HoverSelectionModifier: ViewModifier {
   @Environment(AppState.self) private var appState
   var id: UUID
@@ -18,6 +19,7 @@ private struct HoverSelectionModifier: ViewModifier {
 }
 
 extension View {
+  /// Attaches a hover-driven selection for the given item identifier.
   func hoverSelectionId(_ id: UUID) -> some View {
     modifier(HoverSelectionModifier(id: id))
   }

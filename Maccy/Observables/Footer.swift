@@ -1,11 +1,14 @@
 import Defaults
 import SwiftUI
 
+/// The bottom action bar (clear, clear all, preferences, about, quit), modeled
+/// as an `ItemsContainer` so it shares selection/navigation logic with `History`.
 @MainActor
 @Observable
 class Footer: ItemsContainer {
   var items: [FooterItem] = []
 
+  /// The currently highlighted footer item, keeping `isSelected` in sync.
   var selectedItem: FooterItem? {
     willSet {
       selectedItem?.isSelected = false
@@ -13,6 +16,7 @@ class Footer: ItemsContainer {
     }
   }
 
+  /// Binding to the persisted "suppress clear alert" default.
   var suppressClearAlert = Binding<Bool>(
     get: { Defaults[.suppressClearAlert] },
     set: { Defaults[.suppressClearAlert] = $0 }
@@ -21,10 +25,13 @@ class Footer: ItemsContainer {
   private var showFooter: Bool {
     return Defaults[.showFooter]
   }
+  /// Whether the footer is visible (from `showFooter`).
   var containerVisible: Bool {
     return showFooter
   }
 
+  /// Builds the fixed set of footer actions (clear, clear all, preferences,
+  /// about, quit).
   init() {
     items = [
       FooterItem(

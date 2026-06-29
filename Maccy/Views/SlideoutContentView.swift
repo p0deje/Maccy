@@ -1,5 +1,7 @@
 import SwiftUI
 
+/// Right-hand content of the slideout pane: a toolbar plus either the preview
+/// of the currently previewed item, a paste-stack preview, or nothing.
 struct SlideoutContentView: View {
   @Environment(AppState.self) var appState
 
@@ -8,13 +10,13 @@ struct SlideoutContentView: View {
       ToolbarView()
 
       if let item = appState.preview.previewedItem {
-        // `.id(item.id)` forces a fresh PreviewItemView (and its AsyncView +
-        // @State + one-shot `.task`) whenever `previewedItem` changes, so the
-        // preview re-renders as the retargeted item changes. `previewedItem` is
-        // set on retarget-fire (scheduleRetarget) or manual open — NOT on every
-        // lead change — so the pane doesn't chase every selection. Without
-        // `.id`, PreviewItemView keeps structural identity and AsyncView's
-        // `.task` never re-runs — the preview shows the first item stuck.
+        // `.id(item.id)` forces a fresh `PreviewItemView` (and its `AsyncView`,
+        // `@State`, and one-shot `.task`) whenever the previewed item changes,
+        // so the preview re-renders for the new item. The previewed item is set
+        // only on explicit preview/open, not on every selection, so the pane
+        // does not chase each selection. Without `.id`, `PreviewItemView` keeps
+        // structural identity, its `.task` never re-runs, and the preview would
+        // stay stuck on the first item.
         PreviewItemView(item: item)
           .id(item.id)
       } else if let pasteStack = appState.history.pasteStack,

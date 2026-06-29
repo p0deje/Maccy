@@ -1,11 +1,14 @@
 import SwiftUI
 
 extension View {
+  /// Installs an `NSTrackingArea`-backed mouse-moved handler on this view.
   func onMouseMove(_ mouseMoved: @escaping () -> Void) -> some View {
     modifier(MouseMovedViewModifier(mouseMoved))
   }
 }
 
+/// Bridges SwiftUI mouse movement to an AppKit `NSTrackingArea` so a closure
+/// fires whenever the cursor moves over the modified view.
 struct MouseMovedViewModifier: ViewModifier {
   let mouseMoved: () -> Void
 
@@ -24,6 +27,7 @@ struct MouseMovedViewModifier: ViewModifier {
     )
   }
 
+  /// AppKit responder that forwards `mouseMoved` events to a closure.
   private class Coordinator: NSResponder {
     var mouseMoved: (() -> Void)?
 
@@ -32,6 +36,7 @@ struct MouseMovedViewModifier: ViewModifier {
     }
   }
 
+  /// `NSViewRepresentable` that owns the `NSTrackingArea` and its coordinator.
   private struct Representable: NSViewRepresentable {
     let mouseMoved: () -> Void
     let frame: NSRect

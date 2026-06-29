@@ -2,35 +2,37 @@ import AppKit
 import Defaults
 import Sauce
 
+/// Observes the system pasteboard and dispatches copies to the off-main ingest actor.
 @MainActor
 class Clipboard {
+  /// Shared clipboard observer instance.
   static let shared = Clipboard()
 
+  /// Maximum byte length of a pasteboard string scanned against ignore regexes.
   private let regularExpressionInputLimit = 2_000
+  /// Maximum byte length of rich-text payloads parsed for emptiness checks.
   private let richTextParsingLimit = 512 * 1_024
 
-  // M5 (master plan): NSCache (countLimit=64) replaces the unbounded Dict so
-  // stale compiled regexes can't accumulate without bound. Closes regex-cache-
-  // unbounded.
+  /// Bounded cache of compiled ignore regexes, keyed by pattern string.
   private let ignoredRegexps: NSCache<NSString, NSRegularExpression> = {
     let cache = NSCache<NSString, NSRegularExpression>()
     cache.countLimit = 64
     return cache
   }()
+  /// Last `NSPasteboard.changeCount` observed; mismatch signals a new copy.
   var changeCount: Int
 
   /// The off-main ingest actor this clipboard dispatches copies to.
   ///
-  /// Set by `AppDelegate` at launch to a `BackgroundClipboardIngestor`
-  /// (BS-2.2b) whose `onEvent` reconciles the main-context history via
-  /// `History.consume` (BS-2.3). When set, `checkForChangesInPasteboard()`
-  /// builds a raw `IngestRequest` from `NSPasteboardSource().snapshot()` and
-  /// hands it off to the captured ingestor in a task — the
-  /// filtering, dedup, and single-transaction write all happen OFF the main
-  /// thread inside the actor's `filterContents` (the comprehensive, unit-tested
-  /// filter from BS-2.2a). When `nil` (e.g. legacy tests that haven't wired an
-  /// ingestor) the ingest half of `checkForChangesInPasteboard` no-ops; the
-  /// change-detection gates above it still run.
+  /// `AppDelegate` sets this at launch to a `BackgroundClipboardIngestor` whose
+  /// `onEvent` reconciles the main-context history via `History.consume`. When
+  /// set, `checkForChangesInPasteboard()` builds a raw `IngestRequest` from
+  /// `NSPasteboardSource().snapshot()` and hands it off to the actor in a task;
+  /// the filtering, dedup, and single-transaction write all happen off the main
+  /// thread inside the actor's `filterContents`. When `nil` (e.g. legacy tests
+  /// that haven't wired an ingestor) the ingest half of
+  /// `checkForChangesInPasteboard` no-ops, but the change-detection gates still
+  /// run.
   var ingestor: ClipboardIngestor?
 
   private let pasteboard = NSPasteboard.general
@@ -58,12 +60,14 @@ class Clipboard {
   private var enabledTypes: Set<NSPasteboard.PasteboardType> { Defaults[.enabledPasteboardTypes] }
   private var disabledTypes: Set<NSPasteboard.PasteboardType> { supportedTypes.subtracting(enabledTypes) }
 
+  /// The application currently in the foreground when a copy is observed.
   private var sourceApp: NSRunningApplication? { NSWorkspace.shared.frontmostApplication }
 
   init() {
     changeCount = pasteboard.changeCount
   }
 
+  /// Starts the pasteboard polling timer.
   func start() {
     timer?.invalidate()
     timer = Timer.scheduledTimer(
@@ -75,11 +79,13 @@ class Clipboard {
     )
   }
 
+  /// Restarts the pasteboard polling timer with the current check interval.
   func restart() {
     timer?.invalidate()
     start()
   }
 
+  /// Copies a plain string onto the pasteboard and triggers change detection.
   @MainActor
   func copy(_ string: String) {
     pasteboard.clearContents()
@@ -88,6 +94,10 @@ class Clipboard {
     checkForChangesInPasteboard()
   }
 
+  /// Copies a history item onto the pasteboard.
+  ///
+  /// - Parameter removeFormatting: When true, drops non-string representations
+  ///   except file URLs.
   @MainActor
   func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
     guard let item else { return }
@@ -104,9 +114,9 @@ class Clipboard {
       pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
     }
 
-    // Use writeObjects for file URLs so that multiple files that are copied actually work.
-    // Only do this for file URLs because it causes an issue with some other data types (like formatted text)
-    // where the item is pasted more than once.
+    // Use writeObjects for file URLs so that multiple copied files work.
+    // Only do this for file URLs: it duplicates some other data types (e.g.
+    // formatted text) when pasted.
     let fileURLItems: [NSURL] = contents.compactMap { item in
       guard item.type == NSPasteboard.PasteboardType.fileURL.rawValue else { return nil }
       guard let value = item.value else { return nil }
@@ -125,7 +135,9 @@ class Clipboard {
     }
   }
 
-  // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
+  /// Synthesizes the system paste key chord.
+  ///
+  /// Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
   func paste() {
     Accessibility.check()
 
@@ -157,6 +169,7 @@ class Clipboard {
     keyVUp.post(tap: .cgSessionEventTap)
   }
 
+  /// Clears the system pasteboard when the user has enabled clearing on quit.
   func clear() {
     guard Defaults[.clearSystemClipboard] else {
       return
@@ -174,7 +187,7 @@ class Clipboard {
   /// thread because they are O(types) and must run before any pasteboard read.
   /// Once the gates clear, the pasteboard is snapshotted into plain value
   /// types via `NSPasteboardSource().snapshot()` and handed to the actor inside
-  /// a `Task`; the actor's `filterContents` (BS-2.2a) is the comprehensive,
+  /// a `Task`; the actor's `filterContents` is the comprehensive,
   /// unit-tested filter — the `shouldIgnore` calls above are only a fast path,
   /// not the authoritative filter. When `ingestor` is `nil` the dispatch is a
   /// no-op (the gates still ran), which keeps legacy unwired callers/tests
@@ -190,7 +203,6 @@ class Clipboard {
 
     if pasteboard.pasteboardItems?.contains(where: { $0.types.contains(.fromMaccy) }) != true {
       // External copy occurred. Stop the current paste stack.
-      // Maybe queue it into the paste stack? Configurable behaviour?
       AppState.shared.history.interruptPasteStack()
     }
 
@@ -226,14 +238,16 @@ class Clipboard {
   }
 
   /// Builds a raw, unfiltered `IngestRequest` from the current pasteboard
-  /// snapshot. Flattens every `PasteboardItemSnapshot.contents` map
-  /// (type→bytes) into `[ContentDTO]` (fingerprint left `nil` — the actor
-  /// computes fingerprints lazily inside `HistoryItemEngine`; `size` is the
-  /// byte count). Returns `nil` when there is nothing to ingest (empty
-  /// pasteboard or every type empty), so the caller can short-circuit before
-  /// spawning a `Task`. Type filtering, the `maxValueSize` cap, and
-  /// rich-text/empty-string handling all happen inside the actor's
-  /// `filterContents`; this builder records exactly what was on the pasteboard.
+  /// snapshot.
+  ///
+  /// Flattens every `PasteboardItemSnapshot.contents` map (type→bytes) into
+  /// `[ContentDTO]` (fingerprint left `nil` — the actor computes fingerprints
+  /// lazily inside `HistoryItemEngine`; `size` is the byte count). Returns
+  /// `nil` when there is nothing to ingest (empty pasteboard or every type
+  /// empty), so the caller can short-circuit before spawning a `Task`. Type
+  /// filtering, the `maxValueSize` cap, and rich-text/empty-string handling all
+  /// happen inside the actor's `filterContents`; this builder records exactly
+  /// what was on the pasteboard.
   @MainActor
   func ingestRequestFromPasteboard() -> IngestRequest? {
     let source = NSPasteboardSource()
@@ -260,6 +274,7 @@ class Clipboard {
 }
 
 private extension Clipboard {
+  /// Removes disabled and noise pasteboard types from the given set.
   func filteredTypes(_ types: Set<NSPasteboard.PasteboardType>) -> Set<NSPasteboard.PasteboardType> {
     var types = types
       .subtracting(disabledTypes)
@@ -276,6 +291,8 @@ private extension Clipboard {
     return Set(types)
   }
 
+  /// Returns true when none of the enabled types are present, or any ignored
+  /// type is.
   private func shouldIgnore(_ types: Set<NSPasteboard.PasteboardType>) -> Bool {
     let ignoredTypes = self.ignoredTypes
       .union(Defaults[.ignoredPasteboardTypes].map({ NSPasteboard.PasteboardType($0) }))
@@ -284,6 +301,8 @@ private extension Clipboard {
       !types.isDisjoint(with: ignoredTypes)
   }
 
+  /// Returns true when the source app's bundle id matches the ignore list
+  /// (inverted when "ignore all except listed" is set).
   private func shouldIgnore(_ sourceAppBundle: String) -> Bool {
     if Defaults[.ignoreAllAppsExceptListed] {
       return !Defaults[.ignoredApps].contains(sourceAppBundle)
@@ -292,6 +311,7 @@ private extension Clipboard {
     }
   }
 
+  /// Returns true when the item's string value matches any ignore regex.
   private func shouldIgnore(_ item: NSPasteboardItem) -> Bool {
     guard let data = item.data(forType: .string),
           data.count <= regularExpressionInputLimit,
@@ -322,6 +342,7 @@ private extension Clipboard {
     return false
   }
 
+  /// Returns true when the item's string value is empty after trimming whitespace.
   private func isEmptyString(_ item: NSPasteboardItem) -> Bool {
     guard let data = item.data(forType: .string) else {
       return false
@@ -334,6 +355,7 @@ private extension Clipboard {
       .trimmingCharacters(in: .whitespacesAndNewlines).isEmpty == true
   }
 
+  /// Returns true when the item carries non-empty rich text (RTF or HTML).
   private func richText(_ item: NSPasteboardItem) -> Bool {
     if let rtf = item.data(forType: .rtf) {
       guard rtf.count <= richTextParsingLimit else {
@@ -356,9 +378,10 @@ private extension Clipboard {
     return false
   }
 
-  // Some applications requires window be unfocused and focused back to sync the clipboard.
-  // - Chrome Remote Desktop (https://github.com/p0deje/Maccy/issues/948)
-  // - Netbeans (https://github.com/p0deje/Maccy/issues/879)
+  /// Some applications require the window to lose and regain focus to sync the
+  /// clipboard:
+  /// - Chrome Remote Desktop (https://github.com/p0deje/Maccy/issues/948)
+  /// - Netbeans (https://github.com/p0deje/Maccy/issues/879)
   private func sync() {
     guard let app = sourceApp,
           app.bundleURL?.lastPathComponent == "Chrome Remote Desktop.app" ||
@@ -370,6 +393,7 @@ private extension Clipboard {
     NSApp.hide(self)
   }
 
+  /// Drops non-string representations from contents, preserving file URLs.
   private func clearFormatting(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {
     var newContents: [HistoryItemContent] = contents
     let stringContents = contents.filter { NSPasteboard.PasteboardType($0.type) == .string }

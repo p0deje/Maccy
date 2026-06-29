@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Ignore settings, organized as tabs for applications, pasteboard types, and regexps.
 struct IgnoreSettingsPane: View {
   var body: some View {
     TabView {

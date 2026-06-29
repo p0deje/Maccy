@@ -21,6 +21,7 @@ final class PerfHistoryFactoryTests: XCTestCase {
     try await super.tearDown()
   }
 
+  /// `makeImages` populates the requested number of image items.
   func testMakeImagesBuildsRequestedCount() throws {
     let cacheDir = FileManager.default.temporaryDirectory
       .appending(path: "PHFImg-\(UUID().uuidString)")
@@ -31,12 +32,14 @@ final class PerfHistoryFactoryTests: XCTestCase {
     XCTAssertEqual(history.all.count, 3)
   }
 
+  /// `makeTexts` populates the requested number of text items.
   func testMakeTextsBuildsRequestedCount() throws {
     let history = try PerfHistoryFactory.makeTexts(count: 2, long: true)
 
     XCTAssertEqual(history.all.count, 2)
   }
 
+  /// `makeMixed` populates the sum of image and text items.
   func testMakeMixedBuildsRequestedCount() throws {
     let cacheDir = FileManager.default.temporaryDirectory
       .appending(path: "PHFMix-\(UUID().uuidString)")

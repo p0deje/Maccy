@@ -3,7 +3,10 @@ import Defaults
 
 // swiftlint:disable identifier_name
 // swiftlint:disable type_name
+/// Sorts history items by a single total order: pin partition primary,
+/// user-selected algorithm secondary.
 class Sorter {
+  /// Available sort criteria.
   enum By: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
     case lastCopiedAt
     case firstCopiedAt
@@ -11,6 +14,7 @@ class Sorter {
 
     var id: Self { self }
 
+    /// Localized user-facing name.
     var description: String {
       switch self {
       case .lastCopiedAt:
@@ -23,42 +27,37 @@ class Sorter {
     }
   }
 
+  /// Returns the items sorted by the single total order.
+  ///
+  /// `Defaults[.pinTo]` is read once and captured into the comparator so it is
+  /// not re-fetched per comparison. The order is computed in a single pass
+  /// (pin partition primary, algorithm secondary) — identical to the prior
+  /// two-pass stable sort but with roughly half the comparisons and half the
+  /// per-comparison `@Model` property faults fired from SQLite during load and
+  /// every-copy reconcile. Shares the same order definition as
+  /// `areInIncreasingOrder`, so an incremental insert via `BinaryInsertion`
+  /// lands items at the same position a full sort would.
   func sort(_ items: [HistoryItem], by: By = Defaults[.sortBy]) -> [HistoryItem] {
-    // Hoisted out of the comparator: `byPinned` previously read `Defaults[.pinTo]`
-    // per comparison (O(n log n) Defaults reads per sort — once on `load()` and
-    // again on every-copy `reconcileWithStore`). Read once here and capture it.
-    // (render-chain S11; docs/audit/2026-06-22-render-chain-storms.md)
     let pinTo = Defaults[.pinTo]
-    // Single-pass total order (pin-primary, algorithm-secondary) — identical
-    // result to the prior two-pass (algorithm-then-pin) stable sort, but ONE
-    // comparator pass instead of two: ~half the comparisons AND the
-    // per-comparison @Model property faults (lastCopiedAt/firstCopiedAt/
-    // numberOfCopies/pin) fired from SQLite during `load()` and every-copy
-    // `reconcileWithStore`. Shares the same total order as
-    // `areInIncreasingOrder`, so `sort` and `BinaryInsertion`'s incremental
-    // insert now use one order definition (HistoryConsumeTests'
-    // testConsumeIncrementalOrderMatchesFullSort guards the equivalence).
     return items.sorted(by: { areInIncreasingOrder($0, $1, by: by, pinTo: pinTo) })
   }
 
-  /// Total order matching `sort(_:by:)` — pin partition primary, algorithm
-  /// secondary. Hoists `Defaults[.pinTo]`/`[.sortBy]` once. For `BinaryInsertion`'s
-  /// incremental insert (BS-4.4a): a single new item can be placed at its sorted
-  /// position without re-sorting the whole array, producing the same order as
-  /// `sort`.
+  /// Total order matching `sort(_:by:)`: pin partition primary, algorithm
+  /// secondary. Reads `Defaults[.pinTo]` once per call.
   func areInIncreasingOrder(_ lhs: HistoryItem, _ rhs: HistoryItem, by: By = Defaults[.sortBy]) -> Bool {
     areInIncreasingOrder(lhs, rhs, by: by, pinTo: Defaults[.pinTo])
   }
 
-  /// Hoisted-`pinTo` overload: avoids a `Defaults[.pinTo]` read per comparison
-  /// when the caller (e.g. `sort`) already holds it. Same total order as the
-  /// default-`pinTo` overload — pin partition primary, algorithm secondary.
+  /// Total order with a caller-supplied `pinTo`, avoiding a `Defaults[.pinTo]`
+  /// read per comparison when the caller already holds it.
   func areInIncreasingOrder(_ lhs: HistoryItem, _ rhs: HistoryItem, by: By, pinTo: PinsPosition) -> Bool {
     if byPinned(lhs, rhs, pinTo: pinTo) { return true }
     if byPinned(rhs, lhs, pinTo: pinTo) { return false }
     return bySortingAlgorithm(lhs, rhs, by)
   }
 
+  /// Compares two items by the user-selected algorithm (newest/most-copied
+  /// first).
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
     switch by {
     case .firstCopiedAt:
@@ -70,6 +69,8 @@ class Sorter {
     }
   }
 
+  /// Returns true when `lhs` should sort before `rhs` purely on pin partition,
+  /// according to the configured pin position.
   private func byPinned(_ lhs: HistoryItem, _ rhs: HistoryItem, pinTo: PinsPosition) -> Bool {
     if pinTo == .bottom {
       return (lhs.pin == nil) && (rhs.pin != nil)
@@ -79,11 +80,14 @@ class Sorter {
   }
 }
 
-/// O(log n) insertion index for an already-sorted `RandomAccessCollection`
-/// (ordered by `areInIncreasingOrder`). Lower-bound: equal-or-greater elements
-/// stay put and `element` inserts after them. BS-4.4a's incremental consume uses
-/// this to place a new item without re-sorting `all`.
+/// O(log n) lower-bound insertion index for an already-sorted
+/// `RandomAccessCollection` ordered by `areInIncreasingOrder`.
+///
+/// Equal-or-greater elements stay put and `element` inserts after them. The
+/// incremental consume path uses this to place a single new item at its sorted
+/// position without re-sorting the whole array.
 enum BinaryInsertion {
+  /// Returns the index at which `element` should be inserted into `sorted`.
   static func index<C: RandomAccessCollection>(
     for element: C.Element,
     in sorted: C,

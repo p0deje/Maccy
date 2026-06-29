@@ -1,6 +1,7 @@
 import SwiftData
 import SwiftUI
 
+/// The root popup view: glass background, header, history list, footer, and slideout preview.
 struct ContentView: View {
   @State private var appState = AppState.shared
   @State private var modifierFlags = ModifierFlags()
@@ -32,12 +33,10 @@ struct ContentView: View {
 
               FooterView(footer: appState.footer)
             }
-            // Keep this items-transition animation (2026-06-22). Unlike the resize
-            // animation (4.10b — which forced wasteful full-tree layouts every
-            // frame), this one SPREADS the list-change render across frames,
-            // lowering the peak main-thread stall. Removing it (tried, then
-            // reverted) concentrated the bulk `items = all` render into one frame
-            // and image-many-200 maxGap went 0.624s → 1.200s. It smooths the spike.
+            // Spread the list-change render across frames. Concentrating the bulk
+            // `items = all` render into a single frame (by removing this animation)
+            // measurably worsens the image-heavy peak main-thread stall, so it is
+            // deliberately kept.
             .animation(.default.speed(3), value: appState.history.items)
             .animation(
               .default.speed(3),
@@ -59,8 +58,8 @@ struct ContentView: View {
       }
       .frame(maxWidth: .infinity, alignment: .leading)
       .task {
-        // BS-4.7: prewarm (hotkey-down) may have already loaded; only load here
-        // when items are still empty, so we don't refetch on every open.
+        // The hotkey-down prewarm may have already loaded history; only load when
+        // items are still empty to avoid refetching on every open.
         if appState.history.items.isEmpty {
           try? await appState.history.load()
         }
@@ -70,7 +69,7 @@ struct ContentView: View {
     .environment(appState)
     .environment(modifierFlags)
     .environment(\.scenePhase, scenePhase)
-    // FloatingPanel is not a scene, so let's implement custom scenePhase..
+    // FloatingPanel is not a scene, so scenePhase is driven manually from window key notifications.
     .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) {
       if let window = $0.object as? NSWindow,
          let bundleIdentifier = Bundle.main.bundleIdentifier,

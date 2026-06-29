@@ -1,6 +1,11 @@
 import AppKit
 
+/// Pure helpers that operate on a history item's content entries without
+/// touching SwiftData: building a dedup containment signature, testing
+/// containment, and deriving a preview title.
 enum HistoryItemEngine {
+  /// A Sendable containment signature built from a set of content entries,
+  /// used to test whether one item's contents are a subset of another's.
   struct Signature: Sendable {
     private let contents: [ContentSignature]
 
@@ -17,6 +22,7 @@ enum HistoryItemEngine {
       }
     }
 
+    /// Returns true if every entry in this signature is present in `contents`.
     func isContained(in contents: [HistoryItemContent]) -> Bool {
       let index = ContentIndex(contents)
       return self.contents.allSatisfy {
@@ -25,6 +31,8 @@ enum HistoryItemEngine {
     }
   }
 
+  /// Builds a containment signature from `contents`, dropping any entry whose
+  /// type is in `transientTypes`.
   static func signature(
     contents: [HistoryItemContent],
     ignoringTypes transientTypes: Set<String>
@@ -32,6 +40,7 @@ enum HistoryItemEngine {
     Signature(contents: contents, ignoringTypes: transientTypes)
   }
 
+  /// Returns true if `contents` contains every entry described by `signature`.
   static func contains(
     contents: [HistoryItemContent],
     signature: Signature
@@ -39,6 +48,11 @@ enum HistoryItemEngine {
     signature.isContained(in: contents)
   }
 
+  /// Derives a single-line preview title from `contents`.
+  ///
+  /// When `showSpecialSymbols` is true, leading/trailing whitespace is rendered
+  /// as `·` and embedded newlines/tabs as `⏎`/`⇥`; otherwise the result is
+  /// trimmed. The text source is chosen by `previewableTextPrefix`.
   static func generateTitle(
     contents: [HistoryItemContent],
     fallbackTitle: String,
@@ -70,6 +84,9 @@ enum HistoryItemEngine {
     return title
   }
 
+  /// Returns the most useful text prefix from `contents`, in priority order:
+  /// file URLs, plain string, small RTF, small HTML, then `fallbackTitle`.
+  /// Each candidate is shortened to `maxLength`.
   static func previewableTextPrefix(
     contents: [HistoryItemContent],
     fallbackTitle: String,
@@ -96,6 +113,7 @@ enum HistoryItemEngine {
   }
 }
 
+/// A single content entry projected for dedup: its type, value, and fingerprint.
 private struct ContentSignature: Sendable {
   let type: String
   let value: Data?
@@ -104,16 +122,22 @@ private struct ContentSignature: Sendable {
   init(_ content: HistoryItemContent) {
     self.type = content.type
     self.value = content.value
-    // BS-8 (08-F-001): prefer the persisted column; fall back to a one-time
-    // re-hash for pre-migration rows (column nil but content is large).
+    // Prefer the persisted fingerprint column; fall back to re-hashing when the
+    // column is nil. Pre-migration rows have a nil column for their lifetime
+    // (the write-back backfill was never implemented), so they are re-hashed on
+    // every containment build rather than once.
     self.fingerprint = content.fingerprint
       ?? content.value.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
   }
 }
 
+/// Lookup index over a set of content entries, grouped by pasteboard type, that
+/// answers containment queries and extracts preview text without re-hashing.
 private struct ContentIndex: Sendable {
-  // BS-8 (08-F-001): carry each lhs item's persisted fingerprint so `contains`
-  // can pass it to `dataLikelyEqual` instead of re-hashing per comparison.
+  // Carries each lhs item's fingerprint so `contains` can pass it to
+  // `dataLikelyEqual`. For rows with a populated column (post-migration inserts)
+  // this avoids re-hashing; for pre-migration rows (nil column, no backfill) the
+  // carried value is freshly re-hashed on each build.
   private let contentsByType: [String: [(Data, UInt64?)]]
   private let nilValueTypes: Set<String>
 
@@ -135,6 +159,8 @@ private struct ContentIndex: Sendable {
     self.nilValueTypes = nilValueTypes
   }
 
+  /// File URLs carried by the content, unless this is a Handoff (universal
+  /// clipboard) payload that also carries other types.
   var fileURLs: [URL] {
     guard !universalClipboardText else {
       return []
@@ -144,6 +170,8 @@ private struct ContentIndex: Sendable {
       .compactMap { URL(dataRepresentation: $0, relativeTo: nil, isAbsolute: true) }
   }
 
+  /// Returns true if an entry of `type` with `value` (and matching fingerprint)
+  /// is present. A nil `value` matches any same-typed entry whose value is nil.
   func contains(type: String, value: Data?, fingerprint: UInt64?) -> Bool {
     guard let value else {
       return nilValueTypes.contains(type)
@@ -158,10 +186,15 @@ private struct ContentIndex: Sendable {
     }
   }
 
+  /// Returns the UTF-8-safe prefix of the first `.string` entry, up to
+  /// `maxLength` bytes, or nil if there is no string entry.
   func textPrefix(maxLength: Int) -> String? {
     data(for: [.string])?.stringPrefix(maxBytes: maxLength)
   }
 
+  /// Returns the attributed string parsed from the RTF entry, but only when it
+  /// is no larger than `maxBytes` (parsing large RTF on the main thread is
+  /// costly). Returns nil otherwise.
   func rtfIfSmall(maxBytes: Int) -> NSAttributedString? {
     guard let data = data(for: [.rtf]), data.count <= maxBytes else {
       return nil
@@ -170,6 +203,9 @@ private struct ContentIndex: Sendable {
     return NSAttributedString(rtf: data, documentAttributes: nil)
   }
 
+  /// Returns the attributed string parsed from the HTML entry, but only when it
+  /// is no larger than `maxBytes` (parsing large HTML on the main thread is
+  /// costly). Returns nil otherwise.
   func htmlIfSmall(maxBytes: Int) -> NSAttributedString? {
     guard let data = data(for: [.html]), data.count <= maxBytes else {
       return nil
@@ -178,11 +214,15 @@ private struct ContentIndex: Sendable {
     return NSAttributedString(html: data, documentAttributes: nil)
   }
 
+  /// True when a Handoff (universal clipboard) text payload is present, detected
+  /// by a `.universalClipboard` entry alongside any of the concrete text/image
+  /// types.
   private var universalClipboardText: Bool {
     data(for: [.universalClipboard]) != nil &&
       data(for: [.html, .tiff, .png, .jpeg, .rtf, .string, .heic]) != nil
   }
 
+  /// Returns the first non-nil payload among `types`, in order.
   private func data(for types: [NSPasteboard.PasteboardType]) -> Data? {
     for type in types {
       if let entry = contentsByType[type.rawValue]?.first {
@@ -193,6 +233,7 @@ private struct ContentIndex: Sendable {
     return nil
   }
 
+  /// Returns every payload carried for any of `types`.
   private func allData(for types: [NSPasteboard.PasteboardType]) -> [Data] {
     types.flatMap { contentsByType[$0.rawValue] ?? [] }.map { $0.0 }
   }

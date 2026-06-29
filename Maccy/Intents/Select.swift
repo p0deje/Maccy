@@ -1,5 +1,6 @@
 import AppIntents
 
+/// App Intent that selects an item by its 1-based position in history.
 struct Select: AppIntent, CustomIntentMigratedAppIntent {
   static let intentClassName = "SelectIntent"
 
@@ -13,11 +14,14 @@ struct Select: AppIntent, CustomIntentMigratedAppIntent {
     Summary("Select \(\.$number) Item in Clipboard History")
   }
 
+  /// 1-based position of the item to select.
   @Parameter(title: "Number", default: 1, requestValueDialog: "What is the number of the item?")
   var number: Int
 
+  /// Converts the 1-based `number` parameter to a 0-based collection index.
   private let positionOffset = 1
 
+  /// Selects the item at `number` and returns its title.
   @MainActor func perform() async throws -> some IntentResult & ReturnsValue<String> {
     let items = AppState.shared.history.items
     let index = number - positionOffset

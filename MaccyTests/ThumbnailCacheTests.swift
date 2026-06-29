@@ -3,8 +3,12 @@ import Foundation
 import XCTest
 @testable import Maccy
 
+/// Tests for `ThumbnailCache`, the two-tier (memory + disk) thumbnail store,
+/// covering miss/write, disk hit after memory clear, eviction, and per-size
+/// keying.
 @MainActor
 final class ThumbnailCacheTests: XCTestCase {
+  /// Builds a `ThumbnailCache` backed by a fresh temp directory.
   private func makeCache() -> (ThumbnailCache, URL) {
     let dir = FileManager.default.temporaryDirectory
       .appending(path: "ThumbnailCacheTests-\(UUID().uuidString)", directoryHint: .isDirectory)
@@ -12,10 +16,13 @@ final class ThumbnailCacheTests: XCTestCase {
     return (cache, dir)
   }
 
+  /// Wraps a raw hash in a fixed-size `MaccyFingerprint`.
   private func fingerprint(_ value: UInt64) -> MaccyFingerprint {
     MaccyFingerprint(size: 100, hash: value)
   }
 
+  /// The first lookup misses (and writes a disk thumbnail); the second hits the
+  /// in-memory cache.
   func testFirstCallMissesThenSecondHitsMemory() async throws {
     let (cache, dir) = makeCache()
     let data = try FixtureLoader.imageData()
@@ -28,6 +35,8 @@ final class ThumbnailCacheTests: XCTestCase {
     XCTAssertFalse(files.isEmpty, "first miss should write a disk thumbnail")
   }
 
+  /// A cache with empty memory but a populated disk directory still serves the
+  /// thumbnail via the disk tier.
   func testDiskHitAfterMemoryClear() async throws {
     let (firstCache, dir) = makeCache()
     let data = try FixtureLoader.imageData()
@@ -40,6 +49,8 @@ final class ThumbnailCacheTests: XCTestCase {
     XCTAssertNotNil(second, "second cache should hit disk and return the thumbnail")
   }
 
+  /// Eviction removes both the memory entry and the disk file, so the next
+  /// lookup rebuilds the thumbnail.
   func testEvictMakesSubsequentCallRebuild() async throws {
     let (cache, dir) = makeCache()
     let data = try FixtureLoader.imageData()
@@ -56,6 +67,8 @@ final class ThumbnailCacheTests: XCTestCase {
     XCTAssertNotNil(rebuilt, "thumbnail rebuilds after eviction")
   }
 
+  /// Different `maxPixelSize` values are distinct cache entries, and eviction is
+  /// keyed by (fingerprint, maxPixelSize) so one variant survives evicting another.
   func testDifferentMaxPixelSizeIsDistinctEntry() async throws {
     let (cache, dir) = makeCache()
     let data = try FixtureLoader.imageData()

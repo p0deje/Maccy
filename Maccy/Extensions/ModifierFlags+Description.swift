@@ -1,8 +1,11 @@
 import AppKit.NSEvent
 import Carbon.HIToolbox
 
-// https://github.com/sindresorhus/KeyboardShortcuts/blob/e6b60117ec266e1e5d059f7f34815144f9762b36/Sources/KeyboardShortcuts/Utilities.swift#L308-L342
 extension NSEvent.ModifierFlags {
+  /// Renders the active modifier flags as their glyph sequence (e.g. `"⌃⌥⇧⌘"`).
+  ///
+  /// Order is fixed as control, option, shift, command, function, matching the
+  /// convention used by KeyboardShortcuts.
   var description: String {
     var description = ""
 

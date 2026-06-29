@@ -1,6 +1,7 @@
 import Defaults
 import SwiftUI
 
+/// Renders the popup footer, including the modifier-swapped clear / clear-all actions.
 struct FooterView: View {
   @Bindable var footer: Footer
 
@@ -18,6 +19,7 @@ struct FooterView: View {
     footer.items.first { $0.title == "clear_all" }
   }
 
+  /// Whether the currently pressed modifiers select the clear-all action over clear.
   var clearAllModifiersPressed: Bool {
     let clearModifiers = clearItem?.shortcuts.first?.modifierFlags ?? []
     let clearAllModifiers = clearAllItem?.shortcuts.first?.modifierFlags ?? []
@@ -56,6 +58,7 @@ struct FooterView: View {
     .readHeight(appState, into: \.popup.footerHeight)
   }
 
+  /// Cross-fades the clear and clear-all items based on the held modifiers, transferring selection if needed.
   private func updateClearItemVisibility() {
     guard let clearItem, let clearAllItem else {
       return

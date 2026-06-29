@@ -1,12 +1,18 @@
 import Carbon
 
+/// Inspects the active keyboard input source.
 class KeyboardLayout {
+  /// A fresh snapshot of the current keyboard layout.
   static var current: KeyboardLayout { KeyboardLayout() }
 
-  // Dvorak - QWERTY ⌘ (https://github.com/p0deje/Maccy/issues/482)
-  // bépo 1.1 - Azerty ⌘ (https://github.com/p0deje/Maccy/issues/520)
+  /// True when the active layout switches to QWERTY while the command key is
+  /// held (e.g. "Dvorak - QWERTY ⌘", "bépo 1.1 - Azerty ⌘").
+  ///
+  /// - SeeAlso: https://github.com/p0deje/Maccy/issues/482,
+  ///   https://github.com/p0deje/Maccy/issues/520
   var commandSwitchesToQWERTY: Bool { localizedName.hasSuffix("⌘") }
 
+  /// Localized name of the active input source, or empty when unavailable.
   var localizedName: String {
     guard let inputSource else {
       return ""
@@ -22,15 +28,13 @@ class KeyboardLayout {
   private var inputSource: TISInputSource?
 
   init() {
-    // M2 (2026-06-25 master plan): TISCopyCurrentKeyboardLayoutInputSource()
-    // follows the Core Foundation Copy rule (+1 retain). Bridging with
-    // takeUnretainedValue() leaked one TISInputSource (== TSMInputSource) per
-    // call — the exclusive source of the 18,417 ROOT LEAKs in the 2026-06-24
-    // leaks dump (72% of leaked bytes, 93% of leaked instances). takeRetainedValue
-    // consumes the +1 so ARC releases it when this transient instance deallocs.
-    // NOTE: the localizedName getter below uses TISGetInputSourceProperty
-    // (Get rule, +0) and must stay takeUnretainedValue() — changing it would
-    // over-release and crash. Only this Copy-rule site is wrong.
+    // TISCopyCurrentKeyboardLayoutInputSource() follows the Core Foundation
+    // Copy rule (+1 retain). takeRetainedValue() consumes that +1 so ARC
+    // releases it when this transient instance deallocs; bridging with
+    // takeUnretainedValue() here would leak one input source per call. Note
+    // that `localizedName` uses TISGetInputSourceProperty (Get rule, +0) and
+    // must stay takeUnretainedValue() — using takeRetainedValue() there would
+    // over-release and crash.
     inputSource = TISCopyCurrentKeyboardLayoutInputSource()?.takeRetainedValue()
   }
 }

@@ -1,18 +1,18 @@
 import SwiftData
 
 extension Storage {
-  /// Returns a fresh context for use inside one background actor/task.
+  /// Returns a fresh `ModelContext` for use inside one background actor/task.
   ///
   /// Do not share the returned context across isolation domains.
   ///
   /// SwiftData `ModelContext`s created from the same `ModelContainer` share the
-  /// underlying persistent store, so when the ingest actor (BS-2.2b) commits on
+  /// underlying persistent store, so when the off-main ingest actor commits on
   /// this background context, a subsequent `fetch` on the main context
   /// (`Storage.shared.context`) observes those committed changes — which is what
-  /// lets `History.consume`/`reconcileWithStore` (BS-2.3) reflect actor-written
-  /// items. (`ModelContext` has no `automaticallyMergesChangesFromParent` —
-  /// unlike Core Data's `NSManagedObjectContext` — because SwiftData propagates
-  /// committed changes through the shared store, not per-context merge events.)
+  /// lets the main-actor reconcile reflect actor-written items. `ModelContext`
+  /// has no `automaticallyMergesChangesFromParent` (unlike Core Data's
+  /// `NSManagedObjectContext`); SwiftData propagates committed changes through
+  /// the shared store rather than via per-context merge events.
   @MainActor
   func newBackgroundContext() -> ModelContext {
     let context = ModelContext(container)
@@ -21,30 +21,37 @@ extension Storage {
   }
 }
 
-/// BS-4.3 primitive: fetches history items on the injected (background) context
-/// and projects them to Sendable `ItemSnapshotDTO`s, split into a **visible
-/// window** (to decorate on the main actor for the first frame) and a **tail**
-/// (low-priority prefetch that follows). `fetchLimit` bounds the total rows
-/// fetched — replacing `History.load()`'s unbounded `FetchDescriptor` with a
-/// bounded read so cold-open no longer faults the whole table onto main.
+/// Bounded background-fetch primitive that reads history items on an injected
+/// (background) context and projects them to Sendable `ItemSnapshotDTO`s,
+/// split into a **visible window** (to decorate on the main actor for the first
+/// frame) and a **tail** (low-priority prefetch that follows). `fetchLimit`
+/// bounds the total rows fetched, replacing an unbounded `FetchDescriptor` with
+/// a bounded read so a cold open no longer faults the whole table onto main.
 ///
 /// Sort follows the chosen algorithm (`lastCopiedAt` by default), matching
 /// `Sorter.bySortingAlgorithm` direction-for-direction.
 ///
-/// **Pin partitioning is deliberately NOT applied here** — it depends on
+/// Pin partitioning is deliberately NOT applied here — it depends on
 /// `Defaults[.pinTo]` and must preserve algorithm order within each partition,
-/// which doesn't map to a single `FetchDescriptor` sort. The caller (`History.load`,
-/// next sub-step) applies it on the projected snapshots, preserving the current
-/// `Sorter.sort` two-pass result.
+/// which does not map to a single `FetchDescriptor` sort. The caller applies it
+/// on the projected snapshots, preserving the existing two-pass sort result.
 ///
-/// Synchronous `throws` (not the step-4 sketch's `async`): the fetch runs on
-/// whatever thread owns the injected context — production calls this from a
-/// background `Task` holding a `Storage.newBackgroundContext()`, so the work
-/// stays off-main without the primitive itself being async. Colocated in this
-/// file (not its own `VisibleWindowLoader.swift`) to avoid hand-editing the
-/// non-synced pbxproj under a no-local-toolchain workflow; promoting to a
-/// dedicated file is housekeeping for a later batched pbxproj edit.
+/// Synchronous `throws` rather than `async`: the fetch runs on whatever thread
+/// owns the injected context. Production calls this from a background `Task`
+/// holding a `Storage.newBackgroundContext()`, so the work stays off-main
+/// without the primitive itself being async.
+///
+/// Status: not yet wired into the live read path — `History.load()` fetches
+/// directly rather than through `fetchWindow`. Colocated in this file (rather
+/// than its own `VisibleWindowLoader.swift`) to avoid hand-editing the
+/// non-synced pbxproj; promoting to a dedicated file is housekeeping for a
+/// later batched pbxproj edit.
 enum VisibleWindowLoader {
+  /// Fetches up to `fetchLimit` items from `context`, sorted by `sortBy`, and
+  /// splits them into a visible window of `visibleHint` items and a tail.
+  ///
+  /// - Returns: A `(visible, tail)` pair of `ItemSnapshotDTO`s.
+  /// - Throws: Rethrows any SwiftData fetch error.
   static func fetchWindow(
     in context: ModelContext,
     sortBy: Sorter.By,

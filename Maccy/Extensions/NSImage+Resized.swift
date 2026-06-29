@@ -2,13 +2,13 @@ import AppKit.NSImage
 
 // Based on https://stackoverflow.com/questions/73062803/resizing-nsimage-keeping-aspect-ratio-reducing-the-image-size-while-trying-to-sc.
 extension NSImage {
-  /// Legacy on-main resize via `NSGraphicsContext` draw.
+  /// Legacy on-main resize via `NSGraphicsContext` draw, preserving aspect ratio.
   ///
   /// Retained only as the synchronous fallback for `PassthroughImageProcessor`
   /// (tests) and any path that cannot await the off-main pipeline. New image
-  /// decode/downsample work should go through `ImageDownsampler` /
-  /// `ImageProcessor` (BS-3), which keeps decode off the main thread and caches
-  /// results. The actor-produced images bypass this method entirely.
+  /// decode/downsample work should go through the off-main image downsampler,
+  /// which keeps decode off the main thread and caches results; images produced
+  /// there bypass this method entirely.
   func resized(to newSize: NSSize) -> NSImage {
     let ratioX = newSize.width / size.width
     let ratioY = newSize.height / size.height

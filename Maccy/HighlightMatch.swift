@@ -1,6 +1,7 @@
 import Foundation
 import Defaults
 
+/// The visual style used to highlight matched search terms.
 enum HighlightMatch: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
   case color
   case bold
@@ -9,6 +10,7 @@ enum HighlightMatch: String, CaseIterable, Identifiable, CustomStringConvertible
 
   var id: Self { self }
 
+  /// Localized user-facing name.
   var description: String {
     switch self {
     case .bold:

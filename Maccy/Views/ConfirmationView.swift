@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Wraps a footer item's content, presenting a confirmation dialog before destructive actions when configured.
 struct ConfirmationView<Content: View>: View {
   @Bindable var item: FooterItem
   @ViewBuilder let content: () -> Content

@@ -1,12 +1,16 @@
 import Defaults
 import SwiftUI
 
+/// Describes how a row's corners should be shaped based on its selection state
+/// relative to neighboring selected rows, so contiguous runs render as a single
+/// rounded capsule.
 enum SelectionAppearance {
   case none
   case topConnection
   case bottomConnection
   case topBottomConnection
 
+  /// Returns a shape with the appropriate corners rounded for this appearance.
   func rect(cornerRadius: CGFloat) -> some Shape {
     var cornerRadii = RectangleCornerRadii()
     switch self {
@@ -28,6 +32,14 @@ enum SelectionAppearance {
   }
 }
 
+/// A single history list row: optional app icon, thumbnail or accessory image,
+/// title, selection index badge, and keyboard-shortcut hints.
+///
+/// Row geometry is intentionally fixed (see the `.frame(height:)` in `body`):
+/// the thumbnail is bounded to the row height with aspect-fit so an asynchronously
+/// arriving image can never change the row's height. Without this, the height
+/// change would force the enclosing `LazyVStack` to re-measure every visible row
+/// on each thumbnail landing.
 struct ListItemView<Title: View, ID: Hashable>: View {
   var id: ID
   var selectionId: UUID
@@ -69,19 +81,9 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       }
 
       if let image {
-        // IMG-020: thumbnails are pre-sized by the off-main pipeline, so the
-        // image fills its frame without scaling artifacts; .resizable() lets
-        // SwiftUI lay it out to the row height instead of natural pixels.
-        //
-        // P0 (2026-06-21 render-feedback stopgap): the thumbnail is given a
-        // FIXED height (row height minus the vertical padding) + aspect-fit so
-        // its arrival can NEVER change the row's height. Previously the image
-        // branch had no frame, so an async thumbnail landing grew the row
-        // (imageMaxHeight path) → LazyVStack re-measured every row → CoreText
-        // text-measurement storm (spindump: StyledTextLayoutEngine.sizeThatFits
-        // → _NSOptimalLineBreaker) → ~400s mixed-list hang. Fixed row height
-        // (see the `.frame(height:)` below) + this bounded aspect-fit image
-        // make row geometry stable regardless of thumbnail state.
+        // Thumbnails are pre-sized by the off-main image pipeline, so the image
+        // fills its frame without scaling artifacts; `.resizable()` lets SwiftUI
+        // lay it out to the row height rather than at natural pixel size.
         Image(nsImage: image)
           .resizable()
           .scaledToFit()
@@ -122,13 +124,10 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       }
       .padding(.trailing, 10)
     }
-    // P0 (2026-06-21): FIXED row height (was `minHeight`). A floor let image
-    // rows grow when async thumbnails landed, feeding a LazyVStack layout-
-    // feedback storm (CoreText re-measure per row). A fixed height makes row
-    // geometry invariant to thumbnail state — the direct fix for the mixed-list
-    // ~400s hang. (imageMaxHeight is dead in production — max(340,h)=340 — so
-    // clamping here is safe and matches the setting's "look like text items"
-    // intent; see docs/audit/2026-06-21-render-feedback-stopgap.md.)
+    // Fixed (not minimum) row height: a floor let image rows grow when an async
+    // thumbnail landed, which fed a layout-feedback loop in the enclosing
+    // `LazyVStack`. A fixed height keeps row geometry invariant to thumbnail
+    // state.
     .frame(height: Popup.itemHeight)
     .id(id)
     .frame(maxWidth: .infinity, alignment: .leading)
@@ -139,14 +138,9 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     .clipShape(selectionAppearance.rect(cornerRadius: Popup.cornerRadius))
     .hoverSelectionId(selectionId)
 
-    // U1 (06-27 memory): apply `.help` only when `help` is set (non-nil). An
-    // always-on `.help("")` materialized an empty `HelpView` AG node per
-    // realized list/footer row (~1280B each; 101 instances in the 6h heap dump)
-    // for no benefit — no row shows a tooltip today (HistoryItemView,
-    // FooterItemView, PasteStackItemView never pass `help:`). Gating removes
-    // pure garbage and trims per-frame AttributeGraph churn (memory + jank dual
-    // win). Row identity (`.id(id)` above) and reopen/scroll behavior are
-    // unchanged — the modifier is last in the chain either way.
+    // Apply `.help` only when a tooltip string is provided. An always-on
+    // `.help("")` would materialize an empty `HelpView` AttributeGraph node per
+    // realized row for no benefit, since no row currently shows a tooltip.
     if let help {
       row.help(help)
     } else {

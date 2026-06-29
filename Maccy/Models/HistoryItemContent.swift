@@ -2,8 +2,13 @@ import Foundation
 import Defaults
 import SwiftData
 
+/// A single pasteboard payload (one UTI type + its bytes) belonging to a
+/// `HistoryItem`. A history item carries one `HistoryItemContent` per pasteboard
+/// type it was copied with.
 @Model
 class HistoryItemContent {
+  /// Upper bound on the byte size of a single content value, derived from the
+  /// user's `maxClipboardContentSize` setting.
   static var maxValueSize: Int {
     max(
       ClipboardContentSizeLimit.minMegabytes,
@@ -13,13 +18,18 @@ class HistoryItemContent {
 
   var type: String = ""
   var value: Data?
-  /// BS-8 (08-O-007/08-F-001): persisted xxh3 fingerprint for large content
-  /// (≥ `ClipboardDataProcessor` threshold). Lightweight SwiftData migration
-  /// (nullable column — no `VersionedSchema`/`SchemaMigrationPlan` needed; old
-  /// rows migrate as `nil`). Lets dedup read the lhs fingerprint from the column
-  /// instead of re-hashing every comparison. `nil` for small content (no
-  /// fingerprint) or pre-migration rows (read path falls back to a one-time
-  /// re-hash via `ClipboardDataProcessor.fingerprintIfLarge`).
+
+  /// Persisted xxh3 fingerprint for large content (at or above the
+  /// `ClipboardDataProcessor` threshold). Lets dedup read the lhs fingerprint
+  /// from the column instead of re-hashing every comparison.
+  ///
+  /// Added as a nullable column via a lightweight SwiftData migration (no
+  /// `VersionedSchema` / `SchemaMigrationPlan` needed; old rows migrate as
+  /// `nil`). `nil` for small content (no fingerprint stored) or pre-migration
+  /// rows. Note that the write-back backfill that would populate this column
+  /// for existing rows was never implemented, so pre-migration rows stay `nil`
+  /// for their lifetime and the dedup projection re-hashes them on every
+  /// containment build (correct, but perpetually on the slow path).
   var fingerprint: UInt64?
 
   @Relationship

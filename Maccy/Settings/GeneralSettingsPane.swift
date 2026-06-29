@@ -4,7 +4,9 @@ import KeyboardShortcuts
 import LaunchAtLogin
 import Settings
 
+/// General settings: launch-at-login, updates, shortcuts, search mode, and paste behavior.
 struct GeneralSettingsPane: View {
+  /// URL that opens this app's notification settings in System Settings.
   private let notificationsURL = URL(
     string: "x-apple.systempreferences:com.apple.preference.notifications?id=\(Bundle.main.bundleIdentifier ?? "")"
   )
@@ -110,6 +112,7 @@ struct GeneralSettingsPane: View {
     }
   }
 
+  /// Refreshes the displayed modifier-flag strings for copy/paste/paste-without-formatting.
   private func refreshModifiers(_ sender: Sendable) {
     copyModifier = HistoryItemAction.copy.modifierFlags.description
     pasteModifier = HistoryItemAction.paste.modifierFlags.description

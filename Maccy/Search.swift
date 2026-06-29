@@ -2,8 +2,10 @@ import AppKit
 import Defaults
 import Fuse
 
+/// Main-actor search engine over history items, supporting exact, fuzzy, regexp, and mixed modes.
 @MainActor
 class Search {
+  /// Search mode selected by the user.
   enum Mode: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable, Sendable {
     case exact
     case fuzzy
@@ -26,6 +28,7 @@ class Search {
     }
   }
 
+  /// A single match: the matched item, an optional fuzzy score, and the highlighted ranges.
   struct SearchResult: Equatable {
     var score: Double?
     var object: Searchable
@@ -38,12 +41,16 @@ class Search {
   private let fuzzySearchLimit = 5_000
   private let regexpSearchLimit = 1_000
 
+  /// Returns whether `pattern` matches a known catastrophic-backtracking shape,
+  /// e.g. `(a+)+$`, before it is ever compiled.
   nonisolated static func isLikelyUnsafeRegularExpression(_ pattern: String) -> Bool {
-    // Reject a common source of catastrophic backtracking, e.g. "(a+)+$".
     let nestedQuantifierPattern = #"\([^)]*([+*]|\{\d+,?\d*\})[^)]*\)([+*]|\{\d+,?\d*\})"#
     return pattern.range(of: nestedQuantifierPattern, options: .regularExpression) != nil
   }
 
+  /// Searches `within` for `string` under the user's configured search mode.
+  ///
+  /// An empty query returns every item as a match with no score and no ranges.
   func search(string: String, within: [Searchable]) -> [SearchResult] {
     guard !string.isEmpty else {
       return within.map { SearchResult(object: $0) }
@@ -61,6 +68,7 @@ class Search {
     }
   }
 
+  /// Fuzzy search: scores each item via `Fuse` and returns matches sorted by score ascending.
   private func fuzzySearch(string: String, within: [Searchable]) -> [SearchResult] {
     let pattern = fuse.createPattern(from: string)
     let searchResults: [SearchResult] = within.compactMap { item in
@@ -70,6 +78,7 @@ class Search {
     return sortedResults
   }
 
+  /// Scores one item against the fuzzy pattern, truncating titles beyond `fuzzySearchLimit` to keep search fast.
   private func fuzzySearch(
     for pattern: Fuse.Pattern?,
     in searchString: String,
@@ -99,6 +108,7 @@ class Search {
     }
   }
 
+  /// Exact (substring) search across all items.
   private func simpleSearch(
     string: String,
     within: [Searchable],
@@ -107,6 +117,7 @@ class Search {
     return within.compactMap { simpleSearch(for: string, in: $0.title, of: $0, options: options) }
   }
 
+  /// Exact (substring) match for one item.
   private func simpleSearch(
     for string: String,
     in searchString: String,
@@ -120,6 +131,7 @@ class Search {
     }
   }
 
+  /// Mixed search: exact → regexp → fuzzy, returning the first non-empty tier.
   private func mixedSearch(string: String, within: [Searchable]) -> [SearchResult] {
     var results = simpleSearch(string: string, within: within, options: .caseInsensitive)
     guard results.isEmpty else {
@@ -139,6 +151,7 @@ class Search {
     return []
   }
 
+  /// Regexp search, guarded against catastrophic-backtracking patterns.
   private func regexpSearch(string: String, within: [Searchable]) -> [SearchResult] {
     guard !Self.isLikelyUnsafeRegularExpression(string),
           let regex = try? NSRegularExpression(pattern: string) else {
@@ -150,6 +163,7 @@ class Search {
     }
   }
 
+  /// First regex match for one item, searching only the first `regexpSearchLimit` characters.
   private func regexpSearch(regex: NSRegularExpression, in searchString: String, of item: Searchable) -> SearchResult? {
     let limitedSearchString = searchString.shortened(to: regexpSearchLimit)
     let range = NSRange(limitedSearchString.startIndex..., in: limitedSearchString)

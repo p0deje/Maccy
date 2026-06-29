@@ -2,6 +2,7 @@ import XCTest
 import Defaults
 @testable import Maccy
 
+/// Behavior tests for `History` add/clear/sort/max-size and navigator-highlight semantics against the shared in-memory store.
 @MainActor
 class HistoryTests: XCTestCase {
   let savedSize = Defaults[.size]
@@ -277,6 +278,7 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.items, [bar])
   }
 
+  /// Builds a single-string-content `HistoryItem` inserted into the shared context, with title derived from its content.
   private func historyItem(_ value: String) -> HistoryItem {
     let contents = [
       HistoryItemContent(
@@ -295,6 +297,7 @@ class HistoryTests: XCTestCase {
 }
 
 private extension HistoryTests {
+  /// Asserts two content arrays match element-for-element (type and value), ignoring order.
   func assertContents(_ actual: [HistoryItemContent], equalTo expected: [HistoryItemContent]) {
     XCTAssertEqual(actual.count, expected.count)
 

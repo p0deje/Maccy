@@ -1,7 +1,9 @@
 import XCTest
 @testable import Maccy
 
+/// Contract tests for the `PassthroughImageProcessor` test double — the conformance that wraps the legacy `NSImage(data:)` resize path.
 class ImageProcessingContractTests: XCTestCase {
+  /// A passthrough thumbnail is downsampled to fit the requested maximum, preserving aspect ratio.
   func testPassthroughThumbnailUsesExistingResizePath() async throws {
     let data = try imageData(size: NSSize(width: 80, height: 40))
     let processor = PassthroughImageProcessor()
@@ -11,6 +13,7 @@ class ImageProcessingContractTests: XCTestCase {
     XCTAssertEqual(thumbnail?.size, NSSize(width: 40, height: 20))
   }
 
+  /// A passthrough preview never upscales an image smaller than the maximum.
   func testPassthroughPreviewDoesNotUpscale() async throws {
     let data = try imageData(size: NSSize(width: 20, height: 20))
     let processor = PassthroughImageProcessor()
@@ -20,6 +23,7 @@ class ImageProcessingContractTests: XCTestCase {
     XCTAssertEqual(preview?.size, NSSize(width: 20, height: 20))
   }
 
+  /// Invalid image data yields `nil`.
   func testPassthroughReturnsNilForInvalidImageData() async {
     let processor = PassthroughImageProcessor()
 
@@ -28,6 +32,7 @@ class ImageProcessingContractTests: XCTestCase {
     XCTAssertNil(thumbnail)
   }
 
+  /// Builds a flat-red image of the given size and returns its TIFF representation.
   private func imageData(size: NSSize) throws -> Data {
     let image = NSImage(size: size)
     image.lockFocus()

@@ -1,5 +1,7 @@
 import SwiftUI
 
+/// Applies a fixed width only when a condition holds, otherwise leaves the
+/// content unconstrained.
 private struct ConditionalWidthModifier: ViewModifier {
   var width: CGFloat
   var condition: Bool
@@ -15,6 +17,7 @@ private struct ConditionalWidthModifier: ViewModifier {
 }
 
 extension View {
+  /// Conditionally constrains this view to a fixed width.
   fileprivate func conditionalWidth(_ width: CGFloat, condition: Bool)
     -> some View {
     self.modifier(
@@ -23,6 +26,9 @@ extension View {
   }
 }
 
+/// A two-pane layout with a draggable divider: a fixed content column and a
+/// slideout column that opens, closes, and resizes under the control of a
+/// `SlideoutController`.
 struct SlideoutView<Content, Slideout>: View
 where Content: View, Slideout: View {
   @Environment(AppState.self) private var appState
@@ -32,20 +38,26 @@ where Content: View, Slideout: View {
   @ViewBuilder var content: () -> Content
   @ViewBuilder var slideout: () -> Slideout
 
+  /// Whether the slideout opens toward the right.
   var leftToRight: Bool {
     return controller.placement == .right
   }
+  /// Whether an open/close animation is currently in progress.
   var isAnimating: Bool {
     return controller.state.isAnimating
   }
 
+  /// Whether the content column is being resized via the divider.
   var isContentResizing: Bool {
     return controller.resizingMode == .content
   }
+  /// Whether the slideout column is being resized via the divider.
   var isSlideoutResizing: Bool {
     return controller.resizingMode == .slideout
   }
 
+  /// The draggable divider between the two panes, with hover cursor feedback
+  /// and a drag gesture that updates the controller's widths.
   @ViewBuilder
   private func resizeDivider() -> some View {
     Divider()
@@ -128,10 +140,10 @@ where Content: View, Slideout: View {
             condition: isAnimating
           )
           .transition(.identity)
-          // Snap open (instant window setFrame, see SlideoutController) + fade
-          // the content in. Scoped to slideout() so the outer width-collapse
-          // frame below stays un-animated (one layout pass, no storm); opacity
-          // is CoreAnimation-composited with no layout cost.
+          // The window snaps open via an instant frame change (see
+          // `SlideoutController`); the content is faded in here. The opacity
+          // animation is scoped to `slideout()` so the outer width-collapse
+          // frame below stays un-animated, keeping it to a single layout pass.
           .opacity(controller.state.isOpen ? 1 : 0)
           .animation(.easeOut(duration: 0.15), value: controller.state.isOpen)
       }

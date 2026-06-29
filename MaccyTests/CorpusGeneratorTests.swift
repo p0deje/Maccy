@@ -2,25 +2,28 @@ import XCTest
 @testable import Maccy
 
 /// Corpus-generation entrypoint for the `generate-perf-corpus` workflow.
-/// Generates the full image corpus into a FIXED, agreed-upon cache dir
-/// (`~/Library/Caches/MaccyPerfCorpus`) so the workflow can tar + upload it
-/// as a GitHub Release asset — no env-var plumbing through the xcodebuild test
-/// host (which doesn't reliably inherit the caller's env under the
-/// `enable-testing` test plan). The workflow reads from the same path.
 ///
-/// NOT run by the main CI test shards (they download the prebuilt corpus);
+/// Generates the full image corpus into a fixed, agreed-upon cache dir
+/// (`~/Library/Caches/MaccyPerfCorpus`) so the workflow can tar and upload it
+/// as a GitHub Release asset — no env-var plumbing through the xcodebuild test
+/// host, which doesn't reliably inherit the caller's env under the
+/// `enable-testing` test plan. The workflow reads from the same path.
+///
+/// Not run by the main CI test shards (they download the prebuilt corpus);
 /// invoked only by the dedicated `workflow_dispatch` generate job.
 @MainActor
 final class CorpusGeneratorTests: XCTestCase {
-  /// The agreed-upon corpus dir shared with the generate workflow.
+  /// The corpus directory shared with the generate workflow.
   static let corpusDir = FileManager.default.urls(
     for: .cachesDirectory, in: .userDomainMask
   ).first!.appendingPathComponent("MaccyPerfCorpus", isDirectory: true)
 
+  /// Generates a large corpus into the shared cache dir and asserts it produced
+  /// enough files for the performance-test image scenarios.
   func testGenerateCorpusToEnv() throws {
     let cacheDir = Self.corpusDir
     try? FileManager.default.createDirectory(at: cacheDir, withIntermediateDirectories: true)
-    // Generate a LARGE corpus so the A tests' N=200 image scenarios get 200+
+    // Generate a large corpus so the 200-image performance scenarios get 200+
     // distinct real photos (no cycling, no per-run regeneration when the
     // corpus is present). The main workload uses `.oneMB` (200 items), so
     // generate 200 there; larger buckets are only used by single-item tests,

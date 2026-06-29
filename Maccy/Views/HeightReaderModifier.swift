@@ -1,5 +1,11 @@
 import SwiftUI
 
+/// Reads a view's geometry and feeds a mapped dimension back into a binding.
+///
+/// `onGeometryChange`'s transform is `@Sendable` but runs on the main thread during
+/// layout. The `GeometryProxy` is not `Sendable`, so the `.size` is extracted before
+/// crossing into the `@MainActor` block; `MainActor.assumeIsolated` is a synchronous
+/// no-op assertion confirming we are on main during layout.
 @MainActor
 struct SizeReaderModifier<Value: Equatable & Sendable>: ViewModifier {
   @Binding var value: Value
@@ -7,10 +13,6 @@ struct SizeReaderModifier<Value: Equatable & Sendable>: ViewModifier {
 
   func body(content: Content) -> some View {
     content.onGeometryChange(for: Value.self) { proxy in
-      // onGeometryChange's transform is @Sendable but runs on main during layout.
-      // Extract the Sendable CGSize BEFORE the @MainActor block so the non-
-      // Sendable GeometryProxy isn't sent across isolation. assumeIsolated is a
-      // synchronous no-op assertion (we're on main during layout).
       let size = proxy.size
       return MainActor.assumeIsolated { mapper(size) }
     } action: { newValue in
@@ -21,6 +23,7 @@ struct SizeReaderModifier<Value: Equatable & Sendable>: ViewModifier {
 
 @MainActor
 fileprivate extension Binding {
+  /// Creates a binding backed by a key path into an observable state object.
   init<State>(
     _ object: State,
     keyPath: ReferenceWritableKeyPath<State, Value>
@@ -34,6 +37,7 @@ fileprivate extension Binding {
 
 @MainActor
 extension View {
+  /// Reads this view's height into a key path on the given state object.
   func readHeight<State>(
     _ state: State,
     into keyPath: ReferenceWritableKeyPath<State, CGFloat>
@@ -41,6 +45,7 @@ extension View {
     readHeight(Binding(state, keyPath: keyPath))
   }
 
+  /// Reads this view's width into a key path on the given state object.
   func readWidth<State>(
     _ state: State,
     into keyPath: ReferenceWritableKeyPath<State, CGFloat>
@@ -48,10 +53,12 @@ extension View {
     readWidth(Binding(state, keyPath: keyPath))
   }
 
+  /// Reads this view's width into the given binding.
   func readWidth(_ value: Binding<CGFloat>) -> some View {
     modifier(SizeReaderModifier(value: value, mapper: \.width))
   }
 
+  /// Reads this view's height into the given binding.
   func readHeight(_ value: Binding<CGFloat>) -> some View {
     modifier(SizeReaderModifier(value: value, mapper: \.height))
   }

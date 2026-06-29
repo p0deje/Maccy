@@ -1,8 +1,10 @@
 import XCTest
 @testable import Maccy
 
+/// Verifies that `History` surfaces persistence errors via `lastPersistError` instead of crashing, and leaves its in-memory state untouched on failure.
 @MainActor
 class IngestErrorPropagationTests: XCTestCase {
+  /// A failed insert records the error and leaves both `all` and `items` empty.
   func testAddSurfacesInsertErrorAndDoesNotMutateMemory() {
     let persistence = FailingHistoryPersistence()
     persistence.insertError = TestPersistenceError.expected
@@ -19,6 +21,7 @@ class IngestErrorPropagationTests: XCTestCase {
     XCTAssertNotNil(history.lastPersistError)
   }
 
+  /// A failed `clear()` records the error and preserves the existing in-memory items.
   func testClearSurfacesDeleteErrorAndKeepsMemoryState() {
     let persistence = FailingHistoryPersistence()
     persistence.deleteUnpinnedError = TestPersistenceError.expected
@@ -35,10 +38,12 @@ class IngestErrorPropagationTests: XCTestCase {
   }
 }
 
+/// Stand-in error type used to inject deterministic failures into the fake persistence.
 private enum TestPersistenceError: Error {
   case expected
 }
 
+/// A `HistoryPersistence` double whose `insert` and `deleteUnpinned` throw when their injected errors are set; all other operations succeed as no-ops returning empty.
 @MainActor
 private final class FailingHistoryPersistence: HistoryPersistence {
   var insertError: Error?

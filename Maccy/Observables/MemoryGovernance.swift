@@ -1,8 +1,10 @@
 import AppKit
 
-// C1 (master plan, bs6.1-bs6.3): memory-governance scaffolding — pure additions
-// wired in C2/C3. Bounds the decoded-image working set to the visible window and
-// reclaims it on memory warning. See 14-master-plan.md.
+// Memory-governance scaffolding: bounds the decoded-image working set to the
+// visible window and reclaims it on memory warning. Status: partially wired —
+// `MemoryGovernor` reclamation and `DecodedImageCache.evict`/`purgeAll` are
+// called, but `DecodedImageCache.setImage`/`image(for:)` have zero callers (the
+// read path was never connected), so the decode-cache tier is effectively dead.
 
 /// Why transient images are being released; drives how much each call drops.
 enum ReleaseReason {
@@ -17,14 +19,13 @@ enum ReleaseReason {
 /// `History` conforms; decouples `MemoryGovernor` from `History`.
 @MainActor
 protocol HistoryRef: AnyObject {
+  /// All decorators (visible or not).
   func decorators() -> [HistoryItemDecorator]
 }
 
-/// Reports viewport transitions. `HistoryItemDecorator` conforms; the
-/// `VisibilityTracker` is driven from the list's `.onAppear`/`.onDisappear`.
 /// Provides the identity `VisibilityTracker` keys on. The viewport
 /// appear/disappear handlers are concrete `@MainActor` methods on the conformer
-/// (NOT protocol requirements) so they can call main-isolated work without
+/// (not protocol requirements) so they can call main-isolated work without
 /// pulling the whole conforming type to `@MainActor` (a `@MainActor` protocol
 /// would infer the conformer's isolation and break its non-isolated members).
 protocol VisibilityObserving: AnyObject {
@@ -37,14 +38,17 @@ final class VisibilityTracker {
   static let shared = VisibilityTracker()
   private var visible: Set<UUID> = []
 
+  /// Records `observer` as currently visible.
   func register(_ observer: VisibilityObserving) {
     visible.insert(observer.id)
   }
 
+  /// Removes `observer` from the visible set.
   func unregister(_ observer: VisibilityObserving) {
     visible.remove(observer.id)
   }
 
+  /// Whether `id` is currently visible.
   func isVisible(_ id: UUID) -> Bool {
     visible.contains(id)
   }
@@ -75,10 +79,12 @@ final class DecodedImageCache {
     cache.setObject(image, forKey: id as NSUUID, cost: cost)
   }
 
+  /// Removes the cached image for `id` (if any).
   func evict(_ id: UUID) {
     cache.removeObject(forKey: id as NSUUID)
   }
 
+  /// Empties the whole cache.
   func purgeAll() {
     cache.removeAllObjects()
   }
@@ -93,16 +99,18 @@ final class MemoryGovernor {
   private weak var history: HistoryRef?
   private var memoryPressureSource: DispatchSourceMemoryPressure?
 
+  /// Binds the governor to a history it can iterate on memory warning.
   func attach(history: HistoryRef) {
     self.history = history
   }
 
+  /// Starts listening for system memory-pressure events (no-op if already started).
   func start() {
     guard memoryPressureSource == nil else { return }
-    // macOS has no NSApplication.didReceiveMemoryWarningNotification (that's iOS
-    // UIApplication); use the dispatch memory-pressure source, signalled at
-    // .warning/.critical. The handler runs on .main but is @Sendable, so hop via
-    // assumeIsolated (MemoryGovernor isn't Sendable).
+    // macOS has no `NSApplication.didReceiveMemoryWarningNotification` (that's
+    // iOS `UIApplication`); use the dispatch memory-pressure source, signalled
+    // at `.warning`/`.critical`. The handler runs on `.main` but is `@Sendable`,
+    // so hop via `assumeIsolated` (`MemoryGovernor` isn't `Sendable`).
     let source = DispatchSource.makeMemoryPressureSource(
       eventMask: [.warning, .critical],
       queue: .main
@@ -114,6 +122,7 @@ final class MemoryGovernor {
     memoryPressureSource = source
   }
 
+  /// Stops listening for memory-pressure events.
   func stop() {
     memoryPressureSource?.cancel()
     memoryPressureSource = nil

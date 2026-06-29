@@ -5,8 +5,8 @@ import ImageIO
 /// Pure, off-main-safe image downsample primitive built on ImageIO.
 ///
 /// CoreGraphics only — no AppKit dependency — so it is safe to call from a
-/// background actor. Used by the BS-3 image pipeline (ThumbnailCache / the
-/// ImageProcessor actor) to keep decode + downsample off the main thread.
+/// background actor. Used by the image pipeline (`ThumbnailCache` / the
+/// `ImageProcessor` actor) to keep decode + downsample off the main thread.
 enum ImageDownsampler {
   /// Produces a thumbnail `CGImage` whose longest side is ≤ `maxPixelSize`,
   /// honoring EXIF orientation.
@@ -20,8 +20,8 @@ enum ImageDownsampler {
   ///   - max: The maximum pixel size of the thumbnail's longest side.
   /// - Returns: A downsampled `CGImage`, or nil if the data is not a valid image.
   static func thumbnail(data: Data, max maxPixelSize: CGFloat) -> CGImage? {
-    // F4 (master plan): guard against NaN/∞/non-positive — Int(maxPixelSize)
-    // traps on NaN, and a non-positive thumbnail size is meaningless.
+    // Guard against NaN/∞/non-positive: Int(maxPixelSize) traps on NaN, and a
+    // non-positive thumbnail size is meaningless.
     guard maxPixelSize.isFinite, maxPixelSize > 0 else {
       return nil
     }
@@ -38,10 +38,9 @@ enum ImageDownsampler {
     }
     // `kCGImageSourceShouldCacheImmediately` is documented by Apple for
     // `CGImageSourceCreateImageAtIndex`, not explicitly for
-    // `CreateThumbnailAtIndex`. Do NOT rely on this flag as the sole
-    // decode guarantee: the off-main-decode property of the BS-3 pipeline is
-    // satisfied by this call running off the main thread (in the actor, 3.3),
-    // not by this flag.
+    // `CreateThumbnailAtIndex`. Do NOT rely on this flag as the sole decode
+    // guarantee: the off-main-decode property of the pipeline is satisfied by
+    // this call running off the main thread, not by this flag.
     let options: [CFString: Any] = [
       kCGImageSourceThumbnailMaxPixelSize: Int(maxPixelSize),
       kCGImageSourceCreateThumbnailFromImageAlways: true,

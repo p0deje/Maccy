@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Renders the pinned-items section of the history list.
 struct PinsView: View {
   @Environment(AppState.self) private var appState
 

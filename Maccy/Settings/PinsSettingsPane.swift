@@ -1,6 +1,7 @@
 import SwiftData
 import SwiftUI
 
+/// Picker for assigning a pin key to a pinned history item.
 struct PinPickerView: View {
   @Bindable var item: HistoryItem
   var availablePins: [String]
@@ -21,6 +22,7 @@ struct PinPickerView: View {
   }
 }
 
+/// Editable alias (title) for a pinned item.
 struct PinTitleView: View {
   @Bindable var item: HistoryItem
 
@@ -29,6 +31,7 @@ struct PinTitleView: View {
   }
 }
 
+/// Editable content field for a pinned item, with a rich-text editing warning.
 struct PinValueView: View {
   @Bindable var item: HistoryItem
   @State private var editableValue: String
@@ -37,6 +40,7 @@ struct PinValueView: View {
   @FocusState private var isEditing: Bool
   @State private var showWarningPopover: Bool = false
 
+  /// Initializes editable state, classifying the item as plain text or rich text.
   init(item: HistoryItem) {
     self.item = item
     self._editableValue = State(initialValue: item.previewableTextPrefix(maxLength: HistoryItem.textPreviewLimit))
@@ -87,6 +91,7 @@ struct PinValueView: View {
     }
   }
 
+  /// Replaces the item's contents with the edited plain text, preserving the title.
   private func updateItemContent() {
     // Only update if we're dealing with text or rich text content
     guard isTextContent || isRichText else { return }
@@ -106,11 +111,10 @@ struct PinValueView: View {
         item.contents.append(newContent)
       }
     }
-    // We don't automatically update title here since we want to preserve the
-    // existing title for images and other non-text content.
   }
 }
 
+/// Settings pane for assigning pin keys, aliases, and editable content to pinned items.
 struct PinsSettingsPane: View {
   @Environment(AppState.self) private var appState
   @Environment(\.modelContext) private var modelContext

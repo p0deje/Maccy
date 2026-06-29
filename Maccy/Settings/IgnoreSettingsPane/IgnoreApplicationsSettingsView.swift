@@ -1,6 +1,7 @@
 import SwiftUI
 import Defaults
 
+/// Tab for managing bundle identifiers of applications whose copies are ignored.
 struct IgnoreApplicationsSettingsView: View {
   @Default(.ignoredApps) private var ignoredApps
 
@@ -72,6 +73,7 @@ struct IgnoreApplicationsSettingsView: View {
     }.padding()
   }
 
+  /// Removes the given bundle identifier from the ignored list.
   private func remove(_ app: String?) {
     guard let app else { return }
 

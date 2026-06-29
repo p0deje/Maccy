@@ -2,9 +2,12 @@ import SwiftUI
 import Defaults
 import Settings
 
+/// Storage settings: which content types to save, history size, max item size, and sort order.
 struct StorageSettingsPane: View {
+  /// Syncs the save-files/images/text toggles with `enabledPasteboardTypes`.
   @Observable
   class ViewModel {
+    /// Adds or removes the file UTIs from `enabledPasteboardTypes` when toggled.
     var saveFiles = false {
       didSet {
         Defaults.withoutPropagation {
@@ -17,6 +20,7 @@ struct StorageSettingsPane: View {
       }
     }
 
+    /// Adds or removes the image UTIs from `enabledPasteboardTypes` when toggled.
     var saveImages = false {
       didSet {
         Defaults.withoutPropagation {
@@ -29,6 +33,7 @@ struct StorageSettingsPane: View {
       }
     }
 
+    /// Adds or removes the text UTIs from `enabledPasteboardTypes` when toggled.
     var saveText = false {
       didSet {
         Defaults.withoutPropagation {
@@ -43,6 +48,7 @@ struct StorageSettingsPane: View {
 
     private var observer: Defaults.Observation?
 
+    /// Observes `enabledPasteboardTypes` and reflects the file/image/text subsets.
     init() {
       observer = Defaults.observe(.enabledPasteboardTypes) { change in
         self.saveFiles = change.newValue.isSuperset(of: StorageType.files.types)

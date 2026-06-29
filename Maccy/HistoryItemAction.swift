@@ -1,12 +1,15 @@
 import AppKit.NSEvent
 import Defaults
 
+/// The action taken on a history item when the user activates it, derived from
+/// the pressed modifiers and the paste/remove-formatting defaults.
 enum HistoryItemAction {
   case unknown
   case copy
   case paste
   case pasteWithoutFormatting
 
+  /// Resolves the action for the given modifier flags.
   init(_ modifierFlags: NSEvent.ModifierFlags) {  // swiftlint:disable:this cyclomatic_complexity
     switch modifierFlags {
     case .command where !Defaults[.pasteByDefault]:
@@ -36,6 +39,8 @@ enum HistoryItemAction {
     }
   }
 
+  /// The modifier flags that map back to this action under the current
+  /// defaults, or empty when no mapping applies.
   var modifierFlags: NSEvent.ModifierFlags {
     switch self {
     case .copy where !Defaults[.pasteByDefault]:

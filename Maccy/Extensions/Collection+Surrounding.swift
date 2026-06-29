@@ -1,4 +1,5 @@
 extension Collection where Element: Equatable {
+  /// Returns the first element after `after` (in collection order) that satisfies `predicate`.
   func item(after: Element, where predicate: (Element) -> Bool) -> Element? {
     guard let currentIndex = firstIndex(of: after) else {
       return nil
@@ -15,6 +16,7 @@ extension Collection where Element: Equatable {
     return nil
   }
 
+  /// Returns the last element before `before` (in reverse collection order) that satisfies `predicate`.
   func item(before: Element, where predicate: (Element) -> Bool) -> Element? {
     guard let currentIndex = firstIndex(of: before) else {
       return nil
@@ -34,6 +36,10 @@ extension Collection where Element: Equatable {
     return nil
   }
 
+  /// Returns the inclusive run of elements between `fromElement` and `toElement`.
+  ///
+  /// When `inOrder` is `false` (the default), the slice is reversed if needed so it
+  /// reads from `fromElement` toward `toElement`, regardless of their relative positions.
   func between(from fromElement: Element, to toElement: Element, inOrder: Bool = false) -> [Element]? {
     guard let fromIndex = firstIndex(of: fromElement) else {
       return nil
@@ -53,6 +59,10 @@ extension Collection where Element: Equatable {
 }
 
 extension Array where Element: Equatable {
+  /// Returns the element nearest to `element` that satisfies `condition`.
+  ///
+  /// Searches both forward and backward from `element` and returns whichever match is
+  /// closest by index distance. Ties favor the forward match.
   func nearest(to element: Element, where condition: (Element) -> Bool) -> Element? {
     guard let currentIndex = firstIndex(of: element) else {
       return nil

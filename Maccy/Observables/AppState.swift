@@ -4,6 +4,9 @@ import Foundation
 import Settings
 import SwiftUI
 
+/// Top-level app state holding the shared observable models (`History`,
+/// `Footer`, `Popup`, `NavigationManager`, `SlideoutController`) and the
+/// actions the UI binds to (select, pin, delete, open preferences, …).
 @MainActor
 @Observable
 class AppState {
@@ -18,6 +21,7 @@ class AppState {
   var navigator: NavigationManager
   var preview: SlideoutController
 
+  /// Whether the search field is shown, from `showSearch` + `searchVisibility`.
   var searchVisible: Bool {
     if !Defaults[.showSearch] { return false }
     switch Defaults[.searchVisibility] {
@@ -26,6 +30,7 @@ class AppState {
     }
   }
 
+  /// Shortened text of the most recent unpinned item, for the menu-bar icon.
   var menuIconText: String {
     var title = history.unpinnedItems.first?.text.shortened(to: 100)
       .trimmingCharacters(in: .whitespacesAndNewlines) ?? ""
@@ -35,10 +40,10 @@ class AppState {
 
   private let about = About()
   private var settingsWindowController: SettingsWindowController?
-  // M10 (master plan): nil the controller (releasing its 6 SwiftUI panes) when
-  // the settings window closes, so a once-opened Settings UI doesn't stay
-  // resident for the process lifetime. Token stored so the observer removes
-  // itself (no accumulation across reopens).
+  /// Token for the close observer that nils the controller (releasing its six
+  /// SwiftUI panes) when the settings window closes, so a once-opened Settings
+  /// UI doesn't stay resident for the process lifetime. Stored so the observer
+  /// removes itself (no accumulation across reopens).
   private var settingsWindowCloseObserver: NSObjectProtocol?
 
   init(history: History, footer: Footer) {
@@ -57,6 +62,10 @@ class AppState {
     preview.slideoutWidth = Defaults[.previewWidth]
   }
 
+  /// Resolves the current selection into an action: a multi-select starts a
+  /// paste stack, a single history item is selected (copy/paste), a footer item
+  /// runs its action (optionally after confirmation), and an empty selection
+  /// with a search query copies the query text.
   @MainActor
   func select() {
     if !navigator.selection.isEmpty {
@@ -67,7 +76,7 @@ class AppState {
         history.select(navigator.selection.first)
       }
     } else if let item = footer.selectedItem {
-      // TODO: Use item.suppressConfirmation, but it's not updated!
+      // item.suppressConfirmation is not yet wired to the live checkbox state.
       if item.confirmation != nil, Defaults[.suppressClearAlert] == false {
         item.showConfirmation = true
       } else {
@@ -79,12 +88,11 @@ class AppState {
     }
   }
 
-  /// BS-4.7: pre-warm the history on hotkey-down so the data is ready (or
-  /// loading) by the time the popup opens. No-op when items are already loaded
-  /// (launch / a previous open / kept current by `consume`); otherwise kicks
-  /// `History.load()` on a main-actor task. Nonisolated so it's callable from
-  /// the `KeyboardShortcuts` hotkey callback (a nonisolated context); the work
-  /// hops to main. Safe to call repeatedly — `load()` is idempotent and
+  /// Pre-warm the history on hotkey-down so the data is ready (or loading) by
+  /// the time the popup opens. No-op when items are already loaded; otherwise
+  /// kicks `History.load()` on a main-actor task. Nonisolated so it's callable
+  /// from the `KeyboardShortcuts` hotkey callback (a nonisolated context); the
+  /// work hops to main. Safe to call repeatedly — `load()` is idempotent and
   /// `ContentView.task` only loads when items are still empty.
   func prewarmVisibleWindow() {
     Task { @MainActor in
@@ -94,6 +102,7 @@ class AppState {
     }
   }
 
+  /// Toggles the pin state of every selected history item in one transaction.
   @MainActor
   func togglePin() {
     withTransaction(Transaction()) {
@@ -103,12 +112,15 @@ class AppState {
     }
   }
 
+  /// Aborts an in-progress paste stack and re-highlights the first item.
   @MainActor
   func removePasteStack() {
     history.interruptPasteStack()
     navigator.highlightFirst()
   }
 
+  /// Deletes every selected history item and moves selection to the nearest
+  /// remaining unselected item, all in one transaction.
   @MainActor
   func deleteSelection() {
     guard let leadItem = navigator.leadHistoryItem else { return }
@@ -122,10 +134,13 @@ class AppState {
     }
   }
 
+  /// Opens the About window.
   func openAbout() {
     about.openAbout(nil)
   }
 
+  /// Lazily builds (once) and shows the Settings window, registering a
+  /// close observer that releases its controller and SwiftUI panes on close.
   @MainActor
   func openPreferences() {
     if settingsWindowController == nil {
@@ -181,9 +196,10 @@ class AppState {
     settingsWindowController?.show()
     settingsWindowController?.window?.orderFrontRegardless()
 
-    // M10: release the controller + its 6 Settings.Pane SwiftUI trees when the
+    // Release the controller and its six `Settings.Pane` SwiftUI trees when the
     // window closes (otherwise they stay resident after first open). Keyed on
-    // the specific window; removes itself on fire so reopens don't accumulate.
+    // the specific window; the observer removes itself on fire so reopens don't
+    // accumulate.
     if let window = settingsWindowController?.window, settingsWindowCloseObserver == nil {
       settingsWindowCloseObserver = NotificationCenter.default.addObserver(
         forName: NSWindow.willCloseNotification,
@@ -205,6 +221,7 @@ class AppState {
     }
   }
 
+  /// Terminates the application.
   func quit() {
     NSApp.terminate(self)
   }

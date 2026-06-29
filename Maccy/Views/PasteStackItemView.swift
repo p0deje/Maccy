@@ -1,5 +1,7 @@
 import SwiftUI
 
+/// Composite identifier pairing a paste stack with one of its items, used as a
+/// row identity in `ListItemView`.
 private struct PasteStackId: Hashable {
   var pasteStackId: UUID
   var itemId: UUID
@@ -14,6 +16,7 @@ private struct PasteStackId: Hashable {
   }
 }
 
+/// Renders a single item belonging to a paste stack as a list row.
 struct PasteStackItemView: View {
   var stack: PasteStack
   var item: HistoryItemDecorator

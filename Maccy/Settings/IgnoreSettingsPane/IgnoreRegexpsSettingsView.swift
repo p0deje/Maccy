@@ -1,6 +1,7 @@
 import SwiftUI
 import Defaults
 
+/// Tab for managing regular expressions whose matching copies are ignored.
 struct IgnoreRegexpsSettingsView: View {
   @Default(.ignoreRegexp) private var ignoredRegexps
 
@@ -44,6 +45,7 @@ struct IgnoreRegexpsSettingsView: View {
     }.padding()
   }
 
+  /// Removes the given regular expression from the ignored list.
   private func remove(_ regexp: String?) {
     guard let regexp else { return }
 

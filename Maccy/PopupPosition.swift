@@ -2,6 +2,7 @@ import AppKit.NSEvent
 import Defaults
 import Foundation
 
+/// Where the popup window appears on screen when opened.
 enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
   case cursor
   case statusItem
@@ -11,6 +12,7 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
 
   var id: Self { self }
 
+  /// The localized, user-facing name of this position.
   var description: String {
     switch self {
     case .cursor:
@@ -26,6 +28,15 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
     }
   }
 
+  /// Computes the on-screen origin for a popup of `size`.
+  ///
+  /// For `.statusItem`, falls back to the current mouse location when the button
+  /// or its window is unavailable.
+  ///
+  /// - Parameters:
+  ///   - size: The desired popup dimensions.
+  ///   - statusBarButton: The status-item button anchoring a status-item popup.
+  /// - Returns: The top-left screen-space origin for the popup.
   @MainActor
   // swiftlint:disable:next cyclomatic_complexity
   func origin(size: NSSize, statusBarButton: NSStatusBarButton?) -> NSPoint {

@@ -1,5 +1,6 @@
 import SwiftUI
 
+/// Unselected, no-index rendering of a single stack item used inside the preview.
 private struct PasteStackPreviewItemView: View {
   var stack: PasteStack
   var item: HistoryItemDecorator
@@ -14,7 +15,9 @@ private struct PasteStackPreviewItemView: View {
   }
 }
 
+/// Scrollable, dividers-between-rows preview of every item in a paste stack.
 struct PasteStackPreviewView: View {
+  /// Vertical padding applied around dividers and the list edge.
   private static let padding = 2.0
 
   var pasteStack: PasteStack

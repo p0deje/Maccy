@@ -1,6 +1,8 @@
 import Foundation
 import AppIntents
 
+/// App Intent that returns a clipboard history item with its text, rich text,
+/// HTML, image, or file contents.
 struct Get: AppIntent, CustomIntentMigratedAppIntent {
   static let intentClassName = "GetIntent"
 
@@ -10,12 +12,15 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
   The returned item can be used to access its plain/rich/HTML text, image contents or file location.
   """)
 
+  /// When true, return the currently selected item instead of the one at `number`.
   @Parameter(title: "Selected", default: true)
   var selected: Bool
 
+  /// 1-based position of the item to return when `selected` is false.
   @Parameter(title: "Number", default: 1)
   var number: Int
 
+  /// Converts the 1-based `number` parameter to a 0-based collection index.
   private let positionOffset = 1
 
   static var parameterSummary: some ParameterSummary {
@@ -31,6 +36,10 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
     }
   }
 
+  /// Builds and returns a `HistoryItemAppEntity` for the selected or indexed item.
+  ///
+  /// Image contents are written to a temporary PNG file (data protection `.atomic`
+  /// + `.completeFileProtection`) so the entity can expose them as a URL.
   @MainActor func perform() async throws -> some IntentResult & ReturnsValue<HistoryItemAppEntity> {
     var item: HistoryItem?
     if selected {
