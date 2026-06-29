@@ -1,7 +1,7 @@
 # Clipboard preview interaction redesign (2026-06-26)
 
 > **Off-roadmap feature** (not part of `docs/audit/2026-06-14/roadmap/`).
-> User-directed UX redesign; recorded per AGENTS.md. Orthogonal to the BS-2..8
+> User-directed UX redesign; recorded per CLAUDE.md. Orthogonal to the BS-2..8
 > concurrency roadmap (touches only the preview subsystem). See memory
 > `preview-system-root-causes` and plan `cozy-wishing-donut.md`.
 

@@ -4,19 +4,21 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this is
 
-Maccy is a lightweight macOS clipboard manager (AppKit + SwiftUI + SwiftData). It targets macOS Sonoma 14+ (`MACOSX_DEPLOYMENT_TARGET = 14.0`), builds with `SWIFT_VERSION = 5.0` and `SWIFT_STRICT_CONCURRENCY` unset (defaults to minimal). There is a C++/ObjC++ interop layer in `Maccy/Processor/` (UTF-8 prefix validation, FNV-1a fingerprint hashing) bridged via ObjC++.
+Maccy is a lightweight macOS clipboard manager (AppKit + SwiftUI + SwiftData). It targets macOS Sonoma 14+ (`MACOSX_DEPLOYMENT_TARGET = 14.0`) and builds with **Swift 6.0** in **complete** strict-concurrency mode (`SWIFT_STRICT_CONCURRENCY = complete`). A C++/ObjC++ interop layer in `Maccy/Processor/` (UTF-8 prefix validation, **xxh3** dedup fingerprinting via vendored xxHash) is bridged through ObjC++; the legacy FNV-1a hash is retained but superseded.
 
-## CRITICAL: a staged performance roadmap is mid-execution
+## Performance/concurrency refactor status
 
-**Read `AGENTS.md` before changing anything.** The repository is in the middle of a carefully ordered performance/concurrency refactor defined in `docs/audit/2026-06-14/roadmap/`. The audit (`00-overview.md`) traced essentially all UI jank to a single root cause: *the entire data pipeline is `@MainActor`-isolated and uses only `container.mainContext`* — no background context, no actor, no heavy work off the main thread.
+A staged performance roadmap (`docs/audit/2026-06-14/roadmap/`, big steps BS-0 → BS-8) has been **fully committed and is CI-green**, but **none of BS-5/6/7/8 is finished to its own spec**. CI green ≠ spec complete. The authoritative status:
 
-- Baseline commit (pre-roadmap): `6528bd8ad18a39f44fd03128f3384b708f580b85`
-- Source of truth: `docs/audit/2026-06-14/roadmap/` (big steps BS-0 → BS-8, executed in dependency order)
-- High-level summary: `docs/audit/2026-06-14/09-roadmap.md`
-- Architecture / data flow / DTO boundaries: `roadmap/A-architecture-target.md`; test facilities: `roadmap/B-test-strategy.md`; complexity & I/O budgets: `roadmap/C-complexity-and-limits.md`
-- **Current position: BS-1 (concurrency scaffolding) is implemented; small steps `bs1.1`–`bs1.8` are committed. Next is `bs1.9` (BS-1 verification gate), after which BS-2 (ingest → actor) begins the actual wiring.**
+- **Roadmap completion** → `docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md` — BS-5 2/13, BS-6 5/12, BS-7 13/17, BS-8 4/8 (per-step gaps in `01`–`04`).
+- **Architecture & root causes** → `docs/audit/architecture-and-root-causes.md` — the single current-architecture reference (data flow, residual issues, finding-id glossary).
+- **Memory** → `docs/audit/2026-06-27-memory-floor-and-retention/` — framework floor ~62 MB; 100 MB unreachable (window-open ~110–130 MB is framework cost).
+- **Spec-of-record (frozen design intent)** → `docs/audit/2026-06-14/roadmap/` (README + A/B/C + step-0..8); the spec each step is measured against. Small-step checkboxes are intentionally unchecked.
+- **Navigation** → `docs/audit/INDEX.md` — read this first before any audit doc.
 
-Execution rules (from `AGENTS.md` — follow them):
+Landed highlights: off-main ingest via `actor ClipboardIngestor` (+ background context + `StoreEvent`), off-main image decode via `actor ImageProcessor`/`actor ThumbnailCache` (ImageIO downsampling), off-main search via `actor SearchActor`, persistent `HistoryItemContent.fingerprint` column (xxh3), incremental per-copy reconcile (4.4a). Vision OCR has been removed.
+
+Execution rules when resuming roadmap work:
 - Work one small roadmap step at a time. Use TDD for behavior changes (failing test first, then minimal correct change, then run the focused test). Keep edits scoped to the current step and its tests.
 - A **big step (BS-x)** is a *compile boundary*: after its last small step, `xcodebuild build` must pass and existing tests must stay green. A **small step** may temporarily fail to compile, but only within its big step.
 - Commit after every small step; message must name the roadmap item (`feat(bsX.Y): ...` / `fix(bsX.Y): ...` / `docs(bsX.Y): ...`). Push only after a big step passes its build+test gates.
@@ -62,24 +64,18 @@ Release packaging: `scripts/package-app.sh` (Release build → zips `Maccy.app` 
 
 ## Architecture
 
-### Current pipeline (the root cause being fixed)
-`Storage` (`Maccy/Storage.swift`) is `@MainActor`; `Storage.shared.context` is `container.mainContext` — the only context in the app. The pasteboard poll timer in `Clipboard.swift` fires on the main actor; `History` (`Maccy/Observables/History.swift`) does fetch + `sorter.sort` + decorate-all on `load()` (~`History.swift:193`), a full-table `findSimilarItem()` dedup on every copy (~`:562`), and a whole-table re-sort on every insert (~`:258`/`:299`) — all synchronous on the main thread. `NSImage(data:)` decode, `resized()` via `draw()`, and Vision OCR also run on main. The full bottleneck map is in `00-overview.md`.
+### Two-domain isolation model
+The data pipeline is split across two domains that communicate **only via Sendable value types (DTOs)** — a `@Model` (`HistoryItem`/`HistoryItemContent`) never crosses an actor boundary:
 
-### Target isolation model (what BS-2→8 builds toward)
-Two domains: **Main** (SwiftUI views + thin `@Observable` view models + lightweight `mainContext` reads of the visible window) and **Background actors** (`ClipboardIngestor` reads the pasteboard, parses rich text, dedups via a signature index, writes a single transaction to a background context, then emits a `StoreEvent`; `ImageProcessor` downsamples/decodes/runs OCR). The domains communicate only via **Sendable value types (DTOs)** — `@Model HistoryItem` never crosses an actor boundary. Detail in `A-architecture-target.md`.
+- **Main** — SwiftUI views + thin `@Observable` view models (`History`, `HistoryItemDecorator`, `AppState`, …) + lightweight `mainContext` reads of the visible window. All `@MainActor`.
+- **Background actors** — `ClipboardIngestor` reads the pasteboard, parses rich text, dedups via a per-entry containment `SignatureIndex`, writes a single transaction to a background context, then emits a `StoreEvent`; `ImageProcessor`/`ThumbnailCache` downsample/decode; `SearchActor` runs the 4-mode text match. `History.consume`/`reconcileWithStore` apply the event on main (4.4a: incremental via `model(for:)` + binary insert, full reconcile as fallback).
 
-### Scaffolding already landed by BS-1 (present but NOT yet wired)
-These new files define the target shape but are **not yet connected** to `Clipboard`/`History` — wiring happens in BS-2. Don't assume they are called anywhere; that is intentional, not dead code:
-- `Maccy/Ingest/Dtos.swift` — Sendable DTOs (`ContentDTO`, `ClipboardItemDTO`, `PasteboardSource`, `SignatureDTO`/`ContentSignatureEntry`, `MaccyFingerprint`, `ItemSnapshotDTO`, `StoreEvent`, `IngestRequest`/`IngestPlan`/`IngestResult`) plus projection functions `snapshot(of:)` / `contentDTOs(of:)`.
-- `Maccy/Ingest/SignatureIndex.swift` — pure-value in-memory dedup index (`[SignatureDTO: ItemID]`).
-- `Maccy/Ingest/ClipboardIngestor.swift` — `protocol ClipboardIngestor` + `MainActorIngestorAdapter` (bridges existing `History.shared.add` byte-for-byte; behavior unchanged until BS-2).
-- `Maccy/ImageProcessing/ImageProcessing.swift` — `protocol ImageProcessing` + `PassthroughImageProcessor` (wraps the existing `NSImage(data:)` path; replaced by ImageIO downsampling in BS-3).
-- `Maccy/Persistence/Storage+Background.swift` — `Storage.newBackgroundContext()`.
+`Storage` (`Maccy/Storage.swift`) is `@MainActor`; `Storage.shared.context` is `container.mainContext`, and `Storage.newBackgroundContext()` (`Maccy/Persistence/Storage+Background.swift`) is the background context the ingest actor writes to. Detail in `docs/audit/architecture-and-root-causes.md` and the frozen target `docs/audit/2026-06-14/roadmap/A-architecture-target.md`.
 
 ### Test infrastructure
-Unit/integration tests in `MaccyTests/`, UI tests in `MaccyUITests/`. Test doubles and fixtures live in `MaccyTests/Support/` (`PasteboardSimulator`, `HistoryBuilder`, `FakeClock`, `IngestorSpy`, `FixtureLoader`, `MainThreadProbe`) — specified in `B-test-strategy.md`. `heavy_text.txt` at the repo root is the large-text fixture (≈31 KB) loaded by `FixtureLoader`. A `MaccyPerformanceTests` target for the performance gates (`B-test-strategy.md §4`) is planned but not yet created.
+Unit/integration tests in `MaccyTests/`, UI tests in `MaccyUITests/`. Test doubles and fixtures live in `MaccyTests/Support/` (`PasteboardSimulator`, `HistoryBuilder`, `FakeClock`, `IngestorSpy`, `FixtureLoader`, `MainThreadProbe`) — specified in `docs/audit/2026-06-14/roadmap/B-test-strategy.md`. Test fixtures (e.g. `heavy_text.txt` ≈31 KB large-text fixture, `guy.jpeg`) live in `MaccyTests/Fixtures/` and are loaded by `FixtureLoader` via `#filePath`-relative paths. A `MaccyPerformanceTests` target for the performance gates (`B-test-strategy.md §4`) is planned but not yet created.
 
 ### Other key pieces
-- Dedup fingerprints + UTF-8 validation: C++/ObjC++ in `Maccy/Processor/` (current hash is FNV-1a; BS-8 plans xxh3 + a persistent `fingerprint` column on `HistoryItemContent`).
+- Dedup fingerprints + UTF-8 validation: C++/ObjC++ in `Maccy/Processor/` — **xxh3** is the live hash; the persistent `HistoryItemContent.fingerprint` column (lightweight SwiftData migration) caches it. (Caveat per the 06-28 audit: the lazy write-back backfill for pre-existing rows is not yet implemented — old rows re-hash on read.)
 - Translations: per-language `*.lproj/` directories, managed via BartyCrouch (`.bartycrouch.toml`) and Weblate — do not hand-edit locale strings.
 - User-facing defaults: `defaults write org.p0deje.Maccy ...` keys (`ignoreEvents`, `clipboardCheckInterval`, `showFooter`, …) — see README "Advanced".

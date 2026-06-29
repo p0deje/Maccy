@@ -223,7 +223,7 @@ heap 证据:624 个 `HistoryItemContent` + 624 个 `_KKMDBackingData`(对应 556
 | **BS-7** Swift 6 | **13/17** | ⚠️ | complete 模式 CI 绿、零 @unchecked ✓(达成) | **7.13(唯一行为级改动)跳过**:`synchronizeItemPin/Title` 仍 recursive `withObservationTracking`+`DispatchQueue.main.async`;4 个测试文件缺;`Sorter`/`Throttler` 仍裸 class |
 | **BS-8** C++/指纹 | **4/8** | ⚠️ | xxh3 接入 live 去重 ✓(达成) | **8.5 旧数据行 lazy backfill 缺失**(老行永远 nil,落回全量 `==`);8.3 桥加固丢弃(`enumerateByteRanges` 流式 08-F-004、UTF-8 防御 03-LT-CPP-01 未做);8.8 测试 0/4,FNV baseline 切换前未捕获 |
 
-**系统性模式**:核心热路径做、外围正确性/限界/测试/文档勾选丢;偏差只记 commit message 或旁侧文档(违反 AGENTS.md "记录偏差在 audit docs");规范要求 ~19 个新测试文件,实际只建 `SearchActorTests.swift` 一个。
+**系统性模式**:核心热路径做、外围正确性/限界/测试/文档勾选丢;偏差只记 commit message 或旁侧文档(违反 CLAUDE.md "记录偏差在 audit docs");规范要求 ~19 个新测试文件,实际只建 `SearchActorTests.swift` 一个。
 
 ### 5.1 优先级最高的补全(按价值/风险)
 

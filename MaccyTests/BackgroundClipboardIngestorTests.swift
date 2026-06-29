@@ -309,7 +309,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
     // Heavy payload via the shared fixture (~31 KB of UTF-8 plain text).
     let heavy = try? Data(contentsOf: FixtureLoader.heavyTextURL)
-    XCTAssertNotNil(heavy, "heavy_text.txt fixture must be present at the repo root")
+    XCTAssertNotNil(heavy, "heavy_text.txt fixture must be present in MaccyTests/Fixtures/")
     let request = IngestRequest(
       source: CopyOrigin(changeCount: 1, name: "test"),
       contents: [ContentDTO(type: stringType, value: heavy, fingerprint: nil, size: heavy?.count ?? 0)],
@@ -467,7 +467,7 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
   /// ~31 KB.
   func testIngestLargeTextReCopyMergesViaFingerprint() async {
     let heavy = try? Data(contentsOf: FixtureLoader.heavyTextURL)
-    XCTAssertNotNil(heavy, "heavy_text.txt fixture must be present at the repo root")
+    XCTAssertNotNil(heavy, "heavy_text.txt fixture must be present in MaccyTests/Fixtures/")
     let collector = EventCollector()
     let ingestor = BackgroundClipboardIngestor(
       modelContainer: Storage.shared.container,

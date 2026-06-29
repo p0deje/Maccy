@@ -1,7 +1,7 @@
 # Configurable max visible items in popup (2026-06-26)
 
 > **Off-roadmap feature** (not part of `docs/audit/2026-06-14/roadmap/`).
-> User-directed UI change; recorded here per AGENTS.md "record any deviation".
+> User-directed UI change; recorded here per CLAUDE.md "record any deviation".
 > Does not touch the data pipeline / concurrency work — pure UI sizing.
 
 ## Why

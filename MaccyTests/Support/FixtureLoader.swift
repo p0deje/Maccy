@@ -11,7 +11,7 @@ enum FixtureLoader {
   }
 
   static var heavyTextURL: URL {
-    projectRoot.appending(path: "heavy_text.txt")
+    fixturesURL.appending(path: "heavy_text.txt")
   }
 
   static func data(named name: String) throws -> Data {
@@ -25,12 +25,5 @@ enum FixtureLoader {
     NSRect(origin: .zero, size: size).fill()
     image.unlockFocus()
     return try XCTUnwrap(image.tiffRepresentation)
-  }
-
-  private static var projectRoot: URL {
-    URL(filePath: #filePath)
-      .deletingLastPathComponent()
-      .deletingLastPathComponent()
-      .deletingLastPathComponent()
   }
 }
