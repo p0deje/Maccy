@@ -249,13 +249,12 @@ class SearchTests: XCTestCase {
     return Search().search(string: string, within: items)
   }
 
-  // swiftlint:disable:next identifier_name
   /// Builds an expected half-open `Range<String.Index>` from inclusive grapheme
   /// offsets within the given item's title.
-  private func range(from: Int, to: Int, in item: HistoryItemDecorator) -> Range<String.Index> {
+  private func range(from startOffset: Int, to endOffset: Int, in item: HistoryItemDecorator) -> Range<String.Index> {
     let startIndex = item.title.startIndex
-    let lowerBound = item.title.index(startIndex, offsetBy: from)
-    let upperBound = item.title.index(startIndex, offsetBy: to + 1)
+    let lowerBound = item.title.index(startIndex, offsetBy: startOffset)
+    let upperBound = item.title.index(startIndex, offsetBy: endOffset + 1)
 
     return lowerBound..<upperBound
   }

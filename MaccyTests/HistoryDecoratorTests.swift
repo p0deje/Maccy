@@ -379,13 +379,12 @@ class HistoryItemDecoratorTests: XCTestCase {
     return image.tiffRepresentation!
   }
 
-  // swiftlint:disable:next identifier_name
   /// Converts half-open `[from...to]` integer offsets into a `String.Index` range
   /// within the decorator's title.
-  private func range(from: Int, to: Int, in item: HistoryItemDecorator) -> Range<String.Index> {
+  private func range(from startOffset: Int, to endOffset: Int, in item: HistoryItemDecorator) -> Range<String.Index> {
     let startIndex = item.title.startIndex
-    let lowerBound = item.title.index(startIndex, offsetBy: from)
-    let upperBound = item.title.index(startIndex, offsetBy: to + 1)
+    let lowerBound = item.title.index(startIndex, offsetBy: startOffset)
+    let upperBound = item.title.index(startIndex, offsetBy: endOffset + 1)
 
     return lowerBound..<upperBound
   }
