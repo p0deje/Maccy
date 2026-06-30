@@ -16,6 +16,7 @@
 "PinToTooltip" = "Mainiet piesprausto vienumu atrašanās vietu.\nNoklusējums: augšā.";
 "ImageHeight" = "Attēla augstums:";
 "ImageHeightTooltip" = "Maksimālais attēla priekšskatījuma augstums.\nNoklusējums: 40.\nIeteikums: iestatiet uz 16, lai izskatītos kā teksta vienumi.";
+"OpenPreviewAutomatically" = "Automātiski atvērt priekšskatījumu";
 "PreviewDelay" = "Priekšskatījuma aizkave:";
 "PreviewDelayTooltip" = "Aizkave milisekundēs, līdz tiek parādīts priekšskatījuma uznirstošais logs.\nNoklusējums: 1500.";
 "HighlightMatches" = "Iezīmēt atbilstības:";

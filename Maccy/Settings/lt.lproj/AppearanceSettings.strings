@@ -16,6 +16,7 @@
 "PinToTooltip" = "Pakeiskite prisegtų elementų vietą.\nNumatytoji reikšmė: Viršuje.";
 "ImageHeight" = "Paveikslėlio aukštis:";
 "ImageHeightTooltip" = "Didžiausias paveikslėlio peržiūros aukštis.\nNumatytoji reikšmė: 40.\nPatarimas: Nustatykite 16, kad atrodytų kaip teksto elementai.";
+"OpenPreviewAutomatically" = "Automatiškai atidaryti peržiūrą";
 "PreviewDelay" = "Peržiūros vėlavimas:";
 "PreviewDelayTooltip" = "Vėlavimas milisekundėmis, kol bus parodytas iškylantysis peržiūros langas.\nNumatytoji reikšmė: 1500.";
 "HighlightMatches" = "Paryškinti atitikimus:";

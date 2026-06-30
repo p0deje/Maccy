@@ -16,6 +16,7 @@
 "PinToTooltip" = "Spremenite lokacijo pripetih elementov.\nPrivzeto: Zgoraj.";
 "ImageHeight" = "Višina slike:";
 "ImageHeightTooltip" = "Največja višina predogleda slike.\nPrivzeto: 40.\nNamig: nastavite na 16, da bodo slike videti kot besedilni elementi.";
+"OpenPreviewAutomatically" = "Samodejno odpri predogled";
 "PreviewDelay" = "Zakasnitev predogleda:";
 "PreviewDelayTooltip" = "Zakasnitev v milisekundah, dokler se ne prikaže pojavno okno za predogled.\nPrivzeto: 1500.";
 "HighlightMatches" = "Označite ujemanja:";

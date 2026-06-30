@@ -16,6 +16,7 @@
 "PinToTooltip" = "";
 "ImageHeight" = "";
 "ImageHeightTooltip" = "";
+"OpenPreviewAutomatically" = "Άνοιγμα προεπισκόπησης αυτόματα";
 "PreviewDelay" = "";
 "PreviewDelayTooltip" = "";
 "HighlightMatches" = "";

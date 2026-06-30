@@ -16,6 +16,7 @@
 "PinToTooltip" = "";
 "ImageHeight" = "";
 "ImageHeightTooltip" = "";
+"OpenPreviewAutomatically" = "باز کردن خودکار پیش‌نمایش";
 "PreviewDelay" = "";
 "PreviewDelayTooltip" = "";
 "HighlightMatches" = "";

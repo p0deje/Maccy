@@ -16,6 +16,7 @@
 "PinToTop" = "Atas";
 "PinToBottom" = "Bawah";
 "PinToTooltip" = "Mengubah lokasi item tersemat.\nDefault: Atas.";
+"OpenPreviewAutomatically" = "Buka pratinjau secara otomatis";
 "PreviewDelay" = "Jeda pratinjau:";
 "PreviewDelayTooltip" = "Jeda (dalam milidetik) sampai pop-up pratinjau ditampilkan.\nDefault: 1500.";
 "HighlightMatches" = "Sorot pencarian:";

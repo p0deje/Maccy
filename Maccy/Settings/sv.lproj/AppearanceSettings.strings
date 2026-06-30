@@ -16,6 +16,7 @@
 "PinToTooltip" = "";
 "ImageHeight" = "";
 "ImageHeightTooltip" = "";
+"OpenPreviewAutomatically" = "Öppna förhandsvisning automatiskt";
 "PreviewDelay" = "";
 "PreviewDelayTooltip" = "";
 "HighlightMatches" = "";

@@ -19,6 +19,7 @@
 "PinToTooltip" = "Mustahkamlangan elementlarning joylashuvini o'zgartirish. \nStandart: Tepada.";
 "ImageHeight" = "Rasm bo'yi:";
 "ImageHeightTooltip" = "Tasvirni oldindan ko'rishning maksimal balandligi.\nStandart: 40. \nMaslahat: Matn elementlariga o'xshash bo'lish uchun 16 ga o'rnating.";
+"OpenPreviewAutomatically" = "Oldindan ko'rishni avtomatik ochish";
 "PreviewDelay" = "Ko‘rish kechikishi:";
 "HighlightMatches" = "Ko'rsatish turi:";
 "HighlightMatchColor" = "Ran";

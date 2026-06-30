@@ -9,6 +9,7 @@
 "PinToTop" = "Верху";
 "PinToBottom" = "Нізу";
 "ImageHeight" = "Вышыня выяў:";
+"OpenPreviewAutomatically" = "Аўтаматычна адкрываць прадпрагляд";
 "PreviewDelay" = "Затрымка прадпрагляду:";
 "HighlightMatches" = "Вылучыць супадзенні:";
 "HighlightMatchBold" = "Тоўсты";

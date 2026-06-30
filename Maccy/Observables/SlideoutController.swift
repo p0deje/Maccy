@@ -223,6 +223,7 @@ class SlideoutController {
   func startAutoOpen() {
     cancelAutoOpen()
 
+    guard Defaults[.openPreviewAutomatically] else { return }
     guard autoOpenEnabled else { return }
     guard !autoOpenSuppressed else { return }
     guard !state.isOpen else { return }
@@ -230,6 +231,7 @@ class SlideoutController {
     autoOpenTask = Task { @MainActor in
       try? await Task.sleep(for: .milliseconds(Defaults[.previewDelay]))
       guard !Task.isCancelled else { return }
+      guard Defaults[.openPreviewAutomatically] else { return }
 
       if !state.isOpen {
         togglePreview(trigger: .autoOpen)

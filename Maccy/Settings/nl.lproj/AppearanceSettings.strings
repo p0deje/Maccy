@@ -16,6 +16,7 @@
 "PinToTooltip" = "Wijzig de locatie van vastgemaakte items.\nStandaard: Boven.";
 "ImageHeight" = "Afbeeldingshoogte:";
 "ImageHeightTooltip" = "Maximale hoogte afbeeldingsvoorbeeld.\nStandaard: 40.\nHint: Stel in op 16 zodat het lijkt op tekstitems.";
+"OpenPreviewAutomatically" = "Voorbeeld automatisch openen";
 "PreviewDelay" = "Vertraging:";
 "PreviewDelayTooltip" = "Vertraging in milliseconden totdat een voorbeeldpop-up wordt weergegeven.\nStandaard: 1500.";
 "HighlightMatches" = "Markeer overeenkomsten:";

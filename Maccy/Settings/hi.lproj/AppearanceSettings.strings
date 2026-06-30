@@ -16,6 +16,7 @@
 "PinToTooltip" = "";
 "ImageHeight" = "";
 "ImageHeightTooltip" = "";
+"OpenPreviewAutomatically" = "पूर्वावलोकन अपने-आप खोलें";
 "PreviewDelay" = "";
 "PreviewDelayTooltip" = "";
 "HighlightMatches" = "";

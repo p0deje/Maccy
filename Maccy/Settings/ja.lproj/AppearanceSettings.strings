@@ -16,6 +16,7 @@
 "PinToTooltip" = "ピン留め項目の場所を変更します。\nデフォルト：上段。";
 "ImageHeight" = "画像の高さ：";
 "ImageHeightTooltip" = "プレビュー時の画像の最大の高さ。\nデフォルト：40。\nヒント：16に設定するとテキスト項目と同じように見えます。";
+"OpenPreviewAutomatically" = "プレビューを自動的に開く";
 "PreviewDelay" = "プレビューの遅延：";
 "PreviewDelayTooltip" = "プレビュー ポップアップが表示されるまでのミリ秒単位の遅延。\nデフォルト：1500。";
 "HighlightMatches" = "一致を強調表示する:";

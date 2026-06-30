@@ -16,6 +16,7 @@
 "PinToTooltip" = "Schimbă poziția elementelor fixate.\nImplicit: Sus.";
 "ImageHeight" = "Înălțimea imaginii:";
 "ImageHeightTooltip" = "Înălțime maximă pentru previzualizarea imaginii.\nImplicit: 40.\nSugestie: Setează la 16 pentru a semăna cu elementele de tip text.";
+"OpenPreviewAutomatically" = "Deschide automat previzualizarea";
 "PreviewDelay" = "Temporizare previzualizare:";
 "PreviewDelayTooltip" = "Întârzierea în milisecunde până la afișarea ferestrei popup de previzualizare.\nImplicit: 1500.";
 "HighlightMatches" = "Evidențiere potriviri:";

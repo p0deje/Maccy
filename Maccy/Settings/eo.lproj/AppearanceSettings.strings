@@ -18,6 +18,7 @@
 "PinToTooltip" = "Ŝanĝi la lokon de la fiksitaj eroj.\nDefaŭlta: Supro.";
 "ImageHeight" = "Bilda alto:";
 "ImageHeightTooltip" = "";
+"OpenPreviewAutomatically" = "Malfermi antaŭrigardon aŭtomate";
 "PreviewDelay" = "Antaŭrigarda prokrasto:";
 "PreviewDelayTooltip" = "Prokrasto en milisekundoj ĝis la antaŭrigarda ŝprucfenestro montriĝas.\nDefaŭlto: 1500.";
 "HighlightMatches" = "";

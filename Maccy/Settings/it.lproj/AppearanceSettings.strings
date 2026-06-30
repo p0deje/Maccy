@@ -16,6 +16,7 @@
 "PinToTooltip" = "Cambia la posizione degli elementi bloccati.\nDefault: Parte superiore.";
 "ImageHeight" = "Altezza dell'immagine:";
 "ImageHeightTooltip" = "Altezza massima preview immagine.\nDefault: 40.\nSuggerimento: Impostala a 16 per farla sembrare come gli elementi testuali.";
+"OpenPreviewAutomatically" = "Apri automaticamente l'anteprima";
 "PreviewDelay" = "Anteprima ritardo:";
 "PreviewDelayTooltip" = "Ritardo in millisecondi prima che venga visualizzato un popup di anteprima.\nDefault: 1500.";
 "HighlightMatches" = "Evidenzia le partite:";

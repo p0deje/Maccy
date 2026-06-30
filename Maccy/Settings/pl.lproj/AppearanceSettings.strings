@@ -16,6 +16,7 @@
 "PinToTooltip" = "Zmień pozycję przypiętych wpisów.\nDomyślnie: góra.";
 "ImageHeight" = "Wysokość obrazków:";
 "ImageHeightTooltip" = "Maksymalna wysokość podglądu obrazka.\nDomyślnie: 40.\nWskazówka: Wybierz 16 aby obrazek był takiej samej wysokości jak wpis tekstowy.";
+"OpenPreviewAutomatically" = "Otwieraj podgląd automatycznie";
 "PreviewDelay" = "Opóźnienie podglądu:";
 "PreviewDelayTooltip" = "Opóźnienie w milisekundach zanim pojawi się okienko podglądu.\nDomyślnie: 1500.";
 "HighlightMatches" = "Podkreśl dopasowania:";

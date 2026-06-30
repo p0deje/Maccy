@@ -16,6 +16,7 @@
 "PinToTooltip" = "고정된 항목의 위치를 변경합니다.\n기본값: 상단.";
 "ImageHeight" = "이미지 세로 높이:";
 "ImageHeightTooltip" = "이미지 미리보기 최대 세로 높이.\n기본값: 40.\nHint: 16으로 설정하면 텍스트 항목과 같아 보입니다.";
+"OpenPreviewAutomatically" = "미리보기를 자동으로 열기";
 "PreviewDelay" = "미리보기 지연:";
 "PreviewDelayTooltip" = "미리보기 팝업이 표시될 때까지 밀리초 단위로 지연됩니다.\n기본값: 1500.";
 "HighlightMatches" = "매칭된 항목 하이라이트:";

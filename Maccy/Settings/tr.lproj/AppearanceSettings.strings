@@ -16,6 +16,7 @@
 "PinToTooltip" = "İğnelenen ögelerin konumunu değiştir.\nSaptanmış: Üst.";
 "ImageHeight" = "Görsel boyu:";
 "ImageHeightTooltip" = "En yüksek görsel önizlemesi boyu.\nSaptanmış: 40.\nİpucu: Metin ögeleri gibi görünmeleri için 16 olarak ayarlayın.";
+"OpenPreviewAutomatically" = "Önizlemeyi otomatik olarak aç";
 "PreviewDelay" = "Önizleme gecikmesi:";
 "PreviewDelayTooltip" = "Önizleme açılır penceresi gösterilene kadar milisaniye cinsinden gecikme.\nSaptanmış: 1500.";
 "HighlightMatches" = "Maçları vurgula:";

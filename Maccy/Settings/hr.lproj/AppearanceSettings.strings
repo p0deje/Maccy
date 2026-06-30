@@ -16,6 +16,7 @@
 "PinToTooltip" = "Promijeni mjesto prikvačenih elemenata.\nStandardno: Gore.";
 "ImageHeight" = "Visina slike:";
 "ImageHeightTooltip" = "Maksimalna visina slike pregleda.\nStandardno: 40.\nSavjet: Postavi na 16 da bi sličilo tekstu.";
+"OpenPreviewAutomatically" = "Automatski otvori pregled";
 "PreviewDelay" = "Odgoda pregleda:";
 "PreviewDelayTooltip" = "Odgoda u milisekundama dok se ne prikaže skočni prozor za pregled.\nStandardno: 1500.";
 "HighlightMatches" = "Označite podudaranja:";
