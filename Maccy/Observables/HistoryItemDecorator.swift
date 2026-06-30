@@ -3,6 +3,7 @@ import Defaults
 import Foundation
 import Observation
 import Sauce
+import UniformTypeIdentifiers
 
 @Observable
 class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
@@ -40,6 +41,40 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   var hasImage: Bool { item.image != nil }
+
+  // Drag payload that materializes the image as a PNG file at the drop
+  // destination (e.g. a Finder folder). A file representation lets this work
+  // inside the app sandbox without requesting extra file-access entitlements.
+  func imageFileItemProvider() -> NSItemProvider {
+    let provider = NSItemProvider()
+    let fileName = "\(title.isEmpty ? "Image" : title.replacingOccurrences(of: "/", with: "-")).png"
+    provider.suggestedName = fileName
+    provider.registerFileRepresentation(
+      forTypeIdentifier: UTType.png.identifier,
+      fileOptions: [],
+      visibility: .all
+    ) { [weak self] completion in
+      guard let data = self?.item.pngImageData else {
+        completion(nil, false, CocoaError(.fileWriteUnknown))
+        return nil
+      }
+
+      do {
+        let directory = FileManager.default.temporaryDirectory
+          .appendingPathComponent(UUID().uuidString)
+        try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+        let url = directory.appendingPathComponent(fileName)
+        try data.write(to: url)
+        completion(url, false, nil)
+      } catch {
+        completion(nil, false, error)
+      }
+
+      return nil
+    }
+
+    return provider
+  }
 
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?

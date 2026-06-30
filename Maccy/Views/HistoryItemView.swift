@@ -32,6 +32,32 @@ struct HistoryItemView: View {
   @Environment(AppState.self) private var appState
 
   var body: some View {
+    row
+    .onAppear {
+      item.ensureThumbnailImage()
+    }
+    .onTapGesture {
+      if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
+        appState.navigator.addToSelection(item: item)
+      } else {
+        Task {
+          appState.history.select(item)
+        }
+      }
+    }
+  }
+
+  // Image items can be dragged out as a PNG file (e.g. into a Finder folder).
+  @ViewBuilder
+  private var row: some View {
+    if item.hasImage {
+      listItem.onDrag { item.imageFileItemProvider() }
+    } else {
+      listItem
+    }
+  }
+
+  private var listItem: some View {
     ListItemView(
       id: item.id,
       selectionId: item.id,
@@ -45,18 +71,6 @@ struct HistoryItemView: View {
       selectionAppearance: selectionAppearance
     ) {
       Text(verbatim: item.title)
-    }
-    .onAppear {
-      item.ensureThumbnailImage()
-    }
-    .onTapGesture {
-      if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
-        appState.navigator.addToSelection(item: item)
-      } else {
-        Task {
-          appState.history.select(item)
-        }
-      }
     }
   }
 }

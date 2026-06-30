@@ -165,6 +165,18 @@ class HistoryItem {
     return NSImage(data: data)
   }
 
+  // PNG-encoded copy of the item's image, used when dragging it out to a file.
+  // Normalizes TIFF/JPEG/HEIC sources to PNG so the dropped file is always valid.
+  var pngImageData: Data? {
+    guard let image = image,
+          let tiff = image.tiffRepresentation,
+          let bitmap = NSBitmapImageRep(data: tiff) else {
+      return nil
+    }
+
+    return bitmap.representation(using: .png, properties: [:])
+  }
+
   var rtfData: Data? { contentData([.rtf]) }
   var rtf: NSAttributedString? {
     guard let data = rtfData else {
