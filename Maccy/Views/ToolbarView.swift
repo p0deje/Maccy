@@ -36,9 +36,10 @@ struct ToolbarButton<Label: View>: View {
   var body: some View {
     Button(action: action) {
       label()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     .buttonStyle(.plain)
-    .frame(height: 23)
+    .frame(width: 23, height: 23)
     .onHover(perform: { inside in
       if let window = appState.appDelegate?.panel {
         window.isMovableByWindowBackground = !inside
@@ -82,10 +83,71 @@ struct ToolbarView: View {
       && appState.navigator.selection.items.contains { !$0.isPinned }
   }
 
+  private func savePreviewImage() {
+    guard let item = appState.navigator.leadHistoryItem,
+          let image = item.item.image else {
+      return
+    }
+
+    let picturesDir = FileManager.default.urls(
+      for: .picturesDirectory, in: .userDomainMask
+    ).first ?? FileManager.default.homeDirectoryForCurrentUser
+
+    let formatter = DateFormatter()
+    formatter.dateFormat = "yyyy-MM-dd-HHmmss"
+    let filename = "Maccy-\(formatter.string(from: item.item.firstCopiedAt)).png"
+    let fileURL = picturesDir.appendingPathComponent(filename)
+
+    // Remove existing file before writing to replace it.
+    try? FileManager.default.removeItem(at: fileURL)
+
+    guard let tiffData = image.tiffRepresentation,
+          let bitmap = NSBitmapImageRep(data: tiffData),
+          let pngData = bitmap.representation(using: .png, properties: [:]) else {
+      return
+    }
+
+    try? pngData.write(to: fileURL)
+
+    // Reveal in Finder
+    NSWorkspace.shared.activateFileViewerSelecting([fileURL])
+  }
+
+  private func revealInFinder() {
+    guard let item = appState.navigator.leadHistoryItem else {
+      return
+    }
+
+    let urls = item.item.fileURLs.filter { url in
+      var isDirectory: ObjCBool = false
+      return FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory)
+    }
+
+    guard !urls.isEmpty else { return }
+
+    NSWorkspace.shared.activateFileViewerSelecting(urls)
+  }
+
   var body: some View {
     HStack {
       if !appState.navigator.selection.isEmpty {
         Spacer()
+
+        if appState.navigator.leadHistoryItem?.hasFileURLs == true {
+          ToolbarButton {
+            revealInFinder()
+          } label: {
+            Image(systemName: "folder")
+          }
+          .help(Text("RevealInFinder", tableName: "PreviewItemView"))
+        } else if appState.navigator.leadHistoryItem?.hasImage == true {
+          ToolbarButton {
+            savePreviewImage()
+          } label: {
+            Image(systemName: "square.and.arrow.down.on.square")
+          }
+          .help(Text("SaveImage", tableName: "PreviewItemView"))
+        }
 
         ToolbarButton {
           withAnimation {

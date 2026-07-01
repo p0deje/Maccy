@@ -40,6 +40,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   var hasImage: Bool { item.image != nil }
+  var hasFileURLs: Bool { !item.fileURLs.isEmpty }
 
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
@@ -47,8 +48,26 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
-  // 10k characters seems to be more than enough on large displays
-  var text: String { item.previewableText.shortened(to: 10_000) }
+  // 10k characters seems to be more than enough on large displays.
+  // Cached as stored property to avoid recomputing previewableText (which
+  // may parse RTF/HTML) on every SwiftUI access.
+  let text: String
+
+  /// First `maxTitleLines` non-blank lines, pre-split to avoid re-splitting on every access.
+  private let firstLines: [String]
+
+  /// `text` truncated to `titleLines` with `showSpecialSymbols` applied.
+  /// Computed so that changing `titleLines` in preferences affects all items immediately.
+  var displayText: String {
+    let lines = Defaults[.titleLines]
+    if lines > 1 {
+      return firstLines.prefix(lines).map { item.formatLine($0) }.joined(separator: "\n")
+    }
+    if Defaults[.showSpecialSymbols] {
+      return item.formatLine(text.replacingOccurrences(of: "\n", with: "⏎"))
+    }
+    return text.trimmingCharacters(in: .whitespacesAndNewlines)
+  }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
@@ -67,6 +86,14 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     self.shortcuts = shortcuts
     self.title = item.title
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
+
+    // Precompute text to avoid repeated previewableText (RTF/HTML parsing) on SwiftUI reads.
+    let rawText = item.previewableText.shortened(to: 10_000)
+    self.text = rawText
+    self.firstLines = Array(rawText
+      .components(separatedBy: "\n")
+      .filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }
+      .prefix(5))  // max titleLines from stepper range
 
     synchronizeItemPin()
     synchronizeItemTitle()

@@ -1,8 +1,21 @@
 import KeyboardShortcuts
 import SwiftUI
 
+// MARK: - PreviewItemView
+
 struct PreviewItemView: View {
   var item: HistoryItemDecorator
+
+  private var paragraphs: [String] {
+    item.text.components(separatedBy: "\n")
+  }
+
+  private func revealFile(_ url: URL) {
+    var isDirectory: ObjCBool = false
+    if FileManager.default.fileExists(atPath: url.path, isDirectory: &isDirectory) {
+      NSWorkspace.shared.activateFileViewerSelecting([url])
+    }
+  }
 
   @ViewBuilder
   func previewImage(content: () -> some View) -> some View {
@@ -49,10 +62,37 @@ struct PreviewItemView: View {
             }
           }
         }
+        .id(item.id)
+      } else if item.hasFileURLs {
+        ScrollView {
+          VStack(alignment: .leading, spacing: 4) {
+            ForEach(item.item.fileURLs, id: \.self) { url in
+              HStack {
+                Text(url.absoluteString.removingPercentEncoding ?? url.path)
+                  .font(.body)
+                  .lineLimit(1)
+                  .truncationMode(.middle)
+                Spacer()
+                Button {
+                  revealFile(url)
+                } label: {
+                  Image(systemName: "folder")
+                    .frame(width: 20, height: 20)
+                }
+                .buttonStyle(.plain)
+                .help(Text("RevealInFinder", tableName: "PreviewItemView"))
+              }
+            }
+          }
+        }
       } else {
         ScrollView {
-          Text(item.text)
-            .font(.body)
+          LazyVStack(alignment: .leading, spacing: 0) {
+            ForEach(Array(paragraphs.enumerated()), id: \.offset) { _, paragraph in
+              Text(paragraph)
+                .font(.body)
+            }
+          }
         }
       }
 

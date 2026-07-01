@@ -35,6 +35,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var image: NSImage?
   var accessoryImage: NSImage?
   var attributedTitle: AttributedString?
+  var rawTitle: String?
   var shortcuts: [KeyShortcut]
   var isSelected: Bool
   var selectionIndex: Int?
@@ -74,7 +75,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
           .padding(.trailing, 5)
           .padding(.vertical, 5)
       } else {
-        ListItemTitleView(attributedTitle: attributedTitle, title: title)
+        ListItemTitleView(attributedTitle: attributedTitle, rawTitle: rawTitle, title: title)
           .padding(.trailing, 5)
       }
 
@@ -109,10 +110,22 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     .frame(minHeight: Popup.itemHeight)
     .id(id)
     .frame(maxWidth: .infinity, alignment: .leading)
-    .foregroundStyle(isSelected ? Color.white : .primary)
-    // macOS 26 broke hovering if no background is present.
-    // The slight opcaity white background is a workaround
-    .background(isSelected ? Color.accentColor.opacity(0.8) : .white.opacity(0.001))
+    .foregroundStyle(isSelected ? Color.accentColor : .primary)
+    .background(
+      RoundedRectangle(cornerRadius: Popup.cornerRadius)
+        .fill(
+          isSelected
+            ? Color.accentColor.opacity(0.12)
+            : Color.primary.opacity(0.03)
+        )
+    )
+    .overlay(
+      RoundedRectangle(cornerRadius: Popup.cornerRadius)
+        .strokeBorder(
+          isSelected ? Color.accentColor : Color.primary.opacity(0.15),
+          lineWidth: 1
+        )
+    )
     .clipShape(selectionAppearance.rect(cornerRadius: Popup.cornerRadius))
     .hoverSelectionId(selectionId)
     .help(help ?? "")

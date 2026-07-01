@@ -16,6 +16,8 @@
 "PinToTooltip" = "Change the location of pinned items.\nDefault: Top.";
 "ImageHeight" = "Image height:";
 "ImageHeightTooltip" = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items.";
+"TitleLines" = "Title lines:";
+"TitleLinesTooltip" = "Number of lines displayed per history item.\nDefault: 1.\nHint: Increase to see more text in each item.";
 "PreviewDelay" = "Preview delay:";
 "PreviewDelayTooltip" = "Delay in milliseconds until a preview popup is shown.\nDefault: 1500.";
 "HighlightMatches" = "Highlight matches:";

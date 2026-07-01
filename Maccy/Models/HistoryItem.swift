@@ -85,6 +85,37 @@ class HistoryItem {
       }
   }
 
+  func formatForDisplay(_ raw: String) -> String {
+    let titleLines = Defaults[.titleLines]
+
+    if titleLines > 1 {
+      let lines = raw.components(separatedBy: "\n")
+      let firstLines = lines.filter { !$0.trimmingCharacters(in: .whitespaces).isEmpty }.prefix(titleLines)
+      return firstLines.map { formatLine($0) }.joined(separator: "\n")
+    }
+
+    if Defaults[.showSpecialSymbols] {
+      return formatLine(raw.replacingOccurrences(of: "\n", with: "⏎"))
+    }
+
+    return raw.trimmingCharacters(in: .whitespacesAndNewlines)
+  }
+
+  func formatLine(_ line: String) -> String {
+    if Defaults[.showSpecialSymbols] {
+      var result = line
+      if let range = result.range(of: "^ +", options: .regularExpression) {
+        result = result.replacingOccurrences(of: " ", with: "·", range: range)
+      }
+      if let range = result.range(of: " +$", options: .regularExpression) {
+        result = result.replacingOccurrences(of: " ", with: "·", range: range)
+      }
+      result = result.replacingOccurrences(of: "\t", with: "⇥")
+      return result
+    }
+    return line.trimmingCharacters(in: .whitespaces)
+  }
+
   func generateTitle() -> String {
     guard image == nil else {
       Task {
@@ -94,23 +125,8 @@ class HistoryItem {
     }
 
     // 1k characters is trade-off for performance
-    var title = previewableText.shortened(to: 1_000)
-
-    if Defaults[.showSpecialSymbols] {
-      if let range = title.range(of: "^ +", options: .regularExpression) {
-        title = title.replacingOccurrences(of: " ", with: "·", range: range)
-      }
-      if let range = title.range(of: " +$", options: .regularExpression) {
-        title = title.replacingOccurrences(of: " ", with: "·", range: range)
-      }
-      title = title
-        .replacingOccurrences(of: "\n", with: "⏎")
-        .replacingOccurrences(of: "\t", with: "⇥")
-    } else {
-      title = title.trimmingCharacters(in: .whitespacesAndNewlines)
-    }
-
-    return title
+    let raw = previewableText.shortened(to: 1_000)
+    return formatForDisplay(raw)
   }
 
   var previewableText: String {

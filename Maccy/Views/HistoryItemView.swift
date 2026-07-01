@@ -45,6 +45,7 @@ struct HistoryItemView: View {
       image: item.thumbnailImage,
       accessoryImage: item.thumbnailImage != nil ? nil : colorSwatchImage,
       attributedTitle: item.attributedTitle,
+      rawTitle: item.displayText,
       shortcuts: item.shortcuts,
       isSelected: item.isSelected,
       selectionIndex: visualIndex,
@@ -52,6 +53,7 @@ struct HistoryItemView: View {
     ) {
       Text(verbatim: item.title)
     }
+    .padding(.vertical, 0.5)
     .onAppear {
       item.ensureThumbnailImage()
     }
