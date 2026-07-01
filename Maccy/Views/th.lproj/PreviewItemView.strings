@@ -7,3 +7,4 @@
 "DeleteKey" = "กด {deleteKey} เพื่อลบ";
 "PreviewKey" = "กด {previewKey} เพื่อสลับตัวอย่าง";
 "Dimensions" = "ขนาด:";
+"CopyExtractedText" = "คัดลอกข้อความที่แยกออกมา";

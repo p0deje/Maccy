@@ -7,3 +7,4 @@
 "DeleteKey" = "Drücke {deleteKey} zum Löschen.";
 "PreviewKey" = "Drücke {previewKey} um Vorschau umzuschalten.";
 "Dimensions" = "Abmessungen:";
+"CopyExtractedText" = "Extrahierten Text kopieren.";

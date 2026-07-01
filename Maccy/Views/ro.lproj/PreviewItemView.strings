@@ -7,3 +7,4 @@
 "DeleteKey" = "Apasă {deleteKey} pentru a șterge.";
 "PreviewKey" = "Apasă {previewKey} pentru a comuta previzualizarea.";
 "Dimensions" = "Dimensiuni:";
+"CopyExtractedText" = "Copiază textul extras.";

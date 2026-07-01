@@ -7,3 +7,4 @@
 "DeleteKey" = "按 {deleteKey} 删除。";
 "PreviewKey" = "按 {previewKey} 切换预览。";
 "Dimensions" = "尺寸:";
+"CopyExtractedText" = "复制提取的文本。";

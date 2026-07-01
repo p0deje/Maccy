@@ -7,3 +7,4 @@
 "DeleteKey" = "Druk op {deleteKey} om te verwijderen.";
 "PreviewKey" = "Druk op {previewKey} om voorbeeld te schakelen.";
 "Dimensions" = "Afmetingen:";
+"CopyExtractedText" = "Geëxtraheerde tekst kopiëren.";

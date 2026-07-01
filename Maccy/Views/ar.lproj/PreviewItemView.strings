@@ -7,3 +7,4 @@
 "DeleteKey" = "اضغط على {deleteKey} للحذف.";
 "PreviewKey" = "اضغط على {previewKey} لتبديل المعاينة.";
 "Dimensions" = "الأبعاد:";
+"CopyExtractedText" = "انسخ النص المستخرج.";

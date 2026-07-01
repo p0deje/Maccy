@@ -7,3 +7,4 @@
 "DeleteKey" = "Naciśnij {deleteKey} aby usunąć wpis.";
 "PreviewKey" = "Naciśnij {previewKey}, aby przełączyć podgląd.";
 "Dimensions" = "Wymiary:";
+"CopyExtractedText" = "Skopiuj wyodrębniony tekst.";

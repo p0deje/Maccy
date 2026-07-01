@@ -7,3 +7,4 @@
 "DeleteKey" = "{deleteKey}를 눌러 제거합니다.";
 "PreviewKey" = "{previewKey}를 눌러 미리보기를 전환합니다.";
 "Dimensions" = "크기:";
+"CopyExtractedText" = "추출된 텍스트를 복사합니다.";

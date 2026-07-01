@@ -7,3 +7,4 @@
 "UnpinKey" = "{pinKey}でピン留めを外します。";
 "PreviewKey" = "{previewKey}でプレビューを切り替えます。";
 "Dimensions" = "サイズ:";
+"CopyExtractedText" = "抽出したテキストをコピーします。";

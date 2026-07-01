@@ -7,3 +7,4 @@
 "DeleteKey" = "Appuyez sur {deleteKey} pour supprimer.";
 "PreviewKey" = "Appuyez sur {previewKey} pour basculer l'aperçu.";
 "Dimensions" = "Dimensions :";
+"CopyExtractedText" = "Copier le texte extrait.";

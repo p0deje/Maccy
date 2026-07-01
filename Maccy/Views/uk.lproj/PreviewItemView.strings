@@ -7,3 +7,4 @@
 "DeleteKey" = "Натисніть {deleteKey}, щоб видалити.";
 "PreviewKey" = "Натисніть {previewKey} для перемикання попереднього перегляду.";
 "Dimensions" = "Розміри:";
+"CopyExtractedText" = "Скопіювати розпізнаний текст.";

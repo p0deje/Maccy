@@ -7,3 +7,4 @@
 "DeleteKey" = "יש ללחוץ על {deleteKey} כדי למחוק.";
 "PreviewKey" = "לחץ על {previewKey} כדי להחליף תצוגה מקדימה.";
 "Dimensions" = "ממדים:";
+"CopyExtractedText" = "העתק את הטקסט שחולץ.";

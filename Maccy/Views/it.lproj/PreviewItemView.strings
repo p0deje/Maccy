@@ -7,3 +7,4 @@
 "DeleteKey" = "Premi {deleteKey} per cancellare.";
 "PreviewKey" = "Premi {previewKey} per attivare/disattivare l'anteprima.";
 "Dimensions" = "Dimensioni:";
+"CopyExtractedText" = "Copia il testo estratto.";

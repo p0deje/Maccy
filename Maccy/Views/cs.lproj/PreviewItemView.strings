@@ -7,3 +7,4 @@
 "DeleteKey" = "Stiskni {deleteKey} pro smazání.";
 "PreviewKey" = "Stiskni {previewKey} pro přepnutí náhledu.";
 "Dimensions" = "Rozměry:";
+"CopyExtractedText" = "Zkopírovat extrahovaný text.";

@@ -7,3 +7,4 @@
 "UnpinKey" = "Press {pinKey} to unpin.";
 "DeleteKey" = "Press {deleteKey} to delete.";
 "PreviewKey" = "Press {previewKey} to toggle preview.";
+"CopyExtractedText" = "Copy extracted text.";

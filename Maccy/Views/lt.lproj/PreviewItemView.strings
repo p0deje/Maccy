@@ -7,3 +7,4 @@
 "UnpinKey" = "Paspauskite {pinKey}, kad neprisegtumėte.";
 "PreviewKey" = "Paspauskite {previewKey} peržiūrai perjungti.";
 "Dimensions" = "Matmenys:";
+"CopyExtractedText" = "Kopijuoti išgautą tekstą.";

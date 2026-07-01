@@ -7,3 +7,4 @@
 "DeleteKey" = "Nyomd meg a {deleteKey} gombokat a törléshez.";
 "PreviewKey" = "Nyomja meg a {previewKey} gombot az előnézet váltásához.";
 "Dimensions" = "Méretek:";
+"CopyExtractedText" = "Kinyert szöveg másolása.";

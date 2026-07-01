@@ -223,6 +223,12 @@ class ClipboardTests: XCTestCase {
   }
 
   @MainActor
+  func testCopyString() {
+    clipboard.copyInMaccy("foo")
+    XCTAssertEqual(pasteboard.string(forType: .string), "foo")
+  }
+
+  @MainActor
   func testCopyWithoutFormatting() {
     let contents = [
       HistoryItemContent(type: stringType.rawValue, value: "foo".data(using: .utf8)!),
