@@ -12593,11 +12593,50 @@ a.pswp__share--download:hover {
   transform: translateY(-2px);
   box-shadow: 0 2px 8px 0 rgba(136, 144, 195, 0.22), 0 8px 15px 0 rgba(37, 44, 97, 0.17); }
 
-#standwithukraine {
+#malwarewarning {
   position: relative;
-  background: #ffd500;
+  background: #fdecea;
+  border-bottom: 1px solid #f3c9c4;
+  color: #7f1d1d;
+  padding: 12px 20px;
+}
+
+#malwarewarning .malwarewarning__inner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+#malwarewarning .malwarewarning__icon {
+  flex: 0 0 auto;
+  color: #d13438;
+}
+
+#malwarewarning .malwarewarning__text {
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.45;
   text-align: center;
-  padding: 10px;
+}
+
+#malwarewarning a {
+  color: #b91c1c;
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+#malwarewarning a:hover {
+  text-decoration: none;
+}
+
+@media (max-width: 767px) {
+  #malwarewarning .malwarewarning__inner {
+    align-items: flex-start;
+    padding-right: 0;
+  }
 }
 
 video {
