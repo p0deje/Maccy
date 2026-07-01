@@ -2,6 +2,7 @@ import CachedAsyncImage
 import Defaults
 import FaviconFinder
 import SwiftUI
+import Network
 
 private class FaviconCache {
   static let shared = FaviconCache()
@@ -14,6 +15,7 @@ enum FaviconError: Error {
 }
 
 struct AppImageView: View {
+  static let monitor = NWPathMonitor()
   let appImage: AppImage?
   let showFavicon: Bool
   let size: CGSize
@@ -49,6 +51,10 @@ struct AppImageView: View {
     Image(nsImage: image)
       .resizable()
       .frame(width: size.width, height: size.height)
+  }
+  
+  private var showFavicons: Bool {
+    return showFavicon && !Self.monitor.currentPath.isConstrained
   }
 
   var body: some View {
