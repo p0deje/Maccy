@@ -226,6 +226,7 @@ class ClipboardTests: XCTestCase {
   func testCopyString() {
     clipboard.copyInMaccy("foo")
     XCTAssertEqual(pasteboard.string(forType: .string), "foo")
+    XCTAssertEqual(pasteboard.string(forType: .string), NSPasteboard.PasteboardType.fromMaccy.rawValue)
   }
 
   @MainActor
