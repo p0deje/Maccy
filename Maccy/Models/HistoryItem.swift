@@ -36,11 +36,15 @@ class HistoryItem {
 
   @MainActor
   static var availablePins: [String] {
-    let descriptor = FetchDescriptor<HistoryItem>(
-      predicate: #Predicate { $0.pin != nil }
-    )
-    let pins = try? Storage.shared.context.fetch(descriptor).compactMap({ $0.pin })
-    let assignedPins = Set(pins ?? [])
+    availablePins(in: History.shared.all.compactMap {
+      if $0.isPinned { return $0.item }
+      return nil
+    })
+  }
+
+  @MainActor
+  static func availablePins(in items: [HistoryItem]) -> [String] {
+    let assignedPins = Set(items.compactMap(\.pin))
     return Array(supportedPins.subtracting(assignedPins))
   }
 
