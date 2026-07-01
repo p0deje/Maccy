@@ -156,8 +156,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         item.application = existingHistoryItem.application
       }
       logger.info("Removing duplicate item '\(item.title)'")
-      Storage.shared.context.delete(existingHistoryItem)
       removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
+      if let removedItemIndex {
+        cleanup(all[removedItemIndex])
+      }
+      Storage.shared.context.delete(existingHistoryItem)
       if let removedItemIndex {
         all.remove(at: removedItemIndex)
       }
