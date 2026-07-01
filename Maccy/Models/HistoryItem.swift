@@ -58,6 +58,7 @@ class HistoryItem {
     NSPasteboard.PasteboardType.chromiumSourceToken.rawValue,
     NSPasteboard.PasteboardType.notesRichText.rawValue
   ]
+  private static let imageTypes: [NSPasteboard.PasteboardType] = StorageType.images.types
 
   var application: String?
   var firstCopiedAt: Date = Date.now
@@ -68,6 +69,8 @@ class HistoryItem {
 
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
   var contents: [HistoryItemContent] = []
+
+  @Transient private var cachedDecodedImage: NSImage?
 
   init(contents: [HistoryItemContent] = []) {
     self.firstCopiedAt = firstCopiedAt
@@ -149,7 +152,7 @@ class HistoryItem {
 
   var imageData: Data? {
     var data: Data?
-    data = contentData([.tiff, .png, .jpeg, .heic])
+    data = contentData(Self.imageTypes)
     if data == nil, universalClipboardImage, let url = fileURLs.first {
       data = try? Data(contentsOf: url)
     }
@@ -158,11 +161,15 @@ class HistoryItem {
   }
 
   var image: NSImage? {
+    if let img = cachedDecodedImage {
+      return img
+    }
     guard let data = imageData else {
       return nil
     }
 
-    return NSImage(data: data)
+    cachedDecodedImage = NSImage(data: data)
+    return cachedDecodedImage
   }
 
   var rtfData: Data? { contentData([.rtf]) }
@@ -172,6 +179,11 @@ class HistoryItem {
     }
 
     return NSAttributedString(rtf: data, documentAttributes: nil)
+  }
+  
+  func clearDecodedImageCache() {
+    cachedDecodedImage?.recache()
+    cachedDecodedImage = nil
   }
 
   var text: String? {

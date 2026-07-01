@@ -122,6 +122,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     previewImage?.recache()
     thumbnailImage = nil
     previewImage = nil
+    item.clearDecodedImageCache()
   }
 
   @MainActor
