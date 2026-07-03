@@ -1,5 +1,6 @@
 > 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
 > 完成: BS-6(审计 2026-06-28:部分完成 5/12 — DecodedImageCache 为死代码 setImage/image(for:) 零调用;6 测试文件缺失;G-memory gate 未建)
+> **2026-07-03 补全进度(本轮)**:✅ 6.2/6.4 **删除 DecodedImageCache**(ADR-001 修订为 DELETE — 接通会增内存 vs 当前可视区限界,仅换边际 re-show,与 06-27 冲突;避免触及预览渲染路径)+ 死 `.previewHidden` 枚举 + 无操作 `evict`/`purgeAll` 调用。✅ 6.3 `handleMemoryWarning` 实际完成:非可视区 `releaseTransientImages(.memoryWarning)` + `ApplicationImageCache.purge`;thumbnail-memory 与 regexp 两 flush 目标是 `NSCache`-backed,系统内存压下自动 evict,显式 purge 冗余(记偏差)。✅ 6.4 `imageData` 已 lazy + `decodedImage` 字段已删;预览位图经 per-decorator `previewImage`(scrollOut 释放)+ BS-3 封顶,已限界于可视区。✅ 6.7 scrollOut 对称接线在(`onDisappear`→`releaseTransientImages(.scrollOut)`);`.previewHidden` 删除(零调用方)。✅ 6.11 `ApplicationImageCacheTests`(+`MemoryGovernanceTests`/`SessionLogReleaseTests` 延后:复杂 History+decorator+visibility setup)。🔄 6.12 `G-memory` gate:按 ADR-004 作 perf-as-class,或按 06-27 实测 floor(~62MB)retire(<300MiB 近平凡)— 待定。BS-6 pending CI 验证。
 
 # BS-6 — 内存治理(NSCache、可视区/告警回收、去双份、缓存封顶)
 

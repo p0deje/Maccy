@@ -23,7 +23,10 @@
 - **2026-07-03** ✅ **BS-8 CI GREEN**(run `28666589524`,10/10)— BS-8 完成并验证。
 - **2026-07-03** ✅ **BS-7.11/7.15 完成** — `SearchResult`/`Selection` `: Sendable`(Selection 条件 `Item: Sendable`);`Sorter`/`Throttler` `@MainActor final class`;删 36 冗余 per-method `@MainActor`(保留 17 load-bearing:type-level ×2 + 协议 8 + struct 8)。
 - **2026-07-03** ✅ **BS-7.17 `SendableBoundaryTests`** — `[any Sendable.Type]` 数组编译期断言,锁跨 actor DTO 边界。`ClipboardIsolationTests`/`AppIntentDtoTests` 延后(低价值 characterization)。
-- **2026-07-03** ⚠️ **BS-7.4 偏差 / 7.13 延后** — 7.4:spec 的 `queue:.main` + 删内层 hop 在 complete 模式不可编译(`setEventHandler` 是 `@Sendable` non-isolated,访问 `@MainActor` 必经 hop);当前 `queue:.global()` + hop 是 Swift-6-correct,保留。7.13:递归 relay 正确工作(非 bug),computed-mirror 替换有 `@Model`→`@Observable` 传播不成立 + UI 假绿风险,延后(见 step-7 详偏差)。下一步 BS-6(#12-15)。两 CI 周期消耗于测试文件 slips(identifier_name 单字母 var;`Data.flatMap` 误用)— 见 [[no-local-toolchain-ci-gates]],已加入 push 前 self-check。
+- **2026-07-03** ✅ **BS-7 CI GREEN**(run `28667853065`,10/10)— BS-7 完成并验证。
+- **2026-07-03** ⚠️→✅ **BS-6.2/6.4 DecodedImageCache — DELETE**(ADR-001 修订:深入分析显示接通会增加内存 vs 当前可视区限界,仅换边际 re-show,与 06-27 冲突;避免触及预览路径)— 删除 `DecodedImageCache` + 死 `.previewHidden` + 无操作 evict/purgeAll。保留 per-decorator previewImage + scrollOut 释放 + BS-3 封顶。
+- **2026-07-03** ✅ **BS-6.3/6.11** — `handleMemoryWarning` 实际完成(thumbnail/regexp NSCache 自动 evict,显式 purge 冗余,记偏差);`ApplicationImageCacheTests`(缓存复用/fallback/purge)。`MemoryGovernanceTests`/`SessionLogReleaseTests` 延后(复杂 setup)。
+- **2026-07-03** 🔄 **BS-6 pending CI + 6.12 G-memory 决定**(perf-as-class 或按 06-27 retire)。**注意**:DecodedImageCache 的 DELETE 是用户离席期间代为决定(易回退)。下一步 BS-6 收尾(#15)。
 
 ## 一、验证后真值(HEAD `8e0ba2c`,re-grep 后)
 

@@ -92,6 +92,7 @@
 		DA0703C22D4B31A100000006 /* MaccyTextProcessorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0703C12D4B31A100000005 /* MaccyTextProcessorTests.swift */; };
 		DA0703D22D4B31A100000008 /* FingerprintSymmetryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0703D12D4B31A100000007 /* FingerprintSymmetryTests.swift */; };
 		DA0703E22D4B31A10000000A /* SendableBoundaryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0703E12D4B31A100000009 /* SendableBoundaryTests.swift */; };
+		DA0703F22D4B31A10000000C /* ApplicationImageCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0703F12D4B31A10000000B /* ApplicationImageCacheTests.swift */; };
 		DA3CE8181E44A62500B3AA98 /* ClipboardIngestor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8171E44A62500B3AA98 /* ClipboardIngestor.swift */; };
 		DA3CE8B01E44A62500B3AA98 /* PasteboardSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8B11E44A62500B3AA98 /* PasteboardSource.swift */; };
 		DA3CE8C11E44A62500B3AA98 /* IngestFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8C21E44A62500B3AA98 /* IngestFilter.swift */; };
@@ -350,6 +351,7 @@
 		DA0703C12D4B31A100000005 /* MaccyTextProcessorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MaccyTextProcessorTests.swift; sourceTree = "<group>"; };
 		DA0703D12D4B31A100000007 /* FingerprintSymmetryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FingerprintSymmetryTests.swift; sourceTree = "<group>"; };
 		DA0703E12D4B31A100000009 /* SendableBoundaryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SendableBoundaryTests.swift; sourceTree = "<group>"; };
+		DA0703F12D4B31A10000000B /* ApplicationImageCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationImageCacheTests.swift; sourceTree = "<group>"; };
 		DA3CE8171E44A62500B3AA98 /* ClipboardIngestor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardIngestor.swift; sourceTree = "<group>"; };
 		DA3CE8B11E44A62500B3AA98 /* PasteboardSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardSource.swift; sourceTree = "<group>"; };
 		DA3CE8C21E44A62500B3AA98 /* IngestFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngestFilter.swift; sourceTree = "<group>"; };
@@ -910,6 +912,7 @@
 				DA0703C12D4B31A100000005 /* MaccyTextProcessorTests.swift */,
 				DA0703D12D4B31A100000007 /* FingerprintSymmetryTests.swift */,
 				DA0703E12D4B31A100000009 /* SendableBoundaryTests.swift */,
+				DA0703F12D4B31A10000000B /* ApplicationImageCacheTests.swift */,
 				DA3CE8091E44A62500B3AA98 /* StorageBackgroundContextTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
 				863D7670AD55963BD6E314B4 /* SearchActorTests.swift */,
@@ -1340,6 +1343,7 @@
 				DA0703C22D4B31A100000006 /* MaccyTextProcessorTests.swift in Sources */,
 				DA0703D22D4B31A100000008 /* FingerprintSymmetryTests.swift in Sources */,
 				DA0703E22D4B31A10000000A /* SendableBoundaryTests.swift in Sources */,
+				DA0703F22D4B31A10000000C /* ApplicationImageCacheTests.swift in Sources */,
 				DA3CE82E1E44A62500B3AA98 /* SupportTests.swift in Sources */,
 				E00000102F50000000000010 /* HistoryItemPerformanceTests.swift in Sources */,
 				2B6F1A2B4C5D00000000000C /* PerformanceHarnessWiringTest.swift in Sources */,
