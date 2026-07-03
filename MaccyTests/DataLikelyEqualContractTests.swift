@@ -33,23 +33,23 @@ final class DataLikelyEqualContractTests: XCTestCase {
   /// Content below the 16 KiB threshold ignores fingerprints and compares by
   /// full equality.
   func testSubThresholdContentIgnoresFingerprints() {
-    let a = Data(repeating: 0x41, count: subThresholdSize)
-    let b = Data(repeating: 0x42, count: subThresholdSize)
+    let lhs = Data(repeating: 0x41, count: subThresholdSize)
+    let rhs = Data(repeating: 0x42, count: subThresholdSize)
 
     // Same bytes are equal even with nil or mismatched fingerprints.
-    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(a, nil, a, nil))
-    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(a, 1, a, 2))
+    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(lhs, nil, lhs, nil))
+    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(lhs, 1, lhs, 2))
     // Different bytes are not equal.
-    XCTAssertFalse(ClipboardDataProcessor.dataLikelyEqual(a, nil, b, nil))
+    XCTAssertFalse(ClipboardDataProcessor.dataLikelyEqual(lhs, nil, rhs, nil))
   }
 
   /// Content at exactly the 16 KiB threshold takes the fingerprint path:
   /// mismatched fingerprints reject even identical bytes.
   func testAtThresholdContentUsesFingerprintPath() {
-    let a = Data(repeating: 0x41, count: thresholdSize)
+    let lhs = Data(repeating: 0x41, count: thresholdSize)
 
-    XCTAssertFalse(ClipboardDataProcessor.dataLikelyEqual(a, 1, a, 2))
-    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(a, 1, a, 1))
+    XCTAssertFalse(ClipboardDataProcessor.dataLikelyEqual(lhs, 1, lhs, 2))
+    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(lhs, 1, lhs, 1))
   }
 
   // MARK: Nil-fingerprint fallback
@@ -59,12 +59,12 @@ final class DataLikelyEqualContractTests: XCTestCase {
   /// fingerprint) and any large row whose persisted column has not yet been
   /// populated.
   func testNilFingerprintOnEitherSideFallsBackToFullEquality() {
-    let a = Data(repeating: 0x41, count: thresholdSize)
-    let b = Data(repeating: 0x42, count: thresholdSize)
+    let lhs = Data(repeating: 0x41, count: thresholdSize)
+    let rhs = Data(repeating: 0x42, count: thresholdSize)
 
-    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(a, nil, a, 1))
-    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(a, 1, a, nil))
-    XCTAssertFalse(ClipboardDataProcessor.dataLikelyEqual(a, nil, b, 1))
+    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(lhs, nil, lhs, 1))
+    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(lhs, 1, lhs, nil))
+    XCTAssertFalse(ClipboardDataProcessor.dataLikelyEqual(lhs, nil, rhs, 1))
   }
 
   // MARK: Collision safety
@@ -73,24 +73,24 @@ final class DataLikelyEqualContractTests: XCTestCase {
   /// match never short-circuits — the final full equality check catches the
   /// difference.
   func testForgedMatchingFingerprintWithDifferentDataReturnsFalse() {
-    let a = Data(repeating: 0x41, count: thresholdSize)
-    let b = Data(repeating: 0x42, count: thresholdSize)
+    let lhs = Data(repeating: 0x41, count: thresholdSize)
+    let rhs = Data(repeating: 0x42, count: thresholdSize)
 
-    XCTAssertFalse(ClipboardDataProcessor.dataLikelyEqual(a, 0xDEAD_BEEF, b, 0xDEAD_BEEF))
+    XCTAssertFalse(ClipboardDataProcessor.dataLikelyEqual(lhs, 0xDEAD_BEEF, rhs, 0xDEAD_BEEF))
   }
 
   /// Forged matching fingerprints with identical bytes return true.
   func testForgedMatchingFingerprintWithSameDataReturnsTrue() {
-    let a = Data(repeating: 0x41, count: thresholdSize)
+    let lhs = Data(repeating: 0x41, count: thresholdSize)
 
-    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(a, 0xDEAD_BEEF, a, 0xDEAD_BEEF))
+    XCTAssertTrue(ClipboardDataProcessor.dataLikelyEqual(lhs, 0xDEAD_BEEF, lhs, 0xDEAD_BEEF))
   }
 
   /// Distinct fingerprints reject without a full byte compare.
   func testDistinctFingerprintsRejectEvenForEqualData() {
-    let a = Data(repeating: 0x41, count: thresholdSize)
+    let lhs = Data(repeating: 0x41, count: thresholdSize)
 
-    XCTAssertFalse(ClipboardDataProcessor.dataLikelyEqual(a, 1, a, 2))
+    XCTAssertFalse(ClipboardDataProcessor.dataLikelyEqual(lhs, 1, lhs, 2))
   }
 
   // MARK: fingerprintIfLarge helper and determinism
@@ -107,23 +107,23 @@ final class DataLikelyEqualContractTests: XCTestCase {
   /// the persisted column stays valid across process launches; a per-process
   /// random seed would invalidate every stored fingerprint on restart.
   func testFingerprintIsDeterministicAcrossCalls() {
-    let data = Data(repeating: 0x41, count: thresholdSize)
+    let payload = Data(repeating: 0x41, count: thresholdSize)
 
-    let fp1 = ClipboardDataProcessor.fingerprintIfLarge(data)
-    let fp2 = ClipboardDataProcessor.fingerprintIfLarge(data)
+    let firstFp = ClipboardDataProcessor.fingerprintIfLarge(payload)
+    let secondFp = ClipboardDataProcessor.fingerprintIfLarge(payload)
 
-    XCTAssertNotNil(fp1)
-    XCTAssertEqual(fp1, fp2)
+    XCTAssertNotNil(firstFp)
+    XCTAssertEqual(firstFp, secondFp)
   }
 
   /// Different large content produces different fingerprints.
   func testFingerprintsDifferForDifferentLargeContent() {
-    let a = Data(repeating: 0x41, count: thresholdSize)
-    let b = Data(repeating: 0x42, count: thresholdSize)
+    let lhs = Data(repeating: 0x41, count: thresholdSize)
+    let rhs = Data(repeating: 0x42, count: thresholdSize)
 
-    let fpA = ClipboardDataProcessor.fingerprintIfLarge(a)
-    let fpB = ClipboardDataProcessor.fingerprintIfLarge(b)
+    let firstFp = ClipboardDataProcessor.fingerprintIfLarge(lhs)
+    let secondFp = ClipboardDataProcessor.fingerprintIfLarge(rhs)
 
-    XCTAssertNotEqual(fpA, fpB)
+    XCTAssertNotEqual(firstFp, secondFp)
   }
 }
