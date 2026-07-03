@@ -214,16 +214,13 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   }
 
   /// Drops transient images per `reason`. `.scrollOut` keeps the cheap thumbnail
-  /// (list scroll reuses it fast) and frees only the preview bitmap + decoded
-  /// cache entry; the heavier reasons also clear thumbnail/text/blob state.
+  /// (list scroll reuses it fast) and frees only the preview bitmap; the heavier
+  /// reasons also clear thumbnail/text/blob state.
   func releaseTransientImages(_ reason: ReleaseReason) {
     switch reason {
     case .scrollOut:
       previewImageGenerationTask?.cancel()
       previewImageGenerationTask = nil
-      previewImage = nil
-      DecodedImageCache.shared.evict(id)
-    case .previewHidden:
       previewImage = nil
     case .settingChange, .memoryWarning, .invalidate:
       thumbnailImageGenerationTask?.cancel()
@@ -235,7 +232,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
       textPreviewCache = nil
       imageDataCache = nil
       imageDataCacheLoaded = false
-      DecodedImageCache.shared.evict(id)
     }
   }
 

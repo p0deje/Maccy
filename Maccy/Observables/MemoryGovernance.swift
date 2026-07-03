@@ -1,15 +1,17 @@
 import AppKit
 
-// Memory-governance scaffolding: bounds the decoded-image working set to the
-// visible window and reclaims it on memory warning. Status: partially wired —
-// `MemoryGovernor` reclamation and `DecodedImageCache.evict`/`purgeAll` are
-// called, but `DecodedImageCache.setImage`/`image(for:)` have zero callers (the
-// read path was never connected), so the decode-cache tier is effectively dead.
+// Memory-governance scaffolding: reclaims transient images on memory warning.
+// `MemoryGovernor` drops non-visible decorators' transient bitmaps and purges
+// the app-icon cache. Per-item decoded bitmaps stay bounded to the visible
+// window via per-decorator `previewImage` (released on scroll-out) plus BS-3's
+// preview-size cap; a separate shared decoded-image cache was removed — the
+// 06-27 memory authority found preview bitmaps are not the memory lever, and a
+// retained shared cache (countLimit=32) would increase memory for only
+// marginal re-show value.
 
 /// Why transient images are being released; drives how much each call drops.
 enum ReleaseReason {
   case scrollOut
-  case previewHidden
   case settingChange
   case memoryWarning
   case invalidate
@@ -59,37 +61,6 @@ final class VisibilityTracker {
   }
 }
 
-/// Bounded cache of decoded preview bitmaps keyed by item id. Lets decoded
-/// bitmaps be shared/evicted by cost instead of retained per decorator.
-@MainActor
-final class DecodedImageCache {
-  static let shared = DecodedImageCache()
-  private let cache: NSCache<NSUUID, NSImage> = {
-    let cache = NSCache<NSUUID, NSImage>()
-    cache.countLimit = 32
-    cache.totalCostLimit = 64 * 1024 * 1024
-    return cache
-  }()
-
-  func image(for id: UUID) -> NSImage? {
-    cache.object(forKey: id as NSUUID)
-  }
-
-  func setImage(_ image: NSImage, for id: UUID, cost: Int) {
-    cache.setObject(image, forKey: id as NSUUID, cost: cost)
-  }
-
-  /// Removes the cached image for `id` (if any).
-  func evict(_ id: UUID) {
-    cache.removeObject(forKey: id as NSUUID)
-  }
-
-  /// Empties the whole cache.
-  func purgeAll() {
-    cache.removeAllObjects()
-  }
-}
-
 /// Coordinates reclamation on memory warning. Attached to `History` at launch so
 /// it can iterate non-visible decorators. `@MainActor` — the state it touches is
 /// main-isolated.
@@ -129,13 +100,14 @@ final class MemoryGovernor {
   }
 
   /// Drop transient images for every decorator NOT in the viewport, plus the
-  /// shared decoded-image cache and app-icon cache.
+  /// app-icon cache. The remaining spec'd flush targets — the thumbnail memory
+  /// tier and the regexp cache — are `NSCache`-backed and auto-evict on system
+  /// memory pressure, so an explicit purge here is redundant.
   func handleMemoryWarning() {
     let visibleIDs = VisibilityTracker.shared.snapshot()
     for decorator in history?.decorators() ?? [] where !visibleIDs.contains(decorator.id) {
       decorator.releaseTransientImages(.memoryWarning)
     }
-    DecodedImageCache.shared.purgeAll()
     ApplicationImageCache.shared.purge()
   }
 }
