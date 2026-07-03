@@ -192,7 +192,7 @@ final class FingerprintMigrationTests: XCTestCase {
     ContentDTO(
       type: type,
       value: value,
-      fingerprint: value.flatMap(ClipboardDataProcessor.fingerprintIfLarge),
+      fingerprint: ClipboardDataProcessor.fingerprintIfLarge(value),
       size: value.count
     )
   }
