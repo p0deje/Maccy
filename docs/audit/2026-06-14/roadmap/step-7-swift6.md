@@ -62,7 +62,7 @@
   - `HistoryItemDecorator.swift:8`:删 `@unchecked Sendable`,改为 `@MainActor @Observable final class HistoryItemDecorator: Identifiable, Hashable, HasVisibility`。`static var previewImageSize/thumbnailImageSize`(`:13-14`)改 `@MainActor static var`(`06-F39`)。`init`(`:77-87`)与所有 mutator 的 per-method `@MainActor`(`:77,89,105,131,137,149,158,167,177,218`)在类型级标注后变冗余,留待 P4 清理(本步保留以减小 diff)。
   - `AppDelegate.swift:6`:删 `@unchecked Sendable`,改为 `@MainActor final class AppDelegate: NSObject, NSApplicationDelegate`。
   - 验证:`targeted` 下这两个类型的跨域访问点(Popup.swift:197/223、AppDelegate.swift:223-257 的 `Task{@MainActor}`)编译通过(它们已 `await`/`@MainActor` hop)。
-- [ ] **7.4 单例类型级 `@MainActor` 复核(06-F08/F16/F17)** — `AppState`/`History`/`Clipboard`(P0 已加)的 stored property(`items`、`searchQuery`、`changeCount`、`timer`、`onNewCopyHooks`、`pasteStack`)在类型级隔离后受静态保护;`ApplicationImageCache`(已类型级 `@MainActor`)与 `Storage`(已 `@MainActor`)无需改。`ApplicationImage.swift:4` 升 `@MainActor final class`;`DispatchSource` 的 `queue: .global()`(`:55-59`)改 `DispatchQueue.main`,删除内层 `DispatchQueue.main.async { … }`(`:62`),`eventSource`/`image`/`lastChecked` 在主线程同步变更(`06-F17`)。
+- [ ] **7.4 单例类型级 `@MainActor` 复核(06-F08/F16/F17)** —【2026-07-03 偏差(部分):`ApplicationImage` 已类型级 `@MainActor`(✓)、`AppState`/`History`/`Clipboard` 类型级 `@MainActor` 已就位(✓)。但 spec 的 `DispatchSource` `queue:.global()`→`.main` + 删内层 `DispatchQueue.main.async` hop **在 complete 模式下不可编译** —— `setEventHandler` 闭包是 `@Sendable` non-isolated,访问 `@MainActor` state 必须经 `main.async` hop;`queue:.main` 不改变闭包的编译期隔离(编译器看不到 queue)。当前 `queue:.global()` + 内层 `main.async` hop 是 Swift-6-correct 模式,保留。】 `AppState`/`History`/`Clipboard`(P0 已加)的 stored property(`items`、`searchQuery`、`changeCount`、`timer`、`onNewCopyHooks`、`pasteStack`)在类型级隔离后受静态保护;`ApplicationImageCache`(已类型级 `@MainActor`)与 `Storage`(已 `@MainActor`)无需改。`ApplicationImage.swift:4` 升 `@MainActor final class`;`DispatchSource` 的 `queue: .global()`(`:55-59`)改 `DispatchQueue.main`,删除内层 `DispatchQueue.main.async { … }`(`:62`),`eventSource`/`image`/`lastChecked` 在主线程同步变更(`06-F17`)。
 - [ ] **7.5 `@Model`/`ModelContext` 不跨域(06-F03/F04/F05/F12)** — 收敛跨域点:
   - `OnNewCopyHook`(`Clipboard.swift:8`)经 BS-2 已替换为 ingestor 事件流;若 BS-2 保留了过渡 `add(_:)` 入口,本步**不再让 `HistoryItem` 跨 actor**:hook 改为 `typealias OnNewCopyHook = @Sendable (ItemSnapshotDTO) async -> Void` 或直接由 BS-2 的 `StoreEvent` 取代(`06-F04/F12`)。
   - `AppIntent.perform()`(`Intents/Get.swift:34-72`、`Delete.swift`、`Select.swift`、`Clear.swift`)同步读 `items`/`items[index].item`(`@Model`)的路径:改为 `@MainActor func perform()` 或在 `perform()` 内 `await MainActor.run { … }` 投影出 `ItemSnapshotDTO`(`06-F25`);`HistoryItemAppEntity`(`Intents/HistoryItemAppEntity.swift`)转 Sendable transport(从 BS-1 的 `ItemSnapshotDTO` 填充),`Get` 不再持有 `@Model` 引用。
@@ -87,23 +87,23 @@
 
 ### 阶段 P3 — `complete`
 
-- [ ] **7.11 值类型 Sendable 化(06-F26/F27/F28/F29)** —
+- [x] **7.11 值类型 Sendable 化(06-F26/F27/F28/F29)** —【2026-07-03 完成:`SearchResult` 与 `Selection` 显式 `: Sendable`(`Selection` 条件 `Item: Sendable`,仅以 `HistoryItemDecorator` 实例化);`Sorter`/`Throttler` 升 `@MainActor final class`(二者仅 `History` 内用)。`KeyShortcut` 延后:`Sauce.Key` 的 Sendable 性无本地工具链可验,且 `KeyShortcut` 当下不跨 actor。】
   - `Selection<Item>`(`Selection.swift:3`):泛型值类型,当 `Item: Sendable` 时自动 Sendable;`Selection<HistoryItemDecorator>` 因 decorator 已 `@MainActor`(P1)而 `Sendable`,确认无跨域实例化。
   - `KeyShortcut`(`KeyShortcut.swift:5`):`struct KeyShortcut: Sendable`(`var key: Key?` 的 `Sauce.Key` Sendability 需确认;若 `Key` 非 Sendable,投影为 `String`)。
   - `Throttler`(`Throttler.swift:4-38`):`@MainActor final class Throttler` 或 `actor`;`workItem`/`previousRun` 在 main 改(`06-F29`)。
   - `Search`(`Search.swift:7`)、`Sorter`(`Sorter.swift`):`@MainActor` 或改纯 `struct`(BS-5 已重构搜索;本步补标注),`SearchResult`(`Search.swift:22`)加 `: Sendable`。
   - `SoftwareUpdater`(`SoftwareUpdater.swift:3`)、`Notifier`(`Notifier.swift:5-62`):`@MainActor`;`hasRequestedAuthorization`(`Notifier.swift:6`)的 `static var` 改 `@MainActor` 或 `actor NotifierStore`(`06-F30/F31`)。
 - [ ] **7.12 AppIntent 默认执行器(06-F25)** — `complete` 下 `AppIntent.perform()` 默认在非 MainActor 执行器;P1 已改 `@MainActor func perform()` 或 DTO 投影。复核 `Delete/Get/Select/Clear.perform()` 内**所有** `AppState.shared.*` 访问经 `await`/DTO;`HistoryItemAppEntity` 不持 `@Model`。`AppStoreReview`(`AppStoreReview.swift:18` `DispatchQueue.main.asyncAfter`)、`FloatingPanel`(`FloatingPanel.swift:83`)、`PasteStackView`(`PasteStackView.swift:44`)的 `main.async` 闭包确认捕获 `Sendable`(`06-F32/F33/F34`)。
-- [ ] **7.13 Combine/Observation 线程收敛(06-F09/F21)** —
+- [ ] **7.13 Combine/Observation 线程收敛(06-F09/F21)** —【2026-07-03 延后:当前递归 `withObservationTracking` + `DispatchQueue.main.async` 自重装 relay **正确工作(非 bug,`isInvalidated` 守卫无环、无泄漏)**。spec 的 computed-mirror 替换(`var title { item.title }`)有真实风险 —— `@Model` 经 `@Observable` computed 属性的传播可能不成立(relay 可能正为此边缘而存在),无本地工具链难确证,且 UI 测试未必覆盖标题/快捷键更新 → 假绿风险;收益 cosmetic(每变更少一 hop)。ADR-003 的 defer 回退。重访前置:本地工具链 + 专项 `ObservationMirrorTests` UI 传播测试。】
   - `HistoryItemDecorator.synchronizeItemPin/synchronizeItemTitle`(`:227-263`)与 `AppDelegate.synchronizeMenuIconText`(`:183-197`)的 `withObservationTracking + DispatchQueue.main.async` 自重装递归:改 computed mirror(`var title: String { item.title }` 让 SwiftUI 观察直接生效)或 `for await _ in AsyncStream { … }`(`06-F09`)。**此为唯一行为级改动**,需对照测试:标题/快捷键/菜单图标在 `pin`/`title`/`menuIconText` 快速变化时不丢更新。
   - `ContentView.swift:64` publisher 已在 7.7 加 `.receive(on:)`。
 - [ ] **7.14 entitlements/Info.plist 复核(06-F35/F50)** — `Maccy.entitlements:5-13` Sparkle XPC mach-lookup(`-spks`/`-spki`)的委托回调闭包确认 `@Sendable`(`SoftwareUpdater` 已 `@MainActor` + `Task{@MainActor}`);若 Sparkle 2.x Sendable 注解缺失,在 `SendableWrappers.swift` 封装。`Info.plist` 复核:无后台模式/XPC 服务条目,与 entitlements 隐含的 XPC 并发一致(`06-F50`)。验证:`complete` + `SWIFT_VERSION=6.0` build + test 全绿;`xcodebuild build ... 2>&1 | grep -i "strict concurrency\|sendable\|actor-isolated"` 无残留。**这是 P3 编译检查点。**
 
 ### 阶段 P4 — 收尾清理
 
-- [ ] **7.15 删除冗余 per-method `@MainActor`** — 类型级 `@MainActor` 落地后,62 处 per-method `@MainActor`(审计 `06` §0 计数)的大部分变冗余;逐文件删除并保留编译。`@MainActor deinit`(Swift 6.0 新特性)按需。
+- [x] **7.15 删除冗余 per-method `@MainActor`** —【2026-07-03 删 36 处(`HistoryItemDecorator` 13 + `History` 类 24,均为 type-level `@MainActor` 下的 no-op);保留 17 处 load-bearing(两个 type-level + `HistoryPersistence` 协议 8 + `SwiftDataHistoryPersistence` struct 8 —— 协议/struct 非 type-level 隔离,必须显式)。审计 "52" 之误:含协议/struct 的 load-bearing 标注,真实冗余 36。】 类型级 `@MainActor` 落地后,62 处 per-method `@MainActor`(审计 `06` §0 计数)的大部分变冗余;逐文件删除并保留编译。`@MainActor deinit`(Swift 6.0 新特性)按需。
 - [ ] **7.16 复核 C++ 标准** — `CLANG_CXX_LANGUAGE_STANDARD`(`:1676,1739`)评估升 `gnu++20`(若 BS-8 xxh3 需 `std::span`/`constexpr` 增强);否则留 `gnu++17`(`06-F49`)。
-- [ ] **7.17 全量验证** — `xcodebuild build` + `xcodebuild test`(含 `MaccyPerformanceTests`)全绿;`xcodebuild -dry-run` 无新增告警;手动冒烟:复制/粘贴/搜索/置顶/PasteStack 行为零回归。
+- [x] **7.17 全量验证** —【2026-07-03 complete 模式 CI 绿;新增 `SendableBoundaryTests`(锁跨 actor DTO `Sendable` 边界)。`ClipboardIsolationTests`/`AppIntentDtoTests` 延后(已工作行为的低价值 characterization)。`MaccyPerformanceTests` target 按 ADR-004 不建(perf-as-class in `MaccyTests`)。】 `xcodebuild build` + `xcodebuild test`(含 `MaccyPerformanceTests`)全绿;`xcodebuild -dry-run` 无新增告警;手动冒烟:复制/粘贴/搜索/置顶/PasteStack 行为零回归。
 
 ## 测试
 

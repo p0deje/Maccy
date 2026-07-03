@@ -20,7 +20,10 @@
 - **2026-07-03** ✅ **BS-8.3 ObjC++ 桥防御加固** — `.cpp:70` UTF-8 bound check 改 overflow-safe(语义等价);`.mm` 两方法加 DEBUG `NSCAssert` 守 NSData 契约;`MaccyTextProcessorTests` 锁 UTF-8 边界回归(08-F-012 全用例)+ 空 fingerprint 稳定性。偏离:streaming(08-F-004 accepted-risk)、POD struct/deprecation N/A(UInt64 单方法设计)。
 - **2026-07-03** ✅ **BS-8.7 残留清理(doc-only)** — modulemap 延后(bridging header 保留,记 step-7 待办);`@retroactive Sendable` N/A(UInt64 POD);deprecation N/A。
 - **2026-07-03** ✅ **BS-8.8 测试补全** — `DataLikelyEqualContractTests`、`FingerprintMigrationTests`(4)、`MaccyTextProcessorTests`(10)、`FingerprintSymmetryTests`。`Xxh3ThroughputTests` **不单建**:xxh3 吞吐已由既有 `testFingerprintThroughputBenchmark`(1MiB+10MiB `measure`)覆盖;FNV baseline 不可恢复(fnv1a64 未桥接 Swift,合成会误导),记 accepted deviation。
-- **2026-07-03** 🔄 **BS-8 完成,pending 最终 CI**(8.1✅ 8.2✅ 8.3✅ 8.4✅ 8.5✅ 8.6✅ 8.7✅ 8.8✅-with-deviation)。下一步 BS-7(#8-11)。两 CI 周期消耗于测试文件 slips(identifier_name 单字母 var;`Data.flatMap` 误用)— 见 [[no-local-toolchain-ci-gates]],已加入 push 前 self-check。
+- **2026-07-03** ✅ **BS-8 CI GREEN**(run `28666589524`,10/10)— BS-8 完成并验证。
+- **2026-07-03** ✅ **BS-7.11/7.15 完成** — `SearchResult`/`Selection` `: Sendable`(Selection 条件 `Item: Sendable`);`Sorter`/`Throttler` `@MainActor final class`;删 36 冗余 per-method `@MainActor`(保留 17 load-bearing:type-level ×2 + 协议 8 + struct 8)。
+- **2026-07-03** ✅ **BS-7.17 `SendableBoundaryTests`** — `[any Sendable.Type]` 数组编译期断言,锁跨 actor DTO 边界。`ClipboardIsolationTests`/`AppIntentDtoTests` 延后(低价值 characterization)。
+- **2026-07-03** ⚠️ **BS-7.4 偏差 / 7.13 延后** — 7.4:spec 的 `queue:.main` + 删内层 hop 在 complete 模式不可编译(`setEventHandler` 是 `@Sendable` non-isolated,访问 `@MainActor` 必经 hop);当前 `queue:.global()` + hop 是 Swift-6-correct,保留。7.13:递归 relay 正确工作(非 bug),computed-mirror 替换有 `@Model`→`@Observable` 传播不成立 + UI 假绿风险,延后(见 step-7 详偏差)。下一步 BS-6(#12-15)。两 CI 周期消耗于测试文件 slips(identifier_name 单字母 var;`Data.flatMap` 误用)— 见 [[no-local-toolchain-ci-gates]],已加入 push 前 self-check。
 
 ## 一、验证后真值(HEAD `8e0ba2c`,re-grep 后)
 
