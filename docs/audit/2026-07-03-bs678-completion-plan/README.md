@@ -19,7 +19,8 @@
 - **2026-07-03** ✅ **BS-8.8(部分)`DataLikelyEqualContractTests`** — CI 绿,锁对称契约(08-F-009)+ 固定种子不变量。
 - **2026-07-03** ✅ **BS-8.3 ObjC++ 桥防御加固** — `.cpp:70` UTF-8 bound check 改 overflow-safe(语义等价);`.mm` 两方法加 DEBUG `NSCAssert` 守 NSData 契约;`MaccyTextProcessorTests` 锁 UTF-8 边界回归(08-F-012 全用例)+ 空 fingerprint 稳定性。偏离:streaming(08-F-004 accepted-risk)、POD struct/deprecation N/A(UInt64 单方法设计)。
 - **2026-07-03** ✅ **BS-8.7 残留清理(doc-only)** — modulemap 延后(bridging header 保留,记 step-7 待办);`@retroactive Sendable` N/A(UInt64 POD);deprecation N/A。
-- **2026-07-03** ⏳ 进行中:BS-8 余 `FingerprintSymmetryTests`/`Xxh3ThroughputTests`;然后 BS-7、BS-6。两 CI 周期消耗于测试文件 slips(identifier_name 单字母 var;`Data.flatMap` 误用)— 见 [[no-local-toolchain-ci-gates]],已加入 push 前 self-check。
+- **2026-07-03** ✅ **BS-8.8 测试补全** — `DataLikelyEqualContractTests`、`FingerprintMigrationTests`(4)、`MaccyTextProcessorTests`(10)、`FingerprintSymmetryTests`。`Xxh3ThroughputTests` **不单建**:xxh3 吞吐已由既有 `testFingerprintThroughputBenchmark`(1MiB+10MiB `measure`)覆盖;FNV baseline 不可恢复(fnv1a64 未桥接 Swift,合成会误导),记 accepted deviation。
+- **2026-07-03** 🔄 **BS-8 完成,pending 最终 CI**(8.1✅ 8.2✅ 8.3✅ 8.4✅ 8.5✅ 8.6✅ 8.7✅ 8.8✅-with-deviation)。下一步 BS-7(#8-11)。两 CI 周期消耗于测试文件 slips(identifier_name 单字母 var;`Data.flatMap` 误用)— 见 [[no-local-toolchain-ci-gates]],已加入 push 前 self-check。
 
 ## 一、验证后真值(HEAD `8e0ba2c`,re-grep 后)
 

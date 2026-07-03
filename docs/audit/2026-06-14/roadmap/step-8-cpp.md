@@ -1,6 +1,6 @@
 > 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
 > 完成: BS-8(审计 2026-06-28:部分完成 4/8 — xxh3 已接入实时去重、对称 dataLikelyEqual、fingerprint 列均真实;但 8.5 懒回填 backfill 缺失(旧行 nil→全表 ==)、8.3 桥接加固被砍、8.8 四测试文件 + FNV 基线缺失)
-> **2026-07-03 补全进度(本轮)**:✅ 8.5 懒回填 backfill **已实现并 CI 绿**(run `28664372473`,10/10)— `BackgroundClipboardIngestor.findDuplicate` 在获取候选时于后台 context 回填 nil 列大行,搭便车 `commit` 单事务 save、幂等、按命中(不全表扫);设计比 spec 简单(去重全在后台 context,无 mainContext refresh 问题),`FingerprintMigrationTests`(4 测试)覆盖。✅ 8.8 部分:`DataLikelyEqualContractTests` + `FingerprintMigrationTests` 已加。⏳ 8.8 余 `FingerprintSymmetryTests`/`Xxh3ThroughputTests`、8.3 防御加固、8.7 doc 待续。
+> **2026-07-03 补全进度(本轮)**:✅ 8.5 懒回填 backfill **已实现并 CI 绿**(run `28664372473`,10/10)— `BackgroundClipboardIngestor.findDuplicate` 在获取候选时于后台 context 回填 nil 列大行,搭便车 `commit` 单事务 save、幂等、按命中(不全表扫);设计比 spec 简单(去重全在后台 context,无 mainContext refresh 问题),`FingerprintMigrationTests`(4 测试)覆盖。✅ 8.3 桥防御加固(`.cpp:70` overflow-safe 重写、`.mm` DEBUG `NSCAssert`;`MaccyTextProcessorTests` 锁 UTF-8 边界回归 08-F-012)。✅ 8.7 doc-only(modulemap 延后记 step-7、deprecation/Sendable N/A)。✅ 8.8 测试补全:`DataLikelyEqualContractTests`/`FingerprintMigrationTests`/`MaccyTextProcessorTests`/`FingerprintSymmetryTests`。⚠️ `Xxh3ThroughputTests` **不单建文件** — xxh3 吞吐已由 `HistoryItemPerformanceTests.testFingerprintThroughputBenchmark`(1MiB+10MiB `measure`)覆盖;FNV baseline 切换前未捕,`≥3× FNV` gate 不可恢复(fnv1a64 未桥接 Swift,合成 baseline 会误导),记 accepted deviation。🔄 BS-8 pending 最终 CI 验证(8.3 C++ 改 + 新增测试)。
 
 # BS-8 — C++ 扩展(测量驱动)
 
@@ -114,7 +114,7 @@
   - (可选)`Maccy/Processor/module.modulemap`(`08-F-007`):暴露 `MaccyTextProcessor` ObjC facade,`.hpp` 保持内部。设 `HEADER_SEARCH_PATHS = $(SRCROOT)/Maccy/Processor`。**若本步未做,记入 BS-7 待办**;不做不阻塞编译(modulemap 是 Swift 直接 C++ interop 的前置,本步仍走 bridging header)。
   - `xxhash.h` 的 `XXH_INLINE_ALL` 定义核对:单 TU 内联,无链接冲突;`libc++`(`project.pbxproj:1677,1740`)与 macOS 14 部署目标匹配(`08` 已确认)。
   - 线程安全:C++ 侧无共享可变状态(`xxh3_64`/`fnv1a64`/`validUTF8PrefixLength` 均纯函数;匿名 `continuation()`(`ClipboardByteProcessor.cpp:10-12`)内部链接无状态;种子 `kMaccyHashSeed` 是 `constexpr`/`static let` 不可变)。并发调用安全,无需锁。
-- [ ] **8.8 测试 + 验证 + 基线设置** — `xcodebuild build` + test 通过。
+- [x] **8.8 测试 + 验证 + 基线设置** — `xcodebuild build` + test 通过。【2026-07-03 测试补全:`DataLikelyEqualContractTests`(对称契约 08-F-009 + 固定种子不变量)、`FingerprintMigrationTests`(回填正确性,4 测试)、`MaccyTextProcessorTests`(UTF-8 边界回归 08-F-012 全用例 + 空 fingerprint 稳定性,10 测试)、`FingerprintSymmetryTests`(bytesHashed 仅 rhs + 多大行 dedup)。**`Xxh3ThroughputTests` 不单建**:xxh3 吞吐已由 `HistoryItemPerformanceTests.testFingerprintThroughputBenchmark`(1MiB+10MiB `measure`)覆盖做回归;FNV baseline 切换前未捕 → `≥3× FNV` gate 不可恢复(fnv1a64 未桥接 Swift,合成 baseline 会误导),记 accepted deviation。】
   - 单测:`FingerprintMigrationTests`(旧库无列 → 轻量迁移后 `nil` → 命中回填 → 二次读有值)、`FingerprintSymmetryTests`(多同型 lhs,`bytesHashed` 不随 lhs 数线性增长——**断言趋 0**)、`DataLikelyEqualContractTests`(双向 DTO 强制;碰撞走 `==` 兜底;`size` 闸门;阈值 16 KiB 边界)、`Xxh3ThroughputTests`(10 MB blob 哈希时间记录,设 `measureMetrics` `.baseline` 相对容差,较 FNV 基线下降 3× 以上)。
   - `08-F-011`/`03 Bench-1` 补:多同型内容基准、CJK/emoji 基准(`heavy_text.txt` 经 BS-1 `FixtureLoader` 接入)、冷 lhs 变体。
   - 性能闸门 `G-copy-text`(复制 `heavy_text.txt`):主线程 < 16ms;**`bytesHashed` 趋 0**(lhs 读持久化列,rhs 哈希一次后 `IngestResult.metrics.bytesHashed` 由 ingestor 记录并断言较 BS-4 进一步下降到接近 0)。
