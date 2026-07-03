@@ -40,11 +40,10 @@ enum ClipboardDataProcessor {
   /// re-hashes: callers read the lhs fingerprint from the persisted
   /// `HistoryItemContent.fingerprint` column and compute the rhs once. A `nil`
   /// fingerprint means small content (below the threshold, so no fingerprint is
-  /// stored) or a pre-migration row whose column was never populated — in either
-  /// case the function falls back to a full `==` compare. Correctness is
-  /// unaffected; the cost is that pre-migration large rows are re-hashed on
-  /// every dedup-index build because no write-back backfill ever populated their
-  /// column (that step was not implemented).
+  /// stored) or a large row whose column has not yet been backfilled — in
+  /// either case the function falls back to a full `==` compare. Correctness is
+  /// unaffected; the ingest actor backfills nil large rows on first dedup hit,
+  /// so the fallback is transient.
   static func dataLikelyEqual(
     _ lhs: Data,
     _ lhsFingerprint: UInt64?,

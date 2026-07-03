@@ -123,9 +123,9 @@ private struct ContentSignature: Sendable {
     self.type = content.type
     self.value = content.value
     // Prefer the persisted fingerprint column; fall back to re-hashing when the
-    // column is nil. Pre-migration rows have a nil column for their lifetime
-    // (the write-back backfill was never implemented), so they are re-hashed on
-    // every containment build rather than once.
+    // column is nil (small content, or a large row the ingest actor has not yet
+    // backfilled). The backfill runs on first dedup hit, so re-hashing here is
+    // transient rather than permanent.
     self.fingerprint = content.fingerprint
       ?? content.value.flatMap(ClipboardDataProcessor.fingerprintIfLarge)
   }
@@ -135,9 +135,10 @@ private struct ContentSignature: Sendable {
 /// answers containment queries and extracts preview text without re-hashing.
 private struct ContentIndex: Sendable {
   // Carries each lhs item's fingerprint so `contains` can pass it to
-  // `dataLikelyEqual`. For rows with a populated column (post-migration inserts)
-  // this avoids re-hashing; for pre-migration rows (nil column, no backfill) the
-  // carried value is freshly re-hashed on each build.
+  // `dataLikelyEqual`. Rows with a populated column avoid re-hashing; a nil
+  // entry (small content, or a large row not yet backfilled by the ingest
+  // actor) falls back to a full `==` in `dataLikelyEqual` until it is
+  // backfilled.
   private let contentsByType: [String: [(Data, UInt64?)]]
   private let nilValueTypes: Set<String>
 

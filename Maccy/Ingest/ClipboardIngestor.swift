@@ -266,13 +266,45 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     for candidateID in signatureIndex.candidates(forEntries: entries) {
       guard let candidatePID = persistentIDByItemID[candidateID],
             let candidate = modelContext.model(for: candidatePID) as? HistoryItem,
-            candidate != item,
-            candidate.supersedes(signature) else {
+            candidate != item else {
+        continue
+      }
+      // Persist any nil fingerprint column on the candidate before the
+      // authoritative confirm, so this comparison — and every future one —
+      // reads the column instead of re-hashing. See `backfillMissingFingerprints`.
+      backfillMissingFingerprints(in: candidate)
+      guard candidate.supersedes(signature) else {
         continue
       }
       return candidate
     }
     return nil
+  }
+
+  /// Persists the fingerprint column for any of `item`'s large content entries
+  /// whose column is still nil.
+  ///
+  /// Rows that existed before the fingerprint column was added migrate in with
+  /// a nil column, so the dedup containment check falls back to a full byte
+  /// comparison on every ingest that touches them. Computing and storing the
+  /// fingerprint once — here, on the actor's isolated context, with the row
+  /// already faulted in as a dedup candidate — lets later ingests read the
+  /// column. The write is idempotent (entries that already have a fingerprint,
+  /// or fall below the fingerprint threshold, are skipped) and piggybacks on
+  /// the caller's single-transaction commit: the mutation is a pending change
+  /// saved by `commit`'s `save()`, so it adds no extra transaction. A candidate
+  /// that turns out to be the duplicate is deleted by `commit`, which takes its
+  /// backfilled contents with it — harmless — while a non-matching candidate
+  /// keeps its fingerprint for future ingests.
+  private func backfillMissingFingerprints(in item: HistoryItem) {
+    for content in item.contents {
+      guard content.fingerprint == nil,
+            let value = content.value,
+            let fingerprint = ClipboardDataProcessor.fingerprintIfLarge(value) else {
+        continue
+      }
+      content.fingerprint = fingerprint
+    }
   }
 
   /// Lazily builds the dedup index from the committed store on the first ingest:

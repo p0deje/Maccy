@@ -23,13 +23,13 @@ class HistoryItemContent {
   /// `ClipboardDataProcessor` threshold). Lets dedup read the lhs fingerprint
   /// from the column instead of re-hashing every comparison.
   ///
-  /// Added as a nullable column via a lightweight SwiftData migration (no
-  /// `VersionedSchema` / `SchemaMigrationPlan` needed; old rows migrate as
-  /// `nil`). `nil` for small content (no fingerprint stored) or pre-migration
-  /// rows. Note that the write-back backfill that would populate this column
-  /// for existing rows was never implemented, so pre-migration rows stay `nil`
-  /// for their lifetime and the dedup projection re-hashes them on every
-  /// containment build (correct, but perpetually on the slow path).
+  /// Populated at `init` for newly inserted rows, and added as a nullable
+  /// column via a lightweight SwiftData migration (no `VersionedSchema` /
+  /// `SchemaMigrationPlan` needed). Rows that existed before the column was
+  /// added migrate in as `nil`; the ingest actor backfills them lazily the
+  /// first time they surface as a dedup candidate, so the re-hash slow path is
+  /// bounded rather than permanent. `nil` for small content (below the
+  /// threshold, no fingerprint stored).
   var fingerprint: UInt64?
 
   @Relationship
