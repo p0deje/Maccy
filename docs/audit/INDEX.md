@@ -2,7 +2,7 @@
 
 > **本文件是审计文档仓库的单一权威导航中心,自包含。** 阅读任何审计文档前先读此页,以避免把"冻结的设计意图"或"历史快照"误读为"当前状态"。
 >
-> 最近更新:**2026-06-29**(Phase-1 文档整理:删除已落地的过程/手记文档与被推翻的中间分析,保留 3 个权威源 + 冻结 spec-of-record + 原始捕获数据)。
+> 最近更新:**2026-07-03**(新增 BS-6/7/8 完成执行计划 `2026-07-03-bs678-completion-plan/`,grill-with-docs 产物:验证后缺口 + 4 ADR + 词汇表 + 序列)。Phase-1 整理(2026-06-29:删除已落地的过程/手记文档与被推翻的中间分析,保留 3 个权威源 + 冻结 spec-of-record + 原始捕获数据)仍适用。
 
 ## 0. 三大权威源 + spec-of-record(reading order)
 
@@ -91,6 +91,14 @@
 | `2026-06-28-roadmap-bs5-bs8-gap-audit/04-bs8-cpp-gaps.md` | A | BS-8 缺口(8.5 backfill 缺、8.3 加固砍、8.8 测试缺)。 |
 | `2026-06-28-roadmap-bs5-bs8-gap-audit/05-source-bs-annotation-audit.md` | A | 源码 BS-x 标注审计(checklist for cleanup pass)。 |
 | `2026-06-28-roadmap-bs5-bs8-gap-audit/06-deletion-proposal.md` | A | Phase-1 文档删除提案。 |
+
+### 2026-07-03 — BS-6/7/8 完成执行计划(A,active)
+
+| 路径 | role | 摘要 |
+|------|------|------|
+| `2026-07-03-bs678-completion-plan/README.md` | A | **BS-6/7/8 补全到 spec 的执行计划**:验证后真值(4-agent 验证 HEAD `8e0ba2c`)、测试清单(已有 vs 待补,去重)、按风险/价值排序的小步骤序列(BS-8→7→6)。 |
+| `2026-07-03-bs678-completion-plan/decisions.md` | A | 4 个决策叉点 ADR(DecodedImageCache 接通 / 8.5 惰性 signal-to-actor 回填 / 7.13 mirror-TDD / perf-as-class)— **用户离席期间代为决定,回归后优先复核**。 |
+| `2026-07-03-bs678-completion-plan/glossary.md` | A | 术语 + finding-id(07-F/08-F/03-LT/M-C-F-U-D)词汇表 + 不变性清单。 |
 
 ### 独立文档
 
