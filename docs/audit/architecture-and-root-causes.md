@@ -302,7 +302,7 @@ heap 证据:624 个 `HistoryItemContent` + 624 个 `_KKMDBackingData`(对应 556
 
 | finding-id | 含义 | 当前状态 |
 |---|---|---|
-| `08-F-001` | lhs 指纹每次比对重算(非对称)→ dedup 优化失效 | 已修(BS-8.6 持久化列) |
+| `08-F-001` | lhs 指纹每次比对重算(非对称)→ dedup 优化失效 | 已修(BS-8.6 持久化列 + BS-8.5 懒回填 backfill,2026-07-03 CI 绿 run `28664372473`) |
 | `08-F-004` | `data.bytes` 非连续 NSData 未流式(`enumerateByteRanges`) | 未修(BS-8.3 丢弃) |
 | `08-F-009` | `dataLikelyEqual` 默认参数陷阱(lhsFingerprint 默认 nil) | 已修(BS-8.4 对称双指纹) |
 

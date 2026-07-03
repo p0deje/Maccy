@@ -1,5 +1,6 @@
 > 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
 > 完成: BS-8(审计 2026-06-28:部分完成 4/8 — xxh3 已接入实时去重、对称 dataLikelyEqual、fingerprint 列均真实;但 8.5 懒回填 backfill 缺失(旧行 nil→全表 ==)、8.3 桥接加固被砍、8.8 四测试文件 + FNV 基线缺失)
+> **2026-07-03 补全进度(本轮)**:✅ 8.5 懒回填 backfill **已实现并 CI 绿**(run `28664372473`,10/10)— `BackgroundClipboardIngestor.findDuplicate` 在获取候选时于后台 context 回填 nil 列大行,搭便车 `commit` 单事务 save、幂等、按命中(不全表扫);设计比 spec 简单(去重全在后台 context,无 mainContext refresh 问题),`FingerprintMigrationTests`(4 测试)覆盖。✅ 8.8 部分:`DataLikelyEqualContractTests` + `FingerprintMigrationTests` 已加。⏳ 8.8 余 `FingerprintSymmetryTests`/`Xxh3ThroughputTests`、8.3 防御加固、8.7 doc 待续。
 
 # BS-8 — C++ 扩展(测量驱动)
 
@@ -85,7 +86,7 @@
   - **删除**两参死代码重载(`:31-37`)与三参默认值版本(`:39-44`),用新四参版替换(`08-F-009` recommendation 3)。
   - `fingerprintIfLarge(_:)`(`:62-68`)返回 `MaccyFingerprint?`(`nil` 当 `data.count < 16 KiB`);内部调新桥方法,种子用 `kMaccyHashSeed`(与持久化种子一致,见 8.5)。
   - **本步破坏 `HistoryItemEngine.swift:162-164` 调用点**,在 8.6 修复前临时不可编译(`[breaks compile until 8.6]`)。
-- [ ] **8.5 [breaks compile until 8.8] `HistoryItemContent.fingerprint` 列 + SwiftData 轻量迁移 + 旧指纹过渡** — `HistoryItemContent.swift:14-24`。修 `08-F-001` 根因(持久化)与 `08-F-002`(种子/算法迁移):
+- [x] **8.5 [breaks compile until 8.8] `HistoryItemContent.fingerprint` 列 + SwiftData 轻量迁移 + 旧指纹过渡** — `HistoryItemContent.swift:14-24`。修 `08-F-001` 根因(持久化)与 `08-F-002`(种子/算法迁移):
   - 加列:`var fingerprint: UInt64? = nil`(`@Model`,可空;SwiftData 视为**轻量迁移**——新增可空列无需 `VersionedSchema`/`SchemaMigrationPlan`,默认自动迁移;**不破坏既有库**)。
   - `init(type:value:)` 计算并赋值:`self.fingerprint = value.flatMap(ClipboardDataProcessor.fingerprintIfLarge)?.hash`。
   - **种子与迁移兼容(关键)**:xxh3 用 `kMaccyHashSeed`(进程启动时 `SystemRandomNumberGenerator` 生成一次,存 `static let`)?——**否**。若用进程随机种子,重启后同一 blob 哈希不同,持久化列失效。**种子必须固定**(编译期常量或 `UserDefaults` 持久化的安装期一次性随机值)。本步采用**固定迁移种子** `kMaccyHashSeed`(常量),所有 xxh3 调用共享,持久化列才能跨进程复用。

@@ -11,6 +11,14 @@
 
 代为结论:① DecodedImageCache **接通**(ADR-001);② 8.5 **惰性 signal-to-actor 回填**(ADR-002);③ 7.13 **computed-mirror,TDD 闸门**(ADR-003);④ perf 闸门 **按 perf-as-class 落到 MaccyTests,不建独立 target**(ADR-004)。
 
+## 实时进度日志(Progress Log)
+
+> 随每步 CI 绿实时追加;commit 历史是另一条真相源。逐步勾选见 step-X 文档。
+
+- **2026-07-03** ✅ **BS-8.5 fingerprint 懒回填 backfill** — CI 绿(run `28664372473`,10/10)。`BackgroundClipboardIngestor.findDuplicate` 候选获取时于后台 context 回填 nil 列大行,搭 `commit` 单事务 save、幂等、按命中。设计比 ADR-002 预期简单(去重全在后台 context,无 mainContext refresh)。`FingerprintMigrationTests`(4 测试)覆盖。
+- **2026-07-03** ✅ **BS-8.8(部分)`DataLikelyEqualContractTests`** — CI 绿,锁对称契约(08-F-009)+ 固定种子不变量。
+- **2026-07-03** ⏳ 进行中:BS-8 余 `FingerprintSymmetryTests`/`Xxh3ThroughputTests`、8.3 防御加固、8.7 doc;然后 BS-7、BS-6。两 CI 周期消耗于测试文件 slips(identifier_name 单字母 var;`Data.flatMap` 误用)— 见 [[no-local-toolchain-ci-gates]],已加入 push 前 self-check。
+
 ## 一、验证后真值(HEAD `8e0ba2c`,re-grep 后)
 
 行号已因 `0318705`(注释标准化)整体下移;下列均为 `8e0ba2c` 当前值。
