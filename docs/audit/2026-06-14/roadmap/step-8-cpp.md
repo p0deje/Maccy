@@ -62,7 +62,7 @@
   - 保留 `fnv1a64`(`ClipboardByteProcessor.cpp:78-85`)不动,标 `noexcept`;供迁移期比对与回退。
   - `.hpp` 内两声明加 `noexcept`(`08-F-006`/`03-LT-CPP-06`)。
   - **本步不接 Swift 调用点**(8.4 才接),只编译 C++ 层;Swift 桥仍指 `fnv1a64`。
-- [ ] **8.3 ObjC++ 桥加固 + 新桥方法** — `MaccyTextProcessor.h` + `.mm`。
+- [x] **8.3 ObjC++ 桥加固 + 新桥方法** — `MaccyTextProcessor.h` + `.mm`。【2026-07-03 防御加固完成:`.cpp:70` UTF-8 bound check 改 overflow-safe 形式(`index+width>limit`→`width>limit-index`,语义等价、loop 不变量 `index<limit` 保证无下溢);`.mm` 两方法加 DEBUG `NSCAssert` 守 NSData 契约(bytes non-NULL iff length>0)。**偏离**:streaming(08-F-004,`enumerateByteRanges`+`XXH3_64bits_update`)— accepted-risk,剪贴板 NSData 恒连续;POD `MaccyFingerprintStruct` 返回类型 — 保留 UInt64 单方法设计(supersedes deprecation 需求);`__attribute__((deprecated))` — N/A(无第二方法)。`MaccyTextProcessorTests` 锁 UTF-8 边界回归(08-F-012 全用例)+ 空 fingerprint 稳定性。】
   - `.h` 加文档契约注释:"Inputs may be empty; `data.bytes` may be `NULL` when `data.length == 0`. Callees must not dereference beyond `data.length`. Non-contiguous `NSData` is materialised via `withUnsafeBytes`."(`08-F-008`/`08-F-004`)。
   - `.mm:7-13,15-20` 两方法首行加 `if (data.length == 0) return 0;`(UTF-8)/ `return 0;`(fingerprint);DEBUG 加 `assert(data.bytes != NULL || data.length == 0)`。
   - 非连续 `NSData`:`[data enumerateByteRangesUsingBlock:]` 把 C++ 哈希改成可续算(对 xxh3 用 `XXH3_64bits_update` 流式 API;对 `validUTF8PrefixLength` 无影响,因为它一次性给 `count`)。`08-F-004`/`03-LT-CPP-04`。
@@ -108,7 +108,7 @@
     两向 DTO,无默认参数,无重哈希。
   - **正确性不变**:`dataLikelyEqual` 末尾 `lhs == rhs`(`ClipboardDataProcessor.swift:59`)保留,xxh3 碰撞仍走全字节兜底;`08-F-002` 改善分布但不改正确性契约。
   - 调用点 `HistoryItemEngine.swift:162-164` 已在 8.6 内部更新;编译恢复到 `ContentSignature`/`ContentIndex` 路径,但 `ClipboardDataProcessor` 旧调用点(若 BS-4 留有)需 8.7 核对。
-- [ ] **8.7 残留清理 + Sendable 边界 + (可选)modulemap** — 全 C++/Swift 桥层。
+- [x] **8.7 残留清理 + Sendable 边界 + (可选)modulemap** — 全 C++/Swift 桥层。【2026-07-03 doc-only 完成:modulemap **延后**(`Maccy/Processor/module.modulemap` 不建)— bridging header 保留为桥机制,已记入 step-7 待办;若未来切 Swift 直接 C++ interop 再建。`@retroactive Sendable` — N/A(UInt64 POD 返回,无 ObjC 对象跨域)。`__attribute__((deprecated))` — N/A(同 8.3,单方法设计)。XXH_INLINE_ALL(单 TU 内联,无链接冲突)+ 纯函数线程安全(immutable seed)已在源码注释。】
   - Sendable:`MaccyFingerprint` 是值类型 POD,Swift 6 `Sendable` 自动推导(BS-1 已 `struct MaccyFingerprint: Sendable, Equatable`)。`MaccyTextProcessor` ObjC 类(`MaccyTextProcessor.h:5`)在新方法返回 POD 后,Swift 侧不再持 ObjC 对象引用(类方法 + POD 返回);若 BS-7 `SWIFT_STRICT_CONCURRENCY=complete` 已开,加 `extension MaccyTextProcessor: @retroactive Sendable {}`(安全:全 `+` 方法,无 ivars,`08-F-010`)。
   - 旧 `+ (uint64_t)fingerprintForData:` deprecation:确认无生产调用点后,本步**保留但不删**(留一个 release 周期);删除时机记入 BS-7 收尾清单。
   - (可选)`Maccy/Processor/module.modulemap`(`08-F-007`):暴露 `MaccyTextProcessor` ObjC facade,`.hpp` 保持内部。设 `HEADER_SEARCH_PATHS = $(SRCROOT)/Maccy/Processor`。**若本步未做,记入 BS-7 待办**;不做不阻塞编译(modulemap 是 Swift 直接 C++ interop 的前置,本步仍走 bridging header)。

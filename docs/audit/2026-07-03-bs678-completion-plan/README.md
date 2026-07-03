@@ -17,7 +17,9 @@
 
 - **2026-07-03** ✅ **BS-8.5 fingerprint 懒回填 backfill** — CI 绿(run `28664372473`,10/10)。`BackgroundClipboardIngestor.findDuplicate` 候选获取时于后台 context 回填 nil 列大行,搭 `commit` 单事务 save、幂等、按命中。设计比 ADR-002 预期简单(去重全在后台 context,无 mainContext refresh)。`FingerprintMigrationTests`(4 测试)覆盖。
 - **2026-07-03** ✅ **BS-8.8(部分)`DataLikelyEqualContractTests`** — CI 绿,锁对称契约(08-F-009)+ 固定种子不变量。
-- **2026-07-03** ⏳ 进行中:BS-8 余 `FingerprintSymmetryTests`/`Xxh3ThroughputTests`、8.3 防御加固、8.7 doc;然后 BS-7、BS-6。两 CI 周期消耗于测试文件 slips(identifier_name 单字母 var;`Data.flatMap` 误用)— 见 [[no-local-toolchain-ci-gates]],已加入 push 前 self-check。
+- **2026-07-03** ✅ **BS-8.3 ObjC++ 桥防御加固** — `.cpp:70` UTF-8 bound check 改 overflow-safe(语义等价);`.mm` 两方法加 DEBUG `NSCAssert` 守 NSData 契约;`MaccyTextProcessorTests` 锁 UTF-8 边界回归(08-F-012 全用例)+ 空 fingerprint 稳定性。偏离:streaming(08-F-004 accepted-risk)、POD struct/deprecation N/A(UInt64 单方法设计)。
+- **2026-07-03** ✅ **BS-8.7 残留清理(doc-only)** — modulemap 延后(bridging header 保留,记 step-7 待办);`@retroactive Sendable` N/A(UInt64 POD);deprecation N/A。
+- **2026-07-03** ⏳ 进行中:BS-8 余 `FingerprintSymmetryTests`/`Xxh3ThroughputTests`;然后 BS-7、BS-6。两 CI 周期消耗于测试文件 slips(identifier_name 单字母 var;`Data.flatMap` 误用)— 见 [[no-local-toolchain-ci-gates]],已加入 push 前 self-check。
 
 ## 一、验证后真值(HEAD `8e0ba2c`,re-grep 后)
 

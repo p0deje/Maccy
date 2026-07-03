@@ -1,5 +1,6 @@
 > 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
 > 完成: BS-7(审计 2026-06-28:大部分完成 13/17 — Swift 6.0 complete mode 上线,零 @unchecked/nonisolated(unsafe);7.13 唯一行为变更被跳过;4 测试文件缺失)
+> **2026-07-03 关联待办(来自 BS-8.7)**:modulemap **不建**(`Maccy/Processor/module.modulemap` 缺失)— bridging header 保留为桥机制;若未来切 Swift 直接 C++ interop 再建。spec 8.7 的条件性延后在此记录。
 
 # BS-7 — Swift 6 迁移(增量)
 
