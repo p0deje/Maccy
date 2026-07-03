@@ -3,7 +3,8 @@ import Foundation
 /// Coalesces rapid calls into at most one execution per `minimumDelay` window.
 ///
 /// Based on https://www.craftappco.com/blog/2018/5/30/simple-throttling-in-swift.
-class Throttler {
+@MainActor
+final class Throttler {
   var minimumDelay: TimeInterval
 
   private var workItem: DispatchWorkItem = DispatchWorkItem(block: {})

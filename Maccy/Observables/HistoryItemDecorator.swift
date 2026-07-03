@@ -143,7 +143,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
 
   /// Creates a decorator for `item`, seeding title/shortcuts and the app icon,
   /// and starting pin/title observation.
-  @MainActor
   init(
     _ item: HistoryItem,
     shortcuts: [KeyShortcut] = [],
@@ -160,7 +159,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   }
 
   /// Kicks off thumbnail generation (off-main) if not already cached or in flight.
-  @MainActor
   func ensureThumbnailImage() {
     guard imageData != nil else {
       return
@@ -175,7 +173,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   }
 
   /// Kicks off preview generation (off-main) if not already cached or in flight.
-  @MainActor
   func ensurePreviewImage() {
     guard imageData != nil else {
       return
@@ -193,7 +190,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   /// means the data was invalid or the generation was cancelled; cancellation
   /// is expected when the decorator is invalidated/superseded, so only genuine
   /// decode failures are logged (they would otherwise look like an empty clipboard).
-  @MainActor
   func asyncGetPreviewImage() async -> NSImage? {
     if let image = previewImage {
       return image
@@ -207,14 +203,12 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   }
 
   /// Marks the decorator invalidated and drops all transient images.
-  @MainActor
   func invalidate() {
     isInvalidated = true
     cleanupImages()
   }
 
   /// Drops all transient images (preview, thumbnail, decoded cache, text/blob).
-  @MainActor
   func cleanupImages() {
     releaseTransientImages(.invalidate)
   }
@@ -222,7 +216,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   /// Drops transient images per `reason`. `.scrollOut` keeps the cheap thumbnail
   /// (list scroll reuses it fast) and frees only the preview bitmap + decoded
   /// cache entry; the heavier reasons also clear thumbnail/text/blob state.
-  @MainActor
   func releaseTransientImages(_ reason: ReleaseReason) {
     switch reason {
     case .scrollOut:
@@ -248,12 +241,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
 
   // MARK: - Viewport visibility
 
-  @MainActor
   func onAppearInViewport() {
     ensureThumbnailImage()
   }
 
-  @MainActor
   func onDisappearFromViewport() {
     releaseTransientImages(.scrollOut)
   }
@@ -268,7 +259,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   /// stays instant (cache hit in `asyncGetPreviewImage`); a re-select of a
   /// cancelled-uncached item re-kicks via `ensurePreviewImage` (the nil'd handle
   /// lets it through).
-  @MainActor
   func cancelPreviewGeneration() {
     previewImageGenerationTask?.cancel()
     previewImageGenerationTask = nil
@@ -277,7 +267,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   /// Kicks off (preview, thumbnail) generation. Used by `sizeImages()` for the
   /// benchmark/tests that want both rendered; production paths call the
   /// individual `ensure*` accessors as the view appears.
-  @MainActor
   func sizeImages() {
     ensurePreviewImage()
     ensureThumbnailImage()
@@ -402,7 +391,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   }
 
   /// Toggles the item's pin between its current value and a free pin slot.
-  @MainActor
   func togglePin() {
     if item.pin != nil {
       item.pin = nil

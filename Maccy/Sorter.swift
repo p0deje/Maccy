@@ -5,7 +5,8 @@ import Defaults
 // swiftlint:disable type_name
 /// Sorts history items by a single total order: pin partition primary,
 /// user-selected algorithm secondary.
-class Sorter {
+@MainActor
+final class Sorter {
   /// Available sort criteria.
   enum By: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
     case lastCopiedAt

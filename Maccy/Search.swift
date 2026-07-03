@@ -29,7 +29,7 @@ class Search {
   }
 
   /// A single match: the matched item, an optional fuzzy score, and the highlighted ranges.
-  struct SearchResult: Equatable {
+  struct SearchResult: Equatable, Sendable {
     var score: Double?
     var object: Searchable
     var ranges: [Range<String.Index>] = []

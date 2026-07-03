@@ -229,7 +229,6 @@ class History: ItemsContainer {
   /// Fetches all items, sorts them, decorates each, and applies the size limit.
   /// Decorator construction is wrapped in `autoreleasepool` to bound the
   /// AppKit transients (e.g. `ApplicationImageCache` misses) to this call.
-  @MainActor
   func load() async throws {
     let descriptor = FetchDescriptor<HistoryItem>()
     let results = try Storage.shared.context.fetch(descriptor)
@@ -246,7 +245,6 @@ class History: ItemsContainer {
   }
 
   /// Trims unpinned decorators past `maxSize`, deleting the overflow.
-  @MainActor
   private func limitHistorySize(to maxSize: Int) {
     let maxSize = max(0, maxSize)
     let unpinned = all.filter(\.isUnpinned)
@@ -256,7 +254,6 @@ class History: ItemsContainer {
   }
 
   /// Persists a new item via the persistence backend.
-  @MainActor
   func insertIntoStorage(_ item: HistoryItem) throws {
     logger.info("Inserting history item")
     try persistence.insert(item)
@@ -268,7 +265,6 @@ class History: ItemsContainer {
   /// The live ingest path is the off-main actor's `consume`; this is retained
   /// for the unwired legacy code path.
   @discardableResult
-  @MainActor
   func add(_ item: HistoryItem) -> HistoryItemDecorator {
     if shouldInsertItemsInAdd {
       do {
@@ -310,7 +306,6 @@ class History: ItemsContainer {
   /// copy. `.removed`/`.cleared` (not emitted by the ingest actor today), and
   /// any `nil`-persistentID snapshot or `model(for:)` miss, fall back to the
   /// full `reconcileWithStore`. The final `all` order matches the old full sort.
-  @MainActor
   func consume(_ event: StoreEvent) {
     switch event {
     case .added(let snapshot), .merged(let snapshot):
@@ -328,7 +323,6 @@ class History: ItemsContainer {
   /// store (the ingestor may have trimmed an oldest item — `syncAllToStore`).
   /// Falls back to `reconcileWithStore` on any guard failure so correctness never
   /// depends on the fast path.
-  @MainActor
   private func insertIncrementally(_ snapshot: ItemSnapshotDTO) {
     guard let persistentID = snapshot.persistentID else {
       reconcileWithStore()
@@ -366,7 +360,6 @@ class History: ItemsContainer {
   /// which is NOT the UI sort order, so `all` can't trim itself correctly. Uses
   /// `fetchIdentifiers` (ids only — no @Model faulting) so the per-copy sync stays
   /// cheap; this is the only O(n) piece of the incremental path.
-  @MainActor
   private func syncAllToStore() {
     let storeIDs = Set(
       (try? Storage.shared.context.fetchIdentifiers(FetchDescriptor<HistoryItem>())) ?? []
@@ -385,7 +378,6 @@ class History: ItemsContainer {
   /// Rebuilds `all` from a fresh main-context fetch, reusing decorators whose
   /// `persistentModelID` is still present (so decoded images survive) and
   /// decorating only items that are new or changed.
-  @MainActor
   private func reconcileWithStore() {
     let sorted: [HistoryItem]
     do {
@@ -423,7 +415,6 @@ class History: ItemsContainer {
 
   /// If `item` duplicates an existing one, merges metadata onto `item`, removes
   /// the existing decorator, and returns the index it occupied (else `nil`).
-  @MainActor
   private func mergeDuplicateIfNeeded(for item: HistoryItem) -> Int? {
     guard let existingHistoryItem = findSimilarItem(item) else {
       return nil
@@ -454,7 +445,6 @@ class History: ItemsContainer {
 
   /// Builds the decorator for `item` and inserts it at the sorted position
   /// (reusing `removedItemIndex` when merging a duplicate pin).
-  @MainActor
   private func insertDecorator(
     for item: HistoryItem,
     removedItemIndex: Int?
@@ -478,7 +468,6 @@ class History: ItemsContainer {
   /// Runs `block` under DEBUG-only before/after row-count logging. The count
   /// round-trips are diagnostics only, so release builds skip them and run just
   /// the operation.
-  @MainActor
   private func withLogging(_ msg: String, _ block: () throws -> Void) rethrows {
     #if DEBUG
     func dataCounts() -> String {
@@ -503,7 +492,6 @@ class History: ItemsContainer {
   /// Deletes all unpinned items (keeping pins), draining each removed
   /// decorator's AppKit transients in an autorelease pool so a bulk clear
   /// doesn't pile them up.
-  @MainActor
   func clear() {
     throttler.cancel()
     invalidateInFlightSearch()
@@ -537,7 +525,6 @@ class History: ItemsContainer {
   }
 
   /// Deletes every item (pins included), draining each decorator's transients.
-  @MainActor
   func clearAll() {
     throttler.cancel()
     invalidateInFlightSearch()
@@ -568,7 +555,6 @@ class History: ItemsContainer {
 
   /// Deletes a single decorator's backing item, removes it from `all`/`items`,
   /// drops its `sessionLog` entry, and reassigns unpinned shortcuts.
-  @MainActor
   func delete(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
@@ -595,7 +581,6 @@ class History: ItemsContainer {
   }
 
   /// Invalidates a decorator, releasing its transient images.
-  @MainActor
   private func cleanup(_ item: HistoryItemDecorator) {
     item.invalidate()
   }
@@ -609,7 +594,6 @@ class History: ItemsContainer {
 
   /// Copies (and optionally pastes) the item, choosing the copy/paste variant
   /// from the held modifier flags, then clears the search query.
-  @MainActor
   func select(_ item: HistoryItemDecorator?) {
     guard let item else {
       return
@@ -648,7 +632,6 @@ class History: ItemsContainer {
 
   /// Begins a multi-select paste stack: copies the first selected item and
   /// stores the remaining items for sequential pasting.
-  @MainActor
   func startPasteStack(selection: inout Selection<HistoryItemDecorator>) {
     guard AppState.shared.multiSelectionEnabled else { return }
     guard let item = selection.first else { return }
@@ -688,7 +671,6 @@ class History: ItemsContainer {
   }
 
   /// Pastes the next item in an active paste stack, or clears it when empty.
-  @MainActor
   func handlePasteStack() {
     guard let stack = pasteStack else {
       return
@@ -729,7 +711,6 @@ class History: ItemsContainer {
   }
 
   /// Cancels an in-progress paste stack.
-  @MainActor
   func interruptPasteStack() {
     guard pasteStack != nil else {
       return
@@ -739,7 +720,6 @@ class History: ItemsContainer {
   }
 
   /// Toggles an item's pin, persists it, re-sorts `all`, and clears the query.
-  @MainActor
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
@@ -771,7 +751,6 @@ class History: ItemsContainer {
 
   /// Returns an existing item that supersedes `item` (or a session-logged
   /// modification of it), else `nil`. Used by the legacy `add` path.
-  @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
     do {
       let all = try persistence.fetchAll()
@@ -790,7 +769,6 @@ class History: ItemsContainer {
   }
 
   /// Reloads the history after a Defaults change that affects ordering/display.
-  @MainActor
   private func loadAfterDefaultsChange() async {
     do {
       try await load()
@@ -800,7 +778,6 @@ class History: ItemsContainer {
   }
 
   /// Stores `error` on `lastPersistError` and logs it when enabled.
-  @MainActor
   private func recordPersistenceError(_ message: String, _ error: Error) {
     lastPersistError = error
     if logsPersistenceErrors {
@@ -956,7 +933,6 @@ class History: ItemsContainer {
   }
 
   /// Sets both the decorator's and model's title.
-  @MainActor
   private func updateTitle(item: HistoryItemDecorator, title: String) {
     item.title = title
     item.item.title = title

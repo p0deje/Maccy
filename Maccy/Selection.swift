@@ -1,7 +1,7 @@
 import AppKit
 
 /// An ordered, deduplicated-by-identity selection of equatable items.
-struct Selection<Item: Equatable> {
+struct Selection<Item: Equatable>: Sendable where Item: Sendable {
   /// The selected items in insertion order.
   var items: [Item]
 
