@@ -27,6 +27,7 @@
 - **2026-07-03** ⚠️→✅ **BS-6.2/6.4 DecodedImageCache — DELETE**(ADR-001 修订:深入分析显示接通会增加内存 vs 当前可视区限界,仅换边际 re-show,与 06-27 冲突;避免触及预览路径)— 删除 `DecodedImageCache` + 死 `.previewHidden` + 无操作 evict/purgeAll。保留 per-decorator previewImage + scrollOut 释放 + BS-3 封顶。
 - **2026-07-03** ✅ **BS-6.3/6.11** — `handleMemoryWarning` 实际完成(thumbnail/regexp NSCache 自动 evict,显式 purge 冗余,记偏差);`ApplicationImageCacheTests`(缓存复用/fallback/purge)。`MemoryGovernanceTests`/`SessionLogReleaseTests` 延后(复杂 setup)。
 - **2026-07-03** 🔄 **BS-6 pending CI + 6.12 G-memory 决定**(perf-as-class 或按 06-27 retire)。**注意**:DecodedImageCache 的 DELETE 是用户离席期间代为决定(易回退)。下一步 BS-6 收尾(#15)。
+- **2026-07-03** ✅ **BS-6.12 G-memory gate retired per 06-27** — 实测框架底 ~62MB 使 <300MiB 近平凡;CI 内存测量噪声大,可靠 gate 难建;内存回归走 06-27 D1 MallocStackLogging 手动 profile 协议,不建 CI gate。
 
 ## 一、验证后真值(HEAD `8e0ba2c`,re-grep 后)
 
