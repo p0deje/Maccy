@@ -2,7 +2,7 @@
 
 > **本文件是审计文档仓库的单一权威导航中心,自包含。** 阅读任何审计文档前先读此页,以避免把"冻结的设计意图"或"历史快照"误读为"当前状态"。
 >
-> 最近更新:**2026-07-03**(新增 BS-6/7/8 完成执行计划 `2026-07-03-bs678-completion-plan/`,grill-with-docs 产物:验证后缺口 + 4 ADR + 词汇表 + 序列)。Phase-1 整理(2026-06-29:删除已落地的过程/手记文档与被推翻的中间分析,保留 3 个权威源 + 冻结 spec-of-record + 原始捕获数据)仍适用。
+> 最近更新:**2026-07-04**(新增 BS-5 搜索**重设计**计划 `2026-07-04-bs5-search-redesign/`,grill-with-docs 产物:3-agent 验证当前管线 + 6 ADR + 词汇表 + 三轨序列 T0/T1/T2/T3;范围超冻结 spec——全文搜索 + 预览高亮/滚动 + 模式循环按钮)。Phase-1 整理(2026-06-29:删除已落地的过程/手记文档与被推翻的中间分析,保留 3 个权威源 + 冻结 spec-of-record + 原始捕获数据)仍适用。
 
 ## 0. 三大权威源 + spec-of-record(reading order)
 
@@ -23,7 +23,7 @@
 - **BS-2**:完成(摄取管线迁入 actor)。
 - **BS-3**:完成(图片管线;IMG-023 预览取消 stopgap 已补)。
 - **BS-4**:部分完成 — 4.2/4.5(去重收敛)、4.4a(增量 reconcile,G-copy 9.34→0.99ms)、4.7(预温)落地;4.3(load 重写)/4.6/4.8 延后;**`VisibleWindowLoader.fetchWindow` 仍是死代码**(从未接入 `load()`)。
-- **BS-5**:部分完成 **2/13** — `SearchActor` + generation 守卫真实且正确;**但 07-F-010(高亮 UTF-16/字素错位)与 07-F-013(静默高亮丢弃)未修**,虽提交 `4fa4946` 称"bug-2 fix"(`toGrapheneRange` 从未编写);resize 仍在热路径;`showSpecialSymbols` 未触碰;G-search gate 仅基线测量 legacy `Search()`。
+- **BS-5**:部分完成 **2/13** — `SearchActor` + generation 守卫真实且正确;**但 07-F-010(高亮 UTF-16/字素错位)与 07-F-013(静默高亮丢弃)未修**,虽提交 `4fa4946` 称"bug-2 fix"(`toGrapheneRange` 从未编写);resize 仍在热路径;`showSpecialSymbols` 未触碰;G-search gate 仅基线测量 legacy `Search()`。**→ 用户决定 2026-07-04「重设计」BS-5(扩范围:全文搜索 + 预览高亮/滚动 + 模式循环按钮),见 `2026-07-04-bs5-search-redesign/`。**
 - **BS-6**:部分完成 **5/12** — `DecodedImageCache` 为**死代码**(`setImage`/`image(for:)` 零调用);`.previewHidden` 零调用方;6 个测试文件缺失;G-memory gate 从未构建。
 - **BS-7**:大部分完成 **13/17**(最扎实)— Swift 6.0 complete mode 上线,零 `@unchecked`/`nonisolated(unsafe)`;7.13(唯一行为变更)**被跳过**;4 个测试文件缺失;52 处冗余 per-method `@MainActor` 残留。
 - **BS-8**:部分完成 **4/8** — 核心真实(xxh3 已接入实时去重 `c6821c4`、对称 `dataLikelyEqual`、`fingerprint` 列);**未披露缺口**:8.5 懒回填 backfill **缺失**(旧行保持 nil→全表 `==`)、8.3 桥接加固被砍、8.8 四个测试文件 + FNV 基线缺失。
@@ -99,6 +99,14 @@
 | `2026-07-03-bs678-completion-plan/README.md` | A | **BS-6/7/8 补全到 spec 的执行计划**:验证后真值(4-agent 验证 HEAD `8e0ba2c`)、测试清单(已有 vs 待补,去重)、按风险/价值排序的小步骤序列(BS-8→7→6)。 |
 | `2026-07-03-bs678-completion-plan/decisions.md` | A | 4 个决策叉点 ADR(DecodedImageCache 接通 / 8.5 惰性 signal-to-actor 回填 / 7.13 mirror-TDD / perf-as-class)— **用户离席期间代为决定,回归后优先复核**。 |
 | `2026-07-03-bs678-completion-plan/glossary.md` | A | 术语 + finding-id(07-F/08-F/03-LT/M-C-F-U-D)词汇表 + 不变性清单。 |
+
+### 2026-07-04 — BS-5 搜索重设计计划(A,active)
+
+| 路径 | role | 摘要 |
+|------|------|------|
+| `2026-07-04-bs5-search-redesign/README.md` | A | **BS-5 重设计执行计划**(超冻结 spec):3-agent 验证当前管线(预览/内容/索引)、当前真值表、三轨序列 T0(模式循环按钮)/T1(标题域正确性)/T2(全文搜索)/T3(预览高亮+滚动)、测试清单、**实时进度日志(每步 CI 绿追加)**。 |
+| `2026-07-04-bs5-search-redesign/decisions.md` | A | 6 ADR(用户会话内全确认):ADR-1 循环按钮替换放大镜+缩写+仅点击;**ADR-2 全文索引先无索引+测量后按需加**(推翻 Q4 标题域下的 index 选择,因全文内存数学 + <16ms 闸门针对主线程);ADR-3 fuzzy 标题+正文前缀;ADR-4 预览分阶段(NSTextView 解 3000 封顶);ADR-5 body 封顶 32KB;ADR-6 searchText 持久化列+语料移 actor。 |
+| `2026-07-04-bs5-search-redesign/glossary.md` | A | 术语(searchText/body cache/Stage1-2/Track2-index/TextLimits/PreviewTextRep/inBody)+ finding-id(03-LT/07-F)词汇 + 不变量。 |
 
 ### 独立文档
 
