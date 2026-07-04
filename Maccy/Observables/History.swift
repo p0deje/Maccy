@@ -116,6 +116,22 @@ class History: ItemsContainer {
     }
   }
 
+  /// Re-runs the active search immediately after the configured search mode
+  /// (`Defaults[.searchMode]`) changes — from either the search-field mode
+  /// button or the Settings picker. No-op when the query is empty (nothing to
+  /// refresh). Unlike keystrokes, this is a discrete action and skips the
+  /// throttler.
+  func refreshForModeChange() {
+    guard !searchQuery.isEmpty else { return }
+    performSearch()
+  }
+
+  /// Awaits the in-flight search task, if any, so a search-then-assert
+  /// sequence is deterministic. No-op when no search is running.
+  func waitForInFlightSearch() async {
+    await searchTask?.value
+  }
+
   /// The decorator whose keyboard shortcut matches the current event, if any.
   var pressedShortcutItem: HistoryItemDecorator? {
     guard let event = NSApp.currentEvent else {
@@ -143,7 +159,7 @@ class History: ItemsContainer {
   /// off-main apply whose captured generation no longer matches is discarded.
   /// All access is `@MainActor` (`History` is `@MainActor`) — plain `Int`, no
   /// lock, no `@unchecked`.
-  @ObservationIgnored private var searchGeneration = 0
+  @ObservationIgnored private(set) var searchGeneration = 0
   @ObservationIgnored private var searchTask: Task<Void, Never>?
   /// Owns the four-mode match off-main. A `let` actor (Sendable); only its
   /// `search(...)` method is awaited — the `@Model` never crosses to it, only

@@ -1,3 +1,4 @@
+import Defaults
 import SwiftData
 import SwiftUI
 
@@ -6,6 +7,7 @@ struct ContentView: View {
   @State private var appState = AppState.shared
   @State private var modifierFlags = ModifierFlags()
   @State private var scenePhase: ScenePhase = .background
+  @Default(.searchMode) private var searchMode
 
   @FocusState private var searchFocused: Bool
 
@@ -83,6 +85,11 @@ struct ContentView: View {
          window.identifier == NSUserInterfaceItemIdentifier(bundleIdentifier) {
         scenePhase = .background
       }
+    }
+    .onChange(of: searchMode) {
+      // Either the search-field mode button or the Settings picker changed the
+      // mode — re-filter the active query under the new mode (no-op if empty).
+      appState.history.refreshForModeChange()
     }
   }
 }
