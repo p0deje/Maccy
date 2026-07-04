@@ -3,11 +3,10 @@ import AppKit
 // Memory-governance scaffolding: reclaims transient images on memory warning.
 // `MemoryGovernor` drops non-visible decorators' transient bitmaps and purges
 // the app-icon cache. Per-item decoded bitmaps stay bounded to the visible
-// window via per-decorator `previewImage` (released on scroll-out) plus BS-3's
-// preview-size cap; a separate shared decoded-image cache was removed — the
-// 06-27 memory authority found preview bitmaps are not the memory lever, and a
-// retained shared cache (countLimit=32) would increase memory for only
-// marginal re-show value.
+// window via per-decorator `previewImage` (released on scroll-out) plus the
+// preview-size cap; a separate shared decoded-image cache was intentionally
+// removed — preview bitmaps are not the memory lever, and a retained shared
+// cache (countLimit=32) would increase memory for only marginal re-show value.
 
 /// Why transient images are being released; drives how much each call drops.
 enum ReleaseReason {
