@@ -95,6 +95,7 @@
 		DA0703F22D4B31A10000000C /* ApplicationImageCacheTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0703F12D4B31A10000000B /* ApplicationImageCacheTests.swift */; };
 		DA0704122D4C31A100000002 /* SearchModeCycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0704112D4C31A100000001 /* SearchModeCycleTests.swift */; };
 		DA0704222D4C31A100000004 /* SearchFieldCycleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0704212D4C31A100000003 /* SearchFieldCycleTests.swift */; };
+		DA0704422D4C31A100000006 /* AsyncAlgorithmsIntegrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0704412D4C31A100000005 /* AsyncAlgorithmsIntegrationTests.swift */; };
 		DA3CE8181E44A62500B3AA98 /* ClipboardIngestor.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8171E44A62500B3AA98 /* ClipboardIngestor.swift */; };
 		DA3CE8B01E44A62500B3AA98 /* PasteboardSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8B11E44A62500B3AA98 /* PasteboardSource.swift */; };
 		DA3CE8C11E44A62500B3AA98 /* IngestFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8C21E44A62500B3AA98 /* IngestFilter.swift */; };
@@ -183,6 +184,7 @@
 		DAAEB196219694AE00A7883C /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAAEB195219694AE00A7883C /* About.swift */; };
 		DABDE97F2974706C005B32E9 /* KeyboardLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */; };
 		DAC0CA3E2C88E7A4003BF498 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = DAC0CA3D2C88E7A4003BF498 /* Fuse */; };
+		DA0705332D4C31A100000012 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = DA0705322D4C31A100000011 /* AsyncAlgorithms */; };
 		DAC14124232367B200FCFA30 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC14123232367B200FCFA30 /* Search.swift */; };
 		DAC929D7297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */; };
 		DAD665662898A1C000975096 /* KeyChord.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD665652898A1C000975096 /* KeyChord.swift */; };
@@ -356,6 +358,7 @@
 		DA0703F12D4B31A10000000B /* ApplicationImageCacheTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationImageCacheTests.swift; sourceTree = "<group>"; };
 		DA0704112D4C31A100000001 /* SearchModeCycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchModeCycleTests.swift; sourceTree = "<group>"; };
 		DA0704212D4C31A100000003 /* SearchFieldCycleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchFieldCycleTests.swift; sourceTree = "<group>"; };
+		DA0704412D4C31A100000005 /* AsyncAlgorithmsIntegrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncAlgorithmsIntegrationTests.swift; sourceTree = "<group>"; };
 		DA3CE8171E44A62500B3AA98 /* ClipboardIngestor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClipboardIngestor.swift; sourceTree = "<group>"; };
 		DA3CE8B11E44A62500B3AA98 /* PasteboardSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteboardSource.swift; sourceTree = "<group>"; };
 		DA3CE8C21E44A62500B3AA98 /* IngestFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IngestFilter.swift; sourceTree = "<group>"; };
@@ -712,6 +715,7 @@
 				2F39CB042AD9A93C00B749FD /* Sparkle in Frameworks */,
 				DA009955256414E60030E697 /* KeyboardShortcuts in Frameworks */,
 				DAC0CA3E2C88E7A4003BF498 /* Fuse in Frameworks */,
+				DA0705332D4C31A100000012 /* AsyncAlgorithms in Frameworks */,
 				2FCA00002F40000000A00001 /* AppIntents.framework in Frameworks */,
 				DA5F46512020E9FB00425C11 /* Carbon.framework in Frameworks */,
 				2F12271E2E5C932200A1592A /* Logging in Frameworks */,
@@ -919,6 +923,7 @@
 				DA0703F12D4B31A10000000B /* ApplicationImageCacheTests.swift */,
 				DA0704112D4C31A100000001 /* SearchModeCycleTests.swift */,
 				DA0704212D4C31A100000003 /* SearchFieldCycleTests.swift */,
+				DA0704412D4C31A100000005 /* AsyncAlgorithmsIntegrationTests.swift */,
 				DA3CE8091E44A62500B3AA98 /* StorageBackgroundContextTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
 				863D7670AD55963BD6E314B4 /* SearchActorTests.swift */,
@@ -1172,6 +1177,7 @@
 				DA13D7C92C19F52B00FA9E23 /* LaunchAtLogin */,
 				DA13D7CF2C19F8C300FA9E23 /* Defaults */,
 				DAC0CA3D2C88E7A4003BF498 /* Fuse */,
+				DA0705322D4C31A100000011 /* AsyncAlgorithms */,
 				2F12271D2E5C932200A1592A /* Logging */,
 			);
 			productName = Maccy;
@@ -1256,6 +1262,7 @@
 				DA13D7C82C19F43E00FA9E23 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */,
 				DA13D7CE2C19F8C300FA9E23 /* XCRemoteSwiftPackageReference "Defaults" */,
 				DAC0CA3C2C88E7A4003BF498 /* XCRemoteSwiftPackageReference "fuse-swift" */,
+				DA0705312D4C31A100000010 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */,
 				2F12271C2E5C932200A1592A /* XCRemoteSwiftPackageReference "swift-log" */,
 			);
 			productRefGroup = DAEE38441E3DBEB100DD2966 /* Products */;
@@ -1352,6 +1359,7 @@
 				DA0703F22D4B31A10000000C /* ApplicationImageCacheTests.swift in Sources */,
 				DA0704122D4C31A100000002 /* SearchModeCycleTests.swift in Sources */,
 				DA0704222D4C31A100000004 /* SearchFieldCycleTests.swift in Sources */,
+				DA0704422D4C31A100000006 /* AsyncAlgorithmsIntegrationTests.swift in Sources */,
 				DA3CE82E1E44A62500B3AA98 /* SupportTests.swift in Sources */,
 				E00000102F50000000000010 /* HistoryItemPerformanceTests.swift in Sources */,
 				2B6F1A2B4C5D00000000000C /* PerformanceHarnessWiringTest.swift in Sources */,
@@ -2240,6 +2248,14 @@
 				minimumVersion = 1.4.0;
 			};
 		};
+		DA0705312D4C31A100000010 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/apple/swift-async-algorithms";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -2287,6 +2303,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = DAC0CA3C2C88E7A4003BF498 /* XCRemoteSwiftPackageReference "fuse-swift" */;
 			productName = Fuse;
+		};
+		DA0705322D4C31A100000011 /* AsyncAlgorithms */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = DA0705312D4C31A100000010 /* XCRemoteSwiftPackageReference "swift-async-algorithms" */;
+			productName = AsyncAlgorithms;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
