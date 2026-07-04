@@ -359,7 +359,13 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
 
   /// Inputs to the last `highlight` build, so a repeat call with unchanged
   /// title/ranges/style can reuse `attributedTitle` instead of rebuilding.
-  @ObservationIgnored private var highlightMemo: (title: String, ranges: [Range<String.Index>], style: HighlightMatch)?
+  private struct HighlightMemo {
+    let title: String
+    let ranges: [Range<String.Index>]
+    let style: HighlightMatch
+  }
+
+  @ObservationIgnored private var highlightMemo: HighlightMemo?
 
   /// Builds `attributedTitle` with `query`'s `ranges` styled per the highlight
   /// preference; clears highlighting when `query` or `title` is empty. A repeat
@@ -404,7 +410,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
     }
 
     attributedTitle = attributedString
-    highlightMemo = (title, ranges, style)
+    highlightMemo = HighlightMemo(title: title, ranges: ranges, style: style)
   }
 
   /// Toggles the item's pin between its current value and a free pin slot.
