@@ -17,4 +17,8 @@ enum TextLimits {
   static let fuzzy = 5_000
   /// Most graphemes of a title the regexp match scans.
   static let regexp = 1_000
+  /// Longest regexp pattern (in graphemes) accepted for compilation. Anything
+  /// longer is rejected outright — far beyond any legitimate clipboard query
+  /// and only a compile/match cost risk.
+  static let regexpInput = 2_000
 }

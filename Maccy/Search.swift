@@ -64,6 +64,12 @@ class Search {
   /// Returns whether `pattern` matches a known catastrophic-backtracking shape,
   /// e.g. `(a+)+$`, before it is ever compiled.
   nonisolated static func isLikelyUnsafeRegularExpression(_ pattern: String) -> Bool {
+    // Reject pathologically long patterns outright — a multi-thousand-character
+    // regex is far beyond any legitimate clipboard query and only risks slow
+    // compilation and matching.
+    guard pattern.count <= TextLimits.regexpInput else {
+      return true
+    }
     let nestedQuantifierPattern = #"\([^)]*([+*]|\{\d+,?\d*\})[^)]*\)([+*]|\{\d+,?\d*\})"#
     return pattern.range(of: nestedQuantifierPattern, options: .regularExpression) != nil
   }

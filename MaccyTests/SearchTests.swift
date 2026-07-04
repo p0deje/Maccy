@@ -259,6 +259,15 @@ class SearchTests: XCTestCase {
     return lowerBound..<upperBound
   }
 
+  /// A pathologically long pattern is rejected outright (never compiled); the
+  /// threshold and the nested-quantifier check are both exercised.
+  func testIsLikelyUnsafeRegularExpression_rejectsLongPattern() {
+    XCTAssertFalse(Search.isLikelyUnsafeRegularExpression("hello"))
+    XCTAssertFalse(Search.isLikelyUnsafeRegularExpression(String(repeating: "a", count: TextLimits.regexpInput)))
+    XCTAssertTrue(Search.isLikelyUnsafeRegularExpression(String(repeating: "a", count: TextLimits.regexpInput + 1)))
+    XCTAssertTrue(Search.isLikelyUnsafeRegularExpression("(a+)+"))
+  }
+
   /// The metacharacter detector drives the mixed-mode regexp short-circuit:
   /// only a query containing a regex metacharacter can match differently from
   /// a literal substring search, so a metacharacter-free query skips the
