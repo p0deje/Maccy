@@ -111,6 +111,40 @@ enum HistoryItemEngine {
       return fallbackTitle.shortened(to: maxLength)
     }
   }
+
+  /// Returns the full searchable text from `contents`, in the same priority
+  /// order as ``previewableTextPrefix(contents:fallbackTitle:maxLength:richTextParsingLimit:)``
+  /// — file URLs, plain string, small RTF, small HTML — but without shortening,
+  /// so a match anywhere in a long clip stays searchable. There is no
+  /// `fallbackTitle`: the title is a truncated, symbol-rendered *derivation* of
+  /// this text, not a source of it, so it is not consulted here.
+  ///
+  /// Rich text larger than `richTextParsingLimit` bytes is skipped (parsing it
+  /// is costly and main-thread-affine), falling through to the next priority or
+  /// `""`. Image-only items and items with no textual payload return `""`.
+  static func searchableBody(
+    contents: [HistoryItemContent],
+    richTextParsingLimit: Int
+  ) -> String {
+    let index = ContentIndex(contents)
+
+    let fileURLs = index.fileURLs
+    if !fileURLs.isEmpty {
+      return fileURLs
+        .compactMap { $0.absoluteString.removingPercentEncoding }
+        .joined(separator: "\n")
+    }
+    if let text = index.text, !text.isEmpty {
+      return text
+    }
+    if let rtf = index.rtfIfSmall(maxBytes: richTextParsingLimit), !rtf.string.isEmpty {
+      return rtf.string
+    }
+    if let html = index.htmlIfSmall(maxBytes: richTextParsingLimit), !html.string.isEmpty {
+      return html.string
+    }
+    return ""
+  }
 }
 
 /// A single content entry projected for dedup: its type, value, and fingerprint.
@@ -191,6 +225,11 @@ private struct ContentIndex: Sendable {
   /// `maxLength` bytes, or nil if there is no string entry.
   func textPrefix(maxLength: Int) -> String? {
     data(for: [.string])?.stringPrefix(maxBytes: maxLength)
+  }
+
+  /// The full UTF-8 plain-text payload, or nil if there is no `.string` entry.
+  var text: String? {
+    data(for: [.string]).flatMap { String(data: $0, encoding: .utf8) }
   }
 
   /// Returns the attributed string parsed from the RTF entry, but only when it

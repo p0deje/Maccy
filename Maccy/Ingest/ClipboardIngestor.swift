@@ -31,6 +31,7 @@ final class MainActorIngestorAdapter: ClipboardIngestor {
     item.firstCopiedAt = request.now
     item.lastCopiedAt = request.now
     item.title = item.generateTitle()
+    item.searchText = item.searchableBody()
     return item
   }
 }
@@ -79,6 +80,16 @@ final class MainActorIngestorAdapter: ClipboardIngestor {
 /// info into the actor's request.
 @ModelActor
 actor BackgroundClipboardIngestor: ClipboardIngestor {
+  /// The work computed once on the main actor per ingest: the filtered content
+  /// entries, the derived title, the full-text search body, and the history-size
+  /// snapshot. A value type so it crosses back to this actor as a `Sendable`.
+  private struct IngestMainWork: Sendable {
+    let filtered: [ContentDTO]
+    let title: String
+    let searchText: String
+    let historyLimit: Int
+  }
+
   // `var` with defaults so the `@ModelActor` macro's generated
   // `init(modelContainer:)` satisfies "all stored properties initialized"; the
   // real values are set in the custom init below.
@@ -143,19 +154,25 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   ///   pre-commit state (dedup decision plus parse timing).
   func ingest(_ request: IngestRequest) async -> IngestResult {
     let filterStart = now()
-    // Defaults, filterContents (rich-text detection), and title generation all
-    // stay on the main actor. The Defaults package is shared with UI state, and
-    // the rich-text paths parse via NSAttributedString/AppKit.
-    let (filtered, title, historyLimit) = await MainActor.run {
+    // Defaults, filterContents (rich-text detection), title generation, and the
+    // full-text body extraction all stay on the main actor. The Defaults
+    // package is shared with UI state, and the rich-text paths parse via
+    // NSAttributedString/AppKit.
+    let mainWork = await MainActor.run { () -> IngestMainWork in
       let config = Self.ingestConfig()
       let filtered = filterContents(
         request.contents, application: request.application, config: config
       )
-      return (filtered, Self.title(for: filtered), max(1, Defaults[.size]))
+      return IngestMainWork(
+        filtered: filtered,
+        title: Self.title(for: filtered),
+        searchText: Self.searchableBody(for: filtered),
+        historyLimit: max(1, Defaults[.size])
+      )
     }
     let parseMs = now().timeIntervalSince(filterStart) * 1000
 
-    guard !filtered.isEmpty else {
+    guard !mainWork.filtered.isEmpty else {
       return IngestResult(
         event: nil,
         metrics: IngestMetrics(dedupHits: 0, bytesHashed: 0, parseMs: parseMs)
@@ -164,7 +181,8 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
 
     let timestamp = now()
     let item = makeHistoryItem(
-      filtered, application: request.application, timestamp: timestamp, title: title
+      mainWork.filtered, application: request.application, timestamp: timestamp,
+      title: mainWork.title, searchText: mainWork.searchText
     )
     ensureDedupIndexInitialized()
     let dup = findDuplicate(of: item)
@@ -177,7 +195,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
 
     let deletedItemIDs: [ItemID]
     do {
-      deletedItemIDs = try commit(item, deleting: dup, limit: historyLimit)
+      deletedItemIDs = try commit(item, deleting: dup, limit: mainWork.historyLimit)
     } catch {
       logger.error("Failed to commit ingest: \(String(describing: error))")
       return IngestResult(
@@ -212,7 +230,8 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     _ contents: [ContentDTO],
     application: String?,
     timestamp: Date,
-    title: String
+    title: String,
+    searchText: String
   ) -> HistoryItem {
     let item = HistoryItem(
       contents: contents.map { HistoryItemContent(type: $0.type, value: $0.value) }
@@ -221,6 +240,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     item.firstCopiedAt = timestamp
     item.lastCopiedAt = timestamp
     item.title = title
+    item.searchText = searchText
     return item
   }
 
@@ -240,6 +260,19 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
       maxLength: HistoryItem.titlePreviewLimit,
       richTextParsingLimit: 512 * 1024,
       showSpecialSymbols: Defaults[.showSpecialSymbols]
+    )
+  }
+
+  /// Extracts the full searchable body from the filtered contents, stored on
+  /// the item's `searchText` column so search can scan it later without
+  /// re-parsing rich text. Same main-actor requirement as `title(for:)` — the
+  /// RTF/HTML paths parse via `NSAttributedString`.
+  @MainActor
+  private static func searchableBody(for contents: [ContentDTO]) -> String {
+    let transient = contents.map { HistoryItemContent(type: $0.type, value: $0.value) }
+    return HistoryItemEngine.searchableBody(
+      contents: transient,
+      richTextParsingLimit: 512 * 1024
     )
   }
 
@@ -356,6 +389,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     item.numberOfCopies += dup.numberOfCopies
     item.pin = dup.pin
     item.title = dup.title
+    item.searchText = dup.searchText
     if !item.fromMaccy {
       item.application = dup.application
     }

@@ -91,6 +91,21 @@ class HistoryItem {
   var pin: String?
   var title = ""
 
+  /// The full searchable text of this item, extracted once at ingest (the file
+  /// URL, the plain-text payload, or the plain text parsed from RTF/HTML).
+  ///
+  /// Search reads this column instead of re-deriving text from the content
+  /// entries every keystroke, so the rich-text parse (main-thread-affine) runs
+  /// once per copy rather than per character typed. Stored untruncated — the
+  /// search-time scan window is applied separately — so a match anywhere in a
+  /// long clip stays findable.
+  ///
+  /// `nil` for rows that predate the column (added via a lightweight SwiftData
+  /// migration, mirroring `HistoryItemContent.fingerprint`); those degrade to
+  /// title-only search until a future backfill. `""` for image-only items and
+  /// items with no textual payload.
+  var searchText: String?
+
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
   var contents: [HistoryItemContent] = []
 
@@ -146,6 +161,17 @@ class HistoryItem {
       contents: contents,
       fallbackTitle: title,
       maxLength: maxLength,
+      richTextParsingLimit: Self.richTextParsingLimit
+    )
+  }
+
+  /// Returns the full searchable text of this item (file URL, plain text, or
+  /// plain text parsed from RTF/HTML), untruncated. Image-only items and items
+  /// with no textual payload return `""`. The result is what ``searchText``
+  /// stores at ingest.
+  func searchableBody() -> String {
+    HistoryItemEngine.searchableBody(
+      contents: contents,
       richTextParsingLimit: Self.richTextParsingLimit
     )
   }
