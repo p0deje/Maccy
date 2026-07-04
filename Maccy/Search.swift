@@ -58,8 +58,8 @@ class Search {
   typealias Searchable = HistoryItemDecorator
 
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
-  private let fuzzySearchLimit = 5_000
-  private let regexpSearchLimit = 1_000
+  private let fuzzySearchLimit = TextLimits.fuzzy
+  private let regexpSearchLimit = TextLimits.regexp
 
   /// Returns whether `pattern` matches a known catastrophic-backtracking shape,
   /// e.g. `(a+)+$`, before it is ever compiled.

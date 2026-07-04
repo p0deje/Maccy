@@ -29,8 +29,8 @@ import Fuse
 /// semantics against value types.
 actor SearchActor {
   private let fuse = Fuse(threshold: 0.7)   // threshold found by trial-and-error
-  private let fuzzySearchLimit = 5_000
-  private let regexpSearchLimit = 1_000
+  private let fuzzySearchLimit = TextLimits.fuzzy
+  private let regexpSearchLimit = TextLimits.regexp
 
   /// Searches `corpus` for `query` under `mode`, returning `SearchMatchDTO`s
   /// with the same order and semantics as `Search.search`.

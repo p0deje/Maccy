@@ -365,7 +365,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
       return
     }
 
-    var attributedString = AttributedString(title.shortened(to: 500))
+    var attributedString = AttributedString(title.shortened(to: TextLimits.highlight))
     for range in ranges {
       if let lowerBound = AttributedString.Index(range.lowerBound, within: attributedString),
          let upperBound = AttributedString.Index(range.upperBound, within: attributedString) {
@@ -380,6 +380,12 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
           attributedString[lowerBound..<upperBound].backgroundColor = .findHighlightColor
           attributedString[lowerBound..<upperBound].foregroundColor = .black
         }
+      } else {
+        // A range the search produced but the render window doesn't cover.
+        // With TextLimits.highlight == titlePreview this is unreachable in
+        // normal operation; log instead of the old silent nil-drop so any
+        // future mismatch is observable.
+        logger.debug("highlight range fell outside the render window; dropped")
       }
     }
 

@@ -10,7 +10,7 @@ import SwiftData
 @Model
 class HistoryItem {
   /// Max chars used when generating an item's title.
-  static let titlePreviewLimit = 1_000
+  static let titlePreviewLimit = TextLimits.titlePreview
 
   /// Max chars of a text item shown in the preview (Defaults[.textPreviewLimit]).
   /// Configurable in Appearance settings; 0 = full text (no truncation, mapped

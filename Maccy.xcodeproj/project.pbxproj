@@ -185,6 +185,7 @@
 		DAC0CA3E2C88E7A4003BF498 /* Fuse in Frameworks */ = {isa = PBXBuildFile; productRef = DAC0CA3D2C88E7A4003BF498 /* Fuse */; };
 		DA0705332D4C31A100000012 /* AsyncAlgorithms in Frameworks */ = {isa = PBXBuildFile; productRef = DA0705322D4C31A100000011 /* AsyncAlgorithms */; };
 		DAC14124232367B200FCFA30 /* Search.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC14123232367B200FCFA30 /* Search.swift */; };
+		DA0705422D4C31A10000000A /* TextLimits.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0705412D4C31A100000009 /* TextLimits.swift */; };
 		DAC929D7297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */; };
 		DAD665662898A1C000975096 /* KeyChord.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAD665652898A1C000975096 /* KeyChord.swift */; };
 		DAE28500232257D20080E394 /* ColorImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE284FF232257D20080E394 /* ColorImage.swift */; };
@@ -642,6 +643,7 @@
 		DAB8CE4024E3677F00A2500E /* Maccy.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Maccy.entitlements; sourceTree = "<group>"; };
 		DABDE97E2974706C005B32E9 /* KeyboardLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardLayout.swift; sourceTree = "<group>"; };
 		DAC14123232367B200FCFA30 /* Search.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Search.swift; sourceTree = "<group>"; };
+		DA0705412D4C31A100000009 /* TextLimits.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextLimits.swift; sourceTree = "<group>"; };
 		DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPasteboard.PasteboardType+Types.swift"; sourceTree = "<group>"; };
 		DACCD5822C93605C00BAD74C /* Maccy.xctestplan */ = {isa = PBXFileReference; lastKnownFileType = text; path = Maccy.xctestplan; sourceTree = "<group>"; };
 		DAD665652898A1C000975096 /* KeyChord.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyChord.swift; sourceTree = "<group>"; };
@@ -1097,6 +1099,7 @@
 				DA689FC72C1D15140009B887 /* PinsPosition.swift */,
 				DA689FC52C1D14F10009B887 /* PopupPosition.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
+				DA0705412D4C31A100000009 /* TextLimits.swift */,
 				D56FFADE825C314D403BA428 /* SearchDTOs.swift */,
 				BF5C7362B5BBA93AF74570F8 /* SearchActor.swift */,
 				2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */,
@@ -1493,6 +1496,7 @@
 				DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */,
 				DA13D7E02C1A436E00FA9E23 /* Data+StringPrefix.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
+				DA0705422D4C31A10000000A /* TextLimits.swift in Sources */,
 				90F0A00A9053D8153EE0FCF1 /* SearchDTOs.swift in Sources */,
 				92BA288518FDFAA85EBCCFB8 /* SearchActor.swift in Sources */,
 				DA0FFA2A2C8D100C00A66C97 /* ModifierFlags+Description.swift in Sources */,
