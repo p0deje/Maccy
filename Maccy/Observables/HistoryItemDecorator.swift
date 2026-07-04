@@ -357,11 +357,25 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
     }
   }
 
+  /// Inputs to the last `highlight` build, so a repeat call with unchanged
+  /// title/ranges/style can reuse `attributedTitle` instead of rebuilding.
+  @ObservationIgnored private var highlightMemo: (title: String, ranges: [Range<String.Index>], style: HighlightMatch)?
+
   /// Builds `attributedTitle` with `query`'s `ranges` styled per the highlight
-  /// preference; clears highlighting when `query` or `title` is empty.
+  /// preference; clears highlighting when `query` or `title` is empty. A repeat
+  /// call whose title, ranges, and highlight style all match the previous build
+  /// returns without rebuilding or reassigning — skipping both the
+  /// `AttributedString` construction and the `@Observable` trigger that would
+  /// re-rasterize the row.
   func highlight(_ query: String, _ ranges: [Range<String.Index>]) {
     guard !query.isEmpty, !title.isEmpty else {
-      attributedTitle = nil
+      if attributedTitle != nil { attributedTitle = nil }
+      highlightMemo = nil
+      return
+    }
+
+    let style = Defaults[.highlightMatch]
+    if let memo = highlightMemo, memo.title == title, memo.ranges == ranges, memo.style == style {
       return
     }
 
@@ -369,7 +383,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
     for range in ranges {
       if let lowerBound = AttributedString.Index(range.lowerBound, within: attributedString),
          let upperBound = AttributedString.Index(range.upperBound, within: attributedString) {
-        switch Defaults[.highlightMatch] {
+        switch style {
         case .bold:
           attributedString[lowerBound..<upperBound].font = .bold(.body)()
         case .italic:
@@ -390,6 +404,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
     }
 
     attributedTitle = attributedString
+    highlightMemo = (title, ranges, style)
   }
 
   /// Toggles the item's pin between its current value and a free pin slot.
