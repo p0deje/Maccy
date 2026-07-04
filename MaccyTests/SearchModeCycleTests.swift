@@ -1,4 +1,5 @@
 import XCTest
+@testable import Maccy
 
 /// Pure unit tests for ``Search.Mode`` cycling and abbreviation glyphs.
 ///
