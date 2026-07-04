@@ -68,6 +68,15 @@ class Search {
     return pattern.range(of: nestedQuantifierPattern, options: .regularExpression) != nil
   }
 
+  /// Returns whether `pattern` contains a character with special meaning in
+  /// `NSRegularExpression`. A pattern without any such character can only match
+  /// as a literal substring, so when the exact tier of a mixed search has
+  /// already ruled it out the regexp tier cannot add anything — `mixedSearch`
+  /// uses this to skip a redundant regexp pass.
+  nonisolated static func containsRegularExpressionMetacharacter(_ pattern: String) -> Bool {
+    pattern.rangeOfCharacter(from: CharacterSet(charactersIn: #"\.[]{}()*+?^$|"#)) != nil
+  }
+
   /// Searches `within` for `string` under the user's configured search mode.
   ///
   /// An empty query returns every item as a match with no score and no ranges.
@@ -158,9 +167,14 @@ class Search {
       return results
     }
 
-    results = regexpSearch(string: string, within: within)
-    guard results.isEmpty else {
-      return results
+    // The regexp tier only adds value when the query can express a pattern; a
+    // metacharacter-free query is just a literal substring search that the
+    // exact tier already ruled out, so skip straight to fuzzy.
+    if Self.containsRegularExpressionMetacharacter(string) {
+      results = regexpSearch(string: string, within: within)
+      guard results.isEmpty else {
+        return results
+      }
     }
 
     results = fuzzySearch(string: string, within: within)

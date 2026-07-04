@@ -65,8 +65,13 @@ actor SearchActor {
     var results = simpleSearch(query: query, within: corpus, options: .caseInsensitive)
     guard results.isEmpty else { return results }
 
-    results = regexpSearch(query: query, within: corpus)
-    guard results.isEmpty else { return results }
+    // The regexp tier only adds value when the query can express a pattern; a
+    // metacharacter-free query is just a literal substring search that the
+    // exact tier already ruled out, so skip straight to fuzzy.
+    if Search.containsRegularExpressionMetacharacter(query) {
+      results = regexpSearch(query: query, within: corpus)
+      guard results.isEmpty else { return results }
+    }
 
     results = fuzzySearch(query: query, within: corpus)
     guard results.isEmpty else { return results }

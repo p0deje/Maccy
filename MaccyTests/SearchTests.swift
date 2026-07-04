@@ -259,6 +259,22 @@ class SearchTests: XCTestCase {
     return lowerBound..<upperBound
   }
 
+  /// The metacharacter detector drives the mixed-mode regexp short-circuit:
+  /// only a query containing a regex metacharacter can match differently from
+  /// a literal substring search, so a metacharacter-free query skips the
+  /// regexp tier.
+  func testContainsRegularExpressionMetacharacter() {
+    XCTAssertFalse(Search.containsRegularExpressionMetacharacter("hello"))
+    XCTAssertFalse(Search.containsRegularExpressionMetacharacter(""))
+    XCTAssertFalse(Search.containsRegularExpressionMetacharacter("plain text 123"))
+    XCTAssertTrue(Search.containsRegularExpressionMetacharacter("a.b"))
+    XCTAssertTrue(Search.containsRegularExpressionMetacharacter("a*"))
+    XCTAssertTrue(Search.containsRegularExpressionMetacharacter("^x"))
+    XCTAssertTrue(Search.containsRegularExpressionMetacharacter("br[ae]d"))
+    XCTAssertTrue(Search.containsRegularExpressionMetacharacter("a|b"))
+    XCTAssertTrue(Search.containsRegularExpressionMetacharacter(#"\d"#))
+  }
+
   /// Builds a `HistoryItem` with a single optional string content entry,
   /// inserted into the shared context with a generated title.
   @MainActor
