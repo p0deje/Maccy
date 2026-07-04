@@ -239,3 +239,4 @@ Track 3  预览高亮 + 滚动(Stage1 SwiftUI / Stage2 NSTextView)── BS-5R.3
 > 随每步 CI 绿实时追加;commit 历史是另一条真相源。
 
 - **2026-07-04** 📋 **计划成稿** — grill-with-docs 产出 README + 6 ADR + glossary。3-agent 验证当前管线(预览/内容/索引)。用户确认 4 叉点决策。待开工 T0。
+- **2026-07-04** 🔨 **T0.1 模式循环按钮** — `Search.Mode.abbreviation`(`EX`/`FZ`/`RE`/`MX`)+ `Mode.next`(CaseIterable 循环 `exact→fuzzy→regexp→mixed→exact`);`SearchFieldView` 放大镜替换为模式 `Button`(`@Default(.searchMode)`,点击循环,`.help`=模式名,`.accessibilityLabel`=模式名);`MaccyTests/SearchModeCycleTests.swift`(4 法:循环序/全周期无重复/缩写值/唯一)。pbxproj 4 站注册(fileRef `DA070411…01` / buildFile `DA070412…02`)。CI 待 T0 门 push(T0.1/0.2/0.3 合并 ~11min 验证)。

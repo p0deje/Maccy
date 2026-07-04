@@ -26,6 +26,26 @@ class Search {
         return NSLocalizedString("Mixed", tableName: "GeneralSettings", comment: "")
       }
     }
+
+    /// Short Latin-letter glyph shown in the search-field mode button
+    /// (`EX`/`FZ`/`RE`/`MX`). Language-neutral; the full localized name is
+    /// surfaced through ``description`` and the button's tooltip.
+    var abbreviation: String {
+      switch self {
+      case .exact: return "EX"
+      case .fuzzy: return "FZ"
+      case .regexp: return "RE"
+      case .mixed: return "MX"
+      }
+    }
+
+    /// The next mode in declaration order, wrapping past the last case
+    /// (`exact → fuzzy → regexp → mixed → exact`).
+    var next: Self {
+      let all = Self.allCases
+      guard let index = all.firstIndex(of: self) else { return all[0] }
+      return all[(index + 1) % all.count]
+    }
   }
 
   /// A single match: the matched item, an optional fuzzy score, and the highlighted ranges.
