@@ -177,6 +177,37 @@
 
 ---
 
+## ADR-7:搜索派发 — 采用 swift-async-algorithms(`debounce`)取代手写 Throttler
+
+**状态**:用户决定(2026-07-04,"你来决定……更系统的办法,更方便未来开发,不是临时打补丁")。**语境**:Track 1 基础设施(搜索派发路径;用户在 T0.2 实现期间提出)。
+
+**决策**:采用 Apple 官方 [`swift-async-algorithms`](https://swiftpackageindex.com/apple/swift-async-algorithms) 包(`/apple/swift-async-algorithms`,**1.1.3**,2026-03-04 发布,Swift 6 complete-mode 兼容,源码稳定 1.x)。`History.searchQuery.didSet` 改为向 `AsyncStream<String>` 产出值;一个常驻消费 `Task` 迭代 `stream.removeDuplicates().debounce(for: .milliseconds(200))`,每值调 `performSearch`。**删除手写 `Maccy/Throttler.swift`**(`@MainActor` Dispatch/`Date`-based,4 调用点全在 `History.swift`——`searchQuery.didSet` 的 `throttle` + `clear/clearAll/delete` 的 `cancel()`)。
+
+**仔细检查后的关键发现**:
+- **`throttle(for:)` 在 1.0+ 被移出公共 API**(1.0.4 release:"#296 …behavior was not fully ratified by review";1.0.0 `Make throttle underscored`)。**但 `debounce(for:)` 是稳定公共 API**——Maccy 搜索所需语义正是 **debounce**(静止期后触发),非 throttle。当前 `Throttler` 实为 debounce 语义误标(其 `cancel()`-then-reschedule = debounce,加一不寻常 leading-edge「空闲即触发」)。故 throttle 移除不影响本决策。
+- 包活跃维护:1.1.3(2026-03-04),含 "address concurrency failures for 6.2 build modes"(#362,证 Swift 6 完整模式兼容)。源码稳定 since 1.0.0(2023-12,SemVer)。
+- 平台要求 macOS 12+;Maccy 14+ ✓。
+- **系统性 + 未来收益**:同包提供 `combineLatest/merge/zip/chunks/removeDuplicates/AsyncChannel/AsyncTimerSequence`——架构 §2.1 未修的 `no-coalesce-of-ingest-writes` 与未来 `StoreEvent` 流均可复用同框架(chunks/debounce)。此即"更系统、更方便未来开发"。
+
+**考虑的替代**:
+- (B)Task-based 重写 Throttler(保留 API/架构)。**用户否决**("不是临时打补丁")——单点重写不系统,不为未来铺路。
+- (C)SwiftUI `.task(id:)`。Apple 惯用、无依赖,但把搜索派发从 model(History)移到 view(ContentView),改架构 + 测试面,且不提供 `combineLatest`/`chunks` 等未来工具。
+- (D)Combine。Maccy 无 Combine;`@Observable`→publisher 桥接笨重;Combine 维护态。弃。
+- (E)延后/保留。违用户"更系统"要求。
+
+**理由**:用户明确要系统性框架 + 未来友好 + 非补丁。swift-async-algorithms 是 Apple 官方、稳定、Swift-6-native、富算子集的答案;`debounce` 是稳定公共 API(throttle 移除不相关);未来 ingest 合并/事件流复用同框架。删手写 Throttler 消除误标语义 + Dispatch/`Date` 旧机制 + 测试时序痛点(刚在 T0.2 撞到)。
+
+**后果/风险**:
+- **新增 SPM 依赖**(pbxproj 手改:`XCRemoteSwiftPackageReference` + `XCSwiftPackageProductDependency` + `PBXFrameworksBuildPhase` + `Package.resolved`;镜像既有 `fuse-swift` 包模式,CI 验证。无本地工具链 → 解析失败须 CI 迭代)。
+- **搜索语义变更**:从「leading-edge 空闲即触发 + 尾随合并」→ **纯尾随 debounce**(每次搜索延迟 200ms 触发)。标准搜索 UX,可接受;记行为变更(若用户要 leading-edge 即时反馈,debounce 不直接提供,需自定义——暂取纯尾随)。
+- **常驻消费 Task**(History.shared 单例,app 生命周期);`clear/clearAll/delete` 的 `throttler.cancel()` 删除——debounce + generation guard 处理 staleness(set "" → debounce → performSearch 空短路;delete 无 yield → 无 pending;generation guard 丢弃 stale actor 结果)。
+- **可测性提升**:debounce 间隔可经 `Clock` 注入(测试用 0 / 暂停 clock);消费 Task 可 await;比 Dispatch `asyncAfter` 更确定。
+- 偏差:首个 `AsyncStream` + 消费 Task 模式;记 `architecture-and-root-causes.md §2.3`。
+
+**推翻信号**:若 pbxproj 包解析在 CI 反复失败 → 退到 (B) Task-based 重写作 fallback(记偏差);若用户要 leading-edge 即时反馈 → 自定义 leading+trailing(记偏差)。
+
+---
+
 ## 决策与冻结 spec 的关系(总结)
 
 | 冻结 spec 项 | 本设计 | 关系 |

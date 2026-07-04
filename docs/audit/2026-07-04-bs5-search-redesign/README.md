@@ -30,6 +30,8 @@
 | Fuzzy 全文深度 | **标题 + 正文前缀(封顶 ~5000)** | ADR-3 |
 | 预览高亮/滚动 | **分阶段:Stage 1 预览窗内高亮(廉价)→ Stage 2 NSTextView 深度匹配滚动+高亮** | ADR-4 |
 | 全文 body 上限 | **32KB(覆盖 31KB heavy_text fixture),`Defaults` 可配** | ADR-5 |
+| `searchText` 持久化 + 语料移 actor | **持久化列 + SearchActor 持 cache + StoreEvent 维护** | ADR-6 |
+| 搜索派发框架 | **采用 swift-async-algorithms `debounce`,删手写 `Throttler`** | ADR-7 |
 
 > 详见 `decisions.md`。所有 ADR 用户已确认;推翻 = 改 ADR + 调整对应小步。
 
@@ -103,11 +105,14 @@ Track 3  预览高亮 + 滚动(Stage1 SwiftUI / Stage2 NSTextView)── BS-5R.3
 - [ ] **0.3 本地化占位** — `*.lproj/GeneralSettings.strings` 加 tooltip key(BartyCrouch 增量,英文 + 现有语种)。
 - [ ] **BS-5R.0 CI gate**(push、~11min、poll ≤每 2min)。
 
-## 四、Track 1 — 标题域正确性(BS-5R.1)
+## 四、Track 1 — 标题域正确性 + 派发基础设施(BS-5R.1)
 
-> 兑现冻结 spec 核心正确性缺口;**与全文范围正交**(全文搜索同样依赖这些修复)。低风险。
+> 兑现冻结 spec 核心正确性缺口;**与全文范围正交**(全文搜索同样依赖这些修复)。低风险。**T1.0 为派发基础设施(ADR-7,系统性),先于其他正确性项。**
 
 ### 小步骤
+- [ ] **1.0 搜索派发迁移(ADR-7):`swift-async-algorithms` `debounce` 取代手写 `Throttler`** — 加 SPM 依赖 `AsyncAlgorithms`(1.1.3,镜像 `fuse-swift` 的 pbxproj 4 段注册 + `Package.resolved`);`History.searchQuery.didSet` 改为向 `AsyncStream<String>` 产出;常驻消费 `Task` 迭代 `stream.removeDuplicates().debounce(for:.milliseconds(200))` 调 `performSearch`;删 `Maccy/Throttler.swift` + `History` 4 处调用点。**语义变更:leading-edge+trailing → 纯 trailing debounce**(记行为变更)。可测性:debounce 间隔经 `Clock` 注入。
+  - **为何先做**:系统性基础设施(用户 2026-07-04「更系统、非补丁」);为未来 `StoreEvent` 流 + ingest 写合并(`no-coalesce-of-ingest-writes`)铺路(同框架 `chunks`/`debounce`/`combineLatest`)。
+  - 测试 `SearchDispatchDebounceTests`:debounce 合并连续按键;`removeDuplicates` 不触发相同值;消费 Task 可确定性 await(注入 clock/0 间隔)。
 - [ ] **1.1 Gap A 经验闸门(07-F-010)** — `MaccyTests/SearchHighlightIndexTests.swift`:`fuseRange_emoji_landsOnCorrectGrapheme`(title `"x😀y"`,query `"y"`,断言高亮落 `y` 而非 `😀` 尾字节)+ CJK 用例 + `range_pastTruncation`。
   - **判定**:Fuse 1.4.0 若返回 grapheme offset → actor 路径已正确,**删 `4fa4946` 夸大的 "bug-2 fix" 注释/commit 引用**(记偏差);若返回 UTF-16 → 加 `toGrapheneRange(in:)`(`String.UTF16View.Index(_offsetInCodeUnits:)` + `String.Index(_:within:)`)转换。**CI 是判官**(无本地工具链)。
 - [ ] **1.2 Gap B `TextLimits` 单源(07-F-013)** — 新 `Maccy/Search/TextLimits.swift`:`enum TextLimits { static let titlePreview=1_000; static let highlight=1_000; static let fuzzy=5_000; static let regexp=1_000; static let searchBody=32_000 }`。`HistoryItemDecorator.highlight`(`:368`)改 `shortened(to: TextLimits.highlight)` 且与搜索侧同源;越界改 **clamp + `logger.debug("highlight range dropped: out of bounds")`**(不再静默 nil 丢)。
@@ -240,3 +245,4 @@ Track 3  预览高亮 + 滚动(Stage1 SwiftUI / Stage2 NSTextView)── BS-5R.3
 
 - **2026-07-04** 📋 **计划成稿** — grill-with-docs 产出 README + 6 ADR + glossary。3-agent 验证当前管线(预览/内容/索引)。用户确认 4 叉点决策。待开工 T0。
 - **2026-07-04** 🔨 **T0.1 模式循环按钮** — `Search.Mode.abbreviation`(`EX`/`FZ`/`RE`/`MX`)+ `Mode.next`(CaseIterable 循环 `exact→fuzzy→regexp→mixed→exact`);`SearchFieldView` 放大镜替换为模式 `Button`(`@Default(.searchMode)`,点击循环,`.help`=模式名,`.accessibilityLabel`=模式名);`MaccyTests/SearchModeCycleTests.swift`(4 法:循环序/全周期无重复/缩写值/唯一)。pbxproj 4 站注册(fileRef `DA070411…01` / buildFile `DA070412…02`)。CI 待 T0 门 push(T0.1/0.2/0.3 合并 ~11min 验证)。
+- **2026-07-04** 📐 **ADR-7 决策:搜索派发采用 swift-async-algorithms `debounce`** — 用户「更系统、非补丁」指令;仔细核查(swiftpackageindex)确认 `debounce(for:)` 稳定公共 API(`throttle` 1.0.4 起移出公共,不相关——Maccy 需 debounce 语义);1.1.3(2026-03-04)Swift 6 完整模式兼容;系统性未来收益(`StoreEvent` 流/ingest 合并复用)。T1.0 落地:加 SPM 依赖 + `AsyncStream.debounce` 消费 Task + 删 `Throttler.swift`。Track 1 起步步。
