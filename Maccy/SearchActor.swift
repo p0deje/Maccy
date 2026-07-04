@@ -32,6 +32,60 @@ actor SearchActor {
   private let fuzzySearchLimit = TextLimits.fuzzy
   private let regexpSearchLimit = TextLimits.regexp
 
+  /// The owned corpus, keyed by item id, plus the `all`-order sequence of ids
+  /// so exact/regexp results come back in the same order the list shows. The
+  /// main actor maintains this incrementally on add/remove/clear; a keystroke
+  /// then dispatches only the query and mode — not a rebuilt corpus projection.
+  private var corpusByID: [ItemID: SearchCorpusItem] = [:]
+  private var order: [ItemID] = []
+
+  /// Searches the owned corpus for `query` under `mode`, projecting it in
+  /// `all` order and delegating to the pure ``search(query:within:mode:)``.
+  func search(query: String, mode: Search.Mode) -> [SearchMatchDTO] {
+    let corpus = order.compactMap { corpusByID[$0] }
+    return search(query: query, within: corpus, mode: mode)
+  }
+
+  // MARK: - Corpus ownership
+
+  /// Rebuilds the corpus from `entries` (in `all` order). Used at load, after a
+  /// clear leaves survivors, and as the full-reconcile fallback.
+  func replaceCorpus(_ entries: [SearchCorpusItem]) {
+    corpusByID.removeAll(keepingCapacity: true)
+    order = entries.map(\.id)
+    for entry in entries {
+      corpusByID[entry.id] = entry
+    }
+  }
+
+  /// Inserts `entry` at `position` (the index its decorator occupies in `all`),
+  /// removing any prior entry that shares its id first. `position` is clamped
+  /// to the corpus bounds so a racy ship can't trap.
+  func insert(_ entry: SearchCorpusItem, at position: Int) {
+    if corpusByID[entry.id] != nil {
+      remove([entry.id])
+    }
+    let clamped = max(0, min(position, order.count))
+    order.insert(entry.id, at: clamped)
+    corpusByID[entry.id] = entry
+  }
+
+  /// Drops every entry whose id is in `ids`.
+  func remove(_ ids: [ItemID]) {
+    guard !ids.isEmpty else { return }
+    let idSet = Set(ids)
+    order.removeAll { idSet.contains($0) }
+    for id in ids {
+      corpusByID.removeValue(forKey: id)
+    }
+  }
+
+  /// Empties the corpus.
+  func clearCorpus() {
+    corpusByID.removeAll()
+    order.removeAll()
+  }
+
   /// Searches `corpus` for `query` under `mode`, returning `SearchMatchDTO`s
   /// with the same order and semantics as `Search.search`.
   func search(

@@ -17,6 +17,10 @@ enum TextLimits {
   static let fuzzy = 5_000
   /// Most graphemes of a title the regexp match scans.
   static let regexp = 1_000
+  /// Most graphemes of an item's body that the search actor keeps and scans.
+  /// Bounding the body keeps the actor's corpus and the per-keystroke match
+  /// cost finite for very large clips; a match beyond this window is not found.
+  static let searchBody = 32_000
   /// Longest regexp pattern (in graphemes) accepted for compilation. Anything
   /// longer is rejected outright — far beyond any legitimate clipboard query
   /// and only a compile/match cost risk.

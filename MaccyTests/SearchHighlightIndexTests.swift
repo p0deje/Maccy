@@ -16,7 +16,7 @@ final class SearchHighlightIndexTests: XCTestCase {
   /// 'y' in "x😀y" (x = 0, 😀 = 1, y = 2).
   func test_exactRange_emoji_isGraphemeOffset() async {
     let actor = SearchActor()
-    let corpus = [SearchCorpusItem(id: UUID(), title: "x😀y")]
+    let corpus = [SearchCorpusItem(id: UUID(), title: "x😀y", body: "")]
 
     let results = await actor.search(query: "y", within: corpus, mode: .exact)
 
@@ -36,7 +36,7 @@ final class SearchHighlightIndexTests: XCTestCase {
   /// before the apply side's `index(offsetBy:)`.
   func test_fuzzyRange_emoji_landsOnCorrectGrapheme() async {
     let actor = SearchActor()
-    let corpus = [SearchCorpusItem(id: UUID(), title: "x😀y")]
+    let corpus = [SearchCorpusItem(id: UUID(), title: "x😀y", body: "")]
 
     let results = await actor.search(query: "y", within: corpus, mode: .fuzzy)
 

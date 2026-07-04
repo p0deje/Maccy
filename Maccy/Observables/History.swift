@@ -265,6 +265,9 @@ class History: ItemsContainer {
     limitHistorySize(to: historySizeLimit)
 
     updateShortcuts()
+    // Seed the search actor's corpus once, after the size trim, so the first
+    // keystroke searches a corpus that already matches `all`.
+    await searchActor.replaceCorpus(all.map { corpusEntry(for: $0) })
     // Ensure that panel size is proper *after* loading all items.
     Task {
       AppState.shared.popup.needsResize = true
@@ -355,7 +358,11 @@ class History: ItemsContainer {
       reconcileWithStore()
       return
     }
+    // A `.merged` re-insert replaces the prior decorator (a fresh id) for the
+    // same persistentID; capture its id so the search-actor corpus drops it.
+    var supersededSearchID: UUID?
     if let existing = all.firstIndex(where: { $0.item.persistentModelID == persistentID }) {
+      supersededSearchID = all[existing].id
       cleanup(all[existing])
       all.remove(at: existing)
     }
@@ -374,6 +381,19 @@ class History: ItemsContainer {
       by: { sorter.areInIncreasingOrder($0.item, $1.item) }
     )
     all.insert(decorator, at: position)
+    let entry = corpusEntry(for: decorator)
+    let superseded = supersededSearchID
+    let actor = searchActor
+    // Drop the superseded id (if any) then register the new entry at the same
+    // index its decorator occupies in `all`. Fire-and-forget: a search that
+    // races the update simply searches a corpus one item stale, and the apply
+    // side's `all`-membership filter keeps the result correct.
+    Task {
+      if let superseded {
+        await actor.remove([superseded])
+      }
+      await actor.insert(entry, at: position)
+    }
     syncAllToStore()
     refreshVisibleItems()
     if searchQuery.isEmpty && !AppState.shared.navigator.isMultiSelectInProgress {
@@ -391,14 +411,22 @@ class History: ItemsContainer {
     let storeIDs = Set(
       (try? Storage.shared.context.fetchIdentifiers(FetchDescriptor<HistoryItem>())) ?? []
     )
+    var removedSearchIDs: [UUID] = []
     var index = all.startIndex
     while index < all.count {
       if storeIDs.contains(all[index].item.persistentModelID) {
         index += 1
       } else {
+        removedSearchIDs.append(all[index].id)
         cleanup(all[index])
         all.remove(at: index)
       }
+    }
+    // Drop any decorators the ingestor trimmed (e.g. a size-limit eviction) so
+    // they don't linger as orphans in the search-actor corpus.
+    if !removedSearchIDs.isEmpty {
+      let actor = searchActor
+      Task { await actor.remove(removedSearchIDs) }
     }
   }
 
@@ -433,6 +461,11 @@ class History: ItemsContainer {
       cleanup(decorator)
     }
     all = rebuilt
+    // Full reconcile rebuilt `all` from the store; rebuild the search-actor
+    // corpus to match.
+    let actor = searchActor
+    let entries = all.map { corpusEntry(for: $0) }
+    Task { await actor.replaceCorpus(entries) }
     refreshVisibleItems()
     if searchQuery.isEmpty && !AppState.shared.navigator.isMultiSelectInProgress {
       AppState.shared.navigator.select(item: unpinnedItems.first ?? pinnedItems.first)
@@ -526,6 +559,7 @@ class History: ItemsContainer {
       try withLogging("Clearing history") {
         try persistence.deleteUnpinned()
       }
+      let removedIDs = all.filter(\.isUnpinned).map(\.id)
       for item in all where item.isUnpinned {
         autoreleasepool {
           cleanup(item)
@@ -538,6 +572,8 @@ class History: ItemsContainer {
         !all.contains(where: { $0.item.persistentModelID == pid })
       }
       items = all
+      let actor = searchActor
+      Task { await actor.remove(removedIDs) }
     } catch {
       recordPersistenceError("Failed to clear history", error)
       return
@@ -566,6 +602,8 @@ class History: ItemsContainer {
       all.removeAll()
       sessionLog.removeAll()
       items = all
+      let actor = searchActor
+      Task { await actor.clearCorpus() }
     } catch {
       recordPersistenceError("Failed to clear all history", error)
       return
@@ -594,10 +632,13 @@ class History: ItemsContainer {
     }
 
     cleanup(item)
+    let removedID = item.id
     all.removeAll { $0 == item }
     items.removeAll { $0 == item }
     sessionLog.removeValues { $0 == item.item.persistentModelID }
 
+    let actor = searchActor
+    Task { await actor.remove([removedID]) }
     updateUnpinnedShortcuts()
     Task {
       AppState.shared.popup.needsResize = true
@@ -762,6 +803,15 @@ class History: ItemsContainer {
        let newIndex = sortedItems.firstIndex(of: item.item) {
       all.remove(at: currentIndex)
       all.insert(item, at: newIndex)
+      // The pin change moved the item in `all`; mirror the move in the
+      // search-actor corpus so subsequent exact/regexp results keep its place.
+      let entry = corpusEntry(for: item)
+      let movedID = item.id
+      let actor = searchActor
+      Task {
+        await actor.remove([movedID])
+        await actor.insert(entry, at: newIndex)
+      }
     }
 
     items = all
@@ -895,15 +945,25 @@ class History: ItemsContainer {
 
     let query = searchQuery
     let mode = Defaults[.searchMode]
-    let corpus = all.map { SearchCorpusItem(id: $0.id, title: $0.title) }
     let actor = searchActor
 
     searchTask = Task { [weak self] in
-      let matches = await actor.search(query: query, within: corpus, mode: mode)
+      // No corpus is shipped per keystroke: the actor owns it (maintained on
+      // add/remove/clear), so only the query and mode cross here.
+      let matches = await actor.search(query: query, mode: mode)
       // Task inherits @MainActor; after the actor hop we resume on main.
       guard !Task.isCancelled, let self else { return }
       self.applySearchResults(matches, for: query, generation: myGeneration)
     }
+  }
+
+  /// Projects one decorator into the `Sendable` corpus entry the search actor
+  /// owns: the id, the title snapshot, and the body (the item's search text,
+  /// capped at the scan window). Read on the main actor; only the value type
+  /// crosses to the actor.
+  private func corpusEntry(for decorator: HistoryItemDecorator) -> SearchCorpusItem {
+    let body = decorator.item.searchText.map { String($0.prefix(TextLimits.searchBody)) } ?? ""
+    return SearchCorpusItem(id: decorator.id, title: decorator.title, body: body)
   }
 
   /// Applies an off-main search result on main. Discarded if a newer keystroke,

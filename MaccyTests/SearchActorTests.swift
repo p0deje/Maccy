@@ -13,7 +13,7 @@ final class SearchActorTests: XCTestCase {
   /// can recover the original integer from the returned matches.
   private func item(_ number: Int, _ title: String) -> SearchCorpusItem {
     let suffix = String(format: "%012d", number)
-    return SearchCorpusItem(id: UUID(uuidString: "00000000-0000-0000-0000-\(suffix)")!, title: title)
+    return SearchCorpusItem(id: UUID(uuidString: "00000000-0000-0000-0000-\(suffix)")!, title: title, body: "")
   }
 
   /// Extracts the trailing integer each result id encodes, in match order.
