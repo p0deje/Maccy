@@ -11,7 +11,7 @@
 
 **决策**:
 - **位置**:替换 `SearchFieldView` 左侧 `magnifyingglass` 图标为模式按钮(用户选"替换放大镜")。`✕` 清除键留右侧不变。布局 `[mode][textfield…………][✕?]`。
-- **视觉**:短文本缩写 `EX`(Exact)/`FZ`(Fuzzy)/`RE`(Regexp)/`MX`(Mixed)(用户选"短文本缩写",弃 SF Symbol / 全名 pill)。tooltip 显示完整本地化模式名 + "click to change"。
+- **视觉**:短文本缩写 `EX`(Exact)/`FZ`(Fuzzy)/`RE`(Regexp)/`MX`(Mixed)(用户选"短文本缩写",弃 SF Symbol / 全名 pill)。tooltip 显示完整本地化模式名(`Search.Mode.description`,复用既有 `"Exact"/"Fuzzy"/"Regex"/"Mixed"` 本地化键)。**"click to change" 提示文本延后**(2026-07-04 偏差):新 locale 键须经 BartyCrouch `translate` 任务(deepL)传播 20+ 语种,无本地工具链不能跑;非英语语种会回退到键名(丑)。当前 tooltip = 本地化模式名(完全本地化,无回退),点击可循环由 `accessibilityLabel` 随模式变更自然传达(VoiceOver:"Exact, button"→点击→"Fuzzy, button")。
 - **交互**:仅点击循环 `CaseIterable` 顺序 `exact→fuzzy→regexp→mixed→exact`(用户选"仅点击循环",弃右键菜单 / 弹出 picker)。直接跳转走设置 Picker。
 - **联动**:按钮与设置 Picker 同绑 `Defaults[.searchMode]`(`Defaults.Keys+Names.swift:76`),双向自动同步。
 
