@@ -4,14 +4,12 @@ import XCTest
 
 /// Build-integration gate for the `swift-async-algorithms` dependency.
 ///
-/// The search-dispatch migration (T1.0b, ADR-7) relies on
+/// Maccy's per-keystroke search dispatch relies on
 /// `AsyncSequence.debounce(for:)` — Apple's official, stable rate-limiting
-/// primitive (`throttle` was removed from the public surface in 1.0.4, but
-/// `debounce` is stable and is exactly the quiescence semantic Maccy's
-/// per-keystroke search needs). This test pins that the package resolves and
-/// `debounce` is callable from this target, so a malformed SPM wiring — or a
-/// future package bump that removed/renamed the public `debounce` API — fails
-/// here, in isolation, rather than in the `History` migration.
+/// primitive (the quiescence semantic a clipboard manager's search needs). This
+/// test pins that the package resolves and `debounce` is callable from this
+/// target, so a malformed SPM wiring — or a future package bump that
+/// removed/renamed the public `debounce` API — fails here, in isolation.
 final class AsyncAlgorithmsIntegrationTests: XCTestCase {
   /// An already-finished stream debounces to nothing — deterministic and
   /// timing-free (no quiescence window to wait out).

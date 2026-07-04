@@ -155,9 +155,7 @@
 		DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA696BD12401EEE900DE80CF /* SorterTests.swift */; };
 		DA6D98E22AEABE03008A77CE /* Accessibility.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA6D98E12AEABE03008A77CE /* Accessibility.swift */; };
 		DA740D7A2C21E6B0007B1A36 /* AdvancedSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA740D782C21E6B0007B1A36 /* AdvancedSettings.strings */; };
-		DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */; };
-		DA81D674252A056B009977BC /* Throttler.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA81D673252A056B009977BC /* Throttler.swift */; };
-		DA9C3C452C207AF80056795D /* IgnoreSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3C442C207AF80056795D /* IgnoreSettingsPane.swift */; };
+		DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */; };		DA9C3C452C207AF80056795D /* IgnoreSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3C442C207AF80056795D /* IgnoreSettingsPane.swift */; };
 		DA9C3C472C20B91D0056795D /* String+Identifiable.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3C462C20B91D0056795D /* String+Identifiable.swift */; };
 		DA9C3C4A2C20D4B40056795D /* IgnoreSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = DA9C3C482C20D4B40056795D /* IgnoreSettings.strings */; };
 		DA9C3C5E2C20E1190056795D /* IgnoreApplicationsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA9C3C5D2C20E1190056795D /* IgnoreApplicationsSettingsView.swift */; };
@@ -540,9 +538,7 @@
 		DA7A045F2D720B3200743037 /* uz */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uz; path = uz.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
 		DA7A04602D720B3200743037 /* uz */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uz; path = uz.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Names.swift"; sourceTree = "<group>"; };
-		DA7E87232B7EC74100CA9EDF /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };
-		DA81D673252A056B009977BC /* Throttler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Throttler.swift; sourceTree = "<group>"; };
-		DA86E873255C4DF700D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		DA7E87232B7EC74100CA9EDF /* he */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = he; path = he.lproj/Localizable.strings; sourceTree = "<group>"; };		DA86E873255C4DF700D1929F /* nb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nb; path = nb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA9C3C442C207AF80056795D /* IgnoreSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IgnoreSettingsPane.swift; sourceTree = "<group>"; };
 		DA9C3C462C20B91D0056795D /* String+Identifiable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Identifiable.swift"; sourceTree = "<group>"; };
 		DA9C3C492C20D4B40056795D /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/IgnoreSettings.strings; sourceTree = "<group>"; };
@@ -1104,9 +1100,7 @@
 				2F0EC77C2E773314003E2EA9 /* Selection.swift */,
 				DAA5ACC92C1BEE8A00B58513 /* SoftwareUpdater.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
-				DA243D132C2F66DD0012A27F /* Storage.swift */,
-				DA81D673252A056B009977BC /* Throttler.swift */,
-				DAB8CE4024E3677F00A2500E /* Maccy.entitlements */,
+				DA243D132C2F66DD0012A27F /* Storage.swift */,				DAB8CE4024E3677F00A2500E /* Maccy.entitlements */,
 				E000000B2F5000000000000B /* Maccy-Bridging-Header.h */,
 				DAEE384D1E3DBEB100DD2966 /* Info.plist */,
 				DA6373971E4AB9BB00263391 /* Assets.xcassets */,
@@ -1472,9 +1466,7 @@
 				DAA54BFA2C3C951900B7FDD8 /* FloatingPanel.swift in Sources */,
 				DA3BCB922C3EEC3C00B01BC1 /* History.swift in Sources */,
 				DA689FCA2C1D18890009B887 /* HighlightMatch.swift in Sources */,
-				DA6491B029ABCF2400837D93 /* NSScreen+ForPopup.swift in Sources */,
-				DA81D674252A056B009977BC /* Throttler.swift in Sources */,
-				DA05B5112C234CB2006980FE /* MaccyApp.swift in Sources */,
+				DA6491B029ABCF2400837D93 /* NSScreen+ForPopup.swift in Sources */,				DA05B5112C234CB2006980FE /* MaccyApp.swift in Sources */,
 				2F0EC77F2E773DBA003E2EA9 /* MultipleSelectionListView.swift in Sources */,
 				2F0EC7892E7743D9003E2EA9 /* HoverSelectionModifier.swift in Sources */,
 				DA13D7DE2C1A436E00FA9E23 /* AppIntentError.swift in Sources */,

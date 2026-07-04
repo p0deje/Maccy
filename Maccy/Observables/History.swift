@@ -1,4 +1,5 @@
 import AppKit.NSRunningApplication
+import AsyncAlgorithms
 import Defaults
 import Foundation
 import Logging
@@ -107,20 +108,20 @@ class History: ItemsContainer {
   /// Unpinned decorators only.
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
 
-  /// The current search text; each change throttles `performSearch`.
+  /// The current search text; each change yields into the debounced search
+  /// consumer (see ``startSearchConsumer``) rather than running
+  /// `performSearch` directly.
   var searchQuery: String = "" {
     didSet {
-      throttler.throttle { [self] in
-        self.performSearch()
-      }
+      searchQueryContinuation.yield(searchQuery)
     }
   }
 
   /// Re-runs the active search immediately after the configured search mode
   /// (`Defaults[.searchMode]`) changes — from either the search-field mode
   /// button or the Settings picker. No-op when the query is empty (nothing to
-  /// refresh). Unlike keystrokes, this is a discrete action and skips the
-  /// throttler.
+  /// refresh). Unlike keystrokes, this is a discrete action that bypasses
+  /// the debounced search consumer.
   func refreshForModeChange() {
     guard !searchQuery.isEmpty else { return }
     performSearch()
@@ -152,7 +153,11 @@ class History: ItemsContainer {
 
   private let search = Search()
   private let sorter = Sorter()
-  private let throttler = Throttler(minimumDelay: 0.2)
+  /// Search-query change stream fed by `searchQuery.didSet`; the consumer in
+  /// ``startSearchConsumer`` debounces it via `swift-async-algorithms`.
+  @ObservationIgnored private let searchQueryStream: AsyncStream<String>
+  @ObservationIgnored private let searchQueryContinuation: AsyncStream<String>.Continuation
+  @ObservationIgnored private var searchConsumer: Task<Void, Never>?
   /// The single staleness oracle for off-main search. Every synchronous
   /// mutation of `items` (a newer keystroke's kickoff, an ingest re-filter,
   /// clear/clearAll/delete, the empty short-circuit) bumps it, so a late
@@ -198,6 +203,12 @@ class History: ItemsContainer {
     self.persistence = persistence
     self.shouldInsertItemsInAdd = shouldInsertItemsInAdd
     self.logsPersistenceErrors = logsPersistenceErrors
+
+    var searchContinuation: AsyncStream<String>.Continuation!
+    let stream = AsyncStream<String> { searchContinuation = $0 }
+    self.searchQueryStream = stream
+    self.searchQueryContinuation = searchContinuation
+    startSearchConsumer()
 
     Task { @MainActor in
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
@@ -509,7 +520,6 @@ class History: ItemsContainer {
   /// decorator's AppKit transients in an autorelease pool so a bulk clear
   /// doesn't pile them up.
   func clear() {
-    throttler.cancel()
     invalidateInFlightSearch()
 
     do {
@@ -542,7 +552,6 @@ class History: ItemsContainer {
 
   /// Deletes every item (pins included), draining each decorator's transients.
   func clearAll() {
-    throttler.cancel()
     invalidateInFlightSearch()
 
     do {
@@ -574,7 +583,6 @@ class History: ItemsContainer {
   func delete(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
-    throttler.cancel()
     invalidateInFlightSearch()
     do {
       try withLogging("Removing history item") {
@@ -844,7 +852,24 @@ class History: ItemsContainer {
 
   // MARK: - Off-main search
 
-  /// Throttled search entry point. Two paths:
+  /// Starts the long-lived consumer that drains `searchQueryStream` through
+  /// `removeDuplicates().debounce(for:)` and runs `performSearch` for each
+  /// quiescent value. Started once in `init`; not restarted on
+  /// `clear`/`clearAll`/`delete` — restarting would race two iterators on the
+  /// single-consumer stream, so those mutations instead rely on the
+  /// `searchGeneration` guard to discard a stale in-flight result, and any
+  /// pending debounced search re-filters the post-mutation `items` consistently
+  /// under the still-active query.
+  private func startSearchConsumer() {
+    searchConsumer = Task { @MainActor in
+      for await _ in searchQueryStream.removeDuplicates().debounce(for: .milliseconds(200)) {
+        performSearch()
+      }
+    }
+  }
+
+  /// Debounced-search entry point (invoked by the consumer above, or directly
+  /// by ``refreshForModeChange``). Two paths:
   ///  - empty query: short-circuit SYNCHRONOUSLY on main (reuses the unchanged
   ///    legacy `search.search("", within: all)` → all items, highlights cleared).
   ///    No actor hop, so clearing the query never flickers.
