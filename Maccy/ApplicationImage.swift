@@ -1,4 +1,5 @@
 import Logging
+import os
 import SwiftUI
 
 /// Lazily resolves and caches the icon for a clipboard source application,
@@ -15,7 +16,17 @@ class ApplicationImage {
   let bundleIdentifier: String?
   private var image: NSImage?
   private var lastChecked: Date?
-  private var eventSource: (any DispatchSourceFileSystemObject)?
+  // The dispatch source is reached from both the @MainActor getter/handler and
+  // the nonisolated deinit. ApplicationImageCache holds these instances in an
+  // NSCache, whose memory-pressure eviction is not guaranteed to run on the main
+  // thread; a main-isolated stored property would force the deinit to hop or
+  // assert onto main to cancel. Holding the source in a nonisolated Sendable
+  // lock lets the deinit cancel it from any thread. DispatchSourceFileSystemObject
+  // is Sendable, so the lock's state is Sendable and this compiles under Swift 6
+  // complete mode with no nonisolated(unsafe).
+  nonisolated private let eventSourceLock = OSAllocatedUnfairLock<
+    (any DispatchSourceFileSystemObject)?
+  >(initialState: nil)
 
   init(bundleIdentifier: String?, image: NSImage? = nil) {
     self.bundleIdentifier = bundleIdentifier
@@ -23,15 +34,13 @@ class ApplicationImage {
   }
 
   deinit {
-    // DispatchSource.cancel() is thread-safe on any thread, but `eventSource`
-    // is main-isolated. Reach it from this nonisolated deinit via
-    // MainActor.assumeIsolated — a synchronous runtime assertion, not an async
-    // hop, so the macOS-14 restriction on actor hops from deinit does not apply.
-    // Instances live in the main-only ApplicationImageCache, so deinit runs on
-    // main in practice.
-    MainActor.assumeIsolated {
-      eventSource?.cancel()
-    }
+    // NSCache may evict on a background thread under memory pressure, so this
+    // nonisolated deinit is not guaranteed to run on main. Cancel the source
+    // under the lock; DispatchSourceProtocol.cancel() is documented thread-safe,
+    // so this is correct on any thread and needs no MainActor.assumeIsolated
+    // (which would trap off-main with the same dispatch_assert_queue_fail
+    // signature as the 2.6.1 dispatch-source crash).
+    eventSourceLock.withLock { $0?.cancel() }
   }
 
   /// The resolved application icon, or the fallback image if the bundle cannot be found.
@@ -59,7 +68,7 @@ class ApplicationImage {
       let img = NSWorkspace.shared.icon(forFile: appURL.path)
       image = img
 
-      eventSource?.cancel()
+      eventSourceLock.withLock { $0?.cancel() }
       let descriptor = open(appURL.path, O_EVTONLY)
       guard descriptor != -1 else {
         let errorCode = errno
@@ -70,8 +79,8 @@ class ApplicationImage {
       // Defensive fd guard: ensure `descriptor` is closed if we leave scope
       // before the cancel handler is installed. `makeFileSystemObjectSource`
       // does not throw today, but a future change that fails between `open` and
-      // `resume` would otherwise leak the fd. `eventSource` is assigned only
-      // after the cancel handler is in place.
+      // `resume` would otherwise leak the fd. The source is stored on the lock
+      // only after the cancel handler is in place.
       var sourceInstalled = false
       defer { if !sourceInstalled { close(descriptor) } }
       // The dispatch source fires its handler on the main queue. The handler
@@ -86,15 +95,17 @@ class ApplicationImage {
         queue: DispatchQueue.main
       )
       source.setEventHandler { [weak self] in
-        guard let self, let eventSource = self.eventSource else {
+        guard let self else {
           return
         }
-        let event = eventSource.data
+        let event = self.eventSourceLock.withLock { $0?.data }
+        guard let event else {
+          return
+        }
         if event.contains(.delete) {
           // App bundle deleted (uninstalled) — drop the cached icon.
           Self.logger.info("ApplicationImage: deleted \(appURL.path)")
-          self.eventSource?.cancel()
-          self.eventSource = nil
+          self.eventSourceLock.withLock { $0?.cancel(); $0 = nil }
           self.image = nil
         } else if event.contains(.rename) {
           // App bundle renamed/replaced (e.g. updated) — re-fetch the icon.
@@ -105,7 +116,7 @@ class ApplicationImage {
       source.setCancelHandler {
         close(descriptor)
       }
-      eventSource = source
+      eventSourceLock.withLock { $0 = source }
       sourceInstalled = true
       source.resume()
 

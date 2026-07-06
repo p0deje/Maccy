@@ -6,7 +6,7 @@
 > **结论**:**这是 BS-7(`c6193c7`,2026-06-28)把 `ApplicationImage` 标 `@MainActor` 后引入的运行时隔离崩溃**;
 > 06-28 gap-audit 把 7.4 误判为"经 main hop 隔离安全",本崩溃证伪该判断。
 > **修复(2026-07-06 已落地)**:`ApplicationImage.swift` `queue: DispatchQueue.global()` → `queue: DispatchQueue.main`,并删除现已冗余的内层 `DispatchQueue.main.async` hop(handler 已在 main 上,直接访问 `self`;原"序言后 hop"结构是导致 06-28 误判的脚枪,一并清除)。
-> **同类排查**:§7 单人预扫描仅 `ApplicationImage` 一处确认 trap;`deinit + assumeIsolated` + NSCache 后台驱逐(§8)为同族潜在风险,待验证。
+> **同类排查(2026-07-06 复核)**:5-agent workflow(§11)独立复核 §7 全部判定——**无误判**;另发现 9 处 §7 遗漏站点(皆安全)。`deinit + assumeIsolated` + NSCache 后台驱逐(§8)**已确认真实**:`DispatchSourceFileSystemObject: Sendable`(Apple 文档)→ `OSAllocatedUnfairLock` 包裹 `eventSource` 编译;deinit 改 `withLock { $0?.cancel() }`(无 `assumeIsolated`),NSCache 后台驱逐不再 trap。**已修**(同 commit)。
 
 ---
 
@@ -294,6 +294,8 @@ source.setEventHandler { [weak self] in
 
 ## 8. 次要风险:`ApplicationImage.deinit` + `MainActor.assumeIsolated` + NSCache 后台驱逐
 
+> **(2026-07-06)经 5-agent workflow 复核确认本风险真实,并已修**(同日 commit)。关键证据:Apple `NSCache` 文档只保证"可从不同线程 add/remove/query",**对内存压力自动驱逐路径的线程零保证**;`ApplicationImageCache` 仅以 `NSCache`(countLimit=128,无 delegate,无 totalCostLimit)持有实例 → 后台驱逐 → 后台 deinit → `MainActor.assumeIsolated` trap(与主崩溃同 `dispatch_assert_queue_fail` 签名)。**修复可编译**(经 Apple 文档证实):`DispatchSourceFileSystemObject : DispatchSourceProtocol, Sendable` → `any DispatchSourceFileSystemObject` 是 Sendable → `OSAllocatedUnfairLock<(any DispatchSourceFileSystemObject)?>` 的 State Sendable,Swift 6 complete 编译过(仓库模式 `Notifier.swift:13`,零 `nonisolated(unsafe)`)。修复:`eventSource` → `nonisolated private let eventSourceLock`;deinit `eventSourceLock.withLock { $0?.cancel() }`(`DispatchSourceProtocol.cancel()` 文档线程安全);getter/handler 4 处访问改 `withLock`。详见 §11。下为原始分析(保留以示演变):
+
 `Maccy/ApplicationImage.swift:25-35`:
 
 ```swift
@@ -349,6 +351,42 @@ deinit {
 > `deinit + MainActor.assumeIsolated` 是同族陷阱:容器(NSCache 等)后台驱逐 → `deinit` 后台跑 → 同样 trap。
 
 ---
+
+## 11. 2026-07-06 多 agent 复核(5 finders C1–C5 + 综合)
+
+> 在主修复(`queue:.main`)落地、CI 绿后,用一个 workflow 对全 `Maccy/` 做对抗式复核:5 个 finder 各认领 C1–C5 一类,独立读码 + 经 Apple/第三方文档(sosumi/ctx7)核实 API 线程契约,**不信任 §7 既有判定**;综合 agent 汇总。
+
+**结论:代码库"基本但未完全"摆脱本陷阱族——除已修的主崩溃外,经复核确认仅 §8 一处残留 live latent trap(同日已修)。**
+
+### 11.1 §7 判定复核
+
+§7 全部具体判定**经独立复核无误判**(无一 safe↔trap 反转):`ApplicationImage`(🔴→已修)、`MemoryGovernance`(.main,✅)、`Popup` local-monitor / deinit(✅/🟢)、`AppDelegate` KeyboardShortcuts observer / DEBUG DistributedNotification(🟢/✅)、`AppState` willClose(.main,✅)、`Clipboard` Timer(✅)、`HeightReaderModifier`(✅)、`ModifierFlags` deinit(✅)、`StorageSettingsPane` deinit(✅)。§7 偶有推理含糊,但结论全对。`SoftwareUpdater.swift:41`(§7 标 🟡 待确认)**经 ctx7 核实 Sparkle 契约解决为 ✅**(`SPUUpdater` 文档"must be used exclusively on the main thread"+`automaticallyChecksForUpdates`"KVO-compliant, must be accessed on the main thread"→ KVO 回调在 main,`assumeIsolated` 过)。
+
+### 11.2 §7 遗漏站点(9 处,皆安全)
+
+复核发现 §7 未列但属本族调用模式的 9 处,逐一核实皆安全:`PasteStack.swift:27` `NSEvent.addGlobalMonitorForEvents`(本崩溃的对偶——非 `@Sendable` handler 继承 `@MainActor`,无 `queue:` 可覆写,安全**全靠 AppKit 全局 monitor 在 main run loop fire 的约定**;handler 内 `Task { @MainActor … }` hop 在访问前,形态正确)、`AppDelegate` 生命周期 `assumeIsolated`(applicationDidFinishLaunching:155 / applicationWillTerminate DEBUG:184,皆 @MainActor 委托法在 main)、`AppDelegate:96` `.observe(\\.statusItem.isVisible)` `@Sendable` KVO(只写线程安全 `Defaults[.]`,不触 `@MainActor` 态)、`AppDelegate:86` `onEvent` wiring(`{ @MainActor event in … }` 显式标注 + await,标准安全态)、`Notifier` `UNUserNotificationCenter` completion(plain class,`@Sendable`,只捕获 Sendable)、`StorageSettingsPane:53` `Defaults.observe`(plain `@Observable`,非 `@MainActor`)、`HistoryItemDecorator:432/454` `withObservationTracking` onChange(`@Sendable`,`DispatchQueue.main.async` hop 在 `self` 访问前)、`ModifierFlags:13` local-monitor 安装点(main run loop 约定)。
+
+### 11.3 误导性注释(3 类,1 已修)
+
+复核发现若干 in-source 注释**事实错误或含糊**,虽当前不致 trap,但会**掩盖未来回归**:
+
+| 文件:行 | 错误 | 状态 |
+|---|---|---|
+| `MemoryGovernance.swift:82-83` | 注释称 handler "`@Sendable`"——实为非 `@Sendable`(继承 `@MainActor`),安全仅因 `queue:.main` | ✅ **2026-07-06 已修**(注释改为说明继承 `@MainActor` + 安全依赖 `queue:.main`,警告勿改) |
+| `SoftwareUpdater.swift:36-39` | 称 "KVO fires on the registering thread (main)"——错(KVO 在**mutator 线程** fire);实际安全因 Sparkle 文档 main-thread 契约 | ⚠️ 待修(注释须改为引用 Sparkle 契约,防被复制到非 main-bound 属性) |
+| `AppState.swift:213` + `MemoryGovernance.swift:89` | 称 `assumeIsolated` "synchronous no-op assertion (never traps)"——作为通论误导:它是**真实运行时断言**,off-main 即 trap;no-op **仅因**各自 `queue:.main` 实际在 main 投递 | ⚠️ 待修(措辞应收紧,免维护者误以为 `assumeIsolated` 无条件安全而改 `queue:`) |
+
+### 11.4 §8 修复(同日落地)
+
+见 §8 顶注。`eventSource` 从 main-isolated `private var` 改为 `nonisolated private let eventSourceLock = OSAllocatedUnfairLock<...>`;deinit `withLock { $0?.cancel() }`(`DispatchSourceProtocol.cancel()` 文档线程安全),彻底消除 `MainActor.assumeIsolated`;getter/handler 4 处访问(`withLock { $0?.cancel() }` / `withLock { $0?.data }` / `withLock { $0?.cancel(); $0 = nil }` / `withLock { $0 = source }`)。deinit 现不再依赖任何隔离——NSCache 在任何线程驱逐都不 trap。
+
+### 11.5 回归测试(建议,未落地)
+
+CI 当初未抓到本 bug 是因无测试**真正 fire** dispatch source。推荐两层:
+1. **行为测试(本类硬保证)**:重构 `ApplicationImage` 使被监视 URL 可注入(抽 `watch(url:)` helper,测试传临时文件 URL 而非 app bundle),测试创建临时文件 → watch → rename/delete → 在 handler 路径埋 `XCTestExpectation`,断言 handler 在 main 跑且不 trap。让"删 bundle/rename"路径在 CI 可达。
+2. **结构测试(全仓哨兵)**:grep/sourcekit 枚举所有 `make*Source`/`Timer`/`addObserver` 站点,断言凡 `@MainActor` 上下文的 `queue:`/target 为 `.main`。静态闸——未来 `queue:.global()` 回归在 Lint shard 即失败。
+
+本轮**先落地主修 + §8 修复**;回归测试(层 1 优先)作为 follow-up。
 
 ## 附录 A:崩溃报告关键字段速查
 
@@ -408,4 +446,4 @@ class ApplicationImage {
 
 ---
 
-**文档状态**:2026-07-05 初版。主 bug 未修(待用户确认后改 `queue: .main` + 推 CI)。`§8` deinit 风险待查证。`§7` 预扫描覆盖 C1–C5 主要调用点。
+**文档状态**:2026-07-05 初版;2026-07-06 更新。**主 bug 已修**(`c4b91ee`,`queue:.main` + 删冗余 hop,CI 绿 run `28762825066`)。**§8 deinit+NSCache 风险经 5-agent 复核确认真实并已修**(`OSAllocatedUnfairLock` 包裹,同日 commit)。§7 判定经复核无误。3 处误导性注释(§11.3)1 已修 2 待修。回归测试(§11.5)待补。

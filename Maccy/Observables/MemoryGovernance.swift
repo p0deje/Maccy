@@ -79,8 +79,13 @@ final class MemoryGovernor {
     guard memoryPressureSource == nil else { return }
     // macOS has no `NSApplication.didReceiveMemoryWarningNotification` (that's
     // iOS `UIApplication`); use the dispatch memory-pressure source, signalled
-    // at `.warning`/`.critical`. The handler runs on `.main` but is `@Sendable`,
-    // so hop via `assumeIsolated` (`MemoryGovernor` isn't `Sendable`).
+    // at `.warning`/`.critical`. `setEventHandler` takes a non-@Sendable
+    // `() -> Void`, so the handler inherits this class's @MainActor isolation
+    // (SE-0420) and carries a runtime prologue that asserts main. Safety rests
+    // entirely on `queue: .main` (the source fires the handler on the main
+    // queue, so the prologue passes); the inner `MainActor.assumeIsolated` is
+    // then a no-op. Do NOT change `queue:` here without re-evaluating — a
+    // background queue would SIGTRAP on entry, before the body runs.
     let source = DispatchSource.makeMemoryPressureSource(
       eventMask: [.warning, .critical],
       queue: .main

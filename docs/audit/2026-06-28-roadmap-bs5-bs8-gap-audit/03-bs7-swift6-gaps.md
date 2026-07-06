@@ -27,7 +27,8 @@ AppState/History/Clipboard 类型级 @MainActor;Signature/ContentSignature/Conte
 ### 7.3 去 decorator/AppDelegate 的 @unchecked — ✅ 完成
 grep `@unchecked Sendable|nonisolated(unsafe)` in Maccy/ = 0 实际标注(仅 5 处注释说明)。
 
-### 7.4 Singleton @MainActor + ApplicationImage DispatchSource→.main — ⚠️ 部分
+### 7.4 Singleton @MainActor + ApplicationImage DispatchSource→.main — 🔴 已确认运行时崩溃(2026-07-05 证伪;2026-07-06 修复 `c4b91ee`)
+> **本审计原始判定("⚠️ 部分 / 经 main hop 隔离安全")已被证伪**:2026-07-05 用户本地构建 `Maccy 2.6.1 (60)` 崩溃(`EXC_BREAKPOINT`/`SIGTRAP`,`closure #1 in ApplicationImage.nsImage.getter`),证明 `complete` 模式编译过 ≠ 运行时隔离安全——`DispatchSourceHandler` 非 `@Sendable` 使 `setEventHandler` 闭包继承 `@MainActor`,序言在体内 `DispatchQueue.main.async` hop 之前就 trap。完整分析见 `2026-07-05-applicationimage-mainactor-crash/`;2026-07-06 修复 `c4b91ee`(`queue: .global()` → `.main` + 删冗余 hop)。下为原始审计快照(保留以示判定演变):
 ApplicationImage 已 @MainActor,但 `ApplicationImage.swift:76` 仍 `queue: DispatchQueue.global()` + `:79` 内层 `DispatchQueue.main.async` — 正是 7.4 要替换为 `queue:.main` 的模式。经 main hop 隔离安全(故 complete 编译过),但规范的改法未做。
 
 ### 7.5 @Model/ModelContext 不跨域;OnNewCopyHook;sessionLog→ItemID — ✅ 完成

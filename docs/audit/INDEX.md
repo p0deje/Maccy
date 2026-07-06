@@ -2,7 +2,7 @@
 
 > **本文件是审计文档仓库的单一权威导航中心,自包含。** 阅读任何审计文档前先读此页,以避免把"冻结的设计意图"或"历史快照"误读为"当前状态"。
 >
-> 最近更新:**2026-07-04**(新增 BS-5 搜索**重设计**计划 `2026-07-04-bs5-search-redesign/`,grill-with-docs 产物:3-agent 验证当前管线 + 6 ADR + 词汇表 + 三轨序列 T0/T1/T2/T3;范围超冻结 spec——全文搜索 + 预览高亮/滚动 + 模式循环按钮)。Phase-1 整理(2026-06-29:删除已落地的过程/手记文档与被推翻的中间分析,保留 3 个权威源 + 冻结 spec-of-record + 原始捕获数据)仍适用。
+> 最近更新:**2026-07-05**(新增 `2026-07-05-applicationimage-mainactor-crash/`:`ApplicationImage.nsImage.getter` 的 `setEventHandler` 闭包因 `@MainActor` 继承(SE-0420)+ `DispatchSourceHandler` 非 `@Sendable`+`queue: .global()` 后台回调 → `dispatch_assert_queue_fail` `SIGTRAP`;证伪 06-28 gap-audit 7.4"经 main hop 隔离安全"判断;修复一行 `queue:.main`;含同类隔离风险 C1–C5 排查清单 + 全量预扫描候选表)。Phase-1 整理(2026-06-29:删除已落地的过程/手记文档与被推翻的中间分析,保留 3 个权威源 + 冻结 spec-of-record + 原始捕获数据)仍适用。
 
 ## 0. 三大权威源 + spec-of-record(reading order)
 
@@ -107,6 +107,12 @@
 | `2026-07-04-bs5-search-redesign/README.md` | A | **BS-5 重设计执行计划**(超冻结 spec):3-agent 验证当前管线(预览/内容/索引)、当前真值表、三轨序列 T0(模式循环按钮)/T1(标题域正确性)/T2(全文搜索)/T3(预览高亮+滚动)、测试清单、**实时进度日志(每步 CI 绿追加)**。 |
 | `2026-07-04-bs5-search-redesign/decisions.md` | A | 6 ADR(用户会话内全确认):ADR-1 循环按钮替换放大镜+缩写+仅点击;**ADR-2 全文索引先无索引+测量后按需加**(推翻 Q4 标题域下的 index 选择,因全文内存数学 + <16ms 闸门针对主线程);ADR-3 fuzzy 标题+正文前缀;ADR-4 预览分阶段(NSTextView 解 3000 封顶);ADR-5 body 封顶 32KB;ADR-6 searchText 持久化列+语料移 actor。 |
 | `2026-07-04-bs5-search-redesign/glossary.md` | A | 术语(searchText/body cache/Stage1-2/Track2-index/TextLimits/PreviewTextRep/inBody)+ finding-id(03-LT/07-F)词汇 + 不变量。 |
+
+### 2026-07-05 — ApplicationImage `@MainActor` 崩溃分析(A,active)
+
+| 路径 | role | 摘要 |
+|------|------|------|
+| `2026-07-05-applicationimage-mainactor-crash/README.md` | A | **生产崩溃分析 + 同类隔离风险排查方法学**。`ApplicationImage.nsImage.getter` 的 `setEventHandler` 闭包因 `DispatchSourceHandler` 非 `@Sendable` + `@MainActor` 类(SE-0420 继承)带运行时序言;`queue: .global()` 在后台回调 → `dispatch_assert_queue_fail` → `SIGTRAP`。潜伏 ~14h(等 app bundle 删除/重命名触发)。**证伪 06-28 gap-audit 7.4"经 main hop 隔离安全"误判**。**2026-07-06 已修(`c4b91ee`)**:`queue: .global()` → `.main` + 删冗余内层 `main.async` hop(原"序言后 hop"结构是脚枪)。含 C1–C5 排查清单 + 全量预扫描候选表(仅 ApplicationImage 确认 trap;`deinit+assumeIsolated`+NSCache 后台驱逐 §8 待验证)。 |
 
 ### 独立文档
 
