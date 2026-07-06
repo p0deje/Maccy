@@ -98,14 +98,20 @@ class ApplicationImage {
         guard let self else {
           return
         }
-        let event = self.eventSourceLock.withLock { $0?.data }
-        guard let event else {
+        // Read the source out of the lock, then read `.data` on the unwrapped
+        // value so the member resolves to `DispatchSource.FileSystemEvent`
+        // (through the existential's optional-chaining inside the lock closure
+        // it instead resolves to `DispatchSourceProtocol.data: UInt`).
+        let eventSource = self.eventSourceLock.withLock { $0 }
+        guard let eventSource else {
           return
         }
+        let event = eventSource.data
         if event.contains(.delete) {
           // App bundle deleted (uninstalled) — drop the cached icon.
           Self.logger.info("ApplicationImage: deleted \(appURL.path)")
-          self.eventSourceLock.withLock { $0?.cancel(); $0 = nil }
+          eventSource.cancel()
+          self.eventSourceLock.withLock { $0 = nil }
           self.image = nil
         } else if event.contains(.rename) {
           // App bundle renamed/replaced (e.g. updated) — re-fetch the icon.
