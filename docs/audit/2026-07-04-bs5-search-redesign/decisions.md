@@ -208,6 +208,94 @@
 
 ---
 
+## ADR-8:Fuzzy 正文计算形态 — 两遍、标题优先胜(title-first-wins),镜像 T2.3
+
+**状态**:用户确认(2026-07-06,`/grill-with-docs` 会话 Q1)。**语境**:Track 2.4(ADR-3 冻结了 fuzzy 语料深度,但**未冻结计算形态**;T2.3 `simpleSearch`/`regexpSearch` 的 title-first→body 模板已落地)。
+
+**决策**:fuzzy body 命中经**两遍 Fuse、标题优先胜**:先 Fuse 标题(`SearchActor.fuzzySearch(for:in:)` 既有调用不变);仅当标题 nil(threshold 0.7 未命中)时,Fuse `item.body.shortened(to: TextLimits.fuzzy=5_000)`,产 `inBody:true` + body 相对偏移。**完全镜像 T2.3 `simpleSearch`/`regexpSearch` 的 title-first → `guard !item.body.isEmpty` → body 模式**。`SearchMatchDTO` 不变(per-result 单 `inBody: Bool` 复用,零 apply 侧改动——T2.3 inBody 分支已活)。
+
+**背景**(本决策的承重点):
+- ADR-3 冻结了**语料**(`title + body.prefix(5000)`)与**偏移契约**(标 `inBody`);**计算形态是开放的**。
+- `SearchMatchDTO.inBody` 是 per-result 单 `Bool`(`Maccy/SearchDTOs.swift:53`),`ranges` 是单一数组、索引单一字段(title 或 body)。
+- Fuse 返回**非连续 ranges**(如 `[0...0, 2...6, 9...12]`)——一个结果的多段偏移可落在不同位置。
+
+**考虑的替代**:
+- **(A) 单遍 over `title + sep + body.prefix(5000)` + offset remap。否决**:Fuse 非连续 ranges 可跨 title/sep/body 接缝 → 单结果偏移索引**两字段** → 今日 per-result 单 `Bool` DTO 表达不了 → 须改 per-range `inBody` schema(波及已落地的 T2.3 apply 路径 + T3 preview)或加静默拒绝规则;且 Fuse score 跨 ~100 字符标题 vs 5000 字符正文**未归一化**,毒化跨项排序(`SearchActor.swift:180`)。
+- **(C) 两遍但总取 min-score(best-of-both per item)。否决**:每项 2× Fuse(非仅 title-miss);迫使 per-item 标题分 vs 正文分比较——正是未归一化坑;破坏 T2.3 title-preferred 对称。
+
+**理由**:
+1. **镜像 T2.3 已验证模式**:`simpleSearch`/`regexpSearch` 均 title-first-wins;fuzzy 与之一致,模式对称。
+2. **DTO 不变**:per-result 单 `inBody` 复用,零 apply 侧改动。
+3. **消除接缝 bug 类**:两遍独立,单 Fuse 结果永不跨字段 → 不存在接缝偏移 bug。
+4. **后续 ranking 决策干净分离**:标题分与正文分天然成两 bucket(见 Q3)。
+5. **(C) 占优场景极窄**:仅"纯 fuzzy 模式 + 标题弱命中 + 同项正文强命中";mixed 模式 exact tier 先扫正文(T2.3)覆盖精确召回,fuzzy 仅承担"我记得大概"的近似召回。
+
+**后果/风险**:
+- **per-item title-first-wins 语义**:标题弱 fuzzy 命中(score<0.7 但 Fuse 返回非 nil)会**遮蔽同项正文强命中**。接受(窄:仅纯 fuzzy 模式;mixed exact 先覆盖正文精确命中;用户选 fuzzy 即接受近似)。记偏差。
+- 仅 title-miss 项多一遍 Fuse DP(pattern 已建一次,仅 O(text·query) 搜索成本;ADR-3 已预算 ~ms)。
+- **不改 ADR-3**:本 ADR 是 ADR-3 的实现形态决议,语料与偏移契约不变。
+
+**推翻信号**:若实测纯 fuzzy 模式常见"标题弱命中正文强命中"用例 → 升级到 (C)(改本 ADR + 调 `fuzzySearch(for:in:)`)。成本可控(单函数)。
+
+---
+
+## ADR-9:Fuzzy 跨项排序 — 两 bucket,标题优先(stable partition)
+
+**状态**:**✅ 用户确认(2026-07-06,`/grill-with-docs` 「按最好判断继续」指令 endorse 代理决策)。** 语境:Track 2.4。
+
+**决策**:`SearchActor.fuzzySearch(query:within:)` 排序改为**两 bucket 稳定分区**:先全部标题 fuzzy 命中(`inBody:false`,按 score 升序),再全部正文 fuzzy 命中(`inBody:true`,按 score 升序)。实现:既有 `results.sorted(by: { score })`(`SearchActor.swift:180`)前加 `partition(by: \.inBody)`(标题 bucket 在前;Swift `sorted` 稳定,各 bucket 内 score 升序保持)。
+
+**背景**:ADR-8 下单项**非标题即正文(互斥)**。现状 `:180` 为纯 score 升序。Fuse score **未按 haystack 长度归一化**——标题 ~100 字符 vs 正文 ≤5000 字符的 score 不可直接比较;混排则正文深度命中(score 小)可压过标题弱命中,序随意。
+
+**考虑的替代**:
+- **(b) 纯 score 合并。否决**:非归一化使跨字段序随意;默认(mixed)模式用户可见。
+- **(c) 标题 bonus / 正文 penalty。否决**:penalty 幅度任意、语料依赖;比 (a) 难推理。
+
+**理由**:
+1. **T2.3 先例**:`testTitleMatchPreferredOverBodyMatch` 锁标题优先(exact/regexp 保 corpus 序即标题优先);fuzzy 一致。
+2. **语义**:body-fuzzy 项 = "标题完全未命中(Fuse threshold 0.7 之上)但正文命中"——天然 fallback 召回,排在标题命中项之下合理。
+3. **消除非归一化坑**:两 bucket 内各自 score 比较(同量级 haystack 内,可比性可接受)。
+
+**后果/风险**:
+- 强正文命中永远排在所有标题命中之后(即便后者为 threshold 边缘的弱标题命中)。接受(标题命中经 0.7 已"过得去")。
+- 实现简单(stable partition + 既有 sorted)。
+
+**推翻信号**:若用户要"最强命中优先不分字段" → 改 (b)/(c)(改本 ADR + 调排序一行)。低反转成本。
+
+---
+
+## ADR-10:突变后刷新路由到 actor(修 `refreshVisibleItems` 正文分歧)
+
+**状态**:**✅ 用户确认(2026-07-06,`/grill-with-docs` 「按最好判断继续」指令 endorse 代理决策)。本决策为 T2.4 最高反转成本项——拆为 T2.4b 独立 commit,可 drop。** 语境:Track 2.4(但修 T2.3 起的 shipped bug)。
+
+**决策**:`History.refreshVisibleItems()` 非空分支由 legacy `search.search(string: searchQuery, within: all)`(`History.swift:803`)改为 `performSearch()`(actor hop)。**修 T2.3 起的 shipped 分歧**:add(`:323`)/pin-batch(`:398`)/reconcile(`:469`)经 legacy 标题-only 刷新,正文命中在突变后(如复制新项)缺失,直至用户再按键触发 debounced actor 搜索。
+
+**背景(本步主源复核发现)**:
+- `refreshVisibleItems`(`History.swift:798`)非空分支调 `search.search`(`:803`,legacy `Search`,**title-only**,无 body 概念);3 处 shipped 可达调用:add(`:323`)、pin/batch(`:398`)、reconcile(`:469`)。
+- T2.3 已使 actor 的 exact/regexp 扫正文,但 `refreshVisibleItems` 仍走 legacy → 突变后查询激活时可见列表为标题-only(正文 exact/regexp 命中缺失)。**T2.3 shipped 时此分歧未被发现/记录**。
+- T2.4 fuzzy body 扩大该分歧(fuzzy 正文命中同缺失)。
+- legacy `Searchable = HistoryItemDecorator` **无 body 字段**——分歧在 dispatch 站(`refreshVisibleItems` 调谁),非在 `Search.fuzzySearch` 内。
+
+**考虑的替代**:
+- **(b) 严守 T2.4 范围(仅 actor fuzzy),分歧延至 §5.5 legacy 退役。否决(代理判定)**:留 shipped flicker(突变后正文命中缺失);T2.4 扩大之而不修不一致。
+- **(c) 给 legacy `Searchable` 加 body 字段 + parity 更新三模式。否决**:大工(legacy 无 body 概念);不修 dispatch 站;legacy 将退役(§5.5)。
+
+**理由(代理)**:
+1. **正确性**:全文搜索要求正文命中一致可见;突变后缺失是 bug,roadmap 要求修。
+2. **一举修三模式**:exact/regexp/fuzzy 分歧同源(dispatch),一次修齐。
+3. **小代码**:`refreshVisibleItems` 非空分支改调 `performSearch()`(一行级;`performSearch` 已处理 generation bump + cancel + actor hop + apply)。
+4. **推进 legacy 退役**:非空 legacy 路径在 shipped 不再可达(空短路保留——廉价、无 actor hop、无 flicker)。
+
+**后果/风险(⚠️ 实现前须与用户确认)**:
+- **行为变更(记偏差)**:突变后刷新由同步(legacy)→ 异步(generation-guarded `searchTask`)。用户感知:复制新项时查询激活下,结果列表更新略延迟(actor hop),而非立即;但结果**正确**(含正文命中)。CLAUDE.md「不改用户可见行为除非 roadmap 要求」——roadmap(全文)要求,记偏差。
+- **空分支**:`refreshVisibleItems` 空分支(`items = all` + `updateUnpinnedShortcuts()`)是否亦并 `performSearch()`(空短路)——实现时核(`performSearch` 空分支含 `select` + `needsResize`,副作用需对齐)。
+- **`SearchTests`**:测 `Search` 直接(不经 `refreshVisibleItems`),不受影响;legacy `Search.search` 非空路径 shipped 不再可达(仅测试 + 空短路)——§5.5 退役前保留。
+- **T2.4 拆步建议**:T2.4a(actor fuzzy body + ADR-9 排序,纯 `SearchActor.swift`)+ **T2.4b**(`refreshVisibleItems` 路由修,`History.swift` + 行为变更偏差)。**T2.4b 可独立 drop** 若用户改选 (b) 延至 §5.5。
+
+**推翻信号**:若用户要严守 T2.4 范围 → 改 (b)(本 ADR 标 deferred,分歧登 §5.5 todo;T2.4b drop)。
+
+---
+
 ## 决策与冻结 spec 的关系(总结)
 
 | 冻结 spec 项 | 本设计 | 关系 |

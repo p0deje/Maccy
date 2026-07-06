@@ -63,6 +63,9 @@
 
 ### 正确性
 - **offset 单位**:全文 offset 为 **grapheme**(`String.distance(from:to:)`),与 `SearchMatchDTO` 既有语义一致;预览侧 `index(offsetBy:)` 解析。非 UTF-16/NSRange。
+- **fuzzy 两遍 title-first-wins(ADR-8)**:`SearchActor.fuzzySearch(for:in:)` 标题先扫;**仅 title-miss**(Fuse threshold 0.7 未命中)才扫 `body.prefix(TextLimits.fuzzy)`;每结果单 `SearchMatchDTO`、单 `inBody`(标题命中 `false` / 正文命中 `true`),**单结果永不跨字段**(无 title/sep/body 接缝 bug 类)。镜像 T2.3 `simpleSearch`/`regexpSearch`。替代(单遍 concat / best-of-both)见 ADR-8,均否决。
+- **fuzzy 跨项排序两 bucket(ADR-9)**:`fuzzySearch(query:within:)` 排序 = stable partition by `inBody`(标题命中 bucket 在前)+ 各 bucket 内 score 升序。消除 Fuse score 跨 haystack 长度非归一化坑;T2.3 标题优先先例延续。
+- **突变后刷新路由 actor(ADR-10)**:`refreshVisibleItems` 非空分支走 `performSearch()`(actor),不走 legacy `search.search`;修 T2.3 起 shipped 分歧(add/pin/reconcile 突变后正文命中缺失)。
 - **equality guard**:`applySearchResults` 仅当 `decorator` 的对应文本 == DTO snapshot 时高亮(防 stale offset 越界);`searchText` snapshot 须随 DTO 携带(类比既有 `title` equality guard)。
 - **截断单源**:所有截断走 `TextLimits`;搜索与高亮同源(锁 07-F-013)。
 - **generation guard**:`searchGeneration` 在增/删/清/模式切换/ingest 时 bump,防 stale 覆盖(既有,扩展到模式切换)。
