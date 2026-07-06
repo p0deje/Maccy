@@ -11,9 +11,9 @@ final class SearchActorTests: XCTestCase {
 
   /// Builds a deterministic corpus item whose id encodes `number`, so `ids(_:)`
   /// can recover the original integer from the returned matches.
-  private func item(_ number: Int, _ title: String) -> SearchCorpusItem {
+  private func item(_ number: Int, _ title: String, body: String = "") -> SearchCorpusItem {
     let suffix = String(format: "%012d", number)
-    return SearchCorpusItem(id: UUID(uuidString: "00000000-0000-0000-0000-\(suffix)")!, title: title, body: "")
+    return SearchCorpusItem(id: UUID(uuidString: "00000000-0000-0000-0000-\(suffix)")!, title: title, body: body)
   }
 
   /// Extracts the trailing integer each result id encodes, in match order.
@@ -174,6 +174,30 @@ final class SearchActorTests: XCTestCase {
     let corpus = [item(1, "foo bar"), item(2, "xyz")]
     let results = await searchActor.search(query: "fb", within: corpus, mode: .mixed)
     XCTAssertEqual(ids(results), [1])
+    XCTAssertNotNil(results.first?.score)
+  }
+
+  /// Mixed mode surfaces a clip whose body (not title) contains the query via
+  /// the exact tier — a full-text match under the default mode.
+  func testMixedFindsBodyMatchViaExactTier() async {
+    let corpus = [item(1, "zzz", body: "the needle")]
+    let results = await searchActor.search(query: "needle", within: corpus, mode: .mixed)
+
+    XCTAssertEqual(ids(results), [1])
+    XCTAssertEqual(results.first?.inBody, true)
+    XCTAssertNil(results.first?.score)
+  }
+
+  /// Mixed mode surfaces a clip whose body fuzzy-matches (and does not match the
+  /// exact or regexp tiers) via the fuzzy tier — full-text fuzzy recall under
+  /// the default mode. The regexp tier is skipped because the query has no
+  /// regular-expression metacharacter.
+  func testMixedFindsBodyMatchViaFuzzyTier() async {
+    let corpus = [item(1, "zzz", body: "foo bar")]
+    let results = await searchActor.search(query: "fb", within: corpus, mode: .mixed)
+
+    XCTAssertEqual(ids(results), [1])
+    XCTAssertEqual(results.first?.inBody, true)
     XCTAssertNotNil(results.first?.score)
   }
 }
