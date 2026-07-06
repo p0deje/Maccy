@@ -65,6 +65,26 @@
 
 ---
 
+### T2.7 实测结果与索引决策(2026-07-06,run `28790415574`,perf-text shard)
+
+**实测**(`measureActorSearch` 自含语料:n 项各持 heavy_text body 封顶 `TextLimits.searchBody`,String CoW 共享;.mixed 模式 4 query["the","lorem","xyzzy","a"]):
+- **n=1000 heavy**:`searchPerKey_avg = 4.065 s`,`mainThread_maxGap_s = 0.0083`(8.3ms)。
+- **n=200 heavy**:`searchPerKey_avg = 0.796 s`,`mainThread_maxGap_s = 0.0031`(3.1ms)。
+- **主线程闸门 PASS**(n=1000 下 8.3ms < 16ms/键)——off-main 扫描保证 UI 响应,`<16ms` 不变量成立(本 ADR 核心)。
+
+**actor 延迟主导因素 = fuzzy tier**:heavy_text fixture 不含常用英文词,4 query 均 exact 不命中 → 全走 Fuse DP on `body.shortened(fuzzy=5000)` × n。exact/regexp(query 含正文子串时)毫秒级。
+
+**决策:不开 Track 2-index(trigram)**。理由:
+1. bottleneck 是 **fuzzy**,而 **trigram 不加速 fuzzy**(本 ADR 背景已述:fuzzy 允许 gap/substitution,索引候选须另建 Levenshtein 自动机,超范围)。
+2. exact/regexp(索引能加速的模式)本就毫秒级,索引对它们也无收益。
+3. 索引代价 +60–90MB 内存(n=1000 heavy,本 ADR 背景数学)换不到 fuzzy 提速——违用户「省」。
+
+**fuzzy 延迟 caveat(记为 follow-up,非本决策阻塞)**:n=1000 heavy(压力场景;默认 `size=200` 且典型 clipboard body ≪ 31KB)fuzzy ~4s/query 是已知最坏情况。杠杆是 **fuzzy 正文封顶(ADR-3 降 5000)** 或 **fuzzy 路径优化**(疑似 `body.shortened(to:)` 经 `.count` O(body) per-项,可改 `prefix` 直取),**非 trigram 索引**。若真实用例 fuzzy 延迟成问题再开。
+
+**Track 2 结论**:**T2.8(trigram)SKIP**。Track 2 全文搜索(语料移 actor + searchText 列 + 正文扫描 + fuzzy body + mixed 全文 + body 封顶 Defaults + 测量)完成。
+
+---
+
 ## ADR-3:Fuzzy 全文深度 — 标题 + 正文前缀(封顶 ~5000)
 
 **状态**:用户确认(2026-07-04)。**语境**:Track 2.4。
