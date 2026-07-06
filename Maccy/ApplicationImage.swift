@@ -74,28 +74,32 @@ class ApplicationImage {
       // after the cancel handler is in place.
       var sourceInstalled = false
       defer { if !sourceInstalled { close(descriptor) } }
+      // The dispatch source fires its handler on the main queue. The handler
+      // closure is non-@Sendable, so it inherits this class's @MainActor
+      // isolation; running it anywhere but main would trip the @MainActor
+      // prologue (`dispatch_assert_queue(main)`) before the body executes. A
+      // background queue here was a latent SIGTRAP that fired only when a
+      // watched bundle was deleted or renamed.
       let source = DispatchSource.makeFileSystemObjectSource(
         fileDescriptor: descriptor,
         eventMask: [.delete, .rename],
-        queue: DispatchQueue.global()
+        queue: DispatchQueue.main
       )
       source.setEventHandler { [weak self] in
-        DispatchQueue.main.async { [weak self] in
-          guard let self, let eventSource = self.eventSource else {
-            return
-          }
-          let event = eventSource.data
-          if event.contains(.delete) {
-            // App bundle deleted (uninstalled) — drop the cached icon.
-            Self.logger.info("ApplicationImage: deleted \(appURL.path)")
-            self.eventSource?.cancel()
-            self.eventSource = nil
-            self.image = nil
-          } else if event.contains(.rename) {
-            // App bundle renamed/replaced (e.g. updated) — re-fetch the icon.
-            Self.logger.info("ApplicationImage: renamed \(appURL.path)")
-            self.image = NSWorkspace.shared.icon(forFile: appURL.path)
-          }
+        guard let self, let eventSource = self.eventSource else {
+          return
+        }
+        let event = eventSource.data
+        if event.contains(.delete) {
+          // App bundle deleted (uninstalled) — drop the cached icon.
+          Self.logger.info("ApplicationImage: deleted \(appURL.path)")
+          self.eventSource?.cancel()
+          self.eventSource = nil
+          self.image = nil
+        } else if event.contains(.rename) {
+          // App bundle renamed/replaced (e.g. updated) — re-fetch the icon.
+          Self.logger.info("ApplicationImage: renamed \(appURL.path)")
+          self.image = NSWorkspace.shared.icon(forFile: appURL.path)
         }
       }
       source.setCancelHandler {
