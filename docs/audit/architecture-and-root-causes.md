@@ -94,6 +94,8 @@ BS-1~BS-4 已围绕此根因重构管线(copy 路径已离主线程),**但 `Stor
 
 ### 2.3 Search(文本搜索)
 
+> 🔔 **2026-07-06 更新:BS-5 已超本表重设计(全量落地,CI 全绿)** — 见 `docs/audit/2026-07-04-bs5-search-redesign/`(README §九 进度日志 + `decisions.md` ADR-1..10 + glossary)。Track 2 全文搜索(`searchText` 列 + actor 持语料 + 正文扫描 + fuzzy body + mixed 全文 + body 封顶 Defaults + 测量)+ Track 3 预览高亮(SwiftUI AttributedString + `NSTextView` representable)完成。本节下表为 **06-28 缺口审计的历史快照**;其中 **07-F-010 经 T1.1 经验证推翻(Fuse 返 grapheme offset,代码本就正确,`4fa4946` "bug-2 fix" 空夸大)、07-F-013 经 T1.2 `TextLimits` 单源 + clamp-and-log 修复**;`G-search` 闸门经 T2.7 改测 actor 路径(主线程 <16ms ✓,决策 no-index)。下表的 [未修]/[部分] 状态已由重设计纠正。
+
 | 项 | 状态 | 说明 |
 |---|---|---|
 | 搜索 actor 化(off-main) | [已修] | `actor SearchActor`(`SearchActor.swift:31`)+ `searchGeneration` 生成代 guard + equality guard + destructive 失效(BS-5.6)。设计扎实、正确 |

@@ -1,6 +1,8 @@
 > 📌 设计意图原始档案(2026-06-14,冻结)。完成度以 docs/audit/2026-06-28-roadmap-bs5-bs8-gap-audit/00-summary.md 为准。
 > 完成: BS-5(审计 2026-06-28:部分完成 2/13 — SearchActor+generation 守卫真实正确;但 07-F-010 高亮错位、07-F-013 静默丢弃未修,虽提交 4fa4946 称 'bug-2 fix')
 
+> 🔔 **2026-07-06:BS-5 已超本冻结 spec 重设计(全量落地,CI 全绿)** — 见 `docs/audit/2026-07-04-bs5-search-redesign/`(README §九 + `decisions.md` ADR-1..10 + glossary)。下方 5.1-5.13 为冻结设计意图(正确性参考);重设计交付:Track 0(模式循环按钮)+ Track 1(标题域正确性 T1.0-T1.5)+ Track 2(全文搜索 T2.1-T2.7;T2.8 trigram 经 T2.7 实测决策 skip,no-index)+ Track 3(预览高亮 T3.1 SwiftUI AttributedString + T3.2 `NSTextView` representable)。冻结 spec 的 5.x 项与重设计映射见 `decisions.md` 末「决策与冻结 spec 的关系」表。上方「2/13」完成度(06-28 缺口审计)已被重设计超 spec 实现超越。
+
 # BS-5 — Large Text & Search(后台化 + 文本边界/单位/高亮正确性)
 
 > **依赖**:BS-2(复用其 actor 模式与 `ItemSnapshotDTO`/`StoreEvent` 抽象)。**编译边界**:小步骤 5.4 起会临时破坏编译(`searchQuery.didSet` 与 `Search` 调用点重写),**5.6 恢复**;完成全部后 `xcodebuild build` 通过、既有测试全绿。
