@@ -144,7 +144,11 @@ actor SearchActor {
     corpus.compactMap { simpleSearch(query: query, in: $0, options: options) }
   }
 
-  /// Exact (substring) match for one item, emitting Character offsets.
+  /// Exact (substring) match for one item, emitting Character offsets. Scans the
+  /// title first; if the title does not match, scans the body (full-text) so a
+  /// clip whose title does not contain the query still surfaces when its content
+  /// does. A title match is preferred (its offsets index into the displayed
+  /// title); a body match carries `inBody: true` with offsets into the body.
   ///
   /// Offsets are computed via `String.distance(from:to:)` — Character offsets,
   /// not `NSRange`/UTF-16 — so highlighting stays correct on emoji and combining marks.
@@ -153,12 +157,18 @@ actor SearchActor {
     in item: SearchCorpusItem,
     options: NSString.CompareOptions
   ) -> SearchMatchDTO? {
-    guard let range = item.title.range(of: query, options: options, range: nil, locale: nil) else {
+    if let range = item.title.range(of: query, options: options, range: nil, locale: nil) {
+      let lower = item.title.distance(from: item.title.startIndex, to: range.lowerBound)
+      let upper = item.title.distance(from: item.title.startIndex, to: range.upperBound)
+      return SearchMatchDTO(id: item.id, title: item.title, score: nil, ranges: [lower..<upper])
+    }
+    guard !item.body.isEmpty,
+          let range = item.body.range(of: query, options: options, range: nil, locale: nil) else {
       return nil
     }
-    let lower = item.title.distance(from: item.title.startIndex, to: range.lowerBound)
-    let upper = item.title.distance(from: item.title.startIndex, to: range.upperBound)
-    return SearchMatchDTO(id: item.id, title: item.title, score: nil, ranges: [lower..<upper])
+    let lower = item.body.distance(from: item.body.startIndex, to: range.lowerBound)
+    let upper = item.body.distance(from: item.body.startIndex, to: range.upperBound)
+    return SearchMatchDTO(id: item.id, title: item.title, score: nil, ranges: [lower..<upper], inBody: true)
   }
 
   // MARK: - Fuzzy
@@ -206,26 +216,34 @@ actor SearchActor {
     return corpus.compactMap { regexpSearch(regex: regex, in: $0) }
   }
 
-  /// First regex match for one item, emitting Character offsets.
+  /// First regex match for one item, emitting Character offsets. Scans the title
+  /// first; if it does not match, scans the body (full-text), mirroring
+  /// ``simpleSearch(query:in:options:)``. A title match is preferred; a body
+  /// match carries `inBody: true` with offsets into the body.
   ///
   /// Offsets are computed via `String.distance(from:to:)` — Character offsets,
   /// not `NSRange`/UTF-16. An empty match (e.g. `z*` at position 0) yields
   /// `0..<0`, a valid empty range: the item still matches and resolves to
   /// `startIndex..<startIndex` (no highlight) on the main actor.
   private func regexpSearch(regex: NSRegularExpression, in item: SearchCorpusItem) -> SearchMatchDTO? {
-    let limitedSearchString = item.title.shortened(to: regexpSearchLimit)
-    let range = NSRange(limitedSearchString.startIndex..., in: limitedSearchString)
-    guard let match = regex.firstMatch(in: limitedSearchString, range: range),
-          let matchRange = Range(match.range, in: limitedSearchString) else {
+    let limitedTitle = item.title.shortened(to: regexpSearchLimit)
+    let titleRange = NSRange(limitedTitle.startIndex..., in: limitedTitle)
+    if let match = regex.firstMatch(in: limitedTitle, range: titleRange),
+       let matchRange = Range(match.range, in: limitedTitle) {
+      let lower = limitedTitle.distance(from: limitedTitle.startIndex, to: matchRange.lowerBound)
+      let upper = limitedTitle.distance(from: limitedTitle.startIndex, to: matchRange.upperBound)
+      return SearchMatchDTO(id: item.id, title: item.title, score: nil, ranges: [lower..<upper])
+    }
+    guard !item.body.isEmpty else {
       return nil
     }
-
-    let lower = limitedSearchString.distance(
-      from: limitedSearchString.startIndex, to: matchRange.lowerBound
-    )
-    let upper = limitedSearchString.distance(
-      from: limitedSearchString.startIndex, to: matchRange.upperBound
-    )
-    return SearchMatchDTO(id: item.id, title: item.title, score: nil, ranges: [lower..<upper])
+    let bodyRange = NSRange(item.body.startIndex..., in: item.body)
+    guard let match = regex.firstMatch(in: item.body, range: bodyRange),
+          let matchRange = Range(match.range, in: item.body) else {
+      return nil
+    }
+    let lower = item.body.distance(from: item.body.startIndex, to: matchRange.lowerBound)
+    let upper = item.body.distance(from: item.body.startIndex, to: matchRange.upperBound)
+    return SearchMatchDTO(id: item.id, title: item.title, score: nil, ranges: [lower..<upper], inBody: true)
   }
 }

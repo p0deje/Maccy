@@ -882,7 +882,13 @@ class History: ItemsContainer {
     var rebuilt: [HistoryItemDecorator] = []
     for dto in matches {
       guard let decorator = all.first(where: { $0.id == dto.id }) else { continue }
-      if decorator.title == dto.title {
+      if dto.inBody {
+        // Body match: the offsets index into the body, not the title, so they
+        // must not be resolved against the title. Keep the item in the results
+        // (the match is real) but leave the title unhighlighted; preview-pane
+        // highlight is applied separately.
+        decorator.highlight("", [])
+      } else if decorator.title == dto.title {
         let ranges = dto.ranges.map { indexRange($0, in: decorator.title) }
         decorator.highlight(query, ranges)
       } else {

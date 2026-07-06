@@ -33,16 +33,36 @@ struct SearchCorpusItem: Equatable, Hashable, Sendable {
 /// - `score`: fuzzy match score (lower is better); `nil` for exact/regexp and
 ///   for the empty-query "match all" case.
 /// - `ranges`: half-open `Range<Int>` of **Character (grapheme-cluster) offsets**
-///   into `title` (`lower..<upper`), not `NSRange`/UTF-16. Computed via
+///   (`lower..<upper`), not `NSRange`/UTF-16. Computed via
 ///   `String.distance(from:to:)` on the way out and resolved via
 ///   `String.index(startIndex, offsetBy:)` on the way in. A zero-length range
 ///   (`lower == upper`, e.g. an empty regex match `z*` at position 0 → `0..<0`)
 ///   is valid and resolves to `startIndex..<startIndex` (no visible highlight);
 ///   the apply side computes both bounds independently and never assumes
 ///   `lower < upper` (never `offsetBy: upper - 1`).
+/// - `inBody`: when false (the default) `ranges` index into the item's `title`
+///   and the apply side title-highlights them. When true, `ranges` index into
+///   the item's `body` (the capped scan window) — a full-text match beyond the
+///   title — and the apply side must NOT title-highlight (the offsets are
+///   body-relative); preview-pane highlight is applied separately.
 struct SearchMatchDTO: Equatable, Sendable {
   let id: UUID
   let title: String
   let score: Double?
   let ranges: [Range<Int>]
+  let inBody: Bool
+
+  init(
+    id: UUID,
+    title: String,
+    score: Double?,
+    ranges: [Range<Int>],
+    inBody: Bool = false
+  ) {
+    self.id = id
+    self.title = title
+    self.score = score
+    self.ranges = ranges
+    self.inBody = inBody
+  }
 }
