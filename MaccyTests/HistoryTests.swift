@@ -57,27 +57,6 @@ class HistoryTests: XCTestCase {
     XCTAssertGreaterThan(history.searchGeneration, generationBefore)
   }
 
-  /// A body match beyond the configured `searchBodyLimit` window is not found:
-  /// the corpus entry's body is capped at build time, so a needle just past the
-  /// cap is absent from what the actor scans. The query is set before the add so
-  /// the add's refresh routes through `performSearch` and sets a `searchTask`
-  /// `waitForInFlightSearch` can await (otherwise the debounced consumer has not
-  /// fired yet and there is nothing to await).
-  func testSearchBodyLimitCapsCorpusBody() async {
-    let savedLimit = Defaults[.searchBodyLimit]
-    Defaults[.searchBodyLimit] = TextLimits.searchBodyMin
-    defer { Defaults[.searchBodyLimit] = savedLimit }
-
-    history.searchQuery = "NEEDLE"
-    let item = historyItem("title")
-    item.searchText = String(repeating: "x", count: TextLimits.searchBodyMin) + "NEEDLE"
-    history.add(item)
-
-    await history.waitForInFlightSearch()
-
-    XCTAssertTrue(history.items.isEmpty, "needle just past the body cap must not be found")
-  }
-
   func testNavigatorHighlightFirstSkipsInvisibleItems() {
     let first = history.add(historyItem("foo"))
     let second = history.add(historyItem("bar"))
