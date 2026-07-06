@@ -295,6 +295,28 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.previewAttributedText, AttributedString("foo bar baz"))
   }
 
+  /// `PreviewTextRep` builds the full body with the given ranges styled per the
+  /// highlight preference (bold here). Grapheme offsets land on the right
+  /// UTF-16 NSRange; deep ranges past the text length are skipped, not trapped.
+  func testPreviewTextRepBuildsHighlightedAttributedString() {
+    let saved = Defaults[.highlightMatch]
+    Defaults[.highlightMatch] = .bold
+    defer { Defaults[.highlightMatch] = saved }
+
+    let rep = PreviewTextRep(text: "foo bar baz", query: "bar", ranges: [4..<7])
+    let attributed = rep.buildAttributed()
+
+    XCTAssertEqual(attributed.length, 11)
+    let barFont = attributed.attribute(.font, at: 5, effectiveRange: nil) as? NSFont
+    let baseFont = attributed.attribute(.font, at: 0, effectiveRange: nil) as? NSFont
+    XCTAssertEqual(barFont, boldFont)
+    XCTAssertEqual(baseFont, NSFont.systemFont(ofSize: NSFont.systemFontSize))
+
+    // A range past the text length is skipped, not applied.
+    let deep = PreviewTextRep(text: "foo bar baz", query: "x", ranges: [100..<103]).buildAttributed()
+    XCTAssertEqual(deep.length, 11)
+  }
+
   /// Highlighting reaches matches past the old fixed 500-char render cap.
   /// The render window now tracks the title-preview window, so a match near the
   /// end of a long title is styled instead of silently dropped.

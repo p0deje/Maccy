@@ -52,6 +52,11 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   /// preview then shows plain ``text``. Ranges past the preview window are deep
   /// matches, left for the scrollable text view.
   var previewAttributedText: AttributedString?
+  /// The query and full body-relative ranges behind `previewAttributedText`,
+  /// retained so the scrollable preview (`PreviewTextRep`) can show the full
+  /// body and deep matches the capped `Text` window cannot.
+  private(set) var previewBodyQuery: String = ""
+  private(set) var previewBodyRanges: [Range<Int>] = []
 
   var isVisible: Bool = true
   var selectionIndex: Int = -1
@@ -126,6 +131,24 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
     textPreviewCache = preview
     textPreviewCacheLimit = limit
     return preview
+  }
+
+  /// True when the preview should use the scrollable `NSTextView` rather than
+  /// the capped SwiftUI `Text`: either the body is longer than the text-preview
+  /// window, or a match lands past it (a deep match that needs scrolling to).
+  /// `NSTextView`'s lazy layout keeps live memory bounded where `Text` would
+  /// eagerly lay out the whole string.
+  var needsScrollablePreview: Bool {
+    let limit = HistoryItem.textPreviewLimit
+    guard limit > 0 else { return false }
+    let body = item.searchText ?? ""
+    if body.count > limit {
+      return true
+    }
+    if !previewBodyQuery.isEmpty {
+      return previewBodyRanges.contains { $0.lowerBound >= limit }
+    }
+    return false
   }
 
   var isPinned: Bool { item.pin != nil }
@@ -435,6 +458,8 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
   /// ranges, and highlight style all match the previous build returns without
   /// rebuilding or reassigning.
   func setPreviewHighlight(_ query: String, _ ranges: [Range<Int>]) {
+    previewBodyQuery = query
+    previewBodyRanges = ranges
     guard !query.isEmpty, !text.isEmpty else {
       if previewAttributedText != nil { previewAttributedText = nil }
       previewHighlightMemo = nil
