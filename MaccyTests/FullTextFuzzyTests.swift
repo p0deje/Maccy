@@ -37,7 +37,9 @@ final class FullTextFuzzyTests: XCTestCase {
     XCTAssertEqual(results.first?.inBody, true)
     let bodyCount = "hello world".count
     XCTAssertTrue(
-      results.first?.ranges.allSatisfy { $0.lowerBound >= 0 && $0.upperBound <= bodyCount && $0.lowerBound <= $0.upperBound } ?? false
+      results.first?.ranges.allSatisfy {
+        $0.lowerBound >= 0 && $0.upperBound <= bodyCount && $0.lowerBound <= $0.upperBound
+      } ?? false
     )
   }
 
@@ -53,7 +55,9 @@ final class FullTextFuzzyTests: XCTestCase {
     XCTAssertEqual(results.first?.inBody, false)
     let titleCount = "foo bar".count
     XCTAssertTrue(
-      results.first?.ranges.allSatisfy { $0.lowerBound >= 0 && $0.upperBound <= titleCount && $0.lowerBound <= $0.upperBound } ?? false
+      results.first?.ranges.allSatisfy {
+        $0.lowerBound >= 0 && $0.upperBound <= titleCount && $0.lowerBound <= $0.upperBound
+      } ?? false
     )
   }
 

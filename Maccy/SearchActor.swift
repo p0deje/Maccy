@@ -181,9 +181,9 @@ actor SearchActor {
   private func fuzzySearch(query: String, within corpus: [SearchCorpusItem]) -> [SearchMatchDTO] {
     let pattern = fuse.createPattern(from: query)
     let results: [SearchMatchDTO] = corpus.compactMap { fuzzySearch(for: pattern, in: $0) }
-    return results.sorted { a, b in
-      if a.inBody != b.inBody { return !a.inBody }
-      return (a.score ?? 0) < (b.score ?? 0)
+    return results.sorted {
+      if $0.inBody != $1.inBody { return !$0.inBody }
+      return ($0.score ?? 0) < ($1.score ?? 0)
     }
   }
 
