@@ -170,7 +170,8 @@ struct PreviewTextRep: NSViewRepresentable {
       case .bold:
         body.addAttribute(.font, value: NSFont.boldSystemFont(ofSize: NSFont.systemFontSize), range: nsRange)
       case .italic:
-        let italic = NSFontManager.shared.convert(baseFont, hasTrait: .italicFontMask) ?? baseFont
+        let descriptor = baseFont.fontDescriptor.withSymbolicTraits(.italic)
+        let italic = NSFont(descriptor: descriptor, size: 0) ?? baseFont
         body.addAttribute(.font, value: italic, range: nsRange)
       case .underline:
         body.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: nsRange)
