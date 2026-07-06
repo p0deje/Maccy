@@ -53,8 +53,13 @@ struct PreviewItemView: View {
         }
       } else {
         ScrollView {
-          Text(item.text)
-            .font(.body)
+          if let preview = item.previewAttributedText {
+            Text(preview)
+              .font(.body)
+          } else {
+            Text(item.text)
+              .font(.body)
+          }
         }
       }
 

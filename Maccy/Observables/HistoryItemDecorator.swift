@@ -47,6 +47,11 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
 
   var title: String = ""
   var attributedTitle: AttributedString?
+  /// Preview-pane highlight over the item's body text (``text``), built when a
+  /// search match lands in the body. `nil` when there is no body match — the
+  /// preview then shows plain ``text``. Ranges past the preview window are deep
+  /// matches, left for the scrollable text view.
+  var previewAttributedText: AttributedString?
 
   var isVisible: Bool = true
   var selectionIndex: Int = -1
@@ -411,6 +416,64 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility, VisibilityObs
 
     attributedTitle = attributedString
     highlightMemo = HighlightMemo(title: title, ranges: ranges, style: style)
+  }
+
+  /// Inputs to the last preview-highlight build, so a repeat call with unchanged
+  /// text/ranges/style can reuse `previewAttributedText` instead of rebuilding.
+  private struct PreviewHighlightMemo {
+    let text: String
+    let ranges: [Range<Int>]
+    let style: HighlightMatch
+  }
+
+  @ObservationIgnored private var previewHighlightMemo: PreviewHighlightMemo?
+
+  /// Builds `previewAttributedText` over the body text with the given
+  /// body-relative grapheme `ranges` highlighted, clamped to the preview window:
+  /// ranges past `text.count` are deep matches, left for the scrollable text
+  /// view. Clears when `query` or `text` is empty. A repeat call whose text,
+  /// ranges, and highlight style all match the previous build returns without
+  /// rebuilding or reassigning.
+  func setPreviewHighlight(_ query: String, _ ranges: [Range<Int>]) {
+    guard !query.isEmpty, !text.isEmpty else {
+      if previewAttributedText != nil { previewAttributedText = nil }
+      previewHighlightMemo = nil
+      return
+    }
+
+    let style = Defaults[.highlightMatch]
+    if let memo = previewHighlightMemo,
+       memo.text == text, memo.ranges == ranges, memo.style == style {
+      return
+    }
+
+    var attributed = AttributedString(text)
+    let textCount = text.count
+    for range in ranges {
+      let lower = range.lowerBound
+      let upper = min(range.upperBound, textCount)
+      guard lower < textCount, lower < upper else { continue }
+      let lowerString = text.index(text.startIndex, offsetBy: lower)
+      let upperString = text.index(text.startIndex, offsetBy: upper)
+      guard let lowerAttr = AttributedString.Index(lowerString, within: attributed),
+            let upperAttr = AttributedString.Index(upperString, within: attributed) else {
+        continue
+      }
+      switch style {
+      case .bold:
+        attributed[lowerAttr..<upperAttr].font = .bold(.body)()
+      case .italic:
+        attributed[lowerAttr..<upperAttr].font = .italic(.body)()
+      case .underline:
+        attributed[lowerAttr..<upperAttr].underlineStyle = .single
+      default:
+        attributed[lowerAttr..<upperAttr].backgroundColor = .findHighlightColor
+        attributed[lowerAttr..<upperAttr].foregroundColor = .black
+      }
+    }
+
+    previewAttributedText = attributed
+    previewHighlightMemo = PreviewHighlightMemo(text: text, ranges: ranges, style: style)
   }
 
   /// Toggles the item's pin between its current value and a free pin slot.

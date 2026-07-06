@@ -901,16 +901,19 @@ class History: ItemsContainer {
       if dto.inBody {
         // Body match: the offsets index into the body, not the title, so they
         // must not be resolved against the title. Keep the item in the results
-        // (the match is real) but leave the title unhighlighted; preview-pane
-        // highlight is applied separately.
+        // (the match is real) but leave the title unhighlighted; the preview
+        // pane highlights the window-visible body ranges.
         decorator.highlight("", [])
+        decorator.setPreviewHighlight(query, dto.ranges)
       } else if decorator.title == dto.title {
         let ranges = dto.ranges.map { indexRange($0, in: decorator.title) }
         decorator.highlight(query, ranges)
+        decorator.setPreviewHighlight("", [])
       } else {
         // Title changed since the corpus snapshot — offsets may be stale, so
         // skip highlighting (clear it) but still keep the match in `items`.
         decorator.highlight("", [])
+        decorator.setPreviewHighlight("", [])
       }
       rebuilt.append(decorator)
     }

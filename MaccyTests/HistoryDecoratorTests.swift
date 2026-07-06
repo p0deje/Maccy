@@ -274,6 +274,27 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.attributedTitle, nil)
   }
 
+  func testPreviewHighlight() {
+    let itemDecorator = historyItemDecorator("foo bar baz")
+    itemDecorator.setPreviewHighlight("bar", [4..<7])
+
+    var expected = AttributedString("foo bar baz")
+    expected[expected.range(of: "bar")!].font = .bold(.body)()
+    XCTAssertEqual(itemDecorator.previewAttributedText, expected)
+
+    itemDecorator.setPreviewHighlight("", [])
+    XCTAssertEqual(itemDecorator.previewAttributedText, nil)
+  }
+
+  /// A range past the preview window (a deep body match) is skipped, not
+  /// applied — so it can never index out of bounds. The result equals plain text.
+  func testPreviewHighlightDeepRangeBeyondWindowIsSkipped() {
+    let itemDecorator = historyItemDecorator("foo bar baz")
+    itemDecorator.setPreviewHighlight("baz", [100..<103])
+
+    XCTAssertEqual(itemDecorator.previewAttributedText, AttributedString("foo bar baz"))
+  }
+
   /// Highlighting reaches matches past the old fixed 500-char render cap.
   /// The render window now tracks the title-preview window, so a match near the
   /// end of a long title is styled instead of silently dropped.
