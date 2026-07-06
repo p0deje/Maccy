@@ -88,4 +88,9 @@ extension Defaults.Keys {
   static let windowPosition = Key<NSPoint>("windowPosition", default: NSPoint(x: 0.5, y: 0.8))
   static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: false)
   static let previewWidth = Key<CGFloat>("previewWidth", default: 400)
+  /// Max characters of an item's body that the search actor keeps and scans.
+  /// Beyond this window a match is not found (degrades to title search). The
+  /// stored value is clamped to `TextLimits.searchBodyMin...Max` at read time,
+  /// and `History` rebuilds the corpus when this changes.
+  static let searchBodyLimit = Key<Int>("searchBodyLimit", default: TextLimits.searchBody)
 }

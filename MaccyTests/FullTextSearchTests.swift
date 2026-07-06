@@ -72,4 +72,12 @@ final class FullTextSearchTests: XCTestCase {
 
     XCTAssertTrue(results.isEmpty)
   }
+
+  /// The configurable body-scan cap clamps to its bounded range at read time.
+  func testSearchBodyLimitClampsToRange() {
+    XCTAssertEqual(TextLimits.clampedSearchBody(0), TextLimits.searchBodyMin)
+    XCTAssertEqual(TextLimits.clampedSearchBody(500), TextLimits.searchBodyMin)
+    XCTAssertEqual(TextLimits.clampedSearchBody(TextLimits.searchBody), TextLimits.searchBody)
+    XCTAssertEqual(TextLimits.clampedSearchBody(1_000_000), TextLimits.searchBodyMax)
+  }
 }

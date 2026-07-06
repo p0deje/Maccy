@@ -20,7 +20,20 @@ enum TextLimits {
   /// Most graphemes of an item's body that the search actor keeps and scans.
   /// Bounding the body keeps the actor's corpus and the per-keystroke match
   /// cost finite for very large clips; a match beyond this window is not found.
+  /// This is also the default for the user-configurable
+  /// ``Defaults.Keys/searchBodyLimit``.
   static let searchBody = 32_000
+  /// Inclusive bounds for the configurable body-scan cap. The stored
+  /// ``Defaults.Keys/searchBodyLimit`` value is clamped to this range at read
+  /// time so an out-of-range setting cannot starve search (too small) or let a
+  /// single clip's body dominate corpus memory (too large).
+  static let searchBodyMin = 1_000
+  static let searchBodyMax = 256_000
+
+  /// Returns `limit` clamped to the configurable body-scan range.
+  static func clampedSearchBody(_ limit: Int) -> Int {
+    min(max(limit, searchBodyMin), searchBodyMax)
+  }
   /// Longest regexp pattern (in graphemes) accepted for compilation. Anything
   /// longer is rejected outright — far beyond any legitimate clipboard query
   /// and only a compile/match cost risk.

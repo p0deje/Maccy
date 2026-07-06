@@ -251,6 +251,16 @@ class History: ItemsContainer {
         }
       }
     }
+
+    Task { @MainActor in
+      for await _ in Defaults.updates(.searchBodyLimit, initial: false) {
+        // The body-scan cap changed; existing corpus entries still hold bodies
+        // capped to the old window, so rebuild and re-run the active search.
+        let entries = all.map { corpusEntry(for: $0) }
+        await searchActor.replaceCorpus(entries)
+        refreshVisibleItems()
+      }
+    }
   }
 
   /// Fetches all items, sorts them, decorates each, and applies the size limit.
@@ -871,7 +881,8 @@ class History: ItemsContainer {
   /// capped at the scan window). Read on the main actor; only the value type
   /// crosses to the actor.
   private func corpusEntry(for decorator: HistoryItemDecorator) -> SearchCorpusItem {
-    let body = decorator.item.searchText.map { String($0.prefix(TextLimits.searchBody)) } ?? ""
+    let cap = TextLimits.clampedSearchBody(Defaults[.searchBodyLimit])
+    let body = decorator.item.searchText.map { String($0.prefix(cap)) } ?? ""
     return SearchCorpusItem(id: decorator.id, title: decorator.title, body: body)
   }
 
