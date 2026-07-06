@@ -173,35 +173,51 @@ actor SearchActor {
 
   // MARK: - Fuzzy
 
-  /// Fuzzy search: Fuse pattern, 5k-character truncation guard, results sorted by score ascending.
+  /// Fuzzy search: Fuse pattern, `fuzzySearchLimit` truncation guard. Results
+  /// are ordered title matches first, then body matches — within each bucket by
+  /// score ascending. Fuse scores are not normalized across haystack length
+  /// (a title vs a body prefix), so a single cross-field score sort would order
+  /// arbitrarily; bucketing keeps title hits above content-only hits.
   private func fuzzySearch(query: String, within corpus: [SearchCorpusItem]) -> [SearchMatchDTO] {
     let pattern = fuse.createPattern(from: query)
     let results: [SearchMatchDTO] = corpus.compactMap { fuzzySearch(for: pattern, in: $0) }
-    return results.sorted(by: { ($0.score ?? 0) < ($1.score ?? 0) })
+    return results.sorted { a, b in
+      if a.inBody != b.inBody { return !a.inBody }
+      return (a.score ?? 0) < (b.score ?? 0)
+    }
   }
 
-  /// Scores one item against the fuzzy pattern, truncating titles beyond `fuzzySearchLimit`.
+  /// Scores one item against the fuzzy pattern, scanning the title first and
+  /// falling back to the body prefix when the title does not match — mirroring
+  /// ``simpleSearch(query:in:options:)``. A title match carries title-relative
+  /// offsets; a body match carries body-relative offsets and `inBody: true`.
   ///
-  /// The prefix is unchanged, so Character offsets against the truncated string
-  /// stay valid against the full title carried in the DTO. Fuse returns inclusive
+  /// Both fields are truncated to `fuzzySearchLimit` (grapheme-safe) so the Fuse
+  /// dynamic-programming cost stays bounded. Fuse returns inclusive Character
   /// ranges; they are converted to half-open Character offsets.
   private func fuzzySearch(for pattern: Fuse.Pattern?, in item: SearchCorpusItem) -> SearchMatchDTO? {
-    var searchString = item.title
-    if searchString.count > fuzzySearchLimit {
-      // Shortcut to avoid slow search.
-      searchString = searchString.shortened(to: fuzzySearchLimit)
+    var titleString = item.title
+    if titleString.count > fuzzySearchLimit {
+      titleString = titleString.shortened(to: fuzzySearchLimit)
     }
-
-    guard let fuzzyResult = fuse.search(pattern, in: searchString) else {
-      return nil
+    if let titleResult = fuse.search(pattern, in: titleString) {
+      return SearchMatchDTO(
+        id: item.id,
+        title: item.title,
+        score: titleResult.score,
+        ranges: titleResult.ranges.map { $0.lowerBound..<($0.upperBound + 1) }
+      )
     }
-
-    // Fuse ranges are inclusive-inclusive Character indices; emit half-open
-    // Character offsets (Character, not UTF-16).
-    let ranges: [Range<Int>] = fuzzyResult.ranges.map {
-      $0.lowerBound..<($0.upperBound + 1)
-    }
-    return SearchMatchDTO(id: item.id, title: item.title, score: fuzzyResult.score, ranges: ranges)
+    guard !item.body.isEmpty else { return nil }
+    let bodyString = item.body.shortened(to: fuzzySearchLimit)
+    guard let bodyResult = fuse.search(pattern, in: bodyString) else { return nil }
+    return SearchMatchDTO(
+      id: item.id,
+      title: item.title,
+      score: bodyResult.score,
+      ranges: bodyResult.ranges.map { $0.lowerBound..<($0.upperBound + 1) },
+      inBody: true
+    )
   }
 
   // MARK: - Regexp
