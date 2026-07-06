@@ -794,13 +794,18 @@ class History: ItemsContainer {
     updateUnpinnedShortcuts()
   }
 
-  /// Refreshes `items`: `all` when the query is empty, else the filtered matches.
+  /// Refreshes `items` after a mutation (add/pin/reconcile): `all` when the
+  /// query is empty, otherwise re-runs the search through ``performSearch`` so
+  /// the result reflects the actor's owned corpus — including full-text body
+  /// matches — rather than a synchronous title-only filter. The non-empty path
+  /// is async: `performSearch` spawns a generation-guarded task, so `items`
+  /// updates when the actor returns, not within this call.
   private func refreshVisibleItems() {
     if searchQuery.isEmpty {
       items = all
       updateUnpinnedShortcuts()
     } else {
-      updateItems(search.search(string: searchQuery, within: all))
+      performSearch()
     }
   }
 

@@ -42,6 +42,21 @@ class HistoryTests: XCTestCase {
     XCTAssertFalse(history.items.contains(second))
   }
 
+  /// Adding an item during an active (non-empty) query re-runs the search
+  /// through `performSearch` — the actor path — so the result reflects the owned
+  /// corpus (including body matches) rather than a synchronous title-only filter.
+  /// `performSearch` bumps `searchGeneration` synchronously, the oracle that this
+  /// routing changed (a legacy-filter refresh leaves the generation untouched).
+  func testAddingDuringActiveSearchBumpsSearchGeneration() {
+    history.add(historyItem("foo"))
+    history.searchQuery = "foo"
+    let generationBefore = history.searchGeneration
+
+    history.add(historyItem("bar"))
+
+    XCTAssertGreaterThan(history.searchGeneration, generationBefore)
+  }
+
   func testNavigatorHighlightFirstSkipsInvisibleItems() {
     let first = history.add(historyItem("foo"))
     let second = history.add(historyItem("bar"))
