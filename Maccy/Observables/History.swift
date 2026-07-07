@@ -24,7 +24,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   var firstUnpinnedItem: HistoryItemDecorator? { items.first(where: \.isUnpinned) }
 
   var searchQuery: String = "" {
-    didSet {
+    didSet(previousSearchQuery) {
+      guard searchQuery != previousSearchQuery else { return }
       throttler.throttle { [self] in
         updateItems(search.search(string: searchQuery, within: all))
 
