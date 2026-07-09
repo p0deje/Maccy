@@ -34,6 +34,7 @@
 		2FF2E94E2E774B5B0093D72C /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94D2E774B570093D72C /* NavigationManager.swift */; };
 		2FF2E9502E7808470093D72C /* AppImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94F2E7808420093D72C /* AppImageView.swift */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
+		4F1BF1D079BC22CB6F487445 /* PopupPositionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40DE239D8B1706A4F1BD5F66 /* PopupPositionTests.swift */; };
 		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
 		DA009932256411F90030E697 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DA00992D256411F90030E697 /* README.md */; };
 		DA009934256411F90030E697 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = DA00992F256411F90030E697 /* LICENSE */; };
@@ -204,8 +205,8 @@
 		2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationImage.swift; sourceTree = "<group>"; };
 		2FF2E94D2E774B570093D72C /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		2FF2E94F2E7808420093D72C /* AppImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImageView.swift; sourceTree = "<group>"; };
-		2FFF8BCF2CE2116600235A78 /* Data+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Encoding.swift"; sourceTree = "<group>"; };
 		3EBDD1E32BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		40DE239D8B1706A4F1BD5F66 /* PopupPositionTests.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PopupPositionTests.swift; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4DC4D112252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -722,6 +723,7 @@
 				DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */,
 				DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
+				40DE239D8B1706A4F1BD5F66 /* PopupPositionTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
 			);
@@ -1064,6 +1066,7 @@
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
 				DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,
+				4F1BF1D079BC22CB6F487445 /* PopupPositionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
