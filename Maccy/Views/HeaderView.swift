@@ -30,12 +30,9 @@ struct HeaderView: View {
         }
         .shortcutKeyHelp(
           name: .togglePreview,
-          key: "PreviewKey",
+          key: controller.state.isOpen ? "ClosePreview" : "OpenPreview",
           tableName: "PreviewItemView",
           replacementKey: "previewKey"
-        )
-        .accessibilityLabel(
-          Text(controller.state.isOpen ? "preview_toggle_hide_accessibility_label" : "preview_toggle_show_accessibility_label")
         )
         .padding(.trailing, Popup.horizontalPadding)
       }

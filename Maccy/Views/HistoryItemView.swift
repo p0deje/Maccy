@@ -100,8 +100,5 @@ struct HistoryItemView: View {
     .accessibilityAction(named: Text("history_item_delete_action")) {
       appState.history.delete(item)
     }
-    .onTapGesture {
-      performSelect()
-    }
   }
 }

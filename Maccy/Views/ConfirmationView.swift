@@ -7,15 +7,7 @@ struct ConfirmationView<Content: View>: View {
   var body: some View {
     if let confirmation = item.confirmation, let suppressConfirmation = item.suppressConfirmation {
       content()
-        .accessibilityAddTraits(.isButton)
-        .accessibilityAction {
-          if suppressConfirmation.wrappedValue {
-            item.action()
-          } else {
-            item.showConfirmation = true
-          }
-        }
-        .onTapGesture {
+        .buttonAction {
           if suppressConfirmation.wrappedValue {
             item.action()
           } else {
@@ -32,11 +24,7 @@ struct ConfirmationView<Content: View>: View {
         .dialogSuppressionToggle(isSuppressed: suppressConfirmation)
     } else {
       content()
-        .accessibilityAddTraits(.isButton)
-        .accessibilityAction {
-          item.action()
-        }
-        .onTapGesture {
+        .buttonAction {
           item.action()
         }
     }

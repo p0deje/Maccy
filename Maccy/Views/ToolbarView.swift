@@ -3,24 +3,33 @@ import KeyboardShortcuts
 import SwiftUI
 
 private struct KeyboardShortcutHelpModifier: ViewModifier {
-  let name: KeyboardShortcuts.Name
+  // nil for buttons with no keyboard shortcut (e.g. CopyExtractedText) - they still get
+  // help + accessibilityLabel from `key`, just without a shortcut description substituted in.
+  let name: KeyboardShortcuts.Name?
   let key: String
   let tableName: String
   let comment: String = ""
   let replacementKey: String
 
+  // Also used as the accessibilityLabel below: without this, several buttons across the app
+  // (Pin, Delete, toggle preview, copy extracted text) were relying on the bare SF Symbol's
+  // own generic system description, which says nothing about what the button actually does.
+  private var resolvedText: Text? {
+    let localized = NSLocalizedString(key, tableName: tableName, comment: comment)
+    guard let name else {
+      return Text(localized)
+    }
+    guard let shortcut = KeyboardShortcuts.Shortcut(name: name) else {
+      return nil
+    }
+    return Text(localized.replacingOccurrences(of: "{\(replacementKey)}", with: shortcut.description))
+  }
+
   func body(content: Content) -> some View {
-    if let shortcut = KeyboardShortcuts.Shortcut(name: name) {
+    if let resolvedText {
       content
-        .help(
-          Text(
-            NSLocalizedString(key, tableName: tableName, comment: comment)
-              .replacingOccurrences(
-                of: "{\(replacementKey)}",
-                with: shortcut.description
-              )
-          )
-        )
+        .help(resolvedText)
+        .accessibilityLabel(resolvedText)
     } else {
       content
     }
@@ -47,10 +56,10 @@ struct ToolbarButton<Label: View>: View {
   }
 
   func shortcutKeyHelp(
-    name: KeyboardShortcuts.Name,
+    name: KeyboardShortcuts.Name? = nil,
     key: String,
     tableName: String,
-    replacementKey: String
+    replacementKey: String = ""
   ) -> some View {
     self.modifier(
       KeyboardShortcutHelpModifier(
@@ -113,10 +122,9 @@ struct ToolbarView: View {
           } label: {
             Image(systemName: "text.viewfinder")
           }
-          .help(Text("CopyExtractedText", tableName: "PreviewItemView"))
-          // Icon-only button relying solely on the SF Symbol's own generic description
-          // ("text.viewfinder") - VoiceOver had no way to know this copies extracted text.
-          .accessibilityLabel(Text("CopyExtractedText", tableName: "PreviewItemView"))
+          // Icon-only button that used to rely on the SF Symbol's own generic system
+          // description ("text.viewfinder") - said nothing about what it actually does.
+          .shortcutKeyHelp(key: "CopyExtractedText", tableName: "PreviewItemView")
           .disabled(selectedImageText == nil)
         }
 
@@ -131,15 +139,14 @@ struct ToolbarView: View {
             Image(systemName: "pin")
           }
         }
+        // Same bug as above: bare "pin"/"pin.slash" SF Symbols read as generic system
+        // descriptions ("pin marker"/"slashed pin") instead of the actual toggle action.
         .shortcutKeyHelp(
           name: .pin,
           key: shouldUnpin ? "UnpinKey" : "PinKey",
           tableName: "PreviewItemView",
           replacementKey: "pinKey"
         )
-        // Same bug as above: bare "pin"/"pin.slash" SF Symbols read as generic system
-        // descriptions ("pin marker"/"slashed pin") instead of the actual toggle action.
-        .accessibilityLabel(Text(shouldUnpin ? "history_item_unpin_action" : "history_item_pin_action"))
         .disabled(pinActionDisabled)
 
         ToolbarButton {
@@ -153,7 +160,6 @@ struct ToolbarView: View {
           tableName: "PreviewItemView",
           replacementKey: "deleteKey"
         )
-        .accessibilityLabel(Text("history_item_delete_action"))
       }
 
       if appState.navigator.pasteStackSelected {
