@@ -15,8 +15,6 @@
 "status_item_accessibility_label" = "Maccy — clipboard history";
 "status_item_disabled_accessibility_suffix" = "paused";
 "search_clear_accessibility_label" = "Clear search";
-"preview_toggle_show_accessibility_label" = "Show preview";
-"preview_toggle_hide_accessibility_label" = "Hide preview";
 "history_item_pin_action" = "Pin";
 "history_item_unpin_action" = "Unpin";
 "history_item_delete_action" = "Delete";

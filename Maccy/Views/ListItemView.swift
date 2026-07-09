@@ -50,6 +50,11 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
 
+  // Shared by the visible badge and the accessibilityValue below, so they never drift apart.
+  private var selectionNumber: String? {
+    selectionIndex.map { "\($0 + 1)" }
+  }
+
   var body: some View {
     HStack(spacing: 0) {
       if showIcons, let appIcon {
@@ -88,8 +93,8 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       Spacer()
 
       HStack(spacing: 5) {
-        if let index = selectionIndex {
-          Text("\(index + 1)")
+        if let selectionNumber {
+          Text(selectionNumber)
             .font(.caption)
             .frame(minWidth: 10, alignment: .center)
             .padding(3)
@@ -125,10 +130,9 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     .clipShape(selectionAppearance.rect(cornerRadius: Popup.cornerRadius))
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(Text(accessibilityLabel))
-    .accessibilityAddTraits(.isButton)
     .accessibilityAddTraits(isSelected ? .isSelected : [])
-    .accessibilityValue(selectionIndex.map { Text("\($0 + 1)") } ?? Text(""))
-    .accessibilityAction {
+    .accessibilityValue(selectionNumber.map { Text($0) } ?? Text(""))
+    .buttonAction {
       accessibilityAction?()
     }
     .hoverSelectionId(selectionId)

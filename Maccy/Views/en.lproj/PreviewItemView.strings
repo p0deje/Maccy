@@ -6,5 +6,6 @@
 "PinKey" = "Press {pinKey} to pin.";
 "UnpinKey" = "Press {pinKey} to unpin.";
 "DeleteKey" = "Press {deleteKey} to delete.";
-"PreviewKey" = "Press {previewKey} to toggle preview.";
+"OpenPreview" = "Press {previewKey} to show preview.";
+"ClosePreview" = "Press {previewKey} to hide preview.";
 "CopyExtractedText" = "Copy extracted text.";

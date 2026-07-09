@@ -148,6 +148,8 @@
 		DAE8F5D42C43262B00851CA9 /* Popup.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAE8F5D32C43262B00851CA9 /* Popup.swift */; };
 		DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAEE38461E3DBEB100DD2966 /* AppDelegate.swift */; };
 		DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD9268A521A00990986 /* String+Shortened.swift */; };
+		F18F166970893C503065D056 /* View+ButtonAction.swift in Sources */ = {isa = PBXBuildFile; fileRef = EB2945CD7912BE7C7D330C27 /* View+ButtonAction.swift */; };
+		9B24FC30A093450F29E2CC4A /* View+Invisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC045710F4F8773D1A5EC87 /* View+Invisible.swift */; };
 		DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */; };
 		DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */; };
 /* End PBXBuildFile section */
@@ -576,6 +578,8 @@
 		DAF750012C517B3E0027DBCE /* cs */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = cs; path = cs.lproj/StorageSettings.strings; sourceTree = "<group>"; };
 		DAF750022C517B400027DBCE /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/StorageSettings.strings"; sourceTree = "<group>"; };
 		DAFE2DD9268A521A00990986 /* String+Shortened.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Shortened.swift"; sourceTree = "<group>"; };
+		EB2945CD7912BE7C7D330C27 /* View+ButtonAction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+ButtonAction.swift"; sourceTree = "<group>"; };
+		9DC045710F4F8773D1A5EC87 /* View+Invisible.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "View+Invisible.swift"; sourceTree = "<group>"; };
 		DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTests.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Shortcuts.swift"; sourceTree = "<group>"; };
 		E5885F0587B04A99933245E6 /* km */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = km; path = km.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
@@ -643,6 +647,8 @@
 				DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */,
 				DA9C3C462C20B91D0056795D /* String+Identifiable.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
+				EB2945CD7912BE7C7D330C27 /* View+ButtonAction.swift */,
+				9DC045710F4F8773D1A5EC87 /* View+Invisible.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -1201,6 +1207,8 @@
 				DAA072DD2C41C61F006DDFD2 /* FooterItemView.swift in Sources */,
 				DA3EAE0C2AE30F7500F39108 /* NSApplication+Windows.swift in Sources */,
 				DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */,
+				F18F166970893C503065D056 /* View+ButtonAction.swift in Sources */,
+				9B24FC30A093450F29E2CC4A /* View+Invisible.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,
 				DA0FFA2A2C8D100C00A66C97 /* ModifierFlags+Description.swift in Sources */,
 				DAEE38471E3DBEB100DD2966 /* AppDelegate.swift in Sources */,
