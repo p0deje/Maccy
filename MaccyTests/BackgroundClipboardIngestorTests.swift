@@ -540,9 +540,9 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
 
     // First ingest with the init fetch forced to fail: "pre" never enters the
     // index. "other" is distinct, so it inserts regardless of dedup.
-    await ingestor._testSetDedupInitFetchFailure(true)
+    await ingestor.setDedupInitFetchFailureForTesting(true)
     _ = await ingestor.ingest(request(text: "other"))
-    await ingestor._testSetDedupInitFetchFailure(false)
+    await ingestor.setDedupInitFetchFailureForTesting(false)
 
     // Re-copy "pre" now that the init fetch can succeed: the index rebuilds and
     // the duplicate must merge into the pre-seeded "pre".

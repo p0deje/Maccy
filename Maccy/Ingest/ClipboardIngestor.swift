@@ -126,7 +126,9 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
 
   #if DEBUG
   /// Error injected by `forceInitFetchFailure` to exercise the init retry path.
-  private enum ForcedDedupInitFailure: Error { case forced }
+  private enum ForcedDedupInitFailure: Error {
+    case forced
+  }
 
   /// Test-only: when set, the dedup-index init fetch fails until cleared,
   /// simulating a transient store error so the retry path is exercisable.
@@ -134,7 +136,7 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   private var forceInitFetchFailure = false
 
   /// Test-only setter for `forceInitFetchFailure`.
-  func _testSetDedupInitFetchFailure(_ enabled: Bool) {
+  func setDedupInitFetchFailureForTesting(_ enabled: Bool) {
     forceInitFetchFailure = enabled
   }
   #endif
