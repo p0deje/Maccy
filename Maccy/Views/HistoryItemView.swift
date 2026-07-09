@@ -37,6 +37,39 @@ struct HistoryItemView: View {
     return ColorImage.from(item.title)
   }
 
+  // Full description for VoiceOver: the visible title can be truncated with an ellipsis
+  // and images/colors carry no text at all today, so this must stand on its own.
+  private var accessibilityLabel: String {
+    var parts: [String] = []
+    if item.hasImage, let image = item.item.image {
+      let size = image.pixelSize
+      parts.append(String(format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""), Int(size.width), Int(size.height)))
+    } else {
+      parts.append(item.title)
+    }
+    if let application = item.application {
+      parts.append(application)
+    }
+    if item.isPinned {
+      parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
+    }
+    if let index = visualIndex {
+      parts.append(String(format: NSLocalizedString("history_item_selected_accessibility_value", comment: ""), index + 1, appState.navigator.selection.count))
+    }
+    return parts.joined(separator: ", ")
+  }
+
+  private func performSelect() {
+    if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
+      appState.navigator.addToSelection(item: item)
+    } else {
+      let flags = NSEvent.ModifierFlags.currentModifierFlags
+      Task {
+        appState.history.select(item, flags: flags)
+      }
+    }
+  }
+
   var body: some View {
     ListItemView(
       id: item.id,
@@ -48,22 +81,27 @@ struct HistoryItemView: View {
       shortcuts: item.shortcuts,
       isSelected: item.isSelected,
       selectionIndex: visualIndex,
-      selectionAppearance: selectionAppearance
+      selectionAppearance: selectionAppearance,
+      accessibilityLabel: accessibilityLabel,
+      accessibilityAction: performSelect
     ) {
       Text(verbatim: item.title)
     }
     .onAppear {
       item.ensureThumbnailImage()
     }
+    .accessibilityAction(named: Text(item.isPinned ? "history_item_unpin_action" : "history_item_pin_action")) {
+      // Not item.togglePin() directly: that only flips the pin, without the re-sort,
+      // shortcut-reassignment, and search-clear that History.togglePin(_:) also does -
+      // the same divergence-from-the-model-layer bug already fixed once in this file
+      // (accessibilityAction for delete correctly goes through appState.history).
+      appState.history.togglePin(item)
+    }
+    .accessibilityAction(named: Text("history_item_delete_action")) {
+      appState.history.delete(item)
+    }
     .onTapGesture {
-      if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
-        appState.navigator.addToSelection(item: item)
-      } else {
-        let flags = NSEvent.ModifierFlags.currentModifierFlags
-        Task {
-          appState.history.select(item, flags: flags)
-        }
-      }
+      performSelect()
     }
   }
 }

@@ -34,9 +34,13 @@ struct HeaderView: View {
           tableName: "PreviewItemView",
           replacementKey: "previewKey"
         )
+        .accessibilityLabel(
+          Text(controller.state.isOpen ? "preview_toggle_hide_accessibility_label" : "preview_toggle_show_accessibility_label")
+        )
         .padding(.trailing, Popup.horizontalPadding)
       }
       .opacity(appState.searchVisible ? 1 : 0)
+      .accessibilityHidden(!appState.searchVisible)
       .layoutPriority(1)
     }
     .padding(.top, Popup.verticalPadding)

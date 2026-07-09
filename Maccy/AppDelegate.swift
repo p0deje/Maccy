@@ -17,6 +17,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     return statusItem
   }()
 
+  // Base accessibility label for the status item; kept separate from the optional
+  // dynamic `title` (recent copy text) so VoiceOver always announces something
+  // meaningful even when that preference is off or the app is disabled.
+  private func updateStatusItemAccessibilityLabel() {
+    let base = NSLocalizedString("status_item_accessibility_label", comment: "")
+    statusItem.button?.setAccessibilityLabel(
+      isStatusItemDisabled ? "\(base) — \(NSLocalizedString("status_item_disabled_accessibility_suffix", comment: ""))" : base
+    )
+  }
+
   private var isStatusItemDisabled: Bool {
     Defaults[.ignoreEvents] || Defaults[.enabledPasteboardTypes].isEmpty
   }
@@ -77,15 +87,19 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       }
     }
 
+    updateStatusItemAccessibilityLabel()
+
     Task {
       for await _ in Defaults.updates(.ignoreEvents) {
         statusItem.button?.appearsDisabled = isStatusItemDisabled
+        updateStatusItemAccessibilityLabel()
       }
     }
 
     Task {
       for await _ in Defaults.updates(.enabledPasteboardTypes) {
         statusItem.button?.appearsDisabled = isStatusItemDisabled
+        updateStatusItemAccessibilityLabel()
       }
     }
   }

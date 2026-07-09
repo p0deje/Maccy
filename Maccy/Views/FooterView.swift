@@ -27,8 +27,10 @@ struct FooterView: View {
       ZStack {
         FooterItemView(item: footer.items[0])
           .opacity(clearOpacity)
+          .accessibilityHidden(clearOpacity == 0)
         FooterItemView(item: footer.items[1])
           .opacity(clearAllOpacity)
+          .accessibilityHidden(clearAllOpacity == 0)
       }
       .onChange(of: modifierFlags.flags) {
         if clearAllModifiersPressed {
@@ -55,6 +57,7 @@ struct FooterView: View {
       }
     }
     .opacity(showFooter ? 1 : 0)
+    .accessibilityHidden(!showFooter)
     .frame(maxHeight: showFooter ? nil : 0)
     .padding(.bottom, showFooter ? Popup.verticalPadding : 0)
     .readHeight(appState, into: \.popup.footerHeight)
