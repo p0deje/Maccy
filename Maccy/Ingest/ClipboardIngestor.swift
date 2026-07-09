@@ -392,10 +392,8 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
       dedupInitConsecutiveFailures += 1
       let spacing = 1 << min(dedupInitConsecutiveFailures - 1, 5)
       dedupInitNextAttemptCall = dedupInitCallNumber + spacing
-      // Worded to avoid "failed"/"error:" — CI's log scan treats those as
-      // build failures, and this path is exercised by the regression test.
       logger.error(
-        "Dedup index init did not succeed; retry #\(dedupInitConsecutiveFailures): \(String(describing: error))"
+        "Dedup index init failed; retry #\(dedupInitConsecutiveFailures): \(String(describing: error))"
       )
       return
     }
