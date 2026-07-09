@@ -113,6 +113,32 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
   private var persistentIDByItemID: [ItemID: PersistentIdentifier] = [:]
   private var dedupIndexInitialized = false
 
+  /// Consecutive failures of the dedup-index init fetch, used to space retries
+  /// so a persistently-unreadable store does not add a full-table fetch to every
+  /// copy. Reset to zero once an init fetch succeeds.
+  private var dedupInitConsecutiveFailures = 0
+  /// 1-based number of the next `ensureDedupIndexInitialized` call allowed to
+  /// attempt an init fetch. Stays at 1 until a failure, then advances by the
+  /// current backoff spacing.
+  private var dedupInitNextAttemptCall = 1
+  /// Monotonic count of `ensureDedupIndexInitialized` invocations, for spacing.
+  private var dedupInitCallNumber = 0
+
+  #if DEBUG
+  /// Error injected by `forceInitFetchFailure` to exercise the init retry path.
+  private enum ForcedDedupInitFailure: Error { case forced }
+
+  /// Test-only: when set, the dedup-index init fetch fails until cleared,
+  /// simulating a transient store error so the retry path is exercisable.
+  /// Compiled out of Release; production is always false.
+  private var forceInitFetchFailure = false
+
+  /// Test-only setter for `forceInitFetchFailure`.
+  func _testSetDedupInitFetchFailure(_ enabled: Bool) {
+    forceInitFetchFailure = enabled
+  }
+  #endif
+
   init(
     modelContainer: ModelContainer,
     image: ImageProcessing,
@@ -340,16 +366,40 @@ actor BackgroundClipboardIngestor: ClipboardIngestor {
     }
   }
 
-  /// Lazily builds the dedup index from the committed store on the first ingest:
-  /// one O(n) pass, then skipped on subsequent ingests. Runs on the actor's
+  /// Lazily builds the dedup index from the committed store on the first
+  /// successful ingest: one O(n) pass, then skipped on subsequent ingests. A
+  /// transient fetch failure does NOT permanently disable dedup — the index is
+  /// left un-initialized and the fetch is retried on later ingests, with
+  /// exponential backoff so a persistently-unreadable store bounds the per-copy
+  /// cost rather than turning every copy into a full-table fetch. Each failed
+  /// attempt is logged so the regression is diagnosable. Runs on the actor's
   /// isolated context.
   private func ensureDedupIndexInitialized() {
     guard !dedupIndexInitialized else { return }
-    let items = (try? modelContext.fetch(FetchDescriptor<HistoryItem>())) ?? []
-    for existing in items {
-      registerInDedupIndex(existing)
+    dedupInitCallNumber += 1
+    guard dedupInitCallNumber >= dedupInitNextAttemptCall else { return }
+    let existing: [HistoryItem]
+    do {
+      #if DEBUG
+      if forceInitFetchFailure {
+        throw ForcedDedupInitFailure.forced
+      }
+      #endif
+      existing = try modelContext.fetch(FetchDescriptor<HistoryItem>())
+    } catch {
+      dedupInitConsecutiveFailures += 1
+      let spacing = 1 << min(dedupInitConsecutiveFailures - 1, 5)
+      dedupInitNextAttemptCall = dedupInitCallNumber + spacing
+      logger.error(
+        "Dedup index init failed; retry #\(dedupInitConsecutiveFailures): \(String(describing: error))"
+      )
+      return
+    }
+    for item in existing {
+      registerInDedupIndex(item)
     }
     dedupIndexInitialized = true
+    dedupInitConsecutiveFailures = 0
   }
 
   /// Registers one item's signature plus its id-to-`PersistentIdentifier` bridge entry.

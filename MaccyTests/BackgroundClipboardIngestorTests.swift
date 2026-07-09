@@ -499,6 +499,69 @@ final class BackgroundClipboardIngestorTests: XCTestCase {
     XCTAssertEqual(stored?.first?.numberOfCopies, 2)
   }
 
+  // MARK: - Dedup-index init failure recovery
+
+  #if DEBUG
+  /// A transient failure of the dedup-index init fetch must not permanently
+  /// disable dedup for the session. The index is built from rows that existed
+  /// before the first ingest; if that init fetch fails, those rows stay
+  /// un-indexed and a later duplicate of one of them would be missed — until
+  /// the fetch recovers and the index rebuilds on a subsequent ingest.
+  ///
+  /// Regression guard for the silent session-wide dedup-disable: the old
+  /// `ensureDedupIndexInitialized` did `(try? fetch) ?? []` and flipped
+  /// `dedupIndexInitialized = true` on failure, so one transient error left the
+  /// index empty for the whole process and every later copy created a new item.
+  /// The fix retries on the next ingest (with backoff) instead of giving up.
+  ///
+  /// Scenario: pre-seed "pre" outside the ingestor; force the first ingest's
+  /// init fetch to fail (so "pre" is not loaded into the index); clear the
+  /// failure; re-copy "pre". On the fixed code the second ingest rebuilds the
+  /// index and the duplicate merges (`dedupHits == 1`, one "pre" row); on the
+  /// broken code the index never rebuilds, the duplicate misses, and a second
+  /// "pre" row appears (`dedupHits == 0`).
+  func testTransientInitFetchFailureDoesNotPermanentlyDisableDedup() async {
+    let context = Storage.shared.context
+    let pre = HistoryItem(
+      contents: [HistoryItemContent(type: stringType, value: "pre".data(using: .utf8))]
+    )
+    pre.title = "pre"
+    pre.firstCopiedAt = Date(timeIntervalSince1970: 1_700_000_000)
+    pre.lastCopiedAt = pre.firstCopiedAt
+    context.insert(pre)
+    try? context.save()
+
+    let ingestor = BackgroundClipboardIngestor(
+      modelContainer: Storage.shared.container,
+      image: PassthroughImageProcessor(),
+      now: { Date(timeIntervalSince1970: 1_700_000_000) },
+      onEvent: { _ in }
+    )
+
+    // First ingest with the init fetch forced to fail: "pre" never enters the
+    // index. "other" is distinct, so it inserts regardless of dedup.
+    await ingestor._testSetDedupInitFetchFailure(true)
+    _ = await ingestor.ingest(request(text: "other"))
+    await ingestor._testSetDedupInitFetchFailure(false)
+
+    // Re-copy "pre" now that the init fetch can succeed: the index rebuilds and
+    // the duplicate must merge into the pre-seeded "pre".
+    let duplicate = await ingestor.ingest(request(text: "pre"))
+
+    XCTAssertEqual(
+      duplicate.metrics.dedupHits, 1,
+      "Dedup must recover after a transient init-fetch failure (silent-disable regression)"
+    )
+    let stored = try? Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())
+    let preRows = stored?.filter { $0.title == "pre" } ?? []
+    XCTAssertEqual(
+      preRows.count, 1,
+      "The re-copy of 'pre' must merge into the pre-seeded item, not create a second 'pre' row"
+    )
+    XCTAssertEqual(preRows.first?.numberOfCopies, 2)
+  }
+  #endif
+
   // MARK: - Helpers
 
   /// Builds a single-content text `IngestRequest`.
