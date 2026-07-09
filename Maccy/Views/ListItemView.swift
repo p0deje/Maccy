@@ -40,6 +40,10 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var selectionIndex: Int?
   var help: LocalizedStringKey?
   var selectionAppearance: SelectionAppearance = .none
+  // Full, untruncated description of this row for VoiceOver (title, source app, image
+  // dimensions, etc). The visible title may be truncated with an ellipsis; this must not be.
+  var accessibilityLabel: String = ""
+  var accessibilityAction: (() -> Void)?
   @ViewBuilder var title: () -> Title
 
   @Default(.showApplicationIcons) private var showIcons
@@ -64,6 +68,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       if let accessoryImage {
         Image(nsImage: accessoryImage)
           .accessibilityIdentifier("copy-history-item")
+          .accessibilityHidden(true) // Described by the row's own accessibilityLabel
           .padding(.trailing, 5)
           .padding(.vertical, 5)
       }
@@ -71,10 +76,12 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       if let image {
         Image(nsImage: image)
           .accessibilityIdentifier("copy-history-item")
+          .accessibilityHidden(true) // Described by the row's own accessibilityLabel
           .padding(.trailing, 5)
           .padding(.vertical, 5)
       } else {
         ListItemTitleView(attributedTitle: attributedTitle, title: title)
+          .accessibilityHidden(true) // Described by the row's own accessibilityLabel
           .padding(.trailing, 5)
       }
 
@@ -91,6 +98,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
               in: Capsule()
             )
             .foregroundStyle(Color.white)
+            .accessibilityHidden(true) // Folded into the row's accessibilityLabel/Value
         }
 
         if !shortcuts.isEmpty {
@@ -99,6 +107,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
               let visible = shortcut.isVisible(shortcuts, modifierFlags.flags)
               KeyboardShortcutView(shortcut: shortcut)
                 .opacity(visible ? 1 : 0)
+                .accessibilityHidden(true) // Folded into the row's accessibilityHint below
                 .frame(width: visible ? nil : 0)
             }
           }
@@ -114,6 +123,14 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     // The slight opcaity white background is a workaround
     .background(isSelected ? Color.accentColor.opacity(0.8) : .white.opacity(0.001))
     .clipShape(selectionAppearance.rect(cornerRadius: Popup.cornerRadius))
+    .accessibilityElement(children: .ignore)
+    .accessibilityLabel(Text(accessibilityLabel))
+    .accessibilityAddTraits(.isButton)
+    .accessibilityAddTraits(isSelected ? .isSelected : [])
+    .accessibilityValue(selectionIndex.map { Text("\($0 + 1)") } ?? Text(""))
+    .accessibilityAction {
+      accessibilityAction?()
+    }
     .hoverSelectionId(selectionId)
     .help(help ?? "")
   }

@@ -12,3 +12,16 @@
 "clear_alert_comment" = "Esta acción no puede deshacerse.";
 "clear_alert_cancel" = "Cancelar";
 "clear_alert_confirm" = "Limpiar";
+"status_item_accessibility_label" = "Maccy — historial del portapapeles";
+"status_item_disabled_accessibility_suffix" = "en pausa";
+"search_clear_accessibility_label" = "Borrar búsqueda";
+"preview_toggle_show_accessibility_label" = "Mostrar vista previa";
+"preview_toggle_hide_accessibility_label" = "Ocultar vista previa";
+"history_item_pin_action" = "Anclar";
+"history_item_unpin_action" = "Desanclar";
+"history_item_delete_action" = "Eliminar";
+"history_item_pinned_accessibility_value" = "Anclado";
+"history_item_selected_accessibility_value" = "Seleccionado, %d de %d";
+"history_item_image_accessibility_label_no_app" = "Imagen, %d por %d";
+"history_item_image_accessibility_generic" = "Imagen";
+"toolbar_remove_paste_stack_action" = "Quitar de la pila para pegar";

@@ -17,6 +17,7 @@ struct PinPickerView: View {
       }
       .controlSize(.small)
       .labelsHidden()
+      .accessibilityLabel(Text("Key", tableName: "PinsSettings"))
     }
   }
 }
@@ -26,6 +27,7 @@ struct PinTitleView: View {
 
   var body: some View {
     TextField("", text: $item.title)
+      .accessibilityLabel(Text("Alias", tableName: "PinsSettings"))
   }
 }
 
@@ -65,6 +67,7 @@ struct PinValueView: View {
               updateItemContent()
             }
             .padding(.trailing, isRichText ? 40 : 0) // increased space for icon
+            .accessibilityLabel(Text("Content", tableName: "PinsSettings"))
 
           if isRichText && isEditing {
             HStack(spacing: 0) {

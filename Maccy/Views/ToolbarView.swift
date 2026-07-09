@@ -114,6 +114,9 @@ struct ToolbarView: View {
             Image(systemName: "text.viewfinder")
           }
           .help(Text("CopyExtractedText", tableName: "PreviewItemView"))
+          // Icon-only button relying solely on the SF Symbol's own generic description
+          // ("text.viewfinder") - VoiceOver had no way to know this copies extracted text.
+          .accessibilityLabel(Text("CopyExtractedText", tableName: "PreviewItemView"))
           .disabled(selectedImageText == nil)
         }
 
@@ -134,6 +137,9 @@ struct ToolbarView: View {
           tableName: "PreviewItemView",
           replacementKey: "pinKey"
         )
+        // Same bug as above: bare "pin"/"pin.slash" SF Symbols read as generic system
+        // descriptions ("pin marker"/"slashed pin") instead of the actual toggle action.
+        .accessibilityLabel(Text(shouldUnpin ? "history_item_unpin_action" : "history_item_pin_action"))
         .disabled(pinActionDisabled)
 
         ToolbarButton {
@@ -147,6 +153,7 @@ struct ToolbarView: View {
           tableName: "PreviewItemView",
           replacementKey: "deleteKey"
         )
+        .accessibilityLabel(Text("history_item_delete_action"))
       }
 
       if appState.navigator.pasteStackSelected {
@@ -155,6 +162,7 @@ struct ToolbarView: View {
         } label: {
           Image(systemName: "stop")
         }
+        .accessibilityLabel(Text("toolbar_remove_paste_stack_action"))
       }
     }
   }
