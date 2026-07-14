@@ -46,8 +46,7 @@ class HistoryTests: XCTestCase {
 
     XCTAssertEqual(history.items, [firstDecorator, secondDecorator])
     XCTAssertTrue(history.items[0].item.lastCopiedAt > history.items[0].item.firstCopiedAt)
-    // TODO: This works in reality but fails in tests?!
-    // XCTAssertEqual(history.items[0].item.numberOfCopies, 2)
+    XCTAssertEqual(history.items[0].item.numberOfCopies, 2)
     XCTAssertEqual(history.items[0].item.pin, "f")
     XCTAssertEqual(history.items[0].item.title, "xyz")
     XCTAssertEqual(history.items[0].item.application, "iTerm.app")
