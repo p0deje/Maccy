@@ -26,8 +26,11 @@ class ClipboardTests: XCTestCase {
   let savedIgnoredApps = Defaults[.ignoredApps]
   let savedIgnoredPasteboardTypes = Defaults[.ignoredPasteboardTypes]
 
+  @MainActor
   override func setUp() {
     super.setUp()
+    Storage.shared.ensureDefaultWorkspace()
+    WorkspaceManager.shared.load()
     Defaults[.ignoreAllAppsExceptListed] = false
     Defaults[.ignoreEvents] = false
   }

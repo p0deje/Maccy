@@ -43,6 +43,7 @@ class Popup {
   var extraTopHeight: CGFloat = 0
   var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
+  var workspaceTabsHeight: CGFloat = 0
 
   private var eventsMonitor: Any?
 
@@ -97,7 +98,8 @@ class Popup {
     if AppState.shared.preview.state.isOpen && AppState.shared.navigator.leadSelection != nil {
       minimumHeight += Self.minimumPreviewHeight
     }
-    minimumHeight = max(headerHeight + Self.verticalPadding, minimumHeight)
+    let chromeHeight = headerHeight + workspaceTabsHeight + footerHeight + Self.verticalPadding
+    minimumHeight = max(chromeHeight, minimumHeight)
 
     height = max(height, minimumHeight)
     height = min(height, Defaults[.windowSize].height)
@@ -105,7 +107,7 @@ class Popup {
   }
 
   func resize(height: CGFloat) {
-    self.height = height + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
+    self.height = height + headerHeight + workspaceTabsHeight + extraTopHeight + extraBottomHeight + footerHeight
     AppState.shared.appDelegate?.panel.verticallyResize(to: preferredHeight(for: self.height))
     needsResize = false
   }

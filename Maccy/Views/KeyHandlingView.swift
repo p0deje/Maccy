@@ -148,6 +148,9 @@ struct KeyHandlingView<Content: View>: View {
           appState.togglePin()
           return .handled
         case .selectCurrentItem:
+          if appState.isPopoverEditing {
+            return .ignored
+          }
           appState.select()
           return .handled
         case .close:
