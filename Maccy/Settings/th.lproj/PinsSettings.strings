@@ -5,3 +5,10 @@
 "ContentIsNotText" = "เนื้อหาที่ไม่สามารถแก้ไขได้ (รูปภาพหรือไฟล์)";
 "RichTextEditWarning" = "การแก้ไขจะลบการจัดรูปแบบทั้งหมด";
 "PinCustomizationDescription" = "คุณสามารถปรับแต่งปุ่มลัด, ชื่อ, และเนื้อหาของรายการที่ปักหมุดไว้ได้.\nเพื่อแก้ไข, ให้คลิกสองครั้งที่รายการนั้นและป้อนค่าใหม่. โปรดทราบว่าสามารถเปลี่ยนแปลงได้เฉพาะข้อความธรรมดาเท่านั้น.";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";
+"ExpandPinGroupsByDefault" = "Expand groups by default";

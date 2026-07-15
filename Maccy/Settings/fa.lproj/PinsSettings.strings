@@ -5,3 +5,9 @@
 "ContentIsNotText" = "";
 "RichTextEditWarning" = "";
 "PinCustomizationDescription" = "";
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";
+"ExpandPinGroupsByDefault" = "Expand groups by default";

@@ -5,3 +5,10 @@
 "ContentIsNotText" = "Konten yang tidak dapat diedit (gambar atau file)";
 "RichTextEditWarning" = "Pengeditan akan menghapus semua format.";
 "PinCustomizationDescription" = "Anda dapat menyesuaikan tombol pintas, judul, dan isi dari setiap item yang dipin. Untuk mengedit, klik ganda item tersebut dan masukkan nilai baru.\nHarap diperhatikan bahwa hanya teks biasa yang dapat diubah.";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";
+"ExpandPinGroupsByDefault" = "Expand groups by default";

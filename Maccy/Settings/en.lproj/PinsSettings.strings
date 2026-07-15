@@ -1,7 +1,13 @@
 "Title" = "Pins";
 "Key" = "Key";
+"Group" = "Group";
 "Alias" = "Title";
 "Content" = "Content";
 "ContentIsNotText" = "Non-editable content (image or file)";
 "RichTextEditWarning" = "Editing will discard all formatting.";
 "PinCustomizationDescription" = "You can customize the hotkey, title, and content of any pinned item. To edit, double-click the item and enter a new value.\nPlease note that only plain text can be changed.";
+"PinGroupsHeader" = "Groups";
+"ExpandPinGroupsByDefault" = "Expand groups by default";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";

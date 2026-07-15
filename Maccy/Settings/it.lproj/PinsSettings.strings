@@ -5,3 +5,10 @@
 "ContentIsNotText" = "Contenuto non modificabile (immagine o file)";
 "RichTextEditWarning" = "La modifica elimina tutta la formattazione.";
 "PinCustomizationDescription" = "È possibile personalizzare il tasto di scelta rapida, il titolo e il contenuto di qualsiasi elemento appuntato.\nPer modificarlo, fare doppio clic sull'elemento e inserire un nuovo valore.";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";
+"ExpandPinGroupsByDefault" = "Expand groups by default";

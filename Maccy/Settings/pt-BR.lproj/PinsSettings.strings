@@ -5,3 +5,10 @@
 "ContentIsNotText" = "Conteúdo não editável (imagem ou ficheiro)";
 "RichTextEditWarning" = "A edição elimina toda a formatação.";
 "PinCustomizationDescription" = "É possível personalizar a tecla de atalho, o título e o conteúdo de qualquer item fixado. Para editar, faça duplo clique no item e introduza um novo valor.\nPor favor, note que apenas o texto simples pode ser alterado.";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";
+"ExpandPinGroupsByDefault" = "Expand groups by default";

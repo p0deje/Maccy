@@ -5,3 +5,10 @@
 "Content" = "Conținut";
 "ContentIsNotText" = "Conținut needitabil (imagine sau fișier)";
 "RichTextEditWarning" = "Editarea va șterge formatarea existentă.";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";
+"ExpandPinGroupsByDefault" = "Expand groups by default";

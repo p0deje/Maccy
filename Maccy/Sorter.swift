@@ -27,6 +27,21 @@ class Sorter {
     return items
       .sorted(by: { return bySortingAlgorithm($0, $1, by) })
       .sorted(by: byPinned)
+      .sorted(by: byGroup)
+  }
+
+  private func byGroup(_ lhs: HistoryItem, _ rhs: HistoryItem) -> Bool {
+    // Only sort pinned items by group; unpinned items are unaffected
+    guard lhs.pin != nil, rhs.pin != nil else {
+      return false
+    }
+    let lhsOrder = lhs.pinGroup?.sortOrder ?? Int.max
+    let rhsOrder = rhs.pinGroup?.sortOrder ?? Int.max
+    if lhsOrder != rhsOrder {
+      return lhsOrder < rhsOrder
+    }
+    // Same group — preserve sortBy order (return false = stable)
+    return false
   }
 
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {

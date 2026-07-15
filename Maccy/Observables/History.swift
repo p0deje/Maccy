@@ -111,6 +111,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     limitHistorySize(to: Defaults[.size])
 
     updateShortcuts()
+
+    // Load pin groups
+    try? await PinGroupsManager.shared.load()
+
     // Ensure that panel size is proper *after* loading all items.
     Task {
       AppState.shared.popup.needsResize = true
@@ -151,6 +155,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
+      item.pinGroup = existingHistoryItem.pinGroup
       item.title = existingHistoryItem.title
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
@@ -422,10 +427,16 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
-  func togglePin(_ item: HistoryItemDecorator?) {
+  func togglePin(_ item: HistoryItemDecorator?, group: PinGroup? = nil) {
     guard let item else { return }
 
-    item.togglePin()
+    if item.isPinned {
+      // Unpin: remove pin key and group
+      PinGroupsManager.shared.unpinItem(item.item)
+    } else {
+      // Pin: assign key + add to group
+      PinGroupsManager.shared.pinItem(item.item, to: group)
+    }
 
     let sortedItems = sorter.sort(all.map(\.item))
     if let currentIndex = all.firstIndex(of: item),

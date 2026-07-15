@@ -5,3 +5,10 @@
 "Title" = "Pinos";
 "Alias" = "Titlo";
 "Key" = "Chave";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";
+"ExpandPinGroupsByDefault" = "Expand groups by default";

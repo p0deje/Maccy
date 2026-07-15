@@ -73,13 +73,37 @@ class AppState: Sendable {
     }
   }
 
+  // Whether to show the pin group picker popover
+  var showPinGroupPicker: Bool = false
+
   @MainActor
   func togglePin() {
+    // If unpinning, just do it directly
+    if navigator.selection.items.allSatisfy({ $0.isPinned }) {
+      withTransaction(Transaction()) {
+        navigator.selection.forEach { _, item in
+          history.togglePin(item)
+        }
+      }
+    } else {
+      // If pinning, always show group picker so user can choose/create a group
+      showPinGroupPicker = true
+    }
+  }
+
+  @MainActor
+  func pinToGroup(_ group: PinGroup) {
     withTransaction(Transaction()) {
       navigator.selection.forEach { _, item in
-        history.togglePin(item)
+        history.togglePin(item, group: group)
       }
     }
+    showPinGroupPicker = false
+  }
+
+  @MainActor
+  func cancelPinGroupPicker() {
+    showPinGroupPicker = false
   }
 
   @MainActor

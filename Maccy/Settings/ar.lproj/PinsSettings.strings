@@ -5,3 +5,10 @@
 "ContentIsNotText" = "محتوى غير قابل للتحرير (صورة أو ملف)";
 "RichTextEditWarning" = "سيؤدي التحرير إلى تجاهل جميع التنسيقات.";
 "PinCustomizationDescription" = "يمكنك تخصيص مفتاح الاختصار، والعنوان، ومحتوى أي عنصر مثبت. للتعديل، انقر نقرًا مزدوجًا فوق العنصر وأدخل قيمة جديدة.\nيرجى ملاحظة أنه يمكن تغيير النص العادي فقط.";
+
+"Group" = "Group";
+"PinGroupsHeader" = "Groups";
+"RenameGroup" = "Rename group";
+"DeleteGroup" = "Delete group";
+"NoGroup" = "None";
+"ExpandPinGroupsByDefault" = "Expand groups by default";

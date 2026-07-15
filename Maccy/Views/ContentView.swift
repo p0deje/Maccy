@@ -55,9 +55,25 @@ struct ContentView: View {
       .task {
         try? await appState.history.load()
       }
+      // Pin group picker overlay
+      .overlay {
+        if appState.showPinGroupPicker {
+          ZStack {
+            Color.black.opacity(0.3)
+              .onTapGesture {
+                appState.cancelPinGroupPicker()
+              }
+            PinGroupPickerView()
+              .background(.regularMaterial)
+              .clipShape(RoundedRectangle(cornerRadius: 12))
+              .shadow(radius: 16)
+          }
+        }
+      }
     }
     .animation(.easeInOut(duration: 0.2), value: appState.searchVisible)
     .environment(appState)
+    .environment(PinGroupsManager.shared)
     .environment(modifierFlags)
     .environment(\.scenePhase, scenePhase)
     // FloatingPanel is not a scene, so let's implement custom scenePhase..

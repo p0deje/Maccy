@@ -7,7 +7,19 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05BF080E36F322FE1CE4E42C /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7C87168EA4B3D79DB51E1350 /* PinGroups.strings */; };
 		0ABDD5122BB47F1E0054963B /* NSWorkspace+ApplicationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */; };
+		10244029E67D50C81FA8DF36 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 263676DDED77AC8901A98D87 /* PinGroups.strings */; };
+		1114BB57EC6D34F70250010B /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3A6DF2F48FB71B291B4EB985 /* PinGroups.strings */; };
+		16E9E1781ADEE630AAA2ADD4 /* PinGroupPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B4B7D742F86AA979040A8CC /* PinGroupPickerView.swift */; };
+		17D445BE68CCABC417B168BA /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 90C3DBA84D565357EA3621B6 /* PinGroups.strings */; };
+		18C48C85F8DB48EFAF6E4159 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09CFD74EC29C6995CAEDA078 /* PinGroups.strings */; };
+		1994AED3822AE8CB102652E4 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 446FF75395FC44EE4B763406 /* PinGroups.strings */; };
+		1EF99FD0C06BEC168AEA425D /* PinGroupsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48CD9C4BDCBE52E2825E15D4 /* PinGroupsManager.swift */; };
+		20D9BBB53B2DDA961BA6AB6B /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 910E2B81B2B80EBBDC85FFA2 /* PinGroups.strings */; };
+		24D7C797F291DC42238322C7 /* PinGroupHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0AFC9870CEDDA1EDD59DC9F5 /* PinGroupHeaderView.swift */; };
+		264EC9FC3B0B3565C3CB3E13 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4CFBF6FCBF105EDF7CCD8715 /* PinGroups.strings */; };
+		2ECCC1EFF2D3AAAF3C95F58B /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = A2A8AD75D89691150A134377 /* PinGroups.strings */; };
 		2F0EC7792E7727E3003E2EA9 /* HeightReaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7782E7727E3003E2EA9 /* HeightReaderModifier.swift */; };
 		2F0EC77B2E772899003E2EA9 /* PinsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC77A2E772899003E2EA9 /* PinsView.swift */; };
 		2F0EC77D2E773314003E2EA9 /* Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC77C2E773314003E2EA9 /* Selection.swift */; };
@@ -33,7 +45,35 @@
 		2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */; };
 		2FF2E94E2E774B5B0093D72C /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94D2E774B570093D72C /* NavigationManager.swift */; };
 		2FF2E9502E7808470093D72C /* AppImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94F2E7808420093D72C /* AppImageView.swift */; };
+		33270C379A8AB04C4BFBECF3 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = EBFF8908B5C4BB3932AA9AFE /* PinGroups.strings */; };
+		38BD3750678CECF3BA20C163 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = BA5114BA8D233333B812CDA2 /* PinGroups.strings */; };
+		38D25391CC64553E1774486B /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8F19762380AB46DD18185BDE /* PinGroups.strings */; };
+		3EBADF4608EBE7C0C38ACFB8 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 65861FC49E28AA7325679406 /* PinGroups.strings */; };
+		3F628B49C4E2A6D73B6DA4B4 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1F437D520101EE84EFC9A3E6 /* PinGroups.strings */; };
+		40EA9B1C21953AB4ADBB7BE8 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = D4512867F97E25E07D8ABAFD /* PinGroups.strings */; };
+		430252C21D0651D698FC1C59 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8830F2F81F7938781F08D554 /* PinGroups.strings */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
+		4F2EA413FD57643B81F61BBC /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 326ADF0C1E104465F69E5985 /* PinGroups.strings */; };
+		563E15D2A666A2CF904BA27C /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9D71A047BBF842B754186559 /* PinGroups.strings */; };
+		57614328E2301FF5D37615C2 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9306826B92545240C4B3E6E3 /* PinGroups.strings */; };
+		5D9EADB0E3CB5CE297E5A93C /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = C59679C197103E933F3D91B3 /* PinGroups.strings */; };
+		5E6DCD85E582BDFA0F725423 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8CF54C40E54D049DACACB5CD /* PinGroups.strings */; };
+		5F1539C5F53B88CC7304FDA9 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = C7614F52971465D1ABE8477C /* PinGroups.strings */; };
+		5F717449DEC9187FB3083330 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC8E4E7B8DE9DD79ADBDBC9C /* PinGroups.strings */; };
+		7C4D44BE42D819B29D3782DA /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 58CF22A83F824B44A4E871CE /* PinGroups.strings */; };
+		83CF11BF563344B6C584B68A /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = A506F2590EE58789C2C5BECF /* PinGroups.strings */; };
+		8DAC6D1B2BF17D33F93E0C9A /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = EFAA20D93C5A6C98CD606954 /* PinGroups.strings */; };
+		A08C1B319CF7E3CBF3F67C22 /* PinGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B2AEBDD032CA51D4D0405CA /* PinGroup.swift */; };
+		A0F58730E682F149A5588A0F /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7E1A69F504AE73BC32F8424E /* PinGroups.strings */; };
+		A261EF74B15AC5238117D75E /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 7303D1E3851B9333C575BF1E /* PinGroups.strings */; };
+		A4D9BC9D85CB68B01B06DCA1 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 56FE01134BAF6D20E807D642 /* PinGroups.strings */; };
+		A8241DAF1BA2313BAE8A4073 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = B0FB1A468429372C45B58BAD /* PinGroups.strings */; };
+		AEB44B8F8EE0C4FCB0DBC3B1 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2749BE7EF8520CAE0FA73EB0 /* PinGroups.strings */; };
+		BDFB481DB12C3FF1A93F67B5 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1989DC08D0E93E7684E33992 /* PinGroups.strings */; };
+		C72B553F04FEA65B31788B32 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 45FD50C364A6F6E4F975D0CE /* PinGroups.strings */; };
+		CBFC345A3F92EBB2395B4FB9 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 3F62585ED3019BBCDEA5F53D /* PinGroups.strings */; };
+		D15F2415F38AF96221B75CDC /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = D99D14D6991B48B721C7E712 /* PinGroups.strings */; };
+		D97423519829B05BE067B9E2 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 09F128AEE488CF490A1CE343 /* PinGroups.strings */; };
 		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
 		DA009932256411F90030E697 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DA00992D256411F90030E697 /* README.md */; };
 		DA009934256411F90030E697 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = DA00992F256411F90030E697 /* LICENSE */; };
@@ -145,6 +185,11 @@
 		DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DD9268A521A00990986 /* String+Shortened.swift */; };
 		DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */; };
 		DAFEF0B8249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */; };
+		E0BF8F4BAA293969D9B94A12 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 8C619843922B530D05E45256 /* PinGroups.strings */; };
+		E559B7AC67E5174E3092F7DE /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = BC299BEF11F05139C9C2060A /* PinGroups.strings */; };
+		ED565880D48926FD77686178 /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 66C4C1757911D337597538F3 /* PinGroups.strings */; };
+		FC3066666EC4866DAF384C3C /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = AC47BB3EA534E30C00A2003D /* PinGroups.strings */; };
+		FD9A23371ED754D01C43987C /* PinGroups.strings in Resources */ = {isa = PBXBuildFile; fileRef = 9306AE915AF088EBC0F73598 /* PinGroups.strings */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -179,9 +224,17 @@
 
 /* Begin PBXFileReference section */
 		088F4DA628BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		09CFD74EC29C6995CAEDA078 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = nb.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		09F128AEE488CF490A1CE343 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = id.lproj/PinGroups.strings; sourceTree = "<group>"; };
 		0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWorkspace+ApplicationName.swift"; sourceTree = "<group>"; };
+		0AFC9870CEDDA1EDD59DC9F5 /* PinGroupHeaderView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PinGroupHeaderView.swift; sourceTree = "<group>"; };
 		1180C7372826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		11EB892C281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		1989DC08D0E93E7684E33992 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = ta.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		1B2AEBDD032CA51D4D0405CA /* PinGroup.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PinGroup.swift; sourceTree = "<group>"; };
+		1F437D520101EE84EFC9A3E6 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = fa.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		263676DDED77AC8901A98D87 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = be.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		2749BE7EF8520CAE0FA73EB0 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = cs.lproj/PinGroups.strings; sourceTree = "<group>"; };
 		2F0EC7782E7727E3003E2EA9 /* HeightReaderModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeightReaderModifier.swift; sourceTree = "<group>"; };
 		2F0EC77A2E772899003E2EA9 /* PinsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PinsView.swift; sourceTree = "<group>"; };
 		2F0EC77C2E773314003E2EA9 /* Selection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection.swift; sourceTree = "<group>"; };
@@ -204,10 +257,17 @@
 		2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationImage.swift; sourceTree = "<group>"; };
 		2FF2E94D2E774B570093D72C /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		2FF2E94F2E7808420093D72C /* AppImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImageView.swift; sourceTree = "<group>"; };
-		2FFF8BCF2CE2116600235A78 /* Data+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Encoding.swift"; sourceTree = "<group>"; };
+		326ADF0C1E104465F69E5985 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = de.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		3A6DF2F48FB71B291B4EB985 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = "pt-BR.lproj/PinGroups.strings"; sourceTree = "<group>"; };
 		3EBDD1E32BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
+		3F62585ED3019BBCDEA5F53D /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = el.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		446FF75395FC44EE4B763406 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = bs.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		45FD50C364A6F6E4F975D0CE /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = uk.lproj/PinGroups.strings; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
+		48CD9C4BDCBE52E2825E15D4 /* PinGroupsManager.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PinGroupsManager.swift; sourceTree = "<group>"; };
+		4B4B7D742F86AA979040A8CC /* PinGroupPickerView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PinGroupPickerView.swift; sourceTree = "<group>"; };
+		4CFBF6FCBF105EDF7CCD8715 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = ar.lproj/PinGroups.strings; sourceTree = "<group>"; };
 		4DC4D112252713D700FE5FAC /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		5212BB662E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
 		5212BB672E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
@@ -217,8 +277,35 @@
 		5212BB6B2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/PinsSettings.strings; sourceTree = "<group>"; };
 		5212BB6C2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
 		5212BB6D2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		56FE01134BAF6D20E807D642 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = th.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		58CF22A83F824B44A4E871CE /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = ca.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		65861FC49E28AA7325679406 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = hu.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		66C4C1757911D337597538F3 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = hi.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		7303D1E3851B9333C575BF1E /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = sv.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		7C87168EA4B3D79DB51E1350 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = it.lproj/PinGroups.strings; sourceTree = "<group>"; };
 		7CEEFDF124F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
+		7E1A69F504AE73BC32F8424E /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = sl.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		8830F2F81F7938781F08D554 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = nl.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		8C619843922B530D05E45256 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = en.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		8CF54C40E54D049DACACB5CD /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = fr.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		8F19762380AB46DD18185BDE /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = uz.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		90C3DBA84D565357EA3621B6 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = ja.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		910E2B81B2B80EBBDC85FFA2 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = ru.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		9306826B92545240C4B3E6E3 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = lv.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		9306AE915AF088EBC0F73598 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = "zh-Hant.lproj/PinGroups.strings"; sourceTree = "<group>"; };
+		9D71A047BBF842B754186559 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = he.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		A2A8AD75D89691150A134377 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = hr.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		A506F2590EE58789C2C5BECF /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = bn.lproj/PinGroups.strings; sourceTree = "<group>"; };
 		ABC72863283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		AC47BB3EA534E30C00A2003D /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = ro.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		B0FB1A468429372C45B58BAD /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = "zh-Hans.lproj/PinGroups.strings"; sourceTree = "<group>"; };
+		BA5114BA8D233333B812CDA2 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = ckb.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		BC299BEF11F05139C9C2060A /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = eo.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		BC8E4E7B8DE9DD79ADBDBC9C /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = tr.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		C59679C197103E933F3D91B3 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = pl.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		C7614F52971465D1ABE8477C /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = pt.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		D4512867F97E25E07D8ABAFD /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = ko.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		D99D14D6991B48B721C7E712 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = vi.lproj/PinGroups.strings; sourceTree = "<group>"; };
 		DA00992C256411F90030E697 /* appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = appcast.xml; sourceTree = "<group>"; };
 		DA00992D256411F90030E697 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DA00992F256411F90030E697 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -555,6 +642,8 @@
 		DAFE2DD9268A521A00990986 /* String+Shortened.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Shortened.swift"; sourceTree = "<group>"; };
 		DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemTests.swift; sourceTree = "<group>"; };
 		DAFEF0B7249D7DEE006029E8 /* KeyboardShortcuts.Name+Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "KeyboardShortcuts.Name+Shortcuts.swift"; sourceTree = "<group>"; };
+		EBFF8908B5C4BB3932AA9AFE /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = lt.lproj/PinGroups.strings; sourceTree = "<group>"; };
+		EFAA20D93C5A6C98CD606954 /* PinGroups.strings */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.plist.strings; name = PinGroups.strings; path = es.lproj/PinGroups.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -621,6 +710,54 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
+		A530A0A593578C44FFE84C41 /* PinGroups.strings */ = {
+			isa = PBXGroup;
+			children = (
+				8C619843922B530D05E45256 /* PinGroups.strings */,
+				326ADF0C1E104465F69E5985 /* PinGroups.strings */,
+				9D71A047BBF842B754186559 /* PinGroups.strings */,
+				4CFBF6FCBF105EDF7CCD8715 /* PinGroups.strings */,
+				3F62585ED3019BBCDEA5F53D /* PinGroups.strings */,
+				B0FB1A468429372C45B58BAD /* PinGroups.strings */,
+				90C3DBA84D565357EA3621B6 /* PinGroups.strings */,
+				1F437D520101EE84EFC9A3E6 /* PinGroups.strings */,
+				45FD50C364A6F6E4F975D0CE /* PinGroups.strings */,
+				09CFD74EC29C6995CAEDA078 /* PinGroups.strings */,
+				EFAA20D93C5A6C98CD606954 /* PinGroups.strings */,
+				7E1A69F504AE73BC32F8424E /* PinGroups.strings */,
+				BC299BEF11F05139C9C2060A /* PinGroups.strings */,
+				7C87168EA4B3D79DB51E1350 /* PinGroups.strings */,
+				263676DDED77AC8901A98D87 /* PinGroups.strings */,
+				BA5114BA8D233333B812CDA2 /* PinGroups.strings */,
+				1989DC08D0E93E7684E33992 /* PinGroups.strings */,
+				7303D1E3851B9333C575BF1E /* PinGroups.strings */,
+				2749BE7EF8520CAE0FA73EB0 /* PinGroups.strings */,
+				D4512867F97E25E07D8ABAFD /* PinGroups.strings */,
+				9306AE915AF088EBC0F73598 /* PinGroups.strings */,
+				65861FC49E28AA7325679406 /* PinGroups.strings */,
+				BC8E4E7B8DE9DD79ADBDBC9C /* PinGroups.strings */,
+				C59679C197103E933F3D91B3 /* PinGroups.strings */,
+				3A6DF2F48FB71B291B4EB985 /* PinGroups.strings */,
+				D99D14D6991B48B721C7E712 /* PinGroups.strings */,
+				9306826B92545240C4B3E6E3 /* PinGroups.strings */,
+				EBFF8908B5C4BB3932AA9AFE /* PinGroups.strings */,
+				910E2B81B2B80EBBDC85FFA2 /* PinGroups.strings */,
+				8F19762380AB46DD18185BDE /* PinGroups.strings */,
+				8CF54C40E54D049DACACB5CD /* PinGroups.strings */,
+				09F128AEE488CF490A1CE343 /* PinGroups.strings */,
+				8830F2F81F7938781F08D554 /* PinGroups.strings */,
+				56FE01134BAF6D20E807D642 /* PinGroups.strings */,
+				C7614F52971465D1ABE8477C /* PinGroups.strings */,
+				A506F2590EE58789C2C5BECF /* PinGroups.strings */,
+				AC47BB3EA534E30C00A2003D /* PinGroups.strings */,
+				446FF75395FC44EE4B763406 /* PinGroups.strings */,
+				A2A8AD75D89691150A134377 /* PinGroups.strings */,
+				66C4C1757911D337597538F3 /* PinGroups.strings */,
+				58CF22A83F824B44A4E871CE /* PinGroups.strings */,
+			);
+			name = PinGroups.strings;
+			sourceTree = "<group>";
+		};
 		C2D16D1C2EE365D52E1EE446 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -634,6 +771,7 @@
 			children = (
 				DA05B5132C234DCF006980FE /* HistoryItem.swift */,
 				DA05B5122C234DCF006980FE /* HistoryItemContent.swift */,
+				1B2AEBDD032CA51D4D0405CA /* PinGroup.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -699,6 +837,9 @@
 				2F9B42F02F1A4999006548E5 /* ToolbarView.swift */,
 				DAA072D02C4089D3006DDFD2 /* VisualEffectView.swift */,
 				DA555F112CF155A2009608BD /* WrappingTextView.swift */,
+				4B4B7D742F86AA979040A8CC /* PinGroupPickerView.swift */,
+				0AFC9870CEDDA1EDD59DC9F5 /* PinGroupHeaderView.swift */,
+				A530A0A593578C44FFE84C41 /* PinGroups.strings */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -740,6 +881,7 @@
 				DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */,
 				DAE8F5D32C43262B00851CA9 /* Popup.swift */,
 				2F578C3E2EFFE8720088B759 /* SlideoutController.swift */,
+				48CD9C4BDCBE52E2825E15D4 /* PinGroupsManager.swift */,
 			);
 			path = Observables;
 			sourceTree = "<group>";
@@ -922,7 +1064,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 1520;
+				LastUpgradeCheck = 2650;
 				ORGANIZATIONNAME = p0deje;
 				TargetAttributes = {
 					DA0EE7B5204657830025FC60 = {
@@ -1039,6 +1181,47 @@
 				DA5E62802C39E53F00F4C710 /* PreviewItemView.strings in Resources */,
 				DA009932256411F90030E697 /* README.md in Resources */,
 				DA9C3C4A2C20D4B40056795D /* IgnoreSettings.strings in Resources */,
+				E0BF8F4BAA293969D9B94A12 /* PinGroups.strings in Resources */,
+				4F2EA413FD57643B81F61BBC /* PinGroups.strings in Resources */,
+				563E15D2A666A2CF904BA27C /* PinGroups.strings in Resources */,
+				264EC9FC3B0B3565C3CB3E13 /* PinGroups.strings in Resources */,
+				CBFC345A3F92EBB2395B4FB9 /* PinGroups.strings in Resources */,
+				A8241DAF1BA2313BAE8A4073 /* PinGroups.strings in Resources */,
+				17D445BE68CCABC417B168BA /* PinGroups.strings in Resources */,
+				3F628B49C4E2A6D73B6DA4B4 /* PinGroups.strings in Resources */,
+				C72B553F04FEA65B31788B32 /* PinGroups.strings in Resources */,
+				18C48C85F8DB48EFAF6E4159 /* PinGroups.strings in Resources */,
+				8DAC6D1B2BF17D33F93E0C9A /* PinGroups.strings in Resources */,
+				A0F58730E682F149A5588A0F /* PinGroups.strings in Resources */,
+				E559B7AC67E5174E3092F7DE /* PinGroups.strings in Resources */,
+				05BF080E36F322FE1CE4E42C /* PinGroups.strings in Resources */,
+				10244029E67D50C81FA8DF36 /* PinGroups.strings in Resources */,
+				38BD3750678CECF3BA20C163 /* PinGroups.strings in Resources */,
+				BDFB481DB12C3FF1A93F67B5 /* PinGroups.strings in Resources */,
+				A261EF74B15AC5238117D75E /* PinGroups.strings in Resources */,
+				AEB44B8F8EE0C4FCB0DBC3B1 /* PinGroups.strings in Resources */,
+				40EA9B1C21953AB4ADBB7BE8 /* PinGroups.strings in Resources */,
+				FD9A23371ED754D01C43987C /* PinGroups.strings in Resources */,
+				3EBADF4608EBE7C0C38ACFB8 /* PinGroups.strings in Resources */,
+				5F717449DEC9187FB3083330 /* PinGroups.strings in Resources */,
+				5D9EADB0E3CB5CE297E5A93C /* PinGroups.strings in Resources */,
+				1114BB57EC6D34F70250010B /* PinGroups.strings in Resources */,
+				D15F2415F38AF96221B75CDC /* PinGroups.strings in Resources */,
+				57614328E2301FF5D37615C2 /* PinGroups.strings in Resources */,
+				33270C379A8AB04C4BFBECF3 /* PinGroups.strings in Resources */,
+				20D9BBB53B2DDA961BA6AB6B /* PinGroups.strings in Resources */,
+				38D25391CC64553E1774486B /* PinGroups.strings in Resources */,
+				5E6DCD85E582BDFA0F725423 /* PinGroups.strings in Resources */,
+				D97423519829B05BE067B9E2 /* PinGroups.strings in Resources */,
+				430252C21D0651D698FC1C59 /* PinGroups.strings in Resources */,
+				A4D9BC9D85CB68B01B06DCA1 /* PinGroups.strings in Resources */,
+				5F1539C5F53B88CC7304FDA9 /* PinGroups.strings in Resources */,
+				83CF11BF563344B6C584B68A /* PinGroups.strings in Resources */,
+				FC3066666EC4866DAF384C3C /* PinGroups.strings in Resources */,
+				1994AED3822AE8CB102652E4 /* PinGroups.strings in Resources */,
+				2ECCC1EFF2D3AAAF3C95F58B /* PinGroups.strings in Resources */,
+				ED565880D48926FD77686178 /* PinGroups.strings in Resources */,
+				7C4D44BE42D819B29D3782DA /* PinGroups.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1176,6 +1359,10 @@
 				DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */,
 				2F0EC7852E774083003E2EA9 /* PasteStackView.swift in Sources */,
 				DA20FA782B082E1A00056DD5 /* NSSound+Named.swift in Sources */,
+				A08C1B319CF7E3CBF3F67C22 /* PinGroup.swift in Sources */,
+				1EF99FD0C06BEC168AEA425D /* PinGroupsManager.swift in Sources */,
+				16E9E1781ADEE630AAA2ADD4 /* PinGroupPickerView.swift in Sources */,
+				24D7C797F291DC42238322C7 /* PinGroupHeaderView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1661,6 +1848,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1717,6 +1905,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_SWIFT3_OBJC_INFERENCE = Default;
@@ -1736,7 +1925,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 60;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = W6UR9YXVW5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1771,7 +1960,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 60;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = W6UR9YXVW5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
