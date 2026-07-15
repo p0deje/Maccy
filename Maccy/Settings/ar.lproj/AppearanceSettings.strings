@@ -16,6 +16,7 @@
 "PinToTooltip" = "تغيير موقع العناصر المثبتة.\nالافتراضي: الأعلى.";
 "ImageHeight" = "ارتفاع الصورة:";
 "ImageHeightTooltip" = "أقصى ارتفاع معاينة الصورة.\nالافتراضي: 40.\nتلميح: قم بتعيينه إلى 16 ليبدو مثل عناصر النص.";
+"OpenPreviewAutomatically" = "فتح المعاينة تلقائيًا";
 "PreviewDelay" = "تأخير المعاينة:";
 "PreviewDelayTooltip" = "التأخير بالميللي ثانية حتى يتم عرض معاينة النافذة المنبثقة.\nالافتراضي: 1500.";
 "HighlightMatches" = "تسليط الضوء على التطابقات:";
@@ -33,3 +34,5 @@
 "ShowFooter" = "إظهار التذييل";
 "ShowApplicationIcons" = "إظهار أيقونات التطبيقات";
 "OpenPreferencesWarning" = "⚠️ اضغط على ⌘، (command+comma) لفتح التفضيلات عندما يكون التذييل مخفيًا.";
+"ShowHexColorSwatch" = "إظهار عينة اللون الست عشري";
+"ShowHexColorSwatchTooltip" = "إظهار عينة اللون بجانب رموز الألوان الست عشرية.";

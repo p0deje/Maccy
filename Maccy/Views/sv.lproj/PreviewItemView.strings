@@ -6,3 +6,5 @@
 "UnpinKey" = "";
 "DeleteKey" = "";
 "PreviewKey" = "";
+"Dimensions" = "Mått:";
+"CopyExtractedText" = "Kopiera extraherad text.";

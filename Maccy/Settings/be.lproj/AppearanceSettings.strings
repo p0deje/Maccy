@@ -9,6 +9,7 @@
 "PinToTop" = "Верху";
 "PinToBottom" = "Нізу";
 "ImageHeight" = "Вышыня выяў:";
+"OpenPreviewAutomatically" = "Аўтаматычна адкрываць прадпрагляд";
 "PreviewDelay" = "Затрымка прадпрагляду:";
 "HighlightMatches" = "Вылучыць супадзенні:";
 "HighlightMatchBold" = "Тоўсты";
@@ -33,3 +34,5 @@
 "PreviewDelayTooltip" = "Затрымка ў мілісекундах да з'яўлення ўсплыўнога акна прадпрагляду.\nПадставова: 1500.";
 "PopupAtTooltip" = "Змяніць месца для з'яўлення ўсплыўнога акна.\nПадставова: Курсор.";
 "ShowApplicationIcons" = "Паказаць значкі прыкладанняў";
+"ShowHexColorSwatch" = "Паказваць узор шаснаццатковага колеру";
+"ShowHexColorSwatchTooltip" = "Паказваць узор колеру побач з шаснаццатковымі кодамі колераў.";

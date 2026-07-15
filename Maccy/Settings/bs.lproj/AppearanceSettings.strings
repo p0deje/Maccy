@@ -16,6 +16,7 @@
 "PinToTooltip" = "Promjeni lokaciju zakačenih stavki.\nZadano: Vrh.";
 "ImageHeight" = "Visina slike:";
 "ImageHeightTooltip" = "Maksimalna visina pregleda slike.\nZadano: 40.\nSavjet: Postavite na 16 da izgledaju kao tekstualne stavke.";
+"OpenPreviewAutomatically" = "Automatski otvori pregled";
 "PreviewDelay" = "Kašnjenje pregleda:";
 "PreviewDelayTooltip" = "Kašnjenje u milisekundama dok se ne prikaže skočni prozor za pregled.\nZadano: 1500.";
 "HighlightMatches" = "Istaknite utakmice:";
@@ -33,3 +34,5 @@
 "ShowFooter" = "Prikaži footer";
 "OpenPreferencesWarning" = "⚠️ Pritisni ⌘, (command+comma) da otvorite postavke kada je podnožje skriveno.";
 "ShowApplicationIcons" = "Prikaži ikone aplikacija";
+"ShowHexColorSwatch" = "Prikaži uzorak hex boje";
+"ShowHexColorSwatchTooltip" = "Prikaži uzorak boje pored hex kodova boja.";

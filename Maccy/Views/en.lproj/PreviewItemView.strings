@@ -2,7 +2,9 @@
 "FirstCopyTime" = "First copy time:";
 "LastCopyTime" = "Last copy time:";
 "NumberOfCopies" = "Number of copies:";
+"Dimensions" = "Dimensions:";
 "PinKey" = "Press {pinKey} to pin.";
 "UnpinKey" = "Press {pinKey} to unpin.";
 "DeleteKey" = "Press {deleteKey} to delete.";
 "PreviewKey" = "Press {previewKey} to toggle preview.";
+"CopyExtractedText" = "Copy extracted text.";

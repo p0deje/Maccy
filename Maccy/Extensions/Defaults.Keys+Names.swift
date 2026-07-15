@@ -42,6 +42,7 @@ extension Defaults.Keys {
   static let pinTo = Key<PinsPosition>("pinTo", default: .top)
   static let popupPosition = Key<PopupPosition>("popupPosition", default: .cursor)
   static let popupScreen = Key<Int>("popupScreen", default: 0)
+  static let openPreviewAutomatically = Key<Bool>("openPreviewAutomatically", default: true)
   static let previewDelay = Key<Int>("previewDelay", default: 1500)
   static let removeFormattingByDefault = Key<Bool>("removeFormattingByDefault", default: false)
   static let searchMode = Key<Search.Mode>("searchMode", default: .exact)
@@ -58,5 +59,6 @@ extension Defaults.Keys {
   static let windowSize = Key<NSSize>("windowSize", default: NSSize(width: 450, height: 800))
   static let windowPosition = Key<NSPoint>("windowPosition", default: NSPoint(x: 0.5, y: 0.8))
   static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: false)
+  static let showHexColorSwatch = Key<Bool>("showHexColorSwatch", default: true)
   static let previewWidth = Key<CGFloat>("previewWidth", default: 400)
 }

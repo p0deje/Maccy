@@ -6,3 +6,5 @@
 "UnpinKey" = "Націсніце {pinKey}, каб адмацаваць.";
 "DeleteKey" = "Націсніце {deleteKey}, каб выдаліць.";
 "PreviewKey" = "Націсніце {previewKey} для пераключэння перадпрагляду.";
+"Dimensions" = "Памеры:";
+"CopyExtractedText" = "Скапіяваць распазнаны тэкст.";

@@ -6,3 +6,5 @@
 "UnpinKey" = "Нажмите {pinKey}, чтобы открепить.";
 "DeleteKey" = "Нажмите {deleteKey}, чтобы удалить.";
 "PreviewKey" = "Нажмите {previewKey} для переключения предпросмотра.";
+"Dimensions" = "Размеры:";
+"CopyExtractedText" = "Скопировать извлеченный текст.";
