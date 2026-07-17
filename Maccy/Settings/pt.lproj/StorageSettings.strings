@@ -4,7 +4,8 @@
 "Text" = "Texto";
 "SaveDescription" = "Alterar que tipos de conteúdo copiados devem ser armazenados.";
 "Size" = "Tamanho:";
-"SizeTooltip" = "Número de elementos do histórico a manter.\nPadrão: 200.";
+"Unlimited" = "Ilimitado";
+"SizeTooltip" = "Número de elementos do histórico a manter.\nDefina como -1 para ilimitado.\nPadrão: 200.";
 "CurrentSizeTooltip" = "Tamanho atual no disco.";
 "SortBy" = "Ordenar por:";
 "LastCopiedAt" = "Data da última cópia";

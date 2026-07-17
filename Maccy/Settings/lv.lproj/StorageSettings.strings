@@ -5,7 +5,8 @@
 "Text" = "Tekstus";
 "SaveDescription" = "Mainiet, kāda veida kopētais saturs ir jāsaglabā.";
 "Size" = "Vienumu skaits:";
-"SizeTooltip" = "Saglabājamo vēstures vienumu skaits.\nNoklusējums: 200.";
+"Unlimited" = "Neierobežots";
+"SizeTooltip" = "Saglabājamo vēstures vienumu skaits.\nIestatiet uz -1 bez ierobežojumiem.\nNoklusējums: 200.";
 "CurrentSizeTooltip" = "Pašreizējais izmērs diskā.";
 "SortBy" = "Kārtot pēc:";
 "LastCopiedAt" = "Pēdējās kopijas laiks";

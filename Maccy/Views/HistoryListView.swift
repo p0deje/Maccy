@@ -98,6 +98,8 @@ struct HistoryListView: View {
       ScrollViewReader { proxy in
         MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
           HistoryItemView(item: item, previous: previous, next: next, index: index)
+        } onLastItemAppearing: {
+          appState.history.loadMoreItems()
         }
         .padding(.top, scrollTopPadding)
         .padding(.bottom, scrollBottomPadding)

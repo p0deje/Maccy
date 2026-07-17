@@ -5,7 +5,8 @@
 "Text" = "Metin";
 "SaveDescription" = "Ne tür kopyalanmış içerik türlerinin depolanacağını değiştirin.";
 "Size" = "Sayı:";
-"SizeTooltip" = "Tutulacak geçmiş ögesi sayısı.\nSaptanmış: 200.";
+"Unlimited" = "Sınırsız";
+"SizeTooltip" = "Tutulacak geçmiş ögesi sayısı.\nSınırsız için -1 olarak ayarlayın.\nSaptanmış: 200.";
 "CurrentSizeTooltip" = "Diskteki geçerli boyut.";
 "SortBy" = "Şuna göre sırala:";
 "LastCopiedAt" = "Son kopyanın zamanı";

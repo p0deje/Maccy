@@ -5,7 +5,8 @@
 "Text" = "Tekstas";
 "SaveDescription" = "Pakeiskite, kokių tipų nukopijuotas turinys turėtų būti išsaugomas.";
 "Size" = "Dydis:";
-"SizeTooltip" = "Išsaugotinų istorijos elementų skaičius.\nNumatytoji reikšmė: 200.";
+"Unlimited" = "Neribota";
+"SizeTooltip" = "Išsaugotinų istorijos elementų skaičius.\nNustatykite į -1 dėl neriboto.\nNumatytoji reikšmė: 200.";
 "CurrentSizeTooltip" = "Dabartinis dydis diske.";
 "SortBy" = "Rikiuoti pagal:";
 "LastCopiedAt" = "Paskutinės kopijos padarymo laikas";

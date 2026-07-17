@@ -65,7 +65,7 @@ struct StorageSettingsPane: View {
   private let sizeFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
     formatter.minimum = 1
-    formatter.maximum = 999
+    formatter.maximum = 9999999
     return formatter
   }()
 
@@ -94,11 +94,27 @@ struct StorageSettingsPane: View {
 
       Settings.Section(label: { Text("Size", tableName: "StorageSettings") }) {
         HStack {
-          TextField("", value: $size, formatter: sizeFormatter)
+          TextField("", value: Binding(
+            get: { size == -1 ? nil : size },
+            set: { size = $0 ?? 200 }
+          ), formatter: sizeFormatter)
             .frame(width: 80)
+            .disabled(size == -1)
             .help(Text("SizeTooltip", tableName: "StorageSettings"))
-          Stepper("", value: $size, in: 1...999)
+          Stepper("", value: Binding(
+            get: { max(1, size == -1 ? 200 : size) },
+            set: { size = $0 }
+          ), in: 1...9999999)
             .labelsHidden()
+            .disabled(size == -1)
+          Toggle(isOn: Binding(
+            get: { size == -1 },
+            set: { if $0 { size = -1 } else if size == -1 { size = 200 } }
+          )) {
+            Text("Unlimited", tableName: "StorageSettings")
+          }
+          .help(Text("SizeTooltip", tableName: "StorageSettings"))
+          Spacer()
           Text(storageSize)
             .controlSize(.small)
             .foregroundStyle(.gray)

@@ -6,7 +6,8 @@
 "Title" = "Konservado";
 "SaveDescription" = "Ŝanĝi la specojn de kopiita enhavo, kiuj estu konservitaj.";
 "Size" = "Grando:";
-"SizeTooltip" = "Nombro de historiaj eroj konservotaj.\nDefaŭlta: 200.";
+"Unlimited" = "Senlima";
+"SizeTooltip" = "Nombro de historiaj eroj konservotaj.\nAgordu al -1 por senlima.\nDefaŭlta: 200.";
 "CurrentSizeTooltip" = "Nuna grando sur disko.";
 "LastCopiedAt" = "Momento de lasta kopio";
 "FirstCopiedAt" = "Momento de unua kopio";

@@ -5,7 +5,8 @@
 "Text" = "Besedilo";
 "SaveDescription" = "Spremenite, katere vrste kopirane vsebine naj bodo shranjene.";
 "Size" = "Velikost:";
-"SizeTooltip" = "Število zgodovinskih elementov za ohranjanje.\nPrivzeto: 200.";
+"Unlimited" = "Neomejeno";
+"SizeTooltip" = "Število zgodovinskih elementov za ohranjanje.\nNastavite na -1 za neomejeno.\nPrivzeto: 200.";
 "CurrentSizeTooltip" = "Trenutna velikost na disku.";
 "SortBy" = "Razvrsti po:";
 "LastCopiedAt" = "Čas zadnjega kopiranja";
