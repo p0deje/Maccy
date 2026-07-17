@@ -61,8 +61,8 @@ class Popup {
     guard eventsMonitor == nil else { return }
 
     self.eventsMonitor = NSEvent.addLocalMonitorForEvents(
-      matching: [.flagsChanged, .keyDown],
-      handler: handleEvent
+      matching: .flagsChanged,
+      handler: handleFlagsChanged
     )
   }
 
@@ -78,7 +78,6 @@ class Popup {
 
   func reset() {
     state = .toggle
-    KeyboardShortcuts.enable(.popup)
   }
 
   func close() {
@@ -114,52 +113,10 @@ class Popup {
     if isClosed() {
       open(height: height)
       state = .opening
-      KeyboardShortcuts.disable(.popup)  // Handle events via eventsMonitor. Re-enable on popup close
       return
     }
 
-    // Maccy was not opened via shortcut. We assume toggle mode and close it
-    close()
-  }
-
-  private func handleEvent(_ event: NSEvent) -> NSEvent? {
-    switch event.type {
-    case .keyDown:
-      return handleKeyDown(event)
-    case .flagsChanged:
-      return handleFlagsChanged(event)
-    default:
-      return event
-    }
-  }
-
-  private func handleKeyDown(_ event: NSEvent) -> NSEvent? {
-    if isHotKeyCode(Int(event.keyCode)) {
-      if let item = History.shared.pressedShortcutItem {
-        AppState.shared.navigator.select(item: item)
-        Task { @MainActor in
-          AppState.shared.history.select(item)
-        }
-        return nil
-      }
-
-      if state == .opening {
-        state = .cycle
-        // Next 'if' will highlight next item and then return nil
-      }
-
-      if state == .cycle {
-        AppState.shared.navigator.highlightNext(allowCycle: true)
-        return nil
-      }
-
-      if state == .toggle && isHotKeyModifiers(event.modifierFlags) {
-        close()
-        return nil
-      }
-    }
-
-    return event
+    handleRepeatedHotKeyDown()
   }
 
   private func handleFlagsChanged(_ event: NSEvent) -> NSEvent? {
@@ -180,24 +137,30 @@ class Popup {
     return event
   }
 
-  private func isHotKeyCode(_ keyCode: Int) -> Bool {
-    guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
-      return false
-    }
-
-    return shortcut.key?.rawValue == keyCode
-  }
-
-  private func isHotKeyModifiers(_ modifiers: NSEvent.ModifierFlags) -> Bool {
-    guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
-      return false
-    }
-
-    return modifiers.intersection(.deviceIndependentFlagsMask) ==
-      shortcut.modifiers.intersection(.deviceIndependentFlagsMask)
-  }
-
   private func allModifiersReleased(_ event: NSEvent) -> Bool {
     return event.modifierFlags.isDisjoint(with: .deviceIndependentFlagsMask)
+  }
+
+  private func handleRepeatedHotKeyDown() {
+    if let item = History.shared.pressedShortcutItem {
+      AppState.shared.navigator.select(item: item)
+      Task { @MainActor in
+        AppState.shared.history.select(item)
+      }
+      return
+    }
+
+    if state == .opening {
+      state = .cycle
+    }
+
+    if state == .cycle {
+      AppState.shared.navigator.highlightNext(allowCycle: true)
+      return
+    }
+
+    if state == .toggle {
+      close()
+    }
   }
 }
