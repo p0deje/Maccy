@@ -31,6 +31,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                  userDriver: SPUStandardUserDriver(hostBundle: Bundle.main, delegate: nil),
                  delegate: nil)
       .automaticallyChecksForUpdates = false
+      Defaults.reset(.windowSize)
+      Defaults.reset(.pinTo)
     }
     #endif
 
