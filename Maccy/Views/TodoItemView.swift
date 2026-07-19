@@ -17,7 +17,9 @@ struct TodoItemView: View {
     VStack(alignment: .leading, spacing: 2) {
       HStack(alignment: .center, spacing: 8) {
         Button {
-          appState.todos.toggleComplete(item, source: .checkbox)
+          withAnimation(.easeInOut(duration: 0.18)) {
+            appState.todos.toggleComplete(item, source: .checkbox)
+          }
         } label: {
           Image(systemName: item.isCompleted ? "checkmark.circle.fill" : "circle")
             .font(.body)
@@ -31,6 +33,13 @@ struct TodoItemView: View {
             : NSLocalizedString("MarkDone", tableName: "Todos", comment: "")
         )
 
+        if item.priority != .none {
+          Image(systemName: item.priority.systemImage)
+            .font(.caption)
+            .foregroundStyle(priorityColor(item.priority))
+            .help(item.priority.label)
+        }
+
         TextField(
           NSLocalizedString("TodoTitlePlaceholder", tableName: "Todos", comment: ""),
           text: $item.title
@@ -43,6 +52,9 @@ struct TodoItemView: View {
         .foregroundStyle(item.isCompleted ? .secondary : .primary)
         .frame(maxWidth: .infinity, alignment: .leading)
         .onSubmit { appState.todos.update(item) }
+        .onChange(of: item.title) {
+          appState.todos.update(item)
+        }
 
         trailingActions
       }
@@ -56,6 +68,11 @@ struct TodoItemView: View {
           icon: TodoAnalytics.wasOverdue(item.item) ? "exclamationmark.circle.fill" : "calendar",
           color: TodoAnalytics.wasOverdue(item.item) ? .red : .secondary
         )
+      }
+
+      if appState.todos.selectedListFilter == .all,
+         let listName = appState.todos.listName(for: item.item) {
+        metadataLine(listName, icon: "folder", color: .secondary)
       }
     }
     .padding(TodoDesign.rowInset)
@@ -89,7 +106,9 @@ struct TodoItemView: View {
 
       if !item.isCompleted {
         Button {
-          appState.todos.togglePin(item)
+          withAnimation(.easeInOut(duration: 0.18)) {
+            appState.todos.togglePin(item)
+          }
         } label: {
           Image(systemName: item.isPinned ? "pin.fill" : "pin")
             .font(.caption)
@@ -118,5 +137,18 @@ struct TodoItemView: View {
       .foregroundStyle(color)
       .lineLimit(1)
       .padding(.leading, 26)
+  }
+
+  private func priorityColor(_ priority: TodoPriority) -> Color {
+    switch priority {
+    case .none:
+      return .secondary
+    case .low:
+      return .blue
+    case .medium:
+      return .orange
+    case .high:
+      return .red
+    }
   }
 }

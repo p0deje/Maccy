@@ -118,6 +118,13 @@ struct ToolbarView: View {
         }
 
         ToolbarButton {
+          appState.addSelectionToTodos()
+        } label: {
+          Image(systemName: "checklist")
+        }
+        .help(Text("AddToTodos", tableName: "Todos"))
+
+        ToolbarButton {
           withAnimation {
             appState.togglePin()
           }

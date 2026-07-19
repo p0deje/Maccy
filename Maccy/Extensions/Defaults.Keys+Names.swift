@@ -39,6 +39,11 @@ extension Defaults.Keys {
   static let migrations = Key<[String: Bool]>("migrations", default: [:])
   static let numberOfUsages = Key<Int>("numberOfUsages", default: 0)
   static let pasteByDefault = Key<Bool>("pasteByDefault", default: false)
+  /// Multi-select history items into a paste stack (Cmd+V advances). Off by default.
+  static let enablePasteStack = Key<Bool>("enablePasteStack", default: false)
+  /// When true, an external copy does not cancel an active paste stack.
+  /// External content is not queued into the stack; only interruption is skipped.
+  static let pasteStackQueueExternalCopies = Key<Bool>("pasteStackQueueExternalCopies", default: false)
   static let enableQuickPaste = Key<Bool>("enableQuickPaste", default: true)
   static let pinTo = Key<PinsPosition>("pinTo", default: .top)
   static let popupPosition = Key<PopupPosition>("popupPosition", default: .cursor)
@@ -66,4 +71,5 @@ extension Defaults.Keys {
   static let showCompletedTodos = Key<Bool>("showCompletedTodos", default: true)
   static let enableTodoReminders = Key<Bool>("enableTodoReminders", default: true)
   static let openTodosWindowAtLaunch = Key<Bool>("openTodosWindowAtLaunch", default: false)
+  static let lastTodoRolloverDay = Key<String>("lastTodoRolloverDay", default: "")
 }

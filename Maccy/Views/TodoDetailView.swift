@@ -10,6 +10,41 @@ struct TodoDetailView: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 12) {
+      TodoDetailSection(titleKey: "SectionOrganize") {
+        VStack(alignment: .leading, spacing: 8) {
+          Picker(
+            NSLocalizedString("Priority", tableName: "Todos", comment: ""),
+            selection: Binding(
+              get: { item.priority },
+              set: { appState.todos.setPriority(item, $0) }
+            )
+          ) {
+            ForEach(TodoPriority.allCases) { priority in
+              Label(priority.label, systemImage: priority.systemImage)
+                .tag(priority)
+            }
+          }
+
+          Picker(
+            NSLocalizedString("MoveToList", tableName: "Todos", comment: ""),
+            selection: Binding(
+              get: { item.listId ?? appState.todos.inboxList?.id },
+              set: { newValue in
+                guard let newValue,
+                      let list = appState.todos.lists.first(where: { $0.id == newValue }) else {
+                  return
+                }
+                appState.todos.moveToList(item, list: list)
+              }
+            )
+          ) {
+            ForEach(appState.todos.lists, id: \.id) { list in
+              Text(list.name).tag(Optional(list.id))
+            }
+          }
+        }
+      }
+
       TodoDetailSection(titleKey: "SectionReminder") {
         TodoReminderEditorView(item: item)
       }
@@ -58,6 +93,9 @@ struct TodoDetailView: View {
         .font(.callout)
         .lineLimit(4...12)
         .onSubmit {
+          appState.todos.update(item)
+        }
+        .onChange(of: item.notes) {
           appState.todos.update(item)
         }
       }

@@ -45,7 +45,7 @@ class Storage {
   private static func makeContainer(configuration: ModelConfiguration) throws -> ModelContainer {
     // Register root models only; related models are pulled in via @Relationship.
     try ModelContainer(
-      for: HistoryItem.self, TodoItem.self,
+      for: HistoryItem.self, TodoItem.self, TodoList.self,
       configurations: configuration
     )
   }

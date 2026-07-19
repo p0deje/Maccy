@@ -1,4 +1,7 @@
 "TodoSettings" = "Todos";
+"Display" = "Display:";
+"ShowCompleted" = "Show completed todos";
+"OpenAtLaunch" = "Open Todos window at launch";
 "DefaultTab" = "Default tab:";
 "DefaultTabClipboard" = "Clipboard";
 "DefaultTabTodos" = "Todos";

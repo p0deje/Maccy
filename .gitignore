@@ -4,3 +4,13 @@ Maccy.xcodeproj/project.xcworkspace/xcshareddata
 .DS_Store
 Maccy/.DS_Store
 build/
+graphify-out/
+
+# Env / secrets — never commit
+.env
+.env.*
+!.env.example
+*.pem
+*.p12
+*credentials*
+*secret*

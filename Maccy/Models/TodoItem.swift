@@ -23,6 +23,10 @@ final class TodoItem {
   var reminderRepeatRule: String?
   var notificationId: String?
 
+  var listId: UUID?
+  var priorityRaw: Int = 0
+  var rolledOverAt: Date?
+
   @Relationship(deleteRule: .cascade, inverse: \TodoCompletionEvent.todo)
   var completionHistory: [TodoCompletionEvent] = []
 
@@ -34,7 +38,9 @@ final class TodoItem {
     isPinned: Bool = false,
     createdAt: Date = .now,
     updatedAt: Date = .now,
-    sortOrder: Int = 0
+    sortOrder: Int = 0,
+    listId: UUID? = nil,
+    priorityRaw: Int = 0
   ) {
     self.id = id
     self.title = title
@@ -44,7 +50,16 @@ final class TodoItem {
     self.createdAt = createdAt
     self.updatedAt = updatedAt
     self.sortOrder = sortOrder
+    self.listId = listId
+    self.priorityRaw = priorityRaw
     self.wasOverdueWhenCompleted = false
     self.timesCompleted = 0
+  }
+}
+
+extension TodoItem {
+  var priority: TodoPriority {
+    get { TodoPriority(rawValue: priorityRaw) ?? .none }
+    set { priorityRaw = newValue.rawValue }
   }
 }

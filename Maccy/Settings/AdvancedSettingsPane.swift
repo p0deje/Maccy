@@ -2,6 +2,8 @@ import SwiftUI
 import Defaults
 
 struct AdvancedSettingsPane: View {
+  @Default(.enablePasteStack) private var enablePasteStack
+
   var body: some View {
     VStack(alignment: .leading) {
       Defaults.Toggle(key: .ignoreEvents) {
@@ -37,6 +39,22 @@ struct AdvancedSettingsPane: View {
       Defaults.Toggle(key: .clearSystemClipboard) {
         Text("ClearSystemClipboard", tableName: "AdvancedSettings")
       }.help(Text("ClearSystemClipboardTooltip", tableName: "AdvancedSettings"))
+
+      Divider()
+
+      Defaults.Toggle(key: .enablePasteStack) {
+        Text("EnablePasteStack", tableName: "AdvancedSettings")
+      }
+      Text("EnablePasteStackDescription", tableName: "AdvancedSettings")
+        .fixedSize(horizontal: false, vertical: true)
+        .foregroundStyle(.gray)
+        .controlSize(.small)
+
+      Defaults.Toggle(key: .pasteStackQueueExternalCopies) {
+        Text("PasteStackQueueExternalCopies", tableName: "AdvancedSettings")
+      }
+      .disabled(!enablePasteStack)
+      .help(Text("PasteStackQueueExternalCopiesTooltip", tableName: "AdvancedSettings"))
     }
     .frame(minWidth: 350)
     .padding()

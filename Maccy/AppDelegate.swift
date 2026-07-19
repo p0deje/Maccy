@@ -1,6 +1,7 @@
 import Defaults
 import KeyboardShortcuts
 import Sparkle
+import SwiftData
 import SwiftUI
 import UserNotifications
 
@@ -116,6 +117,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.appearsDisabled = isStatusItemDisabled
       }
     }
+
+    Task {
+      for await enabled in Defaults.updates(.enableTodoReminders, initial: false) {
+        await MainActor.run {
+          if enabled {
+            ReminderScheduler.shared.rescheduleAll()
+          } else {
+            ReminderScheduler.shared.cancelAllTodoReminders()
+          }
+        }
+      }
+    }
   }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -150,6 +163,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     if Defaults[.openTodosWindowAtLaunch] {
       openTodosWindow()
+    }
+  }
+
+  func applicationDidBecomeActive(_ notification: Notification) {
+    Task { @MainActor in
+      Todos.shared.performDayRolloverIfNeeded()
     }
   }
 
@@ -236,7 +255,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     )
     menu.addItem(
       NSMenuItem(
-        title: NSLocalizedString("TodosTab", tableName: "Todos", comment: "") + "…",
+        title: todosMenuTitle(),
         action: #selector(openTodosFromMenu),
         keyEquivalent: ""
       )
@@ -264,6 +283,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   @objc
   private func openTodosFromMenu() {
     openTodosWindow()
+  }
+
+  private func todosMenuTitle() -> String {
+    let base = NSLocalizedString("TodosTab", tableName: "Todos", comment: "") + "…"
+    let now = Date.now
+    let overdueCount = (try? Storage.shared.context.fetch(FetchDescriptor<TodoItem>()))?
+      .filter { !$0.isCompleted && ($0.dueDate.map { $0 < now } ?? false) }
+      .count ?? 0
+    return overdueCount > 0 ? "\(base) (\(overdueCount))" : base
   }
 
   @objc
@@ -321,6 +349,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 }
 
 extension AppDelegate: UNUserNotificationCenterDelegate {
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification
+  ) async -> UNNotificationPresentationOptions {
+    [.banner, .sound, .list]
+  }
+
   func userNotificationCenter(
     _ center: UNUserNotificationCenter,
     didReceive response: UNNotificationResponse

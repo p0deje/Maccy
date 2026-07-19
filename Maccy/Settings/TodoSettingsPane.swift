@@ -3,6 +3,8 @@ import Settings
 import SwiftUI
 
 struct TodoSettingsPane: View {
+  @Default(.defaultAppTab) private var defaultAppTab
+
   private let notificationsURL = URL(
     string: "x-apple.systempreferences:com.apple.preference.notifications?id=\(Bundle.main.bundleIdentifier ?? "")"
   )
@@ -16,6 +18,17 @@ struct TodoSettingsPane: View {
         Defaults.Toggle(key: .openTodosWindowAtLaunch) {
           Text("OpenAtLaunch", tableName: "TodoSettings")
         }
+      }
+
+      Settings.Section(label: { Text("DefaultTab", tableName: "TodoSettings") }) {
+        Picker("", selection: $defaultAppTab) {
+          Text("DefaultTabClipboard", tableName: "TodoSettings")
+            .tag(AppTab.clipboard.rawValue)
+          Text("DefaultTabTodos", tableName: "TodoSettings")
+            .tag(AppTab.todos.rawValue)
+        }
+        .labelsHidden()
+        .frame(width: 160, alignment: .leading)
       }
 
       Settings.Section(label: { Text("Reminders", tableName: "TodoSettings") }) {

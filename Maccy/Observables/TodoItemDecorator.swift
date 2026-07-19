@@ -26,6 +26,16 @@ final class TodoItemDecorator: Identifiable, Hashable {
     set { item.isPinned = newValue }
   }
 
+  var priority: TodoPriority {
+    get { item.priority }
+    set { item.priority = newValue }
+  }
+
+  var listId: UUID? {
+    get { item.listId }
+    set { item.listId = newValue }
+  }
+
   var isVisible: Bool = true
   var selectionIndex: Int = -1
   var isSelected: Bool { selectionIndex != -1 }

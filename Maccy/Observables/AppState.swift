@@ -8,7 +8,7 @@ import SwiftUI
 class AppState: Sendable {
   static let shared = AppState(history: History.shared, footer: Footer(), todos: Todos.shared)
 
-  let multiSelectionEnabled = false
+  var multiSelectionEnabled: Bool { Defaults[.enablePasteStack] }
 
   var appDelegate: AppDelegate?
   var popup: Popup
@@ -151,6 +151,30 @@ class AppState: Sendable {
       }
       navigator.select(item: nextUnselectedItem)
     }
+  }
+
+  /// Creates a todo from a clipboard history item and switches to the Todos tab.
+  @MainActor
+  func addToTodos(from item: HistoryItemDecorator) {
+    let sourceText = item.title.isEmpty ? item.text : item.title
+    let trimmed = sourceText.trimmingCharacters(in: .whitespacesAndNewlines)
+    let title = trimmed.shortened(to: 200)
+
+    let todo = todos.add(title: title)
+
+    let fullText = item.text.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !fullText.isEmpty, fullText != title {
+      todo.notes = fullText
+      todos.update(todo)
+    }
+
+    setActiveTab(.todos)
+  }
+
+  @MainActor
+  func addSelectionToTodos() {
+    guard let item = navigator.leadHistoryItem ?? navigator.selection.first else { return }
+    addToTodos(from: item)
   }
 
   func openAbout() {

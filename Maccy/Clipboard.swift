@@ -221,9 +221,12 @@ class Clipboard { // swiftlint:disable:this type_body_length
       return
     }
 
-    // External copy occurred. Stop the current paste stack.
-    // Maybe queue it into the paste stack? Configurable behaviour?
-    AppState.shared.history.interruptPasteStack()
+    // External copy: interrupt the paste stack by default.
+    // pasteStackQueueExternalCopies skips interruption only — we do not enqueue
+    // external clipboard content into the stack (would desync paste order).
+    if !Defaults[.pasteStackQueueExternalCopies] {
+      AppState.shared.history.interruptPasteStack()
+    }
 
     if Defaults[.ignoreEvents] {
       if Defaults[.ignoreOnlyNextEvent] {

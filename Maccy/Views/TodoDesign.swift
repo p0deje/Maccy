@@ -86,6 +86,9 @@ struct TodoSlideoutHeaderView: View {
       .font(.title3.weight(.semibold))
       .lineLimit(2)
       .onSubmit { appState.todos.update(item) }
+      .onChange(of: item.title) { _, _ in
+        appState.todos.update(item)
+      }
 
       HStack(spacing: 8) {
         if item.isCompleted {
@@ -128,13 +131,17 @@ struct TodoSlideoutToolbarView: View {
       Spacer()
 
       ToolbarButton {
-        appState.todos.toggleComplete(item, source: .menu)
+        withAnimation(.easeInOut(duration: 0.18)) {
+          appState.todos.toggleComplete(item, source: .menu)
+        }
       } label: {
         Image(systemName: item.isCompleted ? "arrow.uturn.backward.circle" : "checkmark.circle")
       }
 
       ToolbarButton {
-        appState.todos.togglePin(item)
+        withAnimation(.easeInOut(duration: 0.18)) {
+          appState.todos.togglePin(item)
+        }
       } label: {
         Image(systemName: item.isPinned ? "pin.slash" : "pin")
       }

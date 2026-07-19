@@ -55,6 +55,13 @@ struct HistoryItemView: View {
     .onAppear {
       item.ensureThumbnailImage()
     }
+    .contextMenu {
+      Button {
+        appState.addToTodos(from: item)
+      } label: {
+        Text("AddToTodos", tableName: "Todos")
+      }
+    }
     .onTapGesture {
       if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
         appState.navigator.addToSelection(item: item)

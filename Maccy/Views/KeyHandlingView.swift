@@ -196,12 +196,16 @@ struct KeyHandlingView<Content: View>: View {
       return true
     case .selectCurrentItem:
       if let selected = appState.todos.selectedItem {
-        appState.todos.toggleComplete(selected, source: .keyboard)
+        withAnimation(.easeInOut(duration: 0.18)) {
+          appState.todos.toggleComplete(selected, source: .keyboard)
+        }
       }
       return true
     case .pinOrUnpin:
       if let selected = appState.todos.selectedItem, !selected.isCompleted {
-        appState.todos.togglePin(selected)
+        withAnimation(.easeInOut(duration: 0.18)) {
+          appState.todos.togglePin(selected)
+        }
       }
       return true
     case .close:

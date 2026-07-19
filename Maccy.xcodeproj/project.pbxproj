@@ -21,6 +21,8 @@
 		2F0EC7952E774600003E2EA9 /* QuickPasteSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7942E774600003E2EA9 /* QuickPasteSettingsPane.swift */; };
 		2F0EC7972E774600003E2EA9 /* QuickPasteSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F0EC7962E774600003E2EA9 /* QuickPasteSettings.strings */; };
 		2F0EC7C12E775000003E2EA9 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7C02E775000003E2EA9 /* TodoItem.swift */; };
+		2F0EC8202E775600003E2EA9 /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC81E2E775600003E2EA9 /* TodoList.swift */; };
+		2F0EC8212E775600003E2EA9 /* TodoPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC81F2E775600003E2EA9 /* TodoPriority.swift */; };
 		2F0EC7C32E775000003E2EA9 /* TodoCompletionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7C22E775000003E2EA9 /* TodoCompletionEvent.swift */; };
 		2F0EC7C52E775000003E2EA9 /* TodoCompletionSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7C42E775000003E2EA9 /* TodoCompletionSource.swift */; };
 		2F0EC7C72E775000003E2EA9 /* Todos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7C62E775000003E2EA9 /* Todos.swift */; };
@@ -29,7 +31,6 @@
 		2F0EC7CD2E775000003E2EA9 /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7CC2E775000003E2EA9 /* AppTab.swift */; };
 		2F0EC7CF2E775000003E2EA9 /* ReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7CE2E775000003E2EA9 /* ReminderScheduler.swift */; };
 		2F0EC7D12E775000003E2EA9 /* TodosTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7D02E775000003E2EA9 /* TodosTabBarView.swift */; };
-		2F0EC7D32E775000003E2EA9 /* TodosHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7D22E775000003E2EA9 /* TodosHeaderView.swift */; };
 		2F0EC7D52E775000003E2EA9 /* TodosListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7D42E775000003E2EA9 /* TodosListView.swift */; };
 		2F0EC7D72E775000003E2EA9 /* TodoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7D62E775000003E2EA9 /* TodoItemView.swift */; };
 		2F0EC7D92E775000003E2EA9 /* TodoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7D82E775000003E2EA9 /* TodoDetailView.swift */; };
@@ -38,6 +39,10 @@
 		2F0EC7E12E775000003E2EA9 /* Todos.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F0EC7E02E775000003E2EA9 /* Todos.strings */; };
 		2F0EC7E32E775000003E2EA9 /* TodoSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F0EC7E22E775000003E2EA9 /* TodoSettings.strings */; };
 		2F0EC7E52E775000003E2EA9 /* StorageMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7E42E775000003E2EA9 /* StorageMigrationTests.swift */; };
+		2F0EC9012E790100003E2EA9 /* TodosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC9002E790100003E2EA9 /* TodosTests.swift */; };
+		2F0EC9032E790100003E2EA9 /* ReminderSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC9022E790100003E2EA9 /* ReminderSchedulerTests.swift */; };
+		2F0EC9052E790100003E2EA9 /* TodoAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC9042E790100003E2EA9 /* TodoAnalyticsTests.swift */; };
+		2F0EC9072E790100003E2EA9 /* TodoReminderPresetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC9062E790100003E2EA9 /* TodoReminderPresetsTests.swift */; };
 		2F0EC8012E775100003E2EA9 /* HistoryDateGrouper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8002E775100003E2EA9 /* HistoryDateGrouper.swift */; };
 		2F0EC8032E775100003E2EA9 /* PopupSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8022E775100003E2EA9 /* PopupSearchHeaderView.swift */; };
 		2F0EC8052E775100003E2EA9 /* TodosSlideoutContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8042E775100003E2EA9 /* TodosSlideoutContentView.swift */; };
@@ -104,6 +109,7 @@
 		DA243D122C2F64830012A27F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA243D112C2F64820012A27F /* ContentView.swift */; };
 		DA243D142C2F66DD0012A27F /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA243D132C2F66DD0012A27F /* Storage.swift */; };
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
+		2F0EC7F12E776100003E2EA9 /* PasteStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7F02E776100003E2EA9 /* PasteStackTests.swift */; };
 		DA384E86232746D800603999 /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA384E85232746D800603999 /* SearchTests.swift */; };
 		DA3BCB8E2C3E015000B01BC1 /* ModifierFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */; };
 		DA3BCB922C3EEC3C00B01BC1 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BCB912C3EEC3C00B01BC1 /* History.swift */; };
@@ -271,6 +277,8 @@
 		7CEEFDF124F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		ABC72863283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2F0EC7C02E775000003E2EA9 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
+		2F0EC81E2E775600003E2EA9 /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
+		2F0EC81F2E775600003E2EA9 /* TodoPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPriority.swift; sourceTree = "<group>"; };
 		2F0EC7C22E775000003E2EA9 /* TodoCompletionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCompletionEvent.swift; sourceTree = "<group>"; };
 		2F0EC7C42E775000003E2EA9 /* TodoCompletionSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCompletionSource.swift; sourceTree = "<group>"; };
 		2F0EC7C62E775000003E2EA9 /* Todos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todos.swift; sourceTree = "<group>"; };
@@ -279,13 +287,16 @@
 		2F0EC7CC2E775000003E2EA9 /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTab.swift; sourceTree = "<group>"; };
 		2F0EC7CE2E775000003E2EA9 /* ReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderScheduler.swift; sourceTree = "<group>"; };
 		2F0EC7D02E775000003E2EA9 /* TodosTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTabBarView.swift; sourceTree = "<group>"; };
-		2F0EC7D22E775000003E2EA9 /* TodosHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosHeaderView.swift; sourceTree = "<group>"; };
 		2F0EC7D42E775000003E2EA9 /* TodosListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosListView.swift; sourceTree = "<group>"; };
 		2F0EC7D62E775000003E2EA9 /* TodoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemView.swift; sourceTree = "<group>"; };
 		2F0EC7D82E775000003E2EA9 /* TodoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailView.swift; sourceTree = "<group>"; };
 		2F0EC7DC2E775000003E2EA9 /* TodosWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosWindowView.swift; sourceTree = "<group>"; };
 		2F0EC7DE2E775000003E2EA9 /* TodoSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoSettingsPane.swift; sourceTree = "<group>"; };
 		2F0EC7E42E775000003E2EA9 /* StorageMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageMigrationTests.swift; sourceTree = "<group>"; };
+		2F0EC9002E790100003E2EA9 /* TodosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTests.swift; sourceTree = "<group>"; };
+		2F0EC9022E790100003E2EA9 /* ReminderSchedulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSchedulerTests.swift; sourceTree = "<group>"; };
+		2F0EC9042E790100003E2EA9 /* TodoAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAnalyticsTests.swift; sourceTree = "<group>"; };
+		2F0EC9062E790100003E2EA9 /* TodoReminderPresetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoReminderPresetsTests.swift; sourceTree = "<group>"; };
 		2F0EC8002E775100003E2EA9 /* HistoryDateGrouper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDateGrouper.swift; sourceTree = "<group>"; };
 		2F0EC8022E775100003E2EA9 /* PopupSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupSearchHeaderView.swift; sourceTree = "<group>"; };
 		2F0EC8042E775100003E2EA9 /* TodosSlideoutContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosSlideoutContentView.swift; sourceTree = "<group>"; };
@@ -358,6 +369,7 @@
 		DA2F1B0926F22DF4005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA360DB01E3DF137005C6F6B /* MaccyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA360DB21E3DF137005C6F6B /* HistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HistoryTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		2F0EC7F02E776100003E2EA9 /* PasteStackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackTests.swift; sourceTree = "<group>"; };
 		DA360DB41E3DF137005C6F6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA384E85232746D800603999 /* SearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTests.swift; sourceTree = "<group>"; };
 		DA3873FA2D09EB7600E7B251 /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
@@ -721,6 +733,8 @@
 				DA05B5132C234DCF006980FE /* HistoryItem.swift */,
 				DA05B5122C234DCF006980FE /* HistoryItemContent.swift */,
 				2F0EC7C02E775000003E2EA9 /* TodoItem.swift */,
+				2F0EC81E2E775600003E2EA9 /* TodoList.swift */,
+				2F0EC81F2E775600003E2EA9 /* TodoPriority.swift */,
 				2F0EC80E2E775300003E2EA9 /* TodoReminderRepeat.swift */,
 				2F0EC7C22E775000003E2EA9 /* TodoCompletionEvent.swift */,
 				2F0EC7C42E775000003E2EA9 /* TodoCompletionSource.swift */,
@@ -777,7 +791,6 @@
 				2F0EC8062E775200003E2EA9 /* TodosToolbarView.swift */,
 				2F0EC8122E775300003E2EA9 /* TodoReminderEditorView.swift */,
 				2F0EC7D62E775000003E2EA9 /* TodoItemView.swift */,
-				2F0EC7D22E775000003E2EA9 /* TodosHeaderView.swift */,
 				2F0EC7D42E775000003E2EA9 /* TodosListView.swift */,
 				2F0EC7D02E775000003E2EA9 /* TodosTabBarView.swift */,
 				2F0EC7DC2E775000003E2EA9 /* TodosWindowView.swift */,
@@ -827,11 +840,16 @@
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				DAE2850123225BD90080E394 /* ColorImageTests.swift */,
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
+				2F0EC7F02E776100003E2EA9 /* PasteStackTests.swift */,
 				DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */,
 				DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
 				2F0EC7E42E775000003E2EA9 /* StorageMigrationTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
+				2F0EC9002E790100003E2EA9 /* TodosTests.swift */,
+				2F0EC9022E790100003E2EA9 /* ReminderSchedulerTests.swift */,
+				2F0EC9042E790100003E2EA9 /* TodoAnalyticsTests.swift */,
+				2F0EC9062E790100003E2EA9 /* TodoReminderPresetsTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
 			);
 			path = MaccyTests;
@@ -1184,6 +1202,11 @@
 				DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */,
 				2F0EC7E52E775000003E2EA9 /* StorageMigrationTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,
+				2F0EC7F12E776100003E2EA9 /* PasteStackTests.swift in Sources */,
+				2F0EC9012E790100003E2EA9 /* TodosTests.swift in Sources */,
+				2F0EC9032E790100003E2EA9 /* ReminderSchedulerTests.swift in Sources */,
+				2F0EC9052E790100003E2EA9 /* TodoAnalyticsTests.swift in Sources */,
+				2F0EC9072E790100003E2EA9 /* TodoReminderPresetsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1238,6 +1261,8 @@
 				2F0EC7932E774600003E2EA9 /* QuickPasteSettings.swift in Sources */,
 				2F0EC7952E774600003E2EA9 /* QuickPasteSettingsPane.swift in Sources */,
 				2F0EC7C12E775000003E2EA9 /* TodoItem.swift in Sources */,
+				2F0EC8202E775600003E2EA9 /* TodoList.swift in Sources */,
+				2F0EC8212E775600003E2EA9 /* TodoPriority.swift in Sources */,
 				2F0EC80F2E775300003E2EA9 /* TodoReminderRepeat.swift in Sources */,
 				2F0EC7C32E775000003E2EA9 /* TodoCompletionEvent.swift in Sources */,
 				2F0EC7C52E775000003E2EA9 /* TodoCompletionSource.swift in Sources */,
@@ -1248,7 +1273,6 @@
 				2F0EC7CD2E775000003E2EA9 /* AppTab.swift in Sources */,
 				2F0EC7CF2E775000003E2EA9 /* ReminderScheduler.swift in Sources */,
 				2F0EC7D12E775000003E2EA9 /* TodosTabBarView.swift in Sources */,
-				2F0EC7D32E775000003E2EA9 /* TodosHeaderView.swift in Sources */,
 				2F0EC7D52E775000003E2EA9 /* TodosListView.swift in Sources */,
 				2F0EC7D72E775000003E2EA9 /* TodoItemView.swift in Sources */,
 				2F0EC7D92E775000003E2EA9 /* TodoDetailView.swift in Sources */,

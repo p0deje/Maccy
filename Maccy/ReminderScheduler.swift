@@ -132,14 +132,7 @@ final class ReminderScheduler {
   @MainActor
   func handleNotificationResponse(_ response: UNNotificationResponse) {
     let identifier = response.notification.request.identifier
-    guard identifier.hasPrefix("todo-reminder-") else { return }
-
-    let uuidString = identifier
-      .dropFirst("todo-reminder-".count)
-      .split(separator: "-")
-      .first
-      .map(String.init) ?? ""
-    guard let uuid = UUID(uuidString: uuidString) else { return }
+    guard let uuid = Self.todoId(fromNotificationIdentifier: identifier) else { return }
 
     let descriptor = FetchDescriptor<TodoItem>(predicate: #Predicate { $0.id == uuid })
     guard let item = try? Storage.shared.context.fetch(descriptor).first else { return }
@@ -233,5 +226,37 @@ final class ReminderScheduler {
       return "\(notificationPrefix(for: item))-\(suffix)"
     }
     return notificationPrefix(for: item)
+  }
+
+  /// Identifiers look like `todo-reminder-<uuid>` or `todo-reminder-<uuid>-<suffix>`.
+  static func todoId(fromNotificationIdentifier identifier: String) -> UUID? {
+    let prefix = "todo-reminder-"
+    guard identifier.hasPrefix(prefix) else { return nil }
+    let remainder = identifier.dropFirst(prefix.count)
+    // UUID string form is always 36 characters (8-4-4-4-12).
+    guard remainder.count >= 36 else { return nil }
+    let uuidString = String(remainder.prefix(36))
+    return UUID(uuidString: uuidString)
+  }
+
+  func cancelAllTodoReminders() {
+    center.getPendingNotificationRequests { requests in
+      let ids = requests.map(\.identifier).filter { $0.hasPrefix("todo-reminder-") }
+      self.center.removePendingNotificationRequests(withIdentifiers: ids)
+    }
+    center.getDeliveredNotifications { notifications in
+      let ids = notifications.map(\.request.identifier).filter { $0.hasPrefix("todo-reminder-") }
+      self.center.removeDeliveredNotifications(withIdentifiers: ids)
+    }
+
+    let descriptor = FetchDescriptor<TodoItem>(
+      predicate: #Predicate { $0.notificationId != nil }
+    )
+    if let items = try? Storage.shared.context.fetch(descriptor) {
+      for item in items {
+        item.notificationId = nil
+      }
+      try? Storage.shared.context.save()
+    }
   }
 }
