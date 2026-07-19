@@ -6,3 +6,5 @@
 "UnpinKey" = "Biriktirishni o‘chirish uchun {pinKey} tugmasini bosing.";
 "DeleteKey" = "O‘chirish uchun {deleteKey} tugmasini bosing.";
 "PreviewKey" = "Oldindan ko'rishni yoqish/o'chirish uchun {previewKey} tugmasini bosing.";
+"Dimensions" = "O'lchamlar:";
+"CopyExtractedText" = "Ajratib olingan matnni nusxalash.";

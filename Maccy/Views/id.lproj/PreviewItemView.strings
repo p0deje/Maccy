@@ -6,3 +6,5 @@
 "DeleteKey" = "Tekan tombol {deleteKey} untuk menghapus.";
 "UnpinKey" = "Tekan tombol {pinKey} untuk melepas pin.";
 "PreviewKey" = "Tekan tombol {previewKey} untuk beralih pratinjau.";
+"Dimensions" = "Dimensi:";
+"CopyExtractedText" = "Salin teks yang diekstrak.";

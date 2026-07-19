@@ -6,3 +6,5 @@
 "NumberOfCopies" = "Quantidade de cópias:";
 "UnpinKey" = "Pressione {pinKey} para desafixar.";
 "PreviewKey" = "Pressione {previewKey} para alternar a pré-visualização.";
+"Dimensions" = "Dimensões:";
+"CopyExtractedText" = "Copiar texto extraído.";

@@ -6,3 +6,5 @@
 "UnpinKey" = "Pressione {pinKey} para desafixar.";
 "DeleteKey" = "Pressione {deleteKey} para excluir.";
 "PreviewKey" = "Pressione {previewKey} para alternar a pré-visualização.";
+"Dimensions" = "Dimensões:";
+"CopyExtractedText" = "Copiar texto extraído.";

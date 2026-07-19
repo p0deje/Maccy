@@ -82,10 +82,40 @@ struct ToolbarView: View {
       && appState.navigator.selection.items.contains { !$0.isPinned }
   }
 
+  private var selectedImageItem: HistoryItemDecorator? {
+    guard appState.navigator.selection.count == 1,
+          let item = appState.navigator.selection.first,
+          item.hasImage else {
+      return nil
+    }
+
+    return item
+  }
+
+  private var selectedImageText: String? {
+    guard let item = selectedImageItem else {
+      return nil
+    }
+
+    let text = item.title.trimmingCharacters(in: .whitespacesAndNewlines)
+    return text.isEmpty ? nil : item.title
+  }
+
   var body: some View {
     HStack {
       if !appState.navigator.selection.isEmpty {
         Spacer()
+
+        if selectedImageItem != nil {
+          ToolbarButton {
+            guard let selectedImageText else { return }
+            Clipboard.shared.copyInMaccy(selectedImageText)
+          } label: {
+            Image(systemName: "text.viewfinder")
+          }
+          .help(Text("CopyExtractedText", tableName: "PreviewItemView"))
+          .disabled(selectedImageText == nil)
+        }
 
         ToolbarButton {
           withAnimation {
