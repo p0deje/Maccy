@@ -45,6 +45,32 @@ struct TodoDetailView: View {
         }
       }
 
+      TodoDetailSection(titleKey: "DueDate") {
+        VStack(alignment: .leading, spacing: 8) {
+          DatePicker(
+            NSLocalizedString("DueDate", tableName: "Todos", comment: ""),
+            selection: Binding(
+              get: { item.item.dueDate ?? Date() },
+              set: { appState.todos.setDueDate(item, date: $0) }
+            ),
+            displayedComponents: [.date]
+          )
+          .datePickerStyle(.compact)
+          .labelsHidden()
+
+          if item.item.dueDate != nil {
+            Button {
+              appState.todos.setDueDate(item, date: nil)
+            } label: {
+              Text(NSLocalizedString("ClearDueDate", tableName: "Todos", comment: ""))
+            }
+            .buttonStyle(.plain)
+            .font(.caption2)
+            .foregroundStyle(.secondary)
+          }
+        }
+      }
+
       TodoDetailSection(titleKey: "SectionReminder") {
         TodoReminderEditorView(item: item)
       }
@@ -96,7 +122,7 @@ struct TodoDetailView: View {
           appState.todos.update(item)
         }
         .onChange(of: item.notes) {
-          appState.todos.update(item)
+          appState.todos.scheduleUpdate(item)
         }
       }
 

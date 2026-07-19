@@ -286,12 +286,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func todosMenuTitle() -> String {
-    let base = NSLocalizedString("TodosTab", tableName: "Todos", comment: "") + "…"
+    let base = NSLocalizedString("TodosTab", tableName: "Todos", comment: "")
     let now = Date.now
     let overdueCount = (try? Storage.shared.context.fetch(FetchDescriptor<TodoItem>()))?
       .filter { !$0.isCompleted && ($0.dueDate.map { $0 < now } ?? false) }
       .count ?? 0
-    return overdueCount > 0 ? "\(base) (\(overdueCount))" : base
+    if overdueCount > 0 {
+      return "\(base) (\(overdueCount))…"
+    }
+    return "\(base)…"
   }
 
   @objc

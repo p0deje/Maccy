@@ -53,7 +53,7 @@ struct TodoItemView: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .onSubmit { appState.todos.update(item) }
         .onChange(of: item.title) {
-          appState.todos.update(item)
+          appState.todos.scheduleUpdate(item)
         }
 
         trailingActions

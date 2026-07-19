@@ -91,6 +91,8 @@
 		DA13D7DB2C1A223E00FA9E23 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7D62C1A223E00FA9E23 /* Delete.swift */; };
 		DA13D7DC2C1A223E00FA9E23 /* HistoryItemAppEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7D72C1A223E00FA9E23 /* HistoryItemAppEntity.swift */; };
 		DA13D7DE2C1A436E00FA9E23 /* AppIntentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7DD2C1A436E00FA9E23 /* AppIntentError.swift */; };
+		2F0EC8322E790200003E2EA9 /* AddTodoIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8302E790200003E2EA9 /* AddTodoIntent.swift */; };
+		2F0EC8332E790200003E2EA9 /* CompleteTodoIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8312E790200003E2EA9 /* CompleteTodoIntent.swift */; };
 		DA181177247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */; };
 		DA19690E2C3EEFA900258481 /* KeyboardShortcutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19690D2C3EEFA900258481 /* KeyboardShortcutView.swift */; };
 		DA1969102C3F0AAC00258481 /* KeyShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19690F2C3F0AAC00258481 /* KeyShortcut.swift */; };
@@ -341,6 +343,8 @@
 		DA13D7D62C1A223E00FA9E23 /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
 		DA13D7D72C1A223E00FA9E23 /* HistoryItemAppEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemAppEntity.swift; sourceTree = "<group>"; };
 		DA13D7DD2C1A436E00FA9E23 /* AppIntentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntentError.swift; sourceTree = "<group>"; };
+		2F0EC8302E790200003E2EA9 /* AddTodoIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoIntent.swift; sourceTree = "<group>"; };
+		2F0EC8312E790200003E2EA9 /* CompleteTodoIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteTodoIntent.swift; sourceTree = "<group>"; };
 		DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Settings.PaneIdentifier+Panes.swift"; sourceTree = "<group>"; };
 		DA19690D2C3EEFA900258481 /* KeyboardShortcutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutView.swift; sourceTree = "<group>"; };
 		DA19690F2C3F0AAC00258481 /* KeyShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyShortcut.swift; sourceTree = "<group>"; };
@@ -885,8 +889,10 @@
 		DA68F91F28BD819E007E2F25 /* Intents */ = {
 			isa = PBXGroup;
 			children = (
+				2F0EC8302E790200003E2EA9 /* AddTodoIntent.swift */,
 				DA13D7DD2C1A436E00FA9E23 /* AppIntentError.swift */,
 				DA13D7D52C1A223E00FA9E23 /* Clear.swift */,
+				2F0EC8312E790200003E2EA9 /* CompleteTodoIntent.swift */,
 				DA13D7D62C1A223E00FA9E23 /* Delete.swift */,
 				DA13D7D42C1A223E00FA9E23 /* Get.swift */,
 				DA13D7D72C1A223E00FA9E23 /* HistoryItemAppEntity.swift */,
@@ -1318,6 +1324,8 @@
 				2F0EC77F2E773DBA003E2EA9 /* MultipleSelectionListView.swift in Sources */,
 				2F0EC7892E7743D9003E2EA9 /* HoverSelectionModifier.swift in Sources */,
 				DA13D7DE2C1A436E00FA9E23 /* AppIntentError.swift in Sources */,
+				2F0EC8322E790200003E2EA9 /* AddTodoIntent.swift in Sources */,
+				2F0EC8332E790200003E2EA9 /* CompleteTodoIntent.swift in Sources */,
 				2F8B9DE62C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift in Sources */,
 				DAA072D72C41C574006DDFD2 /* AppState.swift in Sources */,
 				DA9C3C5E2C20E1190056795D /* IgnoreApplicationsSettingsView.swift in Sources */,

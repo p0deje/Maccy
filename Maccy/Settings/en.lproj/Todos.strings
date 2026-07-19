@@ -12,6 +12,8 @@
 "SectionDetails" = "Details";
 "SectionReminder" = "Reminder";
 "SectionOrganize" = "Organize";
+"DueDate" = "Due date";
+"ClearDueDate" = "Clear due date";
 "NewTodo" = "New todo";
 "AddToTodos" = "Add to Todos";
 "ListFilter" = "List";
@@ -25,6 +27,15 @@
 "AddListConfirm" = "Add";
 "AddListCancel" = "Cancel";
 "ListNamePlaceholder" = "List name";
+"ManageList" = "Manage list";
+"RenameList" = "Rename List";
+"RenameListTitle" = "Rename List";
+"RenameListMessage" = "Enter a new name for this list.";
+"RenameListConfirm" = "Rename";
+"DeleteList" = "Delete List";
+"DeleteListTitle" = "Delete List?";
+"DeleteListMessage" = "Delete “%@”? Todos in this list will move to Inbox.";
+"DeleteListConfirm" = "Delete";
 "Priority" = "Priority";
 "PriorityNone" = "None";
 "PriorityLow" = "Low";

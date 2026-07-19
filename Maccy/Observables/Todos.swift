@@ -83,12 +83,7 @@ final class Todos { // swiftlint:disable:this type_body_length
       .filter { !$0.isPinned && !$0.isCompleted }
       .filter(\.isVisible)
       .filter(matchesCurrentFilter)
-      .sorted { lhs, rhs in
-        if lhs.item.priorityRaw != rhs.item.priorityRaw {
-          return lhs.item.priorityRaw > rhs.item.priorityRaw
-        }
-        return lhs.item.sortOrder < rhs.item.sortOrder
-      }
+      .sorted { $0.item.sortOrder < $1.item.sortOrder }
   }
 
   var completedItems: [TodoItemDecorator] {
@@ -105,6 +100,7 @@ final class Todos { // swiftlint:disable:this type_body_length
   }
 
   fileprivate var all: [TodoItemDecorator] = []
+  private var pendingUpdateTasks: [UUID: Task<Void, Never>] = [:]
 
   private init() {}
 
@@ -139,13 +135,31 @@ final class Todos { // swiftlint:disable:this type_body_length
 
   @MainActor
   func update(_ decorator: TodoItemDecorator) {
+    pendingUpdateTasks[decorator.id]?.cancel()
+    pendingUpdateTasks[decorator.id] = nil
     decorator.item.updatedAt = .now
     save()
     applySearch()
   }
 
+  /// Coalesces rapid title/notes edits into a single save after 300ms of idle typing.
+  @MainActor
+  func scheduleUpdate(_ decorator: TodoItemDecorator) {
+    let id = decorator.id
+    pendingUpdateTasks[id]?.cancel()
+    pendingUpdateTasks[id] = Task { @MainActor in
+      try? await Task.sleep(for: .milliseconds(300))
+      guard !Task.isCancelled else { return }
+      pendingUpdateTasks[id] = nil
+      guard all.contains(where: { $0.id == id }) else { return }
+      update(decorator)
+    }
+  }
+
   @MainActor
   func delete(_ decorator: TodoItemDecorator) {
+    pendingUpdateTasks[decorator.id]?.cancel()
+    pendingUpdateTasks[decorator.id] = nil
     ReminderScheduler.shared.cancel(decorator.item)
     if selectedId == decorator.id {
       selectedId = nil
@@ -275,16 +289,26 @@ final class Todos { // swiftlint:disable:this type_body_length
     let item = decorator.item
     item.reminderDate = date
     item.reminderRepeatRule = repeatRule.rawValue
-    item.dueDate = date
     item.updatedAt = .now
     ReminderScheduler.shared.schedule(item)
     save()
   }
 
   @MainActor
+  func setDueDate(_ decorator: TodoItemDecorator, date: Date?) {
+    decorator.item.dueDate = date
+    decorator.item.updatedAt = .now
+    save()
+  }
+
+  @MainActor
   func applyReminderPreset(_ decorator: TodoItemDecorator, preset: TodoReminderPreset) {
     let resolved = preset.resolve()
+    let shouldSetDueDate = decorator.item.dueDate == nil
     setReminder(decorator, date: resolved.date, repeatRule: resolved.repeat)
+    if shouldSetDueDate {
+      setDueDate(decorator, date: resolved.date)
+    }
   }
 
   @MainActor
@@ -293,7 +317,6 @@ final class Todos { // swiftlint:disable:this type_body_length
     ReminderScheduler.shared.cancel(item)
     item.reminderDate = nil
     item.reminderRepeatRule = nil
-    item.dueDate = nil
     item.updatedAt = .now
     save()
   }
@@ -304,6 +327,16 @@ final class Todos { // swiftlint:disable:this type_body_length
     decorator.item.updatedAt = .now
     save()
     applySearch()
+  }
+
+  @MainActor
+  func moveActiveItems(from source: IndexSet, to destination: Int) {
+    moveItems(activeItems, from: source, to: destination)
+  }
+
+  @MainActor
+  func movePinnedItems(from source: IndexSet, to destination: Int) {
+    moveItems(pinnedItems, from: source, to: destination)
   }
 
   @MainActor
@@ -364,13 +397,9 @@ final class Todos { // swiftlint:disable:this type_body_length
     let item = decorator.item
     let duration = TodoAnalytics.activeDurationSeconds(for: item, at: now)
     let wasOverdue = TodoAnalytics.wasOverdue(item, at: now)
+    let repeatRule = TodoReminderRepeat(storedValue: item.reminderRepeatRule)
 
-    item.isCompleted = true
-    item.completedAt = now
     item.updatedAt = now
-    item.completionDurationSeconds = duration
-    item.wasOverdueWhenCompleted = wasOverdue
-    item.completedVia = source.rawValue
     item.timesCompleted += 1
     item.isPinned = false
 
@@ -385,11 +414,30 @@ final class Todos { // swiftlint:disable:this type_body_length
     item.completionHistory.append(event)
     Storage.shared.context.insert(event)
 
-    ReminderScheduler.shared.cancel(item)
-    item.reminderDate = nil
-    item.reminderRepeatRule = nil
+    if repeatRule.isRepeating,
+       let currentReminder = item.reminderDate,
+       let nextDate = nextReminderDate(from: currentReminder, rule: repeatRule) {
+      // Habit stays active; treat this completion as immediately "reopened" for duration math.
+      event.reopenedAt = now
+      if item.dueDate == currentReminder {
+        item.dueDate = nextDate
+      }
+      item.reminderDate = nextDate
+      ReminderScheduler.shared.schedule(item)
+      logger.info("Advanced repeating todo reminder: \(item.title)")
+    } else {
+      item.isCompleted = true
+      item.completedAt = now
+      item.completionDurationSeconds = duration
+      item.wasOverdueWhenCompleted = wasOverdue
+      item.completedVia = source.rawValue
 
-    logger.info("Marked todo completed: \(item.title)")
+      ReminderScheduler.shared.cancel(item)
+      item.reminderDate = nil
+      item.reminderRepeatRule = nil
+      logger.info("Marked todo completed: \(item.title)")
+    }
+
     save()
   }
 

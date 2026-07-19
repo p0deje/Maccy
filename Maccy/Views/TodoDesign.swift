@@ -87,7 +87,7 @@ struct TodoSlideoutHeaderView: View {
       .lineLimit(2)
       .onSubmit { appState.todos.update(item) }
       .onChange(of: item.title) { _, _ in
-        appState.todos.update(item)
+        appState.todos.scheduleUpdate(item)
       }
 
       HStack(spacing: 8) {

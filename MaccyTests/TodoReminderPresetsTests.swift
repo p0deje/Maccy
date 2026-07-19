@@ -42,4 +42,19 @@ final class TodoReminderPresetsTests: XCTestCase {
     XCTAssertEqual(calendar.component(.hour, from: resolved.date), 9)
     XCTAssertEqual(resolved.repeat, .daily)
   }
+
+  func testNextReminderDateDailyAndWeekdays() {
+    var calendar = Calendar(identifier: .gregorian)
+    calendar.timeZone = TimeZone(secondsFromGMT: 0)!
+
+    let friday = calendar.date(
+      from: DateComponents(year: 2026, month: 7, day: 17, hour: 9, minute: 0)
+    )!
+    let nextDaily = nextReminderDate(from: friday, rule: .daily, calendar: calendar)
+    let nextWeekday = nextReminderDate(from: friday, rule: .weekdays, calendar: calendar)
+
+    XCTAssertEqual(calendar.component(.day, from: nextDaily!), 18)
+    XCTAssertEqual(calendar.component(.weekday, from: nextWeekday!), 2) // Monday
+    XCTAssertNil(nextReminderDate(from: friday, rule: .once, calendar: calendar))
+  }
 }

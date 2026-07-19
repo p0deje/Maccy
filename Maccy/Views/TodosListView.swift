@@ -16,90 +16,102 @@ struct TodosListView: View {
   }
 
   var body: some View {
-    ScrollView {
-      ScrollViewReader { proxy in
-        LazyVStack(alignment: .leading, spacing: TodoDesign.rowSpacing) {
-          if appState.todos.isSearching {
-            ForEach(appState.todos.searchMatches) { item in
-              TodoItemView(item: item)
-                .id(item.id)
-            }
-          } else {
-            sectionedList
+    ScrollViewReader { proxy in
+      List {
+        if appState.todos.isSearching {
+          ForEach(appState.todos.searchMatches) { item in
+            todoRow(item)
           }
-
-          if appState.todos.pinnedItems.isEmpty
-              && appState.todos.activeItems.isEmpty
-              && appState.todos.completedItems.isEmpty
-              && !appState.todos.isSearching {
-            TodoEmptyStateView(
-              systemImage: "checklist",
-              message: NSLocalizedString("EmptyTodos", tableName: "Todos", comment: "")
-            )
-            Text(NSLocalizedString("EmptyTodosHint", tableName: "Todos", comment: ""))
-              .font(.caption2)
-              .foregroundStyle(.tertiary)
-              .multilineTextAlignment(.center)
-              .frame(maxWidth: .infinity)
-              .padding(.horizontal, 20)
-              .padding(.bottom, 8)
-          }
-
-          if appState.todos.isSearching, appState.todos.searchMatches.isEmpty {
-            TodoEmptyStateView(
-              systemImage: "magnifyingglass",
-              message: NSLocalizedString("EmptySearch", tableName: "Localizable", comment: "")
-            )
-          }
+        } else {
+          sectionedList
         }
-        .padding(.top, topPadding)
-        .padding(.bottom, bottomPadding)
-        .animation(
-          .easeInOut(duration: 0.18),
-          value: appState.todos.activeItems.map(\.id) + appState.todos.pinnedItems.map(\.id)
-        )
-        .task(id: appState.todos.scrollTarget) {
-          guard appState.todos.scrollTarget != nil else { return }
 
-          try? await Task.sleep(for: .milliseconds(10))
-          guard !Task.isCancelled else { return }
+        if appState.todos.pinnedItems.isEmpty
+            && appState.todos.activeItems.isEmpty
+            && appState.todos.completedItems.isEmpty
+            && !appState.todos.isSearching {
+          TodoEmptyStateView(
+            systemImage: "checklist",
+            message: NSLocalizedString("EmptyTodos", tableName: "Todos", comment: "")
+          )
+          .listRowInsets(EdgeInsets())
+          .listRowSeparator(.hidden)
+          .listRowBackground(Color.clear)
 
-          if let selection = appState.todos.scrollTarget {
-            proxy.scrollTo(selection)
-            appState.todos.scrollTarget = nil
-          }
+          Text(NSLocalizedString("EmptyTodosHint", tableName: "Todos", comment: ""))
+            .font(.caption2)
+            .foregroundStyle(.tertiary)
+            .multilineTextAlignment(.center)
+            .frame(maxWidth: .infinity)
+            .padding(.horizontal, 20)
+            .padding(.bottom, 8)
+            .listRowInsets(EdgeInsets())
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.clear)
         }
-        .onChange(of: scenePhase) {
-          if scenePhase == .active {
-            searchFocused = true
-            appState.todos.isKeyboardNavigating = true
-            if appState.todos.selectedId == nil,
-               let id = appState.todos.activeItems.first?.id
-                 ?? appState.todos.pinnedItems.first?.id {
-              appState.todos.select(id: id)
-            }
-            if appState.activeTab == .todos, appState.todos.selectedId != nil {
-              appState.preview.enableAutoOpen()
-              appState.preview.resetAutoOpenSuppression()
-              appState.preview.startAutoOpen()
-            }
-          } else {
-            appState.todos.isKeyboardNavigating = true
-            appState.preview.cancelAutoOpen()
-          }
-        }
-        .background {
-          GeometryReader { geo in
-            Color.clear
-              .task(id: appState.popup.needsResize) {
-                try? await Task.sleep(for: .milliseconds(10))
-                guard !Task.isCancelled else { return }
 
-                if appState.popup.needsResize {
-                  appState.popup.resize(height: geo.size.height)
-                }
+        if appState.todos.isSearching, appState.todos.searchMatches.isEmpty {
+          TodoEmptyStateView(
+            systemImage: "magnifyingglass",
+            message: NSLocalizedString("EmptySearch", tableName: "Localizable", comment: "")
+          )
+          .listRowInsets(EdgeInsets())
+          .listRowSeparator(.hidden)
+          .listRowBackground(Color.clear)
+        }
+      }
+      .listStyle(.plain)
+      .scrollContentBackground(.hidden)
+      .scrollIndicators(.automatic)
+      .padding(.top, topPadding)
+      .padding(.bottom, bottomPadding)
+      .animation(
+        .easeInOut(duration: 0.18),
+        value: appState.todos.activeItems.map(\.id) + appState.todos.pinnedItems.map(\.id)
+      )
+      .task(id: appState.todos.scrollTarget) {
+        guard appState.todos.scrollTarget != nil else { return }
+
+        try? await Task.sleep(for: .milliseconds(10))
+        guard !Task.isCancelled else { return }
+
+        if let selection = appState.todos.scrollTarget {
+          withAnimation {
+            proxy.scrollTo(selection, anchor: .center)
+          }
+          appState.todos.scrollTarget = nil
+        }
+      }
+      .onChange(of: scenePhase) {
+        if scenePhase == .active {
+          searchFocused = true
+          appState.todos.isKeyboardNavigating = true
+          if appState.todos.selectedId == nil,
+             let id = appState.todos.activeItems.first?.id
+               ?? appState.todos.pinnedItems.first?.id {
+            appState.todos.select(id: id)
+          }
+          if appState.activeTab == .todos, appState.todos.selectedId != nil {
+            appState.preview.enableAutoOpen()
+            appState.preview.resetAutoOpenSuppression()
+            appState.preview.startAutoOpen()
+          }
+        } else {
+          appState.todos.isKeyboardNavigating = true
+          appState.preview.cancelAutoOpen()
+        }
+      }
+      .background {
+        GeometryReader { geo in
+          Color.clear
+            .task(id: appState.popup.needsResize) {
+              try? await Task.sleep(for: .milliseconds(10))
+              guard !Task.isCancelled else { return }
+
+              if appState.popup.needsResize {
+                appState.popup.resize(height: geo.size.height)
               }
-          }
+            }
         }
       }
     }
@@ -111,35 +123,64 @@ struct TodosListView: View {
   @ViewBuilder
   private var sectionedList: some View {
     if !appState.todos.pinnedItems.isEmpty {
-      TodoSectionHeaderView(
-        title: NSLocalizedString("Pinned", tableName: "Todos", comment: "")
-      )
-      ForEach(appState.todos.pinnedItems) { item in
-        TodoItemView(item: item)
-          .id(item.id)
+      Section {
+        ForEach(appState.todos.pinnedItems) { item in
+          todoRow(item)
+        }
+        .onMove { source, destination in
+          appState.todos.movePinnedItems(from: source, to: destination)
+        }
+      } header: {
+        TodoSectionHeaderView(
+          title: NSLocalizedString("Pinned", tableName: "Todos", comment: "")
+        )
+        .textCase(nil)
       }
     }
 
     if !appState.todos.activeItems.isEmpty {
-      TodoSectionHeaderView(
-        title: NSLocalizedString("Active", tableName: "Todos", comment: "")
-      )
-      ForEach(appState.todos.activeItems) { item in
-        TodoItemView(item: item)
-          .id(item.id)
+      Section {
+        ForEach(appState.todos.activeItems) { item in
+          todoRow(item)
+        }
+        .onMove { source, destination in
+          appState.todos.moveActiveItems(from: source, to: destination)
+        }
+      } header: {
+        TodoSectionHeaderView(
+          title: NSLocalizedString("Active", tableName: "Todos", comment: "")
+        )
+        .textCase(nil)
       }
     }
 
     if showCompletedTodos, !appState.todos.completedItems.isEmpty {
-      completedSectionHeader
-
-      if appState.todos.showCompletedSection {
-        ForEach(appState.todos.completedItems) { item in
-          TodoItemView(item: item)
-            .id(item.id)
+      Section {
+        if appState.todos.showCompletedSection {
+          ForEach(appState.todos.completedItems) { item in
+            todoRow(item)
+          }
         }
+      } header: {
+        completedSectionHeader
+          .textCase(nil)
       }
     }
+  }
+
+  private func todoRow(_ item: TodoItemDecorator) -> some View {
+    TodoItemView(item: item)
+      .id(item.id)
+      .listRowInsets(
+        EdgeInsets(
+          top: TodoDesign.rowSpacing / 2,
+          leading: 0,
+          bottom: TodoDesign.rowSpacing / 2,
+          trailing: 0
+        )
+      )
+      .listRowSeparator(.hidden)
+      .listRowBackground(Color.clear)
   }
 
   private var completedSectionHeader: some View {

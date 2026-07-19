@@ -109,6 +109,8 @@ class SlideoutController {
 
   private var windowAnimationOrigin: CGPoint?
   private var windowAnimationOriginBaseState: SlideoutState = .closed
+  /// Fixed right edge while animating left-anchored (todos) expansion.
+  private var leftAnchoredRightEdge: CGFloat?
 
   private var autoOpenTask: Task<Void, Never>?
   private var autoOpenSuppressed = false
@@ -125,6 +127,11 @@ class SlideoutController {
       contentAnimationWidth = contentWidth
       windowAnimationOrigin = windowFrame.origin
       windowAnimationOriginBaseState = state
+      if usesLeftAnchoredExpansion {
+        leftAnchoredRightEdge = windowFrame.maxX
+      } else {
+        leftAnchoredRightEdge = nil
+      }
     }
     state = newValue
   }
@@ -214,63 +221,64 @@ class SlideoutController {
 
     cancelAutoOpen()
 
-    if let window = nswindow {
-      if contentResizeWidth > 0 {
-        contentWidth = contentResizeWidth
-      } else if usesLeftAnchoredExpansion, !state.isOpen {
-        contentWidth = window.frame.width.rounded()
-      }
+    guard let window = nswindow else { return }
+
+    if contentResizeWidth > 0 {
+      contentWidth = contentResizeWidth
+    } else if usesLeftAnchoredExpansion, !state.isOpen {
+      contentWidth = window.frame.width.rounded()
     }
 
-    withAnimation(.easeInOut(duration: Self.animationDuration), completionCriteria: .removed) {
-      if let window = nswindow {
-        let listRight = window.frame.maxX
+    // AppKit owns the window-frame animation. Avoid wrapping state in SwiftUI
+    // withAnimation so layout width changes don't fight NSAnimationContext (jitter
+    // on left-anchored todos expansion). Content width is set above without animation.
+    let listRight = window.frame.maxX
+    togglePreviewStateWithAnimation(windowFrame: window.frame)
 
-        togglePreviewStateWithAnimation(windowFrame: window.frame)
-        var newSize = window.frame.size
-        newSize.width = contentWidth
-        newSize = computeSizeWithPreview(newSize, state: self.state)
-        if state.isOpen {
-          placement = computePlacement(window: window, for: newSize)
+    var newSize = window.frame.size
+    newSize.width = contentWidth
+    newSize = computeSizeWithPreview(newSize, state: state)
+    if state.isOpen {
+      placement = computePlacement(window: window, for: newSize)
+    }
+
+    let expectedAnimationState = state
+    let anchoredRightEdge = leftAnchoredRightEdge ?? listRight
+    NSAnimationContext.runAnimationGroup { context in
+      var newOrigin = windowAnimationOrigin ?? window.frame.origin
+      newOrigin.y += (window.frame.height - newSize.height)
+
+      if usesLeftAnchoredExpansion {
+        let anchored = frameWithRightEdgeAnchored(
+          window: window,
+          rightEdge: anchoredRightEdge,
+          totalWidth: newSize.width,
+          height: newSize.height
+        )
+        newOrigin = anchored.origin
+        newSize.width = anchored.width
+      } else if placement == .left {
+        if windowAnimationOriginBaseState == .closed && state.isOpen {
+          newOrigin.x -= slideoutWidth
+        } else if windowAnimationOriginBaseState == .open
+          && !state.isOpen {
+          newOrigin.x += slideoutWidth
         }
-
-        let expectedAnimationState = state
-        NSAnimationContext.runAnimationGroup { (context) in
-          var newOrigin = windowAnimationOrigin ?? window.frame.origin
-          newOrigin.y += (window.frame.height - newSize.height)
-
-          if usesLeftAnchoredExpansion {
-            let anchored = frameWithRightEdgeAnchored(
-              window: window,
-              rightEdge: listRight,
-              totalWidth: newSize.width,
-              height: newSize.height
-            )
-            newOrigin = anchored.origin
-            newSize.width = anchored.width
-          } else if placement == .left {
-            if windowAnimationOriginBaseState == .closed && state.isOpen {
-              newOrigin.x -= slideoutWidth
-            } else if windowAnimationOriginBaseState == .open
-              && !state.isOpen {
-              newOrigin.x += slideoutWidth
-            }
-            // Otherwise the base is the desired position
-          }
-          context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-          context.completionHandler = {
-            if self.state == expectedAnimationState {
-              self.state = expectedAnimationState.animationDone()
-            }
-          }
-          context.duration = Self.animationDuration
-          window.animator().setFrame(
-            NSRect(origin: newOrigin, size: newSize),
-            display: true
-          )
-        }
+        // Otherwise the base is the desired position
       }
-    } completion: {
+      context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+      context.completionHandler = {
+        if self.state == expectedAnimationState {
+          self.state = expectedAnimationState.animationDone()
+        }
+        self.contentAnimationWidth = nil
+        self.leftAnchoredRightEdge = nil
+      }
+      context.duration = Self.animationDuration
+      window.animator().setFrame(
+        NSRect(origin: newOrigin, size: newSize),
+        display: true
+      )
     }
   }
 

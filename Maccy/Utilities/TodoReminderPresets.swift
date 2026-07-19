@@ -97,6 +97,38 @@ enum TodoReminderPreset: String, CaseIterable, Identifiable {
   }
 }
 
+/// Returns the next occurrence for a repeating reminder rule, or `nil` for once/none.
+func nextReminderDate(
+  from date: Date,
+  rule: TodoReminderRepeat,
+  calendar: Calendar = .current
+) -> Date? {
+  switch rule {
+  case .none, .once:
+    return nil
+  case .hourly:
+    return calendar.date(byAdding: .hour, value: 1, to: date)
+  case .daily:
+    return calendar.date(byAdding: .day, value: 1, to: date)
+  case .weekly:
+    return calendar.date(byAdding: .day, value: 7, to: date)
+  case .weekdays:
+    var candidate = date
+    // Match ReminderScheduler weekdays: Monday–Friday (Calendar weekday 2…6).
+    for _ in 0..<8 {
+      guard let next = calendar.date(byAdding: .day, value: 1, to: candidate) else {
+        return nil
+      }
+      candidate = next
+      let weekday = calendar.component(.weekday, from: candidate)
+      if (2...6).contains(weekday) {
+        return candidate
+      }
+    }
+    return nil
+  }
+}
+
 enum TodoReminderFormatting {
   static func summary(repeatRule: TodoReminderRepeat, date: Date?) -> String {
     guard let date else {
