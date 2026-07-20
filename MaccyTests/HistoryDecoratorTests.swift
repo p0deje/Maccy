@@ -134,6 +134,19 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.attributedTitle, nil)
   }
 
+  func testRelativeCopyTimeFormatting() {
+    let date = Date(timeIntervalSince1970: -3 * 60 * 60)
+    let referenceDate = Date(timeIntervalSince1970: 0)
+
+    let relative = HistoryItemDecorator.formatRelativeCopyTime(
+      for: date,
+      relativeTo: referenceDate,
+      locale: Locale(identifier: "en_US")
+    )
+
+    XCTAssertEqual(relative, "3h ago")
+  }
+
   private func historyItemDecorator(
     _ value: String?,
     application: String? = "com.apple.finder"
