@@ -14,7 +14,7 @@ struct PreviewItemView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       if item.hasImage {
-        AsyncView<NSImage?, _, _> {
+        AsyncView<NSImage?, _, _>(id: item.id) {
           return await item.asyncGetPreviewImage()
         } content: { image in
           if let image = image {
@@ -50,9 +50,16 @@ struct PreviewItemView: View {
           }
         }
       } else {
-        ScrollView {
-          Text(item.text)
-            .font(.body)
+        AsyncView<String, _, _>(id: item.id) {
+          return await item.asyncGetPreviewText()
+        } content: { text in
+          ScrollView {
+            Text(text)
+              .font(.body)
+          }
+        } placeholder: {
+          ProgressView()
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
       }
 

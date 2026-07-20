@@ -176,9 +176,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     var itemDecorator: HistoryItemDecorator
     if let pin = item.pin {
       itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
-      // Keep pins in the same place.
+      // Keep pins in the same place. `limitHistorySize` above may have mutated
+      // `all`, so clamp the captured index to the current bounds.
       if let removedItemIndex {
-        all.insert(itemDecorator, at: removedItemIndex)
+        all.insert(itemDecorator, at: min(removedItemIndex, all.count))
       }
     } else {
       itemDecorator = HistoryItemDecorator(item)

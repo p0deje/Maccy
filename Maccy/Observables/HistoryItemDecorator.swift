@@ -39,16 +39,64 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     return url.deletingPathExtension().lastPathComponent
   }
 
-  var hasImage: Bool { item.image != nil }
+  var hasImage: Bool { item.imageData != nil }
 
-  var previewImageGenerationTask: Task<(), Error>?
-  var thumbnailImageGenerationTask: Task<(), Error>?
+  var previewImageGenerationTask: Task<Void, Never>?
+  var thumbnailImageGenerationTask: Task<Void, Never>?
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
   // 10k characters seems to be more than enough on large displays
   var text: String { item.previewableText.shortened(to: 10_000) }
+
+  @ObservationIgnored private var cachedPreviewText: String?
+
+  @MainActor
+  func asyncGetPreviewText() async -> String {
+    if let cached = cachedPreviewText { return cached }
+
+    // Fast paths: fileURLs and plain text don't need background parsing
+    let fileURLs = item.fileURLs
+    if !fileURLs.isEmpty {
+      let result = fileURLs
+        .compactMap { $0.absoluteString.removingPercentEncoding }
+        .joined(separator: "\n")
+        .shortened(to: 10_000)
+      if !result.isEmpty {
+        cachedPreviewText = result
+        return result
+      }
+    }
+
+    if let plainText = item.text, !plainText.isEmpty {
+      let result = plainText.shortened(to: 10_000)
+      cachedPreviewText = result
+      return result
+    }
+
+    // Slow path: only read RTF/HTML data if needed, parse in background
+    let rtfData = item.rtfData
+    let htmlData = item.htmlData
+    let itemTitle = item.title
+
+    let result = await Task.detached {
+      if let data = rtfData,
+         let rtf = NSAttributedString(rtf: data, documentAttributes: nil),
+         !rtf.string.isEmpty {
+        return rtf.string.shortened(to: 10_000)
+      } else if let data = htmlData,
+                let html = NSAttributedString(html: data, documentAttributes: nil),
+                !html.string.isEmpty {
+        return html.string.shortened(to: 10_000)
+      } else {
+        return itemTitle.shortened(to: 10_000)
+      }
+    }.value
+
+    cachedPreviewText = result
+    return result
+  }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
@@ -74,7 +122,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   @MainActor
   func ensureThumbnailImage() {
-    guard item.image != nil else {
+    guard let data = item.imageData else {
       return
     }
     guard thumbnailImage == nil else {
@@ -83,14 +131,19 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     guard thumbnailImageGenerationTask == nil else {
       return
     }
-    thumbnailImageGenerationTask = Task { [weak self] in
-      self?.generateThumbnailImage()
+    let targetSize = HistoryItemDecorator.thumbnailImageSize
+    thumbnailImageGenerationTask = Task.detached { [weak self] in
+      guard let nsImage = NSImage(data: data) else { return }
+      let resized = nsImage.resized(to: targetSize)
+      await MainActor.run {
+        self?.thumbnailImage = resized
+      }
     }
   }
 
   @MainActor
   func ensurePreviewImage() {
-    guard item.image != nil else {
+    guard let data = item.imageData else {
       return
     }
     guard previewImage == nil else {
@@ -99,8 +152,13 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     guard previewImageGenerationTask == nil else {
       return
     }
-    previewImageGenerationTask = Task { [weak self] in
-      self?.generatePreviewImage()
+    let targetSize = HistoryItemDecorator.previewImageSize
+    previewImageGenerationTask = Task.detached { [weak self] in
+      guard let nsImage = NSImage(data: data) else { return }
+      let resized = nsImage.resized(to: targetSize)
+      await MainActor.run {
+        self?.previewImage = resized
+      }
     }
   }
 
@@ -110,7 +168,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
       return image
     }
     ensurePreviewImage()
-    _ = await previewImageGenerationTask?.result
+    await previewImageGenerationTask?.value
     return previewImage
   }
 
@@ -125,25 +183,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   @MainActor
-  private func generateThumbnailImage() {
-    guard let image = item.image else {
-      return
-    }
-    thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
-  }
-
-  @MainActor
-  private func generatePreviewImage() {
-    guard let image = item.image else {
-      return
-    }
-    previewImage = image.resized(to: HistoryItemDecorator.previewImageSize)
-  }
-
-  @MainActor
   func sizeImages() {
-    generatePreviewImage()
-    generateThumbnailImage()
+    ensurePreviewImage()
+    ensureThumbnailImage()
   }
 
   func highlight(_ query: String, _ ranges: [Range<String.Index>]) {

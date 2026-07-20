@@ -61,18 +61,18 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       Spacer()
         .frame(width: showIcons ? 5 : 10)
 
-      if let accessoryImage {
-        Image(nsImage: accessoryImage)
-          .accessibilityIdentifier("copy-history-item")
-          .padding(.trailing, 5)
-          .padding(.vertical, 5)
-      }
-
-      if let image {
-        Image(nsImage: image)
-          .accessibilityIdentifier("copy-history-item")
-          .padding(.trailing, 5)
-          .padding(.vertical, 5)
+      if image != nil || accessoryImage != nil {
+        Group {
+          if let image {
+            Image(nsImage: image)
+          } else if let accessoryImage {
+            Image(nsImage: accessoryImage)
+          }
+        }
+        .accessibilityIdentifier("copy-history-item")
+        .frame(maxWidth: 340, maxHeight: CGFloat(Defaults[.imageMaxHeight]))
+        .padding(.trailing, 5)
+        .padding(.vertical, 5)
       } else {
         ListItemTitleView(attributedTitle: attributedTitle, title: title)
           .padding(.trailing, 5)

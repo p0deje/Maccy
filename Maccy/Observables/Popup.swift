@@ -143,6 +143,14 @@ class Popup {
         return nil
       }
 
+      // Treat this as the popup hotkey ONLY when modifiers also match.
+      // Without this guard, typing the hotkey letter alone in the search
+      // field (e.g. plain "v" when the popup hotkey is ⌘⇧V) is misclassified
+      // as the hotkey and routed to cycle/select, swallowing the character.
+      guard isHotKeyModifiers(event.modifierFlags) else {
+        return event
+      }
+
       if state == .opening {
         state = .cycle
         // Next 'if' will highlight next item and then return nil
@@ -153,7 +161,7 @@ class Popup {
         return nil
       }
 
-      if state == .toggle && isHotKeyModifiers(event.modifierFlags) {
+      if state == .toggle {
         close()
         return nil
       }
