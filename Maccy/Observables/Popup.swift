@@ -83,6 +83,11 @@ class Popup {
 
   func close() {
     AppState.shared.appDelegate?.panel.close()  // close() calls reset
+    // Release decoded images once the popup is closed; they are
+    // regenerated on demand when the popup is opened again.
+    Task { @MainActor in
+      History.shared.releaseDecodedImages()
+    }
   }
 
   func isClosed() -> Bool {

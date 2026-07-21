@@ -172,6 +172,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     limitHistorySize(to: Defaults[.size] - 1)
 
     sessionLog[Clipboard.shared.changeCount] = item
+    // sessionLog is only needed to detect copies that modify a recent item,
+    // so keep it bounded instead of growing it for the whole session.
+    if sessionLog.count > 100 {
+      let staleKeys = sessionLog.keys.sorted().dropFirst(sessionLog.count - 100)
+      staleKeys.forEach { sessionLog.removeValue(forKey: $0) }
+    }
 
     var itemDecorator: HistoryItemDecorator
     if let pin = item.pin {
@@ -288,6 +294,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   private func cleanup(_ item: HistoryItemDecorator) {
     item.cleanupImages()
+  }
+
+  // Releases all decoded images (thumbnails and previews).
+  // The raw data stays in the on-disk database and is decoded
+  // on demand when an item is displayed again.
+  @MainActor
+  func releaseDecodedImages() {
+    all.forEach { $0.cleanupImages() }
+    ImageCache.shared.removeAll()
   }
 
   private func currentModifierFlags() -> NSEvent.ModifierFlags {

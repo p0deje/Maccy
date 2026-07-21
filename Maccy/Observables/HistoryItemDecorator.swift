@@ -45,6 +45,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
   var thumbnailImage: NSImage?
+  // Pixel dimensions of the original image, captured during decoding so that
+  // the preview view does not need to decode the original image again just
+  // to display its dimensions.
+  var imagePixelSize: NSSize?
   var applicationImage: ApplicationImage
 
   // 10k characters seems to be more than enough on large displays
@@ -85,6 +89,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     }
     thumbnailImageGenerationTask = Task { [weak self] in
       self?.generateThumbnailImage()
+      // Clear the task reference so the image can be regenerated
+      // after it has been evicted from the cache.
+      self?.thumbnailImageGenerationTask = nil
     }
   }
 
@@ -101,6 +108,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     }
     previewImageGenerationTask = Task { [weak self] in
       self?.generatePreviewImage()
+      // Clear the task reference so the image can be regenerated
+      // after it has been evicted from the cache.
+      self?.previewImageGenerationTask = nil
     }
   }
 
@@ -122,6 +132,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     previewImage?.recache()
     thumbnailImage = nil
     previewImage = nil
+    ImageCache.shared.remove(self)
   }
 
   @MainActor
@@ -129,7 +140,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     guard let image = item.image else {
       return
     }
+    imagePixelSize = image.pixelSize
     thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
+    ImageCache.shared.store(.thumbnail, for: self)
   }
 
   @MainActor
@@ -137,7 +150,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     guard let image = item.image else {
       return
     }
+    imagePixelSize = image.pixelSize
     previewImage = image.resized(to: HistoryItemDecorator.previewImageSize)
+    ImageCache.shared.store(.preview, for: self)
   }
 
   @MainActor
@@ -205,5 +220,74 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
         self.synchronizeItemTitle()
       }
     }
+  }
+}
+
+// MARK: - ImageCache
+
+// LRU cache for decoded history images (thumbnails and previews).
+//
+// The raw image data always remains in the on-disk database; this cache only
+// bounds how many *decoded* NSImages are kept in memory. When a limit is
+// exceeded, the least recently generated image is evicted by clearing the
+// owning decorator's reference so the memory is actually freed. The image is
+// regenerated on demand the next time the item is displayed.
+@MainActor
+final class ImageCache {
+  static let shared = ImageCache()
+
+  enum Kind {
+    case thumbnail
+    case preview
+  }
+
+  // Preview images are screen-sized bitmaps (tens of MB each on Retina
+  // displays), so only keep a few in memory.
+  var previewLimit = 5
+  // Thumbnails are small (~200 KB each); keep enough to fill the popup
+  // without thrashing regeneration.
+  var thumbnailLimit = 50
+
+  private final class WeakDecorator {
+    weak var value: HistoryItemDecorator?
+    init(_ value: HistoryItemDecorator) { self.value = value }
+  }
+
+  private struct Entry {
+    let id: UUID
+    let kind: Kind
+    let decorator: WeakDecorator
+  }
+
+  // Oldest entries first.
+  private var entries: [Entry] = []
+
+  func store(_ kind: Kind, for decorator: HistoryItemDecorator) {
+    entries.removeAll { $0.id == decorator.id && $0.kind == kind }
+    entries.append(Entry(id: decorator.id, kind: kind, decorator: WeakDecorator(decorator)))
+
+    let limit = kind == .thumbnail ? thumbnailLimit : previewLimit
+    var excess = entries.count(where: { $0.kind == kind }) - limit
+    guard excess > 0 else { return }
+
+    entries = entries.filter { entry in
+      guard excess > 0, entry.kind == kind else { return true }
+      excess -= 1
+      switch kind {
+      case .thumbnail:
+        entry.decorator.value?.thumbnailImage = nil
+      case .preview:
+        entry.decorator.value?.previewImage = nil
+      }
+      return false
+    }
+  }
+
+  func remove(_ decorator: HistoryItemDecorator) {
+    entries.removeAll { $0.id == decorator.id }
+  }
+
+  func removeAll() {
+    entries.removeAll()
   }
 }
