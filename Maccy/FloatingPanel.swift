@@ -37,7 +37,9 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
     animationBehavior = .none
     isFloatingPanel = true
-    level = .statusBar
+    // Chrome autofill uses window layer 999; screenSaver (1000) sits just above it
+    // while still covering status items / Spotlight. See #1403.
+    level = .screenSaver
     collectionBehavior = [.auxiliary, .stationary, .moveToActiveSpace, .fullScreenAuxiliary]
     titleVisibility = .hidden
     titlebarAppearsTransparent = true
