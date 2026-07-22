@@ -120,6 +120,37 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertFalse(itemDecorator.isPinned)
   }
 
+  func testImageCacheEvictsPreviewsBeyondLimit() {
+    ImageCache.shared.removeAll()
+    let image = NSImage(named: "NSApplicationIcon")!
+    var decorators: [HistoryItemDecorator] = []
+    for _ in 0..<(ImageCache.shared.previewLimit + 3) {
+      let decorator = historyItemDecorator(image)
+      decorator.sizeImages()
+      decorators.append(decorator)
+    }
+    // The oldest previews beyond the limit are evicted.
+    for decorator in decorators.prefix(3) {
+      XCTAssertNil(decorator.previewImage)
+    }
+    // The most recent previews are kept in memory.
+    for decorator in decorators.suffix(ImageCache.shared.previewLimit) {
+      XCTAssertNotNil(decorator.previewImage)
+    }
+    ImageCache.shared.removeAll()
+  }
+
+  func testCleanupImagesReleasesCachedImages() {
+    let image = NSImage(named: "NSApplicationIcon")!
+    let decorator = historyItemDecorator(image)
+    decorator.sizeImages()
+    XCTAssertNotNil(decorator.thumbnailImage)
+    XCTAssertNotNil(decorator.previewImage)
+    decorator.cleanupImages()
+    XCTAssertNil(decorator.thumbnailImage)
+    XCTAssertNil(decorator.previewImage)
+  }
+
   func testHighlight() {
     let itemDecorator = historyItemDecorator("foo bar baz")
     itemDecorator.highlight("random", [
