@@ -96,6 +96,15 @@ struct KeyHandlingView<Content: View>: View {
             return .ignored
           }
 
+          // ⌃K also maps to moveToPrevious (vim-style). When already at the first
+          // item — or when there are no items to move to — keep macOS kill-to-end-of-line.
+          // https://github.com/p0deje/Maccy/issues/1055
+          if isControlK(NSApp.currentEvent), shouldUseControlKForKillToEnd {
+            searchFocused = true
+            deleteSearchTextToEndOfLine()
+            return .handled
+          }
+
           appState.navigator.highlightPrevious()
           return .handled
         case .moveToFirst:
@@ -171,5 +180,77 @@ struct KeyHandlingView<Content: View>: View {
 
         return .ignored
       }
+  }
+
+  private var shouldUseControlKForKillToEnd: Bool {
+    // No visible results: navigation is a no-op, so prefer kill-to-end in search.
+    guard let first = appState.history.firstVisibleItem else {
+      return true
+    }
+
+    return appState.navigator.leadHistoryItem?.id == first.id
+  }
+
+  private func isControlK(_ event: NSEvent?) -> Bool {
+    guard let event else {
+      return false
+    }
+
+    let modifierFlags = event.modifierFlags
+      .intersection(.deviceIndependentFlagsMask)
+      .subtracting([.capsLock, .numericPad, .function])
+    guard modifierFlags == .control else {
+      return false
+    }
+
+    return Sauce.shared.key(for: Int(event.keyCode)) == .k
+  }
+
+  // Mutate `searchQuery` directly (like ⌃H/⌃W). Editing the field editor alone is
+  // overwritten by SwiftUI from the unchanged binding.
+  private func deleteSearchTextToEndOfLine() {
+    guard let text = searchFieldEditor() else {
+      return
+    }
+
+    let string = text.string as NSString
+    let cursor = min(text.selectedRange.location, string.length)
+    searchQuery = string.substring(to: cursor)
+  }
+
+  private func searchFieldEditor() -> NSText? {
+    if let text = NSApp.keyWindow?.firstResponder as? NSText {
+      return text
+    }
+
+    for window in NSApp.windows where window.isVisible {
+      if let text = window.firstResponder as? NSText {
+        return text
+      }
+
+      guard let contentView = window.contentView,
+            let field = findTextField(in: contentView) else {
+        continue
+      }
+
+      window.makeFirstResponder(field)
+      return window.fieldEditor(true, for: field)
+    }
+
+    return nil
+  }
+
+  private func findTextField(in view: NSView) -> NSTextField? {
+    if let textField = view as? NSTextField {
+      return textField
+    }
+
+    for subview in view.subviews {
+      if let textField = findTextField(in: subview) {
+        return textField
+      }
+    }
+
+    return nil
   }
 }
