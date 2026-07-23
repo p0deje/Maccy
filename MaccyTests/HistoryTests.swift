@@ -7,6 +7,7 @@ class HistoryTests: XCTestCase {
   let savedSize = Defaults[.size]
   let savedSortBy = Defaults[.sortBy]
   let savedPinOrder = Defaults[.pinOrder]
+  let savedPinSortBy = Defaults[.pinSortBy]
   let history = History.shared
 
   override func setUp() {
@@ -15,6 +16,7 @@ class HistoryTests: XCTestCase {
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt
     Defaults[.pinOrder] = PinOrder()
+    Defaults[.pinSortBy] = .custom
   }
 
   override func tearDown() {
@@ -22,6 +24,7 @@ class HistoryTests: XCTestCase {
     Defaults[.size] = savedSize
     Defaults[.sortBy] = savedSortBy
     Defaults[.pinOrder] = savedPinOrder
+    Defaults[.pinSortBy] = savedPinSortBy
   }
 
   func testDefaultIsEmpty() {
