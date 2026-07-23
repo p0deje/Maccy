@@ -16,6 +16,11 @@ class AppState: Sendable {
   var footer: Footer
   var navigator: NavigationManager
   var preview: SlideoutController
+  
+  var isEditingItem: Bool = false
+  var suppressPopupAutoClose: Bool {
+    return isEditingItem
+  }
 
   var searchVisible: Bool {
     if !Defaults[.showSearch] { return false }

@@ -33,6 +33,7 @@
 		2F9B42F12F1A499D006548E5 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B42F02F1A4999006548E5 /* ToolbarView.swift */; };
 		2FA81FE02E43D9B700C12F92 /* Dictionary+RemoveItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FA81FDF2E43D9A600C12F92 /* Dictionary+RemoveItem.swift */; };
 		2FB5BCA02CD8F73F008B33F4 /* ApplicationImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */; };
+		2FD499472FFC4AEF00149F02 /* ItemEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FD499462FFC4AEF00149F02 /* ItemEditorView.swift */; };
 		2FF2E94E2E774B5B0093D72C /* NavigationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94D2E774B570093D72C /* NavigationManager.swift */; };
 		2FF2E9502E7808470093D72C /* AppImageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2FF2E94F2E7808420093D72C /* AppImageView.swift */; };
 		42E9C329301B7F9C00B6B55B /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 42E9C328301B7F9C00B6B55B /* AppIcon.icon */; };
@@ -213,6 +214,7 @@
 		2F9B42F02F1A4999006548E5 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
 		2FA81FDF2E43D9A600C12F92 /* Dictionary+RemoveItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Dictionary+RemoveItem.swift"; sourceTree = "<group>"; };
 		2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationImage.swift; sourceTree = "<group>"; };
+		2FD499462FFC4AEF00149F02 /* ItemEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemEditorView.swift; sourceTree = "<group>"; };
 		2FF2E94D2E774B570093D72C /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		2FF2E94F2E7808420093D72C /* AppImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImageView.swift; sourceTree = "<group>"; };
 		37AC3B8902CB40CA8294C336 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -722,6 +724,7 @@
 				2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */,
 				2F162E7F2F1E7B28001FBAFF /* PasteStackPreviewView.swift */,
 				2F0EC7842E77407C003E2EA9 /* PasteStackView.swift */,
+				2FD499462FFC4AEF00149F02 /* ItemEditorView.swift */,
 				2F0EC77A2E772899003E2EA9 /* PinsView.swift */,
 				DA5E627E2C39E53F00F4C710 /* PreviewItemView.strings */,
 				DA1969132C3F11D600258481 /* PreviewItemView.swift */,
@@ -1128,6 +1131,7 @@
 				2F0EC7812E773F1D003E2EA9 /* PasteStack.swift in Sources */,
 				DA5078992CF2676B00215488 /* MouseMovedViewModifer.swift in Sources */,
 				DA19690E2C3EEFA900258481 /* KeyboardShortcutView.swift in Sources */,
+				2FD499472FFC4AEF00149F02 /* ItemEditorView.swift in Sources */,
 				DA243D122C2F64830012A27F /* ContentView.swift in Sources */,
 				DAD665662898A1C000975096 /* KeyChord.swift in Sources */,
 				DA689FC42C1CF0F00009B887 /* AppearanceSettingsPane.swift in Sources */,

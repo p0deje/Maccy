@@ -40,6 +40,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   var hasImage: Bool { item.image != nil }
+  var hasFileURLs: Bool { !item.fileURLs.isEmpty }
+  var hasPlainText: Bool { item.text != nil }
+  var hasRichText: Bool { item.rtf != nil || item.html != nil }
 
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
