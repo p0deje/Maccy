@@ -1,8 +1,6 @@
 class ApplicationImageCache {
   static let shared = ApplicationImageCache()
 
-  private let universalClipboardIdentifier: String =
-  "com.apple.finder.Open-iCloudDrive"
   private let fallback = ApplicationImage(bundleIdentifier: nil)
   private var cache: [String: ApplicationImage] = [:]
 
@@ -22,10 +20,6 @@ class ApplicationImageCache {
   }
 
   private func bundleIdentifier(for item: HistoryItem) -> String? {
-    if item.universalClipboard {
-      return universalClipboardIdentifier
-    }
-
     if let bundleIdentifier = item.application {
       return bundleIdentifier
     }

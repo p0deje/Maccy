@@ -103,7 +103,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   func load() async throws {
-    let descriptor = FetchDescriptor<HistoryItem>()
+    var descriptor = FetchDescriptor<HistoryItem>(sortBy: fetchSortDescriptors())
+    descriptor.propertiesToFetch = [
+      \.application,
+      \.firstCopiedAt,
+      \.lastCopiedAt,
+      \.numberOfCopies,
+      \.pin,
+      \.title
+    ]
+    descriptor.relationshipKeyPathsForPrefetching = []
+
     let results = try Storage.shared.context.fetch(descriptor)
     all = sorter.sort(results).map { HistoryItemDecorator($0) }
     items = all
@@ -114,6 +124,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     // Ensure that panel size is proper *after* loading all items.
     Task {
       AppState.shared.popup.needsResize = true
+    }
+  }
+
+  private func fetchSortDescriptors() -> [SortDescriptor<HistoryItem>] {
+    switch Defaults[.sortBy] {
+    case .firstCopiedAt:
+      return [SortDescriptor(\.firstCopiedAt, order: .reverse)]
+    case .numberOfCopies:
+      return [SortDescriptor(\.numberOfCopies, order: .reverse)]
+    default:
+      return [SortDescriptor(\.lastCopiedAt, order: .reverse)]
     }
   }
 
@@ -290,6 +311,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     item.cleanupImages()
   }
 
+  private func pasteAfterClosingPopup() {
+    AppState.shared.popup.previousApplication?.activate(options: [.activateIgnoringOtherApps])
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+      Clipboard.shared.paste()
+    }
+  }
+
   private func currentModifierFlags() -> NSEvent.ModifierFlags {
     return NSApp.currentEvent?.modifierFlags
       .intersection(.deviceIndependentFlagsMask)
@@ -308,7 +336,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       AppState.shared.popup.close()
       Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
       if Defaults[.pasteByDefault] {
-        Clipboard.shared.paste()
+        pasteAfterClosingPopup()
       }
     } else {
       switch HistoryItemAction(modifierFlags) {
@@ -318,11 +346,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       case .paste:
         AppState.shared.popup.close()
         Clipboard.shared.copy(item.item)
-        Clipboard.shared.paste()
+        pasteAfterClosingPopup()
       case .pasteWithoutFormatting:
         AppState.shared.popup.close()
         Clipboard.shared.copy(item.item, removeFormatting: true)
-        Clipboard.shared.paste()
+        pasteAfterClosingPopup()
       case .unknown:
         return
       }
@@ -445,17 +473,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    if let all = try? Storage.shared.context.fetch(descriptor) {
-      let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
-      if duplicates.count > 1 {
-        return duplicates.first(where: { $0 != item })
-      } else {
-        return isModified(item)
-      }
+    if let modified = isModified(item) {
+      return modified
     }
 
-    return item
+    guard !item.title.isEmpty else {
+      return nil
+    }
+
+    return all.map(\.item).first { existingItem in
+      existingItem.title == item.title && (existingItem == item || existingItem.supersedes(item))
+    }
   }
 
   private func isModified(_ item: HistoryItem) -> HistoryItem? {

@@ -1,4 +1,4 @@
-import AppKit.NSRunningApplication
+import AppKit
 import Defaults
 import KeyboardShortcuts
 import Observation
@@ -43,6 +43,7 @@ class Popup {
   var extraTopHeight: CGFloat = 0
   var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
+  var previousApplication: NSRunningApplication?
 
   private var eventsMonitor: Any?
 
@@ -73,6 +74,10 @@ class Popup {
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
+    let frontmostApplication = NSWorkspace.shared.frontmostApplication
+    if frontmostApplication?.bundleIdentifier != Bundle.main.bundleIdentifier {
+      previousApplication = frontmostApplication
+    }
     AppState.shared.appDelegate?.panel.open(height: height, at: popupPosition)
   }
 

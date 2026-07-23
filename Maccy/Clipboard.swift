@@ -1,6 +1,7 @@
 import AppKit
 import Defaults
 import Sauce
+import SwiftData
 
 class Clipboard {
   static let shared = Clipboard()
@@ -74,9 +75,11 @@ class Clipboard {
   @MainActor
   func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
     guard let item else { return }
+    let context = ModelContext(Storage.shared.container)
+    let fullItem = (context.model(for: item.persistentModelID) as? HistoryItem) ?? item
 
     pasteboard.clearContents()
-    var contents = item.contents
+    var contents = fullItem.contents
 
     if removeFormatting {
       contents = clearFormatting(contents)
@@ -100,11 +103,11 @@ class Clipboard {
     pasteboard.writeObjects(fileURLItems)
 
     pasteboard.setString("", forType: .fromMaccy)
-    pasteboard.setString(item.application ?? "", forType: .source)
+    pasteboard.setString(fullItem.application ?? "", forType: .source)
     sync()
 
     Task {
-      Notifier.notify(body: item.title, sound: .knock)
+      Notifier.notify(body: fullItem.title, sound: .knock)
       checkForChangesInPasteboard()
     }
   }
