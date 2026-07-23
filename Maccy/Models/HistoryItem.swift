@@ -69,6 +69,11 @@ class HistoryItem {
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
   var contents: [HistoryItemContent] = []
 
+  // MARK: - In-Memory Caches (not persisted)
+  // Cache the NSImage to avoid recreating it from data on every access
+  @Transient private var cachedImage: NSImage?
+  @Transient private var imageDataCache: Data?
+
   init(contents: [HistoryItemContent] = []) {
     self.firstCopiedAt = firstCopiedAt
     self.lastCopiedAt = lastCopiedAt
@@ -148,21 +153,39 @@ class HistoryItem {
   }
 
   var imageData: Data? {
+    // Check if we already have cached data
+    if let cached = imageDataCache {
+      return cached
+    }
+    
     var data: Data?
     data = contentData([.tiff, .png, .jpeg, .heic])
     if data == nil, universalClipboardImage, let url = fileURLs.first {
       data = try? Data(contentsOf: url)
     }
 
+    // Cache the data if we found any
+    if data != nil {
+      imageDataCache = data
+    }
+    
     return data
   }
 
   var image: NSImage? {
+    // Return cached image if available
+    if let cached = cachedImage {
+      return cached
+    }
+    
     guard let data = imageData else {
       return nil
     }
 
-    return NSImage(data: data)
+    // Create and cache the NSImage
+    let newImage = NSImage(data: data)
+    cachedImage = newImage
+    return newImage
   }
 
   var rtfData: Data? { contentData([.rtf]) }
@@ -239,5 +262,13 @@ class HistoryItem {
     }
 
     self.title = recognizedStrings.joined(separator: "\n")
+  }
+
+  // MARK: - Memory Management
+  /// Clears cached image data to free memory. Called when item is being deleted or memory is needed.
+  func clearImageCache() {
+    cachedImage?.recache()
+    cachedImage = nil
+    imageDataCache = nil
   }
 }

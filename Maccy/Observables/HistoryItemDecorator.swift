@@ -72,6 +72,15 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     synchronizeItemTitle()
   }
 
+  deinit {
+    // Avoid MainActor-isolated calls from deinit; tear down lightweight resources directly.
+    thumbnailImageGenerationTask?.cancel()
+    previewImageGenerationTask?.cancel()
+    thumbnailImage = nil
+    previewImage = nil
+    item.clearImageCache()
+  }
+
   @MainActor
   func ensureThumbnailImage() {
     guard item.image != nil else {

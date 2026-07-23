@@ -159,6 +159,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       Storage.shared.context.delete(existingHistoryItem)
       removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
       if let removedItemIndex {
+        // Clean up the decorator before removing it
+        cleanup(all[removedItemIndex])
         all.remove(at: removedItemIndex)
       }
     } else {
@@ -288,6 +290,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   private func cleanup(_ item: HistoryItemDecorator) {
     item.cleanupImages()
+    // Clear the underlying image cache to free memory
+    item.item.clearImageCache()
   }
 
   private func currentModifierFlags() -> NSEvent.ModifierFlags {
