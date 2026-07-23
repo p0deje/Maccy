@@ -18,6 +18,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
+  var availablePins: [String] { pinManager.availablePins }
 
   var firstPinnedItem: HistoryItemDecorator? { items.first(where: \.isPinned) }
   var firstUnpinnedItem: HistoryItemDecorator? { items.first(where: \.isUnpinned) }
@@ -58,6 +59,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   private let search = Search()
   private let sorter = Sorter()
   private let throttler = Throttler(minimumDelay: 0.2)
+  private let pinManager = PinManager()
 
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
@@ -117,6 +119,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     let descriptor = FetchDescriptor<HistoryItem>()
     let results = try Storage.shared.context.fetch(descriptor)
     all = sorter.sort(results).map { HistoryItemDecorator($0) }
+    pinManager.load(from: all)
     items = all
 
     limitHistorySize(to: Defaults[.size])
@@ -195,6 +198,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         // Or to the last all array place.
         all.insert(itemDecorator, at: min(removedItemIndex, all.count))
       }
+      pinManager.load(from: all)
+      items = all
     } else {
       itemDecorator = HistoryItemDecorator(item)
 
@@ -234,6 +239,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
       all.removeAll(where: \.isUnpinned)
       sessionLog.removeValues { $0.pin == nil }
+      pinManager.load(from: all)
       items = all
 
       try? Storage.shared.context.transaction {
@@ -264,6 +270,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         cleanup(item)
       }
       all.removeAll()
+      pinManager.removeAll()
       sessionLog.removeAll()
       items = all
 
@@ -303,6 +310,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
+    pinManager.remove(item)
     all.removeAll { $0 == item }
     items.removeAll { $0 == item }
     sessionLog.removeValues { $0 == item.item }
@@ -461,7 +469,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
-    item.togglePin()
+    let wasPinned = item.isPinned
+    pinManager.toggle(item)
+    guard item.isPinned != wasPinned else { return }
 
     let sortedItems = sorter.sort(all.map(\.item))
     if let currentIndex = all.firstIndex(of: item),
@@ -477,6 +487,30 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     if item.isUnpinned {
       AppState.shared.navigator.scrollTarget = item.id
     }
+  }
+
+  @MainActor
+  func movePin(from source: IndexSet, to destination: Int) {
+    guard searchQuery.isEmpty else { return }
+    pinManager.move(from: source, to: destination)
+  }
+
+  @MainActor
+  func recomputeItemsAfterReordering() {
+    guard searchQuery.isEmpty else { return }
+    let sortedItems = sorter.sort(all.map(\.item))
+    let decoratorsByItem = Dictionary(uniqueKeysWithValues: all.map { (ObjectIdentifier($0.item), $0) })
+
+    all = sortedItems.compactMap { decoratorsByItem[ObjectIdentifier($0)] }
+    items = all
+  }
+
+  @MainActor
+  func updatePin(_ item: HistoryItem, to pin: String) {
+    guard let itemDecorator = all.first(where: { $0.item.id == item.id }) else { return }
+
+    pinManager.updatePin(of: itemDecorator, to: pin)
+    updateShortcuts()
   }
 
   @MainActor
@@ -508,7 +542,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   private func updateShortcuts() {
-    for item in pinnedItems {
+    for item in pinManager.pinnedItems {
       if let pin = item.item.pin {
         item.shortcuts = KeyShortcut.create(character: pin)
       }
