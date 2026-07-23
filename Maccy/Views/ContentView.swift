@@ -62,6 +62,8 @@ struct ContentView: View {
     .environment(\.scenePhase, scenePhase)
     // FloatingPanel is not a scene, so let's implement custom scenePhase..
     .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) {
+      guard !appState.isEditingItem else { return }
+
       if let window = $0.object as? NSWindow,
          let bundleIdentifier = Bundle.main.bundleIdentifier,
          window.identifier == NSUserInterfaceItemIdentifier(bundleIdentifier) {
@@ -69,6 +71,8 @@ struct ContentView: View {
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: NSWindow.didResignKeyNotification)) {
+      guard !appState.isEditingItem else { return }
+
       if let window = $0.object as? NSWindow,
          let bundleIdentifier = Bundle.main.bundleIdentifier,
          window.identifier == NSUserInterfaceItemIdentifier(bundleIdentifier) {
