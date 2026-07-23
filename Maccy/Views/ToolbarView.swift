@@ -28,8 +28,6 @@ private struct KeyboardShortcutHelpModifier: ViewModifier {
 }
 
 struct ToolbarButton<Label: View>: View {
-  @Environment(AppState.self) private var appState
-
   let action: @MainActor () -> Void
   let label: () -> Label
 
@@ -39,11 +37,7 @@ struct ToolbarButton<Label: View>: View {
     }
     .buttonStyle(.plain)
     .frame(height: 23)
-    .onHover(perform: { inside in
-      if let window = appState.appDelegate?.panel {
-        window.isMovableByWindowBackground = !inside
-      }
-    })
+    .excludeFromWindowMovableByBackground()
   }
 
   func shortcutKeyHelp(
