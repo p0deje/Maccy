@@ -25,8 +25,6 @@ extension View {
 
 struct SlideoutView<Content, Slideout>: View
 where Content: View, Slideout: View {
-  @Environment(AppState.self) private var appState
-
   let controller: SlideoutController
 
   @ViewBuilder var content: () -> Content
@@ -54,10 +52,8 @@ where Content: View, Slideout: View {
       // macOS 26 broke gestures if no background is present.
       // The slight opcaity white background is a workaround
       .background(Color.white.opacity(0.001))
+      .excludeFromWindowMovableByBackground()
       .onHover(perform: { inside in
-        if let window = appState.appDelegate?.panel {
-          window.isMovableByWindowBackground = !inside
-        }
         if inside {
           if #available(macOS 15.0, *) {
             NSCursor.columnResize.push()
