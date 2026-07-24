@@ -64,5 +64,24 @@ struct HistoryItemView: View {
         }
       }
     }
+    .contextMenu {
+      Menu("Pin to Topic...") {
+        ForEach(allTopics, id: \.self) { targetTopic in
+          Button(targetTopic) {
+            if item.isUnpinned {
+              item.togglePin()
+            }
+            item.topic = (targetTopic == "Uncategorized") ? nil : targetTopic
+          }
+        }
+      }
+    }
+  }
+
+  @AppStorage("customTopics") private var customTopicsData: Data = Data()
+  private var allTopics: [String] {
+    let itemTopics = Set(appState.history.pinnedItems.compactMap { $0.topic })
+    let custom = (try? JSONDecoder().decode([String].self, from: customTopicsData)) ?? []
+    return itemTopics.union(custom).union(["Uncategorized"]).sorted()
   }
 }

@@ -66,12 +66,12 @@ struct HistoryListView: View {
   }
 
   var body: some View {
-    let topPinsVisible = pinTo == .top && pinsVisible
-    let bottomPinsVisible = pinTo == .bottom && pinsVisible
-    let topSeparatorVisible = topPinsVisible || pasteStackVisible
-    let bottomSeparatorVisible = bottomPinsVisible
+    let topPinsVisible = false
+    let bottomPinsVisible = false
+    let topSeparatorVisible = pasteStackVisible
+    let bottomSeparatorVisible = false
     let scrollTopPadding = topSeparatorVisible ? Popup.verticalSeparatorPadding : topPadding
-    let scrollBottomPadding = bottomSeparatorVisible ? Popup.verticalSeparatorPadding : bottomPadding
+    let scrollBottomPadding = bottomPadding
 
     VStack(spacing: 0) {
       if let stack = appState.history.pasteStack,
