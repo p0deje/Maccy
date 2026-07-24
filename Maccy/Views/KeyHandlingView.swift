@@ -156,8 +156,6 @@ struct KeyHandlingView<Content: View>: View {
         case .togglePreview:
           appState.preview.togglePreview()
           return .handled
-        case .ignored:
-          return .ignored
         default:
           ()
         }

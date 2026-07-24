@@ -103,10 +103,9 @@ enum KeyChord: CaseIterable {
     case (.upArrow, []),
          (.p, [.control]):
       self = .moveToPrevious
-    case (.k, [.control]):
-      // With no search results, let the text field keep macOS kill-to-end-of-line (⌃K).
-      // Otherwise keep vim-style navigation. See https://github.com/p0deje/Maccy/issues/1055
-      self = AppState.shared.history.firstVisibleItem == nil ? .ignored : .moveToPrevious
+    case (.k, [.control]) where !AppState.shared.navigator.isFirstItemHighlighted:
+      // See https://github.com/p0deje/Maccy/issues/1055
+      self = .moveToPrevious
     case (.upArrow, [.command, .shift]),
          (.upArrow, [.option, .shift]),
          (.p, [.control, .option, .shift]):
