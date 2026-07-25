@@ -34,7 +34,9 @@ struct AsyncView<Value, Content: View, Placeholder: View>: View {
       case .loaded(let value):
         content(value)
       }
-    }.task(id: id) {
+    }
+    .id(id)
+    .task(id: id) {
       do {
         viewState = .loading
         let result = try await operation()
