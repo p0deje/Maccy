@@ -148,6 +148,13 @@ class AppState: Sendable {
             IgnoreSettingsPane()
           },
           Settings.Pane(
+            identifier: Settings.PaneIdentifier.automations,
+            title: NSLocalizedString("Title", tableName: "AutomationsSettings", comment: ""),
+            toolbarIcon: NSImage.bolt!
+          ) {
+            AutomationsSettingsPane()
+          },
+          Settings.Pane(
             identifier: Settings.PaneIdentifier.advanced,
             title: NSLocalizedString("Title", tableName: "AdvancedSettings", comment: ""),
             toolbarIcon: NSImage.gearshape2!
