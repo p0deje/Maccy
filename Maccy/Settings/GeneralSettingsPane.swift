@@ -10,6 +10,7 @@ struct GeneralSettingsPane: View {
   )
 
   @Default(.searchMode) private var searchMode
+  @Default(.isUnlimitedHistory) private var isUnlimitedHistory
 
   @State private var copyModifier = HistoryItemAction.copy.modifierFlags.description
   @State private var pasteModifier = HistoryItemAction.paste.modifierFlags.description
@@ -73,6 +74,12 @@ struct GeneralSettingsPane: View {
         }
         .labelsHidden()
         .frame(width: 180, alignment: .leading)
+
+        if shouldShowSearchModeWarning {
+          Text("SearchModeWarning", tableName: "GeneralSettings")
+            .controlSize(.small)
+            .foregroundStyle(.orange)
+        }
       }
 
       Settings.Section(
@@ -114,6 +121,12 @@ struct GeneralSettingsPane: View {
     copyModifier = HistoryItemAction.copy.modifierFlags.description
     pasteModifier = HistoryItemAction.paste.modifierFlags.description
     pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
+  }
+
+  private var shouldShowSearchModeWarning: Bool {
+    guard isUnlimitedHistory else { return false }
+    guard searchMode == .fuzzy || searchMode == .mixed else { return false }
+    return History.shared.totalCount > Defaults.Keys.largeHistoryThreshold
   }
 }
 
