@@ -125,13 +125,13 @@ class MaccyUITests: XCTestCase {
     assertPasteboardStringEquals(copy2)
   }
 
-    func testCopyWithCommandShortcut() {
+  func testCopyWithCommandShortcut() {
     popUpWithMouse()
     app.typeKey("2", modifierFlags: [.command])
-        assertPasteboardStringEquals(copy2)
+    assertPasteboardStringEquals(copy2)
   }
 
-    func testSearchAndCopyWithCommandShortcut() {
+  func testSearchAndCopyWithCommandShortcut() {
     popUpWithMouse()
     search(copy2)
     app.typeKey("1", modifierFlags: [.command])
