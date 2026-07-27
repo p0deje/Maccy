@@ -32,18 +32,20 @@ where Content: View, Slideout: View {
   @ViewBuilder var content: () -> Content
   @ViewBuilder var slideout: () -> Slideout
 
-  var leftToRight: Bool {
-    return controller.placement == .right
-  }
-  var isAnimating: Bool {
-    return controller.state.isAnimating
+  private var slideoutOnLeft: Bool {
+    controller.placement == .left
   }
 
-  var isContentResizing: Bool {
-    return controller.resizingMode == .content
+  private var isAnimating: Bool {
+    controller.state.isAnimating
   }
-  var isSlideoutResizing: Bool {
-    return controller.resizingMode == .slideout
+
+  private var isContentResizing: Bool {
+    controller.resizingMode == .content
+  }
+
+  private var isSlideoutResizing: Bool {
+    controller.resizingMode == .slideout
   }
 
   @ViewBuilder
@@ -51,11 +53,9 @@ where Content: View, Slideout: View {
     Divider()
       .padding(.vertical)
       .padding(.horizontal, Popup.horizontalPadding)
-      // macOS 26 broke gestures if no background is present.
-      // The slight opcaity white background is a workaround
       .background(Color.white.opacity(0.001))
       .onHover(perform: { inside in
-        if let window = appState.appDelegate?.panel {
+        if let window = appState.activeFloatingPanel {
           window.isMovableByWindowBackground = !inside
         }
         if inside {
@@ -71,15 +71,21 @@ where Content: View, Slideout: View {
       .gesture(
         DragGesture()
           .onChanged({ value in
-            if let window = controller.nswindow {
-              controller.slideoutWidth = min(
-                max(
-                  controller.minimumSlideoutWidth,
-                  controller.slideoutResizeWidth + (leftToRight ? -1 : 1)
-                    * value.translation.width
-                ),
-                window.frame.width - controller.minimumContentWidth
-              )
+            guard let window = controller.nswindow else { return }
+
+            let growSign: CGFloat = slideoutOnLeft ? 1 : -1
+            let newSlideoutWidth = min(
+              max(
+                controller.minimumSlideoutWidth,
+                controller.slideoutResizeWidth + growSign * value.translation.width
+              ),
+              window.frame.width - controller.minimumContentWidth
+            )
+            controller.slideoutWidth = newSlideoutWidth
+
+            if appState.activeTab == .todos {
+              controller.applyLeftAnchoredFrame(window: window)
+            } else {
               controller.contentWidth = window.frame.width - controller.slideoutWidth
             }
           })
@@ -93,54 +99,68 @@ where Content: View, Slideout: View {
       .opacity(controller.state != .closed ? 1 : 0)
   }
 
+  @ViewBuilder
+  private var contentColumn: some View {
+    VStack(spacing: 0) {
+      content()
+    }
+    .environment(\.layoutDirection, .leftToRight)
+    .frame(
+      minWidth: controller.minimumContentWidth,
+      idealWidth: !isContentResizing ? controller.contentWidth.rounded() : nil,
+      alignment: .leading
+    )
+    .frame(
+      width: !isContentResizing ? controller.contentWidth.rounded() : nil
+    )
+    .fixedSize(
+      horizontal: isAnimating || isSlideoutResizing,
+      vertical: false
+    )
+    .readWidth(controller, into: \.contentResizeWidth)
+  }
+
+  @ViewBuilder
+  private var slideoutColumn: some View {
+    VStack(spacing: 0) {
+      slideout()
+        .frame(
+          minWidth: controller.minimumSlideoutWidth,
+          idealWidth: !isSlideoutResizing ? controller.slideoutWidth.rounded() : nil,
+          maxWidth: !isSlideoutResizing ? controller.slideoutWidth.rounded() : nil,
+          alignment: .leading
+        )
+        .conditionalWidth(
+          controller.slideoutWidth.rounded(),
+          condition: isAnimating
+        )
+        .transition(.identity)
+    }
+    .environment(\.layoutDirection, .leftToRight)
+    .fixedSize(
+      horizontal: isAnimating || isContentResizing,
+      vertical: false
+    )
+    .frame(
+      minWidth: controller.state != .open ? 0 : nil,
+      maxWidth: controller.state == .closed ? 0 : nil
+    )
+    .clipped()
+    .readWidth(controller, into: \.slideoutResizeWidth)
+  }
+
   var body: some View {
     HStack(spacing: 0) {
-      VStack(spacing: 0) {
-        content()
+      if slideoutOnLeft {
+        slideoutColumn
+        resizeDivider()
+        contentColumn
+      } else {
+        contentColumn
+        resizeDivider()
+        slideoutColumn
       }
-      .environment(\.layoutDirection, .leftToRight)
-      .frame(
-        minWidth: controller.minimumContentWidth,
-        idealWidth: !isContentResizing ? controller.contentWidth.rounded() : nil,
-        alignment: .leading
-      )
-      .frame(
-        width: !isContentResizing ? controller.contentWidth.rounded() : nil
-      )
-      .fixedSize(
-        horizontal: isAnimating || isSlideoutResizing,
-        vertical: false
-      )
-      .readWidth(controller, into: \.contentResizeWidth)
-
-      resizeDivider()
-
-      VStack(spacing: 0) {
-        slideout()
-          .frame(
-            minWidth: controller.minimumSlideoutWidth,
-            idealWidth: !isSlideoutResizing ? controller.slideoutWidth.rounded() : nil,
-            maxWidth: !isSlideoutResizing ? controller.slideoutWidth.rounded() : nil,
-            alignment: .leading
-          )
-          .conditionalWidth(
-            controller.slideoutWidth.rounded(),
-            condition: isAnimating
-          )
-          .transition(.identity)
-      }
-      .environment(\.layoutDirection, .leftToRight)
-      .fixedSize(
-        horizontal: isAnimating || isContentResizing,
-        vertical: false
-      )
-      .frame(
-        minWidth: controller.state != .open ? 0 : nil,
-        maxWidth: controller.state == .closed ? 0 : nil
-      )
-      .clipped()
-      .readWidth(controller, into: \.slideoutResizeWidth)
     }
-    .environment(\.layoutDirection, leftToRight ? .leftToRight : .rightToLeft)
+    .environment(\.layoutDirection, .leftToRight)
   }
 }

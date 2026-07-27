@@ -80,6 +80,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     orderFrontRegardless()
     makeKey()
     isPresented = true
+    determinePreviewPlacement()
 
     if popupPosition == .statusItem {
       DispatchQueue.main.async {
@@ -103,6 +104,10 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   func determinePreviewPlacement() {
     let preview = AppState.shared.preview
     guard !preview.state.isOpen else { return }
+    if AppState.shared.activeTab == .todos {
+      preview.placement = .left
+      return
+    }
     let newSize = preview.computeSizeWithPreview(frame.size, state: .open)
     preview.placement = preview.computePlacement(window: self, for: newSize)
   }
@@ -182,7 +187,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   func windowDidBecomeKey(_ notification: Notification) {
     AppState.shared.preview.enableAutoOpen()
 
-    if AppState.shared.navigator.leadHistoryItem != nil {
+    if AppState.shared.navigator.leadHistoryItem != nil
+      || (AppState.shared.activeTab == .todos && AppState.shared.todos.selectedItem != nil) {
       AppState.shared.preview.startAutoOpen()
     }
   }

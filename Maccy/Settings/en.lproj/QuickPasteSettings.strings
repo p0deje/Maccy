@@ -1,0 +1,10 @@
+"Title" = "Quick Paste";
+"EnableQuickPaste" = "Enable quick paste";
+"EnableQuickPasteHelp" = "Copy up to 5 items as usual, click a text field, then press a shortcut to paste that item like ⌘V — Maccy stays in the background. Requires Accessibility permission.";
+"ModifierKeys" = "Modifier keys:";
+"ModifierKeysTooltip" = "Record a shortcut using the modifier keys you want (for example, ⇧⌘1). Maccy uses those modifiers with number keys 1 through 5.";
+"ModifierKeysHelp" = "Changing this updates shortcuts for items 1–5. You can customize each item below.";
+"ItemShortcuts" = "Numbered shortcuts:";
+"ItemFormat" = "Item %d:";
+"ItemShortcutsHelp" = "Item 1 is the most recent clipboard entry, item 2 is the second most recent, and so on.";
+"ResetToDefaults" = "Reset shortcuts to defaults";

@@ -94,7 +94,12 @@ class Popup {
 
     var minimumHeight = 0.0
     // If the preview is non-empty make sure the window accomodates for it to be visible.
-    if AppState.shared.preview.state.isOpen && AppState.shared.navigator.leadSelection != nil {
+    let appState = AppState.shared
+    let previewRelevant = appState.preview.state.isOpen && (
+      (appState.activeTab == .clipboard && appState.navigator.leadSelection != nil)
+        || (appState.activeTab == .todos && appState.todos.selectedItem != nil)
+    )
+    if previewRelevant {
       minimumHeight += Self.minimumPreviewHeight
     }
     minimumHeight = max(headerHeight + Self.verticalPadding, minimumHeight)
@@ -106,7 +111,7 @@ class Popup {
 
   func resize(height: CGFloat) {
     self.height = height + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
-    AppState.shared.appDelegate?.panel.verticallyResize(to: preferredHeight(for: self.height))
+    AppState.shared.appDelegate?.verticallyResizePresentedPanel(to: preferredHeight(for: self.height))
     needsResize = false
   }
 

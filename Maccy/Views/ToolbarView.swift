@@ -40,7 +40,7 @@ struct ToolbarButton<Label: View>: View {
     .buttonStyle(.plain)
     .frame(height: 23)
     .onHover(perform: { inside in
-      if let window = appState.appDelegate?.panel {
+      if let window = appState.activeFloatingPanel {
         window.isMovableByWindowBackground = !inside
       }
     })
@@ -116,6 +116,13 @@ struct ToolbarView: View {
           .help(Text("CopyExtractedText", tableName: "PreviewItemView"))
           .disabled(selectedImageText == nil)
         }
+
+        ToolbarButton {
+          appState.addSelectionToTodos()
+        } label: {
+          Image(systemName: "checklist")
+        }
+        .help(Text("AddToTodos", tableName: "Todos"))
 
         ToolbarButton {
           withAnimation {

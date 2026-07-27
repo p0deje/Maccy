@@ -300,6 +300,21 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  func quickPaste(at index: Int, into destination: NSRunningApplication?) {
+    guard index >= 1 else { return }
+
+    let visibleUnpinnedItems = all.filter(\.isUnpinned).filter(\.isVisible)
+    guard index <= visibleUnpinnedItems.count else { return }
+
+    let item = visibleUnpinnedItems[index - 1]
+    Clipboard.shared.quickPaste(
+      item.item,
+      removeFormatting: Defaults[.removeFormattingByDefault],
+      into: destination
+    )
+  }
+
+  @MainActor
   func select(_ item: HistoryItemDecorator?) {
     guard let item else {
       return
@@ -336,38 +351,58 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
   }
 
+  /// Starts a paste stack from a multi-selection.
+  ///
+  /// Intended UX:
+  /// - Copy action (or plain confirm without paste-by-default): put the first item
+  ///   on the clipboard; each global ⌘V pastes it, then advances to the next item.
+  /// - Paste action (or paste-by-default / paste-without-formatting): copy + paste
+  ///   the first item like a normal select, then advance so the next ⌘V pastes the
+  ///   following item. Advancement is delayed to match `Clipboard.paste()`'s key lag.
   @MainActor
-  func startPasteStack(selection: inout Selection<HistoryItemDecorator>) {
+  func startPasteStack(
+    selection: inout Selection<HistoryItemDecorator>,
+    modifierFlags: NSEvent.ModifierFlags? = nil
+  ) {
     guard AppState.shared.multiSelectionEnabled else { return }
     guard let item = selection.first else { return }
     PasteStack.initializeIfNeeded()
 
-    let modifierFlags = currentModifierFlags()
+    let flags = modifierFlags ?? currentModifierFlags()
 
-    let stack = PasteStack(items: selection.items, modifierFlags: modifierFlags)
+    let stack = PasteStack(items: selection.items, modifierFlags: flags)
     pasteStack = stack
 
     logger.info("Initialising PasteStack with \(stack.items.count) items")
     logger.info("Copying \(item.item.title) from PasteStack")
 
-    if modifierFlags.isEmpty {
+    let shouldAutoPaste: Bool
+    if flags.isEmpty {
       AppState.shared.popup.close()
       Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
+      shouldAutoPaste = Defaults[.pasteByDefault]
     } else {
-      switch HistoryItemAction(modifierFlags) {
+      switch HistoryItemAction(flags) {
       case .copy:
         AppState.shared.popup.close()
         Clipboard.shared.copy(item.item)
+        shouldAutoPaste = false
       case .paste:
         AppState.shared.popup.close()
         Clipboard.shared.copy(item.item)
+        shouldAutoPaste = true
       case .pasteWithoutFormatting:
         AppState.shared.popup.close()
         Clipboard.shared.copy(item.item, removeFormatting: true)
-        Clipboard.shared.paste()
+        shouldAutoPaste = true
       case .unknown:
+        pasteStack = nil
         return
       }
+    }
+
+    if shouldAutoPaste {
+      autoPasteFirstPasteStackItemAndAdvance()
     }
 
     Task {
@@ -375,6 +410,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
   }
 
+  /// Called after a global ⌘V while a paste stack is active: the first stack item
+  /// was just pasted by the system, so remove it and copy the next item.
+  @MainActor
   func handlePasteStack() {
     guard let stack = pasteStack else {
       return
@@ -398,6 +436,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     logger.info("Copying \(item.item.title) from PasteStack. \(stack.items.count) items remaining in stack.")
 
+    // Stage the next item for the following ⌘V (user pastes; we only copy here).
     Task {
       if stack.modifierFlags.isEmpty {
         await Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
@@ -416,12 +455,29 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
   }
 
+  @MainActor
   func interruptPasteStack() {
     guard pasteStack != nil else {
       return
     }
     logger.info("Interrupting PasteStack")
     pasteStack = nil
+  }
+
+  /// Auto-pastes the first stack item, then advances after `Clipboard.paste()`'s delay
+  /// so the synthetic ⌘V still sees the first item on the clipboard.
+  @MainActor
+  private func autoPasteFirstPasteStackItemAndAdvance() {
+    guard Accessibility.isAllowed else {
+      Accessibility.promptIfNeeded()
+      return
+    }
+
+    Clipboard.shared.paste()
+    Task { @MainActor in
+      try? await Task.sleep(for: .milliseconds(200))
+      handlePasteStack()
+    }
   }
 
   @MainActor
@@ -464,10 +520,16 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   private func updateItems(_ newItems: [Search.SearchResult]) {
-    items = newItems.map { result in
+    let sorted = newItems.sorted { lhs, rhs in
+      if let lhsScore = lhs.score, let rhsScore = rhs.score, lhsScore != rhsScore {
+        return lhsScore < rhsScore
+      }
+      return lhs.object.item.lastCopiedAt > rhs.object.item.lastCopiedAt
+    }
+
+    items = sorted.map { result in
       let item = result.object
       item.highlight(searchQuery, result.ranges)
-
       return item
     }
 

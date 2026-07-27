@@ -99,11 +99,18 @@ class SlideoutController {
   var resizingMode: ResizingMode = .none
 
   var nswindow: NSWindow? {
-    return AppState.shared.appDelegate?.panel
+    AppState.shared.activeFloatingPanel
+  }
+
+  /// Todos detail panel is always on the left; the window grows leftward with a fixed right edge.
+  private var usesLeftAnchoredExpansion: Bool {
+    AppState.shared.activeTab == .todos
   }
 
   private var windowAnimationOrigin: CGPoint?
   private var windowAnimationOriginBaseState: SlideoutState = .closed
+  /// Fixed right edge while animating left-anchored (todos) expansion.
+  private var leftAnchoredRightEdge: CGFloat?
 
   private var autoOpenTask: Task<Void, Never>?
   private var autoOpenSuppressed = false
@@ -120,18 +127,65 @@ class SlideoutController {
       contentAnimationWidth = contentWidth
       windowAnimationOrigin = windowFrame.origin
       windowAnimationOriginBaseState = state
+      if usesLeftAnchoredExpansion {
+        leftAnchoredRightEdge = windowFrame.maxX
+      } else {
+        leftAnchoredRightEdge = nil
+      }
     }
     state = newValue
   }
 
   func computePlacement(window: NSWindow, for size: NSSize) -> SlideoutPlacement {
+    if usesLeftAnchoredExpansion {
+      return .left
+    }
+
     guard let screen = window.screen?.frame else { return placement }
     let windowFrame = window.frame
     if windowFrame.minX + size.width > screen.maxX {
       return .left
-    } else {
-      return .right
     }
+    return .right
+  }
+
+  /// Keeps the list's right edge fixed and grows or shrinks toward the left, clamped to the visible screen.
+  private func frameWithRightEdgeAnchored(
+    window: NSWindow,
+    rightEdge: CGFloat,
+    totalWidth: CGFloat,
+    height: CGFloat
+  ) -> (origin: NSPoint, width: CGFloat) {
+    let screenMinX = window.screen?.visibleFrame.minX ?? window.screen?.frame.minX ?? 0
+    var width = totalWidth
+    var originX = rightEdge - width
+    if originX < screenMinX {
+      originX = screenMinX
+      width = rightEdge - originX
+    }
+    let originY = window.frame.origin.y + (window.frame.height - height)
+    return (NSPoint(x: originX, y: originY), width)
+  }
+
+  /// Repositions the todos window so only the left side grows (e.g. while dragging the divider).
+  func applyLeftAnchoredFrame(window: NSWindow) {
+    guard usesLeftAnchoredExpansion, state.isOpen else { return }
+
+    let height = computeSizeWithPreview(
+      NSSize(width: contentWidth, height: window.frame.height),
+      state: state
+    ).height
+    let totalWidth = contentWidth + slideoutWidth
+    let anchored = frameWithRightEdgeAnchored(
+      window: window,
+      rightEdge: window.frame.maxX,
+      totalWidth: totalWidth,
+      height: height
+    )
+    window.setFrame(
+      NSRect(origin: anchored.origin, size: NSSize(width: anchored.width, height: height)),
+      display: true
+    )
   }
 
   func computeSizeWithPreview(_ size: NSSize, state newState: SlideoutState) -> NSSize {
@@ -144,10 +198,17 @@ class SlideoutController {
     return newSize
   }
 
+  // swiftlint:disable:next cyclomatic_complexity function_body_length
   func togglePreview(trigger: SlideoutToggleTrigger = .manual) {
     if !state.isOpen {
-      let navigator = AppState.shared.navigator
-      guard navigator.leadHistoryItem != nil || navigator.pasteStackSelected else { return }
+      let appState = AppState.shared
+      switch appState.activeTab {
+      case .clipboard:
+        let navigator = appState.navigator
+        guard navigator.leadHistoryItem != nil || navigator.pasteStackSelected else { return }
+      case .todos:
+        guard appState.todos.selectedItem != nil else { return }
+      }
     }
 
     if trigger == .manual {
@@ -159,44 +220,65 @@ class SlideoutController {
     }
 
     cancelAutoOpen()
-    withAnimation(.easeInOut(duration: Self.animationDuration), completionCriteria: .removed) {
-      if let window = nswindow {
-        togglePreviewStateWithAnimation(windowFrame: window.frame)
-        var newSize = window.frame.size
-        newSize.width = contentWidth
-        newSize = computeSizeWithPreview(newSize, state: self.state)
-        if state.isOpen {
-          placement = computePlacement(window: window, for: newSize)
-        }
 
-        let expectedAnimationState = state
-        NSAnimationContext.runAnimationGroup { (context) in
-          var newOrigin = windowAnimationOrigin ?? window.frame.origin
-          newOrigin.y += (window.frame.height - newSize.height)
+    guard let window = nswindow else { return }
 
-          if placement == .left {
-            if windowAnimationOriginBaseState == .closed && state.isOpen {
-              newOrigin.x -= slideoutWidth
-            } else if windowAnimationOriginBaseState == .open
-              && !state.isOpen {
-              newOrigin.x += slideoutWidth
-            }
-            // Otherwise the base is the desired position
-          }
-          context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
-          context.completionHandler = {
-            if self.state == expectedAnimationState {
-              self.state = expectedAnimationState.animationDone()
-            }
-          }
-          context.duration = Self.animationDuration
-          window.animator().setFrame(
-            NSRect(origin: newOrigin, size: newSize),
-            display: true
-          )
+    if contentResizeWidth > 0 {
+      contentWidth = contentResizeWidth
+    } else if usesLeftAnchoredExpansion, !state.isOpen {
+      contentWidth = window.frame.width.rounded()
+    }
+
+    // AppKit owns the window-frame animation. Avoid wrapping state in SwiftUI
+    // withAnimation so layout width changes don't fight NSAnimationContext (jitter
+    // on left-anchored todos expansion). Content width is set above without animation.
+    let listRight = window.frame.maxX
+    togglePreviewStateWithAnimation(windowFrame: window.frame)
+
+    var newSize = window.frame.size
+    newSize.width = contentWidth
+    newSize = computeSizeWithPreview(newSize, state: state)
+    if state.isOpen {
+      placement = computePlacement(window: window, for: newSize)
+    }
+
+    let expectedAnimationState = state
+    let anchoredRightEdge = leftAnchoredRightEdge ?? listRight
+    NSAnimationContext.runAnimationGroup { context in
+      var newOrigin = windowAnimationOrigin ?? window.frame.origin
+      newOrigin.y += (window.frame.height - newSize.height)
+
+      if usesLeftAnchoredExpansion {
+        let anchored = frameWithRightEdgeAnchored(
+          window: window,
+          rightEdge: anchoredRightEdge,
+          totalWidth: newSize.width,
+          height: newSize.height
+        )
+        newOrigin = anchored.origin
+        newSize.width = anchored.width
+      } else if placement == .left {
+        if windowAnimationOriginBaseState == .closed && state.isOpen {
+          newOrigin.x -= slideoutWidth
+        } else if windowAnimationOriginBaseState == .open
+          && !state.isOpen {
+          newOrigin.x += slideoutWidth
         }
+        // Otherwise the base is the desired position
       }
-    } completion: {
+      context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+      context.completionHandler = {
+        if self.state == expectedAnimationState {
+          self.state = expectedAnimationState.animationDone()
+        }
+        self.contentAnimationWidth = nil
+        self.leftAnchoredRightEdge = nil
+      }
+      context.duration = Self.animationDuration
+      window.animator().setFrame(
+        NSRect(origin: newOrigin, size: newSize),
+        display: true
+      )
     }
   }
 

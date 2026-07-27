@@ -8,3 +8,7 @@
 "ClearHistoryOnQuitTooltip" = "Automatically remove all unpinned items before quitting the application.";
 "ClearSystemClipboard" = "Clear the system clipboard too";
 "ClearSystemClipboardTooltip" = "When enabled, clearing the history would also clear the current system clipboard.";
+"EnablePasteStack" = "Enable paste stack (multi-select)";
+"EnablePasteStackDescription" = "Select multiple history items (⌘-click or Shift+arrows), then paste them in order with ⌘V. Requires Accessibility permission.";
+"PasteStackQueueExternalCopies" = "Keep paste stack on external copy";
+"PasteStackQueueExternalCopiesTooltip" = "By default, copying outside Maccy cancels the paste stack. When enabled, the stack keeps running (external content is not added to the stack).";

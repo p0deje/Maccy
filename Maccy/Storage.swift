@@ -1,9 +1,12 @@
 import Foundation
+import Logging
 import SwiftData
 
 @MainActor
 class Storage {
   static let shared = Storage()
+
+  private let logger = Logger(label: "org.p0deje.Maccy.Storage")
 
   var container: ModelContainer
   var context: ModelContext { container.mainContext }
@@ -27,9 +30,31 @@ class Storage {
     #endif
 
     do {
-      container = try ModelContainer(for: HistoryItem.self, configurations: config)
+      container = try Self.makeContainer(configuration: config)
     } catch let error {
-      fatalError("Cannot load database: \(error.localizedDescription).")
+      logger.error("Failed to open store, recreating: \(error.localizedDescription)")
+      Self.removeStoreFiles(at: url)
+      do {
+        container = try Self.makeContainer(configuration: config)
+      } catch let retryError {
+        fatalError("Cannot load database: \(retryError.localizedDescription).")
+      }
+    }
+  }
+
+  private static func makeContainer(configuration: ModelConfiguration) throws -> ModelContainer {
+    // Register root models only; related models are pulled in via @Relationship.
+    try ModelContainer(
+      for: HistoryItem.self, TodoItem.self, TodoList.self,
+      configurations: configuration
+    )
+  }
+
+  private static func removeStoreFiles(at url: URL) {
+    let fileManager = FileManager.default
+    let paths = [url, URL(fileURLWithPath: url.path + "-shm"), URL(fileURLWithPath: url.path + "-wal")]
+    for path in paths where fileManager.fileExists(atPath: path.path) {
+      try? fileManager.removeItem(at: path)
     }
   }
 }

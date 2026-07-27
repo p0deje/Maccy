@@ -2,10 +2,14 @@ import AppKit
 import Defaults
 import Sauce
 
-class Clipboard {
+class Clipboard { // swiftlint:disable:this type_body_length
   static let shared = Clipboard()
 
   typealias OnNewCopyHook = (HistoryItem) -> Void
+
+  private struct PasteboardSnapshot {
+    let items: [[(type: String, data: Data)]]
+  }
 
   private var onNewCopyHooks: [OnNewCopyHook] = []
   var changeCount: Int
@@ -35,8 +39,23 @@ class Clipboard {
 
   private var sourceApp: NSRunningApplication? { NSWorkspace.shared.frontmostApplication }
 
+  private(set) var lastFocusedApplication: NSRunningApplication?
+
   init() {
     changeCount = pasteboard.changeCount
+  }
+
+  func noteActivatedApplication(_ app: NSRunningApplication) {
+    guard app.bundleIdentifier != Bundle.main.bundleIdentifier else { return }
+    lastFocusedApplication = app
+  }
+
+  func pasteDestination() -> NSRunningApplication? {
+    let frontmost = NSWorkspace.shared.frontmostApplication
+    if let frontmost, frontmost.bundleIdentifier != Bundle.main.bundleIdentifier {
+      return frontmost
+    }
+    return lastFocusedApplication
   }
 
   func onNewCopy(_ hook: @escaping OnNewCopyHook) {
@@ -72,7 +91,7 @@ class Clipboard {
   }
 
   @MainActor
-  func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
+  func copy(_ item: HistoryItem?, removeFormatting: Bool = false, notifyHistory: Bool = true) {
     guard let item else { return }
 
     pasteboard.clearContents()
@@ -105,14 +124,57 @@ class Clipboard {
 
     Task {
       Notifier.notify(body: item.title, sound: .knock)
-      checkForChangesInPasteboard()
+      if notifyHistory && !Defaults[.ignoreEvents] {
+        checkForChangesInPasteboard()
+      }
+    }
+  }
+
+  @MainActor
+  func quickPaste(_ item: HistoryItem?, removeFormatting: Bool = false, into destination: NSRunningApplication?) {
+    guard let item else { return }
+
+    guard Accessibility.isAllowed else {
+      Accessibility.promptIfNeeded()
+      return
+    }
+
+    let snapshot = capturePasteboard()
+    let savedIgnoreEvents = Defaults[.ignoreEvents]
+    Defaults[.ignoreEvents] = true
+
+    copy(item, removeFormatting: removeFormatting, notifyHistory: false)
+    paste(to: destination ?? pasteDestination())
+
+    // Restore the clipboard that was active before quick paste so Cmd+V and history order stay unchanged.
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
+      self.restorePasteboard(snapshot)
+      self.changeCount = self.pasteboard.changeCount
+      Defaults[.ignoreEvents] = savedIgnoreEvents
     }
   }
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
+  @MainActor
   func paste() {
-    Accessibility.check()
+    guard Accessibility.isAllowed else {
+      Accessibility.promptIfNeeded()
+      return
+    }
 
+    paste(to: pasteDestination())
+  }
+
+  @MainActor
+  func paste(to destination: NSRunningApplication?) {
+    destination?.activate(options: [.activateIgnoringOtherApps])
+
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+      self.postPasteKeyEvent()
+    }
+  }
+
+  private func postPasteKeyEvent() {
     // Add flag that left/right modifier key has been pressed.
     // See https://github.com/TermiT/Flycut/pull/18 for details.
     let cmdFlag = CGEventFlags(rawValue: UInt64(KeyChord.pasteKeyModifiers.rawValue) | 0x000008)
@@ -155,9 +217,14 @@ class Clipboard {
 
     changeCount = pasteboard.changeCount
 
-    if pasteboard.pasteboardItems?.contains(where: { $0.types.contains(.fromMaccy) }) != true {
-      // External copy occurred. Stop the current paste stack.
-      // Maybe queue it into the paste stack? Configurable behaviour?
+    if pasteboard.pasteboardItems?.contains(where: { $0.types.contains(.fromMaccy) }) == true {
+      return
+    }
+
+    // External copy: interrupt the paste stack by default.
+    // pasteStackQueueExternalCopies skips interruption only — we do not enqueue
+    // external clipboard content into the stack (would desync paste order).
+    if !Defaults[.pasteStackQueueExternalCopies] {
       AppState.shared.history.interruptPasteStack()
     }
 
@@ -298,6 +365,35 @@ class Clipboard {
 
     NSApp.activate(ignoringOtherApps: true)
     NSApp.hide(self)
+  }
+
+  private func capturePasteboard() -> PasteboardSnapshot {
+    let items = pasteboard.pasteboardItems?.map { item in
+      item.types.compactMap { type -> (type: String, data: Data)? in
+        guard let data = item.data(forType: type) else { return nil }
+        return (type: type.rawValue, data: data)
+      }
+    } ?? []
+
+    return PasteboardSnapshot(items: items)
+  }
+
+  private func restorePasteboard(_ snapshot: PasteboardSnapshot) {
+    pasteboard.clearContents()
+
+    guard !snapshot.items.isEmpty else {
+      return
+    }
+
+    let pasteboardItems = snapshot.items.map { contents -> NSPasteboardItem in
+      let item = NSPasteboardItem()
+      for content in contents {
+        item.setData(content.data, forType: NSPasteboard.PasteboardType(content.type))
+      }
+      return item
+    }
+
+    pasteboard.writeObjects(pasteboardItems)
   }
 
   private func clearFormatting(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {

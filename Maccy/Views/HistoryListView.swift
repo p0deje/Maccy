@@ -97,7 +97,18 @@ struct HistoryListView: View {
     ScrollView {
       ScrollViewReader { proxy in
         MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
-          HistoryItemView(item: item, previous: previous, next: next, index: index)
+          VStack(alignment: .leading, spacing: 0) {
+            if HistoryDateGrouper.shouldShowHeader(for: item, at: index, in: unpinnedItems) {
+              Text(HistoryDateGrouper.headerTitle(for: item.item.lastCopiedAt))
+                .font(.caption2)
+                .fontWeight(.semibold)
+                .foregroundStyle(.secondary)
+                .padding(.top, 6)
+                .padding(.bottom, 2)
+            }
+
+            HistoryItemView(item: item, previous: previous, next: next, index: index)
+          }
         }
         .padding(.top, scrollTopPadding)
         .padding(.bottom, scrollBottomPadding)
@@ -117,9 +128,11 @@ struct HistoryListView: View {
             searchFocused = true
             appState.navigator.isKeyboardNavigating = true
             appState.navigator.select(item: appState.history.unpinnedItems.first ?? appState.history.pinnedItems.first)
-            appState.preview.enableAutoOpen()
-            appState.preview.resetAutoOpenSuppression()
-            appState.preview.startAutoOpen()
+            if appState.activeTab == .clipboard {
+              appState.preview.enableAutoOpen()
+              appState.preview.resetAutoOpenSuppression()
+              appState.preview.startAutoOpen()
+            }
           } else {
             modifierFlags.flags = []
             appState.navigator.isKeyboardNavigating = true

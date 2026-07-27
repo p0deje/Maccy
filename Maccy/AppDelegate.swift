@@ -1,10 +1,34 @@
 import Defaults
 import KeyboardShortcuts
 import Sparkle
+import SwiftData
 import SwiftUI
+import UserNotifications
 
 class AppDelegate: NSObject, NSApplicationDelegate {
   var panel: FloatingPanel<ContentView>!
+  var todosPanel: FloatingPanel<TodosWindowView>!
+
+  /// Returns the window hosting the given tab — prefers the main popup when it is open.
+  func floatingPanel(for tab: AppTab) -> NSWindow? {
+    switch tab {
+    case .clipboard:
+      return panel
+    case .todos:
+      if panel.isPresented {
+        return panel
+      }
+      return todosPanel
+    }
+  }
+
+  func verticallyResizePresentedPanel(to height: CGFloat) {
+    if panel.isPresented {
+      panel.verticallyResize(to: height)
+    } else if todosPanel.isPresented {
+      todosPanel.verticallyResize(to: height)
+    }
+  }
 
   @objc
   private lazy var statusItem: NSStatusItem = {
@@ -39,6 +63,13 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     Clipboard.shared.onNewCopy { History.shared.add($0) }
     Clipboard.shared.start()
+    observeFocusedApplications()
+
+    Task { @MainActor in
+      try? await History.shared.load()
+      try? Todos.shared.load()
+      ReminderScheduler.shared.rescheduleAll()
+    }
 
     Task {
       for await _ in Defaults.updates(.clipboardCheckInterval, initial: false) {
@@ -86,11 +117,32 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         statusItem.button?.appearsDisabled = isStatusItemDisabled
       }
     }
+
+    Task {
+      for await enabled in Defaults.updates(.enableTodoReminders, initial: false) {
+        await MainActor.run {
+          if enabled {
+            ReminderScheduler.shared.rescheduleAll()
+          } else {
+            ReminderScheduler.shared.cancelAllTodoReminders()
+          }
+        }
+      }
+    }
   }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
+    Notifier.register()
+    ReminderScheduler.shared.register()
+    UNUserNotificationCenter.current().delegate = self
     disableUnusedGlobalHotkeys()
+    QuickPaste.shared.register()
+    registerTodosShortcut()
+
+    if let tab = AppTab(rawValue: Defaults[.defaultAppTab]) {
+      AppState.shared.activeTab = tab
+    }
 
     panel = FloatingPanel(
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
@@ -99,6 +151,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       onClose: { AppState.shared.popup.reset() }
     ) {
       ContentView()
+    }
+
+    todosPanel = FloatingPanel(
+      contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
+      identifier: "org.p0deje.Maccy.todos",
+      onClose: {}
+    ) {
+      TodosWindowView()
+    }
+
+    if Defaults[.openTodosWindowAtLaunch] {
+      openTodosWindow()
+    }
+  }
+
+  func applicationDidBecomeActive(_ notification: Notification) {
+    Task { @MainActor in
+      Todos.shared.performDayRolloverIfNeeded()
     }
   }
 
@@ -117,6 +187,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     if Defaults[.migrations][key] != true {
       action()
       Defaults[.migrations][key] = true
+    }
+  }
+
+  @objc
+  func openTodosWindow() {
+    AppState.shared.activeTab = .todos
+    todosPanel.toggle(height: AppState.shared.popup.height)
+  }
+
+  private func registerTodosShortcut() {
+    KeyboardShortcuts.onKeyUp(for: .openTodos) { [weak self] in
+      self?.openTodosWindow()
     }
   }
 
@@ -156,6 +238,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   @objc
   private func performStatusItemClick() {
     if let event = NSApp.currentEvent {
+      if event.type == .rightMouseUp {
+        showStatusItemMenu(at: event)
+        return
+      }
+
       let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
 
       if modifierFlags.contains(.option) {
@@ -172,6 +259,66 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     panel.toggle(height: AppState.shared.popup.height, at: .statusItem)
   }
 
+  private func showStatusItemMenu(at event: NSEvent) {
+    let menu = NSMenu()
+    menu.addItem(
+      NSMenuItem(
+        title: NSLocalizedString("ClipboardTab", tableName: "Todos", comment: ""),
+        action: #selector(openClipboardFromMenu),
+        keyEquivalent: ""
+      )
+    )
+    menu.addItem(
+      NSMenuItem(
+        title: todosMenuTitle(),
+        action: #selector(openTodosFromMenu),
+        keyEquivalent: ""
+      )
+    )
+    menu.addItem(.separator())
+    menu.addItem(
+      NSMenuItem(
+        title: NSLocalizedString("Title", tableName: "GeneralSettings", comment: ""),
+        action: #selector(openPreferencesFromMenu),
+        keyEquivalent: ","
+      )
+    )
+    menu.items.forEach { $0.target = self }
+    if let button = statusItem.button {
+      menu.popUp(positioning: nil, at: NSPoint(x: 0, y: button.bounds.height), in: button)
+    }
+  }
+
+  @objc
+  private func openClipboardFromMenu() {
+    AppState.shared.activeTab = .clipboard
+    panel.toggle(height: AppState.shared.popup.height, at: .statusItem)
+  }
+
+  @objc
+  private func openTodosFromMenu() {
+    openTodosWindow()
+  }
+
+  private func todosMenuTitle() -> String {
+    let base = NSLocalizedString("TodosTab", tableName: "Todos", comment: "")
+    let now = Date.now
+    let overdueCount = (try? Storage.shared.context.fetch(FetchDescriptor<TodoItem>()))?
+      .filter { !$0.isCompleted && ($0.dueDate.map { $0 < now } ?? false) }
+      .count ?? 0
+    if overdueCount > 0 {
+      return "\(base) (\(overdueCount))…"
+    }
+    return "\(base)…"
+  }
+
+  @objc
+  private func openPreferencesFromMenu() {
+    Task { @MainActor in
+      AppState.shared.openPreferences()
+    }
+  }
+
   private func synchronizeMenuIconText() {
     _ = withObservationTracking {
       AppState.shared.menuIconText
@@ -185,8 +332,26 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  private func observeFocusedApplications() {
+    NSWorkspace.shared.notificationCenter.addObserver(
+      forName: NSWorkspace.didActivateApplicationNotification,
+      object: nil,
+      queue: .main
+    ) { notification in
+      guard let app = notification.userInfo?[NSWorkspace.applicationUserInfoKey] as? NSRunningApplication else {
+        return
+      }
+
+      Clipboard.shared.noteActivatedApplication(app)
+    }
+
+    if let app = NSWorkspace.shared.frontmostApplication {
+      Clipboard.shared.noteActivatedApplication(app)
+    }
+  }
+
   private func disableUnusedGlobalHotkeys() {
-    let names: [KeyboardShortcuts.Name] = [.delete, .pin]
+    let names: [KeyboardShortcuts.Name] = [.delete, .pin, .quickPasteBase]
     KeyboardShortcuts.disable(names)
 
     NotificationCenter.default.addObserver(
@@ -197,6 +362,24 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       if let name = notification.userInfo?["name"] as? KeyboardShortcuts.Name, names.contains(name) {
         KeyboardShortcuts.disable(name)
       }
+    }
+  }
+}
+
+extension AppDelegate: UNUserNotificationCenterDelegate {
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    willPresent notification: UNNotification
+  ) async -> UNNotificationPresentationOptions {
+    [.banner, .sound, .list]
+  }
+
+  func userNotificationCenter(
+    _ center: UNUserNotificationCenter,
+    didReceive response: UNNotificationResponse
+  ) async {
+    await MainActor.run {
+      ReminderScheduler.shared.handleNotificationResponse(response)
     }
   }
 }

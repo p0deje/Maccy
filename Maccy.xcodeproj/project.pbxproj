@@ -16,6 +16,42 @@
 		2F0EC7852E774083003E2EA9 /* PasteStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7842E77407C003E2EA9 /* PasteStackView.swift */; };
 		2F0EC7872E774099003E2EA9 /* PasteStackItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */; };
 		2F0EC7892E7743D9003E2EA9 /* HoverSelectionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */; };
+		2F0EC7912E774500003E2EA9 /* QuickPaste.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7902E774500003E2EA9 /* QuickPaste.swift */; };
+		2F0EC7932E774600003E2EA9 /* QuickPasteSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7922E774600003E2EA9 /* QuickPasteSettings.swift */; };
+		2F0EC7952E774600003E2EA9 /* QuickPasteSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7942E774600003E2EA9 /* QuickPasteSettingsPane.swift */; };
+		2F0EC7972E774600003E2EA9 /* QuickPasteSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F0EC7962E774600003E2EA9 /* QuickPasteSettings.strings */; };
+		2F0EC7C12E775000003E2EA9 /* TodoItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7C02E775000003E2EA9 /* TodoItem.swift */; };
+		2F0EC8202E775600003E2EA9 /* TodoList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC81E2E775600003E2EA9 /* TodoList.swift */; };
+		2F0EC8212E775600003E2EA9 /* TodoPriority.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC81F2E775600003E2EA9 /* TodoPriority.swift */; };
+		2F0EC7C32E775000003E2EA9 /* TodoCompletionEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7C22E775000003E2EA9 /* TodoCompletionEvent.swift */; };
+		2F0EC7C52E775000003E2EA9 /* TodoCompletionSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7C42E775000003E2EA9 /* TodoCompletionSource.swift */; };
+		2F0EC7C72E775000003E2EA9 /* Todos.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7C62E775000003E2EA9 /* Todos.swift */; };
+		2F0EC7C92E775000003E2EA9 /* TodoItemDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7C82E775000003E2EA9 /* TodoItemDecorator.swift */; };
+		2F0EC7CB2E775000003E2EA9 /* TodoAnalytics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7CA2E775000003E2EA9 /* TodoAnalytics.swift */; };
+		2F0EC7CD2E775000003E2EA9 /* AppTab.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7CC2E775000003E2EA9 /* AppTab.swift */; };
+		2F0EC7CF2E775000003E2EA9 /* ReminderScheduler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7CE2E775000003E2EA9 /* ReminderScheduler.swift */; };
+		2F0EC7D12E775000003E2EA9 /* TodosTabBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7D02E775000003E2EA9 /* TodosTabBarView.swift */; };
+		2F0EC7D52E775000003E2EA9 /* TodosListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7D42E775000003E2EA9 /* TodosListView.swift */; };
+		2F0EC7D72E775000003E2EA9 /* TodoItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7D62E775000003E2EA9 /* TodoItemView.swift */; };
+		2F0EC7D92E775000003E2EA9 /* TodoDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7D82E775000003E2EA9 /* TodoDetailView.swift */; };
+		2F0EC7DD2E775000003E2EA9 /* TodosWindowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7DC2E775000003E2EA9 /* TodosWindowView.swift */; };
+		2F0EC7DF2E775000003E2EA9 /* TodoSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7DE2E775000003E2EA9 /* TodoSettingsPane.swift */; };
+		2F0EC7E12E775000003E2EA9 /* Todos.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F0EC7E02E775000003E2EA9 /* Todos.strings */; };
+		2F0EC7E32E775000003E2EA9 /* TodoSettings.strings in Resources */ = {isa = PBXBuildFile; fileRef = 2F0EC7E22E775000003E2EA9 /* TodoSettings.strings */; };
+		2F0EC7E52E775000003E2EA9 /* StorageMigrationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7E42E775000003E2EA9 /* StorageMigrationTests.swift */; };
+		2F0EC9012E790100003E2EA9 /* TodosTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC9002E790100003E2EA9 /* TodosTests.swift */; };
+		2F0EC9032E790100003E2EA9 /* ReminderSchedulerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC9022E790100003E2EA9 /* ReminderSchedulerTests.swift */; };
+		2F0EC9052E790100003E2EA9 /* TodoAnalyticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC9042E790100003E2EA9 /* TodoAnalyticsTests.swift */; };
+		2F0EC9072E790100003E2EA9 /* TodoReminderPresetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC9062E790100003E2EA9 /* TodoReminderPresetsTests.swift */; };
+		2F0EC8012E775100003E2EA9 /* HistoryDateGrouper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8002E775100003E2EA9 /* HistoryDateGrouper.swift */; };
+		2F0EC8032E775100003E2EA9 /* PopupSearchHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8022E775100003E2EA9 /* PopupSearchHeaderView.swift */; };
+		2F0EC8052E775100003E2EA9 /* TodosSlideoutContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8042E775100003E2EA9 /* TodosSlideoutContentView.swift */; };
+		2F0EC8072E775200003E2EA9 /* TodosToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8062E775200003E2EA9 /* TodosToolbarView.swift */; };
+		2F0EC8172E775500003E2EA9 /* TodoDesign.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8162E775500003E2EA9 /* TodoDesign.swift */; };
+		2F0EC80F2E775300003E2EA9 /* TodoReminderRepeat.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC80E2E775300003E2EA9 /* TodoReminderRepeat.swift */; };
+		2F0EC8112E775300003E2EA9 /* TodoReminderPresets.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8102E775300003E2EA9 /* TodoReminderPresets.swift */; };
+		2F0EC8132E775300003E2EA9 /* TodoReminderEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8122E775300003E2EA9 /* TodoReminderEditorView.swift */; };
+		2F0EC8152E775400003E2EA9 /* ResizableSettingsWindowDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8142E775400003E2EA9 /* ResizableSettingsWindowDelegate.swift */; };
 		2F1091D72F2B6E8400F5C454 /* AsyncView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F1091D62F2B6E8100F5C454 /* AsyncView.swift */; };
 		2F12271E2E5C932200A1592A /* Logging in Frameworks */ = {isa = PBXBuildFile; productRef = 2F12271D2E5C932200A1592A /* Logging */; };
 		2F162E802F1E7B30001FBAFF /* PasteStackPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F162E7F2F1E7B28001FBAFF /* PasteStackPreviewView.swift */; };
@@ -55,6 +91,8 @@
 		DA13D7DB2C1A223E00FA9E23 /* Delete.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7D62C1A223E00FA9E23 /* Delete.swift */; };
 		DA13D7DC2C1A223E00FA9E23 /* HistoryItemAppEntity.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7D72C1A223E00FA9E23 /* HistoryItemAppEntity.swift */; };
 		DA13D7DE2C1A436E00FA9E23 /* AppIntentError.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA13D7DD2C1A436E00FA9E23 /* AppIntentError.swift */; };
+		2F0EC8322E790200003E2EA9 /* AddTodoIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8302E790200003E2EA9 /* AddTodoIntent.swift */; };
+		2F0EC8332E790200003E2EA9 /* CompleteTodoIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC8312E790200003E2EA9 /* CompleteTodoIntent.swift */; };
 		DA181177247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */; };
 		DA19690E2C3EEFA900258481 /* KeyboardShortcutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19690D2C3EEFA900258481 /* KeyboardShortcutView.swift */; };
 		DA1969102C3F0AAC00258481 /* KeyShortcut.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA19690F2C3F0AAC00258481 /* KeyShortcut.swift */; };
@@ -73,6 +111,7 @@
 		DA243D122C2F64830012A27F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA243D112C2F64820012A27F /* ContentView.swift */; };
 		DA243D142C2F66DD0012A27F /* Storage.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA243D132C2F66DD0012A27F /* Storage.swift */; };
 		DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA360DB21E3DF137005C6F6B /* HistoryTests.swift */; };
+		2F0EC7F12E776100003E2EA9 /* PasteStackTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7F02E776100003E2EA9 /* PasteStackTests.swift */; };
 		DA384E86232746D800603999 /* SearchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA384E85232746D800603999 /* SearchTests.swift */; };
 		DA3BCB8E2C3E015000B01BC1 /* ModifierFlags.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */; };
 		DA3BCB922C3EEC3C00B01BC1 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BCB912C3EEC3C00B01BC1 /* History.swift */; };
@@ -177,6 +216,23 @@
 		};
 /* End PBXCopyFilesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		F1A2B3C42E00000100SIGN01 /* Sign Sparkle */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Sign Sparkle";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# SPM may embed Sparkle ad-hoc while the app is signed with Apple Development.\nFRAMEWORK=\"${BUILT_PRODUCTS_DIR}/${FRAMEWORKS_FOLDER_PATH}/Sparkle.framework\"\nif [ -d \"${FRAMEWORK}\" ] && [ -n \"${EXPANDED_CODE_SIGN_IDENTITY}\" ] && [ \"${EXPANDED_CODE_SIGN_IDENTITY}\" != \"-\" ]; then\n  /usr/bin/codesign --force --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --preserve-metadata=identifier,entitlements,flags --timestamp=none \"${FRAMEWORK}/Versions/B/Sparkle\"\n  /usr/bin/codesign --force --sign \"${EXPANDED_CODE_SIGN_IDENTITY}\" --timestamp=none \"${FRAMEWORK}\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXFileReference section */
 		088F4DA628BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWorkspace+ApplicationName.swift"; sourceTree = "<group>"; };
@@ -190,6 +246,10 @@
 		2F0EC7842E77407C003E2EA9 /* PasteStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackView.swift; sourceTree = "<group>"; };
 		2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackItemView.swift; sourceTree = "<group>"; };
 		2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverSelectionModifier.swift; sourceTree = "<group>"; };
+		2F0EC7902E774500003E2EA9 /* QuickPaste.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPaste.swift; sourceTree = "<group>"; };
+		2F0EC7922E774600003E2EA9 /* QuickPasteSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPasteSettings.swift; sourceTree = "<group>"; };
+		2F0EC7942E774600003E2EA9 /* QuickPasteSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuickPasteSettingsPane.swift; sourceTree = "<group>"; };
+		2F0EC7982E774600003E2EA9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/QuickPasteSettings.strings; sourceTree = "<group>"; };
 		2F1091D62F2B6E8100F5C454 /* AsyncView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncView.swift; sourceTree = "<group>"; };
 		2F162E7F2F1E7B28001FBAFF /* PasteStackPreviewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackPreviewView.swift; sourceTree = "<group>"; };
 		2F1A79BF2C6DFB7800C98EBD /* SearchVisibility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVisibility.swift; sourceTree = "<group>"; };
@@ -204,7 +264,6 @@
 		2FB5BC9F2CD8F73C008B33F4 /* ApplicationImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApplicationImage.swift; sourceTree = "<group>"; };
 		2FF2E94D2E774B570093D72C /* NavigationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationManager.swift; sourceTree = "<group>"; };
 		2FF2E94F2E7808420093D72C /* AppImageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppImageView.swift; sourceTree = "<group>"; };
-		2FFF8BCF2CE2116600235A78 /* Data+Encoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Data+Encoding.swift"; sourceTree = "<group>"; };
 		3EBDD1E32BBEF22800C57500 /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D6982467226100B3A2BA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4762D69A2467226400B3A2BA /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -219,6 +278,36 @@
 		5212BB6D2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7CEEFDF124F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		ABC72863283A9053001EE086 /* th */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = th; path = th.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2F0EC7C02E775000003E2EA9 /* TodoItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItem.swift; sourceTree = "<group>"; };
+		2F0EC81E2E775600003E2EA9 /* TodoList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoList.swift; sourceTree = "<group>"; };
+		2F0EC81F2E775600003E2EA9 /* TodoPriority.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoPriority.swift; sourceTree = "<group>"; };
+		2F0EC7C22E775000003E2EA9 /* TodoCompletionEvent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCompletionEvent.swift; sourceTree = "<group>"; };
+		2F0EC7C42E775000003E2EA9 /* TodoCompletionSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoCompletionSource.swift; sourceTree = "<group>"; };
+		2F0EC7C62E775000003E2EA9 /* Todos.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Todos.swift; sourceTree = "<group>"; };
+		2F0EC7C82E775000003E2EA9 /* TodoItemDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemDecorator.swift; sourceTree = "<group>"; };
+		2F0EC7CA2E775000003E2EA9 /* TodoAnalytics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAnalytics.swift; sourceTree = "<group>"; };
+		2F0EC7CC2E775000003E2EA9 /* AppTab.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTab.swift; sourceTree = "<group>"; };
+		2F0EC7CE2E775000003E2EA9 /* ReminderScheduler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderScheduler.swift; sourceTree = "<group>"; };
+		2F0EC7D02E775000003E2EA9 /* TodosTabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTabBarView.swift; sourceTree = "<group>"; };
+		2F0EC7D42E775000003E2EA9 /* TodosListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosListView.swift; sourceTree = "<group>"; };
+		2F0EC7D62E775000003E2EA9 /* TodoItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoItemView.swift; sourceTree = "<group>"; };
+		2F0EC7D82E775000003E2EA9 /* TodoDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDetailView.swift; sourceTree = "<group>"; };
+		2F0EC7DC2E775000003E2EA9 /* TodosWindowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosWindowView.swift; sourceTree = "<group>"; };
+		2F0EC7DE2E775000003E2EA9 /* TodoSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoSettingsPane.swift; sourceTree = "<group>"; };
+		2F0EC7E42E775000003E2EA9 /* StorageMigrationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageMigrationTests.swift; sourceTree = "<group>"; };
+		2F0EC9002E790100003E2EA9 /* TodosTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosTests.swift; sourceTree = "<group>"; };
+		2F0EC9022E790100003E2EA9 /* ReminderSchedulerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReminderSchedulerTests.swift; sourceTree = "<group>"; };
+		2F0EC9042E790100003E2EA9 /* TodoAnalyticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoAnalyticsTests.swift; sourceTree = "<group>"; };
+		2F0EC9062E790100003E2EA9 /* TodoReminderPresetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoReminderPresetsTests.swift; sourceTree = "<group>"; };
+		2F0EC8002E775100003E2EA9 /* HistoryDateGrouper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryDateGrouper.swift; sourceTree = "<group>"; };
+		2F0EC8022E775100003E2EA9 /* PopupSearchHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PopupSearchHeaderView.swift; sourceTree = "<group>"; };
+		2F0EC8042E775100003E2EA9 /* TodosSlideoutContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosSlideoutContentView.swift; sourceTree = "<group>"; };
+		2F0EC8062E775200003E2EA9 /* TodosToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodosToolbarView.swift; sourceTree = "<group>"; };
+		2F0EC8162E775500003E2EA9 /* TodoDesign.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoDesign.swift; sourceTree = "<group>"; };
+		2F0EC80E2E775300003E2EA9 /* TodoReminderRepeat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoReminderRepeat.swift; sourceTree = "<group>"; };
+		2F0EC8102E775300003E2EA9 /* TodoReminderPresets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoReminderPresets.swift; sourceTree = "<group>"; };
+		2F0EC8122E775300003E2EA9 /* TodoReminderEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TodoReminderEditorView.swift; sourceTree = "<group>"; };
+		2F0EC8142E775400003E2EA9 /* ResizableSettingsWindowDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizableSettingsWindowDelegate.swift; sourceTree = "<group>"; };
 		DA00992C256411F90030E697 /* appcast.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = appcast.xml; sourceTree = "<group>"; };
 		DA00992D256411F90030E697 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		DA00992F256411F90030E697 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -254,6 +343,8 @@
 		DA13D7D62C1A223E00FA9E23 /* Delete.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delete.swift; sourceTree = "<group>"; };
 		DA13D7D72C1A223E00FA9E23 /* HistoryItemAppEntity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemAppEntity.swift; sourceTree = "<group>"; };
 		DA13D7DD2C1A436E00FA9E23 /* AppIntentError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntentError.swift; sourceTree = "<group>"; };
+		2F0EC8302E790200003E2EA9 /* AddTodoIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTodoIntent.swift; sourceTree = "<group>"; };
+		2F0EC8312E790200003E2EA9 /* CompleteTodoIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompleteTodoIntent.swift; sourceTree = "<group>"; };
 		DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Settings.PaneIdentifier+Panes.swift"; sourceTree = "<group>"; };
 		DA19690D2C3EEFA900258481 /* KeyboardShortcutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardShortcutView.swift; sourceTree = "<group>"; };
 		DA19690F2C3F0AAC00258481 /* KeyShortcut.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyShortcut.swift; sourceTree = "<group>"; };
@@ -282,6 +373,7 @@
 		DA2F1B0926F22DF4005D30BA /* hr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hr; path = hr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		DA360DB01E3DF137005C6F6B /* MaccyTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MaccyTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA360DB21E3DF137005C6F6B /* HistoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; lineEnding = 0; path = HistoryTests.swift; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.swift; };
+		2F0EC7F02E776100003E2EA9 /* PasteStackTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackTests.swift; sourceTree = "<group>"; };
 		DA360DB41E3DF137005C6F6B /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DA384E85232746D800603999 /* SearchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTests.swift; sourceTree = "<group>"; };
 		DA3873FA2D09EB7600E7B251 /* be */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = be; path = be.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
@@ -629,11 +721,27 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2F0EC7F02E775000003E2EA9 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				2F0EC8002E775100003E2EA9 /* HistoryDateGrouper.swift */,
+				2F0EC7CA2E775000003E2EA9 /* TodoAnalytics.swift */,
+				2F0EC8102E775300003E2EA9 /* TodoReminderPresets.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
 		DA05B50F2C234C1C006980FE /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				DA05B5132C234DCF006980FE /* HistoryItem.swift */,
 				DA05B5122C234DCF006980FE /* HistoryItemContent.swift */,
+				2F0EC7C02E775000003E2EA9 /* TodoItem.swift */,
+				2F0EC81E2E775600003E2EA9 /* TodoList.swift */,
+				2F0EC81F2E775600003E2EA9 /* TodoPriority.swift */,
+				2F0EC80E2E775300003E2EA9 /* TodoReminderRepeat.swift */,
+				2F0EC7C22E775000003E2EA9 /* TodoCompletionEvent.swift */,
+				2F0EC7C42E775000003E2EA9 /* TodoCompletionSource.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -654,7 +762,14 @@
 				DA689FC32C1CF0F00009B887 /* AppearanceSettingsPane.swift */,
 				DA689FCD2C1DEE570009B887 /* AppearanceSettings.strings */,
 				DAA5ACB12C1B3F8800B58513 /* GeneralSettingsPane.swift */,
+				2F0EC8142E775400003E2EA9 /* ResizableSettingsWindowDelegate.swift */,
 				DAA5ACB32C1B803000B58513 /* GeneralSettings.strings */,
+				2F0EC7922E774600003E2EA9 /* QuickPasteSettings.swift */,
+				2F0EC7942E774600003E2EA9 /* QuickPasteSettingsPane.swift */,
+				2F0EC7962E774600003E2EA9 /* QuickPasteSettings.strings */,
+				2F0EC7DE2E775000003E2EA9 /* TodoSettingsPane.swift */,
+				2F0EC7E22E775000003E2EA9 /* TodoSettings.strings */,
+				2F0EC7E02E775000003E2EA9 /* Todos.strings */,
 				DA9C3C632C20E1E80056795D /* IgnoreSettingsPane */,
 				DA9C3C442C207AF80056795D /* IgnoreSettingsPane.swift */,
 				DA9C3C482C20D4B40056795D /* IgnoreSettings.strings */,
@@ -673,6 +788,16 @@
 				2FF2E94F2E7808420093D72C /* AppImageView.swift */,
 				DAA072DE2C41C63C006DDFD2 /* ConfirmationView.swift */,
 				DA243D112C2F64820012A27F /* ContentView.swift */,
+				2F0EC8022E775100003E2EA9 /* PopupSearchHeaderView.swift */,
+				2F0EC7D82E775000003E2EA9 /* TodoDetailView.swift */,
+				2F0EC8162E775500003E2EA9 /* TodoDesign.swift */,
+				2F0EC8042E775100003E2EA9 /* TodosSlideoutContentView.swift */,
+				2F0EC8062E775200003E2EA9 /* TodosToolbarView.swift */,
+				2F0EC8122E775300003E2EA9 /* TodoReminderEditorView.swift */,
+				2F0EC7D62E775000003E2EA9 /* TodoItemView.swift */,
+				2F0EC7D42E775000003E2EA9 /* TodosListView.swift */,
+				2F0EC7D02E775000003E2EA9 /* TodosTabBarView.swift */,
+				2F0EC7DC2E775000003E2EA9 /* TodosWindowView.swift */,
 				DAA072DC2C41C61F006DDFD2 /* FooterItemView.swift */,
 				DAA072E02C41C6E8006DDFD2 /* FooterView.swift */,
 				DA1969192C3F369800258481 /* HeaderView.swift */,
@@ -719,10 +844,16 @@
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				DAE2850123225BD90080E394 /* ColorImageTests.swift */,
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
+				2F0EC7F02E776100003E2EA9 /* PasteStackTests.swift */,
 				DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */,
 				DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
+				2F0EC7E42E775000003E2EA9 /* StorageMigrationTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
+				2F0EC9002E790100003E2EA9 /* TodosTests.swift */,
+				2F0EC9022E790100003E2EA9 /* ReminderSchedulerTests.swift */,
+				2F0EC9042E790100003E2EA9 /* TodoAnalyticsTests.swift */,
+				2F0EC9062E790100003E2EA9 /* TodoReminderPresetsTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
 			);
 			path = MaccyTests;
@@ -739,6 +870,9 @@
 				DA3BCB932C3EECBB00B01BC1 /* HistoryItemDecorator.swift */,
 				DA3BCB8D2C3E015000B01BC1 /* ModifierFlags.swift */,
 				DAE8F5D32C43262B00851CA9 /* Popup.swift */,
+				2F0EC7902E774500003E2EA9 /* QuickPaste.swift */,
+				2F0EC7C62E775000003E2EA9 /* Todos.swift */,
+				2F0EC7C82E775000003E2EA9 /* TodoItemDecorator.swift */,
 				2F578C3E2EFFE8720088B759 /* SlideoutController.swift */,
 			);
 			path = Observables;
@@ -755,8 +889,10 @@
 		DA68F91F28BD819E007E2F25 /* Intents */ = {
 			isa = PBXGroup;
 			children = (
+				2F0EC8302E790200003E2EA9 /* AddTodoIntent.swift */,
 				DA13D7DD2C1A436E00FA9E23 /* AppIntentError.swift */,
 				DA13D7D52C1A223E00FA9E23 /* Clear.swift */,
+				2F0EC8312E790200003E2EA9 /* CompleteTodoIntent.swift */,
 				DA13D7D62C1A223E00FA9E23 /* Delete.swift */,
 				DA13D7D42C1A223E00FA9E23 /* Get.swift */,
 				DA13D7D72C1A223E00FA9E23 /* HistoryItemAppEntity.swift */,
@@ -807,6 +943,7 @@
 				2FBB7A252B5FECBB00C65BBE /* Extensions */,
 				DA68F91F28BD819E007E2F25 /* Intents */,
 				DA05B50F2C234C1C006980FE /* Models */,
+				2F0EC7F02E775000003E2EA9 /* Utilities */,
 				DA3BCB902C3EEC1000B01BC1 /* Observables */,
 				DA181178247D150B00066D55 /* Settings */,
 				DA21AD3C249E85BD003E7C98 /* Sounds */,
@@ -836,6 +973,8 @@
 				2F0EC77C2E773314003E2EA9 /* Selection.swift */,
 				DAA5ACC92C1BEE8A00B58513 /* SoftwareUpdater.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
+				2F0EC7CC2E775000003E2EA9 /* AppTab.swift */,
+				2F0EC7CE2E775000003E2EA9 /* ReminderScheduler.swift */,
 				DA243D132C2F66DD0012A27F /* Storage.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
 				DAB8CE4024E3677F00A2500E /* Maccy.entitlements */,
@@ -893,6 +1032,7 @@
 				DAEE38401E3DBEB100DD2966 /* Frameworks */,
 				DAEE38411E3DBEB100DD2966 /* Resources */,
 				DAAAAB942C7664A2004FBC3C /* Embed Frameworks */,
+				F1A2B3C42E00000100SIGN01 /* Sign Sparkle */,
 			);
 			buildRules = (
 			);
@@ -1034,6 +1174,9 @@
 				DA20FA742B082E0100056DD5 /* Knock.caf in Resources */,
 				DA009931256411F90030E697 /* appcast.xml in Resources */,
 				DAA5ACB52C1B803000B58513 /* GeneralSettings.strings in Resources */,
+				2F0EC7972E774600003E2EA9 /* QuickPasteSettings.strings in Resources */,
+				2F0EC7E12E775000003E2EA9 /* Todos.strings in Resources */,
+				2F0EC7E32E775000003E2EA9 /* TodoSettings.strings in Resources */,
 				DA740D7A2C21E6B0007B1A36 /* AdvancedSettings.strings in Resources */,
 				DA689FB02C1CD3B00009B887 /* StorageSettings.strings in Resources */,
 				DA5E62802C39E53F00F4C710 /* PreviewItemView.strings in Resources */,
@@ -1063,7 +1206,13 @@
 				DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */,
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
 				DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */,
+				2F0EC7E52E775000003E2EA9 /* StorageMigrationTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,
+				2F0EC7F12E776100003E2EA9 /* PasteStackTests.swift in Sources */,
+				2F0EC9012E790100003E2EA9 /* TodosTests.swift in Sources */,
+				2F0EC9032E790100003E2EA9 /* ReminderSchedulerTests.swift in Sources */,
+				2F0EC9052E790100003E2EA9 /* TodoAnalyticsTests.swift in Sources */,
+				2F0EC9072E790100003E2EA9 /* TodoReminderPresetsTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1100,6 +1249,7 @@
 				2FF2E94E2E774B5B0093D72C /* NavigationManager.swift in Sources */,
 				DA1969182C3F327500258481 /* SearchFieldView.swift in Sources */,
 				DAE8F5D42C43262B00851CA9 /* Popup.swift in Sources */,
+				2F0EC7912E774500003E2EA9 /* QuickPaste.swift in Sources */,
 				DA13D7DA2C1A223E00FA9E23 /* Clear.swift in Sources */,
 				DA13D7DB2C1A223E00FA9E23 /* Delete.swift in Sources */,
 				DA19691F2C3F5F0600258481 /* KeyHandlingView.swift in Sources */,
@@ -1114,6 +1264,33 @@
 				DAA5ACCA2C1BEE8A00B58513 /* SoftwareUpdater.swift in Sources */,
 				2F9B42F12F1A499D006548E5 /* ToolbarView.swift in Sources */,
 				DAA5ACB22C1B3F8800B58513 /* GeneralSettingsPane.swift in Sources */,
+				2F0EC7932E774600003E2EA9 /* QuickPasteSettings.swift in Sources */,
+				2F0EC7952E774600003E2EA9 /* QuickPasteSettingsPane.swift in Sources */,
+				2F0EC7C12E775000003E2EA9 /* TodoItem.swift in Sources */,
+				2F0EC8202E775600003E2EA9 /* TodoList.swift in Sources */,
+				2F0EC8212E775600003E2EA9 /* TodoPriority.swift in Sources */,
+				2F0EC80F2E775300003E2EA9 /* TodoReminderRepeat.swift in Sources */,
+				2F0EC7C32E775000003E2EA9 /* TodoCompletionEvent.swift in Sources */,
+				2F0EC7C52E775000003E2EA9 /* TodoCompletionSource.swift in Sources */,
+				2F0EC7C72E775000003E2EA9 /* Todos.swift in Sources */,
+				2F0EC7C92E775000003E2EA9 /* TodoItemDecorator.swift in Sources */,
+				2F0EC7CB2E775000003E2EA9 /* TodoAnalytics.swift in Sources */,
+				2F0EC8112E775300003E2EA9 /* TodoReminderPresets.swift in Sources */,
+				2F0EC7CD2E775000003E2EA9 /* AppTab.swift in Sources */,
+				2F0EC7CF2E775000003E2EA9 /* ReminderScheduler.swift in Sources */,
+				2F0EC7D12E775000003E2EA9 /* TodosTabBarView.swift in Sources */,
+				2F0EC7D52E775000003E2EA9 /* TodosListView.swift in Sources */,
+				2F0EC7D72E775000003E2EA9 /* TodoItemView.swift in Sources */,
+				2F0EC7D92E775000003E2EA9 /* TodoDetailView.swift in Sources */,
+				2F0EC7DD2E775000003E2EA9 /* TodosWindowView.swift in Sources */,
+				2F0EC7DF2E775000003E2EA9 /* TodoSettingsPane.swift in Sources */,
+				2F0EC8012E775100003E2EA9 /* HistoryDateGrouper.swift in Sources */,
+				2F0EC8032E775100003E2EA9 /* PopupSearchHeaderView.swift in Sources */,
+				2F0EC8052E775100003E2EA9 /* TodosSlideoutContentView.swift in Sources */,
+				2F0EC8072E775200003E2EA9 /* TodosToolbarView.swift in Sources */,
+				2F0EC8172E775500003E2EA9 /* TodoDesign.swift in Sources */,
+				2F0EC8132E775300003E2EA9 /* TodoReminderEditorView.swift in Sources */,
+				2F0EC8152E775400003E2EA9 /* ResizableSettingsWindowDelegate.swift in Sources */,
 				DA1969122C3F0DD200258481 /* HistoryItemView.swift in Sources */,
 				DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */,
 				DA3F1B452C90084600267632 /* Sauce+KeyboardShortcuts.swift in Sources */,
@@ -1147,6 +1324,8 @@
 				2F0EC77F2E773DBA003E2EA9 /* MultipleSelectionListView.swift in Sources */,
 				2F0EC7892E7743D9003E2EA9 /* HoverSelectionModifier.swift in Sources */,
 				DA13D7DE2C1A436E00FA9E23 /* AppIntentError.swift in Sources */,
+				2F0EC8322E790200003E2EA9 /* AddTodoIntent.swift in Sources */,
+				2F0EC8332E790200003E2EA9 /* CompleteTodoIntent.swift in Sources */,
 				2F8B9DE62C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift in Sources */,
 				DAA072D72C41C574006DDFD2 /* AppState.swift in Sources */,
 				DA9C3C5E2C20E1190056795D /* IgnoreApplicationsSettingsView.swift in Sources */,
@@ -1461,6 +1640,32 @@
 			name = PinsSettings.strings;
 			sourceTree = "<group>";
 		};
+		2F0EC7962E774600003E2EA9 /* QuickPasteSettings.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F0EC7982E774600003E2EA9 /* en */,
+			);
+			name = QuickPasteSettings.strings;
+			sourceTree = "<group>";
+		};
+		2F0EC7E02E775000003E2EA9 /* Todos.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F0EC7E62E775000003E2EA9 /* en */,
+			);
+			name = Todos.strings;
+			sourceTree = "<group>";
+		};
+		2F0EC7E62E775000003E2EA9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Todos.strings; sourceTree = "<group>"; };
+		2F0EC7E22E775000003E2EA9 /* TodoSettings.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				2F0EC7E72E775000003E2EA9 /* en */,
+			);
+			name = TodoSettings.strings;
+			sourceTree = "<group>";
+		};
+		2F0EC7E72E775000003E2EA9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/TodoSettings.strings; sourceTree = "<group>"; };
 		DAA5ACB32C1B803000B58513 /* GeneralSettings.strings */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -1736,7 +1941,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 60;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = HGR35DZM3R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1744,6 +1949,8 @@
 				);
 				INFOPLIST_FILE = Maccy/Info.plist;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
+				INFOPLIST_KEY_SUEnableDownloaderService = NO;
+				INFOPLIST_KEY_SUEnableInstallerLauncherService = NO;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1771,7 +1978,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 60;
 				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = MN3X4648SC;
+				DEVELOPMENT_TEAM = HGR35DZM3R;
 				ENABLE_HARDENED_RUNTIME = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
