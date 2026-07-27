@@ -597,11 +597,6 @@ class MaccyUITests: XCTestCase {
   }
 
   private func hover(_ element: XCUIElement) {
-    // Hover selection is only applied once the app leaves keyboard-navigation
-    // mode, which requires a real mouseMoved event (see HoverSelectionModifier /
-    // onMouseMove). A single hover to a fixed point may not emit that event
-    // under XCUITest (notably on CI), so move across two points ending on the
-    // row center to guarantee actual pointer movement.
     element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.25)).hover()
     usleep(50_000)
     element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).hover()
@@ -667,14 +662,11 @@ class MaccyUITests: XCTestCase {
     waitForExpectations(timeout: 3)
   }
 
-    private func assertPasteboardStringEquals(
-      _ expected: String?, forType: NSPasteboard.PasteboardType = .string
-    ) {
+  private func assertPasteboardStringEquals(_ expected: String?, forType: NSPasteboard.PasteboardType = .string) {
       let predicate = NSPredicate { (object, _) -> Bool in
         guard let copy = object as? String else {
           return false
         }
-
         return self.pasteboard.string(forType: forType) == copy
       }
       expectation(for: predicate, evaluatedWith: expected)
