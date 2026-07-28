@@ -31,6 +31,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                  userDriver: SPUStandardUserDriver(hostBundle: Bundle.main, delegate: nil),
                  delegate: nil)
       .automaticallyChecksForUpdates = false
+      // Start from a clean slate for the isolated testing preferences.
+      UserDefaults.standard.removePersistentDomain(forName: Defaults.Keys.testingSuiteName)
     }
     #endif
 

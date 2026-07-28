@@ -112,12 +112,14 @@ class MaccyUITests: XCTestCase {
 
   func testCopyWithClick() {
     popUpWithMouse()
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
     items[copy2].firstMatch.click()
     assertPasteboardStringEquals(copy2)
   }
 
   func testCopyWithEnter() {
     popUpWithMouse()
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
     hover(items[copy2].firstMatch)
     app.typeKey(.enter, modifierFlags: [])
     assertPasteboardStringEquals(copy2)
@@ -140,7 +142,8 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(image2)
     copyToClipboard(image1)
     popUpWithMouse()
-    items.matching(imageType).allElementsBoundByIndex[1].click()
+    scrollIntoViewIfNeeded(items.matching(imageType).allElementsBoundByIndex[1])
+    hoverAndClick(items.matching(imageType).allElementsBoundByIndex[1])
     assertPasteboardDataCountEquals(image2.tiffRepresentation!.count, forType: .tiff)
   }
 
@@ -153,19 +156,21 @@ class MaccyUITests: XCTestCase {
       file1.absoluteString.removingPercentEncoding!,
       file2.absoluteString.removingPercentEncoding!
     ])
-
-    items[file2.absoluteString.removingPercentEncoding!].firstMatch.click()
+    scrollIntoViewIfNeeded(items[file2.absoluteString.removingPercentEncoding!].firstMatch)
+    hoverAndClick(items[file2.absoluteString.removingPercentEncoding!].firstMatch)
     assertPasteboardStringEquals(file2.absoluteString, forType: .fileURL)
   }
 
   func testCopyRTF() {
     copyToClipboard(rtf2, .rtf)
+    popUpWithHotkey()
+    closePopupByClickingOutside()
     copyToClipboard(rtf1, .rtf)
     popUpWithHotkey()
     XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
-
-    app.staticTexts["bar"].firstMatch.click()
-    XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
+    scrollIntoViewIfNeeded(app.staticTexts["bar"].firstMatch)
+    hoverAndClick(app.staticTexts["bar"].firstMatch)
+    XCTAssertEqual(pasteboard.data(forType: .rtf), rtf1)
   }
 
   func testCopyHTML() {
@@ -173,8 +178,8 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(html1, .html)
     popUpWithMouse()
     XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
-
-    items["bar"].firstMatch.click()
+    scrollIntoViewIfNeeded(items["bar"].firstMatch)
+    hoverAndClick(items["bar"].firstMatch)
     assertPasteboardDataEquals(html2, forType: .html)
   }
 
@@ -231,8 +236,9 @@ class MaccyUITests: XCTestCase {
 
   func testClear() {
     popUpWithMouse()
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
-    app.staticTexts["Clear"].click()
+    hoverAndClick(app.staticTexts["Clear"].firstMatch)
     confirmClear()
     popUpWithMouse()
     assertNotExists(items[copy1])
@@ -242,7 +248,7 @@ class MaccyUITests: XCTestCase {
   func testClearDuringSearch() {
     popUpWithMouse()
     search(copy2)
-    app.staticTexts["Clear"].click()
+    hoverAndClick(app.staticTexts["Clear"].firstMatch)
     confirmClear()
     popUpWithMouse()
     assertNotExists(items[copy1])
@@ -251,9 +257,10 @@ class MaccyUITests: XCTestCase {
 
   func testClearAll() {
     popUpWithMouse()
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     XCUIElement.perform(withKeyModifiers: [.shift]) {
-      app.staticTexts["Clear all"].click()
+      hoverAndClick(app.staticTexts["Clear all"].firstMatch)
     }
     confirmClear()
     popUpWithMouse()
@@ -263,6 +270,7 @@ class MaccyUITests: XCTestCase {
 
   func testPin() {
     popUpWithMouse()
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
 
@@ -274,6 +282,7 @@ class MaccyUITests: XCTestCase {
   func testPinDuringSearch() {
     popUpWithMouse()
     search(copy2)
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     assertSearchFieldValue("")
     XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
@@ -281,6 +290,7 @@ class MaccyUITests: XCTestCase {
 
   func testUnpin() {
     popUpWithMouse()
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     pin(copy2)
     XCTAssertEqual(itemTitles[0...1], [copy1, copy2])
@@ -459,10 +469,7 @@ class MaccyUITests: XCTestCase {
   func testTogglePopupAndCloseOnClickOutside() {
     popUpWithHotkey()
 
-    // Click outside the popup to close it
-    let statusBar = app.statusItems.firstMatch
-    let coordinate = statusBar.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 10.0))
-    coordinate.click()
+    closePopupByClickingOutside()
     assertNotExists(items[copy1])
 
     // Assert that the hotkeys still work
@@ -475,6 +482,13 @@ class MaccyUITests: XCTestCase {
   private func popUpWithHotkey() {
     simulatePopupHotkey()
     waitUntilPoppedUp()
+  }
+
+  // Click outside the popup to close it
+  private func closePopupByClickingOutside() {
+    let statusBar = app.statusItems.firstMatch
+    let coordinate = statusBar.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 10.0))
+    coordinate.click()
   }
 
   private func popUpWithMouse() {
@@ -555,9 +569,38 @@ class MaccyUITests: XCTestCase {
     usleep(1_500_000)
   }
 
+  private func hoverAndClick(_ element: XCUIElement) {
+    let coordinate = element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+    coordinate.hover()
+    usleep(200_000)
+    coordinate.click()
+  }
+
+  private func scrollIntoViewIfNeeded(_ element: XCUIElement) {
+    guard element.exists else {
+      return
+    }
+
+    let container = app.scrollViews["history-scroll-view"].firstMatch
+    guard container.exists else {
+      return
+    }
+
+    var attempts = 0
+    while !container.frame.contains(element.frame) && attempts < 15 {
+      // Negative deltaY scrolls down (reveals elements below the viewport).
+      let delta: CGFloat = element.frame.midY > container.frame.midY ? -10 : 10
+      container.scroll(byDeltaX: 0, deltaY: delta)
+      usleep(100_000)
+      attempts += 1
+    }
+  }
+
   private func hover(_ element: XCUIElement) {
-    element.hover()
-    usleep(20000)
+    element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.25)).hover()
+    usleep(50_000)
+    element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5)).hover()
+    usleep(200_000)
   }
 
   private func search(_ string: String) {
@@ -619,19 +662,16 @@ class MaccyUITests: XCTestCase {
     waitForExpectations(timeout: 3)
   }
 
-  private func assertPasteboardStringEquals(
-    _ expected: String?, forType: NSPasteboard.PasteboardType = .string
-  ) {
-    let predicate = NSPredicate { (object, _) -> Bool in
-      guard let copy = object as? String else {
-        return false
+  private func assertPasteboardStringEquals(_ expected: String?, forType: NSPasteboard.PasteboardType = .string) {
+      let predicate = NSPredicate { (object, _) -> Bool in
+        guard let copy = object as? String else {
+          return false
+        }
+        return self.pasteboard.string(forType: forType) == copy
       }
-
-      return self.pasteboard.string(forType: forType) == copy
+      expectation(for: predicate, evaluatedWith: expected)
+      waitForExpectations(timeout: 3)
     }
-    expectation(for: predicate, evaluatedWith: expected)
-    waitForExpectations(timeout: 3)
-  }
 
   private func assertSearchFieldValue(_ string: String) {
     XCTAssertEqual(app.textFields.firstMatch.value as? String, string)
