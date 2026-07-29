@@ -61,7 +61,9 @@ struct PreviewItemView: View {
           ScrollView {
             Text(text)
               .font(.body)
+              .frame(maxWidth: .infinity, alignment: .leading)
           }
+          .frame(maxWidth: .infinity)
         }
       }
 
