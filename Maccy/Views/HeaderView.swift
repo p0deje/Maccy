@@ -3,6 +3,7 @@ import SwiftUI
 
 struct HeaderView: View {
   @State private var appState = AppState.shared
+  @AppStorage("keepOpen") private var keepOpen: Bool = false
 
   let controller: SlideoutController
   @FocusState.Binding var searchFocused: Bool
@@ -34,6 +35,15 @@ struct HeaderView: View {
           tableName: "PreviewItemView",
           replacementKey: "previewKey"
         )
+        .padding(.trailing, 5)
+
+        ToolbarButton {
+          keepOpen.toggle()
+        } label: {
+          Image(systemName: keepOpen ? "pin.fill" : "pin")
+            .foregroundColor(keepOpen ? .accentColor : .primary)
+        }
+        .help("Keep window open")
         .padding(.trailing, Popup.horizontalPadding)
       }
       .opacity(appState.searchVisible ? 1 : 0)
