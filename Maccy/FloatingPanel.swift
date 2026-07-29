@@ -159,6 +159,9 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
       saveWindowFrame(frame: NSRect(origin: frame.origin, size: size))
     }
 
+    let minimumHeight = AppState.shared.popup.minimumHeight
+    finalFrameSize.height = max(finalFrameSize.height, minimumHeight)
+    
     return finalFrameSize
   }
 
