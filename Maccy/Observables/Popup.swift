@@ -165,19 +165,32 @@ class Popup {
   private func handleFlagsChanged(_ event: NSEvent) -> NSEvent? {
     // If we are in cycle mode, releasing modifiers triggers a selection
     if state == .cycle && allModifiersReleased(event) {
-      DispatchQueue.main.async {
+      Task { @MainActor in
         AppState.shared.select()
       }
       return nil
     }
 
-    // Otherwise if in opening mode, enter toggle mode
     if state == .opening && allModifiersReleased(event) {
+      // Trigger selection of the first item when the user quickly taps the shortcut
+      // (press and release modifiers without cycling). This only applies when
+      // "Paste by Default" is enabled and the search field is hidden.
+      if shouldSelectFirstRecordOnOpen {
+        Task { @MainActor in
+          AppState.shared.select()
+        }
+        return nil
+      }
+
       state = .toggle
       return event
     }
 
     return event
+  }
+
+  var shouldSelectFirstRecordOnOpen: Bool {
+    Defaults[.pasteByDefault] && !Defaults[.showSearch]
   }
 
   private func isHotKeyCode(_ keyCode: Int) -> Bool {

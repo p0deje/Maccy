@@ -78,6 +78,7 @@
 		DA3BCB922C3EEC3C00B01BC1 /* History.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BCB912C3EEC3C00B01BC1 /* History.swift */; };
 		DA3BCB942C3EECBB00B01BC1 /* HistoryItemDecorator.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3BCB932C3EECBB00B01BC1 /* HistoryItemDecorator.swift */; };
 		DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */; };
+		DA3CE8012E44A62500B3AA99 /* PopupTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3CE8022E44A62500B3AA99 /* PopupTests.swift */; };
 		DA3EAE0C2AE30F7500F39108 /* NSApplication+Windows.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */; };
 		DA3F1B452C90084600267632 /* Sauce+KeyboardShortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA3F1B442C90083800267632 /* Sauce+KeyboardShortcuts.swift */; };
 		DA44C5E42C1C858400819834 /* StorageSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA44C5E32C1C858400819834 /* StorageSettingsPane.swift */; };
@@ -296,6 +297,7 @@
 		DA3BCB912C3EEC3C00B01BC1 /* History.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = History.swift; sourceTree = "<group>"; };
 		DA3BCB932C3EECBB00B01BC1 /* HistoryItemDecorator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemDecorator.swift; sourceTree = "<group>"; };
 		DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ClipboardTests.swift; sourceTree = "<group>"; };
+		DA3CE8022E44A62500B3AA99 /* PopupTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PopupTests.swift; sourceTree = "<group>"; };
 		DA3EAE0B2AE30F7500F39108 /* NSApplication+Windows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSApplication+Windows.swift"; sourceTree = "<group>"; };
 		DA3F1B442C90083800267632 /* Sauce+KeyboardShortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Sauce+KeyboardShortcuts.swift"; sourceTree = "<group>"; };
 		DA44C5E32C1C858400819834 /* StorageSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageSettingsPane.swift; sourceTree = "<group>"; };
@@ -717,6 +719,7 @@
 				DA48AE852A5F0077006D4894 /* Fixtures */,
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				DAE2850123225BD90080E394 /* ColorImageTests.swift */,
+				DA3CE8022E44A62500B3AA99 /* PopupTests.swift */,
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
 				DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */,
 				DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */,
@@ -1058,6 +1061,7 @@
 			files = (
 				DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */,
 				DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */,
+				DA3CE8012E44A62500B3AA99 /* PopupTests.swift in Sources */,
 				DA1EDE432045B35300479723 /* HistoryDecoratorTests.swift in Sources */,
 				DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */,
 				DA384E86232746D800603999 /* SearchTests.swift in Sources */,
