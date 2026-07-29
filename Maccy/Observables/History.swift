@@ -179,9 +179,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     var itemDecorator: HistoryItemDecorator
     if let pin = item.pin {
       itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
-      // Keep pins in the same place.
       if let removedItemIndex {
-        all.insert(itemDecorator, at: removedItemIndex)
+        // If pin to bottom -> last element should be inserted to the removedItemIndex - 1
+        // Or to the last all array place.
+        all.insert(itemDecorator, at: min(removedItemIndex, all.count))
       }
     } else {
       itemDecorator = HistoryItemDecorator(item)
