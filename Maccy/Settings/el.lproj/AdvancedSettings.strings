@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "";
 "ClearSystemClipboard" = "";
 "ClearSystemClipboardTooltip" = "";
+"PrivacyMode" = "Απόκρυψη από λήψη οθόνης";
+"PrivacyExplain" = "Κρύβει τα παράθυρα της εφαρμογής από στιγμιότυπα οθόνης και κοινή χρήση οθόνης.\nΩστόσο, ο ενσωματωμένος καταγραφέας οθόνης του συστήματος δεν επηρεάζεται.";
+"PrivacyDisplayLinkExplain" = "Αυτή η ρύθμιση θα αγνοηθεί αν εκτελείται ο DisplayLink user agent.";

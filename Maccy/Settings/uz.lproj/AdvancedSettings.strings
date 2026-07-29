@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Ilovani yopishdan oldin barcha qo'shilmagan yozuvlarni avtomatik ravishda o'chirish.";
 "ClearSystemClipboard" = "Operatsion tizim buferini ham tozalang";
 "ClearSystemClipboardTooltip" = "Yoqilgan bo'lsa, tarixni tozalash joriy tizim buferini ham tozalaydi.";
+"PrivacyMode" = "Ekran yozib olishdan yashirish";
+"PrivacyExplain" = "Ilova oynalarini skrinshotlar va ekran ulashishdan yashiradi.\nBiroq tizimning ichki ekran yozuvchisi bunga ta'sir qilmaydi.";
+"PrivacyDisplayLinkExplain" = "Agar DisplayLink user agent ishlayotgan bo'lsa, bu sozlama e'tiborsiz qoldiriladi.";

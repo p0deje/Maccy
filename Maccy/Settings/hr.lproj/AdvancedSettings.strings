@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Automatski ukloni sve otkvačene elemente prije zatvaranja programa.";
 "ClearSystemClipboard" = "Očistite i međuspremnik sustava";
 "ClearSystemClipboardTooltip" = "Kada je omogućeno, brisanje povijesti također bi izbrisalo trenutni sistemski međuspremnik.";
+"PrivacyMode" = "Sakrij od snimanja zaslona";
+"PrivacyExplain" = "Skriva prozore aplikacije od snimki zaslona i dijeljenja zaslona.\nMeđutim, ugrađeni snimač zaslona sustava nije pogođen.";
+"PrivacyDisplayLinkExplain" = "Ova će se postavka zanemariti ako je DisplayLink user agent pokrenut.";

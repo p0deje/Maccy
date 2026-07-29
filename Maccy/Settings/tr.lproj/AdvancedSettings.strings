@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Uygulamadan çıkmadan önce tüm iğnesi çıkarılmış ögeleri kendiliğinden kaldır.";
 "ClearSystemClipboard" = "Sistem panosunu da temizle";
 "ClearSystemClipboardTooltip" = "Etkinleştirildiğinde, geçmişin temizlenmesi mevcut sistem panosunu da temizler.";
+"PrivacyMode" = "Ekran yakalamadan gizle";
+"PrivacyExplain" = "Uygulama pencerelerini ekran görüntülerinden ve ekran paylaşımından gizler.\nAncak sistemin yerleşik ekran kaydedicisi bundan etkilenmez.";
+"PrivacyDisplayLinkExplain" = "DisplayLink user agent çalışıyorsa bu ayar yok sayılır.";

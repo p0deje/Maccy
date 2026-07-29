@@ -8,3 +8,6 @@
 "ClearSystemClipboard" = "Limpar também a área de transferência do sistema";
 "ClearSystemClipboardTooltip" = "Quando ativado, limpar o histórico também limparia a área de transferência atual do sistema.";
 "Title" = "Avançado";
+"PrivacyMode" = "Ocultar da captura de ecrã";
+"PrivacyExplain" = "Oculta as janelas da aplicação em capturas de ecrã e partilha de ecrã.\nNo entanto, o gravador de ecrã incorporado do sistema não é afetado.";
+"PrivacyDisplayLinkExplain" = "Esta definição será ignorada se o agente de utilizador do DisplayLink estiver em execução.";

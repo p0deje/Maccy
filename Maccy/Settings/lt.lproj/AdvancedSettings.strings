@@ -8,3 +8,6 @@
 "ClearSystemClipboardTooltip" = "Jei ši funkcija įjungta, istorijos ištrynimas taip pat ištrina dabartinę sistemos iškarpinę.";
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# kopijuoti duomenis\ndefaults write org.p0deje.Maccy ignoreEvents false";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# kopijuoti duomenis";
+"PrivacyMode" = "Slėpti nuo ekrano fiksavimo";
+"PrivacyExplain" = "Paslepia programos langus nuo ekrano nuotraukų ir ekrano bendrinimo.\nTačiau sistemos integruotas ekrano įrašytuvas nėra paveikiamas.";
+"PrivacyDisplayLinkExplain" = "Šis nustatymas bus ignoruojamas, jei veikia DisplayLink user agent.";

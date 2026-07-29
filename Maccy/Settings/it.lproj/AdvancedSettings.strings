@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Rimuovi automaticamente gli elementi non bloccati prima di chiudere l'applicazione.";
 "ClearSystemClipboard" = "Cancella anche gli appunti di sistema";
 "ClearSystemClipboardTooltip" = "Se abilitato, la cancellazione della cronologia cancellerebbe anche gli appunti di sistema correnti.";
+"PrivacyMode" = "Nascondi dalla cattura dello schermo";
+"PrivacyExplain" = "Nasconde le finestre dell'applicazione da screenshot e condivisione schermo.\nTuttavia, il registratore dello schermo integrato nel sistema non è interessato.";
+"PrivacyDisplayLinkExplain" = "Questa impostazione verrà ignorata se DisplayLink user agent è in esecuzione.";

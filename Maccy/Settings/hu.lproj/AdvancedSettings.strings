@@ -8,3 +8,6 @@
 "TurnOff" = "Kikapcsolás";
 "TurnOffDescription" = "Az összes új másolás figyelmen kívül hagyása.\nValószínűleg programozottan használod, és kikapcsolod az alkalmazást bizalmas adatok másolása közben.";
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# adatok másolása\ndefaults write org.p0deje.Maccy ignoreEvents false";
+"PrivacyMode" = "Elrejtés képernyőrögzítés elől";
+"PrivacyExplain" = "Elrejti az alkalmazásablakokat a képernyőképek és képernyőmegosztás elől.\nA rendszer beépített képernyőrögzítőjét azonban ez nem érinti.";
+"PrivacyDisplayLinkExplain" = "Ez a beállítás figyelmen kívül lesz hagyva, ha a DisplayLink user agent fut.";

@@ -8,3 +8,6 @@
 "TurnOffViaMenuIconDescription" = "Poți de asemenea să faci clic pe simbolul din meniu cu tasta ⌥ apăsată.\nPentru a ignora doar următoarea copie, fă clic cu ⌥⇧.";
 "TurnOffDescription" = "Ignorați temporar toate copiile noi.\nProbabil vei folosi această opțiune programatic și vei dezactiva aplicația în timp ce copiezi date sensibile.";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copiază datele";
+"PrivacyMode" = "Ascunde din capturile de ecran";
+"PrivacyExplain" = "Ascunde ferestrele aplicației din capturile de ecran și partajarea ecranului.\nTotuși, recorderul de ecran integrat al sistemului nu este afectat.";
+"PrivacyDisplayLinkExplain" = "Această setare va fi ignorată dacă DisplayLink user agent rulează.";

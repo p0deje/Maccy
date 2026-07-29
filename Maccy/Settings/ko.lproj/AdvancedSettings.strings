@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "애플리케이션을 종료하기 전에 고정 해제된 모든 항목을 자동으로 제거합니다.";
 "ClearSystemClipboard" = "시스템 클립보드도 지우기";
 "ClearSystemClipboardTooltip" = "활성화되면 기록을 지우면 현재 시스템 클립보드도 지워집니다.";
+"PrivacyMode" = "화면 캡처에서 숨기기";
+"PrivacyExplain" = "스크린샷과 화면 공유에서 앱 창을 숨깁니다.\n하지만 시스템 내장 화면 녹화기는 영향을 받지 않습니다.";
+"PrivacyDisplayLinkExplain" = "DisplayLink user agent가 실행 중이면 이 설정은 무시됩니다.";

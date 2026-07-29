@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "退出應用程式時自動移除所有未釘選的項目。";
 "ClearSystemClipboard" = "同時清除系統剪貼簿";
 "ClearSystemClipboardTooltip" = "啟用後，清除歷史記錄也會清除系統目前的剪貼簿。";
+"PrivacyMode" = "從螢幕擷取中隱藏";
+"PrivacyExplain" = "在螢幕截圖與螢幕分享時隱藏應用程式視窗。\n不過，系統內建的螢幕錄影器不受影響。";
+"PrivacyDisplayLinkExplain" = "如果 DisplayLink user agent 正在執行，將會忽略此設定。";

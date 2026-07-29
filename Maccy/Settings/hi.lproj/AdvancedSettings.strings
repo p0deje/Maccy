@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "";
 "ClearSystemClipboard" = "";
 "ClearSystemClipboardTooltip" = "";
+"PrivacyMode" = "स्क्रीन कैप्चर से छुपाएँ";
+"PrivacyExplain" = "स्क्रीनशॉट और स्क्रीन शेयरिंग में ऐप विंडो छुपाता है।\nहालाँकि, सिस्टम का बिल्ट-इन स्क्रीन रिकॉर्डर प्रभावित नहीं होता।";
+"PrivacyDisplayLinkExplain" = "यदि DisplayLink user agent चल रहा है, तो यह सेटिंग अनदेखी की जाएगी।";

@@ -8,3 +8,6 @@
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# kopiranje podatkov";
 "ClearHistoryOnQuitTooltip" = "Preden zaprete aplikacijo, samodejno odstranite vse nepripete elemente.";
 "TurnOffDescription" = "Začasno prezrite vse nove kopije.\nVerjetno ga boste uporabili programsko in med kopiranjem občutljivih podatkov onemogočili aplikacijo.";
+"PrivacyMode" = "Skrij pred zajemom zaslona";
+"PrivacyExplain" = "Skrije okna aplikacije pred posnetki zaslona in deljenjem zaslona.\nVendar vgrajeni sistemski snemalnik zaslona ni prizadet.";
+"PrivacyDisplayLinkExplain" = "Ta nastavitev bo prezrta, če je DisplayLink user agent zagnan.";
