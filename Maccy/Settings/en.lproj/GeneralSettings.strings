@@ -19,4 +19,6 @@
 "Fuzzy" = "Fuzzy";
 "Regex" = "Regular expressions";
 "Mixed" = "Mixed";
+"PreserveSelectionAfterSearch" = "Keep selected item when clearing search";
+"PreserveSelectionAfterSearchTooltip" = "When enabled, clearing search keeps focus on the previously selected history item instead of jumping to the top.";
 "NotificationsAndSounds" = "Notifications and sounds 􀱁";

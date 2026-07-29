@@ -6,6 +6,7 @@ import Defaults
 class HistoryTests: XCTestCase {
   let savedSize = Defaults[.size]
   let savedSortBy = Defaults[.sortBy]
+  let savedPreserveSelectionAfterSearch = Defaults[.preserveSelectionAfterSearch]
   let history = History.shared
 
   override func setUp() {
@@ -13,12 +14,14 @@ class HistoryTests: XCTestCase {
     history.clearAll()
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt
+    Defaults[.preserveSelectionAfterSearch] = false
   }
 
   override func tearDown() {
     super.tearDown()
     Defaults[.size] = savedSize
     Defaults[.sortBy] = savedSortBy
+    Defaults[.preserveSelectionAfterSearch] = savedPreserveSelectionAfterSearch
   }
 
   func testDefaultIsEmpty() {
@@ -231,6 +234,44 @@ class HistoryTests: XCTestCase {
     let bar = history.add(historyItem("bar"))
     history.delete(foo)
     XCTAssertEqual(history.items, [bar])
+  }
+
+  func testClearingSearchSelectsFirstUnpinnedItemByDefault() {
+    Defaults[.preserveSelectionAfterSearch] = false
+
+    let target = history.add(historyItem("apple marker"))
+    let topItem = history.add(historyItem("recent item"))
+
+    history.searchQuery = "apple"
+    waitForSearchUpdate()
+    XCTAssertEqual(AppState.shared.navigator.leadHistoryItem, target)
+
+    history.searchQuery = ""
+    waitForSearchUpdate()
+    XCTAssertEqual(AppState.shared.navigator.leadHistoryItem, topItem)
+  }
+
+  func testClearingSearchKeepsSelectionWhenEnabled() {
+    Defaults[.preserveSelectionAfterSearch] = true
+
+    let target = history.add(historyItem("apple marker"))
+    _ = history.add(historyItem("recent item"))
+
+    history.searchQuery = "apple"
+    waitForSearchUpdate()
+    XCTAssertEqual(AppState.shared.navigator.leadHistoryItem, target)
+
+    history.searchQuery = ""
+    waitForSearchUpdate()
+    XCTAssertEqual(AppState.shared.navigator.leadHistoryItem, target)
+  }
+
+  private func waitForSearchUpdate() {
+    let expectation = XCTestExpectation(description: "Wait for throttled search")
+    DispatchQueue.main.asyncAfter(deadline: .now() + 0.35) {
+      expectation.fulfill()
+    }
+    wait(for: [expectation], timeout: 1.0)
   }
 
   private func historyItem(_ value: String) -> HistoryItem {

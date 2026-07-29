@@ -10,6 +10,7 @@ struct GeneralSettingsPane: View {
   )
 
   @Default(.searchMode) private var searchMode
+  @Default(.preserveSelectionAfterSearch) private var preserveSelectionAfterSearch
 
   @State private var copyModifier = HistoryItemAction.copy.modifierFlags.description
   @State private var pasteModifier = HistoryItemAction.paste.modifierFlags.description
@@ -73,6 +74,12 @@ struct GeneralSettingsPane: View {
         }
         .labelsHidden()
         .frame(width: 180, alignment: .leading)
+
+        Toggle(isOn: $preserveSelectionAfterSearch) {
+          Text("PreserveSelectionAfterSearch", tableName: "GeneralSettings")
+        }
+        .help(Text("PreserveSelectionAfterSearchTooltip", tableName: "GeneralSettings"))
+        .fixedSize()
       }
 
       Settings.Section(
