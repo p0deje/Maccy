@@ -2,7 +2,7 @@
 "FirstCopyTime" = "Pirmās kopēšanas laiks:";
 "LastCopyTime" = "Pēdējās kopēšanas laiks:";
 "NumberOfCopies" = "Kopiju skaits:";
-"PinKey" = "Nospiediet {pinKey}, lai piespraust.";
+"PinKey" = "Nospiediet {pinKey}, lai piespraust vai atspraust.";
 "UnpinKey" = "Nospiediet {pinKey}, lai atspraust.";
 "DeleteKey" = "Nospiediet {deleteKey}, lai dzēstu.";
 "PreviewKey" = "Nospiediet {previewKey}, lai pārslēgtu priekšskatījumu.";
