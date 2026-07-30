@@ -31,6 +31,7 @@ struct PasteStackPreviewView: View {
           if index != pasteStack.items.count - 1 {
             Divider()
               .padding(.vertical, Self.padding)
+              .padding(.horizontal, 10)
           }
         }
       }

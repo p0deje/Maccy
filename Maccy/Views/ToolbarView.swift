@@ -103,6 +103,7 @@ struct ToolbarView: View {
 
   var body: some View {
     HStack {
+      Spacer()
       if !appState.navigator.selection.isEmpty {
         Spacer()
 
