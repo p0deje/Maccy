@@ -23,7 +23,7 @@ struct PasteStackPreviewView: View {
   var body: some View {
     ScrollView {
       LazyVStack(spacing: 0) {
-        ForEach(Array(pasteStack.items.enumerated()), id: \.element.id) { (index, element) in
+        EnumeratedForEach(data: pasteStack.items) { (element, index) in
           PasteStackPreviewItemView(
             stack: pasteStack,
             item: element
