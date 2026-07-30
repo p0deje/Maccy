@@ -74,7 +74,7 @@ struct PasteStackView: View {
   var body: some View {
     let maxItems = min(3, stack.items.count)
     LazyVStack(spacing: 0) {
-      ForEach(Array(stack.items[..<maxItems].enumerated()), id: \.element.id) { (index, element) in
+      EnumeratedForEach(data: stack.items[..<maxItems]) { (element, index) in
         CollapsedStackItem(maxItems: maxItems, index: index, open: open) {
           PasteStackItemView(
             stack: self.stack,
