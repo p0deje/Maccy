@@ -1,7 +1,7 @@
 "Application" = "Aplicação:";
 "FirstCopyTime" = "Data da primeira cópia:";
 "LastCopyTime" = "Data da última cópia:";
-"PinKey" = "Pressione {pinKey} para (desa)fixar.";
+"PinKey" = "Pressione {pinKey} para fixar.";
 "DeleteKey" = "Pressione {deleteKey} para apagar.";
 "NumberOfCopies" = "Quantidade de cópias:";
 "UnpinKey" = "Pressione {pinKey} para desafixar.";
