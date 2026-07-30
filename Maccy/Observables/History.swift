@@ -293,19 +293,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     item.cleanupImages()
   }
 
-  private func currentModifierFlags() -> NSEvent.ModifierFlags {
-    return NSApp.currentEvent?.modifierFlags
-      .intersection(.deviceIndependentFlagsMask)
-      .subtracting([.capsLock, .numericPad, .function]) ?? []
-  }
-
   @MainActor
-  func select(_ item: HistoryItemDecorator?) {
+  func select(_ item: HistoryItemDecorator?, flags modifierFlags: NSEvent.ModifierFlags) {
     guard let item else {
       return
     }
-
-    let modifierFlags = currentModifierFlags()
 
     if modifierFlags.isEmpty {
       AppState.shared.popup.close()
@@ -337,12 +329,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
-  func startPasteStack(selection: inout Selection<HistoryItemDecorator>) {
+  func startPasteStack(selection: inout Selection<HistoryItemDecorator>, flags modifierFlags: NSEvent.ModifierFlags) {
     guard AppState.shared.multiSelectionEnabled else { return }
     guard let item = selection.first else { return }
     PasteStack.initializeIfNeeded()
-
-    let modifierFlags = currentModifierFlags()
 
     let stack = PasteStack(items: selection.items, modifierFlags: modifierFlags)
     pasteStack = stack

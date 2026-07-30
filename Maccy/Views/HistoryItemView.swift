@@ -59,8 +59,9 @@ struct HistoryItemView: View {
       if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
         appState.navigator.addToSelection(item: item)
       } else {
+        let flags = NSEvent.ModifierFlags.currentModifierFlags
         Task {
-          appState.history.select(item)
+          appState.history.select(item, flags: flags)
         }
       }
     }
