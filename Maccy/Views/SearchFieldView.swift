@@ -24,7 +24,7 @@ struct SearchFieldView: View {
           .lineLimit(1)
           .textFieldStyle(.plain)
           .onSubmit {
-            appState.select()
+            appState.select(flags: .currentModifierFlags)
           }
 
         if !query.isEmpty {

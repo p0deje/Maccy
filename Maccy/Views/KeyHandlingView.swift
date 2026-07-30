@@ -148,7 +148,7 @@ struct KeyHandlingView<Content: View>: View {
           appState.togglePin()
           return .handled
         case .selectCurrentItem:
-          appState.select()
+          appState.select(flags: .currentModifierFlags)
           return .handled
         case .close:
           appState.popup.close()
@@ -164,7 +164,7 @@ struct KeyHandlingView<Content: View>: View {
           appState.navigator.select(item: item)
           Task {
             try? await Task.sleep(for: .milliseconds(50))
-            appState.history.select(item)
+            appState.history.select(item, flags: .currentModifierFlags)
           }
           return .handled
         }

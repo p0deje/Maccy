@@ -146,8 +146,9 @@ class Popup {
     if isHotKeyCode(Int(event.keyCode)) {
       if let item = History.shared.pressedShortcutItem {
         AppState.shared.navigator.select(item: item)
+        let modifierFlags = NSEvent.ModifierFlags.currentModifierFlags
         Task { @MainActor in
-          AppState.shared.history.select(item)
+          AppState.shared.history.select(item, flags: modifierFlags)
         }
         return nil
       }
@@ -174,8 +175,9 @@ class Popup {
   private func handleFlagsChanged(_ event: NSEvent) -> NSEvent? {
     // If we are in cycle mode, releasing modifiers triggers a selection
     if state == .cycle && allModifiersReleased(event) {
+      let modifierFlags = NSEvent.ModifierFlags.currentModifierFlags
       DispatchQueue.main.async {
-        AppState.shared.select()
+        AppState.shared.select(flags: modifierFlags)
       }
       return nil
     }
