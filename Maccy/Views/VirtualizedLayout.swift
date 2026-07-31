@@ -1,220 +1,203 @@
 import SwiftUI
 
-// MARK: - Custom Layout for Virtualized Lists
+// MARK: - Virtualized list geometry
+//
 // Based on: https://nilcoalescing.com/blog/CustomLazyListInSwiftUI
 //
-// This implementation solves the scrolling jump problem by:
-// 1. Using precise positioning via the Layout protocol
-// 2. Recycling views with fragment IDs
-// 3. Never changing the total height when loading new pages
-// 4. Rendering placeholders for unloaded items
-//
-// Image items render taller than text items, so total height and per-item
-// y-offsets are computed from a sorted list of indices whose items contain
-// an image. The layout keeps a prefix-sum cache for O(log n) placement.
+// The list renders a spacer with the exact height of the full history and
+// positions only the rows near the viewport at their absolute offsets. The
+// scroll offset is observed and mapped to a row range, which the data layer
+// translates into page requests. Because the content size never changes
+// while scrolling, the scrollbar reflects the entire history and there are
+// no jumps when pages load.
 
-/// Custom layout for virtualized list that maintains stable scroll positions.
-/// Calculates total height upfront and positions items at exact offsets,
-/// accounting for items with images having a different height than text items.
-struct VirtualizedLayout: Layout {
-  let textItemHeight: CGFloat
-  let imageItemHeight: CGFloat
-  let totalItemCount: Int
-  let loadedRange: Range<Int>
-  /// Sorted ascending list of item indices (within the full ordered list) whose
-  /// items have an image. Used to compute exact y-offsets for each row.
-  let imageItemIndices: [Int]
+/// Pure row geometry for a virtualized list whose rows come in two heights:
+/// a regular height and a tall height (image rows in Maccy's case).
+/// All lookups are O(log n) via binary search over the sorted tall indices.
+struct VirtualListMetrics: Equatable {
+  var rowHeight: CGFloat
+  var tallRowHeight: CGFloat
+  var totalCount: Int
+  /// Sorted ascending indices of rows using `tallRowHeight`.
+  var tallRowIndices: [Int]
 
-  func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
-    let width = proposal.width ?? 0
-    let imageCount = min(imageItemIndices.count, totalItemCount)
-    let textCount = max(0, totalItemCount - imageCount)
-    let height = CGFloat(textCount) * textItemHeight + CGFloat(imageCount) * imageItemHeight
-    return CGSize(width: width, height: height)
+  var totalHeight: CGFloat {
+    // Only count tall indices that fall inside the list; the indices can
+    // briefly be stale relative to totalCount while a refresh propagates.
+    let tallCount = tallStats(for: totalCount).before
+    return CGFloat(totalCount - tallCount) * rowHeight + CGFloat(tallCount) * tallRowHeight
   }
 
-  func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
-    guard !subviews.isEmpty else { return }
-
-    let width = proposal.width ?? bounds.width
-
-    for subview in subviews {
-      let rowIndex = subview[RowIndexKey.self]
-      let (imagesBefore, isImage) = imageStats(forRowIndex: rowIndex)
-      let textBefore = rowIndex - imagesBefore
-      let yOffset = CGFloat(textBefore) * textItemHeight + CGFloat(imagesBefore) * imageItemHeight
-      let rowHeight = isImage ? imageItemHeight : textItemHeight
-
-      subview.place(
-        at: CGPoint(x: bounds.minX, y: bounds.minY + yOffset),
-        proposal: ProposedViewSize(width: width, height: rowHeight)
-      )
-    }
+  func height(ofRow row: Int) -> CGFloat {
+    tallStats(for: row).isTall ? tallRowHeight : rowHeight
   }
 
-  /// Returns the number of image items strictly before `rowIndex` and whether
-  /// `rowIndex` itself is an image item. Uses binary search on the sorted
-  /// `imageItemIndices` array.
-  private func imageStats(forRowIndex rowIndex: Int) -> (imagesBefore: Int, isImage: Bool) {
+  func offset(ofRow row: Int) -> CGFloat {
+    let tallBefore = tallStats(for: row).before
+    return CGFloat(row - tallBefore) * rowHeight + CGFloat(tallBefore) * tallRowHeight
+  }
+
+  /// The row whose vertical extent contains `y`, clamped to valid rows.
+  func row(atOffset y: CGFloat) -> Int {
+    guard totalCount > 0, y > 0 else { return 0 }
+
     var lower = 0
-    var upper = imageItemIndices.count
+    var upper = totalCount - 1
+    while lower < upper {
+      let mid = (lower + upper + 1) / 2
+      if offset(ofRow: mid) <= y {
+        lower = mid
+      } else {
+        upper = mid - 1
+      }
+    }
+    return lower
+  }
+
+  /// Rows intersecting the vertical viewport `bounds`.
+  func rows(in bounds: ClosedRange<CGFloat>) -> Range<Int> {
+    guard totalCount > 0, bounds.upperBound > 0 else { return 0..<0 }
+
+    let first = row(atOffset: bounds.lowerBound)
+    let last = row(atOffset: bounds.upperBound)
+    return first ..< min(totalCount, last + 1)
+  }
+
+  /// Number of tall rows strictly before `row`, and whether `row` is tall.
+  private func tallStats(for row: Int) -> (before: Int, isTall: Bool) {
+    var lower = 0
+    var upper = tallRowIndices.count
     while lower < upper {
       let mid = (lower + upper) / 2
-      if imageItemIndices[mid] < rowIndex {
+      if tallRowIndices[mid] < row {
         lower = mid + 1
       } else {
         upper = mid
       }
     }
-    let isImage = lower < imageItemIndices.count && imageItemIndices[lower] == rowIndex
-    return (lower, isImage)
+    let isTall = lower < tallRowIndices.count && tallRowIndices[lower] == row
+    return (lower, isTall)
   }
 }
 
-/// Layout value key to pass row index information to the layout
-struct RowIndexKey: LayoutValueKey {
+/// A vertically virtualized scroll view: only rows near the viewport (plus a
+/// small overscan) exist as views, absolutely positioned inside a spacer of
+/// the full list height. Rows are addressed by index, so the view is
+/// independent of the item type and data source.
+struct VirtualizedList<Row: View>: View {
+  var metrics: VirtualListMetrics
+  var overscan: Int = 10
+  /// Row to bring into view (keyboard navigation). Reset via the callback.
+  var scrollTargetRow: Int?
+  var onVisibleRowsChanged: (Range<Int>) -> Void
+  var onScrollTargetHandled: () -> Void = {}
+  @ViewBuilder var row: (Int) -> Row
+
+  @State private var scrollOffset: CGFloat = 0
+  @State private var viewportHeight: CGFloat = 0
+
+  private static var coordinateSpace: String { "virtualizedList" }
+
+  private var visibleRows: Range<Int> {
+    metrics.rows(in: scrollOffset...(scrollOffset + max(viewportHeight, 0)))
+  }
+
+  private var renderedRows: Range<Int> {
+    guard metrics.totalCount > 0 else { return 0..<0 }
+
+    let visible = visibleRows
+    let lower = max(0, visible.lowerBound - overscan)
+    let upper = min(metrics.totalCount, visible.upperBound + overscan)
+    return lower ..< max(lower, upper)
+  }
+
+  private var rowIndices: [Int] {
+    var indices = Array(renderedRows)
+    if let target = scrollTargetRow, !renderedRows.contains(target), (0..<metrics.totalCount).contains(target) {
+      indices.append(target)
+    }
+    return indices
+  }
+
+  var body: some View {
+    GeometryReader { viewport in
+      ScrollViewReader { proxy in
+        ScrollView {
+          VirtualRowsLayout(metrics: metrics) {
+            ForEach(rowIndices, id: \.self) { index in
+              row(index)
+                .virtualRowIndex(index)
+                .id(index)
+            }
+          }
+          .frame(maxWidth: .infinity)
+          .background {
+            GeometryReader { content in
+              Color.clear.preference(
+                key: VirtualizedListOffsetKey.self,
+                value: -content.frame(in: .named(Self.coordinateSpace)).minY
+              )
+            }
+          }
+        }
+        .coordinateSpace(name: Self.coordinateSpace)
+        .onPreferenceChange(VirtualizedListOffsetKey.self) { scrollOffset = $0 }
+        .task(id: scrollTargetRow) {
+          guard let target = scrollTargetRow else { return }
+
+          try? await Task.sleep(for: .milliseconds(10))
+          guard !Task.isCancelled else { return }
+
+          proxy.scrollTo(target)
+          onScrollTargetHandled()
+        }
+      }
+      .onAppear { viewportHeight = viewport.size.height }
+      .onChange(of: viewport.size.height) { _, height in viewportHeight = height }
+    }
+    .onAppear { onVisibleRowsChanged(visibleRows) }
+    .onChange(of: visibleRows) { _, rows in onVisibleRowsChanged(rows) }
+  }
+}
+
+/// Places each row at its exact offset inside a container that always has
+/// the full height of the list, so the scrollbar reflects the entire history
+/// and loading pages never moves already-visible content. Rows get real
+/// layout frames (unlike `.offset`), which keeps `ScrollViewReader.scrollTo`
+/// and hit testing working.
+private struct VirtualRowsLayout: Layout {
+  var metrics: VirtualListMetrics
+
+  func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
+    CGSize(width: proposal.width ?? 0, height: metrics.totalHeight)
+  }
+
+  func placeSubviews(in bounds: CGRect, proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) {
+    for subview in subviews {
+      let index = subview[VirtualRowIndexKey.self]
+      subview.place(
+        at: CGPoint(x: bounds.minX, y: bounds.minY + metrics.offset(ofRow: index)),
+        proposal: ProposedViewSize(width: bounds.width, height: metrics.height(ofRow: index))
+      )
+    }
+  }
+}
+
+/// Layout value key carrying each row's index into the layout.
+private struct VirtualRowIndexKey: LayoutValueKey {
   static let defaultValue: Int = 0
 }
 
 extension View {
-  func rowIndex(_ index: Int) -> some View {
-    layoutValue(key: RowIndexKey.self, value: index)
+  fileprivate func virtualRowIndex(_ index: Int) -> some View {
+    layoutValue(key: VirtualRowIndexKey.self, value: index)
   }
 }
 
-/// Placeholder view for unloaded items - lightweight and doesn't trigger loads
-struct PlaceholderItemView: View {
-  var body: some View {
-    Color.clear
-      .frame(height: 1)
-  }
-}
+private struct VirtualizedListOffsetKey: PreferenceKey {
+  static let defaultValue: CGFloat = 0
 
-/// Determines the type of item to render
-enum VirtualizedItemType {
-  case loaded(HistoryItemDecorator)
-  case placeholder
-  case sentinel(onAppear: () -> Void, onDisappear: () -> Void)
-}
-
-/// A single item in the virtualized list with proper positioning
-struct VirtualizedItem: View {
-  let index: Int
-  let type: VirtualizedItemType
-  let fragmentID: String
-
-  var body: some View {
-    Group {
-      switch type {
-      case .loaded(let item):
-        HistoryItemView(item: item, previous: nil, next: nil, index: index)
-      case .placeholder:
-        PlaceholderItemView()
-      case .sentinel(let onAppear, let onDisappear):
-        Color.clear
-          .frame(height: 0)
-          .onAppear { onAppear() }
-          .onDisappear { onDisappear() }
-      }
-    }
-    .rowIndex(index)
-    .id(fragmentID)
-  }
-}
-
-/// Container view that manages the virtualized list with custom layout
-struct VirtualizedListContainer: View {
-  let totalCount: Int
-  let textItemHeight: CGFloat
-  let imageItemHeight: CGFloat
-  let imageItemIndices: [Int]
-  let loadedRange: Range<Int>
-  let loadedItems: [HistoryItemDecorator]
-  let maxVisibleItems: Int
-  let onLoadPrevious: () -> Void
-  let onLoadNext: () -> Void
-
-  @State private var hasTriggeredLoadPrevious = false
-  @State private var hasTriggeredLoadNext = false
-
-  var body: some View {
-    ScrollView {
-      VirtualizedLayout(
-        textItemHeight: textItemHeight,
-        imageItemHeight: imageItemHeight,
-        totalItemCount: totalCount,
-        loadedRange: loadedRange,
-        imageItemIndices: imageItemIndices
-      ) {
-        // Build the complete set of items to render
-        ForEach(itemsToRender, id: \.fragmentID) { item in
-          item
-        }
-      }
-    }
-  }
-
-  /// Calculate which items should be rendered
-  /// Renders loaded items plus small buffers of placeholders on each side
-  private var itemsToRender: [VirtualizedItem] {
-    var items: [VirtualizedItem] = []
-
-    // Add sentinel at top if there are items to load before
-    if loadedRange.lowerBound > 0 {
-      let sentinelIndex = max(0, loadedRange.lowerBound - 1)
-      items.append(VirtualizedItem(
-        index: sentinelIndex,
-        type: .sentinel(
-          onAppear: {
-            if !hasTriggeredLoadPrevious {
-              hasTriggeredLoadPrevious = true
-              onLoadPrevious()
-            }
-          },
-          onDisappear: {
-            hasTriggeredLoadPrevious = false
-          }
-        ),
-        fragmentID: "sentinel-before"
-      ))
-    }
-
-    // Render all loaded items
-    for (offset, item) in loadedItems.enumerated() {
-      let index = loadedRange.lowerBound + offset
-      items.append(VirtualizedItem(
-        index: index,
-        type: .loaded(item),
-        fragmentID: fragmentID(for: index)
-      ))
-    }
-
-    // Add sentinel at bottom if there are items to load after
-    if loadedRange.upperBound < totalCount {
-      let sentinelIndex = loadedRange.upperBound
-      items.append(VirtualizedItem(
-        index: sentinelIndex,
-        type: .sentinel(
-          onAppear: {
-            if !hasTriggeredLoadNext {
-              hasTriggeredLoadNext = true
-              onLoadNext()
-            }
-          },
-          onDisappear: {
-            hasTriggeredLoadNext = false
-          }
-        ),
-        fragmentID: "sentinel-after"
-      ))
-    }
-
-    return items
-  }
-
-  /// Calculate fragment ID for view recycling
-  private func fragmentID(for index: Int) -> String {
-    let fragmentIndex = index % maxVisibleItems
-    return "row-\(fragmentIndex)"
+  static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
+    value = nextValue()
   }
 }

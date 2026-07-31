@@ -1,8 +1,9 @@
 import Defaults
 import SwiftUI
 
-/// A virtualized list view for history items using custom layout.
-/// Eliminates scrolling jumps by using precise positioning and view recycling.
+/// History-specific wrapper around `VirtualizedList`: builds row metrics from
+/// history state, maps visible rows to page requests, and bridges keyboard
+/// navigation (scroll target) and popup resizing.
 struct VirtualizedHistoryList: View {
   @Binding var searchQuery: String
   @FocusState.Binding var searchFocused: Bool
@@ -11,60 +12,52 @@ struct VirtualizedHistoryList: View {
   @Environment(ModifierFlags.self) private var modifierFlags
   @Environment(\.scenePhase) private var scenePhase
 
-  @Default(.previewDelay) private var previewDelay
+  @Default(.imageMaxHeight) private var imageMaxHeight
 
-  /// Height for text-only items
-  private var textItemHeight: CGFloat { Popup.itemHeight }
-
-  /// Height for image items (includes padding)
-  private var imageItemHeight: CGFloat { CGFloat(Defaults[.imageMaxHeight]) + 10 }
-
-  /// Maximum number of items that can be visible at once
-  /// Used for view recycling to limit memory usage
-  private var maxVisibleItems: Int {
-    // Estimate based on a reasonable window height (e.g., 800px)
-    // Add generous buffer for smooth scrolling
-    Int((800 / textItemHeight) * 3)
+  private var metrics: VirtualListMetrics {
+    VirtualListMetrics(
+      rowHeight: Popup.itemHeight,
+      tallRowHeight: CGFloat(imageMaxHeight) + 10,
+      totalCount: appState.history.unpinnedTotalCount,
+      tallRowIndices: appState.history.tallRowIndices
+    )
   }
 
-  private var unpinnedItems: [HistoryItemDecorator] {
-    appState.history.unpinnedItems.filter(\.isVisible)
-  }
-
-  private var totalItemCount: Int {
-    appState.history.totalCount
-  }
-
-  private var imageItemIndices: [Int] {
-    appState.history.imageItemIndices
+  private var loadedItems: [HistoryItemDecorator] {
+    appState.history.unpinnedItems
   }
 
   private var loadedRange: Range<Int> {
-    let start = appState.history.windowStartIndex
-    let end = start + unpinnedItems.count
-    return start..<end
+    appState.history.loadedRange
+  }
+
+  private var scrollTargetRow: Int? {
+    guard let target = appState.navigator.scrollTarget,
+          let position = loadedItems.firstIndex(where: { $0.id == target }) else {
+      return nil
+    }
+    return loadedRange.lowerBound + position
   }
 
   var body: some View {
-    VirtualizedListContainer(
-      totalCount: totalItemCount,
-      textItemHeight: textItemHeight,
-      imageItemHeight: imageItemHeight,
-      imageItemIndices: imageItemIndices,
-      loadedRange: loadedRange,
-      loadedItems: unpinnedItems,
-      maxVisibleItems: maxVisibleItems,
-      onLoadPrevious: {
-        Task {
-          await appState.history.loadPreviousItems()
-        }
+    VirtualizedList(
+      metrics: metrics,
+      scrollTargetRow: scrollTargetRow,
+      onVisibleRowsChanged: { rows in
+        appState.history.ensureLoaded(rows: rows)
       },
-      onLoadNext: {
-        Task {
-          await appState.history.loadMoreItems()
-        }
+      onScrollTargetHandled: {
+        appState.navigator.scrollTarget = nil
       }
-    )
+    ) { index in
+      rowView(at: index)
+    }
+    .task(id: appState.popup.needsResize) {
+      try? await Task.sleep(for: .milliseconds(10))
+      guard !Task.isCancelled, appState.popup.needsResize else { return }
+
+      appState.popup.resize(height: metrics.totalHeight)
+    }
     .onChange(of: scenePhase) {
       if scenePhase == .active {
         searchFocused = true
@@ -78,6 +71,18 @@ struct VirtualizedHistoryList: View {
         appState.navigator.isKeyboardNavigating = true
         appState.preview.cancelAutoOpen()
       }
+    }
+  }
+
+  @ViewBuilder
+  private func rowView(at index: Int) -> some View {
+    let range = loadedRange
+    if range.contains(index), index - range.lowerBound < loadedItems.count {
+      let item = loadedItems[index - range.lowerBound]
+      HistoryItemView(item: item, previous: nil, next: nil, index: index)
+    } else {
+      // Not loaded yet; VirtualizedList reserves the correct height.
+      Color.clear
     }
   }
 }

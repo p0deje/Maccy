@@ -1,393 +1,206 @@
+import AppKit.NSPasteboard
 import Defaults
 import Foundation
 import Observation
 import SwiftData
 
-/// Manages pagination for unlimited history with a sliding window approach.
-/// Maintains three active pages (previous, current, next) plus cached first/last pages
-/// for efficient CMD+UP/DOWN navigation.
+/// Keeps a sliding window of pages over a `PaginatedItemSource`.
+///
+/// The window is addressed by row index: the view derives the visible rows
+/// from its scroll offset and calls `ensureRowsLoaded`, which fetches the
+/// pages covering those rows plus one page of lookahead on each side and
+/// drops every other page. Mapping the scroll position to page indices
+/// directly (instead of reacting to sentinel views appearing) makes loading
+/// reliable regardless of how fast the user scrolls.
 @Observable
-class PaginationManager {
-  // MARK: - Configuration
+class PaginationManager<Source: PaginatedItemSource> {
+  typealias Item = Source.Item
 
-  let pageSize = 100
+  let pageSize: Int
 
-  // MARK: - Page Storage
-
-  /// The previous page of items (for scrolling up)
-  private(set) var previousPage: Page = Page()
-
-  /// The current visible page of items
-  private(set) var currentPage: Page = Page()
-
-  /// The next page of items (for scrolling down)
-  private(set) var nextPage: Page = Page()
-
-  /// Cached first page for CMD+UP instant navigation.
-  /// When on page 0, this shares the same Page instance as currentPage.
-  private(set) var firstPageCache: Page = Page()
-
-  /// Cached last page for CMD+DOWN instant navigation
-  private(set) var lastPageCache: Page = Page()
-
-  // MARK: - State Tracking
-
-  /// Current page index (0-based)
-  private(set) var currentPageIndex: Int = 0
-
-  /// The starting index of the current window in the total item list
-  var windowStartIndex: Int {
-    // previousPage starts at (currentPageIndex - 1) * pageSize
-    // but if currentPageIndex is 0, there's no previous page
-    if currentPageIndex == 0 {
-      return 0
-    }
-    return (currentPageIndex - 1) * pageSize
-  }
-
-  /// The ending index of the current window in the total item list
-  var windowEndIndex: Int {
-    windowStartIndex + allLoadedItems.count
-  }
-
-  /// Total number of items in storage
+  /// Total number of items in the source.
   private(set) var totalCount: Int = 0
 
-  /// Sorted ascending list of total-list indices whose items have an image.
-  /// Computed against the same sort order used by pagination so the layout
-  /// can compute exact per-row y-offsets without having every page loaded.
-  private(set) var imageItemIndices: [Int] = []
+  /// Sorted indices of rows that render at the tall row height.
+  private(set) var tallRowIndices: [Int] = []
 
-  /// Whether we are currently loading more items
-  private(set) var isLoading: Bool = false
+  /// Contiguous run of loaded pages, ascending by page index.
+  private(set) var pages: [Page<Item>] = []
 
-  /// Computed total page count
-  var totalPageCount: Int {
+  var pageCount: Int {
     guard totalCount > 0 else { return 0 }
     return (totalCount + pageSize - 1) / pageSize
   }
 
-  /// Whether there are more items to load after current window
-  var hasMoreItemsAfter: Bool {
-    let windowEnd = (currentPageIndex + 2) * pageSize
-    return windowEnd < totalCount
+  /// Row index of the first loaded item.
+  var windowStartIndex: Int {
+    (pages.first?.index ?? 0) * pageSize
   }
 
-  /// Whether there are more items to load before current window
-  var hasMoreItemsBefore: Bool {
-    currentPageIndex > 0
+  /// Rows currently backed by loaded items.
+  var loadedRange: Range<Int> {
+    let start = windowStartIndex
+    return start ..< start + pages.reduce(0) { $0 + $1.items.count }
   }
 
-  /// All currently loaded items in order (previous + current + next).
-  /// Uses PageSequence for lazy iteration, materialized to array for compatibility.
-  var allLoadedItems: [HistoryItemDecorator] {
-    PageSequence(previousPage, currentPage, nextPage).toArray()
+  var loadedItems: [Item] {
+    pages.flatMap(\.items)
   }
 
-  /// Lazy sequence of all loaded items without materializing to array.
-  var allLoadedItemsSequence: PageSequence {
-    PageSequence(previousPage, currentPage, nextPage)
+  private let source: Source
+
+  init(source: Source, pageSize: Int = 100) {
+    self.source = source
+    self.pageSize = pageSize
   }
 
-  // MARK: - Dependencies
-
-  private let sorter: Sorter
-
-  // MARK: - Initialization
-
-  init(sorter: Sorter = Sorter()) {
-    self.sorter = sorter
-  }
-
-  // MARK: - Public API
-
-  /// Initial load of the first pages
+  /// Reset and load the window at the top of the list.
   @MainActor
-  func load() async throws {
-    isLoading = true
-    defer { isLoading = false }
+  func load() throws {
+    pages = []
+    totalCount = try source.count()
+    tallRowIndices = try source.tallRowIndices()
+    try ensureRowsLoaded(0..<1)
+  }
 
-    // Reset state
-    currentPageIndex = 0
-    previousPage = Page()
-    currentPage = Page()
-    nextPage = Page()
-
-    // Get total count
-    let countDescriptor = FetchDescriptor<HistoryItem>()
-    totalCount = (try? Storage.shared.context.fetchCount(countDescriptor)) ?? 0
-
-    guard totalCount > 0 else {
-      imageItemIndices = []
+  /// Load the pages covering `rows` (plus one page of lookahead on each
+  /// side), reusing already-loaded pages and dropping the rest.
+  @MainActor
+  func ensureRowsLoaded(_ rows: Range<Int>) throws {
+    guard pageCount > 0 else {
+      pages = []
       return
     }
 
-    try refreshImageItemIndices()
-
-    // Load first page as current
-    currentPage = Page(try await fetchPage(at: 0))
-
-    // First page cache shares the same instance as current page when on page 0
-    firstPageCache = currentPage
-
-    // Load next page if available
-    if totalPageCount > 1 {
-      nextPage = Page(try await fetchPage(at: 1))
+    let target = pageRange(covering: rows)
+    if pages.count == target.count && pages.first?.index == target.lowerBound {
+      return
     }
 
-    // Cache last page if different from current window
-    if totalPageCount > 2 {
-      lastPageCache = Page(try await fetchPage(at: totalPageCount - 1))
-    } else if totalPageCount == 2 {
-      lastPageCache = nextPage
-    } else {
-      lastPageCache = firstPageCache
-    }
-  }
-
-  /// Called when user scrolls to end of current page (down)
-  @MainActor
-  func loadNextWindow() async throws {
-    guard !isLoading, hasMoreItemsAfter else { return }
-
-    isLoading = true
-    defer { isLoading = false }
-
-    // Shift window forward
-    previousPage = currentPage
-    currentPage = nextPage
-    currentPageIndex += 1
-
-    // Fetch new next page
-    let nextPageIndex = currentPageIndex + 1
-    if nextPageIndex < totalPageCount {
-      nextPage = Page(try await fetchPage(at: nextPageIndex))
-    } else {
-      nextPage = Page()
-    }
-  }
-
-  /// Called when user scrolls to beginning of current page (up)
-  @MainActor
-  func loadPreviousWindow() async throws {
-    guard !isLoading, hasMoreItemsBefore else { return }
-
-    isLoading = true
-    defer { isLoading = false }
-
-    // Shift window backward
-    nextPage = currentPage
-    currentPage = previousPage
-    currentPageIndex -= 1
-
-    // Fetch new previous page
-    let prevPageIndex = currentPageIndex - 1
-    if prevPageIndex >= 0 {
-      previousPage = Page(try await fetchPage(at: prevPageIndex))
-    } else {
-      previousPage = Page()
-    }
-  }
-
-  /// Jump to first page (CMD+UP navigation)
-  @MainActor
-  func jumpToFirst() async throws {
-    guard currentPageIndex > 0 else { return }
-
-    isLoading = true
-    defer { isLoading = false }
-
-    currentPageIndex = 0
-    previousPage = Page()
-
-    // Use cached first page if valid, otherwise refetch
-    if firstPageCache.isValid && !firstPageCache.isEmpty {
-      currentPage = firstPageCache
-    } else {
-      currentPage = Page(try await fetchPage(at: 0))
-      firstPageCache = currentPage
-    }
-
-    nextPage = totalPageCount > 1 ? Page(try await fetchPage(at: 1)) : Page()
-  }
-
-  /// Jump to last page (CMD+DOWN navigation)
-  @MainActor
-  func jumpToLast() async throws {
-    let lastPageIndex = max(0, totalPageCount - 1)
-    guard currentPageIndex < lastPageIndex else { return }
-
-    isLoading = true
-    defer { isLoading = false }
-
-    currentPageIndex = lastPageIndex
-
-    // Use cached last page if valid, otherwise refetch
-    if lastPageCache.isValid && !lastPageCache.isEmpty {
-      currentPage = lastPageCache
-    } else {
-      currentPage = Page(try await fetchPage(at: lastPageIndex))
-      lastPageCache = currentPage
-    }
-
-    nextPage = Page()
-    previousPage = lastPageIndex > 0 ? Page(try await fetchPage(at: lastPageIndex - 1)) : Page()
-  }
-
-  /// Handle new item being added to history.
-  /// Invalidates caches and refetches the current window to ensure correct ordering.
-  @MainActor
-  func handleNewItem(_ decorator: HistoryItemDecorator) {
-    totalCount += 1
-    invalidateAndRefetch()
-  }
-
-  /// Handle item being removed from history.
-  /// Invalidates caches and refetches the current window.
-  @MainActor
-  func handleItemRemoved(_ decorator: HistoryItemDecorator) {
-    totalCount = max(0, totalCount - 1)
-    invalidateAndRefetch()
-  }
-
-  /// Update total count (e.g., after clearing history)
-  @MainActor
-  func updateTotalCount(_ count: Int) {
-    totalCount = count
-    if count == 0 {
-      previousPage = Page()
-      currentPage = Page()
-      nextPage = Page()
-      firstPageCache = Page()
-      lastPageCache = Page()
-      currentPageIndex = 0
-      imageItemIndices = []
-    }
-  }
-
-  /// Refresh first and last page caches
-  @MainActor
-  func refreshCaches() async throws {
-    firstPageCache = Page(try await fetchPage(at: 0))
-    if currentPageIndex == 0 {
-      currentPage = firstPageCache
-    }
-
-    if totalPageCount > 1 {
-      lastPageCache = Page(try await fetchPage(at: totalPageCount - 1))
-    } else {
-      lastPageCache = firstPageCache
-    }
-  }
-
-  // MARK: - Private Helpers
-
-  /// Invalidate all caches and refetch the current window.
-  /// This ensures correct ordering regardless of sort mode.
-  @MainActor
-  private func invalidateAndRefetch() {
-    // Invalidate caches
-    firstPageCache.invalidate()
-    lastPageCache.invalidate()
-
-    // Refetch current window asynchronously
-    Task { @MainActor in
-      do {
-        try await refetchCurrentWindow()
-      } catch {
-        // Log error but don't crash - the UI will show stale data
+    pages = try target.map { pageIndex in
+      if let existing = pages.first(where: { $0.index == pageIndex }) {
+        return existing
       }
+      return Page(index: pageIndex, items: try source.fetch(offset: pageIndex * pageSize, limit: pageSize))
     }
   }
 
-  /// Refetch the current window (previous, current, next pages) from the database.
+  /// Recount and refetch the current window after the source was mutated
+  /// (item added, removed, pinned, or history cleared). Contents may have
+  /// shifted arbitrarily, so previously fetched pages are not reused.
   @MainActor
-  private func refetchCurrentWindow() async throws {
-    isLoading = true
-    defer { isLoading = false }
+  func refresh() throws {
+    totalCount = try source.count()
+    tallRowIndices = try source.tallRowIndices()
 
-    // Adjust current page index if we're now beyond the valid range
-    let maxPageIndex = max(0, totalPageCount - 1)
-    if currentPageIndex > maxPageIndex {
-      currentPageIndex = maxPageIndex
+    guard pageCount > 0 else {
+      pages = []
+      return
     }
 
-    // Fetch current page
-    currentPage = Page(try await fetchPage(at: currentPageIndex))
-
-    // Update first page cache if on first page
-    if currentPageIndex == 0 {
-      firstPageCache = currentPage
-    } else if !firstPageCache.isValid {
-      firstPageCache = Page(try await fetchPage(at: 0))
+    let first = min(pages.first?.index ?? 0, pageCount - 1)
+    let last = min(max(pages.last?.index ?? 0, first), pageCount - 1)
+    pages = try (first...last).map { pageIndex in
+      Page(index: pageIndex, items: try source.fetch(offset: pageIndex * pageSize, limit: pageSize))
     }
-
-    // Fetch previous page
-    if currentPageIndex > 0 {
-      previousPage = Page(try await fetchPage(at: currentPageIndex - 1))
-    } else {
-      previousPage = Page()
-    }
-
-    // Fetch next page
-    if currentPageIndex + 1 < totalPageCount {
-      nextPage = Page(try await fetchPage(at: currentPageIndex + 1))
-    } else {
-      nextPage = Page()
-    }
-
-    // Update last page cache if needed
-    if !lastPageCache.isValid && totalPageCount > 0 {
-      let lastIndex = totalPageCount - 1
-      if lastIndex == currentPageIndex {
-        lastPageCache = currentPage
-      } else if lastIndex == currentPageIndex + 1 {
-        lastPageCache = nextPage
-      } else {
-        lastPageCache = Page(try await fetchPage(at: lastIndex))
-      }
-    }
-
-    try refreshImageItemIndices()
   }
 
-  /// Rebuild the sorted list of indices for items that contain an image.
-  /// Fetches all items in the same sort order pagination uses so the layout
-  /// can compute exact y-offsets for both loaded and unloaded rows.
-  @MainActor
-  private func refreshImageItemIndices() throws {
-    let descriptor = FetchDescriptor<HistoryItem>(sortBy: [sortDescriptorForCurrentMode()])
-    let results = try Storage.shared.context.fetch(descriptor)
-    let sorted = sorter.sort(results)
-    var indices: [Int] = []
-    for (index, item) in sorted.enumerated() where item.image != nil {
-      indices.append(index)
-    }
-    imageItemIndices = indices
+  private func pageRange(covering rows: Range<Int>) -> ClosedRange<Int> {
+    let lastRow = min(totalCount - 1, max(rows.upperBound - 1, rows.lowerBound))
+    let firstRow = min(max(0, rows.lowerBound), lastRow)
+    let firstPage = max(0, firstRow / pageSize - 1)
+    let lastPage = min(pageCount - 1, lastRow / pageSize + 1)
+    return firstPage...max(firstPage, lastPage)
+  }
+}
+
+/// Serves unpinned history items from SwiftData in the order defined by the
+/// user's sort preference. Pinned items are excluded: they are always fully
+/// loaded and rendered separately, so pages and row indices line up exactly
+/// with the unpinned list on screen. Must be used from the main actor, where
+/// `Storage.shared`'s main-context lives.
+final class HistoryPaginationSource: PaginatedItemSource {
+  private static var imageContentTypes: [String] {
+    [
+      NSPasteboard.PasteboardType.tiff.rawValue,
+      NSPasteboard.PasteboardType.png.rawValue,
+      NSPasteboard.PasteboardType.jpeg.rawValue,
+      NSPasteboard.PasteboardType.heic.rawValue
+    ]
   }
 
+  /// Decorators are reused across fetches so that SwiftUI identity and the
+  /// current selection survive window shifts and refreshes. Values are weak:
+  /// once a page is dropped and nothing else references its decorators, the
+  /// entries die with them.
+  private struct WeakDecorator {
+    weak var value: HistoryItemDecorator?
+  }
+  private var decorators: [PersistentIdentifier: WeakDecorator] = [:]
+
   @MainActor
-  private func fetchPage(at pageIndex: Int) async throws -> [HistoryItemDecorator] {
-    let offset = pageIndex * pageSize
-    var descriptor = FetchDescriptor<HistoryItem>(
-      sortBy: [sortDescriptorForCurrentMode()]
+  func count() throws -> Int {
+    decorators = decorators.filter { $0.value.value != nil }
+    return try Storage.shared.context.fetchCount(
+      FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin == nil })
     )
-    descriptor.fetchLimit = pageSize
+  }
+
+  @MainActor
+  func fetch(offset: Int, limit: Int) throws -> [HistoryItemDecorator] {
+    var descriptor = FetchDescriptor<HistoryItem>(
+      predicate: #Predicate { $0.pin == nil },
+      sortBy: [Self.sortDescriptor()]
+    )
+    descriptor.fetchLimit = limit
     descriptor.fetchOffset = offset
 
-    let results = try Storage.shared.context.fetch(descriptor)
-    return sorter.sort(results).map { HistoryItemDecorator($0) }
+    return try Storage.shared.context.fetch(descriptor).map(decorator(for:))
   }
 
-  /// Returns the correct SortDescriptor based on user's sort preference
-  private func sortDescriptorForCurrentMode() -> SortDescriptor<HistoryItem> {
+  /// Indices (in the paged ordering) of unpinned items that contain an
+  /// image. Presence is determined from content types alone so no image
+  /// data is loaded or decoded.
+  @MainActor
+  func tallRowIndices() throws -> [Int] {
+    let types = Self.imageContentTypes
+    let contentDescriptor = FetchDescriptor<HistoryItemContent>(
+      predicate: #Predicate { types.contains($0.type) }
+    )
+    let imageItemIDs = Set(
+      try Storage.shared.context.fetch(contentDescriptor).compactMap { $0.item?.persistentModelID }
+    )
+    guard !imageItemIDs.isEmpty else { return [] }
+
+    let itemDescriptor = FetchDescriptor<HistoryItem>(
+      predicate: #Predicate { $0.pin == nil },
+      sortBy: [Self.sortDescriptor()]
+    )
+    return try Storage.shared.context.fetch(itemDescriptor)
+      .enumerated()
+      .filter { imageItemIDs.contains($0.element.persistentModelID) }
+      .map(\.offset)
+  }
+
+  private func decorator(for item: HistoryItem) -> HistoryItemDecorator {
+    let id = item.persistentModelID
+    if let existing = decorators[id]?.value {
+      return existing
+    }
+
+    let decorator = HistoryItemDecorator(item)
+    decorators[id] = WeakDecorator(value: decorator)
+    return decorator
+  }
+
+  private static func sortDescriptor() -> SortDescriptor<HistoryItem> {
     switch Defaults[.sortBy] {
     case .lastCopiedAt:
-      return SortDescriptor(\.lastCopiedAt, order: .reverse)
+      SortDescriptor(\.lastCopiedAt, order: .reverse)
     case .firstCopiedAt:
-      return SortDescriptor(\.firstCopiedAt, order: .reverse)
+      SortDescriptor(\.firstCopiedAt, order: .reverse)
     case .numberOfCopies:
-      return SortDescriptor(\.numberOfCopies, order: .reverse)
+      SortDescriptor(\.numberOfCopies, order: .reverse)
     }
   }
 }

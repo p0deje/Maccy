@@ -1,74 +1,37 @@
 import Foundation
 
-/// A page of history items that can be shared between caches.
-/// Implements Sequence for lazy iteration without creating intermediate arrays.
-class Page: Sequence, ExpressibleByArrayLiteral {
-  var items: [HistoryItemDecorator]
-  var isValid: Bool = true
-
-  init(_ items: [HistoryItemDecorator] = []) {
-    self.items = items
-  }
-
-  required convenience init(arrayLiteral elements: HistoryItemDecorator...) {
-    self.init(elements)
-  }
-
-  var count: Int { items.count }
-  var isEmpty: Bool { items.isEmpty }
-
-  func makeIterator() -> IndexingIterator<[HistoryItemDecorator]> {
-    items.makeIterator()
-  }
-
-  func invalidate() {
-    isValid = false
-  }
+/// A fetched page of items. `index` is the page's position in the source's
+/// paged ordering, so the page covers rows
+/// `index * pageSize ..< index * pageSize + items.count`.
+struct Page<Item> {
+  let index: Int
+  var items: [Item]
 }
 
-/// A sequence that lazily concatenates multiple pages without creating intermediate arrays.
-struct PageSequence: Sequence {
-  let pages: [Page]
+/// An ordered collection that can be counted and fetched in pages.
+///
+/// `PaginationManager` and `VirtualizedList` only talk to this protocol, so
+/// they can be exercised in tests with arbitrary item types and synthetic
+/// sources (e.g. a large list of numbers served in small pages).
+protocol PaginatedItemSource {
+  associatedtype Item
 
-  init(_ pages: [Page]) {
-    self.pages = pages
-  }
+  /// Total number of items in the source.
+  @MainActor
+  func count() throws -> Int
 
-  init(_ pages: Page...) {
-    self.pages = pages
-  }
+  /// Items in `offset ..< offset + limit`, in the source's ordering.
+  /// May return fewer than `limit` items at the end of the collection.
+  @MainActor
+  func fetch(offset: Int, limit: Int) throws -> [Item]
 
-  func makeIterator() -> Iterator {
-    Iterator(pages: pages)
-  }
+  /// Sorted indices of items that render at the tall row height
+  /// (image items in Maccy's case). Empty if all rows share one height.
+  @MainActor
+  func tallRowIndices() throws -> [Int]
+}
 
-  struct Iterator: IteratorProtocol {
-    let pages: [Page]
-    var pageIndex = 0
-    var itemIndex = 0
-
-    mutating func next() -> HistoryItemDecorator? {
-      while pageIndex < pages.count {
-        let page = pages[pageIndex]
-        if itemIndex < page.items.count {
-          let item = page.items[itemIndex]
-          itemIndex += 1
-          return item
-        }
-        pageIndex += 1
-        itemIndex = 0
-      }
-      return nil
-    }
-  }
-
-  /// Materialize the sequence into an array.
-  /// Use this only when an array is actually needed.
-  func toArray() -> [HistoryItemDecorator] {
-    Array(self)
-  }
-
-  var count: Int {
-    pages.reduce(0) { $0 + $1.count }
-  }
+extension PaginatedItemSource {
+  @MainActor
+  func tallRowIndices() throws -> [Int] { [] }
 }

@@ -95,9 +95,11 @@ struct HistoryListView: View {
     .padding(.top, topSeparatorVisible ? topPadding : 0)
     .readHeight(appState, into: \.popup.extraTopHeight)
 
-    if isUnlimitedHistory {
+    if isUnlimitedHistory && searchQuery.isEmpty {
       VirtualizedHistoryList(searchQuery: $searchQuery, searchFocused: $searchFocused)
     } else {
+      // During a search the matches are all in memory, so the standard list
+      // is used even in unlimited mode.
       standardScrollView(scrollTopPadding: scrollTopPadding, scrollBottomPadding: scrollBottomPadding)
     }
 

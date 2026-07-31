@@ -100,9 +100,12 @@ struct StorageSettingsPane: View {
             get: { isUnlimitedHistory },
             set: { newValue in
               if newValue && History.shared.totalCount > Defaults.Keys.largeHistoryThreshold {
+                // Don't enable until the user confirms in the alert;
+                // flipping the default triggers an expensive reload.
                 showWarning = true
+              } else {
+                isUnlimitedHistory = newValue
               }
-              isUnlimitedHistory = newValue
             }
           ),
           label: { Text("UnlimitedHistory", tableName: "StorageSettings") }
@@ -147,11 +150,9 @@ struct StorageSettingsPane: View {
       }
     }
     .alert(Text("UnlimitedHistoryAlertTitle", tableName: "StorageSettings"), isPresented: $showWarning) {
-      Button("Cancel", role: .cancel) {
-        isUnlimitedHistory = false
-      }
+      Button("Cancel", role: .cancel) {}
       Button("Enable") {
-        // User confirmed, unlimited is already set
+        isUnlimitedHistory = true
       }
     } message: {
       Text(
