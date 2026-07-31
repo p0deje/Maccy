@@ -42,7 +42,6 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var selectionAppearance: SelectionAppearance = .none
   // Complete description used when the row's visual content is hidden from accessibility.
   var accessibilityLabel: String = ""
-  var accessibilityAction: (() -> Void)?
   @ViewBuilder var title: () -> Title
 
   @Default(.showApplicationIcons) private var showIcons
@@ -131,9 +130,6 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     .accessibilityLabel(Text(accessibilityLabel))
     .accessibilityAddTraits(isSelected ? .isSelected : [])
     .accessibilityValue(selectionNumber.map { Text($0) } ?? Text(""))
-    .buttonAction {
-      accessibilityAction?()
-    }
     .hoverSelectionId(selectionId)
     .help(help ?? "")
   }

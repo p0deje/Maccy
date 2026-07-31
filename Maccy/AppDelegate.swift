@@ -4,6 +4,7 @@ import Sparkle
 import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
+  static let isTesting = CommandLine.arguments.contains("enable-testing")
   var panel: FloatingPanel<ContentView>!
 
   @objc
@@ -35,7 +36,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationWillFinishLaunching(_ notification: Notification) { // swiftlint:disable:this function_body_length
     #if DEBUG
-    if CommandLine.arguments.contains("enable-testing") {
+    if Self.isTesting {
       SPUUpdater(hostBundle: Bundle.main,
                  applicationBundle: Bundle.main,
                  userDriver: SPUStandardUserDriver(hostBundle: Bundle.main, delegate: nil),

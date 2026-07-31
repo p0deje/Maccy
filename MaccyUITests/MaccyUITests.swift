@@ -3,6 +3,20 @@ import XCTest
 
 // swiftlint:disable file_length
 // swiftlint:disable type_body_length
+private struct HistoryItemQuery {
+  let query: XCUIElementQuery
+
+  var allElementsBoundByIndex: [XCUIElement] {
+    query.allElementsBoundByIndex
+  }
+
+  subscript(title: String) -> XCUIElement {
+    query.matching(
+      NSPredicate(format: "label == %@ OR label BEGINSWITH %@", title, "\(title), ")
+    ).firstMatch
+  }
+}
+
 class MaccyUITests: XCTestCase {
   let app = XCUIApplication()
   let pasteboard = NSPasteboard.general
@@ -30,19 +44,16 @@ class MaccyUITests: XCTestCase {
   let html1 = "<a href='#'>foo</a>".data(using: .utf8)
   let html2 = "<a href='#'>bar</a>".data(using: .utf8)
 
-  let imageType = NSPredicate(
-    format: "elementType == %lu",
-    argumentArray: [XCUIElement.ElementType.image.rawValue]
-  )
-
-  var items: XCUIElementQuery {
-    app.descendants(matching: .any).matching(identifier: "copy-history-item")
+  private var items: HistoryItemQuery {
+    HistoryItemQuery(
+      query: app.descendants(matching: .any).matching(identifier: "copy-history-item")
+    )
   }
 
   var itemTitles: [String] {
     items.allElementsBoundByIndex
       .sorted(by: { $0.frame.origin.y < $1.frame.origin.y })
-      .compactMap { $0.value as? String }
+      .compactMap { $0.label.components(separatedBy: ", ").first }
   }
 
   override func setUp() {
@@ -52,6 +63,10 @@ class MaccyUITests: XCTestCase {
     try? "Hello world".write(to: file2, atomically: true, encoding: .utf8)
 
     app.launchArguments.append("enable-testing")
+    setKeyboardShortcut("popup", keyCode: kVK_ANSI_C, modifiers: cmdKey | shiftKey)
+    setKeyboardShortcut("pin", keyCode: kVK_ANSI_P, modifiers: optionKey)
+    setKeyboardShortcut("delete", keyCode: kVK_Delete, modifiers: optionKey)
+    setKeyboardShortcut("togglePreview", keyCode: kVK_Space, modifiers: controlKey)
     app.launch()
 
     copyToClipboard(copy2)
@@ -142,8 +157,8 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(image2)
     copyToClipboard(image1)
     popUpWithMouse()
-    scrollIntoViewIfNeeded(items.matching(imageType).allElementsBoundByIndex[1])
-    hoverAndClick(items.matching(imageType).allElementsBoundByIndex[1])
+    scrollIntoViewIfNeeded(items.allElementsBoundByIndex[1])
+    hoverAndClick(items.allElementsBoundByIndex[1])
     assertPasteboardDataCountEquals(image2.tiffRepresentation!.count, forType: .tiff)
   }
 
@@ -168,9 +183,9 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(rtf1, .rtf)
     popUpWithHotkey()
     XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
-    scrollIntoViewIfNeeded(app.staticTexts["bar"].firstMatch)
-    hoverAndClick(app.staticTexts["bar"].firstMatch)
-    XCTAssertEqual(pasteboard.data(forType: .rtf), rtf1)
+    scrollIntoViewIfNeeded(items["bar"].firstMatch)
+    hoverAndClick(items["bar"].firstMatch)
+    XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
   }
 
   func testCopyHTML() {
@@ -238,7 +253,7 @@ class MaccyUITests: XCTestCase {
     popUpWithMouse()
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
-    hoverAndClick(app.staticTexts["Clear"].firstMatch)
+    hoverAndClick(app.buttons["Clear"].firstMatch)
     confirmClear()
     popUpWithMouse()
     assertNotExists(items[copy1])
@@ -248,7 +263,7 @@ class MaccyUITests: XCTestCase {
   func testClearDuringSearch() {
     popUpWithMouse()
     search(copy2)
-    hoverAndClick(app.staticTexts["Clear"].firstMatch)
+    hoverAndClick(app.buttons["Clear"].firstMatch)
     confirmClear()
     popUpWithMouse()
     assertNotExists(items[copy1])
@@ -260,7 +275,7 @@ class MaccyUITests: XCTestCase {
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     XCUIElement.perform(withKeyModifiers: [.shift]) {
-      hoverAndClick(app.staticTexts["Clear all"].firstMatch)
+      hoverAndClick(app.buttons["Clear all"].firstMatch)
     }
     confirmClear()
     popUpWithMouse()
@@ -484,6 +499,15 @@ class MaccyUITests: XCTestCase {
     waitUntilPoppedUp()
   }
 
+  // KeyboardShortcuts persists JSON strings in UserDefaults.standard. Passing them
+  // as launch arguments places them in the isolated, higher-priority NSArgumentDomain.
+  private func setKeyboardShortcut(_ name: String, keyCode: Int, modifiers: Int) {
+    app.launchArguments.append(contentsOf: [
+      "-KeyboardShortcuts_\(name)",
+      #""{\"carbonKeyCode\":\#(keyCode),\"carbonModifiers\":\#(modifiers)}""#
+    ])
+  }
+
   // Click outside the popup to close it
   private func closePopupByClickingOutside() {
     let statusBar = app.statusItems.firstMatch
@@ -520,13 +544,13 @@ class MaccyUITests: XCTestCase {
   }
 
   private func waitUntilPoppedUp() {
-    if !app.staticTexts.firstMatch.waitForExistence(timeout: 3) {
+    if !app.dialogs.firstMatch.waitForExistence(timeout: 3) {
       XCTFail("Maccy did not pop up")
     }
   }
 
   private func assertPopupDismissed() {
-    if !app.staticTexts.firstMatch.waitForNonExistence(timeout: 3) {
+    if !app.dialogs.firstMatch.waitForNonExistence(timeout: 3) {
       XCTFail("Maccy did not dismiss")
     }
   }
@@ -678,7 +702,7 @@ class MaccyUITests: XCTestCase {
   }
 
   private func confirmClear() {
-    let button = app.dialogs.firstMatch.buttons["Clear"].firstMatch
+    let button = app.buttons["confirmation-confirm"].firstMatch
     expectation(for: NSPredicate(format: "isHittable = 1"), evaluatedWith: button)
     waitForExpectations(timeout: 3)
     button.click()

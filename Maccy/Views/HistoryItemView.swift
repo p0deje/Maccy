@@ -81,11 +81,12 @@ struct HistoryItemView: View {
       isSelected: item.isSelected,
       selectionIndex: visualIndex,
       selectionAppearance: selectionAppearance,
-      accessibilityLabel: accessibilityLabel,
-      accessibilityAction: performSelect
+      accessibilityLabel: accessibilityLabel
     ) {
       Text(verbatim: item.title)
     }
+    .accessibilityIdentifier("copy-history-item")
+    .buttonAction(performSelect)
     .onAppear {
       item.ensureThumbnailImage()
     }
