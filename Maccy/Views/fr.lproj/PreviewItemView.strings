@@ -3,7 +3,7 @@
 "LastCopyTime" = "Date de la dernière copie :";
 "NumberOfCopies" = "Nombre de copies :";
 "PinKey" = "Appuyez sur {pinKey} pour épingler.";
-"UnpinKey" = "Appuyez sur {pinKey} pour épingler.";
+"UnpinKey" = "Appuyez sur {pinKey} pour détacher.";
 "DeleteKey" = "Appuyez sur {deleteKey} pour supprimer.";
 "PreviewKey" = "Appuyez sur {previewKey} pour basculer l'aperçu.";
 "Dimensions" = "Dimensions :";
