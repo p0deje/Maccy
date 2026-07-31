@@ -32,12 +32,7 @@ class NavigationManager { // swiftlint:disable:this type_body_length
     didSet {
       guard oldValue?.id != leadHistoryItem?.id else { return }
 
-      // The selection is only communicated visually (highlighted background); without this,
-      // arrow-key navigation is silent for VoiceOver users. Keep this brief since it fires on
-      // every keypress while navigating - the full description is on the row's accessibilityLabel.
-      // Pinned state is included despite that: confirmed via real VoiceOver testing that users
-      // want to know it while browsing (it affects which item they pick), and the word itself
-      // is short enough not to meaningfully lengthen the announcement.
+      // Announce the visual selection change, keeping repeated navigation updates concise.
       if let item = leadHistoryItem {
         var parts = [item.hasImage ? NSLocalizedString("history_item_image_accessibility_generic", comment: "") : item.title]
         if let application = item.application {
