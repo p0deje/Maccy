@@ -6,6 +6,7 @@ import Defaults
 class HistoryTests: XCTestCase {
   let savedSize = Defaults[.size]
   let savedSortBy = Defaults[.sortBy]
+  let savedKeepDays = Defaults[.historyKeepDays]
   let history = History.shared
 
   override func setUp() {
@@ -13,12 +14,14 @@ class HistoryTests: XCTestCase {
     history.clearAll()
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt
+    Defaults[.historyKeepDays] = 0
   }
 
   override func tearDown() {
     super.tearDown()
     Defaults[.size] = savedSize
     Defaults[.sortBy] = savedSortBy
+    Defaults[.historyKeepDays] = savedKeepDays
   }
 
   func testDefaultIsEmpty() {
@@ -231,6 +234,52 @@ class HistoryTests: XCTestCase {
     let bar = history.add(historyItem("bar"))
     history.delete(foo)
     XCTAssertEqual(history.items, [bar])
+  }
+
+  func testKeepForRemovesExpiredItems() {
+    let old = history.add(historyItem("old"))
+    let recent = history.add(historyItem("recent"))
+    old.item.lastCopiedAt = daysAgo(10)
+
+    Defaults[.historyKeepDays] = 7
+    history.purgeExpiredItems()
+
+    XCTAssertEqual(history.items, [recent])
+  }
+
+  func testKeepForPreservesRecentItems() {
+    let recent = history.add(historyItem("recent"))
+    recent.item.lastCopiedAt = daysAgo(3)
+
+    Defaults[.historyKeepDays] = 7
+    history.purgeExpiredItems()
+
+    XCTAssertEqual(history.items, [recent])
+  }
+
+  func testKeepForPreservesPinnedItems() {
+    let pinned = history.add(historyItem("pinned"))
+    pinned.togglePin()
+    pinned.item.lastCopiedAt = daysAgo(30)
+
+    Defaults[.historyKeepDays] = 7
+    history.purgeExpiredItems()
+
+    XCTAssertEqual(history.items, [pinned])
+  }
+
+  func testKeepForDisabledKeepsEverything() {
+    let old = history.add(historyItem("old"))
+    old.item.lastCopiedAt = daysAgo(100)
+
+    Defaults[.historyKeepDays] = 0
+    history.purgeExpiredItems()
+
+    XCTAssertEqual(history.items, [old])
+  }
+
+  private func daysAgo(_ days: Int) -> Date {
+    Calendar.current.date(byAdding: .day, value: -days, to: Date.now)!
   }
 
   private func historyItem(_ value: String) -> HistoryItem {
