@@ -5,6 +5,7 @@
 "PinKey" = "Stiskni {pinKey} pro připnutí.";
 "UnpinKey" = "Stiskni {pinKey} pro odepnutí.";
 "DeleteKey" = "Stiskni {deleteKey} pro smazání.";
-"PreviewKey" = "Stiskni {previewKey} pro přepnutí náhledu.";
+"OpenPreview" = "Stiskni {previewKey} pro zobrazení náhledu.";
+"ClosePreview" = "Stiskni {previewKey} pro skrytí náhledu.";
 "Dimensions" = "Rozměry:";
 "CopyExtractedText" = "Zkopírovat extrahovaný text.";

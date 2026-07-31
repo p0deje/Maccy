@@ -5,6 +5,7 @@
 "PinKey" = "";
 "DeleteKey" = "";
 "UnpinKey" = "";
-"PreviewKey" = "";
+"OpenPreview" = "Prem {previewKey} per mostrar la previsualització.";
+"ClosePreview" = "Prem {previewKey} per amagar la previsualització.";
 "Dimensions" = "Dimensions:";
 "CopyExtractedText" = "Copia el text extret.";

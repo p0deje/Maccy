@@ -5,6 +5,7 @@
 "PinKey" = "Druk op {pinKey} om te pinnen.";
 "UnpinKey" = "Druk op {pinKey} om te ontpinnen.";
 "DeleteKey" = "Druk op {deleteKey} om te verwijderen.";
-"PreviewKey" = "Druk op {previewKey} om voorbeeld te schakelen.";
+"OpenPreview" = "Druk op {previewKey} om het voorbeeld te tonen.";
+"ClosePreview" = "Druk op {previewKey} om het voorbeeld te verbergen.";
 "Dimensions" = "Afmetingen:";
 "CopyExtractedText" = "Geëxtraheerde tekst kopiëren.";

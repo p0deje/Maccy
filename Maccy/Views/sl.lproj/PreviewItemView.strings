@@ -5,6 +5,7 @@
 "LastCopyTime" = "Čas zadnjega kopiranja:";
 "PinKey" = "Pritisnite {pinKey} za zapenjanje.";
 "UnpinKey" = "Pritisnite {pinKey} za odzapenjanje.";
-"PreviewKey" = "Pritisnite {previewKey} za preklop predogleda.";
+"OpenPreview" = "Pritisnite {previewKey} za prikaz predogleda.";
+"ClosePreview" = "Pritisnite {previewKey} za skrivanje predogleda.";
 "Dimensions" = "Dimenzije:";
 "CopyExtractedText" = "Kopiraj izvlečeno besedilo.";

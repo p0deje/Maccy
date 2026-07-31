@@ -5,6 +5,7 @@
 "PinKey" = "برای سنجاق کردن، کلید {pinKey} را فشار دهید.";
 "DeleteKey" = "برای حذف، کلید {deleteKey} را فشار دهید.";
 "UnpinKey" = "برای برداشتن سنجاق، کلید {pinKey} را فشار دهید.";
-"PreviewKey" = "{previewKey} را فشار دهید تا پیش‌نمایش تغییر کند.";
+"OpenPreview" = "برای نمایش پیش‌نمایش، کلید {previewKey} را فشار دهید.";
+"ClosePreview" = "برای پنهان کردن پیش‌نمایش، کلید {previewKey} را فشار دهید.";
 "Dimensions" = "ابعاد:";
 "CopyExtractedText" = "متن استخراج‌شده را کپی کنید.";

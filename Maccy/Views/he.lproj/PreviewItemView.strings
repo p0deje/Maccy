@@ -5,6 +5,7 @@
 "PinKey" = "יש ללחוץ על {pinKey} כדי לנעוץ.";
 "UnpinKey" = "יש ללחוץ על {pinKey} כדי לנעוץ / לשחרר.";
 "DeleteKey" = "יש ללחוץ על {deleteKey} כדי למחוק.";
-"PreviewKey" = "לחץ על {previewKey} כדי להחליף תצוגה מקדימה.";
+"OpenPreview" = "יש ללחוץ על {previewKey} כדי להציג תצוגה מקדימה.";
+"ClosePreview" = "יש ללחוץ על {previewKey} כדי להסתיר תצוגה מקדימה.";
 "Dimensions" = "ממדים:";
 "CopyExtractedText" = "העתק את הטקסט שחולץ.";

@@ -5,6 +5,7 @@
 "PinKey" = "";
 "DeleteKey" = "";
 "UnpinKey" = "";
-"PreviewKey" = "";
+"OpenPreview" = "প্রিভিউ দেখাতে {previewKey} চাপুন।";
+"ClosePreview" = "প্রিভিউ লুকাতে {previewKey} চাপুন।";
 "Dimensions" = "মাত্রা:";
 "CopyExtractedText" = "শনাক্ত করা লেখা কপি করুন.";
