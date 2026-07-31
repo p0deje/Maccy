@@ -38,4 +38,4 @@
 "history_item_selected_accessibility_value" = "Seleccionado, %d de %d";
 "history_item_image_accessibility_label_no_app" = "Imagen, %d por %d";
 "history_item_image_accessibility_generic" = "Imagen";
-"toolbar_remove_paste_stack_action" = "Quitar de la pila para pegar";
+"toolbar_remove_paste_stack_action" = "Detener la pila para pegar";

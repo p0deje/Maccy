@@ -5,6 +5,7 @@
 "PinKey" = "{pinKey}でピン留めします。";
 "DeleteKey" = "{deleteKey}で削除します。";
 "UnpinKey" = "{pinKey}でピン留めを外します。";
-"PreviewKey" = "{previewKey}でプレビューを切り替えます。";
+"OpenPreview" = "{previewKey}でプレビューを表示します。";
+"ClosePreview" = "{previewKey}でプレビューを非表示にします。";
 "Dimensions" = "サイズ:";
 "CopyExtractedText" = "抽出したテキストをコピーします。";

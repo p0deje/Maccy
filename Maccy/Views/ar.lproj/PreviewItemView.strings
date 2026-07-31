@@ -5,6 +5,7 @@
 "PinKey" = "اضغط على {pinKey} للتثبيت.";
 "UnpinKey" = "اضغط على {pinKey} للتثبيت أو إلغاء التثبيت.";
 "DeleteKey" = "اضغط على {deleteKey} للحذف.";
-"PreviewKey" = "اضغط على {previewKey} لتبديل المعاينة.";
+"OpenPreview" = "اضغط على {previewKey} لإظهار المعاينة.";
+"ClosePreview" = "اضغط على {previewKey} لإخفاء المعاينة.";
 "Dimensions" = "الأبعاد:";
 "CopyExtractedText" = "انسخ النص المستخرج.";

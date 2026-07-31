@@ -5,6 +5,7 @@
 "PinKey" = "Nyomd meg a {pinKey} gombokat a kitűzéshez.";
 "UnpinKey" = "Nyomd meg a {pinKey} gombokat a kitűzés levételéhez.";
 "DeleteKey" = "Nyomd meg a {deleteKey} gombokat a törléshez.";
-"PreviewKey" = "Nyomja meg a {previewKey} gombot az előnézet váltásához.";
+"OpenPreview" = "Nyomja meg a {previewKey} gombot az előnézet megjelenítéséhez.";
+"ClosePreview" = "Nyomja meg a {previewKey} gombot az előnézet elrejtéséhez.";
 "Dimensions" = "Méretek:";
 "CopyExtractedText" = "Kinyert szöveg másolása.";

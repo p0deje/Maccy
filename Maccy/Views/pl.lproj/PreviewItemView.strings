@@ -5,6 +5,7 @@
 "PinKey" = "Naciśnij {pinKey} aby piąć wpis.";
 "UnpinKey" = "Naciśnij {pinKey} aby odpiąć wpis.";
 "DeleteKey" = "Naciśnij {deleteKey} aby usunąć wpis.";
-"PreviewKey" = "Naciśnij {previewKey}, aby przełączyć podgląd.";
+"OpenPreview" = "Naciśnij {previewKey}, aby pokazać podgląd.";
+"ClosePreview" = "Naciśnij {previewKey}, aby ukryć podgląd.";
 "Dimensions" = "Wymiary:";
 "CopyExtractedText" = "Skopiuj wyodrębniony tekst.";

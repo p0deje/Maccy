@@ -28,3 +28,14 @@
 "paste_modifiers_config" = "• Pasirinkite paspaudę %@, kad nukopijuotumėte ir įklijuotumėte elementą.";
 "accessibility_alert_comment" = "Suteikite prieigą šiai programai {pane}, esančiai {settings}.\n\nSpustelėjimas + mygtukas, pasirinkite Maccy ir pažymėkite šalia esantį žymimąjį langelį.";
 "clear_alert_confirm" = "Išvalyti";
+"status_item_accessibility_label" = "Maccy — iškarpinės istorija";
+"status_item_disabled_accessibility_suffix" = "pristabdyta";
+"search_clear_accessibility_label" = "Išvalyti paiešką";
+"history_item_pin_action" = "Prisegti";
+"history_item_unpin_action" = "Atsegti";
+"history_item_delete_action" = "Ištrinti";
+"history_item_pinned_accessibility_value" = "Prisegta";
+"history_item_selected_accessibility_value" = "Pasirinkta, %d iš %d";
+"history_item_image_accessibility_label_no_app" = "Vaizdas, %d×%d";
+"history_item_image_accessibility_generic" = "Vaizdas";
+"toolbar_remove_paste_stack_action" = "Sustabdyti įklijavimo rietuvę";

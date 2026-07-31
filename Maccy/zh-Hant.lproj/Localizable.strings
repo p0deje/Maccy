@@ -28,3 +28,14 @@
 "system_settings_pane" = "「隱私權與安全性」";
 "system_preferences_name" = "「系統偏好設定」";
 "system_preferences_pane" = "「安全性和隱私權」";
+"status_item_accessibility_label" = "Maccy — 剪貼簿歷史記錄";
+"status_item_disabled_accessibility_suffix" = "已暫停";
+"search_clear_accessibility_label" = "清除搜尋";
+"history_item_pin_action" = "固定";
+"history_item_unpin_action" = "取消固定";
+"history_item_delete_action" = "刪除";
+"history_item_pinned_accessibility_value" = "已固定";
+"history_item_selected_accessibility_value" = "已選取，第 %d 項，共 %d 項";
+"history_item_image_accessibility_label_no_app" = "影像，%d×%d";
+"history_item_image_accessibility_generic" = "影像";
+"toolbar_remove_paste_stack_action" = "停止貼上堆疊";

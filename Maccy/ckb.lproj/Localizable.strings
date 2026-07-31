@@ -28,3 +28,14 @@
 "system_settings_pane" = "رێکخستنەکانی تایبەتێتی و ئاسایش";
 "system_preferences_name" = "هەڵبژاردەکانی سیستەم";
 "system_preferences_pane" = "هەڵبژاردەکانی ئاسایش و تایبەتێti";
+"status_item_accessibility_label" = "Maccy — مێژووی کلیپبۆرد";
+"status_item_disabled_accessibility_suffix" = "ڕاگیراوە";
+"search_clear_accessibility_label" = "گەڕان پاک بکەرەوە";
+"history_item_pin_action" = "چەسپاندن";
+"history_item_unpin_action" = "لابردنی چەسپاندن";
+"history_item_delete_action" = "سڕینەوە";
+"history_item_pinned_accessibility_value" = "چەسپێنراو";
+"history_item_selected_accessibility_value" = "هەڵبژێردراو، %d لە %d";
+"history_item_image_accessibility_label_no_app" = "وێنە، %d×%d";
+"history_item_image_accessibility_generic" = "وێنە";
+"toolbar_remove_paste_stack_action" = "وەستاندنی کۆمەڵەی لکاندن";

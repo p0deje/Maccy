@@ -28,3 +28,14 @@
 "system_settings_pane" = "Datenschutz & Sicherheit";
 "system_preferences_name" = "Systemeinstellungen";
 "system_preferences_pane" = "Sicherheit & Datenschutz";
+"status_item_accessibility_label" = "Maccy — Zwischenablageverlauf";
+"status_item_disabled_accessibility_suffix" = "pausiert";
+"search_clear_accessibility_label" = "Suche löschen";
+"history_item_pin_action" = "Anheften";
+"history_item_unpin_action" = "Lösen";
+"history_item_delete_action" = "Löschen";
+"history_item_pinned_accessibility_value" = "Angeheftet";
+"history_item_selected_accessibility_value" = "Ausgewählt, %d von %d";
+"history_item_image_accessibility_label_no_app" = "Bild, %d×%d";
+"history_item_image_accessibility_generic" = "Bild";
+"toolbar_remove_paste_stack_action" = "Einfügestapel stoppen";

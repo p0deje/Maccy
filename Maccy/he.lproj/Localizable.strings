@@ -28,3 +28,14 @@
 "system_settings_pane" = "הגדרות פרטיות ואבטחה";
 "system_preferences_name" = "העדפות מערכת";
 "system_preferences_pane" = "העדפות אבטחה ופרטיות";
+"status_item_accessibility_label" = "Maccy — היסטוריית הלוח";
+"status_item_disabled_accessibility_suffix" = "מושהה";
+"search_clear_accessibility_label" = "ניקוי החיפוש";
+"history_item_pin_action" = "נעיצה";
+"history_item_unpin_action" = "שחרור";
+"history_item_delete_action" = "מחיקה";
+"history_item_pinned_accessibility_value" = "נעוץ";
+"history_item_selected_accessibility_value" = "נבחר, %d מתוך %d";
+"history_item_image_accessibility_label_no_app" = "תמונה, %d×%d";
+"history_item_image_accessibility_generic" = "תמונה";
+"toolbar_remove_paste_stack_action" = "עצירת ערימת ההדבקה";

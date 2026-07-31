@@ -28,3 +28,14 @@
 "system_settings_pane" = "Privatnost i sigurnost";
 "system_preferences_name" = "Postavki sustava";
 "system_preferences_pane" = "Sigurnost i privatnost";
+"status_item_accessibility_label" = "Maccy — povijest međuspremnika";
+"status_item_disabled_accessibility_suffix" = "pauzirano";
+"search_clear_accessibility_label" = "Očisti pretraživanje";
+"history_item_pin_action" = "Prikvači";
+"history_item_unpin_action" = "Otkvači";
+"history_item_delete_action" = "Izbriši";
+"history_item_pinned_accessibility_value" = "Prikvačeno";
+"history_item_selected_accessibility_value" = "Odabrano, %d od %d";
+"history_item_image_accessibility_label_no_app" = "Slika, %d×%d";
+"history_item_image_accessibility_generic" = "Slika";
+"toolbar_remove_paste_stack_action" = "Zaustavi stog za lijepljenje";

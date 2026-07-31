@@ -28,3 +28,14 @@
 "format_modifiers_config" = "• Selecione com %@ pressionado para copiar, limpar a formatação e colar o item.";
 "accessibility_alert_comment" = "Conceda acesso a este aplicativo em {pane}, localizado em {settings}.\n\nClique + botão, selecione Maccy e ative a caixa de seleção próxima a ele.";
 "system_preferences_name" = "Preferências do Sistema";
+"status_item_accessibility_label" = "Maccy — histórico da área de transferência";
+"status_item_disabled_accessibility_suffix" = "pausado";
+"search_clear_accessibility_label" = "Limpar pesquisa";
+"history_item_pin_action" = "Fixar";
+"history_item_unpin_action" = "Desafixar";
+"history_item_delete_action" = "Excluir";
+"history_item_pinned_accessibility_value" = "Fixado";
+"history_item_selected_accessibility_value" = "Selecionado, %d de %d";
+"history_item_image_accessibility_label_no_app" = "Imagem, %d×%d";
+"history_item_image_accessibility_generic" = "Imagem";
+"toolbar_remove_paste_stack_action" = "Parar pilha de colagem";

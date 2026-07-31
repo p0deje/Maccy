@@ -5,6 +5,7 @@
 "PinKey" = "Apasă {pinKey} pentru a fixa.";
 "UnpinKey" = "Apasă {pinKey} pentru a detașa.";
 "DeleteKey" = "Apasă {deleteKey} pentru a șterge.";
-"PreviewKey" = "Apasă {previewKey} pentru a comuta previzualizarea.";
+"OpenPreview" = "Apasă {previewKey} pentru a afișa previzualizarea.";
+"ClosePreview" = "Apasă {previewKey} pentru a ascunde previzualizarea.";
 "Dimensions" = "Dimensiuni:";
 "CopyExtractedText" = "Copiază textul extras.";

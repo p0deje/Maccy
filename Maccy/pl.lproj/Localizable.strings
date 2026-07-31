@@ -28,3 +28,14 @@
 "clear" = "Wyczyść";
 "accessibility_alert_comment" = "Daj dostęp tej aplikacji w {pane}, w {settings}.\n\nKliknij przycisk +, wybierz Maccy i kliknij przełącznik obok.";
 "clear_alert_comment" = "Nie możesz cofnąć tej akcji.";
+"status_item_accessibility_label" = "Maccy — historia schowka";
+"status_item_disabled_accessibility_suffix" = "wstrzymano";
+"search_clear_accessibility_label" = "Wyczyść wyszukiwanie";
+"history_item_pin_action" = "Przypnij";
+"history_item_unpin_action" = "Odepnij";
+"history_item_delete_action" = "Usuń";
+"history_item_pinned_accessibility_value" = "Przypięto";
+"history_item_selected_accessibility_value" = "Wybrano, %d z %d";
+"history_item_image_accessibility_label_no_app" = "Obraz, %d×%d";
+"history_item_image_accessibility_generic" = "Obraz";
+"toolbar_remove_paste_stack_action" = "Zatrzymaj stos wklejania";

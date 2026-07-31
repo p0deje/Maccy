@@ -28,3 +28,14 @@
 "paste_modifiers_config" = "• Elekti premante %@ por kopii kaj alglui la eron.";
 "format_modifiers_config" = "• Elekti premante %@ por kopii, forigi tekstaranĝon, alglui la eron.";
 "accessibility_alert_comment" = "Donu aliron al la aplikaĵo en {pane}, trovebla en {settings}.\n\nAlklaku la butonon +, elektu Maccy, kaj ŝaltu la elektobutonon apud ĝi.";
+"status_item_accessibility_label" = "Maccy — tonduja historio";
+"status_item_disabled_accessibility_suffix" = "paŭzita";
+"search_clear_accessibility_label" = "Vakigi serĉon";
+"history_item_pin_action" = "Fiksi";
+"history_item_unpin_action" = "Malfiksi";
+"history_item_delete_action" = "Forigi";
+"history_item_pinned_accessibility_value" = "Fiksita";
+"history_item_selected_accessibility_value" = "Elektita, %d el %d";
+"history_item_image_accessibility_label_no_app" = "Bildo, %d×%d";
+"history_item_image_accessibility_generic" = "Bildo";
+"toolbar_remove_paste_stack_action" = "Haltigi la algluan stakon";

@@ -28,3 +28,14 @@
 "system_settings_pane" = "தனியுரிமை மற்றும் பாதுகாப்பு அமைப்புகள்";
 "system_preferences_name" = "கணினி விருப்பத்தேர்வுகள்";
 "system_preferences_pane" = "பாதுகாப்பு மற்றும் தனியுரிமை விருப்பத்தேர்வுகள்";
+"status_item_accessibility_label" = "Maccy — இடைநிலைப் பலகை வரலாறு";
+"status_item_disabled_accessibility_suffix" = "இடைநிறுத்தப்பட்டது";
+"search_clear_accessibility_label" = "தேடலை அழி";
+"history_item_pin_action" = "பின் செய்";
+"history_item_unpin_action" = "பின்னை நீக்கு";
+"history_item_delete_action" = "நீக்கு";
+"history_item_pinned_accessibility_value" = "பின் செய்யப்பட்டது";
+"history_item_selected_accessibility_value" = "தேர்ந்தெடுக்கப்பட்டது, %d / %d";
+"history_item_image_accessibility_label_no_app" = "படம், %d×%d";
+"history_item_image_accessibility_generic" = "படம்";
+"toolbar_remove_paste_stack_action" = "ஒட்டுதல் அடுக்கை நிறுத்து";

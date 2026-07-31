@@ -5,6 +5,7 @@
 "PinKey" = "İğnelemek için {pinKey}'a basın.";
 "UnpinKey" = "Kaldırmak için {pinKey}'a basın.";
 "DeleteKey" = "Silmek için {deleteKey}'a basın.";
-"PreviewKey" = "Önizlemeyi değiştirmek için {previewKey} tuşuna basın.";
+"OpenPreview" = "Önizlemeyi göstermek için {previewKey} tuşuna basın.";
+"ClosePreview" = "Önizlemeyi gizlemek için {previewKey} tuşuna basın.";
 "Dimensions" = "Boyutlar:";
 "CopyExtractedText" = "Çıkarılan metni kopyala.";

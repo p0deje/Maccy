@@ -28,3 +28,14 @@
 "clear_alert_confirm" = "Șterge";
 "active_screen" = "Ecranul activ";
 "accessibility_alert_comment" = "Acordă acces acestei aplicații în {pane}, aflat în {settings}.\n\nFă clic pe butonul +, selectează Maccy și bifează caseta de selectare de lânga aceasta.";
+"status_item_accessibility_label" = "Maccy — istoricul clipboardului";
+"status_item_disabled_accessibility_suffix" = "în pauză";
+"search_clear_accessibility_label" = "Șterge căutarea";
+"history_item_pin_action" = "Fixează";
+"history_item_unpin_action" = "Detașează";
+"history_item_delete_action" = "Șterge";
+"history_item_pinned_accessibility_value" = "Fixat";
+"history_item_selected_accessibility_value" = "Selectat, %d din %d";
+"history_item_image_accessibility_label_no_app" = "Imagine, %d×%d";
+"history_item_image_accessibility_generic" = "Imagine";
+"toolbar_remove_paste_stack_action" = "Oprește stiva de lipire";

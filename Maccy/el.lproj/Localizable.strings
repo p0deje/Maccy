@@ -28,3 +28,14 @@
 "accessibility_alert_open" = "Άνοιγμα Προτιμήσεων Συστήματος";
 "screen" = "Οθόνη";
 "system_settings_name" = "Ρυθμίσεις Συστήματος";
+"status_item_accessibility_label" = "Maccy — ιστορικό προχείρου";
+"status_item_disabled_accessibility_suffix" = "σε παύση";
+"search_clear_accessibility_label" = "Εκκαθάριση αναζήτησης";
+"history_item_pin_action" = "Καρφίτσωμα";
+"history_item_unpin_action" = "Ξεκαρφίτσωμα";
+"history_item_delete_action" = "Διαγραφή";
+"history_item_pinned_accessibility_value" = "Καρφιτσωμένο";
+"history_item_selected_accessibility_value" = "Επιλεγμένο, %d από %d";
+"history_item_image_accessibility_label_no_app" = "Εικόνα, %d×%d";
+"history_item_image_accessibility_generic" = "Εικόνα";
+"toolbar_remove_paste_stack_action" = "Διακοπή στοίβας επικόλλησης";

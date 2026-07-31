@@ -28,3 +28,14 @@
 "system_settings_pane" = "Pengaturan Privasi & Keamanan";
 "system_preferences_name" = "Preferensi Sistem";
 "system_preferences_pane" = "Preferensi Keamanan & Privasi";
+"status_item_accessibility_label" = "Maccy — riwayat papan klip";
+"status_item_disabled_accessibility_suffix" = "dijeda";
+"search_clear_accessibility_label" = "Hapus pencarian";
+"history_item_pin_action" = "Sematkan";
+"history_item_unpin_action" = "Lepas sematan";
+"history_item_delete_action" = "Hapus";
+"history_item_pinned_accessibility_value" = "Disematkan";
+"history_item_selected_accessibility_value" = "Dipilih, %d dari %d";
+"history_item_image_accessibility_label_no_app" = "Gambar, %d×%d";
+"history_item_image_accessibility_generic" = "Gambar";
+"toolbar_remove_paste_stack_action" = "Hentikan tumpukan tempel";
