@@ -34,14 +34,16 @@ class NavigationManager { // swiftlint:disable:this type_body_length
 
       // Announce the visual selection change, keeping repeated navigation updates concise.
       if let item = leadHistoryItem {
-        var parts = [item.hasImage ? NSLocalizedString("history_item_image_accessibility_generic", comment: "") : item.title]
-        if let application = item.application {
-          parts.append(application)
+        announceForAccessibility {
+          var parts = [item.hasImage ? NSLocalizedString("history_item_image_accessibility_generic", comment: "") : item.title]
+          if let application = item.application {
+            parts.append(application)
+          }
+          if item.isPinned {
+            parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
+          }
+          return parts.joined(separator: ", ")
         }
-        if item.isPinned {
-          parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
-        }
-        announceForAccessibility(parts.joined(separator: ", "))
       }
 
       let preview = AppState.shared.preview
