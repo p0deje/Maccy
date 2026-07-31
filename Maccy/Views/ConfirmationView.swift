@@ -19,6 +19,7 @@ struct ConfirmationView<Content: View>: View {
           Button(confirmation.confirm, role: .destructive) {
             item.action()
           }
+          .accessibilityIdentifier("confirmation-confirm")
           Button(confirmation.cancel, role: .cancel) {}
         }
         .dialogSuppressionToggle(isSuppressed: suppressConfirmation)
