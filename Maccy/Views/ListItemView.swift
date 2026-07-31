@@ -40,8 +40,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var selectionIndex: Int?
   var help: LocalizedStringKey?
   var selectionAppearance: SelectionAppearance = .none
-  // Full, untruncated description of this row for VoiceOver (title, source app, image
-  // dimensions, etc). The visible title may be truncated with an ellipsis; this must not be.
+  // Complete description used when the row's visual content is hidden from accessibility.
   var accessibilityLabel: String = ""
   var accessibilityAction: (() -> Void)?
   @ViewBuilder var title: () -> Title
@@ -50,7 +49,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
 
-  // Shared by the visible badge and the accessibilityValue below, so they never drift apart.
+  // Use the same selection number for the visible badge and accessibility value.
   private var selectionNumber: String? {
     selectionIndex.map { "\($0 + 1)" }
   }
@@ -73,7 +72,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       if let accessoryImage {
         Image(nsImage: accessoryImage)
           .accessibilityIdentifier("copy-history-item")
-          .accessibilityHidden(true) // Described by the row's own accessibilityLabel
+          .accessibilityHidden(true)
           .padding(.trailing, 5)
           .padding(.vertical, 5)
       }
@@ -81,12 +80,12 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       if let image {
         Image(nsImage: image)
           .accessibilityIdentifier("copy-history-item")
-          .accessibilityHidden(true) // Described by the row's own accessibilityLabel
+          .accessibilityHidden(true)
           .padding(.trailing, 5)
           .padding(.vertical, 5)
       } else {
         ListItemTitleView(attributedTitle: attributedTitle, title: title)
-          .accessibilityHidden(true) // Described by the row's own accessibilityLabel
+          .accessibilityHidden(true)
           .padding(.trailing, 5)
       }
 
@@ -103,7 +102,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
               in: Capsule()
             )
             .foregroundStyle(Color.white)
-            .accessibilityHidden(true) // Folded into the row's accessibilityLabel/Value
+            .accessibilityHidden(true)
         }
 
         if !shortcuts.isEmpty {
@@ -112,7 +111,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
               let visible = shortcut.isVisible(shortcuts, modifierFlags.flags)
               KeyboardShortcutView(shortcut: shortcut)
                 .opacity(visible ? 1 : 0)
-                .accessibilityHidden(true) // Folded into the row's accessibilityHint below
+                .accessibilityHidden(true)
                 .frame(width: visible ? nil : 0)
             }
           }

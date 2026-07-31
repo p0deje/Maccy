@@ -3,17 +3,14 @@ import KeyboardShortcuts
 import SwiftUI
 
 private struct KeyboardShortcutHelpModifier: ViewModifier {
-  // nil for buttons with no keyboard shortcut (e.g. CopyExtractedText) - they still get
-  // help + accessibilityLabel from `key`, just without a shortcut description substituted in.
+  // A nil name produces help text without a keyboard shortcut substitution.
   let name: KeyboardShortcuts.Name?
   let key: String
   let tableName: String
   let comment: String = ""
   let replacementKey: String
 
-  // Also used as the accessibilityLabel below: without this, several buttons across the app
-  // (Pin, Delete, toggle preview, copy extracted text) were relying on the bare SF Symbol's
-  // own generic system description, which says nothing about what the button actually does.
+  // Use the same localized description for visual help and the accessibility label.
   private var resolvedText: Text? {
     let localized = NSLocalizedString(key, tableName: tableName, comment: comment)
     guard let name else {
@@ -122,8 +119,6 @@ struct ToolbarView: View {
           } label: {
             Image(systemName: "text.viewfinder")
           }
-          // Icon-only button that used to rely on the SF Symbol's own generic system
-          // description ("text.viewfinder") - said nothing about what it actually does.
           .shortcutKeyHelp(key: "CopyExtractedText", tableName: "PreviewItemView")
           .disabled(selectedImageText == nil)
         }
@@ -139,8 +134,6 @@ struct ToolbarView: View {
             Image(systemName: "pin")
           }
         }
-        // Same bug as above: bare "pin"/"pin.slash" SF Symbols read as generic system
-        // descriptions ("pin marker"/"slashed pin") instead of the actual toggle action.
         .shortcutKeyHelp(
           name: .pin,
           key: shouldUnpin ? "UnpinKey" : "PinKey",

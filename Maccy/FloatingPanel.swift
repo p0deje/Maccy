@@ -81,20 +81,6 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     setContentSize(NSSize(width: finalWidth, height: finalHeight))
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
 
-    // Known limitation, not something this PR fixes: a .nonactivatingPanel in an
-    // LSUIElement (accessory) app never becomes the frontmost app, so VoiceOver's cursor
-    // may not reliably follow the popup when it opens. The obvious fix is calling
-    // `NSApp.activate` here when VoiceOver is running - I tried that locally and reverted
-    // it before ever committing it, because Clipboard.paste() posts a synthetic Cmd+V to
-    // whatever app is frontmost at that moment (see `sourceApp`/`paste()` in
-    // Clipboard.swift), relying entirely on the previously-active app staying frontmost
-    // since this panel never activates. Nothing re-activates that app before pasting, so
-    // `NSApp.activate` here would make the synthetic paste land on Maccy itself instead of
-    // the app the user meant to paste into - trading the popup-reachability bug for a
-    // silent paste-into-the-wrong-app bug, for the exact users this PR is meant to help.
-    // A real fix needs either (a) capturing the previously-frontmost app and reactivating
-    // it right before `paste()` fires (with the timing risk that implies), or (b) a
-    // different mechanism entirely - worth a design discussion before code.
     orderFrontRegardless()
     makeKey()
     isPresented = true
