@@ -62,7 +62,18 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
             self.saveWindowPosition()
         })
     )
-    contentView?.layer?.cornerRadius = Popup.cornerRadius + Popup.horizontalPadding
+    applyRoundedCorners()
+  }
+
+  private func applyRoundedCorners() {
+    let radius = Popup.cornerRadius + Popup.horizontalPadding
+
+    for view in [contentView, contentView?.superview].compactMap({ $0 }) {
+      view.wantsLayer = true
+      view.layer?.cornerRadius = radius
+      view.layer?.cornerCurve = .continuous
+      view.layer?.masksToBounds = true
+    }
   }
 
   func toggle(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
@@ -200,15 +211,19 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   // Close automatically when out of focus, e.g. outside click.
   override func resignKey() {
     super.resignKey()
-    // Don't hide if confirmation is shown.
-    if NSApp.alertWindow == nil {
+    // Don't hide while a modal interaction from this panel is active.
+    if NSApp.alertWindow == nil && !AppState.shared.suppressPopupAutoClose {
       close()
     }
   }
 
   override func close() {
     super.close()
-    AppState.shared.preview.state = .closed
+    let appState = AppState.shared
+    appState.preview.state = .closed
+    appState.isEditingItem = false
+    appState.navigator.isDragAndDropInProgress = false
+    appState.navigator.isManualMultiSelect = false
     isPresented = false
     statusBarButton?.isHighlighted = false
     onClose()

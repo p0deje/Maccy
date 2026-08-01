@@ -58,9 +58,11 @@ struct StorageSettingsPane: View {
 
   @Default(.size) private var size
   @Default(.sortBy) private var sortBy
+  @Default(.pinSortBy) private var pinSortBy
 
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
+  @State private var pendingPinSortBy: Sorter.PinBy?
 
   private let sizeFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
@@ -119,7 +121,70 @@ struct StorageSettingsPane: View {
         .frame(width: 160, alignment: .leading)
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
       }
+
+      Settings.Section(label: { Text("SortPinsBy", tableName: "StorageSettings") }) {
+        Picker("", selection: pinSortBySelection) {
+          ForEach(Sorter.PinBy.allCases) { mode in
+            Text(mode.description)
+          }
+        }
+        .labelsHidden()
+        .frame(width: 160, alignment: .leading)
+
+        Text("SortPinsByDescription", tableName: "StorageSettings")
+          .fixedSize(horizontal: false, vertical: true)
+          .controlSize(.small)
+          .foregroundStyle(.gray)
+      }
     }
+    .alert(
+      Text("PinSortWarningTitle", tableName: "StorageSettings"),
+      isPresented: isShowingPinSortWarning,
+      presenting: pendingPinSortBy
+    ) { pendingPinSortBy in
+      Button(role: .destructive) {
+        applyPinSorting(pendingPinSortBy)
+      } label: {
+        Text("PinSortWarningConfirm", tableName: "StorageSettings")
+      }
+      Button(role: .cancel) {
+      } label: {
+        Text("PinSortWarningCancel", tableName: "StorageSettings")
+      }
+    } message: { _ in
+      Text("PinSortWarningMessage", tableName: "StorageSettings")
+    }
+  }
+
+  private var pinSortBySelection: Binding<Sorter.PinBy> {
+    Binding(
+      get: { pinSortBy },
+      set: { newValue in
+        if pinSortBy == .custom,
+           newValue != .custom,
+           History.shared.pinSortingWouldChangeCurrentOrder(newValue) {
+          pendingPinSortBy = newValue
+        } else {
+          applyPinSorting(newValue)
+        }
+      }
+    )
+  }
+
+  private var isShowingPinSortWarning: Binding<Bool> {
+    Binding(
+      get: { pendingPinSortBy != nil },
+      set: { isPresented in
+        if !isPresented {
+          pendingPinSortBy = nil
+        }
+      }
+    )
+  }
+
+  private func applyPinSorting(_ pinSortBy: Sorter.PinBy) {
+    History.shared.setPinSorting(pinSortBy)
+    pendingPinSortBy = nil
   }
 }
 

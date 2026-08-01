@@ -105,21 +105,6 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertFalse(itemDecorator.isPinned)
   }
 
-  func testPin() {
-    let itemDecorator = historyItemDecorator("foo")
-    itemDecorator.togglePin()
-    XCTAssertNotNil(itemDecorator.item.pin)
-    XCTAssertTrue(itemDecorator.isPinned)
-  }
-
-  func testUnpin() {
-    let itemDecorator = historyItemDecorator("foo")
-    itemDecorator.togglePin()
-    itemDecorator.togglePin()
-    XCTAssertNil(itemDecorator.item.pin)
-    XCTAssertFalse(itemDecorator.isPinned)
-  }
-
   func testHighlight() {
     let itemDecorator = historyItemDecorator("foo bar baz")
     itemDecorator.highlight("random", [

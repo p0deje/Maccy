@@ -16,6 +16,11 @@ class AppState: Sendable {
   var footer: Footer
   var navigator: NavigationManager
   var preview: SlideoutController
+  
+  var isEditingItem: Bool = false
+  var suppressPopupAutoClose: Bool {
+    return navigator.isDragAndDropInProgress || isEditingItem
+  }
 
   var searchVisible: Bool {
     if !Defaults[.showSearch] { return false }
@@ -130,15 +135,6 @@ class AppState: Sendable {
             toolbarIcon: NSImage.paintpalette!
           ) {
             AppearanceSettingsPane()
-          },
-          Settings.Pane(
-            identifier: Settings.PaneIdentifier.pins,
-            title: NSLocalizedString("Title", tableName: "PinsSettings", comment: ""),
-            toolbarIcon: NSImage.pincircle!
-          ) {
-            PinsSettingsPane()
-              .environment(self)
-              .modelContainer(Storage.shared.container)
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.ignore,
