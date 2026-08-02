@@ -28,3 +28,14 @@
 "clear_alert_message" = "আপনি কি নিশ্চিত আপনি ইতিহাস মুছে ফেলতে চান?";
 "system_settings_name" = "সিস্টেম সেটিংস";
 "screen" = "স্ক্রিন";
+"status_item_accessibility_label" = "Maccy — ক্লিপবোর্ড ইতিহাস";
+"status_item_disabled_accessibility_suffix" = "বিরত";
+"search_clear_accessibility_label" = "অনুসন্ধান মুছুন";
+"history_item_pin_action" = "পিন করুন";
+"history_item_unpin_action" = "পিন সরান";
+"history_item_delete_action" = "মুছুন";
+"history_item_pinned_accessibility_value" = "পিন করা";
+"history_item_selected_accessibility_value" = "নির্বাচিত, %d / %d";
+"history_item_image_accessibility_label_no_app" = "ছবি, %d×%d";
+"history_item_image_accessibility_generic" = "ছবি";
+"toolbar_remove_paste_stack_action" = "পেস্ট স্ট্যাক বন্ধ করুন";

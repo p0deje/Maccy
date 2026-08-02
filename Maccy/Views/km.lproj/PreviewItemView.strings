@@ -4,3 +4,5 @@
 "NumberOfCopies" = "";
 "FirstCopyTime" = "";
 "Application" = "";
+"OpenPreview" = "ចុច {previewKey} ដើម្បីបង្ហាញការមើលជាមុន។";
+"ClosePreview" = "ចុច {previewKey} ដើម្បីលាក់ការមើលជាមុន។";

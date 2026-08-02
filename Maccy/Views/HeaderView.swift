@@ -30,13 +30,14 @@ struct HeaderView: View {
         }
         .shortcutKeyHelp(
           name: .togglePreview,
-          key: "PreviewKey",
+          key: controller.state.isOpen ? "ClosePreview" : "OpenPreview",
           tableName: "PreviewItemView",
           replacementKey: "previewKey"
         )
         .padding(.trailing, Popup.horizontalPadding)
       }
       .opacity(appState.searchVisible ? 1 : 0)
+      .accessibilityHidden(!appState.searchVisible)
       .layoutPriority(1)
     }
     .padding(.top, Popup.verticalPadding)

@@ -28,3 +28,14 @@
 "system_settings_pane" = "개인정보 보호 및 보안";
 "system_preferences_name" = "시스템 환경설정에";
 "system_preferences_pane" = "보안 및 개인";
+"status_item_accessibility_label" = "Maccy — 클립보드 기록";
+"status_item_disabled_accessibility_suffix" = "일시 정지됨";
+"search_clear_accessibility_label" = "검색 지우기";
+"history_item_pin_action" = "고정";
+"history_item_unpin_action" = "고정 해제";
+"history_item_delete_action" = "삭제";
+"history_item_pinned_accessibility_value" = "고정됨";
+"history_item_selected_accessibility_value" = "선택됨, %d/%d";
+"history_item_image_accessibility_label_no_app" = "이미지, %d×%d";
+"history_item_image_accessibility_generic" = "이미지";
+"toolbar_remove_paste_stack_action" = "붙여넣기 스택 중지";

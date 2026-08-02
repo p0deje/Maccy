@@ -5,6 +5,7 @@
 "PinKey" = "{pinKey} பெறுநர் முள் அழுத்தவும்.";
 "DeleteKey" = "நீக்க {deleteKey} ஐ அழுத்தவும்.";
 "UnpinKey" = "முள்ளை அகற்ற {pinKey} ஐ அழுத்தவும்.";
-"PreviewKey" = "முன்னோட்டத்தை மாற்ற {previewKey} அழுத்தவும்.";
+"OpenPreview" = "முன்னோட்டத்தைக் காட்ட {previewKey} அழுத்தவும்.";
+"ClosePreview" = "முன்னோட்டத்தை மறைக்க {previewKey} அழுத்தவும்.";
 "Dimensions" = "பரிமாணங்கள்:";
 "CopyExtractedText" = "பிரித்தெடுக்கப்பட்ட உரையை நகலெடுக்கவும்.";

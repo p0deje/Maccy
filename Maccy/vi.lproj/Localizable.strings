@@ -28,3 +28,14 @@
 "system_settings_pane" = "Cài đặt bảo mật và quyền riêng tư";
 "system_preferences_name" = "Thiết lập Hệ thống";
 "system_preferences_pane" = "Tùy chọn Bảo mật & Quyền riêng tư";
+"status_item_accessibility_label" = "Maccy — lịch sử bảng nhớ tạm";
+"status_item_disabled_accessibility_suffix" = "đã tạm dừng";
+"search_clear_accessibility_label" = "Xóa tìm kiếm";
+"history_item_pin_action" = "Ghim";
+"history_item_unpin_action" = "Bỏ ghim";
+"history_item_delete_action" = "Xóa";
+"history_item_pinned_accessibility_value" = "Đã ghim";
+"history_item_selected_accessibility_value" = "Đã chọn, %d trên %d";
+"history_item_image_accessibility_label_no_app" = "Hình ảnh, %d×%d";
+"history_item_image_accessibility_generic" = "Hình ảnh";
+"toolbar_remove_paste_stack_action" = "Dừng ngăn xếp dán";

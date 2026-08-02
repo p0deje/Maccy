@@ -28,3 +28,14 @@
 "system_settings_pane" = "Confidentialité et sécurité";
 "system_preferences_name" = "Préférences Système";
 "system_preferences_pane" = "Sécurité & confidentialité";
+"status_item_accessibility_label" = "Maccy — historique du presse-papiers";
+"status_item_disabled_accessibility_suffix" = "en pause";
+"search_clear_accessibility_label" = "Effacer la recherche";
+"history_item_pin_action" = "Épingler";
+"history_item_unpin_action" = "Détacher";
+"history_item_delete_action" = "Supprimer";
+"history_item_pinned_accessibility_value" = "Épinglé";
+"history_item_selected_accessibility_value" = "Sélectionné, %d sur %d";
+"history_item_image_accessibility_label_no_app" = "Image, %d×%d";
+"history_item_image_accessibility_generic" = "Image";
+"toolbar_remove_paste_stack_action" = "Arrêter la pile de collage";

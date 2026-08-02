@@ -28,3 +28,14 @@
 "screen" = "Képernyő";
 "system_settings_pane" = "Adatvédelem és biztonság";
 "system_preferences_name" = "Rendszerbeállítások";
+"status_item_accessibility_label" = "Maccy — vágólapelőzmények";
+"status_item_disabled_accessibility_suffix" = "szüneteltetve";
+"search_clear_accessibility_label" = "Keresés törlése";
+"history_item_pin_action" = "Kitűzés";
+"history_item_unpin_action" = "Kitűzés megszüntetése";
+"history_item_delete_action" = "Törlés";
+"history_item_pinned_accessibility_value" = "Kitűzve";
+"history_item_selected_accessibility_value" = "Kijelölve, %d / %d";
+"history_item_image_accessibility_label_no_app" = "Kép, %d×%d";
+"history_item_image_accessibility_generic" = "Kép";
+"toolbar_remove_paste_stack_action" = "Beillesztési verem leállítása";

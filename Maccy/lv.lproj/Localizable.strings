@@ -28,3 +28,14 @@
 "accessibility_alert_comment" = "Piešķirt piekļuvi šai lietotnei izvelnē {pane}, kas atrodas {settings}.\n\nNoklikšķiniet uz + pogas, atlasiet Maccy un ieslēdziet tai blakus esošo izvēles ķeksīti.";
 "clear_alert_cancel" = "Atcelt";
 "accessibility_alert_message" = "“Maccy” vēlas kontrolēt šo datoru, izmantojot pieejamības līdzekļus.";
+"status_item_accessibility_label" = "Maccy — starpliktuves vēsture";
+"status_item_disabled_accessibility_suffix" = "apturēts";
+"search_clear_accessibility_label" = "Notīrīt meklēšanu";
+"history_item_pin_action" = "Piespraust";
+"history_item_unpin_action" = "Atspraust";
+"history_item_delete_action" = "Dzēst";
+"history_item_pinned_accessibility_value" = "Piesprausts";
+"history_item_selected_accessibility_value" = "Atlasīts, %d no %d";
+"history_item_image_accessibility_label_no_app" = "Attēls, %d×%d";
+"history_item_image_accessibility_generic" = "Attēls";
+"toolbar_remove_paste_stack_action" = "Apturēt ielīmēšanas steku";

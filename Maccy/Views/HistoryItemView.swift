@@ -37,6 +37,38 @@ struct HistoryItemView: View {
     return ColorImage.from(item.title)
   }
 
+  // Describe the complete item independently of its potentially truncated visual content.
+  private var accessibilityLabel: String {
+    var parts: [String] = []
+    if item.hasImage, let image = item.item.image {
+      let size = image.pixelSize
+      parts.append(String(format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""), Int(size.width), Int(size.height)))
+    } else {
+      parts.append(item.title)
+    }
+    if let application = item.application {
+      parts.append(application)
+    }
+    if item.isPinned {
+      parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
+    }
+    if let index = visualIndex {
+      parts.append(String(format: NSLocalizedString("history_item_selected_accessibility_value", comment: ""), index + 1, appState.navigator.selection.count))
+    }
+    return parts.joined(separator: ", ")
+  }
+
+  private func performSelect() {
+    if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
+      appState.navigator.addToSelection(item: item)
+    } else {
+      let flags = NSEvent.ModifierFlags.currentModifierFlags
+      Task {
+        appState.history.select(item, flags: flags)
+      }
+    }
+  }
+
   var body: some View {
     ListItemView(
       id: item.id,
@@ -48,22 +80,21 @@ struct HistoryItemView: View {
       shortcuts: item.shortcuts,
       isSelected: item.isSelected,
       selectionIndex: visualIndex,
-      selectionAppearance: selectionAppearance
+      selectionAppearance: selectionAppearance,
+      accessibilityLabel: accessibilityLabel
     ) {
       Text(verbatim: item.title)
     }
+    .accessibilityIdentifier("copy-history-item")
+    .buttonAction(performSelect)
     .onAppear {
       item.ensureThumbnailImage()
     }
-    .onTapGesture {
-      if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
-        appState.navigator.addToSelection(item: item)
-      } else {
-        let flags = NSEvent.ModifierFlags.currentModifierFlags
-        Task {
-          appState.history.select(item, flags: flags)
-        }
-      }
+    .accessibilityAction(named: Text(item.isPinned ? "history_item_unpin_action" : "history_item_pin_action")) {
+      appState.history.togglePin(item)
+    }
+    .accessibilityAction(named: Text("history_item_delete_action")) {
+      appState.history.delete(item)
     }
   }
 }

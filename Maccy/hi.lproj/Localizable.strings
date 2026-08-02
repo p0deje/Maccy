@@ -28,3 +28,14 @@
 "format_modifiers_config" = "• %@ दबाकर आइटम को कॉपी, फॉर्मेटिंग साफ़ करें और पेस्ट करने के लिए चुनें।";
 "paste_modifiers_config" = "• %@ दबाकर आइटम को कॉपी और पेस्ट करने के लिए चुनें।";
 "accessibility_alert_comment" = "इस एप्लिकेशन को {pane} में, जो कि {settings} में स्थित है, एक्सेस दें।\n\n+ बटन पर क्लिक करें, Maccy का चयन करें, और उसके बगल में स्थित चेकबॉक्स को सक्रिय करें।";
+"status_item_accessibility_label" = "Maccy — क्लिपबोर्ड इतिहास";
+"status_item_disabled_accessibility_suffix" = "रोका गया";
+"search_clear_accessibility_label" = "खोज साफ़ करें";
+"history_item_pin_action" = "पिन करें";
+"history_item_unpin_action" = "पिन हटाएँ";
+"history_item_delete_action" = "हटाएँ";
+"history_item_pinned_accessibility_value" = "पिन किया गया";
+"history_item_selected_accessibility_value" = "चयनित, %d / %d";
+"history_item_image_accessibility_label_no_app" = "छवि, %d×%d";
+"history_item_image_accessibility_generic" = "छवि";
+"toolbar_remove_paste_stack_action" = "पेस्ट स्टैक रोकें";

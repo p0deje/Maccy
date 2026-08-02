@@ -5,6 +5,7 @@
 "PinKey" = "";
 "UnpinKey" = "";
 "DeleteKey" = "";
-"PreviewKey" = "";
+"OpenPreview" = "Tryck {previewKey} för att visa förhandsvisningen.";
+"ClosePreview" = "Tryck {previewKey} för att dölja förhandsvisningen.";
 "Dimensions" = "Mått:";
 "CopyExtractedText" = "Kopiera extraherad text.";

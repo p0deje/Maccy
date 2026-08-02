@@ -5,6 +5,7 @@
 "PinKey" = "Pressione {pinKey} para fixar.";
 "UnpinKey" = "Pressione {pinKey} para desafixar.";
 "DeleteKey" = "Pressione {deleteKey} para excluir.";
-"PreviewKey" = "Pressione {previewKey} para alternar a pré-visualização.";
+"OpenPreview" = "Pressione {previewKey} para mostrar a pré-visualização.";
+"ClosePreview" = "Pressione {previewKey} para ocultar a pré-visualização.";
 "Dimensions" = "Dimensões:";
 "CopyExtractedText" = "Copiar texto extraído.";

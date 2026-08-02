@@ -21,7 +21,7 @@ class Storage {
     var config = ModelConfiguration(url: url)
 
     #if DEBUG
-    if CommandLine.arguments.contains("enable-testing") {
+    if AppDelegate.isTesting {
       config = ModelConfiguration(isStoredInMemoryOnly: true)
     }
     #endif

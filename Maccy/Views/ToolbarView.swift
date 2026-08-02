@@ -3,24 +3,30 @@ import KeyboardShortcuts
 import SwiftUI
 
 private struct KeyboardShortcutHelpModifier: ViewModifier {
-  let name: KeyboardShortcuts.Name
+  // A nil name produces help text without a keyboard shortcut substitution.
+  let name: KeyboardShortcuts.Name?
   let key: String
   let tableName: String
   let comment: String = ""
   let replacementKey: String
 
+  // Use the same localized description for visual help and the accessibility label.
+  private var resolvedText: Text? {
+    let localized = NSLocalizedString(key, tableName: tableName, comment: comment)
+    guard let name else {
+      return Text(localized)
+    }
+    guard let shortcut = KeyboardShortcuts.Shortcut(name: name) else {
+      return nil
+    }
+    return Text(localized.replacingOccurrences(of: "{\(replacementKey)}", with: shortcut.description))
+  }
+
   func body(content: Content) -> some View {
-    if let shortcut = KeyboardShortcuts.Shortcut(name: name) {
+    if let resolvedText {
       content
-        .help(
-          Text(
-            NSLocalizedString(key, tableName: tableName, comment: comment)
-              .replacingOccurrences(
-                of: "{\(replacementKey)}",
-                with: shortcut.description
-              )
-          )
-        )
+        .help(resolvedText)
+        .accessibilityLabel(resolvedText)
     } else {
       content
     }
@@ -47,10 +53,10 @@ struct ToolbarButton<Label: View>: View {
   }
 
   func shortcutKeyHelp(
-    name: KeyboardShortcuts.Name,
+    name: KeyboardShortcuts.Name? = nil,
     key: String,
     tableName: String,
-    replacementKey: String
+    replacementKey: String = ""
   ) -> some View {
     self.modifier(
       KeyboardShortcutHelpModifier(
@@ -113,7 +119,7 @@ struct ToolbarView: View {
           } label: {
             Image(systemName: "text.viewfinder")
           }
-          .help(Text("CopyExtractedText", tableName: "PreviewItemView"))
+          .shortcutKeyHelp(key: "CopyExtractedText", tableName: "PreviewItemView")
           .disabled(selectedImageText == nil)
         }
 
@@ -155,6 +161,7 @@ struct ToolbarView: View {
         } label: {
           Image(systemName: "stop")
         }
+        .accessibilityLabel(Text("toolbar_remove_paste_stack_action"))
       }
     }
   }

@@ -5,6 +5,7 @@
 "PinKey" = "Premi {pinKey} per bloccare.";
 "UnpinKey" = "Premi {pinKey} per sbloccare.";
 "DeleteKey" = "Premi {deleteKey} per cancellare.";
-"PreviewKey" = "Premi {previewKey} per attivare/disattivare l'anteprima.";
+"OpenPreview" = "Premi {previewKey} per mostrare l'anteprima.";
+"ClosePreview" = "Premi {previewKey} per nascondere l'anteprima.";
 "Dimensions" = "Dimensioni:";
 "CopyExtractedText" = "Copia il testo estratto.";

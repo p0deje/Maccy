@@ -28,3 +28,14 @@
 "system_settings_pane" = "«Конфиденциальность и безопасность»";
 "system_preferences_name" = "Системных настройках";
 "system_preferences_pane" = "«Защита и безопасность»";
+"status_item_accessibility_label" = "Maccy — история буфера обмена";
+"status_item_disabled_accessibility_suffix" = "приостановлено";
+"search_clear_accessibility_label" = "Очистить поиск";
+"history_item_pin_action" = "Прикрепить";
+"history_item_unpin_action" = "Открепить";
+"history_item_delete_action" = "Удалить";
+"history_item_pinned_accessibility_value" = "Прикреплено";
+"history_item_selected_accessibility_value" = "Выбрано, %d из %d";
+"history_item_image_accessibility_label_no_app" = "Изображение, %d×%d";
+"history_item_image_accessibility_generic" = "Изображение";
+"toolbar_remove_paste_stack_action" = "Остановить стек вставки";
