@@ -10,10 +10,10 @@
 "SearchVisibilityAlways" = "始终";
 "SearchVisibilityDuringSearch" = "在搜索过程中";
 "ActiveScreen" = "活动屏幕";
-"PinTo" = "固定项目位置：";
+"PinTo" = "置顶到：";
 "PinToTop" = "顶部";
 "PinToBottom" = "底部";
-"PinToTooltip" = "更改固定项目的位置。\n默认：顶部。";
+"PinToTooltip" = "更改置顶项目的位置。\n默认：顶部。";
 "ImageHeight" = "图片高度：";
 "ImageHeightTooltip" = "图像预览最大高度。\n默认: 40\n提示：设置为 16 以匹配文本项目的大小。";
 "OpenPreviewAutomatically" = "自动打开预览";
