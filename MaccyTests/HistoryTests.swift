@@ -6,6 +6,7 @@ import Defaults
 class HistoryTests: XCTestCase {
   let savedSize = Defaults[.size]
   let savedSortBy = Defaults[.sortBy]
+  let savedPinTo = Defaults[.pinTo]
   let history = History.shared
 
   override func setUp() {
@@ -13,12 +14,14 @@ class HistoryTests: XCTestCase {
     history.clearAll()
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt
+    Defaults[.pinTo] = .bottom
   }
 
   override func tearDown() {
     super.tearDown()
     Defaults[.size] = savedSize
     Defaults[.sortBy] = savedSortBy
+    Defaults[.pinTo] = savedPinTo
   }
 
   func testDefaultIsEmpty() {
@@ -224,6 +227,35 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.items.count, 5)
     XCTAssertTrue(history.items.contains(items[10]))
     XCTAssertFalse(history.items.contains(items[5]))
+  }
+
+  func testReaddingBottomMostPinnedItemAtFullCapacity() {
+    // Regression test for a crash when re-copying (invoking) the bottom-most
+    // pinned item while history is at full capacity and pins are sorted to the
+    // bottom. The stale insert index used to trap with an out-of-bounds insert.
+    // Issue link: https://github.com/p0deje/Maccy/issues/1466
+    // `pinTo` is restored to its default value(.top) in `tearDown`.
+    Defaults[.pinTo] = .bottom
+
+    // Pin an item; `history.togglePin` re-sorts `all`, so with `.bottom` the
+    // pinned item ends up as the last element.
+    let pinned = history.add(historyItem("pinned"))
+    history.togglePin(pinned)
+
+    // Fill unpinned history to full capacity.
+    for index in 0..<Defaults[.size] {
+      history.add(historyItem(String(index)))
+    }
+
+    XCTAssertEqual(history.all.last, pinned)
+
+    // Re-copy the pinned item. It is detected as a duplicate, removed and
+    // re-inserted while `limitHistorySize` trims an exceeding unpinned item.
+    // Before the fix this inserted at a stale, out-of-bounds index and crashed.
+    let readded = history.add(historyItem("pinned"))
+
+    XCTAssertTrue(history.all.contains(readded))
+    XCTAssertEqual(history.all.filter(\.isPinned).count, 1)
   }
 
   func testRemoving() {
