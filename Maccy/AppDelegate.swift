@@ -114,8 +114,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       AppState.shared.history.clear()
     }
   }
-  
-  private func ensureMigration(key: String, _ action: () -> ()) {
+
+  private func ensureMigration(key: String, _ action: () -> Void) {
     if Defaults[.migrations][key] != true {
       action()
       Defaults[.migrations][key] = true

@@ -43,7 +43,7 @@ class Popup {
   var extraTopHeight: CGFloat = 0
   var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
-  
+
   var minimumHeight: CGFloat {
     // Reserve space for 3 items
     return suitableHeight(for: 3 * Popup.itemHeight)
@@ -108,7 +108,7 @@ class Popup {
     height = min(height, Defaults[.windowSize].height)
     return height
   }
-  
+
   private func suitableHeight(for historyListHeight: CGFloat) -> CGFloat {
     return historyListHeight + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
   }
