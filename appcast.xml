@@ -6,22 +6,33 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>2.6.1</title>
+      <title>2.7.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Fixed a crash when copying on macOS 14.</li>
-            <li>Fixed a text beam cursor when hovering a header with a hidden search field.</li>
+            <li>Redesigned image/text preview as a slideout panel with a toolbar, openable via `⌃Space`.</li>
+            <li>Added a button to copy OCR text from an image.</li>
+            <li>Added a setting to toggle auto-open preview.</li>
+            <li>Added a setting to toggle a HEX color swatch.</li>
+            <li>Show image dimensions in the preview.</li>
+            <li>Improved memory usage and performance.</li>
+            <li>Fixed `⌃K` (kill-to-end) when already on the first item.</li>
+            <li>Raised the pop-up above Chrome autofill.</li>
+            <li>Keep the pop-up constrained to the active screen .</li>
+            <li>Refresh the app icon after the source app is updated.</li>
+            <li>Fixed open preferences warning text overflow on long localizations.</li>
+            <li>Fixed an issue when transient pasteboard types from VS Code and Notes would create duplicate items.</li>
+            <li>Improved Persian/Croatian/Uzbek/Spanish translations.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2025-11-27</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.6.1</releaseNotesLink>
+      <pubDate>2026-06-28</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.7.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/2.6.1/Maccy.app.zip"
-        sparkle:version="60"
-        sparkle:shortVersionString="2.6.1"
+        url="https://github.com/p0deje/Maccy/releases/download/2.7.0/Maccy.app.zip"
+        sparkle:version="61"
+        sparkle:shortVersionString="2.7.0"
         length="0"
         type="application/octet-stream"
       />

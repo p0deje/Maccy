@@ -68,8 +68,9 @@ struct HistoryListView: View {
   var body: some View {
     let topPinsVisible = pinTo == .top && pinsVisible
     let bottomPinsVisible = pinTo == .bottom && pinsVisible
-    let topSeparatorVisible = topPinsVisible || pasteStackVisible
-    let bottomSeparatorVisible = bottomPinsVisible
+    let historyEmpty = unpinnedItems.isEmpty
+    let topSeparatorVisible = !historyEmpty && (topPinsVisible || pasteStackVisible)
+    let bottomSeparatorVisible = !historyEmpty && bottomPinsVisible
     let scrollTopPadding = topSeparatorVisible ? Popup.verticalSeparatorPadding : topPadding
     let scrollBottomPadding = bottomSeparatorVisible ? Popup.verticalSeparatorPadding : bottomPadding
 
@@ -89,6 +90,9 @@ struct HistoryListView: View {
 
       if topSeparatorVisible {
         topSeparator()
+      } else if showFooter && historyEmpty {
+        Spacer()
+          .frame(height: Popup.verticalSeparatorPadding)
       }
     }
     .padding(.top, topSeparatorVisible ? topPadding : 0)
@@ -145,6 +149,7 @@ struct HistoryListView: View {
       .contentMargins(.top, scrollTopPadding, for: .scrollIndicators)
       .contentMargins(.bottom, scrollBottomPadding, for: .scrollIndicators)
     }
+    .accessibilityIdentifier("history-scroll-view")
 
     VStack(spacing: 0) {
       if bottomSeparatorVisible {
@@ -155,7 +160,7 @@ struct HistoryListView: View {
         PinsView(items: pinnedItems)
       }
     }
-    .padding(.bottom, bottomSeparatorVisible ? bottomPadding : 0)
+    .padding(.bottom, bottomPinsVisible ? bottomPadding : 0)
     .readHeight(appState, into: \.popup.extraBottomHeight)
   }
 }

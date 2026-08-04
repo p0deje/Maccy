@@ -31,6 +31,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
                  userDriver: SPUStandardUserDriver(hostBundle: Bundle.main, delegate: nil),
                  delegate: nil)
       .automaticallyChecksForUpdates = false
+      // Start from a clean slate for the isolated testing preferences.
+      UserDefaults.standard.removePersistentDomain(forName: Defaults.Keys.testingSuiteName)
     }
     #endif
 
@@ -112,9 +114,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       AppState.shared.history.clear()
     }
   }
+  
+  private func ensureMigration(key: String, _ action: () -> ()) {
+    if Defaults[.migrations][key] != true {
+      action()
+      Defaults[.migrations][key] = true
+    }
+  }
 
   private func migrateUserDefaults() {
-    if Defaults[.migrations]["2024-07-01-version-2"] != true {
+    ensureMigration(key: "2024-07-01-version-2") {
       // Start 2.x from scratch.
       Defaults.reset(.migrations)
 
@@ -127,6 +136,14 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       UserDefaults.standard.removeObject(forKey: "hideTitle")
 
       Defaults[.migrations]["2024-07-01-version-2"] = true
+    }
+
+    ensureMigration(key: "2025-07-04-add-jpeg-heic") {
+      var types = Defaults[.enabledPasteboardTypes]
+      if !types.intersection(StorageType.images.types).isEmpty {
+        types.formUnion(StorageType.images.types)
+      }
+      Defaults[.enabledPasteboardTypes] = types
     }
 
     // The following defaults are not used in Maccy 2.x
@@ -171,7 +188,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private func disableUnusedGlobalHotkeys() {
-    let names: [KeyboardShortcuts.Name] = [.delete, .pin]
+    let names: [KeyboardShortcuts.Name] = [.delete, .pin, .togglePreview]
     KeyboardShortcuts.disable(names)
 
     NotificationCenter.default.addObserver(

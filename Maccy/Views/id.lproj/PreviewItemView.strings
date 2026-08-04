@@ -1,9 +1,9 @@
 "Application" = "Aplikasi:";
-"FirstCopyTime" = "Salinan pertama:";
-"LastCopyTime" = "Salinan terakhir:";
+"FirstCopyTime" = "Waktu menyalin pertama:";
+"LastCopyTime" = "Waktu menyalin terakhir:";
 "NumberOfCopies" = "Jumlah salinan:";
-"PinKey" = "Tekan tombol {pinKey} untuk pin.";
-"DeleteKey" = "Tekan tombol {deleteKey} untuk menghapus.";
+"PinKey" = "Tekan {pinKey} untuk menyematkan.";
+"DeleteKey" = "Tekan {deleteKey} untuk menghapus.";
 "UnpinKey" = "Tekan tombol {pinKey} untuk melepas pin.";
 "PreviewKey" = "Tekan tombol {previewKey} untuk beralih pratinjau.";
 "Dimensions" = "Dimensi:";

@@ -3,7 +3,7 @@ import Defaults
 
 struct StorageType {
   static let files = StorageType(types: [.fileURL])
-  static let images = StorageType(types: [.png, .tiff])
+  static let images = StorageType(types: [.png, .tiff, .jpeg, .heic])
   static let text = StorageType(types: [.html, .rtf, .string])
   static let all = StorageType(types: files.types + images.types + text.types)
 
@@ -11,6 +11,19 @@ struct StorageType {
 }
 
 extension Defaults.Keys {
+#if DEBUG
+  // UI Tests bundle preferences
+  static let testingSuiteName = "\(Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy").uitests"
+
+  // When UI tests run with the `enable-testing` argument, window and pin
+  // preferences are stored in a separate xcuitest bundle
+  private static let preferencesSuite: UserDefaults = CommandLine.arguments.contains("enable-testing")
+    ? (UserDefaults(suiteName: testingSuiteName) ?? .standard)
+    : .standard
+#else
+  private static let preferencesSuite: UserDefaults = .standard
+#endif
+
   static let clearOnQuit = Key<Bool>("clearOnQuit", default: false)
   static let clearSystemClipboard = Key<Bool>("clearSystemClipboard", default: false)
   static let clipboardCheckInterval = Key<Double>("clipboardCheckInterval", default: 0.5)
@@ -39,7 +52,7 @@ extension Defaults.Keys {
   static let migrations = Key<[String: Bool]>("migrations", default: [:])
   static let numberOfUsages = Key<Int>("numberOfUsages", default: 0)
   static let pasteByDefault = Key<Bool>("pasteByDefault", default: false)
-  static let pinTo = Key<PinsPosition>("pinTo", default: .top)
+  static let pinTo = Key<PinsPosition>("pinTo", default: .top, suite: preferencesSuite)
   static let popupPosition = Key<PopupPosition>("popupPosition", default: .cursor)
   static let popupScreen = Key<Int>("popupScreen", default: 0)
   static let openPreviewAutomatically = Key<Bool>("openPreviewAutomatically", default: true)
@@ -56,7 +69,7 @@ extension Defaults.Keys {
   static let size = Key<Int>("historySize", default: 200)
   static let sortBy = Key<Sorter.By>("sortBy", default: .lastCopiedAt)
   static let suppressClearAlert = Key<Bool>("suppressClearAlert", default: false)
-  static let windowSize = Key<NSSize>("windowSize", default: NSSize(width: 450, height: 800))
+  static let windowSize = Key<NSSize>("windowSize", default: NSSize(width: 450, height: 800), suite: preferencesSuite)
   static let windowPosition = Key<NSPoint>("windowPosition", default: NSPoint(x: 0.5, y: 0.8))
   static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: false)
   static let showHexColorSwatch = Key<Bool>("showHexColorSwatch", default: true)

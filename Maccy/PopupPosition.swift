@@ -26,7 +26,6 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
     }
   }
 
-  // swiftlint:disable:next cyclomatic_complexity
   func origin(size: NSSize, statusBarButton: NSStatusBarButton?) -> NSPoint {
     switch self {
     case .center:
@@ -38,16 +37,12 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
         return NSRect.centered(ofSize: size, in: frame).origin
       }
     case .statusItem:
-      if let statusBarButton, let screen = NSScreen.main {
+      if let statusBarButton {
         let rectInWindow = statusBarButton.convert(statusBarButton.bounds, to: nil)
         if let screenRect = statusBarButton.window?.convertToScreen(rectInWindow) {
-          var topLeftPoint = NSPoint(x: screenRect.minX, y: screenRect.minY - size.height)
-          // Ensure that window doesn't spill over to the right screen.
-          if (topLeftPoint.x + size.width) > screen.frame.maxX {
-            topLeftPoint.x = screen.frame.maxX - size.width
-          }
-
-          return topLeftPoint
+          let topLeftPoint = NSPoint(x: screenRect.minX, y: screenRect.minY - size.height)
+          let screen = statusBarButton.window?.screen ?? NSScreen.main
+          return constrained(topLeftPoint, ofSize: size, to: screen)
         }
       }
     case .lastPosition:
@@ -62,8 +57,21 @@ enum PopupPosition: String, CaseIterable, Identifiable, CustomStringConvertible,
       break
     }
 
-    var point = NSEvent.mouseLocation
-    point.y -= size.height
-    return point
+    let mouseLocation = NSEvent.mouseLocation
+    let point = NSPoint(x: mouseLocation.x, y: mouseLocation.y - size.height)
+    let screen = NSScreen.screens.first { NSMouseInRect(mouseLocation, $0.frame, false) }
+    return constrained(point, ofSize: size, to: screen)
+  }
+
+  // Ensure that window doesn't spill over to an adjacent screen.
+  private func constrained(_ origin: NSPoint, ofSize size: NSSize, to screen: NSScreen?) -> NSPoint {
+    guard let frame = screen?.visibleFrame else {
+      return origin
+    }
+
+    return NSPoint(
+      x: min(max(origin.x, frame.minX), frame.maxX - size.width),
+      y: min(max(origin.y, frame.minY), frame.maxY - size.height)
+    )
   }
 }

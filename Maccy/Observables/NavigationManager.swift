@@ -62,6 +62,8 @@ class NavigationManager { // swiftlint:disable:this type_body_length
     }
   }
 
+  var isFirstItemHighlighted: Bool { history.firstVisibleItem == leadHistoryItem }
+
   private func scroll(to id: UUID?, item: HistoryItemDecorator? = nil) {
     scrollTarget = id
   }

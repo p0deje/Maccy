@@ -1,7 +1,7 @@
-"Title" = "";
-"Key" = "";
-"Alias" = "";
-"Content" = "";
-"ContentIsNotText" = "";
-"RichTextEditWarning" = "";
-"PinCustomizationDescription" = "";
+"Title" = "پین شده‌ها";
+"Key" = "کلید";
+"Alias" = "عنوان";
+"Content" = "محتوا";
+"ContentIsNotText" = "محتوای غیرقابل ویرایش(عکس یا فایل)";
+"RichTextEditWarning" = "ویرایش باعث دور انداختن همه فرمت‌ها می‌شود.";
+"PinCustomizationDescription" = "شما می‌توانید کلید میانبر، اسم، و محتوای هر آیتم پین شده را تغییر دهید. برای ویرایش،‌ دوبار روی آیتم کلیک کرده و مقدار جدید را وارد کنید.\nتوجه داشته باشید که فقط متن قابل تغییر است.";

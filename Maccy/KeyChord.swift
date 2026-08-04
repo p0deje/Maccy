@@ -101,8 +101,10 @@ enum KeyChord: CaseIterable {
          (.p, [.control, .shift]):
       self = AppState.shared.multiSelectionEnabled ? .extendToPrevious : .moveToPrevious
     case (.upArrow, []),
-         (.p, [.control]),
-         (.k, [.control]):
+         (.p, [.control]):
+      self = .moveToPrevious
+    case (.k, [.control]) where !AppState.shared.navigator.isFirstItemHighlighted:
+      // See https://github.com/p0deje/Maccy/issues/1055
       self = .moveToPrevious
     case (.upArrow, [.command, .shift]),
          (.upArrow, [.option, .shift]),
