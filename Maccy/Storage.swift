@@ -1,9 +1,12 @@
 import Foundation
+import Logging
 import SwiftData
 
 @MainActor
 class Storage {
   static let shared = Storage()
+
+  let logger = Logger(label: "org.p0deje.Maccy.Storage")
 
   var container: ModelContainer
   var context: ModelContext { container.mainContext }
@@ -28,8 +31,18 @@ class Storage {
 
     do {
       container = try ModelContainer(for: HistoryItem.self, configurations: config)
-    } catch let error {
-      fatalError("Cannot load database: \(error.localizedDescription).")
+    } catch {
+      logger.error("Database corrupted, recreating: \(error.localizedDescription)")
+      // Remove corrupt database files and retry
+      let sqliteFiles = [url, url.appendingPathExtension("shm"), url.appendingPathExtension("wal")]
+      for file in sqliteFiles {
+        try? FileManager.default.removeItem(at: file)
+      }
+      do {
+        container = try ModelContainer(for: HistoryItem.self, configurations: config)
+      } catch let retryError {
+        fatalError("Cannot create database even after reset: \(retryError.localizedDescription)")
+      }
     }
   }
 }
