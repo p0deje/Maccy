@@ -5,6 +5,6 @@
 "TurnOffViaMenuIconDescription" = "您也可以按下 ⌥ 并单击菜单图标。\n要仅忽略下一个副本，请单击 ⌥⇧。";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# 执行上述命令后再进行复制，只对下一次复制有效";
 "ClearHistoryOnQuit" = "退出时清除历史记录";
-"ClearHistoryOnQuitTooltip" = "退出应用时仅保留已固定的项目(其他历史记录将被抛弃)。";
+"ClearHistoryOnQuitTooltip" = "退出应用时仅保留已置顶的项目(其他历史记录将被抛弃)。";
 "ClearSystemClipboard" = "同时清除系统剪贴板";
 "ClearSystemClipboardTooltip" = "启用后，清除历史记录也会清除当前系统剪贴板。";
