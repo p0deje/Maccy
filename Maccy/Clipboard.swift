@@ -29,6 +29,11 @@ class Clipboard {
     .concealed,
     .transient
   ]
+  private let metadataTypes: Set<NSPasteboard.PasteboardType> = [
+    .fromMaccy, .source, .linkPresentationMetadata,
+    .customWebKitPasteboardData, .customChromiumWebData,
+    .chromiumSourceUrl, .chromiumSourceToken, .notesRichText
+  ]
 
   private var enabledTypes: Set<NSPasteboard.PasteboardType> { Defaults[.enabledPasteboardTypes] }
   private var disabledTypes: Set<NSPasteboard.PasteboardType> { supportedTypes.subtracting(enabledTypes) }
@@ -198,6 +203,7 @@ class Clipboard {
 
       types = types
         .subtracting(disabledTypes)
+        .subtracting(metadataTypes)
         .filter { !$0.rawValue.starts(with: dynamicTypePrefix) }
         .filter { !$0.rawValue.starts(with: microsoftSourcePrefix) }
 
