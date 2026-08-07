@@ -1,5 +1,6 @@
 import XCTest
 import Defaults
+import SwiftData
 @testable import Maccy
 
 @MainActor
@@ -124,6 +125,23 @@ class HistoryTests: XCTestCase {
 
     XCTAssertEqual(history.items, [second])
     XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
+  }
+
+  func testDuplicateDoesNotOrphanContents() {
+    let item = historyItem("foo")
+    history.add(item)
+
+    let descriptor1 = FetchDescriptor<HistoryItemContent>()
+    let contents1 = try? Storage.shared.context.fetch(descriptor1)
+    XCTAssertEqual(contents1?.count, 1)
+
+    let duplicate = historyItem("foo")
+    history.add(duplicate)
+
+    let descriptor2 = FetchDescriptor<HistoryItemContent>()
+    let contents2 = try? Storage.shared.context.fetch(descriptor2)
+    XCTAssertEqual(contents2?.count, 1)
+    XCTAssertNotNil(contents2?.first?.item)
   }
 
   func testAddingItemFromMaccy() {
