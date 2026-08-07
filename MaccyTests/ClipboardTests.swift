@@ -25,6 +25,7 @@ class ClipboardTests: XCTestCase {
   let savedIgnoreAllAppsExceptListed = Defaults[.ignoreAllAppsExceptListed]
   let savedIgnoredApps = Defaults[.ignoredApps]
   let savedIgnoredPasteboardTypes = Defaults[.ignoredPasteboardTypes]
+  let savedMaxTextLengthToRemember = Defaults[.maxTextLengthToRemember]
 
   override func setUp() {
     super.setUp()
@@ -40,6 +41,7 @@ class ClipboardTests: XCTestCase {
     Defaults[.ignoreAllAppsExceptListed] = savedIgnoreAllAppsExceptListed
     Defaults[.ignoredApps] = savedIgnoredApps
     Defaults[.ignoredPasteboardTypes] = savedIgnoredPasteboardTypes
+    Defaults[.maxTextLengthToRemember] = savedMaxTextLengthToRemember
     clipboard.clearHooks()
   }
 
@@ -78,6 +80,46 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 
+  func testIgnoreStringLongerThanConfiguredMaxLength() {
+    Defaults[.maxTextLengthToRemember] = 5
+
+    let hookExpectation = expectation(description: "Hook is called")
+    hookExpectation.isInverted = true
+    clipboard.onNewCopy({ (_: HistoryItem) in
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString("123456", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testDoesNotIgnoreStringWhenLengthEqualsConfiguredMaxLength() {
+    Defaults[.maxTextLengthToRemember] = 6
+
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (_: HistoryItem) in
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString("123456", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testDoesNotIgnoreStringWhenMaxLengthIsNotConfigured() {
+    Defaults[.maxTextLengthToRemember] = nil
+
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (_: HistoryItem) in
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString(String(repeating: "a", count: 20_000), forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
   func testDoesNotIgnoreRTF() {
     let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (_: HistoryItem) in
@@ -94,6 +136,19 @@ class ClipboardTests: XCTestCase {
   }
 
   func testDoesNotIgnoreHTML() {
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (_: HistoryItem) in
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.html], owner: nil)
+    pasteboard.setString("foo", forType: .html)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testDoesNotApplyMaxLengthLimitToHTML() {
+    Defaults[.maxTextLengthToRemember] = 1
+
     let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (_: HistoryItem) in
       hookExpectation.fulfill()

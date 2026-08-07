@@ -7,3 +7,7 @@
 "IgnoredPasteboardTypesReset" = "重置";
 "RegexpTab" = "正则表达式";
 "IgnoredRegexpsDescription" = "可以根据定义的正则表达式忽略某些副本。";
+"TextLengthTab" = "文本长度";
+"IgnoreByTextLengthEnabled" = "忽略过长的复制文本";
+"IgnoreByTextLengthLimitLabel" = "最大长度：";
+"IgnoreByTextLengthDescription" = "当复制的纯文本长度超过设置的字符数时将被忽略。此规则不适用于非文本剪贴板类型。";
