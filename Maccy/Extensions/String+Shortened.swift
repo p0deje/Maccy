@@ -4,6 +4,6 @@ extension String {
       return self
     }
 
-    return String(self[...index(startIndex, offsetBy: maxLength)])
+    return String(self[startIndex..<index(startIndex, offsetBy: maxLength)])
   }
 }
