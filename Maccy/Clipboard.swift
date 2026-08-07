@@ -5,10 +5,12 @@ import Sauce
 class Clipboard {
   static let shared = Clipboard()
 
-  typealias OnNewCopyHook = (HistoryItem) -> Void
+  typealias OnNewCopyHook = (HistoryItem, Bool) -> Void
 
   private var onNewCopyHooks: [OnNewCopyHook] = []
   var changeCount: Int
+  private var lastClipboardChangeTime: Date?
+  private var lastClipboardContent: String?
 
   private let pasteboard = NSPasteboard.general
 
@@ -153,7 +155,9 @@ class Clipboard {
       return
     }
 
+    let previousChangeCount = changeCount
     changeCount = pasteboard.changeCount
+    let changeCountDelta = changeCount - previousChangeCount
 
     if pasteboard.pasteboardItems?.contains(where: { $0.types.contains(.fromMaccy) }) != true {
       // External copy occurred. Stop the current paste stack.
@@ -227,7 +231,34 @@ class Clipboard {
     historyItem.application = sourceApp?.bundleIdentifier
     historyItem.title = historyItem.generateTitle()
 
-    onNewCopyHooks.forEach({ $0(historyItem) })
+    var shouldAppend = false
+    let now = Date.now
+    let currentContent = historyItem.text
+
+    if Defaults[.appendModeEnabled] {
+      // Check if changeCount jumped by exactly 2 (double-tap same content)
+      if changeCountDelta == 2 {
+        shouldAppend = true
+      } else if let lastChange = lastClipboardChangeTime,
+                let lastContent = lastClipboardContent,
+                let currentText = currentContent {
+        // Normal check: same content copied again within time window
+        if currentText == lastContent {
+          let timeSinceLastChange = now.timeIntervalSince(lastChange)
+          if timeSinceLastChange <= Defaults[.appendModeTimeWindow] {
+            shouldAppend = true
+          }
+        }
+      }
+    }
+
+    // Update tracking - only if not appending
+    if !shouldAppend {
+      lastClipboardChangeTime = now
+      lastClipboardContent = currentContent
+    }
+
+    onNewCopyHooks.forEach({ $0(historyItem, shouldAppend) })
   }
 
   private func shouldIgnore(_ types: Set<NSPasteboard.PasteboardType>) -> Bool {

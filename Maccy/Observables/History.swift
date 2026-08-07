@@ -135,12 +135,53 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @discardableResult
   @MainActor
-  func add(_ item: HistoryItem) -> HistoryItemDecorator {
+  func add(_ item: HistoryItem, shouldAppend: Bool = false) -> HistoryItemDecorator {
     if #available(macOS 15.0, *) {
       try? History.shared.insertIntoStorage(item)
     } else {
       // On macOS 14 the history item needs to be inserted into storage directly after creating it.
       // It was already inserted after creation in Clipboard.swift
+    }
+
+    // Handle append mode
+    if shouldAppend, !all.isEmpty {
+      // Find the most recent unpinned item that is NOT the same content as what we're appending
+      let unpinnedItems = all.filter { $0.item.pin == nil }
+      let differentItems = unpinnedItems.filter { $0.item.text != item.text }
+
+      guard let mostRecentUnpinned = differentItems.max(by: { $0.item.lastCopiedAt < $1.item.lastCopiedAt }) else {
+        // No different items, fall through to normal add
+        return add(item, shouldAppend: false)
+      }
+
+      let topItem = mostRecentUnpinned.item
+
+      // Only append to text-based items
+      if let existingText = topItem.text, let newText = item.text {
+        let combinedText = existingText + "\n" + newText
+        let combinedData = combinedText.data(using: .utf8)
+
+        if let stringContent = topItem.contents.first(where: {
+          NSPasteboard.PasteboardType($0.type) == .string
+        }) {
+          stringContent.value = combinedData
+          topItem.lastCopiedAt = Date.now
+          topItem.numberOfCopies += 1
+          topItem.title = topItem.generateTitle()
+
+          Storage.shared.context.delete(item)
+
+          mostRecentUnpinned.title = topItem.title
+          items = all
+
+          // Copy combined text back to system clipboard
+          Defaults[.ignoreOnlyNextEvent] = true
+          Defaults[.ignoreEvents] = true
+          Clipboard.shared.copy(combinedText)
+
+          return mostRecentUnpinned
+        }
+      }
     }
 
     var removedItemIndex: Int?
