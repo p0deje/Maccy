@@ -122,6 +122,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  @MainActor
   private func migrateUserDefaults() {
     ensureMigration(key: "2024-07-01-version-2") {
       // Start 2.x from scratch.
@@ -144,6 +145,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         types.formUnion(StorageType.images.types)
       }
       Defaults[.enabledPasteboardTypes] = types
+    }
+
+    if Defaults[.migrations]["2026-08-08-cleanup-orphaned-history-item-contents"] != true {
+      if (try? Storage.shared.cleanupOrphanedContents()) != nil {
+        Defaults[.migrations]["2026-08-08-cleanup-orphaned-history-item-contents"] = true
+      }
     }
 
     // The following defaults are not used in Maccy 2.x

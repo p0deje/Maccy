@@ -1,5 +1,6 @@
 import XCTest
 import Defaults
+import SwiftData
 @testable import Maccy
 
 @MainActor
@@ -56,7 +57,7 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.items[0].item.application, "iTerm.app")
   }
 
-  func testAddingItemThatIsSupersededByExisting() {
+  func testAddingItemThatIsSupersededByExisting() throws {
     let firstContents = [
       HistoryItemContent(
         type: NSPasteboard.PasteboardType.string.rawValue,
@@ -89,6 +90,7 @@ class HistoryTests: XCTestCase {
 
     XCTAssertEqual(history.items, [second])
     XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
+    try assertContentCounts(total: firstContents.count)
   }
 
   func testAddingItemWithDifferentModifiedType() {
@@ -174,21 +176,24 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.items[0].text, "bar")
   }
 
-  func testClearingUnpinned() {
+  func testClearingUnpinned() throws {
     let pinned = history.add(historyItem("foo"))
     pinned.togglePin()
     history.add(historyItem("bar"))
     history.clear()
     XCTAssertEqual(history.items, [pinned])
+    try assertContentCounts(total: 1)
   }
 
-  func testClearingAll() {
+  func testClearingAll() throws {
     history.add(historyItem("foo"))
-    history.clear()
+    history.add(historyItem("bar"))
+    history.clearAll()
     XCTAssertEqual(history.items, [])
+    try assertContentCounts(total: 0)
   }
 
-  func testMaxSize() {
+  func testMaxSize() throws {
     var items: [HistoryItemDecorator] = []
     for index in 0...10 {
       items.append(history.add(historyItem(String(index))))
@@ -197,6 +202,7 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.items.count, 10)
     XCTAssertTrue(history.items.contains(items[10]))
     XCTAssertFalse(history.items.contains(items[0]))
+    try assertContentCounts(total: 10)
   }
 
   func testMaxSizeIgnoresPinned() {
@@ -258,11 +264,46 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.all.filter(\.isPinned).count, 1)
   }
 
-  func testRemoving() {
+  func testRemoving() throws {
     let foo = history.add(historyItem("foo"))
     let bar = history.add(historyItem("bar"))
     history.delete(foo)
     XCTAssertEqual(history.items, [bar])
+    try assertContentCounts(total: 1)
+  }
+
+  func testCleaningUpOrphanedContents() throws {
+    history.add(historyItem("live"))
+    let orphan = HistoryItemContent(
+      type: NSPasteboard.PasteboardType.string.rawValue,
+      value: "orphan".data(using: .utf8)
+    )
+    Storage.shared.context.insert(orphan)
+    try Storage.shared.context.save()
+
+    XCTAssertEqual(try Storage.shared.cleanupOrphanedContents(), 1)
+    try assertContentCounts(total: 1)
+  }
+
+  private func assertContentCounts(
+    total: Int,
+    orphaned: Int = 0,
+    file: StaticString = #filePath,
+    line: UInt = #line
+  ) throws {
+    let context = Storage.shared.context
+    XCTAssertEqual(
+      try context.fetchCount(FetchDescriptor<HistoryItemContent>()),
+      total,
+      file: file,
+      line: line
+    )
+    XCTAssertEqual(
+      try context.fetchCount(FetchDescriptor<HistoryItemContent>(predicate: #Predicate { $0.item == nil })),
+      orphaned,
+      file: file,
+      line: line
+    )
   }
 
   private func historyItem(_ value: String) -> HistoryItem {

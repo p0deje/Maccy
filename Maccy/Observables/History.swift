@@ -136,16 +136,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @discardableResult
   @MainActor
   func add(_ item: HistoryItem) -> HistoryItemDecorator {
-    if #available(macOS 15.0, *) {
-      try? History.shared.insertIntoStorage(item)
-    } else {
-      // On macOS 14 the history item needs to be inserted into storage directly after creating it.
-      // It was already inserted after creation in Clipboard.swift
-    }
-
     var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
+        deleteContents(of: item)
         item.contents = existingHistoryItem.contents
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
@@ -160,7 +154,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       if let removedItemIndex {
         cleanup(all[removedItemIndex])
       }
-      Storage.shared.context.delete(existingHistoryItem)
+      deleteFromStorage(existingHistoryItem)
       if let removedItemIndex {
         all.remove(at: removedItemIndex)
       }
@@ -173,6 +167,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
     limitHistorySize(to: Defaults[.size] - 1)
+
+    if #available(macOS 15.0, *) {
+      try? insertIntoStorage(item)
+    } else {
+      // On macOS 14 the history item needs to be inserted into storage directly after creating it.
+      // It was already inserted after creation in Clipboard.swift
+    }
 
     sessionLog[Clipboard.shared.changeCount] = item
 
@@ -225,18 +226,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       sessionLog.removeValues { $0.pin == nil }
       items = all
 
-      try? Storage.shared.context.transaction {
-        try? Storage.shared.context.delete(
-          model: HistoryItem.self,
-          where: #Predicate { $0.pin == nil }
-        )
-        try? Storage.shared.context.delete(
-          model: HistoryItemContent.self,
-          where: #Predicate { $0.item?.pin == nil }
-        )
-      }
+      let historyItems = try? Storage.shared.context.fetch(FetchDescriptor<HistoryItem>(
+        predicate: #Predicate { $0.pin == nil }
+      ))
+      historyItems?.forEach(deleteFromStorage)
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
+      _ = try? Storage.shared.cleanupOrphanedContents()
     }
 
     Clipboard.shared.clear()
@@ -256,9 +252,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       sessionLog.removeAll()
       items = all
 
-      try? Storage.shared.context.delete(model: HistoryItem.self)
+      let historyItems = try? Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())
+      historyItems?.forEach(deleteFromStorage)
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
+      _ = try? Storage.shared.cleanupOrphanedContents()
     }
 
     Clipboard.shared.clear()
@@ -274,7 +272,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     cleanup(item)
     withLogging("Removing history item") {
-      Storage.shared.context.delete(item.item)
+      deleteFromStorage(item.item)
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
@@ -287,6 +285,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     Task {
       AppState.shared.popup.needsResize = true
     }
+  }
+
+  @MainActor
+  private func deleteFromStorage(_ item: HistoryItem) {
+    deleteContents(of: item)
+    Storage.shared.context.delete(item)
+  }
+
+  @MainActor
+  private func deleteContents(of item: HistoryItem) {
+    item.contents.forEach(Storage.shared.context.delete)
   }
 
   @MainActor
