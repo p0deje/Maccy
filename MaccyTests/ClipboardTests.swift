@@ -25,6 +25,7 @@ class ClipboardTests: XCTestCase {
   let savedIgnoreAllAppsExceptListed = Defaults[.ignoreAllAppsExceptListed]
   let savedIgnoredApps = Defaults[.ignoredApps]
   let savedIgnoredPasteboardTypes = Defaults[.ignoredPasteboardTypes]
+  let savedIgnoreRegexp = Defaults[.ignoreRegexp]
 
   override func setUp() {
     super.setUp()
@@ -40,6 +41,7 @@ class ClipboardTests: XCTestCase {
     Defaults[.ignoreAllAppsExceptListed] = savedIgnoreAllAppsExceptListed
     Defaults[.ignoredApps] = savedIgnoredApps
     Defaults[.ignoredPasteboardTypes] = savedIgnoredPasteboardTypes
+    Defaults[.ignoreRegexp] = savedIgnoreRegexp
     clipboard.clearHooks()
   }
 
@@ -187,6 +189,20 @@ class ClipboardTests: XCTestCase {
     clipboard.start()
     pasteboard.declareTypes([.string, customType], owner: nil)
     pasteboard.setString("bar", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testIgnoreRegexpContinuesAfterInvalidPattern() {
+    Defaults[.ignoreRegexp] = ["[", "sec.*"]
+
+    let hookExpectation = expectation(description: "Hook is called")
+    hookExpectation.isInverted = true
+    clipboard.onNewCopy({ (_: HistoryItem) in
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString("secret", forType: .string)
     waitForExpectations(timeout: 2)
   }
 

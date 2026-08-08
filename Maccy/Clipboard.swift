@@ -255,7 +255,10 @@ class Clipboard {
             return true
           }
         } catch {
-          return false
+          // A malformed pattern (e.g. an unclosed character class such as "[")
+          // must not abort the whole ignore decision; skip it and keep
+          // evaluating the remaining rules so a valid sibling can still match.
+          continue
         }
       }
     }
