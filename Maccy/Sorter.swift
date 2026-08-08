@@ -23,10 +23,20 @@ class Sorter {
     }
   }
 
-  func sort(_ items: [HistoryItem], by: By = Defaults[.sortBy]) -> [HistoryItem] {
-    return items
+  func sort(_ items: [HistoryItem], by: By = Defaults[.sortBy], pushPastedToBottom: Bool = Defaults[.pushPastedToBottom]) -> [HistoryItem] {
+    var sortedItems = items
       .sorted(by: { return bySortingAlgorithm($0, $1, by) })
-      .sorted(by: byPinned)
+
+    if pushPastedToBottom {
+      sortedItems.sort {
+        $0.lastPastedAt < $1.lastPastedAt
+      }
+    }
+
+    sortedItems
+      .sort(by: byPinned)
+    
+    return sortedItems
   }
 
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
