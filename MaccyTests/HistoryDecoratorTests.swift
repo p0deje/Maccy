@@ -134,6 +134,24 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertEqual(itemDecorator.attributedTitle, nil)
   }
 
+  func testHighlightMatchBeyondFiveHundredChars() {
+    let title = String(repeating: "a", count: 600) + "needle"
+    let itemDecorator = historyItemDecorator(title)
+    XCTAssertEqual(itemDecorator.title.count, 606)
+
+    let needleRange = itemDecorator.title.range(of: "needle")!
+    itemDecorator.highlight("needle", [needleRange])
+
+    // Search ranges index into the full (1000-capped) title, so the row shown
+    // during search must keep every character and the match must be styled.
+    XCTAssertEqual(itemDecorator.attributedTitle?.characters.count, 606)
+
+    var expectedTitle = AttributedString(itemDecorator.title)
+    let expectedRange = expectedTitle.range(of: "needle")!
+    expectedTitle[expectedRange].font = .bold(.body)()
+    XCTAssertEqual(itemDecorator.attributedTitle, expectedTitle)
+  }
+
   private func historyItemDecorator(
     _ value: String?,
     application: String? = "com.apple.finder"

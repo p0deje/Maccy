@@ -156,7 +156,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
       return
     }
 
-    var attributedString = AttributedString(title.shortened(to: 500))
+    var attributedString = AttributedString(title)
     for range in ranges {
       if let lowerBound = AttributedString.Index(range.lowerBound, within: attributedString),
          let upperBound = AttributedString.Index(range.upperBound, within: attributedString) {
