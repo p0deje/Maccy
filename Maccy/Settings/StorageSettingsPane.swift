@@ -61,13 +61,15 @@ struct StorageSettingsPane: View {
 
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
+  @State private var sizeText = ""
 
-  private let sizeFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.minimum = 1
-    formatter.maximum = 999
-    return formatter
-  }()
+  private static let sizeRange = 1...999
+
+  private func isValidSize() -> Bool {
+    if sizeText.isEmpty { return true }
+    guard let value = Int(sizeText) else { return false }
+    return Self.sizeRange.contains(value)
+  }
 
   var body: some View {
     Settings.Container(contentWidth: 450) {
@@ -94,11 +96,28 @@ struct StorageSettingsPane: View {
 
       Settings.Section(label: { Text("Size", tableName: "StorageSettings") }) {
         HStack {
-          TextField("", value: $size, formatter: sizeFormatter)
+          TextField("", text: $sizeText)
             .frame(width: 80)
             .help(Text("SizeTooltip", tableName: "StorageSettings"))
-          Stepper("", value: $size, in: 1...999)
+            .border(isValidSize() ? Color.clear : Color.red)
+            .onAppear { sizeText = "\(size)" }
+            .onChange(of: sizeText) {
+              if isValidSize(), let value = Int(sizeText) {
+                size = value
+              }
+            }
+            .onSubmit {
+              if isValidSize(), let value = Int(sizeText) {
+                size = value
+              } else {
+                sizeText = "\(size)"
+              }
+            }
+          Stepper("", value: $size, in: Self.sizeRange)
             .labelsHidden()
+            .onChange(of: size) {
+              sizeText = "\(size)"
+            }
           Text(storageSize)
             .controlSize(.small)
             .foregroundStyle(.gray)
