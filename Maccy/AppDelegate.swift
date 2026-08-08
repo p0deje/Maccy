@@ -22,6 +22,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private var statusItemVisibilityObserver: NSKeyValueObservation?
+  private var menuIconTextUpdatePending = false
 
   func applicationWillFinishLaunching(_ notification: Notification) { // swiftlint:disable:this function_body_length
     #if DEBUG
@@ -178,7 +179,15 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     _ = withObservationTracking {
       AppState.shared.menuIconText
     } onChange: {
+      // Guard against multiple onChange callbacks firing before the async block
+      // runs (e.g. when History.add() mutates `items` and then updates shortcuts
+      // in the same turn). Without this guard each callback queues its own async
+      // block, and each block re-registers an observation, causing the number of
+      // active observations to grow unboundedly and CPU usage to spike over time.
+      guard !self.menuIconTextUpdatePending else { return }
+      self.menuIconTextUpdatePending = true
       DispatchQueue.main.async {
+        self.menuIconTextUpdatePending = false
         if Defaults[.showRecentCopyInMenuBar] {
           self.statusItem.button?.title = AppState.shared.menuIconText
         }
