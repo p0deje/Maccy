@@ -222,6 +222,14 @@
 		5212BB6B2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/PinsSettings.strings; sourceTree = "<group>"; };
 		5212BB6C2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
 		5212BB6D2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CF8FD822BE40469D80B10A06 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
+		BC59C5474269463B8A32BCEF /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
+		67B1B7B16C214A9A8146309C /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
+		BA40A81B03FF445A83CCD4E7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/IgnoreSettings.strings; sourceTree = "<group>"; };
+		C2BC0DBD627544668E9BE9C1 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/StorageSettings.strings; sourceTree = "<group>"; };
+		11680E44DAF848ADB8BA358E /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/PinsSettings.strings; sourceTree = "<group>"; };
+		9C200975CB6B4E258D86BCA2 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
+		37AC3B8902CB40CA8294C336 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/Localizable.strings; sourceTree = "<group>"; };
 		E5885F0587B04A99933245E6 /* km */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = km; path = km.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
 		F2E5FA9061DA4866BCFAFE90 /* km */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = km; path = km.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
 		82BF523B9E3C48AE8C38EB5B /* km */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = km; path = km.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
@@ -1000,6 +1008,7 @@
 				ro,
 				vi,
 				ckb,
+				pt,
 				km,
 			);
 			mainGroup = DAEE383A1E3DBEB100DD2966;
@@ -1253,6 +1262,7 @@
 				DA0D577D2E4246B3005101AF /* ro */,
 				DA0D57852E424784005101AF /* vi */,
 				5212BB6D2E59AA5200E74A24 /* ckb */,
+				37AC3B8902CB40CA8294C336 /* pt */,
 				72C94C4B662B4F0BBD150C82 /* km */,
 			);
 			name = Localizable.strings;
@@ -1292,6 +1302,7 @@
 				DA0D577C2E4246B3005101AF /* ro */,
 				DA0D57842E424784005101AF /* vi */,
 				5212BB6C2E59AA5200E74A24 /* ckb */,
+				9C200975CB6B4E258D86BCA2 /* pt */,
 				2BA57666588D49AFA9B68B93 /* km */,
 			);
 			name = PreviewItemView.strings;
@@ -1331,6 +1342,7 @@
 				DA0D577A2E4246B3005101AF /* ro */,
 				DA0D57822E424784005101AF /* vi */,
 				5212BB6A2E59AA5200E74A24 /* ckb */,
+				C2BC0DBD627544668E9BE9C1 /* pt */,
 				4095C14D1B6B42F585174DA5 /* km */,
 			);
 			name = StorageSettings.strings;
@@ -1370,6 +1382,7 @@
 				DA0D57772E4246B3005101AF /* ro */,
 				DA0D577F2E424784005101AF /* vi */,
 				5212BB672E59AA5200E74A24 /* ckb */,
+				BC59C5474269463B8A32BCEF /* pt */,
 				F2E5FA9061DA4866BCFAFE90 /* km */,
 			);
 			name = AppearanceSettings.strings;
@@ -1409,6 +1422,7 @@
 				DA0D57762E4246B3005101AF /* ro */,
 				DA0D577E2E424784005101AF /* vi */,
 				5212BB662E59AA5200E74A24 /* ckb */,
+				CF8FD822BE40469D80B10A06 /* pt */,
 				E5885F0587B04A99933245E6 /* km */,
 			);
 			name = AdvancedSettings.strings;
@@ -1448,6 +1462,7 @@
 				DA0D57792E4246B3005101AF /* ro */,
 				DA0D57812E424784005101AF /* vi */,
 				5212BB692E59AA5200E74A24 /* ckb */,
+				BA40A81B03FF445A83CCD4E7 /* pt */,
 				2C2CB1D293534FF0958B3C90 /* km */,
 			);
 			name = IgnoreSettings.strings;
@@ -1487,6 +1502,7 @@
 				DA0D577B2E4246B3005101AF /* ro */,
 				DA0D57832E424784005101AF /* vi */,
 				5212BB6B2E59AA5200E74A24 /* ckb */,
+				11680E44DAF848ADB8BA358E /* pt */,
 				3EA6E1A8BE09464FBBF2F6D7 /* km */,
 			);
 			name = PinsSettings.strings;
@@ -1526,6 +1542,7 @@
 				DA0D57782E4246B3005101AF /* ro */,
 				DA0D57802E424784005101AF /* vi */,
 				5212BB682E59AA5200E74A24 /* ckb */,
+				67B1B7B16C214A9A8146309C /* pt */,
 				82BF523B9E3C48AE8C38EB5B /* km */,
 			);
 			name = GeneralSettings.strings;
