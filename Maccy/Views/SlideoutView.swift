@@ -139,6 +139,8 @@ where Content: View, Slideout: View {
         maxWidth: controller.state == .closed ? 0 : nil
       )
       .clipped()
+      // Prevent closed slideout from blocking hover events on content items (#1484)
+      .allowsHitTesting(controller.state != .closed)
       .readWidth(controller, into: \.slideoutResizeWidth)
     }
     .environment(\.layoutDirection, leftToRight ? .leftToRight : .rightToLeft)
