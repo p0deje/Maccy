@@ -49,7 +49,9 @@ class HistoryTests: XCTestCase {
 
     // The duplicate merges into the existing entry instead of adding a new
     // one, and the merged item carries the original item's metadata.
-    XCTAssertEqual(history.all, [merged, secondDecorator])
+    // With pinTo = .bottom the unpinned bar sorts first and the re-inserted
+    // pinned merged item lands at the end of `all`.
+    XCTAssertEqual(history.all, [secondDecorator, merged])
     XCTAssertTrue(merged.item.lastCopiedAt > merged.item.firstCopiedAt)
     XCTAssertEqual(merged.item.numberOfCopies, 2)
     XCTAssertEqual(merged.item.pin, "f")
