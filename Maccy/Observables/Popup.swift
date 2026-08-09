@@ -100,7 +100,7 @@ class Popup {
     var minHeight = self.minimumHeight
     // If the preview is non-empty make sure the window accomodates for it to be visible.
     if AppState.shared.preview.state.isOpen && AppState.shared.navigator.leadSelection != nil {
-      minHeight += Self.minimumPreviewHeight
+      minHeight = max(minHeight, Self.minimumPreviewHeight)
     }
     minHeight = max(headerHeight + Self.verticalPadding, minHeight)
 
