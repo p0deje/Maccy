@@ -23,9 +23,6 @@
   },
   "testTargets" : [
     {
-      "skippedTests" : [
-        "HistoryTests\/testAddingSame()"
-      ],
       "target" : {
         "containerPath" : "container:Maccy.xcodeproj",
         "identifier" : "DA360DAF1E3DF137005C6F6B",
