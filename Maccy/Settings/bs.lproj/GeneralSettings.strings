@@ -5,9 +5,9 @@
 "Open" = "Obrisati:";
 "OpenTooltip" = "Globalna prečica za otvaranje aplikacije.\nPonovljeni pritisak na glavnu tipku dok držite modifikatore odabrat će sljedeću stavku na listi. U ovom načinu rada, otpuštanje modifikatorskih tipki potvrdit će odabir i zatvoriti skočni prozor.\nZadano: ⇧⌘C.";
 "Pin" = "Zakačiti:";
-"PinTooltip" = "Prečica za zakačenje stavke istorije.\nStandardno: %@P.";
+"PinTooltip" = "Prečica za zakačenje stavke istorije.\nStandardno: ⌥P.";
 "Delete" = "Brisaniti:";
-"DeleteTooltip" = "Prečica za brisanje stavke historije.\nStandardno: %@⌫.";
+"DeleteTooltip" = "Prečica za brisanje stavke historije.\nStandardno: ⌥⌫.";
 "ShowPreview" = "Pregled:";
 "ShowPreviewTooltip" = "Prikaži pregled sa dodatnim informacijama.\nStandardno: ⌃Space.";
 "Behavior" = "Ponašanje:";
@@ -16,7 +16,7 @@
 "Modifiers" = "Prilagodi ponašanje prilikom odabira stavke:\n• Označi sa %@ da kopiraš stavku.\n• Označi sa %@ da kopiraš i zalijepiš stavku.\n• Označi sa %@ kopiraš, očistiš formatiranje i zalijepiš stavku.";
 "Search" = "Pretraga:";
 "Exact" = "Tačno";
-"Fuzzy" = "Fuzzy";
+"Fuzzy" = "Netočno";
 "Regex" = "Regularni izrazi";
 "Mixed" = "Miješano";
 "NotificationsAndSounds" = "Obavještenja i zvukovi 􀱁";

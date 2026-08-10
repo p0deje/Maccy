@@ -5,9 +5,9 @@
 "Open" = "Açmak:";
 "OpenTooltip" = "Uygulamayı açmak için global kısayol tuşu.\nDeğiştiricileri basılı tutarken ana tuşa tekrar basmak listedeki bir sonraki öğeyi seçecektir. Bu modda, değiştirici tuşların bırakılması seçimi onaylayacak ve açılır pencereyi kapatacaktır.\nVarsayılan: ⇧⌘C.";
 "Pin" = "İğnelemek:";
-"PinTooltip" = "Geçmiş öğesini sabitlemek için kısayol düğmesi.\nVarsayılan: %@P.";
+"PinTooltip" = "Geçmiş öğesini sabitlemek için kısayol düğmesi.\nVarsayılan: ⌥P.";
 "Delete" = "Silmek:";
-"DeleteTooltip" = "Geçmiş öğesini silmek için kısayol düğmesi.\nVarsayılan: %@⌫.";
+"DeleteTooltip" = "Geçmiş öğesini silmek için kısayol düğmesi.\nVarsayılan: ⌥⌫.";
 "ShowPreview" = "Önizleme:";
 "ShowPreviewTooltip" = "Ek bilgilerle önizleme göster.\nVarsayılan: ⌃Space.";
 "Behavior" = "Davranış:";
