@@ -1,6 +1,6 @@
 "Title" = "Připnuté";
-"Key" = "Key";
-"Alias" = "Title";
+"Key" = "Klávesa";
+"Alias" = "Titul";
 "Content" = "Obsah";
 "ContentIsNotText" = "Neupravitelný obsah (obrázek nebo soubor)";
 "RichTextEditWarning" = "Při úpravách se zruší veškeré formátování.";
