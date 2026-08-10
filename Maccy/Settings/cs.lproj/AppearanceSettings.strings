@@ -6,7 +6,7 @@
 "PopupAtScreenCenter" = "Středu obrazovky";
 "PopupAtLastPosition" = "Poslední pozice";
 "PopupAtLastLocationReset" = "Vynulování polohy";
-"PopupAtTooltip" = "Dolů";
+"PopupAtTooltip" = "Změňte umístění vyskakovacího okna.\nVýchozí: Kurzoru.";
 "SearchVisibilityAlways" = "Vždy";
 "SearchVisibilityDuringSearch" = "Během vyhledávání";
 "ActiveScreen" = "Aktivní obrazovka";
