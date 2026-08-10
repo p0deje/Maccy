@@ -108,51 +108,72 @@ class AppState: Sendable {
   @MainActor
   func openPreferences() { // swiftlint:disable:this function_body_length
     if settingsWindowController == nil {
+      let generalTitle = NSLocalizedString("Title", tableName: "GeneralSettings", comment: "")
+      let storageTitle = NSLocalizedString("Title", tableName: "StorageSettings", comment: "")
+      let appearanceTitle = NSLocalizedString("Title", tableName: "AppearanceSettings", comment: "")
+      let pinsTitle = NSLocalizedString("Title", tableName: "PinsSettings", comment: "")
+      let ignoreTitle = NSLocalizedString("Title", tableName: "IgnoreSettings", comment: "")
+      let advancedTitle = NSLocalizedString("Title", tableName: "AdvancedSettings", comment: "")
+      let toolbarTitles = [generalTitle, storageTitle, appearanceTitle, pinsTitle, ignoreTitle, advancedTitle]
+      let titleAttributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: NSFont.systemFontSize)]
+      let titleWidth = toolbarTitles.reduce(CGFloat.zero) {
+        $0 + ($1 as NSString).size(withAttributes: titleAttributes).width
+      }
+      let toolbarItemSpacing: CGFloat = 24
+      let toolbarEdgeSpacing: CGFloat = 40
+      let toolbarWidth = titleWidth + CGFloat(toolbarTitles.count) * toolbarItemSpacing + toolbarEdgeSpacing
+      let minimumWidth = max(500, ceil(toolbarWidth))
       settingsWindowController = SettingsWindowController(
         panes: [
           Settings.Pane(
             identifier: Settings.PaneIdentifier.general,
-            title: NSLocalizedString("Title", tableName: "GeneralSettings", comment: ""),
+            title: generalTitle,
             toolbarIcon: NSImage.gearshape!
           ) {
             GeneralSettingsPane()
+              .frame(minWidth: minimumWidth)
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.storage,
-            title: NSLocalizedString("Title", tableName: "StorageSettings", comment: ""),
+            title: storageTitle,
             toolbarIcon: NSImage.externaldrive!
           ) {
             StorageSettingsPane()
+              .frame(minWidth: minimumWidth)
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.appearance,
-            title: NSLocalizedString("Title", tableName: "AppearanceSettings", comment: ""),
+            title: appearanceTitle,
             toolbarIcon: NSImage.paintpalette!
           ) {
             AppearanceSettingsPane()
+              .frame(minWidth: minimumWidth)
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.pins,
-            title: NSLocalizedString("Title", tableName: "PinsSettings", comment: ""),
+            title: pinsTitle,
             toolbarIcon: NSImage.pincircle!
           ) {
             PinsSettingsPane()
               .environment(self)
               .modelContainer(Storage.shared.container)
+              .frame(minWidth: minimumWidth)
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.ignore,
-            title: NSLocalizedString("Title", tableName: "IgnoreSettings", comment: ""),
+            title: ignoreTitle,
             toolbarIcon: NSImage.nosign!
           ) {
             IgnoreSettingsPane()
+              .frame(minWidth: minimumWidth)
           },
           Settings.Pane(
             identifier: Settings.PaneIdentifier.advanced,
-            title: NSLocalizedString("Title", tableName: "AdvancedSettings", comment: ""),
+            title: advancedTitle,
             toolbarIcon: NSImage.gearshape2!
           ) {
             AdvancedSettingsPane()
+              .frame(minWidth: minimumWidth)
           }
         ]
       )
