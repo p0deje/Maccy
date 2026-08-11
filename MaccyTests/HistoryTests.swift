@@ -8,7 +8,6 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
   let savedSize = Defaults[.size]
   let savedSortBy = Defaults[.sortBy]
   let savedPinOrder = Defaults[.pinOrder]
-  let savedPinSortBy = Defaults[.pinSortBy]
   let savedPinTo = Defaults[.pinTo]
   let history = History.shared
 
@@ -18,7 +17,6 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt
     Defaults[.pinOrder] = PinOrder()
-    Defaults[.pinSortBy] = .custom
     Defaults[.pinTo] = .bottom
   }
 
@@ -27,7 +25,6 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     Defaults[.size] = savedSize
     Defaults[.sortBy] = savedSortBy
     Defaults[.pinOrder] = savedPinOrder
-    Defaults[.pinSortBy] = savedPinSortBy
     Defaults[.pinTo] = savedPinTo
   }
 

@@ -82,12 +82,6 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
 
     Task {
-      for await _ in Defaults.updates(.pinSortBy, initial: false) {
-        try? await load()
-      }
-    }
-
-    Task {
       for await _ in Defaults.updates(.pinTo, initial: false) {
         try? await load()
       }
@@ -487,24 +481,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   func movePin(from source: IndexSet, to destination: Int) {
-    guard searchQuery.isEmpty, Defaults[.pinSortBy] == .custom else { return }
+    guard searchQuery.isEmpty else { return }
     pinManager.move(from: source, to: destination)
-  }
-
-  @MainActor
-  func setPinSorting(_ pinSortBy: Sorter.PinBy) {
-    let previousPinSortBy = Defaults[.pinSortBy]
-    guard pinSortBy != previousPinSortBy else { return }
-
-    if pinSortBy == .custom {
-      pinManager.adoptSortingForCustomOrder(previousPinSortBy)
-    }
-    Defaults[.pinSortBy] = pinSortBy
-  }
-
-  @MainActor
-  func pinSortingWouldChangeCurrentOrder(_ pinSortBy: Sorter.PinBy) -> Bool {
-    pinManager.sortingWouldChangeCurrentOrder(pinSortBy)
   }
 
   @MainActor

@@ -1,4 +1,3 @@
-import Defaults
 import SwiftUI
 import UniformTypeIdentifiers
 
@@ -8,13 +7,12 @@ private enum PinReorderDrag {
 
 struct PinsView: View {
   @Environment(AppState.self) private var appState
-  @Default(.pinSortBy) private var pinSortBy
 
   var items: [HistoryItemDecorator]
   @State private var draggedItems: [HistoryItemDecorator] = []
 
   private var isDragAndDropEnabled: Bool {
-    appState.history.searchQuery.isEmpty && pinSortBy == .custom
+    appState.history.searchQuery.isEmpty
   }
 
   var body: some View {
