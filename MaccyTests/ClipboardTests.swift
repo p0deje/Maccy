@@ -1,3 +1,4 @@
+// swiftlint:disable file_length
 import XCTest
 import Defaults
 @testable import Maccy
@@ -25,6 +26,7 @@ class ClipboardTests: XCTestCase {
   let savedIgnoreAllAppsExceptListed = Defaults[.ignoreAllAppsExceptListed]
   let savedIgnoredApps = Defaults[.ignoredApps]
   let savedIgnoredPasteboardTypes = Defaults[.ignoredPasteboardTypes]
+  let savedNormalizeWhitespace = Defaults[.normalizeWhitespace]
 
   override func setUp() {
     super.setUp()
@@ -40,6 +42,7 @@ class ClipboardTests: XCTestCase {
     Defaults[.ignoreAllAppsExceptListed] = savedIgnoreAllAppsExceptListed
     Defaults[.ignoredApps] = savedIgnoredApps
     Defaults[.ignoredPasteboardTypes] = savedIgnoredPasteboardTypes
+    Defaults[.normalizeWhitespace] = savedNormalizeWhitespace
     clipboard.clearHooks()
   }
 
@@ -322,6 +325,140 @@ class ClipboardTests: XCTestCase {
     pasteboard.writeObjects([item])
 
     waitForExpectations(timeout: 2)
+  }
+  // MARK: - Normalize whitespace with source code detection
+
+  func testNormalizeWhitespaceForPlainText() {
+    Defaults[.normalizeWhitespace] = true
+
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (item: HistoryItem) in
+      let string = item.contents.first(where: { $0.type == self.stringType.rawValue })
+      let value = string.flatMap({ $0.value }).flatMap({ String(data: $0, encoding: .utf8) })
+      XCTAssertEqual(value, "hello world")
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString("hello   \n   world", forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testSkipNormalizeWhitespaceForIndentedCode() {
+    Defaults[.normalizeWhitespace] = true
+
+    let code = "func foo() {\n  let x = 1\n  let y = 2\n  return x + y\n}"
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (item: HistoryItem) in
+      let string = item.contents.first(where: { $0.type == self.stringType.rawValue })
+      let value = string.flatMap({ $0.value }).flatMap({ String(data: $0, encoding: .utf8) })
+      XCTAssertEqual(value, code)
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString(code, forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testSkipNormalizeWhitespaceForMarkdownCodeBlocks() {
+    Defaults[.normalizeWhitespace] = true
+
+    let markdown = "Some text\n```\nlet x = 1\n```\nMore text"
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (item: HistoryItem) in
+      let string = item.contents.first(where: { $0.type == self.stringType.rawValue })
+      let value = string.flatMap({ $0.value }).flatMap({ String(data: $0, encoding: .utf8) })
+      XCTAssertEqual(value, markdown)
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString(markdown, forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testSkipNormalizeWhitespaceForPipeTables() {
+    Defaults[.normalizeWhitespace] = true
+
+    let table = "| Name | Age |\n| Alice | 30 |\n| Bob | 25 |"
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (item: HistoryItem) in
+      let string = item.contents.first(where: { $0.type == self.stringType.rawValue })
+      let value = string.flatMap({ $0.value }).flatMap({ String(data: $0, encoding: .utf8) })
+      XCTAssertEqual(value, table)
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString(table, forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  func testSkipNormalizeWhitespaceForTSV() {
+    Defaults[.normalizeWhitespace] = true
+
+    let tsv = "Name\tAge\tCity\nAlice\t30\tNY\nBob\t25\tLA"
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (item: HistoryItem) in
+      let string = item.contents.first(where: { $0.type == self.stringType.rawValue })
+      let value = string.flatMap({ $0.value }).flatMap({ String(data: $0, encoding: .utf8) })
+      XCTAssertEqual(value, tsv)
+      hookExpectation.fulfill()
+    })
+    clipboard.start()
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString(tsv, forType: .string)
+    waitForExpectations(timeout: 2)
+  }
+
+  @MainActor
+  func testCopyFromHistorySkipsNormalizationForVSCodeContent() {
+    Defaults[.normalizeWhitespace] = true
+
+    // Plain text that would normally be normalized, but has vscode-editor-data type
+    let text = "hello   \n   world"
+    let contents = [
+      HistoryItemContent(type: stringType.rawValue, value: text.data(using: .utf8)!),
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.vscodeEditorData.rawValue,
+        value: "{}".data(using: .utf8)!
+      )
+    ]
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = contents
+    clipboard.copy(item)
+    XCTAssertEqual(pasteboard.string(forType: .string), text)
+  }
+
+  @MainActor
+  func testCopyFromHistorySkipsNormalizationForCode() {
+    Defaults[.normalizeWhitespace] = true
+
+    let code = "func foo() {\n  let x = 1\n  let y = 2\n  return x + y\n}"
+    let contents = [
+      HistoryItemContent(type: stringType.rawValue, value: code.data(using: .utf8)!)
+    ]
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = contents
+    clipboard.copy(item)
+    XCTAssertEqual(pasteboard.string(forType: .string), code)
+  }
+
+  @MainActor
+  func testCopyFromHistoryNormalizesPlainText() {
+    Defaults[.normalizeWhitespace] = true
+
+    let contents = [
+      HistoryItemContent(type: stringType.rawValue, value: "hello   \n   world".data(using: .utf8)!)
+    ]
+    let item = HistoryItem()
+    Storage.shared.context.insert(item)
+    item.contents = contents
+    clipboard.copy(item)
+    XCTAssertEqual(pasteboard.string(forType: .string), "hello world")
   }
 }
 // swiftlint:enable type_body_length

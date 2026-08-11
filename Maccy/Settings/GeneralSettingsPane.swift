@@ -91,6 +91,11 @@ struct GeneralSettingsPane: View {
         .onChange(refreshModifiers)
         .fixedSize()
 
+        Defaults.Toggle(key: .normalizeWhitespace) {
+          Text("NormalizeWhitespace", tableName: "GeneralSettings")
+        }
+        .fixedSize()
+
         Text(String(
           format: NSLocalizedString("Modifiers", tableName: "GeneralSettings", comment: ""),
           copyModifier, pasteModifier, pasteWithoutFormatting

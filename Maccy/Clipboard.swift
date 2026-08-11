@@ -2,7 +2,7 @@ import AppKit
 import Defaults
 import Sauce
 
-class Clipboard {
+class Clipboard { // swiftlint:disable:this type_body_length
   static let shared = Clipboard()
 
   typealias OnNewCopyHook = (HistoryItem) -> Void
@@ -82,9 +82,20 @@ class Clipboard {
       contents = clearFormatting(contents)
     }
 
+    let shouldNormalize = Defaults[.normalizeWhitespace] && !SourceCodeDetector.containsSourceCode(contents)
+
     for content in contents {
       guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
-      pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
+      let type = NSPasteboard.PasteboardType(content.type)
+
+      if shouldNormalize && type == .string,
+         let data = content.value,
+         let string = String(data: data, encoding: .utf8) {
+        let normalized = normalizeWhitespace(string)
+        pasteboard.setData(normalized.data(using: .utf8), forType: type)
+      } else {
+        pasteboard.setData(content.value, forType: type)
+      }
     }
 
     // Use writeObjects for file URLs so that multiple files that are copied actually work.
@@ -148,6 +159,7 @@ class Clipboard {
 
   @objc
   @MainActor
+  // swiftlint:disable:next function_body_length
   func checkForChangesInPasteboard() { // swiftlint:disable:this cyclomatic_complexity
     guard pasteboard.changeCount != changeCount else {
       return
@@ -215,6 +227,10 @@ class Clipboard {
 
     guard !contents.isEmpty else {
       return
+    }
+
+    if Defaults[.normalizeWhitespace] && !SourceCodeDetector.containsSourceCode(contents) {
+      normalizeContentsAndRewritePasteboard(contents)
     }
 
     let historyItem = HistoryItem(contents: contents)
@@ -298,6 +314,28 @@ class Clipboard {
 
     NSApp.activate(ignoringOtherApps: true)
     NSApp.hide(self)
+  }
+
+  private func normalizeContentsAndRewritePasteboard(_ contents: [HistoryItemContent]) {
+    for content in contents where NSPasteboard.PasteboardType(content.type) == .string {
+      if let data = content.value, let string = String(data: data, encoding: .utf8) {
+        content.value = normalizeWhitespace(string).data(using: .utf8)
+      }
+    }
+
+    pasteboard.clearContents()
+    for content in contents {
+      pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
+    }
+    pasteboard.setString("", forType: .fromMaccy)
+    changeCount = pasteboard.changeCount
+  }
+
+  private func normalizeWhitespace(_ string: String) -> String {
+    return string
+      .replacingOccurrences(of: "[\\t ]*\\n[\\t ]*", with: " ", options: .regularExpression)
+      .replacingOccurrences(of: " {2,}", with: " ", options: .regularExpression)
+      .trimmingCharacters(in: .whitespacesAndNewlines)
   }
 
   private func clearFormatting(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {

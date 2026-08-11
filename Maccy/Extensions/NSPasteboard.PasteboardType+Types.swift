@@ -34,4 +34,7 @@ extension NSPasteboard.PasteboardType: Defaults.Serializable {
 
   // Apple Notes
   static let notesRichText = NSPasteboard.PasteboardType(rawValue: "com.apple.notes.richtext")
+
+  // Source code indicators from code editors
+  static let vscodeEditorData = NSPasteboard.PasteboardType(rawValue: "vscode-editor-data")
 }
