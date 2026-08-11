@@ -7,13 +7,6 @@ struct HistoryItemView: View {
   var next: HistoryItemDecorator?
   var index: Int
 
-  private var visualIndex: Int? {
-    if appState.navigator.isMultiSelectInProgress && item.selectionIndex >= 0 {
-      return item.selectionIndex
-    }
-    return nil
-  }
-
   private var selectionAppearance: SelectionAppearance {
     let previousSelected = previous?.isSelected ?? false
     let nextSelected = next?.isSelected ?? false
@@ -37,27 +30,6 @@ struct HistoryItemView: View {
     return ColorImage.from(item.title)
   }
 
-  // Describe the complete item independently of its potentially truncated visual content.
-  private var accessibilityLabel: String {
-    var parts: [String] = []
-    if item.hasImage, let image = item.item.image {
-      let size = image.pixelSize
-      parts.append(String(format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""), Int(size.width), Int(size.height)))
-    } else {
-      parts.append(item.title)
-    }
-    if let application = item.application {
-      parts.append(application)
-    }
-    if item.isPinned {
-      parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
-    }
-    if let index = visualIndex {
-      parts.append(String(format: NSLocalizedString("history_item_selected_accessibility_value", comment: ""), index + 1, appState.navigator.selection.count))
-    }
-    return parts.joined(separator: ", ")
-  }
-
   private func performSelect() {
     if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
       appState.navigator.addToSelection(item: item)
@@ -79,9 +51,9 @@ struct HistoryItemView: View {
       attributedTitle: item.attributedTitle,
       shortcuts: item.shortcuts,
       isSelected: item.isSelected,
-      selectionIndex: visualIndex,
+      selectionIndex: item.multiSelectionIndex,
       selectionAppearance: selectionAppearance,
-      accessibilityLabel: accessibilityLabel
+      accessibilityLabel: item.accessibilityLabel
     ) {
       Text(verbatim: item.title)
     }
