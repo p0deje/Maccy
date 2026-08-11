@@ -52,8 +52,6 @@ struct PinOrder: Codable, Equatable, Defaults.Serializable {
 final class PinManager {
   private(set) var pinnedItems: [HistoryItemDecorator] = []
 
-  private let sorter = Sorter()
-
   var availablePins: [String] {
     let assignedPins = Set(pinnedItems.compactMap(\.item.pin))
     return HistoryItem.supportedPins.subtracting(assignedPins).sorted()
@@ -109,19 +107,8 @@ final class PinManager {
   }
 
   func move(from source: IndexSet, to destination: Int) {
-    guard Defaults[.pinSortBy] == .custom else { return }
     pinnedItems.moveElements(from: source, to: destination)
     Defaults[.pinOrder] = PinOrder(pins: pinnedItems.compactMap(\.item.pin))
-  }
-
-  func adoptSortingForCustomOrder(_ pinSortBy: Sorter.PinBy) {
-    let sortedPins = sorter.sortPins(pinnedItems, key: \.item, by: pinSortBy)
-    Defaults[.pinOrder] = PinOrder(pins: sortedPins.compactMap(\.item.pin))
-  }
-
-  func sortingWouldChangeCurrentOrder(_ pinSortBy: Sorter.PinBy) -> Bool {
-    sorter.sortPins(pinnedItems, key: \.item, by: pinSortBy).map(\.id)
-      != pinnedItems.map(\.id)
   }
 
   private func pin(_ item: HistoryItemDecorator) {
@@ -158,7 +145,25 @@ final class PinManager {
   }
 
   private func sortPinnedItems() {
-    pinnedItems = sorter.sortPins(pinnedItems, key: \.item)
+    let originalIndexes = Dictionary(
+      uniqueKeysWithValues: pinnedItems.enumerated().map {
+        ($0.element.id, $0.offset)
+      }
+    )
+    let order = Defaults[.pinOrder].pins
+
+    pinnedItems.sort { lhs, rhs in
+      let lhsIndex =
+        lhs.item.pin.flatMap { order.firstIndex(of: $0) } ?? Int.max
+      let rhsIndex =
+        rhs.item.pin.flatMap { order.firstIndex(of: $0) } ?? Int.max
+
+      if lhsIndex != rhsIndex {
+        return lhsIndex < rhsIndex
+      }
+
+      return (originalIndexes[lhs.id] ?? 0) < (originalIndexes[rhs.id] ?? 0)
+    }
   }
 }
 
