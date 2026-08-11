@@ -49,7 +49,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   @Environment(ModifierFlags.self) private var modifierFlags
 
   // Use the same selection number for the visible badge and accessibility value.
-  private var selectionNumber: String? {
+  private var displaySelectionIndex: String? {
     selectionIndex.map { "\($0 + 1)" }
   }
 
@@ -91,8 +91,8 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       Spacer()
 
       HStack(spacing: 5) {
-        if let selectionNumber {
-          Text(selectionNumber)
+        if let displaySelectionIndex {
+          Text(displaySelectionIndex)
             .font(.caption)
             .frame(minWidth: 10, alignment: .center)
             .padding(3)
@@ -129,7 +129,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     .accessibilityElement(children: .ignore)
     .accessibilityLabel(Text(accessibilityLabel))
     .accessibilityAddTraits(isSelected ? .isSelected : [])
-    .accessibilityValue(selectionNumber.map { Text($0) } ?? Text(""))
+    .accessibilityValue(Text(displaySelectionIndex ?? ""))
     .hoverSelectionId(selectionId)
     .help(help ?? "")
   }
