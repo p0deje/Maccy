@@ -140,7 +140,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     ensureMigration(key: "2025-07-04-add-jpeg-heic") {
       var types = Defaults[.enabledPasteboardTypes]
-      if !types.intersection(StorageType.images.types).isEmpty {
+      if !types.isDisjoint(with: StorageType.images.types) {
         types.formUnion(StorageType.images.types)
       }
       Defaults[.enabledPasteboardTypes] = types
