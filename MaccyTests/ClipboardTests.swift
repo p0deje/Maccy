@@ -26,6 +26,17 @@ class ClipboardTests: XCTestCase {
   let savedIgnoredApps = Defaults[.ignoredApps]
   let savedIgnoredPasteboardTypes = Defaults[.ignoredPasteboardTypes]
 
+  // Whatever app is frontmost when the test runs is the source of the copy
+  // (Clipboard reads `NSWorkspace.shared.frontmostApplication`). Hardcoding
+  // "com.apple.dt.Xcode"/"com.apple.finder" only happens to match on Bitrise,
+  // where one of those is frontmost; on any other host the two ignore-app
+  // tests below fail. Use the real frontmost bundle id so they are host-agnostic.
+  static var sourceAppBundleId: String {
+    NSWorkspace.shared.frontmostApplication?.bundleIdentifier
+      ?? Bundle.main.bundleIdentifier
+      ?? "com.apple.finder"
+  }
+
   override func setUp() {
     super.setUp()
     Defaults[.ignoreAllAppsExceptListed] = false
@@ -137,7 +148,7 @@ class ClipboardTests: XCTestCase {
   }
 
   func testIgnoreApplication() {
-    Defaults[.ignoredApps] = ["com.apple.dt.Xcode", "com.apple.finder"] // Finder is on Bitrise
+    Defaults[.ignoredApps] = [Self.sourceAppBundleId]
 
     let hookExpectation = expectation(description: "Hook is called")
     hookExpectation.isInverted = true
@@ -152,7 +163,7 @@ class ClipboardTests: XCTestCase {
 
   func testIgnoreAllApplicationsExcept() {
     Defaults[.ignoreAllAppsExceptListed] = true
-    Defaults[.ignoredApps] = ["com.apple.dt.Xcode", "com.apple.finder"] // Finder is on Bitrise
+    Defaults[.ignoredApps] = [Self.sourceAppBundleId]
 
     let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (_: HistoryItem) in
