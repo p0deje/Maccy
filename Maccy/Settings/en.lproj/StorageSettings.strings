@@ -12,11 +12,3 @@
 "FirstCopiedAt" = "Time of first copy";
 "NumberOfCopies" = "Number of copies";
 "SortByTooltip" = "Default: Time of last copy.";
-"SortPinsBy" = "Sort pins by:";
-"PinLetter" = "Pin letter";
-"Custom" = "Custom";
-"SortPinsByDescription" = "Pins can be reordered by drag and drop when Custom is selected.";
-"PinSortWarningTitle" = "Change pin sorting?";
-"PinSortWarningMessage" = "Your custom pin order will be lost.";
-"PinSortWarningConfirm" = "Change Sorting";
-"PinSortWarningCancel" = "Cancel";
