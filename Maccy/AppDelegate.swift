@@ -150,8 +150,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       UserDefaults.standard.removeObject(forKey: "hideFooter")
       UserDefaults.standard.removeObject(forKey: "hideSearch")
       UserDefaults.standard.removeObject(forKey: "hideTitle")
-
-      Defaults[.migrations]["2024-07-01-version-2"] = true
     }
 
     ensureMigration(key: "2025-07-04-add-jpeg-heic") {
@@ -162,10 +160,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       Defaults[.enabledPasteboardTypes] = types
     }
 
-    let orphanCleanupKey = "2026-08-08-cleanup-orphaned-history-item-contents"
-    if Defaults[.migrations][orphanCleanupKey] != true {
+    ensureMigration(key: "2026-08-12-cleanup-orphaned-history-item-contents") {
       _ = try? Storage.shared.cleanupOrphanedContents()
-      Defaults[.migrations][orphanCleanupKey] = true
     }
 
     // The following defaults are not used in Maccy 2.x
