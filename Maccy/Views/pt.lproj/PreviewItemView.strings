@@ -5,6 +5,7 @@
 "DeleteKey" = "Pressione {deleteKey} para apagar.";
 "NumberOfCopies" = "Quantidade de cópias:";
 "UnpinKey" = "Pressione {pinKey} para desafixar.";
-"PreviewKey" = "Pressione {previewKey} para alternar a pré-visualização.";
+"OpenPreview" = "Pressione {previewKey} para mostrar a pré-visualização.";
+"ClosePreview" = "Pressione {previewKey} para ocultar a pré-visualização.";
 "Dimensions" = "Dimensões:";
 "CopyExtractedText" = "Copiar texto extraído.";

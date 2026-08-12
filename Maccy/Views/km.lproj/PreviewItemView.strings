@@ -8,3 +8,5 @@
 "Dimensions" = "ទំហំ:";
 "PreviewKey" = "ចុច {previewKey} ដើម្បី បើក/បិទ ការមើលមុន។";
 "UnpinKey" = "ចុច {pinKey} ដើម្បី ដកខ្ទាស់។";
+"OpenPreview" = "ចុច {previewKey} ដើម្បីបង្ហាញការមើលជាមុន។";
+"ClosePreview" = "ចុច {previewKey} ដើម្បីលាក់ការមើលជាមុន។";

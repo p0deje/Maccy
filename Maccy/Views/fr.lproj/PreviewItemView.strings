@@ -5,6 +5,7 @@
 "PinKey" = "Appuyez sur {pinKey} pour épingler.";
 "UnpinKey" = "Appuyez sur {pinKey} pour détacher.";
 "DeleteKey" = "Appuyez sur {deleteKey} pour supprimer.";
-"PreviewKey" = "Appuyez sur {previewKey} pour basculer l'aperçu.";
+"OpenPreview" = "Appuyez sur {previewKey} pour afficher l'aperçu.";
+"ClosePreview" = "Appuyez sur {previewKey} pour masquer l'aperçu.";
 "Dimensions" = "Dimensions :";
 "CopyExtractedText" = "Copier le texte extrait.";

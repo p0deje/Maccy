@@ -5,6 +5,7 @@
 "PinKey" = "Tekan {pinKey} untuk menyematkan.";
 "DeleteKey" = "Tekan {deleteKey} untuk menghapus.";
 "UnpinKey" = "Tekan tombol {pinKey} untuk melepas pin.";
-"PreviewKey" = "Tekan tombol {previewKey} untuk beralih pratinjau.";
+"OpenPreview" = "Tekan tombol {previewKey} untuk menampilkan pratinjau.";
+"ClosePreview" = "Tekan tombol {previewKey} untuk menyembunyikan pratinjau.";
 "Dimensions" = "Dimensi:";
 "CopyExtractedText" = "Salin teks yang diekstrak.";

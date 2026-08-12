@@ -12,3 +12,14 @@
 "search_placeholder" = "пачніце пісаць для пошуку…";
 "clear_tooltip" = "Ачысціць незамацаваныя элементы.\nВыберыце з ⇧, каб выдаліць усе.";
 "clear_all_tooltip" = "Ачысціць усе элементы.";
+"status_item_accessibility_label" = "Maccy — гісторыя буфера абмену";
+"status_item_disabled_accessibility_suffix" = "прыпынена";
+"search_clear_accessibility_label" = "Ачысціць пошук";
+"history_item_pin_action" = "Замацаваць";
+"history_item_unpin_action" = "Адмацаваць";
+"history_item_delete_action" = "Выдаліць";
+"history_item_pinned_accessibility_value" = "Замацавана";
+"history_item_selected_accessibility_value" = "Выбрана, %d з %d";
+"history_item_image_accessibility_label_no_app" = "Выява, %d×%d";
+"history_item_image_accessibility_generic" = "Выява";
+"toolbar_remove_paste_stack_action" = "Спыніць стос устаўкі";

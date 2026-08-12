@@ -4,3 +4,5 @@
 "NumberOfCopies" = "";
 "FirstCopyTime" = "";
 "Application" = "";
+"OpenPreview" = "Paina {previewKey} näyttääksesi esikatselun.";
+"ClosePreview" = "Paina {previewKey} piilottaaksesi esikatselun.";

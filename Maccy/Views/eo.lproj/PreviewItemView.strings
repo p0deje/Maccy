@@ -5,6 +5,7 @@
 "PinKey" = "Premu {pinKey} por fiksi.";
 "DeleteKey" = "Premu {deleteKey} por forigi.";
 "UnpinKey" = "Premu {pinKey} por malfiksi.";
-"PreviewKey" = "";
+"OpenPreview" = "Premu {previewKey} por montri la antaŭrigardon.";
+"ClosePreview" = "Premu {previewKey} por kaŝi la antaŭrigardon.";
 "Dimensions" = "Dimensioj:";
 "CopyExtractedText" = "Kopii eltiritan tekston.";

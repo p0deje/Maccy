@@ -5,6 +5,7 @@
 "PinKey" = "按 {pinKey} 置顶。";
 "UnpinKey" = "按 {pinKey} (取消)置顶。";
 "DeleteKey" = "按 {deleteKey} 删除。";
-"PreviewKey" = "按 {previewKey} 切换预览。";
+"OpenPreview" = "按 {previewKey} 显示预览。";
+"ClosePreview" = "按 {previewKey} 隐藏预览。";
 "Dimensions" = "尺寸:";
 "CopyExtractedText" = "复制提取的文本。";
