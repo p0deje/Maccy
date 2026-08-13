@@ -8,6 +8,26 @@ import Sauce
 import Settings
 import SwiftData
 
+private struct MemoryArchive: Codable {
+  let version: Int
+  let memories: [Memory]
+
+  struct Memory: Codable {
+    let application: String?
+    let firstCopiedAt: Date
+    let lastCopiedAt: Date
+    let numberOfCopies: Int
+    let title: String
+    let topic: String?
+    let contents: [Content]
+  }
+
+  struct Content: Codable {
+    let type: String
+    let value: Data?
+  }
+}
+
 @Observable
 class History: ItemsContainer { // swiftlint:disable:this type_body_length
   static let shared = History()
@@ -118,6 +138,57 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  func exportMemories(to url: URL) throws {
+    let memories = all.filter(\.isPinned).map { item in
+      MemoryArchive.Memory(
+        application: item.item.application,
+        firstCopiedAt: item.item.firstCopiedAt,
+        lastCopiedAt: item.item.lastCopiedAt,
+        numberOfCopies: item.item.numberOfCopies,
+        title: item.item.title,
+        topic: item.item.topic,
+        contents: item.item.contents.map { content in
+          MemoryArchive.Content(type: content.type, value: content.value)
+        }
+      )
+    }
+    let archive = MemoryArchive(version: 1, memories: memories)
+    let encoder = JSONEncoder()
+    encoder.dateEncodingStrategy = .iso8601
+    encoder.outputFormatting = [.prettyPrinted, .sortedKeys]
+    try encoder.encode(archive).write(to: url, options: .atomic)
+  }
+
+  @MainActor
+  func importMemories(from url: URL) throws {
+    let decoder = JSONDecoder()
+    decoder.dateDecodingStrategy = .iso8601
+    let archive = try decoder.decode(MemoryArchive.self, from: Data(contentsOf: url))
+    guard archive.version == 1 else {
+      throw CocoaError(.fileReadCorruptFile)
+    }
+
+    for memory in archive.memories {
+      let item = HistoryItem(
+        contents: memory.contents.map {
+          HistoryItemContent(type: $0.type, value: $0.value)
+        }
+      )
+      item.application = memory.application
+      item.firstCopiedAt = memory.firstCopiedAt
+      item.lastCopiedAt = memory.lastCopiedAt
+      item.numberOfCopies = memory.numberOfCopies
+      item.pin = HistoryItem.randomAvailablePin
+      item.title = memory.title
+      item.topic = memory.topic
+      add(item)
+    }
+
+    Storage.shared.context.processPendingChanges()
+    try Storage.shared.context.save()
+  }
+
+  @MainActor
   private func limitHistorySize(to maxSize: Int) {
     let unpinned = all.filter(\.isUnpinned)
     if unpinned.count >= maxSize {
@@ -150,7 +221,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
-      item.pin = existingHistoryItem.pin
+      item.pin = existingHistoryItem.pin ?? item.pin
+      item.topic = existingHistoryItem.topic ?? item.topic
       item.title = existingHistoryItem.title
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
@@ -182,6 +254,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       // Keep pins in the same place.
       if let removedItemIndex {
         all.insert(itemDecorator, at: removedItemIndex)
+      } else {
+        let sortedItems = sorter.sort(all.map(\.item) + [item])
+        if let index = sortedItems.firstIndex(of: item) {
+          all.insert(itemDecorator, at: index)
+        }
       }
     } else {
       itemDecorator = HistoryItemDecorator(item)
@@ -190,11 +267,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       if let index = sortedItems.firstIndex(of: item) {
         all.insert(itemDecorator, at: index)
       }
-
-      items = all
-      updateUnpinnedShortcuts()
-      AppState.shared.popup.needsResize = true
     }
+
+    items = all
+    updateUnpinnedShortcuts()
+    AppState.shared.popup.needsResize = true
 
     return itemDecorator
   }

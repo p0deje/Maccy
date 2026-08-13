@@ -53,6 +53,43 @@ class HistoryTests: XCTestCase {
     XCTAssertEqual(history.items[0].item.application, "iTerm.app")
   }
 
+  func testDuplicatePreservesPinAndTopic() {
+    let original = historyItem("foo")
+    original.pin = "f"
+    original.topic = "Work"
+    history.add(original)
+
+    history.add(historyItem("foo"))
+
+    XCTAssertEqual(history.items.count, 1)
+    XCTAssertEqual(history.items[0].item.pin, "f")
+    XCTAssertEqual(history.items[0].item.topic, "Work")
+  }
+
+  func testExportAndImportMemories() throws {
+    let original = history.add(historyItem("remember me"))
+    original.togglePin()
+    original.item.topic = "Notes"
+    original.item.application = "TextEdit.app"
+    original.item.numberOfCopies = 3
+
+    let url = FileManager.default.temporaryDirectory
+      .appending(path: "Maccy-\(UUID().uuidString).json")
+    defer { try? FileManager.default.removeItem(at: url) }
+
+    try history.exportMemories(to: url)
+    history.clearAll()
+    try history.importMemories(from: url)
+
+    XCTAssertEqual(history.items.count, 1)
+    let imported = try XCTUnwrap(history.items.first)
+    XCTAssertTrue(imported.isPinned)
+    XCTAssertEqual(imported.text, "remember me")
+    XCTAssertEqual(imported.item.topic, "Notes")
+    XCTAssertEqual(imported.item.application, "TextEdit.app")
+    XCTAssertEqual(imported.item.numberOfCopies, 3)
+  }
+
   func testAddingItemThatIsSupersededByExisting() {
     let firstContents = [
       HistoryItemContent(

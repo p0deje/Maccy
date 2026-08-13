@@ -271,6 +271,22 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
   }
 
+  func testClickPinnedItemKeepsPopupOpenAndItemPinned() {
+    popUpWithMouse()
+    pin(copy2)
+
+    let pinnedItem = items[copy2].firstMatch
+    assertExists(pinnedItem)
+    pinnedItem.click()
+
+    assertPasteboardStringEquals(copy2)
+    assertExists(pinnedItem)
+
+    app.typeKey(.escape, modifierFlags: [])
+    popUpWithMouse()
+    assertExists(items[copy2].firstMatch)
+  }
+
   func testPinDuringSearch() {
     popUpWithMouse()
     search(copy2)

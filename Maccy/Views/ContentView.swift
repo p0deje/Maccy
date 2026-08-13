@@ -160,6 +160,16 @@ struct PinnedCommentsView: View {
 
     VStack(alignment: .leading, spacing: 0) {
       HStack {
+        Button("Import...") {
+          importMemories()
+        }
+        .buttonStyle(.plain)
+
+        Button("Export...") {
+          exportMemories()
+        }
+        .buttonStyle(.plain)
+
         Spacer()
         Button(action: promptForNewTopic) {
           Text("Add Topic...")
@@ -169,6 +179,7 @@ struct PinnedCommentsView: View {
         .padding(.horizontal, 15)
         .padding(.vertical, 8)
       }
+      .padding(.horizontal, 15)
 
       ScrollView {
         VStack(alignment: .leading, spacing: 10) {
@@ -251,5 +262,40 @@ struct PinnedCommentsView: View {
         }
       }
     }
+  }
+
+  private func exportMemories() {
+    let panel = NSSavePanel()
+    panel.allowedContentTypes = [.json]
+    panel.nameFieldStringValue = "Maccy Memories.json"
+    guard panel.runModal() == .OK, let url = panel.url else { return }
+
+    do {
+      try appState.history.exportMemories(to: url)
+    } catch {
+      showArchiveError("Could not export memories", error: error)
+    }
+  }
+
+  private func importMemories() {
+    let panel = NSOpenPanel()
+    panel.allowedContentTypes = [.json]
+    panel.allowsMultipleSelection = false
+    guard panel.runModal() == .OK, let url = panel.url else { return }
+
+    do {
+      try appState.history.importMemories(from: url)
+      appState.popup.needsResize = true
+    } catch {
+      showArchiveError("Could not import memories", error: error)
+    }
+  }
+
+  private func showArchiveError(_ message: String, error: Error) {
+    let alert = NSAlert()
+    alert.alertStyle = .warning
+    alert.messageText = message
+    alert.informativeText = error.localizedDescription
+    alert.runModal()
   }
 }

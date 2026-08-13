@@ -38,6 +38,31 @@ struct HistoryItemView: View {
   }
 
   var body: some View {
+    listItem
+      .onTapGesture {
+        if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
+          appState.navigator.addToSelection(item: item)
+        } else if item.isPinned {
+          copyPinnedItem()
+        } else {
+          selectItem()
+        }
+      }
+      .contextMenu {
+        Menu("Pin to Topic...") {
+          ForEach(allTopics, id: \.self) { targetTopic in
+            Button(targetTopic) {
+              if item.isUnpinned {
+                item.togglePin()
+              }
+              item.topic = (targetTopic == "Uncategorized") ? nil : targetTopic
+            }
+          }
+        }
+      }
+  }
+
+  private var listItem: some View {
     ListItemView(
       id: item.id,
       selectionId: item.id,
@@ -55,27 +80,6 @@ struct HistoryItemView: View {
     .onAppear {
       item.ensureThumbnailImage()
     }
-    .onTapGesture {
-      if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
-        appState.navigator.addToSelection(item: item)
-      } else {
-        Task {
-          appState.history.select(item)
-        }
-      }
-    }
-    .contextMenu {
-      Menu("Pin to Topic...") {
-        ForEach(allTopics, id: \.self) { targetTopic in
-          Button(targetTopic) {
-            if item.isUnpinned {
-              item.togglePin()
-            }
-            item.topic = (targetTopic == "Uncategorized") ? nil : targetTopic
-          }
-        }
-      }
-    }
   }
 
   @AppStorage("customTopics") private var customTopicsData: Data = Data()
@@ -83,5 +87,19 @@ struct HistoryItemView: View {
     let itemTopics = Set(appState.history.pinnedItems.compactMap { $0.topic })
     let custom = (try? JSONDecoder().decode([String].self, from: customTopicsData)) ?? []
     return itemTopics.union(custom).union(["Uncategorized"]).sorted()
+  }
+
+  private func selectItem() {
+    Task { @MainActor in
+      appState.history.select(item)
+    }
+  }
+
+  private func copyPinnedItem() {
+    appState.navigator.select(item: item)
+    Clipboard.shared.copy(
+      item.item,
+      removeFormatting: Defaults[.removeFormattingByDefault]
+    )
   }
 }
