@@ -137,6 +137,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  @MainActor
   private func migrateUserDefaults() {
     ensureMigration(key: "2024-07-01-version-2") {
       // Start 2.x from scratch.
@@ -149,8 +150,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       UserDefaults.standard.removeObject(forKey: "hideFooter")
       UserDefaults.standard.removeObject(forKey: "hideSearch")
       UserDefaults.standard.removeObject(forKey: "hideTitle")
-
-      Defaults[.migrations]["2024-07-01-version-2"] = true
     }
 
     ensureMigration(key: "2025-07-04-add-jpeg-heic") {
@@ -159,6 +158,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         types.formUnion(StorageType.images.types)
       }
       Defaults[.enabledPasteboardTypes] = types
+    }
+
+    ensureMigration(key: "2026-08-12-cleanup-orphaned-history-item-contents") {
+      _ = try? Storage.shared.cleanupOrphanedContents()
     }
 
     // The following defaults are not used in Maccy 2.x

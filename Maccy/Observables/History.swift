@@ -146,7 +146,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
-        item.contents = existingHistoryItem.contents
+        transferContents(from: existingHistoryItem, to: item)
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
@@ -160,7 +160,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       if let removedItemIndex {
         cleanup(all[removedItemIndex])
       }
-      Storage.shared.context.delete(existingHistoryItem)
+      deleteFromStorage(existingHistoryItem)
       if let removedItemIndex {
         all.remove(at: removedItemIndex)
       }
@@ -256,7 +256,20 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       sessionLog.removeAll()
       items = all
 
-      try? Storage.shared.context.delete(model: HistoryItem.self)
+      do {
+        let context = Storage.shared.context
+        try context.transaction {
+          // Bulk deletion cannot remove children with live inverse relationships.
+          try context.delete(
+            model: HistoryItemContent.self,
+            where: #Predicate { $0.item == nil }
+          )
+          try context.delete(model: HistoryItem.self)
+          try context.delete(model: HistoryItemContent.self)
+        }
+      } catch {
+        logger.error("Failed to clear storage: \(String(reflecting: error))")
+      }
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
@@ -274,7 +287,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     cleanup(item)
     withLogging("Removing history item") {
-      Storage.shared.context.delete(item.item)
+      deleteFromStorage(item.item)
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
@@ -287,6 +300,24 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     Task {
       AppState.shared.popup.needsResize = true
     }
+  }
+
+  @MainActor
+  private func transferContents(from existingItem: HistoryItem, to newItem: HistoryItem) {
+    deleteContents(of: newItem)
+    newItem.contents = existingItem.contents
+    existingItem.contents = []
+  }
+
+  @MainActor
+  private func deleteFromStorage(_ item: HistoryItem) {
+    deleteContents(of: item)
+    Storage.shared.context.delete(item)
+  }
+
+  @MainActor
+  private func deleteContents(of item: HistoryItem) {
+    item.contents.forEach(Storage.shared.context.delete)
   }
 
   @MainActor
