@@ -93,6 +93,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     return parts.joined(separator: ", ")
   }
 
+  private var itemPinUpdatePending = false
+  private var itemTitleUpdatePending = false
+
   init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
     self.item = item
     self.shortcuts = shortcuts
@@ -219,7 +222,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     _ = withObservationTracking {
       item.pin
     } onChange: {
+      guard !self.itemPinUpdatePending else { return }
+      self.itemPinUpdatePending = true
       DispatchQueue.main.async {
+        self.itemPinUpdatePending = false
         if let pin = self.item.pin {
           self.shortcuts = KeyShortcut.create(character: pin)
         }
@@ -232,7 +238,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     _ = withObservationTracking {
       item.title
     } onChange: {
+      guard !self.itemTitleUpdatePending else { return }
+      self.itemTitleUpdatePending = true
       DispatchQueue.main.async {
+        self.itemTitleUpdatePending = false
         self.title = self.item.title
         self.synchronizeItemTitle()
       }
