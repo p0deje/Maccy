@@ -254,6 +254,9 @@ class HistoryItem {
       return observation.topCandidates(1).first?.string
     }
 
-    self.title = recognizedStrings.joined(separator: "\n")
+    let text = recognizedStrings.joined(separator: "\n")
+    Task { @MainActor in
+      self.title = text
+    }
   }
 }
