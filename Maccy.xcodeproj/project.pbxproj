@@ -30,6 +30,7 @@
 		2F578C422EFFE8920088B759 /* SlideoutContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C402EFFE8920088B759 /* SlideoutContentView.swift */; };
 		2F578C432EFFE8920088B759 /* SlideoutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F578C412EFFE8920088B759 /* SlideoutView.swift */; };
 		2F59CC4C302B580300136053 /* Array+MoveElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F59CC4B302B57FC00136053 /* Array+MoveElements.swift */; };
+		2F8A0DBE303A1FA0004BA51F /* ConcatenatedCollection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8A0DBD303A1F9D004BA51F /* ConcatenatedCollection.swift */; };
 		2F8B9DE62C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F8B9DE52C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift */; };
 		2F9B42EF2F1A494C006548E5 /* ListHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B42EE2F1A4948006548E5 /* ListHeaderView.swift */; };
 		2F9B42F12F1A499D006548E5 /* ToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F9B42F02F1A4999006548E5 /* ToolbarView.swift */; };
@@ -215,6 +216,7 @@
 		2F578C402EFFE8920088B759 /* SlideoutContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideoutContentView.swift; sourceTree = "<group>"; };
 		2F578C412EFFE8920088B759 /* SlideoutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideoutView.swift; sourceTree = "<group>"; };
 		2F59CC4B302B57FC00136053 /* Array+MoveElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+MoveElements.swift"; sourceTree = "<group>"; };
+		2F8A0DBD303A1F9D004BA51F /* ConcatenatedCollection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConcatenatedCollection.swift; sourceTree = "<group>"; };
 		2F8B9DE52C5D6E5D0046EF69 /* NSPoint+DefaultsSerializable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSPoint+DefaultsSerializable.swift"; sourceTree = "<group>"; };
 		2F9B42EE2F1A4948006548E5 /* ListHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListHeaderView.swift; sourceTree = "<group>"; };
 		2F9B42F02F1A4999006548E5 /* ToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ToolbarView.swift; sourceTree = "<group>"; };
@@ -867,6 +869,7 @@
 				DA555F072CF0F98F009608BD /* ApplicationImageCache.swift */,
 				DA0EF1871E444B2A00E58577 /* Clipboard.swift */,
 				DAE284FF232257D20080E394 /* ColorImage.swift */,
+				2F8A0DBD303A1F9D004BA51F /* ConcatenatedCollection.swift */,
 				DAA54BF92C3C951900B7FDD8 /* FloatingPanel.swift */,
 				DA689FC92C1D18890009B887 /* HighlightMatch.swift */,
 				DA1969202C3F6C6800258481 /* HistoryItemAction.swift */,
@@ -1151,6 +1154,7 @@
 				DAA072E72C423617006DDFD2 /* NSSize+DefaultsSerializable.swift in Sources */,
 				DA9C3C452C207AF80056795D /* IgnoreSettingsPane.swift in Sources */,
 				DA13D7D82C1A223E00FA9E23 /* Select.swift in Sources */,
+				2F8A0DBE303A1FA0004BA51F /* ConcatenatedCollection.swift in Sources */,
 				DA689FC82C1D15140009B887 /* PinsPosition.swift in Sources */,
 				2FD5DE512FFE6DD50023FF60 /* LegacyReorderableContainer.swift in Sources */,
 				2F9B42EF2F1A494C006548E5 /* ListHeaderView.swift in Sources */,
