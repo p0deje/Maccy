@@ -60,6 +60,11 @@ struct ContentView: View {
     .environment(appState)
     .environment(modifierFlags)
     .environment(\.scenePhase, scenePhase)
+    .onChange(of: appState.isEditingItem) { _, isEditingItem in
+      // A sheet's text controls otherwise remain the logical focus target after
+      // dismissal, preventing the popup's key handler from receiving shortcuts.
+      searchFocused = !isEditingItem
+    }
     // FloatingPanel is not a scene, so let's implement custom scenePhase..
     .onReceive(NotificationCenter.default.publisher(for: NSWindow.didBecomeKeyNotification)) {
       guard !appState.isEditingItem else { return }
