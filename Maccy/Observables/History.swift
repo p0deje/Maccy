@@ -13,18 +13,29 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   static let shared = History()
   let logger = Logger(label: "org.p0deje.Maccy")
 
-  var items: [HistoryItemDecorator] = []
   var pasteStack: PasteStack?
 
-  var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
-  var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
+  var items: [HistoryItemDecorator] {
+    switch Defaults[.pinTo] {
+    case .top:
+      pinnedItems + unpinnedItems
+    case .bottom:
+      unpinnedItems + pinnedItems
+    }
+  }
+  var pinnedItems: [HistoryItemDecorator] {
+    searchQuery.isEmpty ? allPinnedItems : filteredPinnedItems
+  }
+  var unpinnedItems: [HistoryItemDecorator] {
+    searchQuery.isEmpty ? allUnpinnedItems : filteredUnpinnedItems
+  }
   var availablePins: [String] { pinManager.availablePins }
 
   var searchQuery: String = "" {
     didSet(previousSearchQuery) {
       guard searchQuery != previousSearchQuery else { return }
       throttler.throttle { [self] in
-        updateItems(search.search(string: searchQuery, within: all))
+        updateSearchResults()
 
         if searchQuery.isEmpty {
           AppState.shared.navigator.select(item: unpinnedItems.first)
@@ -58,15 +69,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   private let sorter = Sorter()
   private let throttler = Throttler(minimumDelay: 0.2)
   private let pinManager = PinManager()
+  private var allPinnedItems: [HistoryItemDecorator] { pinManager.pinnedItems }
+  private var allUnpinnedItems: [HistoryItemDecorator] = []
+  private var filteredPinnedItems: [HistoryItemDecorator] = []
+  private var filteredUnpinnedItems: [HistoryItemDecorator] = []
 
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
-
-  // The distinction between `all` and `items` is the following:
-  // - `all` stores all history items, even the ones that are currently hidden by a search
-  // - `items` stores only visible history items, updated during a search
-  @ObservationIgnored
-  var all: [HistoryItemDecorator] = []
 
   init() {
     Task {
@@ -108,9 +117,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func load() async throws {
     let descriptor = FetchDescriptor<HistoryItem>()
     let results = try Storage.shared.context.fetch(descriptor)
-    all = sorter.sort(results).map { HistoryItemDecorator($0) }
-    pinManager.load(from: all)
-    items = all
+    let decorators = sorter.sort(results).map { HistoryItemDecorator($0) }
+    pinManager.load(from: decorators)
+    allUnpinnedItems = decorators.filter(\.isUnpinned)
+    filteredPinnedItems = allPinnedItems
+    filteredUnpinnedItems = allUnpinnedItems
 
     limitHistorySize(to: Defaults[.size])
 
@@ -123,9 +134,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func limitHistorySize(to maxSize: Int) {
-    let unpinned = all.filter(\.isUnpinned)
-    if unpinned.count >= maxSize {
-      unpinned[maxSize...].forEach(delete)
+    if allUnpinnedItems.count >= maxSize {
+      allUnpinnedItems[maxSize...].forEach(delete)
     }
   }
 
@@ -147,7 +157,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       // It was already inserted after creation in Clipboard.swift
     }
 
-    var removedItemIndex: Int?
+    var replacedPinnedItem: HistoryItemDecorator?
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
         transferContents(from: existingHistoryItem, to: item)
@@ -160,14 +170,14 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         item.application = existingHistoryItem.application
       }
       logger.info("Removing duplicate item '\(item.title)'")
-      removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
-      if let removedItemIndex {
-        cleanup(all[removedItemIndex])
+      if let existingDecorator = firstStoredItem(where: { $0.item == existingHistoryItem }) {
+        cleanup(existingDecorator)
+        allUnpinnedItems.removeAll { $0 == existingDecorator }
+        if existingDecorator.isPinned {
+          replacedPinnedItem = existingDecorator
+        }
       }
       deleteFromStorage(existingHistoryItem)
-      if let removedItemIndex {
-        all.remove(at: removedItemIndex)
-      }
     } else {
       Task {
         Notifier.notify(body: item.title, sound: .write)
@@ -176,33 +186,29 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
-    limitHistorySize(to: Defaults[.size] - 1)
+    limitHistorySize(to: item.pin == nil ? Defaults[.size] - 1 : Defaults[.size])
 
     sessionLog[Clipboard.shared.changeCount] = item
 
-    var itemDecorator: HistoryItemDecorator
+    let itemDecorator: HistoryItemDecorator
     if let pin = item.pin {
       itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
-      if let removedItemIndex {
-        // If pin to bottom -> last element should be inserted to the removedItemIndex - 1
-        // Or to the last all array place.
-        all.insert(itemDecorator, at: min(removedItemIndex, all.count))
+      if let replacedPinnedItem {
+        pinManager.replace(replacedPinnedItem, with: itemDecorator)
+      } else {
+        pinManager.add(itemDecorator)
       }
-      pinManager.load(from: all)
-      items = all
     } else {
       itemDecorator = HistoryItemDecorator(item)
-
-      let sortedItems = sorter.sort(all.map(\.item) + [item])
-      if let index = sortedItems.firstIndex(of: item) {
-        all.insert(itemDecorator, at: index)
-      }
-
-      items = all
-      updateUnpinnedShortcuts()
-      AppState.shared.popup.needsResize = true
+      insertUnpinned(itemDecorator)
     }
 
+    if searchQuery.isEmpty {
+      updateUnpinnedShortcuts()
+    } else {
+      updateSearchResults()
+    }
+    AppState.shared.popup.needsResize = true
     return itemDecorator
   }
 
@@ -222,15 +228,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   func clear() {
     withLogging("Clearing history") {
-      all.forEach { item in
-        if item.isUnpinned {
-          cleanup(item)
-        }
-      }
-      all.removeAll(where: \.isUnpinned)
+      allUnpinnedItems.forEach(cleanup)
+      allUnpinnedItems.removeAll()
+      filteredUnpinnedItems.removeAll()
       sessionLog.removeValues { $0.pin == nil }
-      pinManager.load(from: all)
-      items = all
 
       try? Storage.shared.context.transaction {
         try? Storage.shared.context.delete(
@@ -256,13 +257,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   func clearAll() {
     withLogging("Clearing all history") {
-      all.forEach { item in
-        cleanup(item)
-      }
-      all.removeAll()
+      allPinnedItems.forEach(cleanup)
+      allUnpinnedItems.forEach(cleanup)
+      allUnpinnedItems.removeAll()
+      filteredPinnedItems.removeAll()
+      filteredUnpinnedItems.removeAll()
       pinManager.removeAll()
       sessionLog.removeAll()
-      items = all
 
       do {
         let context = Storage.shared.context
@@ -301,8 +302,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
 
     pinManager.remove(item)
-    all.removeAll { $0 == item }
-    items.removeAll { $0 == item }
+    allUnpinnedItems.removeAll { $0 == item }
+    filteredPinnedItems.removeAll { $0 == item }
+    filteredUnpinnedItems.removeAll { $0 == item }
     sessionLog.removeValues { $0 == item.item }
 
     updateUnpinnedShortcuts()
@@ -463,14 +465,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     pinManager.toggle(item)
     guard item.isPinned != wasPinned else { return }
 
-    let sortedItems = sorter.sort(all.map(\.item))
-    if let currentIndex = all.firstIndex(of: item),
-       let newIndex = sortedItems.firstIndex(of: item.item) {
-      all.remove(at: currentIndex)
-      all.insert(item, at: newIndex)
+    if wasPinned {
+      insertUnpinned(item)
+    } else {
+      allUnpinnedItems.removeAll { $0 == item }
     }
-
-    items = all
 
     searchQuery = ""
     updateUnpinnedShortcuts()
@@ -483,30 +482,23 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func movePin(from source: IndexSet, to destination: Int) {
     guard searchQuery.isEmpty else { return }
     pinManager.move(from: source, to: destination)
-    recomputeItemsAfterReordering()
-  }
-
-  @MainActor
-  func recomputeItemsAfterReordering() {
-    guard searchQuery.isEmpty else { return }
-    let sortedItems = sorter.sort(all.map(\.item))
-    let decoratorsByItem = Dictionary(uniqueKeysWithValues: all.map { (ObjectIdentifier($0.item), $0) })
-
-    all = sortedItems.compactMap { decoratorsByItem[ObjectIdentifier($0)] }
-    items = all
   }
 
   @MainActor
   func updatePin(_ item: HistoryItem, to pin: String) {
-    guard let itemDecorator = all.first(where: { $0.item.id == item.id }) else { return }
+    guard let itemDecorator = firstStoredItem(where: { $0.item.id == item.id }) else { return }
 
+    let wasPinned = itemDecorator.isPinned
     pinManager.updatePin(of: itemDecorator, to: pin)
+    if !wasPinned && itemDecorator.isPinned {
+      allUnpinnedItems.removeAll { $0 == itemDecorator }
+    }
     updateShortcuts()
   }
 
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
-    if let duplicate = all.first(where: { $0.item != item && $0.item.supersedes(item) }) {
+    if let duplicate = firstStoredItem(where: { $0.item != item && $0.item.supersedes(item) }) {
       return duplicate.item
     }
 
@@ -521,15 +513,36 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     return nil
   }
 
-  private func updateItems(_ newItems: [Search.SearchResult]) {
-    items = newItems.map { result in
+  private func updateSearchResults() {
+    filteredPinnedItems = filteredItems(
+      from: search.search(string: searchQuery, within: allPinnedItems)
+    )
+    filteredUnpinnedItems = filteredItems(
+      from: search.search(string: searchQuery, within: allUnpinnedItems)
+    )
+
+    updateUnpinnedShortcuts()
+  }
+
+  private func filteredItems(from results: [Search.SearchResult]) -> [HistoryItemDecorator] {
+    results.map { result in
       let item = result.object
       item.highlight(searchQuery, result.ranges)
 
       return item
     }
+  }
 
-    updateUnpinnedShortcuts()
+  private func firstStoredItem(
+    where predicate: (HistoryItemDecorator) -> Bool
+  ) -> HistoryItemDecorator? {
+    allPinnedItems.first(where: predicate) ?? allUnpinnedItems.first(where: predicate)
+  }
+
+  private func insertUnpinned(_ item: HistoryItemDecorator) {
+    let sortedItems = sorter.sort(allUnpinnedItems.map(\.item) + [item.item])
+    guard let index = sortedItems.firstIndex(of: item.item) else { return }
+    allUnpinnedItems.insert(item, at: index)
   }
 
   private func updateShortcuts() {
@@ -549,13 +562,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   private func updateUnpinnedShortcuts() {
-    let visibleUnpinnedItems = unpinnedItems.filter(\.isVisible)
-    for item in visibleUnpinnedItems {
+    let shortcutItems = unpinnedItems.filter(\.isVisible)
+    for item in shortcutItems {
       item.shortcuts = []
     }
 
     var index = 1
-    for item in visibleUnpinnedItems.prefix(9) {
+    for item in shortcutItems.prefix(9) {
       item.shortcuts = KeyShortcut.create(character: String(index))
       index += 1
     }

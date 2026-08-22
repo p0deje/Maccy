@@ -36,10 +36,7 @@ class HistoryItem {
 
   @MainActor
   static var availablePins: [String] {
-    availablePins(in: History.shared.all.compactMap {
-      if $0.isPinned { return $0.item }
-      return nil
-    })
+    History.shared.availablePins
   }
 
   @MainActor

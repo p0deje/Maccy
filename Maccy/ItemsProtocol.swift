@@ -5,7 +5,7 @@ protocol HasVisibility {
 protocol ItemsContainer {
   associatedtype Item
   var containerVisible: Bool { get }
-  var items: [Item] { get set }
+  var items: [Item] { get }
 }
 
 extension ItemsContainer {

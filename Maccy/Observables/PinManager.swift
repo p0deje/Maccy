@@ -71,6 +71,22 @@ final class PinManager {
     }
   }
 
+  func add(_ item: HistoryItemDecorator) {
+    guard item.isPinned, !pinnedItems.contains(item) else { return }
+    pinnedItems.append(item)
+    reconcileOrder()
+    sortPinnedItems()
+  }
+
+  func replace(_ oldItem: HistoryItemDecorator, with newItem: HistoryItemDecorator) {
+    guard newItem.isPinned else { return }
+    guard let index = pinnedItems.firstIndex(of: oldItem) else {
+      add(newItem)
+      return
+    }
+    pinnedItems[index] = newItem
+  }
+
   func updatePin(of item: HistoryItemDecorator, to pin: String) {
     guard HistoryItem.supportedPins.contains(pin) else { return }
     guard item.item.pin != pin else { return }
@@ -166,4 +182,3 @@ final class PinManager {
     }
   }
 }
-

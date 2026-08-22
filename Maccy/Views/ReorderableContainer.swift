@@ -11,10 +11,8 @@ private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>:
   @Binding var draggedItems: [Item]
 
   let moveAction: (IndexSet, Int) -> Void
-  let moveCompletedAction: () -> Void
 
   @State private var active: Item?
-  @State private var hasChangedLocation = false
 
   func body(content: Content) -> some View {
     content
@@ -58,11 +56,7 @@ private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>:
     AppState.shared.navigator.isDragAndDropInProgress = true
   }
 
-  private func resetDragState(didCompleteMove: Bool = false) {
-    if didCompleteMove && hasChangedLocation {
-      moveCompletedAction()
-    }
-    hasChangedLocation = false
+  private func resetDragState() {
     draggedItems = []
     active = nil
     AppState.shared.navigator.isDragAndDropInProgress = false
@@ -88,7 +82,6 @@ private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>:
       edge: edge
     ) else { return }
 
-    hasChangedLocation = true
     moveAction(source, destinationIndex)
   }
 
@@ -127,13 +120,13 @@ private struct DraggableItemModifier<Item: Reorderable>: ViewModifier {
         .onDragSessionUpdated { session in
           switch session.phase {
           case .ended:
-            dragContext.resetDragState(true)
+            dragContext.resetDragState()
           default:
             break
           }
         }
         .onDrop(of: [dragContext.contentType], isTargeted: nil) { _ in
-          dragContext.resetDragState(true)
+          dragContext.resetDragState()
           return true
         }
         .onDropSessionUpdated { session in
@@ -144,7 +137,7 @@ private struct DraggableItemModifier<Item: Reorderable>: ViewModifier {
               dropEdge(at: session.location, in: session.size)
             )
           case .ended:
-            dragContext.resetDragState(true)
+            dragContext.resetDragState()
           default:
             break
           }
@@ -176,7 +169,7 @@ struct ReorderableDragContext {
   let isDragged: (Any) -> Bool
   let dragPreview: (Any) -> AnyView
   let startDrag: (Any) -> Void
-  let resetDragState: (Bool) -> Void
+  let resetDragState: () -> Void
   let move: (Any, ReorderableDropEdge) -> Void
 }
 
@@ -223,8 +216,7 @@ extension View {
     @ViewBuilder dragPreview: @escaping ([Item]) -> DragPreview,
     selection: Binding<Selection<Item>>,
     draggedItems: Binding<[Item]>,
-    moveAction: @escaping (IndexSet, Int) -> Void,
-    moveCompletedAction: @escaping () -> Void = {}
+    moveAction: @escaping (IndexSet, Int) -> Void
   ) -> some View {
     modifier(
       DraggableContainerModifier(
@@ -233,8 +225,7 @@ extension View {
         dragPreview: dragPreview,
         selection: selection,
         draggedItems: draggedItems,
-        moveAction: moveAction,
-        moveCompletedAction: moveCompletedAction
+        moveAction: moveAction
       )
     )
   }
