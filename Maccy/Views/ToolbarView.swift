@@ -34,8 +34,6 @@ private struct KeyboardShortcutHelpModifier: ViewModifier {
 }
 
 struct ToolbarButton<Label: View>: View {
-  @Environment(AppState.self) private var appState
-
   let action: @MainActor () -> Void
   let label: () -> Label
 
@@ -45,11 +43,7 @@ struct ToolbarButton<Label: View>: View {
     }
     .buttonStyle(.plain)
     .frame(height: 23)
-    .onHover(perform: { inside in
-      if let window = appState.appDelegate?.panel {
-        window.isMovableByWindowBackground = !inside
-      }
-    })
+    .excludeFromWindowMovableByBackground()
   }
 
   func shortcutKeyHelp(
@@ -72,6 +66,7 @@ struct ToolbarButton<Label: View>: View {
 
 struct ToolbarView: View {
   @State private var appState = AppState.shared
+  @State private var editingItem: HistoryItemDecorator?
 
   @Namespace var unionNamespace
 
@@ -105,6 +100,17 @@ struct ToolbarView: View {
 
     let text = item.title.trimmingCharacters(in: .whitespacesAndNewlines)
     return text.isEmpty ? nil : item.title
+  }
+
+  private var editItemEnabled: Bool {
+    guard appState.navigator.selection.count == 1 else { return false }
+    guard let pinned = appState.navigator.selection.first else { return false }
+    return pinned.hasPlainText || pinned.hasRichText
+  }
+
+  private var editableItem: HistoryItemDecorator? {
+    guard editItemEnabled else { return nil }
+    return appState.navigator.selection.first
   }
 
   var body: some View {
@@ -143,6 +149,18 @@ struct ToolbarView: View {
         .disabled(pinActionDisabled)
 
         ToolbarButton {
+          appState.isEditingItem = true
+          editingItem = editableItem
+        } label: {
+          if editItemEnabled {
+            Image(systemName: "pencil")
+          } else {
+            Image(systemName: "pencil.slash")
+          }
+        }
+        .disabled(!editItemEnabled)
+
+        ToolbarButton {
           appState.deleteSelection()
         } label: {
           Image(systemName: "trash")
@@ -164,5 +182,15 @@ struct ToolbarView: View {
         .accessibilityLabel(Text("toolbar_remove_paste_stack_action"))
       }
     }
+    .sheet(item: $editingItem, onDismiss: {
+      finishEditingPinnedItem()
+    }) { item in
+      ItemEditorView(for: item)
+    }
+  }
+
+  private func finishEditingPinnedItem() {
+    editingItem = nil
+    appState.isEditingItem = false
   }
 }

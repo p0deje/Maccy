@@ -3,6 +3,7 @@ import Defaults
 @testable import Maccy
 
 class SorterTests: XCTestCase {
+  let savedPinOrder = Defaults[.pinOrder]
   let savedPinTo = Defaults[.pinTo]
   let sorter = Sorter()
 
@@ -16,10 +17,12 @@ class SorterTests: XCTestCase {
     item1 = historyItem(value: "foo", firstCopiedAt: -300, lastCopiedAt: -100, numberOfCopies: 3)
     item2 = historyItem(value: "bar", firstCopiedAt: -400, lastCopiedAt: -300, numberOfCopies: 2)
     item3 = historyItem(value: "bar", firstCopiedAt: -200, lastCopiedAt: -200, numberOfCopies: 1)
+    Defaults[.pinOrder] = PinOrder()
   }
 
   override func tearDown() {
     super.tearDown()
+    Defaults[.pinOrder] = savedPinOrder
     Defaults[.pinTo] = savedPinTo
   }
 
