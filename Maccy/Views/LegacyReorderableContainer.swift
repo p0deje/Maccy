@@ -6,6 +6,7 @@ internal struct LegacyDraggableItemModifier<Item: Reorderable>: ViewModifier {
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
   @Environment(\.reorderableDragContext) private var dragContext
+  @State private var dropTargetSize: CGSize = .zero
 
   let item: Item
 
@@ -14,6 +15,11 @@ internal struct LegacyDraggableItemModifier<Item: Reorderable>: ViewModifier {
     if let dragContext {
       content
         .opacity(dragContext.isDragged(item) ? 0.5 : 1)
+        .onGeometryChange(for: CGSize.self) { proxy in
+          proxy.size
+        } action: { size in
+          dropTargetSize = size
+        }
         .background(
           LegacyDragSourceView(
             item: item,
@@ -26,7 +32,8 @@ internal struct LegacyDraggableItemModifier<Item: Reorderable>: ViewModifier {
           of: [dragContext.contentType],
           delegate: LegacyDraggableItemDropDelegate(
             item: item,
-            dragContext: dragContext
+            dragContext: dragContext,
+            targetSize: dropTargetSize
           )
         )
     } else {
@@ -35,26 +42,32 @@ internal struct LegacyDraggableItemModifier<Item: Reorderable>: ViewModifier {
   }
 }
 
-private struct LegacyDraggableItemDropDelegate<Item: Reorderable>: DropDelegate
-{
+private struct LegacyDraggableItemDropDelegate<Item: Reorderable>: DropDelegate {
   let item: Item
   let dragContext: ReorderableDragContext
+  let targetSize: CGSize
 
   func validateDrop(info: DropInfo) -> Bool {
     info.hasItemsConforming(to: [dragContext.contentType])
   }
 
   func dropEntered(info: DropInfo) {
-    dragContext.move(item)
+    move(info)
   }
 
   func dropUpdated(info: DropInfo) -> DropProposal? {
-    DropProposal(operation: .move)
+    move(info)
+    return DropProposal(operation: .move)
   }
 
   func performDrop(info: DropInfo) -> Bool {
     dragContext.resetDragState(true)
     return true
+  }
+
+  private func move(_ info: DropInfo) {
+    guard targetSize.height > 0 else { return }
+    dragContext.move(item, dropEdge(at: info.location, in: targetSize))
   }
 }
 
