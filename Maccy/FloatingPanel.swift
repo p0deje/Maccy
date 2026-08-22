@@ -54,13 +54,17 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     standardWindowButton(.zoomButton)?.isHidden = true
 
     contentView = NSHostingView(
-      rootView: view()
-        // The safe area is ignored because the title bar still interferes with the geometry
-        .ignoresSafeArea()
-        .gesture(DragGesture()
-          .onEnded { _ in
-            self.saveWindowPosition()
-        })
+      rootView: FloatingPanelRootView(
+        content: view(),
+        onWindowDragEnded: { [weak self] in
+          self?.saveWindowPosition()
+        },
+        onDragAndDropStateChange: { [weak self] isDragAndDropInProgress in
+          // At screenSaver level the drag preview is behind the popup, which prevents
+          // the drag-and-drop lifecycle from being triggered.
+          self?.level = isDragAndDropInProgress ? .popUpMenu : .screenSaver
+        }
+      )
     )
     applyRoundedCorners()
   }
@@ -232,5 +236,31 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   // Allow text inputs inside the panel can receive focus
   override var canBecomeKey: Bool {
     return true
+  }
+}
+
+private struct FloatingPanelRootView<Content: View>: View {
+  @State private var appState = AppState.shared
+
+  let content: Content
+  let onWindowDragEnded: () -> Void
+  let onDragAndDropStateChange: (Bool) -> Void
+
+  var body: some View {
+    content
+      // The safe area is ignored because the title bar still interferes with the geometry
+      .ignoresSafeArea()
+      .gesture(
+        DragGesture()
+          .onEnded { _ in
+            onWindowDragEnded()
+          }
+      )
+      .onChange(
+        of: appState.navigator.isDragAndDropInProgress,
+        initial: true
+      ) { _, isDragAndDropInProgress in
+        onDragAndDropStateChange(isDragAndDropInProgress)
+      }
   }
 }
