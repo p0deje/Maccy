@@ -3,9 +3,7 @@ import UniformTypeIdentifiers
 
 typealias Reorderable = Identifiable & Equatable
 
-private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>:
-  ViewModifier
-{
+private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>: ViewModifier {
   let items: [Item]
   let contentType: UTType
   let dragPreview: ([Item]) -> DragPreview
@@ -76,16 +74,22 @@ private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>:
       : [item]
   }
 
-  private func move(to item: Any) {
+  private func move(to item: Any, at edge: ReorderableDropEdge) {
     guard let item = item as? Item else { return }
     guard !draggedItems.contains(item), let current = active else { return }
-    guard let from = items.firstIndex(of: current) else { return }
-    guard let to = items.firstIndex(of: item) else { return }
+    guard let currentIndex = items.firstIndex(of: current) else { return }
+    guard let targetIndex = items.firstIndex(of: item) else { return }
     let source = sourceIndexes
     guard !source.isEmpty else { return }
 
+    guard let destinationIndex = reorderDestination(
+      currentIndex: currentIndex,
+      targetIndex: targetIndex,
+      edge: edge
+    ) else { return }
+
     hasChangedLocation = true
-    moveAction(source, to > from ? to + 1 : to)
+    moveAction(source, destinationIndex)
   }
 
   private var sourceIndexes: IndexSet {
@@ -109,7 +113,8 @@ private struct DraggableItemModifier<Item: Reorderable>: ViewModifier {
       content
         .opacity(dragContext.isDragged(item) ? 0.5 : 1)
         .onDrag {
-          itemProvider(for: item, contentType: dragContext.contentType)
+          dragContext.startDrag(item)
+          return itemProvider(for: item, contentType: dragContext.contentType)
         } preview: {
           dragContext.dragPreview(item)
         }
@@ -121,9 +126,7 @@ private struct DraggableItemModifier<Item: Reorderable>: ViewModifier {
         )
         .onDragSessionUpdated { session in
           switch session.phase {
-          case .initial:
-            dragContext.startDrag(item)
-          case .ended(_):
+          case .ended:
             dragContext.resetDragState(true)
           default:
             break
@@ -135,9 +138,12 @@ private struct DraggableItemModifier<Item: Reorderable>: ViewModifier {
         }
         .onDropSessionUpdated { session in
           switch session.phase {
-          case .entering:
-            dragContext.move(item)
-          case .ended(_):
+          case .entering, .active:
+            dragContext.move(
+              item,
+              dropEdge(at: session.location, in: session.size)
+            )
+          case .ended:
             dragContext.resetDragState(true)
           default:
             break
@@ -171,7 +177,32 @@ struct ReorderableDragContext {
   let dragPreview: (Any) -> AnyView
   let startDrag: (Any) -> Void
   let resetDragState: (Bool) -> Void
-  let move: (Any) -> Void
+  let move: (Any, ReorderableDropEdge) -> Void
+}
+
+enum ReorderableDropEdge {
+  case before
+  case after
+}
+
+func dropEdge(at location: CGPoint, in targetSize: CGSize) -> ReorderableDropEdge {
+  location.y < targetSize.height / 2 ? .before : .after
+}
+
+func reorderDestination(
+  currentIndex: Int,
+  targetIndex: Int,
+  edge: ReorderableDropEdge
+) -> Int? {
+  if currentIndex < targetIndex {
+    // Move destinations use indexes from before the source is removed, so a
+    // downward move needs to insert after the target.
+    return edge == .after ? targetIndex + 1 : nil
+  }
+  if currentIndex > targetIndex {
+    return edge == .before ? targetIndex : nil
+  }
+  return nil
 }
 
 private struct ReorderableDragContextKey: EnvironmentKey {
