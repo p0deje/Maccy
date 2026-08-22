@@ -14,10 +14,10 @@ struct HistoryListView: View {
   @Default(.showFooter) private var showFooter
 
   private var pinnedItems: [HistoryItemDecorator] {
-    appState.history.pinnedItems.filter(\.isVisible)
+    appState.history.pinnedItems
   }
   private var unpinnedItems: [HistoryItemDecorator] {
-    appState.history.unpinnedItems.filter(\.isVisible)
+    appState.history.unpinnedItems
   }
   private var showPinsSeparator: Bool {
     pinsVisible && !unpinnedItems.isEmpty

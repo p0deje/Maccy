@@ -50,7 +50,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     let transferredContents = first.contents
     let merged = history.add(third)
 
-    XCTAssertEqual(history.all, [merged])
+    XCTAssertEqual(history.items, [merged])
     XCTAssertEqual(Set(merged.item.contents), Set(transferredContents))
     XCTAssertTrue(merged.item.lastCopiedAt > merged.item.firstCopiedAt)
     XCTAssertEqual(merged.item.numberOfCopies, 2)
@@ -76,7 +76,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     let transferredContents = first.contents
     let merged = history.add(second)
 
-    XCTAssertEqual(history.all, [merged])
+    XCTAssertEqual(history.items, [merged])
     XCTAssertEqual(Set(merged.item.contents), Set(transferredContents))
     XCTAssertTrue(merged.item.lastCopiedAt > merged.item.firstCopiedAt)
     XCTAssertEqual(merged.item.numberOfCopies, 2)
@@ -327,15 +327,15 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
       history.add(historyItem(String(index)))
     }
 
-    XCTAssertEqual(history.all.last, pinned)
+    XCTAssertEqual(history.items.last, pinned)
 
     // Re-copy the pinned item. It is detected as a duplicate, removed and
     // re-inserted while `limitHistorySize` trims an exceeding unpinned item.
     // Before the fix this inserted at a stale, out-of-bounds index and crashed.
     let readded = history.add(historyItem("pinned"))
 
-    XCTAssertTrue(history.all.contains(readded))
-    XCTAssertEqual(history.all.filter(\.isPinned).count, 1)
+    XCTAssertTrue(history.items.contains(readded))
+    XCTAssertEqual(history.items.filter(\.isPinned).count, 1)
   }
 
   func testRemoving() throws {

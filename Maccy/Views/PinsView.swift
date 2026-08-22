@@ -51,9 +51,6 @@ struct PinsView: View {
             withAnimation(.default.speed(2)) {
               move(from: source, to: destination)
             }
-          },
-          moveCompletedAction: {
-            appState.history.recomputeItemsAfterReordering()
           }
         )
       } else {

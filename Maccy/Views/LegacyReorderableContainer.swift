@@ -61,7 +61,7 @@ private struct LegacyDraggableItemDropDelegate<Item: Reorderable>: DropDelegate 
   }
 
   func performDrop(info: DropInfo) -> Bool {
-    dragContext.resetDragState(true)
+    dragContext.resetDragState()
     return true
   }
 
@@ -106,7 +106,7 @@ private struct LegacyDragSourceView<Item: Reorderable>: NSViewRepresentable {
         dragContext.startDrag(item)
       },
       onDragEnded: {
-        dragContext.resetDragState(true)
+        dragContext.resetDragState()
       }
     )
   }
