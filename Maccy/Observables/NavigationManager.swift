@@ -136,7 +136,7 @@ class NavigationManager { // swiftlint:disable:this type_body_length
     var newSelectionState = selection
 
     if isRange {
-      if let itemRange = history.visibleItems.between(
+      if let itemRange = history.visibleBetween(
         from: fromItem,
         to: toItem,
         inOrder: false
