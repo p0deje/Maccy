@@ -4,8 +4,9 @@ protocol HasVisibility {
 
 protocol ItemsContainer {
   associatedtype Item
+  associatedtype Items: RandomAccessCollection where Items.Element == Item
   var containerVisible: Bool { get }
-  var items: [Item] { get }
+  var items: Items { get }
 }
 
 extension ItemsContainer {

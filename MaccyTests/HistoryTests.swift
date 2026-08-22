@@ -29,13 +29,13 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
   }
 
   func testDefaultIsEmpty() {
-    XCTAssertEqual(history.items, [])
+    XCTAssertEqual(history.items.toArray(), [])
   }
 
   func testAdding() {
     let first = history.add(historyItem("foo"))
     let second = history.add(historyItem("bar"))
-    XCTAssertEqual(history.items, [second, first])
+    XCTAssertEqual(history.items.toArray(), [second, first])
   }
 
   func testAddingPersistedDuplicate() throws {
@@ -50,7 +50,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     let transferredContents = first.contents
     let merged = history.add(third)
 
-    XCTAssertEqual(history.items, [merged])
+    XCTAssertEqual(history.items.toArray(), [merged])
     XCTAssertEqual(Set(merged.item.contents), Set(transferredContents))
     XCTAssertTrue(merged.item.lastCopiedAt > merged.item.firstCopiedAt)
     XCTAssertEqual(merged.item.numberOfCopies, 2)
@@ -76,7 +76,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     let transferredContents = first.contents
     let merged = history.add(second)
 
-    XCTAssertEqual(history.items, [merged])
+    XCTAssertEqual(history.items.toArray(), [merged])
     XCTAssertEqual(Set(merged.item.contents), Set(transferredContents))
     XCTAssertTrue(merged.item.lastCopiedAt > merged.item.firstCopiedAt)
     XCTAssertEqual(merged.item.numberOfCopies, 2)
@@ -117,7 +117,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     secondItem.title = secondItem.generateTitle()
     let second = history.add(secondItem)
 
-    XCTAssertEqual(history.items, [second])
+    XCTAssertEqual(history.items.toArray(), [second])
     XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
     try assertStorageCounts(items: 1, contents: firstContents.count)
   }
@@ -153,7 +153,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     secondItem.contents = secondContents
     let second = history.add(secondItem)
 
-    XCTAssertEqual(history.items, [second])
+    XCTAssertEqual(history.items.toArray(), [second])
     XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
   }
 
@@ -186,7 +186,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     second.contents = secondContents
     let secondDecorator = history.add(second)
 
-    XCTAssertEqual(history.items, [secondDecorator])
+    XCTAssertEqual(history.items.toArray(), [secondDecorator])
     XCTAssertEqual(history.items[0].item.application, "Xcode.app")
     XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
   }
@@ -201,7 +201,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     ))
     let modifiedItemDecorator = history.add(modifiedItem)
 
-    XCTAssertEqual(history.items, [modifiedItemDecorator])
+    XCTAssertEqual(history.items.toArray(), [modifiedItemDecorator])
     XCTAssertEqual(history.items[0].text, "bar")
   }
 
@@ -218,7 +218,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     history.clear()
 
-    XCTAssertEqual(history.items, [pinned])
+    XCTAssertEqual(history.items.toArray(), [pinned])
     try assertStorageCounts(items: 1, contents: 1)
   }
 
@@ -234,7 +234,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     history.clearAll()
 
-    XCTAssertEqual(history.items, [])
+    XCTAssertEqual(history.items.toArray(), [])
     try assertStorageCounts(items: 0, contents: 0)
   }
 
@@ -342,7 +342,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     let foo = history.add(historyItem("foo"))
     let bar = history.add(historyItem("bar"))
     history.delete(foo)
-    XCTAssertEqual(history.items, [bar])
+    XCTAssertEqual(history.items.toArray(), [bar])
     try assertStorageCounts(items: 1, contents: 1)
   }
 

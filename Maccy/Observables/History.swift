@@ -15,12 +15,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   var pasteStack: PasteStack?
 
-  var items: [HistoryItemDecorator] {
+  var items: ConcatenatedCollection<HistoryItemDecorator> {
     switch Defaults[.pinTo] {
     case .top:
-      pinnedItems + unpinnedItems
+      ConcatenatedCollection(pinnedItems, unpinnedItems)
     case .bottom:
-      unpinnedItems + pinnedItems
+      ConcatenatedCollection(unpinnedItems, pinnedItems)
     }
   }
   var pinnedItems: [HistoryItemDecorator] {
