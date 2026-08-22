@@ -483,6 +483,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func movePin(from source: IndexSet, to destination: Int) {
     guard searchQuery.isEmpty else { return }
     pinManager.move(from: source, to: destination)
+    recomputeItemsAfterReordering()
   }
 
   @MainActor
