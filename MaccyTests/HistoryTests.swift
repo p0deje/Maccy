@@ -225,7 +225,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
   func testClearingAll() throws {
     history.add(historyItem("foo"))
     let pinned = history.add(historyItem("bar"))
-    pinned.togglePin()
+    history.togglePin(pinned)
     Storage.shared.context.insert(HistoryItemContent(
       type: NSPasteboard.PasteboardType.string.rawValue,
       value: "orphan".data(using: .utf8)
