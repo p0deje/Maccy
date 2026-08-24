@@ -21,34 +21,6 @@ struct AppearanceSettingsPane: View {
 
   @State private var screens = NSScreen.screens
 
-  private let imageHeightFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.minimum = 1
-    formatter.maximum = 200
-    return formatter
-  }()
-
-  private let numberOfItemsFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.minimum = 0
-    formatter.maximum = 100
-    return formatter
-  }()
-
-  private let titleLengthFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.minimum = 30
-    formatter.maximum = 200
-    return formatter
-  }()
-
-  private let previewDelayFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.minimum = 200
-    formatter.maximum = 100_000
-    return formatter
-  }()
-
   var body: some View {
     Settings.Container(contentWidth: 650) {
       Settings.Section(label: { Text("PopupAt", tableName: "AppearanceSettings") }) {
@@ -95,7 +67,7 @@ struct AppearanceSettingsPane: View {
 
       Settings.Section(label: { Text("ImageHeight", tableName: "AppearanceSettings") }) {
         HStack {
-          TextField("", value: $imageHeight, formatter: imageHeightFormatter)
+          NumericField(value: $imageHeight, range: 1...200)
             .frame(width: 120)
             .help(Text("ImageHeightTooltip", tableName: "AppearanceSettings"))
             .accessibilityLabel(Text("ImageHeight", tableName: "AppearanceSettings"))
@@ -113,7 +85,7 @@ struct AppearanceSettingsPane: View {
 
       Settings.Section(label: { Text("PreviewDelay", tableName: "AppearanceSettings") }) {
         HStack {
-          TextField("", value: $previewDelay, formatter: previewDelayFormatter)
+          NumericField(value: $previewDelay, range: 200...100_000)
             .frame(width: 120)
             .help(Text("PreviewDelayTooltip", tableName: "AppearanceSettings"))
             .accessibilityLabel(Text("PreviewDelay", tableName: "AppearanceSettings"))
