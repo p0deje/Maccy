@@ -8,3 +8,6 @@
 "ClearHistoryOnQuitTooltip" = "Automatically remove all unpinned items before quitting the application.";
 "ClearSystemClipboard" = "Clear the system clipboard too";
 "ClearSystemClipboardTooltip" = "When enabled, clearing the history would also clear the current system clipboard.";
+"StoreHistoryInMemoryOnly" = "Never write history to disk";
+"StoreHistoryInMemoryOnlyTooltip" = "Keep the history in memory only, so that nothing is left on disk after quitting.";
+"StoreHistoryInMemoryOnlyDescription" = "The history is lost when Maccy quits, and any existing database is removed. Takes effect after restarting Maccy.";

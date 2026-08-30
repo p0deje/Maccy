@@ -1,3 +1,4 @@
+import Defaults
 import Foundation
 import SwiftData
 
@@ -19,6 +20,13 @@ class Storage {
 
   init() {
     var config = ModelConfiguration(url: url)
+
+    if Defaults[.storeHistoryInMemoryOnly] {
+      // Leaving a store behind would defeat the purpose of the option, and the
+      // write-ahead log keeps items readable even after the history is cleared.
+      Storage.removeStoreFromDisk(at: url)
+      config = ModelConfiguration(isStoredInMemoryOnly: true)
+    }
 
     #if DEBUG
     if AppDelegate.isTesting {
@@ -50,5 +58,16 @@ class Storage {
     try context.save()
 
     return count
+  }
+
+  private static func removeStoreFromDisk(at url: URL) {
+    // SQLite keeps the write-ahead log and the shared memory file next to the
+    // store, suffixed with "-wal" and "-shm". Items stay readable in the log
+    // even after the history has been cleared, so those have to go as well.
+    let store = url.lastPathComponent
+    let directory = url.deletingLastPathComponent()
+    for name in [store, "\(store)-wal", "\(store)-shm"] {
+      try? FileManager.default.removeItem(at: directory.appending(path: name))
+    }
   }
 }
