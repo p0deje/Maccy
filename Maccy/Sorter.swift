@@ -24,9 +24,10 @@ class Sorter {
   }
 
   func sort(_ items: [HistoryItem], by: By = Defaults[.sortBy]) -> [HistoryItem] {
-    return items
-      .sorted(by: { return bySortingAlgorithm($0, $1, by) })
-      .sorted(by: byPinned)
+    let sorted = items.sorted(by: { return bySortingAlgorithm($0, $1, by) })
+    // When pins are hidden they stay inline as regular entries.
+    guard Defaults[.showPins] else { return sorted }
+    return sorted.sorted(by: byPinned)
   }
 
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
