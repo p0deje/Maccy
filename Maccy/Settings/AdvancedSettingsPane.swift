@@ -37,6 +37,14 @@ struct AdvancedSettingsPane: View {
       Defaults.Toggle(key: .clearSystemClipboard) {
         Text("ClearSystemClipboard", tableName: "AdvancedSettings")
       }.help(Text("ClearSystemClipboardTooltip", tableName: "AdvancedSettings"))
+
+      Defaults.Toggle(key: .storeHistoryInMemoryOnly) {
+        Text("StoreHistoryInMemoryOnly", tableName: "AdvancedSettings")
+      }.help(Text("StoreHistoryInMemoryOnlyTooltip", tableName: "AdvancedSettings"))
+      Text("StoreHistoryInMemoryOnlyDescription", tableName: "AdvancedSettings")
+        .fixedSize(horizontal: false, vertical: true)
+        .foregroundStyle(.gray)
+        .controlSize(.small)
     }
     .frame(minWidth: 350, maxWidth: 450)
     .padding()
