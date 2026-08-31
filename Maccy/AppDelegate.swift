@@ -164,6 +164,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       _ = try? Storage.shared.cleanupOrphanedContents()
     }
 
+    ensureMigration(key: "2026-08-31-sanitize-history-item-titles") {
+      _ = try? Storage.shared.sanitizeTitles()
+    }
+
     // The following defaults are not used in Maccy 2.x
     // and should be removed in 3.x.
     // - LaunchAtLogin__hasMigrated
