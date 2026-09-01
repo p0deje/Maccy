@@ -16,39 +16,54 @@ struct ContentView: View {
         VisualEffectView()
       }
 
-      KeyHandlingView(searchQuery: $appState.history.searchQuery, searchFocused: $searchFocused) {
+      KeyHandlingView(
+        searchQuery: Binding(
+          get: { appState.popupMode == .history ? appState.history.searchQuery : appState.snippets.searchQuery },
+          set: { query in
+            if appState.popupMode == .history { appState.history.searchQuery = query }
+            else { appState.snippets.searchQuery = query }
+          }
+        ),
+        searchFocused: $searchFocused
+      ) {
         VStack(spacing: 0) {
-          SlideoutView(controller: appState.preview) {
-            HeaderView(
-              controller: appState.preview,
-              searchFocused: $searchFocused
-            )
-
-            VStack(alignment: .leading, spacing: 0) {
-              HistoryListView(
-                searchQuery: $appState.history.searchQuery,
+          if appState.popupMode == .history {
+            SlideoutView(controller: appState.preview) {
+              HeaderView(
+                controller: appState.preview,
                 searchFocused: $searchFocused
               )
 
-              FooterView(footer: appState.footer)
+              VStack(alignment: .leading, spacing: 0) {
+                HistoryListView(
+                  searchQuery: $appState.history.searchQuery,
+                  searchFocused: $searchFocused
+                )
+
+                FooterView(footer: appState.footer)
+              }
+              .animation(.default.speed(3), value: appState.history.items)
+              .animation(
+                .default.speed(3),
+                value: appState.history.pasteStack?.id
+              )
+              .padding(.horizontal, Popup.horizontalPadding)
+              .onAppear {
+                searchFocused = true
+              }
+              .onMouseMove {
+                appState.navigator.isKeyboardNavigating = false
+              }
+            } slideout: {
+              SlideoutContentView()
             }
-            .animation(.default.speed(3), value: appState.history.items)
-            .animation(
-              .default.speed(3),
-              value: appState.history.pasteStack?.id
-            )
-            .padding(.horizontal, Popup.horizontalPadding)
-            .onAppear {
-              searchFocused = true
-            }
-            .onMouseMove {
-              appState.navigator.isKeyboardNavigating = false
-            }
-          } slideout: {
-            SlideoutContentView()
+            .frame(minHeight: 0)
+            .layoutPriority(1)
+          } else {
+            SnippetsListView(searchFocused: $searchFocused)
+              .frame(minHeight: 0)
+              .layoutPriority(1)
           }
-          .frame(minHeight: 0)
-          .layoutPriority(1)
         }
       }
       .frame(maxWidth: .infinity, alignment: .leading)

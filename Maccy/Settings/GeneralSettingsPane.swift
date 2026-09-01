@@ -46,6 +46,14 @@ struct GeneralSettingsPane: View {
           .accessibilityLabel(Text("Open", tableName: "GeneralSettings"))
       }
 
+      Settings.Section(label: { Text("Open snippets:", tableName: "GeneralSettings") }) {
+        KeyboardShortcuts.Recorder(for: .snippets) { _ in
+          AppState.shared.footer.updateSnippetsShortcut()
+        }
+          .help(Text("Global shortcut key to open the snippets browser.", tableName: "GeneralSettings"))
+          .accessibilityLabel(Text("Open snippets:", tableName: "GeneralSettings"))
+      }
+
       Settings.Section(label: { Text("Pin", tableName: "GeneralSettings") }) {
         KeyboardShortcuts.Recorder(for: .pin)
           .help(Text("PinTooltip", tableName: "GeneralSettings"))

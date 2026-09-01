@@ -8,6 +8,9 @@
 "about" = "About";
 "quit" = "Quit";
 "preferences" = "Preferences…";
+"Snippets" = "Snippets";
+"Browse saved snippets." = "Browse saved snippets.";
+"Search snippets…" = "Search snippets…";
 "clear_alert_message" = "Are you sure you want to clear the history?";
 "clear_alert_comment" = "You can't undo this action.";
 "clear_alert_cancel" = "Cancel";
