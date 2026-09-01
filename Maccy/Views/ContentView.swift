@@ -20,8 +20,11 @@ struct ContentView: View {
         searchQuery: Binding(
           get: { appState.popupMode == .history ? appState.history.searchQuery : appState.snippets.searchQuery },
           set: { query in
-            if appState.popupMode == .history { appState.history.searchQuery = query }
-            else { appState.snippets.searchQuery = query }
+            if appState.popupMode == .history {
+              appState.history.searchQuery = query
+            } else {
+              appState.snippets.searchQuery = query
+            }
           }
         ),
         searchFocused: $searchFocused

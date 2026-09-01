@@ -104,19 +104,35 @@ class AppState: Sendable {
   }
 
   func highlightFirst() {
-    popupMode == .history ? navigator.highlightFirst() : snippets.highlightFirst()
+    if popupMode == .history {
+      navigator.highlightFirst()
+    } else {
+      snippets.highlightFirst()
+    }
   }
 
   func highlightLast() {
-    popupMode == .history ? navigator.highlightLast() : snippets.highlightLast()
+    if popupMode == .history {
+      navigator.highlightLast()
+    } else {
+      snippets.highlightLast()
+    }
   }
 
   func highlightNext() {
-    popupMode == .history ? navigator.highlightNext() : snippets.highlightNext()
+    if popupMode == .history {
+      navigator.highlightNext()
+    } else {
+      snippets.highlightNext()
+    }
   }
 
   func highlightPrevious() {
-    popupMode == .history ? navigator.highlightPrevious() : snippets.highlightPrevious()
+    if popupMode == .history {
+      navigator.highlightPrevious()
+    } else {
+      snippets.highlightPrevious()
+    }
   }
 
   func closeOrGoBack() {
