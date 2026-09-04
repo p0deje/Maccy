@@ -34,5 +34,7 @@
 "ShowApplicationIcons" = "Show application icons";
 "ShowHexColorSwatch" = "Show hex color swatch";
 "ShowHexColorSwatchTooltip" = "Show color swatch next to hex color codes.";
+"ShowDaySeparators" = "Show day separators";
+"ShowDaySeparatorsTooltip" = "Group unpinned history items by day with a date header.\nDefault: Off.";
 "ShowFooter" = "Show footer";
 "OpenPreferencesWarning" = "⚠️ Press ⌘, (command+comma) to open preferences when footer is hidden.";
