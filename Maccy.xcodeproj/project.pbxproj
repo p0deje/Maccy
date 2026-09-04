@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C1A000000000000000000001 /* Snippet.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A000000000000000000011 /* Snippet.swift */; };
+		C1A000000000000000000002 /* Snippets.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A000000000000000000012 /* Snippets.swift */; };
+		C1A000000000000000000003 /* SnippetsSettingsPane.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A000000000000000000013 /* SnippetsSettingsPane.swift */; };
+		C1A000000000000000000004 /* SnippetsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A000000000000000000014 /* SnippetsListView.swift */; };
+		C1A000000000000000000005 /* SnippetsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C1A000000000000000000015 /* SnippetsTests.swift */; };
 		0ABDD5122BB47F1E0054963B /* NSWorkspace+ApplicationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */; };
 		21FFF308D9217B43FD4C393F /* VoiceOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21DCA6C3D17E48D33D6E608 /* VoiceOver.swift */; };
 		2F0EC7792E7727E3003E2EA9 /* HeightReaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7782E7727E3003E2EA9 /* HeightReaderModifier.swift */; };
@@ -187,6 +192,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		C1A000000000000000000011 /* Snippet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snippet.swift; sourceTree = "<group>"; };
+		C1A000000000000000000012 /* Snippets.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Snippets.swift; sourceTree = "<group>"; };
+		C1A000000000000000000013 /* SnippetsSettingsPane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsSettingsPane.swift; sourceTree = "<group>"; };
+		C1A000000000000000000014 /* SnippetsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsListView.swift; sourceTree = "<group>"; };
+		C1A000000000000000000015 /* SnippetsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SnippetsTests.swift; sourceTree = "<group>"; };
 		088F4DA628BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWorkspace+ApplicationName.swift"; sourceTree = "<group>"; };
 		11680E44DAF848ADB8BA358E /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/PinsSettings.strings; sourceTree = "<group>"; };
@@ -669,6 +679,7 @@
 		DA05B50F2C234C1C006980FE /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				C1A000000000000000000011 /* Snippet.swift */,
 				DA05B5132C234DCF006980FE /* HistoryItem.swift */,
 				DA05B5122C234DCF006980FE /* HistoryItemContent.swift */,
 			);
@@ -686,6 +697,7 @@
 		DA181178247D150B00066D55 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				C1A000000000000000000013 /* SnippetsSettingsPane.swift */,
 				DA9C3C642C211B5F0056795D /* AdvancedSettingsPane.swift */,
 				DA740D782C21E6B0007B1A36 /* AdvancedSettings.strings */,
 				DA689FC32C1CF0F00009B887 /* AppearanceSettingsPane.swift */,
@@ -706,6 +718,7 @@
 		DA19690C2C3EEF9300258481 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				C1A000000000000000000014 /* SnippetsListView.swift */,
 				2F1091D62F2B6E8100F5C454 /* AsyncView.swift */,
 				2FF2E94F2E7808420093D72C /* AppImageView.swift */,
 				DAA072DE2C41C63C006DDFD2 /* ConfirmationView.swift */,
@@ -752,6 +765,7 @@
 		DA360DB11E3DF137005C6F6B /* MaccyTests */ = {
 			isa = PBXGroup;
 			children = (
+				C1A000000000000000000015 /* SnippetsTests.swift */,
 				DA48AE852A5F0077006D4894 /* Fixtures */,
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				CA110ED10000000000000002 /* CollectionSurroundingTests.swift */,
@@ -771,6 +785,7 @@
 		DA3BCB902C3EEC1000B01BC1 /* Observables */ = {
 			isa = PBXGroup;
 			children = (
+				C1A000000000000000000012 /* Snippets.swift */,
 				2FF2E94D2E774B570093D72C /* NavigationManager.swift */,
 				DAA072D62C41C574006DDFD2 /* AppState.swift */,
 				DAA072D82C41C5AD006DDFD2 /* Footer.swift */,
@@ -1102,6 +1117,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1A000000000000000000005 /* SnippetsTests.swift in Sources */,
 				DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */,
 				DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */,
 				DA1EDE432045B35300479723 /* HistoryDecoratorTests.swift in Sources */,
@@ -1119,6 +1135,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C1A000000000000000000001 /* Snippet.swift in Sources */,
+				C1A000000000000000000002 /* Snippets.swift in Sources */,
+				C1A000000000000000000003 /* SnippetsSettingsPane.swift in Sources */,
+				C1A000000000000000000004 /* SnippetsListView.swift in Sources */,
 				DA19691C2C3F3EAC00258481 /* Collection+Surrounding.swift in Sources */,
 				DA1969142C3F11D600258481 /* PreviewItemView.swift in Sources */,
 				2FF2E9502E7808470093D72C /* AppImageView.swift in Sources */,

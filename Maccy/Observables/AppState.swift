@@ -4,6 +4,11 @@ import Foundation
 import Settings
 import SwiftUI
 
+enum PopupMode {
+  case history
+  case snippets
+}
+
 @Observable
 class AppState: Sendable {
   static let shared = AppState(history: History.shared, footer: Footer())
@@ -13,11 +18,14 @@ class AppState: Sendable {
   var appDelegate: AppDelegate?
   var popup: Popup
   var history: History
+  var snippets = Snippets()
+  var popupMode: PopupMode = .history
   var footer: Footer
   var navigator: NavigationManager
   var preview: SlideoutController
 
   var searchVisible: Bool {
+    if popupMode == .snippets { return true }
     if !Defaults[.showSearch] { return false }
     switch Defaults[.searchVisibility] {
     case .always: return true
@@ -53,6 +61,10 @@ class AppState: Sendable {
 
   @MainActor
   func select(flags modifierFlags: NSEvent.ModifierFlags) {
+    if popupMode == .snippets {
+      snippets.activate(flags: modifierFlags)
+      return
+    }
     if !navigator.selection.isEmpty {
       if navigator.isMultiSelectInProgress {
         navigator.isManualMultiSelect = false
@@ -71,6 +83,61 @@ class AppState: Sendable {
       Clipboard.shared.copyInMaccy(history.searchQuery)
       history.searchQuery = ""
     }
+  }
+
+  @MainActor
+  func showSnippets() {
+    popupMode = .snippets
+    if preview.state.isOpen {
+      preview.togglePreview()
+    }
+    snippets.reload()
+    snippets.highlightFirst()
+    popup.needsResize = true
+  }
+
+  func showHistory() {
+    popupMode = .history
+    snippets.reset()
+    navigator.highlightFirst()
+    popup.needsResize = true
+  }
+
+  func highlightFirst() {
+    if popupMode == .history {
+      navigator.highlightFirst()
+    } else {
+      snippets.highlightFirst()
+    }
+  }
+
+  func highlightLast() {
+    if popupMode == .history {
+      navigator.highlightLast()
+    } else {
+      snippets.highlightLast()
+    }
+  }
+
+  func highlightNext() {
+    if popupMode == .history {
+      navigator.highlightNext()
+    } else {
+      snippets.highlightNext()
+    }
+  }
+
+  func highlightPrevious() {
+    if popupMode == .history {
+      navigator.highlightPrevious()
+    } else {
+      snippets.highlightPrevious()
+    }
+  }
+
+  func closeOrGoBack() {
+    if popupMode == .snippets, snippets.goBack() { return }
+    popup.close()
   }
 
   @MainActor
@@ -112,9 +179,12 @@ class AppState: Sendable {
       let storageTitle = NSLocalizedString("Title", tableName: "StorageSettings", comment: "")
       let appearanceTitle = NSLocalizedString("Title", tableName: "AppearanceSettings", comment: "")
       let pinsTitle = NSLocalizedString("Title", tableName: "PinsSettings", comment: "")
+      let snippetsTitle = NSLocalizedString("Snippets", comment: "")
       let ignoreTitle = NSLocalizedString("Title", tableName: "IgnoreSettings", comment: "")
       let advancedTitle = NSLocalizedString("Title", tableName: "AdvancedSettings", comment: "")
-      let toolbarTitles = [generalTitle, storageTitle, appearanceTitle, pinsTitle, ignoreTitle, advancedTitle]
+      let toolbarTitles = [
+        generalTitle, storageTitle, appearanceTitle, pinsTitle, snippetsTitle, ignoreTitle, advancedTitle
+      ]
       let titleAttributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: NSFont.systemFontSize)]
       let titleWidth = toolbarTitles.reduce(CGFloat.zero) {
         $0 + ($1 as NSString).size(withAttributes: titleAttributes).width
@@ -156,6 +226,15 @@ class AppState: Sendable {
           ) {
             PinsSettingsPane()
               .environment(self)
+              .modelContainer(Storage.shared.container)
+              .frame(minWidth: minimumWidth)
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.snippets,
+            title: snippetsTitle,
+            toolbarIcon: NSImage.textQuote!
+          ) {
+            SnippetsSettingsPane()
               .modelContainer(Storage.shared.container)
               .frame(minWidth: minimumWidth)
           },

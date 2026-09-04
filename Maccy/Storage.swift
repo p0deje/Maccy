@@ -27,7 +27,12 @@ class Storage {
     #endif
 
     do {
-      container = try ModelContainer(for: HistoryItem.self, configurations: config)
+      container = try ModelContainer(
+        for: HistoryItem.self,
+        SnippetFolder.self,
+        Snippet.self,
+        configurations: config
+      )
     } catch let error {
       fatalError("Cannot load database: \(error.localizedDescription).")
     }

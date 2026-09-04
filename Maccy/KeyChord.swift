@@ -31,6 +31,8 @@ enum KeyChord: CaseIterable {
   case moveToLast
   case moveToPrevious
   case moveToFirst
+  case moveInto
+  case moveOut
   case extendToNext
   case extendToLast
   case extendToPrevious
@@ -114,6 +116,10 @@ enum KeyChord: CaseIterable {
          (.p, [.control, .option]),
          (.pageUp, []):
       self = .moveToFirst
+    case (.rightArrow, []):
+      self = .moveInto
+    case (.leftArrow, []):
+      self = .moveOut
     case (KeyChord.pinKey, KeyChord.pinModifiers):
       self = .pinOrUnpin
     case (.comma, [.command]):

@@ -4,6 +4,8 @@
 "CheckNow" = "Check now";
 "Open" = "Open:";
 "OpenTooltip" = "Global shortcut key to open application.\nA repeated press of the main key while holding modifiers will select the next item in the list. In this mode, releasing modifier keys will confirm selection and close the popup.\nDefault: ⇧⌘C.";
+"Open snippets:" = "Open snippets:";
+"Global shortcut key to open the snippets browser." = "Global shortcut key to open the snippets browser.\nDefault: ⌃⇧⌘S.";
 "Pin" = "Pin:";
 "PinTooltip" = "Shortcut key to pin history item.\nDefault: ⌥P.";
 "Delete" = "Delete:";

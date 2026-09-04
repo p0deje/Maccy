@@ -1,4 +1,6 @@
 import Defaults
+import KeyboardShortcuts
+import Sauce
 import SwiftUI
 
 @Observable
@@ -59,6 +61,14 @@ class Footer: ItemsContainer {
         }
       },
       FooterItem(
+        title: "Snippets",
+        help: "Browse saved snippets."
+      ) {
+        Task { @MainActor in
+          AppState.shared.showSnippets()
+        }
+      },
+      FooterItem(
         title: "preferences",
         shortcuts: [KeyShortcut(key: .comma)]
       ) {
@@ -79,6 +89,21 @@ class Footer: ItemsContainer {
       ) {
         AppState.shared.quit()
       }
+    ]
+    updateSnippetsShortcut()
+  }
+
+  func updateSnippetsShortcut() {
+    guard let item = items.first(where: { $0.title == "Snippets" }),
+          let shortcut = KeyboardShortcuts.Shortcut(name: .snippets) else {
+      items.first(where: { $0.title == "Snippets" })?.shortcuts = []
+      return
+    }
+    item.shortcuts = [
+      KeyShortcut(
+        key: Sauce.shared.key(for: shortcut.carbonKeyCode),
+        modifierFlags: shortcut.modifiers
+      )
     ]
   }
 }

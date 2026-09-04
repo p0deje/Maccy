@@ -28,6 +28,7 @@ struct KeyHandlingView<Content: View>: View {
 
         switch KeyChord(NSApp.currentEvent) {
         case .clearHistory:
+          guard appState.popupMode == .history else { return .ignored }
           if let item = appState.footer.items.first(where: { $0.title == "clear" }),
              item.confirmation != nil,
              let suppressConfirmation = item.suppressConfirmation {
@@ -41,6 +42,7 @@ struct KeyHandlingView<Content: View>: View {
             return .ignored
           }
         case .clearHistoryAll:
+          guard appState.popupMode == .history else { return .ignored }
           if let item = appState.footer.items.first(where: { $0.title == "clear_all" }),
              item.confirmation != nil,
              let suppressConfirmation = item.suppressConfirmation {
@@ -57,6 +59,7 @@ struct KeyHandlingView<Content: View>: View {
           searchQuery = ""
           return .handled
         case .deleteCurrentItem:
+          guard appState.popupMode == .history else { return .ignored }
           if appState.navigator.pasteStackSelected {
             appState.removePasteStack()
           } else {
@@ -82,28 +85,34 @@ struct KeyHandlingView<Content: View>: View {
             return .ignored
           }
 
-          appState.navigator.highlightNext()
+          appState.highlightNext()
           return .handled
         case .moveToLast:
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
           }
 
-          appState.navigator.highlightLast()
+          appState.highlightLast()
           return .handled
         case .moveToPrevious:
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
           }
 
-          appState.navigator.highlightPrevious()
+          appState.highlightPrevious()
           return .handled
         case .moveToFirst:
           guard NSApp.characterPickerWindow == nil else {
             return .ignored
           }
 
-          appState.navigator.highlightFirst()
+          appState.highlightFirst()
+          return .handled
+        case .moveInto:
+          guard appState.popupMode == .snippets, appState.snippets.openSelectedFolder() else { return .ignored }
+          return .handled
+        case .moveOut:
+          guard appState.popupMode == .snippets, appState.snippets.goBack() else { return .ignored }
           return .handled
         case .extendToNext:
           guard NSApp.characterPickerWindow == nil else {
@@ -145,22 +154,33 @@ struct KeyHandlingView<Content: View>: View {
           appState.openPreferences()
           return .handled
         case .pinOrUnpin:
+          guard appState.popupMode == .history else { return .ignored }
           appState.togglePin()
           return .handled
         case .selectCurrentItem:
           appState.select(flags: .currentModifierFlags)
           return .handled
         case .close:
-          appState.popup.close()
+          appState.closeOrGoBack()
           return .handled
         case .togglePreview:
+          guard appState.popupMode == .history else { return .ignored }
           appState.preview.togglePreview()
           return .handled
         default:
           ()
         }
 
-        if let item = appState.history.pressedShortcutItem {
+        if appState.popupMode == .snippets, let index = appState.snippets.pressedShortcutIndex {
+          appState.snippets.selectShortcut(at: index)
+          Task {
+            try? await Task.sleep(for: .milliseconds(50))
+            appState.snippets.activate(flags: .currentModifierFlags)
+          }
+          return .handled
+        }
+
+        if appState.popupMode == .history, let item = appState.history.pressedShortcutItem {
           appState.navigator.select(item: item)
           Task {
             try? await Task.sleep(for: .milliseconds(50))

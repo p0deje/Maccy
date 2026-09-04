@@ -55,6 +55,11 @@ class Popup {
 
   init() {
     KeyboardShortcuts.onKeyDown(for: .popup, action: handleFirstKeyDown)
+    KeyboardShortcuts.onKeyDown(for: .snippets) {
+      Task { @MainActor in
+        self.handleSnippetsKeyDown()
+      }
+    }
     initEventsMonitor()
   }
 
@@ -83,6 +88,9 @@ class Popup {
 
   func reset() {
     state = .toggle
+    if AppState.shared.popupMode == .snippets {
+      AppState.shared.showHistory()
+    }
     KeyboardShortcuts.enable(.popup)
   }
 
@@ -110,6 +118,9 @@ class Popup {
   }
 
   private func suitableHeight(for historyListHeight: CGFloat) -> CGFloat {
+    if AppState.shared.popupMode == .snippets {
+      return historyListHeight + headerHeight
+    }
     return historyListHeight + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
   }
 
@@ -129,6 +140,18 @@ class Popup {
 
     // Maccy was not opened via shortcut. We assume toggle mode and close it
     close()
+  }
+
+  @MainActor
+  private func handleSnippetsKeyDown() {
+    if isClosed() {
+      AppState.shared.showSnippets()
+      open(height: height)
+    } else if AppState.shared.popupMode == .snippets {
+      close()
+    } else {
+      AppState.shared.showSnippets()
+    }
   }
 
   private func handleEvent(_ event: NSEvent) -> NSEvent? {

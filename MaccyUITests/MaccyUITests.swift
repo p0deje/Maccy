@@ -510,9 +510,10 @@ class MaccyUITests: XCTestCase {
 
   // Click outside the popup to close it
   private func closePopupByClickingOutside() {
-    let statusBar = app.statusItems.firstMatch
-    let coordinate = statusBar.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 10.0))
-    coordinate.click()
+    let popup = app.dialogs.firstMatch
+    popup.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 1.0))
+      .withOffset(CGVector(dx: 0, dy: 10))
+      .click()
   }
 
   private func popUpWithMouse() {
