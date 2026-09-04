@@ -11,7 +11,9 @@ struct HistoryListView: View {
 
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
+  @Default(.showDaySeparators) private var showDaySeparators
   @Default(.showFooter) private var showFooter
+  @Default(.sortBy) private var sortBy
 
   private var pinnedItems: [HistoryItemDecorator] {
     appState.history.pinnedItems.filter(\.isVisible)
@@ -65,6 +67,34 @@ struct HistoryListView: View {
       .padding(.vertical, Popup.verticalSeparatorPadding)
   }
 
+  private var showDayGroupedUnpinned: Bool {
+    showDaySeparators && searchQuery.isEmpty && sortBy != .numberOfCopies
+  }
+
+  private func shouldShowDayHeader(for group: DayGroup, isFirst: Bool) -> Bool {
+    !(isFirst && Calendar.current.isDateInToday(group.date))
+  }
+
+  @ViewBuilder
+  private func unpinnedItemsView() -> some View {
+    if showDayGroupedUnpinned {
+      let groups = DayGrouper.group(unpinnedItems, by: sortBy)
+      ForEach(Array(groups.enumerated()), id: \.element.id) { index, group in
+        if shouldShowDayHeader(for: group, isFirst: index == 0) {
+          DaySeparatorView(date: group.date)
+        }
+
+        MultipleSelectionListView(items: group.items) { previous, item, next, itemIndex in
+          HistoryItemView(item: item, previous: previous, next: next, index: group.itemOffset + itemIndex)
+        }
+      }
+    } else {
+      MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
+        HistoryItemView(item: item, previous: previous, next: next, index: index)
+      }
+    }
+  }
+
   var body: some View {
     let topPinsVisible = pinTo == .top && pinsVisible
     let bottomPinsVisible = pinTo == .bottom && pinsVisible
@@ -100,11 +130,9 @@ struct HistoryListView: View {
 
     ScrollView {
       ScrollViewReader { proxy in
-        MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
-          HistoryItemView(item: item, previous: previous, next: next, index: index)
-        }
-        .padding(.top, scrollTopPadding)
-        .padding(.bottom, scrollBottomPadding)
+        unpinnedItemsView()
+          .padding(.top, scrollTopPadding)
+          .padding(.bottom, scrollBottomPadding)
         .task(id: appState.navigator.scrollTarget) {
           guard appState.navigator.scrollTarget != nil else { return }
 

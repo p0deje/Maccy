@@ -192,6 +192,11 @@ struct AppearanceSettingsPane: View {
         }
         .help(Text("ShowHexColorSwatchTooltip", tableName: "AppearanceSettings"))
 
+        Defaults.Toggle(key: .showDaySeparators) {
+          Text("ShowDaySeparators", tableName: "AppearanceSettings")
+        }
+        .help(Text("ShowDaySeparatorsTooltip", tableName: "AppearanceSettings"))
+
         Defaults.Toggle(key: .showFooter) {
           Text("ShowFooter", tableName: "AppearanceSettings")
         }
