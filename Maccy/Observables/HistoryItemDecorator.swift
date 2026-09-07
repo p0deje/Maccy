@@ -64,20 +64,23 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   private(set) var item: HistoryItem
-  
+
   var multiSelectionIndex: Int? {
     guard AppState.shared.navigator.isMultiSelectInProgress else {
       return nil
     }
     return selectionIndex
   }
-  
+
   // Describe the complete item independently of its potentially truncated visual content.
   var accessibilityLabel: String {
     var parts: [String] = []
     if hasImage, let image = item.image {
       let size = image.pixelSize
-      parts.append(String(format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""), Int(size.width), Int(size.height)))
+      parts.append(String(
+        format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""),
+        Int(size.width), Int(size.height)
+      ))
     } else {
       parts.append(title)
     }
@@ -88,7 +91,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
       parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
     }
     if let index = multiSelectionIndex {
-      parts.append(String(format: NSLocalizedString("history_item_selected_accessibility_value", comment: ""), index + 1, AppState.shared.navigator.selection.count))
+      parts.append(String(
+        format: NSLocalizedString("history_item_selected_accessibility_value", comment: ""),
+        index + 1, AppState.shared.navigator.selection.count
+      ))
     }
     return parts.joined(separator: ", ")
   }
@@ -96,7 +102,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
     self.item = item
     self.shortcuts = shortcuts
-    self.title = item.title
+    self.title = item.title.removingScalarsUnsafeForTitleLayout()
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
 
     synchronizeItemPin()
@@ -218,8 +224,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   private func synchronizeItemPin() {
     _ = withObservationTracking {
       item.pin
-    } onChange: {
-      DispatchQueue.main.async {
+    } onChange: { [weak self] in
+      DispatchQueue.main.async { [weak self] in
+        guard let self else { return }
         if let pin = self.item.pin {
           self.shortcuts = KeyShortcut.create(character: pin)
         }
@@ -231,9 +238,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   private func synchronizeItemTitle() {
     _ = withObservationTracking {
       item.title
-    } onChange: {
-      DispatchQueue.main.async {
-        self.title = self.item.title
+    } onChange: { [weak self] in
+      DispatchQueue.main.async { [weak self] in
+        guard let self else { return }
+        self.title = self.item.title.removingScalarsUnsafeForTitleLayout()
         self.synchronizeItemTitle()
       }
     }

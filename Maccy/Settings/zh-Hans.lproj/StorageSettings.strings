@@ -12,3 +12,14 @@
 "FirstCopiedAt" = "首次复制时间";
 "NumberOfCopies" = "复制次数";
 "SortByTooltip" = "默认：上次复制时间。";
+
+"ApplySize" = "应用";
+"ExtendedHistory" = "启用扩展历史记录";
+"ExtendedHistoryDescription" = "输入正整数设置保留上限，或输入 -1 表示永久保存。仅加载最近 1000 条及置顶记录；点击“深度搜索”可查询更早记录的标题和 OCR 摘要。置顶记录不计入上限。";
+"StandardHistoryDescription" = "保留 1–1000 条记录，置顶记录不计入上限。默认：200。";
+"ExistingExtendedLimit" = "现有保留上限未改变。启用扩展历史记录后，可编辑此值或搜索更早的记录。";
+"InvalidExtendedSize" = "请输入正整数，或输入 -1 表示无限保存。";
+"InvalidStandardSize" = "请输入 1–1000 之间的整数。";
+"ReduceHistoryTitle" = "减少保留的历史记录？";
+"ReduceHistoryDescription" = "应用较小上限后，将按照当前排序方式永久删除超出数量的非置顶记录。此操作无法撤销。";
+"CancelSizeChange" = "取消";

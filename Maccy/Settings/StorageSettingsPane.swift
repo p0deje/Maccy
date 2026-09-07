@@ -57,17 +57,28 @@ struct StorageSettingsPane: View {
   }
 
   @Default(.size) private var size
+  @Default(.extendedHistory) private var extendedHistory
   @Default(.sortBy) private var sortBy
 
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
+  @State private var sizeInput = String(Defaults[.size])
+  @State private var confirmReduction = false
 
-  private let sizeFormatter: NumberFormatter = {
-    let formatter = NumberFormatter()
-    formatter.minimum = 1
-    formatter.maximum = 999
-    return formatter
-  }()
+  private var proposedSize: Int? {
+    guard let value = Int(sizeInput) else { return nil }
+    if extendedHistory { return value == -1 || value > 0 ? value : nil }
+    return (1...History.cacheLimit).contains(value) ? value : nil
+  }
+
+  private func applySize() {
+    guard let value = proposedSize else { return }
+    if value > 0 && (size <= 0 || value < size) {
+      confirmReduction = true
+    } else {
+      size = value
+    }
+  }
 
   var body: some View {
     Settings.Container(contentWidth: 450) {
@@ -94,21 +105,36 @@ struct StorageSettingsPane: View {
 
       Settings.Section(label: { Text("Size", tableName: "StorageSettings") }) {
         HStack {
-          TextField("", value: $size, formatter: sizeFormatter)
-            .frame(width: 80)
-            .help(Text("SizeTooltip", tableName: "StorageSettings"))
+          TextField("", text: $sizeInput)
+            .frame(width: 90)
             .accessibilityLabel(Text("Size", tableName: "StorageSettings"))
-          Stepper("", value: $size, in: 1...999)
-            .labelsHidden()
-            .accessibilityLabel(Text("Size", tableName: "StorageSettings"))
+            .onSubmit { applySize() }
+          Button { applySize() } label: { Text("ApplySize", tableName: "StorageSettings") }
+            .disabled(proposedSize == nil || proposedSize == size)
           Text(storageSize)
             .controlSize(.small)
-            .foregroundStyle(.gray)
-            .help(Text("CurrentSizeTooltip", tableName: "StorageSettings"))
-            .onAppear {
-              storageSize = Storage.shared.size
-            }
+            .foregroundStyle(.secondary)
+            .onAppear { storageSize = Storage.shared.size }
         }
+        Toggle(isOn: $extendedHistory) {
+          Text("ExtendedHistory", tableName: "StorageSettings")
+        }
+        .accessibilityIdentifier("extendedHistory")
+        Text(extendedHistory ? "ExtendedHistoryDescription" : "StandardHistoryDescription",
+             tableName: "StorageSettings")
+          .font(.caption)
+          .foregroundStyle(.secondary)
+        if !extendedHistory && (size > History.cacheLimit || size == -1) {
+          Text("ExistingExtendedLimit", tableName: "StorageSettings")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+        }
+        if proposedSize == nil && sizeInput != String(size) {
+          Text(extendedHistory ? "InvalidExtendedSize" : "InvalidStandardSize", tableName: "StorageSettings")
+            .font(.caption)
+            .foregroundStyle(.secondary)
+        }
+
       }
 
       Settings.Section(label: { Text("SortBy", tableName: "StorageSettings") }) {
@@ -122,6 +148,15 @@ struct StorageSettingsPane: View {
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
         .accessibilityLabel(Text("SortBy", tableName: "StorageSettings"))
       }
+    }
+    .onChange(of: size) { _, newValue in sizeInput = String(newValue) }
+    .alert(Text("ReduceHistoryTitle", tableName: "StorageSettings"), isPresented: $confirmReduction) {
+      Button(role: .cancel) {} label: { Text("CancelSizeChange", tableName: "StorageSettings") }
+      Button(role: .destructive) {
+        if let value = proposedSize { size = value }
+      } label: { Text("ApplySize", tableName: "StorageSettings") }
+    } message: {
+      Text("ReduceHistoryDescription", tableName: "StorageSettings")
     }
   }
 }

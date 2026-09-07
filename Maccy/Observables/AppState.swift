@@ -53,6 +53,7 @@ class AppState: Sendable {
 
   @MainActor
   func select(flags modifierFlags: NSEvent.ModifierFlags) {
+    guard !history.deepSearchLoading else { return }
     if !navigator.selection.isEmpty {
       if navigator.isMultiSelectInProgress {
         navigator.isManualMultiSelect = false

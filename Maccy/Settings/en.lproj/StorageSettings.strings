@@ -12,3 +12,14 @@
 "FirstCopiedAt" = "Time of first copy";
 "NumberOfCopies" = "Number of copies";
 "SortByTooltip" = "Default: Time of last copy.";
+
+"ApplySize" = "Apply";
+"ExtendedHistory" = "Enable extended history";
+"ExtendedHistoryDescription" = "Enter a positive retention limit, or -1 to keep history forever. Only the latest 1,000 items plus pins are loaded; Deep search searches older saved titles and OCR summaries. Pinned items do not count toward the limit.";
+"StandardHistoryDescription" = "Keep 1–1,000 items. Pinned items do not count toward the limit. Default: 200.";
+"ExistingExtendedLimit" = "Your existing retention limit is unchanged. Turn on extended history to edit this value or search older records.";
+"InvalidExtendedSize" = "Enter -1 for unlimited history, or a positive whole number.";
+"InvalidStandardSize" = "Enter a whole number from 1 to 1,000.";
+"ReduceHistoryTitle" = "Reduce saved history?";
+"ReduceHistoryDescription" = "Applying a smaller limit permanently removes excess unpinned records according to the selected sort order. This cannot be undone.";
+"CancelSizeChange" = "Cancel";

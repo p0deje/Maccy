@@ -76,3 +76,22 @@ class Storage {
     return count
   }
 }
+
+// A fresh background context per request keeps archive rows out of the UI context.
+@ModelActor
+actor ArchiveSearch {
+  static let pageSize = 100
+
+  func find(query: String, page: Int) throws -> [PersistentIdentifier] {
+    var descriptor = FetchDescriptor<HistoryItem>(
+      sortBy: [SortDescriptor(\.lastCopiedAt, order: .reverse), SortDescriptor(\.firstCopiedAt, order: .reverse)]
+    )
+    if !query.isEmpty {
+      descriptor.predicate = #Predicate { $0.title.localizedStandardContains(query) }
+    }
+    descriptor.includePendingChanges = false
+    descriptor.fetchOffset = page * Self.pageSize
+    descriptor.fetchLimit = Self.pageSize + 1
+    return try modelContext.fetchIdentifiers(descriptor)
+  }
+}
