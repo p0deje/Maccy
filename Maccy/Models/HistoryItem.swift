@@ -6,6 +6,7 @@ import Vision
 
 @Model
 class HistoryItem {
+  @MainActor
   static var supportedPins: Set<String> {
     // "a" reserved for select all
     // "q" reserved for quit
@@ -92,10 +93,18 @@ class HistoryItem {
       }
   }
 
+  @MainActor
   func generateTitle() -> String {
-    guard image == nil else {
+    let pasteboardImageData = contentData(Self.imageTypes)
+    let universalClipboardImageURL = universalClipboardImage ? fileURLs.first : nil
+    guard pasteboardImageData == nil && universalClipboardImageURL == nil else {
       Task {
-        self.performTextRecognition()
+        if let recognizedText = await Self.recognizeText(
+          imageData: pasteboardImageData,
+          fileURL: universalClipboardImageURL
+        ) {
+          self.title = recognizedText
+        }
       }
       return ""
     }
@@ -231,31 +240,30 @@ class HistoryItem {
       .compactMap { $0.value }
   }
 
-  private func performTextRecognition() {
-    guard let cgImage = image?.cgImage(forProposedRect: nil, context: nil, hints: nil) else {
-      return
+  /// Runs OCR on the global concurrent executor so the main thread stays free.
+  @concurrent
+  nonisolated private static func recognizeText(imageData: Data?, fileURL: URL?) async -> String? {
+    guard let data = imageData ?? fileURL.flatMap({ try? Data(contentsOf: $0) }) else {
+      return nil
     }
 
-    let requestHandler = VNImageRequestHandler(cgImage: cgImage)
-    let request = VNRecognizeTextRequest(completionHandler: recognizeTextHandler)
+    let requestHandler = VNImageRequestHandler(data: data)
+    let request = VNRecognizeTextRequest()
     request.recognitionLevel = .fast
 
     do {
       try requestHandler.perform([request])
     } catch {
       print("Unable to perform the request: \(error).")
-    }
-  }
-
-  private func recognizeTextHandler(request: VNRequest, error: Error?) {
-    guard let observations = request.results as? [VNRecognizedTextObservation] else {
-      return
+      return nil
     }
 
-    let recognizedStrings = observations.compactMap { observation in
-      return observation.topCandidates(1).first?.string
+    guard let observations = request.results else {
+      return nil
     }
 
-    self.title = recognizedStrings.joined(separator: "\n")
+    return observations
+      .compactMap { $0.topCandidates(1).first?.string }
+      .joined(separator: "\n")
   }
 }
