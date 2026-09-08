@@ -21,3 +21,7 @@
 "Mixed" = "混合";
 "RemoveTrackingParameters" = "移除 URL 中的追踪参数";
 "NotificationsAndSounds" = "通知和声音 􀱁";
+"OpenOnHover" = "鼠标停留时打开";
+"OpenOnHoverTooltip" = "鼠标悬停在菜单栏图标上时自动显示剪贴板历史。";
+"CloseOnLeave" = "鼠标离开时关闭";
+"CloseOnLeaveTooltip" = "鼠标离开弹出窗口区域时自动关闭剪贴板历史。";
