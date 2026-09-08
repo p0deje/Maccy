@@ -44,6 +44,18 @@ struct GeneralSettingsPane: View {
         })
           .help(Text("OpenTooltip", tableName: "GeneralSettings"))
           .accessibilityLabel(Text("Open", tableName: "GeneralSettings"))
+
+        Defaults.Toggle(key: .hoverToOpen) {
+          Text("OpenOnHover", tableName: "GeneralSettings")
+        }
+        .help(Text("OpenOnHoverTooltip", tableName: "GeneralSettings"))
+        .fixedSize()
+
+        Defaults.Toggle(key: .closeOnLeave) {
+          Text("CloseOnLeave", tableName: "GeneralSettings")
+        }
+        .help(Text("CloseOnLeaveTooltip", tableName: "GeneralSettings"))
+        .fixedSize()
       }
 
       Settings.Section(label: { Text("Pin", tableName: "GeneralSettings") }) {

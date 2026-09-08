@@ -7,6 +7,58 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   static let isTesting = CommandLine.arguments.contains("enable-testing")
   var panel: FloatingPanel<ContentView>!
 
+  // MARK: - Hover-to-Open support
+
+  private var hoverMonitor: Any?
+  private var hoverActivated = false
+
+  private func setupHoverTracking() {
+    removeHoverTracking()
+    guard Defaults[.hoverToOpen] else { return }
+
+    // Read closeOnLeave once at setup time — it's read again per tick.
+    hoverMonitor = NSEvent.addLocalMonitorForEvents(matching: [.mouseMoved]) { [weak self] event in
+      self?.checkHover()
+      return event
+    }
+  }
+
+  private func removeHoverTracking() {
+    if let monitor = hoverMonitor {
+      NSEvent.removeMonitor(monitor)
+    }
+    hoverMonitor = nil
+    hoverActivated = false
+  }
+
+  private func checkHover() {
+    guard let button = statusItem.button, let window = button.window else { return }
+
+    let mouseLocation = NSEvent.mouseLocation
+    let buttonFrame = window.convertToScreen(button.convert(button.bounds, to: nil))
+    let hitRect = buttonFrame.insetBy(dx: -4, dy: -4)
+    let inButton = hitRect.contains(mouseLocation)
+
+    if inButton {
+      if !hoverActivated && !panel.isPresented {
+        hoverActivated = true
+        panel.open(height: AppState.shared.popup.height, at: .statusItem)
+      }
+    } else if Defaults[.closeOnLeave] && hoverActivated && panel.isPresented {
+      let inPanel = panel.frame.contains(mouseLocation)
+      if !inPanel {
+        panel.close()
+        hoverActivated = false
+      }
+    } else {
+      if !panel.isPresented {
+        hoverActivated = false
+      }
+    }
+  }
+
+  // MARK: -
+
   @objc
   private lazy var statusItem: NSStatusItem = {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
@@ -103,6 +155,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         updateStatusItemAccessibilityLabel()
       }
     }
+
+    Task {
+      for await _ in Defaults.updates(.hoverToOpen) {
+        setupHoverTracking()
+      }
+    }
   }
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
@@ -113,10 +171,16 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
       identifier: Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy",
       statusBarButton: statusItem.button,
-      onClose: { AppState.shared.popup.reset() }
+      onClose: {
+        AppState.shared.popup.reset()
+        self.hoverActivated = false
+      }
     ) {
       ContentView()
     }
+
+    // Move hover tracking setup after panel creation so button.window is ready
+    setupHoverTracking()
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
