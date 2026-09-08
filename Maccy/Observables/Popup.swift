@@ -82,6 +82,7 @@ class Popup {
   }
 
   func reset() {
+    AppState.shared.history.endDeepSearch()
     state = .toggle
     KeyboardShortcuts.enable(.popup)
   }

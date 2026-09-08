@@ -30,3 +30,13 @@
 "history_item_image_accessibility_label_no_app" = "图像，%d×%d";
 "history_item_image_accessibility_generic" = "图像";
 "toolbar_remove_paste_stack_action" = "停止粘贴堆栈";
+
+"deep_search" = "深度搜索";
+
+"recent_history" = "返回最近";
+
+"next_page" = "下一页";
+
+"recent_history_scope" = "最近 1,000 条 + 置顶";
+
+"deep_search_scope" = "全部历史 · 摘要 / OCR · 每页 100 条";

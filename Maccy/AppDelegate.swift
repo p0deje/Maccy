@@ -23,9 +23,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   // meaningful even when that preference is off or the app is disabled.
   private func updateStatusItemAccessibilityLabel() {
     let base = NSLocalizedString("status_item_accessibility_label", comment: "")
-    statusItem.button?.setAccessibilityLabel(
-      isStatusItemDisabled ? "\(base) — \(NSLocalizedString("status_item_disabled_accessibility_suffix", comment: ""))" : base
-    )
+    let suffix = NSLocalizedString("status_item_disabled_accessibility_suffix", comment: "")
+    statusItem.button?.setAccessibilityLabel(isStatusItemDisabled ? "\(base) — \(suffix)" : base)
   }
 
   private var isStatusItemDisabled: Bool {
@@ -33,6 +32,29 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   }
 
   private var statusItemVisibilityObserver: NSKeyValueObservation?
+
+  #if DEBUG
+  @MainActor
+  private func seedArchiveHistoryIfRequested() {
+    // Synthetic history for native UI verification; testing uses an in-memory store.
+    if CommandLine.arguments.contains("seed-archive-history") {
+      Defaults[.size] = -1
+      Defaults[.extendedHistory] = true
+      Defaults[.ignoreEvents] = true
+      Defaults[.searchMode] = .exact
+      for index in 0..<1_205 {
+        let title = index < 205 ? "Archive-only note \(index)" : "Recent note \(index)"
+        let content = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+                                         value: title.data(using: .utf8))
+        let item = HistoryItem(contents: [content])
+        item.title = title
+        item.lastCopiedAt = Date(timeIntervalSince1970: Double(index))
+        Storage.shared.context.insert(item)
+      }
+      try? Storage.shared.context.save()
+    }
+  }
+  #endif
 
   func applicationWillFinishLaunching(_ notification: Notification) { // swiftlint:disable:this function_body_length
     #if DEBUG
@@ -44,6 +66,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       .automaticallyChecksForUpdates = false
       // Start from a clean slate for the isolated testing preferences.
       UserDefaults.standard.removePersistentDomain(forName: Defaults.Keys.testingSuiteName)
+      seedArchiveHistoryIfRequested()
     }
     #endif
 
@@ -160,13 +183,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       Defaults[.enabledPasteboardTypes] = types
     }
 
-    ensureMigration(key: "2026-08-12-cleanup-orphaned-history-item-contents") {
-      _ = try? Storage.shared.cleanupOrphanedContents()
-    }
+    // Do not automatically delete archived content during startup maintenance.
+    // Cache limits and startup maintenance must never prune the archive.
 
-    ensureMigration(key: "2026-08-31-sanitize-history-item-titles") {
-      _ = try? Storage.shared.sanitizeTitles()
-    }
+    // Render unsafe legacy title scalars safely without rewriting the saved archive.
 
     // The following defaults are not used in Maccy 2.x
     // and should be removed in 3.x.
