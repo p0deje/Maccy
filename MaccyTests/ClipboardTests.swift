@@ -136,32 +136,44 @@ class ClipboardTests: XCTestCase {
     XCTAssertFalse(Defaults[.ignoreOnlyNextEvent])
   }
 
-  func testIgnoreApplication() {
-    Defaults[.ignoredApps] = ["com.apple.dt.Xcode", "com.apple.finder"] // Finder is on Bitrise
+  @MainActor
+  func testIgnoreApplication() throws {
+    let sourceAppBundle = try XCTUnwrap(NSWorkspace.shared.frontmostApplication?.bundleIdentifier)
+    Defaults[.ignoredApps] = [sourceAppBundle]
 
-    let hookExpectation = expectation(description: "Hook is called")
-    hookExpectation.isInverted = true
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
+    var copiedTitles: [String] = []
+    clipboard.onNewCopy { copiedTitles.append($0.title) }
+    // Exercise the policy directly without a foreground-dependent polling wait.
     pasteboard.declareTypes([.string], owner: nil)
-    pasteboard.setString("bar", forType: .string)
-    waitForExpectations(timeout: 2)
+    pasteboard.setString("ignored copy", forType: .string)
+    clipboard.checkForChangesInPasteboard()
+    XCTAssertEqual(copiedTitles, [])
+
+    Defaults[.ignoredApps] = [sourceAppBundle + ".unrelated"]
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString("allowed copy", forType: .string)
+    clipboard.checkForChangesInPasteboard()
+    XCTAssertEqual(copiedTitles, ["allowed copy"])
   }
 
-  func testIgnoreAllApplicationsExcept() {
+  @MainActor
+  func testIgnoreAllApplicationsExcept() throws {
+    let sourceAppBundle = try XCTUnwrap(NSWorkspace.shared.frontmostApplication?.bundleIdentifier)
     Defaults[.ignoreAllAppsExceptListed] = true
-    Defaults[.ignoredApps] = ["com.apple.dt.Xcode", "com.apple.finder"] // Finder is on Bitrise
+    Defaults[.ignoredApps] = [sourceAppBundle]
 
-    let hookExpectation = expectation(description: "Hook is called")
-    clipboard.onNewCopy({ (_: HistoryItem) in
-      hookExpectation.fulfill()
-    })
-    clipboard.start()
+    var copiedTitles: [String] = []
+    clipboard.onNewCopy { copiedTitles.append($0.title) }
     pasteboard.declareTypes([.string], owner: nil)
-    pasteboard.setString("bar", forType: .string)
-    waitForExpectations(timeout: 2)
+    pasteboard.setString("allowed copy", forType: .string)
+    clipboard.checkForChangesInPasteboard()
+    XCTAssertEqual(copiedTitles, ["allowed copy"])
+
+    Defaults[.ignoredApps] = [sourceAppBundle + ".unrelated"]
+    pasteboard.declareTypes([.string], owner: nil)
+    pasteboard.setString("ignored copy", forType: .string)
+    clipboard.checkForChangesInPasteboard()
+    XCTAssertEqual(copiedTitles, ["allowed copy"])
   }
 
   func testIgnoreTransientTypes() {
