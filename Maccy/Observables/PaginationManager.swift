@@ -55,16 +55,25 @@ class PaginationManager<Source: PaginatedItemSource> {
   }
 
   /// Reset and load the window at the top of the list.
+  ///
+  /// Like `refresh`, this either succeeds completely or leaves the manager
+  /// unchanged: `totalCount` must never disagree with `pages`, because the
+  /// view sizes the scrollable area from the count while rendering only
+  /// loaded rows. A partial update would show a huge empty list.
   @MainActor
   func load() throws {
+    let count = try source.count()
+    let tallRows = try source.tallRowIndices()
+
     pages = []
-    totalCount = try source.count()
-    tallRowIndices = try source.tallRowIndices()
+    totalCount = count
+    tallRowIndices = tallRows
     try ensureRowsLoaded(0..<1)
   }
 
   /// Load the pages covering `rows` (plus one page of lookahead on each
-  /// side), reusing already-loaded pages and dropping the rest.
+  /// side), reusing already-loaded pages and dropping the rest. If a fetch
+  /// throws, the previous window stays in place; the next scroll retries.
   @MainActor
   func ensureRowsLoaded(_ rows: Range<Int>) throws {
     guard pageCount > 0 else {
@@ -73,12 +82,12 @@ class PaginationManager<Source: PaginatedItemSource> {
     }
 
     let target = pageRange(covering: rows)
-    if pages.count == target.count && pages.first?.index == target.lowerBound {
+    if pages.count == target.count && pages.first?.index == target.lowerBound && pages.allSatisfy(isReusable) {
       return
     }
 
     pages = try target.map { pageIndex in
-      if let existing = pages.first(where: { $0.index == pageIndex }) {
+      if let existing = pages.first(where: { $0.index == pageIndex }), isReusable(existing) {
         return existing
       }
       return Page(index: pageIndex, items: try source.fetch(offset: pageIndex * pageSize, limit: pageSize))
@@ -88,21 +97,33 @@ class PaginationManager<Source: PaginatedItemSource> {
   /// Recount and refetch the current window after the source was mutated
   /// (item added, removed, pinned, or history cleared). Contents may have
   /// shifted arbitrarily, so previously fetched pages are not reused.
+  /// Applies all state at once: if any fetch throws, nothing changes.
   @MainActor
   func refresh() throws {
-    totalCount = try source.count()
-    tallRowIndices = try source.tallRowIndices()
+    let count = try source.count()
+    let tallRows = try source.tallRowIndices()
+    let newPageCount = count > 0 ? (count + pageSize - 1) / pageSize : 0
 
-    guard pageCount > 0 else {
-      pages = []
-      return
+    var newPages: [Page<Item>] = []
+    if newPageCount > 0 {
+      let first = min(pages.first?.index ?? 0, newPageCount - 1)
+      let last = min(max(pages.last?.index ?? 0, first), newPageCount - 1)
+      newPages = try (first...last).map { pageIndex in
+        Page(index: pageIndex, items: try source.fetch(offset: pageIndex * pageSize, limit: pageSize))
+      }
     }
 
-    let first = min(pages.first?.index ?? 0, pageCount - 1)
-    let last = min(max(pages.last?.index ?? 0, first), pageCount - 1)
-    pages = try (first...last).map { pageIndex in
-      Page(index: pageIndex, items: try source.fetch(offset: pageIndex * pageSize, limit: pageSize))
-    }
+    totalCount = count
+    tallRowIndices = tallRows
+    pages = newPages
+  }
+
+  /// A cached page can be reused only while its size is still plausible:
+  /// full, or the (possibly short) last page. A short page that is no
+  /// longer the last page was fetched when the store was smaller and would
+  /// leave rows below it permanently empty.
+  private func isReusable(_ page: Page<Item>) -> Bool {
+    page.items.count == pageSize || page.index == pageCount - 1
   }
 
   private func pageRange(covering rows: Range<Int>) -> ClosedRange<Int> {
@@ -119,6 +140,14 @@ class PaginationManager<Source: PaginatedItemSource> {
 /// loaded and rendered separately, so pages and row indices line up exactly
 /// with the unpinned list on screen. Must be used from the main actor, where
 /// `Storage.shared`'s main-context lives.
+///
+/// `count()` takes an ordered snapshot of the store as lightweight model
+/// faults (no contents are loaded), and `fetch`/`tallRowIndices` slice that
+/// snapshot. Slicing in memory instead of using `fetchOffset` matters:
+/// SwiftData has been observed to ignore `fetchOffset` and return the first
+/// `fetchLimit` rows for every page, which duplicated pages and broke the
+/// list. `PaginationManager` always recounts before refetching, so the
+/// snapshot is refreshed exactly when pages are.
 final class HistoryPaginationSource: PaginatedItemSource {
   private static var imageContentTypes: [String] {
     [
@@ -138,24 +167,27 @@ final class HistoryPaginationSource: PaginatedItemSource {
   }
   private var decorators: [PersistentIdentifier: WeakDecorator] = [:]
 
+  /// Ordered snapshot of all unpinned items, refreshed by `count()`.
+  /// The items are faults: only metadata is loaded until a page is fetched.
+  private var sortedItems: [HistoryItem] = []
+
   @MainActor
   func count() throws -> Int {
     decorators = decorators.filter { $0.value.value != nil }
-    return try Storage.shared.context.fetchCount(
-      FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin == nil })
+    sortedItems = try Storage.shared.context.fetch(
+      FetchDescriptor<HistoryItem>(
+        predicate: #Predicate { $0.pin == nil },
+        sortBy: [Self.sortDescriptor()]
+      )
     )
+    return sortedItems.count
   }
 
   @MainActor
   func fetch(offset: Int, limit: Int) throws -> [HistoryItemDecorator] {
-    var descriptor = FetchDescriptor<HistoryItem>(
-      predicate: #Predicate { $0.pin == nil },
-      sortBy: [Self.sortDescriptor()]
-    )
-    descriptor.fetchLimit = limit
-    descriptor.fetchOffset = offset
+    guard offset < sortedItems.count else { return [] }
 
-    return try Storage.shared.context.fetch(descriptor).map(decorator(for:))
+    return sortedItems[offset ..< min(sortedItems.count, offset + limit)].map(decorator(for:))
   }
 
   /// Indices (in the paged ordering) of unpinned items that contain an
@@ -172,11 +204,7 @@ final class HistoryPaginationSource: PaginatedItemSource {
     )
     guard !imageItemIDs.isEmpty else { return [] }
 
-    let itemDescriptor = FetchDescriptor<HistoryItem>(
-      predicate: #Predicate { $0.pin == nil },
-      sortBy: [Self.sortDescriptor()]
-    )
-    return try Storage.shared.context.fetch(itemDescriptor)
+    return sortedItems
       .enumerated()
       .filter { imageItemIDs.contains($0.element.persistentModelID) }
       .map(\.offset)

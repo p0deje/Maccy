@@ -4,8 +4,12 @@ import XCTest
 /// Synthetic source serving a large list of numbers in small pages,
 /// so pagination can be tested independently of history and SwiftData.
 private final class NumberSource: PaginatedItemSource {
+  struct SourceError: Error {}
+
   var values: [Int]
   var tall: [Int] = []
+  var failCounts = false
+  var failFetches = false
   private(set) var fetchCalls = 0
 
   init(count: Int) {
@@ -13,10 +17,12 @@ private final class NumberSource: PaginatedItemSource {
   }
 
   func count() throws -> Int {
-    values.count
+    if failCounts { throw SourceError() }
+    return values.count
   }
 
   func fetch(offset: Int, limit: Int) throws -> [Int] {
+    if failFetches { throw SourceError() }
     fetchCalls += 1
     guard offset < values.count else { return [] }
     return Array(values[offset ..< min(values.count, offset + limit)])
@@ -142,6 +148,38 @@ class PaginationManagerTests: XCTestCase {
 
     XCTAssertEqual(manager.totalCount, 0)
     XCTAssertTrue(manager.loadedItems.isEmpty)
+  }
+
+  /// A failing recount must leave the manager untouched: the view sizes the
+  /// list from `totalCount` while rendering only loaded rows, so a partial
+  /// update would show a huge empty list.
+  func testFailedRefreshLeavesStateUnchanged() throws {
+    try manager.load()
+    let rangeBefore = manager.loadedRange
+
+    source.values.append(10_000)
+    source.failCounts = true
+    XCTAssertThrowsError(try manager.refresh())
+
+    XCTAssertEqual(manager.totalCount, 10_000)
+    XCTAssertEqual(manager.loadedRange, rangeBefore)
+  }
+
+  func testRefreshWithFailingPageFetchChangesNothing() throws {
+    try manager.load()
+    let rangeBefore = manager.loadedRange
+
+    source.values.append(10_000)
+    source.failFetches = true
+    XCTAssertThrowsError(try manager.refresh())
+
+    XCTAssertEqual(manager.totalCount, 10_000)
+    XCTAssertEqual(manager.loadedRange, rangeBefore)
+
+    // Once the source recovers, refresh picks up the new state.
+    source.failFetches = false
+    try manager.refresh()
+    XCTAssertEqual(manager.totalCount, 10_001)
   }
 
   func testTallRowIndicesArePassedThrough() throws {

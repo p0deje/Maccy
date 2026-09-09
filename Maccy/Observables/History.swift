@@ -150,7 +150,13 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       // Pinned items are always fully loaded; unpinned items are paged in on demand.
       let pinnedDescriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin != nil })
       let pinned = sorter.sort((try? Storage.shared.context.fetch(pinnedDescriptor)) ?? [])
-      try paginationManager.load()
+      do {
+        try paginationManager.load()
+      } catch {
+        // Callers discard this error, so record it before rethrowing.
+        logger.error("Failed to load paginated history: \(error.localizedDescription)")
+        throw error
+      }
       all = composeUnlimitedItems(pinned: pinned.map { HistoryItemDecorator($0) })
     } else {
       // Load all items for limited history
