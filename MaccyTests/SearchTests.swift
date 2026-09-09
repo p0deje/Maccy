@@ -233,6 +233,25 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
+  @MainActor
+  func testFuzzySearchFallsBackToExactForLargeUnlimitedHistory() {
+    let savedUnlimited = Defaults[.isUnlimitedHistory]
+    defer { Defaults[.isUnlimitedHistory] = savedUnlimited }
+
+    Defaults[.searchMode] = Search.Mode.fuzzy
+    Defaults[.isUnlimitedHistory] = true
+    items = [HistoryItemDecorator(historyItemWithTitle("foo bar baz"))]
+
+    // "fbb" matches with fuzzy search but not with exact search.
+    let smallHistorySearch = Search()
+    smallHistorySearch.historyItemCount = { 10 }
+    XCTAssertFalse(smallHistorySearch.search(string: "fbb", within: items).isEmpty)
+
+    let largeHistorySearch = Search()
+    largeHistorySearch.historyItemCount = { Defaults.Keys.largeHistoryThreshold + 1 }
+    XCTAssertTrue(largeHistorySearch.search(string: "fbb", within: items).isEmpty)
+  }
+
   private func search(_ string: String) -> [Search.SearchResult] {
     return Search().search(string: string, within: items)
   }

@@ -37,6 +37,10 @@ class Search {
   private let fuzzySearchLimit = 5_000
   private var historySizeThreshold: Int { Defaults.Keys.largeHistoryThreshold }
 
+  /// Number of items in history. Injectable so tests can simulate a large
+  /// history without inserting thousands of items.
+  var historyItemCount: () -> Int = { History.shared.totalCount }
+
   func search(string: String, within: [Searchable]) -> [SearchResult] {
     guard !string.isEmpty else {
       return within.map { SearchResult(object: $0) }
@@ -45,7 +49,7 @@ class Search {
     var effectiveSearchMode = Defaults[.searchMode]
 
     // Auto-disable fuzzy search for large histories
-    if Defaults[.isUnlimitedHistory] && History.shared.totalCount > historySizeThreshold {
+    if Defaults[.isUnlimitedHistory] && historyItemCount() > historySizeThreshold {
       if effectiveSearchMode == .fuzzy || effectiveSearchMode == .mixed {
         effectiveSearchMode = .exact
       }

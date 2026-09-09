@@ -1,5 +1,6 @@
 import AppKit
 import Defaults
+import SwiftData
 import XCTest
 @testable import Maccy
 
@@ -8,6 +9,7 @@ import XCTest
 @MainActor
 class HistoryPaginationSourceTests: XCTestCase {
   let savedSortBy = Defaults[.sortBy]
+  let savedIgnoreEvents = Defaults[.ignoreEvents]
   var source: HistoryPaginationSource!
 
   // A valid 1x1 transparent PNG.
@@ -18,6 +20,10 @@ class HistoryPaginationSourceTests: XCTestCase {
   override func setUp() {
     super.setUp()
     Defaults[.sortBy] = .lastCopiedAt
+    // Clipboard polling started by other suites keeps inserting captured
+    // items into the shared store, which shifts the positions these tests
+    // assert on. Ignore clipboard events while this suite runs.
+    Defaults[.ignoreEvents] = true
     source = HistoryPaginationSource()
     clearStore()
   }
@@ -26,11 +32,17 @@ class HistoryPaginationSourceTests: XCTestCase {
     super.tearDown()
     clearStore()
     Defaults[.sortBy] = savedSortBy
+    Defaults[.ignoreEvents] = savedIgnoreEvents
   }
 
   private func clearStore() {
-    try? Storage.shared.context.delete(model: HistoryItem.self)
-    try? Storage.shared.context.delete(model: HistoryItemContent.self)
+    // Delete row by row: the batch `delete(model:)` can fail silently on
+    // items with relationships left behind by other suites.
+    let items = (try? Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())) ?? []
+    items.forEach { Storage.shared.context.delete($0) }
+    let contents = (try? Storage.shared.context.fetch(FetchDescriptor<HistoryItemContent>())) ?? []
+    contents.forEach { Storage.shared.context.delete($0) }
+    Storage.shared.context.processPendingChanges()
     try? Storage.shared.context.save()
   }
 
