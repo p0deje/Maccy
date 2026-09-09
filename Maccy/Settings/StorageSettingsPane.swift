@@ -124,9 +124,11 @@ struct StorageSettingsPane: View {
             .frame(width: 80)
             .help(Text("SizeTooltip", tableName: "StorageSettings"))
             .disabled(isUnlimitedHistory)
+            .accessibilityLabel(Text("Size", tableName: "StorageSettings"))
           Stepper("", value: $size, in: 1...999)
             .labelsHidden()
             .disabled(isUnlimitedHistory)
+            .accessibilityLabel(Text("Size", tableName: "StorageSettings"))
           Text(storageSize)
             .controlSize(.small)
             .foregroundStyle(.gray)
@@ -147,6 +149,7 @@ struct StorageSettingsPane: View {
         .labelsHidden()
         .frame(width: 160, alignment: .leading)
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
+        .accessibilityLabel(Text("SortBy", tableName: "StorageSettings"))
       }
     }
     .alert(Text("UnlimitedHistoryAlertTitle", tableName: "StorageSettings"), isPresented: $showWarning) {

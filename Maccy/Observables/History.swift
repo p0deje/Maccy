@@ -240,7 +240,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     var removedItemIndex: Int?
     if let existingHistoryItem = findSimilarItem(item) {
       if isModified(item) == nil {
-        item.contents = existingHistoryItem.contents
+        transferContents(from: existingHistoryItem, to: item)
       }
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
@@ -250,8 +250,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         item.application = existingHistoryItem.application
       }
       logger.info("Removing duplicate item '\(item.title)'")
-      Storage.shared.context.delete(existingHistoryItem)
       removedItemIndex = all.firstIndex(where: { $0.item == existingHistoryItem })
+      if let removedItemIndex {
+        cleanup(all[removedItemIndex])
+      }
+      deleteFromStorage(existingHistoryItem)
       if let removedItemIndex {
         all.remove(at: removedItemIndex)
       }
@@ -272,9 +275,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     var itemDecorator: HistoryItemDecorator
     if let pin = item.pin {
       itemDecorator = HistoryItemDecorator(item, shortcuts: KeyShortcut.create(character: pin))
-      // Keep pins in the same place.
       if let removedItemIndex {
-        all.insert(itemDecorator, at: removedItemIndex)
+        // If pin to bottom -> last element should be inserted to the removedItemIndex - 1
+        // Or to the last all array place.
+        all.insert(itemDecorator, at: min(removedItemIndex, all.count))
       }
     } else {
       itemDecorator = HistoryItemDecorator(item)
@@ -359,7 +363,20 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       sessionLog.removeAll()
       items = all
 
-      try? Storage.shared.context.delete(model: HistoryItem.self)
+      do {
+        let context = Storage.shared.context
+        try context.transaction {
+          // Bulk deletion cannot remove children with live inverse relationships.
+          try context.delete(
+            model: HistoryItemContent.self,
+            where: #Predicate { $0.item == nil }
+          )
+          try context.delete(model: HistoryItem.self)
+          try context.delete(model: HistoryItemContent.self)
+        }
+      } catch {
+        logger.error("Failed to clear storage: \(String(reflecting: error))")
+      }
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
@@ -381,7 +398,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     cleanup(item)
     withLogging("Removing history item") {
-      Storage.shared.context.delete(item.item)
+      deleteFromStorage(item.item)
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
@@ -402,23 +419,33 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  private func transferContents(from existingItem: HistoryItem, to newItem: HistoryItem) {
+    deleteContents(of: newItem)
+    newItem.contents = existingItem.contents
+    existingItem.contents = []
+  }
+
+  @MainActor
+  private func deleteFromStorage(_ item: HistoryItem) {
+    deleteContents(of: item)
+    Storage.shared.context.delete(item)
+  }
+
+  @MainActor
+  private func deleteContents(of item: HistoryItem) {
+    item.contents.forEach(Storage.shared.context.delete)
+  }
+
+  @MainActor
   private func cleanup(_ item: HistoryItemDecorator) {
     item.cleanupImages()
   }
 
-  private func currentModifierFlags() -> NSEvent.ModifierFlags {
-    return NSApp.currentEvent?.modifierFlags
-      .intersection(.deviceIndependentFlagsMask)
-      .subtracting([.capsLock, .numericPad, .function]) ?? []
-  }
-
   @MainActor
-  func select(_ item: HistoryItemDecorator?) {
+  func select(_ item: HistoryItemDecorator?, flags modifierFlags: NSEvent.ModifierFlags) {
     guard let item else {
       return
     }
-
-    let modifierFlags = currentModifierFlags()
 
     if modifierFlags.isEmpty {
       AppState.shared.popup.close()
@@ -450,12 +477,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
-  func startPasteStack(selection: inout Selection<HistoryItemDecorator>) {
+  func startPasteStack(selection: inout Selection<HistoryItemDecorator>, flags modifierFlags: NSEvent.ModifierFlags) {
     guard AppState.shared.multiSelectionEnabled else { return }
     guard let item = selection.first else { return }
     PasteStack.initializeIfNeeded()
-
-    let modifierFlags = currentModifierFlags()
 
     let stack = PasteStack(items: selection.items, modifierFlags: modifierFlags)
     pasteStack = stack
@@ -582,17 +607,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    if let all = try? Storage.shared.context.fetch(descriptor) {
-      let duplicates = all.filter({ $0 == item || $0.supersedes(item) })
-      if duplicates.count > 1 {
-        return duplicates.first(where: { $0 != item })
-      } else {
-        return isModified(item)
-      }
+    if let duplicate = all.first(where: { $0.item != item && $0.item.supersedes(item) }) {
+      return duplicate.item
     }
 
-    return item
+    return isModified(item)
   }
 
   private func isModified(_ item: HistoryItem) -> HistoryItem? {

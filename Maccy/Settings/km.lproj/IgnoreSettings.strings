@@ -1,0 +1,9 @@
+"IgnoredRegexpsDescription" = "អ្នកអាចរំលងការចម្លងខ្លះមិនឱ្យចងចាំ ដោយផ្អែកលើកន្សោមធម្មតាដែលបានកំណត់។";
+"ApplicationsTab" = "កម្មវិធី";
+"RegexpTab" = "កន្សោមធម្មតា";
+"IgnoredAllAppsExceptListed" = "រំលងកម្មវិធីទាំងអស់ លើកលែងតែកម្មវិធីក្នុងបញ្ជី";
+"PasteboardTypesTab" = "ប្រភេទ Pasteboard";
+"IgnoredAppsDescription" = "អ្នកអាចរំលងការចម្លងដែលមកពីកម្មវិធីខ្លះបាន។\nសូមចំណាំថាវិធីនេះមិនមានសុវត្ថិភាពពេញលេញទេ ដូច្នេះបើអាចធ្វើបាន សូមប្រើប្រភេទ Pasteboard វិញ។";
+"Title" = "រំលង";
+"IgnoredPasteboardTypesDescription" = "អ្នកអាចរំលងប្រភេទធាតុ Pasteboard ខ្លះ មិនឱ្យចងចាំបាន។\nតាមលំនាំដើម មានប្រភេទសម្រាប់កម្មវិធីខ្លះរួចហើយ។ អ្នកអាចលុបវាចេញ ហើយបន្ថែមប្រភេទផ្ទាល់ខ្លួនតាមចំណូលចិត្ត។";
+"IgnoredPasteboardTypesReset" = "កំណត់ឡើងវិញ";

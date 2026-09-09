@@ -1,10 +1,10 @@
 "Title" = "Lanjutan";
 "TurnOff" = "Matikan";
-"TurnOffDescription" = "Abaikan sementara semua salinan baru.\nKemungkinan Anda menggunakannya secara terprogram dan menonaktifkan aplikasi saat menyalin data sensitif.";
+"TurnOffDescription" = "Abaikan sementara semua salinan baru.\nAnda mungkin ingin menggunakan ini dan menonaktifkan aplikasi saat menyalin data sensitif.";
 "TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# salin data\ndefaults write org.p0deje.Maccy ignoreEvents false";
-"TurnOffViaMenuIconDescription" = "Anda juga dapat mengklik ikon menu dengan menekan ⌥.\nUntuk mengabaikan hanya salinan berikutnya, klik dengan menekan ⌥⇧.";
+"TurnOffViaMenuIconDescription" = "Anda juga dapat mengeklik ikon menu sambil menekan ⌥.\nUntuk mengabaikan hanya salinan berikutnya, klik dengan menekan ⌥⇧.";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# salin data";
 "ClearHistoryOnQuit" = "Hapus riwayat saat keluar";
-"ClearHistoryOnQuitTooltip" = "Hapus otomatis semua item yang tidak dipin sebelum keluar dari aplikasi.";
-"ClearSystemClipboard" = "Hapus juga clipboard sistem";
-"ClearSystemClipboardTooltip" = "Ketika diaktifkan, menghapus riwayat juga akan menghapus clipboard sistem saat ini.";
+"ClearHistoryOnQuitTooltip" = "Hapus otomatis semua item yang tidak disematkan sebelum keluar dari aplikasi.";
+"ClearSystemClipboard" = "Juga hapus papan klip sistem";
+"ClearSystemClipboardTooltip" = "Ketika menyala, menghapus riwayat juga akan menghapus papan klip sistem saat ini.";

@@ -1,5 +1,5 @@
 "search_placeholder" = "搜索…";
-"clear_tooltip" = "清除未固定的项目。\n按住 ⇧ 以全部清除。";
+"clear_tooltip" = "清除未置顶的项目。\n按住 ⇧ 以全部清除。";
 "clear_all_tooltip" = "清除全部项目。";
 "about_tooltip" = "查看更多应用信息。";
 "quit_tooltip" = "退出应用。";
@@ -8,15 +8,6 @@
 "about" = "关于";
 "quit" = "退出";
 "preferences" = "偏好设置…";
-"preferences_advanced" = "高级";
-"preferences_pins" = "固定";
-"copy_modifiers_config" = "• 按住 %@ 选择项目以复制。";
-"paste_modifiers_config" = "• 按住 %@ 选择项目以复制并粘贴。";
-"format_modifiers_config" = "• 按住 %@ 选择项目以复制并匹配格式粘贴。";
-"accessibility_alert_message" = "“Maccy“想要使用“辅助功能”控制此计算机。";
-"accessibility_alert_comment" = "在{settings}中的{pane}设置中授予此应用程序权限。\n\n单击 ”+” 按钮，选择 ”Maccy” 并打开旁边的复选框。";
-"accessibility_alert_deny" = "拒绝";
-"accessibility_alert_open" = "打开系统偏好设置";
 "clear_alert_message" = "确定要清除历史记录吗？";
 "clear_alert_comment" = "无法撤消此操作。";
 "clear_alert_cancel" = "取消";
@@ -28,3 +19,14 @@
 "system_settings_pane" = "“隐私与安全性“";
 "system_preferences_name" = "“系统偏好设置”";
 "system_preferences_pane" = "“安全性和隐私”";
+"status_item_accessibility_label" = "Maccy — 剪贴板历史记录";
+"status_item_disabled_accessibility_suffix" = "已暂停";
+"search_clear_accessibility_label" = "清除搜索";
+"history_item_pin_action" = "固定";
+"history_item_unpin_action" = "取消固定";
+"history_item_delete_action" = "删除";
+"history_item_pinned_accessibility_value" = "已固定";
+"history_item_selected_accessibility_value" = "已选择，第 %d 项，共 %d 项";
+"history_item_image_accessibility_label_no_app" = "图像，%d×%d";
+"history_item_image_accessibility_generic" = "图像";
+"toolbar_remove_paste_stack_action" = "停止粘贴堆栈";

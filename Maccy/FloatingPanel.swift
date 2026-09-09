@@ -37,7 +37,9 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
     animationBehavior = .none
     isFloatingPanel = true
-    level = .statusBar
+    // Chrome autofill uses window layer 999; screenSaver (1000) sits just above it
+    // while still covering status items / Spotlight. See #1403.
+    level = .screenSaver
     collectionBehavior = [.auxiliary, .stationary, .moveToActiveSpace, .fullScreenAuxiliary]
     titleVisibility = .hidden
     titlebarAppearsTransparent = true
@@ -73,7 +75,10 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
     let size = Defaults[.windowSize]
-    setContentSize(NSSize(width: min(frame.width, size.width), height: min(height, size.height)))
+    let miniumHeight: CGFloat = AppState.shared.popup.minimumHeight
+    let finalWidth = min(frame.width, size.width)
+    let finalHeight = max(min(height, size.height), miniumHeight)
+    setContentSize(NSSize(width: finalWidth, height: finalHeight))
     setFrameOrigin(popupPosition.origin(size: frame.size, statusBarButton: statusBarButton))
     orderFrontRegardless()
     makeKey()
@@ -156,6 +161,9 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
       size.width = AppState.shared.preview.contentWidth
       saveWindowFrame(frame: NSRect(origin: frame.origin, size: size))
     }
+
+    let minimumHeight = AppState.shared.popup.minimumHeight
+    finalFrameSize.height = max(finalFrameSize.height, minimumHeight)
 
     return finalFrameSize
   }

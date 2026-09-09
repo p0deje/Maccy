@@ -6,9 +6,9 @@
 "SaveDescription" = "Mengubah jenis konten tersalin yang disimpan.";
 "Size" = "Ukuran:";
 "SizeTooltip" = "Jumlah item riwayat untuk disimpan.\nDefault: 200.";
-"CurrentSizeTooltip" = "Ukuran saat ini pada disk.";
+"CurrentSizeTooltip" = "Ukuran saat ini pada cakram.";
 "SortBy" = "Menurut:";
-"LastCopiedAt" = "Waktu disalin terakhir";
-"FirstCopiedAt" = "Waktu salinan pertama";
-"NumberOfCopies" = "";
-"SortByTooltip" = "";
+"LastCopiedAt" = "Waktu menyalin terakhir";
+"FirstCopiedAt" = "Waktu menyalin pertama";
+"NumberOfCopies" = "Jumlah salinan";
+"SortByTooltip" = "Bawaan: Waktu menyalin terakhir.";

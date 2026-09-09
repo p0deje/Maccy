@@ -9,7 +9,7 @@
 "Behavior" = "Comportamento:";
 "PasteAutomatically" = "Colar automaticamente";
 "PasteWithoutFormatting" = "Colar sem formatação";
-"Modifiers" = "Personalize o comportamento ao selecionar o elemento:\n• Selecione com ⌘ pressionado para copiar o elemento.\n• Selecione com ⌥ pressionado para copiar e colar o elemento.\n• Selecionar com ⌥⇧ pressionado para copiar, limpar a formatação e colar o elemento.";
+"Modifiers" = "Personalize o comportamento ao selecionar o elemento:\n• Selecione com %@ pressionado para copiar o elemento.\n• Selecione com %@ pressionado para copiar e colar o elemento.\n• Selecionar com %@ pressionado para copiar, limpar a formatação e colar o elemento.";
 "Search" = "Procura:";
 "Exact" = "Exata";
 "Regex" = "Expressões regulares";

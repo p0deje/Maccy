@@ -1,7 +1,7 @@
-"Title" = "";
-"TurnOff" = "";
-"TurnOffDescription" = "";
-"TurnOffShellScript" = "";
+"Title" = "विस्तृत विकल्प";
+"TurnOff" = "बंद करें";
+"TurnOffDescription" = "सभी नई कॉपी को अस्थायी रूप से अनदेखा करें।\nआप इसे प्रोग्रामेटिक रूप से उपयोग करने और संवेदनशील डेटा की कॉपी बनाते समय एप्लिकेशन को अक्षम करने की संभावना रखते हैं।";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# डेटा कॉपी करें\ndefaults write org.p0deje.Maccy ignoreEvents false";
 "TurnOffViaMenuIconDescription" = "";
 "TurnOffNextShellScript" = "";
 "ClearHistoryOnQuit" = "";

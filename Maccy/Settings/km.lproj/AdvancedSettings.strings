@@ -1,0 +1,10 @@
+"ClearSystemClipboardTooltip" = "នៅពេលបើកដំណើរការ ការសម្អាតប្រវត្តិនឹងសម្អាតក្ដារចម្លងប្រព័ន្ធបច្ចុប្បន្នផងដែរ។";
+"TurnOffViaMenuIconDescription" = "អ្នកក៏អាចចុចលើរូបសញ្ញាម៉ឺនុយ ដោយចុចគ្រាប់ចុច ⌥ ផងដែរ។\nដើម្បីរំលងតែការចម្លងបន្ទាប់ សូមចុច ⌥⇧។";
+"TurnOff" = "បិទ";
+"Title" = "កម្រិតខ្ពស់";
+"TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# ចម្លងទិន្នន័យ";
+"TurnOffDescription" = "រំលងការចម្លងថ្មីៗទាំងអស់ជាបណ្ដោះអាសន្ន។\nអ្នកអាចប្រើមុខងារនេះតាមរយៈកូដ ដើម្បីផ្អាកកម្មវិធីពេលកំពុងចម្លងទិន្នន័យសម្ងាត់។";
+"ClearHistoryOnQuit" = "សម្អាតប្រវត្តិនៅពេលបិទកម្មវិធី";
+"ClearSystemClipboard" = "សម្អាតក្ដារចម្លងប្រព័ន្ធផងដែរ";
+"ClearHistoryOnQuitTooltip" = "សម្អាតធាតុដែលមិនបានខ្ទាស់ទាំងអស់ដោយស្វ័យប្រវត្តិ មុនពេលបិទកម្មវិធី។";
+"TurnOffShellScript" = "defaults write org.p0deje.Maccy ignoreEvents true\n# ចម្លងទិន្នន័យ\ndefaults write org.p0deje.Maccy ignoreEvents false";

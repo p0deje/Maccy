@@ -44,11 +44,14 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
+  var previewText: String {
+    item.previewableText
+  }
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
   // 10k characters seems to be more than enough on large displays
-  var text: String { item.previewableText.shortened(to: 10_000) }
+  var text: String { previewText.shortened(to: 10_000) }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
@@ -61,6 +64,34 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   private(set) var item: HistoryItem
+  
+  var multiSelectionIndex: Int? {
+    guard AppState.shared.navigator.isMultiSelectInProgress else {
+      return nil
+    }
+    return selectionIndex
+  }
+  
+  // Describe the complete item independently of its potentially truncated visual content.
+  var accessibilityLabel: String {
+    var parts: [String] = []
+    if hasImage, let image = item.image {
+      let size = image.pixelSize
+      parts.append(String(format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""), Int(size.width), Int(size.height)))
+    } else {
+      parts.append(title)
+    }
+    if let application = application {
+      parts.append(application)
+    }
+    if isPinned {
+      parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
+    }
+    if let index = multiSelectionIndex {
+      parts.append(String(format: NSLocalizedString("history_item_selected_accessibility_value", comment: ""), index + 1, AppState.shared.navigator.selection.count))
+    }
+    return parts.joined(separator: ", ")
+  }
 
   init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
     self.item = item
@@ -122,6 +153,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     previewImage?.recache()
     thumbnailImage = nil
     previewImage = nil
+    item.clearDecodedImageCache()
   }
 
   @MainActor

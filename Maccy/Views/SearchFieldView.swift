@@ -18,13 +18,14 @@ struct SearchFieldView: View {
           .frame(width: 11, height: 11)
           .padding(.leading, 5)
           .opacity(0.8)
+          .accessibilityHidden(true)
 
         TextField(placeholder, text: $query)
           .disableAutocorrection(true)
           .lineLimit(1)
           .textFieldStyle(.plain)
           .onSubmit {
-            appState.select()
+            appState.select(flags: .currentModifierFlags)
           }
 
         if !query.isEmpty {
@@ -37,6 +38,7 @@ struct SearchFieldView: View {
           }
           .buttonStyle(.plain)
           .opacity(0.9)
+          .accessibilityLabel(Text("search_clear_accessibility_label"))
         }
       }
     }

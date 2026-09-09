@@ -5,9 +5,9 @@
 "Open" = "Aprire:";
 "OpenTooltip" = "Una pressione ripetuta del tasto principale mentre si tengono premuti i modificatori seleziona la voce successiva dell'elenco.\nIn questa modalità, rilasciando i tasti modificatori si conferma la selezione e si chiude il popup.\nDefault: ⇧⌘C.";
 "Pin" = "Bloccare:";
-"PinTooltip" = "Combinazione di tasti per bloccare l'elemento della cronologia.\nDefault: %@P.";
+"PinTooltip" = "Combinazione di tasti per bloccare l'elemento della cronologia.\nDefault: ⌥P.";
 "Delete" = "Cancellare:";
-"DeleteTooltip" = "Combinazione di tasti per cancellare l'elemento della cronologia.\nDefault: %@⌫.";
+"DeleteTooltip" = "Combinazione di tasti per cancellare l'elemento della cronologia.\nDefault: ⌥⌫.";
 "ShowPreview" = "Anteprima:";
 "ShowPreviewTooltip" = "Mostra anteprima con informazioni aggiuntive.\nDefault: ⌃Space.";
 "Behavior" = "Comportamento:";

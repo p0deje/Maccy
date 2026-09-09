@@ -1,4 +1,4 @@
-"Title" = "";
+"Title" = "दिखावट";
 "PopupAt" = "";
 "PopupAtCursor" = "";
 "PopupAtMenuBarIcon" = "";
@@ -16,6 +16,7 @@
 "PinToTooltip" = "";
 "ImageHeight" = "";
 "ImageHeightTooltip" = "";
+"OpenPreviewAutomatically" = "पूर्वावलोकन अपने-आप खोलें";
 "PreviewDelay" = "";
 "PreviewDelayTooltip" = "";
 "HighlightMatches" = "";
@@ -33,3 +34,5 @@
 "ShowApplicationIcons" = "";
 "ShowFooter" = "";
 "OpenPreferencesWarning" = "";
+"ShowHexColorSwatch" = "हेक्स रंग स्वैच दिखाएँ";
+"ShowHexColorSwatchTooltip" = "हेक्स रंग कोड के बगल में रंग स्वैच दिखाएँ।";

@@ -44,6 +44,11 @@ class Popup {
   var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
 
+  var minimumHeight: CGFloat {
+    // Reserve space for 3 items
+    return suitableHeight(for: 3 * Popup.itemHeight)
+  }
+
   private var eventsMonitor: Any?
 
   private var state: PopupState = .toggle
@@ -92,20 +97,24 @@ class Popup {
   func preferredHeight(for newHeight: CGFloat) -> CGFloat {
     var height = newHeight
 
-    var minimumHeight = 0.0
+    var minHeight = self.minimumHeight
     // If the preview is non-empty make sure the window accomodates for it to be visible.
     if AppState.shared.preview.state.isOpen && AppState.shared.navigator.leadSelection != nil {
-      minimumHeight += Self.minimumPreviewHeight
+      minHeight = max(minHeight, Self.minimumPreviewHeight)
     }
-    minimumHeight = max(headerHeight + Self.verticalPadding, minimumHeight)
+    minHeight = max(headerHeight + Self.verticalPadding, minHeight)
 
-    height = max(height, minimumHeight)
+    height = max(height, minHeight)
     height = min(height, Defaults[.windowSize].height)
     return height
   }
 
+  private func suitableHeight(for historyListHeight: CGFloat) -> CGFloat {
+    return historyListHeight + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
+  }
+
   func resize(height: CGFloat) {
-    self.height = height + headerHeight + extraTopHeight + extraBottomHeight + footerHeight
+    self.height = suitableHeight(for: height)
     AppState.shared.appDelegate?.panel.verticallyResize(to: preferredHeight(for: self.height))
     needsResize = false
   }
@@ -137,8 +146,9 @@ class Popup {
     if isHotKeyCode(Int(event.keyCode)) {
       if let item = History.shared.pressedShortcutItem {
         AppState.shared.navigator.select(item: item)
+        let modifierFlags = NSEvent.ModifierFlags.currentModifierFlags
         Task { @MainActor in
-          AppState.shared.history.select(item)
+          AppState.shared.history.select(item, flags: modifierFlags)
         }
         return nil
       }
@@ -165,8 +175,9 @@ class Popup {
   private func handleFlagsChanged(_ event: NSEvent) -> NSEvent? {
     // If we are in cycle mode, releasing modifiers triggers a selection
     if state == .cycle && allModifiersReleased(event) {
+      let modifierFlags = NSEvent.ModifierFlags.currentModifierFlags
       DispatchQueue.main.async {
-        AppState.shared.select()
+        AppState.shared.select(flags: modifierFlags)
       }
       return nil
     }

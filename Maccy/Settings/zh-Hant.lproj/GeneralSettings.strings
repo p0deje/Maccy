@@ -3,11 +3,11 @@
 "CheckForUpdates" = "自動檢查更新";
 "CheckNow" = "立即檢查";
 "Open" = "開啟：";
-"OpenTooltip" = "全局快捷键，用于打开应用程序。\n在按住修改器的同时重复按下主键将选择列表中的下一个项目。在此模式下，鬆開變量鍵將確認選擇並關閉彈出窗口。\n預設：%@C。";
+"OpenTooltip" = "全局快捷键，用于打开应用程序。\n在按住修改器的同时重复按下主键将选择列表中的下一个项目。在此模式下，鬆開變量鍵將確認選擇並關閉彈出窗口。\n預設：⇧⌘C。";
 "Pin" = "釘選：";
-"PinTooltip" = "釘選歷史記錄項目的快捷鍵。\n預設：%@P。";
+"PinTooltip" = "釘選歷史記錄項目的快捷鍵。\n預設：⌥P。";
 "Delete" = "刪除：";
-"DeleteTooltip" = "刪除歷史記錄項目的快捷鍵。\n預設：%@⌫。";
+"DeleteTooltip" = "刪除歷史記錄項目的快捷鍵。\n預設：⌥⌫。";
 "ShowPreview" = "預覽：";
 "ShowPreviewTooltip" = "顯示帶有附加資訊的預覽。\n預設：⌃Space。";
 "Behavior" = "行為：";
@@ -19,4 +19,5 @@
 "Fuzzy" = "模糊";
 "Regex" = "正規表示式";
 "Mixed" = "混合";
+"RemoveTrackingParameters" = "移除 URL 中的追蹤碼";
 "NotificationsAndSounds" = "通知和聲音 􀱁";

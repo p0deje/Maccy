@@ -8,6 +8,7 @@ struct AppearanceSettingsPane: View {
   @Default(.popupScreen) private var popupScreen
   @Default(.pinTo) private var pinTo
   @Default(.imageMaxHeight) private var imageHeight
+  @Default(.openPreviewAutomatically) private var openPreviewAutomatically
   @Default(.previewDelay) private var previewDelay
   @Default(.highlightMatch) private var highlightMatch
   @Default(.menuIcon) private var menuIcon
@@ -64,6 +65,7 @@ struct AppearanceSettingsPane: View {
           .labelsHidden()
           .frame(width: 141, alignment: .leading)
           .help(Text("PopupAtTooltip", tableName: "AppearanceSettings"))
+          .accessibilityLabel(Text("PopupAt", tableName: "AppearanceSettings"))
 
           if popupAt == .lastPosition {
             Button {
@@ -88,6 +90,7 @@ struct AppearanceSettingsPane: View {
         .labelsHidden()
         .frame(width: 141, alignment: .leading)
         .help(Text("PinToTooltip", tableName: "AppearanceSettings"))
+        .accessibilityLabel(Text("PinTo", tableName: "AppearanceSettings"))
       }
 
       Settings.Section(label: { Text("ImageHeight", tableName: "AppearanceSettings") }) {
@@ -95,8 +98,16 @@ struct AppearanceSettingsPane: View {
           TextField("", value: $imageHeight, formatter: imageHeightFormatter)
             .frame(width: 120)
             .help(Text("ImageHeightTooltip", tableName: "AppearanceSettings"))
+            .accessibilityLabel(Text("ImageHeight", tableName: "AppearanceSettings"))
           Stepper("", value: $imageHeight, in: 1...200)
             .labelsHidden()
+            .accessibilityLabel(Text("ImageHeight", tableName: "AppearanceSettings"))
+        }
+      }
+
+      Settings.Section(title: "") {
+        Defaults.Toggle(key: .openPreviewAutomatically) {
+          Text("OpenPreviewAutomatically", tableName: "AppearanceSettings")
         }
       }
 
@@ -105,9 +116,12 @@ struct AppearanceSettingsPane: View {
           TextField("", value: $previewDelay, formatter: previewDelayFormatter)
             .frame(width: 120)
             .help(Text("PreviewDelayTooltip", tableName: "AppearanceSettings"))
+            .accessibilityLabel(Text("PreviewDelay", tableName: "AppearanceSettings"))
           Stepper("", value: $previewDelay, in: 200...100_000)
             .labelsHidden()
+            .accessibilityLabel(Text("PreviewDelay", tableName: "AppearanceSettings"))
         }
+        .disabled(!openPreviewAutomatically)
       }
 
       Settings.Section(
@@ -122,6 +136,7 @@ struct AppearanceSettingsPane: View {
         .labelsHidden()
         .frame(width: 141, alignment: .leading)
         .help(Text("HighlightMatchesTooltip", tableName: "AppearanceSettings"))
+        .accessibilityLabel(Text("HighlightMatches", tableName: "AppearanceSettings"))
       }
 
       Settings.Section(title: "") {
@@ -144,6 +159,7 @@ struct AppearanceSettingsPane: View {
           .scaledToFit()
           .disabled(!showInStatusBar)
           .controlSize(.small)
+          .accessibilityLabel(Text("ShowMenuIcon", tableName: "AppearanceSettings"))
         }
 
         Defaults.Toggle(key: .showRecentCopyInMenuBar) {
@@ -163,6 +179,7 @@ struct AppearanceSettingsPane: View {
           .scaledToFit()
           .disabled(!showSearch)
           .controlSize(.small)
+          .accessibilityLabel(Text("ShowSearchField", tableName: "AppearanceSettings"))
         }
         Defaults.Toggle(key: .showTitle) {
           Text("ShowTitleBeforeSearchField", tableName: "AppearanceSettings")
@@ -170,11 +187,16 @@ struct AppearanceSettingsPane: View {
         Defaults.Toggle(key: .showApplicationIcons) {
           Text("ShowApplicationIcons", tableName: "AppearanceSettings")
         }
+        Defaults.Toggle(key: .showHexColorSwatch) {
+          Text("ShowHexColorSwatch", tableName: "AppearanceSettings")
+        }
+        .help(Text("ShowHexColorSwatchTooltip", tableName: "AppearanceSettings"))
 
         Defaults.Toggle(key: .showFooter) {
           Text("ShowFooter", tableName: "AppearanceSettings")
         }
         Text("OpenPreferencesWarning", tableName: "AppearanceSettings")
+          .fixedSize(horizontal: false, vertical: true)
           .opacity(showFooter ? 0 : 1)
           .controlSize(.small)
           .foregroundStyle(.gray)

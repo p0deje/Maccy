@@ -6,7 +6,13 @@ struct FooterItemView: View {
 
   var body: some View {
     ConfirmationView(item: item) {
-      ListItemView(id: item.id, selectionId: item.id, shortcuts: item.shortcuts, isSelected: item.isSelected) {
+      ListItemView(
+        id: item.id,
+        selectionId: item.id,
+        shortcuts: item.shortcuts,
+        isSelected: item.isSelected,
+        accessibilityLabel: NSLocalizedString(item.title, comment: "")
+      ) {
         Text(LocalizedStringKey(item.title))
       }
     }

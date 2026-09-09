@@ -7,13 +7,13 @@
 "Pin" = "Připnout:";
 "PinTooltip" = "Klávesová zkratka pro připnutí položky.\nVýchozí: ⌥P.";
 "Delete" = "Smazat:";
-"DeleteTooltip" = "Přibližné";
+"DeleteTooltip" = "Klávesová zkratka pro smazání položky historie.\nVýchozí: ⌥⌫.";
 "ShowPreview" = "Náhled:";
 "ShowPreviewTooltip" = "Zobrazit náhled s dodatečnými informacemi.\nVýchozí: ⌃Space.";
 "Behavior" = "Chování:";
 "PasteAutomatically" = "Vložit automaticky";
 "PasteWithoutFormatting" = "Vložit bez formátování";
-"Modifiers" = "Přizpůsob chování při volbě položky:\n• Vyber se stisknutím ⌘ pro zkopírování položky.\n• Vyber se stisknutím ⌥ pro zkopírování a vložení položky.\n• Vyber se stisknutím ⌥⇧ pro zkopírování, odstranění formátování a vložení položky.";
+"Modifiers" = "Přizpůsob chování při volbě položky:\n• Vyber se stisknutím %@ pro zkopírování položky.\n• Vyber se stisknutím %@ pro zkopírování a vložení položky.\n• Vyber se stisknutím %@ pro zkopírování, odstranění formátování a vložení položky.";
 "Search" = "Vyhledávání:";
 "Exact" = "Přesné";
 "Fuzzy" = "Přibližné";

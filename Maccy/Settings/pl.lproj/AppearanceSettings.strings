@@ -16,6 +16,7 @@
 "PinToTooltip" = "Zmień pozycję przypiętych wpisów.\nDomyślnie: góra.";
 "ImageHeight" = "Wysokość obrazków:";
 "ImageHeightTooltip" = "Maksymalna wysokość podglądu obrazka.\nDomyślnie: 40.\nWskazówka: Wybierz 16 aby obrazek był takiej samej wysokości jak wpis tekstowy.";
+"OpenPreviewAutomatically" = "Otwieraj podgląd automatycznie";
 "PreviewDelay" = "Opóźnienie podglądu:";
 "PreviewDelayTooltip" = "Opóźnienie w milisekundach zanim pojawi się okienko podglądu.\nDomyślnie: 1500.";
 "HighlightMatches" = "Podkreśl dopasowania:";
@@ -33,3 +34,5 @@
 "ShowFooter" = "Pokaż stopkę";
 "ShowApplicationIcons" = "Pokaż ikony aplikacji";
 "OpenPreferencesWarning" = "⚠️ Naciśnij ⌘, (command+comma) aby otworzyć ustawienia, kiedy stopka jest ukryta.";
+"ShowHexColorSwatch" = "Pokaż próbkę koloru hex";
+"ShowHexColorSwatchTooltip" = "Pokaż próbkę koloru obok kodów kolorów hex.";

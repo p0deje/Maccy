@@ -61,6 +61,7 @@ class ApplicationImage {
               print("Deleted", appURL.path)
               source.cancel()
               self.image = nil
+              self.lastChecked = nil
             } else if event.contains(.write) {
               // File was modified. Fetch new icon
               print("Modified", appURL.path)

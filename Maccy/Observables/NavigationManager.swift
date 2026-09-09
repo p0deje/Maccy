@@ -32,6 +32,20 @@ class NavigationManager { // swiftlint:disable:this type_body_length
     didSet {
       guard oldValue?.id != leadHistoryItem?.id else { return }
 
+      // Announce the visual selection change, keeping repeated navigation updates concise.
+      if let item = leadHistoryItem {
+        announceForAccessibility {
+          var parts = [item.hasImage ? NSLocalizedString("history_item_image_accessibility_generic", comment: "") : item.title]
+          if let application = item.application {
+            parts.append(application)
+          }
+          if item.isPinned {
+            parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
+          }
+          return parts.joined(separator: ", ")
+        }
+      }
+
       let preview = AppState.shared.preview
       if leadHistoryItem != nil {
         preview.resetAutoOpenSuppression()
@@ -61,6 +75,8 @@ class NavigationManager { // swiftlint:disable:this type_body_length
       }
     }
   }
+
+  var isFirstItemHighlighted: Bool { history.firstVisibleItem == leadHistoryItem }
 
   private func scroll(to id: UUID?, item: HistoryItemDecorator? = nil) {
     scrollTarget = id

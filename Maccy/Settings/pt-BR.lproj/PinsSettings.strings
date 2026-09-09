@@ -1,6 +1,6 @@
 "Title" = "Fixar";
-"Key" = "Key";
-"Alias" = "Title";
+"Key" = "Tecla";
+"Alias" = "Título";
 "Content" = "Conteúdo";
 "ContentIsNotText" = "Conteúdo não editável (imagem ou ficheiro)";
 "RichTextEditWarning" = "A edição elimina toda a formatação.";
