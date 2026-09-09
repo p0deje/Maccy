@@ -44,14 +44,12 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
-  var previewText: String {
-    item.previewableText
-  }
+  // 10k characters seems to be more than enough on large displays
+  var previewText: String { item.previewableText.shortened(to: 10_000) }
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
-  // 10k characters seems to be more than enough on large displays
-  var text: String { previewText.shortened(to: 10_000) }
+  var text: String { previewText }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }

@@ -202,6 +202,14 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     XCTAssertEqual(history.items[0].text, "bar")
   }
 
+  func testLargeTextPreviewIsLimited() {
+    let text = String(repeating: "a", count: 2 * 1_024 * 1_024)
+    let item = history.add(historyItem(text))
+
+    XCTAssertEqual(item.previewText, String(text.prefix(10_000)))
+    XCTAssertEqual(item.item.text, text)
+  }
+
   func testClearingUnpinned() throws {
     let pinned = history.add(historyItem("foo"))
     pinned.togglePin()

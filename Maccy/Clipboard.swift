@@ -34,8 +34,12 @@ class Clipboard {
   private var disabledTypes: Set<NSPasteboard.PasteboardType> { supportedTypes.subtracting(enabledTypes) }
 
   private var sourceApp: NSRunningApplication? { NSWorkspace.shared.frontmostApplication }
+  private let sourceAppBundleIdentifier: () -> String?
 
-  init() {
+  init(sourceAppBundleIdentifier: @escaping () -> String? = {
+    NSWorkspace.shared.frontmostApplication?.bundleIdentifier
+  }) {
+    self.sourceAppBundleIdentifier = sourceAppBundleIdentifier
     changeCount = pasteboard.changeCount
   }
 
@@ -177,7 +181,8 @@ class Clipboard {
       return
     }
 
-    if let sourceAppBundle = sourceApp?.bundleIdentifier, shouldIgnore(sourceAppBundle) {
+    let sourceAppBundle = sourceAppBundleIdentifier()
+    if let sourceAppBundle, shouldIgnore(sourceAppBundle) {
       return
     }
 
@@ -224,7 +229,7 @@ class Clipboard {
       try? History.shared.insertIntoStorage(historyItem)
     }
 
-    historyItem.application = sourceApp?.bundleIdentifier
+    historyItem.application = sourceAppBundle
     historyItem.title = historyItem.generateTitle()
 
     onNewCopyHooks.forEach({ $0(historyItem) })
