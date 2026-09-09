@@ -52,6 +52,21 @@ class Storage {
     return count
   }
 
+  // SwiftData appends every save to the store's persistent history
+  // (`ATRANSACTION` / `ACHANGE` tables) and nothing ever trims it, so the log
+  // grows for as long as the store exists: a 49-day-old store carried 175k
+  // transactions with 1.7M changes, a two-year-old one 446k with 4.7M. Maccy
+  // has a single context and never reads that history, so all of it can be
+  // dropped on every launch.
+  // See https://github.com/p0deje/Maccy/issues/1533.
+  func purgePersistentHistory() throws {
+    guard #available(macOS 15.0, *) else {
+      return
+    }
+
+    try context.deleteHistory(HistoryDescriptor<DefaultHistoryTransaction>())
+  }
+
   // Titles stored before the sanitization in `HistoryItem.generateTitle()` may
   // contain scalars that hang CoreText on macOS 26. Such an item makes Maccy
   // spin at 100% CPU on every launch without ever drawing its window, so the

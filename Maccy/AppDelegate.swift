@@ -107,6 +107,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
+    _ = try? Storage.shared.purgePersistentHistory()
     disableUnusedGlobalHotkeys()
 
     panel = FloatingPanel(
