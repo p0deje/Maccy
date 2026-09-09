@@ -19,6 +19,8 @@ struct AppearanceSettingsPane: View {
   @Default(.windowPosition) private var windowPosition
   @Default(.showApplicationIcons) private var showApplicationIcons
 
+  @Default(.copyTimestamp) private var copyTimestamp
+
   @State private var screens = NSScreen.screens
 
   private let imageHeightFormatter: NumberFormatter = {
@@ -103,6 +105,17 @@ struct AppearanceSettingsPane: View {
             .labelsHidden()
             .accessibilityLabel(Text("ImageHeight", tableName: "AppearanceSettings"))
         }
+      }
+
+      Settings.Section(label: { Text("CopyTimestamp", tableName: "AppearanceSettings") }) {
+        Picker("", selection: $copyTimestamp) {
+          ForEach(CopyTimestamp.allCases) { timestamp in
+            Text(timestamp.description)
+          }
+        }
+        .labelsHidden()
+        .frame(width: 141, alignment: .leading)
+        .accessibilityLabel(Text("CopyTimestamp", tableName: "AppearanceSettings"))
       }
 
       Settings.Section(title: "") {

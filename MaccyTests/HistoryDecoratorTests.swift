@@ -32,6 +32,22 @@ class HistoryItemDecoratorTests: XCTestCase {
     Defaults[.highlightMatch] = savedHighlightMatch
   }
 
+  func testCopyTimestampUsesSelectedCopyTime() {
+    let item = HistoryItem()
+    let first = Date(timeIntervalSince1970: 1_000)
+    let last = Date(timeIntervalSince1970: 2_000)
+    item.firstCopiedAt = first
+    item.lastCopiedAt = last
+
+    XCTAssertNil(CopyTimestamp.off.date(for: item))
+    XCTAssertEqual(CopyTimestamp.firstCopy.date(for: item), first)
+    XCTAssertEqual(CopyTimestamp.lastCopy.date(for: item), last)
+
+    item.lastCopiedAt = Date(timeIntervalSince1970: 3_000)
+    XCTAssertEqual(CopyTimestamp.firstCopy.date(for: item), first)
+    XCTAssertEqual(CopyTimestamp.lastCopy.date(for: item), Date(timeIntervalSince1970: 3_000))
+  }
+
   func testString() {
     let title = "foo"
     let itemDecorator = historyItemDecorator(title)
