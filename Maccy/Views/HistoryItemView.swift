@@ -22,6 +22,8 @@ struct HistoryItemView: View {
     }
   }
 
+  @Default(.showCopyTimestamp) private var showCopyTimestamp
+  @Default(.copyTimestamp) private var copyTimestamp
   @Default(.showHexColorSwatch) private var showHexColorSwatch
   @Environment(AppState.self) private var appState
 
@@ -53,7 +55,9 @@ struct HistoryItemView: View {
       isSelected: item.isSelected,
       selectionIndex: item.multiSelectionIndex,
       selectionAppearance: selectionAppearance,
-      accessibilityLabel: item.accessibilityLabel
+      accessibilityLabel: item.accessibilityLabel,
+      timestamp: showCopyTimestamp ? copyTimestamp.date(for: item.item) : nil,
+      timestampLabel: copyTimestamp.description
     ) {
       Text(verbatim: item.title)
     }

@@ -19,6 +19,9 @@ struct AppearanceSettingsPane: View {
   @Default(.windowPosition) private var windowPosition
   @Default(.showApplicationIcons) private var showApplicationIcons
 
+  @Default(.showCopyTimestamp) private var showCopyTimestamp
+  @Default(.copyTimestamp) private var copyTimestamp
+
   @State private var screens = NSScreen.screens
 
   private let imageHeightFormatter: NumberFormatter = {
@@ -183,6 +186,20 @@ struct AppearanceSettingsPane: View {
         }
         Defaults.Toggle(key: .showTitle) {
           Text("ShowTitleBeforeSearchField", tableName: "AppearanceSettings")
+        }
+        HStack {
+          Defaults.Toggle(key: .showCopyTimestamp) {
+            Text("ShowCopyTimestamp", tableName: "AppearanceSettings")
+          }
+          Picker("", selection: $copyTimestamp) {
+            ForEach(CopyTimestamp.allCases) { timestamp in
+              Text(timestamp.description)
+            }
+          }
+          .labelsHidden()
+          .disabled(!showCopyTimestamp)
+          .controlSize(.small)
+          .accessibilityLabel(Text("CopyTimestamp", tableName: "AppearanceSettings"))
         }
         Defaults.Toggle(key: .showApplicationIcons) {
           Text("ShowApplicationIcons", tableName: "AppearanceSettings")

@@ -36,3 +36,8 @@
 "ShowHexColorSwatchTooltip" = "Show color swatch next to hex color codes.";
 "ShowFooter" = "Show footer";
 "OpenPreferencesWarning" = "⚠️ Press ⌘, (command+comma) to open preferences when footer is hidden.";
+
+"CopyTimestamp" = "Copy timestamp";
+"ShowCopyTimestamp" = "Show copy timestamp";
+"CopyTimestampFirst" = "First copy";
+"CopyTimestampLast" = "Last copy";

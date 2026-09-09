@@ -42,8 +42,11 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var selectionAppearance: SelectionAppearance = .none
   // Complete description used when the row's visual content is hidden from accessibility.
   var accessibilityLabel: String = ""
+  var timestamp: Date?
+  var timestampLabel: String = ""
   @ViewBuilder var title: () -> Title
 
+  @Environment(\.calendar) private var calendar
   @Default(.showApplicationIcons) private var showIcons
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
@@ -91,6 +94,15 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       Spacer()
 
       HStack(spacing: 5) {
+        if let timestamp {
+          Text(timestamp, format: CopyTimestamp.format(for: timestamp, calendar: calendar))
+            .font(.caption)
+            .foregroundStyle(isSelected ? Color.white : .secondary)
+            .lineLimit(1)
+            .fixedSize()
+            .padding(.trailing, 5)
+        }
+
         if let displaySelectionIndex {
           Text(displaySelectionIndex)
             .font(.caption)
@@ -127,7 +139,10 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     .background(isSelected ? Color.accentColor.opacity(0.8) : .white.opacity(0.001))
     .clipShape(selectionAppearance.rect(cornerRadius: Popup.cornerRadius))
     .accessibilityElement(children: .ignore)
-    .accessibilityLabel(Text(accessibilityLabel))
+    .accessibilityLabel(Text(
+      timestamp.map { "\(accessibilityLabel), \(timestampLabel): \($0.formatted(date: .abbreviated, time: .shortened))" }
+        ?? accessibilityLabel
+    ))
     .accessibilityAddTraits(isSelected ? .isSelected : [])
     .accessibilityValue(Text(displaySelectionIndex ?? ""))
     .hoverSelectionId(selectionId)
