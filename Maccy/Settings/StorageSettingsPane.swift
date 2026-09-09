@@ -57,10 +57,12 @@ struct StorageSettingsPane: View {
   }
 
   @Default(.size) private var size
+  @Default(.isUnlimitedHistory) private var isUnlimitedHistory
   @Default(.sortBy) private var sortBy
 
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
+  @State private var showWarning = false
 
   private let sizeFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
@@ -93,13 +95,39 @@ struct StorageSettingsPane: View {
       }
 
       Settings.Section(label: { Text("Size", tableName: "StorageSettings") }) {
+        Toggle(
+          isOn: Binding(
+            get: { isUnlimitedHistory },
+            set: { newValue in
+              if newValue && History.shared.totalCount > Defaults.Keys.largeHistoryThreshold {
+                // Don't enable until the user confirms in the alert;
+                // flipping the default triggers an expensive reload.
+                showWarning = true
+              } else {
+                isUnlimitedHistory = newValue
+              }
+            }
+          ),
+          label: { Text("UnlimitedHistory", tableName: "StorageSettings") }
+        )
+        .help(Text("UnlimitedHistoryTooltip", tableName: "StorageSettings"))
+
+        if isUnlimitedHistory {
+          Text("UnlimitedHistoryWarning", tableName: "StorageSettings")
+            .controlSize(.small)
+            .foregroundStyle(.orange)
+            .padding(.leading, 20)
+        }
+
         HStack {
           TextField("", value: $size, formatter: sizeFormatter)
             .frame(width: 80)
             .help(Text("SizeTooltip", tableName: "StorageSettings"))
+            .disabled(isUnlimitedHistory)
             .accessibilityLabel(Text("Size", tableName: "StorageSettings"))
           Stepper("", value: $size, in: 1...999)
             .labelsHidden()
+            .disabled(isUnlimitedHistory)
             .accessibilityLabel(Text("Size", tableName: "StorageSettings"))
           Text(storageSize)
             .controlSize(.small)
@@ -109,6 +137,7 @@ struct StorageSettingsPane: View {
               storageSize = Storage.shared.size
             }
         }
+        .opacity(isUnlimitedHistory ? 0.5 : 1.0)
       }
 
       Settings.Section(label: { Text("SortBy", tableName: "StorageSettings") }) {
@@ -122,6 +151,19 @@ struct StorageSettingsPane: View {
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
         .accessibilityLabel(Text("SortBy", tableName: "StorageSettings"))
       }
+    }
+    .alert(Text("UnlimitedHistoryAlertTitle", tableName: "StorageSettings"), isPresented: $showWarning) {
+      Button("Cancel", role: .cancel) {}
+      Button("Enable") {
+        isUnlimitedHistory = true
+      }
+    } message: {
+      Text(
+        String(
+          format: NSLocalizedString("UnlimitedHistoryAlertMessage", tableName: "StorageSettings", comment: ""),
+          History.shared.totalCount
+        )
+      )
     }
   }
 }

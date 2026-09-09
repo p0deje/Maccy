@@ -68,6 +68,7 @@ extension Defaults.Keys {
   static let showSpecialSymbols = Key<Bool>("showSpecialSymbols", default: true, suite: preferencesSuite)
   static let showTitle = Key<Bool>("showTitle", default: true, suite: preferencesSuite)
   static let size = Key<Int>("historySize", default: 200, suite: preferencesSuite)
+  static let isUnlimitedHistory = Key<Bool>("isUnlimitedHistory", default: false, suite: preferencesSuite)
   static let sortBy = Key<Sorter.By>("sortBy", default: .lastCopiedAt, suite: preferencesSuite)
   static let suppressClearAlert = Key<Bool>("suppressClearAlert", default: false, suite: preferencesSuite)
   static let windowSize = Key<NSSize>("windowSize", default: NSSize(width: 450, height: 800), suite: preferencesSuite)
@@ -75,4 +76,9 @@ extension Defaults.Keys {
   static let showApplicationIcons = Key<Bool>("showApplicationIcons", default: false, suite: preferencesSuite)
   static let showHexColorSwatch = Key<Bool>("showHexColorSwatch", default: true, suite: preferencesSuite)
   static let previewWidth = Key<CGFloat>("previewWidth", default: 400, suite: preferencesSuite)
+
+  // MARK: - Thresholds
+
+  /// Threshold above which fuzzy/mixed search is auto-disabled for performance
+  static let largeHistoryThreshold = 5_000
 }

@@ -11,6 +11,7 @@ struct HistoryListView: View {
 
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
+  @Default(.isUnlimitedHistory) private var isUnlimitedHistory
   @Default(.showFooter) private var showFooter
 
   private var pinnedItems: [HistoryItemDecorator] {
@@ -98,6 +99,31 @@ struct HistoryListView: View {
     .padding(.top, topSeparatorVisible ? topPadding : 0)
     .readHeight(appState, into: \.popup.extraTopHeight)
 
+    if isUnlimitedHistory && searchQuery.isEmpty {
+      VirtualizedHistoryList(searchQuery: $searchQuery, searchFocused: $searchFocused)
+    } else {
+      // During a search the matches are all in memory, so the standard list
+      // is used even in unlimited mode.
+      standardScrollView(scrollTopPadding: scrollTopPadding, scrollBottomPadding: scrollBottomPadding)
+    }
+
+    VStack(spacing: 0) {
+      if bottomSeparatorVisible {
+        bottomSeparator()
+      }
+
+      if bottomPinsVisible {
+        PinsView(items: pinnedItems)
+      }
+    }
+    .padding(.bottom, bottomPinsVisible ? bottomPadding : 0)
+    .readHeight(appState, into: \.popup.extraBottomHeight)
+  }
+
+  // MARK: - Standard Scroll View (for limited history)
+
+  @ViewBuilder
+  private func standardScrollView(scrollTopPadding: CGFloat, scrollBottomPadding: CGFloat) -> some View {
     ScrollView {
       ScrollViewReader { proxy in
         MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
@@ -130,7 +156,6 @@ struct HistoryListView: View {
             appState.preview.cancelAutoOpen()
           }
         }
-        // Calculate the total height inside a scroll view.
         .background {
           GeometryReader { geo in
             Color.clear
@@ -150,17 +175,5 @@ struct HistoryListView: View {
       .contentMargins(.bottom, scrollBottomPadding, for: .scrollIndicators)
     }
     .accessibilityIdentifier("history-scroll-view")
-
-    VStack(spacing: 0) {
-      if bottomSeparatorVisible {
-        bottomSeparator()
-      }
-
-      if bottomPinsVisible {
-        PinsView(items: pinnedItems)
-      }
-    }
-    .padding(.bottom, bottomPinsVisible ? bottomPadding : 0)
-    .readHeight(appState, into: \.popup.extraBottomHeight)
   }
 }

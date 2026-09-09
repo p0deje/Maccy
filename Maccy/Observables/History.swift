@@ -65,6 +65,39 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @ObservationIgnored
   var all: [HistoryItemDecorator] = []
 
+  // Pagination support for unlimited history
+  @ObservationIgnored
+  private let paginationManager = PaginationManager(source: HistoryPaginationSource())
+
+  @ObservationIgnored
+  var totalCount: Int {
+    if Defaults[.isUnlimitedHistory] {
+      return paginationManager.totalCount + pinnedItems.count
+    }
+    return all.count
+  }
+
+  /// Total number of unpinned items in storage (the rows of the virtualized list).
+  @ObservationIgnored
+  var unpinnedTotalCount: Int {
+    if Defaults[.isUnlimitedHistory] {
+      return paginationManager.totalCount
+    }
+    return unpinnedItems.count
+  }
+
+  /// Rows of the virtualized list currently backed by loaded items.
+  @ObservationIgnored
+  var loadedRange: Range<Int> {
+    paginationManager.loadedRange
+  }
+
+  /// Sorted indices of unpinned rows that render at the tall (image) height.
+  @ObservationIgnored
+  var tallRowIndices: [Int] {
+    paginationManager.tallRowIndices
+  }
+
   init() {
     Task {
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
@@ -99,22 +132,83 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         }
       }
     }
+
+    Task {
+      for await _ in Defaults.updates(.isUnlimitedHistory, initial: false) {
+        // Reload history when switching between limited and unlimited modes
+        // This ensures proper storage handling for both directions
+        try? await load()
+      }
+    }
   }
 
   @MainActor
   func load() async throws {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    let results = try Storage.shared.context.fetch(descriptor)
-    all = sorter.sort(results).map { HistoryItemDecorator($0) }
-    items = all
+    all.removeAll()
 
-    limitHistorySize(to: Defaults[.size])
+    if Defaults[.isUnlimitedHistory] {
+      // Pinned items are always fully loaded; unpinned items are paged in on demand.
+      let pinnedDescriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin != nil })
+      let pinned = sorter.sort((try? Storage.shared.context.fetch(pinnedDescriptor)) ?? [])
+      do {
+        try paginationManager.load()
+      } catch {
+        // Callers discard this error, so record it before rethrowing.
+        logger.error("Failed to load paginated history: \(error.localizedDescription)")
+        throw error
+      }
+      all = composeUnlimitedItems(pinned: pinned.map { HistoryItemDecorator($0) })
+    } else {
+      // Load all items for limited history
+      let descriptor = FetchDescriptor<HistoryItem>()
+      let results = try Storage.shared.context.fetch(descriptor)
+      all = sorter.sort(results).map { HistoryItemDecorator($0) }
+      limitHistorySize(to: Defaults[.size])
+    }
+
+    items = all
 
     updateShortcuts()
     // Ensure that panel size is proper *after* loading all items.
     Task {
       AppState.shared.popup.needsResize = true
     }
+  }
+
+  /// Make sure the items backing the given rows of the virtualized list are
+  /// loaded. Called by the list whenever the set of visible rows changes.
+  @MainActor
+  func ensureLoaded(rows: Range<Int>) {
+    guard Defaults[.isUnlimitedHistory] else { return }
+
+    let loadedBefore = paginationManager.loadedRange
+    do {
+      try paginationManager.ensureRowsLoaded(rows)
+    } catch {
+      logger.error("Failed to load history rows \(rows): \(error.localizedDescription)")
+    }
+
+    if paginationManager.loadedRange != loadedBefore {
+      syncFromPagination()
+    }
+  }
+
+  /// Rebuild `all`/`items` from the pagination window, keeping the already
+  /// loaded pinned items in place.
+  @MainActor
+  private func syncFromPagination() {
+    all = composeUnlimitedItems(pinned: all.filter(\.isPinned))
+    if searchQuery.isEmpty {
+      items = all
+    } else {
+      updateItems(search.search(string: searchQuery, within: all))
+    }
+    updateUnpinnedShortcuts()
+  }
+
+  private func composeUnlimitedItems(pinned: [HistoryItemDecorator]) -> [HistoryItemDecorator] {
+    let window = paginationManager.loadedItems
+    return Defaults[.pinTo] == .bottom ? window + pinned : pinned + window
   }
 
   @MainActor
@@ -172,7 +266,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
-    limitHistorySize(to: Defaults[.size] - 1)
+    if !Defaults[.isUnlimitedHistory] {
+      limitHistorySize(to: Defaults[.size] - 1)
+    }
 
     sessionLog[Clipboard.shared.changeCount] = item
 
@@ -187,13 +283,20 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     } else {
       itemDecorator = HistoryItemDecorator(item)
 
-      let sortedItems = sorter.sort(all.map(\.item) + [item])
-      if let index = sortedItems.firstIndex(of: item) {
-        all.insert(itemDecorator, at: index)
+      if Defaults[.isUnlimitedHistory] {
+        // The new item is already in storage; refetch the current window so
+        // it shows up at the position dictated by the sort order.
+        try? paginationManager.refresh()
+        syncFromPagination()
+      } else {
+        let sortedItems = sorter.sort(all.map(\.item) + [item])
+        if let index = sortedItems.firstIndex(of: item) {
+          all.insert(itemDecorator, at: index)
+        }
+        items = all
+        updateUnpinnedShortcuts()
       }
 
-      items = all
-      updateUnpinnedShortcuts()
       AppState.shared.popup.needsResize = true
     }
 
@@ -239,6 +342,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
+    if Defaults[.isUnlimitedHistory] {
+      try? paginationManager.refresh()
+    }
+
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
@@ -274,6 +381,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
+    if Defaults[.isUnlimitedHistory] {
+      try? paginationManager.refresh()
+    }
+
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
@@ -295,6 +406,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     all.removeAll { $0 == item }
     items.removeAll { $0 == item }
     sessionLog.removeValues { $0 == item.item }
+
+    if Defaults[.isUnlimitedHistory], item.isUnpinned {
+      try? paginationManager.refresh()
+      syncFromPagination()
+    }
 
     updateUnpinnedShortcuts()
     Task {
@@ -452,19 +568,40 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     item.togglePin()
 
-    let sortedItems = sorter.sort(all.map(\.item))
-    if let currentIndex = all.firstIndex(of: item),
-       let newIndex = sortedItems.firstIndex(of: item.item) {
-      all.remove(at: currentIndex)
-      all.insert(item, at: newIndex)
-    }
+    if Defaults[.isUnlimitedHistory] {
+      // The item moved between the pinned set and the paged unpinned store.
+      all.removeAll { $0 == item }
+      try? paginationManager.refresh()
+      let pinned = item.isPinned ? all.filter(\.isPinned) + [item] : all.filter(\.isPinned)
+      all = composeUnlimitedItems(pinned: sortedPinned(pinned))
+      items = all
+    } else {
+      let sortedItems = sorter.sort(all.map(\.item))
+      if let currentIndex = all.firstIndex(of: item),
+         let newIndex = sortedItems.firstIndex(of: item.item) {
+        all.remove(at: currentIndex)
+        all.insert(item, at: newIndex)
+      }
 
-    items = all
+      items = all
+    }
 
     searchQuery = ""
     updateUnpinnedShortcuts()
     if item.isUnpinned {
-      AppState.shared.navigator.scrollTarget = item.id
+      let scrollItem = all.first { $0.item === item.item } ?? item
+      AppState.shared.navigator.scrollTarget = scrollItem.id
+    }
+  }
+
+  private func sortedPinned(_ pinned: [HistoryItemDecorator]) -> [HistoryItemDecorator] {
+    let sortedItems = sorter.sort(pinned.map(\.item))
+    return pinned.sorted { lhs, rhs in
+      guard let lhsIndex = sortedItems.firstIndex(where: { $0 === lhs.item }),
+            let rhsIndex = sortedItems.firstIndex(where: { $0 === rhs.item }) else {
+        return false
+      }
+      return lhsIndex < rhsIndex
     }
   }
 
