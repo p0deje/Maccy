@@ -38,6 +38,6 @@
 "OpenPreferencesWarning" = "⚠️ Press ⌘, (command+comma) to open preferences when footer is hidden.";
 
 "CopyTimestamp" = "Copy timestamp";
-"CopyTimestampOff" = "Off";
+"ShowCopyTimestamp" = "Show copy timestamp";
 "CopyTimestampFirst" = "First copy";
 "CopyTimestampLast" = "Last copy";

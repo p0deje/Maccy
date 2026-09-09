@@ -39,13 +39,27 @@ class HistoryItemDecoratorTests: XCTestCase {
     item.firstCopiedAt = first
     item.lastCopiedAt = last
 
-    XCTAssertNil(CopyTimestamp.off.date(for: item))
     XCTAssertEqual(CopyTimestamp.firstCopy.date(for: item), first)
     XCTAssertEqual(CopyTimestamp.lastCopy.date(for: item), last)
 
     item.lastCopiedAt = Date(timeIntervalSince1970: 3_000)
     XCTAssertEqual(CopyTimestamp.firstCopy.date(for: item), first)
     XCTAssertEqual(CopyTimestamp.lastCopy.date(for: item), Date(timeIntervalSince1970: 3_000))
+  }
+
+  func testCopyTimestampOmitsDateOnlyOnSameLocalDay() {
+    var calendar = Calendar(identifier: .gregorian)
+    calendar.timeZone = TimeZone(secondsFromGMT: 3 * 3600)!
+    let now = ISO8601DateFormatter().date(from: "2026-09-09T21:30:00Z")!
+    let today = ISO8601DateFormatter().date(from: "2026-09-09T21:05:00Z")!
+    let yesterday = ISO8601DateFormatter().date(from: "2026-09-09T20:55:00Z")!
+    let locale = Locale(identifier: "en_GB")
+
+    XCTAssertEqual(CopyTimestamp.format(for: today, now: now, calendar: calendar).locale(locale).format(today), "00:05")
+    XCTAssertTrue(CopyTimestamp.format(for: yesterday, now: now, calendar: calendar).locale(locale).format(yesterday)
+      .contains("9 Sep"))
+    XCTAssertTrue(CopyTimestamp.format(for: today, now: now.addingTimeInterval(86400), calendar: calendar)
+      .locale(locale).format(today).contains("10 Sep"))
   }
 
   func testString() {

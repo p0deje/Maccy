@@ -46,6 +46,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var timestampLabel: String = ""
   @ViewBuilder var title: () -> Title
 
+  @Environment(\.calendar) private var calendar
   @Default(.showApplicationIcons) private var showIcons
   @Environment(AppState.self) private var appState
   @Environment(ModifierFlags.self) private var modifierFlags
@@ -94,7 +95,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
 
       HStack(spacing: 5) {
         if let timestamp {
-          Text(timestamp, format: .dateTime.month(.abbreviated).day().hour().minute())
+          Text(timestamp, format: CopyTimestamp.format(for: timestamp, calendar: calendar))
             .font(.caption)
             .foregroundStyle(isSelected ? Color.white : .secondary)
             .lineLimit(1)
