@@ -40,6 +40,60 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
+  func testReleasesDecoratorWhileItemIsAlive() {
+    let item = HistoryItem()
+    weak var released: HistoryItemDecorator?
+
+    autoreleasepool {
+      let decorator = HistoryItemDecorator(item)
+      released = decorator
+    }
+
+    withExtendedLifetime(item) {
+      XCTAssertNil(released)
+    }
+  }
+
+  func testReleasesDecoratorWithPendingChanges() async {
+    let item = HistoryItem()
+    weak var released: HistoryItemDecorator?
+
+    autoreleasepool {
+      let decorator = HistoryItemDecorator(item)
+      released = decorator
+      withExtendedLifetime(decorator) {
+        item.title = "updated"
+        item.pin = "b"
+      }
+    }
+
+    XCTAssertNil(released)
+    await drainMainQueue()
+    XCTAssertNil(released)
+  }
+
+  func testObservesRepeatedTitleAndPinChanges() async {
+    let item = HistoryItem()
+    let decorator = HistoryItemDecorator(item)
+
+    for pin in ["b", "c"] {
+      item.title = pin
+      item.pin = pin
+      await drainMainQueue()
+
+      XCTAssertEqual(decorator.title, pin)
+      XCTAssertEqual(decorator.shortcuts.map(\.description), KeyShortcut.create(character: pin).map(\.description))
+    }
+  }
+
+  private func drainMainQueue() async {
+    await withCheckedContinuation { continuation in
+      DispatchQueue.main.async {
+        continuation.resume()
+      }
+    }
+  }
+
   func testRTF() {
     let rtf = NSAttributedString(string: "foo").rtf(
       from: NSRange(0...2),
