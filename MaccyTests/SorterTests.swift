@@ -52,6 +52,22 @@ class SorterTests: XCTestCase {
   }
 
   @MainActor
+  func testHighlightFirstUsesSortedHistoryOrder() {
+    Defaults[.pinTo] = .top
+
+    item1.pin = "a"
+
+    let history = History()
+    let sortedItems = sorter.sort([item1, item2], by: .lastCopiedAt)
+    history.items = sortedItems.map { HistoryItemDecorator($0) }
+
+    let navigator = NavigationManager(history: history, footer: Footer())
+    navigator.highlightFirst()
+
+    XCTAssertEqual(navigator.selection.first?.item, item1)
+  }
+
+  @MainActor
   private func historyItem(
     value: String,
     firstCopiedAt: Int,
