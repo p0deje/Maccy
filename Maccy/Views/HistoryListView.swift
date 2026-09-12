@@ -12,6 +12,7 @@ struct HistoryListView: View {
   @Default(.pinTo) private var pinTo
   @Default(.previewDelay) private var previewDelay
   @Default(.showFooter) private var showFooter
+  @Default(.showPins) private var showPins
 
   private var pinnedItems: [HistoryItemDecorator] {
     appState.history.pinnedItems.filter(\.isVisible)
@@ -24,7 +25,15 @@ struct HistoryListView: View {
   }
 
   private var pinsVisible: Bool {
-    return !pinnedItems.isEmpty
+    return showPins && !pinnedItems.isEmpty
+  }
+
+  private var listItems: [HistoryItemDecorator] {
+    if showPins {
+      return unpinnedItems
+    }
+    // Hidden pins are regular list entries; isVisible hides them outside of search.
+    return appState.history.items.filter(\.isVisible)
   }
 
   private var pasteStackVisible: Bool {
@@ -100,7 +109,7 @@ struct HistoryListView: View {
 
     ScrollView {
       ScrollViewReader { proxy in
-        MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
+        MultipleSelectionListView(items: listItems) { previous, item, next, index in
           HistoryItemView(item: item, previous: previous, next: next, index: index)
         }
         .padding(.top, scrollTopPadding)
@@ -120,7 +129,7 @@ struct HistoryListView: View {
           if scenePhase == .active {
             searchFocused = true
             appState.navigator.isKeyboardNavigating = true
-            appState.navigator.select(item: appState.history.unpinnedItems.first ?? appState.history.pinnedItems.first)
+            appState.navigator.select(item: appState.history.unpinnedItems.first ?? (showPins ? appState.history.pinnedItems.first : nil))
             appState.preview.enableAutoOpen()
             appState.preview.resetAutoOpenSuppression()
             appState.preview.startAutoOpen()

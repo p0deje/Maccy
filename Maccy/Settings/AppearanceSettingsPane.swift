@@ -7,6 +7,7 @@ struct AppearanceSettingsPane: View {
   @Default(.popupPosition) private var popupAt
   @Default(.popupScreen) private var popupScreen
   @Default(.pinTo) private var pinTo
+  @Default(.showPins) private var showPins
   @Default(.imageMaxHeight) private var imageHeight
   @Default(.openPreviewAutomatically) private var openPreviewAutomatically
   @Default(.previewDelay) private var previewDelay
@@ -91,6 +92,14 @@ struct AppearanceSettingsPane: View {
         .frame(width: 141, alignment: .leading)
         .help(Text("PinToTooltip", tableName: "AppearanceSettings"))
         .accessibilityLabel(Text("PinTo", tableName: "AppearanceSettings"))
+        .disabled(!showPins)
+      }
+
+      Settings.Section(title: "") {
+        Defaults.Toggle(key: .showPins) {
+          Text("ShowPins", tableName: "AppearanceSettings")
+        }
+        .help(Text("ShowPinsTooltip", tableName: "AppearanceSettings"))
       }
 
       Settings.Section(label: { Text("ImageHeight", tableName: "AppearanceSettings") }) {

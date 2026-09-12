@@ -14,6 +14,8 @@
 "PinToTop" = "Top";
 "PinToBottom" = "Bottom";
 "PinToTooltip" = "Change the location of pinned items.\nDefault: Top.";
+"ShowPins" = "Show pins";
+"ShowPinsTooltip" = "Show pinned items in the main history list. When hidden, they still appear as regular entries in search results and in the Pins preferences tab.";
 "ImageHeight" = "Image height:";
 "ImageHeightTooltip" = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items.";
 "OpenPreviewAutomatically" = "Open Preview automatically";

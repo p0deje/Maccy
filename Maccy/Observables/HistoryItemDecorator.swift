@@ -18,7 +18,11 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var title: String = ""
   var attributedTitle: AttributedString?
 
-  var isVisible: Bool = true
+  // Hidden pins stay out of the idle list but are regular entries in search results.
+  var isVisible: Bool {
+    guard isPinned, !Defaults[.showPins] else { return true }
+    return !AppState.shared.history.searchQuery.isEmpty
+  }
   var selectionIndex: Int = -1
   var isSelected: Bool {
     return selectionIndex != -1

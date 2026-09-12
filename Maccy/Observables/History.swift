@@ -85,6 +85,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
 
     Task {
+      for await _ in Defaults.updates(.showPins, initial: false) {
+        try? await load()
+      }
+    }
+
+    Task {
       for await _ in Defaults.updates(.showSpecialSymbols, initial: false) {
         for item in items {
           await updateTitle(item: item, title: item.item.generateTitle())
@@ -465,6 +471,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     updateUnpinnedShortcuts()
     if item.isUnpinned {
       AppState.shared.navigator.scrollTarget = item.id
+    } else if !item.isVisible {
+      // A newly pinned item may disappear from the list; move selection off it.
+      AppState.shared.navigator.highlightFirst()
     }
   }
 
