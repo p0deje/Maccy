@@ -82,6 +82,18 @@ class HistoryItem {
     self.contents = contents
   }
 
+  // Identifies the item by its meaningful contents, ignoring the types that
+  // are only used to describe where the copy came from.
+  static func signature(of contents: [HistoryItemContent]) -> [String: Data] {
+    contents
+      .filter { !Self.transientTypes.contains($0.type) }
+      .reduce(into: [:]) { signature, content in
+        signature[content.type] = content.value
+      }
+  }
+
+  var signature: [String: Data] { Self.signature(of: contents) }
+
   func supersedes(_ item: HistoryItem) -> Bool {
     return item.contents
       .filter { content in

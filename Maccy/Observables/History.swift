@@ -285,6 +285,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func delete(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
+    Clipboard.shared.ignoreDeleted(item.item)
     cleanup(item)
     withLogging("Removing history item") {
       deleteFromStorage(item.item)

@@ -14,6 +14,10 @@ class Clipboard {
 
   private var timer: Timer?
 
+  private var pasteboardSignature: [String: Data] = [:]
+  private var pasteboardSignatureChangeCount: Int = 0
+  private var deletedSignature: [String: Data]?
+
   private let dynamicTypePrefix = "dyn."
   private let microsoftSourcePrefix = "com.microsoft.ole.source."
   private let supportedTypes: Set<NSPasteboard.PasteboardType> = [
@@ -45,6 +49,15 @@ class Clipboard {
 
   func clearHooks() {
     onNewCopyHooks = []
+  }
+
+  func ignoreDeleted(_ item: HistoryItem) {
+    guard pasteboardSignatureChangeCount == changeCount,
+          item.signature == pasteboardSignature else {
+      return
+    }
+
+    deletedSignature = pasteboardSignature
   }
 
   func start() {
@@ -213,7 +226,10 @@ class Clipboard {
       }
     })
 
-    guard !contents.isEmpty else {
+    // Pasteboard owners may re-declare the very same contents without the user copying
+    // anything, which bumps the change count. Don't bring back the entry that was just
+    // deleted because of that. See https://github.com/p0deje/Maccy/issues/1506.
+    guard !contents.isEmpty, !shouldIgnore(contents) else {
       return
     }
 
@@ -228,6 +244,19 @@ class Clipboard {
     historyItem.title = historyItem.generateTitle()
 
     onNewCopyHooks.forEach({ $0(historyItem) })
+  }
+
+  private func shouldIgnore(_ contents: [HistoryItemContent]) -> Bool {
+    let signature = HistoryItem.signature(of: contents)
+    guard signature != deletedSignature else {
+      return true
+    }
+
+    pasteboardSignature = signature
+    pasteboardSignatureChangeCount = changeCount
+    deletedSignature = nil
+
+    return false
   }
 
   private func shouldIgnore(_ types: Set<NSPasteboard.PasteboardType>) -> Bool {

@@ -306,6 +306,45 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 
+  @MainActor
+  func testDoesNotRestoreDeletedItemStillOnPasteboard() {
+    let history = History.shared
+    history.clearAll()
+    clipboard.clearHooks()
+    clipboard.onNewCopy { history.add($0) }
+
+    copyToPasteboard("foo")
+    XCTAssertEqual(history.all.map(\.item.title), ["foo"])
+
+    history.delete(history.all.first)
+    XCTAssertEqual(history.all, [])
+
+    // The owner re-declares the pasteboard with the very same contents,
+    // which bumps the change count without the user copying anything.
+    copyToPasteboard("foo")
+    XCTAssertEqual(history.all, [])
+
+    history.clearAll()
+  }
+
+  @MainActor
+  func testRestoresDeletedItemNoLongerOnPasteboard() {
+    let history = History.shared
+    history.clearAll()
+    clipboard.clearHooks()
+    clipboard.onNewCopy { history.add($0) }
+
+    copyToPasteboard("foo")
+    copyToPasteboard("bar")
+    history.delete(history.all.last)
+    XCTAssertEqual(history.all.map(\.item.title), ["bar"])
+
+    copyToPasteboard("foo")
+    XCTAssertEqual(history.all.map(\.item.title), ["foo", "bar"])
+
+    history.clearAll()
+  }
+
   func testRemovesDynamicTypes() {
     let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (item: HistoryItem) in
@@ -322,6 +361,16 @@ class ClipboardTests: XCTestCase {
     pasteboard.writeObjects([item])
 
     waitForExpectations(timeout: 2)
+  }
+
+  @MainActor
+  private func copyToPasteboard(_ string: String) {
+    pasteboard.clearContents()
+    pasteboard.setString(string, forType: .string)
+    // Reset the last seen change count so that the pasteboard is inspected
+    // even if a timer started by another test got there first.
+    clipboard.changeCount = 0
+    clipboard.checkForChangesInPasteboard()
   }
 }
 // swiftlint:enable type_body_length
