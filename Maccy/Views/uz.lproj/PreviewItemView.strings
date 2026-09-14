@@ -9,3 +9,6 @@
 "ClosePreview" = "Oldindan ko‘rishni yashirish uchun {previewKey} tugmasini bosing.";
 "Dimensions" = "O'lchamlar:";
 "CopyExtractedText" = "Ajratib olingan matnni nusxalash.";
+"Characters" = "Belgilar:";
+"Words" = "So‘zlar:";
+"Lines" = "Qatorlar:";

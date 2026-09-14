@@ -9,3 +9,6 @@
 "ClosePreview" = "{previewKey}でプレビューを非表示にします。";
 "Dimensions" = "サイズ:";
 "CopyExtractedText" = "抽出したテキストをコピーします。";
+"Characters" = "文字数:";
+"Words" = "単語数:";
+"Lines" = "行数:";

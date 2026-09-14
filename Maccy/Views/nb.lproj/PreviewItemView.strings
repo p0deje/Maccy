@@ -9,3 +9,6 @@
 "ClosePreview" = "Trykk {previewKey} for å skjule forhåndsvisningen.";
 "Dimensions" = "Dimensjoner:";
 "CopyExtractedText" = "Kopier uttrukket tekst.";
+"Characters" = "Tegn:";
+"Words" = "Ord:";
+"Lines" = "Linjer:";

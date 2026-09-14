@@ -9,3 +9,6 @@
 "ClosePreview" = "Натисніть {previewKey}, щоб приховати попередній перегляд.";
 "Dimensions" = "Розміри:";
 "CopyExtractedText" = "Скопіювати розпізнаний текст.";
+"Characters" = "Символи:";
+"Words" = "Слова:";
+"Lines" = "Рядки:";
