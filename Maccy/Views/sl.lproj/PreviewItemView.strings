@@ -9,3 +9,6 @@
 "ClosePreview" = "Pritisnite {previewKey} za skrivanje predogleda.";
 "Dimensions" = "Dimenzije:";
 "CopyExtractedText" = "Kopiraj izvlečeno besedilo.";
+"Characters" = "Znaki:";
+"Words" = "Besede:";
+"Lines" = "Vrstice:";

@@ -9,3 +9,6 @@
 "ClosePreview" = "Nhấn {previewKey} để ẩn bản xem trước.";
 "Dimensions" = "Kích thước:";
 "CopyExtractedText" = "Sao chép văn bản đã trích xuất.";
+"Characters" = "Ký tự:";
+"Words" = "Từ:";
+"Lines" = "Dòng:";

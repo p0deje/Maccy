@@ -9,3 +9,6 @@
 "ClosePreview" = "按 {previewKey} 隱藏預覽。";
 "Dimensions" = "尺寸:";
 "CopyExtractedText" = "複製擷取的文字。";
+"Characters" = "字元數:";
+"Words" = "字數:";
+"Lines" = "行數:";

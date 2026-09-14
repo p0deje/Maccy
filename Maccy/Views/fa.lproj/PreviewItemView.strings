@@ -9,3 +9,6 @@
 "ClosePreview" = "برای پنهان کردن پیش‌نمایش، کلید {previewKey} را فشار دهید.";
 "Dimensions" = "ابعاد:";
 "CopyExtractedText" = "متن استخراج‌شده را کپی کنید.";
+"Characters" = "نویسه‌ها:";
+"Words" = "واژه‌ها:";
+"Lines" = "خط‌ها:";

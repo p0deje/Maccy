@@ -3,6 +3,9 @@
 "LastCopyTime" = "Last copy time:";
 "NumberOfCopies" = "Number of copies:";
 "Dimensions" = "Dimensions:";
+"Characters" = "Characters:";
+"Words" = "Words:";
+"Lines" = "Lines:";
 "PinKey" = "Press {pinKey} to pin.";
 "UnpinKey" = "Press {pinKey} to unpin.";
 "DeleteKey" = "Press {deleteKey} to delete.";

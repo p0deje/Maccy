@@ -9,3 +9,6 @@
 "ClosePreview" = "Premi {previewKey} per nascondere l'anteprima.";
 "Dimensions" = "Dimensioni:";
 "CopyExtractedText" = "Copia il testo estratto.";
+"Characters" = "Caratteri:";
+"Words" = "Parole:";
+"Lines" = "Righe:";

@@ -39,6 +39,8 @@
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
 		9B24FC30A093450F29E2CC4A /* View+Invisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC045710F4F8773D1A5EC87 /* View+Invisible.swift */; };
 		C0FFEE000000000000000003 /* ShortenedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFEE000000000000000004 /* ShortenedTests.swift */; };
+		7E575A750000000000000001 /* String+TextStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E575A750000000000000002 /* String+TextStatistics.swift */; };
+		7E575A750000000000000003 /* TextStatisticsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7E575A750000000000000004 /* TextStatisticsTests.swift */; };
 		CA110ED10000000000000001 /* CollectionSurroundingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA110ED10000000000000002 /* CollectionSurroundingTests.swift */; };
 		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
 		DA009932256411F90030E697 /* README.md in Resources */ = {isa = PBXBuildFile; fileRef = DA00992D256411F90030E697 /* README.md */; };
@@ -244,6 +246,8 @@
 		BA40A81B03FF445A83CCD4E7 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/IgnoreSettings.strings; sourceTree = "<group>"; };
 		BC59C5474269463B8A32BCEF /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
 		C0FFEE000000000000000004 /* ShortenedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortenedTests.swift; sourceTree = "<group>"; };
+		7E575A750000000000000002 /* String+TextStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+TextStatistics.swift"; sourceTree = "<group>"; };
+		7E575A750000000000000004 /* TextStatisticsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextStatisticsTests.swift; sourceTree = "<group>"; };
 		C2BC0DBD627544668E9BE9C1 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/StorageSettings.strings; sourceTree = "<group>"; };
 		CA110ED10000000000000002 /* CollectionSurroundingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSurroundingTests.swift; sourceTree = "<group>"; };
 		CF8FD822BE40469D80B10A06 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
@@ -651,6 +655,7 @@
 				DA181176247D14DA00066D55 /* Settings.PaneIdentifier+Panes.swift */,
 				DA9C3C462C20B91D0056795D /* String+Identifiable.swift */,
 				DAFE2DD9268A521A00990986 /* String+Shortened.swift */,
+				7E575A750000000000000002 /* String+TextStatistics.swift */,
 				FFFC00000000000000000002 /* String+UnsafeForTitleLayout.swift */,
 				EB2945CD7912BE7C7D330C27 /* View+ButtonAction.swift */,
 				9DC045710F4F8773D1A5EC87 /* View+Invisible.swift */,
@@ -757,6 +762,7 @@
 				CA110ED10000000000000002 /* CollectionSurroundingTests.swift */,
 				C0FFEE000000000000000004 /* ShortenedTests.swift */,
 				FFFC00000000000000000004 /* UnsafeForTitleLayoutTests.swift */,
+				7E575A750000000000000004 /* TextStatisticsTests.swift */,
 				DAE2850123225BD90080E394 /* ColorImageTests.swift */,
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
 				DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */,
@@ -1111,6 +1117,7 @@
 				CA110ED10000000000000001 /* CollectionSurroundingTests.swift in Sources */,
 				C0FFEE000000000000000003 /* ShortenedTests.swift in Sources */,
 				FFFC00000000000000000003 /* UnsafeForTitleLayoutTests.swift in Sources */,
+				7E575A750000000000000003 /* TextStatisticsTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1215,6 +1222,7 @@
 				DA3EAE0C2AE30F7500F39108 /* NSApplication+Windows.swift in Sources */,
 				DAFE2DDA268A521B00990986 /* String+Shortened.swift in Sources */,
 				FFFC00000000000000000001 /* String+UnsafeForTitleLayout.swift in Sources */,
+				7E575A750000000000000001 /* String+TextStatistics.swift in Sources */,
 				F18F166970893C503065D056 /* View+ButtonAction.swift in Sources */,
 				9B24FC30A093450F29E2CC4A /* View+Invisible.swift in Sources */,
 				DAC14124232367B200FCFA30 /* Search.swift in Sources */,

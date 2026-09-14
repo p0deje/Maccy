@@ -9,3 +9,6 @@
 "ClosePreview" = "Нажмите {previewKey}, чтобы скрыть предпросмотр.";
 "Dimensions" = "Размеры:";
 "CopyExtractedText" = "Скопировать извлеченный текст.";
+"Characters" = "Символы:";
+"Words" = "Слова:";
+"Lines" = "Строки:";

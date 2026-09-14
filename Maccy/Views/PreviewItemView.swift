@@ -7,6 +7,8 @@ struct PreviewItemView: View {
 
   var item: HistoryItemDecorator
 
+  @State private var textStatistics: (id: UUID, value: TextStatistics)?
+
   @ViewBuilder
   func previewImage(content: () -> some View) -> some View {
     content()
@@ -90,6 +92,23 @@ struct PreviewItemView: View {
         }
       }
 
+      if let textStatistics, textStatistics.id == item.id {
+        HStack(spacing: 3) {
+          Text("Characters", tableName: "PreviewItemView")
+          Text(textStatistics.value.characters, format: .number)
+        }
+
+        HStack(spacing: 3) {
+          Text("Words", tableName: "PreviewItemView")
+          Text(textStatistics.value.words, format: .number)
+        }
+
+        HStack(spacing: 3) {
+          Text("Lines", tableName: "PreviewItemView")
+          Text(textStatistics.value.lines, format: .number)
+        }
+      }
+
       HStack(spacing: 3) {
         Text("FirstCopyTime", tableName: "PreviewItemView")
         Text(item.item.firstCopiedAt, style: .date)
@@ -108,6 +127,21 @@ struct PreviewItemView: View {
       }
     }
     .controlSize(.small)
+    .task(id: item.id) {
+      guard !item.hasImage, item.item.fileURLs.isEmpty else {
+        return
+      }
+
+      // Counting is linear in the text length, so keep large texts off the main thread.
+      let id = item.id
+      let text = item.previewText
+      let value = await Task.detached(priority: .userInitiated) { text.textStatistics }.value
+      guard !Task.isCancelled else {
+        return
+      }
+
+      textStatistics = (id: id, value: value)
+    }
   }
 }
 

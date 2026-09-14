@@ -9,3 +9,6 @@
 "ClosePreview" = "Druk op {previewKey} om het voorbeeld te verbergen.";
 "Dimensions" = "Afmetingen:";
 "CopyExtractedText" = "Geëxtraheerde tekst kopiëren.";
+"Characters" = "Tekens:";
+"Words" = "Woorden:";
+"Lines" = "Regels:";

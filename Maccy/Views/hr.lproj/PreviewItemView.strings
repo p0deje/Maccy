@@ -9,3 +9,6 @@
 "ClosePreview" = "Pritisnite {previewKey} za skrivanje pregleda.";
 "Dimensions" = "Dimenzije:";
 "CopyExtractedText" = "Kopiraj izdvojeni tekst.";
+"Characters" = "Znakovi:";
+"Words" = "Riječi:";
+"Lines" = "Retci:";
