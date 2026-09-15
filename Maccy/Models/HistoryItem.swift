@@ -6,6 +6,12 @@ import Vision
 
 @Model
 class HistoryItem {
+  enum Kind: String, CaseIterable {
+    case text
+    case image
+    case file
+  }
+
   @MainActor
   static var supportedPins: Set<String> {
     // "a" reserved for select all
@@ -144,6 +150,20 @@ class HistoryItem {
       html.string
     } else {
       title
+    }
+  }
+
+  // A Universal Clipboard image arrives as a file URL, so it is checked before
+  // the file URLs. Image data is read from the contents without decoding it.
+  var kind: Kind {
+    if universalClipboardImage {
+      return .image
+    } else if !fileURLs.isEmpty {
+      return .file
+    } else if contentData(Self.imageTypes) != nil {
+      return .image
+    } else {
+      return .text
     }
   }
 

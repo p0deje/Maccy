@@ -33,10 +33,15 @@ class Search {
 
   typealias Searchable = HistoryItemDecorator
 
+  private static let kindPrefix = "type:"
+
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
+    let (kinds, string) = Self.splitKinds(from: string)
+    let within = kinds.isEmpty ? within : within.filter { kinds.contains($0.item.kind) }
+
     guard !string.isEmpty else {
       return within.map { SearchResult(object: $0) }
     }
@@ -51,6 +56,33 @@ class Search {
     default:
       return simpleSearch(string: string, within: within, options: .caseInsensitive)
     }
+  }
+
+  // Takes the "type:image" words out of the query and returns the kinds they
+  // name along with the rest of the query. A word naming an unknown kind is
+  // left in the query, so a partially typed prefix still searches for itself.
+  private static func splitKinds(from string: String) -> (Set<HistoryItem.Kind>, String) {
+    guard string.localizedCaseInsensitiveContains(kindPrefix) else {
+      return ([], string)
+    }
+
+    var kinds: Set<HistoryItem.Kind> = []
+    let words = string.split(separator: " ", omittingEmptySubsequences: false).filter { word in
+      guard word.count > kindPrefix.count,
+            word.prefix(kindPrefix.count).lowercased() == kindPrefix,
+            let kind = HistoryItem.Kind(rawValue: word.dropFirst(kindPrefix.count).lowercased()) else {
+        return true
+      }
+
+      kinds.insert(kind)
+      return false
+    }
+
+    guard !kinds.isEmpty else {
+      return ([], string)
+    }
+
+    return (kinds, words.joined(separator: " ").trimmingCharacters(in: .whitespaces))
   }
 
   private func fuzzySearch(string: String, within: [Searchable]) -> [SearchResult] {
