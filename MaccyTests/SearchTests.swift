@@ -2,7 +2,7 @@ import XCTest
 import Defaults
 @testable import Maccy
 
-class SearchTests: XCTestCase {
+class SearchTests: XCTestCase { // swiftlint:disable:this type_body_length
   let savedSearchMode = Defaults[.searchMode]
   var items: [Search.Searchable]!
 
@@ -233,8 +233,37 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
+  @MainActor
+  func testSearchByKind() {
+    Defaults[.searchMode] = Search.Mode.exact
+    let text = HistoryItemDecorator(historyItemWithTitle("foo bar"))
+    let image = HistoryItemDecorator(historyItemWithImage(NSImage(named: "NSInfo")!))
+    let file = HistoryItemDecorator(historyItemWithFileURL(URL(fileURLWithPath: "/tmp/foo.bar")))
+    items = [text, image, file]
+
+    XCTAssertEqual(objects(search("")), [text, image, file])
+    XCTAssertEqual(objects(search("type:text")), [text])
+    XCTAssertEqual(objects(search("type:image")), [image])
+    XCTAssertEqual(objects(search("type:file")), [file])
+    XCTAssertEqual(objects(search("type:IMAGE")), [image])
+    XCTAssertEqual(objects(search("type:image type:file")), [image, file])
+
+    // The rest of the query keeps going through the search mode.
+    XCTAssertEqual(objects(search("type:file foo")), [file])
+    XCTAssertEqual(objects(search("foo type:text")), [text])
+    XCTAssertEqual(objects(search("type:file zzz")), [])
+
+    // A word naming an unknown kind is searched for as it is.
+    XCTAssertEqual(objects(search("type:folder")), [])
+    XCTAssertEqual(objects(search("type:")), [])
+  }
+
   private func search(_ string: String) -> [Search.SearchResult] {
     return Search().search(string: string, within: items)
+  }
+
+  private func objects(_ results: [Search.SearchResult]) -> [Search.Searchable] {
+    return results.map(\.object)
   }
 
   // swiftlint:disable:next identifier_name
@@ -247,18 +276,46 @@ class SearchTests: XCTestCase {
   }
 
   @MainActor
-  private func historyItemWithTitle(_ value: String?) -> HistoryItem {
-    let contents = [
+  private func historyItemWithImage(_ value: NSImage) -> HistoryItem {
+    return historyItem([
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.tiff.rawValue,
+        value: value.tiffRepresentation!
+      )
+    ])
+  }
+
+  @MainActor
+  private func historyItemWithFileURL(_ value: URL) -> HistoryItem {
+    return historyItem([
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.fileURL.rawValue,
+        value: value.dataRepresentation
+      ),
       HistoryItemContent(
         type: NSPasteboard.PasteboardType.string.rawValue,
-        value: value?.data(using: .utf8)
+        value: value.lastPathComponent.data(using: .utf8)
       )
-    ]
+    ])
+  }
+
+  @MainActor
+  private func historyItem(_ contents: [HistoryItemContent]) -> HistoryItem {
     let item = HistoryItem()
     Storage.shared.context.insert(item)
     item.contents = contents
     item.title = item.generateTitle()
 
     return item
+  }
+
+  @MainActor
+  private func historyItemWithTitle(_ value: String?) -> HistoryItem {
+    return historyItem([
+      HistoryItemContent(
+        type: NSPasteboard.PasteboardType.string.rawValue,
+        value: value?.data(using: .utf8)
+      )
+    ])
   }
 }
