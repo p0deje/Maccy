@@ -225,8 +225,41 @@ extension SharedStateTests {
       #expect(search("m") == [])
     }
 
+    @Test("Search by kind")
+    func searchByKind() {
+      Defaults[.searchMode] = Search.Mode.exact
+      let text = HistoryItemDecorator(Self.historyItemWithTitle("foo bar"))
+      let image = HistoryItemDecorator(Self.historyItemWithImage(NSImage(named: "NSInfo")!))
+      let file = HistoryItemDecorator(Self.historyItemWithFileURL(URL(fileURLWithPath: "/tmp/foo.bar")))
+      let items = [text, image, file]
+
+      #expect(objects(search("", within: items)) == [text, image, file])
+      #expect(objects(search("type:text", within: items)) == [text])
+      #expect(objects(search("type:image", within: items)) == [image])
+      #expect(objects(search("type:file", within: items)) == [file])
+      #expect(objects(search("type:IMAGE", within: items)) == [image])
+      #expect(objects(search("type:image type:file", within: items)) == [image, file])
+
+      // The rest of the query keeps going through the search mode.
+      #expect(objects(search("type:file foo", within: items)) == [file])
+      #expect(objects(search("foo type:text", within: items)) == [text])
+      #expect(objects(search("type:file zzz", within: items)) == [])
+
+      // A word naming an unknown kind is searched for as it is.
+      #expect(objects(search("type:folder", within: items)) == [])
+      #expect(objects(search("type:", within: items)) == [])
+    }
+
     private func search(_ string: String) -> [Search.SearchResult] {
+      return search(string, within: items)
+    }
+
+    private func search(_ string: String, within items: [Search.Searchable]) -> [Search.SearchResult] {
       return Search().search(string: string, within: items)
+    }
+
+    private func objects(_ results: [Search.SearchResult]) -> [Search.Searchable] {
+      return results.map(\.object)
     }
 
     // swiftlint:disable:next identifier_name
@@ -239,12 +272,37 @@ extension SharedStateTests {
     }
 
     private static func historyItemWithTitle(_ value: String?) -> HistoryItem {
-      let contents = [
+      return historyItem([
         HistoryItemContent(
           type: NSPasteboard.PasteboardType.string.rawValue,
           value: value?.data(using: .utf8)
         )
-      ]
+      ])
+    }
+
+    private static func historyItemWithImage(_ value: NSImage) -> HistoryItem {
+      return historyItem([
+        HistoryItemContent(
+          type: NSPasteboard.PasteboardType.tiff.rawValue,
+          value: value.tiffRepresentation!
+        )
+      ])
+    }
+
+    private static func historyItemWithFileURL(_ value: URL) -> HistoryItem {
+      return historyItem([
+        HistoryItemContent(
+          type: NSPasteboard.PasteboardType.fileURL.rawValue,
+          value: value.dataRepresentation
+        ),
+        HistoryItemContent(
+          type: NSPasteboard.PasteboardType.string.rawValue,
+          value: value.lastPathComponent.data(using: .utf8)
+        )
+      ])
+    }
+
+    private static func historyItem(_ contents: [HistoryItemContent]) -> HistoryItem {
       let item = HistoryItem()
       Storage.shared.context.insert(item)
       item.contents = contents
