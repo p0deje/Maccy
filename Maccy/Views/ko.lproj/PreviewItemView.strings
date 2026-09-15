@@ -9,3 +9,6 @@
 "ClosePreview" = "{previewKey}를 눌러 미리보기를 숨깁니다.";
 "Dimensions" = "크기:";
 "CopyExtractedText" = "추출된 텍스트를 복사합니다.";
+"Characters" = "글자 수:";
+"Words" = "단어 수:";
+"Lines" = "줄 수:";

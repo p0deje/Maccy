@@ -9,3 +9,6 @@
 "ClosePreview" = "पूर्वावलोकन छिपाने के लिए {previewKey} दबाएँ।";
 "Dimensions" = "आयाम:";
 "CopyExtractedText" = "निकाले गए टेक्स्ट को कॉपी करें.";
+"Characters" = "वर्ण:";
+"Words" = "शब्द:";
+"Lines" = "पंक्तियाँ:";

@@ -9,3 +9,6 @@
 "ClosePreview" = "Pressione {previewKey} para ocultar a pré-visualização.";
 "Dimensions" = "Dimensões:";
 "CopyExtractedText" = "Copiar texto extraído.";
+"Characters" = "Caracteres:";
+"Words" = "Palavras:";
+"Lines" = "Linhas:";

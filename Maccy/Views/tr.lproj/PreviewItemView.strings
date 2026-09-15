@@ -9,3 +9,6 @@
 "ClosePreview" = "Önizlemeyi gizlemek için {previewKey} tuşuna basın.";
 "Dimensions" = "Boyutlar:";
 "CopyExtractedText" = "Çıkarılan metni kopyala.";
+"Characters" = "Karakterler:";
+"Words" = "Kelimeler:";
+"Lines" = "Satırlar:";

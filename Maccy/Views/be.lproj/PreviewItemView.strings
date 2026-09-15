@@ -9,3 +9,6 @@
 "ClosePreview" = "Націсніце {previewKey}, каб схаваць перадпрагляд.";
 "Dimensions" = "Памеры:";
 "CopyExtractedText" = "Скапіяваць распазнаны тэкст.";
+"Characters" = "Сімвалы:";
+"Words" = "Словы:";
+"Lines" = "Радкі:";

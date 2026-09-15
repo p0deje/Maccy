@@ -9,3 +9,6 @@
 "ClosePreview" = "Stiskni {previewKey} pro skrytí náhledu.";
 "Dimensions" = "Rozměry:";
 "CopyExtractedText" = "Zkopírovat extrahovaný text.";
+"Characters" = "Znaky:";
+"Words" = "Slova:";
+"Lines" = "Řádky:";

@@ -9,3 +9,6 @@
 "ClosePreview" = "יש ללחוץ על {previewKey} כדי להסתיר תצוגה מקדימה.";
 "Dimensions" = "ממדים:";
 "CopyExtractedText" = "העתק את הטקסט שחולץ.";
+"Characters" = "תווים:";
+"Words" = "מילים:";
+"Lines" = "שורות:";

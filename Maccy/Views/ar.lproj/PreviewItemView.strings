@@ -9,3 +9,6 @@
 "ClosePreview" = "اضغط على {previewKey} لإخفاء المعاينة.";
 "Dimensions" = "الأبعاد:";
 "CopyExtractedText" = "انسخ النص المستخرج.";
+"Characters" = "عدد الأحرف:";
+"Words" = "عدد الكلمات:";
+"Lines" = "عدد الأسطر:";
