@@ -168,6 +168,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       _ = try? Storage.shared.sanitizeTitles()
     }
 
+    ensureMigration(key: "2026-09-15-remove-unpersistable-contents") {
+      _ = try? Storage.shared.removeUnpersistableContents()
+    }
+
     // The following defaults are not used in Maccy 2.x
     // and should be removed in 3.x.
     // - LaunchAtLogin__hasMigrated

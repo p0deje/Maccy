@@ -323,5 +323,24 @@ class ClipboardTests: XCTestCase {
 
     waitForExpectations(timeout: 2)
   }
+
+  func testDoesNotStoreSafariWebArchive() {
+    let webArchive = NSPasteboard.PasteboardType.webArchive
+    let hookExpectation = expectation(description: "Hook is called")
+    clipboard.onNewCopy({ (item: HistoryItem) in
+      XCTAssertEqual(Set(item.contents.map(\.type)), [self.stringType.rawValue])
+      hookExpectation.fulfill()
+    })
+
+    let item = NSPasteboardItem()
+    item.setString("hello from safari", forType: .string)
+    item.setData(Data(repeating: 0x61, count: 1024 * 1024), forType: webArchive)
+
+    clipboard.start()
+    pasteboard.clearContents()
+    pasteboard.writeObjects([item])
+
+    waitForExpectations(timeout: 2)
+  }
 }
 // swiftlint:enable type_body_length
