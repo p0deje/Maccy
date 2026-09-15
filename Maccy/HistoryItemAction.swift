@@ -6,9 +6,12 @@ enum HistoryItemAction {
   case copy
   case paste
   case pasteWithoutFormatting
+  case pasteAsMarkdown
 
   init(_ modifierFlags: NSEvent.ModifierFlags) {  // swiftlint:disable:this cyclomatic_complexity
     switch modifierFlags {
+    case [.command, .option]:
+      self = .pasteAsMarkdown
     case .command where !Defaults[.pasteByDefault]:
       self = .copy
     case .command where Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
@@ -38,6 +41,8 @@ enum HistoryItemAction {
 
   var modifierFlags: NSEvent.ModifierFlags {
     switch self {
+    case .pasteAsMarkdown:
+      return [.command, .option]
     case .copy where !Defaults[.pasteByDefault]:
       return .command
     case .paste where Defaults[.pasteByDefault] && !Defaults[.removeFormattingByDefault]:
