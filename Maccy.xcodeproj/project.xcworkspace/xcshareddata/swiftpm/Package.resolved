@@ -1,5 +1,5 @@
 {
-  "originHash" : "f942e634855df514d2ad3df28082c064282b9265128929b3ff6924f0bae466c1",
+  "originHash" : "197275c12e44331bb46377d793c7367c9e57a878114ddd99002a1f28aaa53f01",
   "pins" : [
     {
       "identity" : "defaults",
@@ -17,6 +17,15 @@
       "state" : {
         "revision" : "26ba868691b2d8b7bf2b1322951eb591be70ccca",
         "version" : "1.4.0"
+      }
+    },
+    {
+      "identity" : "html-to-markdown-swift",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/jaredhowland/html-to-markdown-swift.git",
+      "state" : {
+        "revision" : "a200a4a97ac329429653d5aa4b52049cd9a6d92f",
+        "version" : "0.9.0"
       }
     },
     {
@@ -80,6 +89,15 @@
       "state" : {
         "revision" : "1f886cb20fedda14a5ac75efd09bc99c95b43a18",
         "version" : "1.4.1"
+      }
+    },
+    {
+      "identity" : "swiftsoup",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/scinfu/SwiftSoup.git",
+      "state" : {
+        "revision" : "18b80329749eca5ea29fc50211dca5c7eff5bfec",
+        "version" : "2.13.9"
       }
     }
   ],

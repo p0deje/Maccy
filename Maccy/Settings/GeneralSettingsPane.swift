@@ -14,6 +14,7 @@ struct GeneralSettingsPane: View {
   @State private var copyModifier = HistoryItemAction.copy.modifierFlags.description
   @State private var pasteModifier = HistoryItemAction.paste.modifierFlags.description
   @State private var pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
+  @State private var pasteAsMarkdown = HistoryItemAction.pasteAsMarkdown.modifierFlags.description
 
   @State private var updater = SoftwareUpdater()
 
@@ -98,7 +99,7 @@ struct GeneralSettingsPane: View {
 
         Text(String(
           format: NSLocalizedString("Modifiers", tableName: "GeneralSettings", comment: ""),
-          copyModifier, pasteModifier, pasteWithoutFormatting
+          copyModifier, pasteModifier, pasteWithoutFormatting, pasteAsMarkdown
         ))
         .fixedSize(horizontal: false, vertical: true)
         .foregroundStyle(.gray)
@@ -119,6 +120,7 @@ struct GeneralSettingsPane: View {
     copyModifier = HistoryItemAction.copy.modifierFlags.description
     pasteModifier = HistoryItemAction.paste.modifierFlags.description
     pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
+    pasteAsMarkdown = HistoryItemAction.pasteAsMarkdown.modifierFlags.description
   }
 }
 

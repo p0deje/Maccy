@@ -72,13 +72,15 @@ class Clipboard {
   }
 
   @MainActor
-  func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
+  func copy(_ item: HistoryItem?, removeFormatting: Bool = false, asMarkdown: Bool = false) {
     guard let item else { return }
 
     pasteboard.clearContents()
     var contents = item.contents
 
-    if removeFormatting {
+    if asMarkdown {
+      contents = markdownContents(contents)
+    } else if removeFormatting {
       contents = clearFormatting(contents)
     }
 
@@ -318,5 +320,14 @@ class Clipboard {
     }
 
     return newContents
+  }
+
+  // Converts rich content (HTML/RTF/Word/Excel data) into a single Markdown string.
+  private func markdownContents(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {
+    guard let markdown = MarkdownConverter.convert(contents), !markdown.isEmpty else {
+      return clearFormatting(contents)
+    }
+
+    return [HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: markdown.data(using: .utf8))]
   }
 }

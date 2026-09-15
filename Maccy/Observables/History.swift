@@ -350,6 +350,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         AppState.shared.popup.close()
         Clipboard.shared.copy(item.item, removeFormatting: true)
         Clipboard.shared.paste()
+      case .pasteAsMarkdown:
+        AppState.shared.popup.close()
+        Clipboard.shared.copy(item.item, asMarkdown: true)
+        Clipboard.shared.paste()
       case .unknown:
         return
       }
@@ -386,6 +390,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       case .pasteWithoutFormatting:
         AppState.shared.popup.close()
         Clipboard.shared.copy(item.item, removeFormatting: true)
+        Clipboard.shared.paste()
+      case .pasteAsMarkdown:
+        AppState.shared.popup.close()
+        Clipboard.shared.copy(item.item, asMarkdown: true)
         Clipboard.shared.paste()
       case .unknown:
         return
@@ -431,6 +439,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
           await Clipboard.shared.copy(item.item)
         case .pasteWithoutFormatting:
           await Clipboard.shared.copy(item.item, removeFormatting: true)
+        case .pasteAsMarkdown:
+          await Clipboard.shared.copy(item.item, asMarkdown: true)
         case .unknown:
           return
         }
