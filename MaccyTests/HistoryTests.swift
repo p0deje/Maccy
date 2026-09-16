@@ -331,6 +331,20 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     try assertStorageCounts(items: 1, contents: 1)
   }
 
+  func testRemovingUnpersistableContents() throws {
+    let live = history.add(historyItem("live"))
+    live.item.contents.append(HistoryItemContent(
+      type: NSPasteboard.PasteboardType.webArchive.rawValue,
+      value: Data(repeating: 0x61, count: 1024)
+    ))
+    try Storage.shared.context.save()
+
+    XCTAssertEqual(try Storage.shared.removeUnpersistableContents(), 1)
+    XCTAssertEqual(try Storage.shared.removeUnpersistableContents(), 0)
+    XCTAssertEqual(live.item.contents.map(\.type), [NSPasteboard.PasteboardType.string.rawValue])
+    try assertStorageCounts(items: 1, contents: 1)
+  }
+
   private func assertStorageCounts(
     items: Int,
     contents: Int,

@@ -34,4 +34,9 @@ extension NSPasteboard.PasteboardType: Defaults.Serializable {
 
   // Apple Notes
   static let notesRichText = NSPasteboard.PasteboardType(rawValue: "com.apple.notes.richtext")
+
+  // Safari/WebKit page dumps. These often embed the whole page (images, CSS)
+  // and are tens of megabytes per copy. They are not in Settings → Storage.
+  static let webArchive = NSPasteboard.PasteboardType(rawValue: "com.apple.webarchive")
+  static let appleWebArchive = NSPasteboard.PasteboardType(rawValue: "Apple Web Archive pasteboard type")
 }

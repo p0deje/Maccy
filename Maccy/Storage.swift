@@ -52,6 +52,24 @@ class Storage {
     return count
   }
 
+  // Drop pasteboard representations that Settings never enabled, especially
+  // Safari WebArchives that used to be stored because they rode along with text.
+  func removeUnpersistableContents() throws -> Int {
+    let contents = try context.fetch(FetchDescriptor<HistoryItemContent>())
+    let unwanted = contents.filter { !Clipboard.isPersistable(rawType: $0.type) }
+    guard !unwanted.isEmpty else {
+      return 0
+    }
+
+    for content in unwanted {
+      context.delete(content)
+    }
+    context.processPendingChanges()
+    try context.save()
+
+    return unwanted.count
+  }
+
   // Titles stored before the sanitization in `HistoryItem.generateTitle()` may
   // contain scalars that hang CoreText on macOS 26. Such an item makes Maccy
   // spin at 100% CPU on every launch without ever drawing its window, so the
