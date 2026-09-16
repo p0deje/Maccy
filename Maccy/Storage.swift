@@ -1,3 +1,4 @@
+import Defaults
 import Foundation
 import SwiftData
 
@@ -20,6 +21,13 @@ class Storage {
   init() {
     var config = ModelConfiguration(url: url)
 
+    if Defaults[.keepHistoryInMemoryOnly] {
+      // Nothing must survive on disk once the user opted into an in-memory history,
+      // including whatever was stored before the option was turned on.
+      Self.removeStore(at: url)
+      config = ModelConfiguration(isStoredInMemoryOnly: true)
+    }
+
     #if DEBUG
     if AppDelegate.isTesting {
       config = ModelConfiguration(isStoredInMemoryOnly: true)
@@ -30,6 +38,15 @@ class Storage {
       container = try ModelContainer(for: HistoryItem.self, configurations: config)
     } catch let error {
       fatalError("Cannot load database: \(error.localizedDescription).")
+    }
+  }
+
+  // SQLite keeps its write-ahead log and shared memory next to the store,
+  // so all three have to go for the history to be really gone.
+  static func removeStore(at url: URL) {
+    for suffix in ["", "-wal", "-shm"] {
+      let file = URL(filePath: url.path + suffix)
+      try? FileManager.default.removeItem(at: file)
     }
   }
 

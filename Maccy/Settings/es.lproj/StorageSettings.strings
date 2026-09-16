@@ -4,6 +4,9 @@
 "Images" = "Imágenes";
 "Text" = "Texto";
 "SaveDescription" = "Cambiar qué tipos de contenidos deben ser almacenados.";
+"Disk" = "Disco:";
+"KeepHistoryInMemoryOnly" = "Mantener el historial solo en memoria";
+"KeepHistoryInMemoryOnlyDescription" = "El historial nunca se escribe en el disco y se pierde al salir de Maccy. El historial que ya esté en el disco se borra la próxima vez que Maccy se abra. Se aplica al reiniciar Maccy.";
 "Size" = "Tamaño máximo:";
 "SizeTooltip" = "Número de elementos a almacenar en el historial.\nPor defecto: 200.";
 "CurrentSizeTooltip" = "Tamaño actual en disco.";
