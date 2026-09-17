@@ -314,7 +314,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     try assertStorageCounts(items: 1, contents: 1)
   }
 
-  func testCleaningUpOrphanedContents() throws {
+  func testCleaningUpOrphanedContents() async throws {
     let live = history.add(historyItem("live"))
     let liveContent = live.item.contents[0]
     for value in ["orphan-1", "orphan-2"] {
@@ -325,9 +325,25 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     }
     try Storage.shared.context.save()
 
-    XCTAssertEqual(try Storage.shared.cleanupOrphanedContents(), 2)
-    XCTAssertEqual(try Storage.shared.cleanupOrphanedContents(), 0)
+    XCTAssertEqual(try await Storage.shared.cleanupOrphanedContents(), 2)
+    XCTAssertEqual(try await Storage.shared.cleanupOrphanedContents(), 0)
     XCTAssertEqual(live.item.contents, [liveContent])
+    try assertStorageCounts(items: 1, contents: 1)
+  }
+
+  func testCleaningUpOrphanedContentsInBatches() async throws {
+    let live = history.add(historyItem("live"))
+    for value in ["orphan-1", "orphan-2", "orphan-3"] {
+      Storage.shared.context.insert(HistoryItemContent(
+        type: NSPasteboard.PasteboardType.string.rawValue,
+        value: value.data(using: .utf8)
+      ))
+    }
+    try Storage.shared.context.save()
+
+    XCTAssertEqual(try await Storage.shared.cleanupOrphanedContents(batchSize: 2), 3)
+    XCTAssertEqual(try await Storage.shared.cleanupOrphanedContents(batchSize: 2), 0)
+    XCTAssertEqual(live.item.contents.count, 1)
     try assertStorageCounts(items: 1, contents: 1)
   }
 
