@@ -33,23 +33,39 @@ class Storage {
     }
   }
 
-  func cleanupOrphanedContents() throws -> Int {
-    let descriptor = FetchDescriptor<HistoryItemContent>(
-      predicate: #Predicate { $0.item == nil }
-    )
-    let count = try context.fetchCount(descriptor)
-    guard count > 0 else {
-      return 0
-    }
+  // Stores leaking before #1509 can hold gigabytes of orphans and deleting
+  // them in a single transaction grows the WAL to the size of the store,
+  // blocking launch for minutes. Small batches keep transactions short and
+  // preserve progress across force-quits, and a background context keeps
+  // the main actor responsive.
+  // See https://github.com/p0deje/Maccy/issues/1535.
+  func cleanupOrphanedContents(batchSize: Int = 500) async throws -> Int {
+    let container = self.container
+    return try await Task.detached(priority: .utility) {
+      let context = ModelContext(container)
+      context.autosaveEnabled = false
 
-    try context.delete(
-      model: HistoryItemContent.self,
-      where: #Predicate { $0.item == nil }
-    )
-    context.processPendingChanges()
-    try context.save()
+      var deleted = 0
+      while true {
+        var orphans = FetchDescriptor<HistoryItemContent>(
+          predicate: #Predicate { $0.item == nil }
+        )
+        orphans.fetchLimit = batchSize
+        let batch = try context.fetch(orphans)
+        if batch.isEmpty {
+          break
+        }
 
-    return count
+        for orphan in batch {
+          context.delete(orphan)
+        }
+        context.processPendingChanges()
+        try context.save()
+        deleted += batch.count
+      }
+
+      return deleted
+    }.value
   }
 
   // Titles stored before the sanitization in `HistoryItem.generateTitle()` may
