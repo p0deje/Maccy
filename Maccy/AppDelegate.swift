@@ -117,6 +117,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     ) {
       ContentView()
     }
+
+    Task { await cleanupOrphanedContentsIfNeeded() }
   }
 
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
@@ -134,6 +136,30 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     if Defaults[.migrations][key] != true {
       action()
       Defaults[.migrations][key] = true
+    }
+  }
+
+  // Orphaned contents left by the leak fixed in #1509 can reach tens of
+  // gigabytes, so they are cleaned up in the background after the panel is
+  // shown instead of blocking launch. The migration key is only set once
+  // cleanup succeeds, so interrupted cleanups resume on the next launch
+  // instead of being permanently skipped. It intentionally uses a fresh key:
+  // the old synchronous migration marked itself done even when it failed.
+  // See https://github.com/p0deje/Maccy/issues/1535.
+  private func cleanupOrphanedContentsIfNeeded() async {
+    let key = "2026-09-17-cleanup-orphaned-history-item-contents-in-batches"
+    guard Defaults[.migrations][key] != true else {
+      return
+    }
+
+    do {
+      let deleted = try await Storage.shared.cleanupOrphanedContents()
+      if deleted > 0 {
+        NSLog("Maccy: deleted \(deleted) orphaned history item contents")
+      }
+      Defaults[.migrations][key] = true
+    } catch {
+      NSLog("Maccy: failed to cleanup orphaned history item contents: \(error)")
     }
   }
 
@@ -158,10 +184,6 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         types.formUnion(StorageType.images.types)
       }
       Defaults[.enabledPasteboardTypes] = types
-    }
-
-    ensureMigration(key: "2026-08-12-cleanup-orphaned-history-item-contents") {
-      _ = try? Storage.shared.cleanupOrphanedContents()
     }
 
     ensureMigration(key: "2026-08-31-sanitize-history-item-titles") {
