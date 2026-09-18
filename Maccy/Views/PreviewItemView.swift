@@ -82,10 +82,11 @@ struct PreviewItemView: View {
         }
       }
 
-      if item.hasImage, let image = item.item.image {
+      if item.hasImage,
+         let size = item.imagePixelSize ?? item.item.imageData.flatMap({ NSImage.pixelSize(from: $0) }) {
         HStack(spacing: 3) {
           Text("Dimensions", tableName: "PreviewItemView")
-          Text("\(Int(image.pixelSize.width))×\(Int(image.pixelSize.height))")
+          Text("\(Int(size.width))×\(Int(size.height))")
         }
       }
 

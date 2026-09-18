@@ -95,15 +95,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       }
     }
 
-    Task {
+    Task { [weak self] in
       for await _ in Defaults.updates(.sortBy, initial: false) {
-        try? await load()
+        guard let self else { return }
+        try? await self.load()
       }
     }
 
-    Task {
+    Task { [weak self] in
       for await _ in Defaults.updates(.pinTo, initial: false) {
-        try? await load()
+        guard let self else { return }
+        try? await self.load()
       }
     }
 
@@ -343,6 +345,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   private func cleanup(_ item: HistoryItemDecorator) {
     item.cleanupImages()
+  }
+
+  @MainActor
+  func releaseDecodedImages() {
+    allPinnedItems.forEach { $0.cleanupImages() }
+    allUnpinnedItems.forEach { $0.cleanupImages() }
   }
 
   @MainActor

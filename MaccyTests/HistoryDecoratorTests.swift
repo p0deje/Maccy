@@ -3,11 +3,14 @@ import Testing
 import Defaults
 @testable import Maccy
 
+private final class DecoratorBundleToken {}
+
 extension SharedStateTests {
   @MainActor
   final class HistoryItemDecoratorTests {
     let savedHighlightMatch = Defaults[.highlightMatch]
     let savedImageMaxHeight = Defaults[.imageMaxHeight]
+    let savedLowMemoryImageMode = Defaults[.lowMemoryImageMode]
 
     var firstCopiedAt: Date! {
       let formatter = DateFormatter()
@@ -24,11 +27,13 @@ extension SharedStateTests {
     init() {
       Defaults[.highlightMatch] = .bold
       Defaults[.imageMaxHeight] = 40
+      Defaults[.lowMemoryImageMode] = false
     }
 
     deinit {
       Defaults[.imageMaxHeight] = savedImageMaxHeight
       Defaults[.highlightMatch] = savedHighlightMatch
+      Defaults[.lowMemoryImageMode] = savedLowMemoryImageMode
     }
 
     @Test("String")
@@ -78,6 +83,45 @@ extension SharedStateTests {
       let itemDecorator = historyItemDecorator(image)
       itemDecorator.sizeImages()
       #expect(try #require(itemDecorator.thumbnailImage).size == NSSize(width: 40, height: 40))
+    }
+
+    @Test("Downsampled image uses requested maximum pixel size")
+    func downsampledImageUsesRequestedMaximumPixelSize() throws {
+      let image = try #require(NSImage.downsampled(from: try testImageData(), maxPixelSize: 64, scale: 2))
+      #expect(max(image.pixelSize.width, image.pixelSize.height) == 64)
+    }
+
+    @Test("Pixel size reads image header")
+    func pixelSizeReadsImageHeader() throws {
+      #expect(NSImage.pixelSize(from: try testImageData()) == NSSize(width: 262, height: 320))
+    }
+
+    @Test("Cleanup images releases low-memory images")
+    func cleanupImagesReleasesLowMemoryImages() async throws {
+      Defaults[.lowMemoryImageMode] = true
+      let itemDecorator = historyItemDecorator(try #require(NSImage(named: "NSApplicationIcon")))
+      itemDecorator.ensureThumbnailImage()
+      itemDecorator.ensurePreviewImage()
+      let thumbnailTask = itemDecorator.thumbnailImageGenerationTask
+      let previewTask = itemDecorator.previewImageGenerationTask
+      _ = await thumbnailTask?.result
+      _ = await previewTask?.result
+
+      itemDecorator.cleanupImages()
+
+      #expect(itemDecorator.thumbnailImage == nil)
+      #expect(itemDecorator.previewImage == nil)
+    }
+
+    @Test("Low-memory mode does not cache decoded image")
+    func lowMemoryModeDoesNotCacheDecodedImage() throws {
+      Defaults[.lowMemoryImageMode] = true
+      let itemDecorator = historyItemDecorator(try #require(NSImage(named: "NSApplicationIcon")))
+
+      let firstImage = try #require(itemDecorator.item.image)
+      let secondImage = try #require(itemDecorator.item.image)
+
+      #expect(firstImage !== secondImage)
     }
 
     @Test("File", arguments: ["/tmp/foo.bar", "/tmp/产品培训/产品培训.txt"])
@@ -215,6 +259,11 @@ extension SharedStateTests {
       item.numberOfCopies = 2
 
       return HistoryItemDecorator(item)
+    }
+
+    private func testImageData() throws -> Data {
+      let url = try #require(Bundle(for: DecoratorBundleToken.self).url(forResource: "guy", withExtension: "jpeg"))
+      return try Data(contentsOf: url)
     }
 
     // swiftlint:disable:next identifier_name

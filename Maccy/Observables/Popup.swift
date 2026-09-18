@@ -88,6 +88,11 @@ class Popup {
 
   func close() {
     AppState.shared.appDelegate?.panel.close()  // close() calls reset
+    if Defaults[.lowMemoryImageMode] {
+      Task { @MainActor in
+        History.shared.releaseDecodedImages()
+      }
+    }
   }
 
   func isClosed() -> Bool {
