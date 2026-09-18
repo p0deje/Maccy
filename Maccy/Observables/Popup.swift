@@ -43,6 +43,7 @@ class Popup {
   var extraTopHeight: CGFloat = 0
   var extraBottomHeight: CGFloat = 0
   var footerHeight: CGFloat = 0
+  private(set) var openGeneration = 0
 
   var minimumHeight: CGFloat {
     // Reserve space for 3 items
@@ -78,6 +79,7 @@ class Popup {
   }
 
   func open(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
+    openGeneration += 1
     AppState.shared.appDelegate?.panel.open(height: height, at: popupPosition)
   }
 

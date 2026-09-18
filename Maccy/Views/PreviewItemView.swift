@@ -7,6 +7,7 @@ struct PreviewItemView: View {
   private static let largeTextThreshold = 1_000
 
   var item: HistoryItemDecorator
+  @Environment(AppState.self) private var appState
 
   @ViewBuilder
   func previewImage(content: () -> some View) -> some View {
@@ -18,7 +19,7 @@ struct PreviewItemView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       if item.hasImage {
-        AsyncView<NSImage?, _, _>(id: item.id) {
+        AsyncView<NSImage?, _, _>(id: "\(item.id)-\(appState.popup.openGeneration)") {
           return await item.asyncGetPreviewImage()
         } content: { image in
           if let image = image {
