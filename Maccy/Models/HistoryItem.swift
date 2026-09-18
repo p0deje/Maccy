@@ -184,6 +184,12 @@ class HistoryItem {
     return data
   }
 
+  nonisolated static func imageData(for id: PersistentIdentifier, in container: ModelContainer) -> Data? {
+    let context = ModelContext(container)
+    let item = context.model(for: id) as? HistoryItem
+    return item?.imageData
+  }
+
   var hasImageContent: Bool {
     contents.contains { content in
       Self.imageTypes.contains(NSPasteboard.PasteboardType(content.type))

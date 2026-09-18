@@ -1,4 +1,5 @@
 import AppKit
+import Defaults
 import KeyboardShortcuts
 import SwiftUI
 
@@ -82,8 +83,10 @@ struct PreviewItemView: View {
         }
       }
 
-      if item.hasImage,
-         let size = item.imagePixelSize ?? item.item.imageData.flatMap({ NSImage.pixelSize(from: $0) }) {
+      let imageSize = item.imagePixelSize ?? (
+        Defaults[.lowMemoryImageMode] ? nil : item.item.imageData.flatMap { NSImage.pixelSize(from: $0) }
+      )
+      if item.hasImage, let size = imageSize {
         HStack(spacing: 3) {
           Text("Dimensions", tableName: "PreviewItemView")
           Text("\(Int(size.width))×\(Int(size.height))")

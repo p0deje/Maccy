@@ -84,8 +84,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   // Describe the complete item independently of its potentially truncated visual content.
   var accessibilityLabel: String {
     var parts: [String] = []
-    if hasImage,
-       let size = imagePixelSize ?? item.imageData.flatMap({ NSImage.pixelSize(from: $0) }) {
+    let imageSize = imagePixelSize ?? (
+      Defaults[.lowMemoryImageMode] ? nil : item.imageData.flatMap { NSImage.pixelSize(from: $0) }
+    )
+    if hasImage, let size = imageSize {
       parts.append(
         String(
           format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""),
@@ -137,15 +139,18 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
       return
     }
     if Defaults[.lowMemoryImageMode] {
-      guard let imageData = item.imageData else {
-        return
-      }
+      let itemID = item.persistentModelID
+      let container = Storage.shared.container
       let scale = NSScreen.forPopup?.backingScaleFactor ?? NSScreen.main?.backingScaleFactor ?? 2
-      let maxPixelSize = maxPixelSize(for: Self.thumbnailImageSize, data: imageData, scale: scale)
+      let targetSize = Self.thumbnailImageSize
       thumbnailImageGenerationTask = Task { @MainActor [weak self] in
         defer { self?.thumbnailImageGenerationTask = nil }
-        let result = await Task.detached(priority: .userInitiated) {
-          (
+        let result: (NSImage?, NSSize?) = await Task.detached(priority: .userInitiated) {
+          guard let imageData = HistoryItem.imageData(for: itemID, in: container) else {
+            return (nil, nil)
+          }
+          let maxPixelSize = Self.maxPixelSize(for: targetSize, data: imageData, scale: scale)
+          return (
             NSImage.downsampled(from: imageData, maxPixelSize: maxPixelSize, scale: scale),
             NSImage.pixelSize(from: imageData)
           )
@@ -179,15 +184,18 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
       return
     }
     if Defaults[.lowMemoryImageMode] {
-      guard let imageData = item.imageData else {
-        return
-      }
+      let itemID = item.persistentModelID
+      let container = Storage.shared.container
       let scale = NSScreen.forPopup?.backingScaleFactor ?? NSScreen.main?.backingScaleFactor ?? 2
-      let maxPixelSize = maxPixelSize(for: Self.previewImageSize, data: imageData, scale: scale)
+      let targetSize = Self.previewImageSize
       previewImageGenerationTask = Task { @MainActor [weak self] in
         defer { self?.previewImageGenerationTask = nil }
-        let result = await Task.detached(priority: .userInitiated) {
-          (
+        let result: (NSImage?, NSSize?) = await Task.detached(priority: .userInitiated) {
+          guard let imageData = HistoryItem.imageData(for: itemID, in: container) else {
+            return (nil, nil)
+          }
+          let maxPixelSize = Self.maxPixelSize(for: targetSize, data: imageData, scale: scale)
+          return (
             NSImage.downsampled(from: imageData, maxPixelSize: maxPixelSize, scale: scale),
             NSImage.pixelSize(from: imageData)
           )
@@ -258,8 +266,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     generateThumbnailImage()
   }
 
-  @MainActor
-  private func maxPixelSize(for targetSize: NSSize, data: Data, scale: CGFloat) -> CGFloat {
+  nonisolated private static func maxPixelSize(for targetSize: NSSize, data: Data, scale: CGFloat) -> CGFloat {
     guard let sourceSize = NSImage.pixelSize(from: data),
           sourceSize.width > 0,
           sourceSize.height > 0 else {
