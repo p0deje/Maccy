@@ -1,9 +1,11 @@
 extension String {
   func shortened(to maxLength: Int) -> String {
-    guard count > maxLength else {
+    // Avoid `count`, which walks the whole string and is slow for very long text.
+    guard let end = index(startIndex, offsetBy: maxLength, limitedBy: endIndex),
+          end < endIndex else {
       return self
     }
 
-    return String(self[startIndex..<index(startIndex, offsetBy: maxLength)])
+    return String(self[startIndex..<end])
   }
 }
