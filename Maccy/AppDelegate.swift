@@ -179,18 +179,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   @objc
   private func performStatusItemClick() {
-    if let event = NSApp.currentEvent {
-      let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+    let modifierFlags = (NSApp.currentEvent?.modifierFlags ?? [])
+      .union(NSEvent.modifierFlags)
+      .intersection(.deviceIndependentFlagsMask)
 
-      if modifierFlags.contains(.option) {
-        Defaults[.ignoreEvents].toggle()
+    if modifierFlags.contains(.option) || modifierFlags.contains(.control) {
+      Defaults[.ignoreEvents].toggle()
 
-        if modifierFlags.contains(.shift) {
-          Defaults[.ignoreOnlyNextEvent] = Defaults[.ignoreEvents]
-        }
-
-        return
+      if modifierFlags.contains(.shift) {
+        Defaults[.ignoreOnlyNextEvent] = Defaults[.ignoreEvents]
       }
+
+      return
     }
 
     panel.toggle(height: AppState.shared.popup.height, at: .statusItem)
