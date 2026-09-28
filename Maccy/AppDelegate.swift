@@ -108,6 +108,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
     disableUnusedGlobalHotkeys()
+    KeyboardShortcuts.onKeyUp(for: .openLink) { LinkOpener.openClipboard() }
 
     panel = FloatingPanel(
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),

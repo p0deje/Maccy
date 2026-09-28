@@ -1,0 +1,9 @@
+"Title" = "Links";
+"Shortcut" = "Open link:";
+"ShortcutTooltip" = "Global shortcut key to open the current clipboard text in the default browser when it matches one of the rules below.\nDefault: ⌃⌥⌘J.";
+"RulesDescription" = "Rules are checked top to bottom and the first match wins. Pattern is a regular expression matched against the trimmed clipboard text. In the URL, {0} is replaced with the whole match and {1}, {2}, … with capture groups.";
+"Test" = "Test:";
+"NoMatch" = "No rule matches";
+"Name" = "Name";
+"Pattern" = "Pattern (regular expression)";
+"URL" = "URL template";

@@ -112,9 +112,12 @@ class AppState: Sendable {
       let storageTitle = NSLocalizedString("Title", tableName: "StorageSettings", comment: "")
       let appearanceTitle = NSLocalizedString("Title", tableName: "AppearanceSettings", comment: "")
       let pinsTitle = NSLocalizedString("Title", tableName: "PinsSettings", comment: "")
+      let linksTitle = NSLocalizedString("Title", tableName: "LinksSettings", value: "Links", comment: "")
       let ignoreTitle = NSLocalizedString("Title", tableName: "IgnoreSettings", comment: "")
       let advancedTitle = NSLocalizedString("Title", tableName: "AdvancedSettings", comment: "")
-      let toolbarTitles = [generalTitle, storageTitle, appearanceTitle, pinsTitle, ignoreTitle, advancedTitle]
+      let toolbarTitles = [
+        generalTitle, storageTitle, appearanceTitle, pinsTitle, linksTitle, ignoreTitle, advancedTitle
+      ]
       let titleAttributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: NSFont.systemFontSize)]
       let titleWidth = toolbarTitles.reduce(CGFloat.zero) {
         $0 + ($1 as NSString).size(withAttributes: titleAttributes).width
@@ -157,6 +160,14 @@ class AppState: Sendable {
             PinsSettingsPane()
               .environment(self)
               .modelContainer(Storage.shared.container)
+              .frame(minWidth: minimumWidth)
+          },
+          Settings.Pane(
+            identifier: Settings.PaneIdentifier.links,
+            title: linksTitle,
+            toolbarIcon: NSImage.link!
+          ) {
+            LinksSettingsPane()
               .frame(minWidth: minimumWidth)
           },
           Settings.Pane(
