@@ -15,21 +15,15 @@ struct GeneralSettingsPane: View {
   @State private var pasteModifier = HistoryItemAction.paste.modifierFlags.description
   @State private var pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
 
-  @State private var updater = SoftwareUpdater()
-
   var body: some View {
     Settings.Container(contentWidth: 450) {
       Settings.Section(title: "", bottomDivider: true) {
         LaunchAtLogin.Toggle {
           Text("LaunchAtLogin", tableName: "GeneralSettings")
         }
-        Toggle(isOn: $updater.automaticallyChecksForUpdates) {
-          Text("CheckForUpdates", tableName: "GeneralSettings")
+        if FeatureFlags.softwareUpdates {
+          SoftwareUpdateSettings()
         }
-        Button(
-          action: { updater.checkForUpdates() },
-          label: { Text("CheckNow", tableName: "GeneralSettings") }
-        )
       }
 
       Settings.Section(label: { Text("Open", tableName: "GeneralSettings") }) {
@@ -119,6 +113,21 @@ struct GeneralSettingsPane: View {
     copyModifier = HistoryItemAction.copy.modifierFlags.description
     pasteModifier = HistoryItemAction.paste.modifierFlags.description
     pasteWithoutFormatting = HistoryItemAction.pasteWithoutFormatting.modifierFlags.description
+  }
+}
+
+// Owns the updater so that Sparkle is only started when this view is shown.
+private struct SoftwareUpdateSettings: View {
+  @State private var updater = SoftwareUpdater()
+
+  var body: some View {
+    Toggle(isOn: $updater.automaticallyChecksForUpdates) {
+      Text("CheckForUpdates", tableName: "GeneralSettings")
+    }
+    Button(
+      action: { updater.checkForUpdates() },
+      label: { Text("CheckNow", tableName: "GeneralSettings") }
+    )
   }
 }
 
