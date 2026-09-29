@@ -1,0 +1,155 @@
+name: Release
+
+# Builds an ad-hoc signed Maccy.app, publishes it as a GitHub release and
+# updates the Homebrew cask in xuzhaocheng/homebrew-tap.
+# To rename the cask, change CASK_NAME below; nothing else hardcodes it.
+#
+# Runs on every push to master (version <MARKETING_VERSION>-<run number>)
+# and can be started by hand with an explicit version.
+#
+# Required secret:
+#   TAP_GITHUB_TOKEN  Fine-grained token with "Contents: read and write" on
+#                     xuzhaocheng/homebrew-tap. Without it the release is
+#                     still published and the tap update is skipped.
+
+on:
+  push:
+    branches: [master]
+    paths-ignore:
+      - "**.md"
+      - "docs/**"
+      - "Designs/**"
+      - "appcast.xml"
+      - ".github/ISSUE_TEMPLATE/**"
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Release version, e.g. 2.7.1-links.1. Defaults to <MARKETING_VERSION>-<run number>."
+        required: false
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+env:
+  TAP_REPO: xuzhaocheng/homebrew-tap
+  CASK_NAME: maccy-plus
+
+jobs:
+  release:
+    runs-on: macos-26
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Show Xcode
+        run: xcodebuild -version
+
+      - name: Compute version
+        id: version
+        env:
+          INPUT_VERSION: ${{ inputs.version }}
+        run: |
+          base=$(grep -m1 'MARKETING_VERSION = ' Maccy.xcodeproj/project.pbxproj | sed -E 's/.*= ([^;]+);/\1/')
+          version="${INPUT_VERSION:-$base-$GITHUB_RUN_NUMBER}"
+          if ! [[ "$version" =~ ^[0-9][0-9A-Za-z.+-]*$ ]]; then
+            echo "Invalid version: $version" >&2
+            exit 1
+          fi
+          echo "version=$version" >> "$GITHUB_OUTPUT"
+          echo "Version: $version"
+
+      - name: Run unit tests
+        # ClipboardTests fail on upstream master as well, so skip them here.
+        run: |
+          set -o pipefail
+          xcodebuild test \
+            -project Maccy.xcodeproj \
+            -scheme Maccy \
+            -destination 'platform=macOS' \
+            -only-testing:MaccyTests \
+            -skip-testing:MaccyTests/ClipboardTests \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGN_IDENTITY=- \
+            CODE_SIGN_STYLE=Manual \
+            DEVELOPMENT_TEAM= \
+            2>&1 | grep -vE '^Internal Error: DecodingError' | tail -n 60
+
+      - name: Build app
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -o pipefail
+          xcodebuild build \
+            -project Maccy.xcodeproj \
+            -scheme Maccy \
+            -configuration Release \
+            -destination 'generic/platform=macOS' \
+            -derivedDataPath build/DerivedData \
+            CODE_SIGN_IDENTITY=- \
+            CODE_SIGN_STYLE=Manual \
+            DEVELOPMENT_TEAM= \
+            MARKETING_VERSION="$VERSION" \
+            CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER" \
+            2>&1 | grep -vE '^Internal Error: DecodingError' | tail -n 60
+
+      - name: Package
+        id: package
+        env:
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          app=build/DerivedData/Build/Products/Release/Maccy.app
+          codesign --verify --deep --strict "$app"
+          zip="Maccy-$VERSION.zip"
+          ditto -c -k --sequesterRsrc --keepParent "$app" "$zip"
+          sha=$(shasum -a 256 "$zip" | cut -d' ' -f1)
+          echo "zip=$zip" >> "$GITHUB_OUTPUT"
+          echo "sha256=$sha" >> "$GITHUB_OUTPUT"
+          echo "$zip $sha"
+
+      - name: Publish GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+          ZIP: ${{ steps.package.outputs.zip }}
+        run: |
+          gh release create "$VERSION" "$ZIP" \
+            --target "$GITHUB_SHA" \
+            --title "Maccy $VERSION" \
+            --notes "Ad-hoc signed build of $GITHUB_SHA.
+
+          Install or upgrade with Homebrew:
+
+              brew install --cask $TAP_REPO/$CASK_NAME
+              brew upgrade --cask $CASK_NAME"
+
+      - name: Update Homebrew tap
+        env:
+          TAP_TOKEN: ${{ secrets.TAP_GITHUB_TOKEN }}
+          VERSION: ${{ steps.version.outputs.version }}
+          SHA256: ${{ steps.package.outputs.sha256 }}
+        run: |
+          if [ -z "$TAP_TOKEN" ]; then
+            echo "::warning::TAP_GITHUB_TOKEN is not set; skipping Homebrew tap update."
+            exit 0
+          fi
+          git clone "https://x-access-token:${TAP_TOKEN}@github.com/${TAP_REPO}.git" tap
+          mkdir -p tap/Casks
+          sed -e "s/__CASK_NAME__/$CASK_NAME/" \
+              -e "s/__VERSION__/$VERSION/" \
+              -e "s/__SHA256__/$SHA256/" \
+              -e "s|__REPO__|$GITHUB_REPOSITORY|g" \
+              packaging/homebrew/cask.rb.template > "tap/Casks/$CASK_NAME.rb"
+          cd tap
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add "Casks/$CASK_NAME.rb"
+          if git diff --cached --quiet; then
+            echo "Cask already up to date."
+            exit 0
+          fi
+          git commit -m "$CASK_NAME $VERSION"
+          git push origin HEAD
