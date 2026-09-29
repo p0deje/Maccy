@@ -76,6 +76,7 @@ jobs:
             CODE_SIGN_IDENTITY=- \
             CODE_SIGN_STYLE=Manual \
             DEVELOPMENT_TEAM= \
+            ENABLE_HARDENED_RUNTIME=NO \
             2>&1 | grep -vE '^Internal Error: DecodingError' | tail -n 60
 
       - name: Build app
@@ -92,6 +93,7 @@ jobs:
             CODE_SIGN_IDENTITY=- \
             CODE_SIGN_STYLE=Manual \
             DEVELOPMENT_TEAM= \
+            ENABLE_HARDENED_RUNTIME=NO \
             MARKETING_VERSION="$VERSION" \
             CURRENT_PROJECT_VERSION="$GITHUB_RUN_NUMBER" \
             2>&1 | grep -vE '^Internal Error: DecodingError' | tail -n 60
