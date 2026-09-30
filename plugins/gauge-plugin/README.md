@@ -64,6 +64,23 @@ open would paste into the popover itself.
   `menuWillOpen`/`menuDidClose`). Reads run on a utility queue; the main
   thread is never blocked.
 
+## Install with Gauge
+
+Two ways to get the Maccy tray card:
+
+1. **From the secondsee.com distribution (end users)** — the plugin ships
+   through **Gauge's plugin catalog** (`secondsee.com/downloads/gauge/plugins/…`).
+   Install **Gauge** itself from secondsee.com first (Gauge is **not open
+   source** — you cannot clone and build it locally; the host app, the
+   `GaugePluginKit` SDK contract, and the tray are only distributed there),
+   then add this plugin the same way you add the AI Sessions / Squeakd cards.
+   The companion `maccy-agent` is downloadable from the same product page and
+   installed with its `install.sh` (LaunchAgent — captures even while Gauge
+   is closed).
+2. **As a developer (this checkout)** — build and install locally:
+   `./build.sh --install`, relaunch Gauge, and run
+   `cd ../maccy-agent && ./install.sh` for the companion. Detail below.
+
 ## Build, install, package
 
 ```bash
@@ -132,13 +149,25 @@ provisioned on this machine. Steps when unblocked:
    confirm `security find-identity -v -p codesigning` lists it.
 2. `SIGN_IDENTITY=<hash> ./build.sh build --package` — the script will then
    pick the Developer ID identity automatically (hardened runtime).
-3. Add an entry to the gauge repo's `plugins/publish.json` build list:
-   `{ "repo": "p0deje/Maccy", "dir": "plugins/gauge-plugin", "cmd": "./build.sh --package" }`
-   (external to the gauge repo — the lane does a `--depth=1` clone and the
-   change must be merged to the default branch before dispatch).
-4. Publish per the catalog's usual flow; Gauge updates the plugin on next
-   launch. Note: the lane's `CFBundleVersion` stamp counts commits of the
-   Maccy repo, which is fine for staleness detection.
+3. Add the catalog entry + build wiring in the **gauge repo** (this fork only
+   owns the source; the catalog/release lane live there):
+   - `plugin-catalog/plugins.json` — new `com.ebowwa.gauge.plugin.maccy`
+     entry: name `Maccy`, kind `gaugeplugin` artifact pointing at
+     `https://secondsee.com/downloads/gauge/plugins/GaugeMaccyPlugin.gaugeplugin.zip`,
+     plus the `maccy-agent` companion as the second artifact (kind `app`),
+     both with the sha256 printed by `--package`.
+   - `plugins/publish.json` — build wiring
+     `{ "repo": "ebowwa/Maccy", "dir": "plugins/gauge-plugin", "cmd": "./build.sh --package" }`
+     (the lane does a `--depth=1` clone of `ebowwa/Maccy`; changes must be
+     merged to `master` before dispatch).
+4. Dispatch `plugins-release` on the gauge repo for `maccy`; the lane bumps
+   `MARKETING_VERSION`, builds, uploads to R2, live-verifies, and patches the
+   catalog with the fresh sha256/`?v=`. Gauge updates the plugin on next
+   launch.
+
+The full distribution story (end-user install via secondsee.com, developer
+local install, and the Gauge-is-not-open-source note) is in
+[docs/gauge-integration.md](../../docs/gauge-integration.md).
 
 ## Files
 

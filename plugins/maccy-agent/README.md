@@ -93,6 +93,20 @@ python3 -c 'import json;print(json.dumps(json.load(open("/tmp/h.json")),indent=1
 | `--heartbeat-interval` | 120.0 s | mtime refresh while quiet |
 | `--once` | off | single check then exit (tests) |
 
+## Distribution
+
+`./build.sh --package` produces `build/maccy-agent-<version>.zip` — the
+binary + `install.sh` + this README, signed checksum printed. That zip is the
+agent's distribution unit: it ships **alongside the Gauge plugin catalog
+entry** for this product (the secondsee.com plugin page carries the agent as
+the companion artifact, mirroring how Gauge distributes its other products'
+companion apps). End users never compile anything — they download the zip
+from the product page, run `./install.sh`, and the LaunchAgent takes over.
+
+Developer install (building from source) is covered in
+[Install](#install--build) above; the Gauge-side story lives in
+[docs/gauge-integration.md](../../docs/gauge-integration.md).
+
 ## Scope notes
 
 - **No signing** — a local LaunchAgent CLI doesn't need a signature (the

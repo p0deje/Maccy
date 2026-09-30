@@ -13,6 +13,15 @@ and lets you quickly navigate, search, and use previous clipboard contents.
 
 Maccy works on macOS Sonoma 14 or higher.
 
+> **This is the ebowwa fork.** It tracks upstream Maccy and adds the
+> **Gauge integration**: a headless `maccy-agent` captures your clipboard
+> history as a background LaunchAgent and a `GaugeMaccyPlugin` renders it as
+> a live card in the Gauge menu-bar tray (tap to restore, ⌘V auto-paste with
+> the Accessibility grant). The app itself stays off the dock — Gauge's tray
+> is the only surface. Install it with **Gauge from secondsee.com** (Gauge is
+> **not open source**; it cannot be built locally), or from this checkout as
+> a developer. Everything: [docs/gauge-integration.md](docs/gauge-integration.md).
+
 <!-- vim-markdown-toc GFM -->
 
 * [Features](#features)

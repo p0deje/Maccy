@@ -24,10 +24,20 @@ if [[ "${1:-}" == "uninstall" ]]; then
   exit 0
 fi
 
-./build.sh
+# Two install modes:
+#   • Distribution zip: the compiled binary ships NEXT TO install.sh — install
+#     it directly (no toolchain needed on the user's machine).
+#   • Source checkout: build first (swift build -c release), then install.
+if [[ -x "$(pwd)/maccy-agent" ]]; then
+  BIN_SRC="$(pwd)/maccy-agent"
+  echo "▸ installing shipped binary (no build)"
+else
+  ./build.sh
+  BIN_SRC="$(pwd)/.build/release/maccy-agent"
+fi
 
 mkdir -p "$APP_SUPPORT"
-cp "$(pwd)/.build/release/maccy-agent" "$BIN_DEST"
+cp "$BIN_SRC" "$BIN_DEST"
 chmod +x "$BIN_DEST"
 
 cat > "$PLIST" <<PLIST
