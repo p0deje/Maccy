@@ -1,0 +1,61 @@
+{
+  "schemaVersion": 1,
+  "version": "0.1.0",
+  "publishedAt": "PUBLISHED_AT_FRESH",
+  "itemCount": 8,
+  "lastCapturedAt": "CAPTURED_AT_0",
+  "items": [
+    {
+      "id": "sample-0",
+      "capturedAt": "CAPTURED_AT_0",
+      "app": "com.google.Chrome",
+      "title": "Gauge Maccy plugin sample — newest text item, deliberately long enough to show tail truncation doing its job in the tray",
+      "string": "Gauge Maccy plugin sample — newest text item, deliberately long enough to show tail truncation doing its job in the tray"
+    },
+    {
+      "id": "sample-1",
+      "capturedAt": "CAPTURED_AT_1",
+      "app": "com.apple.finder",
+      "title": "release-notes.md, deploy.sh",
+      "fileURLs": ["file:///Users/me/release-notes.md", "file:///Users/me/deploy.sh"]
+    },
+    {
+      "id": "sample-2",
+      "capturedAt": "CAPTURED_AT_2",
+      "title": "🖼 Image · 42 KB",
+      "imageType": "png",
+      "image": "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
+    },
+    {
+      "id": "sample-3",
+      "capturedAt": "CAPTURED_AT_3",
+      "title": "multi line copy should only show its first line",
+      "string": "multi line copy should only show its first line\nand never the second"
+    },
+    {
+      "id": "sample-4",
+      "capturedAt": "CAPTURED_AT_4",
+      "title": "older text item four",
+      "string": "older text item four"
+    },
+    {
+      "id": "sample-5",
+      "capturedAt": "CAPTURED_AT_5",
+      "app": "com.apple.Safari",
+      "title": "older text item five",
+      "string": "older text item five"
+    },
+    {
+      "id": "sample-6",
+      "capturedAt": "CAPTURED_AT_6",
+      "title": "older text item six",
+      "string": "older text item six"
+    },
+    {
+      "id": "sample-7",
+      "capturedAt": "CAPTURED_AT_7",
+      "title": "oldest text item seven",
+      "string": "oldest text item seven"
+    }
+  ]
+}

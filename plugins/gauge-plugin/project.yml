@@ -1,0 +1,32 @@
+name: GaugeMaccyPlugin
+options:
+  bundleIdPrefix: com.ebowwa.gauge.plugin
+  deploymentTarget:
+    macOS: "13.0"
+  developmentLanguage: en
+
+packages:
+  GaugePluginKit:
+    url: https://github.com/ebowwa/gaugepluginkit
+    from: "0.1.0"
+
+targets:
+  GaugeMaccyPlugin:
+    type: bundle
+    platform: macOS
+    sources:
+      - Sources
+    dependencies:
+      - package: GaugePluginKit
+    settings:
+      base:
+        PRODUCT_NAME: GaugeMaccyPlugin
+        PRODUCT_BUNDLE_IDENTIFIER: com.ebowwa.gauge.plugin.maccy
+        PRODUCT_BUNDLE_EXTENSION: gaugeplugin
+        GENERATE_INFOPLIST_FILE: NO
+        INFOPLIST_FILE: Info.plist
+        MARKETING_VERSION: "0.1.0"
+        CURRENT_PROJECT_VERSION: "1"
+        SWIFT_VERSION: "5.0"
+        ENABLE_HARDENED_RUNTIME: YES
+        SKIP_INSTALL: YES
