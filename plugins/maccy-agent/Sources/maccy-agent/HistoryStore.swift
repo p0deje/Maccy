@@ -30,13 +30,29 @@ final class HistoryStore {
 
     // MARK: Loading
 
+    /// Load the persisted history. Dates are ISO 8601 (the same strategy the
+    /// writer uses) — decoding with the default .deferredToDate strategy
+    /// (epoch numbers) would fail on every load and the startup persist would
+    /// silently WIPE the history file. An undecodable file is stashed aside
+    /// (history.json.corrupt-<timestamp>) instead of being overwritten, so
+    /// data is recoverable and the plugin never sees a half-file.
     func load() {
-        guard let data = try? Data(contentsOf: url),
-              let snapshot = try? JSONDecoder().decode(HistorySnapshot.self, from: data) else {
+        guard let data = try? Data(contentsOf: url), !data.isEmpty else {
             items = []
             return
         }
-        items = snapshot.items
+        let decoder = JSONDecoder()
+        decoder.dateDecodingStrategy = .iso8601
+        if let snapshot = try? decoder.decode(HistorySnapshot.self, from: data) {
+            items = snapshot.items
+            return
+        }
+        // Corrupt/undecodable: preserve, don't overwrite.
+        let stamp = ISO8601DateFormatter().string(from: Date()).replacingOccurrences(of: ":", with: "-")
+        let stash = url.deletingLastPathComponent()
+            .appendingPathComponent("history.json.corrupt-\(stamp)")
+        try? FileManager.default.moveItem(at: url, to: stash)
+        items = []
     }
 
     // MARK: Capturing

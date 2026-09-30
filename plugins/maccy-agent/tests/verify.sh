@@ -116,6 +116,23 @@ sleep 1; M1=$(stat -f %m "$H3"); sleep 2.2; M2=$(stat -f %m "$H3")
 kill %1 2>/dev/null || true
 [[ "$M2" -gt "$M1" ]] && ok "heartbeat refreshes mtime" || bad "heartbeat refreshes mtime"
 
+# 12. history survives an agent restart (the ISO-8601 load bug: a restart used
+# to decode with the default epoch strategy, wipe the file to 0 at startup)
+H4="$D/restart.json"
+"$AGENT" --history-path "$H4" --check-interval 0.25 --heartbeat-interval 3600 &
+sleep 1
+printf 'restart-persistence-probe' | pbcopy; sleep 1.2
+kill %1 2>/dev/null || true; wait %1 2>/dev/null || true
+"$AGENT" --history-path "$H4" --check-interval 0.25 --heartbeat-interval 3600 &
+sleep 1.5
+kill %1 2>/dev/null || true; wait %1 2>/dev/null || true
+JQ4() { python3 -c "
+import json, sys
+d = json.load(open('$H4'))
+print(eval(sys.argv[1]))" "$1"; }
+[[ $(JQ4 "d['itemCount']") == 1 && $(JQ4 "d['items'][0]['title']") == "restart-persistence-probe" ]] \
+  && ok "history survives restart" || bad "history survives restart"
+
 echo
 echo "maccy-agent verify: $PASS passed, $FAIL failed"
 rm -rf "$D"
