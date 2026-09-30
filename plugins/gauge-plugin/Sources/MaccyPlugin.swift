@@ -74,4 +74,24 @@ final class MaccyPlugin: NSObject, GaugePlugin {
             "version": store.snapshot?.version ?? "",
         ] as NSDictionary
     }
+
+    // MARK: Restore diagnostics (headless load test)
+
+    /// Restore the item described by a HistoryItem JSON — the exact same code
+    /// path a tray tap takes (MaccyPasteboard.restore + armAutoPaste), minus
+    /// the SwiftUI button press. Returns the restored string (empty on
+    /// malformed input). The headless load test drives restore through this
+    /// hook instead of the AX tree (offscreen windows are invisible to AX).
+    @objc func restoreItemFromJSON(_ json: String) -> String {
+        guard let data = json.data(using: .utf8) else { return "" }
+        let item: MaccyHistorySnapshot.MaccyHistoryItem
+        do {
+            item = try JSONDecoder().decode(MaccyHistorySnapshot.MaccyHistoryItem.self, from: data)
+        } catch {
+            return ""
+        }
+        MaccyPasteboard.restore(item)
+        Self.sharedStore.armAutoPaste()
+        return item.string ?? ""
+    }
 }

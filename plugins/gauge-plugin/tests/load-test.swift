@@ -173,6 +173,41 @@ guard let profile2 = instance.value(forKey: "profilingSnapshot") as? NSDictionar
 }
 print("profilingSnapshot after menu cycle: \(profile2)")
 
+// --- Restore path: drive the real restore code via the diagnostics hook ------
+// A tray tap runs `MaccyPasteboard.restore(item)` + `armAutoPaste()`; the
+// hook exercises exactly that (without the SwiftUI button press, which is
+// windowed). The pasteboard must then carry the item's string AND the
+// agent-skip marker (so maccy-agent never re-captures the restore).
+// NOTE: no menuDidClose after this — an armed ⌘V would otherwise fire into
+// whatever app is frontmost.
+if sampleTemplatePath != nil {
+    let pb = NSPasteboard.general
+    pb.clearContents()
+    pb.setString("PRESET-SEED-VALUE", forType: .string)
+
+    let json = #"{"id":"restore-test","capturedAt":null,"app":"com.apple.TextEdit","title":"Gauge Maccy plugin sample — newest text item, deliberately long enough to show tail truncation doing its job in the tray","string":"Gauge Maccy plugin sample — newest text item, deliberately long enough to show tail truncation doing its job in the tray"}"#
+    guard let returned = instance.perform(Selector(("restoreItemFromJSON:")), with: json)?.takeUnretainedValue() as? String else {
+        fail("restoreItemFromJSON did not return the restored string")
+    }
+
+    let restored = pb.string(forType: .string)
+    guard restored == "Gauge Maccy plugin sample — newest text item, deliberately long enough to show tail truncation doing its job in the tray" else {
+        fail("restore did not write the item's string to the pasteboard (got: \(String(describing: restored)))")
+    }
+    guard returned == restored else {
+        fail("restoreItemFromJSON return (\(returned)) does not match pasteboard content (\(restored))")
+    }
+    let hasMarker = pb.availableType(from: [NSPasteboard.PasteboardType("com.ebowwa.maccy.agent.copied")]) != nil
+    guard hasMarker else {
+        fail("restore did not write the agent-skip marker type")
+    }
+    print("restore: item string on pasteboard, agent-skip marker present (no re-capture)")
+
+    if let profile3 = instance.value(forKey: "profilingSnapshot") as? NSDictionary {
+        print("profilingSnapshot after restore: \(profile3)")
+    }
+}
+
 print("PASS: bundle loads, contract holds, menu view materializes" +
-      (sampleTemplatePath != nil ? ", sample history decodes" : ""))
+      (sampleTemplatePath != nil ? ", sample history decodes, restore/re-capture guard verified" : ""))
 exit(0)
