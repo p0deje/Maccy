@@ -10,6 +10,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   @objc
   private lazy var statusItem: NSStatusItem = {
     let statusItem = NSStatusBar.system.statusItem(withLength: NSStatusItem.variableLength)
+    // An explicit name instead of the implicit "Item-0": macOS 26.5+ can corrupt the saved
+    // record of an implicitly named item and park it off-screen at the bottom-left corner.
+    statusItem.autosaveName = "MaccyStatusItem"
     statusItem.behavior = .removalAllowed
     statusItem.button?.action = #selector(performStatusItemClick)
     statusItem.button?.image = Defaults[.menuIcon].image
