@@ -916,7 +916,6 @@
 				DA360DAC1E3DF137005C6F6B /* Sources */,
 				DA360DAD1E3DF137005C6F6B /* Frameworks */,
 				DA360DAE1E3DF137005C6F6B /* Resources */,
-				4D61636379416448436F6431 /* Ad-hoc Sign Unsigned Debug Build */,
 			);
 			buildRules = (
 			);
@@ -1089,28 +1088,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		4D61636379416448436F6431 /* Ad-hoc Sign Unsigned Debug Build */ = {
-			isa = PBXShellScriptBuildPhase;
-			alwaysOutOfDate = 1;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			name = "Ad-hoc Sign Unsigned Debug Build";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# Builds made with CODE_SIGNING_ALLOWED=NO are only linker-signed, with the\n# executable name instead of the bundle identifier. On the macOS 26 CI machine\n# the status item of such a build never shows up in the menu bar.\n# This runs at the end of the unit test target, after it has been embedded into\n# the app, so that signing the app doesn't trip over an incomplete test bundle.\nif [ \"${CODE_SIGNING_ALLOWED}\" = \"NO\" ] && [ \"${CONFIGURATION}\" = \"Debug\" ]; then\n  app=\"$(dirname \"$(dirname \"$(dirname \"${TEST_HOST}\")\")\")\"\n  codesign --force --sign - \"${CODESIGNING_FOLDER_PATH}\"\n  codesign --force --sign - --identifier org.p0deje.Maccy \"${app}\"\nfi\n";
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		DA0EE7B2204657830025FC60 /* Sources */ = {
