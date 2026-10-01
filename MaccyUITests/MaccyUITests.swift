@@ -68,7 +68,6 @@ class MaccyUITests: XCTestCase {
     setKeyboardShortcut("delete", keyCode: kVK_Delete, modifiers: optionKey)
     setKeyboardShortcut("togglePreview", keyCode: kVK_Space, modifiers: controlKey)
     app.launch()
-    allowInMenuBar()
 
     copyToClipboard(copy2)
     copyToClipboard(copy1)
@@ -507,43 +506,6 @@ class MaccyUITests: XCTestCase {
       "-KeyboardShortcuts_\(name)",
       #""{\"carbonKeyCode\":\#(keyCode),\"carbonModifiers\":\#(modifiers)}""#
     ])
-  }
-
-  // macOS 26 keeps the status item of an app that is not enabled in
-  // System Settings → Menu Bar → "Allow in the Menu Bar" off-screen, so it can't be clicked.
-  // A fresh CI machine has never seen the test build, so enable it there once per run.
-  private static var isAllowedInMenuBar = false
-
-  private func allowInMenuBar() {
-    guard #available(macOS 26, *), !Self.isAllowedInMenuBar else { return }
-    Self.isAllowedInMenuBar = true
-
-    let settings = XCUIApplication(bundleIdentifier: "com.apple.systempreferences")
-    NSWorkspace.shared.open(URL(string: "x-apple.systempreferences:com.apple.ControlCenter-Settings.extension")!)
-    defer { settings.terminate() }
-
-    // Each row is an app name followed by an unlabeled switch on the same line.
-    let names = settings.staticTexts.matching(NSPredicate(format: "value BEGINSWITH 'Maccy'"))
-    guard names.firstMatch.waitForExistence(timeout: 10) else {
-      print("Maccy not found in Menu Bar settings:\n\(settings.debugDescription)")
-      return
-    }
-    let switches = settings.switches.allElementsBoundByIndex
-    for name in names.allElementsBoundByIndex {
-      guard let toggle = switches.first(where: { abs($0.frame.midY - name.frame.midY) < 5 }) else { continue }
-      if toggle.value as? Int == 0 {
-        print("Enabling \(name.value ?? "Maccy") in Menu Bar settings")
-        toggle.click()
-      }
-    }
-    let hittable = XCTNSPredicateExpectation(
-      predicate: NSPredicate(format: "isHittable == true"),
-      object: app.statusItems.firstMatch
-    )
-    if XCTWaiter.wait(for: [hittable], timeout: 5) != .completed {
-      app.terminate()
-      app.launch()
-    }
   }
 
   // Click outside the popup to close it
