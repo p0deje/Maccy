@@ -209,6 +209,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  @MainActor
   private func disableUnusedGlobalHotkeys() {
     let names: [KeyboardShortcuts.Name] = [.delete, .pin, .togglePreview]
     KeyboardShortcuts.disable(names)
@@ -216,10 +217,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     NotificationCenter.default.addObserver(
       forName: Notification.Name("KeyboardShortcuts_shortcutByNameDidChange"),
       object: nil,
-      queue: nil
+      queue: .main
     ) { notification in
       if let name = notification.userInfo?["name"] as? KeyboardShortcuts.Name, names.contains(name) {
-        KeyboardShortcuts.disable(name)
+        MainActor.assumeIsolated {
+          KeyboardShortcuts.disable(name)
+        }
       }
     }
   }

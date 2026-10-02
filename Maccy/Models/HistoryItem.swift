@@ -6,6 +6,7 @@ import Vision
 
 @Model
 class HistoryItem {
+  @MainActor
   static var supportedPins: Set<String> {
     // "a" reserved for select all
     // "q" reserved for quit

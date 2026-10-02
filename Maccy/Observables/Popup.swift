@@ -54,7 +54,9 @@ class Popup {
   private var state: PopupState = .toggle
 
   init() {
-    KeyboardShortcuts.onKeyDown(for: .popup, action: handleFirstKeyDown)
+    MainActor.assumeIsolated {
+      KeyboardShortcuts.onKeyDown(for: .popup, action: handleFirstKeyDown)
+    }
     initEventsMonitor()
   }
 
@@ -83,7 +85,9 @@ class Popup {
 
   func reset() {
     state = .toggle
-    KeyboardShortcuts.enable(.popup)
+    MainActor.assumeIsolated {
+      KeyboardShortcuts.enable(.popup)
+    }
   }
 
   func close() {
@@ -123,7 +127,9 @@ class Popup {
     if isClosed() {
       open(height: height)
       state = .opening
-      KeyboardShortcuts.disable(.popup)  // Handle events via eventsMonitor. Re-enable on popup close
+      MainActor.assumeIsolated {
+        KeyboardShortcuts.disable(.popup)  // Handle events via eventsMonitor. Re-enable on popup close
+      }
       return
     }
 
@@ -192,7 +198,7 @@ class Popup {
   }
 
   private func isHotKeyCode(_ keyCode: Int) -> Bool {
-    guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
+    guard let shortcut = MainActor.assumeIsolated({ KeyboardShortcuts.Name.popup.shortcut }) else {
       return false
     }
 
@@ -200,7 +206,7 @@ class Popup {
   }
 
   private func isHotKeyModifiers(_ modifiers: NSEvent.ModifierFlags) -> Bool {
-    guard let shortcut = KeyboardShortcuts.Name.popup.shortcut else {
+    guard let shortcut = MainActor.assumeIsolated({ KeyboardShortcuts.Name.popup.shortcut }) else {
       return false
     }
 
