@@ -107,17 +107,6 @@ struct ToolbarView: View {
     return text.isEmpty ? nil : item.title
   }
 
-  private var selectedSplitItem: HistoryItemDecorator? {
-    guard appState.navigator.selection.count == 1,
-          let item = appState.navigator.selection.first,
-          !item.hasImage,
-          !item.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-      return nil
-    }
-
-    return item
-  }
-
   var body: some View {
     HStack {
       if !appState.navigator.selection.isEmpty {
@@ -132,16 +121,6 @@ struct ToolbarView: View {
           }
           .shortcutKeyHelp(key: "CopyExtractedText", tableName: "PreviewItemView")
           .disabled(selectedImageText == nil)
-        }
-
-        if let selectedSplitItem {
-          ToolbarButton {
-            appState.preview.openSplit(for: selectedSplitItem)
-          } label: {
-            Image(systemName: "text.badge.plus")
-          }
-          .help(String(localized: "split_action"))
-          .accessibilityLabel(Text("split_action"))
         }
 
         ToolbarButton {

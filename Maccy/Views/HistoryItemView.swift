@@ -30,6 +30,10 @@ struct HistoryItemView: View {
     return ColorImage.from(item.title)
   }
 
+  private var canSplit: Bool {
+    !item.hasImage && !item.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
+
   private func performSelect() {
     if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
       appState.navigator.addToSelection(item: item)
@@ -55,6 +59,7 @@ struct HistoryItemView: View {
           isSelected: item.isSelected,
           selectionIndex: item.multiSelectionIndex,
           selectionAppearance: selectionAppearance,
+          trailingActionSpacing: canSplit && item.isSelected ? 30 : 0,
           accessibilityLabel: item.accessibilityLabel
         ) {
           Text(verbatim: item.title)
@@ -72,6 +77,20 @@ struct HistoryItemView: View {
         }
         .accessibilityAction(named: Text("history_item_delete_action")) {
           appState.history.delete(item)
+        }
+
+        if canSplit && item.isSelected {
+          Button {
+            appState.preview.openSplit(for: item)
+          } label: {
+            Image(systemName: "text.badge.plus")
+          }
+          .buttonStyle(.plain)
+          .foregroundStyle(Color.white)
+          .frame(width: 22, height: Popup.itemHeight)
+          .padding(.trailing, 8)
+          .help(String(localized: "split_action"))
+          .accessibilityLabel(Text("split_action"))
         }
 
       }
