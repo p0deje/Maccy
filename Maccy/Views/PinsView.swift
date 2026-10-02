@@ -7,7 +7,12 @@ struct PinsView: View {
 
   var body: some View {
     MultipleSelectionListView(items: items) { previous, item, next, index in
-      HistoryItemView(item: item, previous: previous, next: next, index: index)
+      HistoryItemView(
+        item: item,
+        previous: previous,
+        next: next,
+        index: index
+      )
     }
   }
 }

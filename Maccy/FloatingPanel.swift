@@ -208,6 +208,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
   override func close() {
     super.close()
+    AppState.shared.preview.closeSplit()
     AppState.shared.preview.state = .closed
     isPresented = false
     statusBarButton?.isHighlighted = false

@@ -30,6 +30,10 @@ struct HistoryItemView: View {
     return ColorImage.from(item.title)
   }
 
+  private var canSplit: Bool {
+    !item.hasImage && !item.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+  }
+
   private func performSelect() {
     if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
       appState.navigator.addToSelection(item: item)
@@ -42,31 +46,50 @@ struct HistoryItemView: View {
   }
 
   var body: some View {
-    ListItemView(
-      id: item.id,
-      selectionId: item.id,
-      appIcon: item.applicationImage,
-      image: item.thumbnailImage,
-      accessoryImage: item.thumbnailImage != nil ? nil : colorSwatchImage,
-      attributedTitle: item.attributedTitle,
-      shortcuts: item.shortcuts,
-      isSelected: item.isSelected,
-      selectionIndex: item.multiSelectionIndex,
-      selectionAppearance: selectionAppearance,
-      accessibilityLabel: item.accessibilityLabel
-    ) {
-      Text(verbatim: item.title)
-    }
-    .accessibilityIdentifier("copy-history-item")
-    .buttonAction(performSelect)
-    .onAppear {
-      item.ensureThumbnailImage()
-    }
-    .accessibilityAction(named: Text(item.isPinned ? "history_item_unpin_action" : "history_item_pin_action")) {
-      appState.history.togglePin(item)
-    }
-    .accessibilityAction(named: Text("history_item_delete_action")) {
-      appState.history.delete(item)
+    VStack(alignment: .leading, spacing: 0) {
+      ZStack(alignment: .trailing) {
+        ListItemView(
+          id: item.id,
+          selectionId: item.id,
+          appIcon: item.applicationImage,
+          image: item.thumbnailImage,
+          accessoryImage: item.thumbnailImage != nil ? nil : colorSwatchImage,
+          attributedTitle: item.attributedTitle,
+          shortcuts: item.shortcuts,
+          isSelected: item.isSelected,
+          selectionIndex: item.multiSelectionIndex,
+          selectionAppearance: selectionAppearance,
+          trailingActionSpacing: canSplit ? 30 : 0,
+          accessibilityLabel: item.accessibilityLabel
+        ) {
+          Text(verbatim: item.title)
+        }
+        .accessibilityIdentifier("copy-history-item")
+        .buttonAction(performSelect)
+        .onAppear {
+          item.ensureThumbnailImage()
+        }
+        .accessibilityAction(named: Text(item.isPinned ? "history_item_unpin_action" : "history_item_pin_action")) {
+          appState.history.togglePin(item)
+        }
+        .accessibilityAction(named: Text("history_item_delete_action")) {
+          appState.history.delete(item)
+        }
+
+        if canSplit {
+          Button {
+            appState.preview.openSplit(for: item)
+          } label: {
+            Image(systemName: "text.badge.plus")
+          }
+          .buttonStyle(.plain)
+          .foregroundStyle(item.isSelected ? Color.white : .secondary)
+          .frame(width: 22, height: Popup.itemHeight)
+          .padding(.trailing, 8)
+          .help(String(localized: "split_action"))
+          .accessibilityLabel(Text("split_action"))
+        }
+      }
     }
   }
 }

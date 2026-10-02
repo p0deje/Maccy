@@ -97,6 +97,7 @@ class SlideoutController {
   var placement: SlideoutPlacement = .right
   var state: SlideoutState = .closed
   var resizingMode: ResizingMode = .none
+  var splitItem: HistoryItemDecorator?
 
   var nswindow: NSWindow? {
     return AppState.shared.appDelegate?.panel
@@ -153,6 +154,7 @@ class SlideoutController {
     if trigger == .manual {
       if state.isOpen {
         autoOpenSuppressed = true
+        splitItem = nil
       } else {
         autoOpenSuppressed = false
       }
@@ -198,6 +200,18 @@ class SlideoutController {
       }
     } completion: {
     }
+  }
+
+  func openSplit(for item: HistoryItemDecorator) {
+    splitItem = item
+    AppState.shared.navigator.select(item: item)
+    if !state.isOpen {
+      togglePreview()
+    }
+  }
+
+  func closeSplit() {
+    splitItem = nil
   }
 
   func startResize(mode: ResizingMode) {

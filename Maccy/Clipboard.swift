@@ -63,12 +63,17 @@ class Clipboard {
   }
 
   @MainActor
-  func copyInMaccy(_ string: String) {
+  func copyInMaccy(_ string: String, recordInHistory: Bool = true) {
     pasteboard.clearContents()
     pasteboard.setString(string, forType: .string)
     pasteboard.setString(NSPasteboard.PasteboardType.fromMaccy.rawValue, forType: .source)
     sync()
-    checkForChangesInPasteboard()
+    if recordInHistory {
+      checkForChangesInPasteboard()
+    } else {
+      // Keep the clipboard monitor in sync without recording a derived fragment.
+      changeCount = pasteboard.changeCount
+    }
   }
 
   @MainActor
