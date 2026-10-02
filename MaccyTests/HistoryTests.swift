@@ -1,6 +1,7 @@
 import XCTest
 import Defaults
 import SwiftData
+import KeyboardShortcuts
 @testable import Maccy
 
 @MainActor
@@ -9,6 +10,49 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
   let savedSortBy = Defaults[.sortBy]
   let savedPinTo = Defaults[.pinTo]
   let history = History.shared
+
+  func testPopupEventsMonitorCanRestart() async throws {
+    let popup = AppState.shared.popup
+    let panel = try XCTUnwrap(AppState.shared.appDelegate?.panel)
+    let originalShortcut = KeyboardShortcuts.getShortcut(for: .popup)
+    let shortcut = KeyboardShortcuts.Shortcut(.c, modifiers: [.control, .option, .shift, .command])
+    defer {
+      panel.close()
+      KeyboardShortcuts.setShortcut(originalShortcut, for: .popup)
+      popup.initEventsMonitor()
+    }
+    KeyboardShortcuts.setShortcut(shortcut, for: .popup)
+    popup.reset()
+
+    for _ in 0..<2 {
+      autoreleasepool {
+        popup.deinitEventsMonitor()
+        popup.deinitEventsMonitor()
+      }
+      popup.initEventsMonitor()
+      popup.initEventsMonitor()
+      popup.open(height: 200, at: .center)
+      XCTAssertTrue(panel.isPresented)
+      let event = try XCTUnwrap(NSEvent.keyEvent(
+        with: .keyDown,
+        location: .zero,
+        modifierFlags: shortcut.modifiers,
+        timestamp: ProcessInfo.processInfo.systemUptime,
+        windowNumber: panel.windowNumber,
+        context: nil,
+        characters: "c",
+        charactersIgnoringModifiers: "c",
+        isARepeat: false,
+        keyCode: UInt16(shortcut.carbonKeyCode)
+      ))
+      NSApp.postEvent(event, atStart: true)
+      for _ in 0..<100 {
+        if !panel.isPresented { break }
+        try await Task.sleep(for: .milliseconds(10))
+      }
+      XCTAssertFalse(panel.isPresented)
+    }
+  }
 
   override func setUp() {
     super.setUp()
