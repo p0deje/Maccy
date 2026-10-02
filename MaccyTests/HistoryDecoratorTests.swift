@@ -40,6 +40,11 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertNil(itemDecorator.thumbnailImage)
   }
 
+  func testVeryLongStringPreviewTextIsShortened() {
+    let itemDecorator = historyItemDecorator(String(repeating: "a", count: 10 * 1024 * 1024))
+    XCTAssertEqual(itemDecorator.text, String(repeating: "a", count: 10_000))
+  }
+
   func testRTF() {
     let rtf = NSAttributedString(string: "foo").rtf(
       from: NSRange(0...2),

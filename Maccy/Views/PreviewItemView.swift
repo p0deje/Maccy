@@ -53,7 +53,7 @@ struct PreviewItemView: View {
           }
         }
       } else {
-        let text = item.previewText
+        let text = item.text
         if text.count >= Self.largeTextThreshold {
           LargeTextPreviewView(text: text)
             .id("textpreview-\(item.id)")
