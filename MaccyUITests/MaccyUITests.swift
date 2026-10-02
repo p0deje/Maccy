@@ -1,8 +1,10 @@
+import ApplicationServices
 import Carbon
 import XCTest
 
 // swiftlint:disable file_length
 // swiftlint:disable type_body_length
+@MainActor
 private struct HistoryItemQuery {
   let query: XCUIElementQuery
 
@@ -17,6 +19,7 @@ private struct HistoryItemQuery {
   }
 }
 
+@MainActor
 class MaccyUITests: XCTestCase {
   let app = XCUIApplication()
   let pasteboard = NSPasteboard.general
@@ -56,8 +59,8 @@ class MaccyUITests: XCTestCase {
       .compactMap { $0.label.components(separatedBy: ", ").first }
   }
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
 
     try? "Hello world".write(to: file1, atomically: true, encoding: .utf8)
     try? "Hello world".write(to: file2, atomically: true, encoding: .utf8)
@@ -71,11 +74,11 @@ class MaccyUITests: XCTestCase {
 
     copyToClipboard(copy2)
     copyToClipboard(copy1)
-
   }
 
-  override func tearDown() {
-    super.tearDown()
+  override func tearDown() async throws {
+    try await super.tearDown()
+
     app.terminate()
   }
 
@@ -157,8 +160,13 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(image2)
     copyToClipboard(image1)
     popUpWithMouse()
-    scrollIntoViewIfNeeded(items.allElementsBoundByIndex[1])
-    hoverAndClick(items.allElementsBoundByIndex[1])
+    let allItems = items.allElementsBoundByIndex
+    guard allItems.count > 1 else {
+      XCTFail("Expected at least 2 history items, found \(allItems.count)")
+      return
+    }
+    scrollIntoViewIfNeeded(allItems[1])
+    hoverAndClick(allItems[1])
     assertPasteboardDataCountEquals(image2.tiffRepresentation!.count, forType: .tiff)
   }
 
@@ -167,7 +175,7 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(file1)
     popUpWithMouse()
 
-    XCTAssertEqual(itemTitles[0...1], [
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [
       file1.absoluteString.removingPercentEncoding!,
       file2.absoluteString.removingPercentEncoding!
     ])
@@ -182,7 +190,7 @@ class MaccyUITests: XCTestCase {
     closePopupByClickingOutside()
     copyToClipboard(rtf1, .rtf)
     popUpWithHotkey()
-    XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
+    XCTAssertEqual(Array(itemTitles.prefix(2)), ["foo", "bar"])
     scrollIntoViewIfNeeded(items["bar"].firstMatch)
     hoverAndClick(items["bar"].firstMatch)
     XCTAssertEqual(pasteboard.data(forType: .rtf), rtf2)
@@ -192,7 +200,7 @@ class MaccyUITests: XCTestCase {
     copyToClipboard(html2, .html)
     copyToClipboard(html1, .html)
     popUpWithMouse()
-    XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
+    XCTAssertEqual(Array(itemTitles.prefix(2)), ["foo", "bar"])
     scrollIntoViewIfNeeded(items["bar"].firstMatch)
     hoverAndClick(items["bar"].firstMatch)
     assertPasteboardDataEquals(html2, forType: .html)
@@ -287,11 +295,11 @@ class MaccyUITests: XCTestCase {
     popUpWithMouse()
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
-    XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [copy2, copy1])
 
     app.typeKey(.escape, modifierFlags: [])
     popUpWithMouse()
-    XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [copy2, copy1])
   }
 
   func testPinDuringSearch() {
@@ -300,7 +308,7 @@ class MaccyUITests: XCTestCase {
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     assertSearchFieldValue("")
-    XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [copy2, copy1])
   }
 
   func testUnpin() {
@@ -308,7 +316,7 @@ class MaccyUITests: XCTestCase {
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     pin(copy2)
-    XCTAssertEqual(itemTitles[0...1], [copy1, copy2])
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [copy1, copy2])
   }
 
   func testRemoveLastWordFromSearchWithControlW() {
@@ -329,7 +337,7 @@ class MaccyUITests: XCTestCase {
 
   func testDisablesOnOptionClickingMenubarIcon() {
     XCUIElement.perform(withKeyModifiers: .option) {
-      app.statusItems.firstMatch.click()
+      clickStatusItem()
     }
 
     let copy3 = UUID().uuidString
@@ -343,13 +351,13 @@ class MaccyUITests: XCTestCase {
 
     app.typeKey(.escape, modifierFlags: [])
     XCUIElement.perform(withKeyModifiers: .option) {
-      app.statusItems.firstMatch.click()
+      clickStatusItem()
     }
   }
 
   func testDisablesOnlyForNextCopyOnOptionShiftClickingMenubarIcon() {
     XCUIElement.perform(withKeyModifiers: [.option, .shift]) {
-      app.statusItems.firstMatch.click()
+      clickStatusItem()
     }
 
     let copy3 = UUID().uuidString
@@ -510,14 +518,89 @@ class MaccyUITests: XCTestCase {
 
   // Click outside the popup to close it
   private func closePopupByClickingOutside() {
-    let statusBar = app.statusItems.firstMatch
-    let coordinate = statusBar.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 10.0))
-    coordinate.click()
+    let popup = app.dialogs.firstMatch
+    guard popup.exists else {
+      return
+    }
+
+    let popupFrame = popup.frame
+    let screenWidth = NSScreen.screens.first?.frame.width ?? popupFrame.maxX + 100
+    let margin: CGFloat = 50
+    let targetX = popupFrame.maxX + margin < screenWidth
+      ? popupFrame.maxX + margin
+      : popupFrame.minX - margin
+    popup.coordinate(withNormalizedOffset: .zero)
+      .withOffset(CGVector(dx: targetX - popupFrame.minX, dy: popupFrame.height / 2))
+      .click()
   }
 
   private func popUpWithMouse() {
-    app.statusItems.firstMatch.click()
+    clickStatusItem()
     waitUntilPoppedUp()
+  }
+
+  private var isRunningOnCI: Bool {
+    ProcessInfo.processInfo.environment["CI"] == "true"
+  }
+
+  private func clickStatusItem() {
+    if isRunningOnCI {
+      pressStatusItemViaAccessibility()
+      return
+    }
+
+    let statusItem = app.statusItems.firstMatch
+    if statusItem.waitForExistence(timeout: 3), statusItem.isHittable {
+      statusItem.click()
+    } else {
+      pressStatusItemViaAccessibility()
+    }
+  }
+
+  private func pressStatusItemViaAccessibility() {
+    let pid = NSRunningApplication.runningApplications(withBundleIdentifier: "org.p0deje.Maccy")
+      .max { ($0.launchDate ?? .distantPast) < ($1.launchDate ?? .distantPast) }?
+      .processIdentifier
+    guard let pid else {
+      XCTFail("Maccy is not running")
+      return
+    }
+
+    let appElement = AXUIElementCreateApplication(pid)
+    let deadline = Date.now.addingTimeInterval(3)
+    var statusItem = axStatusItem(of: appElement)
+    while statusItem == nil && Date.now < deadline {
+      Thread.sleep(forTimeInterval: 0.1)
+      statusItem = axStatusItem(of: appElement)
+    }
+    guard let statusItem else {
+      XCTFail("Maccy has no status item exposed via accessibility")
+      return
+    }
+
+    let result = AXUIElementPerformAction(statusItem, kAXPressAction as CFString)
+    XCTAssertEqual(result, .success, "Failed to press status item via accessibility")
+  }
+
+  private func axStatusItem(of appElement: AXUIElement) -> AXUIElement? {
+    guard let extrasMenuBar = axElement(appElement, attribute: kAXExtrasMenuBarAttribute) else {
+      return nil
+    }
+
+    var children: CFTypeRef?
+    guard AXUIElementCopyAttributeValue(extrasMenuBar, kAXChildrenAttribute as CFString, &children) == .success else {
+      return nil
+    }
+    return (children as? [AXUIElement])?.first
+  }
+
+  private func axElement(_ element: AXUIElement, attribute: String) -> AXUIElement? {
+    var value: CFTypeRef?
+    guard AXUIElementCopyAttributeValue(element, attribute as CFString, &value) == .success,
+          let value, CFGetTypeID(value) == AXUIElementGetTypeID() else {
+      return nil
+    }
+    return (value as! AXUIElement) // swiftlint:disable:this force_cast
   }
 
   private func simulatePopupHotkey() {

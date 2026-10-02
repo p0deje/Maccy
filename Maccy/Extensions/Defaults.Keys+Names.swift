@@ -1,7 +1,7 @@
 import AppKit
 import Defaults
 
-struct StorageType {
+nonisolated struct StorageType: Sendable {
   static let files = StorageType(types: [.fileURL])
   static let images = StorageType(types: [.png, .tiff, .jpeg, .heic])
   static let text = StorageType(types: [.html, .rtf, .string])
@@ -10,18 +10,18 @@ struct StorageType {
   var types: [NSPasteboard.PasteboardType]
 }
 
-extension Defaults.Keys {
+nonisolated extension Defaults.Keys {
 #if DEBUG
   // UI Tests bundle preferences
   static let testingSuiteName = "\(Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy").uitests"
 
   // When UI tests run with the `enable-testing` argument, window and pin
   // preferences are stored in a separate xcuitest bundle
-  private static let preferencesSuite: UserDefaults = AppDelegate.isTesting
+  nonisolated(unsafe) private static let preferencesSuite: UserDefaults = AppDelegate.isTesting
     ? (UserDefaults(suiteName: testingSuiteName) ?? .standard)
     : .standard
 #else
-  private static let preferencesSuite: UserDefaults = .standard
+  nonisolated(unsafe) private static let preferencesSuite: UserDefaults = .standard
 #endif
 
   static let clearOnQuit = Key<Bool>("clearOnQuit", default: false, suite: preferencesSuite)

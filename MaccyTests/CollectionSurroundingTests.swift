@@ -1,6 +1,7 @@
 import XCTest
 @testable import Maccy
 
+@MainActor
 class CollectionSurroundingTests: XCTestCase {
   let items = ["pin1", "pin2", "recent1", "recent2", "recent3"]
 

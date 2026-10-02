@@ -14,6 +14,12 @@
         "argument" : "enable-testing"
       }
     ],
+    "environmentVariableEntries" : [
+      {
+        "key" : "CI",
+        "value" : "$(CI)"
+      }
+    ],
     "targetForVariableExpansion" : {
       "containerPath" : "container:Maccy.xcodeproj",
       "identifier" : "DAEE38421E3DBEB100DD2966",

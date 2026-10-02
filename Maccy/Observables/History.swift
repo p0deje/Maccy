@@ -65,7 +65,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @ObservationIgnored
   var all: [HistoryItemDecorator] = []
 
+#if DEBUG
+  static let isRunningUnitTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+#endif
+
   init() {
+    #if DEBUG
+    guard !Self.isRunningUnitTests else { return }
+    #endif
+
     Task {
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
         updateShortcuts()

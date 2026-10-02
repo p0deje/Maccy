@@ -51,7 +51,7 @@ struct StorageSettingsPane: View {
       }
     }
 
-    deinit {
+    isolated deinit {
       observer?.invalidate()
     }
   }

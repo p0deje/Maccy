@@ -64,14 +64,14 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   private(set) var item: HistoryItem
-  
+
   var multiSelectionIndex: Int? {
     guard AppState.shared.navigator.isMultiSelectInProgress else {
       return nil
     }
     return selectionIndex
   }
-  
+
   // Describe the complete item independently of its potentially truncated visual content.
   var accessibilityLabel: String {
     var parts: [String] = []
