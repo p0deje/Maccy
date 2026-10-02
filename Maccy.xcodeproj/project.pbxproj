@@ -1919,7 +1919,7 @@
 			repositoryURL = "https://github.com/apple/swift-log";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 1.6.4;
+				minimumVersion = 1.15.1;
 			};
 		};
 		2F39CB022AD9A93C00B749FD /* XCRemoteSwiftPackageReference "Sparkle" */ = {
@@ -1927,7 +1927,7 @@
 			repositoryURL = "https://github.com/sparkle-project/Sparkle";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 2.6.3;
+				minimumVersion = 2.10.0;
 			};
 		};
 		2F39CB082AD9AE1F00B749FD /* XCRemoteSwiftPackageReference "Settings" */ = {
@@ -1935,7 +1935,7 @@
 			repositoryURL = "https://github.com/sindresorhus/Settings.git";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 3.1.1;
+				minimumVersion = 3.1.2;
 			};
 		};
 		DA009945256414800030E697 /* XCRemoteSwiftPackageReference "SwiftHEXColors" */ = {
@@ -1951,7 +1951,7 @@
 			repositoryURL = "https://github.com/sindresorhus/KeyboardShortcuts";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 2.0.2;
+				minimumVersion = 3.1.0;
 			};
 		};
 		DA13D7C82C19F43E00FA9E23 /* XCRemoteSwiftPackageReference "LaunchAtLogin-Modern" */ = {
@@ -1967,7 +1967,7 @@
 			repositoryURL = "https://github.com/sindresorhus/Defaults";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 8.2.0;
+				minimumVersion = 9.0.9;
 			};
 		};
 		DA5154D62564102900C01004 /* XCRemoteSwiftPackageReference "Sauce" */ = {
@@ -1975,7 +1975,7 @@
 			repositoryURL = "https://github.com/Clipy/Sauce";
 			requirement = {
 				kind = upToNextMinorVersion;
-				minimumVersion = 2.4.1;
+				minimumVersion = 2.5.2;
 			};
 		};
 		DAC0CA3C2C88E7A4003BF498 /* XCRemoteSwiftPackageReference "fuse-swift" */ = {
