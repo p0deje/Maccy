@@ -136,8 +136,8 @@ class ClipboardTests: XCTestCase {
     XCTAssertFalse(Defaults[.ignoreOnlyNextEvent])
   }
 
-  func testIgnoreApplication() {
-    Defaults[.ignoredApps] = ["com.apple.dt.Xcode", "com.apple.finder"] // Finder is on Bitrise
+  func testIgnoreApplication() throws {
+    Defaults[.ignoredApps] = [try frontmostAppBundleIdentifier()]
 
     let hookExpectation = expectation(description: "Hook is called")
     hookExpectation.isInverted = true
@@ -150,9 +150,9 @@ class ClipboardTests: XCTestCase {
     waitForExpectations(timeout: 2)
   }
 
-  func testIgnoreAllApplicationsExcept() {
+  func testIgnoreAllApplicationsExcept() throws {
     Defaults[.ignoreAllAppsExceptListed] = true
-    Defaults[.ignoredApps] = ["com.apple.dt.Xcode", "com.apple.finder"] // Finder is on Bitrise
+    Defaults[.ignoredApps] = [try frontmostAppBundleIdentifier()]
 
     let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (_: HistoryItem) in
@@ -322,6 +322,14 @@ class ClipboardTests: XCTestCase {
     pasteboard.writeObjects([item])
 
     waitForExpectations(timeout: 2)
+  }
+
+  // Clipboard attributes copies to the frontmost app, which differs between CI images and local runs.
+  private func frontmostAppBundleIdentifier() throws -> String {
+    guard let bundleIdentifier = NSWorkspace.shared.frontmostApplication?.bundleIdentifier else {
+      throw XCTSkip("No frontmost application")
+    }
+    return bundleIdentifier
   }
 }
 // swiftlint:enable type_body_length

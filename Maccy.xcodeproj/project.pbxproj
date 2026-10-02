@@ -51,6 +51,7 @@
 		DA05B5142C234DCF006980FE /* HistoryItemContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA05B5122C234DCF006980FE /* HistoryItemContent.swift */; };
 		DA05B5152C234DCF006980FE /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA05B5132C234DCF006980FE /* HistoryItem.swift */; };
 		DA083A6E2C42E8E8004259A0 /* NSImage+Resized.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */; };
+		DAB123450000000000000001 /* NSImage+Downsample.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAB123450000000000000002 /* NSImage+Downsample.swift */; };
 		DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EE7B8204657830025FC60 /* MaccyUITests.swift */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
 		DA0FFA2A2C8D100C00A66C97 /* ModifierFlags+Description.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0FFA292C8D0FEC00A66C97 /* ModifierFlags+Description.swift */; };
@@ -256,6 +257,7 @@
 		DA05B5122C234DCF006980FE /* HistoryItemContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemContent.swift; sourceTree = "<group>"; };
 		DA05B5132C234DCF006980FE /* HistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItem.swift; sourceTree = "<group>"; };
 		DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Resized.swift"; sourceTree = "<group>"; };
+		DAB123450000000000000002 /* NSImage+Downsample.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Downsample.swift"; sourceTree = "<group>"; };
 		DA08FDE7282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DA0D57762E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
 		DA0D57772E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
@@ -639,6 +641,7 @@
 				2F1B61CC301BCFD2000905F9 /* ModifierFlags+Current.swift */,
 				DA7A753D26A52F0F00DC16EF /* NSImage+Names.swift */,
 				DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */,
+				DAB123450000000000000002 /* NSImage+Downsample.swift */,
 				DAC929D6297A0E8B00814F19 /* NSPasteboard.PasteboardType+Types.swift */,
 				DA49EE7428B59468002752E0 /* NSRect+Centered.swift */,
 				DA49EE7828B594DC002752E0 /* NSRunningApplication+WindowFrame.swift */,
@@ -1208,6 +1211,7 @@
 				DA49EE7528B59468002752E0 /* NSRect+Centered.swift in Sources */,
 				DA9C3C602C20E1890056795D /* IgnorePasteboardTypesSettingsView.swift in Sources */,
 				DA083A6E2C42E8E8004259A0 /* NSImage+Resized.swift in Sources */,
+				DAB123450000000000000001 /* NSImage+Downsample.swift in Sources */,
 				2F162E802F1E7B30001FBAFF /* PasteStackPreviewView.swift in Sources */,
 				DAA072E12C41C6E8006DDFD2 /* FooterView.swift in Sources */,
 				2F1A79C02C6DFB7800C98EBD /* SearchVisibility.swift in Sources */,

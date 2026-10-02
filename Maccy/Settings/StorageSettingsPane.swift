@@ -111,6 +111,15 @@ struct StorageSettingsPane: View {
         }
       }
 
+      Settings.Section(label: { Text("Memory", tableName: "StorageSettings") }) {
+        Defaults.Toggle(key: .lowMemoryImageMode) {
+          Text("LowMemoryImages", tableName: "StorageSettings")
+        }
+        Text("LowMemoryImagesDescription", tableName: "StorageSettings")
+          .controlSize(.small)
+          .foregroundStyle(.gray)
+      }
+
       Settings.Section(label: { Text("SortBy", tableName: "StorageSettings") }) {
         Picker("", selection: $sortBy) {
           ForEach(Sorter.By.allCases) { mode in

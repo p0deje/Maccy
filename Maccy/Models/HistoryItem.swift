@@ -166,16 +166,31 @@ class HistoryItem {
     return data
   }
 
+  nonisolated static func imageData(for id: PersistentIdentifier, in container: ModelContainer) -> Data? {
+    let context = ModelContext(container)
+    let item = context.model(for: id) as? HistoryItem
+    return item?.imageData
+  }
+
+  var hasImageContent: Bool {
+    contents.contains { content in
+      Self.imageTypes.contains(NSPasteboard.PasteboardType(content.type))
+    } || (universalClipboardImage && fileURLs.first != nil)
+  }
+
   var image: NSImage? {
-    if let img = cachedDecodedImage {
+    if !Defaults[.lowMemoryImageMode], let img = cachedDecodedImage {
       return img
     }
     guard let data = imageData else {
       return nil
     }
 
-    cachedDecodedImage = NSImage(data: data)
-    return cachedDecodedImage
+    let image = NSImage(data: data)
+    if !Defaults[.lowMemoryImageMode] {
+      cachedDecodedImage = image
+    }
+    return image
   }
 
   var rtfData: Data? { contentData([.rtf]) }

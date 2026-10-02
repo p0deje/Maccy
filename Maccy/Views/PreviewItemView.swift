@@ -1,4 +1,5 @@
 import AppKit
+import Defaults
 import KeyboardShortcuts
 import SwiftUI
 
@@ -6,6 +7,7 @@ struct PreviewItemView: View {
   static var largeTextThreshold = 1_000
 
   var item: HistoryItemDecorator
+  @Environment(AppState.self) private var appState
 
   @ViewBuilder
   func previewImage(content: () -> some View) -> some View {
@@ -17,7 +19,7 @@ struct PreviewItemView: View {
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
       if item.hasImage {
-        AsyncView<NSImage?, _, _>(id: item.id) {
+        AsyncView<NSImage?, _, _>(id: "\(item.id)-\(appState.popup.openGeneration)") {
           return await item.asyncGetPreviewImage()
         } content: { image in
           if let image = image {
@@ -83,10 +85,13 @@ struct PreviewItemView: View {
         }
       }
 
-      if item.hasImage, let image = item.item.image {
+      let imageSize = item.imagePixelSize ?? (
+        Defaults[.lowMemoryImageMode] ? nil : item.item.imageData.flatMap { NSImage.pixelSize(from: $0) }
+      )
+      if item.hasImage, let size = imageSize {
         HStack(spacing: 3) {
           Text("Dimensions", tableName: "PreviewItemView")
-          Text("\(Int(image.pixelSize.width))×\(Int(image.pixelSize.height))")
+          Text("\(Int(size.width))×\(Int(size.height))")
         }
       }
 

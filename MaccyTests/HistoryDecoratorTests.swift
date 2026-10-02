@@ -7,6 +7,7 @@ class HistoryItemDecoratorTests: XCTestCase {
   let boldFont = NSFont.boldSystemFont(ofSize: NSFont.systemFontSize)
   let savedHighlightMatch = Defaults[.highlightMatch]
   let savedImageMaxHeight = Defaults[.imageMaxHeight]
+  let savedLowMemoryImageMode = Defaults[.lowMemoryImageMode]
 
   var firstCopiedAt: Date! {
     let formatter = DateFormatter()
@@ -24,12 +25,14 @@ class HistoryItemDecoratorTests: XCTestCase {
     super.setUp()
     Defaults[.highlightMatch] = .bold
     Defaults[.imageMaxHeight] = 40
+    Defaults[.lowMemoryImageMode] = false
   }
 
   override func tearDown() {
     super.tearDown()
     Defaults[.imageMaxHeight] = savedImageMaxHeight
     Defaults[.highlightMatch] = savedHighlightMatch
+    Defaults[.lowMemoryImageMode] = savedLowMemoryImageMode
   }
 
   func testString() {
@@ -74,6 +77,66 @@ class HistoryItemDecoratorTests: XCTestCase {
     let itemDecorator = historyItemDecorator(image)
     itemDecorator.sizeImages()
     XCTAssertEqual(itemDecorator.thumbnailImage!.size, NSSize(width: 40, height: 40))
+  }
+
+  func testDownsampledImageUsesRequestedMaximumPixelSize() {
+    guard let image = NSImage.downsampled(from: testImageData(), maxPixelSize: 64, scale: 2) else {
+      XCTFail("Expected the test image to be decoded")
+      return
+    }
+
+    XCTAssertEqual(max(image.pixelSize.width, image.pixelSize.height), 64)
+  }
+
+  func testPixelSizeReadsImageHeader() {
+    XCTAssertEqual(NSImage.pixelSize(from: testImageData()), NSSize(width: 262, height: 320))
+  }
+
+  func testImageDataLoaderReadsFromThrowawayContext() throws {
+    let data = testImageData()
+    let item = HistoryItem(contents: [
+      HistoryItemContent(type: NSPasteboard.PasteboardType.jpeg.rawValue, value: data)
+    ])
+    let context = Storage.shared.context
+    context.insert(item)
+    try context.save()
+    defer {
+      context.delete(item)
+      try? context.save()
+    }
+
+    XCTAssertEqual(
+      HistoryItem.imageData(for: item.persistentModelID, in: Storage.shared.container),
+      item.imageData
+    )
+  }
+
+  func testCleanupImagesReleasesLowMemoryImages() async {
+    Defaults[.lowMemoryImageMode] = true
+    let itemDecorator = historyItemDecorator(NSImage(named: "NSApplicationIcon")!, save: true)
+    itemDecorator.ensureThumbnailImage()
+    itemDecorator.ensurePreviewImage()
+    let thumbnailTask = itemDecorator.thumbnailImageGenerationTask
+    let previewTask = itemDecorator.previewImageGenerationTask
+    _ = await thumbnailTask?.result
+    _ = await previewTask?.result
+
+    itemDecorator.cleanupImages()
+
+    XCTAssertNil(itemDecorator.thumbnailImage)
+    XCTAssertNil(itemDecorator.previewImage)
+  }
+
+  func testLowMemoryModeDoesNotCacheDecodedImage() {
+    Defaults[.lowMemoryImageMode] = true
+    let itemDecorator = historyItemDecorator(NSImage(named: "NSApplicationIcon")!)
+
+    let firstImage = itemDecorator.item.image
+    let secondImage = itemDecorator.item.image
+
+    XCTAssertNotNil(firstImage)
+    XCTAssertNotNil(secondImage)
+    XCTAssertFalse(firstImage === secondImage)
   }
 
   func testFile() {
@@ -177,7 +240,7 @@ class HistoryItemDecoratorTests: XCTestCase {
     return HistoryItemDecorator(item)
   }
 
-  private func historyItemDecorator(_ value: NSImage) -> HistoryItemDecorator {
+  private func historyItemDecorator(_ value: NSImage, save: Bool = false) -> HistoryItemDecorator {
     let contents = [
       HistoryItemContent(
         type: NSPasteboard.PasteboardType.tiff.rawValue,
@@ -192,6 +255,9 @@ class HistoryItemDecoratorTests: XCTestCase {
     item.firstCopiedAt = firstCopiedAt
     item.lastCopiedAt = lastCopiedAt
     item.numberOfCopies = 2
+    if save {
+      try? Storage.shared.context.save()
+    }
 
     return HistoryItemDecorator(item)
   }
@@ -217,6 +283,15 @@ class HistoryItemDecoratorTests: XCTestCase {
     item.numberOfCopies = 2
 
     return HistoryItemDecorator(item)
+  }
+
+  private func testImageData() -> Data {
+    guard let url = Bundle(for: type(of: self)).url(forResource: "guy", withExtension: "jpeg"),
+          let data = try? Data(contentsOf: url) else {
+      XCTFail("Expected the test image fixture to be available")
+      return Data()
+    }
+    return data
   }
 
   // swiftlint:disable:next identifier_name

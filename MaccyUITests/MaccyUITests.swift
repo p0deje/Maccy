@@ -86,30 +86,31 @@ class MaccyUITests: XCTestCase {
   }
 
   func testCloseWithHotkey() throws {
-    popUpWithMouse()
+    popUpWithHotkey()
     assertExists(items[copy1])
     simulatePopupHotkey()
     assertNotExists(items[copy1])
   }
 
-  func testPopupWithMenubar() {
+  func testPopupWithMenubar() throws {
+    try skipIfStatusItemIsOffScreen()
     popUpWithMouse()
     assertExists(items[copy1])
     assertExists(items[copy2])
   }
 
   func testNewCopyIsAdded() {
-    popUpWithMouse()
+    popUpWithHotkey()
     let copy3 = UUID().uuidString
     copyToClipboard(copy3)
     assertExists(items[copy3])
     app.typeKey(.escape, modifierFlags: [])
-    popUpWithMouse()
+    popUpWithHotkey()
     assertExists(items[copy2])
   }
 
   func testSearch() {
-    popUpWithMouse()
+    popUpWithHotkey()
     search(copy2)
     assertSearchFieldValue(copy2)
     assertExists(app.staticTexts[copy2])
@@ -119,21 +120,21 @@ class MaccyUITests: XCTestCase {
   func testSearchFiles() {
     copyToClipboard(file2)
     copyToClipboard(file1)
-    popUpWithMouse()
+    popUpWithHotkey()
     search(file2.lastPathComponent)
     assertExists(items[file2.absoluteString.removingPercentEncoding!])
     assertNotExists(items[file1.absoluteString.removingPercentEncoding!])
   }
 
   func testCopyWithClick() {
-    popUpWithMouse()
+    popUpWithHotkey()
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     items[copy2].firstMatch.click()
     assertPasteboardStringEquals(copy2)
   }
 
   func testCopyWithEnter() {
-    popUpWithMouse()
+    popUpWithHotkey()
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     hover(items[copy2].firstMatch)
     app.typeKey(.enter, modifierFlags: [])
@@ -141,13 +142,13 @@ class MaccyUITests: XCTestCase {
   }
 
   func testCopyWithCommandShortcut() {
-    popUpWithMouse()
+    popUpWithHotkey()
     app.typeKey("2", modifierFlags: [.command])
     assertPasteboardStringEquals(copy2)
   }
 
   func testSearchAndCopyWithCommandShortcut() {
-    popUpWithMouse()
+    popUpWithHotkey()
     search(copy2)
     app.typeKey("1", modifierFlags: [.command])
     assertPasteboardStringEquals(copy2)
@@ -156,7 +157,7 @@ class MaccyUITests: XCTestCase {
   func testCopyImage() {
     copyToClipboard(image2)
     copyToClipboard(image1)
-    popUpWithMouse()
+    popUpWithHotkey()
     scrollIntoViewIfNeeded(items.allElementsBoundByIndex[1])
     hoverAndClick(items.allElementsBoundByIndex[1])
     assertPasteboardDataCountEquals(image2.tiffRepresentation!.count, forType: .tiff)
@@ -165,7 +166,7 @@ class MaccyUITests: XCTestCase {
   func testCopyFile() {
     copyToClipboard(file2)
     copyToClipboard(file1)
-    popUpWithMouse()
+    popUpWithHotkey()
 
     XCTAssertEqual(itemTitles[0...1], [
       file1.absoluteString.removingPercentEncoding!,
@@ -191,7 +192,7 @@ class MaccyUITests: XCTestCase {
   func testCopyHTML() {
     copyToClipboard(html2, .html)
     copyToClipboard(html1, .html)
-    popUpWithMouse()
+    popUpWithHotkey()
     XCTAssertEqual(itemTitles[0...1], ["foo", "bar"])
     scrollIntoViewIfNeeded(items["bar"].firstMatch)
     hoverAndClick(items["bar"].firstMatch)
@@ -199,14 +200,14 @@ class MaccyUITests: XCTestCase {
   }
 
   func testDownArrow() {
-    popUpWithMouse()
+    popUpWithHotkey()
     app.typeKey(.downArrow, modifierFlags: [])
     app.typeKey(.enter, modifierFlags: [])
     assertPasteboardStringEquals(copy2)
   }
 
   func testUpArrow() {
-    popUpWithMouse()
+    popUpWithHotkey()
     app.typeKey(.downArrow, modifierFlags: [])
     app.typeKey(.upArrow, modifierFlags: [])
     app.typeKey(.enter, modifierFlags: [])
@@ -214,14 +215,14 @@ class MaccyUITests: XCTestCase {
   }
 
   func testControlJ() {
-    popUpWithMouse()
+    popUpWithHotkey()
     app.typeKey("j", modifierFlags: [.control])
     app.typeKey(.enter, modifierFlags: [])
     assertPasteboardStringEquals(copy2)
   }
 
   func testControlK() {
-    popUpWithMouse()
+    popUpWithHotkey()
     app.typeKey("j", modifierFlags: [.control])
     app.typeKey("k", modifierFlags: [.control])
     app.typeKey(.enter, modifierFlags: [])
@@ -229,73 +230,73 @@ class MaccyUITests: XCTestCase {
   }
 
   func testDeleteEntry() {
-    popUpWithMouse()
+    popUpWithHotkey()
     app.typeKey(.delete, modifierFlags: [.option])
     assertNotExists(items[copy1])
 
     app.typeKey(.escape, modifierFlags: [])
-    popUpWithMouse()
+    popUpWithHotkey()
     assertNotExists(items[copy1])
   }
 
   func testDeleteEntryDuringSearch() {
-    popUpWithMouse()
+    popUpWithHotkey()
     search(copy2)
     app.typeKey(.delete, modifierFlags: [.option])
     assertNotExists(items[copy2])
 
     app.typeKey(.escape, modifierFlags: [])
-    popUpWithMouse()
+    popUpWithHotkey()
     assertNotExists(items[copy2])
   }
 
   func testClear() {
-    popUpWithMouse()
+    popUpWithHotkey()
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     hoverAndClick(app.buttons["Clear"].firstMatch)
     confirmClear()
-    popUpWithMouse()
+    popUpWithHotkey()
     assertNotExists(items[copy1])
     assertExists(items[copy2])
   }
 
   func testClearDuringSearch() {
-    popUpWithMouse()
+    popUpWithHotkey()
     search(copy2)
     hoverAndClick(app.buttons["Clear"].firstMatch)
     confirmClear()
-    popUpWithMouse()
+    popUpWithHotkey()
     assertNotExists(items[copy1])
     assertNotExists(items[copy2])
   }
 
   func testClearAll() {
-    popUpWithMouse()
+    popUpWithHotkey()
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     XCUIElement.perform(withKeyModifiers: [.shift]) {
       hoverAndClick(app.buttons["Clear all"].firstMatch)
     }
     confirmClear()
-    popUpWithMouse()
+    popUpWithHotkey()
     assertNotExists(items[copy1])
     assertNotExists(items[copy2])
   }
 
   func testPin() {
-    popUpWithMouse()
+    popUpWithHotkey()
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
 
     app.typeKey(.escape, modifierFlags: [])
-    popUpWithMouse()
+    popUpWithHotkey()
     XCTAssertEqual(itemTitles[0...1], [copy2, copy1])
   }
 
   func testPinDuringSearch() {
-    popUpWithMouse()
+    popUpWithHotkey()
     search(copy2)
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
@@ -304,7 +305,7 @@ class MaccyUITests: XCTestCase {
   }
 
   func testUnpin() {
-    popUpWithMouse()
+    popUpWithHotkey()
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
     pin(copy2)
     pin(copy2)
@@ -312,14 +313,14 @@ class MaccyUITests: XCTestCase {
   }
 
   func testRemoveLastWordFromSearchWithControlW() {
-    popUpWithMouse()
+    popUpWithHotkey()
     search("foo bar")
     app.typeKey("w", modifierFlags: [.control])
     assertSearchFieldValue("foo ")
   }
 
   func testPasteToSearch() {
-    popUpWithMouse()
+    popUpWithHotkey()
     app.typeKey("v", modifierFlags: [.command])
     waitForSearch()
     assertSearchFieldValue(copy1)
@@ -327,7 +328,8 @@ class MaccyUITests: XCTestCase {
     assertNotExists(items[copy2])
   }
 
-  func testDisablesOnOptionClickingMenubarIcon() {
+  func testDisablesOnOptionClickingMenubarIcon() throws {
+    try skipIfStatusItemIsOffScreen()
     XCUIElement.perform(withKeyModifiers: .option) {
       app.statusItems.firstMatch.click()
     }
@@ -347,7 +349,8 @@ class MaccyUITests: XCTestCase {
     }
   }
 
-  func testDisablesOnlyForNextCopyOnOptionShiftClickingMenubarIcon() {
+  func testDisablesOnlyForNextCopyOnOptionShiftClickingMenubarIcon() throws {
+    try skipIfStatusItemIsOffScreen()
     XCUIElement.perform(withKeyModifiers: [.option, .shift]) {
       app.statusItems.firstMatch.click()
     }
@@ -363,7 +366,7 @@ class MaccyUITests: XCTestCase {
   }
 
   func testCreatesNewCopyOnEnterWhenSearchResultsAreEmpty() {
-    popUpWithMouse()
+    popUpWithHotkey()
     search("foo bar")
     app.typeKey(.return, modifierFlags: [])
     XCTAssertEqual(pasteboard.string(forType: .string), "foo bar")
@@ -508,11 +511,24 @@ class MaccyUITests: XCTestCase {
     ])
   }
 
-  // Click outside the popup to close it
+  // Click outside the popup to close it, on whichever side of it has more room
   private func closePopupByClickingOutside() {
-    let statusBar = app.statusItems.firstMatch
-    let coordinate = statusBar.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 10.0))
-    coordinate.click()
+    let popup = app.dialogs.firstMatch
+    let screen = NSScreen.main?.frame ?? .zero
+    let dx: CGFloat = popup.frame.midX > screen.midX ? -0.5 : 1.5
+    popup.coordinate(withNormalizedOffset: CGVector(dx: dx, dy: 0.5)).click()
+  }
+
+  // macOS 26 can leave the status item unplaced below the bottom-left corner of the screen,
+  // where it can't be clicked. That happens on the Bitrise macOS 26 VM; other tests open
+  // the popup with the hotkey, and only the ones about the menu bar icon need it.
+  private func skipIfStatusItemIsOffScreen() throws {
+    let statusItem = app.statusItems.firstMatch
+    guard statusItem.waitForExistence(timeout: 3) else { return }
+    let screen = NSScreen.screens.reduce(CGRect.null) { $0.union($1.frame) }
+    if !screen.contains(statusItem.frame) {
+      throw XCTSkip("The menu bar icon is off-screen at \(statusItem.frame)")
+    }
   }
 
   private func popUpWithMouse() {
