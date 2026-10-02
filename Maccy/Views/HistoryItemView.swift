@@ -42,39 +42,31 @@ struct HistoryItemView: View {
   }
 
   var body: some View {
-    VStack(alignment: .leading, spacing: 0) {
-      ZStack(alignment: .trailing) {
-        ListItemView(
-          id: item.id,
-          selectionId: item.id,
-          appIcon: item.applicationImage,
-          image: item.thumbnailImage,
-          accessoryImage: item.thumbnailImage != nil ? nil : colorSwatchImage,
-          attributedTitle: item.attributedTitle,
-          shortcuts: item.shortcuts,
-          isSelected: item.isSelected,
-          selectionIndex: item.multiSelectionIndex,
-          selectionAppearance: selectionAppearance,
-          accessibilityLabel: item.accessibilityLabel
-        ) {
-          Text(verbatim: item.title)
-        }
-        .accessibilityIdentifier("copy-history-item")
-        .buttonAction(performSelect)
-        .onAppear {
-          item.ensureThumbnailImage()
-        }
-        .accessibilityAction(named: Text("split_action")) {
-          appState.preview.openSplit(for: item)
-        }
-        .accessibilityAction(named: Text(item.isPinned ? "history_item_unpin_action" : "history_item_pin_action")) {
-          appState.history.togglePin(item)
-        }
-        .accessibilityAction(named: Text("history_item_delete_action")) {
-          appState.history.delete(item)
-        }
-
-      }
+    ListItemView(
+      id: item.id,
+      selectionId: item.id,
+      appIcon: item.applicationImage,
+      image: item.thumbnailImage,
+      accessoryImage: item.thumbnailImage != nil ? nil : colorSwatchImage,
+      attributedTitle: item.attributedTitle,
+      shortcuts: item.shortcuts,
+      isSelected: item.isSelected,
+      selectionIndex: item.multiSelectionIndex,
+      selectionAppearance: selectionAppearance,
+      accessibilityLabel: item.accessibilityLabel
+    ) {
+      Text(verbatim: item.title)
+    }
+    .accessibilityIdentifier("copy-history-item")
+    .buttonAction(performSelect)
+    .onAppear {
+      item.ensureThumbnailImage()
+    }
+    .accessibilityAction(named: Text(item.isPinned ? "history_item_unpin_action" : "history_item_pin_action")) {
+      appState.history.togglePin(item)
+    }
+    .accessibilityAction(named: Text("history_item_delete_action")) {
+      appState.history.delete(item)
     }
   }
 }
