@@ -113,7 +113,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
       identifier: Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy",
       statusBarButton: statusItem.button,
-      onClose: { AppState.shared.popup.reset() }
+      onClose: {
+        AppState.shared.popup.reset()
+        AppState.shared.history.all.forEach { $0.releaseLargeImages() }
+      }
     ) {
       ContentView()
     }
@@ -163,6 +166,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     ensureMigration(key: "2026-08-12-cleanup-orphaned-history-item-contents") {
       _ = try? Storage.shared.cleanupOrphanedContents()
     }
+
+    // Not a one-time migration: it is a no-op once done and resumes if interrupted.
+    _ = try? Storage.shared.externalizeContents()
 
     ensureMigration(key: "2026-08-31-sanitize-history-item-titles") {
       _ = try? Storage.shared.sanitizeTitles()

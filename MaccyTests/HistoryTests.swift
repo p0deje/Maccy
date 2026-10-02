@@ -331,6 +331,23 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     try assertStorageCounts(items: 1, contents: 1)
   }
 
+  func testExternalizingContents() throws {
+    let legacy = history.add(historyItem("legacy"))
+    // Contents stored by older versions have no digest.
+    legacy.item.contents[0].digest = nil
+    try Storage.shared.context.save()
+
+    XCTAssertEqual(try Storage.shared.externalizeContents(), 1)
+    XCTAssertEqual(try Storage.shared.externalizeContents(), 0)
+
+    let contents = try Storage.shared.context.fetch(FetchDescriptor<HistoryItemContent>())
+    XCTAssertEqual(contents.count, 1)
+    XCTAssertEqual(contents[0].item, legacy.item)
+    XCTAssertEqual(contents[0].value, "legacy".data(using: .utf8))
+    XCTAssertEqual(contents[0].digest, HistoryItemContent.digest(contents[0].value!))
+    XCTAssertTrue(legacy.item.supersedes(historyItem("legacy", persisted: false)))
+  }
+
   private func assertStorageCounts(
     items: Int,
     contents: Int,

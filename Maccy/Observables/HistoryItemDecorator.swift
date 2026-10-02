@@ -39,7 +39,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     return url.deletingPathExtension().lastPathComponent
   }
 
-  var hasImage: Bool { item.image != nil }
+  var hasImage: Bool { item.hasImage }
 
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
@@ -48,6 +48,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     item.previewableText
   }
   var thumbnailImage: NSImage?
+  private var imageSize: NSSize?
   var applicationImage: ApplicationImage
 
   // 10k characters seems to be more than enough on large displays
@@ -75,9 +76,12 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   // Describe the complete item independently of its potentially truncated visual content.
   var accessibilityLabel: String {
     var parts: [String] = []
-    if hasImage, let image = item.image {
-      let size = image.pixelSize
+    // The size is known once the thumbnail is generated; decoding the image here
+    // would keep it in memory for every rendered row, even while the popup is hidden.
+    if hasImage, let size = imageSize {
       parts.append(String(format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""), Int(size.width), Int(size.height)))
+    } else if hasImage {
+      parts.append(NSLocalizedString("history_item_image_accessibility_generic", comment: ""))
     } else {
       parts.append(title)
     }
@@ -156,12 +160,24 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     item.clearDecodedImageCache()
   }
 
+  // Only the thumbnail is needed while the popup is closed.
+  @MainActor
+  func releaseLargeImages() {
+    previewImageGenerationTask?.cancel()
+    previewImageGenerationTask = nil
+    previewImage = nil
+    item.clearDecodedImageCache()
+  }
+
   @MainActor
   private func generateThumbnailImage() {
     guard let image = item.image else {
       return
     }
+    imageSize = image.pixelSize
     thumbnailImage = image.resized(to: HistoryItemDecorator.thumbnailImageSize)
+    // Every listed row gets a thumbnail; keeping each full image too would hold them all in memory.
+    item.clearDecodedImageCache()
   }
 
   @MainActor

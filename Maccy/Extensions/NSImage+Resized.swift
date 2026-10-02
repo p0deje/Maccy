@@ -24,13 +24,32 @@ extension NSImage {
       return self
     }
 
-    return NSImage(size: newSize, flipped: false) { destRect in
-      if let context = NSGraphicsContext.current {
-        context.imageInterpolation = .high
-        self.draw(in: destRect, from: NSRect.zero, operation: .copy, fraction: 1)
-      }
-
-      return true
+    // Draw eagerly: a drawing handler would capture `self` and keep the full-size image in memory.
+    let scale = NSScreen.main?.backingScaleFactor ?? 2
+    guard let bitmap = NSBitmapImageRep(
+      bitmapDataPlanes: nil,
+      pixelsWide: Int((newWidth * scale).rounded()),
+      pixelsHigh: Int((newHeight * scale).rounded()),
+      bitsPerSample: 8,
+      samplesPerPixel: 4,
+      hasAlpha: true,
+      isPlanar: false,
+      colorSpaceName: .deviceRGB,
+      bytesPerRow: 0,
+      bitsPerPixel: 0
+    ) else {
+      return self
     }
+    bitmap.size = newSize
+
+    NSGraphicsContext.saveGraphicsState()
+    NSGraphicsContext.current = NSGraphicsContext(bitmapImageRep: bitmap)
+    NSGraphicsContext.current?.imageInterpolation = .high
+    draw(in: NSRect(origin: .zero, size: newSize), from: NSRect.zero, operation: .copy, fraction: 1)
+    NSGraphicsContext.restoreGraphicsState()
+
+    let image = NSImage(size: newSize)
+    image.addRepresentation(bitmap)
+    return image
   }
 }
