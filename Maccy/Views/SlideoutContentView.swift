@@ -214,7 +214,11 @@ private struct InlineFlowLayout: Layout {
   }
 
   private func layout(proposalWidth: CGFloat?, subviews: Subviews) -> (frames: [CGRect], size: CGSize) {
-    let availableWidth = proposalWidth ?? .greatestFiniteMagnitude
+    // SwiftUI may pass an infinite width from a flexible HStack. Returning
+    // that infinity from a custom Layout makes the surrounding LazyVStack
+    // repeatedly invalidate its geometry while scrolling.
+    let finiteProposalWidth = proposalWidth.flatMap { $0.isFinite ? $0 : nil }
+    let availableWidth = finiteProposalWidth ?? .greatestFiniteMagnitude
     var frames: [CGRect] = []
     frames.reserveCapacity(subviews.count)
     var x: CGFloat = 0
@@ -240,7 +244,7 @@ private struct InlineFlowLayout: Layout {
       contentWidth = max(contentWidth, max(0, x - spacing))
     }
 
-    return (frames, CGSize(width: proposalWidth ?? contentWidth, height: y + rowHeight))
+    return (frames, CGSize(width: finiteProposalWidth ?? contentWidth, height: y + rowHeight))
   }
 }
 
