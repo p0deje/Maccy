@@ -107,15 +107,13 @@ struct ToolbarView: View {
     return text.isEmpty ? nil : item.title
   }
 
-  private var selectedSplitItem: HistoryItemDecorator? {
+  private var splitActionDisabled: Bool {
     guard appState.navigator.selection.count == 1,
-          let item = appState.navigator.selection.first,
-          !item.hasImage,
-          !item.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else {
-      return nil
+          let item = appState.navigator.selection.first else {
+      return true
     }
 
-    return item
+    return item.hasImage || item.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
   }
 
   var body: some View {
@@ -134,15 +132,19 @@ struct ToolbarView: View {
           .disabled(selectedImageText == nil)
         }
 
-        if let selectedSplitItem {
-          ToolbarButton {
-            appState.preview.openSplit(for: selectedSplitItem)
-          } label: {
-            Image(systemName: "text.badge.plus")
+        ToolbarButton {
+          guard appState.navigator.selection.count == 1,
+                let item = appState.navigator.selection.first,
+                !splitActionDisabled else {
+            return
           }
-          .help(String(localized: "split_action"))
-          .accessibilityLabel(Text("split_action"))
+          appState.preview.openSplit(for: item)
+        } label: {
+          Image(systemName: "text.badge.plus")
         }
+        .help(String(localized: "split_action"))
+        .accessibilityLabel(Text("split_action"))
+        .disabled(splitActionDisabled)
 
         ToolbarButton {
           withAnimation {

@@ -456,7 +456,7 @@ struct SlideoutContentView: View {
     VStack {
       ToolbarView()
 
-      if let splitItem = appState.preview.splitItem {
+      if appState.preview.state.isOpen, let splitItem = appState.preview.splitItem {
         SplitDetailView(item: splitItem) {
           appState.preview.closeSplit()
         }

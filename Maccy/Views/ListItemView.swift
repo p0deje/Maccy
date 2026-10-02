@@ -40,8 +40,6 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var selectionIndex: Int?
   var help: LocalizedStringKey?
   var selectionAppearance: SelectionAppearance = .none
-  // Space reserved for an optional row action rendered by the parent view.
-  var trailingActionSpacing: CGFloat = 0
   // Complete description used when the row's visual content is hidden from accessibility.
   var accessibilityLabel: String = ""
   @ViewBuilder var title: () -> Title
@@ -118,7 +116,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
           }
         }
       }
-      .padding(.trailing, 10 + trailingActionSpacing)
+      .padding(.trailing, 10)
     }
     .frame(minHeight: Popup.itemHeight)
     .id(id)
