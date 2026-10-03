@@ -7,6 +7,7 @@ import SwiftData
 class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
   let savedSize = Defaults[.size]
   let savedSortBy = Defaults[.sortBy]
+  let savedPinOrder = Defaults[.pinOrder]
   let savedPinTo = Defaults[.pinTo]
   let history = History.shared
 
@@ -15,6 +16,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     history.clearAll()
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt
+    Defaults[.pinOrder] = PinOrder()
     Defaults[.pinTo] = .bottom
   }
 
@@ -22,17 +24,18 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     super.tearDown()
     Defaults[.size] = savedSize
     Defaults[.sortBy] = savedSortBy
+    Defaults[.pinOrder] = savedPinOrder
     Defaults[.pinTo] = savedPinTo
   }
 
   func testDefaultIsEmpty() {
-    XCTAssertEqual(history.items, [])
+    XCTAssertEqual(history.items.toArray(), [])
   }
 
   func testAdding() {
     let first = history.add(historyItem("foo"))
     let second = history.add(historyItem("bar"))
-    XCTAssertEqual(history.items, [second, first])
+    XCTAssertEqual(history.items.toArray(), [second, first])
   }
 
   func testAddingPersistedDuplicate() throws {
@@ -47,7 +50,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     let transferredContents = first.contents
     let merged = history.add(third)
 
-    XCTAssertEqual(history.all, [merged])
+    XCTAssertEqual(history.items.toArray(), [merged])
     XCTAssertEqual(Set(merged.item.contents), Set(transferredContents))
     XCTAssertTrue(merged.item.lastCopiedAt > merged.item.firstCopiedAt)
     XCTAssertEqual(merged.item.numberOfCopies, 2)
@@ -73,7 +76,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     let transferredContents = first.contents
     let merged = history.add(second)
 
-    XCTAssertEqual(history.all, [merged])
+    XCTAssertEqual(history.items.toArray(), [merged])
     XCTAssertEqual(Set(merged.item.contents), Set(transferredContents))
     XCTAssertTrue(merged.item.lastCopiedAt > merged.item.firstCopiedAt)
     XCTAssertEqual(merged.item.numberOfCopies, 2)
@@ -114,7 +117,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     secondItem.title = secondItem.generateTitle()
     let second = history.add(secondItem)
 
-    XCTAssertEqual(history.items, [second])
+    XCTAssertEqual(history.items.toArray(), [second])
     XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
     try assertStorageCounts(items: 1, contents: firstContents.count)
   }
@@ -150,7 +153,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     secondItem.contents = secondContents
     let second = history.add(secondItem)
 
-    XCTAssertEqual(history.items, [second])
+    XCTAssertEqual(history.items.toArray(), [second])
     XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
   }
 
@@ -183,7 +186,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     second.contents = secondContents
     let secondDecorator = history.add(second)
 
-    XCTAssertEqual(history.items, [secondDecorator])
+    XCTAssertEqual(history.items.toArray(), [secondDecorator])
     XCTAssertEqual(history.items[0].item.application, "Xcode.app")
     XCTAssertEqual(Set(history.items[0].item.contents), Set(firstContents))
   }
@@ -198,13 +201,13 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     ))
     let modifiedItemDecorator = history.add(modifiedItem)
 
-    XCTAssertEqual(history.items, [modifiedItemDecorator])
+    XCTAssertEqual(history.items.toArray(), [modifiedItemDecorator])
     XCTAssertEqual(history.items[0].text, "bar")
   }
 
   func testClearingUnpinned() throws {
     let pinned = history.add(historyItem("foo"))
-    pinned.togglePin()
+    history.togglePin(pinned)
     history.add(historyItem("bar"))
     let orphan = HistoryItemContent(
       type: NSPasteboard.PasteboardType.string.rawValue,
@@ -215,14 +218,14 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     history.clear()
 
-    XCTAssertEqual(history.items, [pinned])
+    XCTAssertEqual(history.items.toArray(), [pinned])
     try assertStorageCounts(items: 1, contents: 1)
   }
 
   func testClearingAll() throws {
     history.add(historyItem("foo"))
     let pinned = history.add(historyItem("bar"))
-    pinned.togglePin()
+    history.togglePin(pinned)
     Storage.shared.context.insert(HistoryItemContent(
       type: NSPasteboard.PasteboardType.string.rawValue,
       value: "orphan".data(using: .utf8)
@@ -231,7 +234,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     history.clearAll()
 
-    XCTAssertEqual(history.items, [])
+    XCTAssertEqual(history.items.toArray(), [])
     try assertStorageCounts(items: 0, contents: 0)
   }
 
@@ -252,7 +255,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
     let item = history.add(historyItem("0"))
     items.append(item)
-    item.togglePin()
+    history.togglePin(item)
 
     for index in 1...11 {
       items.append(history.add(historyItem(String(index))))
@@ -262,6 +265,35 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     XCTAssertTrue(history.items.contains(items[10]))
     XCTAssertTrue(history.items.contains(items[0]))
     XCTAssertFalse(history.items.contains(items[1]))
+  }
+
+  func testPinningUpdatesPinOrder() {
+    let item = history.add(historyItem("foo"))
+    history.togglePin(item)
+
+    XCTAssertEqual(history.pinnedItems, [item])
+    XCTAssertEqual(Defaults[.pinOrder].pins, [item.item.pin].compactMap { $0 })
+  }
+
+  func testUnpinningUpdatesPinOrder() {
+    let item = history.add(historyItem("foo"))
+    history.togglePin(item)
+    history.togglePin(item)
+
+    XCTAssertEqual(history.pinnedItems, [])
+    XCTAssertEqual(Defaults[.pinOrder].pins, [])
+  }
+
+  func testMovingPinsUpdatesPinOrder() {
+    let first = history.add(historyItem("foo"))
+    let second = history.add(historyItem("bar"))
+    history.togglePin(first)
+    history.togglePin(second)
+
+    history.movePin(from: IndexSet(integer: 0), to: 2)
+
+    XCTAssertEqual(history.pinnedItems, [second, first])
+    XCTAssertEqual(Defaults[.pinOrder].pins, [second.item.pin, first.item.pin].compactMap { $0 })
   }
 
   func testMaxSizeIsChanged() {
@@ -295,22 +327,22 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
       history.add(historyItem(String(index)))
     }
 
-    XCTAssertEqual(history.all.last, pinned)
+    XCTAssertEqual(history.items.last, pinned)
 
     // Re-copy the pinned item. It is detected as a duplicate, removed and
     // re-inserted while `limitHistorySize` trims an exceeding unpinned item.
     // Before the fix this inserted at a stale, out-of-bounds index and crashed.
     let readded = history.add(historyItem("pinned"))
 
-    XCTAssertTrue(history.all.contains(readded))
-    XCTAssertEqual(history.all.filter(\.isPinned).count, 1)
+    XCTAssertTrue(history.items.contains(readded))
+    XCTAssertEqual(history.items.filter(\.isPinned).count, 1)
   }
 
   func testRemoving() throws {
     let foo = history.add(historyItem("foo"))
     let bar = history.add(historyItem("bar"))
     history.delete(foo)
-    XCTAssertEqual(history.items, [bar])
+    XCTAssertEqual(history.items.toArray(), [bar])
     try assertStorageCounts(items: 1, contents: 1)
   }
 

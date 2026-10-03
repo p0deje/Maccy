@@ -17,6 +17,11 @@ class AppState: Sendable {
   var navigator: NavigationManager
   var preview: SlideoutController
 
+  var isEditingItem: Bool = false
+  var suppressPopupAutoClose: Bool {
+    return navigator.isDragAndDropInProgress || isEditingItem
+  }
+
   var searchVisible: Bool {
     if !Defaults[.showSearch] { return false }
     switch Defaults[.searchVisibility] {
@@ -91,7 +96,7 @@ class AppState: Sendable {
   @MainActor
   func deleteSelection() {
     guard let leadItem = navigator.leadHistoryItem else { return }
-    let nextUnselectedItem = history.visibleItems.nearest(to: leadItem) { !$0.isSelected }
+    let nextUnselectedItem = history.nearestVisible(to: leadItem) { !$0.isSelected }
 
     withTransaction(Transaction()) {
       navigator.selection.forEach { _, item in
@@ -111,10 +116,9 @@ class AppState: Sendable {
       let generalTitle = NSLocalizedString("Title", tableName: "GeneralSettings", comment: "")
       let storageTitle = NSLocalizedString("Title", tableName: "StorageSettings", comment: "")
       let appearanceTitle = NSLocalizedString("Title", tableName: "AppearanceSettings", comment: "")
-      let pinsTitle = NSLocalizedString("Title", tableName: "PinsSettings", comment: "")
       let ignoreTitle = NSLocalizedString("Title", tableName: "IgnoreSettings", comment: "")
       let advancedTitle = NSLocalizedString("Title", tableName: "AdvancedSettings", comment: "")
-      let toolbarTitles = [generalTitle, storageTitle, appearanceTitle, pinsTitle, ignoreTitle, advancedTitle]
+      let toolbarTitles = [generalTitle, storageTitle, appearanceTitle, ignoreTitle, advancedTitle]
       let titleAttributes: [NSAttributedString.Key: Any] = [.font: NSFont.systemFont(ofSize: NSFont.systemFontSize)]
       let titleWidth = toolbarTitles.reduce(CGFloat.zero) {
         $0 + ($1 as NSString).size(withAttributes: titleAttributes).width
@@ -147,16 +151,6 @@ class AppState: Sendable {
             toolbarIcon: NSImage.paintpalette!
           ) {
             AppearanceSettingsPane()
-              .frame(minWidth: minimumWidth)
-          },
-          Settings.Pane(
-            identifier: Settings.PaneIdentifier.pins,
-            title: pinsTitle,
-            toolbarIcon: NSImage.pincircle!
-          ) {
-            PinsSettingsPane()
-              .environment(self)
-              .modelContainer(Storage.shared.container)
               .frame(minWidth: minimumWidth)
           },
           Settings.Pane(

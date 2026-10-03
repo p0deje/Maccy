@@ -64,15 +64,24 @@ class NavigationManager { // swiftlint:disable:this type_body_length
   var isMultiSelectInProgress: Bool {
     return isManualMultiSelect || selection.count > 1
   }
+  var isDragAndDropInProgress: Bool = false {
+    didSet {
+      updateSelectionState()
+    }
+  }
 
   var hoverSelectionWhileKeyboardNavigating: UUID?
   var isKeyboardNavigating: Bool = true {
     didSet {
-      if !isKeyboardNavigating && !isMultiSelectInProgress,
-         let hoverSelection = hoverSelectionWhileKeyboardNavigating {
-        hoverSelectionWhileKeyboardNavigating = nil
-        select(id: hoverSelection)
-      }
+      updateSelectionState()
+    }
+  }
+  
+  private func updateSelectionState() {
+    if !isKeyboardNavigating && !isMultiSelectInProgress && !isDragAndDropInProgress,
+       let hoverSelection = hoverSelectionWhileKeyboardNavigating {
+      hoverSelectionWhileKeyboardNavigating = nil
+      select(id: hoverSelection)
     }
   }
 
@@ -127,7 +136,7 @@ class NavigationManager { // swiftlint:disable:this type_body_length
     var newSelectionState = selection
 
     if isRange {
-      if let itemRange = history.visibleItems.between(
+      if let itemRange = history.visibleBetween(
         from: fromItem,
         to: toItem,
         inOrder: false
