@@ -14,6 +14,13 @@ struct ItemEditorView: View {
   @State private var isTextContent: Bool
   @State private var isRichText: Bool
 
+  private enum Field: Hashable {
+    case title
+    case pin
+  }
+
+  @FocusState private var focusedField: Field?
+
   init(for item: HistoryItemDecorator) {
     self.item = item
     self._editableTitle = State(initialValue: item.item.title)
@@ -38,6 +45,8 @@ struct ItemEditorView: View {
 
           TextField("", text: $editableTitle)
             .disabled(item.hasImage)
+            .focused($focusedField, equals: .title)
+            .onSubmit(saveChanges)
         }
 
         if item.isPinned {
@@ -51,6 +60,7 @@ struct ItemEditorView: View {
               }
             }
             .labelsHidden()
+            .focused($focusedField, equals: .pin)
             .frame(maxWidth: 220, alignment: .leading)
           }
         }
@@ -80,18 +90,17 @@ struct ItemEditorView: View {
         }
         .keyboardShortcut(.cancelAction)
 
-        Button(Self.doneButtonTitle) {
-          applyChanges()
-          dismiss()
-        }
-        .keyboardShortcut(.defaultAction)
+        Button(Self.doneButtonTitle, action: saveChanges)
+        .keyboardShortcut(.return, modifiers: .command)
       }
     }
     .padding(16)
     .frame(minWidth: 540, minHeight: 360)
     .onAppear {
       availablePins = appState.history.availablePins
+      focusedField = item.hasImage ? .pin : .title
     }
+    .onExitCommand { dismiss() }
   }
 
   private static var cancelButtonTitle: String {
@@ -176,5 +185,10 @@ struct ItemEditorView: View {
         HistoryItemContent(type: stringType, value: data)
       )
     }
+  }
+
+  private func saveChanges() {
+    applyChanges()
+    dismiss()
   }
 }
