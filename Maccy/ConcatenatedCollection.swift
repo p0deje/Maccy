@@ -1,5 +1,5 @@
 /// A random-access view over two arrays that does not allocate combined storage.
-struct ConcatenatedCollection<Element>: RandomAccessCollection {
+nonisolated struct ConcatenatedCollection<Element>: RandomAccessCollection {
   typealias Index = Int
 
   private let leading: [Element]
