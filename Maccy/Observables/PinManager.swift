@@ -2,7 +2,7 @@ import Defaults
 import Observation
 import SwiftUI
 
-struct PinOrder: Codable, Equatable, Defaults.Serializable {
+nonisolated struct PinOrder: Codable, Equatable, Defaults.Serializable {
   var pins: [String]
 
   init(pins: [String] = []) {
