@@ -104,8 +104,8 @@ struct ToolbarView: View {
 
   private var editItemEnabled: Bool {
     guard appState.navigator.selection.count == 1 else { return false }
-    guard let pinned = appState.navigator.selection.first else { return false }
-    return pinned.hasPlainText || pinned.hasRichText
+    guard let item = appState.navigator.selection.first else { return false }
+    return item.hasPlainText || item.hasRichText || item.hasImage
   }
 
   private var editableItem: HistoryItemDecorator? {
@@ -159,6 +159,7 @@ struct ToolbarView: View {
           }
         }
         .disabled(!editItemEnabled)
+        .accessibilityIdentifier("edit-item")
 
         ToolbarButton {
           appState.deleteSelection()

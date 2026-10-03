@@ -37,6 +37,7 @@ struct ItemEditorView: View {
             .frame(width: 80, alignment: .leading)
 
           TextField("", text: $editableTitle)
+            .disabled(item.hasImage)
         }
 
         if item.isPinned {
@@ -149,8 +150,10 @@ struct ItemEditorView: View {
   }
 
   private func applyChanges() {
-    item.item.title = editableTitle
-    item.title = editableTitle
+    if !item.hasImage {
+      item.item.title = editableTitle
+      item.title = editableTitle
+    }
 
     if let selectedPin {
       appState.history.updatePin(item.item, to: selectedPin)
