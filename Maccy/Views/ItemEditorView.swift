@@ -6,6 +6,7 @@ struct ItemEditorView: View {
   @Environment(\.dismiss) private var dismiss
 
   let item: HistoryItemDecorator
+  private let originalContent: String
 
   @State private var editableTitle: String
   @State private var editableContent: String
@@ -23,8 +24,9 @@ struct ItemEditorView: View {
 
   init(for item: HistoryItemDecorator) {
     self.item = item
+    self.originalContent = item.item.previewableText
     self._editableTitle = State(initialValue: item.item.title)
-    self._editableContent = State(initialValue: item.item.previewableText)
+    self._editableContent = State(initialValue: originalContent)
     self._selectedPin = State(initialValue: item.item.pin)
 
     // Content can only be edited safely as plain text.
@@ -73,7 +75,7 @@ struct ItemEditorView: View {
         contentEditor
       }
 
-      if isRichText {
+      if isRichText && editableContent != originalContent {
         Label {
           Text("RichTextEditWarning", tableName: "PinsSettings")
         } icon: {
@@ -169,6 +171,7 @@ struct ItemEditorView: View {
     }
 
     guard isTextContent || isRichText else { return }
+    guard editableContent != originalContent else { return }
 
     let historyItem = item.item
     let stringType = NSPasteboard.PasteboardType.string.rawValue
