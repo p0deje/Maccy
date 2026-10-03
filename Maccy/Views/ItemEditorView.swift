@@ -69,20 +69,21 @@ struct ItemEditorView: View {
       }
 
       VStack(alignment: .leading, spacing: 8) {
-        Text("Content", tableName: "PinsSettings")
-          .font(.headline)
+        HStack(spacing: 8) {
+          Text("Content", tableName: "PinsSettings")
+            .font(.headline)
+
+          if isRichText && editableContent.hasChanges {
+            Label {
+              Text("RichTextEditWarning", tableName: "PinsSettings")
+            } icon: {
+              Image(systemName: "exclamationmark.triangle.fill")
+                .foregroundStyle(.orange)
+            }
+          }
+        }
 
         contentEditor
-      }
-
-      if isRichText && editableContent.hasChanges {
-        Label {
-          Text("RichTextEditWarning", tableName: "PinsSettings")
-        } icon: {
-          Image(systemName: "exclamationmark.triangle.fill")
-            .foregroundStyle(.orange)
-        }
-        .font(.footnote)
       }
 
       HStack {
