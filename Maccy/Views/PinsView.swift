@@ -26,6 +26,8 @@ struct PinsView: View {
             index: index
           )
           .draggableItem(item)
+        } forEachModifier: {
+          $0.reorderableItems()
         }
         .draggableContainer(
           items: items,

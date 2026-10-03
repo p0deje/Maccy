@@ -3,6 +3,58 @@ import UniformTypeIdentifiers
 
 typealias Reorderable = Identifiable & Equatable
 
+@available(macOS 27.0, *)
+private struct NativeDraggableContainerModifier<Item: Reorderable>: ViewModifier where Item.ID: Sendable {
+  let items: [Item]
+  @Binding var selection: Selection<Item>
+  @Binding var draggedItems: [Item]
+
+  let moveAction: (IndexSet, Int) -> Void
+
+  func body(content: Content) -> some View {
+    content
+      .reorderContainer(for: Item.self, move: move)
+      .dragContainerSelection(items.filter { selection.items.contains($0) }.map(\.id))
+      .onDragSessionUpdated { session in
+        switch session.phase {
+        case .initial, .active:
+          let identifiers = Set(session.draggedItemIDs(for: Item.ID.self))
+          draggedItems = items.filter { identifiers.contains($0.id) }
+          AppState.shared.navigator.isDragAndDropInProgress = true
+        case .ended, .dataTransferCompleted:
+          resetDragState()
+        default:
+          break
+        }
+      }
+      .onDisappear {
+        resetDragState()
+      }
+  }
+
+  private func move(_ difference: ReorderDifference<Item.ID, ReorderableSingleCollectionIdentifier>) {
+    let identifiers = Set(difference.sources)
+    let source = IndexSet(items.indices.filter { identifiers.contains(items[$0].id) })
+    guard !source.isEmpty else { return }
+
+    let destination: Int
+    switch difference.destination.position {
+    case .before(let identifier):
+      guard let index = items.firstIndex(where: { $0.id == identifier }) else { return }
+      destination = index
+    case .end:
+      destination = items.count
+    }
+
+    moveAction(source, destination)
+  }
+
+  private func resetDragState() {
+    draggedItems = []
+    AppState.shared.navigator.isDragAndDropInProgress = false
+  }
+}
+
 private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>: ViewModifier {
   let items: [Item]
   let contentType: UTType
@@ -210,6 +262,7 @@ extension EnvironmentValues {
 }
 
 extension View {
+  @ViewBuilder
   func draggableContainer<Item: Reorderable, DragPreview: View>(
     items: [Item],
     contentType: UTType,
@@ -217,25 +270,54 @@ extension View {
     selection: Binding<Selection<Item>>,
     draggedItems: Binding<[Item]>,
     moveAction: @escaping (IndexSet, Int) -> Void
-  ) -> some View {
-    modifier(
-      DraggableContainerModifier(
-        items: items,
-        contentType: contentType,
-        dragPreview: dragPreview,
-        selection: selection,
-        draggedItems: draggedItems,
-        moveAction: moveAction
+  ) -> some View where Item.ID: Sendable {
+    if #available(macOS 27.0, *) {
+      modifier(
+        NativeDraggableContainerModifier(
+          items: items,
+          selection: selection,
+          draggedItems: draggedItems,
+          moveAction: moveAction
+        )
       )
-    )
+    } else {
+      modifier(
+        DraggableContainerModifier(
+          items: items,
+          contentType: contentType,
+          dragPreview: dragPreview,
+          selection: selection,
+          draggedItems: draggedItems,
+          moveAction: moveAction
+        )
+      )
+    }
   }
 
   @ViewBuilder
   func draggableItem<Item: Reorderable>(_ item: Item) -> some View {
-    if #available(macOS 26.0, *) {
+    // macOS 27 natively supports reorderable containers.
+    // macOS 26 adds onDragSessionUpdated as an API which makes detecting when a drag session
+    // has ended much more reliable and smoother. The legacy implementation is to bridge that
+    // gap but should be removed in the future.
+    if #available(macOS 27.0, *) {
+      // The enclosing ForEach supplies native drag sources through reorderable().
+      self
+    } else if #available(macOS 26.0, *) {
       modifier(DraggableItemModifier(item: item))
     } else {
       modifier(LegacyDraggableItemModifier(item: item))
+    }
+  }
+}
+
+extension DynamicViewContent {
+  @ViewBuilder
+  func reorderableItems() -> some View {
+    if #available(macOS 27.0, *) {
+      reorderable()
+    } else {
+      self
     }
   }
 }
