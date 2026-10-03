@@ -6,6 +6,8 @@ import Sauce
 
 @Observable
 class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
+  private static let previewMaxParagraphSize = 10_000
+
   static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
   }
@@ -47,14 +49,12 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
-  var previewText: String {
-    item.previewableText
-  }
+  private(set) var previewText = SizedString("")
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
   // 10k characters seems to be more than enough on large displays
-  var text: String { previewText.shortened(to: 10_000) }
+  var text: String { previewText.string.shortened(to: 10_000) }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
@@ -104,6 +104,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
     synchronizeItemPin()
     synchronizeItemTitle()
+    synchronizeItemText()
   }
 
   @MainActor
@@ -232,6 +233,16 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
         guard let self else { return }
         self.title = self.item.title
         self.synchronizeItemTitle()
+      }
+    }
+  }
+
+  private func synchronizeItemText() {
+    previewText = withObservationTracking {
+      SizedString(item.previewableText, maxParagraphBytes: Self.previewMaxParagraphSize)
+    } onChange: { [weak self] in
+      DispatchQueue.main.async { [weak self] in
+        self?.synchronizeItemText()
       }
     }
   }

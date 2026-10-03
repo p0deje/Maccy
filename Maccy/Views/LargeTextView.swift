@@ -3,6 +3,8 @@ import Observation
 import SwiftUI
 
 struct LargeTextView: NSViewRepresentable {
+  @Environment(\.isEnabled) private var isEnabled
+
   private let previewText: String?
   private let editorState: EditorState?
   private let isEditableOverwrite: Bool
@@ -39,7 +41,8 @@ struct LargeTextView: NSViewRepresentable {
     let scrollView = Self.makeScrollView(
       text: editorState?.text ?? previewText ?? "",
       isEditable: isEditable,
-      accessibilityLabel: accessibilityLabel
+      accessibilityLabel: accessibilityLabel,
+      textColor: isEnabled ? .labelColor : .disabledControlTextColor
     )
     if let textView = scrollView.documentView as? NSTextView {
       textView.delegate = context.coordinator
@@ -56,6 +59,7 @@ struct LargeTextView: NSViewRepresentable {
     textView.isEditable = isEditable
     textView.isSelectable = isEditable
     textView.allowsUndo = isEditable
+    textView.textColor = isEnabled ? .labelColor : .disabledControlTextColor
     textView.setAccessibilityLabel(accessibilityLabel)
 
     if previousEditorState !== editorState {
@@ -83,7 +87,8 @@ struct LargeTextView: NSViewRepresentable {
   static func makeScrollView(
     text: String,
     isEditable: Bool = false,
-    accessibilityLabel: String? = nil
+    accessibilityLabel: String? = nil,
+    textColor: NSColor = .labelColor
   ) -> NSScrollView {
     let textView = NSTextView(usingTextLayoutManager: true)
     textView.isEditable = isEditable
@@ -93,7 +98,7 @@ struct LargeTextView: NSViewRepresentable {
     textView.isRichText = false
     textView.drawsBackground = false
     textView.font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
-    textView.textColor = .labelColor
+    textView.textColor = textColor
     textView.textContainerInset = .zero
     textView.minSize = .zero
     textView.maxSize = NSSize(

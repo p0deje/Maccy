@@ -3,5 +3,6 @@
 "Alias" = "Judul";
 "Content" = "Isi";
 "ContentIsNotText" = "Konten yang tidak dapat disunting (gambar atau berkas)";
+"ParagraphsTooLongToEdit" = "Teks berisi paragraf yang terlalu panjang untuk disunting.";
 "RichTextEditWarning" = "Menyunting akan menghapus semua format.";
 "PinCustomizationDescription" = "Anda dapat menyesuaikan tombol pintas, judul, dan isi dari setiap item yang disematkan. Untuk menyunting, klik ganda item tersebut dan masukkan nilai baru.\nHarap diperhatikan bahwa hanya teks biasa yang dapat diubah.";

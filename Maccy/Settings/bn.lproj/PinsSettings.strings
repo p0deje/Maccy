@@ -4,4 +4,5 @@
 "Title" = "আলপিনগুলো";
 "Content" = "";
 "ContentIsNotText" = "";
+"ParagraphsTooLongToEdit" = "পাঠ্যে এমন অনুচ্ছেদ রয়েছে যা সম্পাদনার জন্য খুব দীর্ঘ।";
 "RichTextEditWarning" = "";

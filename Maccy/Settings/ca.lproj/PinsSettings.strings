@@ -3,5 +3,6 @@
 "Alias" = "";
 "Content" = "";
 "ContentIsNotText" = "";
+"ParagraphsTooLongToEdit" = "El text conté paràgrafs massa llargs per editar-los.";
 "RichTextEditWarning" = "";
 "PinCustomizationDescription" = "";

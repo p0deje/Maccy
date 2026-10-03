@@ -13,6 +13,11 @@ struct ItemEditorView: View {
   @State private var availablePins: [String] = []
   @State private var isTextContent: Bool
   @State private var isRichText: Bool
+  @State private var isContentTooLarge: Bool
+
+  private var hasWarning: Bool {
+    isContentTooLarge || (isRichText && editableContent.hasChanges)
+  }
 
   private enum Field: Hashable {
     case title
@@ -24,8 +29,10 @@ struct ItemEditorView: View {
   init(for item: HistoryItemDecorator) {
     self.item = item
     self._editableTitle = State(initialValue: item.item.title)
-    self._editableContent = State(initialValue: LargeTextView.EditorState(text: item.item.previewableText))
+    self._editableContent = State(initialValue: LargeTextView.EditorState(text: item.previewText.string))
     self._selectedPin = State(initialValue: item.item.pin)
+
+    self._isContentTooLarge = State(initialValue: item.previewText.isTruncated)
 
     // Content can only be edited safely as plain text.
     self._isTextContent = State(
@@ -73,9 +80,18 @@ struct ItemEditorView: View {
           Text("Content", tableName: "PinsSettings")
             .font(.headline)
 
-          if isRichText && editableContent.hasChanges {
+          if hasWarning {
             Label {
-              Text("RichTextEditWarning", tableName: "PinsSettings")
+              if isContentTooLarge {
+                Text(NSLocalizedString(
+                  "ParagraphsTooLongToEdit",
+                  tableName: "PinsSettings",
+                  value: "Text contains paragraphs that are too long to edit.",
+                  comment: ""
+                ))
+              } else {
+                Text("RichTextEditWarning", tableName: "PinsSettings")
+              }
             } icon: {
               Image(systemName: "exclamationmark.triangle.fill")
                 .foregroundStyle(.orange)
@@ -130,15 +146,16 @@ struct ItemEditorView: View {
       if isTextContent || isRichText {
         LargeTextView(
           editorState: editableContent,
+          isEditable: !isContentTooLarge,
           accessibilityLabel: NSLocalizedString("Content", tableName: "PinsSettings", comment: ""),
           onCancel: { dismiss() }
         )
+          .disabled(isContentTooLarge)
           .padding(.horizontal, 8)
           .padding(.vertical, 6)
       } else {
         Text("ContentIsNotText", tableName: "PinsSettings")
           .foregroundStyle(.secondary)
-          .italic()
           .frame(
             maxWidth: .infinity,
             maxHeight: .infinity,

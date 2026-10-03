@@ -3,5 +3,6 @@
 "Alias" = "Titul";
 "Content" = "Obsah";
 "ContentIsNotText" = "Neupravitelný obsah (obrázek nebo soubor)";
+"ParagraphsTooLongToEdit" = "Text obsahuje odstavce, které jsou příliš dlouhé pro úpravy.";
 "RichTextEditWarning" = "Při úpravách se zruší veškeré formátování.";
 "PinCustomizationDescription" = "Můžete si přizpůsobit klávesovou zkratku, název a obsah každé připnuté položky. Chcete-li položku upravit, dvakrát na ni klikněte a zadejte novou hodnotu.\nVezměte prosím na vědomí, že měnit lze pouze prostý text.";
