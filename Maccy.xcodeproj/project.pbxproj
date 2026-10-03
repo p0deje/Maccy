@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		DA1438000000000000000005 /* ImageDragPayloadTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1438000000000000000004 /* ImageDragPayloadTests.swift */; };
+		DA1438000000000000000003 /* ImageDragModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1438000000000000000002 /* ImageDragModifier.swift */; };
+		DA1438000000000000000001 /* ImageDragPayload.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA1438000000000000000000 /* ImageDragPayload.swift */; };
 		0ABDD5122BB47F1E0054963B /* NSWorkspace+ApplicationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */; };
 		21FFF308D9217B43FD4C393F /* VoiceOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21DCA6C3D17E48D33D6E608 /* VoiceOver.swift */; };
 		2F0EC7792E7727E3003E2EA9 /* HeightReaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7782E7727E3003E2EA9 /* HeightReaderModifier.swift */; };
@@ -187,6 +190,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		DA1438000000000000000004 /* ImageDragPayloadTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageDragPayloadTests.swift"; sourceTree = "<group>"; };
+		DA1438000000000000000002 /* ImageDragModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageDragModifier.swift"; sourceTree = "<group>"; };
+		DA1438000000000000000000 /* ImageDragPayload.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "ImageDragPayload.swift"; sourceTree = "<group>"; };
 		088F4DA628BECBC40003AD19 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSWorkspace+ApplicationName.swift"; sourceTree = "<group>"; };
 		11680E44DAF848ADB8BA358E /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/PinsSettings.strings; sourceTree = "<group>"; };
@@ -730,6 +736,7 @@
 				2F0EC77A2E772899003E2EA9 /* PinsView.swift */,
 				DA5E627E2C39E53F00F4C710 /* PreviewItemView.strings */,
 				DA1969132C3F11D600258481 /* PreviewItemView.swift */,
+				DA1438000000000000000002 /* ImageDragModifier.swift */,
 				DA1969172C3F327500258481 /* SearchFieldView.swift */,
 				2F578C402EFFE8920088B759 /* SlideoutContentView.swift */,
 				2F578C412EFFE8920088B759 /* SlideoutView.swift */,
@@ -761,6 +768,7 @@
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
 				DA1EDE422045B35300479723 /* HistoryDecoratorTests.swift */,
 				DAFE2DE8268A9B1B00990986 /* HistoryItemTests.swift */,
+				DA1438000000000000000004 /* ImageDragPayloadTests.swift */,
 				DA384E85232746D800603999 /* SearchTests.swift */,
 				DA696BD12401EEE900DE80CF /* SorterTests.swift */,
 				DA360DB41E3DF137005C6F6B /* Info.plist */,
@@ -877,6 +885,7 @@
 				DAA5ACC92C1BEE8A00B58513 /* SoftwareUpdater.swift */,
 				DA696BCD240177E800DE80CF /* Sorter.swift */,
 				DA243D132C2F66DD0012A27F /* Storage.swift */,
+				DA1438000000000000000000 /* ImageDragPayload.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
 				B21DCA6C3D17E48D33D6E608 /* VoiceOver.swift */,
 				DAB8CE4024E3677F00A2500E /* Maccy.entitlements */,
@@ -1103,6 +1112,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DAFE2DE9268A9B1B00990986 /* HistoryItemTests.swift in Sources */,
+				DA1438000000000000000005 /* ImageDragPayloadTests.swift in Sources */,
 				DA3CE8001E44A62500B3AA98 /* ClipboardTests.swift in Sources */,
 				DA1EDE432045B35300479723 /* HistoryDecoratorTests.swift in Sources */,
 				DAE2850223225BD90080E394 /* ColorImageTests.swift in Sources */,
@@ -1180,6 +1190,8 @@
 				DA05B5142C234DCF006980FE /* HistoryItemContent.swift in Sources */,
 				DAA072D32C40A961006DDFD2 /* Color+Random.swift in Sources */,
 				DA05B5152C234DCF006980FE /* HistoryItem.swift in Sources */,
+				DA1438000000000000000003 /* ImageDragModifier.swift in Sources */,
+				DA1438000000000000000001 /* ImageDragPayload.swift in Sources */,
 				DAA072E32C41D1D5006DDFD2 /* ListItemView.swift in Sources */,
 				DAA072D92C41C5AD006DDFD2 /* Footer.swift in Sources */,
 				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,

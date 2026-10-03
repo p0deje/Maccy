@@ -41,6 +41,23 @@ struct HistoryItemView: View {
     }
   }
 
+  private func performHover(mouseMoved: Bool) {
+    let navigator = appState.navigator
+    if mouseMoved && navigator.isKeyboardNavigating {
+      // Resume mouse selection without scrolling to a previously hovered row.
+      navigator.hoverSelectionWhileKeyboardNavigating = nil
+      navigator.isKeyboardNavigating = false
+    }
+    // Follow the same keyboard/multiple-selection rules as hoverSelectionId.
+    if !navigator.isKeyboardNavigating && !navigator.isMultiSelectInProgress {
+      if navigator.leadSelection != item.id {
+        navigator.selectWithoutScrolling(id: item.id)
+      }
+    } else {
+      navigator.hoverSelectionWhileKeyboardNavigating = item.id
+    }
+  }
+
   var body: some View {
     ListItemView(
       id: item.id,
@@ -58,7 +75,9 @@ struct HistoryItemView: View {
       Text(verbatim: item.title)
     }
     .accessibilityIdentifier("copy-history-item")
-    .buttonAction(performSelect)
+    .accessibilityAddTraits(.isButton)
+    .accessibilityAction(.default, performSelect)
+    .modifier(ImageDragModifier(item: item, onClick: performSelect, onHover: performHover))
     .onAppear {
       item.ensureThumbnailImage()
     }

@@ -50,6 +50,8 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     // Bridge FloatingPanel via AppDelegate.
     AppState.shared.appDelegate = self
 
+    ImageDragPayload.cleanup()
+
     Clipboard.shared.onNewCopy { History.shared.add($0) }
     Clipboard.shared.start()
 

@@ -170,6 +170,60 @@ class MaccyUITests: XCTestCase {
     assertPasteboardDataCountEquals(image2.tiffRepresentation!.count, forType: .tiff)
   }
 
+  func testDragImageRowToFinder() throws {
+    try dragImageToFinder(fromPreview: false)
+  }
+
+  func testDragImagePreviewToFinder() throws {
+    try dragImageToFinder(fromPreview: true)
+  }
+
+  private func dragImageToFinder(fromPreview: Bool) throws {
+    let directory = FileManager.default.temporaryDirectory
+      .appendingPathComponent("MaccyDragTest-\(UUID().uuidString)")
+    try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: directory) }
+
+    let finder = XCUIApplication(bundleIdentifier: "com.apple.finder")
+    XCTAssertTrue(NSWorkspace.shared.open(directory))
+    let window = finder.windows[directory.lastPathComponent]
+    XCTAssertTrue(window.waitForExistence(timeout: 5))
+    defer {
+      finder.activate()
+      finder.typeKey("w", modifierFlags: .command)
+    }
+    let destination = window.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.7))
+
+    copyToClipboard(image1)
+    let clipboardChangeCount = pasteboard.changeCount
+    popUpWithMouse()
+    let row = try XCTUnwrap(items.allElementsBoundByIndex.first)
+    let source: XCUIElement
+    if fromPreview {
+      hover(row)
+      source = app.descendants(matching: .any).matching(identifier: "image-drag-preview").firstMatch
+      XCTAssertTrue(source.waitForExistence(timeout: 5))
+    } else {
+      source = row
+    }
+    source.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+      .press(forDuration: 0.2, thenDragTo: destination)
+
+    let receivedFile = expectation(for: NSPredicate { _, _ in
+      let files = try? FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
+      return files?.contains(where: { $0.pathExtension == "png" }) == true
+    }, evaluatedWith: nil)
+    wait(for: [receivedFile], timeout: 10)
+    let files = try FileManager.default.contentsOfDirectory(at: directory, includingPropertiesForKeys: nil)
+    XCTAssertEqual(files.count, 1)
+    let file = try XCTUnwrap(files.first)
+    let bitmap = try XCTUnwrap(NSBitmapImageRep(data: Data(contentsOf: file)))
+    let original = try XCTUnwrap(NSBitmapImageRep(data: XCTUnwrap(image1.tiffRepresentation)))
+    XCTAssertEqual(bitmap.pixelsWide, original.pixelsWide)
+    XCTAssertEqual(bitmap.pixelsHigh, original.pixelsHigh)
+    XCTAssertEqual(pasteboard.changeCount, clipboardChangeCount, "Dragging must not copy or paste the image")
+  }
+
   func testCopyFile() {
     copyToClipboard(file2)
     copyToClipboard(file1)

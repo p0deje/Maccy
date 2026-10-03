@@ -25,6 +25,9 @@ struct PreviewItemView: View {
               Image(nsImage: image)
                 .resizable()
             }
+            .modifier(ImageDragModifier(item: item))
+            .accessibilityLabel(Text(item.accessibilityLabel))
+            .accessibilityIdentifier("image-drag-preview")
           } else {
             previewImage {
               ZStack {
