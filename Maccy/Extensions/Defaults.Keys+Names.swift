@@ -48,6 +48,7 @@ nonisolated extension Defaults.Keys {
     suite: preferencesSuite
   )
   static let imageMaxHeight = Key<Int>("imageMaxHeight", default: 40, suite: preferencesSuite)
+  static let keepHistoryInMemoryOnly = Key<Bool>("keepHistoryInMemoryOnly", default: false, suite: preferencesSuite)
   static let lastReviewRequestedAt = Key<Date>("lastReviewRequestedAt", default: Date.now, suite: preferencesSuite)
   static let menuIcon = Key<MenuIcon>("menuIcon", default: .maccy, suite: preferencesSuite)
   static let migrations = Key<[String: Bool]>("migrations", default: [:], suite: preferencesSuite)
