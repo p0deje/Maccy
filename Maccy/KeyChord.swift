@@ -11,13 +11,19 @@ enum KeyChord: CaseIterable {
       .first { $0.action == #selector(NSText.paste) }
   }
 
+  @MainActor
   static var deleteKey: Key? { Sauce.shared.key(shortcut: .delete) }
+  @MainActor
   static var deleteModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .delete)?.modifiers }
 
+  @MainActor
   static var pinKey: Key? { Sauce.shared.key(shortcut: .pin) }
+  @MainActor
   static var pinModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .pin)?.modifiers }
 
+  @MainActor
   static var previewKey: Key? { Sauce.shared.key(shortcut: .togglePreview) }
+  @MainActor
   static var previewModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .togglePreview)?.modifiers }
 
   case clearHistory
@@ -42,6 +48,7 @@ enum KeyChord: CaseIterable {
   case togglePreview
   case unknown
 
+  @MainActor
   init(_ event: NSEvent?) {
     guard let event, event.type == .keyDown else {
       self = .unknown
@@ -67,6 +74,7 @@ enum KeyChord: CaseIterable {
     self.init(key, modifierFlags)
   }
 
+  @MainActor
   // swiftlint:disable:next cyclomatic_complexity function_body_length
   init(_ key: Key, _ modifierFlags: NSEvent.ModifierFlags) {
     switch (key, modifierFlags) {
