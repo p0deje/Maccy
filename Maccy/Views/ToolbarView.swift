@@ -152,11 +152,9 @@ struct ToolbarView: View {
           appState.isEditingItem = true
           editingItem = editableItem
         } label: {
-          if editItemEnabled {
-            Image(systemName: "pencil")
-          } else {
-            Image(systemName: "pencil.slash")
-          }
+          Image(systemName: "square.and.pencil")
+            .frame(width: 23, height: 23)
+            .contentShape(Rectangle())
         }
         .shortcutKeyHelp(key: "EditItem", tableName: "PreviewItemView")
         .disabled(!editItemEnabled)
