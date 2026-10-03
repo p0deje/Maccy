@@ -216,9 +216,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
         guard let self else { return }
         if let pin = self.item.pin {
           self.shortcuts = KeyShortcut.create(character: pin)
-        } else {
-          self.shortcuts = []
         }
+        // History assigns numeric shortcuts when unpinning. Preserve them when
+        // this observation callback runs after the history has been updated.
         self.synchronizeItemPin()
       }
     }
