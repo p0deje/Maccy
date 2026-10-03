@@ -111,6 +111,7 @@ struct ItemEditorView: View {
 
         Button(Self.doneButtonTitle, action: saveChanges)
           .keyboardShortcut(.return, modifiers: .command)
+          .disabled(!hasChangesToApply)
       }
     }
     .padding(16)
@@ -181,8 +182,15 @@ struct ItemEditorView: View {
       .sorted()
   }
 
+  private var hasChangesToApply: Bool {
+    let titleChanged = !item.hasImage && editableTitle != item.item.title
+    let pinChanged = selectedPin != nil && selectedPin != item.item.pin
+    let contentChanged = (isTextContent || isRichText) && editableContent.hasChanges
+    return titleChanged || pinChanged || contentChanged
+  }
+
   private func applyChanges() {
-    if !item.hasImage {
+    if !item.hasImage && editableTitle != item.item.title {
       item.item.title = editableTitle
       item.title = editableTitle
     }
@@ -211,6 +219,7 @@ struct ItemEditorView: View {
   }
 
   private func saveChanges() {
+    guard hasChangesToApply else { return }
     applyChanges()
     dismiss()
   }
