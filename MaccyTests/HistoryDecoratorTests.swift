@@ -120,6 +120,18 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertFalse(itemDecorator.isPinned)
   }
 
+  func testDeallocatesWhenNoLongerReferenced() {
+    weak var weakDecorator: HistoryItemDecorator?
+
+    autoreleasepool {
+      let itemDecorator = historyItemDecorator("foo")
+      weakDecorator = itemDecorator
+      XCTAssertNotNil(weakDecorator)
+    }
+
+    XCTAssertNil(weakDecorator)
+  }
+
   func testHighlight() {
     let itemDecorator = historyItemDecorator("foo bar baz")
     itemDecorator.highlight("random", [
