@@ -9,3 +9,4 @@
 "ClosePreview" = "Nyomja meg a {previewKey} gombot az előnézet elrejtéséhez.";
 "Dimensions" = "Méretek:";
 "CopyExtractedText" = "Kinyert szöveg másolása.";
+"EditItem" = "Elem szerkesztése";
