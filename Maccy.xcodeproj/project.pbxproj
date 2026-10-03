@@ -55,6 +55,7 @@
 		DA05B5112C234CB2006980FE /* MaccyApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA05B5102C234CB1006980FE /* MaccyApp.swift */; };
 		DA05B5142C234DCF006980FE /* HistoryItemContent.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA05B5122C234DCF006980FE /* HistoryItemContent.swift */; };
 		DA05B5152C234DCF006980FE /* HistoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA05B5132C234DCF006980FE /* HistoryItem.swift */; };
+		C5B760C9035C4B3594C47811 /* SizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC13FFCB59043F2883A4437 /* SizedString.swift */; };
 		DA083A6E2C42E8E8004259A0 /* NSImage+Resized.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */; };
 		DA0EE7B9204657830025FC60 /* MaccyUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EE7B8204657830025FC60 /* MaccyUITests.swift */; };
 		DA0EF1881E444B2A00E58577 /* Clipboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = DA0EF1871E444B2A00E58577 /* Clipboard.swift */; };
@@ -267,6 +268,7 @@
 		DA05B5102C234CB1006980FE /* MaccyApp.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MaccyApp.swift; sourceTree = "<group>"; };
 		DA05B5122C234DCF006980FE /* HistoryItemContent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItemContent.swift; sourceTree = "<group>"; };
 		DA05B5132C234DCF006980FE /* HistoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistoryItem.swift; sourceTree = "<group>"; };
+		DFC13FFCB59043F2883A4437 /* SizedString.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SizedString.swift; sourceTree = "<group>"; };
 		DA083A6D2C42E8E8004259A0 /* NSImage+Resized.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "NSImage+Resized.swift"; sourceTree = "<group>"; };
 		DA08FDE7282596FA0001F3DA /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		DA0D57762E4246B3005101AF /* ro */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ro; path = ro.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
@@ -686,6 +688,7 @@
 			children = (
 				DA05B5132C234DCF006980FE /* HistoryItem.swift */,
 				DA05B5122C234DCF006980FE /* HistoryItemContent.swift */,
+				DFC13FFCB59043F2883A4437 /* SizedString.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1207,6 +1210,7 @@
 				DA05B5142C234DCF006980FE /* HistoryItemContent.swift in Sources */,
 				DAA072D32C40A961006DDFD2 /* Color+Random.swift in Sources */,
 				DA05B5152C234DCF006980FE /* HistoryItem.swift in Sources */,
+				C5B760C9035C4B3594C47811 /* SizedString.swift in Sources */,
 				DAA072E32C41D1D5006DDFD2 /* ListItemView.swift in Sources */,
 				DAA072D92C41C5AD006DDFD2 /* Footer.swift in Sources */,
 				DA696BCE240177E800DE80CF /* Sorter.swift in Sources */,

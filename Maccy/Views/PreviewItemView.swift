@@ -3,7 +3,7 @@ import KeyboardShortcuts
 import SwiftUI
 
 struct PreviewItemView: View {
-  static var largeTextThreshold = 1_000
+  private static let largeTextThreshold = 1_000
 
   var item: HistoryItemDecorator
 
@@ -53,13 +53,12 @@ struct PreviewItemView: View {
           }
         }
       } else {
-        let text = item.previewText
-        if text.count >= Self.largeTextThreshold {
-          LargeTextView(text: text)
+        if item.previewText.byteCount >= Self.largeTextThreshold {
+          LargeTextView(text: item.previewText.string)
             .id("textpreview-\(item.id)")
         } else {
           ScrollView {
-            Text(text)
+            Text(item.previewText.string)
               .font(.body)
               .frame(maxWidth: .infinity, alignment: .leading)
           }
