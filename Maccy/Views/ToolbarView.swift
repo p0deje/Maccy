@@ -158,6 +158,7 @@ struct ToolbarView: View {
             Image(systemName: "pencil.slash")
           }
         }
+        .shortcutKeyHelp(key: "EditItem", tableName: "PreviewItemView")
         .disabled(!editItemEnabled)
         .accessibilityIdentifier("edit-item")
 

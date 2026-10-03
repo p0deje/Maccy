@@ -9,3 +9,4 @@
 "ClosePreview" = "Нажмите {previewKey}, чтобы скрыть предпросмотр.";
 "Dimensions" = "Размеры:";
 "CopyExtractedText" = "Скопировать извлеченный текст.";
+"EditItem" = "Редактировать элемент";

@@ -46,6 +46,7 @@ struct ItemEditorView: View {
             .frame(width: 80, alignment: .leading)
 
           TextField("", text: $editableTitle)
+            .accessibilityLabel(Text("Alias", tableName: "PinsSettings"))
             .disabled(item.hasImage)
             .focused($focusedField, equals: .title)
             .onSubmit(saveChanges)
@@ -62,6 +63,7 @@ struct ItemEditorView: View {
               }
             }
             .labelsHidden()
+            .accessibilityLabel(Text("Key", tableName: "PinsSettings"))
             .focused($focusedField, equals: .pin)
             .frame(maxWidth: 220, alignment: .leading)
           }
@@ -93,11 +95,13 @@ struct ItemEditorView: View {
         .keyboardShortcut(.cancelAction)
 
         Button(Self.doneButtonTitle, action: saveChanges)
-        .keyboardShortcut(.return, modifiers: .command)
+          .keyboardShortcut(.return, modifiers: .command)
       }
     }
     .padding(16)
     .frame(minWidth: 540, minHeight: 360)
+    .accessibilityElement(children: .contain)
+    .accessibilityLabel(Text("EditItem", tableName: "PreviewItemView"))
     .onAppear {
       availablePins = appState.history.availablePins
       focusedField = item.hasImage ? .pin : .title
@@ -126,6 +130,7 @@ struct ItemEditorView: View {
     Group {
       if isTextContent || isRichText {
         TextEditor(text: $editableContent)
+          .accessibilityLabel(Text("Content", tableName: "PinsSettings"))
           .font(.body)
           .scrollContentBackground(.hidden)
           .background(Color.clear)
