@@ -331,6 +331,22 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     try assertStorageCounts(items: 1, contents: 1)
   }
 
+  func testPurgingPersistentHistory() throws {
+    guard #available(macOS 15.0, *) else {
+      throw XCTSkip("SwiftData history API requires macOS 15")
+    }
+
+    let foo = history.add(historyItem("foo"))
+    let descriptor = HistoryDescriptor<DefaultHistoryTransaction>()
+    XCTAssertFalse(try Storage.shared.context.fetchHistory(descriptor).isEmpty)
+
+    try Storage.shared.purgePersistentHistory()
+
+    XCTAssertTrue(try Storage.shared.context.fetchHistory(descriptor).isEmpty)
+    XCTAssertEqual(history.items, [foo])
+    try assertStorageCounts(items: 1, contents: 1)
+  }
+
   private func assertStorageCounts(
     items: Int,
     contents: Int,
