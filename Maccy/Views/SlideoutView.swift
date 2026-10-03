@@ -112,7 +112,13 @@ where Content: View, Slideout: View {
       resizeDivider()
 
       VStack(spacing: 0) {
-        slideout()
+        Group {
+          if controller.state != .closed {
+            slideout()
+          } else {
+            EmptyView()
+          }
+        }
           .frame(
             minWidth: controller.minimumSlideoutWidth,
             idealWidth: !isSlideoutResizing ? controller.slideoutWidth.rounded() : nil,
@@ -130,9 +136,14 @@ where Content: View, Slideout: View {
         horizontal: isAnimating || isContentResizing,
         vertical: false
       )
+      .transaction { transaction in
+        transaction.animation = nil
+      }
       .frame(
         minWidth: controller.state != .open ? 0 : nil,
-        maxWidth: controller.state == .closed ? 0 : nil
+        maxWidth: controller.state == .closed ? 0 : nil,
+        maxHeight: .infinity,
+        alignment: .top
       )
       .clipped()
       // Prevent closed slideout from blocking hover events on content items (#1484)
