@@ -6,10 +6,9 @@ struct ItemEditorView: View {
   @Environment(\.dismiss) private var dismiss
 
   let item: HistoryItemDecorator
-  private let originalContent: String
 
   @State private var editableTitle: String
-  @State private var editableContent: String
+  @State private var editableContent: LargeTextView.EditorState
   @State private var selectedPin: String?
   @State private var availablePins: [String] = []
   @State private var isTextContent: Bool
@@ -24,9 +23,8 @@ struct ItemEditorView: View {
 
   init(for item: HistoryItemDecorator) {
     self.item = item
-    self.originalContent = item.item.previewableText
     self._editableTitle = State(initialValue: item.item.title)
-    self._editableContent = State(initialValue: originalContent)
+    self._editableContent = State(initialValue: LargeTextView.EditorState(text: item.item.previewableText))
     self._selectedPin = State(initialValue: item.item.pin)
 
     // Content can only be edited safely as plain text.
@@ -77,7 +75,7 @@ struct ItemEditorView: View {
         contentEditor
       }
 
-      if isRichText && editableContent != originalContent {
+      if isRichText && editableContent.hasChanges {
         Label {
           Text("RichTextEditWarning", tableName: "PinsSettings")
         } icon: {
@@ -129,11 +127,11 @@ struct ItemEditorView: View {
   private var contentEditor: some View {
     Group {
       if isTextContent || isRichText {
-        TextEditor(text: $editableContent)
-          .accessibilityLabel(Text("Content", tableName: "PinsSettings"))
-          .font(.body)
-          .scrollContentBackground(.hidden)
-          .background(Color.clear)
+        LargeTextView(
+          editorState: editableContent,
+          accessibilityLabel: NSLocalizedString("Content", tableName: "PinsSettings", comment: ""),
+          onCancel: { dismiss() }
+        )
           .padding(.horizontal, 8)
           .padding(.vertical, 6)
       } else {
@@ -176,7 +174,8 @@ struct ItemEditorView: View {
     }
 
     guard isTextContent || isRichText else { return }
-    guard editableContent != originalContent else { return }
+    guard editableContent.hasChanges,
+          let data = editableContent.text.data(using: .utf8) else { return }
 
     let historyItem = item.item
     let stringType = NSPasteboard.PasteboardType.string.rawValue
@@ -185,10 +184,8 @@ struct ItemEditorView: View {
     if let index = historyItem.contents.firstIndex(where: {
       $0.type == stringType
     }) {
-      if let data = editableContent.data(using: .utf8) {
-        historyItem.contents[index].value = data
-      }
-    } else if let data = editableContent.data(using: .utf8) {
+      historyItem.contents[index].value = data
+    } else {
       historyItem.contents.append(
         HistoryItemContent(type: stringType, value: data)
       )
