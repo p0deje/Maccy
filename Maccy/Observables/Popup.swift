@@ -60,8 +60,8 @@ class Popup {
     initEventsMonitor()
   }
 
-  deinit {
-    deinitEventsMonitor()
+  isolated deinit {
+      deinitEventsMonitor()
   }
 
   func initEventsMonitor() {

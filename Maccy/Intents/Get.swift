@@ -1,11 +1,19 @@
 import Foundation
 import AppIntents
 
+private nonisolated struct ItemContents: Sendable {
+  let text: String?
+  let html: Data?
+  let file: URL?
+  let image: Data?
+  let rtf: Data?
+}
+
 struct Get: AppIntent, CustomIntentMigratedAppIntent {
   static let intentClassName = "GetIntent"
 
-  static var title: LocalizedStringResource = "Get Item from Clipboard History"
-  static var description = IntentDescription("""
+  static let title: LocalizedStringResource = "Get Item from Clipboard History"
+  static let description = IntentDescription("""
   Gets an item from Maccy clipboard history.
   The returned item can be used to access its plain/rich/HTML text, image contents or file location.
   """)
@@ -32,38 +40,48 @@ struct Get: AppIntent, CustomIntentMigratedAppIntent {
   }
 
   func perform() async throws -> some IntentResult & ReturnsValue<HistoryItemAppEntity> {
-    var item: HistoryItem?
-    if selected {
-      item = AppState.shared.navigator.selection.first?.item
-    } else {
-      let index = number - positionOffset
-      if AppState.shared.history.items.count >= index {
-        item = AppState.shared.history.items[index].item
+    let contents = try await MainActor.run { () -> ItemContents in
+      var item: HistoryItem?
+      if selected {
+        item = AppState.shared.navigator.selection.first?.item
+      } else {
+        let index = number - positionOffset
+        if AppState.shared.history.items.count >= index {
+          item = AppState.shared.history.items[index].item
+        }
       }
-    }
 
-    guard let item else {
-      throw AppIntentError.notFound
+      guard let item else {
+        throw AppIntentError.notFound
+      }
+
+      return ItemContents(
+        text: item.text,
+        html: item.htmlData,
+        file: item.fileURLs.first,
+        image: item.imageData,
+        rtf: item.rtfData
+      )
     }
 
     let intentItem = HistoryItemAppEntity()
-    intentItem.text = item.text
+    intentItem.text = contents.text
 
-    if let html = item.htmlData {
+    if let html = contents.html {
       intentItem.html = String(data: html, encoding: .utf8)
     }
 
-    if let fileURL = item.fileURLs.first {
+    if let fileURL = contents.file {
       intentItem.file = fileURL
     }
 
-    if let imageData = item.imageData {
+    if let imageData = contents.image {
       let file = URL.documentsDirectory.appending(path: "image.png")
       try imageData.write(to: file, options: [.atomic, .completeFileProtection])
       intentItem.image = file
     }
 
-    if let rtf = item.rtfData {
+    if let rtf = contents.rtf {
       intentItem.richText = String(data: rtf, encoding: .utf8)
     }
 

@@ -1,6 +1,7 @@
 import XCTest
 @testable import Maccy
 
+@MainActor
 class ColorImageTests: XCTestCase {
   func testColorImageFromShortHex() {
     XCTAssertNotNil(ColorImage.from("fff"))

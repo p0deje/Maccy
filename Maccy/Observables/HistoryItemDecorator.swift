@@ -64,14 +64,14 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   private(set) var item: HistoryItem
-  
+
   var multiSelectionIndex: Int? {
     guard AppState.shared.navigator.isMultiSelectInProgress else {
       return nil
     }
     return selectionIndex
   }
-  
+
   // Describe the complete item independently of its potentially truncated visual content.
   var accessibilityLabel: String {
     var parts: [String] = []
@@ -218,8 +218,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   private func synchronizeItemPin() {
     _ = withObservationTracking {
       item.pin
-    } onChange: {
+    } onChange: { [weak self] in
       DispatchQueue.main.async {
+        guard let self else { return }
         if let pin = self.item.pin {
           self.shortcuts = KeyShortcut.create(character: pin)
         }
@@ -231,8 +232,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   private func synchronizeItemTitle() {
     _ = withObservationTracking {
       item.title
-    } onChange: {
+    } onChange: { [weak self] in
       DispatchQueue.main.async {
+        guard let self else { return }
         self.title = self.item.title
         self.synchronizeItemTitle()
       }

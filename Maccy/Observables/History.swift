@@ -19,13 +19,16 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   var pinnedItems: [HistoryItemDecorator] { items.filter(\.isPinned) }
   var unpinnedItems: [HistoryItemDecorator] { items.filter(\.isUnpinned) }
 
+  var firstPinnedItem: HistoryItemDecorator? { items.first(where: \.isPinned) }
+  var firstUnpinnedItem: HistoryItemDecorator? { items.first(where: \.isUnpinned) }
+
   var searchQuery: String = "" {
     didSet {
       throttler.throttle { [self] in
         updateItems(search.search(string: searchQuery, within: all))
 
         if searchQuery.isEmpty {
-          AppState.shared.navigator.select(item: unpinnedItems.first)
+          AppState.shared.navigator.select(item: firstUnpinnedItem)
         } else {
           AppState.shared.navigator.highlightFirst()
         }
@@ -65,7 +68,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @ObservationIgnored
   var all: [HistoryItemDecorator] = []
 
+#if DEBUG
+  static let isRunningUnitTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+#endif
+
   init() {
+    #if DEBUG
+    guard !Self.isRunningUnitTests else { return }
+    #endif
+
     Task {
       for await _ in Defaults.updates(.pasteByDefault, initial: false) {
         updateShortcuts()

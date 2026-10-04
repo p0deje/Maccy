@@ -2,6 +2,7 @@ import XCTest
 import Defaults
 @testable import Maccy
 
+@MainActor
 class SearchTests: XCTestCase {
   let savedSearchMode = Defaults[.searchMode]
   var items: [Search.Searchable]!
@@ -11,7 +12,6 @@ class SearchTests: XCTestCase {
     Defaults[.searchMode] = savedSearchMode
   }
 
-  @MainActor
   func testSimpleSearch() { // swiftlint:disable:this function_body_length
     Defaults[.searchMode] = Search.Mode.exact
     items = [
@@ -72,7 +72,6 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
-  @MainActor
   func testFuzzySearch() { // swiftlint:disable:this function_body_length
     Defaults[.searchMode] = Search.Mode.fuzzy
     items = [
@@ -157,7 +156,6 @@ class SearchTests: XCTestCase {
     XCTAssertEqual(search("m"), [])
   }
 
-  @MainActor
   func testRegexpSearch() { // swiftlint:disable:this function_body_length
     Defaults[.searchMode] = Search.Mode.regexp
     items = [
@@ -246,7 +244,6 @@ class SearchTests: XCTestCase {
     return lowerBound..<upperBound
   }
 
-  @MainActor
   private func historyItemWithTitle(_ value: String?) -> HistoryItem {
     let contents = [
       HistoryItemContent(
