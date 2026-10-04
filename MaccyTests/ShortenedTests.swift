@@ -24,4 +24,13 @@ final class ShortenedTests: XCTestCase {
       XCTAssertEqual(result.count, min(length, input.count))
     }
   }
+
+  func testShortenedCountsGraphemeClusters() {
+    XCTAssertEqual("👍🏽👨‍👩‍👧e\u{301}x".shortened(to: 3), "👍🏽👨‍👩‍👧e\u{301}")
+  }
+
+  func testShortenedVeryLongString() {
+    let input = String(repeating: "a", count: 10 * 1024 * 1024)
+    XCTAssertEqual(input.shortened(to: 10_000), String(repeating: "a", count: 10_000))
+  }
 }
