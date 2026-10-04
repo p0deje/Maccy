@@ -7,6 +7,13 @@ struct PreviewItemView: View {
 
   var item: HistoryItemDecorator
 
+  @State private var isEditingTitle = false
+  @State private var editedTitle: String = ""
+  @State private var isEditingText = false
+  @State private var editedText: String = ""
+  @State private var isAddingNew = false
+  @State private var newItemText: String = ""
+
   @ViewBuilder
   func previewImage(content: () -> some View) -> some View {
     content()
@@ -16,16 +23,49 @@ struct PreviewItemView: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
-      if item.hasImage {
-        AsyncView<NSImage?, _, _>(id: item.id) {
-          return await item.asyncGetPreviewImage()
-        } content: { image in
-          if let image = image {
-            previewImage {
-              Image(nsImage: image)
-                .resizable()
+      if isAddingNew {
+        VStack {
+          TextEditor(text: $newItemText)
+            .font(.body)
+            .border(Color.secondary.opacity(0.5))
+            .frame(minHeight: 100)
+          HStack {
+            Button("Save New") {
+              let newContent = HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: newItemText.data(using: .utf8))
+              let newHistoryItem = HistoryItem(contents: [newContent])
+              History.shared.add(newHistoryItem)
+              isAddingNew = false
             }
-          } else {
+            Button("Cancel") {
+              isAddingNew = false
+            }
+          }
+        }
+      } else {
+        if item.hasImage {
+          AsyncView<NSImage?, _, _>(id: item.id) {
+            return await item.asyncGetPreviewImage()
+          } content: { image in
+            if let image = image {
+              previewImage {
+                Image(nsImage: image)
+                  .resizable()
+              }
+            } else {
+              previewImage {
+                ZStack {
+                  Color.gray.opacity(0.3)
+                    .frame(
+                      idealWidth: HistoryItemDecorator.previewImageSize.width,
+                      idealHeight: HistoryItemDecorator.previewImageSize.height
+                    )
+                  Image(systemName: "photo.badge.exclamationmark")
+                    .symbolRenderingMode(.multicolor)
+                    .frame(alignment: .center)
+                }
+              }
+            }
+          } placeholder: {
             previewImage {
               ZStack {
                 Color.gray.opacity(0.3)
@@ -33,46 +73,97 @@ struct PreviewItemView: View {
                     idealWidth: HistoryItemDecorator.previewImageSize.width,
                     idealHeight: HistoryItemDecorator.previewImageSize.height
                   )
-                Image(systemName: "photo.badge.exclamationmark")
-                  .symbolRenderingMode(.multicolor)
+                ProgressView()
                   .frame(alignment: .center)
               }
             }
           }
-        } placeholder: {
-          previewImage {
-            ZStack {
-              Color.gray.opacity(0.3)
-                .frame(
-                  idealWidth: HistoryItemDecorator.previewImageSize.width,
-                  idealHeight: HistoryItemDecorator.previewImageSize.height
-                )
-              ProgressView()
-                .frame(alignment: .center)
+        } else {
+          if isEditingText {
+            VStack {
+              TextEditor(text: $editedText)
+                .font(.body)
+                .border(Color.secondary.opacity(0.5))
+                .frame(minHeight: 100)
+              HStack {
+                Button("Save") {
+                  item.updateText(editedText)
+                  try? Storage.shared.context.save()
+                  isEditingText = false
+                }
+                Button("Cancel") {
+                  isEditingText = false
+                }
+              }
+            }
+          } else {
+            ZStack(alignment: .topTrailing) {
+              let text = item.previewText
+              if text.count >= Self.largeTextThreshold {
+                LargeTextPreviewView(text: text)
+                  .id("textpreview-\(item.id)")
+              } else {
+                ScrollView {
+                  Text(text)
+                    .font(.body)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                }
+                .frame(maxWidth: .infinity)
+              }
+              
+              Button(action: {
+                editedText = item.previewText
+                isEditingText = true
+              }) {
+                Image(systemName: "pencil.circle.fill")
+                  .font(.title2)
+                  .foregroundColor(.accentColor)
+              }
+              .buttonStyle(.plain)
+              .padding(4)
             }
           }
         }
-      } else {
-        let text = item.previewText
-        if text.count >= Self.largeTextThreshold {
-          LargeTextPreviewView(text: text)
-            .id("textpreview-\(item.id)")
-        } else {
-          ScrollView {
-            Text(text)
-              .font(.body)
-              .frame(maxWidth: .infinity, alignment: .leading)
+
+        Spacer(minLength: 0)
+
+        Divider()
+          .padding(.bottom)
+
+        HStack(spacing: 3) {
+          if isEditingTitle {
+            TextField("Title", text: $editedTitle)
+              .textFieldStyle(.roundedBorder)
+              .onSubmit {
+                item.item.title = editedTitle
+                try? Storage.shared.context.save()
+                isEditingTitle = false
+              }
+          } else {
+            Button(action: {
+              editedTitle = item.item.title
+              isEditingTitle = true
+            }) {
+              Text(item.item.title.isEmpty ? "Add Title" : "Edit Title")
+            }
+            .buttonStyle(.link)
+            .foregroundColor(.accentColor)
           }
-          .frame(maxWidth: .infinity)
+
+          Spacer()
+
+          Button(action: {
+            newItemText = ""
+            isAddingNew = true
+          }) {
+            Image(systemName: "plus.circle.fill")
+            Text("Add New")
+          }
+          .buttonStyle(.plain)
+          .foregroundColor(.accentColor)
         }
-      }
 
-      Spacer(minLength: 0)
-
-      Divider()
-        .padding(.bottom)
-
-      if let application = item.application {
+        if let application = item.application {
         HStack(spacing: 3) {
           Text("Application", tableName: "PreviewItemView")
           AppImageView(

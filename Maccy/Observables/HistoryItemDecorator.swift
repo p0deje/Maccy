@@ -240,4 +240,15 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
       }
     }
   }
+
+  @MainActor
+  func updateText(_ newText: String) {
+    let stringType = NSPasteboard.PasteboardType.string.rawValue
+    if let content = item.contents.first(where: { $0.type == stringType }) {
+      content.value = newText.data(using: .utf8)
+    } else {
+      let newContent = HistoryItemContent(type: stringType, value: newText.data(using: .utf8))
+      item.contents.append(newContent)
+    }
+  }
 }
