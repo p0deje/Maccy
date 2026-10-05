@@ -275,6 +275,45 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     XCTAssertEqual(Defaults[.pinOrder].pins, [item.item.pin].compactMap { $0 })
   }
 
+  func testPinningAfterAllShortcutsAreAssigned() async throws {
+    let supportedPins = HistoryItem.supportedPins
+    for index in 0..<supportedPins.count {
+      let item = history.add(historyItem("keyed \(index)"))
+      history.togglePin(item)
+    }
+
+    XCTAssertTrue(history.availablePins.isEmpty)
+    XCTAssertEqual(Set(history.pinnedItems.compactMap(\.item.pin)), supportedPins)
+
+    let first = history.add(historyItem("first without shortcut"))
+    history.togglePin(first)
+    let second = history.add(historyItem("second without shortcut"))
+    history.togglePin(second)
+
+    XCTAssertEqual(first.item.pin, "")
+    XCTAssertEqual(second.item.pin, "")
+    XCTAssertEqual(history.pinnedItems.suffix(2), [first, second])
+    XCTAssertTrue(history.unpinnedItems.isEmpty)
+
+    for index in 0...Defaults[.size] {
+      history.add(historyItem("unpinned \(index)"))
+    }
+
+    let expectedCount = supportedPins.count + 2
+    XCTAssertEqual(history.pinnedItems.count, expectedCount)
+    try assertStorageCounts(
+      items: expectedCount + Defaults[.size],
+      contents: expectedCount + Defaults[.size]
+    )
+
+    try await history.load()
+    XCTAssertEqual(history.pinnedItems.count, expectedCount)
+    XCTAssertEqual(
+      Set(history.pinnedItems.filter { $0.item.pin == "" }.map(\.title)),
+      ["first without shortcut", "second without shortcut"]
+    )
+  }
+
   func testUnpinningUpdatesPinOrder() {
     let item = history.add(historyItem("foo"))
     history.togglePin(item)
