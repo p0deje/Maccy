@@ -4,6 +4,9 @@
 "Images" = "Images";
 "Text" = "Text";
 "SaveDescription" = "Change what types of copied content should be stored.";
+"Disk" = "Disk:";
+"KeepHistoryInMemoryOnly" = "Keep history in memory only";
+"KeepHistoryInMemoryOnlyDescription" = "History is never written to disk and is lost when Maccy quits. Any history already on disk is deleted the next time Maccy starts. Takes effect after restarting Maccy.";
 "Size" = "Size:";
 "SizeTooltip" = "Number of history items to keep.\nDefault: 200.";
 "CurrentSizeTooltip" = "Current size on disk.";

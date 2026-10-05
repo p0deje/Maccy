@@ -402,6 +402,27 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     try assertStorageCounts(items: 1, contents: 1)
   }
 
+  func testRemovingStoreDeletesSidecarFiles() throws {
+    let directory = FileManager.default.temporaryDirectory
+      .appending(path: "MaccyStorageTests-\(UUID().uuidString)")
+    try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+    defer { try? FileManager.default.removeItem(at: directory) }
+
+    let store = directory.appending(path: "Storage.sqlite")
+    let sidecars = [store, URL(filePath: store.path + "-wal"), URL(filePath: store.path + "-shm")]
+    let unrelated = directory.appending(path: "Other.sqlite")
+    for file in sidecars + [unrelated] {
+      try Data().write(to: file)
+    }
+
+    Storage.removeStore(at: store)
+
+    for file in sidecars {
+      XCTAssertFalse(FileManager.default.fileExists(atPath: file.path), file.lastPathComponent)
+    }
+    XCTAssertTrue(FileManager.default.fileExists(atPath: unrelated.path))
+  }
+
   private func assertStorageCounts(
     items: Int,
     contents: Int,

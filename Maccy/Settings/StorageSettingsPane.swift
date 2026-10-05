@@ -92,6 +92,18 @@ struct StorageSettingsPane: View {
           .foregroundStyle(.gray)
       }
 
+      Settings.Section(
+        bottomDivider: true,
+        label: { Text("Disk", tableName: "StorageSettings") }
+      ) {
+        Defaults.Toggle(key: .keepHistoryInMemoryOnly) {
+          Text("KeepHistoryInMemoryOnly", tableName: "StorageSettings")
+        }
+        Text("KeepHistoryInMemoryOnlyDescription", tableName: "StorageSettings")
+          .controlSize(.small)
+          .foregroundStyle(.gray)
+      }
+
       Settings.Section(label: { Text("Size", tableName: "StorageSettings") }) {
         HStack {
           TextField("", value: $size, formatter: sizeFormatter)
