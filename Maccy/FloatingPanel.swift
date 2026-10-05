@@ -37,9 +37,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
     animationBehavior = .none
     isFloatingPanel = true
-    // Chrome autofill uses window layer 999; screenSaver (1000) sits just above it
-    // while still covering status items / Spotlight. See #1403.
-    level = .screenSaver
+    // TODO: Automatically detect Chrome autofill that uses window layer 999 and set to screenSaver (1000). See #1403.
+    level = .statusBar
     collectionBehavior = [.auxiliary, .stationary, .moveToActiveSpace, .fullScreenAuxiliary]
     titleVisibility = .hidden
     titlebarAppearsTransparent = true
@@ -58,11 +57,6 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
         content: view(),
         onWindowDragEnded: { [weak self] in
           self?.saveWindowPosition()
-        },
-        onDragAndDropStateChange: { [weak self] isDragAndDropInProgress in
-          // At screenSaver level the drag preview is behind the popup, which prevents
-          // the drag-and-drop lifecycle from being triggered.
-          self?.level = isDragAndDropInProgress ? .popUpMenu : .screenSaver
         }
       )
     )
@@ -244,7 +238,6 @@ private struct FloatingPanelRootView<Content: View>: View {
 
   let content: Content
   let onWindowDragEnded: () -> Void
-  let onDragAndDropStateChange: (Bool) -> Void
 
   var body: some View {
     content
@@ -256,11 +249,5 @@ private struct FloatingPanelRootView<Content: View>: View {
             onWindowDragEnded()
           }
       )
-      .onChange(
-        of: appState.navigator.isDragAndDropInProgress,
-        initial: true
-      ) { _, isDragAndDropInProgress in
-        onDragAndDropStateChange(isDragAndDropInProgress)
-      }
   }
 }
