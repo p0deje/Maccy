@@ -135,7 +135,7 @@ struct ToolbarView: View {
           }
         } label: {
           if (appState.navigator.selection.items.allSatisfy { $0.isPinned }) {
-            Image(systemName: "pin.slash")
+            Image(systemName: "pin.slash.fill")
           } else {
             Image(systemName: "pin")
           }
@@ -152,9 +152,7 @@ struct ToolbarView: View {
           appState.isEditingItem = true
           editingItem = editableItem
         } label: {
-          Image(systemName: "square.and.pencil")
-            .frame(width: 23, height: 23)
-            .contentShape(Rectangle())
+          Image(systemName: "pencil.and.list.clipboard")
         }
         .shortcutKeyHelp(key: "EditItem", tableName: "PreviewItemView")
         .disabled(!editItemEnabled)
