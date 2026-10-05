@@ -128,10 +128,9 @@ final class PinManager {
   }
 
   private func pin(_ item: HistoryItemDecorator) {
-    guard item.isUnpinned, let pin = availablePins.randomElement() else {
-      return
-    }
+    guard item.isUnpinned else { return }
 
+    let pin = availablePins.randomElement() ?? ""
     item.item.pin = pin
     pinnedItems.append(item)
 
