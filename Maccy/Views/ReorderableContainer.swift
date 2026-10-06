@@ -65,6 +65,7 @@ private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>:
   let moveAction: (IndexSet, Int) -> Void
 
   @State private var active: Item?
+  @State private var lastDropPosition: DropPosition<Item.ID>?
 
   func body(content: Content) -> some View {
     content
@@ -111,6 +112,7 @@ private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>:
   private func resetDragState() {
     draggedItems = []
     active = nil
+    lastDropPosition = nil
     AppState.shared.navigator.isDragAndDropInProgress = false
   }
 
@@ -123,17 +125,20 @@ private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>:
   private func move(to item: Any, at edge: ReorderableDropEdge) {
     guard let item = item as? Item else { return }
     guard !draggedItems.contains(item), let current = active else { return }
+    let dropPosition = DropPosition(itemID: item.id, edge: edge)
+    guard dropPosition != lastDropPosition else { return }
+    lastDropPosition = dropPosition
+
     guard let currentIndex = items.firstIndex(of: current) else { return }
     guard let targetIndex = items.firstIndex(of: item) else { return }
-    let source = sourceIndexes
-    guard !source.isEmpty else { return }
-
     guard let destinationIndex = reorderDestination(
       currentIndex: currentIndex,
       targetIndex: targetIndex,
       edge: edge
     ) else { return }
 
+    let source = sourceIndexes
+    guard !source.isEmpty else { return }
     moveAction(source, destinationIndex)
   }
 
@@ -144,6 +149,11 @@ private struct DraggableContainerModifier<Item: Reorderable, DragPreview: View>:
     }
     return source
   }
+}
+
+private struct DropPosition<ItemID: Hashable>: Equatable {
+  let itemID: ItemID
+  let edge: ReorderableDropEdge
 }
 
 @available(macOS 26.0, *)
@@ -225,7 +235,7 @@ struct ReorderableDragContext {
   let move: (Any, ReorderableDropEdge) -> Void
 }
 
-enum ReorderableDropEdge {
+enum ReorderableDropEdge: Equatable {
   case before
   case after
 }
