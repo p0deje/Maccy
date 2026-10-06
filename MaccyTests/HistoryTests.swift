@@ -334,7 +334,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
   func testRemovingUnpersistableContents() throws {
     let live = history.add(historyItem("live"))
     live.item.contents.append(HistoryItemContent(
-      type: NSPasteboard.PasteboardType.webArchive.rawValue,
+      type: NSPasteboard.PasteboardType.safariWebArchve.rawValue,
       value: Data(repeating: 0x61, count: 1024)
     ))
     try Storage.shared.context.save()

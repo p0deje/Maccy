@@ -325,7 +325,7 @@ class ClipboardTests: XCTestCase {
   }
 
   func testDoesNotStoreSafariWebArchive() {
-    let webArchive = NSPasteboard.PasteboardType.webArchive
+    let webArchive = NSPasteboard.PasteboardType.safariWebArchve
     let hookExpectation = expectation(description: "Hook is called")
     clipboard.onNewCopy({ (item: HistoryItem) in
       XCTAssertEqual(Set(item.contents.map(\.type)), [self.stringType.rawValue])

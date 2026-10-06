@@ -1,3 +1,4 @@
+import AppKit.NSPasteboard
 import Foundation
 import SwiftData
 
@@ -52,18 +53,17 @@ class Storage {
     return count
   }
 
-  // Drop pasteboard representations that Settings never enabled, especially
-  // Safari WebArchives that used to be stored because they rode along with text.
   func removeUnpersistableContents() throws -> Int {
     let contents = try context.fetch(FetchDescriptor<HistoryItemContent>())
-    let unwanted = contents.filter { !Clipboard.isPersistable(rawType: $0.type) }
+    let unwanted = contents.filter {
+      !Clipboard.shared.isPersistable(NSPasteboard.PasteboardType($0.type))
+    }
+
     guard !unwanted.isEmpty else {
       return 0
     }
 
-    for content in unwanted {
-      context.delete(content)
-    }
+    unwanted.forEach(context.delete)
     context.processPendingChanges()
     try context.save()
 
