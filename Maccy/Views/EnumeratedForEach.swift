@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct EnumeratedForEach<Data, ID, Content>: View
+public struct EnumeratedForEach<Data, ID, Content>: DynamicViewContent
 where Data: RandomAccessCollection, Data.Element: Identifiable<ID>, ID: Hashable, Content: View {
 
   public var data: Data
