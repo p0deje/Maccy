@@ -243,6 +243,9 @@ extension View {
 
   @ViewBuilder
   func draggableItem<Item: Reorderable>(_ item: Item) -> some View {
+    // macOS 26 adds onDragSessionUpdated as an API which makes detecting when a drag session
+    // has ended much more reliable and smoother. The legacy implementation is to bridge that
+    // gap but should be removed in the future.
     if #available(macOS 26.0, *) {
       modifier(DraggableItemModifier(item: item))
     } else {
