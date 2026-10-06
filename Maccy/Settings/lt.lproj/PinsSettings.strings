@@ -3,5 +3,6 @@
 "Alias" = "Pavadinimas";
 "Content" = "Turinys";
 "ContentIsNotText" = "Neredaguojamas turinys (vaizdas arba failas)";
+"ParagraphsTooLongToEdit" = "Tekste yra pastraipų, kurios per ilgos redaguoti.";
 "RichTextEditWarning" = "Redaguojant bus panaikintas visas formatavimas.";
 "PinCustomizationDescription" = "Galite pritaikyti bet kurio prisegto elemento sparčiuosius klavišus, pavadinimą ir turinį. Norėdami redaguoti, dukart spustelėkite elementą ir įveskite naują reikšmę.\nAtkreipkite dėmesį, kad galima keisti tik paprastą tekstą.";

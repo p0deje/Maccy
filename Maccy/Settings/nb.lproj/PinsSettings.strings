@@ -3,5 +3,6 @@
 "Alias" = "Tittel";
 "Content" = "Innhold";
 "ContentIsNotText" = "Ikke-redigerbart innhold (bilde eller fil)";
+"ParagraphsTooLongToEdit" = "Teksten inneholder avsnitt som er for lange til å redigeres.";
 "RichTextEditWarning" = "Hvis du redigerer, slettes all formatering.";
 "PinCustomizationDescription" = "Du kan tilpasse hurtigtasten, tittelen og innholdet i alle festede elementer. Du redigerer ved å dobbeltklikke på elementet og angi en ny verdi.\nVær oppmerksom på at det bare er ren tekst som kan endres.";

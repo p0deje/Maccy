@@ -2,7 +2,9 @@ import XCTest
 import Defaults
 @testable import Maccy
 
+@MainActor
 class SorterTests: XCTestCase {
+  let savedPinOrder = Defaults[.pinOrder]
   let savedPinTo = Defaults[.pinTo]
   let sorter = Sorter()
 
@@ -10,16 +12,17 @@ class SorterTests: XCTestCase {
   var item2: HistoryItem!
   var item3: HistoryItem!
 
-  @MainActor
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     item1 = historyItem(value: "foo", firstCopiedAt: -300, lastCopiedAt: -100, numberOfCopies: 3)
     item2 = historyItem(value: "bar", firstCopiedAt: -400, lastCopiedAt: -300, numberOfCopies: 2)
     item3 = historyItem(value: "bar", firstCopiedAt: -200, lastCopiedAt: -200, numberOfCopies: 1)
+    Defaults[.pinOrder] = PinOrder()
   }
 
   override func tearDown() {
     super.tearDown()
+    Defaults[.pinOrder] = savedPinOrder
     Defaults[.pinTo] = savedPinTo
   }
 
@@ -51,7 +54,6 @@ class SorterTests: XCTestCase {
     XCTAssertEqual(sorter.sort([item1, item2, item3], by: .lastCopiedAt), [item2, item1, item3])
   }
 
-  @MainActor
   private func historyItem(
     value: String,
     firstCopiedAt: Int,

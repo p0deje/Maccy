@@ -1,7 +1,7 @@
 import AppIntents
 
 struct HistoryItemAppEntity: TransientAppEntity {
-  static var typeDisplayRepresentation = TypeDisplayRepresentation(name: "Clipboard item")
+  static let typeDisplayRepresentation = TypeDisplayRepresentation(name: "Clipboard item")
 
   @Property(title: "File")
   var file: URL?

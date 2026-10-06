@@ -6,6 +6,8 @@ import Sauce
 
 @Observable
 class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
+  private static let previewMaxParagraphSize = 10_000
+
   static func == (lhs: HistoryItemDecorator, rhs: HistoryItemDecorator) -> Bool {
     return lhs.id == rhs.id
   }
@@ -40,18 +42,19 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   var hasImage: Bool { item.image != nil }
+  var hasFileURLs: Bool { !item.fileURLs.isEmpty }
+  var hasPlainText: Bool { item.text != nil }
+  var hasRichText: Bool { item.rtf != nil || item.html != nil }
 
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
-  var previewText: String {
-    item.previewableText
-  }
+  private(set) var previewText = SizedString("")
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
   // 10k characters seems to be more than enough on large displays
-  var text: String { previewText.shortened(to: 10_000) }
+  var text: String { previewText.string.shortened(to: 10_000) }
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
@@ -64,14 +67,14 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   private(set) var item: HistoryItem
-  
+
   var multiSelectionIndex: Int? {
-    guard AppState.shared.navigator.isMultiSelectInProgress else {
+    guard selectionIndex >= 0, AppState.shared.navigator.isMultiSelectInProgress else {
       return nil
     }
     return selectionIndex
   }
-  
+
   // Describe the complete item independently of its potentially truncated visual content.
   var accessibilityLabel: String {
     var parts: [String] = []
@@ -101,6 +104,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
     synchronizeItemPin()
     synchronizeItemTitle()
+    synchronizeItemText()
   }
 
   @MainActor
@@ -205,24 +209,17 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     attributedTitle = attributedString
   }
 
-  @MainActor
-  func togglePin() {
-    if item.pin != nil {
-      item.pin = nil
-    } else {
-      let pin = HistoryItem.randomAvailablePin
-      item.pin = pin
-    }
-  }
-
   private func synchronizeItemPin() {
     _ = withObservationTracking {
       item.pin
-    } onChange: {
+    } onChange: { [weak self] in
       DispatchQueue.main.async {
+        guard let self else { return }
         if let pin = self.item.pin {
           self.shortcuts = KeyShortcut.create(character: pin)
         }
+        // History assigns numeric shortcuts when unpinning. Preserve them when
+        // this observation callback runs after the history has been updated.
         self.synchronizeItemPin()
       }
     }
@@ -231,10 +228,21 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   private func synchronizeItemTitle() {
     _ = withObservationTracking {
       item.title
-    } onChange: {
+    } onChange: { [weak self] in
       DispatchQueue.main.async {
+        guard let self else { return }
         self.title = self.item.title
         self.synchronizeItemTitle()
+      }
+    }
+  }
+
+  private func synchronizeItemText() {
+    previewText = withObservationTracking {
+      SizedString(item.previewableText, maxParagraphBytes: Self.previewMaxParagraphSize)
+    } onChange: { [weak self] in
+      DispatchQueue.main.async { [weak self] in
+        self?.synchronizeItemText()
       }
     }
   }

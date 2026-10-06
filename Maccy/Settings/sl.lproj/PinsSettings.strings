@@ -3,5 +3,6 @@
 "Alias" = "Naslov";
 "Content" = "Vsebina";
 "ContentIsNotText" = "Vsebina, ki je ni mogoče urejati (slika ali datoteka)";
+"ParagraphsTooLongToEdit" = "Besedilo vsebuje odstavke, ki so predolgi za urejanje.";
 "RichTextEditWarning" = "Pri urejanju se bodo izgubile vse oblike.";
 "PinCustomizationDescription" = "Prilagodite lahko tipko za hitri dostop, naslov in vsebino vsakega pripetega elementa. Za urejanje dvakrat kliknite element in vnesite novo vrednost.\nUpoštevajte, da lahko spremenite samo navadno besedilo.";

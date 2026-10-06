@@ -3,7 +3,7 @@ import KeyboardShortcuts
 import SwiftUI
 
 struct PreviewItemView: View {
-  static var largeTextThreshold = 1_000
+  private static let largeTextThreshold = 1_000
 
   var item: HistoryItemDecorator
 
@@ -53,13 +53,12 @@ struct PreviewItemView: View {
           }
         }
       } else {
-        let text = item.previewText
-        if text.count >= Self.largeTextThreshold {
-          LargeTextPreviewView(text: text)
+        if item.previewText.byteCount >= Self.largeTextThreshold {
+          LargeTextView(text: item.previewText.string)
             .id("textpreview-\(item.id)")
         } else {
           ScrollView {
-            Text(text)
+            Text(item.previewText.string)
               .font(.body)
               .frame(maxWidth: .infinity, alignment: .leading)
           }
@@ -108,53 +107,5 @@ struct PreviewItemView: View {
       }
     }
     .controlSize(.small)
-  }
-}
-
-struct LargeTextPreviewView: NSViewRepresentable {
-  let text: String
-
-  func makeNSView(context: Context) -> NSScrollView {
-    return Self.makeScrollView(text: text)
-  }
-
-  func updateNSView(_ scrollView: NSScrollView, context: Context) {
-    guard let textView = scrollView.documentView as? NSTextView, textView.string != text else {
-      return
-    }
-
-    textView.string = text
-  }
-
-  static func makeScrollView(text: String) -> NSScrollView {
-    let textView = NSTextView(usingTextLayoutManager: true)
-    textView.isEditable = false
-    textView.isSelectable = false
-    textView.isRichText = false
-    textView.drawsBackground = false
-    textView.font = NSFont.systemFont(ofSize: NSFont.systemFontSize)
-    textView.textColor = .labelColor
-    textView.textContainerInset = .zero
-    textView.minSize = .zero
-    textView.maxSize = NSSize(
-      width: CGFloat.greatestFiniteMagnitude,
-      height: CGFloat.greatestFiniteMagnitude
-    )
-    textView.isVerticallyResizable = true
-    textView.isHorizontallyResizable = false
-    textView.autoresizingMask = [.width]
-    textView.textContainer?.lineFragmentPadding = 0
-    textView.textContainer?.widthTracksTextView = true
-    textView.textContainer?.heightTracksTextView = false
-    textView.string = text
-
-    let scrollView = NSScrollView()
-    scrollView.documentView = textView
-    scrollView.hasVerticalScroller = true
-    scrollView.hasHorizontalScroller = false
-    scrollView.autohidesScrollers = true
-    scrollView.borderType = .noBorder
-    scrollView.drawsBackground = false
-    return scrollView
   }
 }

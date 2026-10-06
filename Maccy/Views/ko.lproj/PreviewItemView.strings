@@ -9,3 +9,4 @@
 "ClosePreview" = "{previewKey}를 눌러 미리보기를 숨깁니다.";
 "Dimensions" = "크기:";
 "CopyExtractedText" = "추출된 텍스트를 복사합니다.";
+"EditItem" = "항목 편집";
