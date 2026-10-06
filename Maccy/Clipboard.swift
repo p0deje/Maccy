@@ -29,6 +29,10 @@ class Clipboard {
     .concealed,
     .transient
   ]
+  private let unpersistableTypes: Set<NSPasteboard.PasteboardType> = [
+    .appleWebArchive,
+    .safariWebArchve
+  ]
 
   private var enabledTypes: Set<NSPasteboard.PasteboardType> { Defaults[.enabledPasteboardTypes] }
   private var disabledTypes: Set<NSPasteboard.PasteboardType> { supportedTypes.subtracting(enabledTypes) }
@@ -60,6 +64,12 @@ class Clipboard {
   func restart() {
     timer?.invalidate()
     start()
+  }
+
+  func isPersistable(_ type: NSPasteboard.PasteboardType) -> Bool {
+    return !unpersistableTypes.contains(type) &&
+             !type.rawValue.hasPrefix(microsoftSourcePrefix) &&
+             !type.rawValue.hasPrefix(dynamicTypePrefix)
   }
 
   @MainActor
@@ -198,8 +208,7 @@ class Clipboard {
 
       types = types
         .subtracting(disabledTypes)
-        .filter { !$0.rawValue.starts(with: dynamicTypePrefix) }
-        .filter { !$0.rawValue.starts(with: microsoftSourcePrefix) }
+        .filter(isPersistable)
 
       // Avoid reading Microsoft Word links from bookmarks and cross-references.
       // https://github.com/p0deje/Maccy/issues/613

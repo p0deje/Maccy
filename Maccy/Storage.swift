@@ -1,3 +1,4 @@
+import AppKit.NSPasteboard
 import Foundation
 import SwiftData
 
@@ -50,6 +51,23 @@ class Storage {
     try context.save()
 
     return count
+  }
+
+  func removeUnpersistableContents() throws -> Int {
+    let contents = try context.fetch(FetchDescriptor<HistoryItemContent>())
+    let unwanted = contents.filter {
+      !Clipboard.shared.isPersistable(NSPasteboard.PasteboardType($0.type))
+    }
+
+    guard !unwanted.isEmpty else {
+      return 0
+    }
+
+    unwanted.forEach(context.delete)
+    context.processPendingChanges()
+    try context.save()
+
+    return unwanted.count
   }
 
   // Titles stored before the sanitization in `HistoryItem.generateTitle()` may

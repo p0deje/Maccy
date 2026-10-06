@@ -24,8 +24,12 @@ nonisolated extension NSPasteboard.PasteboardType: Defaults.Serializable {
 
   // Safari preview and extra metadata that changes frequently.
   static let linkPresentationMetadata = NSPasteboard.PasteboardType(rawValue: "com.apple.linkpresentation.metadata")
-  // swiftlint:disable:next line_length
-  static let customWebKitPasteboardData = NSPasteboard.PasteboardType(rawValue: "com.apple.WebKit.custom-pasteboard-data")
+  static let customWebKitPasteboardData =
+    NSPasteboard.PasteboardType(rawValue: "com.apple.WebKit.custom-pasteboard-data")
+
+  // Safari/WebKit page dumps (tens of MBs)
+  static let safariWebArchve = NSPasteboard.PasteboardType(rawValue: "com.apple.webarchive")
+  static let appleWebArchive = NSPasteboard.PasteboardType(rawValue: "Apple Web Archive pasteboard type")
 
   // Chromium (VSCode)
   static let customChromiumWebData = NSPasteboard.PasteboardType(rawValue: "org.chromium.web-custom-data")
