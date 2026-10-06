@@ -35,7 +35,9 @@ class NavigationManager { // swiftlint:disable:this type_body_length
       // Announce the visual selection change, keeping repeated navigation updates concise.
       if let item = leadHistoryItem {
         announceForAccessibility {
-          var parts = [item.hasImage ? NSLocalizedString("history_item_image_accessibility_generic", comment: "") : item.title]
+          var parts = [item.hasImage ?
+                       NSLocalizedString("history_item_image_accessibility_generic", comment: "") :
+                       item.title]
           if let application = item.application {
             parts.append(application)
           }

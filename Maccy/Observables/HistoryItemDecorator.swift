@@ -80,7 +80,13 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     var parts: [String] = []
     if hasImage, let image = item.image {
       let size = image.pixelSize
-      parts.append(String(format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""), Int(size.width), Int(size.height)))
+      parts.append(
+        String(
+          format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""),
+          Int(size.width),
+          Int(size.height)
+        )
+      )
     } else {
       parts.append(title)
     }
@@ -91,7 +97,13 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
       parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
     }
     if let index = multiSelectionIndex {
-      parts.append(String(format: NSLocalizedString("history_item_selected_accessibility_value", comment: ""), index + 1, AppState.shared.navigator.selection.count))
+      parts.append(
+        String(
+          format: NSLocalizedString("history_item_selected_accessibility_value", comment: ""),
+          index + 1,
+          AppState.shared.navigator.selection.count
+        )
+      )
     }
     return parts.joined(separator: ", ")
   }

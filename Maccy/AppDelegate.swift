@@ -22,10 +22,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   // dynamic `title` (recent copy text) so VoiceOver always announces something
   // meaningful even when that preference is off or the app is disabled.
   private func updateStatusItemAccessibilityLabel() {
-    let base = NSLocalizedString("status_item_accessibility_label", comment: "")
-    statusItem.button?.setAccessibilityLabel(
-      isStatusItemDisabled ? "\(base) — \(NSLocalizedString("status_item_disabled_accessibility_suffix", comment: ""))" : base
-    )
+    var accessibilityLabel = NSLocalizedString("status_item_accessibility_label", comment: "")
+    if isStatusItemDisabled {
+      accessibilityLabel += " — \(NSLocalizedString("status_item_disabled_accessibility_suffix", comment: ""))"
+    }
+    statusItem.button?.setAccessibilityLabel(accessibilityLabel)
   }
 
   private var isStatusItemDisabled: Bool {
