@@ -35,11 +35,16 @@ class Search {
 
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
+  private let queryLimit = 1_000
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
     guard !string.isEmpty else {
       return within.map { SearchResult(object: $0) }
     }
+
+    // Cap query length so an accidental cmd+v of huge clipboard contents
+    // into the search field can't blow up regex compilation or fuzzy matching.
+    let string = string.count > queryLimit ? String(string.prefix(queryLimit)) : string
 
     switch Defaults[.searchMode] {
     case .mixed:
