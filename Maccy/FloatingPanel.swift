@@ -100,6 +100,12 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     }
   }
 
+  func resizeWidth(to newWidth: CGFloat) {
+    var newSize = frame.size
+    newSize.width = newWidth
+    setFrame(NSRect(origin: frame.origin, size: newSize), display: true)
+  }
+
   func verticallyResize(to newHeight: CGFloat) {
     var newSize = frame.size
     newSize.height = newHeight
