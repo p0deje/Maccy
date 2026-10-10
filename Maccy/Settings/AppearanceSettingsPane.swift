@@ -18,6 +18,7 @@ struct AppearanceSettingsPane: View {
   @Default(.showFooter) private var showFooter
   @Default(.windowPosition) private var windowPosition
   @Default(.showApplicationIcons) private var showApplicationIcons
+  @Default(.windowSize) private var windowSize
 
   @State private var screens = NSScreen.screens
 
@@ -49,6 +50,25 @@ struct AppearanceSettingsPane: View {
     return formatter
   }()
 
+  private let popupWidthFormatter: NumberFormatter = {
+    let formatter = NumberFormatter()
+    formatter.minimum = 200
+    formatter.maximum = 4000
+    return formatter
+  }()
+
+  // The popup width lives in the persisted window size, so the setting and the
+  // window the user drags stay the same value. The panel is resized as well,
+  // otherwise `FloatingPanel.open` would keep clamping to the old frame width.
+  private var popupWidth: Binding<Int> {
+    Binding {
+      Int(windowSize.width)
+    } set: { newValue in
+      windowSize = NSSize(width: CGFloat(newValue), height: windowSize.height)
+      AppState.shared.appDelegate?.panel.resizeWidth(to: CGFloat(newValue))
+    }
+  }
+
   var body: some View {
     Settings.Container(contentWidth: 650) {
       Settings.Section(label: { Text("PopupAt", tableName: "AppearanceSettings") }) {
@@ -78,6 +98,18 @@ struct AppearanceSettingsPane: View {
             .help(Text("PopupAtLastLocationReset", tableName: "AppearanceSettings"))
             .disabled(windowPosition == _windowPosition.defaultValue)
           }
+        }
+      }
+
+      Settings.Section(label: { Text("PopupWidth", tableName: "AppearanceSettings") }) {
+        HStack {
+          TextField("", value: popupWidth, formatter: popupWidthFormatter)
+            .frame(width: 120)
+            .help(Text("PopupWidthTooltip", tableName: "AppearanceSettings"))
+            .accessibilityLabel(Text("PopupWidth", tableName: "AppearanceSettings"))
+          Stepper("", value: popupWidth, in: 200...4000)
+            .labelsHidden()
+            .accessibilityLabel(Text("PopupWidth", tableName: "AppearanceSettings"))
         }
       }
 
