@@ -2,7 +2,7 @@ import AppKit
 import UserNotifications
 
 class Notifier {
-  private static var center: UNUserNotificationCenter { UNUserNotificationCenter.current() }
+  nonisolated private static var center: UNUserNotificationCenter { UNUserNotificationCenter.current() }
 
   static func authorize() {
     center.requestAuthorization(options: [.alert, .sound]) { _, error in
@@ -21,8 +21,11 @@ class Notifier {
       guard (settings.authorizationStatus == .authorized) ||
             (settings.authorizationStatus == .provisional) else { return }
 
+      let isAlertEnabled = settings.alertSetting == .enabled
+      let isSoundEnabled = settings.soundSetting == .enabled
+
       let content = UNMutableNotificationContent()
-      if settings.alertSetting == .enabled {
+      if isAlertEnabled {
         content.body = body
       }
 
@@ -31,7 +34,7 @@ class Notifier {
         if error != nil {
           NSLog("Failed to deliver notification: \(String(describing: error))")
         } else {
-          if settings.soundSetting == .enabled {
+          if isSoundEnabled {
             sound?.play()
           }
         }

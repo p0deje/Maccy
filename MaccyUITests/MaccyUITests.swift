@@ -319,6 +319,20 @@ class MaccyUITests: XCTestCase {
     XCTAssertEqual(Array(itemTitles.prefix(2)), [copy1, copy2])
   }
 
+  func testReorderPinsByDragging() {
+    popUpWithMouse()
+    pin(copy1)
+    pin(copy2)
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [copy1, copy2])
+
+    drag(items[copy2].firstMatch, before: items[copy1].firstMatch)
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [copy2, copy1])
+
+    app.typeKey(.escape, modifierFlags: [])
+    popUpWithMouse()
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [copy2, copy1])
+  }
+
   func testRemoveLastWordFromSearchWithControlW() {
     popUpWithMouse()
     search("foo bar")
@@ -674,6 +688,14 @@ class MaccyUITests: XCTestCase {
     hover(items[title].firstMatch)
     app.typeKey("p", modifierFlags: [.option])
     usleep(1_500_000)
+  }
+
+  private func drag(_ element: XCUIElement, before target: XCUIElement) {
+    hover(element)
+    let source = element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+    let destination = target.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2))
+    source.click(forDuration: 0.5, thenDragTo: destination, withVelocity: .slow, thenHoldForDuration: 0.5)
+    usleep(500_000)
   }
 
   private func hoverAndClick(_ element: XCUIElement) {

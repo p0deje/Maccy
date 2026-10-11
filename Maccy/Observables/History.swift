@@ -110,7 +110,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     Task {
       for await _ in Defaults.updates(.showSpecialSymbols, initial: false) {
         for item in items {
-          await updateTitle(item: item, title: item.item.generateTitle())
+          updateTitle(item: item, title: item.item.generateTitle())
         }
       }
     }
@@ -118,7 +118,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     Task {
       for await _ in Defaults.updates(.imageMaxHeight, initial: false) {
         for item in items {
-          await item.cleanupImages()
+          item.cleanupImages()
         }
       }
     }
@@ -444,15 +444,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     Task {
       if stack.modifierFlags.isEmpty {
-        await Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
+        Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
       } else {
         switch HistoryItemAction(stack.modifierFlags) {
         case .copy:
-          await Clipboard.shared.copy(item.item)
+          Clipboard.shared.copy(item.item)
         case .paste:
-          await Clipboard.shared.copy(item.item)
+          Clipboard.shared.copy(item.item)
         case .pasteWithoutFormatting:
-          await Clipboard.shared.copy(item.item, removeFormatting: true)
+          Clipboard.shared.copy(item.item, removeFormatting: true)
         case .unknown:
           return
         }

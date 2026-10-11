@@ -13,7 +13,9 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
 
   override func setUp() {
     super.setUp()
-    history.clearAll()
+    MainActor.assumeIsolated {
+      History.shared.clearAll()
+    }
     Defaults[.size] = 10
     Defaults[.sortBy] = .firstCopiedAt
     Defaults[.pinOrder] = PinOrder()
