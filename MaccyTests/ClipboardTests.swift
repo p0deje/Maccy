@@ -41,7 +41,9 @@ class ClipboardTests: XCTestCase {
     Defaults[.ignoreAllAppsExceptListed] = savedIgnoreAllAppsExceptListed
     Defaults[.ignoredApps] = savedIgnoredApps
     Defaults[.ignoredPasteboardTypes] = savedIgnoredPasteboardTypes
-    clipboard.clearHooks()
+    MainActor.assumeIsolated {
+      Clipboard.shared.clearHooks()
+    }
   }
 
   func testChangesListenerAndAddHooks() {

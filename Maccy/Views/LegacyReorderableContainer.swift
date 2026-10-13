@@ -126,7 +126,7 @@ private final class DragSourceView: NSView, NSDraggingSource {
     }
   }
 
-  private var localEventMonitor: Any?
+  nonisolated(unsafe) private var localEventMonitor: Any?
   private var mouseDownEvent: NSEvent?
   private var isDragging = false
 
@@ -161,7 +161,9 @@ private final class DragSourceView: NSView, NSDraggingSource {
   }
 
   deinit {
-    removeEventMonitor()
+    if let localEventMonitor {
+      NSEvent.removeMonitor(localEventMonitor)
+    }
   }
 
   private func handle(_ event: NSEvent) -> NSEvent? {

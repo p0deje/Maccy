@@ -164,11 +164,12 @@ private func itemProvider<Item: Reorderable>(
   contentType: UTType
 ) -> NSItemProvider {
   let provider = NSItemProvider()
+  let data = String(describing: item.id).data(using: .utf8)
   provider.registerDataRepresentation(
     forTypeIdentifier: contentType.identifier,
     visibility: .ownProcess
   ) { completion in
-    completion(String(describing: item.id).data(using: .utf8), nil)
+    completion(data, nil)
     return nil
   }
   return provider

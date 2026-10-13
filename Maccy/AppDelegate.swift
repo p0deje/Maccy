@@ -223,7 +223,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       object: nil,
       queue: nil
     ) { notification in
-      if let name = notification.userInfo?["name"] as? KeyboardShortcuts.Name, names.contains(name) {
+      guard let name = notification.userInfo?["name"] as? KeyboardShortcuts.Name,
+            names.contains(name) else { return }
+      MainActor.assumeIsolated {
         KeyboardShortcuts.disable(name)
       }
     }
