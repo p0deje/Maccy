@@ -8,5 +8,6 @@
 "OpenPreview" = "Tryck {previewKey} för att visa förhandsvisningen.";
 "ClosePreview" = "Tryck {previewKey} för att dölja förhandsvisningen.";
 "Dimensions" = "Mått:";
+"Size" = "Storlek:";
 "CopyExtractedText" = "Kopiera extraherad text.";
 "EditItem" = "Redigera objekt";

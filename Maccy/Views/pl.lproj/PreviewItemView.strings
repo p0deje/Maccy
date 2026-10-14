@@ -8,5 +8,6 @@
 "OpenPreview" = "Naciśnij {previewKey}, aby pokazać podgląd.";
 "ClosePreview" = "Naciśnij {previewKey}, aby ukryć podgląd.";
 "Dimensions" = "Wymiary:";
+"Size" = "Rozmiar:";
 "CopyExtractedText" = "Skopiuj wyodrębniony tekst.";
 "EditItem" = "Edytuj element";

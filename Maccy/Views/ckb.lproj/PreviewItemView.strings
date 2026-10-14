@@ -8,5 +8,6 @@
 "OpenPreview" = "{previewKey} دابگرە بۆ پیشاندانی پێشبینین.";
 "ClosePreview" = "{previewKey} دابگرە بۆ شاردنەوەی پێشبینین.";
 "Dimensions" = "قەبارە:";
+"Size" = "قەبارەی فایل:";
 "CopyExtractedText" = "دەقی دەرهێنراو کۆپی بکە.";
 "EditItem" = "دەستکاری بڕگە";

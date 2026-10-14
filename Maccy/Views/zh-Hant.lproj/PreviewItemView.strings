@@ -8,5 +8,6 @@
 "OpenPreview" = "按 {previewKey} 顯示預覽。";
 "ClosePreview" = "按 {previewKey} 隱藏預覽。";
 "Dimensions" = "尺寸:";
+"Size" = "檔案大小:";
 "CopyExtractedText" = "複製擷取的文字。";
 "EditItem" = "編輯項目";

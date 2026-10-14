@@ -8,5 +8,6 @@
 "OpenPreview" = "Nhấn {previewKey} để hiển thị bản xem trước.";
 "ClosePreview" = "Nhấn {previewKey} để ẩn bản xem trước.";
 "Dimensions" = "Kích thước:";
+"Size" = "Dung lượng:";
 "CopyExtractedText" = "Sao chép văn bản đã trích xuất.";
 "EditItem" = "Chỉnh sửa mục";

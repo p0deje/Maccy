@@ -8,5 +8,6 @@
 "OpenPreview" = "Nyomja meg a {previewKey} gombot az előnézet megjelenítéséhez.";
 "ClosePreview" = "Nyomja meg a {previewKey} gombot az előnézet elrejtéséhez.";
 "Dimensions" = "Méretek:";
+"Size" = "Fájlméret:";
 "CopyExtractedText" = "Kinyert szöveg másolása.";
 "EditItem" = "Elem szerkesztése";
