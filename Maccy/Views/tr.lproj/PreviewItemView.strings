@@ -8,5 +8,6 @@
 "OpenPreview" = "Önizlemeyi göstermek için {previewKey} tuşuna basın.";
 "ClosePreview" = "Önizlemeyi gizlemek için {previewKey} tuşuna basın.";
 "Dimensions" = "Boyutlar:";
+"Size" = "Dosya boyutu:";
 "CopyExtractedText" = "Çıkarılan metni kopyala.";
 "EditItem" = "Öğeyi düzenle";

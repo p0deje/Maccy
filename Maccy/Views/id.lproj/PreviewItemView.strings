@@ -8,5 +8,6 @@
 "OpenPreview" = "Tekan tombol {previewKey} untuk menampilkan pratinjau.";
 "ClosePreview" = "Tekan tombol {previewKey} untuk menyembunyikan pratinjau.";
 "Dimensions" = "Dimensi:";
+"Size" = "Ukuran:";
 "CopyExtractedText" = "Salin teks yang diekstrak.";
 "EditItem" = "Edit item";

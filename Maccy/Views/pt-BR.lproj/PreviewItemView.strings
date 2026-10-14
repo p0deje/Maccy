@@ -8,5 +8,6 @@
 "OpenPreview" = "Pressione {previewKey} para mostrar a pré-visualização.";
 "ClosePreview" = "Pressione {previewKey} para ocultar a pré-visualização.";
 "Dimensions" = "Dimensões:";
+"Size" = "Tamanho:";
 "CopyExtractedText" = "Copiar texto extraído.";
 "EditItem" = "Editar item";

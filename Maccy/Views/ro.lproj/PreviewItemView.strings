@@ -8,5 +8,6 @@
 "OpenPreview" = "Apasă {previewKey} pentru a afișa previzualizarea.";
 "ClosePreview" = "Apasă {previewKey} pentru a ascunde previzualizarea.";
 "Dimensions" = "Dimensiuni:";
+"Size" = "Mărime:";
 "CopyExtractedText" = "Copiază textul extras.";
 "EditItem" = "Editează elementul";

@@ -89,10 +89,10 @@ struct PreviewItemView: View {
         }
       }
 
-      if item.hasImage, let data = item.item.imageData {
+      if item.hasImage, let size = item.imageSize {
         HStack(spacing: 3) {
           Text("Size", tableName: "PreviewItemView")
-          Text(ByteCountFormatter.string(fromByteCount: Int64(data.count), countStyle: .file))
+          Text(size)
         }
       }
 

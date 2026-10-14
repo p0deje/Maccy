@@ -8,5 +8,6 @@
 "OpenPreview" = "Stiskni {previewKey} pro zobrazení náhledu.";
 "ClosePreview" = "Stiskni {previewKey} pro skrytí náhledu.";
 "Dimensions" = "Rozměry:";
+"Size" = "Velikost:";
 "CopyExtractedText" = "Zkopírovat extrahovaný text.";
 "EditItem" = "Upravit položku";

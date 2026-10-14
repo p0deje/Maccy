@@ -8,5 +8,6 @@
 "OpenPreview" = "Нажмите {previewKey}, чтобы показать предпросмотр.";
 "ClosePreview" = "Нажмите {previewKey}, чтобы скрыть предпросмотр.";
 "Dimensions" = "Размеры:";
+"Size" = "Размер:";
 "CopyExtractedText" = "Скопировать извлеченный текст.";
 "EditItem" = "Редактировать элемент";

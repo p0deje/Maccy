@@ -8,5 +8,6 @@
 "OpenPreview" = "Trykk {previewKey} for å vise forhåndsvisningen.";
 "ClosePreview" = "Trykk {previewKey} for å skjule forhåndsvisningen.";
 "Dimensions" = "Dimensjoner:";
+"Size" = "Størrelse:";
 "CopyExtractedText" = "Kopier uttrukket tekst.";
 "EditItem" = "Rediger element";

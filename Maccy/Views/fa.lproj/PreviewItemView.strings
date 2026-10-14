@@ -8,5 +8,6 @@
 "OpenPreview" = "برای نمایش پیش‌نمایش، کلید {previewKey} را فشار دهید.";
 "ClosePreview" = "برای پنهان کردن پیش‌نمایش، کلید {previewKey} را فشار دهید.";
 "Dimensions" = "ابعاد:";
+"Size" = "حجم:";
 "CopyExtractedText" = "متن استخراج‌شده را کپی کنید.";
 "EditItem" = "ویرایش مورد";

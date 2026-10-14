@@ -53,6 +53,11 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
+  @ObservationIgnored
+  private(set) lazy var imageSize: String? = item.imageData.map {
+    ByteCountFormatter.string(fromByteCount: Int64($0.count), countStyle: .file)
+  }
+
   // 10k characters seems to be more than enough on large displays
   var text: String { previewText.string.shortened(to: 10_000) }
 

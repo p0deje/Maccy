@@ -8,5 +8,6 @@
 "OpenPreview" = "Paspauskite {previewKey}, kad parodytumėte peržiūrą.";
 "ClosePreview" = "Paspauskite {previewKey}, kad paslėptumėte peržiūrą.";
 "Dimensions" = "Matmenys:";
+"Size" = "Dydis:";
 "CopyExtractedText" = "Kopijuoti išgautą tekstą.";
 "EditItem" = "Redaguoti elementą";

@@ -8,5 +8,6 @@
 "OpenPreview" = "{previewKey}でプレビューを表示します。";
 "ClosePreview" = "{previewKey}でプレビューを非表示にします。";
 "Dimensions" = "サイズ:";
+"Size" = "ファイルサイズ:";
 "CopyExtractedText" = "抽出したテキストをコピーします。";
 "EditItem" = "項目を編集";

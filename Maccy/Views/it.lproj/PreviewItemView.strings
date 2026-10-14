@@ -8,5 +8,6 @@
 "OpenPreview" = "Premi {previewKey} per mostrare l'anteprima.";
 "ClosePreview" = "Premi {previewKey} per nascondere l'anteprima.";
 "Dimensions" = "Dimensioni:";
+"Size" = "Dimensione file:";
 "CopyExtractedText" = "Copia il testo estratto.";
 "EditItem" = "Modifica elemento";
