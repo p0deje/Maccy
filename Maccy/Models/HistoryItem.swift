@@ -13,9 +13,12 @@ class HistoryItem {
     // "v" reserved for paste
     // "w" reserved for close window
     // "z" reserved for undo/redo
+    // "," reserved for preferences
+    // "`" reserved for cycling through windows
     var keys = Set([
       "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-      "m", "n", "o", "p", "r", "s", "t", "u", "x", "y"
+      "m", "n", "o", "p", "r", "s", "t", "u", "x", "y",
+      "[", "]", ";", "'", ".", "/", "-", "=", "\\"
     ])
 
     if let deleteKey = KeyChord.deleteKey,
@@ -33,6 +36,15 @@ class HistoryItem {
     }
 
     return keys
+  }
+
+  // Letters first, then symbols.
+  static func sortedPins(_ pins: some Sequence<String>) -> [String] {
+    pins.sorted { lhs, rhs in
+      let lhsIsLetter = lhs.first?.isLetter ?? false
+      let rhsIsLetter = rhs.first?.isLetter ?? false
+      return lhsIsLetter == rhsIsLetter ? lhs < rhs : lhsIsLetter
+    }
   }
 
   @MainActor

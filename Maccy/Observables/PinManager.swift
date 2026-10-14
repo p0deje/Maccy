@@ -54,7 +54,7 @@ final class PinManager {
 
   var availablePins: [String] {
     let assignedPins = Set(pinnedItems.compactMap(\.item.pin))
-    return HistoryItem.supportedPins.subtracting(assignedPins).sorted()
+    return HistoryItem.sortedPins(HistoryItem.supportedPins.subtracting(assignedPins))
   }
 
   func load(from items: [HistoryItemDecorator]) {

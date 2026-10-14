@@ -5,6 +5,13 @@ import Defaults
 // swiftlint:disable force_try
 @MainActor
 class HistoryItemTests: XCTestCase {
+  func testSortedPinsPlacesLettersBeforeSymbols() {
+    XCTAssertEqual(
+      HistoryItem.sortedPins(["/", "c", "[", "b", "-", "\\", "y"]),
+      ["b", "c", "y", "-", "/", "[", "\\"]
+    )
+  }
+
   func testTitleForString() {
     let title = "foo"
     let item = historyItem(title)
