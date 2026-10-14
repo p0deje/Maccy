@@ -3,6 +3,7 @@
 "LastCopyTime" = "Last copy time:";
 "NumberOfCopies" = "Number of copies:";
 "Dimensions" = "Dimensions:";
+"Size" = "Size:";
 "PinKey" = "Press {pinKey} to pin.";
 "UnpinKey" = "Press {pinKey} to unpin.";
 "DeleteKey" = "Press {deleteKey} to delete.";
