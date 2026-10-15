@@ -3,3 +3,8 @@ Maccy.xcodeproj/project.xcworkspace/xcshareddata
 .idea
 .DS_Store
 Maccy/.DS_Store
+
+# Local CI and release products
+.build/
+.release/
+Build/

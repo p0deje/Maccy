@@ -168,3 +168,22 @@ Also, I wanted to learn Swift and get acquainted with macOS application developm
 ## License
 
 [MIT](./LICENSE)
+
+## Fork releases
+
+This fork builds on a dedicated local Apple Silicon runner. A pull request merged
+into `master` builds a universal app, signs it with the runner's Developer ID,
+submits it to Apple notarization, staples the ticket, and publishes `Maccy.zip`
+with its checksum. Sparkle updates use this fork's signed `appcast` release asset.
+The original bundle identifier is preserved so existing application data remains
+available. Upstream copyrights and history are unchanged.
+
+Configure `MACCY_KEYCHAIN`, `MACCY_KEYCHAIN_PASSWORD_FILE`, `MACCY_NOTARY_PROFILE`,
+`MACCY_SPARKLE_ACCOUNT`, and optionally `MACCY_SPARKLE_BIN_DIR` in the runner's
+private environment. Keep credentials outside the repository. The runner starts
+at user login and requires the Mac to stay powered on and logged in.
+
+The Build workflow compiles the application and its test targets; it does not run
+the clipboard-changing or desktop UI tests on the user's active desktop.
+The Release workflow also supports manual `validate_only` runs that verify the
+complete signing, notarization, and Sparkle pipeline without publishing.

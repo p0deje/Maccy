@@ -1,0 +1,82 @@
+name: Release
+on:
+  pull_request:
+    branches: [master]
+    types: [closed]
+  workflow_dispatch:
+    inputs:
+      validate_only:
+        description: Build, notarize, and verify without publishing
+        type: boolean
+        default: false
+permissions:
+  contents: write
+concurrency:
+  group: maccy-release
+  cancel-in-progress: false
+jobs:
+  release:
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    runs-on: [self-hosted, macOS, ARM64, maccy-local]
+    timeout-minutes: 90
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+        with:
+          fetch-depth: 0
+          ref: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+      - name: Resolve release metadata
+        id: release
+        run: |
+          set -euo pipefail
+          version="$(awk '/MARKETING_VERSION =/ {gsub(/;/, "", $3); print $3; exit}' Maccy.xcodeproj/project.pbxproj)"
+          base="$(awk '/CURRENT_PROJECT_VERSION =/ {gsub(/;/, "", $3); print $3; exit}' Maccy.xcodeproj/project.pbxproj)"
+          [[ "$version" =~ ^[0-9]+(\.[0-9]+){1,2}$ && "$base" =~ ^[0-9]+$ ]]
+          build="$((base + GITHUB_RUN_NUMBER))"
+          echo "build=$build" >> "$GITHUB_OUTPUT"
+          echo "tag=v${version}-build.${build}" >> "$GITHUB_OUTPUT"
+      - name: Build, sign, and notarize
+        env:
+          BUILD_NUMBER: ${{ steps.release.outputs.build }}
+        run: ./Scripts/build_release.sh
+      - name: Verify release package
+        run: ./Scripts/check_release_ready.sh
+      - name: Generate and verify Sparkle update
+        env:
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+        run: ./Scripts/generate_appcast.sh
+      - name: Publish release tag and archive
+        if: inputs.validate_only != true
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_TAG: ${{ steps.release.outputs.tag }}
+          SOURCE_COMMIT: ${{ github.event.pull_request.merge_commit_sha || github.sha }}
+        run: |
+          set -euo pipefail
+          git fetch origin master
+          git merge-base --is-ancestor "$SOURCE_COMMIT" origin/master
+          if git ls-remote --exit-code --tags origin "refs/tags/$RELEASE_TAG" >/dev/null 2>&1; then
+            existing="$(git ls-remote --tags origin "refs/tags/$RELEASE_TAG" | awk '{print $1}')"
+            [[ "$existing" == "$SOURCE_COMMIT" ]]
+          else
+            git tag "$RELEASE_TAG" "$SOURCE_COMMIT"
+            python3 "${HOME}/.config/git/identity-guard/guard.py" check
+            git push origin "refs/tags/$RELEASE_TAG"
+          fi
+          if gh release view "$RELEASE_TAG" >/dev/null 2>&1; then
+            gh release upload "$RELEASE_TAG" Build/Maccy.zip Build/Maccy.zip.sha256 --clobber
+          else
+            gh release create "$RELEASE_TAG" Build/Maccy.zip Build/Maccy.zip.sha256 \
+              --title "Maccy $RELEASE_TAG" --generate-notes --verify-tag
+          fi
+      - name: Publish Sparkle update feed
+        if: inputs.validate_only != true
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          if gh release view appcast >/dev/null 2>&1; then
+            gh release upload appcast Build/Appcast/appcast.xml --clobber
+          else
+            gh release create appcast Build/Appcast/appcast.xml \
+              --title 'Maccy update feed' --notes 'Signed Sparkle update feed.' --prerelease
+          fi

@@ -1,0 +1,25 @@
+name: Build
+on:
+  pull_request:
+    branches: [master]
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: maccy-build-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  build:
+    if: github.event_name == 'workflow_dispatch' || github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: [self-hosted, macOS, ARM64, maccy-local]
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd
+      - name: Compile app and test targets
+        run: |
+          xcodebuild -quiet -project Maccy.xcodeproj -scheme Maccy \
+            -configuration Debug -destination 'platform=macOS,arch=arm64' \
+            -derivedDataPath .build/DerivedData \
+            CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO build-for-testing
+      - name: Validate release scripts
+        run: for script in Scripts/*.sh; do bash -n "$script"; done
