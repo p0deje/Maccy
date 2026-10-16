@@ -4,7 +4,10 @@ import Sauce
 
 struct KeyShortcut: Identifiable {
   static func create(character: String) -> [KeyShortcut] {
-    let key = Key(character: character, virtualKeyCode: nil)
+    // Pins that got no free key have an empty character: give them no shortcut,
+    // so that a key Sauce cannot map does not match them.
+    guard let key = Key(character: character, virtualKeyCode: nil) else { return [] }
+
     return [
       KeyShortcut(key: key),
       KeyShortcut(key: key, modifierFlags: [.option]),
