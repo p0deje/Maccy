@@ -50,23 +50,21 @@ class ApplicationImage {
         let source = DispatchSource.makeFileSystemObjectSource(
           fileDescriptor: descriptor,
           eventMask: [.write, .delete],
-          queue: DispatchQueue.global()
+          queue: .main
         )
         eventSource = source
         source.setEventHandler {
-          DispatchQueue.main.async {
-            let event = source.data
-            if event.contains(.delete) {
-              // File was deleted.
-              print("Deleted", appURL.path)
-              source.cancel()
-              self.image = nil
-              self.lastChecked = nil
-            } else if event.contains(.write) {
-              // File was modified. Fetch new icon
-              print("Modified", appURL.path)
-              self.image = NSWorkspace.shared.icon(forFile: appURL.path)
-            }
+          let event = source.data
+          if event.contains(.delete) {
+            // File was deleted.
+            print("Deleted", appURL.path)
+            source.cancel()
+            self.image = nil
+            self.lastChecked = nil
+          } else if event.contains(.write) {
+            // File was modified. Fetch new icon
+            print("Modified", appURL.path)
+            self.image = NSWorkspace.shared.icon(forFile: appURL.path)
           }
         }
         source.setCancelHandler {
