@@ -35,7 +35,9 @@ class NavigationManager { // swiftlint:disable:this type_body_length
       // Announce the visual selection change, keeping repeated navigation updates concise.
       if let item = leadHistoryItem {
         announceForAccessibility {
-          var parts = [item.hasImage ? NSLocalizedString("history_item_image_accessibility_generic", comment: "") : item.title]
+          var parts = [item.hasImage ?
+                       NSLocalizedString("history_item_image_accessibility_generic", comment: "") :
+                       item.title]
           if let application = item.application {
             parts.append(application)
           }
@@ -64,15 +66,24 @@ class NavigationManager { // swiftlint:disable:this type_body_length
   var isMultiSelectInProgress: Bool {
     return isManualMultiSelect || selection.count > 1
   }
+  var isDragAndDropInProgress: Bool = false {
+    didSet {
+      updateSelectionState()
+    }
+  }
 
   var hoverSelectionWhileKeyboardNavigating: UUID?
   var isKeyboardNavigating: Bool = true {
     didSet {
-      if !isKeyboardNavigating && !isMultiSelectInProgress,
-         let hoverSelection = hoverSelectionWhileKeyboardNavigating {
-        hoverSelectionWhileKeyboardNavigating = nil
-        select(id: hoverSelection)
-      }
+      updateSelectionState()
+    }
+  }
+  
+  private func updateSelectionState() {
+    if !isKeyboardNavigating && !isMultiSelectInProgress && !isDragAndDropInProgress,
+       let hoverSelection = hoverSelectionWhileKeyboardNavigating {
+      hoverSelectionWhileKeyboardNavigating = nil
+      select(id: hoverSelection)
     }
   }
 
@@ -101,20 +112,25 @@ class NavigationManager { // swiftlint:disable:this type_body_length
 
   func addToSelection(item: HistoryItemDecorator) {
     var newSelectionState = selection
+    var newLeadItem = leadHistoryItem
 
     if item.isSelected {
       if newSelectionState.count <= 1 {
         isManualMultiSelect = !isManualMultiSelect
       } else {
         newSelectionState.remove(item)
+        if item == newLeadItem {
+          newLeadItem = newSelectionState.items.last ?? leadHistoryItem
+        }
       }
     } else {
       newSelectionState.add(item)
+      newLeadItem = item
     }
 
     withTransaction(Transaction()) {
       selection = newSelectionState
-      leadHistoryItem = item
+      leadHistoryItem = newLeadItem
       scrollTarget = leadSelection
     }
   }
@@ -127,7 +143,7 @@ class NavigationManager { // swiftlint:disable:this type_body_length
     var newSelectionState = selection
 
     if isRange {
-      if let itemRange = history.visibleItems.between(
+      if let itemRange = history.visibleBetween(
         from: fromItem,
         to: toItem,
         inOrder: false

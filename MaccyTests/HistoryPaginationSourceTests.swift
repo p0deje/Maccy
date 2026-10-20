@@ -17,8 +17,8 @@ class HistoryPaginationSourceTests: XCTestCase {
     "iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNkYPhfDwAChwGA60e6kgAAAABJRU5ErkJggg=="
   )!
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     Defaults[.sortBy] = .lastCopiedAt
     // Clipboard polling started by other suites keeps inserting captured
     // items into the shared store, which shifts the positions these tests
@@ -28,8 +28,8 @@ class HistoryPaginationSourceTests: XCTestCase {
     clearStore()
   }
 
-  override func tearDown() {
-    super.tearDown()
+  override func tearDown() async throws {
+    try await super.tearDown()
     clearStore()
     Defaults[.sortBy] = savedSortBy
     Defaults[.ignoreEvents] = savedIgnoreEvents

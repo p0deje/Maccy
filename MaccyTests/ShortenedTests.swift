@@ -1,6 +1,7 @@
 import XCTest
 @testable import Maccy
 
+@MainActor
 final class ShortenedTests: XCTestCase {
   func testShortenedReturnsAtMostMaxLength() {
     XCTAssertEqual("abcdef".shortened(to: 3), "abc")

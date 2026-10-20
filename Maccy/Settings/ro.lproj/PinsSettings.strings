@@ -4,4 +4,5 @@
 "Title" = "Elemente fixate";
 "Content" = "Conținut";
 "ContentIsNotText" = "Conținut needitabil (imagine sau fișier)";
+"ParagraphsTooLongToEdit" = "Textul conține paragrafe prea lungi pentru a fi editate.";
 "RichTextEditWarning" = "Editarea va șterge formatarea existentă.";

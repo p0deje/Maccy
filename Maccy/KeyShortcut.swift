@@ -20,7 +20,7 @@ struct KeyShortcut: Identifiable {
   var description: String {
     guard let key, let character = Sauce.shared.currentASCIICapableCharacter(
       for: Int(Sauce.shared.keyCode(for: key)),
-      cocoaModifiers: []
+      modifiers: .cocoa([])
     ) else {
       return ""
     }

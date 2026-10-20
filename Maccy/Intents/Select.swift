@@ -3,8 +3,8 @@ import AppIntents
 struct Select: AppIntent, CustomIntentMigratedAppIntent {
   static let intentClassName = "SelectIntent"
 
-  static var title: LocalizedStringResource = "Select Item in Clipboard History"
-  static var description = IntentDescription("""
+  static let title: LocalizedStringResource = "Select Item in Clipboard History"
+  static let description = IntentDescription("""
   Selects an item in Maccy clipboard history.
   Depending on Maccy settings, it might trigger pasting of the selected item.
   """)
@@ -19,14 +19,18 @@ struct Select: AppIntent, CustomIntentMigratedAppIntent {
   private let positionOffset = 1
 
   func perform() async throws -> some IntentResult & ReturnsValue<String> {
-    let items = AppState.shared.history.items
-    let index = number - positionOffset
-    guard items.count >= index else {
-      throw AppIntentError.notFound
-    }
+    let value = try await MainActor.run { () -> String in
+      let items = AppState.shared.history.items
+      let index = number - positionOffset
+      guard items.count >= index else {
+        throw AppIntentError.notFound
+      }
 
-    let value = items[index].title
-    await AppState.shared.history.select(items[index], flags: .currentModifierFlags)
+      let value = items[index].title
+      AppState.shared.history.select(items[index], flags: .currentModifierFlags)
+
+      return value
+    }
 
     return .result(value: value)
   }

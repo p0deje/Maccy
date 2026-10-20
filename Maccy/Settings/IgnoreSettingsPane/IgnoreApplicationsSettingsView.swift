@@ -50,6 +50,15 @@ struct IgnoreApplicationsSettingsView: View {
         ) { result in
           switch result {
           case .success(let appUrl):
+            // Sandbox only allows reading apps outside /Applications
+            // (e.g. ~/Applications) through the security-scoped URL.
+            let isAccessing = appUrl.startAccessingSecurityScopedResource()
+            defer {
+              if isAccessing {
+                appUrl.stopAccessingSecurityScopedResource()
+              }
+            }
+
             if let bundle = Bundle(path: appUrl.path),
                let bundleIdentifier = bundle.bundleIdentifier,
                !ignoredApps.contains(bundleIdentifier) {

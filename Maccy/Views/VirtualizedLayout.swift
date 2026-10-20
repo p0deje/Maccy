@@ -14,7 +14,7 @@ import SwiftUI
 /// Pure row geometry for a virtualized list whose rows come in two heights:
 /// a regular height and a tall height (image rows in Maccy's case).
 /// All lookups are O(log n) via binary search over the sorted tall indices.
-struct VirtualListMetrics: Equatable {
+nonisolated struct VirtualListMetrics: Equatable {
   var rowHeight: CGFloat
   var tallRowHeight: CGFloat
   var totalCount: Int
@@ -165,7 +165,7 @@ struct VirtualizedList<Row: View>: View {
 /// and loading pages never moves already-visible content. Rows get real
 /// layout frames (unlike `.offset`), which keeps `ScrollViewReader.scrollTo`
 /// and hit testing working.
-private struct VirtualRowsLayout: Layout {
+private nonisolated struct VirtualRowsLayout: Layout {
   var metrics: VirtualListMetrics
 
   func sizeThatFits(proposal: ProposedViewSize, subviews: Subviews, cache: inout ()) -> CGSize {
@@ -184,7 +184,7 @@ private struct VirtualRowsLayout: Layout {
 }
 
 /// Layout value key carrying each row's index into the layout.
-private struct VirtualRowIndexKey: LayoutValueKey {
+private nonisolated struct VirtualRowIndexKey: LayoutValueKey {
   static let defaultValue: Int = 0
 }
 
@@ -194,7 +194,7 @@ extension View {
   }
 }
 
-private struct VirtualizedListOffsetKey: PreferenceKey {
+private nonisolated struct VirtualizedListOffsetKey: PreferenceKey {
   static let defaultValue: CGFloat = 0
 
   static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {

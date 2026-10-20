@@ -3,5 +3,6 @@
 "Alias" = "";
 "Content" = "";
 "ContentIsNotText" = "";
+"ParagraphsTooLongToEdit" = "पाठ में ऐसे अनुच्छेद हैं जो संपादित करने के लिए बहुत लंबे हैं।";
 "RichTextEditWarning" = "";
 "PinCustomizationDescription" = "";

@@ -3,5 +3,6 @@
 "Alias" = "Titel";
 "Content" = "Inhoud";
 "ContentIsNotText" = "Niet bewerkbare inhoud (afbeelding of bestand)";
+"ParagraphsTooLongToEdit" = "De tekst bevat alinea's die te lang zijn om te bewerken.";
 "RichTextEditWarning" = "Bewerken verwijdert alle opmaak.";
 "PinCustomizationDescription" = "Je kunt de sneltoets, titel en inhoud van elk vastgemaakt item aanpassen.\nOm te bewerken dubbelklikt u op het item en voert u een nieuwe waarde in.";

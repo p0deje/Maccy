@@ -1,6 +1,7 @@
 "Key" = "";
 "Content" = "";
 "ContentIsNotText" = "";
+"ParagraphsTooLongToEdit" = "Teksti sisältää kappaleita, jotka ovat liian pitkiä muokattaviksi.";
 "RichTextEditWarning" = "";
 "Title" = "";
 "Alias" = "";

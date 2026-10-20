@@ -4,7 +4,7 @@ import Sparkle
 import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-  static let isTesting = CommandLine.arguments.contains("enable-testing")
+  nonisolated static let isTesting = CommandLine.arguments.contains("enable-testing")
   var panel: FloatingPanel<ContentView>!
 
   @objc
@@ -22,10 +22,11 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   // dynamic `title` (recent copy text) so VoiceOver always announces something
   // meaningful even when that preference is off or the app is disabled.
   private func updateStatusItemAccessibilityLabel() {
-    let base = NSLocalizedString("status_item_accessibility_label", comment: "")
-    statusItem.button?.setAccessibilityLabel(
-      isStatusItemDisabled ? "\(base) — \(NSLocalizedString("status_item_disabled_accessibility_suffix", comment: ""))" : base
-    )
+    var accessibilityLabel = NSLocalizedString("status_item_accessibility_label", comment: "")
+    if isStatusItemDisabled {
+      accessibilityLabel += " — \(NSLocalizedString("status_item_disabled_accessibility_suffix", comment: ""))"
+    }
+    statusItem.button?.setAccessibilityLabel(accessibilityLabel)
   }
 
   private var isStatusItemDisabled: Bool {
@@ -168,6 +169,10 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       _ = try? Storage.shared.sanitizeTitles()
     }
 
+    ensureMigration(key: "2026-09-15-remove-unpersistable-contents") {
+      _ = try? Storage.shared.removeUnpersistableContents()
+    }
+
     // The following defaults are not used in Maccy 2.x
     // and should be removed in 3.x.
     // - LaunchAtLogin__hasMigrated
@@ -179,18 +184,18 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   @objc
   private func performStatusItemClick() {
-    if let event = NSApp.currentEvent {
-      let modifierFlags = event.modifierFlags.intersection(.deviceIndependentFlagsMask)
+    let modifierFlags = (NSApp.currentEvent?.modifierFlags ?? [])
+      .union(NSEvent.modifierFlags)
+      .intersection(.deviceIndependentFlagsMask)
 
-      if modifierFlags.contains(.option) {
-        Defaults[.ignoreEvents].toggle()
+    if modifierFlags.contains(.option) {
+      Defaults[.ignoreEvents].toggle()
 
-        if modifierFlags.contains(.shift) {
-          Defaults[.ignoreOnlyNextEvent] = Defaults[.ignoreEvents]
-        }
-
-        return
+      if modifierFlags.contains(.shift) {
+        Defaults[.ignoreOnlyNextEvent] = Defaults[.ignoreEvents]
       }
+
+      return
     }
 
     panel.toggle(height: AppState.shared.popup.height, at: .statusItem)
@@ -218,7 +223,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
       object: nil,
       queue: nil
     ) { notification in
-      if let name = notification.userInfo?["name"] as? KeyboardShortcuts.Name, names.contains(name) {
+      guard let name = notification.userInfo?["name"] as? KeyboardShortcuts.Name,
+            names.contains(name) else { return }
+      MainActor.assumeIsolated {
         KeyboardShortcuts.disable(name)
       }
     }

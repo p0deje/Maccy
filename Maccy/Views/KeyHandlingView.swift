@@ -12,6 +12,8 @@ struct KeyHandlingView<Content: View>: View {
   var body: some View {
     content()
       .onKeyPress { _ in
+        guard !appState.isEditingItem else { return .ignored }
+
         // Unfortunately, key presses don't allow access to
         // key code and don't properly work with multiple inputs,
         // so pressing ⌘, on non-English layout doesn't open

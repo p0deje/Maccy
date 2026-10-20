@@ -3,5 +3,6 @@
 "Alias" = "タイトル";
 "Content" = "内容";
 "ContentIsNotText" = "編集不可能なコンテンツ（画像またはファイル）";
+"ParagraphsTooLongToEdit" = "テキストに編集できないほど長い段落が含まれています。";
 "RichTextEditWarning" = "編集すると、すべてのフォーマットが破棄されます。";
 "PinCustomizationDescription" = "ピン留めした項目のホットキー、タイトル、内容をカスタマイズできます。\n編集するには、項目をダブルクリックして新しい値を入力します。";

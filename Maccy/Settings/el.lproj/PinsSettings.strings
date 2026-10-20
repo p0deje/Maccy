@@ -3,5 +3,6 @@
 "Alias" = "";
 "Content" = "";
 "ContentIsNotText" = "";
+"ParagraphsTooLongToEdit" = "Το κείμενο περιέχει παραγράφους που είναι πολύ μεγάλες για επεξεργασία.";
 "RichTextEditWarning" = "";
 "PinCustomizationDescription" = "";

@@ -105,19 +105,16 @@ class HistoryItemDecoratorTests: XCTestCase {
     XCTAssertFalse(itemDecorator.isPinned)
   }
 
-  func testPin() {
-    let itemDecorator = historyItemDecorator("foo")
-    itemDecorator.togglePin()
-    XCTAssertNotNil(itemDecorator.item.pin)
-    XCTAssertTrue(itemDecorator.isPinned)
-  }
+  func testDeallocatesWhenNoLongerReferenced() {
+    weak var weakDecorator: HistoryItemDecorator?
 
-  func testUnpin() {
-    let itemDecorator = historyItemDecorator("foo")
-    itemDecorator.togglePin()
-    itemDecorator.togglePin()
-    XCTAssertNil(itemDecorator.item.pin)
-    XCTAssertFalse(itemDecorator.isPinned)
+    autoreleasepool {
+      let itemDecorator = historyItemDecorator("foo")
+      weakDecorator = itemDecorator
+      XCTAssertNotNil(weakDecorator)
+    }
+
+    XCTAssertNil(weakDecorator)
   }
 
   func testHighlight() {

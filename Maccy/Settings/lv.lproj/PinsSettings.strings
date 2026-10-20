@@ -3,5 +3,6 @@
 "Alias" = "Nosaukums";
 "Content" = "Saturs";
 "ContentIsNotText" = "Nerediģējams saturs (attēls vai fails)";
+"ParagraphsTooLongToEdit" = "Tekstā ir rindkopas, kas ir pārāk garas rediģēšanai.";
 "RichTextEditWarning" = "Rediģējot tiks atteikts viss formatējums.";
 "PinCustomizationDescription" = "Varat pielāgot jebkura piespraustā elementa karsto taustiņu, nosaukumu un saturu. Lai rediģētu, divreiz noklikšķiniet uz elementa un ievadiet jaunu vērtību.\nPievērsiet uzmanību, ka var mainīt tikai vienkāršu tekstu.";

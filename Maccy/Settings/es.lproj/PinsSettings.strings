@@ -3,5 +3,6 @@
 "Alias" = "Título";
 "Content" = "Contenido";
 "ContentIsNotText" = "Contenido no editable (imagen o archivo)";
+"ParagraphsTooLongToEdit" = "El texto contiene párrafos demasiado largos para editarlos.";
 "RichTextEditWarning" = "La edición descartará todo el formato.";
 "PinCustomizationDescription" = "Puedes personalizar la tecla de acceso rápido, el título y el contenido de cualquier elemento anclado.\nPara editarlo, haga doble clic en el elemento e introduzca un nuevo valor.";

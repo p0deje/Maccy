@@ -49,7 +49,7 @@ extension Collection where Element: Equatable {
   }
 }
 
-extension Array where Element: Equatable {
+extension RandomAccessCollection where Element: Equatable {
   func nearest(to element: Element, where condition: (Element) -> Bool) -> Element? {
     guard let currentIndex = firstIndex(of: element) else {
       return nil
@@ -64,7 +64,7 @@ extension Array where Element: Equatable {
     case (.none, .some(let index)):
       return self[index]
     case (.some(let next), .some(let previous)):
-      return (next - currentIndex) <= (currentIndex - previous)
+      return distance(from: currentIndex, to: next) <= distance(from: previous, to: currentIndex)
       ? self[next]
       : self[previous]
     }

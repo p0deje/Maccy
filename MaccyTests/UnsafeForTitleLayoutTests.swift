@@ -1,6 +1,7 @@
 import XCTest
 @testable import Maccy
 
+@MainActor
 final class UnsafeForTitleLayoutTests: XCTestCase {
   private let objectReplacement = "\u{FFFC}"
 

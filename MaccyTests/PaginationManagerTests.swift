@@ -38,8 +38,8 @@ class PaginationManagerTests: XCTestCase {
   private var source: NumberSource!
   private var manager: PaginationManager<NumberSource>!
 
-  override func setUp() {
-    super.setUp()
+  override func setUp() async throws {
+    try await super.setUp()
     source = NumberSource(count: 10_000)
     manager = PaginationManager(source: source, pageSize: 20)
   }

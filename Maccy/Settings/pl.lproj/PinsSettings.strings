@@ -3,5 +3,6 @@
 "Alias" = "Tytuł";
 "Content" = "Treść";
 "ContentIsNotText" = "Zawartość nieedytowalna (obraz lub plik)";
+"ParagraphsTooLongToEdit" = "Tekst zawiera akapity, które są zbyt długie do edycji.";
 "RichTextEditWarning" = "Edycja spowoduje usunięcie całego formatowania.";
 "PinCustomizationDescription" = "Można dostosować klawisz skrótu, tytuł i zawartość dowolnego przypiętego elementu.\nAby edytować, kliknij dwukrotnie element i wprowadź nową wartość. Należy pamiętać, że można zmienić tylko zwykły tekst.";

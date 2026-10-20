@@ -37,9 +37,8 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
 
     animationBehavior = .none
     isFloatingPanel = true
-    // Chrome autofill uses window layer 999; screenSaver (1000) sits just above it
-    // while still covering status items / Spotlight. See #1403.
-    level = .screenSaver
+    // TODO: Automatically detect Chrome autofill that uses window layer 999 and set to screenSaver (1000). See #1403.
+    level = .statusBar
     collectionBehavior = [.auxiliary, .stationary, .moveToActiveSpace, .fullScreenAuxiliary]
     titleVisibility = .hidden
     titlebarAppearsTransparent = true
@@ -54,15 +53,25 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     standardWindowButton(.zoomButton)?.isHidden = true
 
     contentView = NSHostingView(
-      rootView: view()
-        // The safe area is ignored because the title bar still interferes with the geometry
-        .ignoresSafeArea()
-        .gesture(DragGesture()
-          .onEnded { _ in
-            self.saveWindowPosition()
-        })
+      rootView: FloatingPanelRootView(
+        content: view(),
+        onWindowDragEnded: { [weak self] in
+          self?.saveWindowPosition()
+        }
+      )
     )
-    contentView?.layer?.cornerRadius = Popup.cornerRadius + Popup.horizontalPadding
+    applyRoundedCorners()
+  }
+
+  private func applyRoundedCorners() {
+    let radius = Popup.cornerRadius + Popup.horizontalPadding
+
+    for view in [contentView, contentView?.superview].compactMap({ $0 }) {
+      view.wantsLayer = true
+      view.layer?.cornerRadius = radius
+      view.layer?.cornerCurve = .continuous
+      view.layer?.masksToBounds = true
+    }
   }
 
   func toggle(height: CGFloat, at popupPosition: PopupPosition = Defaults[.popupPosition]) {
@@ -200,15 +209,19 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   // Close automatically when out of focus, e.g. outside click.
   override func resignKey() {
     super.resignKey()
-    // Don't hide if confirmation is shown.
-    if NSApp.alertWindow == nil {
+    // Don't hide while a modal interaction from this panel is active.
+    if NSApp.alertWindow == nil && !AppState.shared.suppressPopupAutoClose {
       close()
     }
   }
 
   override func close() {
     super.close()
-    AppState.shared.preview.state = .closed
+    let appState = AppState.shared
+    appState.preview.state = .closed
+    appState.isEditingItem = false
+    appState.navigator.isDragAndDropInProgress = false
+    appState.navigator.isManualMultiSelect = false
     isPresented = false
     statusBarButton?.isHighlighted = false
     onClose()
@@ -217,5 +230,24 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   // Allow text inputs inside the panel can receive focus
   override var canBecomeKey: Bool {
     return true
+  }
+}
+
+private struct FloatingPanelRootView<Content: View>: View {
+  @State private var appState = AppState.shared
+
+  let content: Content
+  let onWindowDragEnded: () -> Void
+
+  var body: some View {
+    content
+      // The safe area is ignored because the title bar still interferes with the geometry
+      .ignoresSafeArea()
+      .gesture(
+        DragGesture()
+          .onEnded { _ in
+            onWindowDragEnded()
+          }
+      )
   }
 }

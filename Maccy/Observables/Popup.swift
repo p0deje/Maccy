@@ -58,8 +58,8 @@ class Popup {
     initEventsMonitor()
   }
 
-  deinit {
-    deinitEventsMonitor()
+  isolated deinit {
+      deinitEventsMonitor()
   }
 
   func initEventsMonitor() {
@@ -120,6 +120,8 @@ class Popup {
   }
 
   private func handleFirstKeyDown() {
+    guard !AppState.shared.isEditingItem else { return }
+
     if isClosed() {
       open(height: height)
       state = .opening
@@ -132,6 +134,8 @@ class Popup {
   }
 
   private func handleEvent(_ event: NSEvent) -> NSEvent? {
+    guard !AppState.shared.isEditingItem else { return event }
+
     switch event.type {
     case .keyDown:
       return handleKeyDown(event)
