@@ -134,6 +134,16 @@ class UnlimitedHistoryTests: XCTestCase {
     XCTAssertEqual(history.unpinnedItems.first?.shortcuts.first?.key, Key(character: "1", virtualKeyCode: nil))
   }
 
+  func testItemsDeletedByLimitCountsOnlyUnpinnedItems() async throws {
+    try await loadHistory(count: 250)
+    storeItem(title: "pinned", ago: 30, pin: "a")
+    try await history.load()
+
+    XCTAssertEqual(history.itemsDeletedByLimit(200), 50)
+    XCTAssertEqual(history.itemsDeletedByLimit(250), 0)
+    XCTAssertEqual(history.itemsDeletedByLimit(999), 0)
+  }
+
   func testImageRowsAreTall() async throws {
     for index in 0..<20 {
       storeItem(title: "item \(index)", ago: TimeInterval(index * 60), image: index == 5)

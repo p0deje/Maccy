@@ -99,6 +99,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     Defaults[.isUnlimitedHistory] ? paginationManager.totalCount : allUnpinnedItems.count
   }
 
+  /// Number of unpinned items that a history size limit of `size` deletes.
+  func itemsDeletedByLimit(_ size: Int) -> Int {
+    max(0, unpinnedTotalCount - size)
+  }
+
   /// Rows of the virtualized list currently backed by loaded items.
   var loadedRange: Range<Int> {
     paginationManager.loadedRange

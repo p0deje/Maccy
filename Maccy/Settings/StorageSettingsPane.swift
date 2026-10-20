@@ -63,6 +63,8 @@ struct StorageSettingsPane: View {
   @State private var viewModel = ViewModel()
   @State private var storageSize = Storage.shared.size
   @State private var showWarning = false
+  @State private var itemsToDelete = 0
+  @State private var showDisableWarning = false
 
   private let sizeFormatter: NumberFormatter = {
     let formatter = NumberFormatter()
@@ -103,6 +105,11 @@ struct StorageSettingsPane: View {
                 // Don't enable until the user confirms in the alert;
                 // flipping the default triggers an expensive reload.
                 showWarning = true
+              } else if !newValue && History.shared.itemsDeletedByLimit(size) > 0 {
+                // Limited history deletes the items above the size limit,
+                // so ask before they are lost.
+                itemsToDelete = History.shared.itemsDeletedByLimit(size)
+                showDisableWarning = true
               } else {
                 isUnlimitedHistory = newValue
               }
@@ -162,6 +169,27 @@ struct StorageSettingsPane: View {
         String(
           format: NSLocalizedString("UnlimitedHistoryAlertMessage", tableName: "StorageSettings", comment: ""),
           History.shared.totalCount
+        )
+      )
+    }
+    .alert(
+      Text("UnlimitedHistoryDisableAlertTitle", tableName: "StorageSettings"),
+      isPresented: $showDisableWarning
+    ) {
+      Button(role: .cancel) {} label: {
+        Text("UnlimitedHistoryDisableAlertCancel", tableName: "StorageSettings")
+      }
+      Button(role: .destructive) {
+        isUnlimitedHistory = false
+      } label: {
+        Text("UnlimitedHistoryDisableAlertConfirm", tableName: "StorageSettings")
+      }
+    } message: {
+      Text(
+        String(
+          format: NSLocalizedString("UnlimitedHistoryDisableAlertMessage", tableName: "StorageSettings", comment: ""),
+          itemsToDelete,
+          size
         )
       )
     }
