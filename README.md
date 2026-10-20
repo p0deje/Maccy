@@ -38,6 +38,7 @@ Maccy works on macOS Sonoma 14 or higher.
 
 * Lightweight and fast
 * Keyboard-first
+* Mouse hover support — open and close clipboard history without clicking
 * Secure and private
 * Native UI
 * Open source and free
@@ -64,6 +65,7 @@ brew install maccy
 10. To disable Maccy and ignore new copies, click on the menu icon with <kbd>OPTION (⌥)</kbd> pressed.
 11. To ignore only the next copy, click on the menu icon with <kbd>OPTION (⌥)</kbd> + <kbd>SHIFT (⇧)</kbd> pressed.
 12. To customize the behavior, check "Preferences…" window, or press <kbd>COMMAND (⌘)</kbd> + <kbd>,</kbd>.
+13. To open history without clicking, enable "Open on hover" in Preferences — the popup appears when the mouse hovers over the menu bar icon. Enable "Close on leave" to automatically dismiss it when the mouse leaves the popup window.
 
 ## Advanced
 
