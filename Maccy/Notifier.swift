@@ -13,7 +13,7 @@ class Notifier {
   }
 
   static func notify(body: String?, sound: NSSound?) {
-    guard let body else { return }
+    guard let body, !AppDelegate.isRunningUnitTests else { return }
 
     authorize()
 

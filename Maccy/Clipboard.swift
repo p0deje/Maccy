@@ -10,7 +10,13 @@ class Clipboard {
   private var onNewCopyHooks: [OnNewCopyHook] = []
   var changeCount: Int
 
-  private let pasteboard = NSPasteboard.general
+  /// Unit tests use a private pasteboard, so that they never change the
+  /// system clipboard or add items to the history of a running Maccy.
+  static let unitTestPasteboardName = NSPasteboard.Name("org.p0deje.Maccy.unit-tests")
+
+  private let pasteboard = AppDelegate.isRunningUnitTests
+    ? NSPasteboard(name: Clipboard.unitTestPasteboardName)
+    : NSPasteboard.general
 
   private var timer: Timer?
 

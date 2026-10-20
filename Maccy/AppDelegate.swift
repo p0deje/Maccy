@@ -4,7 +4,10 @@ import Sparkle
 import SwiftUI
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-  nonisolated static let isTesting = CommandLine.arguments.contains("enable-testing")
+  /// Unit tests run inside a second copy of the app, next to the installed one.
+  /// It must not touch the user's data, clipboard, hotkey or menu bar.
+  nonisolated static let isRunningUnitTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
+  nonisolated static let isTesting = CommandLine.arguments.contains("enable-testing") || isRunningUnitTests
   var panel: FloatingPanel<ContentView>!
 
   @objc
@@ -68,7 +71,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
     Task {
       for await value in Defaults.updates(.showInStatusBar) {
-        statusItem.isVisible = value
+        statusItem.isVisible = value && !Self.isRunningUnitTests
       }
     }
 
