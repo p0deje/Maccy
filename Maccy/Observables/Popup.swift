@@ -54,7 +54,10 @@ class Popup {
   private var state: PopupState = .toggle
 
   init() {
-    KeyboardShortcuts.onKeyDown(for: .popup, action: handleFirstKeyDown)
+    // Leave the global hotkey to the installed app while unit tests run.
+    if !AppDelegate.isRunningUnitTests {
+      KeyboardShortcuts.onKeyDown(for: .popup, action: handleFirstKeyDown)
+    }
     initEventsMonitor()
   }
 
@@ -83,7 +86,9 @@ class Popup {
 
   func reset() {
     state = .toggle
-    KeyboardShortcuts.enable(.popup)
+    if !AppDelegate.isRunningUnitTests {
+      KeyboardShortcuts.enable(.popup)
+    }
   }
 
   func close() {

@@ -80,6 +80,40 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
 
+  // Pagination support for unlimited history
+  @ObservationIgnored
+  private let paginationManager = PaginationManager(source: HistoryPaginationSource())
+  private var paginationSource: HistoryPaginationSource { paginationManager.source }
+
+  /// Maximum number of search results in unlimited mode. Results are in sort
+  /// order, so these are the most relevant matches by the current sorting.
+  private static let unlimitedSearchLimit = 1_000
+
+  /// Total number of items in storage, including the ones not paged in.
+  var totalCount: Int {
+    allPinnedItems.count + unpinnedTotalCount
+  }
+
+  /// Total number of unpinned items in storage (the rows of the virtualized list).
+  var unpinnedTotalCount: Int {
+    Defaults[.isUnlimitedHistory] ? paginationManager.totalCount : allUnpinnedItems.count
+  }
+
+  /// Number of unpinned items that a history size limit of `size` deletes.
+  func itemsDeletedByLimit(_ size: Int) -> Int {
+    max(0, unpinnedTotalCount - size)
+  }
+
+  /// Rows of the virtualized list currently backed by loaded items.
+  var loadedRange: Range<Int> {
+    paginationManager.loadedRange
+  }
+
+  /// Sorted indices of unpinned rows that render at the tall (image) height.
+  var tallRowIndices: [Int] {
+    paginationManager.tallRowIndices
+  }
+
 #if DEBUG
   static let isRunningUnitTests = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 #endif
@@ -120,15 +154,38 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         }
       }
     }
+
+    Task {
+      for await _ in Defaults.updates(.isUnlimitedHistory, initial: false) {
+        // Reload history when switching between limited and unlimited modes.
+        try? await load()
+      }
+    }
   }
 
   @MainActor
   func load() async throws {
-    let descriptor = FetchDescriptor<HistoryItem>()
-    let results = try Storage.shared.context.fetch(descriptor)
-    let decorators = sorter.sort(results).map { HistoryItemDecorator($0) }
-    pinManager.load(from: decorators)
-    allUnpinnedItems = decorators.filter(\.isUnpinned)
+    if Defaults[.isUnlimitedHistory] {
+      // Pinned items are always fully loaded; unpinned items are paged in on demand.
+      let descriptor = FetchDescriptor<HistoryItem>(predicate: #Predicate { $0.pin != nil })
+      let results = try Storage.shared.context.fetch(descriptor)
+      pinManager.load(from: results.map { HistoryItemDecorator($0) })
+      paginationSource.invalidate()
+      do {
+        try paginationManager.load()
+      } catch {
+        // Callers discard this error, so record it before rethrowing.
+        logger.error("Failed to load paginated history: \(error.localizedDescription)")
+        throw error
+      }
+      allUnpinnedItems = paginationManager.loadedItems
+    } else {
+      let descriptor = FetchDescriptor<HistoryItem>()
+      let results = try Storage.shared.context.fetch(descriptor)
+      let decorators = sorter.sort(results).map { HistoryItemDecorator($0) }
+      pinManager.load(from: decorators)
+      allUnpinnedItems = decorators.filter(\.isUnpinned)
+    }
     filteredPinnedItems = allPinnedItems
     filteredUnpinnedItems = allUnpinnedItems
 
@@ -141,8 +198,44 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
   }
 
+  /// Make sure the items backing the given rows of the virtualized list are
+  /// loaded. Called by the list whenever the set of visible rows changes.
+  @MainActor
+  func ensureLoaded(rows: Range<Int>) {
+    guard Defaults[.isUnlimitedHistory] else { return }
+
+    let loadedBefore = paginationManager.loadedRange
+    do {
+      try paginationManager.ensureRowsLoaded(rows)
+    } catch {
+      logger.error("Failed to load history rows \(rows): \(error.localizedDescription)")
+    }
+
+    if paginationManager.loadedRange != loadedBefore {
+      allUnpinnedItems = paginationManager.loadedItems
+      if searchQuery.isEmpty {
+        updateUnpinnedShortcuts()
+      }
+    }
+  }
+
+  /// Refetch the pagination window after storage changed, so that the
+  /// unpinned items reflect the current store and sort order. Callers update
+  /// the pagination source first, or invalidate it.
+  @MainActor
+  private func refreshPagination() {
+    do {
+      try paginationManager.refresh()
+    } catch {
+      logger.error("Failed to refresh paginated history: \(error.localizedDescription)")
+    }
+    allUnpinnedItems = paginationManager.loadedItems
+  }
+
   @MainActor
   private func limitHistorySize(to maxSize: Int) {
+    guard !Defaults[.isUnlimitedHistory] else { return }
+
     if allUnpinnedItems.count >= maxSize {
       allUnpinnedItems[maxSize...].forEach(delete)
     }
@@ -256,6 +349,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
+    if Defaults[.isUnlimitedHistory] {
+      paginationSource.invalidate()
+      refreshPagination()
+    }
+
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
@@ -292,6 +390,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       try? Storage.shared.context.save()
     }
 
+    if Defaults[.isUnlimitedHistory] {
+      paginationSource.invalidate()
+      refreshPagination()
+    }
+
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
@@ -303,6 +406,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func delete(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
+    // Read before deletion: the model's backing data is gone afterwards.
+    let wasUnpinned = item.isUnpinned
     cleanup(item)
     withLogging("Removing history item") {
       deleteFromStorage(item.item)
@@ -315,6 +420,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     filteredPinnedItems.removeAll { $0 == item }
     filteredUnpinnedItems.removeAll { $0 == item }
     sessionLog.removeValues { $0 == item.item }
+
+    if Defaults[.isUnlimitedHistory], wasUnpinned {
+      refreshPagination()
+    }
 
     updateUnpinnedShortcuts()
     Task {
@@ -331,6 +440,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func deleteFromStorage(_ item: HistoryItem) {
+    if Defaults[.isUnlimitedHistory] {
+      paginationSource.remove(item)
+    }
     deleteContents(of: item)
     Storage.shared.context.delete(item)
   }
@@ -477,7 +589,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     if wasPinned {
       insertUnpinned(item)
     } else {
-      allUnpinnedItems.removeAll { $0 == item }
+      removeUnpinned(item)
     }
 
     searchQuery = ""
@@ -500,7 +612,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     let wasPinned = itemDecorator.isPinned
     pinManager.updatePin(of: itemDecorator, to: pin)
     if !wasPinned && itemDecorator.isPinned {
-      allUnpinnedItems.removeAll { $0 == itemDecorator }
+      removeUnpinned(itemDecorator)
     }
     updateShortcuts()
   }
@@ -509,6 +621,18 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   private func findSimilarItem(_ item: HistoryItem) -> HistoryItem? {
     if let duplicate = firstStoredItem(where: { $0.item != item && $0.item.supersedes(item) }) {
       return duplicate.item
+    }
+
+    if Defaults[.isUnlimitedHistory], !item.title.isEmpty {
+      // Most of an unlimited history is not loaded. Compare titles first, so
+      // contents are only loaded for likely duplicates. Images get their
+      // title later from text recognition, so only loaded ones are checked.
+      let duplicate = try? paginationSource.firstItem { stored in
+        stored !== item && stored.title == item.title && stored.supersedes(item)
+      }
+      if let duplicate {
+        return duplicate
+      }
     }
 
     return isModified(item)
@@ -527,10 +651,33 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       from: search.search(string: searchQuery, within: allPinnedItems)
     )
     filteredUnpinnedItems = filteredItems(
-      from: search.search(string: searchQuery, within: allUnpinnedItems)
+      from: search.search(string: searchQuery, within: searchableUnpinnedItems)
     )
 
     updateUnpinnedShortcuts()
+  }
+
+  /// Unpinned items that a search runs over. In unlimited mode most items are
+  /// not loaded, so the candidates come from the whole store.
+  @MainActor
+  private var searchableUnpinnedItems: [HistoryItemDecorator] {
+    guard Defaults[.isUnlimitedHistory], !searchQuery.isEmpty else {
+      return allUnpinnedItems
+    }
+
+    do {
+      if let titleFilter = search.titleFilter(for: searchQuery) {
+        return try paginationSource.items(
+          where: { titleFilter($0.title) },
+          limit: Self.unlimitedSearchLimit
+        )
+      }
+      // Fuzzy search is only enabled for small histories, so all items can be scored.
+      return try paginationSource.items(where: { _ in true })
+    } catch {
+      logger.error("Failed to search history: \(error.localizedDescription)")
+      return allUnpinnedItems
+    }
   }
 
   private func filteredItems(from results: [Search.SearchResult]) -> [HistoryItemDecorator] {
@@ -549,9 +696,26 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   private func insertUnpinned(_ item: HistoryItemDecorator) {
+    if Defaults[.isUnlimitedHistory] {
+      // The item is already in storage; refetch the current window so it
+      // shows up at the position dictated by the sort order.
+      paginationSource.insert(item)
+      refreshPagination()
+      return
+    }
+
     let sortedItems = sorter.sort(allUnpinnedItems.map(\.item) + [item.item])
     guard let index = sortedItems.firstIndex(of: item.item) else { return }
     allUnpinnedItems.insert(item, at: index)
+  }
+
+  private func removeUnpinned(_ item: HistoryItemDecorator) {
+    if Defaults[.isUnlimitedHistory] {
+      paginationSource.remove(item.item)
+      refreshPagination()
+    } else {
+      allUnpinnedItems.removeAll { $0 == item }
+    }
   }
 
   private func updateShortcuts() {
@@ -581,6 +745,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     let shortcutItems = unpinnedItems.filter(\.isVisible)
     for item in shortcutItems {
       item.shortcuts = []
+    }
+
+    // Numeric shortcuts belong to the first rows. In unlimited mode those are
+    // only loaded while the window starts at the top of the history.
+    if Defaults[.isUnlimitedHistory], searchQuery.isEmpty, paginationManager.windowStartIndex > 0 {
+      return
     }
 
     var index = 1

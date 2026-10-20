@@ -259,3 +259,50 @@ class SearchTests: XCTestCase {
     return item
   }
 }
+
+// Search in unlimited history mode.
+extension SearchTests {
+  @MainActor
+  func testFuzzySearchFallsBackToExactForLargeUnlimitedHistory() {
+    let savedUnlimited = Defaults[.isUnlimitedHistory]
+    defer { Defaults[.isUnlimitedHistory] = savedUnlimited }
+
+    Defaults[.searchMode] = Search.Mode.fuzzy
+    Defaults[.isUnlimitedHistory] = true
+    items = [HistoryItemDecorator(historyItemWithTitle("foo bar baz"))]
+
+    // "fbb" matches with fuzzy search but not with exact search.
+    let smallHistorySearch = Search()
+    smallHistorySearch.historyItemCount = { 10 }
+    XCTAssertFalse(smallHistorySearch.search(string: "fbb", within: items).isEmpty)
+
+    let largeHistorySearch = Search()
+    largeHistorySearch.historyItemCount = { Defaults.Keys.largeHistoryThreshold + 1 }
+    XCTAssertTrue(largeHistorySearch.search(string: "fbb", within: items).isEmpty)
+  }
+
+  func testTitleFilterMatchesSearchMode() throws {
+    let savedUnlimited = Defaults[.isUnlimitedHistory]
+    defer { Defaults[.isUnlimitedHistory] = savedUnlimited }
+    Defaults[.isUnlimitedHistory] = true
+
+    Defaults[.searchMode] = Search.Mode.exact
+    let exact = try XCTUnwrap(Search().titleFilter(for: "BAR"))
+    XCTAssertTrue(exact("foo bar"))
+    XCTAssertFalse(exact("foo baz"))
+
+    Defaults[.searchMode] = Search.Mode.regexp
+    let regexp = try XCTUnwrap(Search().titleFilter(for: "^foo"))
+    XCTAssertTrue(regexp("foo bar"))
+    XCTAssertFalse(regexp("bar foo"))
+
+    Defaults[.searchMode] = Search.Mode.fuzzy
+    let smallHistorySearch = Search()
+    smallHistorySearch.historyItemCount = { 10 }
+    XCTAssertNil(smallHistorySearch.titleFilter(for: "fbb"))
+
+    let largeHistorySearch = Search()
+    largeHistorySearch.historyItemCount = { Defaults.Keys.largeHistoryThreshold + 1 }
+    XCTAssertNotNil(largeHistorySearch.titleFilter(for: "fbb"))
+  }
+}

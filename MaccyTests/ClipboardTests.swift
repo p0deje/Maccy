@@ -6,7 +6,7 @@ import Defaults
 @MainActor
 class ClipboardTests: XCTestCase {
   let clipboard = Clipboard.shared
-  let pasteboard = NSPasteboard.general
+  let pasteboard = NSPasteboard(name: Clipboard.unitTestPasteboardName)
   let image = NSImage(named: "NSInfo")!
   let coloredString = NSAttributedString(string: "foo",
                                          attributes: [.foregroundColor: NSColor.red])

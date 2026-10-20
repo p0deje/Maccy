@@ -35,13 +35,18 @@ class Search {
 
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
+  private var historySizeThreshold: Int { Defaults.Keys.largeHistoryThreshold }
+
+  /// Number of items in history. Injectable so tests can simulate a large
+  /// history without inserting thousands of items.
+  var historyItemCount: () -> Int = { History.shared.totalCount }
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
     guard !string.isEmpty else {
       return within.map { SearchResult(object: $0) }
     }
 
-    switch Defaults[.searchMode] {
+    switch effectiveMode {
     case .mixed:
       return mixedSearch(string: string, within: within)
     case .regexp:
@@ -51,6 +56,32 @@ class Search {
     default:
       return simpleSearch(string: string, within: within, options: .caseInsensitive)
     }
+  }
+
+  /// A cheap title test that matches the same items as `search`, used to
+  /// narrow a large history before its items are decorated. `nil` if every
+  /// item must be scored.
+  func titleFilter(for string: String) -> ((String) -> Bool)? {
+    switch effectiveMode {
+    case .exact:
+      return { $0.range(of: string, options: .caseInsensitive) != nil }
+    case .regexp:
+      return { $0.range(of: string, options: .regularExpression) != nil }
+    case .fuzzy, .mixed:
+      return nil
+    }
+  }
+
+  /// The configured search mode, except that fuzzy matching is disabled for
+  /// large unlimited histories because it scores every item.
+  private var effectiveMode: Mode {
+    let mode = Defaults[.searchMode]
+    guard mode == .fuzzy || mode == .mixed,
+          Defaults[.isUnlimitedHistory],
+          historyItemCount() > historySizeThreshold else {
+      return mode
+    }
+    return .exact
   }
 
   private func fuzzySearch(string: String, within: [Searchable]) -> [SearchResult] {
