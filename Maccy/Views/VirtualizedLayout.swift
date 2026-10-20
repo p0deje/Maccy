@@ -37,15 +37,15 @@ nonisolated struct VirtualListMetrics: Equatable {
     return CGFloat(row - tallBefore) * rowHeight + CGFloat(tallBefore) * tallRowHeight
   }
 
-  /// The row whose vertical extent contains `y`, clamped to valid rows.
-  func row(atOffset y: CGFloat) -> Int {
-    guard totalCount > 0, y > 0 else { return 0 }
+  /// The row whose vertical extent contains `position`, clamped to valid rows.
+  func row(atOffset position: CGFloat) -> Int {
+    guard totalCount > 0, position > 0 else { return 0 }
 
     var lower = 0
     var upper = totalCount - 1
     while lower < upper {
       let mid = (lower + upper + 1) / 2
-      if offset(ofRow: mid) <= y {
+      if offset(ofRow: mid) <= position {
         lower = mid
       } else {
         upper = mid - 1
@@ -93,14 +93,13 @@ struct VirtualizedList<Row: View>: View {
   var onScrollTargetHandled: () -> Void = {}
   @ViewBuilder var row: (Int) -> Row
 
-  @State private var scrollOffset: CGFloat = 0
-  @State private var viewportHeight: CGFloat = 0
+  /// The scroll offset changes on every frame while scrolling. It is kept
+  /// outside of SwiftUI state, so the view only updates when the visible
+  /// rows change.
+  @State private var scroll = ScrollState()
+  @State private var visibleRows: Range<Int> = 0..<0
 
   private static var coordinateSpace: String { "virtualizedList" }
-
-  private var visibleRows: Range<Int> {
-    metrics.rows(in: scrollOffset...(scrollOffset + max(viewportHeight, 0)))
-  }
 
   private var renderedRows: Range<Int> {
     guard metrics.totalCount > 0 else { return 0..<0 }
@@ -141,7 +140,10 @@ struct VirtualizedList<Row: View>: View {
           }
         }
         .coordinateSpace(name: Self.coordinateSpace)
-        .onPreferenceChange(VirtualizedListOffsetKey.self) { scrollOffset = $0 }
+        .onPreferenceChange(VirtualizedListOffsetKey.self) { offset in
+          scroll.offset = offset
+          updateVisibleRows()
+        }
         .task(id: scrollTargetRow) {
           guard let target = scrollTargetRow else { return }
 
@@ -152,12 +154,32 @@ struct VirtualizedList<Row: View>: View {
           onScrollTargetHandled()
         }
       }
-      .onAppear { viewportHeight = viewport.size.height }
-      .onChange(of: viewport.size.height) { _, height in viewportHeight = height }
+      .onAppear {
+        scroll.viewportHeight = viewport.size.height
+        updateVisibleRows()
+      }
+      .onChange(of: viewport.size.height) { _, height in
+        scroll.viewportHeight = height
+        updateVisibleRows()
+      }
     }
     .onAppear { onVisibleRowsChanged(visibleRows) }
+    .onChange(of: metrics) { updateVisibleRows() }
     .onChange(of: visibleRows) { _, rows in onVisibleRowsChanged(rows) }
   }
+
+  private func updateVisibleRows() {
+    let rows = metrics.rows(in: scroll.offset...(scroll.offset + max(scroll.viewportHeight, 0)))
+    if rows != visibleRows {
+      visibleRows = rows
+    }
+  }
+}
+
+/// Reference storage for scroll geometry. Writes to it do not invalidate views.
+private final class ScrollState {
+  var offset: CGFloat = 0
+  var viewportHeight: CGFloat = 0
 }
 
 /// Places each row at its exact offset inside a container that always has
