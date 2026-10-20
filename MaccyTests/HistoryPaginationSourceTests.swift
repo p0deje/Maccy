@@ -144,6 +144,61 @@ class HistoryPaginationSourceTests: XCTestCase {
     XCTAssertEqual(try source.tallRowIndices(), [])
   }
 
+  func testSnapshotIsKeptUntilInvalidated() throws {
+    for index in 0..<10 {
+      insertItem(title: "item \(index)", ago: TimeInterval(index * 60))
+    }
+    XCTAssertEqual(try source.count(), 10)
+
+    insertItem(title: "unseen", ago: 0)
+    XCTAssertEqual(try source.count(), 10)
+
+    source.invalidate()
+    XCTAssertEqual(try source.count(), 11)
+  }
+
+  func testInsertKeepsSortOrder() throws {
+    Defaults[.sortBy] = .numberOfCopies
+    for index in 0..<10 {
+      let item = insertItem(title: "item \(index)", ago: 0)
+      item.numberOfCopies = 10 - index
+    }
+    _ = try source.count()
+
+    let item = insertItem(title: "new", ago: 0, image: true)
+    item.numberOfCopies = 5
+    let decorator = HistoryItemDecorator(item)
+    source.insert(decorator)
+
+    let page = try source.fetch(offset: 0, limit: 100)
+    XCTAssertEqual(page.map(\.title), [
+      "item 0", "item 1", "item 2", "item 3", "item 4", "new",
+      "item 5", "item 6", "item 7", "item 8", "item 9"
+    ])
+    XCTAssertTrue(page[5] === decorator)
+    XCTAssertEqual(try source.tallRowIndices(), [5])
+  }
+
+  func testRemoveDropsItem() throws {
+    let items = (0..<10).map { insertItem(title: "item \($0)", ago: TimeInterval($0 * 60)) }
+    _ = try source.count()
+
+    source.remove(items[3])
+
+    XCTAssertEqual(try source.count(), 9)
+    XCTAssertFalse(try source.fetch(offset: 0, limit: 100).contains { $0.title == "item 3" })
+  }
+
+  func testItemsWhereStopsAtLimit() throws {
+    for index in 0..<10 {
+      insertItem(title: index.isMultiple(of: 2) ? "even \(index)" : "odd \(index)", ago: TimeInterval(index * 60))
+    }
+
+    let matches = try source.items(where: { $0.title.hasPrefix("even") }, limit: 3)
+
+    XCTAssertEqual(matches.map(\.title), ["even 0", "even 2", "even 4"])
+  }
+
   func testManagerLoadsLargeHistory() throws {
     for index in 0..<650 {
       insertItem(title: "item \(index)", ago: TimeInterval(index * 60), image: index % 100 == 7)

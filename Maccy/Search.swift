@@ -46,16 +46,7 @@ class Search {
       return within.map { SearchResult(object: $0) }
     }
 
-    var effectiveSearchMode = Defaults[.searchMode]
-
-    // Auto-disable fuzzy search for large histories
-    if Defaults[.isUnlimitedHistory] && historyItemCount() > historySizeThreshold {
-      if effectiveSearchMode == .fuzzy || effectiveSearchMode == .mixed {
-        effectiveSearchMode = .exact
-      }
-    }
-
-    switch effectiveSearchMode {
+    switch effectiveMode {
     case .mixed:
       return mixedSearch(string: string, within: within)
     case .regexp:
@@ -65,6 +56,32 @@ class Search {
     default:
       return simpleSearch(string: string, within: within, options: .caseInsensitive)
     }
+  }
+
+  /// A cheap title test that matches the same items as `search`, used to
+  /// narrow a large history before its items are decorated. `nil` if every
+  /// item must be scored.
+  func titleFilter(for string: String) -> ((String) -> Bool)? {
+    switch effectiveMode {
+    case .exact:
+      return { $0.range(of: string, options: .caseInsensitive) != nil }
+    case .regexp:
+      return { $0.range(of: string, options: .regularExpression) != nil }
+    case .fuzzy, .mixed:
+      return nil
+    }
+  }
+
+  /// The configured search mode, except that fuzzy matching is disabled for
+  /// large unlimited histories because it scores every item.
+  private var effectiveMode: Mode {
+    let mode = Defaults[.searchMode]
+    guard mode == .fuzzy || mode == .mixed,
+          Defaults[.isUnlimitedHistory],
+          historyItemCount() > historySizeThreshold else {
+      return mode
+    }
+    return .exact
   }
 
   private func fuzzySearch(string: String, within: [Searchable]) -> [SearchResult] {

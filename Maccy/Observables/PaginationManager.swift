@@ -1,4 +1,3 @@
-import AppKit.NSPasteboard
 import Defaults
 import Foundation
 import Observation
@@ -47,7 +46,7 @@ class PaginationManager<Source: PaginatedItemSource> {
     pages.flatMap(\.items)
   }
 
-  private let source: Source
+  let source: Source
 
   init(source: Source, pageSize: Int = 100) {
     self.source = source
@@ -141,23 +140,16 @@ class PaginationManager<Source: PaginatedItemSource> {
 /// with the unpinned list on screen. Must be used from the main actor, where
 /// `Storage.shared`'s main-context lives.
 ///
-/// `count()` takes an ordered snapshot of the store as lightweight model
-/// faults (no contents are loaded), and `fetch`/`tallRowIndices` slice that
-/// snapshot. Slicing in memory instead of using `fetchOffset` matters:
-/// SwiftData has been observed to ignore `fetchOffset` and return the first
-/// `fetchLimit` rows for every page, which duplicated pages and broke the
-/// list. `PaginationManager` always recounts before refetching, so the
-/// snapshot is refreshed exactly when pages are.
+/// `count()` takes an ordered snapshot of the store (no contents are loaded),
+/// and `fetch`/`tallRowIndices` slice that snapshot. Slicing in memory instead
+/// of using `fetchOffset` matters: SwiftData has been observed to ignore
+/// `fetchOffset` and return the first `fetchLimit` rows for every page, which
+/// duplicated pages and broke the list.
+///
+/// The snapshot is kept until `invalidate()` is called. Frequent mutations
+/// (an item is copied, deleted, pinned or unpinned) update it in place with
+/// `insert` and `remove`, so they do not refetch the whole history.
 final class HistoryPaginationSource: PaginatedItemSource {
-  private static var imageContentTypes: [String] {
-    [
-      NSPasteboard.PasteboardType.tiff.rawValue,
-      NSPasteboard.PasteboardType.png.rawValue,
-      NSPasteboard.PasteboardType.jpeg.rawValue,
-      NSPasteboard.PasteboardType.heic.rawValue
-    ]
-  }
-
   /// Decorators are reused across fetches so that SwiftUI identity and the
   /// current selection survive window shifts and refreshes. Values are weak:
   /// once a page is dropped and nothing else references its decorators, the
@@ -165,53 +157,163 @@ final class HistoryPaginationSource: PaginatedItemSource {
   private struct WeakDecorator {
     weak var value: HistoryItemDecorator?
   }
-  private var decorators: [PersistentIdentifier: WeakDecorator] = [:]
+  private var decorators: [ObjectIdentifier: WeakDecorator] = [:]
 
-  /// Ordered snapshot of all unpinned items, refreshed by `count()`.
-  /// The items are faults: only metadata is loaded until a page is fetched.
-  private var sortedItems: [HistoryItem] = []
+  private struct Entry {
+    let item: HistoryItem
+    let isTall: Bool
+  }
+
+  /// Ordered snapshot of all unpinned items.
+  private var entries: [Entry] = []
+  private var needsSnapshot = true
+
+  /// Drop the snapshot, so the next `count()` refetches it from storage.
+  func invalidate() {
+    needsSnapshot = true
+  }
 
   @MainActor
   func count() throws -> Int {
+    if needsSnapshot {
+      try takeSnapshot()
+    }
+    return entries.count
+  }
+
+  @MainActor
+  func fetch(offset: Int, limit: Int) throws -> [HistoryItemDecorator] {
+    guard offset < entries.count else { return [] }
+
+    return entries[offset ..< min(entries.count, offset + limit)].map { decorator(for: $0.item) }
+  }
+
+  /// Indices (in the paged ordering) of unpinned items that contain an image.
+  @MainActor
+  func tallRowIndices() throws -> [Int] {
+    entries.indices.filter { entries[$0].isTall }
+  }
+
+  /// Insert a stored unpinned item at its sorted position. Later fetches
+  /// return `decorator` for it.
+  @MainActor
+  func insert(_ decorator: HistoryItemDecorator) {
+    let item = decorator.item
+    decorators[ObjectIdentifier(item)] = WeakDecorator(value: decorator)
+    guard !needsSnapshot, item.pin == nil else { return }
+
+    remove(item)
+    let index = insertionIndex(for: item, by: Defaults[.sortBy])
+    entries.insert(Entry(item: item, isTall: Self.hasImage(item)), at: index)
+  }
+
+  /// Remove an item, for example after it was deleted or pinned.
+  @MainActor
+  func remove(_ item: HistoryItem) {
+    guard !needsSnapshot else { return }
+
+    entries.removeAll { $0.item === item }
+  }
+
+  /// Decorators for the unpinned items that pass `isIncluded`, in sort order.
+  /// Stops after `limit` matches.
+  @MainActor
+  func items(
+    where isIncluded: (HistoryItem) -> Bool,
+    limit: Int = .max
+  ) throws -> [HistoryItemDecorator] {
+    _ = try count()
+
+    var result: [HistoryItemDecorator] = []
+    for entry in entries where isIncluded(entry.item) {
+      result.append(decorator(for: entry.item))
+      if result.count >= limit {
+        break
+      }
+    }
+    return result
+  }
+
+  /// The first unpinned item that passes `predicate`, in sort order.
+  @MainActor
+  func firstItem(where predicate: (HistoryItem) -> Bool) throws -> HistoryItem? {
+    _ = try count()
+
+    return entries.first { predicate($0.item) }?.item
+  }
+
+  @MainActor
+  private func takeSnapshot() throws {
     decorators = decorators.filter { $0.value.value != nil }
-    sortedItems = try Storage.shared.context.fetch(
+    let items = try Storage.shared.context.fetch(
       FetchDescriptor<HistoryItem>(
         predicate: #Predicate { $0.pin == nil },
         sortBy: [Self.sortDescriptor()]
       )
     )
-    return sortedItems.count
+    let imageItemIDs = try Self.imageItemIDs()
+    entries = items.map { Entry(item: $0, isTall: imageItemIDs.contains($0.persistentModelID)) }
+    needsSnapshot = false
+  }
+
+  /// Identifiers of unpinned items that contain an image. The query only
+  /// checks content types, so no content (image data) is loaded or decoded.
+  @MainActor
+  private static func imageItemIDs() throws -> Set<PersistentIdentifier> {
+    let types = imageContentTypes
+    return Set(
+      try Storage.shared.context.fetchIdentifiers(
+        FetchDescriptor<HistoryItem>(
+          predicate: #Predicate { item in
+            item.pin == nil && item.contents.contains { types.contains($0.type) }
+          }
+        )
+      )
+    )
+  }
+
+  private static var imageContentTypes: [String] {
+    StorageType.images.types.map(\.rawValue)
   }
 
   @MainActor
-  func fetch(offset: Int, limit: Int) throws -> [HistoryItemDecorator] {
-    guard offset < sortedItems.count else { return [] }
-
-    return sortedItems[offset ..< min(sortedItems.count, offset + limit)].map(decorator(for:))
+  private static func hasImage(_ item: HistoryItem) -> Bool {
+    let types = imageContentTypes
+    return item.contents.contains { types.contains($0.type) }
   }
 
-  /// Indices (in the paged ordering) of unpinned items that contain an
-  /// image. Presence is determined from content types alone so no image
-  /// data is loaded or decoded.
+  /// Index of the first entry that does not sort before `item`, so a new item
+  /// goes before existing items with the same sort key.
   @MainActor
-  func tallRowIndices() throws -> [Int] {
-    let types = Self.imageContentTypes
-    let contentDescriptor = FetchDescriptor<HistoryItemContent>(
-      predicate: #Predicate { types.contains($0.type) }
-    )
-    let imageItemIDs = Set(
-      try Storage.shared.context.fetch(contentDescriptor).compactMap { $0.item?.persistentModelID }
-    )
-    guard !imageItemIDs.isEmpty else { return [] }
+  private func insertionIndex(for item: HistoryItem, by sortBy: Sorter.By) -> Int {
+    var lower = 0
+    var upper = entries.count
+    while lower < upper {
+      let mid = (lower + upper) / 2
+      if Self.sortsBefore(entries[mid].item, item, by: sortBy) {
+        lower = mid + 1
+      } else {
+        upper = mid
+      }
+    }
+    return lower
+  }
 
-    return sortedItems
-      .enumerated()
-      .filter { imageItemIDs.contains($0.element.persistentModelID) }
-      .map(\.offset)
+  @MainActor
+  private static func sortsBefore(_ lhs: HistoryItem, _ rhs: HistoryItem, by sortBy: Sorter.By) -> Bool {
+    switch sortBy {
+    case .lastCopiedAt:
+      lhs.lastCopiedAt > rhs.lastCopiedAt
+    case .firstCopiedAt:
+      lhs.firstCopiedAt > rhs.firstCopiedAt
+    case .numberOfCopies:
+      lhs.numberOfCopies > rhs.numberOfCopies
+    }
   }
 
   private func decorator(for item: HistoryItem) -> HistoryItemDecorator {
-    let id = item.persistentModelID
+    // A live decorator keeps its item alive, so the identifier stays unique.
+    let id = ObjectIdentifier(item)
     if let existing = decorators[id]?.value {
       return existing
     }
