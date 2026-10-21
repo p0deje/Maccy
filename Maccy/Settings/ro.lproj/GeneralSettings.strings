@@ -11,6 +11,8 @@
 "NotificationsAndSounds" = "Notificări și sunet 􀱁";
 "CheckForUpdates" = "Verifică actualizările automat";
 "Modifiers" = "Personalizați comportamentul la selectarea unui element:\n- Selectați cu %@ apăsat pentru a copia un element.\n- Selectați cu %@ apăsat pentru a copia și lipi un element.\n- Selectați cu %@ apăsat pentru a copia, șterge formatarea și lipi un element.";
+"MultipleSelection" = "Selectarea mai multor elemente";
+"MultipleSelectionTooltip" = "Selectați mai multe elemente cu ⇧↑, ⇧↓ sau ⌘-clic și apăsați ↩ pentru a le copia pe toate deodată, câte unul pe rând.";
 "Behavior" = "Comportament:";
 "Open" = "Deschide:";
 "Exact" = "Exactă";

@@ -14,6 +14,8 @@
 "PasteAutomatically" = "";
 "PasteWithoutFormatting" = "";
 "Modifiers" = "";
+"MultipleSelection" = "Επιλογή πολλών στοιχείων";
+"MultipleSelectionTooltip" = "Επιλέξτε πολλά στοιχεία με ⇧↑, ⇧↓ ή ⌘-κλικ και πατήστε ↩ για να τα αντιγράψετε όλα μαζί, ένα σε κάθε γραμμή.";
 "Search" = "";
 "Exact" = "";
 "Fuzzy" = "";

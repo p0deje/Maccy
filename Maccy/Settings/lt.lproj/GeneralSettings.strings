@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Įklijuoti automatiškai";
 "PasteWithoutFormatting" = "Įklijuoti be formatavimo";
 "Modifiers" = "Pritaikykite elgseną, kai pasirenkamas elementas:\n• Pasirinkite paspaudę %@, kad nukopijuotumėte elementą.\n• Pasirinkite paspaudę %@, jei norite kopijuoti ir įklijuoti elementą.\n• Pasirinkite paspaudę %@, kad nukopijuotumėte, panaikintumėte formatavimą ir įklijuotumėte elementą.";
+"MultipleSelection" = "Pasirinkti kelis elementus";
+"MultipleSelectionTooltip" = "Pasirinkite kelis elementus naudodami ⇧↑, ⇧↓ arba ⌘-spustelėjimą ir paspauskite ↩, kad nukopijuotumėte juos visus iš karto, po vieną eilutėje.";
 "Search" = "Paieška:";
 "Exact" = "Tikslus";
 "Fuzzy" = "Apytikslis";

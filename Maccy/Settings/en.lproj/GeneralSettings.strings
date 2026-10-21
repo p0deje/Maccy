@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Paste automatically";
 "PasteWithoutFormatting" = "Paste without formatting";
 "Modifiers" = "Customize the behavior when selecting item:\n• Select with %@ pressed to copy item.\n• Select with %@ pressed to copy and paste item.\n• Select with %@ pressed to copy, clear formatting, and paste item.";
+"MultipleSelection" = "Select multiple items";
+"MultipleSelectionTooltip" = "Select several items with ⇧↑, ⇧↓ or ⌘-click and press ↩ to copy them all at once, one per line.";
 "Search" = "Search:";
 "Exact" = "Exact";
 "Fuzzy" = "Fuzzy";

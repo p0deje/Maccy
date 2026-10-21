@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Wklej automatycznie";
 "PasteWithoutFormatting" = "Wklej bez formatowania";
 "Modifiers" = "Dostosuj zachowanie przy wybieraniu wpisu:\n• Wybierz z wciśniętym %@ aby skopiować.\n• Wybierz z wciśniętym %@ aby skopiować i wkleić.\n• Wybierz z wciśniętym %@ aby skopiować i wkleić z wyczyszczonym formatowaniem.";
+"MultipleSelection" = "Zaznaczanie wielu wpisów";
+"MultipleSelectionTooltip" = "Zaznacz kilka wpisów za pomocą ⇧↑, ⇧↓ lub ⌘-kliknięcia i naciśnij ↩, aby skopiować je wszystkie naraz, każdy w osobnym wierszu.";
 "Search" = "Wyszukiwanie:";
 "Exact" = "Dokładne";
 "Fuzzy" = "Rozmyte";

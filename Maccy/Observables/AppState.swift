@@ -8,7 +8,7 @@ import SwiftUI
 class AppState: Sendable {
   static let shared = AppState(history: History.shared, footer: Footer())
 
-  let multiSelectionEnabled = true
+  var multiSelectionEnabled: Bool { Defaults[.multiSelectionEnabled] }
   let pasteStackEnabled = false
 
   var appDelegate: AppDelegate?

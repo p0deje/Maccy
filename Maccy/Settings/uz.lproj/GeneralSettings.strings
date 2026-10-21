@@ -17,6 +17,8 @@
 "PasteAutomatically" = "Avtomatik joylashtirish";
 "PasteWithoutFormatting" = "Formatlashsiz joylashtirish";
 "Modifiers" = "Elementni tanlashda harakatni moslashtiring: \n• Elementni nusxalash uchun %@ tugmasini bosgan holda tanlang. \n• Elementni nusxalash va joylashtirish uchun %@ bosilgan holda tanlang. \n• Nusxa olish, formatlashni tozalash va joylashtirish uchun %@ bosilganda tanlang.";
+"MultipleSelection" = "Bir nechta elementni tanlash";
+"MultipleSelectionTooltip" = "⇧↑, ⇧↓ yoki ⌘-bosish orqali bir nechta elementni tanlang va ularning barchasini birdaniga, har birini alohida qatorda nusxalash uchun ↩ tugmasini bosing.";
 "Search" = "Qidirish:";
 "Exact" = "Aniq";
 "Regex" = "Muntazam ifodalar";

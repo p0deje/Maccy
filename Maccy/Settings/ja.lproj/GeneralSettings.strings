@@ -14,6 +14,8 @@
 "PasteAutomatically" = "自動的に貼り付け";
 "PasteWithoutFormatting" = "書式なしで貼り付け";
 "Modifiers" = "項目選択時の動作カスタマイズ：\n• %@を押しながら選択すると項目をコピーします。\n• %@を押しながら選択すると項目をコピーして貼り付けます。\n• %@を押しながら選択すると項目をコピーし、 書式なしで貼り付けます。";
+"MultipleSelection" = "複数の項目を選択";
+"MultipleSelectionTooltip" = "⇧↑、⇧↓ または ⌘-クリックで複数の項目を選択し、↩ を押すと 1 行に 1 項目ずつまとめてコピーします。";
 "Search" = "検索：";
 "Exact" = "精密";
 "Fuzzy" = "あいまい";

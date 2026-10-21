@@ -14,6 +14,8 @@
 "PasteAutomatically" = "自動貼上";
 "PasteWithoutFormatting" = "純文字貼上";
 "Modifiers" = "自訂選擇項目時的行為：\n• 按住 %@ 並選取以複製項目。\n• 按住 %@ 並選取以複製和貼上項目。\n• 按住 %@ 並選取以複製，清除格式並貼上項目。";
+"MultipleSelection" = "選取多個項目";
+"MultipleSelectionTooltip" = "使用 ⇧↑、⇧↓ 或 ⌘-按一下選取多個項目，然後按 ↩ 一次全部拷貝，每項一行。";
 "Search" = "搜尋：";
 "Exact" = "精確";
 "Fuzzy" = "模糊";

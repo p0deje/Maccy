@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Tự động dán";
 "PasteWithoutFormatting" = "Dán không định dạng";
 "Modifiers" = "Tùy chỉnh hành vi khi chọn mục:\n• Chọn bằng cách giữ %@ để sao chép mục.\n• Chọn bằng cách giữ %@ để sao chép và dán mục.\n• Chọn bằng cách giữ %@ để sao chép, xóa định dạng, và dán mục.";
+"MultipleSelection" = "Chọn nhiều mục";
+"MultipleSelectionTooltip" = "Chọn nhiều mục bằng ⇧↑, ⇧↓ hoặc ⌘-nhấp rồi nhấn ↩ để sao chép tất cả cùng lúc, mỗi mục một dòng.";
 "Search" = "Tìm kiếm:";
 "Exact" = "Chính xác";
 "Fuzzy" = "Gần đúng";

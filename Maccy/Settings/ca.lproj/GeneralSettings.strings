@@ -14,6 +14,8 @@
 "PasteAutomatically" = "";
 "PasteWithoutFormatting" = "";
 "Modifiers" = "";
+"MultipleSelection" = "Seleccionar diversos elements";
+"MultipleSelectionTooltip" = "Selecciona diversos elements amb ⇧↑, ⇧↓ o ⌘-clic i prem ↩ per copiar-los tots alhora, un per línia.";
 "Search" = "";
 "Exact" = "";
 "Fuzzy" = "";

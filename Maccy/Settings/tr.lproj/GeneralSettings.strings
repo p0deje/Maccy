@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Otomatik olarak yapıştır";
 "PasteWithoutFormatting" = "Biçimlendirme olmadan yapıştır";
 "Modifiers" = "Ögeyi seçme davranışını özelleştirin:\n• Ögeyi kopyalamak için %@'a basılıyken seçin.\n• Ögeyi kopyalayıp yopıştırmak için %@'a basılıyken seçin.\n• Ögeyi kopyalamak, biçimlendirmesini temizlemek ve yapıştırmak için %@'e basılıyken seçin.";
+"MultipleSelection" = "Birden fazla öğe seç";
+"MultipleSelectionTooltip" = "⇧↑, ⇧↓ veya ⌘-tıklama ile birden fazla öğe seçin ve hepsini tek seferde, her biri ayrı satırda olacak şekilde kopyalamak için ↩ tuşuna basın.";
 "Search" = "Arama:";
 "Exact" = "Kesin";
 "Fuzzy" = "Bulanık";

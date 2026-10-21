@@ -14,6 +14,8 @@
 "PasteAutomatically" = "자동으로 붙여넣기";
 "PasteWithoutFormatting" = "서식없이 붙여넣기";
 "Modifiers" = "항목 선택시 동작 커스터마이즈:\n• %@와 함께 선택시 항목을 복사합니다.\n• %@와 함께 선택시 항복을 복사하여 붙여넣기 합니다.\n• %@와 함께 선택시 항목을 복사하여 서식없이 붙여넣기 합니다.";
+"MultipleSelection" = "여러 항목 선택";
+"MultipleSelectionTooltip" = "⇧↑, ⇧↓ 또는 ⌘-클릭으로 여러 항목을 선택한 후 ↩ 키를 누르면 한 줄에 하나씩 한 번에 모두 복사합니다.";
 "Search" = "검색:";
 "Exact" = "정확한";
 "Fuzzy" = "퍼지";
