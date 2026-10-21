@@ -1,7 +1,6 @@
 import AppKit
 import SwiftUI
 import Defaults
-import Settings
 
 struct AppearanceSettingsPane: View {
   @Default(.popupPosition) private var popupAt
@@ -51,8 +50,11 @@ struct AppearanceSettingsPane: View {
   }()
 
   var body: some View {
-    Settings.Container(contentWidth: 650) {
-      Settings.Section(label: { Text("PopupAt", tableName: "AppearanceSettings") }) {
+    ModernSettings.Container {
+      ModernSettings.Section(title: "") {
+        SettingsAppearancePreview()
+      }
+      ModernSettings.Section(label: { Text("PopupAt", tableName: "AppearanceSettings") }) {
         HStack {
           Picker("", selection: $popupAt) {
             ForEach(PopupPosition.allCases) { position in
@@ -64,7 +66,8 @@ struct AppearanceSettingsPane: View {
             }
           }
           .labelsHidden()
-          .frame(width: 141, alignment: .leading)
+          .pickerStyle(.menu)
+          .fixedSize()
           .help(Text("PopupAtTooltip", tableName: "AppearanceSettings"))
           .accessibilityLabel(Text("PopupAt", tableName: "AppearanceSettings"))
 
@@ -82,19 +85,20 @@ struct AppearanceSettingsPane: View {
         }
       }
 
-      Settings.Section(label: { Text("PinTo", tableName: "AppearanceSettings") }) {
+      ModernSettings.Section(label: { Text("PinTo", tableName: "AppearanceSettings") }) {
         Picker("", selection: $pinTo) {
           ForEach(PinsPosition.allCases) { position in
             Text(position.description)
           }
         }
         .labelsHidden()
-        .frame(width: 141, alignment: .leading)
+        .pickerStyle(.menu)
+        .fixedSize()
         .help(Text("PinToTooltip", tableName: "AppearanceSettings"))
         .accessibilityLabel(Text("PinTo", tableName: "AppearanceSettings"))
       }
 
-      Settings.Section(label: { Text("ImageHeight", tableName: "AppearanceSettings") }) {
+      ModernSettings.Section(label: { Text("ImageHeight", tableName: "AppearanceSettings") }) {
         HStack {
           TextField("", value: $imageHeight, formatter: imageHeightFormatter)
             .frame(width: 120)
@@ -106,13 +110,13 @@ struct AppearanceSettingsPane: View {
         }
       }
 
-      Settings.Section(title: "") {
+      ModernSettings.Section(title: "") {
         Defaults.Toggle(key: .openPreviewAutomatically) {
           Text("OpenPreviewAutomatically", tableName: "AppearanceSettings")
         }
       }
 
-      Settings.Section(label: { Text("PreviewDelay", tableName: "AppearanceSettings") }) {
+      ModernSettings.Section(label: { Text("PreviewDelay", tableName: "AppearanceSettings") }) {
         HStack {
           TextField("", value: $previewDelay, formatter: previewDelayFormatter)
             .frame(width: 120)
@@ -125,8 +129,7 @@ struct AppearanceSettingsPane: View {
         .disabled(!openPreviewAutomatically)
       }
 
-      Settings.Section(
-        bottomDivider: true,
+      ModernSettings.Section(
         label: { Text("HighlightMatches", tableName: "AppearanceSettings") }
       ) {
         Picker("", selection: $highlightMatch) {
@@ -135,41 +138,62 @@ struct AppearanceSettingsPane: View {
           }
         }
         .labelsHidden()
-        .frame(width: 141, alignment: .leading)
+        .pickerStyle(.menu)
+        .fixedSize()
         .help(Text("HighlightMatchesTooltip", tableName: "AppearanceSettings"))
         .accessibilityLabel(Text("HighlightMatches", tableName: "AppearanceSettings"))
       }
 
-      Settings.Section(title: "") {
+      ModernSettings.Section(title: "") {
         Defaults.Toggle(key: .showSpecialSymbols) {
           Text("ShowSpecialSymbols", tableName: "AppearanceSettings")
         }
         .help(Text("ShowSpecialSymbolsTooltip", tableName: "AppearanceSettings"))
 
-        HStack {
-          Defaults.Toggle(key: .showInStatusBar) {
-            Text("ShowMenuIcon", tableName: "AppearanceSettings")
-          }
-
-          Picker("", selection: $menuIcon) {
+        HStack(spacing: 16) {
+          Text("ShowMenuIcon", tableName: "AppearanceSettings")
+          Spacer(minLength: 8)
+          HStack(spacing: 8) {
             ForEach(MenuIcon.allCases) { icon in
-              Image(nsImage: icon.image)
+              Button {
+                menuIcon = icon
+              } label: {
+                Image(nsImage: icon.image)
+                  .frame(width: 42, height: 36)
+                  .background(.quaternary.opacity(menuIcon == icon ? 0.8 : 0.3),
+                              in: RoundedRectangle(cornerRadius: 8))
+                  .overlay {
+                    RoundedRectangle(cornerRadius: 8)
+                      .strokeBorder(menuIcon == icon ? Color.accentColor : Color.secondary.opacity(0.25),
+                                    lineWidth: menuIcon == icon ? 2 : 1)
+                  }
+                  .contentShape(RoundedRectangle(cornerRadius: 8))
+              }
+              .buttonStyle(.plain)
+              .accessibilityLabel(Text(icon.description))
+              .accessibilityAddTraits(menuIcon == icon ? .isSelected : [])
+              .help(Text(icon.description))
             }
           }
-          .labelsHidden()
-          .scaledToFit()
           .disabled(!showInStatusBar)
-          .controlSize(.small)
-          .accessibilityLabel(Text("ShowMenuIcon", tableName: "AppearanceSettings"))
+          .opacity(showInStatusBar ? 1 : 0.5)
+          .accessibilityElement(children: .contain)
+          .accessibilityLabel(Text("MenuIcon", tableName: "AppearanceSettings"))
+          .accessibilityIdentifier("menu-icon-picker")
+
+          Toggle(isOn: $showInStatusBar) {
+            Text("ShowMenuIcon", tableName: "AppearanceSettings")
+          }
+          .labelsHidden()
+          .fixedSize()
         }
 
         Defaults.Toggle(key: .showRecentCopyInMenuBar) {
           Text("ShowRecentCopyInMenuBar", tableName: "AppearanceSettings")
         }
-        HStack {
-          Defaults.Toggle(key: .showSearch) {
-            Text("ShowSearchField", tableName: "AppearanceSettings")
-          }
+        HStack(spacing: 16) {
+          Text("ShowSearchField", tableName: "AppearanceSettings")
+          Spacer(minLength: 8)
 
           Picker("", selection: $searchVisibility) {
             ForEach(SearchVisibility.allCases) { type in
@@ -177,10 +201,17 @@ struct AppearanceSettingsPane: View {
             }
           }
           .labelsHidden()
-          .scaledToFit()
+          .pickerStyle(.menu)
+          .fixedSize()
           .disabled(!showSearch)
           .controlSize(.small)
           .accessibilityLabel(Text("ShowSearchField", tableName: "AppearanceSettings"))
+
+          Toggle(isOn: $showSearch) {
+            Text("ShowSearchField", tableName: "AppearanceSettings")
+          }
+          .labelsHidden()
+          .fixedSize()
         }
         Defaults.Toggle(key: .showTitle) {
           Text("ShowTitleBeforeSearchField", tableName: "AppearanceSettings")
@@ -202,17 +233,15 @@ struct AppearanceSettingsPane: View {
         } label: {
           Text("FooterStyle", tableName: "AppearanceSettings")
         }
-        .fixedSize()
         .accessibilityIdentifier("footer-style")
         .disabled(!showFooter)
-        // Settings.Section offers its content the full container width even though the content
-        // starts after the label column, so cap the width to make long translations wrap.
-        Text("OpenPreferencesWarning", tableName: "AppearanceSettings")
-          .fixedSize(horizontal: false, vertical: true)
-          .frame(maxWidth: 380, alignment: .leading)
-          .opacity(showFooter ? 0 : 1)
-          .controlSize(.small)
-          .foregroundStyle(.gray)
+        if !showFooter {
+          Text("OpenPreferencesWarning", tableName: "AppearanceSettings")
+            .fixedSize(horizontal: false, vertical: true)
+            .frame(maxWidth: .infinity, alignment: .leading)
+            .controlSize(.small)
+            .foregroundStyle(.secondary)
+        }
       }
     }
     .onReceive(NotificationCenter.default.publisher(for: NSApplication.didChangeScreenParametersNotification)) { _ in
