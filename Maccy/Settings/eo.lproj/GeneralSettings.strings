@@ -17,6 +17,8 @@
 "ShowPreviewTooltip" = "Montri antaŭrigardon kun aldonaj informoj.\nDefaŭlta: ⌃Space.";
 "Behavior" = "Konduto:";
 "Modifiers" = "";
+"MultipleSelection" = "Elekti plurajn erojn";
+"MultipleSelectionTooltip" = "Elektu plurajn erojn per ⇧↑, ⇧↓ aŭ ⌘-klako kaj premu ↩ por kopii ĉiujn samtempe, po unu en ĉiu linio.";
 "Exact" = "Ekzakta";
 "Fuzzy" = "Proksimuma";
 "Mixed" = "Miksita";

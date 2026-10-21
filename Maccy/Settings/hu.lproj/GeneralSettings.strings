@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Automatikus beillesztés";
 "PasteWithoutFormatting" = "Beillesztés formázások nélkül";
 "Modifiers" = "Viselkedés testreszabása az elem kiválasztásakor:\n• Tartsd nyomva a %@ gombot és válaszd ki az elemet a másoláshoz.\n• Tartsd nyomva a %@ gombot és válaszd ki az elemet a másoláshoz es a beillesztéshez.\n• Tartsd nyomva a %@ gombot és válaszd ki az elemet a másoláshoz, a formázások törléséhez és a beillesztéshez.";
+"MultipleSelection" = "Több elem kijelölése";
+"MultipleSelectionTooltip" = "Jelölj ki több elemet a ⇧↑, ⇧↓ gombokkal vagy ⌘-kattintással, majd nyomd meg a ↩ gombot, hogy egyszerre másold ki mindet, soronként egyet.";
 "Search" = "Keresés:";
 "Exact" = "Egyező";
 "Fuzzy" = "Hasonló";

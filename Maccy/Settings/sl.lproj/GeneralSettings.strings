@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Samodejno prilepite";
 "PasteWithoutFormatting" = "Prilepite brez oblikovanja";
 "Modifiers" = "Prilagodite vedenje pri izbiri predmeta:\n• Izberite s pritisnjenim %@, da kopirate element.\n• Izberite s pritisnjenim %@, da kopirate in prilepite element.\n• Izberite s pritisnjenim %@, da kopirate, počistite oblikovanje in prilepite element.";
+"MultipleSelection" = "Izbira več elementov";
+"MultipleSelectionTooltip" = "Izberite več elementov s ⇧↑, ⇧↓ ali ⌘-klikom in pritisnite ↩, da jih kopirate vse hkrati, vsakega v svojo vrstico.";
 "Search" = "Iskanje:";
 "Exact" = "Točno";
 "Fuzzy" = "Mehko";

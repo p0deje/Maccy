@@ -14,6 +14,8 @@
 "PasteAutomatically" = "چسباندن خودکار";
 "PasteWithoutFormatting" = "چسباندن بدون قالب‌بندی";
 "Modifiers" = "";
+"MultipleSelection" = "انتخاب چند مورد";
+"MultipleSelectionTooltip" = "با ⇧↑، ⇧↓ یا ⌘-کلیک چند مورد را انتخاب کنید و ↩ را بزنید تا همه را یکجا کپی کنید، هر مورد در یک خط.";
 "Search" = "جستجو:";
 "Exact" = "دقیق";
 "Fuzzy" = "تقریبی";

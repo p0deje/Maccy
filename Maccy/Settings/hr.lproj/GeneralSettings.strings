@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Umetni automatski";
 "PasteWithoutFormatting" = "Umetni neformatirano";
 "Modifiers" = "Prilagodi ponašanje pri biranju elemenata:\n• Za kopiranje elementa odaberi zajedno s pritisnutom tipkom %@.\n• Za kopiranje i umetanje elementa odaberi zajedno s pritisnutom tipkom %@.\n• Za kopiranje, uklanjanje formata i umetanje elementa odaberi zajedno s pritisnutom tipkom %@.";
+"MultipleSelection" = "Odabir više stavki";
+"MultipleSelectionTooltip" = "Odaberi više stavki pomoću ⇧↑, ⇧↓ ili ⌘-klika i pritisni ↩ da ih sve kopiraš odjednom, svaku u zasebnom retku.";
 "Search" = "Traži:";
 "Exact" = "Točno";
 "Fuzzy" = "Netočno";

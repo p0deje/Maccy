@@ -9,6 +9,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
   let savedSortBy = Defaults[.sortBy]
   let savedPinOrder = Defaults[.pinOrder]
   let savedPinTo = Defaults[.pinTo]
+  let savedPasteByDefault = Defaults[.pasteByDefault]
   let history = History.shared
 
   override func setUp() {
@@ -28,6 +29,7 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     Defaults[.sortBy] = savedSortBy
     Defaults[.pinOrder] = savedPinOrder
     Defaults[.pinTo] = savedPinTo
+    Defaults[.pasteByDefault] = savedPasteByDefault
   }
 
   func testDefaultIsEmpty() {
@@ -385,6 +387,15 @@ class HistoryTests: XCTestCase { // swiftlint:disable:this type_body_length
     history.delete(foo)
     XCTAssertEqual(history.items.toArray(), [bar])
     try assertStorageCounts(items: 1, contents: 1)
+  }
+
+  func testSelectingMultipleItemsJoinsThemInSelectionOrder() {
+    Defaults[.pasteByDefault] = false
+    let foo = history.add(historyItem("foo"))
+    let bar = history.add(historyItem("bar"))
+    let baz = history.add(historyItem("baz"))
+    history.select([bar, foo, baz], flags: [])
+    XCTAssertEqual(NSPasteboard.general.string(forType: .string), "bar\nfoo\nbaz")
   }
 
   func testCleaningUpOrphanedContents() throws {

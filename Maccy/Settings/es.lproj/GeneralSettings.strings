@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Pegar automáticamente";
 "PasteWithoutFormatting" = "Pegar sin formato";
 "Modifiers" = "Personalizar el comportamiento al seleccionar un elemento:\n• Seleccionar presionando %@ para copiar el elemento.\n• Seleccionar presionando %@ para copiar y pegar un elemento.\n• Seleccionar presionando %@ para copiar, quitar formato y pegar un elemento.";
+"MultipleSelection" = "Seleccionar varios elementos";
+"MultipleSelectionTooltip" = "Selecciona varios elementos con ⇧↑, ⇧↓ o ⌘-clic y presiona ↩ para copiarlos todos a la vez, uno por línea.";
 "Search" = "Buscar:";
 "Exact" = "Exacta";
 "Fuzzy" = "Aproximada";

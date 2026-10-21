@@ -20,4 +20,6 @@
 "Behavior" = "Beteende:";
 "PinTooltip" = "Kortkommando för att fästa historikpost .\nFörval: ⌥P.";
 "Modifiers" = "Anpassa beteendet vid val av post:\n• Välj med %@ nedtryckt för att kopiera posten.\n• Välj med %@ nedtryckt för att kopiera och klistra in posten.\n• Välj med %@ nedtryckt för att kopiera, rensa formatering och klistra in posten.";
+"MultipleSelection" = "Markera flera poster";
+"MultipleSelectionTooltip" = "Markera flera poster med ⇧↑, ⇧↓ eller ⌘-klick och tryck på ↩ för att kopiera alla på en gång, en per rad.";
 "Regex" = "Reguljära uttryck";

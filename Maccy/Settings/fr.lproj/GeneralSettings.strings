@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Coller automatiquement";
 "PasteWithoutFormatting" = "Coller sans formatage";
 "Modifiers" = "Personnaliser le comportement lors de la sélection de l’élément :\n— sélectionnez avec %@ pressé pour copier un élément ;\n— sélectionnez avec %@ pressé pour copier et coller l’élément ;\n— sélectionnez avec %@ pressé pour copier, reformater et coller l’élément.";
+"MultipleSelection" = "Sélectionner plusieurs éléments";
+"MultipleSelectionTooltip" = "Sélectionnez plusieurs éléments avec ⇧↑, ⇧↓ ou ⌘-clic, puis appuyez sur ↩ pour les copier tous en une fois, un par ligne.";
 "Search" = "Recherche :";
 "Exact" = "Exacte";
 "Fuzzy" = "Approximative";

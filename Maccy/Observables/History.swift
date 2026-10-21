@@ -380,9 +380,50 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
   }
 
+  // Joins the items in the order they were selected, one per line,
+  // and copies or pastes them as a single plain text entry.
+  @MainActor
+  func select(_ items: [HistoryItemDecorator], flags modifierFlags: NSEvent.ModifierFlags) {
+    guard items.count > 1 else {
+      select(items.first, flags: modifierFlags)
+      return
+    }
+
+    let text = items
+      .compactMap { $0.item.textRepresentation }
+      .joined(separator: "\n")
+    guard !text.isEmpty else {
+      return
+    }
+
+    if modifierFlags.isEmpty {
+      AppState.shared.popup.close()
+      Clipboard.shared.copyInMaccy(text)
+      if Defaults[.pasteByDefault] {
+        Clipboard.shared.paste()
+      }
+    } else {
+      switch HistoryItemAction(modifierFlags) {
+      case .copy:
+        AppState.shared.popup.close()
+        Clipboard.shared.copyInMaccy(text)
+      case .paste, .pasteWithoutFormatting:
+        AppState.shared.popup.close()
+        Clipboard.shared.copyInMaccy(text)
+        Clipboard.shared.paste()
+      case .unknown:
+        return
+      }
+    }
+
+    Task {
+      searchQuery = ""
+    }
+  }
+
   @MainActor
   func startPasteStack(selection: inout Selection<HistoryItemDecorator>, flags modifierFlags: NSEvent.ModifierFlags) {
-    guard AppState.shared.multiSelectionEnabled else { return }
+    guard AppState.shared.pasteStackEnabled else { return }
     guard let item = selection.first else { return }
     PasteStack.initializeIfNeeded()
 

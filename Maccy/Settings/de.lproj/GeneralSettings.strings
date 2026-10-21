@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Automatisch einfügen";
 "PasteWithoutFormatting" = "Einfügen ohne Formatierung";
 "Modifiers" = "Verhalten bei Auswahl eines Eintrags anpassen:\n• Drücke %@, um den gewählten Eintrag zu kopieren.\n• Drücke %@, um den gewählten Eintrag zu kopieren und einzufügen.\n• Drücke %@, um den gewählten Eintrag zu kopieren und unformatiert einzufügen.";
+"MultipleSelection" = "Mehrere Einträge auswählen";
+"MultipleSelectionTooltip" = "Wähle mehrere Einträge mit ⇧↑, ⇧↓ oder ⌘-Klick aus und drücke ↩, um alle auf einmal zu kopieren, einen pro Zeile.";
 "Search" = "Suche:";
 "Exact" = "Exakt";
 "Fuzzy" = "Fuzzy";

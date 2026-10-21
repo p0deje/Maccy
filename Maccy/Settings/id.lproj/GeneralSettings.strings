@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Salin otomatis";
 "PasteWithoutFormatting" = "Tempel tanpa format";
 "Modifiers" = "Ubahsuai perilaku saat memilih item:\n• Pilih dengan %@ ditekan untuk menyalin item.\n• Pilih dengan %@ ditekan untuk menyalin dan menempelkan item.\n• Pilih dengan %@ ditekan untuk menyalin, menghapus format, dan menempelkan item.";
+"MultipleSelection" = "Pilih beberapa item";
+"MultipleSelectionTooltip" = "Pilih beberapa item dengan ⇧↑, ⇧↓ atau ⌘-klik, lalu tekan ↩ untuk menyalin semuanya sekaligus, satu per baris.";
 "Search" = "Cari:";
 "Exact" = "Tepat";
 "Fuzzy" = "Rancu";

@@ -10,6 +10,8 @@
 "PasteAutomatically" = "Colar automaticamente";
 "PasteWithoutFormatting" = "Colar sem formatação";
 "Modifiers" = "Personalize o comportamento ao selecionar o elemento:\n• Selecione com %@ pressionado para copiar o elemento.\n• Selecione com %@ pressionado para copiar e colar o elemento.\n• Selecionar com %@ pressionado para copiar, limpar a formatação e colar o elemento.";
+"MultipleSelection" = "Selecionar vários elementos";
+"MultipleSelectionTooltip" = "Selecione vários elementos com ⇧↑, ⇧↓ ou ⌘-clique e prima ↩ para os copiar todos de uma vez, um por linha.";
 "Search" = "Procura:";
 "Exact" = "Exata";
 "Regex" = "Expressões regulares";

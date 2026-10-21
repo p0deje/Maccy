@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Vložit automaticky";
 "PasteWithoutFormatting" = "Vložit bez formátování";
 "Modifiers" = "Přizpůsob chování při volbě položky:\n• Vyber se stisknutím %@ pro zkopírování položky.\n• Vyber se stisknutím %@ pro zkopírování a vložení položky.\n• Vyber se stisknutím %@ pro zkopírování, odstranění formátování a vložení položky.";
+"MultipleSelection" = "Výběr více položek";
+"MultipleSelectionTooltip" = "Vyber více položek pomocí ⇧↑, ⇧↓ nebo ⌘-kliknutí a stiskni ↩ pro jejich zkopírování najednou, každou na samostatném řádku.";
 "Search" = "Vyhledávání:";
 "Exact" = "Přesné";
 "Fuzzy" = "Přibližné";

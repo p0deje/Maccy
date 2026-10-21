@@ -103,6 +103,12 @@ struct GeneralSettingsPane: View {
         .fixedSize(horizontal: false, vertical: true)
         .foregroundStyle(.gray)
         .controlSize(.small)
+
+        Defaults.Toggle(key: .multiSelectionEnabled) {
+          Text("MultipleSelection", tableName: "GeneralSettings")
+        }
+        .help(Text("MultipleSelectionTooltip", tableName: "GeneralSettings"))
+        .fixedSize()
       }
 
       Settings.Section(title: "") {

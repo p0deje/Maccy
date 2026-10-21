@@ -14,6 +14,8 @@
 "PasteAutomatically" = "Lim in automatisk";
 "PasteWithoutFormatting" = "Lim inn uten formattering";
 "Modifiers" = "Tilpass oppførsel ved valg av element:\n• Velg med %@ nedtrykket for å kopiere element.\n• Velg med %@ nedtrykket for å kopiere og lime inn element.\n• Velg med %@ nedtrykket for å kopiere, slette formattering og lime inn element.";
+"MultipleSelection" = "Velg flere elementer";
+"MultipleSelectionTooltip" = "Velg flere elementer med ⇧↑, ⇧↓ eller ⌘-klikk, og trykk ↩ for å kopiere alle samtidig, ett per linje.";
 "Search" = "Søk:";
 "Exact" = "Nøyaktig";
 "Fuzzy" = "Fuzzy";

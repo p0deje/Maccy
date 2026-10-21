@@ -14,6 +14,8 @@
 "PasteAutomatically" = "";
 "PasteWithoutFormatting" = "";
 "Modifiers" = "";
+"MultipleSelection" = "एकाधिक आइटम चुनें";
+"MultipleSelectionTooltip" = "⇧↑, ⇧↓ या ⌘-क्लिक से कई आइटम चुनें और उन्हें एक साथ कॉपी करने के लिए ↩ दबाएँ, हर आइटम अलग पंक्ति में।";
 "Search" = "";
 "Exact" = "";
 "Fuzzy" = "";

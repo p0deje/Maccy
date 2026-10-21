@@ -69,6 +69,17 @@ class HistoryItemTests: XCTestCase {
     XCTAssertEqual(item.title, "")
   }
 
+  func testTextRepresentation() {
+    let item = historyItem("foo")
+    XCTAssertEqual(item.textRepresentation, "foo")
+  }
+
+  func testTextRepresentationOfImage() {
+    let image = NSImage(named: "NSBluetoothTemplate")!
+    let item = historyItem(image)
+    XCTAssertNil(item.textRepresentation)
+  }
+
   func testFile() {
     let url = URL(fileURLWithPath: "/tmp/foo.bar")
     let item = historyItem(url)

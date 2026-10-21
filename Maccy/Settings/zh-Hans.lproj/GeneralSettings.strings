@@ -14,6 +14,8 @@
 "PasteAutomatically" = "自动粘贴";
 "PasteWithoutFormatting" = "纯文本粘贴";
 "Modifiers" = "自定义选择项目时的行为:\n• 按住 %@ 选择项目以复制。\n• 按住 %@ 选择项目以复制并粘贴。\n• 按住 %@ 选择项目以复制并匹配格式粘贴。";
+"MultipleSelection" = "选择多个项目";
+"MultipleSelectionTooltip" = "使用 ⇧↑、⇧↓ 或 ⌘-点按选择多个项目，然后按 ↩ 一次性全部拷贝，每项一行。";
 "Search" = "搜索：";
 "Exact" = "精确";
 "Fuzzy" = "模糊";
