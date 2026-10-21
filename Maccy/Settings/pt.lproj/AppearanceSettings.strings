@@ -42,3 +42,27 @@
 "FooterStyleOriginal" = "Original";
 
 "FooterStyleModern" = "Moderno";
+
+"MenuIcon" = "Ícone da barra de menus";
+
+"MenuIconMaccy" = "Maccy";
+
+"MenuIconClipboard" = "Área de transferência";
+
+"MenuIconScissors" = "Tesoura";
+
+"MenuIconPaperclip" = "Clipe";
+
+"Preview" = "Pré-visualização";
+
+"PreviewSearch" = "Procurar no histórico…";
+
+"PreviewExampleNote" = "Ideias para o próximo projeto";
+
+"PreviewExampleURL" = "maccy.app";
+
+"PreviewExampleText" = "Uma nota rápida";
+
+"PreviewSampleContent" = "Conteúdo de exemplo";
+
+"ToggleSidebar" = "Mostrar ou ocultar barra lateral";
