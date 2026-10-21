@@ -141,6 +141,11 @@ class HistoryItem {
   }
 
   var previewableText: String {
+    textRepresentation ?? title
+  }
+
+  // Nil for items without any textual content (e.g. images).
+  var textRepresentation: String? {
     if !fileURLs.isEmpty {
       fileURLs
         .compactMap { $0.absoluteString.removingPercentEncoding }
@@ -152,7 +157,7 @@ class HistoryItem {
     } else if let html = html, !html.string.isEmpty {
       html.string
     } else {
-      title
+      nil
     }
   }
 
