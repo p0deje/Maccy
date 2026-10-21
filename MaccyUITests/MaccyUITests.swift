@@ -66,6 +66,9 @@ class MaccyUITests: XCTestCase {
     try? "Hello world".write(to: file2, atomically: true, encoding: .utf8)
 
     app.launchArguments.append("enable-testing")
+    if name.contains("testCompactFooter") {
+      app.launchArguments.append(contentsOf: ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"])
+    }
     setKeyboardShortcut("popup", keyCode: kVK_ANSI_C, modifiers: cmdKey | shiftKey)
     setKeyboardShortcut("pin", keyCode: kVK_ANSI_P, modifiers: optionKey)
     setKeyboardShortcut("delete", keyCode: kVK_Delete, modifiers: optionKey)
@@ -255,6 +258,38 @@ class MaccyUITests: XCTestCase {
     app.typeKey(.escape, modifierFlags: [])
     popUpWithMouse()
     assertNotExists(items[copy2])
+  }
+
+  func testCompactFooterPreferences() {
+    enableCompactFooter()
+    popUpWithMouse()
+    hoverAndClick(app.buttons["Preferences…"].firstMatch)
+    assertExists(app.popUpButtons["footer-style"].firstMatch)
+    XCTAssertEqual(app.popUpButtons["footer-style"].firstMatch.value as? String, "Modern")
+  }
+
+  func testCompactFooterClear() {
+    enableCompactFooter()
+    testClear()
+  }
+
+  func testCompactFooterClearAll() {
+    enableCompactFooter()
+    // Releases Shift before confirming, exercising the lifetime of the presenter.
+    testClearAll()
+  }
+
+  private func enableCompactFooter() {
+    popUpWithMouse()
+    hoverAndClick(app.buttons["Preferences…"].firstMatch)
+    let appearance = app.buttons["Appearance"].firstMatch
+    assertExists(appearance)
+    appearance.click()
+    let style = app.popUpButtons["footer-style"].firstMatch
+    assertExists(style)
+    style.click()
+    app.menuItems["Modern"].firstMatch.click()
+    app.typeKey("w", modifierFlags: [.command])
   }
 
   func testClear() {
