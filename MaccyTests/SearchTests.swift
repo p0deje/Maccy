@@ -225,6 +225,29 @@ extension SharedStateTests {
       #expect(search("m") == [])
     }
 
+    @Test("Fuzzy search with long query does not crash")
+    func fuzzySearchWithLongQueryDoesNotCrash() {
+      Defaults[.searchMode] = Search.Mode.fuzzy
+      let unmatchedLongQuery = String(repeating: "a", count: 100)
+      #expect(search(unmatchedLongQuery) == [])
+    }
+
+    @Test("Fuzzy search with long query ignores suffix after limit")
+    func fuzzySearchWithLongQueryIgnoresSuffixAfterLimit() {
+      Defaults[.searchMode] = Search.Mode.fuzzy
+      let customItem = HistoryItemDecorator(
+        Self.historyItemWithTitle("lorem ipsum dolor sit amet consectetur adipiscing elit")
+      )
+      let matchedLongQuery = "lorem ipsum dolor sit amet conse" + String(repeating: "z", count: 70)
+      #expect(Search().search(string: matchedLongQuery, within: [customItem]) == [
+        Search.SearchResult(
+          score: 0.0,
+          object: customItem,
+          ranges: [range(from: 0, to: 31, in: customItem)]
+        )
+      ])
+    }
+
     private func search(_ string: String) -> [Search.SearchResult] {
       return Search().search(string: string, within: items)
     }
