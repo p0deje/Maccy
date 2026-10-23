@@ -170,6 +170,31 @@ class MaccyUITests: XCTestCase {
     assertPasteboardDataCountEquals(image2.tiffRepresentation!.count, forType: .tiff)
   }
 
+  func testOCRRecognizesTextInImage() {
+    copyToClipboard(textImage("Lighthouse"))
+    popUpWithMouse()
+    assertImageFound(bySearching: "lighthouse")
+  }
+
+  func testOCRCopiesRecognizedTextFromSidePanel() {
+    copyToClipboard(textImage("Lighthouse"))
+    popUpWithMouse()
+
+    let imageItem = items.query.matching(NSPredicate(format: "label BEGINSWITH %@", "Image, ")).firstMatch
+    assertExists(imageItem)
+    hover(imageItem)
+
+    let copyTextButton = app.buttons["Copy extracted text."].firstMatch
+    XCTAssertTrue(copyTextButton.waitForExistence(timeout: 3), "Side panel has no copy extracted text button")
+    expectation(for: NSPredicate(format: "isEnabled == true"), evaluatedWith: copyTextButton)
+    waitForExpectations(timeout: 15)
+    copyTextButton.click()
+
+    assertExists(items["Lighthouse"])
+    XCTAssertEqual(itemTitles.first, "Lighthouse")
+    assertPasteboardStringEquals("Lighthouse")
+  }
+
   func testCopyFile() {
     copyToClipboard(file2)
     copyToClipboard(file1)
@@ -662,6 +687,34 @@ class MaccyUITests: XCTestCase {
     pasteboard.clearContents()
     pasteboard.setData(content.tiffRepresentation, forType: .tiff)
     waitTillClipboardCheck()
+  }
+
+  private func textImage(_ text: String) -> NSImage {
+    let string = NSAttributedString(string: text, attributes: [
+      .font: NSFont.boldSystemFont(ofSize: 48),
+      .foregroundColor: NSColor.black
+    ])
+    let size = NSSize(width: string.size().width + 40, height: string.size().height + 40)
+    return NSImage(size: size, flipped: false) { rect in
+      NSColor.white.setFill()
+      rect.fill()
+      string.draw(at: NSPoint(x: 20, y: 20))
+      return true
+    }
+  }
+
+  private func assertImageFound(bySearching text: String) {
+    let imageItem = items.query.matching(NSPredicate(format: "label BEGINSWITH %@", "Image, ")).firstMatch
+    for _ in 0..<5 {
+      search(text)
+      if imageItem.waitForExistence(timeout: 2) {
+        break
+      }
+      app.typeKey("w", modifierFlags: [.control])
+      sleep(2)
+    }
+    XCTAssertTrue(imageItem.exists, "No image found by searching \"\(text)\"")
+    XCTAssertEqual(items.allElementsBoundByIndex.count, 1)
   }
 
   private func copyToClipboard(_ content: URL) {
