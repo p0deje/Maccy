@@ -36,3 +36,33 @@
 "ShowHexColorSwatchTooltip" = "Show color swatch next to hex color codes.";
 "ShowFooter" = "Show footer";
 "OpenPreferencesWarning" = "⚠️ Press ⌘, (command+comma) to open preferences when footer is hidden.";
+
+"FooterStyle" = "Footer style:";
+
+"FooterStyleOriginal" = "Original";
+
+"FooterStyleModern" = "Modern";
+
+"MenuIcon" = "Menu bar icon";
+
+"MenuIconMaccy" = "Maccy";
+
+"MenuIconClipboard" = "Clipboard";
+
+"MenuIconScissors" = "Scissors";
+
+"MenuIconPaperclip" = "Paperclip";
+
+"Preview" = "Preview";
+
+"PreviewSearch" = "Search history…";
+
+"PreviewExampleNote" = "Ideas for the next project";
+
+"PreviewExampleURL" = "maccy.app";
+
+"PreviewExampleText" = "A quick note";
+
+"PreviewSampleContent" = "Sample content";
+
+"ToggleSidebar" = "Show or hide sidebar";

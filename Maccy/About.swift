@@ -22,16 +22,21 @@ class About {
     return string
   }
 
-  private var credits: NSMutableAttributedString {
+  var credits: NSMutableAttributedString {
     let credits = NSMutableAttributedString(string: "",
                                             attributes: [NSAttributedString.Key.foregroundColor: NSColor.labelColor])
     credits.append(links)
     credits.append(NSAttributedString(string: "\n\n"))
-    credits.append(kossCredits)
-    credits.append(NSAttributedString(string: "\n"))
-    credits.append(familyCredits)
+    credits.append(acknowledgements)
     credits.setAlignment(.center, range: NSRange(location: 0, length: credits.length))
     return credits
+  }
+
+  var acknowledgements: NSAttributedString {
+    let text = NSMutableAttributedString(attributedString: kossCredits)
+    text.append(NSAttributedString(string: "\n"))
+    text.append(familyCredits)
+    return text
   }
 
   @objc

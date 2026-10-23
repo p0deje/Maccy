@@ -23,3 +23,13 @@
 "history_item_image_accessibility_label_no_app" = "Image, %dx%d";
 "history_item_image_accessibility_generic" = "Image";
 "toolbar_remove_paste_stack_action" = "Stop paste stack";
+
+"AboutSettingsTitle" = "About";
+"AboutDescription" = "A lightweight clipboard manager for macOS.";
+"AboutVersion" = "Version %@";
+"AboutReportIssue" = "Report an issue";
+"AboutLicense" = "MIT License";
+"AboutCredits" = "Credits";
+
+"AboutWebsite" = "Official website";
+"AboutSupport" = "Support";

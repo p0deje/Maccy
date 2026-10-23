@@ -30,3 +30,13 @@
 "history_item_image_accessibility_label_no_app" = "Imagem, %d×%d";
 "history_item_image_accessibility_generic" = "Imagem";
 "toolbar_remove_paste_stack_action" = "Parar pilha de colagem";
+
+"AboutSettingsTitle" = "Acerca";
+"AboutDescription" = "Um gestor leve do histórico da área de transferência para macOS.";
+"AboutVersion" = "Versão %@";
+"AboutReportIssue" = "Reportar um problema";
+"AboutLicense" = "Licença MIT";
+"AboutCredits" = "Créditos";
+
+"AboutWebsite" = "Site oficial";
+"AboutSupport" = "Suporte";

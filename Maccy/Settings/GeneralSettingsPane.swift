@@ -2,7 +2,6 @@ import SwiftUI
 import Defaults
 import KeyboardShortcuts
 import LaunchAtLogin
-import Settings
 
 struct GeneralSettingsPane: View {
   private let notificationsURL = URL(
@@ -18,8 +17,8 @@ struct GeneralSettingsPane: View {
   @State private var updater = SoftwareUpdater()
 
   var body: some View {
-    Settings.Container(contentWidth: 450) {
-      Settings.Section(title: "", bottomDivider: true) {
+    ModernSettings.Container {
+      ModernSettings.Section(title: "") {
         LaunchAtLogin.Toggle {
           Text("LaunchAtLogin", tableName: "GeneralSettings")
         }
@@ -32,7 +31,7 @@ struct GeneralSettingsPane: View {
         )
       }
 
-      Settings.Section(label: { Text("Open", tableName: "GeneralSettings") }) {
+      ModernSettings.Section(label: { Text("Open", tableName: "GeneralSettings") }) {
         KeyboardShortcuts.Recorder(for: .popup, onChange: { newShortcut in
           if newShortcut == nil {
             // No shortcut is recorded. Remove keys monitor
@@ -46,19 +45,18 @@ struct GeneralSettingsPane: View {
           .accessibilityLabel(Text("Open", tableName: "GeneralSettings"))
       }
 
-      Settings.Section(label: { Text("Pin", tableName: "GeneralSettings") }) {
+      ModernSettings.Section(label: { Text("Pin", tableName: "GeneralSettings") }) {
         KeyboardShortcuts.Recorder(for: .pin)
           .help(Text("PinTooltip", tableName: "GeneralSettings"))
           .accessibilityLabel(Text("Pin", tableName: "GeneralSettings"))
       }
-      Settings.Section(label: { Text("Delete", tableName: "GeneralSettings") }
+      ModernSettings.Section(label: { Text("Delete", tableName: "GeneralSettings") }
       ) {
         KeyboardShortcuts.Recorder(for: .delete)
           .help(Text("DeleteTooltip", tableName: "GeneralSettings"))
           .accessibilityLabel(Text("Delete", tableName: "GeneralSettings"))
       }
-      Settings.Section(
-        bottomDivider: true,
+      ModernSettings.Section(
         label: { Text("ShowPreview", tableName: "GeneralSettings") }
       ) {
         KeyboardShortcuts.Recorder(for: .togglePreview)
@@ -66,8 +64,7 @@ struct GeneralSettingsPane: View {
           .accessibilityLabel(Text("ShowPreview", tableName: "GeneralSettings"))
       }
 
-      Settings.Section(
-        bottomDivider: true,
+      ModernSettings.Section(
         label: { Text("Search", tableName: "GeneralSettings") }
       ) {
         Picker("", selection: $searchMode) {
@@ -77,24 +74,23 @@ struct GeneralSettingsPane: View {
         }
         .labelsHidden()
         .accessibilityLabel(Text("Search", tableName: "GeneralSettings"))
-        .frame(width: 180, alignment: .leading)
+        .pickerStyle(.menu)
+        .fixedSize()
+        .accessibilityIdentifier("settings-search-mode")
       }
 
-      Settings.Section(
-        bottomDivider: true,
+      ModernSettings.Section(
         label: { Text("Behavior", tableName: "GeneralSettings") }
       ) {
         Defaults.Toggle(key: .pasteByDefault) {
           Text("PasteAutomatically", tableName: "GeneralSettings")
         }
         .onChange(refreshModifiers)
-        .fixedSize()
 
         Defaults.Toggle(key: .removeFormattingByDefault) {
           Text("PasteWithoutFormatting", tableName: "GeneralSettings")
         }
         .onChange(refreshModifiers)
-        .fixedSize()
 
         Text(String(
           format: NSLocalizedString("Modifiers", tableName: "GeneralSettings", comment: ""),
@@ -105,7 +101,7 @@ struct GeneralSettingsPane: View {
         .controlSize(.small)
       }
 
-      Settings.Section(title: "") {
+      ModernSettings.Section(title: "") {
         if let notificationsURL = notificationsURL {
           Link(destination: notificationsURL, label: {
             Text("NotificationsAndSounds", tableName: "GeneralSettings")
