@@ -285,6 +285,12 @@ extension SharedStateTests {
       #expect(Defaults[.pinOrder].pins == [item.item.pin].compactMap { $0 })
     }
 
+    @Test("Pins without a free key get no shortcuts")
+    func noShortcutsForPinWithoutKey() {
+      #expect(KeyShortcut.create(character: "").isEmpty)
+      #expect(KeyShortcut.create(character: "b").count == 3)
+    }
+
     @Test("Pinning after all shortcuts are assigned")
     func pinningAfterAllShortcutsAreAssigned() async throws {
       let supportedPins = HistoryItem.supportedPins
