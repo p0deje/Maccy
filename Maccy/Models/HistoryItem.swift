@@ -236,6 +236,12 @@ class HistoryItem {
   }
 
   private func contentData(_ types: [NSPasteboard.PasteboardType]) -> Data? {
+    // A deleted item can still be briefly rendered from cached SwiftUI row
+    // state. Its contents relationship is invalidated at that point, and
+    // reading an attribute traps inside SwiftData on macOS 15.8.
+    if isDeleted || modelContext == nil {
+      return nil
+    }
     let content = contents.first(where: { content in
       return types.contains(NSPasteboard.PasteboardType(content.type))
     })
@@ -244,6 +250,9 @@ class HistoryItem {
   }
 
   private func allContentData(_ types: [NSPasteboard.PasteboardType]) -> [Data] {
+    if isDeleted || modelContext == nil {
+      return []
+    }
     return contents
       .filter { types.contains(NSPasteboard.PasteboardType($0.type)) }
       .compactMap { $0.value }
