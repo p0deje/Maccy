@@ -54,7 +54,7 @@ extension SharedStateTests {
       let merged = history.add(third)
 
       #expect(history.items.toArray() == [merged])
-      #expect(Set(merged.item.contents) == Set(transferredContents))
+      #expect(contentSignatures(merged.item.contents) == contentSignatures(transferredContents))
       #expect(merged.item.lastCopiedAt > merged.item.firstCopiedAt)
       #expect(merged.item.numberOfCopies == 2)
       #expect(merged.item.pin == "f")
@@ -78,12 +78,37 @@ extension SharedStateTests {
       let merged = history.add(second)
 
       #expect(history.items.toArray() == [merged])
-      #expect(Set(merged.item.contents) == Set(transferredContents))
+      #expect(contentSignatures(merged.item.contents) == contentSignatures(transferredContents))
       #expect(merged.item.lastCopiedAt > merged.item.firstCopiedAt)
       #expect(merged.item.numberOfCopies == 2)
       #expect(merged.item.pin == "f")
       #expect(merged.item.title == "xyz")
       #expect(merged.item.application == "iTerm.app")
+      try assertStorageCounts(items: 1, contents: 1)
+    }
+
+    @Test("Re-adding duplicate transfers readable contents")
+    func readdingDuplicateTransfersReadableContents() throws {
+      // Regression test for a crash on macOS 15.8: duplicate handling used to
+      // re-point the existing HistoryItemContent objects to the new item,
+      // which invalidated their SwiftData backing data and trapped with an
+      // assertion in HistoryItemContent.type.getter when the history was
+      // rendered.
+      let first = history.add(historyItem("readable"))
+      let transferredContents = first.item.contents
+
+      let merged = history.add(historyItem("readable"))
+
+      #expect(history.items.toArray() == [merged])
+      #expect(merged.item.text == "readable")
+      for content in merged.item.contents {
+        #expect(content.modelContext != nil)
+        #expect(!content.isDeleted)
+      }
+      #expect(
+        contentSignatures(merged.item.contents) ==
+          contentSignatures(transferredContents)
+      )
       try assertStorageCounts(items: 1, contents: 1)
     }
 
@@ -120,7 +145,7 @@ extension SharedStateTests {
       let second = history.add(secondItem)
 
       #expect(history.items.toArray() == [second])
-      #expect(Set(history.items[0].item.contents) == Set(firstContents))
+      #expect(contentSignatures(history.items[0].item.contents) == contentSignatures(firstContents))
       try assertStorageCounts(items: 1, contents: firstContents.count)
     }
 
@@ -157,7 +182,7 @@ extension SharedStateTests {
       let second = history.add(secondItem)
 
       #expect(history.items.toArray() == [second])
-      #expect(Set(history.items[0].item.contents) == Set(firstContents))
+      #expect(contentSignatures(history.items[0].item.contents) == contentSignatures(firstContents))
     }
 
     @Test("Adding item from Maccy")
@@ -192,7 +217,7 @@ extension SharedStateTests {
 
       #expect(history.items.toArray() == [secondDecorator])
       #expect(history.items[0].item.application == "Xcode.app")
-      #expect(Set(history.items[0].item.contents) == Set(firstContents))
+      #expect(contentSignatures(history.items[0].item.contents) == contentSignatures(firstContents))
     }
 
     @Test("Modified after copying")
@@ -407,6 +432,22 @@ extension SharedStateTests {
       try assertStorageCounts(items: 1, contents: 1)
     }
 
+    @Test("Reading contents after deletion does not trap")
+    func readingContentsAfterDeletionDoesNotTrap() throws {
+      // Regression test for a crash on macOS 15.8: an evicted item can still
+      // be briefly rendered from cached SwiftUI row state, and reading its
+      // contents trapped with a SwiftData "backing data invalidated"
+      // assertion in `HistoryItemContent.type.getter`.
+      let item = historyItem("doomed")
+      let added = history.add(item)
+      #expect(added.item.text != nil)
+
+      history.delete(added)
+
+      #expect(item.text == nil)
+      #expect(item.htmlData == nil)
+    }
+
     @Test("Cleaning up orphaned contents")
     func cleaningUpOrphanedContents() throws {
       let live = history.add(historyItem("live"))
@@ -438,6 +479,12 @@ extension SharedStateTests {
       #expect(try Storage.shared.removeUnpersistableContents() == 0)
       #expect(live.item.contents.map(\.type) == [NSPasteboard.PasteboardType.string.rawValue])
       try assertStorageCounts(items: 1, contents: 1)
+    }
+
+    // Contents are compared by (type, value) instead of object identity:
+    // transferred contents are fresh copies, not the original objects.
+    private func contentSignatures(_ contents: [HistoryItemContent]) -> Set<String> {
+      Set(contents.map { "\($0.type):\($0.value?.base64EncodedString() ?? "nil")" })
     }
 
     private func assertStorageCounts(

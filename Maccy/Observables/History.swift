@@ -325,8 +325,16 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   private func transferContents(from existingItem: HistoryItem, to newItem: HistoryItem) {
     deleteContents(of: newItem)
-    newItem.contents = existingItem.contents
+    // Re-pointing the existing HistoryItemContent objects to a new owner
+    // invalidates their SwiftData backing data and traps with an assertion in
+    // `HistoryItemContent.type.getter` on macOS 15.8 when the history is
+    // rendered. Copy the data into fresh objects and delete the originals.
+    let copiedContents = existingItem.contents.map { content in
+      HistoryItemContent(type: content.type, value: content.value)
+    }
+    deleteContents(of: existingItem)
     existingItem.contents = []
+    newItem.contents = copiedContents
   }
 
   @MainActor
