@@ -1,6 +1,7 @@
 import AppKit
 import Defaults
 import Sauce
+import SwiftHEXColors
 import SwiftData
 import Vision
 
@@ -8,6 +9,8 @@ import Vision
 class HistoryItem {
   enum Kind: String, CaseIterable {
     case text
+    case link
+    case color
     case image
     case file
   }
@@ -171,6 +174,10 @@ class HistoryItem {
       return .file
     } else if contentData(Self.imageTypes) != nil {
       return .image
+    } else if isLink {
+      return .link
+    } else if isColor {
+      return .color
     } else {
       return .text
     }
@@ -308,5 +315,33 @@ class HistoryItem {
     return observations
       .compactMap { $0.topCandidates(1).first?.string }
       .joined(separator: "\n")
+  }
+}
+
+extension HistoryItem {
+  private static let linkDetector = try? NSDataDetector(types: NSTextCheckingResult.CheckingType.link.rawValue)
+
+  // The whole text has to be a single link, so a sentence that mentions
+  // a URL stays text. E-mail addresses are detected as links but are not.
+  fileprivate var isLink: Bool {
+    guard let text = text?.trimmingCharacters(in: .whitespacesAndNewlines),
+          !text.isEmpty,
+          !text.contains(where: \.isWhitespace),
+          let match = Self.linkDetector?.firstMatch(in: text, range: NSRange(text.startIndex..., in: text)) else {
+      return false
+    }
+
+    return match.range.length == text.utf16.count && match.url?.scheme != "mailto"
+  }
+
+  // Unlike the hex color swatch, a leading "#" is required here, so words
+  // and numbers that happen to be valid hex ("cafe", "2026") stay text.
+  fileprivate var isColor: Bool {
+    guard let text = text?.trimmingCharacters(in: .whitespacesAndNewlines),
+          text.hasPrefix("#") else {
+      return false
+    }
+
+    return NSColor(hexString: text) != nil
   }
 }

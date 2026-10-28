@@ -5,7 +5,7 @@ import Defaults
 
 extension SharedStateTests {
   @MainActor
-  final class SearchTests {
+  final class SearchTests { // swiftlint:disable:this type_body_length
     let savedSearchMode = Defaults[.searchMode]
     let items: [Search.Searchable]
 
@@ -250,6 +250,44 @@ extension SharedStateTests {
       #expect(objects(search("type:", within: items)) == [])
     }
 
+    @Test("Search by link and color kinds")
+    func searchByLinkAndColorKinds() {
+      Defaults[.searchMode] = Search.Mode.exact
+      let text = HistoryItemDecorator(Self.historyItemWithTitle("see https://maccy.app for details"))
+      let link = HistoryItemDecorator(Self.historyItemWithTitle("https://maccy.app/docs"))
+      let bareLink = HistoryItemDecorator(Self.historyItemWithTitle("  github.com/p0deje\n"))
+      let email = HistoryItemDecorator(Self.historyItemWithTitle("foo@maccy.app"))
+      let color = HistoryItemDecorator(Self.historyItemWithTitle("#ff8800"))
+      let hexWord = HistoryItemDecorator(Self.historyItemWithTitle("cafe"))
+      let items = [text, link, bareLink, email, color, hexWord]
+
+      #expect(objects(search("type:link", within: items)) == [link, bareLink])
+      #expect(objects(search("type:color", within: items)) == [color])
+      #expect(objects(search("type:text", within: items)) == [text, email, hexWord])
+      #expect(objects(search("type:link docs", within: items)) == [link])
+    }
+
+    @Test("Search by application")
+    func searchByApplication() {
+      Defaults[.searchMode] = Search.Mode.exact
+      let finder = HistoryItemDecorator(Self.historyItemWithTitle("foo", application: "com.apple.finder"))
+      let unknown = HistoryItemDecorator(Self.historyItemWithTitle("foo", application: "org.p0deje.missing"))
+      let none = HistoryItemDecorator(Self.historyItemWithTitle("foo"))
+      let finderLink = HistoryItemDecorator(
+        Self.historyItemWithTitle("https://maccy.app", application: "com.apple.finder")
+      )
+      let items = [finder, unknown, none, finderLink]
+
+      #expect(objects(search("app:finder", within: items)) == [finder, finderLink])
+      #expect(objects(search("app:FIN", within: items)) == [finder, finderLink])
+      #expect(objects(search("app:finder type:link", within: items)) == [finderLink])
+      #expect(objects(search("app:finder foo", within: items)) == [finder])
+      #expect(objects(search("app:missing", within: items)) == [])
+
+      // An empty value is searched for as it is.
+      #expect(objects(search("app:", within: items)) == [])
+    }
+
     private func search(_ string: String) -> [Search.SearchResult] {
       return search(string, within: items)
     }
@@ -271,13 +309,16 @@ extension SharedStateTests {
       return lowerBound..<upperBound
     }
 
-    private static func historyItemWithTitle(_ value: String?) -> HistoryItem {
-      return historyItem([
+    private static func historyItemWithTitle(_ value: String?, application: String? = nil) -> HistoryItem {
+      let item = historyItem([
         HistoryItemContent(
           type: NSPasteboard.PasteboardType.string.rawValue,
           value: value?.data(using: .utf8)
         )
       ])
+      item.application = application
+
+      return item
     }
 
     private static func historyItemWithImage(_ value: NSImage) -> HistoryItem {
