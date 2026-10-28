@@ -9,5 +9,11 @@
 "ClosePreview" = "Paspauskite {previewKey}, kad paslėptumėte peržiūrą.";
 "Dimensions" = "Matmenys:";
 "Size" = "Dydis:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Kopijuoti išgautą tekstą.";
 "EditItem" = "Redaguoti elementą";

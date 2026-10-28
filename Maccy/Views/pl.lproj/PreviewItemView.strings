@@ -9,5 +9,11 @@
 "ClosePreview" = "Naciśnij {previewKey}, aby ukryć podgląd.";
 "Dimensions" = "Wymiary:";
 "Size" = "Rozmiar:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Skopiuj wyodrębniony tekst.";
 "EditItem" = "Edytuj element";

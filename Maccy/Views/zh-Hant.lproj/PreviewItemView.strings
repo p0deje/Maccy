@@ -9,5 +9,11 @@
 "ClosePreview" = "按 {previewKey} 隱藏預覽。";
 "Dimensions" = "尺寸:";
 "Size" = "檔案大小:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "複製擷取的文字。";
 "EditItem" = "編輯項目";

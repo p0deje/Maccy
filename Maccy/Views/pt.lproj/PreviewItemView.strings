@@ -9,5 +9,11 @@
 "ClosePreview" = "Pressione {previewKey} para ocultar a pré-visualização.";
 "Dimensions" = "Dimensões:";
 "Size" = "Tamanho:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Copiar texto extraído.";
 "EditItem" = "Editar item";

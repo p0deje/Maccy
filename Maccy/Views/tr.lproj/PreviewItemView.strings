@@ -9,5 +9,11 @@
 "ClosePreview" = "Önizlemeyi gizlemek için {previewKey} tuşuna basın.";
 "Dimensions" = "Boyutlar:";
 "Size" = "Dosya boyutu:";
+"Type" = "Tür:";
+"KindText" = "Metin";
+"KindLink" = "Bağlantı";
+"KindColor" = "Renk";
+"KindImage" = "Resim";
+"KindFile" = "Dosya";
 "CopyExtractedText" = "Çıkarılan metni kopyala.";
 "EditItem" = "Öğeyi düzenle";

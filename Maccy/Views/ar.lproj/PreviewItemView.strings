@@ -9,5 +9,11 @@
 "ClosePreview" = "اضغط على {previewKey} لإخفاء المعاينة.";
 "Dimensions" = "الأبعاد:";
 "Size" = "الحجم:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "انسخ النص المستخرج.";
 "EditItem" = "تعديل العنصر";

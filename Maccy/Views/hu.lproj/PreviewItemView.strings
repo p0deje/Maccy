@@ -9,5 +9,11 @@
 "ClosePreview" = "Nyomja meg a {previewKey} gombot az előnézet elrejtéséhez.";
 "Dimensions" = "Méretek:";
 "Size" = "Fájlméret:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Kinyert szöveg másolása.";
 "EditItem" = "Elem szerkesztése";

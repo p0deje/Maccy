@@ -9,5 +9,11 @@
 "ClosePreview" = "Stiskni {previewKey} pro skrytí náhledu.";
 "Dimensions" = "Rozměry:";
 "Size" = "Velikost:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Zkopírovat extrahovaný text.";
 "EditItem" = "Upravit položku";

@@ -9,5 +9,11 @@
 "ClosePreview" = "Pritisnite {previewKey} za skrivanje pregleda.";
 "Dimensions" = "Dimenzije:";
 "Size" = "Veličina:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Kopiraj izdvojeni tekst.";
 "EditItem" = "Uredi stavku";
