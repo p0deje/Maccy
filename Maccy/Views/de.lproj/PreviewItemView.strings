@@ -9,5 +9,11 @@
 "ClosePreview" = "Drücke {previewKey}, um die Vorschau auszublenden.";
 "Dimensions" = "Abmessungen:";
 "Size" = "Größe:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Extrahierten Text kopieren.";
 "EditItem" = "Eintrag bearbeiten";

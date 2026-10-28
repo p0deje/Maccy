@@ -9,5 +9,11 @@
 "ClosePreview" = "{previewKey}でプレビューを非表示にします。";
 "Dimensions" = "サイズ:";
 "Size" = "ファイルサイズ:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "抽出したテキストをコピーします。";
 "EditItem" = "項目を編集";
