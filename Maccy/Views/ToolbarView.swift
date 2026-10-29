@@ -28,13 +28,14 @@ private struct QRCodePopoverView: View {
           .resizable()
           .interpolation(.none)
           .scaledToFit()
-          .frame(width: 180, height: 180)
+          .padding(12)
           .background(Color.white)
           .cornerRadius(8)
+          .frame(width: 200, height: 200)
       } else {
         Text(NSLocalizedString("QRCodeError", tableName: "PreviewItemView", comment: ""))
           .foregroundColor(.secondary)
-          .frame(width: 180, height: 180)
+          .frame(width: 200, height: 200)
       }
 
       Text(NSLocalizedString("QRCodeScanHint", tableName: "PreviewItemView", comment: ""))
@@ -145,9 +146,14 @@ private final class SharingPickerDelegate: NSObject, NSSharingServicePickerDeleg
     return services
   }
 
-  func sharingServicePicker(_ sharingServicePicker: NSSharingServicePicker, didChoose service: NSSharingService?) {
+  func sharingServicePicker(
+    _ sharingServicePicker: NSSharingServicePicker,
+    didChoose service: NSSharingService?
+  ) {
     let qrTitle = NSLocalizedString("QRCode", tableName: "PreviewItemView", comment: "")
-    if service?.title != qrTitle {
+    if service?.title == qrTitle {
+      onShowQRCode()
+    } else {
       onCompletion()
     }
   }
@@ -263,6 +269,9 @@ struct ToolbarView: View {
         DispatchQueue.main.async {
           self.appState.isSharing = false
           self.sharingDelegate = nil
+          if let panel = self.appState.appDelegate?.panel, !panel.isKeyWindow {
+            self.appState.popup.close()
+          }
         }
       }
     )

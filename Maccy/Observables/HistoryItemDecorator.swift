@@ -47,9 +47,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var hasRichText: Bool { item.rtf != nil || item.html != nil }
 
   var shareableText: String? {
-    if !item.fileURLs.isEmpty {
-      return item.fileURLs.map(\.absoluteString).joined(separator: "\n")
-    } else if let text = item.text, !text.isEmpty {
+    guard !hasFileURLs && !hasImage else {
+      return nil
+    }
+    if let text = item.text, !text.isEmpty {
       return text
     } else if !title.isEmpty {
       return title
