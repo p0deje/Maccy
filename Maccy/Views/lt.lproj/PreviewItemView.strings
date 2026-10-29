@@ -11,3 +11,7 @@
 "Size" = "Dydis:";
 "CopyExtractedText" = "Kopijuoti išgautą tekstą.";
 "EditItem" = "Redaguoti elementą";
+"ShareItem" = "Bendrinti elementą";
+"QRCode" = "Rodyti QR kodą";
+"QRCodeScanHint" = "Nuskaitykite QR kodą telefonu";
+"QRCodeError" = "Nepavyko sukurti QR kodo";

@@ -46,6 +46,30 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var hasPlainText: Bool { item.text != nil }
   var hasRichText: Bool { item.rtf != nil || item.html != nil }
 
+  var shareableText: String? {
+    if !item.fileURLs.isEmpty {
+      return item.fileURLs.map(\.absoluteString).joined(separator: "\n")
+    } else if let text = item.text, !text.isEmpty {
+      return text
+    } else if !title.isEmpty {
+      return title
+    }
+    return nil
+  }
+
+  var shareableItems: [Any] {
+    if hasFileURLs {
+      return item.fileURLs
+    } else if let image = item.image {
+      return [image]
+    } else if let text = item.text, !text.isEmpty {
+      return [text]
+    } else if !title.isEmpty {
+      return [title]
+    }
+    return []
+  }
+
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?

@@ -11,3 +11,7 @@
 "ClosePreview" = "Press {previewKey} to hide preview.";
 "CopyExtractedText" = "Copy extracted text.";
 "EditItem" = "Edit item";
+"ShareItem" = "Share item";
+"QRCode" = "Show QR code";
+"QRCodeScanHint" = "Scan QR code with your phone";
+"QRCodeError" = "Unable to generate QR code";

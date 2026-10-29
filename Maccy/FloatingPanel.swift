@@ -220,6 +220,7 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
     let appState = AppState.shared
     appState.preview.state = .closed
     appState.isEditingItem = false
+    appState.isSharing = false
     appState.navigator.isDragAndDropInProgress = false
     appState.navigator.isManualMultiSelect = false
     isPresented = false

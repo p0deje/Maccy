@@ -11,3 +11,7 @@
 "Size" = "Grandeco:";
 "CopyExtractedText" = "Kopii eltiritan tekston.";
 "EditItem" = "Redakti eron";
+"ShareItem" = "Kunhavigi elementon";
+"QRCode" = "Montri QR-kodon";
+"QRCodeScanHint" = "Skanu la QR-kodon per via telefono";
+"QRCodeError" = "Ne eblas krei QR-kodon";

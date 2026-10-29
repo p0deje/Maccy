@@ -18,8 +18,9 @@ class AppState: Sendable {
   var preview: SlideoutController
 
   var isEditingItem: Bool = false
+  var isSharing: Bool = false
   var suppressPopupAutoClose: Bool {
-    return navigator.isDragAndDropInProgress || isEditingItem
+    return navigator.isDragAndDropInProgress || isEditingItem || isSharing
   }
 
   var searchVisible: Bool {

@@ -11,3 +11,7 @@
 "Size" = "Størrelse:";
 "CopyExtractedText" = "Kopier uttrukket tekst.";
 "EditItem" = "Rediger element";
+"ShareItem" = "Del element";
+"QRCode" = "Vis QR-kode";
+"QRCodeScanHint" = "Skann QR-koden med telefonen";
+"QRCodeError" = "Kunne ikke opprette QR-kode";
