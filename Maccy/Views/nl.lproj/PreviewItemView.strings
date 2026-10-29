@@ -11,3 +11,7 @@
 "Size" = "Grootte:";
 "CopyExtractedText" = "Geëxtraheerde tekst kopiëren.";
 "EditItem" = "Item bewerken";
+"ShareItem" = "Deel item";
+"QRCode" = "Toon QR-code";
+"QRCodeScanHint" = "Scan de QR-code met je telefoon";
+"QRCodeError" = "Kan QR-code niet genereren";

@@ -11,3 +11,7 @@
 "Size" = "Lielums:";
 "CopyExtractedText" = "Kopēt izgūto tekstu.";
 "EditItem" = "Rediģēt vienumu";
+"ShareItem" = "Kopīgot vienumu";
+"QRCode" = "Rādīt QR kodu";
+"QRCodeScanHint" = "Skenējiet QR kodu ar tālruni";
+"QRCodeError" = "Neizdevās ģenerēt QR kodu";

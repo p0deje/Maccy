@@ -11,3 +11,7 @@
 "Size" = "גודל:";
 "CopyExtractedText" = "העתק את הטקסט שחולץ.";
 "EditItem" = "עריכת פריט";
+"ShareItem" = "שיתוף פריט";
+"QRCode" = "הצגת קוד QR";
+"QRCodeScanHint" = "סרוק את קוד ה-QR עם הטלפון";
+"QRCodeError" = "לא ניתן ליצור קוד QR";

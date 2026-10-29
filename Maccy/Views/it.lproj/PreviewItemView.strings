@@ -11,3 +11,7 @@
 "Size" = "Dimensione file:";
 "CopyExtractedText" = "Copia il testo estratto.";
 "EditItem" = "Modifica elemento";
+"ShareItem" = "Condividi elemento";
+"QRCode" = "Mostra codice QR";
+"QRCodeScanHint" = "Scansiona il codice QR con il telefono";
+"QRCodeError" = "Impossibile generare il codice QR";

@@ -11,3 +11,7 @@
 "Size" = "Dosya boyutu:";
 "CopyExtractedText" = "Çıkarılan metni kopyala.";
 "EditItem" = "Öğeyi düzenle";
+"ShareItem" = "Öğeyi paylaş";
+"QRCode" = "QR Kodunu Göster";
+"QRCodeScanHint" = "Telefonunuzla QR kodunu tarayın";
+"QRCodeError" = "QR kodu oluşturulamadı";
