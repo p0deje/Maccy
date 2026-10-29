@@ -41,7 +41,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     return url.deletingPathExtension().lastPathComponent
   }
 
-  var hasImage: Bool { item.image != nil }
+  var hasImage: Bool { item.hasImageContent }
   var hasFileURLs: Bool { !item.fileURLs.isEmpty }
   var hasPlainText: Bool { item.text != nil }
   var hasRichText: Bool { item.rtf != nil || item.html != nil }
@@ -49,6 +49,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
+  var imagePixelSize: NSSize?
   private(set) var previewText = SizedString("")
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
@@ -83,8 +84,10 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   // Describe the complete item independently of its potentially truncated visual content.
   var accessibilityLabel: String {
     var parts: [String] = []
-    if hasImage, let image = item.image {
-      let size = image.pixelSize
+    let imageSize = imagePixelSize ?? (
+      Defaults[.lowMemoryImageMode] ? nil : item.imageData.flatMap { NSImage.pixelSize(from: $0) }
+    )
+    if hasImage, let size = imageSize {
       parts.append(
         String(
           format: NSLocalizedString("history_item_image_accessibility_label_no_app", comment: ""),
@@ -126,7 +129,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   @MainActor
   func ensureThumbnailImage() {
-    guard item.image != nil else {
+    guard hasImage else {
       return
     }
     guard thumbnailImage == nil else {
@@ -135,14 +138,43 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     guard thumbnailImageGenerationTask == nil else {
       return
     }
-    thumbnailImageGenerationTask = Task { [weak self] in
+    if Defaults[.lowMemoryImageMode] {
+      let itemID = item.persistentModelID
+      let container = Storage.shared.container
+      let scale = NSScreen.forPopup?.backingScaleFactor ?? NSScreen.main?.backingScaleFactor ?? 2
+      let targetSize = Self.thumbnailImageSize
+      thumbnailImageGenerationTask = Task { @MainActor [weak self] in
+        defer { self?.thumbnailImageGenerationTask = nil }
+        let result: (NSImage?, NSSize?) = await Task.detached(priority: .userInitiated) {
+          guard let imageData = HistoryItem.imageData(for: itemID, in: container) else {
+            return (nil, nil)
+          }
+          let maxPixelSize = Self.maxPixelSize(for: targetSize, data: imageData, scale: scale)
+          return (
+            NSImage.downsampled(from: imageData, maxPixelSize: maxPixelSize, scale: scale),
+            NSImage.pixelSize(from: imageData)
+          )
+        }.value
+        guard !Task.isCancelled, let self else { return }
+        if let image = result.0 {
+          self.thumbnailImage = image
+        } else {
+          self.generateThumbnailImage()
+        }
+        self.imagePixelSize = result.1
+      }
+      return
+    }
+
+    thumbnailImageGenerationTask = Task { @MainActor [weak self] in
+      defer { self?.thumbnailImageGenerationTask = nil }
       self?.generateThumbnailImage()
     }
   }
 
   @MainActor
   func ensurePreviewImage() {
-    guard item.image != nil else {
+    guard hasImage else {
       return
     }
     guard previewImage == nil else {
@@ -151,7 +183,36 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     guard previewImageGenerationTask == nil else {
       return
     }
-    previewImageGenerationTask = Task { [weak self] in
+    if Defaults[.lowMemoryImageMode] {
+      let itemID = item.persistentModelID
+      let container = Storage.shared.container
+      let scale = NSScreen.forPopup?.backingScaleFactor ?? NSScreen.main?.backingScaleFactor ?? 2
+      let targetSize = Self.previewImageSize
+      previewImageGenerationTask = Task { @MainActor [weak self] in
+        defer { self?.previewImageGenerationTask = nil }
+        let result: (NSImage?, NSSize?) = await Task.detached(priority: .userInitiated) {
+          guard let imageData = HistoryItem.imageData(for: itemID, in: container) else {
+            return (nil, nil)
+          }
+          let maxPixelSize = Self.maxPixelSize(for: targetSize, data: imageData, scale: scale)
+          return (
+            NSImage.downsampled(from: imageData, maxPixelSize: maxPixelSize, scale: scale),
+            NSImage.pixelSize(from: imageData)
+          )
+        }.value
+        guard !Task.isCancelled, let self else { return }
+        if let image = result.0 {
+          self.previewImage = image
+        } else {
+          self.generatePreviewImage()
+        }
+        self.imagePixelSize = result.1
+      }
+      return
+    }
+
+    previewImageGenerationTask = Task { @MainActor [weak self] in
+      defer { self?.previewImageGenerationTask = nil }
       self?.generatePreviewImage()
     }
   }
@@ -179,6 +240,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   @MainActor
   private func generateThumbnailImage() {
+    if imagePixelSize == nil, let data = item.imageData {
+      imagePixelSize = NSImage.pixelSize(from: data)
+    }
     guard let image = item.image else {
       return
     }
@@ -187,6 +251,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   @MainActor
   private func generatePreviewImage() {
+    if imagePixelSize == nil, let data = item.imageData {
+      imagePixelSize = NSImage.pixelSize(from: data)
+    }
     guard let image = item.image else {
       return
     }
@@ -197,6 +264,20 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   func sizeImages() {
     generatePreviewImage()
     generateThumbnailImage()
+  }
+
+  nonisolated private static func maxPixelSize(for targetSize: NSSize, data: Data, scale: CGFloat) -> CGFloat {
+    guard let sourceSize = NSImage.pixelSize(from: data),
+          sourceSize.width > 0,
+          sourceSize.height > 0 else {
+      return max(targetSize.width, targetSize.height) * scale
+    }
+
+    let widthRatio = targetSize.width * scale / sourceSize.width
+    let heightRatio = targetSize.height * scale / sourceSize.height
+    let ratio = min(widthRatio, heightRatio)
+    let sourceMax = max(sourceSize.width, sourceSize.height)
+    return max(1, min(sourceMax, sourceMax * ratio))
   }
 
   func highlight(_ query: String, _ ranges: [Range<String.Index>]) {

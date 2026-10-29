@@ -7,6 +7,9 @@
 "Size" = "Size:";
 "SizeTooltip" = "Number of history items to keep.\nDefault: 200.";
 "CurrentSizeTooltip" = "Current size on disk.";
+"Memory" = "Memory:";
+"LowMemoryImages" = "Use less memory for images (slower image browsing)";
+"LowMemoryImagesDescription" = "Images are decoded only while they are on screen and released when the popup closes, instead of being kept in memory. Memory usage stays low even with a large image history, but thumbnails and previews are decoded again each time you scroll back to them. Your clipboard history is not affected.";
 "SortBy" = "Sort by:";
 "LastCopiedAt" = "Time of last copy";
 "FirstCopiedAt" = "Time of first copy";

@@ -59,7 +59,7 @@ struct HistoryItemView: View {
     }
     .accessibilityIdentifier("copy-history-item")
     .buttonAction(performSelect)
-    .onAppear {
+    .task(id: appState.popup.openGeneration) {
       item.ensureThumbnailImage()
     }
     .accessibilityAction(named: Text(item.isPinned ? "history_item_unpin_action" : "history_item_pin_action")) {
