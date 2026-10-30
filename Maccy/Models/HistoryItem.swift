@@ -174,6 +174,12 @@ class HistoryItem {
     return NSAttributedString(html: data, documentAttributes: nil)
   }
 
+  var hasImageContent: Bool {
+    return contents.contains { content in
+      Self.imageTypes.contains(NSPasteboard.PasteboardType(content.type))
+    }
+  }
+
   var imageData: Data? {
     var data: Data?
     data = contentData(Self.imageTypes)
