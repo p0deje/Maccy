@@ -9,6 +9,7 @@ class Clipboard {
 
   private var onNewCopyHooks: [OnNewCopyHook] = []
   var changeCount: Int
+  private var copyRequestGeneration: UInt64 = 0
 
   private let pasteboard = NSPasteboard.general
 
@@ -74,6 +75,7 @@ class Clipboard {
 
   @MainActor
   func copyInMaccy(_ string: String) {
+    copyRequestGeneration &+= 1
     pasteboard.clearContents()
     pasteboard.setString(string, forType: .string)
     pasteboard.setString(NSPasteboard.PasteboardType.fromMaccy.rawValue, forType: .source)
@@ -82,15 +84,31 @@ class Clipboard {
   }
 
   @MainActor
-  func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
-    guard let item else { return }
+  @discardableResult
+  func copy(_ item: HistoryItem?, removeFormatting: Bool = false) async -> Bool {
+    guard let item else { return false }
 
-    pasteboard.clearContents()
+    copyRequestGeneration &+= 1
+    let requestGeneration = copyRequestGeneration
+    let initialPasteboardChangeCount = pasteboard.changeCount
+
     var contents = item.contents
 
     if removeFormatting {
-      contents = clearFormatting(contents)
+      contents = await clearFormatting(contents, for: item)
     }
+
+    let pasteboardChanged = pasteboard.changeCount != initialPasteboardChangeCount
+    guard requestGeneration == copyRequestGeneration, !pasteboardChanged else {
+      // A new copy supersedes the pending paste. Record it now if the clipboard
+      // listener has not seen it yet, then leave its contents untouched.
+      if pasteboardChanged {
+        checkForChangesInPasteboard()
+      }
+      return false
+    }
+
+    pasteboard.clearContents()
 
     for content in contents {
       guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
@@ -117,6 +135,8 @@ class Clipboard {
       Notifier.notify(body: item.title, sound: .knock)
       checkForChangesInPasteboard()
     }
+
+    return true
   }
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.
@@ -309,12 +329,10 @@ class Clipboard {
     NSApp.hide(self)
   }
 
-  private func clearFormatting(_ contents: [HistoryItemContent]) -> [HistoryItemContent] {
+  private func clearFormatting(_ contents: [HistoryItemContent], for item: HistoryItem) async -> [HistoryItemContent] {
     var newContents: [HistoryItemContent] = contents
     let stringContents = contents.filter { NSPasteboard.PasteboardType($0.type) == .string }
 
-    // If there is no string representation of data,
-    // behave like we didn't have to remove formatting.
     if !stringContents.isEmpty {
       newContents = stringContents
 
@@ -324,6 +342,11 @@ class Clipboard {
       if !fileURLContents.isEmpty {
         newContents += fileURLContents
       }
+    } else if item.hasOCRImageSource,
+              let ocrText = await item.getRecognizedText(),
+              !ocrText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty,
+              let data = ocrText.data(using: .utf8) {
+      newContents = [HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: data)]
     }
 
     return newContents
