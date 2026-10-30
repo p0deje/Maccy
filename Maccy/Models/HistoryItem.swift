@@ -13,9 +13,12 @@ class HistoryItem {
     // "v" reserved for paste
     // "w" reserved for close window
     // "z" reserved for undo/redo
+    // "," reserved for preferences
+    // "`" reserved for cycling through windows
     var keys = Set([
       "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l",
-      "m", "n", "o", "p", "r", "s", "t", "u", "x", "y"
+      "m", "n", "o", "p", "r", "s", "t", "u", "x", "y",
+      "[", "]", ";", "'", ".", "/", "-", "=", "\\"
     ])
 
     if let deleteKey = KeyChord.deleteKey,
@@ -33,6 +36,15 @@ class HistoryItem {
     }
 
     return keys
+  }
+
+  // Letters first, then symbols.
+  static func sortedPins(_ pins: some Sequence<String>) -> [String] {
+    pins.sorted { lhs, rhs in
+      let lhsIsLetter = lhs.first?.isLetter ?? false
+      let rhsIsLetter = rhs.first?.isLetter ?? false
+      return lhsIsLetter == rhsIsLetter ? lhs < rhs : lhsIsLetter
+    }
   }
 
   @MainActor
@@ -237,16 +249,30 @@ class HistoryItem {
       .compactMap { $0.value }
   }
 
-  /// Runs OCR on the global concurrent executor so the main thread stays free.
-  @concurrent
+  nonisolated private static let textRecognitionQueue = DispatchQueue(
+    label: "org.p0deje.Maccy.textRecognition",
+    qos: .utility
+  )
+
+  /// Runs OCR on a dedicated queue so the blocking Vision call never occupies
+  /// a thread of Swift's cooperative pool or the main thread.
   nonisolated private static func recognizeText(imageData: Data?, fileURL: URL?) async -> String? {
+    await withCheckedContinuation { continuation in
+      textRecognitionQueue.async {
+        continuation.resume(returning: performTextRecognition(imageData: imageData, fileURL: fileURL))
+      }
+    }
+  }
+
+  nonisolated private static func performTextRecognition(imageData: Data?, fileURL: URL?) -> String? {
     guard let data = imageData ?? fileURL.flatMap({ try? Data(contentsOf: $0) }) else {
       return nil
     }
 
     let requestHandler = VNImageRequestHandler(data: data)
     let request = VNRecognizeTextRequest()
-    request.recognitionLevel = .fast
+    request.recognitionLevel = .accurate
+    request.automaticallyDetectsLanguage = true
 
     do {
       try requestHandler.perform([request])

@@ -8,5 +8,6 @@
 "OpenPreview" = "Pritisnite {previewKey} za prikaz predogleda.";
 "ClosePreview" = "Pritisnite {previewKey} za skrivanje predogleda.";
 "Dimensions" = "Dimenzije:";
+"Size" = "Velikost:";
 "CopyExtractedText" = "Kopiraj izvlečeno besedilo.";
 "EditItem" = "Uredi element";

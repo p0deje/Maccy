@@ -6,32 +6,35 @@
     <description>Most recent changes with links to updates.</description>
     <language>en</language>
     <item>
-      <title>2.7.1</title>
+      <title>2.8.0</title>
       <description>
         <![CDATA[
           <ul>
-            <li>Updated app icon for Liquid Glass.</li>
-            <li>Increased the minimum popup height to 3 history items.</li>
-            <li>Enabled Portuguese translation.</li>
-            <li>Enabled Khmer translation.</li>
-            <li>Fixed paste without formatting not pasting.</li>
-            <li>Fixed bug freeze due to a closed preview still receiving mouse events.</li>
-            <li>Fixed selection jump to the previous item when deleting the first unpinned item.</li>
-            <li>Fixed crash when copying the bottom-most pinned item at full capacity.</li>
-            <li>Fixed preview shortcut registering as a global hotkey.</li>
-            <li>Fixed height increasing upon preview open, even though it's sufficient.</li>
-            <li>Fixed a double separator when history has no non-pinned items.</li>
-            <li>Fixed preview text not taking up the width.</li>
+            <li>Added VoiceOver accessibility.</li>
+            <li>Added drag and drop reordering of pinned items.</li>
+            <li>Added editing of pinned items inside the preview. The Pins settings pane is removed.</li>
+            <li>Added support for special symbols as pin keys ([];'./-=\).</li>
+            <li>Added image size to the image preview.</li>
+            <li>Added support for ignoring apps outside /Applications.</li>
+            <li>Improved OCR accuracy with automatic language detection.</li>
+            <li>Removed Safari WebArchives and other unselected pasteboard types storage.</li>
+            <li>Fixed memory leak of every history item.</li>
+            <li>Fixed slow menu bar title rendering with large history.</li>
+            <li>Fixed orphaned history item content not being cleaned up.</li>
+            <li>Fixed hang on macOS 26 caused by U+FFFC in titles.</li>
+            <li>Fixed hidden footer warning not wrapping in long translations.</li>
+            <li>Fixed settings window being too narrow.</li>
+            <li>Migrated to Swift 6.</li>
           </ul>
         ]]>
       </description>
-      <pubDate>2026-08-10</pubDate>
-      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.7.1</releaseNotesLink>
+      <pubDate>2026-10-26</pubDate>
+      <releaseNotesLink>https://github.com/p0deje/Maccy/releases/tag/2.8.0</releaseNotesLink>
       <sparkle:minimumSystemVersion>14.0</sparkle:minimumSystemVersion>
       <enclosure
-        url="https://github.com/p0deje/Maccy/releases/download/2.7.1/Maccy.app.zip"
-        sparkle:version="62"
-        sparkle:shortVersionString="2.7.1"
+        url="https://github.com/p0deje/Maccy/releases/download/2.8.0/Maccy.app.zip"
+        sparkle:version="63"
+        sparkle:shortVersionString="2.8.0"
         length="0"
         type="application/octet-stream"
       />

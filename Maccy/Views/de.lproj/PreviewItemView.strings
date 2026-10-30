@@ -8,5 +8,6 @@
 "OpenPreview" = "Drücke {previewKey}, um die Vorschau anzuzeigen.";
 "ClosePreview" = "Drücke {previewKey}, um die Vorschau auszublenden.";
 "Dimensions" = "Abmessungen:";
+"Size" = "Größe:";
 "CopyExtractedText" = "Extrahierten Text kopieren.";
 "EditItem" = "Eintrag bearbeiten";

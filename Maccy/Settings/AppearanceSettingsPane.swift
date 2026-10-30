@@ -195,8 +195,11 @@ struct AppearanceSettingsPane: View {
         Defaults.Toggle(key: .showFooter) {
           Text("ShowFooter", tableName: "AppearanceSettings")
         }
+        // Settings.Section offers its content the full container width even though the content
+        // starts after the label column, so cap the width to make long translations wrap.
         Text("OpenPreferencesWarning", tableName: "AppearanceSettings")
           .fixedSize(horizontal: false, vertical: true)
+          .frame(maxWidth: 380, alignment: .leading)
           .opacity(showFooter ? 0 : 1)
           .controlSize(.small)
           .foregroundStyle(.gray)

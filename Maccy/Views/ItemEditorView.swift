@@ -178,8 +178,7 @@ struct ItemEditorView: View {
   }
 
   private var uniquePins: [String] {
-    Array(Set(availablePins + [item.item.pin, selectedPin].compactMap { $0 }))
-      .sorted()
+    HistoryItem.sortedPins(Set(availablePins + [item.item.pin, selectedPin].compactMap { $0 }))
   }
 
   private var hasChangesToApply: Bool {

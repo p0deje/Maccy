@@ -8,5 +8,6 @@
 "OpenPreview" = "पूर्वावलोकन दिखाने के लिए {previewKey} दबाएँ।";
 "ClosePreview" = "पूर्वावलोकन छिपाने के लिए {previewKey} दबाएँ।";
 "Dimensions" = "आयाम:";
+"Size" = "आकार:";
 "CopyExtractedText" = "निकाले गए टेक्स्ट को कॉपी करें.";
 "EditItem" = "आइटम संपादित करें";

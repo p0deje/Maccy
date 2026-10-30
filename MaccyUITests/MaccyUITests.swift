@@ -170,6 +170,31 @@ class MaccyUITests: XCTestCase {
     assertPasteboardDataCountEquals(image2.tiffRepresentation!.count, forType: .tiff)
   }
 
+  func testOCRRecognizesTextInImage() {
+    copyToClipboard(textImage("Lighthouse"))
+    popUpWithMouse()
+    assertImageFound(bySearching: "lighthouse")
+  }
+
+  func testOCRCopiesRecognizedTextFromSidePanel() {
+    copyToClipboard(textImage("Lighthouse"))
+    popUpWithMouse()
+
+    let imageItem = items.query.matching(NSPredicate(format: "label BEGINSWITH %@", "Image, ")).firstMatch
+    assertExists(imageItem)
+    hover(imageItem)
+
+    let copyTextButton = app.buttons["Copy extracted text."].firstMatch
+    XCTAssertTrue(copyTextButton.waitForExistence(timeout: 3), "Side panel has no copy extracted text button")
+    expectation(for: NSPredicate(format: "isEnabled == true"), evaluatedWith: copyTextButton)
+    waitForExpectations(timeout: 15)
+    copyTextButton.click()
+
+    assertExists(items["Lighthouse"])
+    XCTAssertEqual(itemTitles.first, "Lighthouse")
+    assertPasteboardStringEquals("Lighthouse")
+  }
+
   func testCopyFile() {
     copyToClipboard(file2)
     copyToClipboard(file1)
@@ -317,6 +342,20 @@ class MaccyUITests: XCTestCase {
     pin(copy2)
     pin(copy2)
     XCTAssertEqual(Array(itemTitles.prefix(2)), [copy1, copy2])
+  }
+
+  func testReorderPinsByDragging() {
+    popUpWithMouse()
+    pin(copy1)
+    pin(copy2)
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [copy1, copy2])
+
+    drag(items[copy2].firstMatch, before: items[copy1].firstMatch)
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [copy2, copy1])
+
+    app.typeKey(.escape, modifierFlags: [])
+    popUpWithMouse()
+    XCTAssertEqual(Array(itemTitles.prefix(2)), [copy2, copy1])
   }
 
   func testRemoveLastWordFromSearchWithControlW() {
@@ -650,6 +689,34 @@ class MaccyUITests: XCTestCase {
     waitTillClipboardCheck()
   }
 
+  private func textImage(_ text: String) -> NSImage {
+    let string = NSAttributedString(string: text, attributes: [
+      .font: NSFont.boldSystemFont(ofSize: 48),
+      .foregroundColor: NSColor.black
+    ])
+    let size = NSSize(width: string.size().width + 40, height: string.size().height + 40)
+    return NSImage(size: size, flipped: false) { rect in
+      NSColor.white.setFill()
+      rect.fill()
+      string.draw(at: NSPoint(x: 20, y: 20))
+      return true
+    }
+  }
+
+  private func assertImageFound(bySearching text: String) {
+    let imageItem = items.query.matching(NSPredicate(format: "label BEGINSWITH %@", "Image, ")).firstMatch
+    for _ in 0..<5 {
+      search(text)
+      if imageItem.waitForExistence(timeout: 2) {
+        break
+      }
+      app.typeKey("w", modifierFlags: [.control])
+      sleep(2)
+    }
+    XCTAssertTrue(imageItem.exists, "No image found by searching \"\(text)\"")
+    XCTAssertEqual(items.allElementsBoundByIndex.count, 1)
+  }
+
   private func copyToClipboard(_ content: URL) {
     pasteboard.clearContents()
     pasteboard.setData(content.dataRepresentation, forType: .fileURL)
@@ -674,6 +741,14 @@ class MaccyUITests: XCTestCase {
     hover(items[title].firstMatch)
     app.typeKey("p", modifierFlags: [.option])
     usleep(1_500_000)
+  }
+
+  private func drag(_ element: XCUIElement, before target: XCUIElement) {
+    hover(element)
+    let source = element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
+    let destination = target.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.2))
+    source.click(forDuration: 0.5, thenDragTo: destination, withVelocity: .slow, thenHoldForDuration: 0.5)
+    usleep(500_000)
   }
 
   private func hoverAndClick(_ element: XCUIElement) {

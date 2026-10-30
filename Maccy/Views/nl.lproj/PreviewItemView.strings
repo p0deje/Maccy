@@ -8,5 +8,6 @@
 "OpenPreview" = "Druk op {previewKey} om het voorbeeld te tonen.";
 "ClosePreview" = "Druk op {previewKey} om het voorbeeld te verbergen.";
 "Dimensions" = "Afmetingen:";
+"Size" = "Grootte:";
 "CopyExtractedText" = "Geëxtraheerde tekst kopiëren.";
 "EditItem" = "Item bewerken";

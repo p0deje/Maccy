@@ -89,6 +89,13 @@ struct PreviewItemView: View {
         }
       }
 
+      if item.hasImage, let size = item.imageSize {
+        HStack(spacing: 3) {
+          Text("Size", tableName: "PreviewItemView")
+          Text(size)
+        }
+      }
+
       HStack(spacing: 3) {
         Text("FirstCopyTime", tableName: "PreviewItemView")
         Text(item.item.firstCopiedAt, style: .date)

@@ -8,5 +8,6 @@
 "OpenPreview" = "Oldindan ko‘rishni ko‘rsatish uchun {previewKey} tugmasini bosing.";
 "ClosePreview" = "Oldindan ko‘rishni yashirish uchun {previewKey} tugmasini bosing.";
 "Dimensions" = "O'lchamlar:";
+"Size" = "Hajmi:";
 "CopyExtractedText" = "Ajratib olingan matnni nusxalash.";
 "EditItem" = "Elementni tahrirlash";

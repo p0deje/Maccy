@@ -1,7 +1,7 @@
 "Title" = "दिखावट";
 "PopupAt" = "";
-"PopupAtCursor" = "";
-"PopupAtMenuBarIcon" = "";
+"PopupAtCursor" = "तीर";
+"PopupAtMenuBarIcon" = "मेनू की तस्वीर";
 "PopupAtWindowCenter" = "";
 "PopupAtScreenCenter" = "";
 "PopupAtLastPosition" = "";

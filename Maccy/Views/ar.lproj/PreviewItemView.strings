@@ -8,5 +8,6 @@
 "OpenPreview" = "اضغط على {previewKey} لإظهار المعاينة.";
 "ClosePreview" = "اضغط على {previewKey} لإخفاء المعاينة.";
 "Dimensions" = "الأبعاد:";
+"Size" = "الحجم:";
 "CopyExtractedText" = "انسخ النص المستخرج.";
 "EditItem" = "تعديل العنصر";
