@@ -132,6 +132,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     filteredPinnedItems = allPinnedItems
     filteredUnpinnedItems = allUnpinnedItems
 
+    purgeExpiredItems()
     limitHistorySize(to: Defaults[.size])
 
     updateShortcuts()
@@ -139,6 +140,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     Task {
       AppState.shared.popup.needsResize = true
     }
+  }
+
+  // Like the size limit, this only runs on load and on a new copy, so that changing
+  // the setting never deletes anything by itself.
+  @MainActor
+  private func purgeExpiredItems() {
+    let retention = Defaults[.historyRetention]
+    guard retention != .forever else { return }
+
+    let cutoff = Date.now.addingTimeInterval(-TimeInterval(retention.rawValue))
+    delete(allUnpinnedItems.filter { $0.item.lastCopiedAt < cutoff })
   }
 
   @MainActor
@@ -195,6 +207,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
+    purgeExpiredItems()
     limitHistorySize(to: item.pin == nil ? Defaults[.size] - 1 : Defaults[.size])
 
     sessionLog[Clipboard.shared.changeCount] = item
@@ -303,18 +316,27 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   func delete(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
-    cleanup(item)
-    withLogging("Removing history item") {
-      deleteFromStorage(item.item)
+    delete([item])
+  }
+
+  @MainActor
+  private func delete(_ items: [HistoryItemDecorator]) {
+    guard !items.isEmpty else { return }
+
+    items.forEach(cleanup)
+    withLogging("Removing history items") {
+      items.forEach { deleteFromStorage($0.item) }
       Storage.shared.context.processPendingChanges()
       try? Storage.shared.context.save()
     }
 
-    pinManager.remove(item)
-    allUnpinnedItems.removeAll { $0 == item }
-    filteredPinnedItems.removeAll { $0 == item }
-    filteredUnpinnedItems.removeAll { $0 == item }
-    sessionLog.removeValues { $0 == item.item }
+    let removed = Set(items.map(\.id))
+    items.forEach(pinManager.remove)
+    allUnpinnedItems.removeAll { removed.contains($0.id) }
+    filteredPinnedItems.removeAll { removed.contains($0.id) }
+    filteredUnpinnedItems.removeAll { removed.contains($0.id) }
+    let removedItems = Set(items.map(\.item))
+    sessionLog.removeValues { removedItems.contains($0) }
 
     updateUnpinnedShortcuts()
     Task {
