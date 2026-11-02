@@ -20,3 +20,5 @@
 "Search" = "Qidirish:";
 "Exact" = "Aniq";
 "Regex" = "Muntazam ifodalar";
+"ClipboardSlots" = "Almashish buferi slotlari";
+"ClipboardSlotsDescription" = "⌘ ni bosib turib, C ni, soʻng 1, 2 yoki 3 ni bosing — nusxa slotga saqlanadi.\n⌘ va V ni bosib turib, 1, 2 yoki 3 ni bosing — oʻsha slot joylashtiriladi.\nBu yoqilganda, ⌘V tugmasi V qoʻyib yuborilganda joylashtiradi.";

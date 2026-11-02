@@ -103,6 +103,16 @@ struct GeneralSettingsPane: View {
         .fixedSize(horizontal: false, vertical: true)
         .foregroundStyle(.gray)
         .controlSize(.small)
+
+        Defaults.Toggle(key: .clipboardSlots) {
+          Text("ClipboardSlots", tableName: "GeneralSettings")
+        }
+        .fixedSize()
+
+        Text("ClipboardSlotsDescription", tableName: "GeneralSettings")
+          .fixedSize(horizontal: false, vertical: true)
+          .foregroundStyle(.gray)
+          .controlSize(.small)
       }
 
       Settings.Section(title: "") {

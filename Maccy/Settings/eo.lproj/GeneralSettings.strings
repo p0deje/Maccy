@@ -21,3 +21,5 @@
 "Fuzzy" = "Proksimuma";
 "Mixed" = "Miksita";
 "NotificationsAndSounds" = "Sciigoj kaj sonoj 􀱁";
+"ClipboardSlots" = "Tondejaj fakoj";
+"ClipboardSlotsDescription" = "Tenu ⌘, premu C, poste 1, 2 aŭ 3 por konservi la kopion en fako.\nTenu ⌘ kaj V, poste premu 1, 2 aŭ 3 por alglui tiun fakon.\nKiam ĉi tio estas ŝaltita, ⌘V algluas kiam vi malpremas V.";

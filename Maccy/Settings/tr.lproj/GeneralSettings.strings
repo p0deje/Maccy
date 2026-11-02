@@ -20,3 +20,5 @@
 "Regex" = "Düzenli ifadeler";
 "Mixed" = "Karışık";
 "NotificationsAndSounds" = "Bildirimler ve sesler 􀱁";
+"ClipboardSlots" = "Pano yuvaları";
+"ClipboardSlotsDescription" = "⌘ tuşunu basılı tutun, C'ye ve ardından 1, 2 veya 3'e basarak kopyayı bir yuvaya kaydedin.\n⌘ ve V'yi basılı tutup 1, 2 veya 3'e basarak o yuvayı yapıştırın.\nBu açıkken ⌘V, V bırakıldığında yapıştırır.";

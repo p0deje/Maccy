@@ -20,3 +20,5 @@
 "Regex" = "Reguliere expressies";
 "Mixed" = "Mixed";
 "NotificationsAndSounds" = "Meldingen en geluiden 􀱁";
+"ClipboardSlots" = "Klembordvakken";
+"ClipboardSlotsDescription" = "Houd ⌘ ingedrukt, druk op C en daarna op 1, 2 of 3 om de kopie in een vak op te slaan.\nHoud ⌘ en V ingedrukt en druk op 1, 2 of 3 om dat vak te plakken.\nAls dit aan staat, plakt ⌘V bij het loslaten van V.";

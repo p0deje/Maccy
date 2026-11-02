@@ -20,3 +20,5 @@
 "Regex" = "Regulární výrazy";
 "Mixed" = "Smíšené";
 "NotificationsAndSounds" = "Notifikace a zvuky 􀱁";
+"ClipboardSlots" = "Sloty schránky";
+"ClipboardSlotsDescription" = "Podržte ⌘, stiskněte C a pak 1, 2 nebo 3 pro uložení kopie do slotu.\nPodržte ⌘ a V a stiskněte 1, 2 nebo 3 pro vložení obsahu slotu.\nKdyž je tato volba zapnutá, ⌘V vkládá po uvolnění klávesy V.";

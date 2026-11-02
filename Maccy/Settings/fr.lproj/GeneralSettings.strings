@@ -20,3 +20,5 @@
 "Regex" = "Expressions régulières";
 "Mixed" = "Mixte";
 "NotificationsAndSounds" = "Notifications et sons 􀱁";
+"ClipboardSlots" = "Emplacements du presse-papiers";
+"ClipboardSlotsDescription" = "Maintenez ⌘, appuyez sur C, puis sur 1, 2 ou 3 pour enregistrer la copie dans un emplacement.\nMaintenez ⌘ et V, puis appuyez sur 1, 2 ou 3 pour coller cet emplacement.\nLorsque cette option est activée, ⌘V colle au relâchement de V.";

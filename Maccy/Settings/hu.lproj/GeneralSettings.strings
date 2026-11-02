@@ -20,3 +20,5 @@
 "Regex" = "Reguláris kifejezés";
 "Mixed" = "Kevert";
 "NotificationsAndSounds" = "Értesítések és hangok 􀱁";
+"ClipboardSlots" = "Vágólap-helyek";
+"ClipboardSlotsDescription" = "Tartsa lenyomva a ⌘-t, nyomja meg a C-t, majd az 1, 2 vagy 3 gombot a másolat mentéséhez egy helyre.\nTartsa lenyomva a ⌘-t és a V-t, majd nyomja meg az 1, 2 vagy 3 gombot a hely beillesztéséhez.\nHa be van kapcsolva, a ⌘V a V felengedésekor illeszt be.";

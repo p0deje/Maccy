@@ -20,3 +20,5 @@
 "Regex" = "Expresiones regulares";
 "Mixed" = "Mezclada";
 "NotificationsAndSounds" = "Notificaciones y sonidos 􀱁";
+"ClipboardSlots" = "Ranuras del portapapeles";
+"ClipboardSlotsDescription" = "Mantén pulsado ⌘, pulsa C y luego 1, 2 o 3 para guardar la copia en una ranura.\nMantén pulsados ⌘ y V y pulsa 1, 2 o 3 para pegar esa ranura.\nMientras esté activado, ⌘V pega al soltar la V.";

@@ -20,3 +20,5 @@
 "Regex" = "Expressões regulares";
 "Mixed" = "Mista";
 "NotificationsAndSounds" = "Notificações e sons 􀱁";
+"ClipboardSlots" = "Espaços da área de transferência";
+"ClipboardSlotsDescription" = "Segure ⌘, pressione C e depois 1, 2 ou 3 para salvar a cópia em um espaço.\nSegure ⌘ e V e pressione 1, 2 ou 3 para colar esse espaço.\nEnquanto estiver ativado, ⌘V cola ao soltar o V.";
