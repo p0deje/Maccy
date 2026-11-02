@@ -21,4 +21,4 @@
 "Mixed" = "Mista";
 "NotificationsAndSounds" = "Notifiche e suoni 􀱁";
 "ClipboardSlots" = "Slot degli appunti";
-"ClipboardSlotsDescription" = "Tieni premuto ⌘, premi C e poi 1, 2 o 3 per salvare la copia in uno slot.\nTieni premuti ⌘ e V, poi premi 1, 2 o 3 per incollare quello slot.\nQuando è attivo, ⌘V incolla al rilascio di V.";
+"ClipboardSlotsDescription" = "Tieni premuti ⌘ e C, poi premi 1, 2 o 3 per salvare la copia in uno slot.\nTieni premuti ⌘ e V, poi premi 1, 2 o 3 per incollare quello slot.\nQuando è attivo, ⌘V incolla al rilascio di V.";

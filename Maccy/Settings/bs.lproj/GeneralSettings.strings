@@ -21,4 +21,4 @@
 "Mixed" = "Miješano";
 "NotificationsAndSounds" = "Obavještenja i zvukovi 􀱁";
 "ClipboardSlots" = "Slotovi međuspremnika";
-"ClipboardSlotsDescription" = "Držite ⌘, pritisnite C, a zatim 1, 2 ili 3 da sačuvate kopiju u slot.\nDržite ⌘ i V, a zatim pritisnite 1, 2 ili 3 da zalijepite taj slot.\nDok je ovo uključeno, ⌘V lijepi kada pustite V.";
+"ClipboardSlotsDescription" = "Držite ⌘ i C, a zatim pritisnite 1, 2 ili 3 da sačuvate kopiju u slot.\nDržite ⌘ i V, a zatim pritisnite 1, 2 ili 3 da zalijepite taj slot.\nDok je ovo uključeno, ⌘V lijepi kada pustite V.";

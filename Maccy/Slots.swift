@@ -1,6 +1,6 @@
 import AppKit
 
-// Hold ⌘, press C then 1/2/3 to save the copied content into a slot.
+// Hold ⌘ and C, press 1/2/3 to save the copied content into a slot.
 // Hold ⌘ and V, press 1/2/3 to paste a slot.
 // A plain ⌘V is held back and pasted as soon as V is released.
 // Not on the main actor (the module default): the tap runs on its own thread.
@@ -46,8 +46,10 @@ nonisolated enum Slots {
       slots = saved
     }
 
+    // Without permission to post events a held-back ⌘V could not be replayed, so wait for it too.
+    // Right after it's granted, a running app may still lack it until relaunch.
     let types: [CGEventType] = [.keyDown, .keyUp, .flagsChanged]
-    tap = CGEvent.tapCreate(
+    tap = CGPreflightPostEventAccess() ? CGEvent.tapCreate(
       tap: .cgSessionEventTap,
       place: .headInsertEventTap,
       options: .defaultTap,
@@ -56,13 +58,12 @@ nonisolated enum Slots {
         Slots.handle(type, event) ? Unmanaged.passUnretained(event) : nil
       },
       userInfo: nil
-    )
+    ) : nil
 
     guard tap != nil else {
-      // Accessibility permission is not granted yet: ask once, then start as soon as it is.
-      if prompt {
-        AXIsProcessTrustedWithOptions(["AXTrustedCheckOptionPrompt": true] as CFDictionary)
-      }
+      // Permission is not granted yet: ask once, then start as soon as it is.
+      // Unlike AXIsProcessTrustedWithOptions, CGRequestPostEventAccess also prompts in the sandbox.
+      if prompt { CGRequestPostEventAccess() }
       DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
         if enabled { start(prompt: false) }
       }
@@ -114,6 +115,8 @@ nonisolated enum Slots {
 
     case .keyUp:
       if key == vKey { flushPaste() }
+      // Digits only save while C is held, so ⌘C then ⌘V + digit never overwrites a slot.
+      if key == cKey { copyChangeCount = nil }
       return swallowedKeyUps.remove(key) == nil
 
     case .keyDown:
@@ -152,7 +155,14 @@ nonisolated enum Slots {
       return !swallowedKeyUps.contains(key)
     }
 
-    copyChangeCount = commandOnly && key == cKey ? NSPasteboard.general.changeCount : nil
+    if commandOnly && key == cKey {
+      // Keep the count from the first press while C repeats.
+      if event.getIntegerValueField(.keyboardEventAutorepeat) == 0 {
+        copyChangeCount = NSPasteboard.general.changeCount
+      }
+    } else {
+      copyChangeCount = nil
+    }
 
     // Another key while ⌘V is held back: paste first, then replay the key to keep the order.
     if pastePending {

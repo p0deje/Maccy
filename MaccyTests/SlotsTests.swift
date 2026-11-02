@@ -86,24 +86,23 @@ extension SharedStateTests {
       command(down: false)
     }
 
-    @Test("⌘C then 1 saves slot 1 and the copy itself passes")
+    @Test("⌘ + C held + 1 saves slot 1 and the copy itself passes")
     func slotSave() {
       command(down: true)
       #expect(key(cKey, down: true))
-      #expect(key(cKey, down: false))
+      #expect(key(cKey, down: true, autorepeat: true))
       #expect(!key(oneKey, down: true))
       #expect(!key(oneKey, down: false))
+      #expect(key(cKey, down: false))
       #expect(actions == [.save(slot: 0, changeCount: NSPasteboard.general.changeCount)])
       command(down: false)
     }
 
-    @Test("Releasing ⌘ between C and the digit saves nothing")
-    func commandReleasedAfterCopy() {
+    @Test("A digit after C is released saves nothing, so ⌘C then ⌘V + 1 can't overwrite a slot")
+    func copyReleasedBeforeDigit() {
       command(down: true)
       _ = key(cKey, down: true)
       _ = key(cKey, down: false)
-      command(down: false)
-      command(down: true)
       #expect(key(oneKey, down: true))
       #expect(key(oneKey, down: false))
       #expect(actions.isEmpty)

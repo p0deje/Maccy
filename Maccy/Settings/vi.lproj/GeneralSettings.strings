@@ -21,4 +21,4 @@
 "Mixed" = "Hỗn hợp";
 "NotificationsAndSounds" = "Thông báo và âm thanh 􀱁";
 "ClipboardSlots" = "Ô bộ nhớ tạm";
-"ClipboardSlotsDescription" = "Giữ ⌘, nhấn C rồi nhấn 1, 2 hoặc 3 để lưu bản sao vào một ô.\nGiữ ⌘ và V rồi nhấn 1, 2 hoặc 3 để dán ô đó.\nKhi bật tùy chọn này, ⌘V sẽ dán khi bạn thả phím V.";
+"ClipboardSlotsDescription" = "Giữ ⌘ và C rồi nhấn 1, 2 hoặc 3 để lưu bản sao vào một ô.\nGiữ ⌘ và V rồi nhấn 1, 2 hoặc 3 để dán ô đó.\nKhi bật tùy chọn này, ⌘V sẽ dán khi bạn thả phím V.";

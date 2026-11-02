@@ -22,4 +22,4 @@
 "ShowPreviewTooltip" = "Mostrar pré-visualização com informação adicional.\nPadrão: ⌃Space.";
 "Behavior" = "Comportamento:";
 "ClipboardSlots" = "Espaços da área de transferência";
-"ClipboardSlotsDescription" = "Mantenha ⌘ premido, prima C e depois 1, 2 ou 3 para guardar a cópia num espaço.\nMantenha ⌘ e V premidos e prima 1, 2 ou 3 para colar esse espaço.\nEnquanto estiver ativado, ⌘V cola ao largar o V.";
+"ClipboardSlotsDescription" = "Mantenha ⌘ e C premidos e prima 1, 2 ou 3 para guardar a cópia num espaço.\nMantenha ⌘ e V premidos e prima 1, 2 ou 3 para colar esse espaço.\nEnquanto estiver ativado, ⌘V cola ao largar o V.";

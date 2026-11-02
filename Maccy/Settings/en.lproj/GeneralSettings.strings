@@ -21,4 +21,4 @@
 "Mixed" = "Mixed";
 "NotificationsAndSounds" = "Notifications and sounds 􀱁";
 "ClipboardSlots" = "Clipboard slots";
-"ClipboardSlotsDescription" = "Hold ⌘, press C, then 1, 2 or 3 to save the copy to a slot.\nHold ⌘ and V, then press 1, 2 or 3 to paste that slot.\nWhile this is on, ⌘V pastes when V is released.";
+"ClipboardSlotsDescription" = "Hold ⌘ and C, then press 1, 2 or 3 to save the copy to a slot.\nHold ⌘ and V, then press 1, 2 or 3 to paste that slot.\nWhile this is on, ⌘V pastes when V is released.";

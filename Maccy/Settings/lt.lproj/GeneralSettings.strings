@@ -21,4 +21,4 @@
 "Mixed" = "Mišrus";
 "NotificationsAndSounds" = "Pranešimai ir garsai 􀱁";
 "ClipboardSlots" = "Iškarpinės vietos";
-"ClipboardSlotsDescription" = "Laikykite ⌘, paspauskite C, tada 1, 2 arba 3, kad išsaugotumėte kopiją vietoje.\nLaikykite ⌘ ir V, tada paspauskite 1, 2 arba 3, kad įklijuotumėte tą vietą.\nKai tai įjungta, ⌘V įklijuoja atleidus V.";
+"ClipboardSlotsDescription" = "Laikykite ⌘ ir C, tada paspauskite 1, 2 arba 3, kad išsaugotumėte kopiją vietoje.\nLaikykite ⌘ ir V, tada paspauskite 1, 2 arba 3, kad įklijuotumėte tą vietą.\nKai tai įjungta, ⌘V įklijuoja atleidus V.";

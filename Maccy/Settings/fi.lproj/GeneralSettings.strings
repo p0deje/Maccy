@@ -1,3 +1,3 @@
 
 "ClipboardSlots" = "Leikepöydän paikat";
-"ClipboardSlotsDescription" = "Pidä ⌘ painettuna, paina C ja sitten 1, 2 tai 3 tallentaaksesi kopion paikkaan.\nPidä ⌘ ja V painettuina ja paina 1, 2 tai 3 liittääksesi sen paikan.\nKun tämä on päällä, ⌘V liittää, kun V vapautetaan.";
+"ClipboardSlotsDescription" = "Pidä ⌘ ja C painettuina ja paina 1, 2 tai 3 tallentaaksesi kopion paikkaan.\nPidä ⌘ ja V painettuina ja paina 1, 2 tai 3 liittääksesi sen paikan.\nKun tämä on päällä, ⌘V liittää, kun V vapautetaan.";

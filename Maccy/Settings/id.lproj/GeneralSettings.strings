@@ -21,4 +21,4 @@
 "Mixed" = "Campuran";
 "NotificationsAndSounds" = "Pemberitahuan dan suara 􀱁";
 "ClipboardSlots" = "Slot papan klip";
-"ClipboardSlotsDescription" = "Tahan ⌘, tekan C, lalu 1, 2, atau 3 untuk menyimpan salinan ke slot.\nTahan ⌘ dan V, lalu tekan 1, 2, atau 3 untuk menempelkan slot tersebut.\nSaat aktif, ⌘V menempel ketika V dilepas.";
+"ClipboardSlotsDescription" = "Tahan ⌘ dan C, lalu tekan 1, 2, atau 3 untuk menyimpan salinan ke slot.\nTahan ⌘ dan V, lalu tekan 1, 2, atau 3 untuk menempelkan slot tersebut.\nSaat aktif, ⌘V menempel ketika V dilepas.";

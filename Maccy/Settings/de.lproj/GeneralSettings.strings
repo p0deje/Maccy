@@ -21,4 +21,4 @@
 "Mixed" = "Gemischt";
 "NotificationsAndSounds" = "Benachrichtigungen und Töne 􀱁";
 "ClipboardSlots" = "Zwischenablage-Slots";
-"ClipboardSlotsDescription" = "⌘ gedrückt halten, C und dann 1, 2 oder 3 drücken, um die Kopie in einem Slot zu speichern.\n⌘ und V gedrückt halten und 1, 2 oder 3 drücken, um diesen Slot einzufügen.\nSolange dies aktiv ist, fügt ⌘V beim Loslassen von V ein.";
+"ClipboardSlotsDescription" = "⌘ und C gedrückt halten und 1, 2 oder 3 drücken, um die Kopie in einem Slot zu speichern.\n⌘ und V gedrückt halten und 1, 2 oder 3 drücken, um diesen Slot einzufügen.\nSolange dies aktiv ist, fügt ⌘V beim Loslassen von V ein.";
