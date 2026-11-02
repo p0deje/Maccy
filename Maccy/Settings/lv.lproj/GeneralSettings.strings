@@ -20,3 +20,5 @@
 "Regex" = "Regulārās izteiksmes";
 "Mixed" = "Jaukti";
 "NotificationsAndSounds" = "Paziņojumi un skaņas 􀱁";
+"ClipboardSlots" = "Starpliktuves sloti";
+"ClipboardSlotsDescription" = "Turiet ⌘ un C, pēc tam nospiediet 1, 2 vai 3, lai saglabātu kopiju slotā.\nTuriet ⌘ un V, pēc tam nospiediet 1, 2 vai 3, lai ielīmētu šo slotu.\nKamēr tas ir ieslēgts, ⌘V ielīmē, kad atlaižat V.";

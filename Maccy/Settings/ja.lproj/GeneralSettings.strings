@@ -20,3 +20,5 @@
 "Regex" = "正規表現";
 "Mixed" = "混合";
 "NotificationsAndSounds" = "通知と音 􀱁";
+"ClipboardSlots" = "クリップボードスロット";
+"ClipboardSlotsDescription" = "⌘ と C を押したまま 1、2、3 のいずれかを押すと、コピーした内容をスロットに保存します。\n⌘ と V を押したまま 1、2、3 のいずれかを押すと、そのスロットを貼り付けます。\nオンの間は、⌘V は V を離したときに貼り付けます。";

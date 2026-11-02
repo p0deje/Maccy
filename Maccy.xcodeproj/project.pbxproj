@@ -15,6 +15,7 @@
 		2F0EC77D2E773314003E2EA9 /* Selection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC77C2E773314003E2EA9 /* Selection.swift */; };
 		2F0EC77F2E773DBA003E2EA9 /* MultipleSelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC77E2E773DBA003E2EA9 /* MultipleSelectionListView.swift */; };
 		2F0EC7812E773F1D003E2EA9 /* PasteStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7802E773F1D003E2EA9 /* PasteStack.swift */; };
+		5107A11E2F00000000000002 /* Slots.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5107A11E2F00000000000001 /* Slots.swift */; };
 		2F0EC7852E774083003E2EA9 /* PasteStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7842E77407C003E2EA9 /* PasteStackView.swift */; };
 		2F0EC7872E774099003E2EA9 /* PasteStackItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */; };
 		2F0EC7892E7743D9003E2EA9 /* HoverSelectionModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */; };
@@ -49,6 +50,7 @@
 		9B24FC30A093450F29E2CC4A /* View+Invisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC045710F4F8773D1A5EC87 /* View+Invisible.swift */; };
 		A9E31C79AD944C78BE9DF2F5 /* LargeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCCA6C3F9374C9C91414E3A /* LargeTextView.swift */; };
 		C0FFEE000000000000000003 /* ShortenedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFEE000000000000000004 /* ShortenedTests.swift */; };
+		5107A11E2F00000000000003 /* SlotsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5107A11E2F00000000000004 /* SlotsTests.swift */; };
 		C5B760C9035C4B3594C47811 /* SizedString.swift in Sources */ = {isa = PBXBuildFile; fileRef = DFC13FFCB59043F2883A4437 /* SizedString.swift */; };
 		CA110ED10000000000000001 /* CollectionSurroundingTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = CA110ED10000000000000002 /* CollectionSurroundingTests.swift */; };
 		DA009931256411F90030E697 /* appcast.xml in Resources */ = {isa = PBXBuildFile; fileRef = DA00992C256411F90030E697 /* appcast.xml */; };
@@ -210,6 +212,7 @@
 		2F0EC77C2E773314003E2EA9 /* Selection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Selection.swift; sourceTree = "<group>"; };
 		2F0EC77E2E773DBA003E2EA9 /* MultipleSelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MultipleSelectionListView.swift; sourceTree = "<group>"; };
 		2F0EC7802E773F1D003E2EA9 /* PasteStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStack.swift; sourceTree = "<group>"; };
+		5107A11E2F00000000000001 /* Slots.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Slots.swift; sourceTree = "<group>"; };
 		2F0EC7842E77407C003E2EA9 /* PasteStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackView.swift; sourceTree = "<group>"; };
 		2F0EC7862E774093003E2EA9 /* PasteStackItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PasteStackItemView.swift; sourceTree = "<group>"; };
 		2F0EC7882E7743D9003E2EA9 /* HoverSelectionModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoverSelectionModifier.swift; sourceTree = "<group>"; };
@@ -264,6 +267,7 @@
 		BBCCA6C3F9374C9C91414E3A /* LargeTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LargeTextView.swift; sourceTree = "<group>"; };
 		BC59C5474269463B8A32BCEF /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/AppearanceSettings.strings; sourceTree = "<group>"; };
 		C0FFEE000000000000000004 /* ShortenedTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortenedTests.swift; sourceTree = "<group>"; };
+		5107A11E2F00000000000004 /* SlotsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlotsTests.swift; sourceTree = "<group>"; };
 		C2BC0DBD627544668E9BE9C1 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/StorageSettings.strings; sourceTree = "<group>"; };
 		CA110ED10000000000000002 /* CollectionSurroundingTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionSurroundingTests.swift; sourceTree = "<group>"; };
 		CF8FD822BE40469D80B10A06 /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/AdvancedSettings.strings; sourceTree = "<group>"; };
@@ -783,6 +787,7 @@
 				DA3CE7FF1E44A62500B3AA98 /* ClipboardTests.swift */,
 				CA110ED10000000000000002 /* CollectionSurroundingTests.swift */,
 				C0FFEE000000000000000004 /* ShortenedTests.swift */,
+				5107A11E2F00000000000004 /* SlotsTests.swift */,
 				FFFC00000000000000000004 /* UnsafeForTitleLayoutTests.swift */,
 				DAE2850123225BD90080E394 /* ColorImageTests.swift */,
 				DA360DB21E3DF137005C6F6B /* HistoryTests.swift */,
@@ -904,6 +909,7 @@
 				DA689FCB2C1D1D510009B887 /* MenuIcon.swift */,
 				DA20FA712B082DD600056DD5 /* Notifier.swift */,
 				2F0EC7802E773F1D003E2EA9 /* PasteStack.swift */,
+				5107A11E2F00000000000001 /* Slots.swift */,
 				DA689FC72C1D15140009B887 /* PinsPosition.swift */,
 				DA689FC52C1D14F10009B887 /* PopupPosition.swift */,
 				DAC14123232367B200FCFA30 /* Search.swift */,
@@ -1141,6 +1147,7 @@
 				DA696BD22401EEE900DE80CF /* SorterTests.swift in Sources */,
 				CA110ED10000000000000001 /* CollectionSurroundingTests.swift in Sources */,
 				C0FFEE000000000000000003 /* ShortenedTests.swift in Sources */,
+				5107A11E2F00000000000003 /* SlotsTests.swift in Sources */,
 				FFFC00000000000000000003 /* UnsafeForTitleLayoutTests.swift in Sources */,
 				DA360DB31E3DF137005C6F6B /* HistoryTests.swift in Sources */,
 			);
@@ -1165,6 +1172,7 @@
 				DA9C3C622C20E1BF0056795D /* IgnoreRegexpsSettingsView.swift in Sources */,
 				DA243D142C2F66DD0012A27F /* Storage.swift in Sources */,
 				2F0EC7812E773F1D003E2EA9 /* PasteStack.swift in Sources */,
+				5107A11E2F00000000000002 /* Slots.swift in Sources */,
 				DA5078992CF2676B00215488 /* MouseMovedViewModifer.swift in Sources */,
 				DA19690E2C3EEFA900258481 /* KeyboardShortcutView.swift in Sources */,
 				2FD499472FFC4AEF00149F02 /* ItemEditorView.swift in Sources */,

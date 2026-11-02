@@ -21,3 +21,5 @@
 "Behavior" = "Comportament:";
 "Delete" = "Șterge:";
 "Title" = "General";
+"ClipboardSlots" = "Sloturi clipboard";
+"ClipboardSlotsDescription" = "Ține apăsate ⌘ și C, apoi apasă 1, 2 sau 3 pentru a salva copia într-un slot.\nȚine apăsate ⌘ și V, apoi apasă 1, 2 sau 3 pentru a lipi acel slot.\nCât timp opțiunea e activă, ⌘V lipește la eliberarea tastei V.";

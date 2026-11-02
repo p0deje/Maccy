@@ -21,3 +21,5 @@
 "Mixed" = "混合";
 "RemoveTrackingParameters" = "移除 URL 中的追踪参数";
 "NotificationsAndSounds" = "通知和声音 􀱁";
+"ClipboardSlots" = "剪贴板槽位";
+"ClipboardSlotsDescription" = "按住 ⌘ 和 C，再按 1、2 或 3，将复制的内容保存到槽位。\n按住 ⌘ 和 V，再按 1、2 或 3，粘贴该槽位。\n开启后，⌘V 会在松开 V 时粘贴。";

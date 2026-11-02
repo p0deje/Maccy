@@ -20,3 +20,5 @@
 "Regex" = "";
 "Mixed" = "";
 "NotificationsAndSounds" = "";
+"ClipboardSlots" = "Ranures del porta-retalls";
+"ClipboardSlotsDescription" = "Mantén premudes ⌘ i C i prem 1, 2 o 3 per desar la còpia en una ranura.\nMantén premudes ⌘ i V i prem 1, 2 o 3 per enganxar aquesta ranura.\nMentre estigui activat, ⌘V enganxa quan deixes anar la V.";

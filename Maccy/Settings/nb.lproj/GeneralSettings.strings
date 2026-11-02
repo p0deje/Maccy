@@ -20,3 +20,5 @@
 "Regex" = "Vanlig uttrykk";
 "Mixed" = "Blandet";
 "NotificationsAndSounds" = "Varsler og lyder 􀱁";
+"ClipboardSlots" = "Utklippstavle-plasser";
+"ClipboardSlotsDescription" = "Hold ⌘ og C, og trykk 1, 2 eller 3 for å lagre kopien i en plass.\nHold ⌘ og V, og trykk 1, 2 eller 3 for å lime inn den plassen.\nNår dette er på, limer ⌘V inn når du slipper V.";

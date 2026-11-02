@@ -20,3 +20,5 @@
 "Regex" = "Wyrażenia regularne";
 "Mixed" = "Mieszane";
 "NotificationsAndSounds" = "Dźwięki i powiadomienia 􀱁";
+"ClipboardSlots" = "Sloty schowka";
+"ClipboardSlotsDescription" = "Przytrzymaj ⌘ i C, a potem naciśnij 1, 2 lub 3, aby zapisać kopię w slocie.\nPrzytrzymaj ⌘ i V, a potem naciśnij 1, 2 lub 3, aby wkleić zawartość slotu.\nGdy to jest włączone, ⌘V wkleja po puszczeniu V.";
