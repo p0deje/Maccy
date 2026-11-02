@@ -8,6 +8,7 @@ enum HistoryRetention: Int, CaseIterable, Identifiable, CustomStringConvertible,
   case eightHours = 28_800
   case oneDay = 86_400
   case sevenDays = 604_800
+  case fourteenDays = 1_209_600
   case thirtyDays = 2_592_000
 
   var id: Self { self }
