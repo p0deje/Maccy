@@ -1,6 +1,7 @@
 import AppKit
 import Testing
 import Defaults
+import Observation
 @testable import Maccy
 
 extension SharedStateTests {
@@ -59,6 +60,106 @@ extension SharedStateTests {
       #expect(itemDecorator.title == "foo")
       #expect(itemDecorator.previewImage == nil)
       #expect(itemDecorator.thumbnailImage == nil)
+    }
+
+    @Test("Text previews stay lazy until accessed", arguments: [
+      NSPasteboard.PasteboardType.string, .rtf, .html
+    ])
+    func textPreviewStaysLazy(type: NSPasteboard.PasteboardType) throws {
+      let fullText = "A complete preview, beyond the stored title."
+      let data: Data
+      switch type {
+      case .rtf:
+        data = try #require(NSAttributedString(string: fullText).rtf(
+          from: NSRange(location: 0, length: fullText.utf16.count),
+          documentAttributes: [:]
+        ))
+      case .html:
+        data = Data("<span>\(fullText)</span>".utf8)
+      default:
+        data = Data(fullText.utf8)
+      }
+      let item = HistoryItem(contents: [HistoryItemContent(type: type.rawValue, value: data)])
+      Storage.shared.context.insert(item)
+      item.title = "Stored title"
+      let decorator = HistoryItemDecorator(item)
+
+      #expect(!decorator.isPreviewTextMaterialized)
+      #expect(decorator.title == "Stored title")
+      #expect(decorator.accessibilityLabel.contains("Stored title"))
+      #expect(!decorator.isPreviewTextMaterialized)
+      #expect(decorator.previewText.string == fullText)
+      #expect(decorator.previewText.byteCount == fullText.utf8.count)
+      #expect(decorator.isPreviewTextMaterialized)
+      #expect(!decorator.previewText.isTruncated)
+      #expect(item.contents.first?.value == data)
+    }
+
+    @Test("Preview preserves text beyond the search title")
+    func textPreviewPreservesFullContent() {
+      let fullText = String(repeating: "A line of text.\n", count: 300)
+      let decorator = historyItemDecorator(fullText)
+      #expect(decorator.title.count <= 1_000)
+      #expect(!decorator.isPreviewTextMaterialized)
+      #expect(decorator.previewText.string == fullText)
+      #expect(decorator.previewText.byteCount == fullText.utf8.count)
+      #expect(!decorator.previewText.isTruncated)
+    }
+
+    @Test("Pinned text edits invalidate previews without eagerly rebuilding them")
+    func pinnedTextEditInvalidatesPreview() async {
+      let decorator = historyItemDecorator("Original content")
+      decorator.item.pin = "b"
+      #expect(decorator.previewText.string == "Original content")
+
+      await confirmation("Preview readers observe content edits") { changed in
+        _ = withObservationTracking {
+          decorator.previewText
+        } onChange: {
+          changed()
+        }
+        decorator.item.contents[0].value = Data("Edited content".utf8)
+        await drainObservationCallbacks()
+      }
+
+      #expect(!decorator.isPreviewTextMaterialized)
+      #expect(decorator.previewText.string == "Edited content")
+      #expect(decorator.item.pin == "b")
+      #expect(decorator.title == "Original content")
+    }
+
+    @Test("Replacing rich content and editing it again refreshes previews")
+    func replacementContentInvalidatesPreview() async {
+      let decorator = historyItemDecorator(Data("<span>Rich content</span>".utf8), .html)
+      #expect(decorator.previewText.string == "Rich content")
+
+      // The editor removes rich formats and stores the edited plain text.
+      decorator.item.contents = [HistoryItemContent(
+        type: NSPasteboard.PasteboardType.string.rawValue,
+        value: Data("Plain replacement".utf8)
+      )]
+      await drainObservationCallbacks()
+      #expect(!decorator.isPreviewTextMaterialized)
+      #expect(decorator.previewText.string == "Plain replacement")
+
+      decorator.item.contents[0].value = Data("Second edit".utf8)
+      await drainObservationCallbacks()
+      #expect(!decorator.isPreviewTextMaterialized)
+      #expect(decorator.previewText.string == "Second edit")
+    }
+
+    @Test("Unopened previews remain lazy after edits; title fallback stays current")
+    func unopenedPreviewAndTitleFallback() async {
+      let decorator = historyItemDecorator(nil)
+      decorator.item.title = "First fallback"
+      await drainObservationCallbacks()
+      #expect(!decorator.isPreviewTextMaterialized)
+      #expect(decorator.previewText.string == "First fallback")
+
+      decorator.item.title = "Edited fallback"
+      await drainObservationCallbacks()
+      #expect(!decorator.isPreviewTextMaterialized)
+      #expect(decorator.previewText.string == "Edited fallback")
     }
 
     @Test("Image")
@@ -224,6 +325,14 @@ extension SharedStateTests {
       let upperBound = item.title.index(startIndex, offsetBy: to + 1)
 
       return lowerBound..<upperBound
+    }
+
+    private func drainObservationCallbacks() async {
+      await withCheckedContinuation { continuation in
+        DispatchQueue.main.async {
+          continuation.resume()
+        }
+      }
     }
   }
 }

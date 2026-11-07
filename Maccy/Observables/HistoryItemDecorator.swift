@@ -49,7 +49,31 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
-  private(set) var previewText = SizedString("")
+  @ObservationIgnored
+  private var cachedPreviewText: SizedString?
+  private var previewTextRevision = 0
+
+  var isPreviewTextMaterialized: Bool { cachedPreviewText != nil }
+
+  var previewText: SizedString {
+    // Observe invalidation without publishing a cache write while SwiftUI is rendering.
+    _ = previewTextRevision
+    if let cachedPreviewText {
+      return cachedPreviewText
+    }
+
+    let previewText = withObservationTracking {
+      SizedString(item.previewableText, maxParagraphBytes: Self.previewMaxParagraphSize)
+    } onChange: { [weak self] in
+      DispatchQueue.main.async { [weak self] in
+        guard let self else { return }
+        self.cachedPreviewText = nil
+        self.previewTextRevision += 1
+      }
+    }
+    cachedPreviewText = previewText
+    return previewText
+  }
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
@@ -121,7 +145,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
     synchronizeItemPin()
     synchronizeItemTitle()
-    synchronizeItemText()
   }
 
   @MainActor
@@ -250,16 +273,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
         guard let self else { return }
         self.title = self.item.title
         self.synchronizeItemTitle()
-      }
-    }
-  }
-
-  private func synchronizeItemText() {
-    previewText = withObservationTracking {
-      SizedString(item.previewableText, maxParagraphBytes: Self.previewMaxParagraphSize)
-    } onChange: { [weak self] in
-      DispatchQueue.main.async { [weak self] in
-        self?.synchronizeItemText()
       }
     }
   }
