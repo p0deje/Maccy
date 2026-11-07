@@ -549,8 +549,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   private func insertUnpinned(_ item: HistoryItemDecorator) {
-    let sortedItems = sorter.sort(allUnpinnedItems.map(\.item) + [item.item])
-    guard let index = sortedItems.firstIndex(of: item.item) else { return }
+    let index = sorter.insertionIndex(of: item, in: allUnpinnedItems)
     allUnpinnedItems.insert(item, at: index)
   }
 

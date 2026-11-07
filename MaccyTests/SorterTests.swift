@@ -59,6 +59,31 @@ extension SharedStateTests {
       #expect(sorter.sort([item1, item2, item3], by: .lastCopiedAt) == [item2, item1, item3])
     }
 
+    @Test("Insertion matches stable sorting for every key, including ties and boundaries")
+    func insertionMatchesStableSort() {
+      let referenceDate = Date(timeIntervalSince1970: 1_000)
+      let candidates = (0..<9).map { index in
+        let item = Self.historyItem(value: "item \(index)", firstCopiedAt: 0, lastCopiedAt: 0, numberOfCopies: 1)
+        item.firstCopiedAt = referenceDate.addingTimeInterval(Double(index % 3))
+        item.lastCopiedAt = referenceDate.addingTimeInterval(Double((index * 2) % 3))
+        item.numberOfCopies = index % 3
+        return HistoryItemDecorator(item)
+      }
+
+      for sortBy in Sorter.By.allCases {
+        for pinTo in PinsPosition.allCases {
+          Defaults[.pinTo] = pinTo
+          var inserted: [HistoryItemDecorator] = []
+          for candidate in candidates {
+            let expected = sorter.sort(inserted.map(\.item) + [candidate.item], by: sortBy)
+            let index = sorter.insertionIndex(of: candidate, in: inserted, by: sortBy)
+            inserted.insert(candidate, at: index)
+            #expect(inserted.map(\.item) == expected)
+          }
+        }
+      }
+    }
+
     private static func historyItem(
       value: String,
       firstCopiedAt: Int,
