@@ -1,0 +1,174 @@
+{
+  "baseline": {
+    "kind": "insertion",
+    "baseline": "f0b571e",
+    "records": [
+      {
+        "trial": 1,
+        "case": "insertion",
+        "checksum": 10100,
+        "count": 200,
+        "elapsed_ms": 63.562208,
+        "iterations": 100
+      },
+      {
+        "trial": 1,
+        "case": "insertion",
+        "checksum": 100100,
+        "count": 2000,
+        "elapsed_ms": 629.56975,
+        "iterations": 100
+      },
+      {
+        "trial": 1,
+        "case": "insertion",
+        "checksum": 500100,
+        "count": 10000,
+        "elapsed_ms": 3242.602208,
+        "iterations": 100
+      },
+      {
+        "trial": 2,
+        "case": "insertion",
+        "checksum": 10100,
+        "count": 200,
+        "elapsed_ms": 90.854916,
+        "iterations": 100
+      },
+      {
+        "trial": 2,
+        "case": "insertion",
+        "checksum": 100100,
+        "count": 2000,
+        "elapsed_ms": 752.945083,
+        "iterations": 100
+      },
+      {
+        "trial": 2,
+        "case": "insertion",
+        "checksum": 500100,
+        "count": 10000,
+        "elapsed_ms": 3841.435792,
+        "iterations": 100
+      },
+      {
+        "trial": 3,
+        "case": "insertion",
+        "checksum": 10100,
+        "count": 200,
+        "elapsed_ms": 62.870666,
+        "iterations": 100
+      },
+      {
+        "trial": 3,
+        "case": "insertion",
+        "checksum": 100100,
+        "count": 2000,
+        "elapsed_ms": 633.826292,
+        "iterations": 100
+      },
+      {
+        "trial": 3,
+        "case": "insertion",
+        "checksum": 500100,
+        "count": 10000,
+        "elapsed_ms": 3457.078375,
+        "iterations": 100
+      }
+    ],
+    "protocol": "Sequential alternating baseline and candidate after all builds finished; three trials; initial concurrent trials retained separately.",
+    "implementation_commit": "aba26cd707a52f416bd46ab191fb703bd207c53c"
+  },
+  "candidate": {
+    "kind": "insertion",
+    "baseline": null,
+    "records": [
+      {
+        "trial": 1,
+        "case": "insertion",
+        "checksum": 10100,
+        "count": 200,
+        "elapsed_ms": 3.429125,
+        "iterations": 100
+      },
+      {
+        "trial": 1,
+        "case": "insertion",
+        "checksum": 100100,
+        "count": 2000,
+        "elapsed_ms": 24.908,
+        "iterations": 100
+      },
+      {
+        "trial": 1,
+        "case": "insertion",
+        "checksum": 500100,
+        "count": 10000,
+        "elapsed_ms": 128.739209,
+        "iterations": 100
+      },
+      {
+        "trial": 2,
+        "case": "insertion",
+        "checksum": 10100,
+        "count": 200,
+        "elapsed_ms": 5.551084,
+        "iterations": 100
+      },
+      {
+        "trial": 2,
+        "case": "insertion",
+        "checksum": 100100,
+        "count": 2000,
+        "elapsed_ms": 34.384958,
+        "iterations": 100
+      },
+      {
+        "trial": 2,
+        "case": "insertion",
+        "checksum": 500100,
+        "count": 10000,
+        "elapsed_ms": 131.811417,
+        "iterations": 100
+      },
+      {
+        "trial": 3,
+        "case": "insertion",
+        "checksum": 10100,
+        "count": 200,
+        "elapsed_ms": 3.849458,
+        "iterations": 100
+      },
+      {
+        "trial": 3,
+        "case": "insertion",
+        "checksum": 100100,
+        "count": 2000,
+        "elapsed_ms": 28.067416,
+        "iterations": 100
+      },
+      {
+        "trial": 3,
+        "case": "insertion",
+        "checksum": 500100,
+        "count": 10000,
+        "elapsed_ms": 133.70475,
+        "iterations": 100
+      }
+    ],
+    "protocol": "Sequential alternating baseline and candidate after all builds finished; three trials; initial concurrent trials retained separately.",
+    "implementation_commit": "aba26cd707a52f416bd46ab191fb703bd207c53c"
+  },
+  "environment": {
+    "macOS": "26.7.2",
+    "Xcode": "27.2",
+    "architecture": "arm64",
+    "optimization": "Release -O, testability enabled, DEBUG isolation hooks"
+  },
+  "native_tests": {
+    "baseline": 27,
+    "candidate": 28,
+    "scope": "SorterTests and HistoryTests"
+  },
+  "benchmark_source_sha256": "667a367a941a5383676f5372e7e0d95013faee5c5bc6122a0ef972505a4c1696"
+}

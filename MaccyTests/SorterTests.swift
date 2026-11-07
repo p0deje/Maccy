@@ -59,6 +59,31 @@ extension SharedStateTests {
       #expect(sorter.sort([item1, item2, item3], by: .lastCopiedAt) == [item2, item1, item3])
     }
 
+    @Test("Insertion matches stable sorting for every key, including ties and boundaries")
+    func insertionMatchesStableSort() {
+      let referenceDate = Date(timeIntervalSince1970: 1_000)
+      let candidates = (0..<9).map { index in
+        let item = Self.historyItem(value: "item \(index)", firstCopiedAt: 0, lastCopiedAt: 0, numberOfCopies: 1)
+        item.firstCopiedAt = referenceDate.addingTimeInterval(Double(index % 3))
+        item.lastCopiedAt = referenceDate.addingTimeInterval(Double((index * 2) % 3))
+        item.numberOfCopies = index % 3
+        return HistoryItemDecorator(item)
+      }
+
+      for sortBy in Sorter.By.allCases {
+        for pinTo in PinsPosition.allCases {
+          Defaults[.pinTo] = pinTo
+          var inserted: [HistoryItemDecorator] = []
+          for candidate in candidates {
+            let expected = sorter.sort(inserted.map(\.item) + [candidate.item], by: sortBy)
+            let index = sorter.insertionIndex(of: candidate, in: inserted, by: sortBy)
+            inserted.insert(candidate, at: index)
+            #expect(inserted.map(\.item) == expected)
+          }
+        }
+      }
+    }
+
     private static func historyItem(
       value: String,
       firstCopiedAt: Int,
@@ -73,6 +98,45 @@ extension SharedStateTests {
       item.lastCopiedAt = Date(timeIntervalSinceNow: TimeInterval(lastCopiedAt))
       item.numberOfCopies = numberOfCopies
       return item
+    }
+  }
+}
+
+// Opt-in, synthetic component benchmark. No wall-clock performance assertions.
+extension SharedStateTests {
+  @MainActor
+  @Suite(.enabled(if: ProcessInfo.processInfo.environment["MACCY_RUN_BENCHMARKS"] == "1"))
+  struct InsertionBenchmarks {
+    @Test("Sorted insertion", arguments: [200, 2_000, 10_000])
+    func insertion(count: Int) throws {
+      let sorter = Sorter()
+      let items = (0..<count).map { index in
+        let item = HistoryItem(contents: [])
+        item.title = "Item \(index)"
+        item.lastCopiedAt = Date(timeIntervalSince1970: Double(count - index))
+        return HistoryItemDecorator(item)
+      }
+      let incoming = HistoryItem(contents: [])
+      incoming.title = "Incoming"
+      incoming.lastCopiedAt = Date(timeIntervalSince1970: Double(count / 2))
+      let candidate = HistoryItemDecorator(incoming)
+      let expected = sorter.sort(items.map(\.item) + [incoming], by: .lastCopiedAt)
+      var checksum = 0
+      let start = DispatchTime.now().uptimeNanoseconds
+      for _ in 0..<100 {
+        var copy = items
+        // BENCHMARK_INSERTION_INDEX
+        let index = sorter.insertionIndex(of: candidate, in: copy, by: .lastCopiedAt)
+        copy.insert(candidate, at: index)
+        checksum += index
+        #expect(copy.map(\.item) == expected)
+      }
+      let elapsed = Double(DispatchTime.now().uptimeNanoseconds - start) / 1_000_000
+      let data = try JSONSerialization.data(withJSONObject: [
+        "case": "insertion", "count": count, "iterations": 100,
+        "elapsed_ms": elapsed, "checksum": checksum
+      ], options: [.sortedKeys])
+      print("MACCY_BENCHMARK " + String(decoding: data, as: UTF8.self))
     }
   }
 }

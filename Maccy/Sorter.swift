@@ -53,6 +53,26 @@ class Sorter {
     }
   }
 
+  // Existing unpinned items must already be sorted by the same key.
+  // Insert after equal keys, matching a stable sort of the existing items followed by the new item.
+  func insertionIndex(
+    of item: HistoryItemDecorator,
+    in items: [HistoryItemDecorator],
+    by: By = Defaults[.sortBy]
+  ) -> Int {
+    var lowerBound = 0
+    var upperBound = items.count
+    while lowerBound < upperBound {
+      let middle = lowerBound + (upperBound - lowerBound) / 2
+      if bySortingAlgorithm(item.item, items[middle].item, by) {
+        upperBound = middle
+      } else {
+        lowerBound = middle + 1
+      }
+    }
+    return lowerBound
+  }
+
   private func bySortingAlgorithm(_ lhs: HistoryItem, _ rhs: HistoryItem, _ by: By) -> Bool {
     switch by {
     case .firstCopiedAt:
