@@ -1,6 +1,8 @@
 "Title" = "Pins";
 "Key" = "Hotkey";
 "Alias" = "Titel";
+"AliasIconTooltip" = "Alias: Dieser Eintrag zeigt einen benutzerdefinierten Namen anstelle des urspruenglichen Zwischenablageinhalts.";
+"AliasHint" = "Optional: Dieser benutzerdefinierte Name wird in der Liste statt des urspruenglichen Zwischenablagetexts angezeigt.";
 "Content" = "Inhalt";
 "ContentIsNotText" = "Nicht editierbarer Inhalt (Bild oder Datei)";
 "ParagraphsTooLongToEdit" = "Der Text enthält Absätze, die zu lang zum Bearbeiten sind.";

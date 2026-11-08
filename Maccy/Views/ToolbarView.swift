@@ -66,7 +66,6 @@ struct ToolbarButton<Label: View>: View {
 
 struct ToolbarView: View {
   @State private var appState = AppState.shared
-  @State private var editingItem: HistoryItemDecorator?
 
   @Namespace var unionNamespace
 
@@ -149,8 +148,7 @@ struct ToolbarView: View {
         .disabled(pinActionDisabled)
 
         ToolbarButton {
-          appState.isEditingItem = true
-          editingItem = editableItem
+          appState.startEditing(editableItem)
         } label: {
           Image(systemName: "pencil.and.list.clipboard")
         }
@@ -180,15 +178,5 @@ struct ToolbarView: View {
         .accessibilityLabel(Text("toolbar_remove_paste_stack_action"))
       }
     }
-    .sheet(item: $editingItem, onDismiss: {
-      finishEditingPinnedItem()
-    }) { item in
-      ItemEditorView(for: item)
-    }
-  }
-
-  private func finishEditingPinnedItem() {
-    editingItem = nil
-    appState.isEditingItem = false
   }
 }

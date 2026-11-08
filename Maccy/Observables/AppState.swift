@@ -18,8 +18,14 @@ class AppState: Sendable {
   var preview: SlideoutController
 
   var isEditingItem: Bool = false
+  var editingItem: HistoryItemDecorator?
+  var hoverSelectionSuppressedUntil: Date?
   var suppressPopupAutoClose: Bool {
     return navigator.isDragAndDropInProgress || isEditingItem
+  }
+  var isHoverSelectionSuppressed: Bool {
+    guard let until = hoverSelectionSuppressedUntil else { return false }
+    return Date() < until
   }
 
   var searchVisible: Bool {
@@ -54,6 +60,27 @@ class AppState: Sendable {
       })
     preview.contentWidth = Defaults[.windowSize].width
     preview.slideoutWidth = Defaults[.previewWidth]
+  }
+
+  @MainActor
+  func startEditing(_ item: HistoryItemDecorator?) {
+    guard let item else { return }
+    suppressHoverSelection()
+    isEditingItem = true
+    navigator.selectWithoutScrolling(id: item.id)
+    editingItem = item
+  }
+
+  @MainActor
+  func suppressHoverSelection(for seconds: TimeInterval = 0.35) {
+    hoverSelectionSuppressedUntil = Date().addingTimeInterval(seconds)
+  }
+
+  @MainActor
+  func prepareForHistoryItemAction(_ item: HistoryItemDecorator?) {
+    guard let item else { return }
+    suppressHoverSelection()
+    navigator.selectWithoutScrolling(id: item.id)
   }
 
   @MainActor

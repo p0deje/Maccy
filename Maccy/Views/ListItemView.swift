@@ -1,6 +1,19 @@
 import Defaults
 import SwiftUI
 
+private struct RowHelpModifier: ViewModifier {
+  var help: LocalizedStringKey?
+
+  @ViewBuilder
+  func body(content: Content) -> some View {
+    if let help {
+      content.help(help)
+    } else {
+      content
+    }
+  }
+}
+
 enum SelectionAppearance {
   case none
   case topConnection
@@ -35,6 +48,8 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var image: NSImage?
   var accessoryImage: NSImage?
   var attributedTitle: AttributedString?
+  var titleIconSystemName: String?
+  var titleIconHelp: String?
   var shortcuts: [KeyShortcut]
   var isSelected: Bool
   var selectionIndex: Int?
@@ -83,9 +98,20 @@ struct ListItemView<Title: View, ID: Hashable>: View {
           .padding(.trailing, 5)
           .padding(.vertical, 5)
       } else {
-        ListItemTitleView(attributedTitle: attributedTitle, title: title)
-          .accessibilityHidden(true)
-          .padding(.trailing, 5)
+        HStack(spacing: 4) {
+          if let titleIconSystemName {
+            Image(systemName: titleIconSystemName)
+              .font(.caption2)
+              .foregroundStyle(.secondary)
+              .help(titleIconHelp ?? "")
+              .accessibilityHidden(true)
+          }
+
+          ListItemTitleView(attributedTitle: attributedTitle, title: title)
+            .layoutPriority(1)
+            .accessibilityHidden(true)
+        }
+        .padding(.trailing, 5)
       }
 
       Spacer()
@@ -133,6 +159,6 @@ struct ListItemView<Title: View, ID: Hashable>: View {
     .accessibilityAddTraits(isSelected ? .isSelected : [])
     .accessibilityValue(Text(displaySelectionIndex ?? ""))
     .hoverSelectionId(selectionId)
-    .help(help ?? "")
+    .modifier(RowHelpModifier(help: help))
   }
 }

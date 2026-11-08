@@ -1,6 +1,8 @@
 "Title" = "Pins";
 "Key" = "Key";
 "Alias" = "Title";
+"AliasIconTooltip" = "Alias: This item displays a custom name instead of the original clipboard content.";
+"AliasHint" = "Optional: This custom name is shown in the list instead of the original clipboard text.";
 "Content" = "Content";
 "ContentIsNotText" = "Non-editable content (image or file)";
 "ParagraphsTooLongToEdit" = "Text contains paragraphs that are too long to edit.";

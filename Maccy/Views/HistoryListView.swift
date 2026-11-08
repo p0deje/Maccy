@@ -162,5 +162,7 @@ struct HistoryListView: View {
     }
     .padding(.bottom, bottomPinsVisible ? bottomPadding : 0)
     .readHeight(appState, into: \.popup.extraBottomHeight)
+    .allowsHitTesting(!appState.isEditingItem)
+    .opacity(appState.isEditingItem ? 0.85 : 1)
   }
 }

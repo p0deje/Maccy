@@ -150,7 +150,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   func insertIntoStorage(_ item: HistoryItem) throws {
-    logger.info("Inserting item with id '\(item.title)'")
+    logger.info("Inserting item with id '\(Self.loggableTitle(item.title))'")
     Storage.shared.context.insert(item)
     Storage.shared.context.processPendingChanges()
     try? Storage.shared.context.save()
@@ -175,10 +175,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
       item.title = existingHistoryItem.title
+      item.aliasName = existingHistoryItem.aliasName
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
       }
-      logger.info("Removing duplicate item '\(item.title)'")
+      logger.info("Removing duplicate item '\(Self.loggableTitle(item.title))'")
       if let existingDecorator = firstStoredItem(where: { $0.item == existingHistoryItem }) {
         cleanup(existingDecorator)
         allUnpinnedItems.removeAll { $0 == existingDecorator }
@@ -223,6 +224,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func withLogging(_ msg: String, _ block: () throws -> Void) rethrows {
+    guard logger.logLevel <= .debug else {
+      logger.info("\(msg)")
+      try? block()
+      return
+    }
+
     func dataCounts() -> String {
       let historyItemCount = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItem>())
       let historyContentCount = try? Storage.shared.context.fetchCount(FetchDescriptor<HistoryItemContent>())
@@ -232,6 +239,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     logger.info("\(msg) Before: \(dataCounts())")
     try? block()
     logger.info("\(msg) After: \(dataCounts())")
+  }
+
+  private static func loggableTitle(_ title: String) -> String {
+    title
+      .replacingOccurrences(of: "\n", with: "⏎")
+      .shortened(to: 200)
   }
 
   @MainActor
@@ -351,14 +364,16 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       return
     }
 
-    if modifierFlags.isEmpty {
+    let normalizedFlags = modifierFlags.intersection([.command, .option, .shift])
+
+    if normalizedFlags.isEmpty {
       AppState.shared.popup.close()
       Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
       if Defaults[.pasteByDefault] {
         Clipboard.shared.paste()
       }
     } else {
-      switch HistoryItemAction(modifierFlags) {
+      switch HistoryItemAction(normalizedFlags) {
       case .copy:
         AppState.shared.popup.close()
         Clipboard.shared.copy(item.item)
@@ -371,7 +386,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         Clipboard.shared.copy(item.item, removeFormatting: true)
         Clipboard.shared.paste()
       case .unknown:
-        return
+        // Fallback to default behavior for unsupported flag combinations.
+        AppState.shared.popup.close()
+        Clipboard.shared.copy(item.item, removeFormatting: Defaults[.removeFormattingByDefault])
+        if Defaults[.pasteByDefault] {
+          Clipboard.shared.paste()
+        }
       }
     }
 
@@ -485,6 +505,31 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     if item.isUnpinned {
       AppState.shared.navigator.scrollTarget = item.id
     }
+  }
+
+  @MainActor
+  func setAlias(_ item: HistoryItemDecorator?, to alias: String?) {
+    guard let item else { return }
+    let normalizedAlias: String?
+    if let alias {
+      let trimmed = alias.trimmingCharacters(in: .whitespacesAndNewlines)
+      normalizedAlias = trimmed.isEmpty ? nil : trimmed
+    } else {
+      normalizedAlias = nil
+    }
+    item.item.aliasName = normalizedAlias
+    refreshDisplayTitle(for: item)
+    updateSearchResults()
+    try? Storage.shared.context.save()
+  }
+
+  @MainActor
+  private func refreshDisplayTitle(for item: HistoryItemDecorator) {
+    if let alias = item.item.aliasName?.trimmingCharacters(in: .whitespacesAndNewlines), !alias.isEmpty {
+      item.title = alias
+      return
+    }
+    item.title = item.item.title
   }
 
   @MainActor

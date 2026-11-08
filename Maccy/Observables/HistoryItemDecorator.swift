@@ -64,6 +64,8 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
 
+  var hasAlias: Bool { Self.normalizedAlias(item.aliasName) != nil }
+
   func hash(into hasher: inout Hasher) {
     // We need to hash title and attributedTitle, so SwiftUI knows it needs to update the view if they chage
     hasher.combine(id)
@@ -116,7 +118,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   init(_ item: HistoryItem, shortcuts: [KeyShortcut] = []) {
     self.item = item
     self.shortcuts = shortcuts
-    self.title = item.title
+    self.title = Self.displayTitle(for: item)
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
 
     synchronizeItemPin()
@@ -243,12 +245,13 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   }
 
   private func synchronizeItemTitle() {
-    _ = withObservationTracking {
-      item.title
+    withObservationTracking {
+      _ = item.title
+      _ = item.aliasName
     } onChange: { [weak self] in
       DispatchQueue.main.async {
         guard let self else { return }
-        self.title = self.item.title
+        self.title = Self.displayTitle(for: self.item)
         self.synchronizeItemTitle()
       }
     }
@@ -256,11 +259,31 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   private func synchronizeItemText() {
     previewText = withObservationTracking {
-      SizedString(item.previewableText, maxParagraphBytes: Self.previewMaxParagraphSize)
+      SizedString(Self.displayPreviewText(for: item), maxParagraphBytes: Self.previewMaxParagraphSize)
     } onChange: { [weak self] in
       DispatchQueue.main.async { [weak self] in
         self?.synchronizeItemText()
       }
     }
+  }
+
+  private static func normalizedAlias(_ alias: String?) -> String? {
+    guard let alias else { return nil }
+    let trimmed = alias.trimmingCharacters(in: .whitespacesAndNewlines)
+    return trimmed.isEmpty ? nil : trimmed
+  }
+
+  private static func displayTitle(for item: HistoryItem) -> String {
+    if let alias = normalizedAlias(item.aliasName) {
+      return alias
+    }
+    return item.title
+  }
+
+  private static func displayPreviewText(for item: HistoryItem) -> String {
+    if let alias = normalizedAlias(item.aliasName) {
+      return alias
+    }
+    return item.previewableText
   }
 }
