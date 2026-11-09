@@ -398,6 +398,193 @@ extension SharedStateTests {
       #expect(history.items.filter(\.isPinned).count == 1)
     }
 
+    @Test("Pin numbering reuses lowest free number")
+    func pinNumberingReusesLowestFreeNumber() {
+      let first = history.add(historyItem("one"))
+      let second = history.add(historyItem("two"))
+      let third = history.add(historyItem("three"))
+
+      history.togglePin(first)
+      #expect(first.item.pinName == PinManager.unnamedPinName(1))
+      history.togglePin(second)
+      #expect(second.item.pinName == PinManager.unnamedPinName(2))
+
+      history.togglePin(first)
+      #expect(first.item.pinName == nil)
+
+      history.togglePin(third)
+      #expect(third.item.pinName == PinManager.unnamedPinName(1))
+      #expect(second.item.pinName == PinManager.unnamedPinName(2))
+    }
+
+    @Test("Pinning with a name")
+    func pinningWithName() {
+      let named = history.add(historyItem("one"))
+      let blank = history.add(historyItem("two"))
+
+      history.pin(named, named: "Bank")
+      history.pin(blank, named: "   ")
+
+      #expect(named.isPinned)
+      #expect(named.item.pinName == "Bank")
+      #expect(blank.isPinned)
+      #expect(blank.item.pinName == PinManager.unnamedPinName(1))
+    }
+
+    @Test("Renaming a pin")
+    func renamingPin() {
+      let item = history.add(historyItem("one"))
+      history.togglePin(item)
+
+      history.renamePin(item, to: "New")
+
+      #expect(item.item.pinName == "New")
+    }
+
+    @Test("Renaming an auto-named pin to empty keeps its auto name")
+    func renamingAutoNamedPinToEmptyKeepsName() {
+      let first = history.add(historyItem("one"))
+      let second = history.add(historyItem("two"))
+      history.togglePin(first)
+      history.togglePin(second)
+      #expect(first.item.pinName == PinManager.unnamedPinName(1))
+
+      history.renamePin(first, to: "")
+
+      #expect(first.item.pinName == PinManager.unnamedPinName(1))
+      #expect(second.item.pinName == PinManager.unnamedPinName(2))
+    }
+
+    @Test("Renaming to empty never duplicates another pin's name")
+    func renamingToEmptyNeverDuplicatesName() {
+      let first = history.add(historyItem("one"))
+      let second = history.add(historyItem("two"))
+      history.togglePin(first)
+      history.pin(second, named: "New")
+
+      history.renamePin(second, to: "")
+
+      #expect(first.item.pinName == PinManager.unnamedPinName(1))
+      #expect(second.item.pinName == PinManager.unnamedPinName(2))
+      #expect(first.item.pinName != second.item.pinName)
+    }
+
+    @Test("Adding duplicate of named pin keeps pin name")
+    func addingDuplicateOfNamedPinKeepsPinName() {
+      let original = history.add(historyItem("foo"))
+      history.pin(original, named: "Bank")
+
+      let merged = history.add(historyItem("foo"))
+
+      #expect(history.items.toArray() == [merged])
+      #expect(merged.item.pin != nil)
+      #expect(merged.item.pinName == "Bank")
+    }
+
+    @Test("Loading names unnamed pins in pin order and keeps existing names")
+    func loadingNamesUnnamedPins() async throws {
+      let first = history.add(historyItem("one"))
+      let second = history.add(historyItem("two"))
+      let third = history.add(historyItem("three"))
+      first.item.pin = "a"
+      first.item.pinName = nil
+      second.item.pin = "b"
+      second.item.pinName = "Bank"
+      third.item.pin = "c"
+      third.item.pinName = nil
+      Defaults[.pinOrder] = PinOrder(pins: ["a", "b", "c"])
+
+      try await history.load()
+
+      #expect(history.pinnedItems.map(\.item.pinName) == [PinManager.unnamedPinName(1), "Bank", PinManager.unnamedPinName(2)])
+    }
+
+    @Test("Submenu mode hides pins from items unless searching")
+    func submenuHidesPinsUnlessSearching() async throws {
+      Defaults[.pinTo] = .submenu
+      let pinned = history.add(historyItem("pinned-foo"))
+      let other = history.add(historyItem("other"))
+      history.pin(pinned, named: "Bank")
+
+      #expect(history.pinsListedInline == false)
+      #expect(!history.items.contains(pinned))
+      #expect(history.items.contains(other))
+
+      history.searchQuery = "pinned-foo"
+      try await waitUntil { history.items.contains(pinned) }
+
+      #expect(history.pinsListedInline == true)
+      #expect(history.items.contains(pinned))
+
+      history.searchQuery = ""
+      try await waitUntil { !history.items.contains(pinned) }
+      #expect(history.pinsListedInline == false)
+    }
+
+    @Test("Bottom mode always lists pins in items")
+    func bottomModeListsPins() {
+      let pinned = history.add(historyItem("pinned"))
+      history.add(historyItem("other"))
+      history.pin(pinned, named: "Bank")
+
+      #expect(history.pinsListedInline == true)
+      #expect(history.items.contains(pinned))
+    }
+
+    @Test("Submenu search matches a pin by its name only")
+    func submenuSearchMatchesPinName() async throws {
+      Defaults[.pinTo] = .submenu
+      let pinned = history.add(historyItem("zzz-content"))
+      history.add(historyItem("other"))
+      history.pin(pinned, named: "Bank")
+
+      history.searchQuery = "bank"
+      try await waitUntil { history.pinnedItems.contains(pinned) }
+
+      #expect(history.pinnedItems.contains(pinned))
+      history.searchQuery = ""
+    }
+
+    @Test("Toggling pin in submenu mode asks for a name instead of pinning")
+    func togglePinSubmenuRequestsName() {
+      let appState = AppState.shared
+      defer {
+        appState.pinNamingRequest = nil
+        appState.isEditingItem = false
+      }
+      Defaults[.pinTo] = .submenu
+      let item = history.add(historyItem("foo"))
+      appState.navigator.select(item: item)
+
+      appState.togglePin()
+
+      #expect(appState.pinNamingRequest?.mode == .pin)
+      #expect(item.isUnpinned)
+    }
+
+    @Test("Toggling pin in bottom mode pins immediately")
+    func togglePinBottomPinsImmediately() {
+      let appState = AppState.shared
+      defer {
+        appState.pinNamingRequest = nil
+        appState.isEditingItem = false
+      }
+      let item = history.add(historyItem("foo"))
+      appState.navigator.select(item: item)
+
+      appState.togglePin()
+
+      #expect(item.isPinned)
+      #expect(appState.pinNamingRequest == nil)
+    }
+
+    private func waitUntil(timeout: Duration = .seconds(3), _ condition: () -> Bool) async throws {
+      let deadline = ContinuousClock.now + timeout
+      while !condition() && ContinuousClock.now < deadline {
+        try await Task.sleep(for: .milliseconds(50))
+      }
+    }
+
     @Test("Removing")
     func removing() throws {
       let foo = history.add(historyItem("foo"))
