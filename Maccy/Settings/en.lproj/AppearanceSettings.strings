@@ -13,6 +13,7 @@
 "PinTo" = "Pin to:";
 "PinToTop" = "Top";
 "PinToBottom" = "Bottom";
+"PinToSubmenu" = "Submenu";
 "PinToTooltip" = "Change the location of pinned items.\nDefault: Top.";
 "ImageHeight" = "Image height:";
 "ImageHeightTooltip" = "Maximum image preview height.\nDefault: 40.\nHint: Set to 16 to look like text items.";

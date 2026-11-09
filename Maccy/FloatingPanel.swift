@@ -216,10 +216,12 @@ class FloatingPanel<Content: View>: NSPanel, NSWindowDelegate {
   }
 
   override func close() {
+    PinsSubmenuController.shared.hide()
     super.close()
     let appState = AppState.shared
     appState.preview.state = .closed
     appState.isEditingItem = false
+    appState.pinNamingRequest = nil
     appState.navigator.isDragAndDropInProgress = false
     appState.navigator.isManualMultiSelect = false
     isPresented = false

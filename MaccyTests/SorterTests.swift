@@ -59,6 +59,15 @@ extension SharedStateTests {
       #expect(sorter.sort([item1, item2, item3], by: .lastCopiedAt) == [item2, item1, item3])
     }
 
+    @Test("Pinned items go after unpinned in submenu mode")
+    func sortByPinToSubmenu() {
+      Defaults[.pinTo] = .submenu
+
+      item1.pin = "a"
+      item3.pin = "b"
+      #expect(sorter.sort([item1, item2, item3], by: .lastCopiedAt) == [item2, item1, item3])
+    }
+
     private static func historyItem(
       value: String,
       firstCopiedAt: Int,

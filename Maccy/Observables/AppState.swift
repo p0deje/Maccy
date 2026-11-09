@@ -18,6 +18,8 @@ class AppState: Sendable {
   var preview: SlideoutController
 
   var isEditingItem: Bool = false
+  // Pending "name this pin" sheet; set while the sheet is shown.
+  var pinNamingRequest: PinNamingRequest?
   var suppressPopupAutoClose: Bool {
     return navigator.isDragAndDropInProgress || isEditingItem
   }
@@ -79,7 +81,22 @@ class AppState: Sendable {
   }
 
   @MainActor
+  func requestPinName(for item: HistoryItemDecorator, mode: PinNamingRequest.Mode) {
+    isEditingItem = true
+    pinNamingRequest = PinNamingRequest(item: item, mode: mode)
+  }
+
+  @MainActor
   func togglePin() {
+    // In submenu mode a newly pinned item is named first.
+    if Defaults[.pinTo] == .submenu,
+       navigator.selection.count == 1,
+       let item = navigator.selection.first,
+       item.isUnpinned {
+      requestPinName(for: item, mode: .pin)
+      return
+    }
+
     withTransaction(Transaction()) {
       navigator.selection.forEach { _, item in
         history.togglePin(item)
@@ -179,4 +196,15 @@ class AppState: Sendable {
   func quit() {
     NSApp.terminate(self)
   }
+}
+
+struct PinNamingRequest: Identifiable {
+  enum Mode {
+    case pin
+    case rename
+  }
+
+  let id = UUID()
+  let item: HistoryItemDecorator
+  let mode: Mode
 }

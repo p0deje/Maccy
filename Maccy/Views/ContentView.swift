@@ -60,6 +60,12 @@ struct ContentView: View {
     .environment(appState)
     .environment(modifierFlags)
     .environment(\.scenePhase, scenePhase)
+    .sheet(item: $appState.pinNamingRequest, onDismiss: {
+      appState.isEditingItem = false
+    }) { request in
+      PinNameEditorView(request: request)
+        .environment(appState)
+    }
     .onChange(of: appState.isEditingItem) { _, isEditingItem in
       // A sheet's text controls otherwise remain the logical focus target after
       // dismissal, preventing the popup's key handler from receiving shortcuts.

@@ -30,3 +30,12 @@
 "history_item_image_accessibility_label_no_app" = "Görüntü, %d×%d";
 "history_item_image_accessibility_generic" = "Görüntü";
 "toolbar_remove_paste_stack_action" = "Yapıştırma yığınını durdur";
+"unnamed_pin" = "İsimsiz %d";
+"pin_name_heading" = "Sabitlenen öğeye isim ver";
+"pin_rename_heading" = "Sabitleneni yeniden adlandır";
+"pin_name_confirm" = "Sabitle";
+"pin_rename_confirm" = "Kaydet";
+"pin_name_cancel" = "İptal";
+"pins_submenu_title" = "Sabitlenenler";
+"pin_rename_action" = "Yeniden adlandır…";
+"pin_unpin_action" = "Sabitlemeyi kaldır";

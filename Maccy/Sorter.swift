@@ -48,7 +48,7 @@ class Sorter {
     switch Defaults[.pinTo] {
     case .top:
       return orderedPinned + sortedUnpinned
-    case .bottom:
+    case .bottom, .submenu:
       return sortedUnpinned + orderedPinned
     }
   }

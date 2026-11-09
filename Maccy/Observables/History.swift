@@ -21,8 +21,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       ConcatenatedCollection(pinnedItems, unpinnedItems)
     case .bottom:
       ConcatenatedCollection(unpinnedItems, pinnedItems)
+    case .submenu:
+      // Pins live in their own submenu and are only listed inline while searching.
+      ConcatenatedCollection(unpinnedItems, pinsListedInline ? pinnedItems : [])
     }
   }
+  // Whether pinned items are rendered as rows of the main list.
+  var pinsListedInline: Bool {
+    Defaults[.pinTo] != .submenu || !searchQuery.isEmpty
+  }
+  // Pinned items in their saved order, ignoring the search query.
+  var submenuPinnedItems: [HistoryItemDecorator] { allPinnedItems }
   var pinnedItems: [HistoryItemDecorator] {
     searchQuery.isEmpty ? allPinnedItems : filteredPinnedItems
   }
@@ -65,7 +74,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
 
     let key = Sauce.shared.key(for: Int(event.keyCode))
-    return items.first { $0.shortcuts.contains(where: { $0.key == key }) }
+    let matchesKey: (HistoryItemDecorator) -> Bool = { $0.shortcuts.contains(where: { $0.key == key }) }
+    // Pins hidden in the submenu keep working through their shortcuts.
+    return items.first(where: matchesKey) ?? allPinnedItems.first(where: matchesKey)
   }
 
   private let search = Search()
@@ -174,6 +185,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
+      item.pinName = existingHistoryItem.pinName
       item.title = existingHistoryItem.title
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
@@ -487,6 +499,24 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
   }
 
+  // Pins the item and gives it a name; an empty name becomes "Unnamed N".
+  @MainActor
+  func pin(_ item: HistoryItemDecorator, named name: String) {
+    if item.isUnpinned {
+      togglePin(item)
+    }
+    renamePin(item, to: name)
+  }
+
+  @MainActor
+  func renamePin(_ item: HistoryItemDecorator, to name: String) {
+    pinManager.rename(item, to: name)
+  }
+
+  func nextUnnamedPinName(excluding item: HistoryItemDecorator? = nil) -> String {
+    pinManager.nextUnnamedPinName(excluding: item)
+  }
+
   @MainActor
   func movePin(from source: IndexSet, to destination: Int) {
     guard searchQuery.isEmpty else { return }
@@ -523,9 +553,16 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   private func updateSearchResults() {
-    filteredPinnedItems = filteredItems(
-      from: search.search(string: searchQuery, within: allPinnedItems)
-    )
+    var pinnedResults = search.search(string: searchQuery, within: allPinnedItems)
+    // Pin names are only shown in submenu mode, so only there they are searchable.
+    if Defaults[.pinTo] == .submenu {
+      let matchedPinIDs = Set(pinnedResults.map(\.object.id))
+      pinnedResults += allPinnedItems
+        .filter { !matchedPinIDs.contains($0.id) }
+        .filter { $0.item.pinName?.localizedCaseInsensitiveContains(searchQuery) ?? false }
+        .map { Search.SearchResult(object: $0) }
+    }
+    filteredPinnedItems = filteredItems(from: pinnedResults)
     filteredUnpinnedItems = filteredItems(
       from: search.search(string: searchQuery, within: allUnpinnedItems)
     )

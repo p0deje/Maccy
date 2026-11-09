@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		0ABDD5122BB47F1E0054963B /* NSWorkspace+ApplicationName.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0ABDD5112BB47F1E0054963B /* NSWorkspace+ApplicationName.swift */; };
+		0D0C1748AF040195A6338C23 /* PinNameEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7250946F231712D98023D332 /* PinNameEditorView.swift */; };
 		21FFF308D9217B43FD4C393F /* VoiceOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21DCA6C3D17E48D33D6E608 /* VoiceOver.swift */; };
 		2F0E055F2FFD2EB300CCD1DE /* ReorderableContainer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0E055E2FFD2EAF00CCD1DE /* ReorderableContainer.swift */; };
 		2F0EC7792E7727E3003E2EA9 /* HeightReaderModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2F0EC7782E7727E3003E2EA9 /* HeightReaderModifier.swift */; };
@@ -46,6 +47,8 @@
 		42E9C329301B7F9C00B6B55B /* AppIcon.icon in Resources */ = {isa = PBXBuildFile; fileRef = 42E9C328301B7F9C00B6B55B /* AppIcon.icon */; };
 		4762D6972467226100B3A2BA /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 4762D6992467226100B3A2BA /* Localizable.strings */; };
 		4CB7148130897A9E00A357EC /* SharedStateTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4CB7148030897A9E00A357EC /* SharedStateTests.swift */; };
+		5E6003097C1D36113C2B2EFD /* PinsSubmenu.swift in Sources */ = {isa = PBXBuildFile; fileRef = 29A482A3BE8CB8C35ED6CAEA /* PinsSubmenu.swift */; };
+		72033634EBC92A70B8C56DDD /* PinsSubmenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18DB3EE3C378EFDC2772E96B /* PinsSubmenuView.swift */; };
 		9B24FC30A093450F29E2CC4A /* View+Invisible.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC045710F4F8773D1A5EC87 /* View+Invisible.swift */; };
 		A9E31C79AD944C78BE9DF2F5 /* LargeTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCCA6C3F9374C9C91414E3A /* LargeTextView.swift */; };
 		C0FFEE000000000000000003 /* ShortenedTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0FFEE000000000000000004 /* ShortenedTests.swift */; };
@@ -202,6 +205,8 @@
 		11680E44DAF848ADB8BA358E /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/PinsSettings.strings; sourceTree = "<group>"; };
 		1180C7372826B6140086870C /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/Localizable.strings; sourceTree = "<group>"; };
 		11EB892C281DADFF00A78CB4 /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
+		18DB3EE3C378EFDC2772E96B /* PinsSubmenuView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PinsSubmenuView.swift; sourceTree = "<group>"; };
+		29A482A3BE8CB8C35ED6CAEA /* PinsSubmenu.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PinsSubmenu.swift; sourceTree = "<group>"; };
 		2BA57666588D49AFA9B68B93 /* km */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = km; path = km.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
 		2C2CB1D293534FF0958B3C90 /* km */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = km; path = km.lproj/IgnoreSettings.strings; sourceTree = "<group>"; };
 		2F0E055E2FFD2EAF00CCD1DE /* ReorderableContainer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReorderableContainer.swift; sourceTree = "<group>"; };
@@ -253,6 +258,7 @@
 		5212BB6C2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/PreviewItemView.strings; sourceTree = "<group>"; };
 		5212BB6D2E59AA5200E74A24 /* ckb */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ckb; path = ckb.lproj/Localizable.strings; sourceTree = "<group>"; };
 		67B1B7B16C214A9A8146309C /* pt */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pt; path = pt.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
+		7250946F231712D98023D332 /* PinNameEditorView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = PinNameEditorView.swift; sourceTree = "<group>"; };
 		72C94C4B662B4F0BBD150C82 /* km */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = km; path = km.lproj/Localizable.strings; sourceTree = "<group>"; };
 		7CEEFDF124F41F8500ECAD2A /* zh-Hans */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hans"; path = "zh-Hans.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		82BF523B9E3C48AE8C38EB5B /* km */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = km; path = km.lproj/GeneralSettings.strings; sourceTree = "<group>"; };
@@ -763,6 +769,8 @@
 				2F9B42F02F1A4999006548E5 /* ToolbarView.swift */,
 				DAA072D02C4089D3006DDFD2 /* VisualEffectView.swift */,
 				DA555F112CF155A2009608BD /* WrappingTextView.swift */,
+				18DB3EE3C378EFDC2772E96B /* PinsSubmenuView.swift */,
+				7250946F231712D98023D332 /* PinNameEditorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -914,6 +922,7 @@
 				DA243D132C2F66DD0012A27F /* Storage.swift */,
 				DA81D673252A056B009977BC /* Throttler.swift */,
 				B21DCA6C3D17E48D33D6E608 /* VoiceOver.swift */,
+				29A482A3BE8CB8C35ED6CAEA /* PinsSubmenu.swift */,
 			);
 			path = Maccy;
 			sourceTree = "<group>";
@@ -1269,6 +1278,9 @@
 				DA7A753E26A52F0F00DC16EF /* NSImage+Names.swift in Sources */,
 				2F0EC7852E774083003E2EA9 /* PasteStackView.swift in Sources */,
 				DA20FA782B082E1A00056DD5 /* NSSound+Named.swift in Sources */,
+				5E6003097C1D36113C2B2EFD /* PinsSubmenu.swift in Sources */,
+				72033634EBC92A70B8C56DDD /* PinsSubmenuView.swift in Sources */,
+				0D0C1748AF040195A6338C23 /* PinNameEditorView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
