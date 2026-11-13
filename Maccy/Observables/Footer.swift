@@ -29,7 +29,7 @@ class Footer: ItemsContainer {
       FooterItem(
         title: "clear",
         shortcuts: [KeyShortcut(key: .delete, modifierFlags: [.command, .option])],
-        help: "clear_protected_tooltip",
+        help: "clear_tooltip",
         confirmation: .init(
           message: "clear_alert_message",
           comment: "clear_alert_comment",

@@ -92,13 +92,7 @@ class AppState: Sendable {
   func toggleProtection() {
     withTransaction(Transaction()) {
       runStorageAction {
-        var succeeded = true
-        navigator.selection.forEach { _, item in
-          if !history.toggleProtection(item) {
-            succeeded = false
-          }
-        }
-        return succeeded
+        history.toggleProtection(navigator.selection.items)
       }
     }
   }

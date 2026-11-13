@@ -1,6 +1,5 @@
 "search_placeholder" = "搜索…";
 "clear_tooltip" = "清除未置顶且未保护的项目。\n按住 ⇧ 以全部清除。";
-"clear_protected_tooltip" = "清除未置顶且未保护的项目。\n按住 ⇧ 以全部清除。";
 "history_storage_error_title" = "更改未保存";
 "history_storage_error_message" = "Maccy 未能保存此更改，请重试。";
 "history_storage_error_dismiss" = "好";

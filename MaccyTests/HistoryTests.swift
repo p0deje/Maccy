@@ -2,6 +2,7 @@ import AppKit
 import Testing
 import Defaults
 import SwiftData
+import SwiftUI
 @testable import Maccy
 
 extension SharedStateTests {
@@ -37,7 +38,7 @@ extension SharedStateTests {
     func storageDirectoriesPreserveLegacyHistory() {
       #expect(Storage.storageDirectoryName(for: "org.p0deje.Maccy") == "Maccy")
       #expect(Storage.storageDirectoryName(for: "org.p0deje.Maccy.dev") == "MaccyDev")
-      #expect(Storage.storageDirectoryName(for: "org.laiyongqiang.MaccyProtected") == "Maccy")
+      #expect(Storage.storageDirectoryName(for: "com.example.MaccyFork") == "Maccy")
       #expect(Storage.storageDirectoryName(for: nil) == "Maccy")
     }
 
@@ -154,6 +155,55 @@ extension SharedStateTests {
       #expect(appState.runStorageAction { history.toggleProtection(item) })
       #expect(appState.storageErrorMessage == nil)
       #expect(item.isProtected)
+    }
+
+    @Test("Closing panel clears storage error")
+    func closingPanelClearsStorageError() {
+      let appState = AppState.shared
+      let previousError = appState.storageErrorMessage
+      defer { appState.storageErrorMessage = previousError }
+
+      appState.storageErrorMessage = "retry"
+      let panel = FloatingPanel(
+        contentRect: NSRect(x: 0, y: 0, width: 100, height: 100),
+        onClose: {},
+        view: { EmptyView() }
+      )
+
+      panel.close()
+
+      #expect(appState.storageErrorMessage == nil)
+    }
+
+    @Test("Batch protection rolls back every item when persistence fails")
+    func batchProtectionRollsBackWhenPersistenceFails() {
+      struct SimulatedSaveError: Error {}
+
+      let first = history.add(historyItem("batch first"))
+      let second = history.add(historyItem("batch second"))
+      let succeeded = history.toggleProtection([first, second]) {
+        throw SimulatedSaveError()
+      }
+
+      #expect(!succeeded)
+      #expect(!first.isProtected)
+      #expect(!second.isProtected)
+    }
+
+    @Test("Batch protection saves once")
+    func batchProtectionSavesOnce() {
+      let first = history.add(historyItem("batch save first"))
+      let second = history.add(historyItem("batch save second"))
+      var saves = 0
+      let succeeded = history.toggleProtection([first, second]) {
+        saves += 1
+        try Storage.shared.context.save()
+      }
+
+      #expect(succeeded)
+      #expect(saves == 1)
+      #expect(first.isProtected)
+      #expect(second.isProtected)
     }
 
     @Test("Protection failure preserves unrelated pending changes")

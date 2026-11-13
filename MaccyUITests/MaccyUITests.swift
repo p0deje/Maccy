@@ -639,7 +639,8 @@ class MaccyUITests: XCTestCase {
   }
 
   private func pressStatusItemViaAccessibility() {
-    let pid = NSRunningApplication.runningApplications(withBundleIdentifier: "org.p0deje.Maccy.dev")
+    let pid = NSWorkspace.shared.runningApplications
+      .filter { $0.executableURL?.lastPathComponent == "Maccy" }
       .max { ($0.launchDate ?? .distantPast) < ($1.launchDate ?? .distantPast) }?
       .processIdentifier
     guard let pid, pid > 0 else {

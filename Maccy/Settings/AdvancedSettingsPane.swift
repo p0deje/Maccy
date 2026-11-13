@@ -11,15 +11,6 @@ struct AdvancedSettingsPane: View {
       .replacingOccurrences(of: "org.p0deje.Maccy", with: bundleIdentifier)
   }
 
-  private var clearHistoryOnQuitTooltip: String {
-    NSLocalizedString(
-      "ClearHistoryOnQuitTooltipProtected",
-      tableName: "AdvancedSettings",
-      value: "Automatically remove all unpinned, unprotected items before quitting the application.",
-      comment: ""
-    )
-  }
-
   var body: some View {
     VStack(alignment: .leading) {
       Defaults.Toggle(key: .ignoreEvents) {
@@ -50,7 +41,7 @@ struct AdvancedSettingsPane: View {
 
       Defaults.Toggle(key: .clearOnQuit) {
         Text("ClearHistoryOnQuit", tableName: "AdvancedSettings")
-      }.help(Text(verbatim: clearHistoryOnQuitTooltip))
+      }.help(Text("ClearHistoryOnQuitTooltip", tableName: "AdvancedSettings"))
 
       Defaults.Toggle(key: .clearSystemClipboard) {
         Text("ClearSystemClipboard", tableName: "AdvancedSettings")

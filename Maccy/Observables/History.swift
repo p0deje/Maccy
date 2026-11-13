@@ -245,17 +245,21 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
         // Individual deletions remain pending until the transaction saves.
         // Bulk delete can write through before a later failure and cannot be
         // reliably restored by ModelContext.rollback().
-        let contents = try context.fetch(FetchDescriptor<HistoryItemContent>(
+        let contents = try context.fetchIdentifiers(FetchDescriptor<HistoryItemContent>(
           predicate: #Predicate {
             $0.item == nil || ($0.item?.pin == nil && $0.item?.isProtected == false)
           }
         ))
-        contents.forEach(context.delete)
+        contents
+          .compactMap { context.model(for: $0) as? HistoryItemContent }
+          .forEach(context.delete)
 
-        let items = try context.fetch(FetchDescriptor<HistoryItem>(
+        let items = try context.fetchIdentifiers(FetchDescriptor<HistoryItem>(
           predicate: #Predicate { $0.pin == nil && !$0.isProtected }
         ))
-        items.forEach(context.delete)
+        items
+          .compactMap { context.model(for: $0) as? HistoryItem }
+          .forEach(context.delete)
       }
     }
   }
@@ -307,11 +311,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       try context.transaction {
         // Delete contents before their owning items so the pending inverse
         // relationships cannot block rollback or transaction completion.
-        let contents = try context.fetch(FetchDescriptor<HistoryItemContent>())
-        contents.forEach(context.delete)
+        let contents = try context.fetchIdentifiers(FetchDescriptor<HistoryItemContent>())
+        contents
+          .compactMap { context.model(for: $0) as? HistoryItemContent }
+          .forEach(context.delete)
 
-        let items = try context.fetch(FetchDescriptor<HistoryItem>())
-        items.forEach(context.delete)
+        let items = try context.fetchIdentifiers(FetchDescriptor<HistoryItem>())
+        items
+          .compactMap { context.model(for: $0) as? HistoryItem }
+          .forEach(context.delete)
       }
     }
   }
@@ -525,24 +533,40 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   @MainActor
   @discardableResult
   func toggleProtection(_ item: HistoryItemDecorator?) -> Bool {
-    toggleProtection(item, save: { try Storage.shared.context.save() })
+    guard let item else { return false }
+    return toggleProtection([item])
   }
 
   @MainActor
   @discardableResult
   func toggleProtection(_ item: HistoryItemDecorator?, save: () throws -> Void) -> Bool {
     guard let item else { return false }
+    return toggleProtection([item], save: save)
+  }
 
-    let wasProtected = item.item.isProtected
-    item.item.isProtected.toggle()
-    item.synchronizeProtection()
+  @MainActor
+  @discardableResult
+  func toggleProtection(_ items: [HistoryItemDecorator]) -> Bool {
+    toggleProtection(items, save: { try Storage.shared.context.save() })
+  }
+
+  @MainActor
+  @discardableResult
+  func toggleProtection(_ items: [HistoryItemDecorator], save: () throws -> Void) -> Bool {
+    let previousStates = items.map(\.isProtected)
+    for item in items {
+      item.item.isProtected.toggle()
+      item.synchronizeProtection()
+    }
     Storage.shared.context.processPendingChanges()
     do {
       try save()
       return true
     } catch {
-      item.item.isProtected = wasProtected
-      item.synchronizeProtection()
+      zip(items, previousStates).forEach { item, previousState in
+        item.item.isProtected = previousState
+        item.synchronizeProtection()
+      }
       logger.error("Failed to persist protection change: \(String(reflecting: error))")
       return false
     }

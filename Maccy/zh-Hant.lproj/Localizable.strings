@@ -1,6 +1,5 @@
 "search_placeholder" = "搜尋…";
 "clear_tooltip" = "清除未釘選且未保護的項目。\n按住 ⇧ 並選取以全部清除。";
-"clear_protected_tooltip" = "清除未釘選且未保護的項目。\n按住 ⇧ 並選取以全部清除。";
 "history_storage_error_title" = "變更未儲存";
 "history_storage_error_message" = "Maccy 無法儲存此變更，請重試。";
 "history_storage_error_dismiss" = "好";

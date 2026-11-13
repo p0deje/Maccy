@@ -5,7 +5,6 @@
 "TurnOffViaMenuIconDescription" = "You can also click the menu icon with ⌥ pressed.\nTo ignore only the next copy, click with ⌥⇧.";
 "TurnOffNextShellScript" = "defaults write org.p0deje.Maccy ignoreOnlyNextEvent true\n# copy data";
 "ClearHistoryOnQuit" = "Clear history on quit";
-"ClearHistoryOnQuitTooltip" = "Automatically remove all unpinned items before quitting the application.";
-"ClearHistoryOnQuitTooltipProtected" = "Automatically remove all unpinned, unprotected items before quitting the application.";
+"ClearHistoryOnQuitTooltip" = "Automatically remove all unpinned, unprotected items before quitting the application.";
 "ClearSystemClipboard" = "Clear the system clipboard too";
 "ClearSystemClipboardTooltip" = "When enabled, clearing the history would also clear the current system clipboard.";
