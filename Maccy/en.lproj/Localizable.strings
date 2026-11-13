@@ -1,5 +1,9 @@
 "search_placeholder" = "type to search…";
-"clear_tooltip" = "Clear unpinned items.\nSelect with ⇧ to clear all.";
+"clear_tooltip" = "Clear unpinned, unprotected items.\nSelect with ⇧ to clear all.";
+"clear_protected_tooltip" = "Clear unpinned, unprotected items.\nSelect with ⇧ to clear all.";
+"history_storage_error_title" = "Change not saved";
+"history_storage_error_message" = "Maccy couldn’t save this change. Please try again.";
+"history_storage_error_dismiss" = "OK";
 "clear_all_tooltip" = "Clear all items.";
 "about_tooltip" = "Read more about the application.";
 "quit_tooltip" = "Quit application.";
@@ -17,8 +21,11 @@
 "search_clear_accessibility_label" = "Clear search";
 "history_item_pin_action" = "Pin";
 "history_item_unpin_action" = "Unpin";
+"history_item_protect_action" = "Protect";
+"history_item_unprotect_action" = "Unprotect";
 "history_item_delete_action" = "Delete";
 "history_item_pinned_accessibility_value" = "Pinned";
+"history_item_protected_accessibility_value" = "Protected";
 "history_item_selected_accessibility_value" = "Selected, %d of %d";
 "history_item_image_accessibility_label_no_app" = "Image, %dx%d";
 "history_item_image_accessibility_generic" = "Image";

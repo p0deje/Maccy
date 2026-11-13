@@ -2,6 +2,24 @@ import SwiftUI
 import Defaults
 
 struct AdvancedSettingsPane: View {
+  private var bundleIdentifier: String {
+    Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy"
+  }
+
+  private func shellScript(_ key: String) -> String {
+    NSLocalizedString(key, tableName: "AdvancedSettings", comment: "")
+      .replacingOccurrences(of: "org.p0deje.Maccy", with: bundleIdentifier)
+  }
+
+  private var clearHistoryOnQuitTooltip: String {
+    NSLocalizedString(
+      "ClearHistoryOnQuitTooltipProtected",
+      tableName: "AdvancedSettings",
+      value: "Automatically remove all unpinned, unprotected items before quitting the application.",
+      comment: ""
+    )
+  }
+
   var body: some View {
     VStack(alignment: .leading) {
       Defaults.Toggle(key: .ignoreEvents) {
@@ -11,7 +29,7 @@ struct AdvancedSettingsPane: View {
         .fixedSize(horizontal: false, vertical: true)
         .foregroundStyle(.gray)
         .controlSize(.small)
-      Text("TurnOffShellScript", tableName: "AdvancedSettings")
+      Text(verbatim: shellScript("TurnOffShellScript"))
         .fixedSize(horizontal: false, vertical: true)
         .foregroundStyle(.gray)
         .font(.system(size: 11, design: .monospaced))
@@ -21,7 +39,7 @@ struct AdvancedSettingsPane: View {
         .fixedSize(horizontal: false, vertical: true)
         .foregroundStyle(.gray)
         .controlSize(.small)
-      Text("TurnOffNextShellScript", tableName: "AdvancedSettings")
+      Text(verbatim: shellScript("TurnOffNextShellScript"))
         .fixedSize(horizontal: false, vertical: true)
         .foregroundStyle(.gray)
         .font(.system(size: 11, design: .monospaced))
@@ -32,7 +50,7 @@ struct AdvancedSettingsPane: View {
 
       Defaults.Toggle(key: .clearOnQuit) {
         Text("ClearHistoryOnQuit", tableName: "AdvancedSettings")
-      }.help(Text("ClearHistoryOnQuitTooltip", tableName: "AdvancedSettings"))
+      }.help(Text(verbatim: clearHistoryOnQuitTooltip))
 
       Defaults.Toggle(key: .clearSystemClipboard) {
         Text("ClearSystemClipboard", tableName: "AdvancedSettings")

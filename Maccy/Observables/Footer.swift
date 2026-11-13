@@ -29,7 +29,7 @@ class Footer: ItemsContainer {
       FooterItem(
         title: "clear",
         shortcuts: [KeyShortcut(key: .delete, modifierFlags: [.command, .option])],
-        help: "clear_tooltip",
+        help: "clear_protected_tooltip",
         confirmation: .init(
           message: "clear_alert_message",
           comment: "clear_alert_comment",
@@ -39,7 +39,7 @@ class Footer: ItemsContainer {
         suppressConfirmation: suppressClearAlert
       ) {
         Task { @MainActor in
-          AppState.shared.history.clear()
+          AppState.shared.runStorageAction { AppState.shared.history.clear() }
         }
       },
       FooterItem(
@@ -55,7 +55,7 @@ class Footer: ItemsContainer {
         suppressConfirmation: suppressClearAlert
       ) {
         Task { @MainActor in
-          AppState.shared.history.clearAll()
+          AppState.shared.runStorageAction { AppState.shared.history.clearAll() }
         }
       },
       FooterItem(

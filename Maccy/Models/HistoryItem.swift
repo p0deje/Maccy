@@ -79,6 +79,7 @@ class HistoryItem {
   var lastCopiedAt: Date = Date.now
   var numberOfCopies: Int = 1
   var pin: String?
+  var isProtected = false
   var title = ""
 
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
