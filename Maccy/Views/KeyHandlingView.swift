@@ -149,6 +149,9 @@ struct KeyHandlingView<Content: View>: View {
         case .pinOrUnpin:
           appState.togglePin()
           return .handled
+        case .pasteHTMLSource:
+          appState.pasteHTMLSource()
+          return .handled
         case .selectCurrentItem:
           appState.select(flags: .currentModifierFlags)
           return .handled

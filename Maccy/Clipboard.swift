@@ -82,16 +82,25 @@ class Clipboard {
   }
 
   @MainActor
-  func copy(_ item: HistoryItem?, removeFormatting: Bool = false) {
-    guard let item else { return }
+  @discardableResult
+  func copy(_ item: HistoryItem?, removeFormatting: Bool = false, asHTMLSource: Bool = false) -> Bool {
+    guard let item else { return false }
 
-    pasteboard.clearContents()
     var contents = item.contents
-
-    if removeFormatting {
+    if asHTMLSource {
+      let htmlItem = NSPasteboardItem()
+      guard let data = item.htmlData,
+            htmlItem.setData(data, forType: .html),
+            let source = htmlItem.string(forType: .html), !source.isEmpty else {
+        return false
+      }
+      contents = [HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue,
+                                     value: source.data(using: .utf8))]
+    } else if removeFormatting {
       contents = clearFormatting(contents)
     }
 
+    pasteboard.clearContents()
     for content in contents {
       guard content.type != NSPasteboard.PasteboardType.fileURL.rawValue else { continue }
       pasteboard.setData(content.value, forType: NSPasteboard.PasteboardType(content.type))
@@ -117,6 +126,7 @@ class Clipboard {
       Notifier.notify(body: item.title, sound: .knock)
       checkForChangesInPasteboard()
     }
+    return true
   }
 
   // Based on https://github.com/Clipy/Clipy/blob/develop/Clipy/Sources/Services/PasteService.swift.

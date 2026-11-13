@@ -35,6 +35,11 @@ class HistoryItem {
       keys.remove(character)
     }
 
+    if let htmlSourceKey = KeyChord.htmlSourceKey,
+       let character = Sauce.shared.character(for: Int(htmlSourceKey.QWERTYKeyCode), modifiers: .cocoa([])) {
+      keys.remove(character)
+    }
+
     return keys
   }
 

@@ -20,6 +20,12 @@ enum KeyChord: CaseIterable {
   static var previewKey: Key? { Sauce.shared.key(shortcut: .togglePreview) }
   static var previewModifiers: NSEvent.ModifierFlags? { KeyboardShortcuts.Shortcut(name: .togglePreview)?.modifiers }
 
+  static var htmlSourceKey: Key? { Sauce.shared.key(shortcut: .pasteHTMLSource) }
+  static var htmlSourceModifiers: NSEvent.ModifierFlags? {
+    KeyboardShortcuts.Shortcut(name: .pasteHTMLSource)?.modifiers
+  }
+
+  case pasteHTMLSource
   case clearHistory
   case clearHistoryAll
   case clearSearch
@@ -118,6 +124,8 @@ enum KeyChord: CaseIterable {
       self = .pinOrUnpin
     case (.comma, [.command]):
       self = .openPreferences
+    case (KeyChord.htmlSourceKey, KeyChord.htmlSourceModifiers):
+      self = .pasteHTMLSource
     case (.return, _),
          (.keypadEnter, _):
       self = .selectCurrentItem

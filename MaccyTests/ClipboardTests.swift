@@ -220,6 +220,55 @@ extension SharedStateTests {
       #expect(pasteboard.data(forType: .rtf) == nil)
     }
 
+    @Test("Copies stored HTML source as plain text", arguments: [false, true])
+    func copyHTMLSource(removeFormatting: Bool) {
+      let source = """
+      <meta charset='utf-8'><span data-teams="true"><p>Test <strong>bold</strong> and <i>italics</i>.</p>
+      <ul><li>This is</li><li>a list — café 👋</li></ul>&nbsp;</span>
+      """
+      let item = HistoryItem()
+      Storage.shared.context.insert(item)
+      item.contents = [
+        HistoryItemContent(type: htmlType.rawValue, value: Data(source.utf8)),
+        HistoryItemContent(type: stringType.rawValue, value: Data("plain text".utf8))
+      ]
+      item.application = "com.microsoft.teams2"
+      pasteboard.clearContents()
+      pasteboard.setString("<p>Different clipboard item</p>", forType: .html)
+
+      #expect(clipboard.copy(item, removeFormatting: removeFormatting, asHTMLSource: true))
+      #expect(pasteboard.string(forType: .string) == source)
+      #expect(pasteboard.data(forType: .html) == nil)
+      #expect(pasteboard.data(forType: .rtf) == nil)
+      #expect(pasteboard.string(forType: .fromMaccy) == "")
+      #expect(pasteboard.string(forType: .source) == item.application)
+      #expect(item.htmlData == Data(source.utf8))
+      #expect(item.text == "plain text")
+      #expect(item.contents.count == 2)
+
+      clipboard.copy(item)
+      #expect(pasteboard.string(forType: .html) == source)
+      #expect(pasteboard.string(forType: .string) == "plain text")
+    }
+
+    @Test("Missing or empty HTML leaves the clipboard unchanged", arguments: [nil, Data()])
+    func copyMissingHTMLSource(data: Data?) {
+      let item = HistoryItem()
+      Storage.shared.context.insert(item)
+      item.contents = [
+        HistoryItemContent(type: htmlType.rawValue, value: data),
+        HistoryItemContent(type: stringType.rawValue, value: Data("plain text".utf8))
+      ]
+      pasteboard.clearContents()
+      pasteboard.setString("Keep this clipboard", forType: .string)
+      let changeCount = pasteboard.changeCount
+
+      #expect(!clipboard.copy(item, asHTMLSource: true))
+      #expect(!clipboard.copy(nil, asHTMLSource: true))
+      #expect(pasteboard.string(forType: .string) == "Keep this clipboard")
+      #expect(pasteboard.changeCount == changeCount)
+    }
+
     @Test("Handles items without data")
     func handlesItemsWithoutData() async throws {
       pasteboard.clearContents()
