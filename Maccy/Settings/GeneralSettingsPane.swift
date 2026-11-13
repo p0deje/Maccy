@@ -67,17 +67,9 @@ struct GeneralSettingsPane: View {
         bottomDivider: true,
         label: { Text("PasteHTMLSource", tableName: "GeneralSettings") }
       ) {
-        HStack {
-          KeyboardShortcuts.Recorder(for: .pasteHTMLSource)
-            .help(Text("PasteHTMLSourceTooltip", tableName: "GeneralSettings"))
-            .accessibilityLabel(Text("PasteHTMLSource", tableName: "GeneralSettings"))
-          // The recorder cannot record Shift-only shortcuts, but our local key handler supports them.
-          Button {
-            KeyboardShortcuts.reset(.pasteHTMLSource)
-          } label: {
-            Text("ResetHTMLSourceShortcut", tableName: "GeneralSettings")
-          }
-        }
+        KeyboardShortcuts.Recorder(for: .pasteHTMLSource)
+          .help(Text("PasteHTMLSourceTooltip", tableName: "GeneralSettings"))
+          .accessibilityLabel(Text("PasteHTMLSource", tableName: "GeneralSettings"))
       }
 
       Settings.Section(
