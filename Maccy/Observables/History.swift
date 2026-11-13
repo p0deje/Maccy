@@ -143,8 +143,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func limitHistorySize(to maxSize: Int) {
-    if allUnpinnedItems.count >= maxSize {
-      allUnpinnedItems[maxSize...].forEach(delete)
+    let unprotectedItems = allUnpinnedItems.filter { !$0.isProtected }
+    if unprotectedItems.count > maxSize {
+      unprotectedItems[maxSize...].forEach(delete)
     }
   }
 
@@ -174,6 +175,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
+      item.isProtected = existingHistoryItem.isProtected
       item.title = existingHistoryItem.title
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
@@ -195,7 +197,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
-    limitHistorySize(to: item.pin == nil ? Defaults[.size] - 1 : Defaults[.size])
+    let capacity = item.pin == nil && !item.isProtected ? Defaults[.size] - 1 : Defaults[.size]
+    limitHistorySize(to: capacity)
 
     sessionLog[Clipboard.shared.changeCount] = item
 
@@ -235,68 +238,129 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
-  func clear() {
-    withLogging("Clearing history") {
-      allUnpinnedItems.forEach(cleanup)
-      allUnpinnedItems.removeAll()
-      filteredUnpinnedItems.removeAll()
-      sessionLog.removeValues { $0.pin == nil }
+  @discardableResult
+  func clear() -> Bool {
+    return clear { context in
+      try context.transaction {
+        // Individual deletions remain pending until the transaction saves.
+        // Bulk delete can write through before a later failure and cannot be
+        // reliably restored by ModelContext.rollback().
+        let contents = try context.fetchIdentifiers(FetchDescriptor<HistoryItemContent>(
+          predicate: #Predicate {
+            $0.item == nil || ($0.item?.pin == nil && $0.item?.isProtected == false)
+          }
+        ))
+        contents
+          .compactMap { context.model(for: $0) as? HistoryItemContent }
+          .forEach(context.delete)
 
-      try? Storage.shared.context.transaction {
-        try? Storage.shared.context.delete(
-          model: HistoryItem.self,
-          where: #Predicate { $0.pin == nil }
-        )
-        try? Storage.shared.context.delete(
-          model: HistoryItemContent.self,
-          where: #Predicate { $0.item?.pin == nil }
-        )
+        let items = try context.fetchIdentifiers(FetchDescriptor<HistoryItem>(
+          predicate: #Predicate { $0.pin == nil && !$0.isProtected }
+        ))
+        items
+          .compactMap { context.model(for: $0) as? HistoryItem }
+          .forEach(context.delete)
       }
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
-    }
-
-    Clipboard.shared.clear()
-    AppState.shared.popup.close()
-    Task {
-      AppState.shared.popup.needsResize = true
     }
   }
 
   @MainActor
-  func clearAll() {
-    withLogging("Clearing all history") {
-      allPinnedItems.forEach(cleanup)
-      allUnpinnedItems.forEach(cleanup)
-      allUnpinnedItems.removeAll()
-      filteredPinnedItems.removeAll()
-      filteredUnpinnedItems.removeAll()
-      pinManager.removeAll()
-      sessionLog.removeAll()
+  @discardableResult
+  func clear(persist: (ModelContext) throws -> Void) -> Bool {
+    let removableItems = allUnpinnedItems.filter { !$0.isProtected }
 
-      do {
-        let context = Storage.shared.context
-        try context.transaction {
-          // Bulk deletion cannot remove children with live inverse relationships.
-          try context.delete(
-            model: HistoryItemContent.self,
-            where: #Predicate { $0.item == nil }
-          )
-          try context.delete(model: HistoryItem.self)
-          try context.delete(model: HistoryItemContent.self)
-        }
-      } catch {
-        logger.error("Failed to clear storage: \(String(reflecting: error))")
-      }
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+    do {
+      // Persist unrelated pending history before the separate clear transaction.
+      try Storage.shared.context.save()
+    } catch {
+      logger.error("Failed to prepare storage for clear: \(String(reflecting: error))")
+      return false
     }
+
+    // Keep the UI context untouched so a failed transaction cannot discard
+    // unrelated in-memory history state.
+    let transactionContext = ModelContext(Storage.shared.container)
+    transactionContext.autosaveEnabled = false
+
+    do {
+      try persist(transactionContext)
+    } catch {
+      transactionContext.rollback()
+      logger.error("Failed to clear storage: \(String(reflecting: error))")
+      return false
+    }
+
+    removableItems.forEach(cleanup)
+    allUnpinnedItems.removeAll { !$0.isProtected }
+    filteredUnpinnedItems.removeAll { !$0.isProtected }
+    sessionLog.removeValues { $0.pin == nil && !$0.isProtected }
+    updateUnpinnedShortcuts()
 
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
       AppState.shared.popup.needsResize = true
     }
+    return true
+  }
+
+  @MainActor
+  @discardableResult
+  func clearAll() -> Bool {
+    return clearAll { context in
+      try context.transaction {
+        // Delete contents before their owning items so the pending inverse
+        // relationships cannot block rollback or transaction completion.
+        let contents = try context.fetchIdentifiers(FetchDescriptor<HistoryItemContent>())
+        contents
+          .compactMap { context.model(for: $0) as? HistoryItemContent }
+          .forEach(context.delete)
+
+        let items = try context.fetchIdentifiers(FetchDescriptor<HistoryItem>())
+        items
+          .compactMap { context.model(for: $0) as? HistoryItem }
+          .forEach(context.delete)
+      }
+    }
+  }
+
+  @MainActor
+  @discardableResult
+  func clearAll(persist: (ModelContext) throws -> Void) -> Bool {
+    do {
+      // Persist unrelated pending history before the separate clear-all transaction.
+      try Storage.shared.context.save()
+    } catch {
+      logger.error("Failed to prepare storage for clear all: \(String(reflecting: error))")
+      return false
+    }
+
+    // Keep the UI context untouched if the clear-all transaction fails.
+    let transactionContext = ModelContext(Storage.shared.container)
+    transactionContext.autosaveEnabled = false
+
+    do {
+      try persist(transactionContext)
+    } catch {
+      transactionContext.rollback()
+      logger.error("Failed to clear all storage: \(String(reflecting: error))")
+      return false
+    }
+
+    allPinnedItems.forEach(cleanup)
+    allUnpinnedItems.forEach(cleanup)
+    allUnpinnedItems.removeAll()
+    filteredPinnedItems.removeAll()
+    filteredUnpinnedItems.removeAll()
+    pinManager.removeAll()
+    sessionLog.removeAll()
+
+    Clipboard.shared.clear()
+    AppState.shared.popup.close()
+    Task {
+      AppState.shared.popup.needsResize = true
+    }
+    return true
   }
 
   @MainActor
@@ -464,6 +528,48 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     }
     logger.info("Interrupting PasteStack")
     pasteStack = nil
+  }
+
+  @MainActor
+  @discardableResult
+  func toggleProtection(_ item: HistoryItemDecorator?) -> Bool {
+    guard let item else { return false }
+    return toggleProtection([item])
+  }
+
+  @MainActor
+  @discardableResult
+  func toggleProtection(_ item: HistoryItemDecorator?, save: () throws -> Void) -> Bool {
+    guard let item else { return false }
+    return toggleProtection([item], save: save)
+  }
+
+  @MainActor
+  @discardableResult
+  func toggleProtection(_ items: [HistoryItemDecorator]) -> Bool {
+    toggleProtection(items, save: { try Storage.shared.context.save() })
+  }
+
+  @MainActor
+  @discardableResult
+  func toggleProtection(_ items: [HistoryItemDecorator], save: () throws -> Void) -> Bool {
+    let previousStates = items.map(\.isProtected)
+    for item in items {
+      item.item.isProtected.toggle()
+      item.synchronizeProtection()
+    }
+    Storage.shared.context.processPendingChanges()
+    do {
+      try save()
+      return true
+    } catch {
+      zip(items, previousStates).forEach { item, previousState in
+        item.item.isProtected = previousState
+        item.synchronizeProtection()
+      }
+      logger.error("Failed to persist protection change: \(String(reflecting: error))")
+      return false
+    }
   }
 
   @MainActor

@@ -18,8 +18,9 @@ class AppState: Sendable {
   var preview: SlideoutController
 
   var isEditingItem: Bool = false
+  var storageErrorMessage: String?
   var suppressPopupAutoClose: Bool {
-    return navigator.isDragAndDropInProgress || isEditingItem
+    return navigator.isDragAndDropInProgress || isEditingItem || storageErrorMessage != nil
   }
 
   var searchVisible: Bool {
@@ -85,6 +86,23 @@ class AppState: Sendable {
         history.togglePin(item)
       }
     }
+  }
+
+  @MainActor
+  func toggleProtection() {
+    withTransaction(Transaction()) {
+      runStorageAction {
+        history.toggleProtection(navigator.selection.items)
+      }
+    }
+  }
+
+  @MainActor
+  @discardableResult
+  func runStorageAction(_ action: () -> Bool) -> Bool {
+    let succeeded = action()
+    storageErrorMessage = succeeded ? nil : HistoryStorageError().localizedDescription
+    return succeeded
   }
 
   @MainActor

@@ -1,5 +1,8 @@
 "search_placeholder" = "搜索…";
-"clear_tooltip" = "清除未置顶的项目。\n按住 ⇧ 以全部清除。";
+"clear_tooltip" = "清除未置顶且未保护的项目。\n按住 ⇧ 以全部清除。";
+"history_storage_error_title" = "更改未保存";
+"history_storage_error_message" = "Maccy 未能保存此更改，请重试。";
+"history_storage_error_dismiss" = "好";
 "clear_all_tooltip" = "清除全部项目。";
 "about_tooltip" = "查看更多应用信息。";
 "quit_tooltip" = "退出应用。";
@@ -24,8 +27,11 @@
 "search_clear_accessibility_label" = "清除搜索";
 "history_item_pin_action" = "固定";
 "history_item_unpin_action" = "取消固定";
+"history_item_protect_action" = "保护";
+"history_item_unprotect_action" = "取消保护";
 "history_item_delete_action" = "删除";
 "history_item_pinned_accessibility_value" = "已固定";
+"history_item_protected_accessibility_value" = "已保护";
 "history_item_selected_accessibility_value" = "已选择，第 %d 项，共 %d 项";
 "history_item_image_accessibility_label_no_app" = "图像，%d×%d";
 "history_item_image_accessibility_generic" = "图像";

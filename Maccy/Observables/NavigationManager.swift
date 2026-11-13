@@ -44,6 +44,9 @@ class NavigationManager { // swiftlint:disable:this type_body_length
           if item.isPinned {
             parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
           }
+          if item.isProtected {
+            parts.append(HistoryItemLocalization.protectedStatus)
+          }
           return parts.joined(separator: ", ")
         }
       }

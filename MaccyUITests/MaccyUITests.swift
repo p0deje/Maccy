@@ -303,6 +303,20 @@ class MaccyUITests: XCTestCase {
     assertNotExists(items[copy2])
   }
 
+  func testClearPreservesProtected() {
+    popUpWithMouse()
+    search(copy2)
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
+    toggleProtection(copy2)
+    XCTAssertTrue(items[copy2].label.contains("Protected"))
+    clearSearch()
+    hoverAndClick(app.buttons["Clear"].firstMatch)
+    confirmClear()
+    popUpWithMouse()
+    assertExists(items[copy2])
+    assertNotExists(items[copy1])
+  }
+
   func testClearAll() {
     popUpWithMouse()
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
@@ -325,6 +339,34 @@ class MaccyUITests: XCTestCase {
     app.typeKey(.escape, modifierFlags: [])
     popUpWithMouse()
     XCTAssertEqual(Array(itemTitles.prefix(2)), [copy2, copy1])
+  }
+
+  func testProtectAndUnprotect() {
+    popUpWithMouse()
+    search(copy2)
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
+    toggleProtection(copy2)
+    XCTAssertTrue(items[copy2].label.contains("Protected"))
+
+    toggleProtection(copy2)
+    XCTAssertFalse(items[copy2].label.contains("Protected"))
+  }
+
+  func testProtectFromUnfilteredHistory() {
+    popUpWithMouse()
+    scrollIntoViewIfNeeded(items[copy1].firstMatch)
+    toggleProtection(copy1)
+    XCTAssertTrue(items[copy1].label.contains("Protected"))
+  }
+
+  func testProtectDuringSearchPreservesSearch() {
+    popUpWithMouse()
+    search(copy2)
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
+    toggleProtection(copy2)
+    assertSearchFieldValue(copy2)
+    assertExists(items[copy2])
+    assertNotExists(items[copy1])
   }
 
   func testPinDuringSearch() {
@@ -597,10 +639,11 @@ class MaccyUITests: XCTestCase {
   }
 
   private func pressStatusItemViaAccessibility() {
-    let pid = NSRunningApplication.runningApplications(withBundleIdentifier: "org.p0deje.Maccy")
+    let pid = NSWorkspace.shared.runningApplications
+      .filter { $0.executableURL?.lastPathComponent == "Maccy" }
       .max { ($0.launchDate ?? .distantPast) < ($1.launchDate ?? .distantPast) }?
       .processIdentifier
-    guard let pid else {
+    guard let pid, pid > 0 else {
       XCTFail("Maccy is not running")
       return
     }
@@ -743,6 +786,14 @@ class MaccyUITests: XCTestCase {
     usleep(1_500_000)
   }
 
+  private func toggleProtection(_ title: String) {
+    hover(items[title].firstMatch)
+    let button = app.buttons["toggle-protection"].firstMatch
+    assertExists(button)
+    hoverAndClick(button)
+    usleep(500_000)
+  }
+
   private func drag(_ element: XCUIElement, before target: XCUIElement) {
     hover(element)
     let source = element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
@@ -798,6 +849,13 @@ class MaccyUITests: XCTestCase {
     // NOTE: This is a hack and is flaky.
     // Ideally we should wait for a proper condition to detect that search has settled down.
     usleep(500000)  // wait for search throttle
+  }
+
+  private func clearSearch() {
+    app.typeKey("a", modifierFlags: [.command])
+    app.typeKey(.delete, modifierFlags: [])
+    waitForSearch()
+    assertSearchFieldValue("")
   }
 
   private func assertExists(_ element: XCUIElement) {

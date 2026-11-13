@@ -39,7 +39,7 @@ class Footer: ItemsContainer {
         suppressConfirmation: suppressClearAlert
       ) {
         Task { @MainActor in
-          AppState.shared.history.clear()
+          AppState.shared.runStorageAction { AppState.shared.history.clear() }
         }
       },
       FooterItem(
@@ -55,7 +55,7 @@ class Footer: ItemsContainer {
         suppressConfirmation: suppressClearAlert
       ) {
         Task { @MainActor in
-          AppState.shared.history.clearAll()
+          AppState.shared.runStorageAction { AppState.shared.history.clearAll() }
         }
       },
       FooterItem(

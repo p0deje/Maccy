@@ -2,6 +2,7 @@ import AppKit
 import Testing
 import Defaults
 import SwiftData
+import SwiftUI
 @testable import Maccy
 
 extension SharedStateTests {
@@ -33,6 +34,14 @@ extension SharedStateTests {
       #expect(history.items.toArray() == [])
     }
 
+    @Test("Storage directories preserve legacy history")
+    func storageDirectoriesPreserveLegacyHistory() {
+      #expect(Storage.storageDirectoryName(for: "org.p0deje.Maccy") == "Maccy")
+      #expect(Storage.storageDirectoryName(for: "org.p0deje.Maccy.dev") == "MaccyDev")
+      #expect(Storage.storageDirectoryName(for: "com.example.MaccyFork") == "Maccy")
+      #expect(Storage.storageDirectoryName(for: nil) == "Maccy")
+    }
+
     @Test("Adding")
     func adding() {
       let first = history.add(historyItem("foo"))
@@ -61,6 +70,157 @@ extension SharedStateTests {
       #expect(merged.item.title == "xyz")
       #expect(merged.item.application == "iTerm.app")
       try assertStorageCounts(items: 1, contents: 1)
+    }
+
+    @Test("Duplicate copy inherits protected state")
+    func duplicateCopyInheritsProtectedState() throws {
+      let first = history.add(historyItem("protected duplicate"))
+      history.toggleProtection(first)
+
+      let duplicate = history.add(historyItem("protected duplicate"))
+
+      #expect(duplicate.isProtected)
+      #expect(history.items.toArray() == [duplicate])
+      try assertStorageCounts(items: 1, contents: 1)
+    }
+
+    @Test("Protection does not change history order")
+    func protectionDoesNotChangeHistoryOrder() {
+      let older = history.add(historyItem("older"))
+      let newer = history.add(historyItem("newer"))
+      #expect(history.items.toArray() == [newer, older])
+
+      history.toggleProtection(older)
+
+      #expect(history.items.toArray() == [newer, older])
+    }
+
+    @Test("Protection change invalidates decorator observers")
+    func protectionChangeInvalidatesDecoratorObservers() {
+      final class ObservedChange: @unchecked Sendable {
+        private let lock = NSLock()
+        private var detected = false
+
+        var didChange: Bool {
+          lock.withLock { detected }
+        }
+
+        func markChanged() {
+          lock.withLock { detected = true }
+        }
+      }
+
+      let change = ObservedChange()
+      let item = history.add(historyItem("observed protection"))
+
+      withObservationTracking {
+        _ = item.isProtected
+      } onChange: {
+        change.markChanged()
+      }
+
+      history.toggleProtection(item)
+      #expect(change.didChange)
+    }
+
+    @Test("Protection rolls back when persistence fails")
+    func protectionRollsBackWhenPersistenceFails() {
+      struct SimulatedSaveError: Error {}
+
+      let item = history.add(historyItem("rollback me"))
+      let succeeded = history.toggleProtection(item) {
+        throw SimulatedSaveError()
+      }
+
+      #expect(!succeeded)
+      #expect(!item.isProtected)
+    }
+
+    @Test("Failed storage actions publish an error and successful actions clear it")
+    func failedStorageActionsPublishAnError() {
+      struct SimulatedSaveError: Error {}
+
+      let appState = AppState.shared
+      let previousError = appState.storageErrorMessage
+      defer { appState.storageErrorMessage = previousError }
+      let item = history.add(historyItem("failed protection"))
+
+      #expect(!appState.runStorageAction {
+        history.toggleProtection(item) { throw SimulatedSaveError() }
+      })
+      #expect(appState.storageErrorMessage != nil)
+      #expect(appState.suppressPopupAutoClose)
+      #expect(!item.isProtected)
+
+      #expect(appState.runStorageAction { history.toggleProtection(item) })
+      #expect(appState.storageErrorMessage == nil)
+      #expect(item.isProtected)
+    }
+
+    @Test("Closing panel clears storage error")
+    func closingPanelClearsStorageError() {
+      let appState = AppState.shared
+      let previousError = appState.storageErrorMessage
+      defer { appState.storageErrorMessage = previousError }
+
+      appState.storageErrorMessage = "retry"
+      let panel = FloatingPanel(
+        contentRect: NSRect(x: 0, y: 0, width: 100, height: 100),
+        onClose: {},
+        view: { EmptyView() }
+      )
+
+      panel.close()
+
+      #expect(appState.storageErrorMessage == nil)
+    }
+
+    @Test("Batch protection rolls back every item when persistence fails")
+    func batchProtectionRollsBackWhenPersistenceFails() {
+      struct SimulatedSaveError: Error {}
+
+      let first = history.add(historyItem("batch first"))
+      let second = history.add(historyItem("batch second"))
+      let succeeded = history.toggleProtection([first, second]) {
+        throw SimulatedSaveError()
+      }
+
+      #expect(!succeeded)
+      #expect(!first.isProtected)
+      #expect(!second.isProtected)
+    }
+
+    @Test("Batch protection saves once")
+    func batchProtectionSavesOnce() {
+      let first = history.add(historyItem("batch save first"))
+      let second = history.add(historyItem("batch save second"))
+      var saves = 0
+      let succeeded = history.toggleProtection([first, second]) {
+        saves += 1
+        try Storage.shared.context.save()
+      }
+
+      #expect(succeeded)
+      #expect(saves == 1)
+      #expect(first.isProtected)
+      #expect(second.isProtected)
+    }
+
+    @Test("Protection failure preserves unrelated pending changes")
+    func protectionFailurePreservesUnrelatedPendingChanges() {
+      struct SimulatedSaveError: Error {}
+
+      let item = history.add(historyItem("preserve pending state"))
+      history.togglePin(item)
+
+      let succeeded = history.toggleProtection(item) {
+        throw SimulatedSaveError()
+      }
+
+      #expect(!succeeded)
+      #expect(!item.isProtected)
+      #expect(item.isPinned)
+      #expect(history.pinnedItems == [item])
     }
 
     @Test("Adding unsaved duplicate")
@@ -228,11 +388,186 @@ extension SharedStateTests {
       try assertStorageCounts(items: 1, contents: 1)
     }
 
+    @Test("Clearing preserves protected and pinned items")
+    func clearingPreservesProtectedAndPinnedItems() throws {
+      let pinned = history.add(historyItem("pinned"))
+      history.togglePin(pinned)
+      let protected = history.add(historyItem("protected"))
+      history.toggleProtection(protected)
+      let pinnedAndProtected = history.add(historyItem("pinned and protected"))
+      history.togglePin(pinnedAndProtected)
+      history.toggleProtection(pinnedAndProtected)
+      history.add(historyItem("ordinary"))
+
+      history.clear()
+
+      #expect(history.items.contains(pinned))
+      #expect(history.items.contains(protected))
+      #expect(history.items.contains(pinnedAndProtected))
+      #expect(history.items.count == 3)
+      try assertStorageCounts(items: 3, contents: 3)
+    }
+
+    @Test("Clearing renumbers protected item shortcuts")
+    func clearingRenumbersProtectedItemShortcuts() {
+      let protected = history.add(historyItem("protected"))
+      history.toggleProtection(protected)
+      history.add(historyItem("ordinary"))
+      #expect(protected.shortcuts.first?.key == .two)
+
+      #expect(history.clear())
+
+      #expect(history.unpinnedItems == [protected])
+      #expect(protected.shortcuts.first?.key == .one)
+    }
+
+    @Test("Clearing assigns shortcuts to protected items beyond the first nine")
+    func clearingAssignsShortcutsToProtectedItemsBeyondFirstNine() {
+      let protected = history.add(historyItem("protected"))
+      history.toggleProtection(protected)
+      for index in 0..<10 {
+        history.add(historyItem("ordinary \(index)"))
+      }
+      #expect(protected.shortcuts.isEmpty)
+
+      #expect(history.clear())
+
+      #expect(history.unpinnedItems == [protected])
+      #expect(protected.shortcuts.first?.key == .one)
+    }
+
+    @Test("Failed clear preserves history and clipboard")
+    func failedClearPreservesHistoryAndClipboard() throws {
+      struct SimulatedSaveError: Error {}
+
+      let pinned = history.add(historyItem("pinned failure"))
+      history.togglePin(pinned)
+      let protected = history.add(historyItem("protected failure"))
+      history.toggleProtection(protected)
+      let ordinary = history.add(historyItem("ordinary failure"))
+      let historyBefore = history.items.toArray()
+
+      let pasteboard = NSPasteboard.general
+      pasteboard.clearContents()
+      pasteboard.setString("keep clipboard", forType: .string)
+      let markerData = Data("keep custom clipboard".utf8)
+      let markerType = NSPasteboard.PasteboardType("MaccyTests.ClipboardMarker")
+      pasteboard.setData(markerData, forType: markerType)
+
+      let succeeded = history.clear { context in
+        try context.transaction {
+          let contents = try context.fetch(FetchDescriptor<HistoryItemContent>(
+            predicate: #Predicate {
+              $0.item == nil || ($0.item?.pin == nil && $0.item?.isProtected == false)
+            }
+          ))
+          contents.forEach(context.delete)
+
+          let items = try context.fetch(FetchDescriptor<HistoryItem>(
+            predicate: #Predicate { $0.pin == nil && !$0.isProtected }
+          ))
+          items.forEach(context.delete)
+          throw SimulatedSaveError()
+        }
+      }
+
+      #expect(!succeeded)
+      #expect(history.items.toArray() == historyBefore)
+      #expect(history.items.contains(ordinary))
+      #expect(ordinary.item.title == "ordinary failure")
+      #expect(history.pinnedItems == [pinned])
+      #expect(pasteboard.string(forType: .string) == "keep clipboard")
+      #expect(pasteboard.data(forType: markerType) == markerData)
+      try assertStorageCounts(items: 3, contents: 3)
+      try assertPersistedStorageCounts(items: 3, contents: 3)
+    }
+
+    @Test("Failed clear all preserves history and clipboard")
+    func failedClearAllPreservesHistoryAndClipboard() throws {
+      struct SimulatedSaveError: Error {}
+
+      let pinned = history.add(historyItem("pinned all failure"))
+      history.togglePin(pinned)
+      let protected = history.add(historyItem("protected all failure"))
+      history.toggleProtection(protected)
+      let ordinary = history.add(historyItem("ordinary all failure"))
+      let historyBefore = history.items.toArray()
+
+      let pasteboard = NSPasteboard.general
+      pasteboard.clearContents()
+      pasteboard.setString("keep clipboard", forType: .string)
+      let markerData = Data("keep custom clipboard".utf8)
+      let markerType = NSPasteboard.PasteboardType("MaccyTests.ClipboardMarker")
+      pasteboard.setData(markerData, forType: markerType)
+
+      let succeeded = history.clearAll { context in
+        try context.transaction {
+          let contents = try context.fetch(FetchDescriptor<HistoryItemContent>())
+          contents.forEach(context.delete)
+
+          let items = try context.fetch(FetchDescriptor<HistoryItem>())
+          items.forEach(context.delete)
+          throw SimulatedSaveError()
+        }
+      }
+
+      #expect(!succeeded)
+      #expect(history.items.toArray() == historyBefore)
+      #expect(history.items.contains(ordinary))
+      #expect(ordinary.item.title == "ordinary all failure")
+      #expect(history.pinnedItems == [pinned])
+      #expect(pasteboard.string(forType: .string) == "keep clipboard")
+      #expect(pasteboard.data(forType: markerType) == markerData)
+      try assertStorageCounts(items: 3, contents: 3)
+      try assertPersistedStorageCounts(items: 3, contents: 3)
+    }
+
+    @Test("Clear intent reports a read-only database failure")
+    func clearIntentReportsReadOnlyDatabaseFailure() async throws {
+      let originalContainer = Storage.shared.container
+      let suppressClearAlert = Defaults[.suppressClearAlert]
+      let ignoreEvents = Defaults[.ignoreEvents]
+      let ignoreOnlyNextEvent = Defaults[.ignoreOnlyNextEvent]
+      let (directory, url) = try temporaryDatabaseLocation()
+      let writable = try ModelContainer(for: HistoryItem.self, configurations: ModelConfiguration(url: url))
+      Storage.shared.container = writable
+      defer {
+        Storage.shared.container = writable
+        history.clearAll()
+        Storage.shared.container = originalContainer
+        Defaults[.suppressClearAlert] = suppressClearAlert
+        Defaults[.ignoreEvents] = ignoreEvents
+        Defaults[.ignoreOnlyNextEvent] = ignoreOnlyNextEvent
+        try? FileManager.default.removeItem(at: directory)
+      }
+      history.add(historyItem("read-only history"))
+      try Storage.shared.context.save()
+      Storage.shared.container = try ModelContainer(
+        for: HistoryItem.self,
+        configurations: ModelConfiguration(url: url, allowsSave: false)
+      )
+      Defaults[.suppressClearAlert] = true
+      // Awaiting the intent lets the clipboard timer run while the test store
+      // is read-only. Do not import unrelated system clipboard contents.
+      Defaults[.ignoreEvents] = true
+      Defaults[.ignoreOnlyNextEvent] = false
+
+      await #expect(throws: HistoryStorageError.self) {
+        _ = try await Clear().perform()
+      }
+
+      #expect(history.items.count == 1)
+      let persisted = try Storage.shared.context.fetch(FetchDescriptor<HistoryItem>())
+      #expect(persisted.first?.text == "read-only history")
+    }
+
     @Test("Clearing all")
     func clearingAll() throws {
       history.add(historyItem("foo"))
       let pinned = history.add(historyItem("bar"))
       history.togglePin(pinned)
+      let protected = history.add(historyItem("protected"))
+      history.toggleProtection(protected)
       Storage.shared.context.insert(HistoryItemContent(
         type: NSPasteboard.PasteboardType.string.rawValue,
         value: "orphan".data(using: .utf8)
@@ -274,6 +609,181 @@ extension SharedStateTests {
       #expect(history.items.contains(items[10]))
       #expect(history.items.contains(items[0]))
       #expect(!history.items.contains(items[1]))
+    }
+
+    @Test("Max size ignores protected")
+    func maxSizeIgnoresProtected() throws {
+      Defaults[.size] = 3
+      let protected = history.add(historyItem("protected"))
+      history.toggleProtection(protected)
+
+      var ordinary: [HistoryItemDecorator] = []
+      for index in 0...3 {
+        ordinary.append(history.add(historyItem(String(index))))
+      }
+
+      #expect(history.items.count == 4)
+      #expect(history.items.contains(protected))
+      #expect(history.items.contains(ordinary[3]))
+      #expect(!history.items.contains(ordinary[0]))
+      try assertStorageCounts(items: 4, contents: 4)
+    }
+
+    @Test("Protected duplicate at full capacity stays beyond ordinary capacity")
+    func protectedDuplicateAtFullCapacity() throws {
+      Defaults[.size] = 2
+      let protected = history.add(historyItem("protected"))
+      history.toggleProtection(protected)
+
+      for index in 0..<Defaults[.size] {
+        history.add(historyItem("ordinary \(index)"))
+      }
+
+      let duplicate = history.add(historyItem("protected"))
+
+      #expect(duplicate.isProtected)
+      #expect(history.items.count == 3)
+      #expect(history.unpinnedItems.filter { !$0.isProtected }.count == 2)
+      try assertStorageCounts(items: 3, contents: 3)
+    }
+
+    @Test("Unprotected items become eligible for capacity cleanup")
+    func unprotectedItemsBecomeEligibleForCapacityCleanup() throws {
+      Defaults[.size] = 3
+      let protectedItem = historyItem("old protected")
+      protectedItem.firstCopiedAt = Date(timeIntervalSince1970: 0)
+      let protected = history.add(protectedItem)
+      history.toggleProtection(protected)
+
+      for index in 0..<3 {
+        history.add(historyItem("ordinary \(index)"))
+      }
+      #expect(history.items.contains(protected))
+
+      history.toggleProtection(protected)
+      #expect(!protected.isProtected)
+      history.add(historyItem("new ordinary"))
+
+      #expect(!history.items.contains(protected))
+      #expect(history.unpinnedItems.count == 3)
+      try assertStorageCounts(items: 3, contents: 3)
+    }
+
+    @Test("Protected state persists after reopening the database")
+    func protectedStatePersistsAfterReopeningDatabase() throws {
+      let (directory, url) = try temporaryDatabaseLocation()
+      defer { try? FileManager.default.removeItem(at: directory) }
+      let title = "persistent protected item"
+
+      do {
+        let container = try ModelContainer(for: HistoryItem.self, configurations: ModelConfiguration(url: url))
+        let context = container.mainContext
+        let item = HistoryItem()
+        item.title = title
+        item.isProtected = true
+        context.insert(item)
+        try context.save()
+      }
+
+      do {
+        let container = try ModelContainer(for: HistoryItem.self, configurations: ModelConfiguration(url: url))
+        let context = container.mainContext
+        let items = try context.fetch(FetchDescriptor<HistoryItem>())
+        let item = try #require(items.first { $0.title == title })
+        #expect(item.isProtected)
+      }
+    }
+
+    @Test("Opening a pre-protection database preserves existing history")
+    func openingPreProtectionDatabasePreservesExistingHistory() throws {
+      let (directory, url) = try temporaryDatabaseLocation()
+      defer { try? FileManager.default.removeItem(at: directory) }
+      let title = "legacy clipboard item"
+      let application = "com.example.LegacyApp"
+      let firstCopiedAt = Date(timeIntervalSince1970: 1_700_000_000)
+      let lastCopiedAt = Date(timeIntervalSince1970: 1_700_000_100)
+      let numberOfCopies = 7
+      let pin = "f"
+      let stringValue = Data("legacy text".utf8)
+      let rtfValue = Data(repeating: 0xAB, count: 32)
+
+      do {
+        let container = try ModelContainer(
+          for: LegacyHistorySchema.HistoryItem.self,
+          configurations: ModelConfiguration(url: url)
+        )
+        let context = container.mainContext
+        let item = LegacyHistorySchema.HistoryItem()
+        item.application = application
+        item.firstCopiedAt = firstCopiedAt
+        item.lastCopiedAt = lastCopiedAt
+        item.numberOfCopies = numberOfCopies
+        item.pin = pin
+        item.title = title
+        item.contents = [
+          LegacyHistorySchema.HistoryItemContent(
+            type: NSPasteboard.PasteboardType.string.rawValue,
+            value: stringValue
+          ),
+          LegacyHistorySchema.HistoryItemContent(
+            type: NSPasteboard.PasteboardType.rtf.rawValue,
+            value: rtfValue
+          )
+        ]
+        context.insert(item)
+
+        let another = LegacyHistorySchema.HistoryItem()
+        another.title = "second legacy item"
+        another.numberOfCopies = 3
+        another.contents = [
+          LegacyHistorySchema.HistoryItemContent(
+            type: NSPasteboard.PasteboardType.string.rawValue,
+            value: Data("second".utf8)
+          )
+        ]
+        context.insert(another)
+        try context.save()
+      }
+
+      do {
+        let container = try ModelContainer(for: HistoryItem.self, configurations: ModelConfiguration(url: url))
+        let context = container.mainContext
+        let items = try context.fetch(FetchDescriptor<HistoryItem>())
+        #expect(items.count == 2)
+        let item = try #require(items.first { $0.title == title })
+        #expect(!item.isProtected)
+        #expect(item.application == application)
+        #expect(abs(item.firstCopiedAt.timeIntervalSince(firstCopiedAt)) < 0.001)
+        #expect(abs(item.lastCopiedAt.timeIntervalSince(lastCopiedAt)) < 0.001)
+        #expect(item.numberOfCopies == numberOfCopies)
+        #expect(item.pin == pin)
+        let contentTypes = Set(item.contents.map(\.type))
+        let expectedContentTypes = Set([
+          NSPasteboard.PasteboardType.string.rawValue,
+          NSPasteboard.PasteboardType.rtf.rawValue
+        ])
+        #expect(contentTypes == expectedContentTypes)
+        let storedString = item.contents.first { $0.type == NSPasteboard.PasteboardType.string.rawValue }
+        let storedRTF = item.contents.first { $0.type == NSPasteboard.PasteboardType.rtf.rawValue }
+        #expect(storedString?.value == stringValue)
+        #expect(storedRTF?.value == rtfValue)
+
+        item.isProtected = true
+        try context.save()
+      }
+
+      do {
+        let container = try ModelContainer(for: HistoryItem.self, configurations: ModelConfiguration(url: url))
+        let context = container.mainContext
+        let items = try context.fetch(FetchDescriptor<HistoryItem>())
+        #expect(items.count == 2)
+        let item = try #require(items.first { $0.title == title })
+        #expect(item.isProtected)
+        #expect(item.application == application)
+        #expect(item.numberOfCopies == numberOfCopies)
+        #expect(item.pin == pin)
+        #expect(item.contents.count == 2)
+      }
     }
 
     @Test("Pinning updates pin order")
@@ -440,6 +950,30 @@ extension SharedStateTests {
       try assertStorageCounts(items: 1, contents: 1)
     }
 
+    private func assertPersistedStorageCounts(
+      items: Int,
+      contents: Int,
+      fileID: String = #fileID,
+      filePath: String = #filePath,
+      line: Int = #line,
+      column: Int = #column
+    ) throws {
+      let sourceLocation = SourceLocation(fileID: fileID, filePath: filePath, line: line, column: column)
+      try Storage.shared.context.save()
+
+      // Read through a different context so an uncommitted rollback bug cannot
+      // be hidden by the UI context's cached model state.
+      let context = ModelContext(Storage.shared.container)
+      #expect(
+        try context.fetchCount(FetchDescriptor<HistoryItem>()) == items,
+        sourceLocation: sourceLocation
+      )
+      #expect(
+        try context.fetchCount(FetchDescriptor<HistoryItemContent>()) == contents,
+        sourceLocation: sourceLocation
+      )
+    }
+
     private func assertStorageCounts(
       items: Int,
       contents: Int,
@@ -469,6 +1003,13 @@ extension SharedStateTests {
       )
     }
 
+    private func temporaryDatabaseLocation() throws -> (URL, URL) {
+      let directory = FileManager.default.temporaryDirectory
+        .appending(path: "MaccyProtectedTests-\(UUID().uuidString)", directoryHint: .isDirectory)
+      try FileManager.default.createDirectory(at: directory, withIntermediateDirectories: true)
+      return (directory, directory.appending(path: "Storage.sqlite"))
+    }
+
     private func historyItem(_ value: String, persisted: Bool = true) -> HistoryItem {
       let contents = [
         HistoryItemContent(
@@ -485,6 +1026,37 @@ extension SharedStateTests {
       item.title = item.generateTitle()
 
       return item
+    }
+  }
+}
+
+enum LegacyHistorySchema {
+  @Model
+  final class HistoryItem {
+    var application: String?
+    var firstCopiedAt: Date = Date.now
+    var lastCopiedAt: Date = Date.now
+    var numberOfCopies: Int = 1
+    var pin: String?
+    var title = ""
+
+    @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)
+    var contents: [HistoryItemContent] = []
+
+    init() {}
+  }
+
+  @Model
+  final class HistoryItemContent {
+    var type: String = ""
+    var value: Data?
+
+    @Relationship
+    var item: HistoryItem?
+
+    init(type: String, value: Data? = nil) {
+      self.type = type
+      self.value = value
     }
   }
 }
