@@ -12,7 +12,8 @@ enum SharedStateTests {
     defer { KeyboardShortcuts.setShortcut(savedShortcut, for: .pasteHTMLSource) }
 
     KeyboardShortcuts.reset(.pasteHTMLSource)
-    #expect(KeyChord(.return, [.control]) == .pasteHTMLSource)
+    #expect(KeyChord(.return, [.command, .shift]) == .pasteHTMLSource)
+    #expect(KeyChord(.return, [.control]) == .selectCurrentItem)
     #expect(KeyChord(.return, [.option]) == .selectCurrentItem)
     #expect(KeyChord(.return, [.shift]) == .selectCurrentItem)
     #expect(KeyChord(.return, []) == .selectCurrentItem)
@@ -20,11 +21,11 @@ enum SharedStateTests {
 
     KeyboardShortcuts.setShortcut(.init(.h, modifiers: [.command, .shift]), for: .pasteHTMLSource)
     #expect(KeyChord(.h, [.command, .shift]) == .pasteHTMLSource)
-    #expect(KeyChord(.return, [.control]) == .selectCurrentItem)
+    #expect(KeyChord(.return, [.command, .shift]) == .selectCurrentItem)
     #expect(!HistoryItem.supportedPins.contains("h"))
 
     KeyboardShortcuts.setShortcut(nil, for: .pasteHTMLSource)
     #expect(KeyChord(.h, [.command, .shift]) != .pasteHTMLSource)
-    #expect(KeyChord(.return, [.control]) == .selectCurrentItem)
+    #expect(KeyChord(.return, [.command, .shift]) == .selectCurrentItem)
   }
 }
