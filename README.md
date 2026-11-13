@@ -65,13 +65,6 @@ brew install maccy
 11. To ignore only the next copy, click on the menu icon with <kbd>OPTION (⌥)</kbd> + <kbd>SHIFT (⇧)</kbd> pressed.
 12. To customize the behavior, check "Preferences…" window, or press <kbd>COMMAND (⌘)</kbd> + <kbd>,</kbd>.
 
-To paste a selected item's HTML markup as text, press <kbd>SHIFT (⇧)</kbd> + <kbd>ENTER</kbd>.
-You can change this shortcut under **Preferences → General → Paste HTML source**.
-For example, a Teams message with bold text and a list pastes as HTML tags such as `<strong>` and `<ul>`.
-This action always pastes the HTML source, regardless of **Paste automatically** and **Paste without formatting**.
-It uses the HTML stored with the selected history item and leaves that item unchanged.
-If no HTML is stored, Maccy plays an alert sound and keeps the list open. Enable text storage and copy the message again.
-
 ## Advanced
 
 ### Ignore Copied Items

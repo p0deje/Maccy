@@ -80,14 +80,13 @@ class AppState: Sendable {
 
   @MainActor
   func pasteHTMLSource() {
-    guard let item = navigator.selection.first,
-          Clipboard.shared.copy(item.item, asHTMLSource: true) else {
+    guard let source = navigator.selection.first?.item.htmlSource else {
       NSSound.beep()
       return
     }
 
-    history.interruptPasteStack()
     popup.close()
+    Clipboard.shared.copyInMaccy(source)
     Clipboard.shared.paste()
     history.searchQuery = ""
   }
