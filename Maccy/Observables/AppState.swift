@@ -79,6 +79,19 @@ class AppState: Sendable {
   }
 
   @MainActor
+  func pasteHTMLSource() {
+    guard let source = navigator.selection.first?.item.htmlSource else {
+      NSSound.beep()
+      return
+    }
+
+    popup.close()
+    Clipboard.shared.copyInMaccy(source)
+    Clipboard.shared.paste()
+    history.searchQuery = ""
+  }
+
+  @MainActor
   func togglePin() {
     withTransaction(Transaction()) {
       navigator.selection.forEach { _, item in

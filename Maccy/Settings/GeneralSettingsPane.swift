@@ -57,13 +57,19 @@ struct GeneralSettingsPane: View {
           .help(Text("DeleteTooltip", tableName: "GeneralSettings"))
           .accessibilityLabel(Text("Delete", tableName: "GeneralSettings"))
       }
-      Settings.Section(
-        bottomDivider: true,
-        label: { Text("ShowPreview", tableName: "GeneralSettings") }
-      ) {
+      Settings.Section(label: { Text("ShowPreview", tableName: "GeneralSettings") }) {
         KeyboardShortcuts.Recorder(for: .togglePreview)
           .help(Text("ShowPreviewTooltip", tableName: "GeneralSettings"))
           .accessibilityLabel(Text("ShowPreview", tableName: "GeneralSettings"))
+      }
+
+      Settings.Section(
+        bottomDivider: true,
+        label: { Text("PasteHTMLSource", tableName: "GeneralSettings") }
+      ) {
+        KeyboardShortcuts.Recorder(for: .pasteHTMLSource)
+          .help(Text("PasteHTMLSourceTooltip", tableName: "GeneralSettings"))
+          .accessibilityLabel(Text("PasteHTMLSource", tableName: "GeneralSettings"))
       }
 
       Settings.Section(

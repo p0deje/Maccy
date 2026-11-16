@@ -220,6 +220,52 @@ extension SharedStateTests {
       #expect(pasteboard.data(forType: .rtf) == nil)
     }
 
+    @Test("Copies stored HTML source as plain text")
+    func copyHTMLSource() throws {
+      let source = """
+      <meta charset='utf-8'><span data-teams="true"><p>Test <strong>bold</strong> and <i>italics</i>.</p>
+      <ul><li>This is</li><li>a list — café 👋</li></ul>&nbsp;</span>
+      """
+      let item = HistoryItem()
+      Storage.shared.context.insert(item)
+      item.contents = [
+        HistoryItemContent(type: htmlType.rawValue, value: Data(source.utf8)),
+        HistoryItemContent(type: stringType.rawValue, value: Data("plain text".utf8))
+      ]
+      pasteboard.clearContents()
+      pasteboard.setString("<p>Different clipboard item</p>", forType: .html)
+
+      clipboard.copyInMaccy(try #require(item.htmlSource))
+      #expect(pasteboard.string(forType: .string) == source)
+      #expect(pasteboard.data(forType: .html) == nil)
+      #expect(pasteboard.data(forType: .rtf) == nil)
+      #expect(item.htmlData == Data(source.utf8))
+      #expect(item.text == "plain text")
+
+      clipboard.copy(item)
+      #expect(pasteboard.string(forType: .html) == source)
+      #expect(pasteboard.string(forType: .string) == "plain text")
+    }
+
+    @Test("Missing or empty HTML leaves the clipboard unchanged", arguments: [nil, Data()])
+    func pasteMissingHTMLSource(data: Data?) {
+      let appState = AppState(history: History(), footer: Footer())
+      let item = HistoryItem()
+      Storage.shared.context.insert(item)
+      item.contents = [HistoryItemContent(type: htmlType.rawValue, value: data)]
+      appState.navigator.select(item: HistoryItemDecorator(item))
+      appState.history.searchQuery = "Keep this search"
+      pasteboard.clearContents()
+      pasteboard.setString("Keep this clipboard", forType: .string)
+      let changeCount = pasteboard.changeCount
+
+      appState.pasteHTMLSource()
+      #expect(item.htmlSource == nil)
+      #expect(pasteboard.string(forType: .string) == "Keep this clipboard")
+      #expect(pasteboard.changeCount == changeCount)
+      #expect(appState.history.searchQuery == "Keep this search")
+    }
+
     @Test("Handles items without data")
     func handlesItemsWithoutData() async throws {
       pasteboard.clearContents()

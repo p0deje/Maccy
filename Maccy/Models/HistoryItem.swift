@@ -35,6 +35,11 @@ class HistoryItem {
       keys.remove(character)
     }
 
+    if let htmlSourceKey = KeyChord.htmlSourceKey,
+       let character = Sauce.shared.character(for: Int(htmlSourceKey.QWERTYKeyCode), modifiers: .cocoa([])) {
+      keys.remove(character)
+    }
+
     return keys
   }
 
@@ -166,6 +171,16 @@ class HistoryItem {
   }
 
   var htmlData: Data? { contentData([.html]) }
+  var htmlSource: String? {
+    let pasteboardItem = NSPasteboardItem()
+    guard let data = htmlData,
+          pasteboardItem.setData(data, forType: .html),
+          let source = pasteboardItem.string(forType: .html), !source.isEmpty else {
+      return nil
+    }
+    return source
+  }
+
   var html: NSAttributedString? {
     guard let data = htmlData else {
       return nil
