@@ -36,6 +36,7 @@ struct ListItemView<Title: View, ID: Hashable>: View {
   var accessoryImage: NSImage?
   var attributedTitle: AttributedString?
   var shortcuts: [KeyShortcut]
+  var isProtected: Bool = false
   var isSelected: Bool
   var selectionIndex: Int?
   var help: LocalizedStringKey?
@@ -91,6 +92,13 @@ struct ListItemView<Title: View, ID: Hashable>: View {
       Spacer()
 
       HStack(spacing: 5) {
+        if isProtected {
+          Image(systemName: "lock.fill")
+            .font(.caption2)
+            .foregroundStyle(isSelected ? Color.white : Color.secondary)
+            .accessibilityHidden(true)
+        }
+
         if let displaySelectionIndex {
           Text(displaySelectionIndex)
             .font(.caption)

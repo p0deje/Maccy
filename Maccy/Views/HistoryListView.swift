@@ -19,6 +19,13 @@ struct HistoryListView: View {
   private var unpinnedItems: [HistoryItemDecorator] {
     appState.history.unpinnedItems
   }
+  private var isSearching: Bool {
+    !searchQuery.isEmpty
+  }
+  private var scrollableItems: [HistoryItemDecorator] {
+    // Keep every search result in one scroll region, in keyboard navigation order.
+    isSearching ? appState.history.items.toArray() : unpinnedItems
+  }
   private var showPinsSeparator: Bool {
     pinsVisible && !unpinnedItems.isEmpty
   }
@@ -66,9 +73,9 @@ struct HistoryListView: View {
   }
 
   var body: some View {
-    let topPinsVisible = pinTo == .top && pinsVisible
-    let bottomPinsVisible = pinTo == .bottom && pinsVisible
-    let historyEmpty = unpinnedItems.isEmpty
+    let topPinsVisible = !isSearching && pinTo == .top && pinsVisible
+    let bottomPinsVisible = !isSearching && pinTo == .bottom && pinsVisible
+    let historyEmpty = scrollableItems.isEmpty
     let topSeparatorVisible = !historyEmpty && (topPinsVisible || pasteStackVisible)
     let bottomSeparatorVisible = !historyEmpty && bottomPinsVisible
     let scrollTopPadding = topSeparatorVisible ? Popup.verticalSeparatorPadding : topPadding
@@ -100,7 +107,7 @@ struct HistoryListView: View {
 
     ScrollView {
       ScrollViewReader { proxy in
-        MultipleSelectionListView(items: unpinnedItems) { previous, item, next, index in
+        MultipleSelectionListView(items: scrollableItems) { previous, item, next, index in
           HistoryItemView(item: item, previous: previous, next: next, index: index)
         }
         .padding(.top, scrollTopPadding)
@@ -120,7 +127,12 @@ struct HistoryListView: View {
           if scenePhase == .active {
             searchFocused = true
             appState.navigator.isKeyboardNavigating = true
-            appState.navigator.select(item: appState.history.firstUnpinnedItem ?? appState.history.firstPinnedItem)
+            if appState.history.searchQuery.isEmpty {
+              appState.navigator.select(item: appState.history.firstUnpinnedItem ?? appState.history.firstPinnedItem)
+            } else {
+              // Highlight the first visible row in the current search order.
+              appState.navigator.highlightFirst()
+            }
             appState.preview.enableAutoOpen()
             appState.preview.resetAutoOpenSuppression()
             appState.preview.startAutoOpen()

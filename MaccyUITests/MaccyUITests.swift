@@ -119,6 +119,71 @@ class MaccyUITests: XCTestCase {
     assertNotExists(items[copy1])
   }
 
+  func testProtectedSearchCopiesFirstResultWithEnter() {
+    launchProtectedSearchTest(windowHeight: 800)
+    let query = String(UUID().uuidString.prefix(8))
+    let protected = "\(query) protected"
+    let ordinary = "\(query) ordinary"
+    copyToClipboard(protected)
+    popUpWithMouse()
+    guard app.dialogs.firstMatch.exists else { return }
+    search(protected)
+    toggleProtection(protected)
+    app.typeKey(.escape, modifierFlags: [])
+
+    copyToClipboard(ordinary)
+    popUpWithMouse()
+    guard app.dialogs.firstMatch.exists else { return }
+    search(query)
+
+    XCTAssertLessThan(items[protected].frame.minY, items[ordinary].frame.minY)
+    app.typeKey(.enter, modifierFlags: [])
+    assertPopupDismissed()
+    assertPasteboardStringEquals(protected)
+  }
+
+  func testProtectedSearchResultsScrollWithKeyboard() {
+    launchProtectedSearchTest(windowHeight: 260)
+    let query = String(UUID().uuidString.prefix(8))
+    let titles = (0..<12).map { "\(query) item \($0)" }
+    for title in titles {
+      copyToClipboard(title)
+      popUpWithMouse()
+      guard app.dialogs.firstMatch.exists else { return }
+      search(title)
+      toggleProtection(title)
+      XCTAssertTrue(items[title].label.contains("Protected"))
+      app.typeKey(.escape, modifierFlags: [])
+    }
+
+    popUpWithMouse()
+    guard app.dialogs.firstMatch.exists else { return }
+    search(query)
+    XCTAssertLessThan(app.dialogs.firstMatch.frame.height, 300)
+    let container = app.scrollViews["history-scroll-view"].firstMatch
+    XCTAssertLessThan(container.frame.height, CGFloat(titles.count) * 22)
+    for _ in 1..<titles.count {
+      app.typeKey(.downArrow, modifierFlags: [])
+    }
+
+    let target = items[titles[0]]
+    let visible = NSPredicate { _, _ in
+      target.exists && container.exists && container.frame.contains(target.frame)
+    }
+    expectation(for: visible, evaluatedWith: nil)
+    waitForExpectations(timeout: 3)
+    app.typeKey(.enter, modifierFlags: [])
+    assertPasteboardStringEquals(titles[0])
+  }
+
+  private func launchProtectedSearchTest(windowHeight: Int) {
+    app.terminate()
+    app.launchArguments.append(contentsOf: [
+      "-windowSize", "\"[450,\(windowHeight)]\"", "-openPreviewAutomatically", "NO"
+    ])
+    app.launch()
+  }
+
   func testSearchFiles() {
     copyToClipboard(file2)
     copyToClipboard(file1)
@@ -303,6 +368,20 @@ class MaccyUITests: XCTestCase {
     assertNotExists(items[copy2])
   }
 
+  func testClearPreservesProtected() {
+    popUpWithMouse()
+    search(copy2)
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
+    toggleProtection(copy2)
+    XCTAssertTrue(items[copy2].label.contains("Protected"))
+    clearSearch()
+    hoverAndClick(app.buttons["Clear"].firstMatch)
+    confirmClear()
+    popUpWithMouse()
+    assertExists(items[copy2])
+    assertNotExists(items[copy1])
+  }
+
   func testClearAll() {
     popUpWithMouse()
     scrollIntoViewIfNeeded(items[copy2].firstMatch)
@@ -325,6 +404,34 @@ class MaccyUITests: XCTestCase {
     app.typeKey(.escape, modifierFlags: [])
     popUpWithMouse()
     XCTAssertEqual(Array(itemTitles.prefix(2)), [copy2, copy1])
+  }
+
+  func testProtectAndUnprotect() {
+    popUpWithMouse()
+    search(copy2)
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
+    toggleProtection(copy2)
+    XCTAssertTrue(items[copy2].label.contains("Protected"))
+
+    toggleProtection(copy2)
+    XCTAssertFalse(items[copy2].label.contains("Protected"))
+  }
+
+  func testProtectFromUnfilteredHistory() {
+    popUpWithMouse()
+    scrollIntoViewIfNeeded(items[copy1].firstMatch)
+    toggleProtection(copy1)
+    XCTAssertTrue(items[copy1].label.contains("Protected"))
+  }
+
+  func testProtectDuringSearchPreservesSearch() {
+    popUpWithMouse()
+    search(copy2)
+    scrollIntoViewIfNeeded(items[copy2].firstMatch)
+    toggleProtection(copy2)
+    assertSearchFieldValue(copy2)
+    assertExists(items[copy2])
+    assertNotExists(items[copy1])
   }
 
   func testPinDuringSearch() {
@@ -597,10 +704,11 @@ class MaccyUITests: XCTestCase {
   }
 
   private func pressStatusItemViaAccessibility() {
-    let pid = NSRunningApplication.runningApplications(withBundleIdentifier: "org.p0deje.Maccy")
+    let pid = NSWorkspace.shared.runningApplications
+      .filter { $0.executableURL?.lastPathComponent == "Maccy" }
       .max { ($0.launchDate ?? .distantPast) < ($1.launchDate ?? .distantPast) }?
       .processIdentifier
-    guard let pid else {
+    guard let pid, pid > 0 else {
       XCTFail("Maccy is not running")
       return
     }
@@ -743,6 +851,14 @@ class MaccyUITests: XCTestCase {
     usleep(1_500_000)
   }
 
+  private func toggleProtection(_ title: String) {
+    hover(items[title].firstMatch)
+    let button = app.buttons["toggle-protection"].firstMatch
+    assertExists(button)
+    hoverAndClick(button)
+    usleep(500_000)
+  }
+
   private func drag(_ element: XCUIElement, before target: XCUIElement) {
     hover(element)
     let source = element.coordinate(withNormalizedOffset: CGVector(dx: 0.5, dy: 0.5))
@@ -798,6 +914,13 @@ class MaccyUITests: XCTestCase {
     // NOTE: This is a hack and is flaky.
     // Ideally we should wait for a proper condition to detect that search has settled down.
     usleep(500000)  // wait for search throttle
+  }
+
+  private func clearSearch() {
+    app.typeKey("a", modifierFlags: [.command])
+    app.typeKey(.delete, modifierFlags: [])
+    waitForSearch()
+    assertSearchFieldValue("")
   }
 
   private func assertExists(_ element: XCUIElement) {

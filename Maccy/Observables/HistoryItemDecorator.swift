@@ -4,6 +4,20 @@ import Foundation
 import Observation
 import Sauce
 
+enum HistoryItemLocalization {
+  static let protectedStatus = NSLocalizedString(
+    "history_item_protected_accessibility_value",
+    value: "Protected",
+    comment: ""
+  )
+
+  static func protectionAction(isProtected: Bool) -> String {
+    let key = isProtected ? "history_item_unprotect_action" : "history_item_protect_action"
+    let fallback = isProtected ? "Unprotect" : "Protect"
+    return NSLocalizedString(key, value: fallback, comment: "")
+  }
+}
+
 @Observable
 class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   private static let previewMaxParagraphSize = 10_000
@@ -63,6 +77,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
   var isPinned: Bool { item.pin != nil }
   var isUnpinned: Bool { item.pin == nil }
+  var isProtected: Bool
 
   func hash(into hasher: inout Hasher) {
     // We need to hash title and attributedTitle, so SwiftUI knows it needs to update the view if they chage
@@ -101,6 +116,9 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     if isPinned {
       parts.append(NSLocalizedString("history_item_pinned_accessibility_value", comment: ""))
     }
+    if isProtected {
+      parts.append(HistoryItemLocalization.protectedStatus)
+    }
     if let index = multiSelectionIndex {
       parts.append(
         String(
@@ -117,6 +135,7 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     self.item = item
     self.shortcuts = shortcuts
     self.title = item.title
+    self.isProtected = item.isProtected
     self.applicationImage = ApplicationImageCache.shared.getImage(item: item)
 
     synchronizeItemPin()
@@ -224,6 +243,12 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     }
 
     attributedTitle = attributedString
+  }
+
+  /// Mirror SwiftData state into an observed property so views refresh when
+  /// protection changes without a pin-driven history reorder.
+  func synchronizeProtection() {
+    isProtected = item.isProtected
   }
 
   private func synchronizeItemPin() {
