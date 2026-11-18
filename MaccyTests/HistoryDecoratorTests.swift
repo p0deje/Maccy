@@ -53,10 +53,18 @@ extension SharedStateTests {
     }
 
     @Test("HTML")
-    func html() {
+    func html() async throws {
       let html = "<a href='#'>foo</a>".data(using: .utf8)
       let itemDecorator = historyItemDecorator(html, .html)
+      // The HTML is imported in the background, so the text arrives later.
+      _ = itemDecorator.previewText
+      let deadline = ContinuousClock.now + .seconds(10)
+      while (itemDecorator.title.isEmpty || itemDecorator.previewText.string.isEmpty)
+              && ContinuousClock.now < deadline {
+        try await Task.sleep(for: .milliseconds(100))
+      }
       #expect(itemDecorator.title == "foo")
+      #expect(itemDecorator.previewText.string.trimmingCharacters(in: .whitespacesAndNewlines) == "foo")
       #expect(itemDecorator.previewImage == nil)
       #expect(itemDecorator.thumbnailImage == nil)
     }

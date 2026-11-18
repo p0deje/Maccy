@@ -118,8 +118,22 @@ class HistoryItem {
       return ""
     }
 
+    if let html = htmlForPreview {
+      Task {
+        if let text = await Self.htmlText(from: html), !text.isEmpty {
+          self.title = Self.formattedTitle(from: text)
+        }
+      }
+      return title
+    }
+
+    return Self.formattedTitle(from: previewableText)
+  }
+
+  @MainActor
+  private static func formattedTitle(from text: String) -> String {
     // 1k characters is trade-off for performance
-    var title = previewableText
+    var title = text
       .shortened(to: 1_000)
       .removingScalarsUnsafeForTitleLayout()
 
@@ -140,20 +154,34 @@ class HistoryItem {
     return title
   }
 
+  // Never imports HTML: HTML-only items show their title here until
+  // htmlText(from:) delivers the text asynchronously.
   var previewableText: String {
+    previewableTextWithoutHTML ?? title
+  }
+
+  private var previewableTextWithoutHTML: String? {
     if !fileURLs.isEmpty {
-      fileURLs
+      return fileURLs
         .compactMap { $0.absoluteString.removingPercentEncoding }
         .joined(separator: "\n")
     } else if let text = text, !text.isEmpty {
-      text
+      return text
     } else if let rtf = rtf, !rtf.string.isEmpty {
-      rtf.string
-    } else if let html = html, !html.string.isEmpty {
-      html.string
-    } else {
-      title
+      return rtf.string
     }
+    return nil
+  }
+
+  // HTML to import when it is the only source of text. Images are left out:
+  // their preview is the image itself and their title comes from OCR.
+  var htmlForPreview: Data? {
+    guard previewableTextWithoutHTML == nil,
+          contentData(Self.imageTypes) == nil,
+          !universalClipboardImage else {
+      return nil
+    }
+    return htmlData
   }
 
   var fileURLs: [URL] {
@@ -166,12 +194,33 @@ class HistoryItem {
   }
 
   var htmlData: Data? { contentData([.html]) }
-  var html: NSAttributedString? {
-    guard let data = htmlData else {
-      return nil
-    }
 
-    return NSAttributedString(html: data, documentAttributes: nil)
+  // Serial, like textRecognitionQueue: retitling every item (special symbols
+  // toggle) must not start hundreds of blocking imports at once.
+  nonisolated private static let htmlImportQueue = DispatchQueue(
+    label: "org.p0deje.Maccy.htmlImport",
+    qos: .utility
+  )
+
+  // An unreachable subresource otherwise holds an import for the 60 second
+  // network timeout. Giving up leaves the item with its title.
+  nonisolated private static let htmlImportTimeout: TimeInterval = 10
+
+  /// Imports HTML on a background queue and returns its text. The importer
+  /// loads subresources such as `<img src>` synchronously, so an unreachable
+  /// host blocks it for up to a minute; it must never run on the main actor.
+  /// See https://github.com/p0deje/Maccy/issues/1641.
+  nonisolated static func htmlText(from data: Data) async -> String? {
+    await withCheckedContinuation { continuation in
+      htmlImportQueue.async {
+        let text = NSAttributedString(
+          html: data,
+          options: [.timeout: htmlImportTimeout],
+          documentAttributes: nil
+        )?.string
+        continuation.resume(returning: text)
+      }
+    }
   }
 
   var imageData: Data? {
