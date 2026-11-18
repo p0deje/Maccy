@@ -38,8 +38,11 @@ struct ItemEditorView: View {
     self._isTextContent = State(
       initialValue: item.hasPlainText && !item.hasImage && !item.hasFileURLs
     )
+    // While HTML text is still importing, previewText is only the title, and
+    // saving an edit of it would replace the HTML with that title.
     self._isRichText = State(
       initialValue: item.hasRichText && !item.hasImage && !item.hasFileURLs
+        && !item.isLoadingHTMLPreviewText
     )
   }
 

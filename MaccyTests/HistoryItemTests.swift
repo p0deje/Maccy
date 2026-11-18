@@ -63,10 +63,15 @@ extension SharedStateTests {
       #expect(historyItem(rtf, .rtf).title == "foo")
     }
 
-    @Test("Title for HTML")
-    func titleWithHTML() {
+    @Test("Title for HTML is imported asynchronously")
+    func titleWithHTML() async throws {
       let html = "<a href='#'>foo</a>".data(using: .utf8)
-      #expect(historyItem(html, .html).title == "foo")
+      let item = historyItem(html, .html)
+      let deadline = ContinuousClock.now + .seconds(10)
+      while item.title.isEmpty && ContinuousClock.now < deadline {
+        try await Task.sleep(for: .milliseconds(100))
+      }
+      #expect(item.title == "foo")
     }
 
     @Test("Image has an empty title")
@@ -153,6 +158,46 @@ extension SharedStateTests {
     @Test("Item without data has an empty title")
     func itemWithoutData() {
       #expect(historyItem(nil).title == "")
+    }
+
+    // The HTML importer loads subresources synchronously, so an unreachable
+    // host blocked the main actor for about a minute (#1641).
+    @Test("Previewable text never imports HTML")
+    func previewableTextDoesNotImportHTML() {
+      let html = Data("<p>foo</p>".utf8)
+      let item = historyItem(html, .html)
+      #expect(item.htmlForPreview == html)
+      #expect(item.previewableText == item.title)
+    }
+
+    @Test("HTML text is imported off the main thread")
+    func htmlTextIsImportedInBackground() async {
+      let text = await HistoryItem.htmlText(from: Data("<p>foo</p>".utf8))
+      #expect(text?.trimmingCharacters(in: .whitespacesAndNewlines) == "foo")
+    }
+
+    @Test("HTML of an image is not imported")
+    func imageHTMLIsNotImported() throws {
+      let image = try #require(NSImage(named: "NSBluetoothTemplate"))
+      let item = HistoryItem()
+      Storage.shared.context.insert(item)
+      item.contents = [
+        HistoryItemContent(type: NSPasteboard.PasteboardType.tiff.rawValue, value: image.tiffRepresentation),
+        HistoryItemContent(type: NSPasteboard.PasteboardType.html.rawValue, value: Data("<img src=\"x.png\">".utf8))
+      ]
+      #expect(item.htmlForPreview == nil)
+    }
+
+    @Test("Plain text wins over HTML")
+    func plainTextWinsOverHTML() {
+      let item = HistoryItem()
+      Storage.shared.context.insert(item)
+      item.contents = [
+        HistoryItemContent(type: NSPasteboard.PasteboardType.string.rawValue, value: "foo".data(using: .utf8)),
+        HistoryItemContent(type: NSPasteboard.PasteboardType.html.rawValue, value: Data("<p>bar</p>".utf8))
+      ]
+      #expect(item.htmlForPreview == nil)
+      #expect(item.previewableText == "foo")
     }
 
     @Test("Several items can have an empty pin")
