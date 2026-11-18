@@ -25,6 +25,8 @@
 "history_item_pin_action" = "Épingler";
 "history_item_unpin_action" = "Détacher";
 "history_item_delete_action" = "Supprimer";
+"history_item_share_action" = "Partager…";
+"history_item_save_action" = "Enregistrer…";
 "history_item_pinned_accessibility_value" = "Épinglé";
 "history_item_selected_accessibility_value" = "Sélectionné, %d sur %d";
 "history_item_image_accessibility_label_no_app" = "Image, %d×%d";

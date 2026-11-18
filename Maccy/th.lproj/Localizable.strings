@@ -25,6 +25,8 @@
 "history_item_pin_action" = "ปักหมุด";
 "history_item_unpin_action" = "เลิกปักหมุด";
 "history_item_delete_action" = "ลบ";
+"history_item_share_action" = "แชร์…";
+"history_item_save_action" = "บันทึก…";
 "history_item_pinned_accessibility_value" = "ปักหมุดแล้ว";
 "history_item_selected_accessibility_value" = "เลือกแล้ว %d จาก %d";
 "history_item_image_accessibility_label_no_app" = "รูปภาพ %d×%d";

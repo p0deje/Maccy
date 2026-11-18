@@ -18,6 +18,8 @@
 "history_item_pin_action" = "تثبيت";
 "history_item_unpin_action" = "إلغاء التثبيت";
 "history_item_delete_action" = "حذف";
+"history_item_share_action" = "مشاركة…";
+"history_item_save_action" = "حفظ…";
 "history_item_pinned_accessibility_value" = "مثبّت";
 "history_item_selected_accessibility_value" = "محدد، %d من %d";
 "history_item_image_accessibility_label_no_app" = "صورة، %d×%d";

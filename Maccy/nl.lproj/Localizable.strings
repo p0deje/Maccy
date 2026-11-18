@@ -25,6 +25,8 @@
 "history_item_pin_action" = "Pinnen";
 "history_item_unpin_action" = "Ontpinnen";
 "history_item_delete_action" = "Verwijderen";
+"history_item_share_action" = "Deel…";
+"history_item_save_action" = "Bewaar…";
 "history_item_pinned_accessibility_value" = "Gepind";
 "history_item_selected_accessibility_value" = "Geselecteerd, %d van %d";
 "history_item_image_accessibility_label_no_app" = "Afbeelding, %d×%d";

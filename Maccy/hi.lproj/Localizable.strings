@@ -21,6 +21,8 @@
 "history_item_pin_action" = "पिन करें";
 "history_item_unpin_action" = "पिन हटाएँ";
 "history_item_delete_action" = "हटाएँ";
+"history_item_share_action" = "शेयर करें…";
+"history_item_save_action" = "सहेजें…";
 "history_item_pinned_accessibility_value" = "पिन किया गया";
 "history_item_selected_accessibility_value" = "चयनित, %d / %d";
 "history_item_image_accessibility_label_no_app" = "छवि, %d×%d";

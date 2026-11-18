@@ -25,6 +25,8 @@
 "history_item_pin_action" = "Fixa";
 "history_item_unpin_action" = "Desfixa";
 "history_item_delete_action" = "Elimina";
+"history_item_share_action" = "Comparteix…";
+"history_item_save_action" = "Desa…";
 "history_item_pinned_accessibility_value" = "Fixat";
 "history_item_selected_accessibility_value" = "Seleccionat, %d de %d";
 "history_item_image_accessibility_label_no_app" = "Imatge, %d×%d";

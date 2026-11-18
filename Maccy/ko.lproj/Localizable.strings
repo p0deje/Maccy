@@ -25,6 +25,8 @@
 "history_item_pin_action" = "고정";
 "history_item_unpin_action" = "고정 해제";
 "history_item_delete_action" = "삭제";
+"history_item_share_action" = "공유…";
+"history_item_save_action" = "저장…";
 "history_item_pinned_accessibility_value" = "고정됨";
 "history_item_selected_accessibility_value" = "선택됨, %d/%d";
 "history_item_image_accessibility_label_no_app" = "이미지, %d×%d";

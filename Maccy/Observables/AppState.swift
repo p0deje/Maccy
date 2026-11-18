@@ -18,8 +18,10 @@ class AppState: Sendable {
   var preview: SlideoutController
 
   var isEditingItem: Bool = false
+  // Keeps the popup open while the share menu or save panel is shown.
+  var isPresentingSystemPanel: Bool = false
   var suppressPopupAutoClose: Bool {
-    return navigator.isDragAndDropInProgress || isEditingItem
+    return navigator.isDragAndDropInProgress || isEditingItem || isPresentingSystemPanel
   }
 
   var searchVisible: Bool {

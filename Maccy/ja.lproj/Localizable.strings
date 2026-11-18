@@ -25,6 +25,8 @@
 "history_item_pin_action" = "ピン留め";
 "history_item_unpin_action" = "ピン留めを外す";
 "history_item_delete_action" = "削除";
+"history_item_share_action" = "共有…";
+"history_item_save_action" = "保存…";
 "history_item_pinned_accessibility_value" = "ピン留め済み";
 "history_item_selected_accessibility_value" = "選択中、%d / %d";
 "history_item_image_accessibility_label_no_app" = "画像、%d×%d";

@@ -25,6 +25,8 @@
 "history_item_pin_action" = "Anheften";
 "history_item_unpin_action" = "Lösen";
 "history_item_delete_action" = "Löschen";
+"history_item_share_action" = "Teilen …";
+"history_item_save_action" = "Sichern …";
 "history_item_pinned_accessibility_value" = "Angeheftet";
 "history_item_selected_accessibility_value" = "Ausgewählt, %d von %d";
 "history_item_image_accessibility_label_no_app" = "Bild, %d×%d";

@@ -25,6 +25,8 @@
 "history_item_pin_action" = "چەسپاندن";
 "history_item_unpin_action" = "لابردنی چەسپاندن";
 "history_item_delete_action" = "سڕینەوە";
+"history_item_share_action" = "هاوبەشکردن…";
+"history_item_save_action" = "پاشەکەوتکردن…";
 "history_item_pinned_accessibility_value" = "چەسپێنراو";
 "history_item_selected_accessibility_value" = "هەڵبژێردراو، %d لە %d";
 "history_item_image_accessibility_label_no_app" = "وێنە، %d×%d";

@@ -25,6 +25,8 @@
 "history_item_pin_action" = "Sematkan";
 "history_item_unpin_action" = "Lepas sematan";
 "history_item_delete_action" = "Hapus";
+"history_item_share_action" = "Bagikan…";
+"history_item_save_action" = "Simpan…";
 "history_item_pinned_accessibility_value" = "Disematkan";
 "history_item_selected_accessibility_value" = "Dipilih, %d dari %d";
 "history_item_image_accessibility_label_no_app" = "Gambar, %d×%d";

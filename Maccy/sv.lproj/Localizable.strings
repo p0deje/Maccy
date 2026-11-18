@@ -25,6 +25,8 @@
 "history_item_pin_action" = "Fäst";
 "history_item_unpin_action" = "Lossa";
 "history_item_delete_action" = "Radera";
+"history_item_share_action" = "Dela…";
+"history_item_save_action" = "Spara…";
 "history_item_pinned_accessibility_value" = "Fäst";
 "history_item_selected_accessibility_value" = "Vald, %d av %d";
 "history_item_image_accessibility_label_no_app" = "Bild, %d×%d";
