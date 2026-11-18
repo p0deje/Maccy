@@ -20,6 +20,8 @@
 "history_item_pin_action" = "পিন করুন";
 "history_item_unpin_action" = "পিন সরান";
 "history_item_delete_action" = "মুছুন";
+"history_item_share_action" = "শেয়ার করুন…";
+"history_item_save_action" = "সেভ করুন…";
 "history_item_pinned_accessibility_value" = "পিন করা";
 "history_item_selected_accessibility_value" = "নির্বাচিত, %d / %d";
 "history_item_image_accessibility_label_no_app" = "ছবি, %d×%d";

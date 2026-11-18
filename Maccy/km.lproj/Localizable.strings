@@ -18,6 +18,8 @@
 "history_item_pin_action" = "ខ្ទាស់";
 "history_item_unpin_action" = "ដកខ្ទាស់";
 "history_item_delete_action" = "លុប";
+"history_item_share_action" = "ចែករំលែក…";
+"history_item_save_action" = "រក្សាទុក…";
 "history_item_pinned_accessibility_value" = "បានខ្ទាស់";
 "history_item_selected_accessibility_value" = "បានជ្រើស %d ក្នុងចំណោម %d";
 "history_item_image_accessibility_label_no_app" = "រូបភាព %d×%d";

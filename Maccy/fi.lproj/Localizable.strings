@@ -18,6 +18,8 @@
 "history_item_pin_action" = "Kiinnitä";
 "history_item_unpin_action" = "Irrota";
 "history_item_delete_action" = "Poista";
+"history_item_share_action" = "Jaa…";
+"history_item_save_action" = "Tallenna…";
 "history_item_pinned_accessibility_value" = "Kiinnitetty";
 "history_item_selected_accessibility_value" = "Valittu, %d/%d";
 "history_item_image_accessibility_label_no_app" = "Kuva, %d×%d";

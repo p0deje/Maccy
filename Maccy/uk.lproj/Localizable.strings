@@ -25,6 +25,8 @@
 "history_item_pin_action" = "Закріпити";
 "history_item_unpin_action" = "Відкріпити";
 "history_item_delete_action" = "Видалити";
+"history_item_share_action" = "Поширити…";
+"history_item_save_action" = "Зберегти…";
 "history_item_pinned_accessibility_value" = "Закріплено";
 "history_item_selected_accessibility_value" = "Вибрано, %d з %d";
 "history_item_image_accessibility_label_no_app" = "Зображення, %d×%d";

@@ -18,6 +18,8 @@
 "history_item_pin_action" = "Замацаваць";
 "history_item_unpin_action" = "Адмацаваць";
 "history_item_delete_action" = "Выдаліць";
+"history_item_share_action" = "Абагуліць…";
+"history_item_save_action" = "Захаваць…";
 "history_item_pinned_accessibility_value" = "Замацавана";
 "history_item_selected_accessibility_value" = "Выбрана, %d з %d";
 "history_item_image_accessibility_label_no_app" = "Выява, %d×%d";

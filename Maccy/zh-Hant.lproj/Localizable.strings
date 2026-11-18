@@ -25,6 +25,8 @@
 "history_item_pin_action" = "固定";
 "history_item_unpin_action" = "取消固定";
 "history_item_delete_action" = "刪除";
+"history_item_share_action" = "分享…";
+"history_item_save_action" = "儲存…";
 "history_item_pinned_accessibility_value" = "已固定";
 "history_item_selected_accessibility_value" = "已選取，第 %d 項，共 %d 項";
 "history_item_image_accessibility_label_no_app" = "影像，%d×%d";

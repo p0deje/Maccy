@@ -22,6 +22,8 @@
 "history_item_pin_action" = "Καρφίτσωμα";
 "history_item_unpin_action" = "Ξεκαρφίτσωμα";
 "history_item_delete_action" = "Διαγραφή";
+"history_item_share_action" = "Κοινοποίηση…";
+"history_item_save_action" = "Αποθήκευση…";
 "history_item_pinned_accessibility_value" = "Καρφιτσωμένο";
 "history_item_selected_accessibility_value" = "Επιλεγμένο, %d από %d";
 "history_item_image_accessibility_label_no_app" = "Εικόνα, %d×%d";

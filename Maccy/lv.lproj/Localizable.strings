@@ -19,6 +19,8 @@
 "history_item_pin_action" = "Piespraust";
 "history_item_unpin_action" = "Atspraust";
 "history_item_delete_action" = "Dzēst";
+"history_item_share_action" = "Kopīgot…";
+"history_item_save_action" = "Saglabāt…";
 "history_item_pinned_accessibility_value" = "Piesprausts";
 "history_item_selected_accessibility_value" = "Atlasīts, %d no %d";
 "history_item_image_accessibility_label_no_app" = "Attēls, %d×%d";

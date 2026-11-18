@@ -22,6 +22,8 @@
 "history_item_pin_action" = "Fiksi";
 "history_item_unpin_action" = "Malfiksi";
 "history_item_delete_action" = "Forigi";
+"history_item_share_action" = "Kunhavigi…";
+"history_item_save_action" = "Konservi…";
 "history_item_pinned_accessibility_value" = "Fiksita";
 "history_item_selected_accessibility_value" = "Elektita, %d el %d";
 "history_item_image_accessibility_label_no_app" = "Bildo, %d×%d";

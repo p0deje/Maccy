@@ -25,6 +25,8 @@
 "history_item_pin_action" = "Ghim";
 "history_item_unpin_action" = "Bỏ ghim";
 "history_item_delete_action" = "Xóa";
+"history_item_share_action" = "Chia sẻ…";
+"history_item_save_action" = "Lưu…";
 "history_item_pinned_accessibility_value" = "Đã ghim";
 "history_item_selected_accessibility_value" = "Đã chọn, %d trên %d";
 "history_item_image_accessibility_label_no_app" = "Hình ảnh, %d×%d";

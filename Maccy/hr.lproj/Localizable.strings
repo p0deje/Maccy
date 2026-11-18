@@ -25,6 +25,8 @@
 "history_item_pin_action" = "Prikvači";
 "history_item_unpin_action" = "Otkvači";
 "history_item_delete_action" = "Izbriši";
+"history_item_share_action" = "Podijeli…";
+"history_item_save_action" = "Spremi…";
 "history_item_pinned_accessibility_value" = "Prikvačeno";
 "history_item_selected_accessibility_value" = "Odabrano, %d od %d";
 "history_item_image_accessibility_label_no_app" = "Slika, %d×%d";
