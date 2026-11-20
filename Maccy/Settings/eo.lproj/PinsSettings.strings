@@ -5,4 +5,4 @@
 "ContentIsNotText" = "Ne-redaktebla enhavo (bildo aŭ dosiero)";
 "ParagraphsTooLongToEdit" = "La teksto enhavas alineojn tro longajn por redakti.";
 "RichTextEditWarning" = "Redaktado forigos ĉian tekstaranĝon.";
-"PinCustomizationDescription" = "";
+"PinCustomizationDescription" = "You can customize the hotkey, title, and content of any pinned item. To edit, double-click the item and enter a new value.\nPlease note that only plain text can be changed.";
