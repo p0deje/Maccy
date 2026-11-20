@@ -78,6 +78,19 @@ struct ToolbarView: View {
     return appState.navigator.selection.items.allSatisfy { $0.isPinned }
   }
 
+  private var shouldUnprotect: Bool {
+    return appState.navigator.selection.items.allSatisfy { $0.isProtected }
+  }
+
+  private var protectionActionTitle: String {
+    HistoryItemLocalization.protectionAction(isProtected: shouldUnprotect)
+  }
+
+  private var protectActionDisabled: Bool {
+    return appState.navigator.selection.items.contains { $0.isProtected }
+      && appState.navigator.selection.items.contains { !$0.isProtected }
+  }
+
   private var pinActionDisabled: Bool {
     return appState.navigator.selection.items.contains { $0.isPinned }
       && appState.navigator.selection.items.contains { !$0.isPinned }
@@ -128,6 +141,20 @@ struct ToolbarView: View {
           .shortcutKeyHelp(key: "CopyExtractedText", tableName: "PreviewItemView")
           .disabled(selectedImageText == nil)
         }
+
+        ToolbarButton {
+          withAnimation {
+            appState.toggleProtection()
+          }
+        } label: {
+          Image(systemName: shouldUnprotect ? "lock.open.fill" : "lock.fill")
+        }
+        .accessibilityLabel(
+          Text(verbatim: protectionActionTitle)
+        )
+        .help(Text(verbatim: protectionActionTitle))
+        .accessibilityIdentifier("toggle-protection")
+        .disabled(protectActionDisabled)
 
         ToolbarButton {
           withAnimation {

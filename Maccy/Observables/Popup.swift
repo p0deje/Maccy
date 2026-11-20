@@ -120,7 +120,7 @@ class Popup {
   }
 
   private func handleFirstKeyDown() {
-    guard !AppState.shared.isEditingItem else { return }
+    guard !AppState.shared.isEditingItem, AppState.shared.storageErrorMessage == nil else { return }
 
     if isClosed() {
       open(height: height)
@@ -134,7 +134,18 @@ class Popup {
   }
 
   private func handleEvent(_ event: NSEvent) -> NSEvent? {
-    guard !AppState.shared.isEditingItem else { return event }
+    guard !AppState.shared.isEditingItem, AppState.shared.storageErrorMessage == nil else { return event }
+
+    if AppState.shared.isPreviewTextInputFocused {
+      if event.type == .keyDown,
+         isHotKeyCode(Int(event.keyCode)),
+         isHotKeyModifiers(event.modifierFlags),
+         PreviewTextKeyboardPolicy.action(for: KeyChord(event)) == .closePopup {
+        close()
+        return nil
+      }
+      return event
+    }
 
     switch event.type {
     case .keyDown:

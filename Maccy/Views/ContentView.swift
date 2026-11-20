@@ -60,6 +60,25 @@ struct ContentView: View {
     .environment(appState)
     .environment(modifierFlags)
     .environment(\.scenePhase, scenePhase)
+    .alert(
+      Text(verbatim: NSLocalizedString(
+        "history_storage_error_title", value: "Change not saved", comment: ""
+      )),
+      isPresented: Binding(
+        get: { appState.storageErrorMessage != nil },
+        set: { if !$0 { appState.storageErrorMessage = nil } }
+      )
+    ) {
+      Button {
+        appState.storageErrorMessage = nil
+      } label: {
+        Text(verbatim: NSLocalizedString(
+          "history_storage_error_dismiss", value: "OK", comment: ""
+        ))
+      }
+    } message: {
+      Text(verbatim: appState.storageErrorMessage ?? "")
+    }
     .onChange(of: appState.isEditingItem) { _, isEditingItem in
       // A sheet's text controls otherwise remain the logical focus target after
       // dismissal, preventing the popup's key handler from receiving shortcuts.

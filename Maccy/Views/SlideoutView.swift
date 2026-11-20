@@ -139,6 +139,7 @@ where Content: View, Slideout: View {
       .transaction { transaction in
         transaction.animation = nil
       }
+      .excludeFromWindowMovableByBackground()
       .frame(
         minWidth: controller.state != .open ? 0 : nil,
         maxWidth: controller.state == .closed ? 0 : nil,

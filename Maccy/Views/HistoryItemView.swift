@@ -30,6 +30,10 @@ struct HistoryItemView: View {
     return ColorImage.from(item.title)
   }
 
+  private var protectionActionTitle: String {
+    HistoryItemLocalization.protectionAction(isProtected: item.isProtected)
+  }
+
   private func performSelect() {
     if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
       appState.navigator.addToSelection(item: item)
@@ -50,6 +54,7 @@ struct HistoryItemView: View {
       accessoryImage: item.thumbnailImage != nil ? nil : colorSwatchImage,
       attributedTitle: item.attributedTitle,
       shortcuts: item.shortcuts,
+      isProtected: item.isProtected,
       isSelected: item.isSelected,
       selectionIndex: item.multiSelectionIndex,
       selectionAppearance: selectionAppearance,
@@ -61,6 +66,11 @@ struct HistoryItemView: View {
     .buttonAction(performSelect)
     .onAppear {
       item.ensureThumbnailImage()
+    }
+    .accessibilityAction(
+      named: Text(verbatim: protectionActionTitle)
+    ) {
+      appState.runStorageAction { appState.history.toggleProtection(item) }
     }
     .accessibilityAction(named: Text(item.isPinned ? "history_item_unpin_action" : "history_item_pin_action")) {
       appState.history.togglePin(item)

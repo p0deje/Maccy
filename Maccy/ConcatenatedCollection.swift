@@ -1,11 +1,16 @@
-/// A random-access view over two arrays that does not allocate combined storage.
-nonisolated struct ConcatenatedCollection<Element>: RandomAccessCollection {
+/// A random-access view over two collections that does not allocate combined storage.
+/// Segments may themselves be concatenated, building ordered groups without copying.
+nonisolated struct ConcatenatedCollection<
+  Leading: RandomAccessCollection, Trailing: RandomAccessCollection
+>: RandomAccessCollection
+where Leading.Element == Trailing.Element, Leading.Index == Int, Trailing.Index == Int {
+  typealias Element = Leading.Element
   typealias Index = Int
 
-  private let leading: [Element]
-  private let trailing: [Element]
+  private let leading: Leading
+  private let trailing: Trailing
 
-  init(_ leading: [Element], _ trailing: [Element]) {
+  init(_ leading: Leading, _ trailing: Trailing) {
     self.leading = leading
     self.trailing = trailing
   }
@@ -16,9 +21,9 @@ nonisolated struct ConcatenatedCollection<Element>: RandomAccessCollection {
   subscript(position: Int) -> Element {
     precondition(position >= startIndex && position < endIndex, "Index out of bounds")
     if position < leading.count {
-      return leading[position]
+      return leading[leading.index(leading.startIndex, offsetBy: position)]
     }
-    return trailing[position - leading.count]
+    return trailing[trailing.index(trailing.startIndex, offsetBy: position - leading.count)]
   }
 
   func index(after index: Int) -> Int {
@@ -38,8 +43,8 @@ nonisolated struct ConcatenatedCollection<Element>: RandomAccessCollection {
   }
 
   func toArray() -> [Element] {
-    leading + trailing
+    Array(self)
   }
 }
 
-extension ConcatenatedCollection: Equatable where Element: Equatable {}
+extension ConcatenatedCollection: Equatable where Leading: Equatable, Trailing: Equatable {}

@@ -57,7 +57,7 @@ struct LargeTextView: NSViewRepresentable {
     guard let textView = scrollView.documentView as? NSTextView else { return }
 
     textView.isEditable = isEditable
-    textView.isSelectable = isEditable
+    textView.isSelectable = true
     textView.allowsUndo = isEditable
     textView.textColor = isEnabled ? .labelColor : .disabledControlTextColor
     textView.setAccessibilityLabel(accessibilityLabel)
@@ -92,7 +92,7 @@ struct LargeTextView: NSViewRepresentable {
   ) -> NSScrollView {
     let textView = NSTextView(usingTextLayoutManager: true)
     textView.isEditable = isEditable
-    textView.isSelectable = isEditable
+    textView.isSelectable = true
     textView.allowsUndo = isEditable
     textView.setAccessibilityLabel(accessibilityLabel)
     textView.isRichText = false

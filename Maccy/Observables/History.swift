@@ -15,12 +15,22 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   var pasteStack: PasteStack?
 
-  var items: ConcatenatedCollection<HistoryItemDecorator> {
-    switch Defaults[.pinTo] {
-    case .top:
-      ConcatenatedCollection(pinnedItems, unpinnedItems)
-    case .bottom:
-      ConcatenatedCollection(unpinnedItems, pinnedItems)
+  // Search results are ordered pins, protected matches, then ordinary history.
+  // Outside search, pins lead or trail the history per the pinTo preference.
+  typealias HistoryItems = ConcatenatedCollection<
+    [HistoryItemDecorator],
+    ConcatenatedCollection<[HistoryItemDecorator], [HistoryItemDecorator]>
+  >
+  var items: HistoryItems {
+    if searchQuery.isEmpty {
+      switch Defaults[.pinTo] {
+      case .top:
+        ConcatenatedCollection(pinnedItems, ConcatenatedCollection(unpinnedItems, protectedItems))
+      case .bottom:
+        ConcatenatedCollection(unpinnedItems, ConcatenatedCollection(pinnedItems, protectedItems))
+      }
+    } else {
+      ConcatenatedCollection(pinnedItems, ConcatenatedCollection(protectedItems, unpinnedItems))
     }
   }
   var pinnedItems: [HistoryItemDecorator] {
@@ -28,6 +38,10 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
   var unpinnedItems: [HistoryItemDecorator] {
     searchQuery.isEmpty ? allUnpinnedItems : filteredUnpinnedItems
+  }
+  // Protected items form a search-only group between pins and ordinary history.
+  var protectedItems: [HistoryItemDecorator] {
+    searchQuery.isEmpty ? [] : filteredProtectedItems
   }
   var availablePins: [String] { pinManager.availablePins }
 
@@ -76,6 +90,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   private var allUnpinnedItems: [HistoryItemDecorator] = []
   private var filteredPinnedItems: [HistoryItemDecorator] = []
   private var filteredUnpinnedItems: [HistoryItemDecorator] = []
+  private var filteredProtectedItems: [HistoryItemDecorator] = []
 
   @ObservationIgnored
   private var sessionLog: [Int: HistoryItem] = [:]
@@ -129,8 +144,12 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     let decorators = sorter.sort(results).map { HistoryItemDecorator($0) }
     pinManager.load(from: decorators)
     allUnpinnedItems = decorators.filter(\.isUnpinned)
-    filteredPinnedItems = allPinnedItems
-    filteredUnpinnedItems = allUnpinnedItems
+    if searchQuery.isEmpty {
+      filteredPinnedItems = allPinnedItems
+      filteredUnpinnedItems = allUnpinnedItems
+    } else {
+      updateSearchResults()
+    }
 
     limitHistorySize(to: Defaults[.size])
 
@@ -143,8 +162,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
   @MainActor
   private func limitHistorySize(to maxSize: Int) {
-    if allUnpinnedItems.count >= maxSize {
-      allUnpinnedItems[maxSize...].forEach(delete)
+    let unprotectedItems = allUnpinnedItems.filter { !$0.isProtected }
+    if unprotectedItems.count > maxSize {
+      unprotectedItems[maxSize...].forEach(delete)
     }
   }
 
@@ -174,6 +194,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       item.firstCopiedAt = existingHistoryItem.firstCopiedAt
       item.numberOfCopies += existingHistoryItem.numberOfCopies
       item.pin = existingHistoryItem.pin
+      item.isProtected = existingHistoryItem.isProtected
       item.title = existingHistoryItem.title
       if !item.fromMaccy {
         item.application = existingHistoryItem.application
@@ -195,7 +216,8 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
 
     // Remove exceeding items. Do this after the item is added to avoid removing something
     // if a duplicate was found as then the size already stayed the same.
-    limitHistorySize(to: item.pin == nil ? Defaults[.size] - 1 : Defaults[.size])
+    let capacity = item.pin == nil && !item.isProtected ? Defaults[.size] - 1 : Defaults[.size]
+    limitHistorySize(to: capacity)
 
     sessionLog[Clipboard.shared.changeCount] = item
 
@@ -235,68 +257,130 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
-  func clear() {
-    withLogging("Clearing history") {
-      allUnpinnedItems.forEach(cleanup)
-      allUnpinnedItems.removeAll()
-      filteredUnpinnedItems.removeAll()
-      sessionLog.removeValues { $0.pin == nil }
+  @discardableResult
+  func clear() -> Bool {
+    return clear { context in
+      try context.transaction {
+        // Individual deletions remain pending until the transaction saves.
+        // Bulk delete can write through before a later failure and cannot be
+        // reliably restored by ModelContext.rollback().
+        let contents = try context.fetchIdentifiers(FetchDescriptor<HistoryItemContent>(
+          predicate: #Predicate {
+            $0.item == nil || ($0.item?.pin == nil && $0.item?.isProtected == false)
+          }
+        ))
+        contents
+          .compactMap { context.model(for: $0) as? HistoryItemContent }
+          .forEach(context.delete)
 
-      try? Storage.shared.context.transaction {
-        try? Storage.shared.context.delete(
-          model: HistoryItem.self,
-          where: #Predicate { $0.pin == nil }
-        )
-        try? Storage.shared.context.delete(
-          model: HistoryItemContent.self,
-          where: #Predicate { $0.item?.pin == nil }
-        )
+        let items = try context.fetchIdentifiers(FetchDescriptor<HistoryItem>(
+          predicate: #Predicate { $0.pin == nil && !$0.isProtected }
+        ))
+        items
+          .compactMap { context.model(for: $0) as? HistoryItem }
+          .forEach(context.delete)
       }
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
-    }
-
-    Clipboard.shared.clear()
-    AppState.shared.popup.close()
-    Task {
-      AppState.shared.popup.needsResize = true
     }
   }
 
   @MainActor
-  func clearAll() {
-    withLogging("Clearing all history") {
-      allPinnedItems.forEach(cleanup)
-      allUnpinnedItems.forEach(cleanup)
-      allUnpinnedItems.removeAll()
-      filteredPinnedItems.removeAll()
-      filteredUnpinnedItems.removeAll()
-      pinManager.removeAll()
-      sessionLog.removeAll()
+  @discardableResult
+  func clear(persist: (ModelContext) throws -> Void) -> Bool {
+    let removableItems = allUnpinnedItems.filter { !$0.isProtected }
 
-      do {
-        let context = Storage.shared.context
-        try context.transaction {
-          // Bulk deletion cannot remove children with live inverse relationships.
-          try context.delete(
-            model: HistoryItemContent.self,
-            where: #Predicate { $0.item == nil }
-          )
-          try context.delete(model: HistoryItem.self)
-          try context.delete(model: HistoryItemContent.self)
-        }
-      } catch {
-        logger.error("Failed to clear storage: \(String(reflecting: error))")
-      }
-      Storage.shared.context.processPendingChanges()
-      try? Storage.shared.context.save()
+    do {
+      // Persist unrelated pending history before the separate clear transaction.
+      try Storage.shared.context.save()
+    } catch {
+      logger.error("Failed to prepare storage for clear: \(String(reflecting: error))")
+      return false
     }
+
+    // Keep the UI context untouched so a failed transaction cannot discard
+    // unrelated in-memory history state.
+    let transactionContext = ModelContext(Storage.shared.container)
+    transactionContext.autosaveEnabled = false
+
+    do {
+      try persist(transactionContext)
+    } catch {
+      transactionContext.rollback()
+      logger.error("Failed to clear storage: \(String(reflecting: error))")
+      return false
+    }
+
+    removableItems.forEach(cleanup)
+    allUnpinnedItems.removeAll { !$0.isProtected }
+    filteredUnpinnedItems.removeAll { !$0.isProtected }
+    sessionLog.removeValues { $0.pin == nil && !$0.isProtected }
+    updateUnpinnedShortcuts()
 
     Clipboard.shared.clear()
     AppState.shared.popup.close()
     Task {
       AppState.shared.popup.needsResize = true
     }
+    return true
+  }
+
+  @MainActor
+  @discardableResult
+  func clearAll() -> Bool {
+    return clearAll { context in
+      try context.transaction {
+        // Delete contents before their owning items so the pending inverse
+        // relationships cannot block rollback or transaction completion.
+        let contents = try context.fetchIdentifiers(FetchDescriptor<HistoryItemContent>())
+        contents
+          .compactMap { context.model(for: $0) as? HistoryItemContent }
+          .forEach(context.delete)
+
+        let items = try context.fetchIdentifiers(FetchDescriptor<HistoryItem>())
+        items
+          .compactMap { context.model(for: $0) as? HistoryItem }
+          .forEach(context.delete)
+      }
+    }
+  }
+
+  @MainActor
+  @discardableResult
+  func clearAll(persist: (ModelContext) throws -> Void) -> Bool {
+    do {
+      // Persist unrelated pending history before the separate clear-all transaction.
+      try Storage.shared.context.save()
+    } catch {
+      logger.error("Failed to prepare storage for clear all: \(String(reflecting: error))")
+      return false
+    }
+
+    // Keep the UI context untouched if the clear-all transaction fails.
+    let transactionContext = ModelContext(Storage.shared.container)
+    transactionContext.autosaveEnabled = false
+
+    do {
+      try persist(transactionContext)
+    } catch {
+      transactionContext.rollback()
+      logger.error("Failed to clear all storage: \(String(reflecting: error))")
+      return false
+    }
+
+    allPinnedItems.forEach(cleanup)
+    allUnpinnedItems.forEach(cleanup)
+    allUnpinnedItems.removeAll()
+    filteredPinnedItems.removeAll()
+    filteredUnpinnedItems.removeAll()
+    filteredProtectedItems.removeAll()
+    pinManager.removeAll()
+    sessionLog.removeAll()
+
+    Clipboard.shared.clear()
+    AppState.shared.popup.close()
+    Task {
+      AppState.shared.popup.needsResize = true
+    }
+    return true
   }
 
   @MainActor
@@ -314,6 +398,7 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     allUnpinnedItems.removeAll { $0 == item }
     filteredPinnedItems.removeAll { $0 == item }
     filteredUnpinnedItems.removeAll { $0 == item }
+    filteredProtectedItems.removeAll { $0 == item }
     sessionLog.removeValues { $0 == item.item }
 
     updateUnpinnedShortcuts()
@@ -467,6 +552,53 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   @MainActor
+  @discardableResult
+  func toggleProtection(_ item: HistoryItemDecorator?) -> Bool {
+    guard let item else { return false }
+    return toggleProtection([item])
+  }
+
+  @MainActor
+  @discardableResult
+  func toggleProtection(_ item: HistoryItemDecorator?, save: () throws -> Void) -> Bool {
+    guard let item else { return false }
+    return toggleProtection([item], save: save)
+  }
+
+  @MainActor
+  @discardableResult
+  func toggleProtection(_ items: [HistoryItemDecorator]) -> Bool {
+    toggleProtection(items, save: { try Storage.shared.context.save() })
+  }
+
+  @MainActor
+  @discardableResult
+  func toggleProtection(_ items: [HistoryItemDecorator], save: () throws -> Void) -> Bool {
+    let previousStates = items.map(\.isProtected)
+    for item in items {
+      item.item.isProtected.toggle()
+      item.synchronizeProtection()
+    }
+    Storage.shared.context.processPendingChanges()
+    do {
+      try save()
+      if !searchQuery.isEmpty {
+        // Regroup immediately so a freshly protected match floats to the
+        // protected section instead of lingering in its previous group.
+        updateSearchResults()
+      }
+      return true
+    } catch {
+      zip(items, previousStates).forEach { item, previousState in
+        item.item.isProtected = previousState
+        item.synchronizeProtection()
+      }
+      logger.error("Failed to persist protection change: \(String(reflecting: error))")
+      return false
+    }
+  }
+
+  @MainActor
   func togglePin(_ item: HistoryItemDecorator?) {
     guard let item else { return }
 
@@ -480,8 +612,11 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
       allUnpinnedItems.removeAll { $0 == item }
     }
 
-    searchQuery = ""
-    updateUnpinnedShortcuts()
+    if searchQuery.isEmpty {
+      updateUnpinnedShortcuts()
+    } else {
+      updateSearchResults()
+    }
     if item.isUnpinned {
       AppState.shared.navigator.scrollTarget = item.id
     }
@@ -501,6 +636,15 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     pinManager.updatePin(of: itemDecorator, to: pin)
     if !wasPinned && itemDecorator.isPinned {
       allUnpinnedItems.removeAll { $0 == itemDecorator }
+      if searchQuery.isEmpty {
+        filteredUnpinnedItems.removeAll { $0 == itemDecorator }
+        filteredProtectedItems.removeAll { $0 == itemDecorator }
+        filteredPinnedItems = allPinnedItems
+      } else {
+        // Repinning via the editor must not drop the row from search results;
+        // recompute so it shows up in the pins group when it still matches.
+        updateSearchResults()
+      }
     }
     updateShortcuts()
   }
@@ -522,13 +666,27 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     return nil
   }
 
-  private func updateSearchResults() {
+  /// Recomputes search results from the current query. Normally driven through
+  /// the throttler; exposed for tests that need the update synchronously.
+  func updateSearchResults() {
     filteredPinnedItems = filteredItems(
       from: search.search(string: searchQuery, within: allPinnedItems)
     )
-    filteredUnpinnedItems = filteredItems(
-      from: search.search(string: searchQuery, within: allUnpinnedItems)
-    )
+
+    // Protected and unpinned items share the same source list; split the
+    // results so protected matches sit between pins and ordinary history.
+    let unpinnedResults = search.search(string: searchQuery, within: allUnpinnedItems)
+    var protectedResults: [Search.SearchResult] = []
+    var unprotectedResults: [Search.SearchResult] = []
+    for result in unpinnedResults {
+      if result.object.isProtected {
+        protectedResults.append(result)
+      } else {
+        unprotectedResults.append(result)
+      }
+    }
+    filteredProtectedItems = filteredItems(from: protectedResults)
+    filteredUnpinnedItems = filteredItems(from: unprotectedResults)
 
     updateUnpinnedShortcuts()
   }
@@ -578,7 +736,9 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
   }
 
   private func updateUnpinnedShortcuts() {
-    let shortcutItems = unpinnedItems.filter(\.isVisible)
+    // Search pins keep their letter shortcuts; protected and ordinary matches
+    // take the numeric shortcuts in their rendered order.
+    let shortcutItems = (protectedItems + unpinnedItems).filter(\.isVisible)
     for item in shortcutItems {
       item.shortcuts = []
     }

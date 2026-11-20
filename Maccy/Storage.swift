@@ -2,9 +2,20 @@ import AppKit.NSPasteboard
 import Foundation
 import SwiftData
 
+nonisolated struct HistoryStorageError: LocalizedError {
+  var errorDescription: String? {
+    NSLocalizedString(
+      "history_storage_error_message",
+      value: "Maccy couldn’t save this change. Please try again.",
+      comment: "Shown when clearing history or changing item protection fails."
+    )
+  }
+}
+
 @MainActor
 class Storage {
   static let shared = Storage()
+  static let developmentBundleIdentifier = "org.p0deje.Maccy.dev"
 
   var container: ModelContainer
   var context: ModelContext { container.mainContext }
@@ -16,7 +27,19 @@ class Storage {
     return ByteCountFormatter().string(fromByteCount: size)
   }
 
-  private let url = URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite")
+  static func storageDirectoryName(for bundleIdentifier: String?) -> String {
+    if bundleIdentifier == developmentBundleIdentifier {
+      return "MaccyDev"
+    }
+
+    // Keep pre-existing forks on their original database location. Only the
+    // explicit development identifier opts into a separate development store.
+    return "Maccy"
+  }
+
+  private let url = URL.applicationSupportDirectory.appending(
+    path: "\(Storage.storageDirectoryName(for: Bundle.main.bundleIdentifier))/Storage.sqlite"
+  )
 
   init() {
     var config = ModelConfiguration(url: url)
