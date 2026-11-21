@@ -120,6 +120,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     }
   }
 
+  func application(_ application: NSApplication, open urls: [URL]) {
+    for url in urls {
+      handleURL(url)
+    }
+  }
+
   func applicationShouldHandleReopen(_ sender: NSApplication, hasVisibleWindows flag: Bool) -> Bool {
     panel.toggle(height: AppState.shared.popup.height)
     return true
@@ -210,6 +216,23 @@ class AppDelegate: NSObject, NSApplicationDelegate {
           self.statusItem.button?.title = AppState.shared.menuIconText
         }
         self.synchronizeMenuIconText()
+      }
+    }
+  }
+
+  private func handleURL(_ url: URL) {
+    guard url.scheme == "maccy", url.host == "delete" else { return }
+    guard let components = URLComponents(url: url, resolvingAgainstBaseURL: false),
+          let pkString = components.queryItems?.first(where: { $0.name == "pk" })?.value,
+          let pk = Int(pkString) else { return }
+
+    let history = AppState.shared.history
+    let suffix = "/HistoryItem/p\(pk)"
+    for item in history.items {
+      let desc = String(describing: item.item.persistentModelID)
+      if desc.contains(suffix) {
+        history.delete(item)
+        return
       }
     }
   }

@@ -34,6 +34,17 @@
 	<true/>
 	<key>SUFeedURL</key>
 	<string>https://raw.githubusercontent.com/p0deje/Maccy/master/appcast.xml</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+	<dict>
+		<key>CFBundleURLSchemes</key>
+		<array>
+		<string>maccy</string>
+		</array>
+		<key>CFBundleURLName</key>
+		<string>org.p0deje.Maccy</string>
+	</dict>
+	</array>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 	<dict>
