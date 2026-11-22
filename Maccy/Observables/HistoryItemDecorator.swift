@@ -44,12 +44,64 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
   var hasImage: Bool { item.image != nil }
   var hasFileURLs: Bool { !item.fileURLs.isEmpty }
   var hasPlainText: Bool { item.text != nil }
-  var hasRichText: Bool { item.rtf != nil || item.html != nil }
+  // HTML only by presence: importing it can block (see HistoryItem.htmlText(from:)).
+  var hasRichText: Bool { item.rtf != nil || item.htmlData != nil }
 
   var previewImageGenerationTask: Task<(), Error>?
   var thumbnailImageGenerationTask: Task<(), Error>?
   var previewImage: NSImage?
-  private(set) var previewText = SizedString("")
+
+  // Built on first read rather than in init: History.load() creates a decorator
+  // for every stored item each time the history opens.
+  @ObservationIgnored
+  private var cachedPreviewText: SizedString?
+  // Text of HTML-only items, imported in the background after the first read.
+  @ObservationIgnored
+  private var htmlPreviewText: SizedString?
+  @ObservationIgnored
+  private var htmlPreviewSource: Data?
+  @ObservationIgnored
+  private var htmlPreviewTask: Task<Void, Never>?
+  // True while previewText is still the title of an HTML-only item.
+  @ObservationIgnored
+  private(set) var isLoadingHTMLPreviewText = false
+  // Bumped whenever the preview text changes, so views reading previewText refresh.
+  private var previewTextRevision = 0
+
+  var previewText: SizedString {
+    _ = previewTextRevision
+    if let htmlPreviewText {
+      return htmlPreviewText
+    }
+    if let cachedPreviewText {
+      return cachedPreviewText
+    }
+    let text = trackedPreviewText()
+    cachedPreviewText = text
+    loadHTMLPreviewText()
+    return text
+  }
+
+  private func loadHTMLPreviewText() {
+    guard htmlPreviewTask == nil, let html = item.htmlForPreview else {
+      return
+    }
+    htmlPreviewSource = html
+    isLoadingHTMLPreviewText = true
+    htmlPreviewTask = Task { [weak self] in
+      let text = await HistoryItem.htmlText(from: html)
+      guard !Task.isCancelled, let self else {
+        return
+      }
+      self.isLoadingHTMLPreviewText = false
+      guard let text, !text.isEmpty else {
+        return
+      }
+      self.htmlPreviewText = SizedString(text, maxParagraphBytes: Self.previewMaxParagraphSize)
+      self.previewTextRevision += 1
+    }
+  }
+
   var thumbnailImage: NSImage?
   var applicationImage: ApplicationImage
 
@@ -121,7 +173,6 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
 
     synchronizeItemPin()
     synchronizeItemTitle()
-    synchronizeItemText()
   }
 
   @MainActor
@@ -254,12 +305,22 @@ class HistoryItemDecorator: Identifiable, Hashable, HasVisibility {
     }
   }
 
-  private func synchronizeItemText() {
-    previewText = withObservationTracking {
+  private func trackedPreviewText() -> SizedString {
+    withObservationTracking {
       SizedString(item.previewableText, maxParagraphBytes: Self.previewMaxParagraphSize)
     } onChange: { [weak self] in
       DispatchQueue.main.async { [weak self] in
-        self?.synchronizeItemText()
+        guard let self else { return }
+        if self.item.htmlForPreview != self.htmlPreviewSource {
+          self.htmlPreviewTask?.cancel()
+          self.htmlPreviewTask = nil
+          self.htmlPreviewText = nil
+          self.htmlPreviewSource = nil
+          self.isLoadingHTMLPreviewText = false
+        }
+        self.cachedPreviewText = self.trackedPreviewText()
+        self.loadHTMLPreviewText()
+        self.previewTextRevision += 1
       }
     }
   }
