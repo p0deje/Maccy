@@ -2,6 +2,37 @@ import Sauce
 import Defaults
 import SwiftUI
 
+nonisolated enum PreviewTextKeyboardAction: Equatable {
+  case passToTextView
+  case closePopup
+  case openPreferences
+  case togglePreview
+}
+
+nonisolated enum PreviewTextKeyboardPolicy {
+  static func isPreviewTextInput(_ responder: NSResponder?) -> Bool {
+    guard let textView = responder as? NSTextView else { return false }
+    return !textView.isEditable
+  }
+
+  static func action(for command: KeyChord) -> PreviewTextKeyboardAction {
+    switch command {
+    case .close:
+      return .closePopup
+    case .openPreferences:
+      return .openPreferences
+    case .togglePreview:
+      return .togglePreview
+    default:
+      return .passToTextView
+    }
+  }
+
+  static func handlesWindowCommand(_ command: KeyChord) -> Bool {
+    return action(for: command) != .passToTextView
+  }
+}
+
 struct KeyHandlingView<Content: View>: View {
   @Binding var searchQuery: String
   @FocusState.Binding var searchFocused: Bool
@@ -13,6 +44,20 @@ struct KeyHandlingView<Content: View>: View {
     content()
       .onKeyPress { _ in
         guard !appState.isEditingItem else { return .ignored }
+
+        if appState.isPreviewTextInputFocused {
+          switch PreviewTextKeyboardPolicy.action(for: KeyChord(NSApp.currentEvent)) {
+          case .openPreferences:
+            appState.openPreferences()
+          case .closePopup:
+            appState.popup.close()
+          case .togglePreview:
+            appState.preview.togglePreview()
+          case .passToTextView:
+            return .ignored
+          }
+          return .handled
+        }
 
         // Unfortunately, key presses don't allow access to
         // key code and don't properly work with multiple inputs,

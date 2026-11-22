@@ -10,6 +10,9 @@ private struct ExcludeFromWindowMovableByBackgroundModifier: ViewModifier {
           window.isMovableByWindowBackground = !inside
         }
       }
+      .onDisappear {
+        appState.appDelegate?.panel?.isMovableByWindowBackground = true
+      }
   }
 }
 

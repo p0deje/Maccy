@@ -60,6 +60,8 @@ struct PreviewItemView: View {
           ScrollView {
             Text(item.previewText.string)
               .font(.body)
+              .textSelection(.enabled)
+              .accessibilityIdentifier("preview-text")
               .frame(maxWidth: .infinity, alignment: .leading)
           }
           .frame(maxWidth: .infinity)

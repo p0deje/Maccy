@@ -1,5 +1,8 @@
 "search_placeholder" = "搜尋…";
-"clear_tooltip" = "清除未釘選的項目。\n按住 ⇧ 並選取以全部清除。";
+"clear_tooltip" = "清除未釘選且未保護的項目。\n按住 ⇧ 並選取以全部清除。";
+"history_storage_error_title" = "變更未儲存";
+"history_storage_error_message" = "Maccy 無法儲存此變更，請重試。";
+"history_storage_error_dismiss" = "好";
 "clear_all_tooltip" = "清除全部項目。";
 "about_tooltip" = "了解應用程式詳情。";
 "quit_tooltip" = "退出應用程式。";
@@ -24,8 +27,11 @@
 "search_clear_accessibility_label" = "清除搜尋";
 "history_item_pin_action" = "固定";
 "history_item_unpin_action" = "取消固定";
+"history_item_protect_action" = "保護";
+"history_item_unprotect_action" = "取消保護";
 "history_item_delete_action" = "刪除";
 "history_item_pinned_accessibility_value" = "已固定";
+"history_item_protected_accessibility_value" = "已保護";
 "history_item_selected_accessibility_value" = "已選取，第 %d 項，共 %d 項";
 "history_item_image_accessibility_label_no_app" = "影像，%d×%d";
 "history_item_image_accessibility_generic" = "影像";

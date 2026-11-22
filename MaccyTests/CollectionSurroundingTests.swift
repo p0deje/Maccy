@@ -31,3 +31,29 @@ struct CollectionSurroundingTests {
     #expect(items.nearest(to: "recent1") { !excluded.contains($0) } == "recent2")
   }
 }
+
+@MainActor
+struct ConcatenatedCollectionTests {
+  @Test("Leading slice keeps its nonzero start index")
+  func leadingSlice() {
+    let items = ConcatenatedCollection([10, 20, 30][1...], [40])
+    #expect(items[1] == 30)
+    #expect(Array(items) == [20, 30, 40])
+  }
+
+  @Test("Trailing slice keeps its nonzero start index")
+  func trailingSlice() {
+    let items = ConcatenatedCollection([10], [20, 30, 40][1...])
+    #expect(items[2] == 40)
+    #expect(Array(items) == [10, 30, 40])
+  }
+
+  @Test("Empty segments and nested slices preserve order")
+  func emptyAndNestedSegments() {
+    #expect(Array(ConcatenatedCollection([Int](), [10, 20][1...])) == [20])
+    #expect(Array(ConcatenatedCollection([10, 20][1...], [Int]())) == [20])
+    let items = ConcatenatedCollection([10, 20][1...], ConcatenatedCollection([30], [40, 50][1...]))
+    #expect(Array(items) == [20, 30, 50])
+    #expect(Array(items.reversed()) == [50, 30, 20])
+  }
+}
