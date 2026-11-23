@@ -35,6 +35,9 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 
   private var statusItemVisibilityObserver: NSKeyValueObservation?
 
+  // Started at launch, so scheduled update checks run without opening Settings.
+  private(set) var updater: SoftwareUpdater?
+
   func applicationWillFinishLaunching(_ notification: Notification) { // swiftlint:disable:this function_body_length
     #if DEBUG
     if Self.isTesting {
@@ -109,6 +112,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
   func applicationDidFinishLaunching(_ aNotification: Notification) {
     migrateUserDefaults()
     disableUnusedGlobalHotkeys()
+    updater = SoftwareUpdater.shared
 
     panel = FloatingPanel(
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
