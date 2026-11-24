@@ -11,6 +11,7 @@ extension SharedStateTests {
     let savedSortBy = Defaults[.sortBy]
     let savedPinOrder = Defaults[.pinOrder]
     let savedPinTo = Defaults[.pinTo]
+    let savedRetention = Defaults[.historyRetention]
     let history = History.shared
 
     init() {
@@ -19,6 +20,7 @@ extension SharedStateTests {
       Defaults[.sortBy] = .firstCopiedAt
       Defaults[.pinOrder] = PinOrder()
       Defaults[.pinTo] = .bottom
+      Defaults[.historyRetention] = .forever
     }
 
     deinit {
@@ -26,6 +28,7 @@ extension SharedStateTests {
       Defaults[.sortBy] = savedSortBy
       Defaults[.pinOrder] = savedPinOrder
       Defaults[.pinTo] = savedPinTo
+      Defaults[.historyRetention] = savedRetention
     }
 
     @Test("Default is empty")
@@ -438,6 +441,91 @@ extension SharedStateTests {
       #expect(try Storage.shared.removeUnpersistableContents() == 0)
       #expect(live.item.contents.map(\.type) == [NSPasteboard.PasteboardType.string.rawValue])
       try assertStorageCounts(items: 1, contents: 1)
+    }
+
+    @Test("Adding removes items older than the retention period")
+    func addingRemovesExpiredItems() throws {
+      let expired = history.add(historyItem("expired"))
+      expired.item.lastCopiedAt = hoursAgo(2)
+      Defaults[.historyRetention] = .oneHour
+
+      let new = history.add(historyItem("new"))
+
+      #expect(history.items.toArray() == [new])
+      try assertStorageCounts(items: 1, contents: 1)
+    }
+
+    @Test("Adding keeps items within the retention period")
+    func addingKeepsItemsWithinRetention() {
+      let recent = history.add(historyItem("recent"))
+      recent.item.lastCopiedAt = hoursAgo(0.5)
+      Defaults[.historyRetention] = .oneHour
+
+      let new = history.add(historyItem("new"))
+
+      #expect(history.items.toArray() == [new, recent])
+    }
+
+    @Test("Retention counts from the last copy, not the first")
+    func retentionCountsFromLastCopy() {
+      let recopied = history.add(historyItem("recopied"))
+      recopied.item.firstCopiedAt = hoursAgo(48)
+      Defaults[.historyRetention] = .oneHour
+
+      let new = history.add(historyItem("new"))
+
+      #expect(history.items.toArray() == [new, recopied])
+    }
+
+    @Test("Retention keeps pinned items")
+    func retentionKeepsPinnedItems() {
+      let pinned = history.add(historyItem("pinned"))
+      history.togglePin(pinned)
+      pinned.item.lastCopiedAt = hoursAgo(48)
+      Defaults[.historyRetention] = .oneHour
+
+      let new = history.add(historyItem("new"))
+
+      #expect(history.items.toArray() == [new, pinned])
+    }
+
+    @Test("Disabled retention keeps old items")
+    func disabledRetentionKeepsOldItems() {
+      let old = history.add(historyItem("old"))
+      old.item.lastCopiedAt = hoursAgo(24 * 365)
+
+      let new = history.add(historyItem("new"))
+
+      #expect(history.items.toArray() == [new, old])
+    }
+
+    @Test("Loading removes expired items with a single save")
+    func loadingRemovesExpiredItemsWithSingleSave() async throws {
+      let context = Storage.shared.context
+      for value in ["first", "second", "third"] {
+        history.add(historyItem(value)).item.lastCopiedAt = hoursAgo(2)
+      }
+      let recent = history.add(historyItem("recent"))
+      try context.save()
+      Defaults[.historyRetention] = .oneHour
+
+      nonisolated(unsafe) var saves = 0
+      let observer = NotificationCenter.default.addObserver(
+        forName: ModelContext.didSave,
+        object: context,
+        queue: nil
+      ) { _ in saves += 1 }
+      defer { NotificationCenter.default.removeObserver(observer) }
+
+      try await history.load()
+
+      #expect(history.items.map(\.item) == [recent.item])
+      #expect(saves == 1)
+      try assertStorageCounts(items: 1, contents: 1)
+    }
+
+    private func hoursAgo(_ hours: Double) -> Date {
+      Date.now.addingTimeInterval(-hours * 3_600)
     }
 
     private func assertStorageCounts(

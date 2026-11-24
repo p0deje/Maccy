@@ -57,6 +57,7 @@ struct StorageSettingsPane: View {
   }
 
   @Default(.size) private var size
+  @Default(.historyRetention) private var retention
   @Default(.sortBy) private var sortBy
 
   @State private var viewModel = ViewModel()
@@ -109,6 +110,18 @@ struct StorageSettingsPane: View {
               storageSize = Storage.shared.size
             }
         }
+      }
+
+      Settings.Section(label: { Text("KeepFor", tableName: "StorageSettings") }) {
+        Picker("", selection: $retention) {
+          ForEach(HistoryRetention.allCases) { option in
+            Text(option.description)
+          }
+        }
+        .labelsHidden()
+        .frame(width: 160, alignment: .leading)
+        .help(Text("KeepForTooltip", tableName: "StorageSettings"))
+        .accessibilityLabel(Text("KeepFor", tableName: "StorageSettings"))
       }
 
       Settings.Section(label: { Text("SortBy", tableName: "StorageSettings") }) {
