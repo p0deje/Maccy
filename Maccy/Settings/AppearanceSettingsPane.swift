@@ -16,6 +16,7 @@ struct AppearanceSettingsPane: View {
   @Default(.showSearch) private var showSearch
   @Default(.searchVisibility) private var searchVisibility
   @Default(.showFooter) private var showFooter
+  @Default(.compactFooter) private var compactFooter
   @Default(.windowPosition) private var windowPosition
   @Default(.showApplicationIcons) private var showApplicationIcons
 
@@ -195,6 +196,15 @@ struct AppearanceSettingsPane: View {
         Defaults.Toggle(key: .showFooter) {
           Text("ShowFooter", tableName: "AppearanceSettings")
         }
+        Picker(selection: $compactFooter) {
+          Text("FooterStyleOriginal", tableName: "AppearanceSettings").tag(false)
+          Text("FooterStyleModern", tableName: "AppearanceSettings").tag(true)
+        } label: {
+          Text("FooterStyle", tableName: "AppearanceSettings")
+        }
+        .fixedSize()
+        .accessibilityIdentifier("footer-style")
+        .disabled(!showFooter)
         // Settings.Section offers its content the full container width even though the content
         // starts after the label column, so cap the width to make long translations wrap.
         Text("OpenPreferencesWarning", tableName: "AppearanceSettings")
