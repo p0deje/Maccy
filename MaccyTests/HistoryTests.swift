@@ -440,6 +440,28 @@ extension SharedStateTests {
       try assertStorageCounts(items: 1, contents: 1)
     }
 
+    @Test("Special symbols toggle retitles items hidden by search")
+    func specialSymbolsToggleRetitlesItemsHiddenBySearch() async throws {
+      let savedShowSpecialSymbols = Defaults[.showSpecialSymbols]
+      defer { Defaults[.showSpecialSymbols] = savedShowSpecialSymbols }
+      Defaults[.showSpecialSymbols] = true
+
+      let foo = history.add(historyItem("foo\n"))
+      let bar = history.add(historyItem("bar\n"))
+      history.searchQuery = "foo"
+      // Search results are applied by a throttler on the main queue.
+      try await Task.sleep(for: .milliseconds(500))
+      #expect(history.items.toArray() == [foo])
+
+      Defaults[.showSpecialSymbols] = false
+      history.updateTitlesForSpecialSymbols()
+
+      #expect(foo.title == "foo")
+      #expect(bar.title == "bar")
+      #expect(bar.item.title == "bar")
+      history.searchQuery = ""
+    }
+
     private func assertStorageCounts(
       items: Int,
       contents: Int,
