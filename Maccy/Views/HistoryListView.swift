@@ -67,10 +67,13 @@ struct HistoryListView: View {
 
   var body: some View {
     let topPinsVisible = pinTo == .top && pinsVisible
-    let bottomPinsVisible = pinTo == .bottom && pinsVisible
+    // In submenu mode pins are listed inline only while searching; otherwise a single row opens them.
+    let pinsListedInline = appState.history.pinsListedInline
+    let bottomPinsVisible = (pinTo == .bottom || (pinTo == .submenu && pinsListedInline)) && pinsVisible
+    let pinsSubmenuRowVisible = pinTo == .submenu && !pinsListedInline && pinsVisible
     let historyEmpty = unpinnedItems.isEmpty
     let topSeparatorVisible = !historyEmpty && (topPinsVisible || pasteStackVisible)
-    let bottomSeparatorVisible = !historyEmpty && bottomPinsVisible
+    let bottomSeparatorVisible = !historyEmpty && (bottomPinsVisible || pinsSubmenuRowVisible)
     let scrollTopPadding = topSeparatorVisible ? Popup.verticalSeparatorPadding : topPadding
     let scrollBottomPadding = bottomSeparatorVisible ? Popup.verticalSeparatorPadding : bottomPadding
 
@@ -120,7 +123,7 @@ struct HistoryListView: View {
           if scenePhase == .active {
             searchFocused = true
             appState.navigator.isKeyboardNavigating = true
-            appState.navigator.select(item: appState.history.firstUnpinnedItem ?? appState.history.firstPinnedItem)
+            appState.navigator.select(item: appState.history.firstUnpinnedItem ?? appState.history.items.first)
             appState.preview.enableAutoOpen()
             appState.preview.resetAutoOpenSuppression()
             appState.preview.startAutoOpen()
@@ -159,8 +162,12 @@ struct HistoryListView: View {
       if bottomPinsVisible {
         PinsView(items: pinnedItems)
       }
+
+      if pinsSubmenuRowVisible {
+        PinsSubmenuRowView()
+      }
     }
-    .padding(.bottom, bottomPinsVisible ? bottomPadding : 0)
+    .padding(.bottom, bottomPinsVisible || pinsSubmenuRowVisible ? bottomPadding : 0)
     .readHeight(appState, into: \.popup.extraBottomHeight)
   }
 }

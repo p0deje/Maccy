@@ -61,6 +61,43 @@ final class PinManager {
     pinnedItems = items.filter(\.isPinned)
     reconcileOrder()
     sortPinnedItems()
+    nameUnnamedPins()
+  }
+
+  // Name shown in the pins submenu for pins without a name: "Unnamed 1", "Unnamed 2"...
+  static func unnamedPinName(_ number: Int) -> String {
+    String(
+      format: NSLocalizedString("unnamed_pin", value: "Unnamed %d", comment: ""),
+      number
+    )
+  }
+
+  // The lowest "Unnamed N" not used by any other pinned item.
+  func nextUnnamedPinName(excluding item: HistoryItemDecorator? = nil) -> String {
+    let usedNames = Set(
+      pinnedItems
+        .filter { $0 != item }
+        .compactMap(\.item.pinName)
+    )
+    var number = 1
+    while usedNames.contains(Self.unnamedPinName(number)) {
+      number += 1
+    }
+    return Self.unnamedPinName(number)
+  }
+
+  func rename(_ item: HistoryItemDecorator, to name: String) {
+    guard item.isPinned else { return }
+    let trimmedName = name.trimmingCharacters(in: .whitespacesAndNewlines)
+    item.item.pinName = trimmedName.isEmpty
+      ? nextUnnamedPinName(excluding: item)
+      : trimmedName
+  }
+
+  private func nameUnnamedPins() {
+    for item in pinnedItems where (item.item.pinName ?? "").isEmpty {
+      item.item.pinName = nextUnnamedPinName(excluding: item)
+    }
   }
 
   func toggle(_ item: HistoryItemDecorator) {
@@ -76,6 +113,7 @@ final class PinManager {
     pinnedItems.append(item)
     reconcileOrder()
     sortPinnedItems()
+    nameUnnamedPins()
   }
 
   func replace(_ oldItem: HistoryItemDecorator, with newItem: HistoryItemDecorator) {
@@ -99,6 +137,7 @@ final class PinManager {
     if !pinnedItems.contains(item) {
       pinnedItems.append(item)
     }
+    nameUnnamedPins()
 
     var order = Defaults[.pinOrder]
     order.replace(oldPin, with: pin)
@@ -133,6 +172,9 @@ final class PinManager {
     let pin = availablePins.randomElement() ?? ""
     item.item.pin = pin
     pinnedItems.append(item)
+    if (item.item.pinName ?? "").isEmpty {
+      item.item.pinName = nextUnnamedPinName(excluding: item)
+    }
 
     var order = Defaults[.pinOrder]
     order.append(pin)
@@ -144,6 +186,7 @@ final class PinManager {
     guard let pin = item.item.pin else { return }
 
     item.item.pin = nil
+    item.item.pinName = nil
     pinnedItems.removeAll { $0 == item }
 
     if !pinnedItems.contains(where: { $0.item.pin == pin }) {

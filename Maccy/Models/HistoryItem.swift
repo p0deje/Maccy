@@ -79,6 +79,8 @@ class HistoryItem {
   var lastCopiedAt: Date = Date.now
   var numberOfCopies: Int = 1
   var pin: String?
+  // User-visible name of a pinned item, shown in the pins submenu.
+  var pinName: String?
   var title = ""
 
   @Relationship(deleteRule: .cascade, inverse: \HistoryItemContent.item)

@@ -4,6 +4,7 @@ import Defaults
 enum PinsPosition: String, CaseIterable, Identifiable, CustomStringConvertible, Defaults.Serializable {
   case top
   case bottom
+  case submenu
 
   var id: Self { self }
 
@@ -13,6 +14,8 @@ enum PinsPosition: String, CaseIterable, Identifiable, CustomStringConvertible, 
       return NSLocalizedString("PinToTop", tableName: "AppearanceSettings", comment: "")
     case .bottom:
       return NSLocalizedString("PinToBottom", tableName: "AppearanceSettings", comment: "")
+    case .submenu:
+      return NSLocalizedString("PinToSubmenu", tableName: "AppearanceSettings", value: "Submenu", comment: "")
     }
   }
 }
