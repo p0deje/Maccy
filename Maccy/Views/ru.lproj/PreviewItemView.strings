@@ -9,5 +9,11 @@
 "ClosePreview" = "Нажмите {previewKey}, чтобы скрыть предпросмотр.";
 "Dimensions" = "Размеры:";
 "Size" = "Размер:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Скопировать извлеченный текст.";
 "EditItem" = "Редактировать элемент";

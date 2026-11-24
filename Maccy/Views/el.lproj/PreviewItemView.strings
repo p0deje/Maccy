@@ -9,5 +9,11 @@
 "ClosePreview" = "Πατήστε {previewKey} για απόκρυψη της προεπισκόπησης.";
 "Dimensions" = "Διαστάσεις:";
 "Size" = "Μέγεθος:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Αντιγραφή εξαγμένου κειμένου.";
 "EditItem" = "Επεξεργασία στοιχείου";

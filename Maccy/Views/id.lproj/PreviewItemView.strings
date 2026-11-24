@@ -9,5 +9,11 @@
 "ClosePreview" = "Tekan tombol {previewKey} untuk menyembunyikan pratinjau.";
 "Dimensions" = "Dimensi:";
 "Size" = "Ukuran:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Salin teks yang diekstrak.";
 "EditItem" = "Edit item";

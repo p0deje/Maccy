@@ -9,5 +9,11 @@
 "ClosePreview" = "Натисніть {previewKey}, щоб приховати попередній перегляд.";
 "Dimensions" = "Розміри:";
 "Size" = "Розмір:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Скопіювати розпізнаний текст.";
 "EditItem" = "Редагувати елемент";

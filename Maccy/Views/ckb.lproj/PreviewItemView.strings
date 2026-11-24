@@ -9,5 +9,11 @@
 "ClosePreview" = "{previewKey} دابگرە بۆ شاردنەوەی پێشبینین.";
 "Dimensions" = "قەبارە:";
 "Size" = "قەبارەی فایل:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "دەقی دەرهێنراو کۆپی بکە.";
 "EditItem" = "دەستکاری بڕگە";

@@ -9,5 +9,11 @@
 "ClosePreview" = "{previewKey}를 눌러 미리보기를 숨깁니다.";
 "Dimensions" = "크기:";
 "Size" = "파일 크기:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "추출된 텍스트를 복사합니다.";
 "EditItem" = "항목 편집";

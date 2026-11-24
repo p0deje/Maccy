@@ -9,5 +9,11 @@
 "ClosePreview" = "Trykk {previewKey} for å skjule forhåndsvisningen.";
 "Dimensions" = "Dimensjoner:";
 "Size" = "Størrelse:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Kopier uttrukket tekst.";
 "EditItem" = "Rediger element";

@@ -9,5 +9,11 @@
 "ClosePreview" = "برای پنهان کردن پیش‌نمایش، کلید {previewKey} را فشار دهید.";
 "Dimensions" = "ابعاد:";
 "Size" = "حجم:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "متن استخراج‌شده را کپی کنید.";
 "EditItem" = "ویرایش مورد";

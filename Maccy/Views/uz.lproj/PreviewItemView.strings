@@ -9,5 +9,11 @@
 "ClosePreview" = "Oldindan ko‘rishni yashirish uchun {previewKey} tugmasini bosing.";
 "Dimensions" = "O'lchamlar:";
 "Size" = "Hajmi:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Ajratib olingan matnni nusxalash.";
 "EditItem" = "Elementni tahrirlash";

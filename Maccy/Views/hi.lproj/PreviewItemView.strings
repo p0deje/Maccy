@@ -9,5 +9,11 @@
 "ClosePreview" = "पूर्वावलोकन छिपाने के लिए {previewKey} दबाएँ।";
 "Dimensions" = "आयाम:";
 "Size" = "आकार:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "निकाले गए टेक्स्ट को कॉपी करें.";
 "EditItem" = "आइटम संपादित करें";

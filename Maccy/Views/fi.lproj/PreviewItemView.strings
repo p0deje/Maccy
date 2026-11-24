@@ -8,3 +8,9 @@
 "ClosePreview" = "Paina {previewKey} piilottaaksesi esikatselun.";
 "EditItem" = "Muokkaa kohdetta";
 "Size" = "Koko:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";

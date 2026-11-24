@@ -9,5 +9,11 @@
 "ClosePreview" = "יש ללחוץ על {previewKey} כדי להסתיר תצוגה מקדימה.";
 "Dimensions" = "ממדים:";
 "Size" = "גודל:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "העתק את הטקסט שחולץ.";
 "EditItem" = "עריכת פריט";

@@ -9,5 +9,11 @@
 "ClosePreview" = "Nospiediet {previewKey}, lai paslēptu priekšskatījumu.";
 "Dimensions" = "Izmēri:";
 "Size" = "Lielums:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Kopēt izgūto tekstu.";
 "EditItem" = "Rediģēt vienumu";

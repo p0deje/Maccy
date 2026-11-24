@@ -9,5 +9,11 @@
 "ClosePreview" = "Druk op {previewKey} om het voorbeeld te verbergen.";
 "Dimensions" = "Afmetingen:";
 "Size" = "Grootte:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Geëxtraheerde tekst kopiëren.";
 "EditItem" = "Item bewerken";

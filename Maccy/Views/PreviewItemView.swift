@@ -7,6 +7,21 @@ struct PreviewItemView: View {
 
   var item: HistoryItemDecorator
 
+  private var kindName: String {
+    switch item.item.kind {
+    case .text:
+      return NSLocalizedString("KindText", tableName: "PreviewItemView", comment: "")
+    case .link:
+      return NSLocalizedString("KindLink", tableName: "PreviewItemView", comment: "")
+    case .color:
+      return NSLocalizedString("KindColor", tableName: "PreviewItemView", comment: "")
+    case .image:
+      return NSLocalizedString("KindImage", tableName: "PreviewItemView", comment: "")
+    case .file:
+      return NSLocalizedString("KindFile", tableName: "PreviewItemView", comment: "")
+    }
+  }
+
   @ViewBuilder
   func previewImage(content: () -> some View) -> some View {
     content()
@@ -80,6 +95,14 @@ struct PreviewItemView: View {
           )
           Text(application)
         }
+      }
+
+      HStack(spacing: 3) {
+        Text("Type", tableName: "PreviewItemView")
+        Text(kindName)
+        // Hints at the search prefix that filters by this kind.
+        Text(verbatim: "(type:\(item.item.kind.rawValue))")
+          .foregroundStyle(.secondary)
       }
 
       if item.hasImage, let image = item.item.image {

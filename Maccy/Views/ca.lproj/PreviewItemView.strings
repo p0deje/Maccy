@@ -9,5 +9,11 @@
 "ClosePreview" = "Prem {previewKey} per amagar la previsualització.";
 "Dimensions" = "Dimensions:";
 "Size" = "Mida:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Copia el text extret.";
 "EditItem" = "Edita l’element";

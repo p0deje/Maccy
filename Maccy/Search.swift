@@ -33,10 +33,41 @@ class Search {
 
   typealias Searchable = HistoryItemDecorator
 
+  struct Filters {
+    var kinds: Set<HistoryItem.Kind> = []
+    var applications: [String] = []
+
+    var isEmpty: Bool { kinds.isEmpty && applications.isEmpty }
+
+    // Kinds and applications are each a union, and both have to match.
+    func matches(kind: HistoryItem.Kind, application: String?) -> Bool {
+      if !kinds.isEmpty && !kinds.contains(kind) {
+        return false
+      }
+
+      guard !applications.isEmpty else {
+        return true
+      }
+
+      guard let application else {
+        return false
+      }
+
+      // Not localized, so "FIN" still matches "Finder" in the Turkish locale.
+      return applications.contains { application.range(of: $0, options: .caseInsensitive) != nil }
+    }
+  }
+
+  private static let kindPrefix = "type:"
+  private static let applicationPrefix = "app:"
+
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
+    let (filters, string) = Self.splitFilters(from: string)
+    let within = filters.isEmpty ? within : filter(within, by: filters)
+
     guard !string.isEmpty else {
       return within.map { SearchResult(object: $0) }
     }
@@ -51,6 +82,69 @@ class Search {
     default:
       return simpleSearch(string: string, within: within, options: .caseInsensitive)
     }
+  }
+
+  // Application names are looked up once per bundle rather than once per item.
+  private func filter(_ items: [Searchable], by filters: Filters) -> [Searchable] {
+    var applications: [String: String?] = [:]
+
+    return items.filter { item in
+      var application: String?
+      if filters.applications.isEmpty {
+        application = nil
+      } else if item.item.universalClipboard {
+        application = item.application
+      } else if let bundle = item.item.application {
+        if let cached = applications[bundle] {
+          application = cached
+        } else {
+          application = item.application
+          applications[bundle] = application
+        }
+      }
+
+      return filters.matches(kind: item.item.kind, application: application)
+    }
+  }
+
+  // Takes the "type:image" and "app:safari" words out of the query and returns
+  // the filters they name along with the rest of the query. A word naming an
+  // unknown kind is left in the query, so a partially typed prefix still
+  // searches for itself.
+  private static func splitFilters(from string: String) -> (Filters, String) {
+    guard string.range(of: kindPrefix, options: .caseInsensitive) != nil ||
+          string.range(of: applicationPrefix, options: .caseInsensitive) != nil else {
+      return (Filters(), string)
+    }
+
+    var filters = Filters()
+    let words = string.split(separator: " ", omittingEmptySubsequences: false).filter { word in
+      if let value = value(of: word, prefix: kindPrefix),
+         let kind = HistoryItem.Kind(rawValue: value.lowercased()) {
+        filters.kinds.insert(kind)
+        return false
+      } else if let value = value(of: word, prefix: applicationPrefix) {
+        filters.applications.append(value)
+        return false
+      }
+
+      return true
+    }
+
+    guard !filters.isEmpty else {
+      return (filters, string)
+    }
+
+    return (filters, words.joined(separator: " ").trimmingCharacters(in: .whitespaces))
+  }
+
+  private static func value(of word: Substring, prefix: String) -> String? {
+    guard word.count > prefix.count,
+          word.prefix(prefix.count).lowercased() == prefix else {
+      return nil
+    }
+
+    return String(word.dropFirst(prefix.count))
   }
 
   private func fuzzySearch(string: String, within: [Searchable]) -> [SearchResult] {

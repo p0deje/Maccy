@@ -7,6 +7,12 @@
 "CopyExtractedText" = "ចម្លងអត្ថបទដែលបានស្រង់។";
 "Dimensions" = "ទំហំ:";
 "Size" = "ទំហំឯកសារ:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "PreviewKey" = "ចុច {previewKey} ដើម្បី បើក/បិទ ការមើលមុន។";
 "UnpinKey" = "ចុច {pinKey} ដើម្បី ដកខ្ទាស់។";
 "OpenPreview" = "ចុច {previewKey} ដើម្បីបង្ហាញការមើលជាមុន។";

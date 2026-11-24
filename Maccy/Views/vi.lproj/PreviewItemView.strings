@@ -9,5 +9,11 @@
 "ClosePreview" = "Nhấn {previewKey} để ẩn bản xem trước.";
 "Dimensions" = "Kích thước:";
 "Size" = "Dung lượng:";
+"Type" = "Type:";
+"KindText" = "Text";
+"KindLink" = "Link";
+"KindColor" = "Color";
+"KindImage" = "Image";
+"KindFile" = "File";
 "CopyExtractedText" = "Sao chép văn bản đã trích xuất.";
 "EditItem" = "Chỉnh sửa mục";
