@@ -1,0 +1,198 @@
+{
+  "baseline": {
+    "kind": "preview",
+    "baseline": "f0b571e",
+    "records": [
+      {
+        "trial": 1,
+        "case": "decorators",
+        "construction_ms": 13.927083,
+        "count": 200,
+        "footprint_after": 103089136,
+        "footprint_before": 101630936,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 170311680,
+        "resident_before": 168853504,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.000666
+      },
+      {
+        "trial": 1,
+        "case": "decorators",
+        "construction_ms": 133.8495,
+        "count": 2000,
+        "footprint_after": 121848816,
+        "footprint_before": 106611696,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 189120512,
+        "resident_before": 173883392,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.000709
+      },
+      {
+        "trial": 2,
+        "case": "decorators",
+        "construction_ms": 14.753583,
+        "count": 200,
+        "footprint_after": 103285744,
+        "footprint_before": 101712856,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 170491904,
+        "resident_before": 168935424,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.000666
+      },
+      {
+        "trial": 2,
+        "case": "decorators",
+        "construction_ms": 138.920917,
+        "count": 2000,
+        "footprint_after": 122045424,
+        "footprint_before": 106890224,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 189300736,
+        "resident_before": 174145536,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.000792
+      },
+      {
+        "trial": 3,
+        "case": "decorators",
+        "construction_ms": 14.319208,
+        "count": 200,
+        "footprint_after": 103220208,
+        "footprint_before": 101729264,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 170442752,
+        "resident_before": 168951808,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.002375
+      },
+      {
+        "trial": 3,
+        "case": "decorators",
+        "construction_ms": 134.027541,
+        "count": 2000,
+        "footprint_after": 121930736,
+        "footprint_before": 106824688,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 189202432,
+        "resident_before": 174096384,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.001083
+      }
+    ],
+    "protocol": "Sequential alternating baseline and candidate after all builds finished; three trials; initial concurrent trials retained separately.",
+    "implementation_commit": "c2624af350620ca447684c14288c935261b62d22"
+  },
+  "candidate": {
+    "kind": "preview",
+    "baseline": null,
+    "records": [
+      {
+        "trial": 1,
+        "case": "decorators",
+        "construction_ms": 1.780875,
+        "count": 200,
+        "footprint_after": 102106096,
+        "footprint_before": 101549040,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 169377792,
+        "resident_before": 168820736,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.418458
+      },
+      {
+        "trial": 1,
+        "case": "decorators",
+        "construction_ms": 15.753666,
+        "count": 2000,
+        "footprint_after": 111166472,
+        "footprint_before": 105726960,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 178470912,
+        "resident_before": 173047808,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.322417
+      },
+      {
+        "trial": 2,
+        "case": "decorators",
+        "construction_ms": 1.669292,
+        "count": 200,
+        "footprint_after": 102138816,
+        "footprint_before": 101548992,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 169443328,
+        "resident_before": 168853504,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.462667
+      },
+      {
+        "trial": 2,
+        "case": "decorators",
+        "construction_ms": 16.071625,
+        "count": 2000,
+        "footprint_after": 111297496,
+        "footprint_before": 105612224,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 178634752,
+        "resident_before": 172965888,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.272125
+      },
+      {
+        "trial": 3,
+        "case": "decorators",
+        "construction_ms": 1.698459,
+        "count": 200,
+        "footprint_after": 101958640,
+        "footprint_before": 101532656,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 169295872,
+        "resident_before": 168869888,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.332291
+      },
+      {
+        "trial": 3,
+        "case": "decorators",
+        "construction_ms": 15.6195,
+        "count": 2000,
+        "footprint_after": 111068144,
+        "footprint_before": 105513968,
+        "plain_bytes": 2880,
+        "preview_utf8_bytes": 2880,
+        "resident_after": 178454528,
+        "resident_before": 172900352,
+        "rtf_bytes": 3190,
+        "selected_rtf_preview_ms": 0.295125
+      }
+    ],
+    "protocol": "Sequential alternating baseline and candidate after all builds finished; three trials; initial concurrent trials retained separately.",
+    "implementation_commit": "c2624af350620ca447684c14288c935261b62d22"
+  },
+  "environment": {
+    "macOS": "26.7.2",
+    "Xcode": "27.2",
+    "architecture": "arm64",
+    "optimization": "Release -O, testability enabled, DEBUG isolation hooks"
+  },
+  "native_tests": {
+    "baseline": 10,
+    "candidate": 15,
+    "scope": "HistoryItemDecoratorTests"
+  },
+  "benchmark_source_sha256": "a2d372894d6892371d372fe9bcef1cf522d789f27a0474aa98a777b66fad5686"
+}
