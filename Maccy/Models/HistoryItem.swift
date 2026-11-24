@@ -1,11 +1,14 @@
 import AppKit
 import Defaults
+import Logging
 import Sauce
 import SwiftData
 import Vision
 
 @Model
 class HistoryItem {
+  private static let logger = Logger(label: "org.p0deje.Maccy")
+
   @MainActor
   static var supportedPins: Set<String> {
     // "a" reserved for select all
@@ -85,6 +88,10 @@ class HistoryItem {
   var contents: [HistoryItemContent] = []
 
   @Transient private var cachedDecodedImage: NSImage?
+  @Transient var ocrTask: Task<String?, Never>?
+  @Transient var ocrCompleted = false
+  // Lets tests drive OCR outcomes without depending on Vision model availability or timing.
+  @Transient var ocrRecognizerOverride: (@Sendable (Data?, URL?) async -> OCRResult)?
 
   init(contents: [HistoryItemContent] = []) {
     self.firstCopiedAt = firstCopiedAt
@@ -107,13 +114,11 @@ class HistoryItem {
     let pasteboardImageData = contentData(Self.imageTypes)
     let universalClipboardImageURL = universalClipboardImage ? fileURLs.first : nil
     guard pasteboardImageData == nil && universalClipboardImageURL == nil else {
-      Task {
-        if let recognizedText = await Self.recognizeText(
+      if ocrTask == nil && !ocrCompleted {
+        runOCRTask(
           imageData: pasteboardImageData,
           fileURL: universalClipboardImageURL
-        ) {
-          self.title = recognizedText
-        }
+        )
       }
       return ""
     }
@@ -172,6 +177,10 @@ class HistoryItem {
     }
 
     return NSAttributedString(html: data, documentAttributes: nil)
+  }
+
+  var hasOCRImageSource: Bool {
+    contentData(Self.imageTypes) != nil || universalClipboardImage
   }
 
   var imageData: Data? {
@@ -249,6 +258,72 @@ class HistoryItem {
       .compactMap { $0.value }
   }
 
+  enum OCRResult: Sendable {
+    case text(String)
+    case noText
+    case failed
+  }
+
+  @MainActor
+  @discardableResult
+  func runOCRTask(
+    imageData: Data?,
+    fileURL: URL?
+  ) -> Task<String?, Never> {
+    if let ocrTask {
+      return ocrTask
+    }
+
+    let task = Task<String?, Never> {
+      defer {
+        self.ocrTask = nil
+      }
+
+      let result: OCRResult
+      if let ocrRecognizerOverride {
+        result = await ocrRecognizerOverride(imageData, fileURL)
+      } else {
+        result = await Self.recognizeText(imageData: imageData, fileURL: fileURL)
+      }
+
+      switch result {
+      case .text(let text):
+        self.title = text
+        self.ocrCompleted = true
+        return text
+      case .noText:
+        self.ocrCompleted = true
+        return nil
+      case .failed:
+        // Do not lock out future on-demand attempts if Vision failed unexpectedly
+        return nil
+      }
+    }
+
+    ocrTask = task
+    return task
+  }
+
+  @MainActor
+  func getRecognizedText() async -> String? {
+    let cached = title.trimmingCharacters(in: .whitespacesAndNewlines)
+    if !cached.isEmpty {
+      return cached
+    }
+
+    guard !ocrCompleted, hasOCRImageSource else {
+      return nil
+    }
+
+    let task = ocrTask ?? runOCRTask(
+      imageData: contentData(Self.imageTypes),
+      fileURL: universalClipboardImage ? fileURLs.first : nil
+    )
+
+    let text = await task.value?.trimmingCharacters(in: .whitespacesAndNewlines)
+    return (text?.isEmpty == false) ? text : nil
+  }
+
   nonisolated private static let textRecognitionQueue = DispatchQueue(
     label: "org.p0deje.Maccy.textRecognition",
     qos: .utility
@@ -256,7 +331,10 @@ class HistoryItem {
 
   /// Runs OCR on a dedicated queue so the blocking Vision call never occupies
   /// a thread of Swift's cooperative pool or the main thread.
-  nonisolated private static func recognizeText(imageData: Data?, fileURL: URL?) async -> String? {
+  nonisolated private static func recognizeText(
+    imageData: Data?,
+    fileURL: URL?
+  ) async -> OCRResult {
     await withCheckedContinuation { continuation in
       textRecognitionQueue.async {
         continuation.resume(returning: performTextRecognition(imageData: imageData, fileURL: fileURL))
@@ -264,9 +342,9 @@ class HistoryItem {
     }
   }
 
-  nonisolated private static func performTextRecognition(imageData: Data?, fileURL: URL?) -> String? {
+  nonisolated private static func performTextRecognition(imageData: Data?, fileURL: URL?) -> OCRResult {
     guard let data = imageData ?? fileURL.flatMap({ try? Data(contentsOf: $0) }) else {
-      return nil
+      return .failed
     }
 
     let requestHandler = VNImageRequestHandler(data: data)
@@ -277,16 +355,19 @@ class HistoryItem {
     do {
       try requestHandler.perform([request])
     } catch {
-      print("Unable to perform the request: \(error).")
-      return nil
+      logger.error("Unable to perform Vision request: \(error)")
+      return .failed
     }
 
     guard let observations = request.results else {
-      return nil
+      return .failed
     }
 
-    return observations
+    let text = observations
       .compactMap { $0.topCandidates(1).first?.string }
       .joined(separator: "\n")
+      .trimmingCharacters(in: .whitespacesAndNewlines)
+
+    return text.isEmpty ? .noText : .text(text)
   }
 }
