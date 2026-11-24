@@ -1,6 +1,5 @@
 import SwiftUI
 import Defaults
-import Settings
 
 struct StorageSettingsPane: View {
   @Observable
@@ -70,9 +69,8 @@ struct StorageSettingsPane: View {
   }()
 
   var body: some View {
-    Settings.Container(contentWidth: 450) {
-      Settings.Section(
-        bottomDivider: true,
+    ModernSettings.Container {
+      ModernSettings.Section(
         label: { Text("Save", tableName: "StorageSettings") }
       ) {
         Toggle(
@@ -92,7 +90,7 @@ struct StorageSettingsPane: View {
           .foregroundStyle(.gray)
       }
 
-      Settings.Section(label: { Text("Size", tableName: "StorageSettings") }) {
+      ModernSettings.Section(label: { Text("Size", tableName: "StorageSettings") }) {
         HStack {
           TextField("", value: $size, formatter: sizeFormatter)
             .frame(width: 80)
@@ -111,14 +109,15 @@ struct StorageSettingsPane: View {
         }
       }
 
-      Settings.Section(label: { Text("SortBy", tableName: "StorageSettings") }) {
+      ModernSettings.Section(label: { Text("SortBy", tableName: "StorageSettings") }) {
         Picker("", selection: $sortBy) {
           ForEach(Sorter.By.allCases) { mode in
             Text(mode.description)
           }
         }
         .labelsHidden()
-        .frame(width: 160, alignment: .leading)
+        .pickerStyle(.menu)
+        .fixedSize()
         .help(Text("SortByTooltip", tableName: "StorageSettings"))
         .accessibilityLabel(Text("SortBy", tableName: "StorageSettings"))
       }

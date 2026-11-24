@@ -66,6 +66,9 @@ class MaccyUITests: XCTestCase {
     try? "Hello world".write(to: file2, atomically: true, encoding: .utf8)
 
     app.launchArguments.append("enable-testing")
+    if name.contains("testCompactFooter") || name.contains("testModernSettings") {
+      app.launchArguments.append(contentsOf: ["-AppleLanguages", "(en)", "-AppleLocale", "en_US"])
+    }
     setKeyboardShortcut("popup", keyCode: kVK_ANSI_C, modifiers: cmdKey | shiftKey)
     setKeyboardShortcut("pin", keyCode: kVK_ANSI_P, modifiers: optionKey)
     setKeyboardShortcut("delete", keyCode: kVK_Delete, modifiers: optionKey)
@@ -280,6 +283,81 @@ class MaccyUITests: XCTestCase {
     app.typeKey(.escape, modifierFlags: [])
     popUpWithMouse()
     assertNotExists(items[copy2])
+  }
+
+  func testModernSettingsNavigation() {
+    popUpWithMouse()
+    hoverAndClick(app.buttons["Preferences…"].firstMatch)
+    let initialWindowFrame = app.windows.firstMatch.frame
+    for page in ["general", "storage", "appearance", "ignore", "advanced", "about"] {
+      let navigation = app.buttons["settings-\(page)"].firstMatch
+      assertExists(navigation)
+      navigation.click()
+      XCTAssertNotEqual(app.state, .notRunning)
+      XCTAssertEqual(app.windows.firstMatch.frame, initialWindowFrame)
+      XCTAssertTrue(navigation.isHittable)
+    }
+    assertExists(app.staticTexts["settings-about-version"].firstMatch)
+    assertExists(app.links["Report an issue"].firstMatch)
+    assertExists(app.links["MIT License"].firstMatch)
+    let sidebarToggle = app.buttons["settings-toggle-sidebar"].firstMatch
+    assertExists(sidebarToggle)
+    let initialToggleFrame = sidebarToggle.frame
+    sidebarToggle.click()
+    assertNotExists(app.buttons["settings-general"].firstMatch)
+    XCTAssertEqual(sidebarToggle.frame.minX, initialToggleFrame.minX, accuracy: 2)
+    XCTAssertEqual(sidebarToggle.frame.minY, initialToggleFrame.minY, accuracy: 2)
+    sidebarToggle.click()
+    assertExists(app.buttons["settings-general"].firstMatch)
+    app.buttons["settings-appearance"].firstMatch.click()
+    assertExists(app.popUpButtons["footer-style"].firstMatch)
+    assertExists(app.descendants(matching: .any).matching(identifier: "menu-icon-picker").firstMatch)
+    app.typeKey("w", modifierFlags: [.command])
+    popUpWithMouse()
+    hoverAndClick(app.buttons["Preferences…"].firstMatch)
+    assertExists(app.popUpButtons["footer-style"].firstMatch)
+  }
+
+  func testCompactFooterPreferences() {
+    enableCompactFooter()
+    popUpWithMouse()
+    hoverAndClick(app.buttons["Preferences…"].firstMatch)
+    assertExists(app.popUpButtons["footer-style"].firstMatch)
+    XCTAssertEqual(app.popUpButtons["footer-style"].firstMatch.value as? String, "Modern")
+  }
+
+  func testCompactFooterClear() {
+    enableCompactFooter()
+    testClear()
+  }
+
+  func testCompactFooterClearAll() {
+    enableCompactFooter()
+    // Releases Shift before confirming, exercising the lifetime of the presenter.
+    testClearAll()
+  }
+
+  private func enableCompactFooter() {
+    popUpWithMouse()
+    hoverAndClick(app.buttons["Preferences…"].firstMatch)
+    let appearance = app.buttons["Appearance"].firstMatch
+    assertExists(appearance)
+    appearance.click()
+    let style = app.popUpButtons["footer-style"].firstMatch
+    assertExists(style)
+    let appearanceContent = app.scrollViews.containing(.popUpButton, identifier: "footer-style").firstMatch
+    for _ in 0..<5 where !style.isHittable {
+      appearanceContent.swipeUp()
+    }
+    if !style.isHittable {
+      let screenshot = XCTAttachment(screenshot: app.screenshot())
+      screenshot.lifetime = .keepAlways
+      add(screenshot)
+    }
+    XCTAssertTrue(style.isHittable)
+    style.click()
+    app.menuItems["Modern"].firstMatch.click()
+    app.typeKey("w", modifierFlags: [.command])
   }
 
   func testClear() {
