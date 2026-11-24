@@ -28,7 +28,7 @@ class Throttler {
     // => execute the workItem immediately
     // else
     // => delay the workItem execution by the minimum delay time
-    let delay = previousRun.timeIntervalSinceNow > minimumDelay ? 0 : minimumDelay
+    let delay = -previousRun.timeIntervalSinceNow > minimumDelay ? 0 : minimumDelay
     queue.asyncAfter(deadline: .now() + Double(delay), execute: workItem)
   }
 
