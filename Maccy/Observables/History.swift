@@ -564,10 +564,17 @@ class History: ItemsContainer { // swiftlint:disable:this type_body_length
     updateUnpinnedShortcuts()
   }
 
+  // Retitles every item, not just `items`: those are only the search results
+  // while a query is set, and the query outlives closing the popup.
   @MainActor
-  private func updateTitlesForSpecialSymbols() {
-    for item in items where item.item.imageData == nil {
+  func updateTitlesForSpecialSymbols() {
+    for item in allPinnedItems + allUnpinnedItems where item.item.imageData == nil {
       updateTitle(item: item, title: item.item.generateTitle())
+    }
+
+    // Highlights point into the old titles, and results may differ now.
+    if !searchQuery.isEmpty {
+      updateSearchResults()
     }
   }
 
