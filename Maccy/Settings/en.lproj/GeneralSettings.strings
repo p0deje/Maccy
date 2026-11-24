@@ -10,6 +10,8 @@
 "DeleteTooltip" = "Shortcut key to delete history item.\nDefault: ⌥⌫.";
 "ShowPreview" = "Preview:";
 "ShowPreviewTooltip" = "Show preview with additional information.\nDefault: ⌃Space.";
+"PasteHTMLSource" = "Paste HTML source:";
+"PasteHTMLSourceTooltip" = "Paste the selected item's HTML markup as text, including formatting tags. If no HTML is stored, play an alert sound and keep the list open.\nDefault: ⇧⌘Return.";
 "Behavior" = "Behavior:";
 "PasteAutomatically" = "Paste automatically";
 "PasteWithoutFormatting" = "Paste without formatting";
