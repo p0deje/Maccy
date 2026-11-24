@@ -4,6 +4,7 @@ import SwiftData
 @Model
 class HistoryItemContent {
   var type: String = ""
+  @Attribute(.externalStorage)
   var value: Data?
 
   @Relationship

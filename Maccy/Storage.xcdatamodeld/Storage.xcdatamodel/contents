@@ -11,7 +11,7 @@
     </entity>
     <entity name="HistoryItemContent" representedClassName="HistoryItemContentL" syncable="YES">
         <attribute name="type" optional="YES" attributeType="String"/>
-        <attribute name="value" optional="YES" attributeType="Binary"/>
+        <attribute name="value" optional="YES" attributeType="Binary" allowsExternalBinaryDataStorage="YES"/>
         <relationship name="item" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HistoryItem" inverseName="contents" inverseEntity="HistoryItem"/>
     </entity>
 </model>
