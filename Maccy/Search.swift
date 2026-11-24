@@ -35,6 +35,7 @@ class Search {
 
   private let fuse = Fuse(threshold: 0.7) // threshold found by trial-and-error
   private let fuzzySearchLimit = 5_000
+  private let maxPatternLength = 32
 
   func search(string: String, within: [Searchable]) -> [SearchResult] {
     guard !string.isEmpty else {
@@ -54,7 +55,8 @@ class Search {
   }
 
   private func fuzzySearch(string: String, within: [Searchable]) -> [SearchResult] {
-    let pattern = fuse.createPattern(from: string)
+    let truncated = String(string.prefix(maxPatternLength))
+    let pattern = fuse.createPattern(from: truncated)
     let searchResults: [SearchResult] = within.compactMap { item in
       fuzzySearch(for: pattern, in: item.title, of: item)
     }
