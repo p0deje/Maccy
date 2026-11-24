@@ -11,3 +11,7 @@
 "Size" = "Velikost:";
 "CopyExtractedText" = "Zkopírovat extrahovaný text.";
 "EditItem" = "Upravit položku";
+"ShareItem" = "Sdílet položku";
+"QRCode" = "Zobrazit QR kód";
+"QRCodeScanHint" = "Naskenujte QR kód telefonem";
+"QRCodeError" = "QR kód nelze vygenerovat";

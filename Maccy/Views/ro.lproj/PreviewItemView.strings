@@ -11,3 +11,7 @@
 "Size" = "Mărime:";
 "CopyExtractedText" = "Copiază textul extras.";
 "EditItem" = "Editează elementul";
+"ShareItem" = "Partajează elementul";
+"QRCode" = "Afișează codul QR";
+"QRCodeScanHint" = "Scanează codul QR cu telefonul";
+"QRCodeError" = "Nu s-a putut genera codul QR";

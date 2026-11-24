@@ -11,3 +11,7 @@
 "Size" = "文件大小:";
 "CopyExtractedText" = "复制提取的文本。";
 "EditItem" = "编辑项目";
+"ShareItem" = "分享项目";
+"QRCode" = "显示二维码";
+"QRCodeScanHint" = "使用手机扫描二维码";
+"QRCodeError" = "无法生成二维码";

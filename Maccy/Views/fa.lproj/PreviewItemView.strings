@@ -11,3 +11,7 @@
 "Size" = "حجم:";
 "CopyExtractedText" = "متن استخراج‌شده را کپی کنید.";
 "EditItem" = "ویرایش مورد";
+"ShareItem" = "اشتراک‌گذاری مورد";
+"QRCode" = "نمایش کد QR";
+"QRCodeScanHint" = "کد QR را با گوشی خود اسکن کنید";
+"QRCodeError" = "امکان ایجاد کد QR وجود ندارد";

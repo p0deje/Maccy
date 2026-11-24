@@ -11,3 +11,7 @@
 "Size" = "Fájlméret:";
 "CopyExtractedText" = "Kinyert szöveg másolása.";
 "EditItem" = "Elem szerkesztése";
+"ShareItem" = "Elem megosztása";
+"QRCode" = "QR-kód megjelenítése";
+"QRCodeScanHint" = "Olvassa be a QR-kódot a telefonjával";
+"QRCodeError" = "Nem sikerült létrehozni a QR-kódot";

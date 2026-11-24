@@ -11,3 +11,7 @@
 "Size" = "الحجم:";
 "CopyExtractedText" = "انسخ النص المستخرج.";
 "EditItem" = "تعديل العنصر";
+"ShareItem" = "مشاركة العنصر";
+"QRCode" = "إظهار رمز QR";
+"QRCodeScanHint" = "امسح رمز QR بهاتفك";
+"QRCodeError" = "تعذر إنشاء رمز QR";

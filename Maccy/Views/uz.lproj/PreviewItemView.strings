@@ -11,3 +11,7 @@
 "Size" = "Hajmi:";
 "CopyExtractedText" = "Ajratib olingan matnni nusxalash.";
 "EditItem" = "Elementni tahrirlash";
+"ShareItem" = "Elementni ulashish";
+"QRCode" = "QR kodni ko‘rsatish";
+"QRCodeScanHint" = "QR kodni telefoningiz orqali skanerlang";
+"QRCodeError" = "QR kodni yaratib bo‘lmadi";

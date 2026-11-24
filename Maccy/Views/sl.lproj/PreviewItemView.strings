@@ -11,3 +11,7 @@
 "Size" = "Velikost:";
 "CopyExtractedText" = "Kopiraj izvlečeno besedilo.";
 "EditItem" = "Uredi element";
+"ShareItem" = "Deli element";
+"QRCode" = "Prikaži kodo QR";
+"QRCodeScanHint" = "Skenirajte kodo QR s telefonom";
+"QRCodeError" = "Kode QR ni bilo mogoče ustvariti";

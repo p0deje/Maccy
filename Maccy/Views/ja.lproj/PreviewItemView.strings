@@ -11,3 +11,7 @@
 "Size" = "ファイルサイズ:";
 "CopyExtractedText" = "抽出したテキストをコピーします。";
 "EditItem" = "項目を編集";
+"ShareItem" = "項目を共有";
+"QRCode" = "QRコードを表示";
+"QRCodeScanHint" = "スマートフォンでQRコードをスキャン";
+"QRCodeError" = "QRコードを生成できません";

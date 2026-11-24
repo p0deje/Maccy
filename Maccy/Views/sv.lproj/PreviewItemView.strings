@@ -11,3 +11,7 @@
 "Size" = "Storlek:";
 "CopyExtractedText" = "Kopiera extraherad text.";
 "EditItem" = "Redigera objekt";
+"ShareItem" = "Dela objekt";
+"QRCode" = "Visa QR-kod";
+"QRCodeScanHint" = "Skanna QR-koden med mobilen";
+"QRCodeError" = "Kunde inte skapa QR-kod";

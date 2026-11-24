@@ -11,3 +11,7 @@
 "Size" = "파일 크기:";
 "CopyExtractedText" = "추출된 텍스트를 복사합니다.";
 "EditItem" = "항목 편집";
+"ShareItem" = "항목 공유";
+"QRCode" = "QR 코드 표시";
+"QRCodeScanHint" = "휴대폰으로 QR 코드를 스캔하세요";
+"QRCodeError" = "QR 코드를 생성할 수 없습니다";

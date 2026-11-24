@@ -8,3 +8,7 @@
 "ClosePreview" = "Paina {previewKey} piilottaaksesi esikatselun.";
 "EditItem" = "Muokkaa kohdetta";
 "Size" = "Koko:";
+"ShareItem" = "Jaa kohde";
+"QRCode" = "Näytä QR-koodi";
+"QRCodeScanHint" = "Skannaa QR-koodi puhelimellasi";
+"QRCodeError" = "QR-koodia ei voitu luoda";

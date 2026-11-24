@@ -11,3 +11,7 @@
 "Size" = "檔案大小:";
 "CopyExtractedText" = "複製擷取的文字。";
 "EditItem" = "編輯項目";
+"ShareItem" = "分享項目";
+"QRCode" = "顯示二維碼";
+"QRCodeScanHint" = "使用手機掃描二維碼";
+"QRCodeError" = "無法生成二維碼";

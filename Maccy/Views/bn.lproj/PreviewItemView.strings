@@ -11,3 +11,7 @@
 "Size" = "আকার:";
 "CopyExtractedText" = "শনাক্ত করা লেখা কপি করুন.";
 "EditItem" = "আইটেম সম্পাদনা করুন";
+"ShareItem" = "আইটেম শেয়ার করুন";
+"QRCode" = "QR কোড দেখান";
+"QRCodeScanHint" = "আপনার ফোন দিয়ে QR কোড স্ক্যান করুন";
+"QRCodeError" = "QR কোড তৈরি করা যায়নি";

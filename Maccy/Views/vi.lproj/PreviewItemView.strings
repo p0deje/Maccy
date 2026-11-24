@@ -11,3 +11,7 @@
 "Size" = "Dung lượng:";
 "CopyExtractedText" = "Sao chép văn bản đã trích xuất.";
 "EditItem" = "Chỉnh sửa mục";
+"ShareItem" = "Chia sẻ mục";
+"QRCode" = "Hiển thị mã QR";
+"QRCodeScanHint" = "Quét mã QR bằng điện thoại";
+"QRCodeError" = "Không thể tạo mã QR";

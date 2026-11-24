@@ -11,3 +11,7 @@
 "Size" = "Ukuran:";
 "CopyExtractedText" = "Salin teks yang diekstrak.";
 "EditItem" = "Edit item";
+"ShareItem" = "Bagikan item";
+"QRCode" = "Tampilkan kode QR";
+"QRCodeScanHint" = "Pindai kode QR dengan ponsel Anda";
+"QRCodeError" = "Gagal membuat kode QR";
