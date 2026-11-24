@@ -440,6 +440,20 @@ extension SharedStateTests {
       try assertStorageCounts(items: 1, contents: 1)
     }
 
+    @Test("Purging persistent history")
+    @available(macOS 15.0, *)
+    func purgingPersistentHistory() throws {
+      let foo = history.add(historyItem("foo"))
+      let descriptor = HistoryDescriptor<DefaultHistoryTransaction>()
+      #expect(try !Storage.shared.context.fetchHistory(descriptor).isEmpty)
+
+      try Storage.shared.purgePersistentHistory()
+
+      #expect(try Storage.shared.context.fetchHistory(descriptor).isEmpty)
+      #expect(history.items.toArray() == [foo])
+      try assertStorageCounts(items: 1, contents: 1)
+    }
+
     private func assertStorageCounts(
       items: Int,
       contents: Int,
