@@ -18,6 +18,8 @@
 "history_item_pin_action" = "Przypnij";
 "history_item_unpin_action" = "Odepnij";
 "history_item_delete_action" = "Usuń";
+"history_item_share_action" = "Udostępnij…";
+"history_item_save_action" = "Zachowaj…";
 "history_item_pinned_accessibility_value" = "Przypięto";
 "history_item_selected_accessibility_value" = "Wybrano, %d z %d";
 "history_item_image_accessibility_label_no_app" = "Obraz, %d×%d";

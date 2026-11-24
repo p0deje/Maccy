@@ -25,6 +25,8 @@
 "history_item_pin_action" = "נעיצה";
 "history_item_unpin_action" = "שחרור";
 "history_item_delete_action" = "מחיקה";
+"history_item_share_action" = "שיתוף…";
+"history_item_save_action" = "שמירה…";
 "history_item_pinned_accessibility_value" = "נעוץ";
 "history_item_selected_accessibility_value" = "נבחר, %d מתוך %d";
 "history_item_image_accessibility_label_no_app" = "תמונה, %d×%d";

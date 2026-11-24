@@ -25,6 +25,8 @@
 "history_item_pin_action" = "İğnele";
 "history_item_unpin_action" = "İğneyi kaldır";
 "history_item_delete_action" = "Sil";
+"history_item_share_action" = "Paylaş…";
+"history_item_save_action" = "Kaydet…";
 "history_item_pinned_accessibility_value" = "İğnelendi";
 "history_item_selected_accessibility_value" = "Seçildi, %d/%d";
 "history_item_image_accessibility_label_no_app" = "Görüntü, %d×%d";

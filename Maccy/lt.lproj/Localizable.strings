@@ -18,6 +18,8 @@
 "history_item_pin_action" = "Prisegti";
 "history_item_unpin_action" = "Atsegti";
 "history_item_delete_action" = "Ištrinti";
+"history_item_share_action" = "Bendrinti…";
+"history_item_save_action" = "Įrašyti…";
 "history_item_pinned_accessibility_value" = "Prisegta";
 "history_item_selected_accessibility_value" = "Pasirinkta, %d iš %d";
 "history_item_image_accessibility_label_no_app" = "Vaizdas, %d×%d";

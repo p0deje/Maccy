@@ -18,6 +18,8 @@
 "history_item_pin_action" = "Pin";
 "history_item_unpin_action" = "Unpin";
 "history_item_delete_action" = "Delete";
+"history_item_share_action" = "Share…";
+"history_item_save_action" = "Save…";
 "history_item_pinned_accessibility_value" = "Pinned";
 "history_item_selected_accessibility_value" = "Selected, %d of %d";
 "history_item_image_accessibility_label_no_app" = "Image, %dx%d";

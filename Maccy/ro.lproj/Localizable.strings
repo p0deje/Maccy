@@ -20,6 +20,8 @@
 "history_item_pin_action" = "Fixează";
 "history_item_unpin_action" = "Detașează";
 "history_item_delete_action" = "Șterge";
+"history_item_share_action" = "Partajează…";
+"history_item_save_action" = "Salvează…";
 "history_item_pinned_accessibility_value" = "Fixat";
 "history_item_selected_accessibility_value" = "Selectat, %d din %d";
 "history_item_image_accessibility_label_no_app" = "Imagine, %d×%d";

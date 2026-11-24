@@ -21,6 +21,8 @@
 "history_item_pin_action" = "Fixar";
 "history_item_unpin_action" = "Desafixar";
 "history_item_delete_action" = "Excluir";
+"history_item_share_action" = "Compartilhar…";
+"history_item_save_action" = "Salvar…";
 "history_item_pinned_accessibility_value" = "Fixado";
 "history_item_selected_accessibility_value" = "Selecionado, %d de %d";
 "history_item_image_accessibility_label_no_app" = "Imagem, %d×%d";

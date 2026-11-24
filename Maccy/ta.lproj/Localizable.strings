@@ -25,6 +25,8 @@
 "history_item_pin_action" = "பின் செய்";
 "history_item_unpin_action" = "பின்னை நீக்கு";
 "history_item_delete_action" = "நீக்கு";
+"history_item_share_action" = "பகிர்…";
+"history_item_save_action" = "சேமி…";
 "history_item_pinned_accessibility_value" = "பின் செய்யப்பட்டது";
 "history_item_selected_accessibility_value" = "தேர்ந்தெடுக்கப்பட்டது, %d / %d";
 "history_item_image_accessibility_label_no_app" = "படம், %d×%d";

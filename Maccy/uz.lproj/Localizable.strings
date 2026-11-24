@@ -25,6 +25,8 @@
 "history_item_pin_action" = "Biriktirish";
 "history_item_unpin_action" = "Biriktirishni olib tashlash";
 "history_item_delete_action" = "O‘chirish";
+"history_item_share_action" = "Ulashish…";
+"history_item_save_action" = "Saqlash…";
 "history_item_pinned_accessibility_value" = "Biriktirilgan";
 "history_item_selected_accessibility_value" = "Tanlangan, %d/%d";
 "history_item_image_accessibility_label_no_app" = "Rasm, %d×%d";

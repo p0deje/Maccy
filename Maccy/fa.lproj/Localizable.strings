@@ -25,6 +25,8 @@
 "history_item_pin_action" = "سنجاق کردن";
 "history_item_unpin_action" = "برداشتن سنجاق";
 "history_item_delete_action" = "حذف";
+"history_item_share_action" = "اشتراک‌گذاری…";
+"history_item_save_action" = "ذخیره…";
 "history_item_pinned_accessibility_value" = "سنجاق‌شده";
 "history_item_selected_accessibility_value" = "انتخاب‌شده، %d از %d";
 "history_item_image_accessibility_label_no_app" = "تصویر، %d×%d";

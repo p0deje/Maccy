@@ -18,6 +18,8 @@
 "history_item_pin_action" = "Anclar";
 "history_item_unpin_action" = "Desanclar";
 "history_item_delete_action" = "Eliminar";
+"history_item_share_action" = "Compartir…";
+"history_item_save_action" = "Guardar…";
 "history_item_pinned_accessibility_value" = "Anclado";
 "history_item_selected_accessibility_value" = "Seleccionado, %d de %d";
 "history_item_image_accessibility_label_no_app" = "Imagen, %d por %d";

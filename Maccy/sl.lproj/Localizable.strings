@@ -22,6 +22,8 @@
 "history_item_pin_action" = "Pripni";
 "history_item_unpin_action" = "Odpni";
 "history_item_delete_action" = "Izbriši";
+"history_item_share_action" = "Deli…";
+"history_item_save_action" = "Shrani…";
 "history_item_pinned_accessibility_value" = "Pripeto";
 "history_item_selected_accessibility_value" = "Izbrano, %d od %d";
 "history_item_image_accessibility_label_no_app" = "Slika, %d×%d";
