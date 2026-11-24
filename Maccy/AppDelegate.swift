@@ -110,6 +110,12 @@ class AppDelegate: NSObject, NSApplicationDelegate {
     migrateUserDefaults()
     disableUnusedGlobalHotkeys()
 
+    Task {
+      for await enabled in Defaults.updates(.clipboardSlots) {
+        if enabled { Slots.start() } else { Slots.stop() }
+      }
+    }
+
     panel = FloatingPanel(
       contentRect: NSRect(origin: .zero, size: Defaults[.windowSize]),
       identifier: Bundle.main.bundleIdentifier ?? "org.p0deje.Maccy",

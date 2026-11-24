@@ -21,3 +21,5 @@
 "Mixed" = "混合";
 "RemoveTrackingParameters" = "移除 URL 中的追蹤碼";
 "NotificationsAndSounds" = "通知和聲音 􀱁";
+"ClipboardSlots" = "剪貼簿槽位";
+"ClipboardSlotsDescription" = "按住 ⌘ 和 C，再按 1、2 或 3，將拷貝的內容儲存到槽位。\n按住 ⌘ 和 V，再按 1、2 或 3，貼上該槽位。\n開啟後，⌘V 會在放開 V 時貼上。";

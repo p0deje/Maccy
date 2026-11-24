@@ -136,6 +136,7 @@ class Clipboard {
     }
 
     let source = CGEventSource(stateID: .combinedSessionState)
+    source?.userData = Slots.marker
     // Disable local keyboard events while pasting
     source?.setLocalEventsFilterDuringSuppressionState([.permitLocalMouseEvents, .permitSystemDefinedEvents],
                                                        state: .eventSuppressionStateSuppressionInterval)

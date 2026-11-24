@@ -20,3 +20,5 @@
 "Regex" = "Regularni izrazi";
 "Mixed" = "Mješoviti";
 "NotificationsAndSounds" = "Obavijesti i zvukovi 􀱁";
+"ClipboardSlots" = "Utori međuspremnika";
+"ClipboardSlotsDescription" = "Držite ⌘ i C, a zatim pritisnite 1, 2 ili 3 za spremanje kopije u utor.\nDržite ⌘ i V, a zatim pritisnite 1, 2 ili 3 za umetanje tog utora.\nDok je ovo uključeno, ⌘V umeće kada otpustite V.";

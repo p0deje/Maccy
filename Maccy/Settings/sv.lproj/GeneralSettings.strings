@@ -21,3 +21,5 @@
 "PinTooltip" = "Kortkommando för att fästa historikpost .\nFörval: ⌥P.";
 "Modifiers" = "Anpassa beteendet vid val av post:\n• Välj med %@ nedtryckt för att kopiera posten.\n• Välj med %@ nedtryckt för att kopiera och klistra in posten.\n• Välj med %@ nedtryckt för att kopiera, rensa formatering och klistra in posten.";
 "Regex" = "Reguljära uttryck";
+"ClipboardSlots" = "Urklippsplatser";
+"ClipboardSlotsDescription" = "Håll ned ⌘ och C och tryck på 1, 2 eller 3 för att spara kopian på en plats.\nHåll ned ⌘ och V och tryck på 1, 2 eller 3 för att klistra in den platsen.\nNär detta är på klistrar ⌘V in när du släpper V.";

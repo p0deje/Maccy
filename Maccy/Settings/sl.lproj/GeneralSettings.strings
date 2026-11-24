@@ -20,3 +20,5 @@
 "Regex" = "Regularni izrazi - Regex";
 "Mixed" = "Mešano";
 "NotificationsAndSounds" = "Obvestila in zvoki 􀱁";
+"ClipboardSlots" = "Reže odložišča";
+"ClipboardSlotsDescription" = "Držite ⌘ in C ter pritisnite 1, 2 ali 3, da kopijo shranite v režo.\nDržite ⌘ in V ter pritisnite 1, 2 ali 3, da prilepite to režo.\nKo je to vklopljeno, ⌘V prilepi, ko spustite V.";
