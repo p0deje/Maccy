@@ -20,3 +20,7 @@
 "Regex" = "Regular expressions";
 "Mixed" = "Mixed";
 "NotificationsAndSounds" = "Notifications and sounds 􀱁";
+"OpenOnHover" = "Open on hover";
+"OpenOnHoverTooltip" = "Automatically show clipboard history when the mouse hovers over the menu bar icon.";
+"CloseOnLeave" = "Close on leave";
+"CloseOnLeaveTooltip" = "Automatically close clipboard history when the mouse leaves the popup window.";
