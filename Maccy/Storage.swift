@@ -17,12 +17,16 @@ class Storage {
   }
 
   private let url = URL.applicationSupportDirectory.appending(path: "Maccy/Storage.sqlite")
+  // Only XCTest should force an in-memory store. The `enable-testing`
+  // launch argument is also used for manual debug runs and should keep
+  // persistent history.
+  private let isRunningXCTest = ProcessInfo.processInfo.environment["XCTestConfigurationFilePath"] != nil
 
   init() {
     var config = ModelConfiguration(url: url)
 
     #if DEBUG
-    if AppDelegate.isTesting {
+    if isRunningXCTest {
       config = ModelConfiguration(isStoredInMemoryOnly: true)
     }
     #endif

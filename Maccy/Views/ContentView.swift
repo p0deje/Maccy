@@ -84,6 +84,17 @@ struct ContentView: View {
         scenePhase = .background
       }
     }
+    .sheet(item: $appState.editingItem, onDismiss: {
+      finishEditingItem()
+    }) { item in
+      ItemEditorView(for: item)
+        .environment(appState)
+    }
+  }
+
+  private func finishEditingItem() {
+    appState.editingItem = nil
+    appState.isEditingItem = false
   }
 }
 

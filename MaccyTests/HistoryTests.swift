@@ -398,6 +398,40 @@ extension SharedStateTests {
       #expect(history.items.filter(\.isPinned).count == 1)
     }
 
+    @Test("Setting alias trims and updates display title")
+    func settingAliasTrimsAndUpdatesDisplayTitle() {
+      let item = history.add(historyItem("secret-value"))
+
+      history.setAlias(item, to: "  display-name  ")
+
+      #expect(item.item.aliasName == "display-name")
+      #expect(item.title == "display-name")
+    }
+
+    @Test("Setting empty alias clears alias and restores title")
+    func settingEmptyAliasClearsAliasAndRestoresTitle() {
+      let item = history.add(historyItem("secret-value"))
+      history.setAlias(item, to: "display-name")
+
+      history.setAlias(item, to: "   ")
+
+      #expect(item.item.aliasName == nil)
+      #expect(item.title == item.item.title)
+      #expect(item.title == "secret-value")
+    }
+
+    @Test("Removing alias restores original title")
+    func removingAliasRestoresOriginalTitle() {
+      let item = history.add(historyItem("secret-value"))
+      history.setAlias(item, to: "display-name")
+
+      history.setAlias(item, to: nil)
+
+      #expect(item.item.aliasName == nil)
+      #expect(item.title == item.item.title)
+      #expect(item.title == "secret-value")
+    }
+
     @Test("Removing")
     func removing() throws {
       let foo = history.add(historyItem("foo"))
@@ -438,6 +472,18 @@ extension SharedStateTests {
       #expect(try Storage.shared.removeUnpersistableContents() == 0)
       #expect(live.item.contents.map(\.type) == [NSPasteboard.PasteboardType.string.rawValue])
       try assertStorageCounts(items: 1, contents: 1)
+    }
+
+    @Test("Item editor uses bounded preview text for initial content")
+    func itemEditorUsesBoundedPreviewTextForInitialContent() {
+      let hugeText = String(repeating: "A", count: 2_000_000)
+      let item = history.add(historyItem(hugeText))
+
+      let initialText = ItemEditorView.initialEditableContentText(for: item)
+
+      #expect(initialText == item.previewText.string)
+      #expect(initialText.utf8.count <= hugeText.utf8.count)
+      #expect(item.previewText.isTruncated)
     }
 
     private func assertStorageCounts(

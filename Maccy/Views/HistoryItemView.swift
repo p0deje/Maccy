@@ -30,6 +30,10 @@ struct HistoryItemView: View {
     return ColorImage.from(item.title)
   }
 
+  private var shouldShowThumbnailImage: Bool {
+    item.thumbnailImage != nil && !item.hasAlias
+  }
+
   private func performSelect() {
     if NSEvent.modifierFlags.contains(.command) && appState.multiSelectionEnabled {
       appState.navigator.addToSelection(item: item)
@@ -46,9 +50,18 @@ struct HistoryItemView: View {
       id: item.id,
       selectionId: item.id,
       appIcon: item.applicationImage,
-      image: item.thumbnailImage,
-      accessoryImage: item.thumbnailImage != nil ? nil : colorSwatchImage,
+      image: shouldShowThumbnailImage ? item.thumbnailImage : nil,
+      accessoryImage: shouldShowThumbnailImage ? nil : colorSwatchImage,
       attributedTitle: item.attributedTitle,
+      titleIconSystemName: item.hasAlias ? "tag.fill" : nil,
+      titleIconHelp: item.hasAlias
+        ? NSLocalizedString(
+          "AliasIconTooltip",
+          tableName: "PinsSettings",
+          value: "Alias: This item displays a custom name instead of the original clipboard content.",
+          comment: "Tooltip shown when hovering the alias icon in the history row"
+        )
+        : nil,
       shortcuts: item.shortcuts,
       isSelected: item.isSelected,
       selectionIndex: item.multiSelectionIndex,
@@ -59,13 +72,39 @@ struct HistoryItemView: View {
     }
     .accessibilityIdentifier("copy-history-item")
     .buttonAction(performSelect)
+    .contextMenu {
+      Button(item.isPinned ? "Unpin" : "Pin") {
+        appState.prepareForHistoryItemAction(item)
+        appState.history.togglePin(item)
+      }
+
+      Button(item.hasAlias ? "Edit Alias..." : "Set Alias...") {
+        appState.startEditing(item)
+      }
+
+      if item.hasAlias {
+        Button("Remove Alias") {
+          appState.prepareForHistoryItemAction(item)
+          appState.history.setAlias(item, to: nil)
+        }
+      }
+
+      Divider()
+
+      Button("Delete", role: .destructive) {
+        appState.prepareForHistoryItemAction(item)
+        appState.history.delete(item)
+      }
+    }
     .onAppear {
       item.ensureThumbnailImage()
     }
     .accessibilityAction(named: Text(item.isPinned ? "history_item_unpin_action" : "history_item_pin_action")) {
+      appState.prepareForHistoryItemAction(item)
       appState.history.togglePin(item)
     }
     .accessibilityAction(named: Text("history_item_delete_action")) {
+      appState.prepareForHistoryItemAction(item)
       appState.history.delete(item)
     }
   }

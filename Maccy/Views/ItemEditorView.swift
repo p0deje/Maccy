@@ -28,8 +28,8 @@ struct ItemEditorView: View {
 
   init(for item: HistoryItemDecorator) {
     self.item = item
-    self._editableTitle = State(initialValue: item.item.title)
-    self._editableContent = State(initialValue: LargeTextView.EditorState(text: item.previewText.string))
+    self._editableTitle = State(initialValue: item.item.aliasName ?? "")
+    self._editableContent = State(initialValue: LargeTextView.EditorState(text: Self.initialEditableContentText(for: item)))
     self._selectedPin = State(initialValue: item.item.pin)
 
     self._isContentTooLarge = State(initialValue: item.previewText.isTruncated)
@@ -52,10 +52,19 @@ struct ItemEditorView: View {
 
           TextField("", text: $editableTitle)
             .accessibilityLabel(Text("Alias", tableName: "PinsSettings"))
-            .disabled(item.hasImage)
             .focused($focusedField, equals: .title)
             .onSubmit(saveChanges)
         }
+
+        Text(NSLocalizedString(
+          "AliasHint",
+          tableName: "PinsSettings",
+          value: "Optional: This custom name is shown in the list instead of the original clipboard text.",
+          comment: "Short explanation below alias input"
+        ))
+          .font(.caption)
+          .foregroundStyle(.secondary)
+          .padding(.leading, 80)
 
         if item.isPinned {
           HStack(alignment: .firstTextBaseline) {
@@ -120,7 +129,7 @@ struct ItemEditorView: View {
     .accessibilityLabel(Text("EditItem", tableName: "PreviewItemView"))
     .onAppear {
       availablePins = appState.history.availablePins
-      focusedField = item.hasImage ? .pin : .title
+      focusedField = .title
     }
     .onExitCommand { dismiss() }
   }
@@ -177,21 +186,24 @@ struct ItemEditorView: View {
     .clipShape(RoundedRectangle(cornerRadius: 6, style: .continuous))
   }
 
+  static func initialEditableContentText(for item: HistoryItemDecorator) -> String {
+    item.previewText.string
+  }
+
   private var uniquePins: [String] {
     HistoryItem.sortedPins(Set(availablePins + [item.item.pin, selectedPin].compactMap { $0 }))
   }
 
   private var hasChangesToApply: Bool {
-    let titleChanged = !item.hasImage && editableTitle != item.item.title
+    let titleChanged = editableTitle != (item.item.aliasName ?? "")
     let pinChanged = selectedPin != nil && selectedPin != item.item.pin
     let contentChanged = (isTextContent || isRichText) && editableContent.hasChanges
     return titleChanged || pinChanged || contentChanged
   }
 
   private func applyChanges() {
-    if !item.hasImage && editableTitle != item.item.title {
-      item.item.title = editableTitle
-      item.title = editableTitle
+    if editableTitle != (item.item.aliasName ?? "") {
+      appState.history.setAlias(item, to: editableTitle)
     }
 
     if let selectedPin {

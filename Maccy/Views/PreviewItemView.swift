@@ -7,6 +7,17 @@ struct PreviewItemView: View {
 
   var item: HistoryItemDecorator
 
+  private var displayPreviewText: String {
+    if item.hasAlias {
+      return item.title
+    }
+    return item.previewText.string
+  }
+
+  private var shouldShowImagePreview: Bool {
+    item.hasImage && !item.hasAlias
+  }
+
   @ViewBuilder
   func previewImage(content: () -> some View) -> some View {
     content()
@@ -16,7 +27,7 @@ struct PreviewItemView: View {
 
   var body: some View {
     VStack(alignment: .leading, spacing: 0) {
-      if item.hasImage {
+      if shouldShowImagePreview {
         AsyncView<NSImage?, _, _>(id: item.id) {
           return await item.asyncGetPreviewImage()
         } content: { image in
@@ -53,12 +64,12 @@ struct PreviewItemView: View {
           }
         }
       } else {
-        if item.previewText.byteCount >= Self.largeTextThreshold {
-          LargeTextView(text: item.previewText.string)
+        if displayPreviewText.utf8.count >= Self.largeTextThreshold {
+          LargeTextView(text: displayPreviewText)
             .id("textpreview-\(item.id)")
         } else {
           ScrollView {
-            Text(item.previewText.string)
+            Text(displayPreviewText)
               .font(.body)
               .frame(maxWidth: .infinity, alignment: .leading)
           }
